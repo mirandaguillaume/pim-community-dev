@@ -6,7 +6,7 @@ namespace Oro\Bundle\PimDataGridBundle\EventSubscriber;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithFamilyInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithValuesInterface;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
@@ -29,7 +29,8 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  * TODO: use an Entity Listener instead, as for Akeneo\Pim\Enrichment\Bundle\EventSubscriber\EntityWithValues\LoadEntityWithValuesSubscriber
  * TODO: refactor the loading of the datagrid to not use ProductInterface entity
  */
-class FilterEntityWithValuesSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::postLoad, priority: 100)]
+class FilterEntityWithValuesSubscriber
 {
     /** @var FilterEntityWithValuesSubscriberConfiguration */
     protected $configuration;
@@ -37,16 +38,6 @@ class FilterEntityWithValuesSubscriber implements EventSubscriber
     public function __construct()
     {
         $this->configuration = FilterEntityWithValuesSubscriberConfiguration::doNotFilterEntityValues();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::postLoad,
-        ];
     }
 
     /**

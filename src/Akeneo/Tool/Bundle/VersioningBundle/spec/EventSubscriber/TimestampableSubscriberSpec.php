@@ -19,16 +19,6 @@ class TimestampableSubscriberSpec extends ObjectBehavior
         $this->beConstructedWith($em);
     }
 
-    public function it_is_a_doctrine_event_listener()
-    {
-        $this->shouldImplement(\Doctrine\Common\EventSubscriber::class);
-    }
-
-    public function it_subscribes_to_pre_persist_event()
-    {
-        $this->getSubscribedEvents()->shouldReturn(['prePersist']);
-    }
-
     public function it_does_not_apply_on_non_version_object(LifecycleEventArgs $args, \stdClass $object)
     {
         $args->getObject()->willReturn($object);

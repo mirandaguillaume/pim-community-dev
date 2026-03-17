@@ -3,7 +3,6 @@
 namespace spec\Oro\Bundle\PimDataGridBundle\EventSubscriber;
 
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\Events;
 use PhpSpec\ObjectBehavior;
 use Oro\Bundle\PimDataGridBundle\EventSubscriber\FilterEntityWithValuesSubscriber;
 use Oro\Bundle\PimDataGridBundle\EventSubscriber\FilterEntityWithValuesSubscriberConfiguration;
@@ -18,11 +17,6 @@ class FilterEntityWithValuesSubscriberSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(FilterEntityWithValuesSubscriber::class);
-    }
-
-    public function it_subscribes_to_post_load_event()
-    {
-        $this->getSubscribedEvents()->shouldReturn([Events::postLoad]);
     }
 
     public function it_does_not_filter_non_entity_with_values_object(\StdClass $entity, LifecycleEventArgs $event)

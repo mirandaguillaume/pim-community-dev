@@ -50,7 +50,7 @@ services:
         arguments:
             - '@doctrine.orm.default_entity_manager'
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: prePersist }
 
     Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\RefreshVersioningSubscriber:
         arguments:
