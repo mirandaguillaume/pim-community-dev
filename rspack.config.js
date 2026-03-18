@@ -204,6 +204,12 @@ const rspackConfig = {
           {
             loader: 'builtin:swc-loader',
             options: {
+              // Output CommonJS to match the original ts-loader behavior
+              // (tsconfig "module": "commonjs"). Without this, SWC preserves
+              // ESM import/export syntax and RSPack rejects files that mix
+              // ESM imports with CJS module.exports (e.g. messenger.tsx,
+              // boolean-field.tsx).
+              module: {type: 'commonjs'},
               jsc: {
                 parser: {
                   syntax: 'typescript',
