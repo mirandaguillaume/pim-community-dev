@@ -4,7 +4,7 @@ const path = require('path');
 const {parse} = require('yamljs');
 const {readFileSync, writeFileSync, readdirSync, statSync} = require('fs');
 
-const getFrontModules = (sourceDir, originalDir) => (dir, modules) => {
+const getFrontModules = (sourceDir, originalDir, bundle) => (dir, modules) => {
   dir = dir || originalDir + '/';
   modules = modules || {};
   const files = readdirSync(dir);
@@ -104,8 +104,7 @@ const utils = {
             const paths = ${JSON.stringify(registryFiles).replace(/\"/g, '')};
 
             if (paths[moduleName] === undefined) {
-                return console.error(moduleName +
-                    ' is missing from the registry - include it in your requirejs.yml and clear the app cache');
+                return console.error(moduleName + ' is missing from the registry - include it in your requirejs.yml and clear the app cache');
             }
 
             return __webpack_require__(paths[moduleName])
