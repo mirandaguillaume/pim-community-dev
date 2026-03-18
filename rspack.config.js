@@ -13,10 +13,6 @@ const isStrict = process.env.STRICT === '1';
 const {getModulePaths, createModuleRegistry} = require('./frontend/webpack/requirejs-utils');
 const {aliases, config} = getModulePaths(rootDir, __dirname);
 
-// Plugin to make style components more readable in debug mode
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
-const styledComponentsTransformer = createStyledComponentsTransformer();
-
 createModuleRegistry(Object.keys(aliases), rootDir);
 
 console.log(
@@ -29,6 +25,12 @@ console.log(
 );
 
 const rspackConfig = {
+  // RSPack disables AMD module analysis by default (unlike Webpack 5 which
+  // enables it). The Akeneo codebase relies heavily on AMD define() calls
+  // (index.js, require-polyfill.js, require-context.js, and 700+ Backbone
+  // modules). Without this, the dependency tree is not followed and the
+  // bundle is nearly empty.
+  amd: {},
   stats: {
     hash: false,
     modules: false,
@@ -194,22 +196,25 @@ const rspackConfig = {
         },
       },
 
-      // Process the typescript loader files
+      // Process TypeScript files with RSPack's built-in SWC loader (replaces
+      // ts-loader which requires webpack as peer dependency).
       {
         test: /\.tsx?$/,
         use: [
           {
-            loader: 'ts-loader',
+            loader: 'builtin:swc-loader',
             options: {
-              transpileOnly: !isStrict,
-              allowTsInNodeModules: true,
-              // Webpack aliases (741 pim/* entries from requirejs.yml) are invisible to
-              // TypeScript's module resolution. ts-loader v5 treated TS2307 as non-fatal;
-              // v9 makes them hard errors. Suppress since webpack handles resolution.
-              ignoreDiagnostics: [2307],
-              configFile: path.resolve(rootDir, 'tsconfig.json'),
-              context: path.resolve(rootDir),
-              getCustomTransformers: () => ({before: [styledComponentsTransformer]}),
+              jsc: {
+                parser: {
+                  syntax: 'typescript',
+                  tsx: true,
+                },
+                transform: {
+                  react: {
+                    runtime: 'automatic',
+                  },
+                },
+              },
             },
           },
           {
