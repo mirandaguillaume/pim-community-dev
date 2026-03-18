@@ -64,7 +64,15 @@ const rspackConfig = {
   },
   mode: isProd ? 'production' : 'development',
   target: 'web',
-  entry: ['core-js/stable', 'regenerator-runtime/runtime', path.resolve(rootDir, './public/bundles/pimui/js/index.js')],
+  entry: [
+    'core-js/stable',
+    'regenerator-runtime/runtime',
+    // Expose jQuery, Backbone, and underscore to window before the AMD bootstrap.
+    // expose-loader uses __webpack_require__ internals not available in RSPack's
+    // Rust runtime (__rspack_require__), so we do it explicitly here instead.
+    path.resolve(rootDir, './public/bundles/pimui/js/globals-prelude.js'),
+    path.resolve(rootDir, './public/bundles/pimui/js/index.js'),
+  ],
   output: {
     path: path.resolve('./public/dist/'),
     publicPath: '/dist/',

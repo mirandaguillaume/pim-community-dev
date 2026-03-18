@@ -11,7 +11,3 @@ window.jQuery = jq;
 
 window.Backbone = require('backbone');
 window._ = require('underscore');
-
-// Expose the require polyfill to window for Twig inline <script> tags
-// that call require() to load AMD modules at runtime.
-window.require = require('require-polyfill');
