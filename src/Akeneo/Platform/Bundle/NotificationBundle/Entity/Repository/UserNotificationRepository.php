@@ -37,8 +37,8 @@ class UserNotificationRepository extends EntityRepository implements UserNotific
      */
     public function markAsViewed(UserInterface $user, $id)
     {
-        $qb = $this->_em->createQueryBuilder()
-            ->update($this->_entityName, 'n')
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->update($this->getEntityName(), 'n')
             ->set('n.viewed', true)
             ->where('n.user = :user')
             ->setParameter('user', $user);

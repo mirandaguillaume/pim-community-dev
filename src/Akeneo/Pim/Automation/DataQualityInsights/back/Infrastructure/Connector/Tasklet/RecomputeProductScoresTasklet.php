@@ -14,6 +14,7 @@ use Akeneo\Tool\Component\Batch\Model\StepExecution;
 use Akeneo\Tool\Component\Connector\Step\TaskletInterface;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 
@@ -77,7 +78,7 @@ final class RecomputeProductScoresTasklet implements TaskletInterface
         return $this->connection->executeQuery(
             $query,
             ['lastUuid' => $lastProductUuid, 'limit' => self::BULK_SIZE],
-            ['lastUuid' => \PDO::PARAM_STR, 'limit' => \PDO::PARAM_INT]
+            ['lastUuid' => ParameterType::STRING, 'limit' => ParameterType::INTEGER]
         )->fetchFirstColumn();
     }
 

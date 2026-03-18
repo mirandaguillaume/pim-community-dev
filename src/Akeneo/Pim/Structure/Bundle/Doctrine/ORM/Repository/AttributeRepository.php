@@ -92,12 +92,8 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->createQueryBuilder('a')
             ->select('a.code')
             ->andWhere('a.type IN (:file_type, :image_type)')
-            ->setParameters(
-                [
-                    ':file_type' => AttributeTypes::FILE,
-                    ':image_type' => AttributeTypes::IMAGE,
-                ]
-            )
+            ->setParameter('file_type', AttributeTypes::FILE)
+            ->setParameter('image_type', AttributeTypes::IMAGE)
             ->getQuery()
             ->getArrayResult();
 
@@ -171,9 +167,9 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
      */
     public function getAttributesAsArray($withLabel = false, $locale = null, array $ids = [])
     {
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('att')
-            ->from($this->_entityName, 'att', 'att.code');
+            ->from($this->getEntityName(), 'att', 'att.code');
         if (!empty($ids)) {
             $qb->andWhere('att.id IN (:ids)')->setParameter('ids', $ids);
         }
@@ -183,9 +179,9 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             $labelExpr = 'COALESCE(NULLIF(trans.label, \'\'), CONCAT(CONCAT(\'[\', att.code), \']\'))';
             $groupLabelExpr = 'COALESCE(NULLIF(gtrans.label, \'\'), CONCAT(CONCAT(\'[\', g.code), \']\'))';
 
-            $qb = $this->_em->createQueryBuilder()
+            $qb = $this->getEntityManager()->createQueryBuilder()
                 ->select('att.code', sprintf('%s as label', $labelExpr))
-                ->from($this->_entityName, 'att')
+                ->from($this->getEntityName(), 'att')
                 ->leftJoin('att.translations', 'trans', 'WITH', 'trans.locale = :locale')
                 ->leftJoin('att.group', 'g')
                 ->leftJoin('g.translations', 'gtrans', 'WITH', 'gtrans.locale = :locale')
@@ -211,9 +207,9 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
      */
     public function getAttributeIdsUseableInGrid($codes = null, $groupIds = null)
     {
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('att.id')
-            ->from($this->_entityName, 'att', 'att.id');
+            ->from($this->getEntityName(), 'att', 'att.id');
 
         if (is_array($codes) && !empty($codes)) {
             $qb->andWhere('att.code IN (:codes)');

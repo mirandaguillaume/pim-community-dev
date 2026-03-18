@@ -63,7 +63,7 @@ class Channel implements ChannelInterface, \Stringable
     protected $translations;
 
     /** @var array $conversionUnits */
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: 'array')]
     protected $conversionUnits = [];
 
     /** @var array|ChannelEvent[] */

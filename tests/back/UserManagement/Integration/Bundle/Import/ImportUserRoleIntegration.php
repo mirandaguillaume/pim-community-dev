@@ -17,6 +17,7 @@ use Akeneo\UserManagement\Component\Storage\Saver\RoleWithPermissionsSaver;
 use Akeneo\UserManagement\Domain\Permissions\MinimumEditRolePermission;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use OpenSpout\Common\Entity\Row;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;

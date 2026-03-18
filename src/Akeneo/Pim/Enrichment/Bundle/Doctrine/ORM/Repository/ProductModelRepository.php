@@ -121,7 +121,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
     public function findDescendantProductIdentifiers(ProductModelInterface $productModel): array
     {
         $qb = $this
-            ->_em
+            ->getEntityManager()
             ->createQueryBuilder()
             ->select('p.identifier')
             ->from(Product::class, 'p')
@@ -147,7 +147,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
     public function findChildrenProducts(ProductModelInterface $productModel): array
     {
         $qb = $this
-            ->_em
+            ->getEntityManager()
             ->createQueryBuilder()
             ->select('p')
             ->from(Product::class, 'p')

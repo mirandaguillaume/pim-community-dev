@@ -5,8 +5,8 @@ namespace spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM\Cursor;
 use Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM\Cursor\Cursor;
 use Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM\Cursor\CursorFactory;
 use Akeneo\Tool\Component\StorageUtils\Cursor\CursorFactoryInterface;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\From;
 use Doctrine\ORM\QueryBuilder;
 use PhpSpec\ObjectBehavior;
@@ -31,10 +31,12 @@ class CursorFactorySpec extends ObjectBehavior
         $this->shouldImplement(CursorFactoryInterface::class);
     }
 
-    public function it_creates_a_cursor($entityManager, QueryBuilder $queryBuilder, QueryWithCache $query, From $from)
+    public function it_creates_a_cursor($entityManager, QueryBuilder $queryBuilder, Query $query, From $from)
     {
         $queryBuilder->getRootAliases()->willReturn(['a']);
         $queryBuilder->getDQLPart('from')->willReturn([$from]);
+        $from->getFrom()->willReturn('SomeEntity');
+        $from->getAlias()->willReturn('a');
         $queryBuilder->select('a.id')->willReturn($queryBuilder);
         $queryBuilder->resetDQLPart('from')->willReturn($queryBuilder);
         $queryBuilder->from(Argument::any(), Argument::any(), 'a.id')->willReturn($queryBuilder);
@@ -47,9 +49,4 @@ class CursorFactorySpec extends ObjectBehavior
             new Cursor($queryBuilder->getWrappedObject(), $entityManager->getWrappedObject(), 100)
         );
     }
-}
-
-abstract class QueryWithCache extends AbstractQuery
-{
-    abstract public function useQueryCache($bool);
 }

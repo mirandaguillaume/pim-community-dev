@@ -8,6 +8,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\AttributeGroupActivat
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\AttributeGroupActivationRepositoryInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupCode;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -34,8 +35,8 @@ final class AttributeGroupActivationRepository implements AttributeGroupActivati
                 'activated' => $attributeGroupActivation->isActivated(),
             ],
             [
-                'attributeGroupCode' => \PDO::PARAM_STR,
-                'activated' => \PDO::PARAM_BOOL,
+                'attributeGroupCode' => ParameterType::STRING,
+                'activated' => ParameterType::BOOLEAN,
             ]
         );
     }

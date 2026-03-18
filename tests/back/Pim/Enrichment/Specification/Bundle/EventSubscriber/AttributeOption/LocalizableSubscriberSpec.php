@@ -14,16 +14,6 @@ class LocalizableSubscriberSpec extends ObjectBehavior
         $this->beConstructedWith($context);
     }
 
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement('Doctrine\Common\EventSubscriber');
-    }
-
-    function it_subscribes_to_postLoad()
-    {
-        $this->getSubscribedEvents()->shouldReturn(['postLoad']);
-    }
-
     function it_configures_the_attribute_option_locale($context, LifecycleEventArgs $args, AttributeOptionInterface $option)
     {
         $args->getObject()->willReturn($option);

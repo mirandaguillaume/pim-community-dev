@@ -11,6 +11,19 @@ parameters:
         -
             message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff|array_intersect) expects#'
             reportUnmatched: false
+        # Doctrine DBAL 4: removed APIs still referenced in old migrations (never re-run)
+        -
+            message: '#Access to undefined constant Doctrine\\DBAL\\Connection::PARAM_INT_ARRAY#'
+            reportUnmatched: false
+        -
+            message: '#Call to an undefined method Doctrine\\DBAL\\Platforms\\AbstractPlatform::getName\(\)#'
+            reportUnmatched: false
+        -
+            message: '#Call to an undefined method Doctrine\\DBAL\\Schema\\Table::getPrimaryKeyColumns\(\)#'
+            reportUnmatched: false
+        -
+            message: '#Parameter \#2 \$haystack of function in_array expects array, mixed given#'
+            reportUnmatched: false
 
 rules:
     - Pim\Upgrade\MigrationCoveredByIntegrationTestRule

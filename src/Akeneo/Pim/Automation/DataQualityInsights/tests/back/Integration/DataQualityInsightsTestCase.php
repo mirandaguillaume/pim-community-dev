@@ -30,6 +30,7 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Webmozart\Assert\Assert;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -359,7 +360,7 @@ class DataQualityInsightsTestCase extends TestCase
             'evaluatedAt' => $evaluatedAt->format(Clock::TIME_FORMAT),
             'productUuid' => $uuid->getBytes(),
         ], [
-            'productUuid' => \PDO::PARAM_STR,
+            'productUuid' => ParameterType::STRING,
         ]);
     }
 

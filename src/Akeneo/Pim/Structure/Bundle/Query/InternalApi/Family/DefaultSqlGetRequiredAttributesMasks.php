@@ -9,6 +9,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMaskForChannelAndLocale;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @author    Pierre Allard <pierre.allard@akeneo.com>

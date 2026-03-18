@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Channel;
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetChannelLabelsInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * Executes SQL query to get the stored labels of a collection of channels.

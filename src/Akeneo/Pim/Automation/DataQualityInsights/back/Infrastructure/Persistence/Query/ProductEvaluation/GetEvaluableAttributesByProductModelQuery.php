@@ -12,6 +12,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Structure\EditableAttributeFilter;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -61,7 +62,7 @@ class GetEvaluableAttributesByProductModelQuery implements GetEvaluableAttribute
                 'attribute_types' => AttributeType::EVALUABLE_ATTRIBUTE_TYPES,
             ],
             [
-                'product_model_id' => \PDO::PARAM_INT,
+                'product_model_id' => ParameterType::INTEGER,
                 'attribute_types' => ArrayParameterType::STRING,
             ]
         );

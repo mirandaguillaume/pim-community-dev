@@ -36,7 +36,9 @@ class AkeneoChannelBundle extends Bundle
                 array_keys($channelMappings),
                 array_values($channelMappings),
                 ['doctrine.orm.entity_manager'],
-                false
+                false,
+                [],
+                true
             )
         );
     }

@@ -4,8 +4,8 @@ namespace Specification\Akeneo\Pim\Structure\Bundle\EventSubscriber;
 
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use Akeneo\Pim\Structure\Component\Repository\FamilyRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Structure\Component\Factory\AttributeRequirementFactory;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
@@ -20,7 +20,7 @@ class CreateAttributeRequirementSubscriberSpec extends ObjectBehavior
         AttributeRequirementFactory $requirementFactory,
         LifecycleEventArgs $eventArgs,
         ChannelInterface $channel,
-        EntityManagerInterface $entityManager
+        ObjectManager $entityManager
     ) {
         $this->beConstructedWith($requirementFactory);
 
@@ -28,19 +28,9 @@ class CreateAttributeRequirementSubscriberSpec extends ObjectBehavior
         $eventArgs->getObjectManager()->willReturn($entityManager);
     }
 
-    public function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement('Doctrine\Common\EventSubscriber');
-    }
-
-    public function it_subscribes_to_prePersist()
-    {
-        $this->getSubscribedEvents()->shouldReturn(['prePersist']);
-    }
-
     public function it_ignores_non_ChannelInterface_entity(
         LifecycleEventArgs $eventArgs,
-        EntityManagerInterface $entityManager
+        ObjectManager $entityManager
     ) {
         $eventArgs->getObject()->willReturn(null);
         $entityManager->persist(Argument::any())->shouldNotBeCalled();

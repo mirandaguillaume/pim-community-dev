@@ -11,6 +11,7 @@ use Akeneo\Category\Domain\Query\GetCategoryInterface;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -73,12 +74,12 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
                 ),
             ],
             [
-                'parent_id' => \PDO::PARAM_INT,
-                'code' => \PDO::PARAM_STR,
-                'root' => \PDO::PARAM_INT,
-                'lvl' => \PDO::PARAM_INT,
-                'lft' => \PDO::PARAM_INT,
-                'rgt' => \PDO::PARAM_INT,
+                'parent_id' => ParameterType::INTEGER,
+                'code' => ParameterType::STRING,
+                'root' => ParameterType::INTEGER,
+                'lvl' => ParameterType::INTEGER,
+                'lft' => ParameterType::INTEGER,
+                'rgt' => ParameterType::INTEGER,
                 'value_collection' => Types::JSON,
             ],
         );
@@ -97,8 +98,8 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
                     'root' => $newCategoryId,
                 ],
                 [
-                    'category_code' => \PDO::PARAM_STR,
-                    'root' => \PDO::PARAM_INT,
+                    'category_code' => ParameterType::STRING,
+                    'root' => ParameterType::INTEGER,
                 ],
             );
         }
@@ -129,7 +130,7 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
                 ),
             ],
             [
-                'category_code' => \PDO::PARAM_STR,
+                'category_code' => ParameterType::STRING,
                 'value_collection' => Types::JSON,
             ],
         );

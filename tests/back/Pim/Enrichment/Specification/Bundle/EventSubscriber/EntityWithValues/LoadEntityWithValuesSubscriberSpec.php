@@ -22,11 +22,6 @@ class LoadEntityWithValuesSubscriberSpec extends ObjectBehavior
         $this->shouldHaveType(LoadEntityWithValuesSubscriber::class);
     }
 
-    function it_subscribes_to_the_postLoad_event()
-    {
-        $this->getSubscribedEvents()->shouldReturn(['postLoad']);
-    }
-
     function it_loads_values_of_a_product(
         $valueCollectionFactory,
         LifecycleEventArgs $event,

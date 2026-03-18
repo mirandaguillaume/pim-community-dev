@@ -5,10 +5,10 @@ namespace Specification\Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Statement;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use PhpSpec\ObjectBehavior;
@@ -47,7 +47,7 @@ class UserRepositorySpec extends ObjectBehavior
         $this->getIdentifierProperties()->shouldReturn($expected);
     }
 
-    function it_finds_one_by_identifier($em, QueryBuilder $qb, AbstractQuery $query)
+    function it_finds_one_by_identifier($em, QueryBuilder $qb, Query $query)
     {
         $identifier = 500;
 
@@ -59,12 +59,12 @@ class UserRepositorySpec extends ObjectBehavior
         $qb->setParameter(':identifier', $identifier)->willReturn($qb);
 
         $qb->getQuery()->willReturn($query);
-        $query->getOneOrNullResult()->shouldBeCalled();
+        $query->getOneOrNullResult()->shouldBeCalled()->willReturn(null);
 
         $this->findOneByIdentifier($identifier);
     }
 
-    function it_finds_by_groups($em, QueryBuilder $qb, AbstractQuery $query, Expr $ex)
+    function it_finds_by_groups($em, QueryBuilder $qb, Query $query, Expr $ex, Expr\Func $inExpr)
     {
         $groupIds = [32, 50];
 
@@ -73,12 +73,12 @@ class UserRepositorySpec extends ObjectBehavior
         $qb->from('user', 'u', null)->willReturn($qb);
 
         $qb->expr()->willReturn($ex);
-        $ex->in('g.id', $groupIds)->willReturn('IN 32, 50');
+        $ex->in('g.id', $groupIds)->willReturn($inExpr);
         $qb->leftJoin('u.groups', 'g')->willReturn($qb);
-        $qb->where('IN 32, 50')->willReturn($qb);
+        $qb->where($inExpr)->willReturn($qb);
 
         $qb->getQuery()->willReturn($query);
-        $query->getResult()->shouldBeCalled();
+        $query->getResult()->shouldBeCalled()->willReturn([]);
 
         $this->findByGroupIds($groupIds);
     }

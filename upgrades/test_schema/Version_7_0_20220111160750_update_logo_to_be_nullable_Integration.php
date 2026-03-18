@@ -36,7 +36,7 @@ class Version_7_0_20220111160750_update_logo_to_be_nullable_Integration extends 
 
     private function assertAuthorColumnIsNullable(bool $isNullable): void
     {
-        $columns = $this->getConnection()->getSchemaManager()->listTableColumns('akeneo_connectivity_connected_app');
+        $columns = $this->getConnection()->createSchemaManager()->listTableColumns('akeneo_connectivity_connected_app');
 
         Assert::assertEquals(!$isNullable, $columns['logo']?->getNotnull());
     }

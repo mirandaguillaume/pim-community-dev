@@ -15,6 +15,7 @@ use Akeneo\Category\ServiceApi\ExternalApiCategory;
 use Akeneo\Test\Integration\Configuration;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -91,8 +92,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 10',
         );
@@ -112,8 +113,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 10',
         );
@@ -133,8 +134,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 10',
         );
@@ -190,8 +191,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 10',
         );
@@ -245,8 +246,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 10',
         );
@@ -306,8 +307,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 10',
         );
@@ -364,8 +365,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 10',
         );
@@ -408,8 +409,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 10',
         );
@@ -444,8 +445,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 10',
         );
@@ -484,8 +485,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT 1 OFFSET 2',
         );
@@ -525,8 +526,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'category_codes' => ArrayParameterType::STRING,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
-                'with_position' => \PDO::PARAM_BOOL,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
+                'with_position' => ParameterType::BOOLEAN,
             ],
         );
 

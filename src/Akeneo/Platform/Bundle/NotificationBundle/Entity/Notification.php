@@ -27,7 +27,7 @@ class Notification implements NotificationInterface
     protected $route;
 
     /** @var array */
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: 'array')]
     protected $routeParams = [];
 
     /** @var string */
@@ -35,7 +35,7 @@ class Notification implements NotificationInterface
     protected $message;
 
     /** @var array */
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: 'array')]
     protected $messageParams = [];
 
     /** @var string */
@@ -51,7 +51,7 @@ class Notification implements NotificationInterface
     protected $type;
 
     /** @var array */
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: 'array')]
     protected $context = [];
 
     public function __construct()

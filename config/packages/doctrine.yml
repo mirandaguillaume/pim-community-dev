@@ -13,15 +13,17 @@ doctrine:
                 charset: utf8mb4
                 default_table_options:
                         charset: utf8mb4
-                        collate: utf8mb4_unicode_ci
+                        collation: utf8mb4_unicode_ci
                         row_format: DYNAMIC
                 server_version: '8.4'
+                schema_filter: '~^(?!pim_catalog_product_identifiers$)~'
                 mapping_types:
                     json: string
                 options:
                     # active PDO::ATTR_STRINGIFY_FETCHES witch is false by default in php-8.1
                     17: true
         types:
+            array: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types\PhpSerializedArrayType
             datetime: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types\UTCDateTimeType
             datetime_immutable: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types\UTCDateTimeImmutableType
             uuid_binary: Ramsey\Uuid\Doctrine\UuidBinaryType
@@ -36,20 +38,6 @@ doctrine:
                 alias: Gedmo
                 prefix: Gedmo\Tree\Entity
                 dir: '%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Tree/Entity'
-
-services:
-    doctrine.result_cache_provider:
-        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
-        factory: ['Doctrine\Common\Cache\Psr6\DoctrineProvider', 'wrap']
-        public: false
-        arguments:
-            - '@doctrine.result_cache_pool'
-    doctrine.system_cache_provider:
-        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
-        factory: ['Doctrine\Common\Cache\Psr6\DoctrineProvider', 'wrap']
-        public: false
-        arguments:
-            - '@doctrine.system_cache_pool'
 
 framework:
     cache:
@@ -70,3 +58,5 @@ doctrine_migrations:
             version_column_name: 'version'
             version_column_length: 190
             executed_at_column_name: 'executed_at'
+    services:
+        Doctrine\Migrations\Provider\SchemaDiffProvider: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Migrations\NoopSchemaDiffProvider

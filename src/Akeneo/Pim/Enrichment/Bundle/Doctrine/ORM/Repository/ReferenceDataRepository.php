@@ -110,7 +110,7 @@ class ReferenceDataRepository extends EntityRepository implements
 
     private function getReferenceDataLabelProperty(): ?string
     {
-        /** @var ReferenceDataInterface $referenceDataClass */
+        /** @var class-string<ReferenceDataInterface> $referenceDataClass */
         $referenceDataClass = $this->getEntityName();
 
         return $referenceDataClass::getLabelProperty();

@@ -36,7 +36,7 @@ class SqlUpdateJobExecutionStatusIntegration extends TestCase
 
     private function getJobExecution(): array
     {
-        return $this->getConnection()->executeQuery('SELECT * from akeneo_batch_job_execution LIMIT 1')->fetch();
+        return $this->getConnection()->executeQuery('SELECT * from akeneo_batch_job_execution LIMIT 1')->fetchAssociative();
     }
 
     private function launchJob(array $arrayInput = []): BufferedOutput

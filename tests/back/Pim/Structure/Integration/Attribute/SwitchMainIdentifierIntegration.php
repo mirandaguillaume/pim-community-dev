@@ -14,6 +14,7 @@ use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use PHPUnit\Framework\Assert;
 
 /**

@@ -12,6 +12,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelIdCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuidCollection;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -39,7 +40,7 @@ final readonly class GetProductModelIdsToEvaluateQuery implements GetEntityIdsTo
             $limitSql
             SQL;
 
-        $stmt = $this->db->executeQuery($sql, ['status' => CriterionEvaluationStatus::PENDING], ['status' => \PDO::PARAM_STR]);
+        $stmt = $this->db->executeQuery($sql, ['status' => CriterionEvaluationStatus::PENDING], ['status' => ParameterType::STRING]);
 
         $productModelIds = [];
         while ($productModelId = $stmt->fetchOne()) {

@@ -15,3 +15,7 @@ parameters:
     -
       message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff|array_intersect) expects#'
       reportUnmatched: false
+    # Doctrine DBAL 4: $types parameter now expects ParameterType enum instead of integer constants
+    -
+      message: '#Parameter \#3 \$types of method Doctrine\\DBAL\\Connection::(executeQuery|executeStatement|fetchAllAssociative|fetchFirstColumn)\(\) expects#'
+      reportUnmatched: false

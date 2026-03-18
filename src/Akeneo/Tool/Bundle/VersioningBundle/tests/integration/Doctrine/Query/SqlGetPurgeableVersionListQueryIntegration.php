@@ -11,6 +11,7 @@ use Akeneo\Tool\Bundle\VersioningBundle\Doctrine\Query\SqlGetPurgeableVersionLis
 use Akeneo\Tool\Component\Versioning\Model\Version;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
@@ -144,8 +145,8 @@ class SqlGetPurgeableVersionListQueryIntegration extends TestCase
                 'version_id' => $version->getId(),
             ],
             [
-                'logged_at' => \PDO::PARAM_STR,
-                'version_id' => \PDO::PARAM_INT,
+                'logged_at' => ParameterType::STRING,
+                'version_id' => ParameterType::INTEGER,
             ]
         );
 

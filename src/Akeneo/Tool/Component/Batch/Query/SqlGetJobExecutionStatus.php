@@ -6,6 +6,7 @@ namespace Akeneo\Tool\Component\Batch\Query;
 
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 class SqlGetJobExecutionStatus implements GetJobExecutionStatusInterface
 {
@@ -23,7 +24,7 @@ class SqlGetJobExecutionStatus implements GetJobExecutionStatusInterface
         $result = $this->connection->executeQuery(
             $sql,
             ['job_execution_id' => $jobExecutionId],
-            ['job_execution_id' => \PDO::PARAM_INT]
+            ['job_execution_id' => ParameterType::INTEGER]
         )->fetchAssociative();
 
         if (false === $result) {

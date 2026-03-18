@@ -8,6 +8,7 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\Connection;
 use Akeneo\Connectivity\Connection\Domain\Settings\Persistence\Query\SelectConnectionsQueryInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection as DbalConnection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @author Romain Monceau <romain@akeneo.com>

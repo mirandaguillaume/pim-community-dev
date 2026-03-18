@@ -14,6 +14,8 @@ use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\ArrayParameterType;
 use PHPUnit\Framework\Assert;
 use Pim\Upgrade\Schema\Tests\ExecuteMigrationTrait;
 
@@ -132,7 +134,7 @@ class Version_6_0_20210415130338_mark_job_execution_as_failed_when_interrupted_I
                 'jobExecutionIds' => $jobExecutionIds,
             ],
             [
-                'jobExecutionIds' => Connection::PARAM_INT_ARRAY,
+                'jobExecutionIds' => ArrayParameterType::INTEGER,
             ]
         )->fetchAllAssociative();
 

@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\InternalApi\AttributeOption;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
@@ -62,8 +63,8 @@ final readonly class SqlFindAttributeOptions implements FindAttributeOptions
             $sql .= ' LIMIT :offset, :limit';
             $parameters['limit'] = $limit;
             $parameters['offset'] = ($page - 1) * $limit;
-            $types['limit'] = \PDO::PARAM_INT;
-            $types['offset'] = \PDO::PARAM_INT;
+            $types['limit'] = ParameterType::INTEGER;
+            $types['offset'] = ParameterType::INTEGER;
         }
 
         if (null !== $includeCodes) {

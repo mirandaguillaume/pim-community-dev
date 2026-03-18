@@ -41,7 +41,7 @@ final class FamilyFilterSpec extends ObjectBehavior
         $ds->getQueryBuilder()->willReturn($qb);
         $qb->getRootAliases()->willReturn(['attribute']);
         $qb->innerJoin(Argument::cetera())->shouldBeCalled()->willReturn($qb);
-        $qb->setParameter(':families', [10, 20])->shouldBeCalled();
+        $qb->setParameter(':families', [10, 20])->shouldBeCalled()->willReturn($qb);
 
         $this->apply($ds, ['value' => [10, 20]])->shouldReturn(true);
     }

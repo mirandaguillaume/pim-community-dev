@@ -20,13 +20,10 @@ class DbalPurger implements DatabasePurgerInterface
 
     public function purge(array $tablesToReset): void
     {
-        $sql = 'SET FOREIGN_KEY_CHECKS = 0;';
+        $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 0');
         foreach ($tablesToReset as $table) {
-            $sql .= sprintf('TRUNCATE TABLE %s;', $table);
+            $this->connection->executeStatement(sprintf('TRUNCATE TABLE %s', $table));
         }
-
-        $sql .= 'SET FOREIGN_KEY_CHECKS = 1;';
-
-        $this->connection->executeStatement($sql);
+        $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

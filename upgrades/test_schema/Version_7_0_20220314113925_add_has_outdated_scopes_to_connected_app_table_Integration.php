@@ -60,7 +60,7 @@ class Version_7_0_20220314113925_add_has_outdated_scopes_to_connected_app_table_
 
     private function hasOutdatedScopesColumnExists(): bool
     {
-        $columns = $this->connection->getSchemaManager()->listTableColumns('akeneo_connectivity_connected_app');
+        $columns = $this->connection->createSchemaManager()->listTableColumns('akeneo_connectivity_connected_app');
 
         return isset($columns['has_outdated_scopes']);
     }
@@ -128,13 +128,9 @@ class Version_7_0_20220314113925_add_has_outdated_scopes_to_connected_app_table_
                 'label' => $label,
                 'random_id' => $label,
                 'secret' => $label,
-                'allowed_grant_types' => [],
-                'redirect_uris' => [],
+                'allowed_grant_types' => serialize([]),
+                'redirect_uris' => serialize([]),
             ],
-            [
-                'allowed_grant_types' => Types::ARRAY,
-                'redirect_uris' => Types::ARRAY,
-            ]
         );
 
         return $this->connection->lastInsertId();

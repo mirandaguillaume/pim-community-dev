@@ -5,9 +5,9 @@ namespace Specification\Akeneo\Channel\Infrastructure\Doctrine\Repository;
 use Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Statement;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use PhpSpec\ObjectBehavior;
@@ -33,18 +33,18 @@ class LocaleRepositorySpec extends ObjectBehavior
         $this->shouldImplement(LocaleRepositoryInterface::class);
     }
 
-    function it_count_all_activated_locales($em, QueryBuilder $queryBuilder, AbstractQuery $query, Expr $expr)
+    function it_count_all_activated_locales($em, QueryBuilder $queryBuilder, Query $query, Expr $expr, Expr\Comparison $eqExpr)
     {
         $em->createQueryBuilder()->willReturn($queryBuilder);
         $queryBuilder->select('l')->willReturn($queryBuilder);
         $queryBuilder->from('locale', 'l', null)->willReturn($queryBuilder);
         $queryBuilder->select('COUNT(l.id)')->willReturn($queryBuilder);
         $queryBuilder->expr()->willReturn($expr);
-        $expr->eq('l.activated', true)->willReturn($expr);
-        $queryBuilder->where($expr)->willReturn($queryBuilder);
+        $expr->eq('l.activated', true)->willReturn($eqExpr);
+        $queryBuilder->where($eqExpr)->willReturn($queryBuilder);
 
         $queryBuilder->getQuery()->willReturn($query);
-        $query->getSingleScalarResult()->shouldBeCalled();
+        $query->getSingleScalarResult()->shouldBeCalled()->willReturn(0);
 
         $this->countAllActivated();
     }

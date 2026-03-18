@@ -30,10 +30,10 @@ class Warning
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private $reason;
 
-    #[ORM\Column(name: 'reason_parameters', type: Types::ARRAY)]
+    #[ORM\Column(name: 'reason_parameters', type: 'array')]
     private array $reasonParameters;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: 'array')]
     private array $item;
 
     /**

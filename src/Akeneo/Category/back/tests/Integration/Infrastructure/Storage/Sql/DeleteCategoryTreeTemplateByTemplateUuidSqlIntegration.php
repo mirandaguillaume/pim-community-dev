@@ -8,7 +8,7 @@ use Akeneo\Category\back\tests\Integration\Helper\CategoryTestCase;
 use Akeneo\Category\Domain\Query\DeleteCategoryTreeTemplateByTemplateUuid;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
-use PDO;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -61,7 +61,7 @@ class DeleteCategoryTreeTemplateByTemplateUuidSqlIntegration extends CategoryTes
                 'template_uuid' => $templateUuid->toBytes(),
             ],
             [
-                'template_uuid' => PDO::PARAM_STR,
+                'template_uuid' => ParameterType::STRING,
             ],
         );
 
@@ -85,7 +85,7 @@ class DeleteCategoryTreeTemplateByTemplateUuidSqlIntegration extends CategoryTes
                 'template_uuid' => $templateUuid->toBytes(),
             ],
             [
-                'template_uuid' => PDO::PARAM_STR,
+                'template_uuid' => ParameterType::STRING,
             ],
         );
 
@@ -109,7 +109,7 @@ class DeleteCategoryTreeTemplateByTemplateUuidSqlIntegration extends CategoryTes
                 'template_uuid' => $templateUuid->toBytes(),
             ],
             [
-                'template_uuid' => PDO::PARAM_STR,
+                'template_uuid' => ParameterType::STRING,
             ],
         );
 

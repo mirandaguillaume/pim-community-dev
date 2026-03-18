@@ -7,15 +7,15 @@ namespace Specification\Akeneo\Pim\Structure\Bundle\EventSubscriber;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriberSpec extends ObjectBehavior
 {
-    function let(EntityManagerInterface $em, BulkSaverInterface $bulkSaver, ObjectRepository $repository)
+    function let(EntityManagerInterface $em, BulkSaverInterface $bulkSaver, EntityRepository $repository)
     {
         $this->beConstructedWith($em, $bulkSaver);
 
@@ -29,7 +29,7 @@ class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriberSpec extends O
 
     function it_does_not_update_export_job_instances_without_filter_on_families(
         BulkSaverInterface $bulkSaver,
-        ObjectRepository $repository,
+        EntityRepository $repository,
         GenericEvent $event,
         FamilyInterface $family,
         JobInstance $jobInstance
@@ -58,7 +58,7 @@ class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriberSpec extends O
 
     function it_does_not_update_export_job_instances_without_filter_on_a_deleted_family(
         BulkSaverInterface $bulkSaver,
-        ObjectRepository $repository,
+        EntityRepository $repository,
         GenericEvent $event,
         FamilyInterface $family,
         JobInstance $jobInstance
@@ -87,7 +87,7 @@ class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriberSpec extends O
 
     function it_removes_the_deleted_family_from_the_export_job_instance_filters(
         BulkSaverInterface $bulkSaver,
-        ObjectRepository $repository,
+        EntityRepository $repository,
         GenericEvent $event,
         FamilyInterface $family,
         JobInstance $jobInstanceA,
@@ -170,7 +170,7 @@ class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriberSpec extends O
 
     function it_remove_the_filter_on_families_if_the_deleted_family_was_the_only_one(
         BulkSaverInterface $bulkSaver,
-        ObjectRepository $repository,
+        EntityRepository $repository,
         GenericEvent $event,
         FamilyInterface $family,
         JobInstance $jobInstance

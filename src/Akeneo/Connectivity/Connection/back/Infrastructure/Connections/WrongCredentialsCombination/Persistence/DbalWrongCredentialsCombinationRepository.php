@@ -28,8 +28,7 @@ class DbalWrongCredentialsCombinationRepository implements WrongCredentialsCombi
             ON DUPLICATE KEY UPDATE authentication_date = NOW()
             SQL;
 
-        $stmt = $this->dbalConnection->prepare($insertSQL);
-        $stmt->executeQuery([
+        $this->dbalConnection->executeStatement($insertSQL, [
             'connection_code' => $wrongCredentialsCombination->connectionCode(),
             'username' => $wrongCredentialsCombination->username(),
         ]);

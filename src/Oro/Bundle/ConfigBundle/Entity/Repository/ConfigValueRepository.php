@@ -49,10 +49,9 @@ class ConfigValueRepository extends EntityRepository
             ->where('c.scopedEntity = :entity')
             ->andWhere('c.recordId = :scope')
             ->andWhere('v.section = :section')
-            ->setParameters([
-                'entity'  => $entityName,
-                'scope'   => $scopeId,
-                'section' => $section,
-            ])->getQuery()->getOneOrNullResult();
+            ->setParameter('entity', $entityName)
+            ->setParameter('scope', $scopeId)
+            ->setParameter('section', $section)
+            ->getQuery()->getOneOrNullResult();
     }
 }

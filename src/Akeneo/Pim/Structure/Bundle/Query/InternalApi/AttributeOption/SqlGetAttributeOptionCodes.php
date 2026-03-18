@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\InternalApi\AttributeOption;
 
 use Akeneo\Pim\Structure\Component\Query\InternalApi\GetAttributeOptionCodes;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -39,7 +40,7 @@ final readonly class SqlGetAttributeOptionCodes implements GetAttributeOptionCod
                     'searchAfterId' => $searchAfterId,
                     'limit' => self::BATCH_QUERY_SIZE,
                 ],
-                ['limit' => \PDO::PARAM_INT]
+                ['limit' => ParameterType::INTEGER]
             )->fetchAllAssociative();
             foreach ($results as $result) {
                 yield $result['code'];

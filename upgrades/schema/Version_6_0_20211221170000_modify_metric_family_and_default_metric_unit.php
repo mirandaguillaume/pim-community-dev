@@ -12,7 +12,7 @@ final class Version_6_0_20211221170000_modify_metric_family_and_default_metric_u
     public function up(Schema $schema): void
     {
         $this->skipIf(
-            $this->columnsAreModified($schema),
+            $this->columnsAreModified(),
             'metric_family and default_metric_unit columns are already modified'
         );
 
@@ -24,7 +24,7 @@ final class Version_6_0_20211221170000_modify_metric_family_and_default_metric_u
         $this->throwIrreversibleMigrationException();
     }
 
-    private function columnsAreModified(Schema $schema): bool
+    private function columnsAreModified(): bool
     {
         $sql = <<<SQL
                 SELECT DISTINCT COLUMN_NAME, CHARACTER_MAXIMUM_LENGTH
@@ -33,7 +33,7 @@ final class Version_6_0_20211221170000_modify_metric_family_and_default_metric_u
             SQL;
 
         $result = $this->connection->executeQuery($sql, [
-            'table_schema' => $schema->getName(),
+            'table_schema' => $this->connection->getDatabase(),
         ])->fetchAllAssociative();
 
         return 100 === (int) $result[0]['CHARACTER_MAXIMUM_LENGTH'] && 100 === (int) $result[1]['CHARACTER_MAXIMUM_LENGTH'];

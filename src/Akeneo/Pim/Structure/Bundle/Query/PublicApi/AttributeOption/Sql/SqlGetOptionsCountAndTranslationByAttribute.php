@@ -9,6 +9,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetOptionsCou
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @author    Adrien Migaire <adrien.migaire@akeneo.com>
@@ -57,11 +58,11 @@ final readonly class SqlGetOptionsCountAndTranslationByAttribute implements GetO
                 'locale' => $localeCode,
             ],
             [
-                'limit' => \PDO::PARAM_INT,
-                'offset' => \PDO::PARAM_INT,
-                'search' => \PDO::PARAM_STR,
+                'limit' => ParameterType::INTEGER,
+                'offset' => ParameterType::INTEGER,
+                'search' => ParameterType::STRING,
                 'select_attribute_types' => ArrayParameterType::STRING,
-                'locale' => \PDO::PARAM_STR,
+                'locale' => ParameterType::STRING,
             ],
         )->fetchAllAssociative();
 

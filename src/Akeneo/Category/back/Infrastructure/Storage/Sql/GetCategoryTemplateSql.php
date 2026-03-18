@@ -9,6 +9,7 @@ use Akeneo\Category\Domain\Model\Enrichment\Template;
 use Akeneo\Category\Domain\Query\GetTemplate;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -40,7 +41,7 @@ class GetCategoryTemplateSql implements GetTemplate
                 'template_uuid' => $uuid->toBytes(),
             ],
             [
-                'template_uuid' => \PDO::PARAM_STR,
+                'template_uuid' => ParameterType::STRING,
             ],
         )->fetchAssociative();
 

@@ -12,6 +12,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)

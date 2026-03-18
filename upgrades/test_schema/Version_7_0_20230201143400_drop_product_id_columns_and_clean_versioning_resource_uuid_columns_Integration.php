@@ -124,7 +124,7 @@ class Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_re
             END
             SQL;
         foreach (V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns::TABLES_TO_UPDATE as $tableName => $properties) {
-            if (!$this->connection->getSchemaManager()->tablesExist([$tableName])) {
+            if (!$this->connection->createSchemaManager()->tablesExist([$tableName])) {
                 continue;
             }
             foreach ($properties['triggers'] as $triggerName) {
@@ -150,7 +150,7 @@ class Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_re
             }
             $tableColumnNames = \array_map(
                 static fn(Column $column) => $column->getName(),
-                $this->connection->getSchemaManager()->listTableColumns($table)
+                $this->connection->createSchemaManager()->listTableColumns($table)
             );
             $this->assertNotContains(
                 $productIdColumnName,
@@ -170,7 +170,7 @@ class Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_re
                 ADD CONSTRAINT FOREIGN KEY(%s) REFERENCES pim_catalog_product(id);
             SQL;
         foreach (V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns::TABLES_TO_UPDATE as $table => $properties) {
-            if ($this->connection->getSchemaManager()->tablesExist($table) && null !== $properties['column']) {
+            if ($this->connection->createSchemaManager()->tablesExist($table) && null !== $properties['column']) {
                 $query = \sprintf($addColumnQuery, $table, $properties['column'], $properties['column'], $properties['column']);
                 $this->connection->executeStatement($query);
             }

@@ -144,10 +144,8 @@ class FamilyRepository extends EntityRepository implements FamilyRepositoryInter
             ->where('f.id = :id')
             ->andWhere('a.code = :code')
             ->setMaxResults(1)
-            ->setParameters([
-                'id'   => $id,
-                'code' => $attributeCode,
-            ]);
+            ->setParameter('id', $id)
+            ->setParameter('code', $attributeCode);
 
         $result = $queryBuilder->getQuery()->getArrayResult();
 

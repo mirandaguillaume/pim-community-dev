@@ -81,7 +81,7 @@ final class Version_8_0_20230612153700_attribute_main_identifier_Integration ext
 
     private function mainIdentifierColumnExists(): bool
     {
-        $columns = $this->connection->getSchemaManager()->listTableColumns('pim_catalog_attribute');
+        $columns = $this->connection->createSchemaManager()->listTableColumns('pim_catalog_attribute');
 
         return isset($columns['main_identifier']);
     }

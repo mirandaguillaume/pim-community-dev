@@ -6,6 +6,7 @@ use Akeneo\Category\Application\Storage\UpdateCategoryEnrichedValues;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ParameterType;
 
 final readonly class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEnrichedValues
 {
@@ -54,8 +55,8 @@ final readonly class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEn
 
         $queryIndex = 0;
         foreach ($enrichedValuesByCode as $code => $value) {
-            $statement->bindValue(++$queryIndex, json_encode($value->normalize(), JSON_THROW_ON_ERROR), \PDO::PARAM_STR);
-            $statement->bindValue(++$queryIndex, $code, \PDO::PARAM_STR);
+            $statement->bindValue(++$queryIndex, json_encode($value->normalize(), JSON_THROW_ON_ERROR), ParameterType::STRING);
+            $statement->bindValue(++$queryIndex, $code, ParameterType::STRING);
         }
 
         $statement->executeQuery();

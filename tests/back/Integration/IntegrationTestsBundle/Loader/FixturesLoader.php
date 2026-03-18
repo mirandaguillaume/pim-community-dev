@@ -20,6 +20,7 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\ClientRegistry;
 use Akeneo\Tool\Bundle\MeasureBundle\Installer\MeasurementInstaller;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Elasticsearch\ClientBuilder;
 use League\Flysystem\DirectoryAttributes;
 use League\Flysystem\FilesystemOperator;
@@ -407,7 +408,7 @@ class FixturesLoader implements FixturesLoaderInterface
             //   - When the previous test inserted data in another subprocess (like a job).
             // In that case, an integrity constraint violation is thrown on an unique key.
             // The solution is to delete all data in the database and retry.
-            if ('23000' === $e->getPrevious()?->getCode()) {
+            if ($e instanceof UniqueConstraintViolationException) {
                 $this->experimentalTransactionHelper->abortTransactions();
                 $this->databaseSchemaHandler->reset();
                 $this->experimentalTransactionHelper->beginTransactions();

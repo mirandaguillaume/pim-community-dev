@@ -8,6 +8,7 @@ use Akeneo\Category\Domain\Query\UpdateCategoryTemplateAttributesOrder;
 use Akeneo\Category\Domain\ValueObject\Attribute\AttributeCollection;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -47,8 +48,8 @@ class UpdateCategoryTemplateAttributesOrderSql implements UpdateCategoryTemplate
 
         $queryIndex = 0;
         foreach ($attributeList->getAttributes() as $attribute) {
-            $statement->bindValue(++$queryIndex, $attribute->getOrder()->intValue(), \PDO::PARAM_INT);
-            $statement->bindValue(++$queryIndex, $attribute->getUuid()->toBytes(), \PDO::PARAM_STR);
+            $statement->bindValue(++$queryIndex, $attribute->getOrder()->intValue(), ParameterType::INTEGER);
+            $statement->bindValue(++$queryIndex, $attribute->getUuid()->toBytes(), ParameterType::STRING);
         }
 
         $statement->executeQuery();

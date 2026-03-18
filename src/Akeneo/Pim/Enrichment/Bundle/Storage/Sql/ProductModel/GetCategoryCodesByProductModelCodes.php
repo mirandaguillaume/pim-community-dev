@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * Query to fetch category codes by a given list of product model codes.

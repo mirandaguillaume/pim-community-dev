@@ -59,6 +59,16 @@ parameters:
         - '#Class Oro\\Bundle\\SecurityBundle\\Acl\\Cache\\FilesystemCache extends deprecated class Doctrine\\Common\\Cache\\FilesystemCache#'
         # Doctrine DBAL Types::ARRAY deprecation (PR #26 YAML→attribute migration)
         - '#Fetching deprecated class constant ARRAY of class Doctrine\\DBAL\\Types\\Types#'
+        # Doctrine DBAL 4: deprecated Schema methods (to migrate incrementally)
+        - '#Call to deprecated method (listTableColumns|listTableIndexes|listTableNames|listTableForeignKeys)\(\) of class Doctrine\\DBAL\\Schema\\AbstractSchemaManager#'
+        - '#Call to deprecated method (getName|getNamespaceName|getShortestName)\(\) of class Doctrine\\DBAL\\Schema\\AbstractAsset#'
+        - '#Call to deprecated method getColumns\(\) of class Doctrine\\DBAL\\Schema\\Index#'
+        - '#Call to deprecated method getLocalColumns\(\) of class Doctrine\\DBAL\\Schema\\ForeignKeyConstraint#'
+        - '#Call to deprecated method setPrimaryKey\(\) of class Doctrine\\DBAL\\Schema\\Table#'
+        # Doctrine DBAL 4: Schema class marked @final
+        - '#Class .+ extends @final class Doctrine\\DBAL\\Schema\\Schema#'
+        # Doctrine ORM 3: EntityManager::create() removed (DoctrineJobRepository to refactor)
+        - '#Call to an undefined static method Doctrine\\ORM\\EntityManager::create\(\)#'
         # Doctrine Collections Criteria::ASC deprecation
         - '#Fetching deprecated class constant ASC of class Doctrine\\Common\\Collections\\Criteria#'
         # Behat

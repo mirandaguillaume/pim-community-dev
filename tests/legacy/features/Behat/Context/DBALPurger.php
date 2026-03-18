@@ -43,18 +43,17 @@ class DBALPurger implements PurgerInterface
      */
     public function purge()
     {
-        $sql = 'SET FOREIGN_KEY_CHECKS = 0;';
+        $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 0');
 
         foreach ($this->tablesToDelete as $table) {
-            $sql .= sprintf('DELETE FROM %s ;', $table);
+            // this query can fail without triggering any error, if a table does not exist
+            $this->connection->executeStatement(sprintf('DELETE FROM %s', $table));
         }
 
         foreach ($this->tablesToTruncate as $table) {
-            $sql .= sprintf('TRUNCATE TABLE %s;', $table);
+            $this->connection->executeStatement(sprintf('TRUNCATE TABLE %s', $table));
         }
 
-        // this query can fail without triggering any error, if a table does not exist
-        $this->connection->executeStatement($sql);
         $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

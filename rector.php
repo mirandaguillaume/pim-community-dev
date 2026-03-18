@@ -47,6 +47,13 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
         DoctrineSetList::DOCTRINE_COMMON_20,
         DoctrineSetList::DOCTRINE_ORM_213,
+        DoctrineSetList::DOCTRINE_ORM_214,
+        DoctrineSetList::DOCTRINE_ORM_219,
+        DoctrineSetList::DOCTRINE_ORM_300,
+        DoctrineSetList::DOCTRINE_DBAL_211,
+        DoctrineSetList::DOCTRINE_DBAL_30,
+        DoctrineSetList::DOCTRINE_DBAL_38,
+        DoctrineSetList::DOCTRINE_DBAL_40,
     ]);
 
     // Symfony 5.4 → 6.4 deprecation fixes

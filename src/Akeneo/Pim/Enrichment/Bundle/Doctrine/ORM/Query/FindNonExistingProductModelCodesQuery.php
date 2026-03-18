@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query;
 use Akeneo\Pim\Enrichment\Component\Product\Query\FindNonExistingProductModelCodesQueryInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 class FindNonExistingProductModelCodesQuery implements FindNonExistingProductModelCodesQueryInterface
 {

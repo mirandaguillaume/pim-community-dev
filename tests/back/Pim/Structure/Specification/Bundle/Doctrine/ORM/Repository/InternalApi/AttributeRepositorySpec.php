@@ -5,7 +5,7 @@ namespace Specification\Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\Inte
 use Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\InternalApi\AttributeRepository;
 use Akeneo\Platform\Bundle\UIBundle\Provider\TranslatedLabelsProviderInterface;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
-use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
@@ -39,10 +39,10 @@ class AttributeRepositorySpec extends ObjectBehavior
         $this->shouldHaveType('Doctrine\ORM\EntityRepository');
     }
 
-    function it_finds_attributes_to_build_select($em, QueryBuilder $queryBuilder, AbstractQuery $query, Expr $expr)
+    function it_finds_attributes_to_build_select($em, QueryBuilder $queryBuilder, Query $query, Expr $expr, Expr\Func $notInExpr)
     {
         $queryBuilder->expr()->willReturn($expr);
-        $expr->notIn('a.id', [10])->willReturn($expr);
+        $expr->notIn('a.id', [10])->willReturn($notInExpr);
 
         $em->createQueryBuilder()->willReturn($queryBuilder);
         $queryBuilder->select('a')->willReturn($queryBuilder);
@@ -53,7 +53,7 @@ class AttributeRepositorySpec extends ObjectBehavior
         $queryBuilder->leftJoin('a.translations', 'at', 'WITH', 'at.locale = :locale_code')->willReturn($queryBuilder);
         $queryBuilder->leftJoin('a.group', 'g')->willReturn($queryBuilder);
         $queryBuilder->leftJoin('g.translations', 'gt', 'WITH', 'gt.locale = :locale_code')->willReturn($queryBuilder);
-        $queryBuilder->andWhere($expr)->willReturn($queryBuilder);
+        $queryBuilder->andWhere($notInExpr)->willReturn($queryBuilder);
         $queryBuilder->orderBy('g.sortOrder, a.sortOrder')->willReturn($queryBuilder);
         $queryBuilder->setParameter('locale_code', 'en_US')->willReturn($queryBuilder);
         $queryBuilder->getQuery()->willReturn($query);

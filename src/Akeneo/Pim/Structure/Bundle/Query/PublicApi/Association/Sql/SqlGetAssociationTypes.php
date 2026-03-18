@@ -9,6 +9,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\GetAssociationTyp
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\LabelCollection;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 final readonly class SqlGetAssociationTypes implements GetAssociationTypesInterface
 {

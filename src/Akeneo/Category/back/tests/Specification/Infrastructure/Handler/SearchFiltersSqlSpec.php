@@ -13,6 +13,7 @@ use Akeneo\Category\Domain\ValueObject\Position;
 use Akeneo\Category\Infrastructure\Validation\ExternalApiSearchFiltersValidator;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -62,9 +63,9 @@ class SearchFiltersSqlSpec extends ObjectBehavior
             'root' => $category->getRootId()->getValue(),
         ];
         $types = [
-            'left' => \PDO::PARAM_INT,
-            'right' => \PDO::PARAM_INT,
-            'root' => \PDO::PARAM_INT,
+            'left' => ParameterType::INTEGER,
+            'right' => ParameterType::INTEGER,
+            'root' => ParameterType::INTEGER,
         ];
         $expected = new ExternalApiSqlParameters(
             sqlWhere: 'category.lft > :left AND category.rgt < :right AND category.root = :root',
@@ -158,9 +159,9 @@ class SearchFiltersSqlSpec extends ObjectBehavior
             'root' => $category->getRootId()->getValue(),
         ];
         $types = [
-            'left' => \PDO::PARAM_INT,
-            'right' => \PDO::PARAM_INT,
-            'root' => \PDO::PARAM_INT,
+            'left' => ParameterType::INTEGER,
+            'right' => ParameterType::INTEGER,
+            'root' => ParameterType::INTEGER,
         ];
         $expected = new ExternalApiSqlParameters(
             sqlWhere: 'category.lft > :left AND category.rgt < :right AND category.root = :root AND category.parent_id IS NULL',
@@ -221,7 +222,7 @@ class SearchFiltersSqlSpec extends ObjectBehavior
             'updated_0' => $value,
         ];
         $types = [
-            'updated_0' => \PDO::PARAM_STR,
+            'updated_0' => ParameterType::STRING,
         ];
         $expected = new ExternalApiSqlParameters(
             sqlWhere: 'category.updated > :updated_0',

@@ -6,6 +6,7 @@ namespace Akeneo\Tool\Bundle\VersioningBundle\Doctrine\Query;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)

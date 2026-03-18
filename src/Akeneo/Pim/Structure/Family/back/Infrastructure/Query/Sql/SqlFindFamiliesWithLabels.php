@@ -10,6 +10,7 @@ use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FindFamiliesWithLabels;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FindFamilyCodes;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)

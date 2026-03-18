@@ -10,6 +10,7 @@ use Akeneo\Category\Domain\Model\Enrichment\Category;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -60,7 +61,7 @@ class GetCategoryTreeByCategoryTemplateSql implements GetCategoryTreeByCategoryT
                 'template_uuid' => $templateUuid->toBytes(),
             ],
             [
-                'template_uuid' => \PDO::PARAM_STR,
+                'template_uuid' => ParameterType::STRING,
             ],
         )->fetchAssociative();
 

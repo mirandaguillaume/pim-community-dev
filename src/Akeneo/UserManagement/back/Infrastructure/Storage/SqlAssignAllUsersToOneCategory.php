@@ -6,7 +6,7 @@ namespace Akeneo\UserManagement\Infrastructure\Storage;
 
 use Akeneo\UserManagement\Domain\Storage\AssignAllUsersToOneCategory;
 use Doctrine\DBAL\Connection;
-use PDO;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -26,7 +26,7 @@ final readonly class SqlAssignAllUsersToOneCategory implements AssignAllUsersToO
         return $this->connection->executeQuery(
             $sql,
             ['id' => $categoryId],
-            ['id' => PDO::PARAM_INT]
+            ['id' => ParameterType::INTEGER]
         )->rowCount();
     }
 }

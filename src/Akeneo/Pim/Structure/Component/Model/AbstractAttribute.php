@@ -98,7 +98,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
     protected $scopable;
 
     /** @var array */
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: 'array', nullable: true)]
     protected $properties;
 
     /** @var ArrayCollection */

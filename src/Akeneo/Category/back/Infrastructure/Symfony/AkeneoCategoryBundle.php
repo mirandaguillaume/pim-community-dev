@@ -36,6 +36,8 @@ class AkeneoCategoryBundle extends Bundle
                 array_values($mappings),
                 ['doctrine.orm.entity_manager'],
                 false,
+                [],
+                true,
             ),
         );
     }

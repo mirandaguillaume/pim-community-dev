@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEvaluation\Enri
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionCode;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -141,8 +142,8 @@ class PopulateProductModelScoresAndKeyIndicatorsCommand extends Command
                 'bulkSize' => self::BULK_SIZE,
             ],
             [
-                'lastId' => \PDO::PARAM_INT,
-                'bulkSize' => \PDO::PARAM_INT,
+                'lastId' => ParameterType::INTEGER,
+                'bulkSize' => ParameterType::INTEGER,
             ]
         );
 

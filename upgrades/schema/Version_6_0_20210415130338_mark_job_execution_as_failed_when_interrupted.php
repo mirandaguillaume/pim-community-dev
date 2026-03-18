@@ -8,6 +8,8 @@ use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
@@ -38,7 +40,7 @@ final class Version_6_0_20210415130338_mark_job_execution_as_failed_when_interru
                 'runningStatuses' => [BatchStatus::STARTED, BatchStatus::STOPPING],
             ],
             [
-                'runningStatuses' => Connection::PARAM_INT_ARRAY,
+                'runningStatuses' => ArrayParameterType::INTEGER,
             ]
         );
     }

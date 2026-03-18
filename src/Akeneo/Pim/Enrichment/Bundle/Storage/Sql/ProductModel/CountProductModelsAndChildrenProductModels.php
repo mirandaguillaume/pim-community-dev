@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 use Akeneo\Pim\Enrichment\Component\Product\ProductModel\Query\CountProductModelsAndChildrenProductModelsInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)

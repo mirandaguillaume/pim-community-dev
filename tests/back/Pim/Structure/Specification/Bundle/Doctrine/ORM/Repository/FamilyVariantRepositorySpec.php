@@ -11,8 +11,9 @@ use Prophecy\Argument;
 
 class FamilyVariantRepositorySpec extends ObjectBehavior
 {
-    function let(EntityManagerInterface $entityManager, ClassMetadata $classMetadata)
+    function let(EntityManagerInterface $entityManager)
     {
+        $classMetadata = new ClassMetadata('Akeneo\Pim\Structure\Component\Model\FamilyVariant');
         $this->beConstructedWith($entityManager, $classMetadata);
     }
 

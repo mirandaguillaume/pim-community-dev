@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndProductModel;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -37,8 +38,8 @@ final readonly class GetAllProductUuids
                     'limit' => $batchSize,
                 ],
                 [
-                    'lastUuid' => \PDO::PARAM_STR,
-                    'limit' => \PDO::PARAM_INT,
+                    'lastUuid' => ParameterType::STRING,
+                    'limit' => ParameterType::INTEGER,
                 ]
             );
 

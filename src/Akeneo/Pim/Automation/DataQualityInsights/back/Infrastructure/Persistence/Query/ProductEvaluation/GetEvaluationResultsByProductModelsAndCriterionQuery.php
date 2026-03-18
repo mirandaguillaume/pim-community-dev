@@ -12,6 +12,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelIdC
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultIds;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**

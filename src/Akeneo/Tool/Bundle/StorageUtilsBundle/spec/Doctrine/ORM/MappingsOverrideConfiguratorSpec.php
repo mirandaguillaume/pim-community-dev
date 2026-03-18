@@ -5,6 +5,7 @@ namespace spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\NamingStrategy;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -37,7 +38,8 @@ class MappingsOverrideConfiguratorSpec extends ObjectBehavior
     public function it_configures_the_mappings_of_a_model_that_overrides_an_original_model(
         $configuration,
         ClassMetadata $metadataInfo,
-        MappingDriver $mappingDriver
+        MappingDriver $mappingDriver,
+        NamingStrategy $namingStrategy
     ) {
         $originalQux1 = __NAMESPACE__ . '\OriginalQux1';
         $originalQux2 = __NAMESPACE__ . '\OriginalQux2';
@@ -46,7 +48,7 @@ class MappingsOverrideConfiguratorSpec extends ObjectBehavior
 
         $mappingDriver->getAllClassNames()->willReturn([$originalQux1]);
         $configuration->getMetadataDriverImpl()->willReturn($mappingDriver);
-        $configuration->getNamingStrategy()->willReturn(null);
+        $configuration->getNamingStrategy()->willReturn($namingStrategy);
         $metadataInfo->getName()->willReturn($overrideQux1);
         $mappingDriver->loadMetadataForClass($originalQux1, Argument::any())->shouldBeCalled();
 

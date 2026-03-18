@@ -179,10 +179,8 @@ class ProductRepository extends EntityRepository implements
             ->leftJoin('f.attributes', 'a')
             ->where('p.uuid = :uuid')
             ->andWhere('a.code = :code')
-            ->setParameters([
-                'uuid' => $productUuid->getBytes(),
-                'code' => $attributeCode,
-            ])
+            ->setParameter('uuid', $productUuid->getBytes())
+            ->setParameter('code', $attributeCode)
             ->setMaxResults(1);
 
         return count($queryBuilder->getQuery()->getArrayResult()) > 0;

@@ -6,6 +6,7 @@ namespace Oro\Bundle\PimDataGridBundle\Query\Sql;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Oro\Bundle\DataGridBundle\Extension\Formatter\Configuration;
 use Oro\Bundle\DataGridBundle\Provider\ConfigurationProviderInterface;
 use Oro\Bundle\PimDataGridBundle\Query\ListProductGridAvailableColumnGroups as ListProductGridAvailableColumnGroupsQuery;

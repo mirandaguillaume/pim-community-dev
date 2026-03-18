@@ -6,7 +6,8 @@ namespace spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types;
 
 use Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types\UTCDateTimeImmutableType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\Exception\InvalidFormat;
+use Doctrine\DBAL\Types\Exception\InvalidType;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -41,7 +42,7 @@ class UTCDateTimeImmutableTypeSpec extends ObjectBehavior
     {
         $value = \DateTime::createFromFormat(\DateTimeInterface::ATOM, '2021-01-01T00:00:00+12:00');
 
-        $this->shouldThrow(ConversionException::class)
+        $this->shouldThrow(InvalidType::class)
             ->during('convertToDatabaseValue', [$value, $platform]);
     }
 
@@ -63,7 +64,7 @@ class UTCDateTimeImmutableTypeSpec extends ObjectBehavior
         $platform->getDateTimeFormatString()
             ->willReturn('Y-m-d H:i:s');
 
-        $this->shouldThrow(ConversionException::class)
+        $this->shouldThrow(InvalidFormat::class)
             ->during('convertToPHPValue', [$value, $platform]);
     }
 

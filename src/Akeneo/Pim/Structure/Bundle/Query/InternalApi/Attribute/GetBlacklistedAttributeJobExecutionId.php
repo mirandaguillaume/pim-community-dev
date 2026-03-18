@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\InternalApi\Attribute;
 
 use Akeneo\Pim\Structure\Component\Query\InternalApi\GetBlacklistedAttributeJobExecutionIdInterface;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 final readonly class GetBlacklistedAttributeJobExecutionId implements GetBlacklistedAttributeJobExecutionIdInterface
 {
@@ -27,7 +28,7 @@ final readonly class GetBlacklistedAttributeJobExecutionId implements GetBlackli
                 'attribute_code' => $attributeCode,
             ],
             [
-                'attribute_code' => \PDO::PARAM_STR,
+                'attribute_code' => ParameterType::STRING,
             ]
         )->fetchOne();
 

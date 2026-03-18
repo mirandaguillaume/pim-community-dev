@@ -29,10 +29,10 @@ class Client implements ClientInterface
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected $secret;
 
-    #[ORM\Column(name: 'redirect_uris', type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(name: 'redirect_uris', type: 'array', nullable: true)]
     protected $redirectUris = [];
 
-    #[ORM\Column(name: 'allowed_grant_types', type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(name: 'allowed_grant_types', type: 'array', nullable: true)]
     protected $allowedGrantTypes = [];
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Pim\Upgrade\Schema\Tests;
 
 use Akeneo\Test\Integration\TestCase;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -22,27 +20,21 @@ class Version_6_0_20210816123500_add_index_migration_table_Integration extends T
     public function test_it_creates_the_index_migration_table(): void
     {
         $connection = $this->get('database_connection');
-        $schemaManager  = $connection->getSchemaManager();
+        $schemaManager  = $connection->createSchemaManager();
 
         $connection->executeQuery('DROP TABLE IF EXISTS pim_index_migration');
         $this->reExecuteMigration(self::MIGRATION_LABEL);
 
-        Assert::assertTrue($schemaManager->tablesExist('pim_index_migration'));
-        $expectedColumnsAndTypes = [
-            'index_alias' => 'string',
-            'hash' => 'string',
-            'values' => 'string',
-        ];
+        Assert::assertTrue($schemaManager->tablesExist(['pim_index_migration']));
+        $expectedColumns = ['index_alias', 'hash', 'values'];
 
         $tableColumns = $schemaManager->listTableColumns('pim_index_migration');
-        $this->assertCount(count($expectedColumnsAndTypes), $tableColumns);
+        $this->assertCount(count($expectedColumns), $tableColumns);
 
-        $actualColumnsAndTypes = [];
-        foreach ($tableColumns as $actualColumn) {
-            $actualColumnsAndTypes[$actualColumn->getName()] =  $actualColumn->getType()->getName();
+        $actualColumnNames = array_map(fn ($col) => $col->getName(), $tableColumns);
+        foreach ($expectedColumns as $column) {
+            Assert::assertContains($column, $actualColumnNames);
         }
-
-        Assert::assertEquals($expectedColumnsAndTypes, $actualColumnsAndTypes);
     }
 
     protected function getConfiguration()

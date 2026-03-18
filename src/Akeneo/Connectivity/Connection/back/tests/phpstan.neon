@@ -13,6 +13,14 @@ parameters:
         -
             message: '#Parameter \#\d+ \$\w+ of function (implode|array_diff|array_unique|array_intersect) expects#'
             reportUnmatched: false
+        # Doctrine DBAL 4: return type changed from int to int|string
+        -
+            message: '#should return (int|string) but returns int\|string#'
+            reportUnmatched: false
+        # Doctrine DBAL 4: Statement::executeQuery() no longer accepts parameters
+        -
+            message: '#Method Doctrine\\DBAL\\Statement::executeQuery\(\) invoked with \d+ parameters?#'
+            reportUnmatched: false
 
 rules:
     - Akeneo\Connectivity\Connection\Tests\PhpStan\Rule\CoverQueryByIntegrationTestRule

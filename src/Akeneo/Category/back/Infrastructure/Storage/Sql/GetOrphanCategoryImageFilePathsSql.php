@@ -10,6 +10,7 @@ use Akeneo\Category\Domain\ImageFile\Storage;
 use Akeneo\Category\Domain\ValueObject\Attribute\Value\ImageValue;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -44,7 +45,7 @@ final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCate
                     'file_key' => $filePath,
                 ],
                 [
-                    'file_key' => \PDO::PARAM_STR,
+                    'file_key' => ParameterType::STRING,
                 ],
             );
 
@@ -64,7 +65,7 @@ final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCate
                 'category_storage' => Storage::CATEGORY_STORAGE_ALIAS,
             ],
             [
-                'category_storage' => \PDO::PARAM_STR,
+                'category_storage' => ParameterType::STRING,
             ],
         )->fetchFirstColumn();
 
@@ -90,7 +91,7 @@ final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCate
                     'offset' => $offset,
                 ],
                 [
-                    'offset' => \PDO::PARAM_INT,
+                    'offset' => ParameterType::INTEGER,
                 ],
             );
             $offset += 1000;

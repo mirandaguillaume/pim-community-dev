@@ -5,6 +5,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Command;
 use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Indexer\ProductAndAncestorsIndexer;
 use Akeneo\Pim\Enrichment\Bundle\Product\ComputeAndPersistProductCompletenesses;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -106,8 +107,8 @@ class CalculateCompletenessCommand extends Command
                     'limit' => $batchSize,
                 ],
                 [
-                    'lastUuid' => \PDO::PARAM_STR,
-                    'limit' => \PDO::PARAM_INT,
+                    'lastUuid' => ParameterType::STRING,
+                    'limit' => ParameterType::INTEGER,
                 ]
             );
 

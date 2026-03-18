@@ -9,6 +9,7 @@ use Akeneo\Category\Domain\Model\Enrichment\Template;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -42,8 +43,8 @@ class SqlCategoryTemplateSaver implements CategoryTemplateSaver
                 'labels' => $templateModel->getLabelCollection()->normalize(),
             ],
             [
-                'uuid' => \PDO::PARAM_STR,
-                'code' => \PDO::PARAM_STR,
+                'uuid' => ParameterType::STRING,
+                'code' => ParameterType::STRING,
                 'labels' => Types::JSON,
             ],
         );
@@ -66,7 +67,7 @@ class SqlCategoryTemplateSaver implements CategoryTemplateSaver
                 'labels' => $templateModel->getLabelCollection()->normalize(),
             ],
             [
-                'uuid' => \PDO::PARAM_STR,
+                'uuid' => ParameterType::STRING,
                 'labels' => Types::JSON,
             ],
         );

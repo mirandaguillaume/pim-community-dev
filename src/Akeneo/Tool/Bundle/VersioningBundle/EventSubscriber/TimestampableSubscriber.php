@@ -5,8 +5,9 @@ namespace Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 use Akeneo\Pim\Enrichment\Component\Product\Model\Product;
 use Akeneo\Tool\Component\Versioning\Model\TimestampableInterface;
 use Akeneo\Tool\Component\Versioning\Model\Version;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 /**
@@ -16,7 +17,8 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class TimestampableSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::prePersist)]
+class TimestampableSubscriber
 {
     /** @var EntityManagerInterface */
     protected $em;
@@ -24,16 +26,6 @@ class TimestampableSubscriber implements EventSubscriber
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-    }
-
-    /**
-     * Specifies the list of events to listen
-     *
-     * @return string[]
-     */
-    public function getSubscribedEvents()
-    {
-        return ['prePersist'];
     }
 
     public function prePersist(LifecycleEventArgs $args)

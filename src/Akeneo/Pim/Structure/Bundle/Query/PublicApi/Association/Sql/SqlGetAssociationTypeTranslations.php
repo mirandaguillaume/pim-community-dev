@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Association\Sql;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\GetAssociationTypeTranslations;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 class SqlGetAssociationTypeTranslations implements GetAssociationTypeTranslations
 {

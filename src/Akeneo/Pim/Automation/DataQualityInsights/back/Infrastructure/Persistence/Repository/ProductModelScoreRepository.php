@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\R
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\ProductModelScoreRepositoryInterface;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -47,7 +48,7 @@ class ProductModelScoreRepository implements ProductModelScoreRepositoryInterfac
                 ON DUPLICATE KEY UPDATE evaluated_at = :$evaluatedAt, scores = :$scores, scores_partial_criteria = :$scoresPartialCriteria;
                 SQL;
             $queriesParameters[$productModelId] = (string) $productModelScore->getEntityId();
-            $queriesParametersTypes[$productModelId] = \PDO::PARAM_INT;
+            $queriesParametersTypes[$productModelId] = ParameterType::INTEGER;
             $queriesParameters[$evaluatedAt] = $productModelScore->getEvaluatedAt()->format('Y-m-d');
             $queriesParameters[$scores] = \json_encode($productModelScore->getScores()->toNormalizedRates(), JSON_THROW_ON_ERROR);
             $queriesParameters[$scoresPartialCriteria] = \json_encode($productModelScore->getScoresPartialCriteria()->toNormalizedRates(), JSON_THROW_ON_ERROR);

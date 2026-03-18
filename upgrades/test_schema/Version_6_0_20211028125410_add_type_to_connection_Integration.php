@@ -75,7 +75,7 @@ class Version_6_0_20211028125410_add_type_to_connection_Integration extends Test
 
     private function typeColumnExists(): bool
     {
-        $columns = $this->connection->getSchemaManager()->listTableColumns('akeneo_connectivity_connection');
+        $columns = $this->connection->createSchemaManager()->listTableColumns('akeneo_connectivity_connection');
 
         return isset($columns['type']);
     }
@@ -120,13 +120,9 @@ class Version_6_0_20211028125410_add_type_to_connection_Integration extends Test
                 'label' => $label,
                 'random_id' => $label,
                 'secret' => $label,
-                'allowed_grant_types' => [],
-                'redirect_uris' => [],
+                'allowed_grant_types' => serialize([]),
+                'redirect_uris' => serialize([]),
             ],
-            [
-                'allowed_grant_types' => Types::ARRAY,
-                'redirect_uris' => Types::ARRAY,
-            ]
         );
 
         return $this->connection->lastInsertId();

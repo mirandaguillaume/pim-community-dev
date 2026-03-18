@@ -16,6 +16,7 @@ use Akeneo\Category\Domain\ValueObject\Attribute\Value\AbstractValue;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -139,7 +140,7 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesCommandHandlerIntegration e
                 'template_uuid' => $uuid->toBytes(),
             ],
             [
-                'template_uuid' => \PDO::PARAM_STR,
+                'template_uuid' => ParameterType::STRING,
             ],
         )->fetchAllAssociative();
 

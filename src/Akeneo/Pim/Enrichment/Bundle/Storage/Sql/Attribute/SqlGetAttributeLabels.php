@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Attribute;
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetAttributeLabelsInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * Executes SQL query to get the stored labels of a collection of attributes.

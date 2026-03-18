@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Symfony\Comma
 use Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEvaluation\CriteriaByFeatureRegistry;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionEvaluationStatus;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -177,7 +178,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         return $this->dbConnection->executeQuery(
             $query,
             ['lastUuid' => $productUuidAsByes, 'limit' => self::BATCH_SIZE],
-            ['lastUuid' => \PDO::PARAM_STR, 'limit' => \PDO::PARAM_INT]
+            ['lastUuid' => ParameterType::STRING, 'limit' => ParameterType::INTEGER]
         )->fetchFirstColumn();
     }
 
@@ -190,7 +191,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         return $this->dbConnection->executeQuery(
             $query,
             ['lastId' => $productModelId, 'limit' => self::BATCH_SIZE],
-            ['lastId' => \PDO::PARAM_INT, 'limit' => \PDO::PARAM_INT]
+            ['lastId' => ParameterType::INTEGER, 'limit' => ParameterType::INTEGER]
         )->fetchFirstColumn();
     }
 }

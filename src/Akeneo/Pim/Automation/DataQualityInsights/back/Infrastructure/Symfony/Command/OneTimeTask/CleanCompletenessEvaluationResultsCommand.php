@@ -9,6 +9,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEvaluation\Enri
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultCodes;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -116,7 +117,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
                     ],
                 ],
                 [
-                    'lastProductUuidAsBytes' => \PDO::PARAM_STR,
+                    'lastProductUuidAsBytes' => ParameterType::STRING,
                     'criterionCodes' => ArrayParameterType::STRING,
                 ]
             )->fetchAllAssociative();
@@ -157,7 +158,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
                     ],
                 ],
                 [
-                    'lastProductModelId' => \PDO::PARAM_INT,
+                    'lastProductModelId' => ParameterType::INTEGER,
                     'criterionCodes' => ArrayParameterType::STRING,
                 ]
             )->fetchAllAssociative();

@@ -16,6 +16,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuidColl
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -73,7 +74,7 @@ final readonly class GetPendingCriteriaEvaluationsByEntityIdsQuery implements Ge
             'status' => CriterionEvaluationStatus::PENDING,
             'product_uuids' => $productUuids->toArrayBytes(),
         ], [
-            'status' => \PDO::PARAM_STR,
+            'status' => ParameterType::STRING,
             'product_uuids' => ArrayParameterType::STRING,
         ]);
     }
@@ -94,7 +95,7 @@ final readonly class GetPendingCriteriaEvaluationsByEntityIdsQuery implements Ge
             'status' => CriterionEvaluationStatus::PENDING,
             'product_model_ids' => $productModelIdCollection->toArrayString(),
         ], [
-            'status' => \PDO::PARAM_STR,
+            'status' => ParameterType::STRING,
             'product_model_ids' => ArrayParameterType::INTEGER,
         ]);
     }

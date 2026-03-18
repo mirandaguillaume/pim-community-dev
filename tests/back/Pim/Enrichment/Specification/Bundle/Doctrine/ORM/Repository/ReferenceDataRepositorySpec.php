@@ -5,7 +5,7 @@ namespace Specification\Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Repository;
 use Acme\Bundle\AppBundle\Entity\Color;
 use Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Repository\ReferenceDataRepository;
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
@@ -32,7 +32,7 @@ class ReferenceDataRepositorySpec extends ObjectBehavior
         $this->beConstructedWith($em, $classMetadata);
     }
 
-    function it_finds_the_reference_data_for_an_empty_search($em, QueryBuilder $qb, AbstractQuery $query)
+    function it_finds_the_reference_data_for_an_empty_search($em, QueryBuilder $qb, Query $query)
     {
         $select = 'rd.id as id, ' .
             'CASE WHEN rd.name IS NULL OR rd.name = \'\' THEN CONCAT(\'[\', rd.code, \']\') ELSE rd.name END AS text';
@@ -51,7 +51,7 @@ class ReferenceDataRepositorySpec extends ObjectBehavior
         $this->findBySearch();
     }
 
-    function it_finds_the_reference_data_for_a_search($em, QueryBuilder $qb, AbstractQuery $query)
+    function it_finds_the_reference_data_for_a_search($em, QueryBuilder $qb, Query $query)
     {
         $select = 'rd.id as id, ' .
             'CASE WHEN rd.name IS NULL OR rd.name = \'\' THEN CONCAT(\'[\', rd.code, \']\') ELSE rd.name END AS text';
@@ -72,7 +72,7 @@ class ReferenceDataRepositorySpec extends ObjectBehavior
         $this->findBySearch('my-search');
     }
 
-    function it_finds_the_reference_data_third_page_of_a_search($em, QueryBuilder $qb, AbstractQuery $query)
+    function it_finds_the_reference_data_third_page_of_a_search($em, QueryBuilder $qb, Query $query)
     {
         $select = 'rd.id as id, ' .
             'CASE WHEN rd.name IS NULL OR rd.name = \'\' THEN CONCAT(\'[\', rd.code, \']\') ELSE rd.name END AS text';
@@ -95,7 +95,7 @@ class ReferenceDataRepositorySpec extends ObjectBehavior
         $this->findBySearch('my-search', ['limit' => 15, 'page' => 3]);
     }
 
-    function it_finds_and_sort_the_reference_data_by_code_only($em, QueryBuilder $qb, AbstractQuery $query)
+    function it_finds_and_sort_the_reference_data_by_code_only($em, QueryBuilder $qb, Query $query)
     {
         $classMetadata = new ClassMetadata(Color::class);
         $this->beConstructedWith($em, $classMetadata);

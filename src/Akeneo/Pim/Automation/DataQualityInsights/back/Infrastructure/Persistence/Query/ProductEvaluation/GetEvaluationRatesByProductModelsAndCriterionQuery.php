@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultIds;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)

@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * Get product model code associated to product models by code

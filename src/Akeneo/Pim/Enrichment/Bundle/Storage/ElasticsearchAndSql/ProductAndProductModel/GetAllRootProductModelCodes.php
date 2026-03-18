@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndProductModel;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -36,8 +37,8 @@ final readonly class GetAllRootProductModelCodes
                     'limit' => $batchSize,
                 ],
                 [
-                    'formerId' => \PDO::PARAM_INT,
-                    'limit' => \PDO::PARAM_INT,
+                    'formerId' => ParameterType::INTEGER,
+                    'limit' => ParameterType::INTEGER,
                 ]
             )->fetchAllAssociative();
 

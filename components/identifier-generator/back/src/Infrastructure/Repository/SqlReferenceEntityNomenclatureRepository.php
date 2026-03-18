@@ -10,6 +10,7 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\ReferenceEntityN
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**

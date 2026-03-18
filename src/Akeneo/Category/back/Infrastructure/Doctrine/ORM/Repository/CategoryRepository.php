@@ -26,9 +26,9 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         }
 
         $meta = $this->getClassMetadata();
-        $config = $this->listener->getConfiguration($this->_em, $meta->name);
+        $config = $this->listener->getConfiguration($this->getEntityManager(), $meta->name);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('node')
             ->from($config['useObjectClass'], 'node')
             ->where('node.id IN (:categoriesIds)');
@@ -48,9 +48,9 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         }
 
         $meta = $this->getClassMetadata();
-        $config = $this->listener->getConfiguration($this->_em, $meta->name);
+        $config = $this->listener->getConfiguration($this->getEntityManager(), $meta->name);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('node')
             ->from($config['useObjectClass'], 'node')
             ->where('node.code IN (:categoriesCodes)');
@@ -70,9 +70,9 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         }
 
         $meta = $this->getClassMetadata();
-        $config = $this->listener->getConfiguration($this->_em, $meta->name);
+        $config = $this->listener->getConfiguration($this->getEntityManager(), $meta->name);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('node')
             ->from($config['useObjectClass'], 'node')
             ->where('node.id IN (:parentsIds) OR node.parent IN (:parentsIds)')
@@ -141,9 +141,9 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         }
 
         $meta = $this->getClassMetadata();
-        $config = $this->listener->getConfiguration($this->_em, $meta->name);
+        $config = $this->listener->getConfiguration($this->getEntityManager(), $meta->name);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('node.id')
             ->from($config['useObjectClass'], 'node')
             ->where('node.code IN (:categoriesCodes)');
@@ -196,7 +196,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
             $selectNode = $this->find($selectNodeId);
             if ($selectNode != null) {
                 $meta = $this->getClassMetadata();
-                $config = $this->listener->getConfiguration($this->_em, $meta->name);
+                $config = $this->listener->getConfiguration($this->getEntityManager(), $meta->name);
 
                 $selectPath = $this->getPath($selectNode);
                 $parent = $this->find($parentId);

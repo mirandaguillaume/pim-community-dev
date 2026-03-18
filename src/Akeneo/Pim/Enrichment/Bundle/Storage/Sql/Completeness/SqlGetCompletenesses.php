@@ -10,6 +10,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompletene
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductCompletenesses;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 

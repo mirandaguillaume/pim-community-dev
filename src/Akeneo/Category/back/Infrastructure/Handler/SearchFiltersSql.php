@@ -9,6 +9,7 @@ use Akeneo\Category\Application\Query\ExternalApiSqlParameters;
 use Akeneo\Category\Domain\Query\GetCategoryInterface;
 use Akeneo\Category\Infrastructure\Validation\ExternalApiSearchFiltersValidator;
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -46,9 +47,9 @@ class SearchFiltersSql implements SearchFilters
                             $sqlParameters['right'] = $parentCategory->getPosition()->right;
                             $sqlParameters['root'] = $parentCategory->getRootId()->getValue();
 
-                            $sqlTypes['left'] = \PDO::PARAM_INT;
-                            $sqlTypes['right'] = \PDO::PARAM_INT;
-                            $sqlTypes['root'] = \PDO::PARAM_INT;
+                            $sqlTypes['left'] = ParameterType::INTEGER;
+                            $sqlTypes['right'] = ParameterType::INTEGER;
+                            $sqlTypes['root'] = ParameterType::INTEGER;
                         } elseif ('is_root' === $field) {
                             $sqlWhere = $this->addSqlAndIfNecessary($sqlWhere);
                             if (true === (bool) $criterion['value']) {
@@ -68,7 +69,7 @@ class SearchFiltersSql implements SearchFilters
                         $sqlWhere = $this->addSqlAndIfNecessary($sqlWhere);
                         $sqlWhere .= "$SqlColumn > :$SqlParameter";
                         $sqlParameters[$SqlParameter] = $criterion['value'];
-                        $sqlTypes[$SqlParameter] = \PDO::PARAM_STR;
+                        $sqlTypes[$SqlParameter] = ParameterType::STRING;
                         break;
                     default:
                         throw new \InvalidArgumentException('Invalid operator for search query.');

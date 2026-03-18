@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\UuidMapp
 use Akeneo\Pim\Enrichment\Component\Product\Query\QuantifiedAssociation\GetUuidMappingQueryInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\UuidInterface;
 
 /**

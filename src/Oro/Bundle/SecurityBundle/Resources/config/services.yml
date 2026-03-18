@@ -75,12 +75,13 @@ services:
             - 0
             - '%kernel.cache_dir%'
 
-    security.acl.cache.doctrine.cache_impl:
-        public: false
-        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
-        factory: ['Doctrine\Common\Cache\Psr6\DoctrineProvider', 'wrap']
+    security.acl.cache.doctrine:
+        public: true
+        class: Symfony\Component\Security\Acl\Domain\PsrAclCache
         arguments:
             - '@security.acl.cache.doctrine.cache_impl.pool'
+            - '@security.acl.permission_granting_strategy'
+            - 'sf2_acl_'
 
     oro_security.acl.ace_provider:
         public: false

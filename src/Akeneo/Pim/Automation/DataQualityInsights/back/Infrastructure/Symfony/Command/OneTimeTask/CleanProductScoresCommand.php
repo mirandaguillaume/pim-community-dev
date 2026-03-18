@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Symfony\Comma
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -85,7 +86,7 @@ final class CleanProductScoresCommand extends Command
                 'bulkSize' => $this->bulkSize,
             ],
             [
-                'bulkSize' => \PDO::PARAM_INT,
+                'bulkSize' => ParameterType::INTEGER,
             ]
         )->fetchFirstColumn();
     }

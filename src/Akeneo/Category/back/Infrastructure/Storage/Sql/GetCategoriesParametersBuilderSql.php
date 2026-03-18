@@ -7,6 +7,7 @@ namespace Akeneo\Category\Infrastructure\Storage\Sql;
 use Akeneo\Category\Application\Handler\SearchFilters;
 use Akeneo\Category\Application\Query\ExternalApiSqlParameters;
 use Akeneo\Category\Application\Query\GetCategoriesParametersBuilder;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -49,11 +50,11 @@ class GetCategoriesParametersBuilderSql implements GetCategoriesParametersBuilde
 
         $sqlLimitAndOffset = 'LIMIT :limit';
         $sqlParametersParams['limit'] = $limit;
-        $sqlParametersTypes['limit'] = \PDO::PARAM_INT;
+        $sqlParametersTypes['limit'] = ParameterType::INTEGER;
         if ($offset !== 0) {
             $sqlLimitAndOffset .= ' OFFSET :offset';
             $sqlParametersParams['offset'] = $offset;
-            $sqlParametersTypes['offset'] = \PDO::PARAM_INT;
+            $sqlParametersTypes['offset'] = ParameterType::INTEGER;
         }
 
         $sqlParameters
@@ -73,7 +74,7 @@ class GetCategoriesParametersBuilderSql implements GetCategoriesParametersBuilde
         $sqlParametersTypes = $sqlParameters->getTypes();
 
         $sqlParametersParams['with_enriched_attributes'] = $isEnrichedAttributes;
-        $sqlParametersTypes['with_enriched_attributes'] = \PDO::PARAM_BOOL;
+        $sqlParametersTypes['with_enriched_attributes'] = ParameterType::BOOLEAN;
 
         $sqlParameters
             ->setParams($sqlParametersParams)
@@ -91,7 +92,7 @@ class GetCategoriesParametersBuilderSql implements GetCategoriesParametersBuilde
         $sqlParametersTypes = $sqlParameters->getTypes();
 
         $sqlParametersParams['with_position'] = $withPosition;
-        $sqlParametersTypes['with_position'] = \PDO::PARAM_BOOL;
+        $sqlParametersTypes['with_position'] = ParameterType::BOOLEAN;
 
         $sqlParameters
             ->setParams($sqlParametersParams)

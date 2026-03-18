@@ -43,10 +43,8 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
         return $this->createQueryBuilder('r')
             ->where('r.role <> :anon')
             ->andWhere('r.type = :defaultType')
-            ->setParameters([
-                'anon' => User::ROLE_ANONYMOUS,
-                'defaultType' => Role::TYPE_DEFAULT,
-            ]);
+            ->setParameter('anon', User::ROLE_ANONYMOUS)
+            ->setParameter('defaultType', Role::TYPE_DEFAULT);
     }
 
     /**
@@ -56,7 +54,7 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
      */
     public function getUserQueryBuilder(RoleInterface $role): QueryBuilder
     {
-        return $this->_em->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('u')
             ->from(UserInterface::class, 'u')
             ->join('u.roles', 'role')
@@ -69,7 +67,7 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
      */
     public function getUiUserEnabledByRoles(array $roles): QueryBuilder
     {
-        return $this->_em->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('u')
             ->from(UserInterface::class, 'u')
             ->join('u.roles', 'role')

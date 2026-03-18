@@ -11,6 +11,7 @@ use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use PHPUnit\Framework\Assert;
 
 class SqlMarkJobExecutionAsFailedWhenInterruptedIntegration extends TestCase
@@ -84,7 +85,7 @@ class SqlMarkJobExecutionAsFailedWhenInterruptedIntegration extends TestCase
     {
         $now = new \DateTime('now', new \DateTimezone('UTC'));
 
-        $this->connection->executeUpdate(
+        $this->connection->executeStatement(
             <<<SQL
 INSERT INTO akeneo_batch_job_execution (job_instance_id, status, start_time, exit_code, health_check_time, raw_parameters)
     SELECT job.id, :status, :now, :exitCode, :healthCheckTime, '{}' 

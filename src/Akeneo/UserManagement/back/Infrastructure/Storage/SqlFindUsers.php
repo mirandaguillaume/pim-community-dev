@@ -20,6 +20,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception as DriverException;
 use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\DBAL\ParameterType;
 
 final readonly class SqlFindUsers implements FindUsers
 {

@@ -7,6 +7,7 @@ namespace Akeneo\Category\Infrastructure\Storage\Sql;
 use Akeneo\Category\Application\Query\DeactivateTemplate;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -29,7 +30,7 @@ class DeactivateTemplateSql implements DeactivateTemplate
         $this->connection->executeQuery(
             $query,
             ['template_uuid' => $uuid->toBytes()],
-            ['template_uuid' => \PDO::PARAM_STR],
+            ['template_uuid' => ParameterType::STRING],
         );
     }
 }

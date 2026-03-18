@@ -3,8 +3,8 @@
 namespace Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\DBAL\Types\Exception\InvalidFormat;
 
 /**
  * Stores dates with UTC timezone
@@ -20,7 +20,7 @@ class UTCDateTimeType extends DateTimeType
     /**
      * {@inheritdoc}
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if (null === $value) {
             return null;
@@ -34,7 +34,7 @@ class UTCDateTimeType extends DateTimeType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?\DateTime
     {
         if (null === $value || $value instanceof \DateTimeInterface) {
             return $value;
@@ -56,7 +56,7 @@ class UTCDateTimeType extends DateTimeType
         }
 
         if (!$val) {
-            throw ConversionException::conversionFailed($value, 'datetime');
+            throw InvalidFormat::new($value, 'datetime', $platform->getDateTimeFormatString());
         }
 
         $serverTimezone = date_default_timezone_get();

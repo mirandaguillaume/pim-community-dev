@@ -23,6 +23,7 @@ use Akeneo\Category\Domain\ValueObject\Attribute\AttributeUuid;
 use Akeneo\Category\Domain\ValueObject\Code;
 use Akeneo\Category\Domain\ValueObject\LabelCollection;
 use Ramsey\Uuid\Uuid;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -123,7 +124,7 @@ class DeactivateAttributeSqlIntegration extends CategoryTestCase
                 'attribute_uuid' => $attributeUuid->toBytes(),
             ],
             [
-                'attribute_uuid' => \PDO::PARAM_STR,
+                'attribute_uuid' => ParameterType::STRING,
             ],
         )->fetchOne();
     }

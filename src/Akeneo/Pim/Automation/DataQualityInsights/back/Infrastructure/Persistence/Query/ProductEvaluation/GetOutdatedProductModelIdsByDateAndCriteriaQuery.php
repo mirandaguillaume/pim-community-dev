@@ -10,6 +10,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelIdC
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)

@@ -10,6 +10,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 

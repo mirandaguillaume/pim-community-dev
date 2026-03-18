@@ -9,6 +9,7 @@ use Akeneo\Category\Application\Storage\Save\Saver\CategoryTreeTemplateSaver;
 use Akeneo\Category\Domain\Model\Enrichment\Template;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -45,8 +46,8 @@ class SqlCategoryTreeTemplateSaver implements CategoryTreeTemplateSaver
                 'category_tree_id' => $templateModel->getCategoryTreeId()->getValue(),
             ],
             [
-                'template_uuid' => \PDO::PARAM_STR,
-                'category_tree_id' => \PDO::PARAM_INT,
+                'template_uuid' => ParameterType::STRING,
+                'category_tree_id' => ParameterType::INTEGER,
             ],
         );
     }

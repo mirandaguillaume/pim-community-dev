@@ -8,6 +8,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 

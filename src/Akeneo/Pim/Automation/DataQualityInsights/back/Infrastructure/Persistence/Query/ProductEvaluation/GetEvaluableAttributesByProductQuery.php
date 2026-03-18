@@ -13,6 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Structure\EditableAttributeFilter;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -55,7 +56,7 @@ class GetEvaluableAttributesByProductQuery implements GetEvaluableAttributesByPr
                 'attribute_types' => AttributeType::EVALUABLE_ATTRIBUTE_TYPES,
             ],
             [
-                'product_uuid' => \PDO::PARAM_STR,
+                'product_uuid' => ParameterType::STRING,
                 'attribute_types' => ArrayParameterType::STRING,
             ]
         );

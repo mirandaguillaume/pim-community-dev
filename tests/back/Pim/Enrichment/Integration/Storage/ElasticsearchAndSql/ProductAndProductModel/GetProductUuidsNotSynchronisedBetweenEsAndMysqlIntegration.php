@@ -10,6 +10,7 @@ use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use PHPUnit\Framework\Assert;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

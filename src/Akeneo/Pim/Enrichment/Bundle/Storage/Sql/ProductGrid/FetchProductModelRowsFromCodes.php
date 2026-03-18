@@ -13,6 +13,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)

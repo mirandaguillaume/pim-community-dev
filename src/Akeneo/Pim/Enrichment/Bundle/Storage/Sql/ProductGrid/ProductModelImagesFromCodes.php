@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Factory\WriteValueCollectionFactory;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * When requesting the label of product model in the datagrid, you can get it from:

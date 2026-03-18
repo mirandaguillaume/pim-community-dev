@@ -87,10 +87,7 @@ final class Version_8_0_20230615085833_drop_product_identifiers_table_Integratio
     private function dropTable(): void
     {
         $this->connection->executeStatement(
-            <<<SQL
-                    DROP TABLE IF EXISTS :tableName
-                SQL,
-            ['tableName' => self::TABLE_NAME]
+            sprintf('DROP TABLE IF EXISTS `%s`', self::TABLE_NAME)
         );
     }
 

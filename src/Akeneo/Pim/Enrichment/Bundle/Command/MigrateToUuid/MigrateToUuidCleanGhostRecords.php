@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid;
 use Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\Utils\StatusAwareTrait;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -91,8 +92,8 @@ class MigrateToUuidCleanGhostRecords implements MigrateToUuidStep
                         'limit' => self::BATCH_SIZE,
                     ],
                     [
-                        'currentProductId' => \PDO::PARAM_INT,
-                        'limit' => \PDO::PARAM_INT,
+                        'currentProductId' => ParameterType::INTEGER,
+                        'limit' => ParameterType::INTEGER,
                     ]
                 )->fetchFirstColumn();
 

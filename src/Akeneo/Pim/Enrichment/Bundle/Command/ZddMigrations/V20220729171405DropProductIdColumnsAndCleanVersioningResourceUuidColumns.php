@@ -9,6 +9,7 @@ use Akeneo\Platform\Installer\Infrastructure\Command\ZddMigration;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\ParameterType;
 use Psr\Log\LoggerInterface;
 
 /**

@@ -7,6 +7,7 @@ namespace Akeneo\Category\Infrastructure\Storage\Sql;
 use Akeneo\Category\Application\Query\GetCategoryChildrenIds;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -47,7 +48,7 @@ final readonly class GetCategoryChildrenIdsSql implements GetCategoryChildrenIds
                 'category_id' => $categoryId,
             ],
             [
-                'category_id' => \PDO::PARAM_INT,
+                'category_id' => ParameterType::INTEGER,
             ],
         )->fetchAllAssociative();
 

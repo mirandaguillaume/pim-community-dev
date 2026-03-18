@@ -13,6 +13,7 @@ use Akeneo\Platform\Job\Application\DeleteJobInstance\DeleteJobInstanceInterface
 use Akeneo\Platform\Job\ServiceApi\JobInstance\DeleteJobInstance\CannotDeleteJobInstanceException;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 final readonly class DeleteJobInstance implements DeleteJobInstanceInterface
 {

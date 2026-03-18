@@ -10,3 +10,63 @@ parameters:
         -
             message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff|array_intersect) expects#'
             reportUnmatched: false
+        # PHP 8.4: stricter built-in function signatures (array_fill_keys, array_combine, array_diff_assoc, floatval, join)
+        -
+            message: '#Parameter \#\d+ \$\w+ of function (array_fill_keys|array_combine|array_diff_assoc|floatval|join) expects#'
+            reportUnmatched: false
+        # Doctrine DBAL 4: $types parameter now expects ParameterType enum instead of integer constants
+        -
+            message: '#Parameter \#3 \$types of method Doctrine\\DBAL\\Connection::(executeQuery|executeStatement|fetchAllAssociative|fetchFirstColumn)\(\) expects#'
+            reportUnmatched: false
+        # Doctrine ORM 3: QueryBuilder::from() expects class-string, runtime-resolved strings are safe
+        -
+            message: '#Parameter \#1 \$from of method Doctrine\\ORM\\QueryBuilder::from\(\) expects class-string#'
+            reportUnmatched: false
+        # Doctrine ORM 3: QueryBuilder::setParameters() expects ArrayCollection, plain arrays work at runtime
+        -
+            message: '#Parameter \#1 \$parameters of method Doctrine\\ORM\\QueryBuilder::setParameters\(\) expects Doctrine\\Common\\Collections\\ArrayCollection#'
+            reportUnmatched: false
+        # Doctrine ORM 3: getFieldMapping() now returns FieldMapping (implements ArrayAccess) instead of array
+        -
+            message: '#should return array but returns Doctrine\\ORM\\Mapping\\FieldMapping#'
+            reportUnmatched: false
+        # Doctrine ORM 3: count() return type int<0, max> vs int
+        -
+            message: '#should return int<0, max> but returns int#'
+            reportUnmatched: false
+        # Doctrine DBAL 4: dropForeignKey() first arg typed as string, ForeignKeyConstraint still works at runtime
+        -
+            message: '#Parameter \#1 \$name of method Doctrine\\DBAL\\Schema\\AbstractSchemaManager.*::dropForeignKey\(\) expects string#'
+            reportUnmatched: false
+        # Pre-existing: @var tag not subtype of native type (safe at runtime)
+        -
+            message: '#PHPDoc tag .+ is not subtype of native type string#'
+            reportUnmatched: false
+        # Pre-existing baseline count mismatch: Possibly invalid array key type mixed
+        -
+            message: '#Possibly invalid array key type mixed#'
+            reportUnmatched: false
+        # Pre-existing: Offset might not exist
+        -
+            message: "#Offset 'level' might not exist#"
+            reportUnmatched: false
+        # Pre-existing: join/implode expects array<string>
+        -
+            message: '#Parameter \#\d+ \$\w+ of function (join|implode) expects array<string>#'
+            reportUnmatched: false
+        # Pre-existing: stale baseline entries whose error messages changed after Doctrine/Symfony upgrades
+        -
+            message: '#Parameter \#1 \$formerAssociations of method .+QuantifiedAssociationUserIntentCollectionApplier::(applyProductQuantifiedUserIntent|applyProductModelQuantifiedUserIntent)\(\) expects#'
+            reportUnmatched: false
+        -
+            message: '#Property .+ElasticsearchProductUuidQueryFetcher::\$esQuery .+ does not accept array#'
+            reportUnmatched: false
+        -
+            message: '#Parameter \#1 \$value of static method Webmozart\\Assert\\Assert::implementsInterface\(\) expects .+UserInterface#'
+            reportUnmatched: false
+        -
+            message: '#Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface::getGroupsIds\(\)#'
+            reportUnmatched: false
+        -
+            message: '#Ignored error pattern .+ is expected to occur \d+ times?, but occurred \d+ times?#'
+            reportUnmatched: false

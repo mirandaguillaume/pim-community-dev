@@ -19,7 +19,7 @@ class ChannelRepository extends EntityRepository implements ChannelRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, array|null $orderBy = null, int|null $limit = null, int|null $offset = null): array
     {
         if (null === $orderBy) {
             $orderBy = ['code' => 'ASC'];
@@ -31,7 +31,7 @@ class ChannelRepository extends EntityRepository implements ChannelRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findOneBy(array $criteria, ?array $orderBy = null)
+    public function findOneBy(array $criteria, array|null $orderBy = null): object|null
     {
         if (null === $orderBy) {
             $orderBy = ['code' => 'ASC'];

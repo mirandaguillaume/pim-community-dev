@@ -8,6 +8,7 @@ use Akeneo\Category\Application\Storage\Save\Query\UpsertCategoryTranslations;
 use Akeneo\Category\Domain\Model\Enrichment\Category;
 use Akeneo\Category\Domain\Query\GetCategoryInterface;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * Save values from model into pim_catalog_category_translation table:
@@ -33,7 +34,7 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
 
         $queries = '';
         $params = ['category_id' => $categoryId];
-        $types = ['category_id' => \PDO::PARAM_INT];
+        $types = ['category_id' => ParameterType::INTEGER];
         $loopIndex = 0;
         foreach ($categoryModel->getLabels() as $localeCode => $label) {
             if (!$this->isIdenticalLabel($categoryModel, $localeCode, $label)) {
@@ -42,8 +43,8 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
                 $params['label'.$loopIndex] = $label;
                 $params['locale'.$loopIndex] = $localeCode;
 
-                $types['label'.$loopIndex] = \PDO::PARAM_STR;
-                $types['locale'.$loopIndex] = \PDO::PARAM_STR;
+                $types['label'.$loopIndex] = ParameterType::STRING;
+                $types['locale'.$loopIndex] = ParameterType::STRING;
 
                 ++$loopIndex;
             }

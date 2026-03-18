@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\UuidInterface;
 
 /**

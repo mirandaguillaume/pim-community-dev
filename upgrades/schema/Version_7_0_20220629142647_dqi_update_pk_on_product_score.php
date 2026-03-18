@@ -31,8 +31,9 @@ final class Version_7_0_20220629142647_dqi_update_pk_on_product_score extends Ab
     {
         $productScoreTable = $schema->getTable('pim_data_quality_insights_product_score');
 
-        $isProductUuidPrimary = in_array('product_uuid', $productScoreTable->getPrimaryKeyColumns());
-        $isEvaluatedAtNotAPrimary = !in_array('evaluated_at', $productScoreTable->getPrimaryKeyColumns());
+        $primaryKeyColumns = $productScoreTable->getPrimaryKey()?->getColumns() ?? [];
+        $isProductUuidPrimary = in_array('product_uuid', $primaryKeyColumns);
+        $isEvaluatedAtNotAPrimary = !in_array('evaluated_at', $primaryKeyColumns);
 
         return $isProductUuidPrimary && $isEvaluatedAtNotAPrimary;
     }

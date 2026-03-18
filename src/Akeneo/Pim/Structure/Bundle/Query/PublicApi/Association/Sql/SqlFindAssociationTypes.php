@@ -8,6 +8,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\AssociationType;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\FindAssociationTypesInterface;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\LabelCollection;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 final readonly class SqlFindAssociationTypes implements FindAssociationTypesInterface
 {
@@ -57,10 +58,10 @@ final readonly class SqlFindAssociationTypes implements FindAssociationTypesInte
                 'search' => $search,
             ],
             [
-                'limit' => \PDO::PARAM_INT,
-                'offset' => \PDO::PARAM_INT,
-                'localeCode' => \PDO::PARAM_STR,
-                'search' => \PDO::PARAM_STR,
+                'limit' => ParameterType::INTEGER,
+                'offset' => ParameterType::INTEGER,
+                'localeCode' => ParameterType::STRING,
+                'search' => ParameterType::STRING,
             ]
         )->fetchAllAssociative();
 
