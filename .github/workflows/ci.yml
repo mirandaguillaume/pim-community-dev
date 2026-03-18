@@ -113,7 +113,7 @@ jobs:
               - 'frontend/**'
               - 'yarn.lock'
               - 'package.json'
-              - 'webpack*.js'
+              - 'rspack*.js'
               - 'babel.config.*'
               - 'jest.config.*'
               - '.eslintrc*'
@@ -385,7 +385,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: front-build-cached
-          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'webpack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'rspack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
 
       - name: Upload cached front build artifacts
         if: steps.front-cache.outputs.cache-hit == 'true'
@@ -435,7 +435,7 @@ jobs:
         if: steps.front-cache.outputs.cache-hit != 'true'
         run: castor front:css
 
-      - name: Build frontend (webpack)
+      - name: Build frontend (rspack)
         if: steps.front-cache.outputs.cache-hit != 'true'
         run: castor front:javascript-dev-strict
 
@@ -453,7 +453,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: front-build-cached
-          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'webpack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'rspack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
 
       - name: Upload front build artifacts
         if: steps.front-cache.outputs.cache-hit != 'true'
