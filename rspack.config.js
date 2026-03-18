@@ -13,6 +13,10 @@ const isStrict = process.env.STRICT === '1';
 const {getModulePaths, createModuleRegistry} = require('./frontend/webpack/requirejs-utils');
 const {aliases, config} = getModulePaths(rootDir, __dirname);
 
+// Plugin to make style components more readable in debug mode
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
+const styledComponentsTransformer = createStyledComponentsTransformer();
+
 createModuleRegistry(Object.keys(aliases), rootDir);
 
 console.log(
@@ -25,12 +29,6 @@ console.log(
 );
 
 const rspackConfig = {
-  // RSPack disables AMD module analysis by default (unlike Webpack 5 which
-  // enables it). The Akeneo codebase relies heavily on AMD define() calls
-  // (index.js, require-polyfill.js, require-context.js, and 700+ Backbone
-  // modules). Without this, the dependency tree is not followed and the
-  // bundle is nearly empty.
-  amd: {},
   stats: {
     hash: false,
     modules: false,
@@ -66,15 +64,7 @@ const rspackConfig = {
   },
   mode: isProd ? 'production' : 'development',
   target: 'web',
-  entry: [
-    'core-js/stable',
-    'regenerator-runtime/runtime',
-    // Expose jQuery, Backbone, and underscore to window before the AMD bootstrap.
-    // expose-loader uses __webpack_require__ internals not available in RSPack's
-    // Rust runtime (__rspack_require__), so we do it explicitly here instead.
-    path.resolve(rootDir, './public/bundles/pimui/js/globals-prelude.js'),
-    path.resolve(rootDir, './public/bundles/pimui/js/index.js'),
-  ],
+  entry: ['core-js/stable', 'regenerator-runtime/runtime', path.resolve(rootDir, './public/bundles/pimui/js/index.js')],
   output: {
     path: path.resolve('./public/dist/'),
     publicPath: '/dist/',
@@ -196,45 +186,22 @@ const rspackConfig = {
         },
       },
 
-      // Process TypeScript files with RSPack's built-in SWC loader (replaces
-      // ts-loader which requires webpack as peer dependency).
-      // type: 'javascript/auto' allows the CJS output from SWC (module.exports)
-      // to coexist with ESM-detected source. Without it, RSPack classifies files
-      // as ESM (due to import/export in the TS source) and then ignores the CJS
-      // module.exports that SWC produces, causing "module has no exports" for all
-      // 117 files that use TypeScript's "export =" syntax.
+      // Process the typescript loader files
       {
         test: /\.tsx?$/,
-        type: 'javascript/auto',
         use: [
           {
-            loader: 'builtin:swc-loader',
+            loader: 'ts-loader',
             options: {
-              // Output CommonJS to match the original ts-loader behavior
-              // (tsconfig "module": "commonjs"). The 117 files using TS
-              // "export =" and 2 files mixing import+module.exports require
-              // CJS output. Combined with type: 'javascript/auto' above,
-              // RSPack correctly handles the CJS exports at runtime.
-              module: {type: 'commonjs'},
-              jsc: {
-                parser: {
-                  syntax: 'typescript',
-                  tsx: true,
-                },
-                transform: {
-                  // Backbone (and similar frameworks) call initialize() from
-                  // the parent constructor. With useDefineForClassFields: true
-                  // (the default), SWC emits _define_property() calls AFTER
-                  // super() that overwrite properties set during initialize().
-                  // Setting this to false matches ts-loader/ES5 behavior where
-                  // TypeScript class field declarations are type-only annotations
-                  // that produce no runtime code.
-                  useDefineForClassFields: false,
-                  react: {
-                    runtime: 'automatic',
-                  },
-                },
-              },
+              transpileOnly: !isStrict,
+              allowTsInNodeModules: true,
+              // Webpack aliases (741 pim/* entries from requirejs.yml) are invisible to
+              // TypeScript's module resolution. ts-loader v5 treated TS2307 as non-fatal;
+              // v9 makes them hard errors. Suppress since webpack handles resolution.
+              ignoreDiagnostics: [2307],
+              configFile: path.resolve(rootDir, 'tsconfig.json'),
+              context: path.resolve(rootDir),
+              getCustomTransformers: () => ({before: [styledComponentsTransformer]}),
             },
           },
           {
