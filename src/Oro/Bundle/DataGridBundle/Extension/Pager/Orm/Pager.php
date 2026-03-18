@@ -79,8 +79,8 @@ class Pager extends AbstractPager implements PagerInterface
         $query->setFirstResult(null);
         $query->setMaxResults(null);
 
-        if (count($this->getParameters()) > 0) {
-            $query->setParameters($this->getParameters());
+        foreach ($this->getParameters() as $name => $value) {
+            $query->setParameter($name, $value);
         }
 
         if (0 == $this->getPage() || 0 == $this->getMaxPerPage() || 0 == $this->getNbResults()) {

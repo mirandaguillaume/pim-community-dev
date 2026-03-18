@@ -72,7 +72,9 @@ class BaseOrmRelationDatagridListener
                 unset($queryParameters['data_in'], $queryParameters['data_not_in']);
             }
 
-            $queryBuilder->setParameters($queryParameters);
+            foreach ($queryParameters as $name => $value) {
+                $queryBuilder->setParameter($name, $value);
+            }
         }
     }
 }

@@ -68,7 +68,9 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     {
         $this->parameters += $parameters;
         if ($this->qb instanceof QueryBuilder) {
-            $this->qb->setParameters($this->parameters);
+            foreach ($this->parameters as $name => $value) {
+                $this->qb->setParameter($name, $value);
+            }
         }
 
         return $this;
