@@ -105,7 +105,7 @@ INSERT INTO `pim_catalog_attribute` (id, group_id, sort_order, useable_as_grid_f
 --
 
 /*!40000 ALTER TABLE `pim_catalog_attribute_option` DISABLE KEYS */;
-INSERT INTO `pim_catalog_attribute_option` VALUES (3801,2528,'optionA',1),(3802,2528,'optionB',1),(3803,2535,'optionA',1),(3804,2535,'optionB',1);
+INSERT INTO `pim_catalog_attribute_option` (`id`, `attribute_id`, `code`, `sort_order`) VALUES (3801,2528,'optionA',1),(3802,2528,'optionB',1),(3803,2535,'optionA',1),(3804,2535,'optionB',1);
 /*!40000 ALTER TABLE `pim_catalog_attribute_option` ENABLE KEYS */;
 
 
@@ -148,7 +148,7 @@ INSERT INTO `pim_catalog_category` (`id`, `parent_id`, `code`, `created`, `updat
 
 /*!40000 ALTER TABLE `pim_catalog_channel` DISABLE KEYS */;
 DELETE FROM `pim_catalog_channel`;
-INSERT INTO `pim_catalog_channel` VALUES (209,895,'ecommerce','a:0:{}'),(210,895,'tablet','a:0:{}');
+INSERT INTO `pim_catalog_channel` (`id`, `category_id`, `code`, `conversionUnits`) VALUES (209,895,'ecommerce','a:0:{}'),(210,895,'tablet','a:0:{}');
 /*!40000 ALTER TABLE `pim_catalog_channel` ENABLE KEYS */;
 
 --
@@ -183,7 +183,7 @@ INSERT INTO `pim_catalog_channel_locale` VALUES (209,21058),(210,21039),(210,210
 
 /*!40000 ALTER TABLE `pim_catalog_family` DISABLE KEYS */;
 DELETE FROM `pim_catalog_family`;
-INSERT INTO `pim_catalog_family` VALUES
+INSERT INTO `pim_catalog_family` (`id`, `label_attribute_id`, `image_attribute_id`, `code`, `created`, `updated`) VALUES
 									 (466,2523,NULL,'familyA','2016-08-04 14:28:50','2016-08-04 14:28:50'),
 									 (467,2523,NULL,'familyB','2016-08-04 14:28:50','2016-08-04 14:28:50');
 /*!40000 ALTER TABLE `pim_catalog_family` ENABLE KEYS */;
@@ -225,7 +225,7 @@ INSERT INTO `pim_catalog_family_variant` (`id`, `family_id`, `code`) VALUES
 
 /*!40000 ALTER TABLE `pim_catalog_group` DISABLE KEYS */;
 DELETE FROM `pim_catalog_group`;
-INSERT INTO `pim_catalog_group` VALUES (240,323,'groupA'),(241,323,'groupB');
+INSERT INTO `pim_catalog_group` (`id`, `type_id`, `code`) VALUES (240,323,'groupA'),(241,323,'groupB');
 /*!40000 ALTER TABLE `pim_catalog_group` ENABLE KEYS */;
 
 
