@@ -1,140 +1,136 @@
 const _ = require('lodash');
 const deepMerge = require('deepmerge');
 const path = require('path');
-const { parse } = require('yamljs');
-const {
-    readFileSync,
-    writeFileSync,
-    readdirSync,
-    statSync
-} = require('fs');
+const {parse} = require('yamljs');
+const {readFileSync, writeFileSync, readdirSync, statSync} = require('fs');
 
+const getFrontModules = (sourceDir, originalDir) => (dir, modules) => {
+  dir = dir || originalDir + '/';
+  modules = modules || {};
+  const files = readdirSync(dir);
 
-const getFrontModules = (sourceDir, originalDir, bundle) => (dir, modules) => {
-    dir = dir || originalDir + '/';
-    modules = modules || {};
-    const files = readdirSync(dir);
+  files.forEach(function (file) {
+    if (statSync(dir + file).isDirectory()) {
+      modules = getFrontModules(sourceDir, originalDir)(dir + file + '/', modules);
+    } else {
+      const filePath = (dir + file).substring(originalDir.length);
+      const fileInfo = path.parse(filePath);
+      if (['.ts', '.tsx'].includes(fileInfo.ext) && fileInfo.name.indexOf('.unit') === -1) {
+        modules[`${fileInfo.dir.substring(1)}/${fileInfo.name}`] = `${sourceDir}/${originalDir.substring(2)}${
+          fileInfo.dir
+        }/${fileInfo.base.replace(fileInfo.ext, '')}`;
+      }
+    }
+  });
 
-    files.forEach(function(file) {
-        if (statSync(dir + file).isDirectory()) {
-            modules = getFrontModules(sourceDir, originalDir)(dir + file + '/', modules);
-        } else {
-            const filePath = (dir + file).substring(originalDir.length);
-            const fileInfo = path.parse(filePath);
-            if (['.ts', '.tsx'].includes(fileInfo.ext) && fileInfo.name.indexOf('.unit') === -1) {
-                modules[`${fileInfo.dir.substring(1)}/${fileInfo.name}`] =
-                    `${sourceDir}/${originalDir.substring(2)}${fileInfo.dir}/${fileInfo.base.replace(fileInfo.ext, '')}`;
-            }
-        }
-    });
-
-    return modules;
-}
+  return modules;
+};
 
 const registryPath = baseDir => path.join(baseDir, './var/build/module-registry.js');
 
 const utils = {
-    /**
-     * Grab the RequireJS.yaml from each bundle required by the application
-     * and extract the module paths, config, and maps
-     *
-     * @param  {Array} bundlePaths An array containing the paths of each required bundle
-     * @return {Object}             Returns an object containing the extracted config, and all the absolute module paths
-     */
-    getRequireConfig(bundlePaths, baseDir) {
-        let paths = {};
-        let config = {};
+  /**
+   * Grab the RequireJS.yaml from each bundle required by the application
+   * and extract the module paths, config, and maps
+   *
+   * @param  {Array} bundlePaths An array containing the paths of each required bundle
+   * @return {Object}             Returns an object containing the extracted config, and all the absolute module paths
+   */
+  getRequireConfig(bundlePaths, baseDir) {
+    let paths = {};
+    let config = {};
 
-        bundlePaths.forEach((bundle) => {
-            try {
-                const contents = readFileSync(`${bundle}/Resources/config/requirejs.yml`, 'utf8');
-                const parsed = parse(contents);
-                const requirePaths = parsed.config.paths || {};
-                const requireMaps = _.get(parsed.config, 'map.*') || {};
-                const mergedPaths = Object.assign(requirePaths, requireMaps);
-                const absolutePaths = _.mapValues(mergedPaths, (modulePath) => {
-                    return path.resolve(baseDir, `./public/bundles/${modulePath}`);
-                });
-
-                paths = deepMerge(paths, absolutePaths);
-                config = deepMerge(config, parsed.config.config || {});
-            } catch (e) {}
+    bundlePaths.forEach(bundle => {
+      try {
+        const contents = readFileSync(`${bundle}/Resources/config/requirejs.yml`, 'utf8');
+        const parsed = parse(contents);
+        const requirePaths = parsed.config.paths || {};
+        const requireMaps = _.get(parsed.config, 'map.*') || {};
+        const mergedPaths = Object.assign(requirePaths, requireMaps);
+        const absolutePaths = _.mapValues(mergedPaths, modulePath => {
+          return path.resolve(baseDir, `./public/bundles/${modulePath}`);
         });
 
-        return { config, paths };
-    },
+        paths = deepMerge(paths, absolutePaths);
+        config = deepMerge(config, parsed.config.config || {});
+      } catch (e) {}
+    });
 
-    /**
-     * Combines the app module paths with external dependency paths and returns an object
-     *
-     * @param  {String} baseDir  The base directory where webpack is run
-     * @param  {String} sourceDir The directory executing webpack
-     * @return {Object}               An object requirejs containing module config and aliases
-     */
-    getModulePaths(baseDir, sourceDir) {
-        const pathSourceFile = require(path.join(baseDir, 'public/js/require-paths.js'));
-        const { config, paths } = utils.getRequireConfig(pathSourceFile, baseDir);
-        const moduleRegistryPath = registryPath(baseDir);
-        const aliases = Object.assign(getFrontModules(process.cwd(), './public/bundles')(), paths, {
-          'require-polyfill': path.resolve(sourceDir, './frontend/webpack/require-polyfill.js'),
-          'require-context': path.resolve(sourceDir, './frontend/webpack/require-context.js'),
-          'module-registry': moduleRegistryPath,
-          routes: path.resolve(baseDir, './public/js/fos_js_routes.json'),
-          'fos-routing-base': path.resolve(
-            baseDir,
-            './vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js'
-          ),
-          jquery: require.resolve('jquery'),
-          underscore: require.resolve('underscore'),
-        });
+    return {config, paths};
+  },
 
-        return { config, aliases };
-    },
+  /**
+   * Combines the app module paths with external dependency paths and returns an object
+   *
+   * @param  {String} baseDir  The base directory where webpack is run
+   * @param  {String} sourceDir The directory executing webpack
+   * @return {Object}               An object requirejs containing module config and aliases
+   */
+  getModulePaths(baseDir, sourceDir) {
+    const pathSourceFile = require(path.join(baseDir, 'public/js/require-paths.js'));
+    const {config, paths} = utils.getRequireConfig(pathSourceFile, baseDir);
+    const moduleRegistryPath = registryPath(baseDir);
+    const aliases = Object.assign(getFrontModules(process.cwd(), './public/bundles')(), paths, {
+      'require-polyfill': path.resolve(sourceDir, './frontend/webpack/require-polyfill.js'),
+      'require-context': path.resolve(sourceDir, './frontend/webpack/require-context.js'),
+      'module-registry': moduleRegistryPath,
+      routes: path.resolve(baseDir, './public/js/fos_js_routes.json'),
+      'fos-routing-base': path.resolve(
+        baseDir,
+        './vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js'
+      ),
+      jquery: require.resolve('jquery'),
+      underscore: require.resolve('underscore'),
+    });
 
-    /**
-     * Generates a module containing a map registry of all modules used in the app
-     * This file is consumed by require-context to 'dynamically' fetch modules
-     *
-     * @param  {Array} modules An array of module names e.g. ['pim/app', 'pim/templates/attribute']
-     * @param  {String} baseDir The directory of the repo executing the command
-     */
-    createModuleRegistry(modules, baseDir) {
-        const registryFiles = {};
+    return {config, aliases};
+  },
 
-        modules.forEach(file => {
-            registryFiles[`'${file}'`] = `require.resolve('${file}')`;
-        });
+  /**
+   * Generates a module containing a map registry of all modules used in the app
+   * This file is consumed by require-context to 'dynamically' fetch modules
+   *
+   * @param  {Array} modules An array of module names e.g. ['pim/app', 'pim/templates/attribute']
+   * @param  {String} baseDir The directory of the repo executing the command
+   */
+  createModuleRegistry(modules, baseDir) {
+    const registryFiles = {};
 
-        const registry = `module.exports = function(moduleName) {
+    modules.forEach(file => {
+      registryFiles[`'${file}'`] = `require.resolve('${file}')`;
+    });
+
+    const registry = `module.exports = function(moduleName) {
             const paths = ${JSON.stringify(registryFiles).replace(/\"/g, '')};
 
             if (paths[moduleName] === undefined) {
-                return console.error(moduleName + ' is missing from the registry - include it in your requirejs.yml and clear the app cache');
+                return console.error(moduleName +
+                    ' is missing from the registry - include it in your requirejs.yml and clear the app cache');
             }
 
             return __webpack_require__(paths[moduleName])
         }`;
 
-        const target = registryPath(baseDir);
-        const targetDir = path.dirname(target);
+    const target = registryPath(baseDir);
+    const targetDir = path.dirname(target);
 
-        try {
-            // ensure directory exists and is writable for non-root users
-            require('fs').mkdirSync(targetDir, {recursive: true});
-        } catch (error) {
-            // mkdir failure shouldn't block build; continue to write attempt which will surface any real issue
-        }
-
-        try {
-            writeFileSync(target, registry);
-        } catch (error) {
-            if (error.code === 'EACCES') {
-                console.warn(`Skipping writing ${target} due to insufficient permissions. Using existing file.`);
-            } else {
-                throw error;
-            }
-        }
+    try {
+      // ensure directory exists and is writable for non-root users
+      require('fs').mkdirSync(targetDir, {recursive: true});
+    } catch (error) {
+      // mkdir failure shouldn't block build; continue to write attempt which will surface any real issue
     }
+
+    try {
+      writeFileSync(target, registry);
+    } catch (error) {
+      if (error.code === 'EACCES') {
+        console.warn(`Skipping writing ${target} due to insufficient permissions. Using existing file.`);
+      } else {
+        throw error;
+      }
+    }
+  },
 };
 
 module.exports = utils;

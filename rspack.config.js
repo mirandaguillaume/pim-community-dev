@@ -1,0 +1,299 @@
+/* eslint-env es6 */
+const process = require('process');
+const rootDir = process.cwd();
+const rspack = require('@rspack/core');
+const path = require('path');
+const _ = require('lodash');
+
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const isAnalyze = process.env.ANALYZE === 'true';
+const isProd = process.argv && process.argv.indexOf('--env=prod') > -1;
+const isStrict = process.env.STRICT === '1';
+const {getModulePaths, createModuleRegistry} = require('./frontend/webpack/requirejs-utils');
+const {aliases, config} = getModulePaths(rootDir, __dirname);
+
+createModuleRegistry(Object.keys(aliases), rootDir);
+
+console.log(
+  'Starting rspack from',
+  rootDir,
+  'in',
+  isProd ? 'prod' : 'dev',
+  'mode',
+  isStrict ? 'with typechecking' : ''
+);
+
+const rspackConfig = {
+  // RSPack disables AMD module analysis by default (unlike Webpack 5 which
+  // enables it). The Akeneo codebase relies heavily on AMD define() calls
+  // (index.js, require-polyfill.js, require-context.js, and 700+ Backbone
+  // modules). Without this, the dependency tree is not followed and the
+  // bundle is nearly empty.
+  amd: {},
+  stats: {
+    hash: false,
+    modules: false,
+    timings: true,
+    version: true,
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          filename: 'vendor.min.js',
+          chunks: 'all',
+        },
+        main: {
+          filename: 'main.min.js',
+        },
+      },
+    },
+    moduleIds: 'deterministic',
+    minimizer: [
+      new rspack.SwcJsMinimizerRspackPlugin({
+        minimizerOptions: {
+          mangle: true,
+          compress: true,
+          format: {
+            comments: false,
+          },
+        },
+      }),
+    ],
+  },
+  mode: isProd ? 'production' : 'development',
+  target: 'web',
+  entry: [
+    'core-js/stable',
+    'regenerator-runtime/runtime',
+    // Expose jQuery, Backbone, and underscore to window before the AMD bootstrap.
+    // expose-loader uses __webpack_require__ internals not available in RSPack's
+    // Rust runtime (__rspack_require__), so we do it explicitly here instead.
+    path.resolve(rootDir, './public/bundles/pimui/js/globals-prelude.js'),
+    path.resolve(rootDir, './public/bundles/pimui/js/index.js'),
+  ],
+  output: {
+    path: path.resolve('./public/dist/'),
+    publicPath: '/dist/',
+    filename: '[name].min.js',
+    chunkFilename: '[name].bundle.js',
+  },
+  devtool: 'source-map',
+  resolve: {
+    symlinks: false,
+    alias: _.mapKeys(aliases, (path, key) => `${key}$`),
+    fallback: {
+      path: require.resolve('path-browserify'),
+    },
+    modules: [path.resolve('./public/bundles'), path.resolve('./node_modules')],
+    extensions: ['.js', '.json', '.ts', '.tsx'],
+  },
+  module: {
+    rules: [
+      // Inject the module config (to replace module.config() from requirejs)
+      {
+        test: /\.js$/,
+        exclude: /\/node_modules\/|\/spec\//,
+        use: [
+          {
+            loader: path.resolve(__dirname, 'frontend/webpack/config-loader'),
+            options: {
+              aliases,
+              configMap: config,
+            },
+          },
+        ],
+      },
+
+      // Load html as raw string (webpack 5 asset module replaces raw-loader)
+      {
+        test: /\.html$/,
+        exclude: /node_modules|spec/,
+        type: 'asset/source',
+      },
+      // Expose the Backbone variable to window
+      {
+        test: /node_modules\/backbone\/backbone.js/,
+        use: [
+          {
+            loader: 'expose-loader',
+            options: {
+              exposes: ['Backbone'],
+            },
+          },
+        ],
+      },
+      {
+        test: /node_modules\/backbone\/backbone.js/,
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              wrapper: 'window',
+            },
+          },
+        ],
+      },
+      {
+        test: /public\/bundles\/pimui\/lib\/summernote\/summernote.js/,
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              additionalCode: 'var require = function(){};require.specified = function(){};',
+            },
+          },
+        ],
+      },
+      // Expose jQuery to window
+      {
+        test: /node_modules\/jquery\/dist\/jquery.js/,
+        use: [
+          {
+            loader: 'expose-loader',
+            options: {
+              exposes: ['$', 'jQuery'],
+            },
+          },
+        ],
+      },
+      // Expose the require-polyfill to window
+      {
+        test: path.resolve(__dirname, './frontend/webpack/require-polyfill.js'),
+        use: [
+          {
+            loader: 'expose-loader',
+            options: {
+              exposes: ['require'],
+            },
+          },
+        ],
+      },
+
+      // Process the pim webpack files with babel
+      {
+        test: /\.js$/,
+        include: [/public\/bundles/, /webpack/, /spec/, /node_modules\/p\-queue/],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              cacheDirectory: 'public/cache',
+            },
+          },
+        ],
+      },
+
+      {
+        test: /\.(svg|gif)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/[name].[contenthash:8][ext]',
+        },
+      },
+
+      // Process TypeScript files with RSPack's built-in SWC loader (replaces
+      // ts-loader which requires webpack as peer dependency).
+      // type: 'javascript/auto' allows the CJS output from SWC (module.exports)
+      // to coexist with ESM-detected source. Without it, RSPack classifies files
+      // as ESM (due to import/export in the TS source) and then ignores the CJS
+      // module.exports that SWC produces, causing "module has no exports" for all
+      // 117 files that use TypeScript's "export =" syntax.
+      {
+        test: /\.tsx?$/,
+        type: 'javascript/auto',
+        use: [
+          {
+            loader: 'builtin:swc-loader',
+            options: {
+              // Output CommonJS to match the original ts-loader behavior
+              // (tsconfig "module": "commonjs"). The 117 files using TS
+              // "export =" and 2 files mixing import+module.exports require
+              // CJS output. Combined with type: 'javascript/auto' above,
+              // RSPack correctly handles the CJS exports at runtime.
+              module: {type: 'commonjs'},
+              jsc: {
+                parser: {
+                  syntax: 'typescript',
+                  tsx: true,
+                },
+                transform: {
+                  // Backbone (and similar frameworks) call initialize() from
+                  // the parent constructor. With useDefineForClassFields: true
+                  // (the default), SWC emits _define_property() calls AFTER
+                  // super() that overwrite properties set during initialize().
+                  // Setting this to false matches ts-loader/ES5 behavior where
+                  // TypeScript class field declarations are type-only annotations
+                  // that produce no runtime code.
+                  useDefineForClassFields: false,
+                  react: {
+                    runtime: 'automatic',
+                  },
+                },
+              },
+            },
+          },
+          {
+            loader: path.resolve(__dirname, 'frontend/webpack/config-loader'),
+            options: {
+              aliases,
+              configMap: config,
+            },
+          },
+        ],
+        include: [/(public\/bundles)/, /node_modules\/@akeneo/],
+        exclude: [
+          /* Exclude /node_modules/ except /@akeneo/ workspaces */
+          /node_modules\/(?!@akeneo)/,
+          path.resolve(rootDir, 'vendor'),
+          path.resolve(rootDir, 'tests'),
+          path.resolve(__dirname, 'tests'),
+          path.resolve(rootDir, 'src'),
+          /node_modules\/@testing-library/,
+          /node_modules\/immutable/,
+          /node_modules\/react-test-renderer/,
+        ],
+      },
+
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+
+  watchOptions: {
+    ignored: /node_modules\/(?!@akeneo)|var\/|vendor\/|config\/|tests\//,
+  },
+
+  plugins: [
+    new ExtraWatchWebpackPlugin({
+      files: ['src/**/*{form_extensions/**/*.yml,form_extensions.yml}'],
+    }),
+
+    // Map modules to variables for global use
+    new rspack.ProvidePlugin({_: 'underscore', Backbone: 'backbone', $: 'jquery', jQuery: 'jquery'}),
+
+    new rspack.DefinePlugin({
+      'process.env.NODE_ENV': isProd ? JSON.stringify('production') : JSON.stringify('development'),
+      'process.env.EDITION': JSON.stringify(process.env.EDITION),
+    }),
+
+    ...(isAnalyze
+      ? [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: path.resolve(rootDir, 'var/bundle-report.html'),
+            openAnalyzer: false,
+          }),
+        ]
+      : []),
+  ],
+};
+
+module.exports = rspackConfig;
