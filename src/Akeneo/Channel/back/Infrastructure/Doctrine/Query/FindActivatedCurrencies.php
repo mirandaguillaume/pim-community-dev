@@ -6,7 +6,7 @@ namespace Akeneo\Channel\Infrastructure\Doctrine\Query;
 
 use Akeneo\Channel\Infrastructure\Component\Query\PublicApi\FindActivatedCurrenciesInterface;
 use Akeneo\Tool\Component\StorageUtils\Cache\CachedQueryInterface;
-use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
 
@@ -21,7 +21,7 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
 
     public function __construct(
         private readonly Connection $connection,
-        private readonly SqlPlatformHelper $sql,
+        private readonly SqlPlatformHelperInterface $sql,
     ) {
     }
 

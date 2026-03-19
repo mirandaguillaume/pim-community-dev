@@ -6,7 +6,7 @@ use Akeneo\Channel\API\Query\Channel;
 use Akeneo\Channel\API\Query\ConversionUnitCollection;
 use Akeneo\Channel\API\Query\FindChannels;
 use Akeneo\Channel\API\Query\LabelCollection;
-use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -17,7 +17,7 @@ final readonly class SqlFindChannels implements FindChannels
 {
     public function __construct(
         private Connection $connection,
-        private SqlPlatformHelper $sql,
+        private SqlPlatformHelperInterface $sql,
     ) {
     }
 
