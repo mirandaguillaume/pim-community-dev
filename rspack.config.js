@@ -222,6 +222,14 @@ const rspackConfig = {
                   tsx: true,
                 },
                 transform: {
+                  // Backbone (and similar frameworks) call initialize() from
+                  // the parent constructor. With useDefineForClassFields: true
+                  // (the default), SWC emits _define_property() calls AFTER
+                  // super() that overwrite properties set during initialize().
+                  // Setting this to false matches ts-loader/ES5 behavior where
+                  // TypeScript class field declarations are type-only annotations
+                  // that produce no runtime code.
+                  useDefineForClassFields: false,
                   react: {
                     runtime: 'automatic',
                   },
