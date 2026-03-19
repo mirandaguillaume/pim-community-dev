@@ -3,8 +3,7 @@
 
 
 "@akeneo-pim-community/shared@link:../front-packages/shared":
-  version "0.0.0"
-  uid ""
+  version "1.0.0"
 
 "@akeneo-pim-community/shared@link:front-packages/shared":
   version "1.0.0"
@@ -3184,7 +3183,11 @@ ajv@^8.0.0, ajv@^8.9.0:
 
 "akeneo-design-system@link:front-packages/akeneo-design-system":
   version "0.0.0"
-  uid ""
+  dependencies:
+    draft-js "^0.10.5"
+    draftjs-to-html "^0.8.4"
+    html-to-draftjs "^1.5.0"
+    react-draft-wysiwyg "^1.12.13"
 
 ansi-escapes@^4.2.1:
   version "4.3.2"
@@ -11013,9 +11016,9 @@ typescript@5.7.3, typescript@^4.0.3, typescript@^5.7.0:
   integrity sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==
 
 ua-parser-js@^0.7.30:
-  version "0.7.31"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.31.tgz#649a656b191dffab4f21d5e053e27ca17cbff5c6"
-  integrity sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==
+  version "0.7.41"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.41.tgz#9f6dee58c389e8afababa62a4a2dc22edb69a452"
+  integrity sha512-O3oYyCMPYgNNHuO7Jjk3uacJWZF8loBgwrfd/5LE/HyZ3lUIOdniQ7DNXJcIgZbwioZxk0fLfI4EVnetdiX5jg==
 
 uc.micro@^1.0.1:
   version "1.0.6"
