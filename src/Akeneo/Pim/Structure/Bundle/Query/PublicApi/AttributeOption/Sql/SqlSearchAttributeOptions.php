@@ -8,6 +8,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\AttributeOpti
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\SearchAttributeOptionsInterface;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\SearchAttributeOptionsParameters;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\SearchAttributeOptionsResult;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -18,7 +19,7 @@ use Doctrine\DBAL\ParameterType;
  */
 class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
 {
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private readonly Connection $connection, private readonly SqlPlatformHelperInterface $platformHelper)
     {
     }
 
@@ -46,6 +47,8 @@ class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
         $limit = null !== $searchParameters->getLimit() ? 'LIMIT :limit' : '';
         $offset = null !== $searchParameters->getOffset() ? 'OFFSET :offset' : '';
 
+        $jsonObjectAgg = $this->platformHelper->jsonObjectAgg('option_value.locale_code', 'option_value.value');
+
         $sql = <<<SQL
             WITH filtered_option_codes AS (
                 SELECT DISTINCT option.id, option.code, option.sort_order
@@ -63,7 +66,7 @@ class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
             SELECT filtered_option_codes.code, labels
             FROM filtered_option_codes
             LEFT JOIN (
-                SELECT option_value.option_id, JSON_OBJECTAGG(option_value.locale_code, option_value.value) AS labels
+                SELECT option_value.option_id, {$jsonObjectAgg} AS labels
                 FROM pim_catalog_attribute_option_value `option_value`
                 GROUP BY option_value.option_id
             ) AS label

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetExistingAttributeOptionsWithValues;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -14,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetExistingAttributeOptionsWithValues implements GetExistingAttributeOptionsWithValues
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private Connection $connection, private SqlPlatformHelperInterface $platformHelper)
     {
     }
 
@@ -35,11 +36,13 @@ final readonly class SqlGetExistingAttributeOptionsWithValues implements GetExis
             $queryStringParams[] = "(?, ?)";
         }
 
+        $jsonObjectAgg = $this->platformHelper->jsonObjectAgg('active_locales.code', 'option_value.value');
+
         $query = <<<SQL
             WITH active_locales as (select code from pim_catalog_locale where is_activated is true)
             SELECT
                 CONCAT(attribute.code, '.', attribute_option.code) as option_key,
-                JSON_OBJECTAGG(active_locales.code, option_value.value) as labels
+                {$jsonObjectAgg} as labels
             FROM active_locales
                 CROSS JOIN pim_catalog_attribute attribute
                 INNER JOIN pim_catalog_attribute_option attribute_option ON attribute.id = attribute_option.attribute_id

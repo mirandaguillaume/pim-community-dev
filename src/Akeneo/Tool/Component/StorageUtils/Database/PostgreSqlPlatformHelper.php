@@ -41,4 +41,9 @@ final readonly class PostgreSqlPlatformHelper implements SqlPlatformHelperInterf
 
         return $sql;
     }
+
+    public function jsonArray(): string
+    {
+        return "'[]'::jsonb";
+    }
 }

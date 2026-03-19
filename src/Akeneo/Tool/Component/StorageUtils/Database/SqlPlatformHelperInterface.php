@@ -43,4 +43,9 @@ interface SqlPlatformHelperInterface
      * @param string|null $orderBy   Optional ORDER BY expression
      */
     public function groupConcat(string $expr, string $separator, ?string $orderBy = null): string;
+
+    /**
+     * Returns an empty JSON array literal.
+     */
+    public function jsonArray(): string;
 }

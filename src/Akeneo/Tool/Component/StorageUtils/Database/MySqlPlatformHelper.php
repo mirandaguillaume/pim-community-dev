@@ -41,4 +41,9 @@ final readonly class MySqlPlatformHelper implements SqlPlatformHelperInterface
 
         return $sql;
     }
+
+    public function jsonArray(): string
+    {
+        return 'JSON_ARRAY()';
+    }
 }

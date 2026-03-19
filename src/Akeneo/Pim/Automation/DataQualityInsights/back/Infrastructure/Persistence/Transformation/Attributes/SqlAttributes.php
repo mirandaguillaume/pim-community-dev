@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\Attributes;
 
 use Akeneo\Tool\Component\StorageUtils\Cache\LRUCache;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -21,7 +22,7 @@ class SqlAttributes implements AttributesInterface
 
     private readonly LRUCache $attributeCodesByIds;
 
-    public function __construct(private readonly Connection $dbConnection)
+    public function __construct(private readonly Connection $dbConnection, private readonly SqlPlatformHelperInterface $platformHelper)
     {
         $this->attributeIdsByCodes = new LRUCache(self::LRU_CACHE_SIZE);
         $this->attributeCodesByIds = new LRUCache(self::LRU_CACHE_SIZE);
@@ -35,7 +36,7 @@ class SqlAttributes implements AttributesInterface
         $rawAttributesCodes = $this->attributeCodesByIds->getForKeys($attributesIds, function ($attributesIds) {
             $attributesIds = array_map(fn ($attributeId) => $this->castAttributeIdStringToInt($attributeId), $attributesIds);
             $attributesCodes = $this->dbConnection->executeQuery(
-                "SELECT JSON_OBJECTAGG(CONCAT('a_', id), code) FROM pim_catalog_attribute WHERE id IN (:ids);",
+                'SELECT ' . $this->platformHelper->jsonObjectAgg("CONCAT('a_', id)", 'code') . ' FROM pim_catalog_attribute WHERE id IN (:ids);',
                 ['ids' => $attributesIds],
                 ['ids' => ArrayParameterType::INTEGER]
             )->fetchOne();
@@ -57,7 +58,7 @@ class SqlAttributes implements AttributesInterface
 
         return $this->attributeIdsByCodes->getForKeys($attributesCodes, function ($attributesCodes) {
             $attributesIds = $this->dbConnection->executeQuery(
-                'SELECT JSON_OBJECTAGG(code, id) FROM pim_catalog_attribute WHERE code IN (:codes);',
+                'SELECT ' . $this->platformHelper->jsonObjectAgg('code', 'id') . ' FROM pim_catalog_attribute WHERE code IN (:codes);',
                 ['codes' => $attributesCodes],
                 ['codes' => ArrayParameterType::STRING]
             )->fetchOne();

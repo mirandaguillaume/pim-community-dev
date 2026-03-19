@@ -44,4 +44,9 @@ final class MySqlPlatformHelperSpec extends ObjectBehavior
         $this->groupConcat('currency.code', "'-'", 'currency.code')
             ->shouldReturn("GROUP_CONCAT(currency.code ORDER BY currency.code SEPARATOR '-')");
     }
+
+    public function it_generates_empty_json_array(): void
+    {
+        $this->jsonArray()->shouldReturn('JSON_ARRAY()');
+    }
 }
