@@ -8,18 +8,29 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 
 /**
- * Provides platform-aware SQL helper methods to generate native MySQL or PostgreSQL syntax.
+ * Generates platform-native SQL fragments for MySQL or PostgreSQL.
  *
- * Classes using this trait must implement getConnection() to return their DBAL Connection.
- * Each helper generates a raw SQL fragment appropriate for the current database platform.
+ * Inject this service into any query class that needs database-portable SQL.
+ * The platform is resolved once at construction time (not per query).
+ *
+ * @example
+ *   public function __construct(
+ *       private Connection $connection,
+ *       private SqlPlatformHelper $sql,
+ *   ) {}
+ *
+ *   public function findAll(): array {
+ *       $agg = $this->sql->jsonArrayAgg('locale.code');
+ *       return $this->connection->executeQuery("SELECT $agg FROM ...")->...;
+ *   }
  */
-trait DatabasePlatformTrait
+final readonly class SqlPlatformHelper
 {
-    abstract private function getConnection(): Connection;
+    private bool $isMySQL;
 
-    private function isMySQL(): bool
+    public function __construct(Connection $connection)
     {
-        return $this->getConnection()->getDatabasePlatform() instanceof MySQLPlatform;
+        $this->isMySQL = $connection->getDatabasePlatform() instanceof MySQLPlatform;
     }
 
     /**
@@ -28,9 +39,9 @@ trait DatabasePlatformTrait
      * MySQL:      JSON_ARRAYAGG(expr)
      * PostgreSQL: jsonb_agg(expr)
      */
-    private function jsonArrayAgg(string $expr): string
+    public function jsonArrayAgg(string $expr): string
     {
-        return $this->isMySQL()
+        return $this->isMySQL
             ? sprintf('JSON_ARRAYAGG(%s)', $expr)
             : sprintf('jsonb_agg(%s)', $expr);
     }
@@ -41,9 +52,9 @@ trait DatabasePlatformTrait
      * MySQL:      JSON_OBJECTAGG(key, value)
      * PostgreSQL: jsonb_object_agg(key, value)
      */
-    private function jsonObjectAgg(string $key, string $value): string
+    public function jsonObjectAgg(string $key, string $value): string
     {
-        return $this->isMySQL()
+        return $this->isMySQL
             ? sprintf('JSON_OBJECTAGG(%s, %s)', $key, $value)
             : sprintf('jsonb_object_agg(%s, %s)', $key, $value);
     }
@@ -54,9 +65,9 @@ trait DatabasePlatformTrait
      * MySQL:      JSON_REMOVE(doc, '$.key')
      * PostgreSQL: (doc - 'key')
      */
-    private function jsonRemoveKey(string $doc, string $key): string
+    public function jsonRemoveKey(string $doc, string $key): string
     {
-        return $this->isMySQL()
+        return $this->isMySQL
             ? sprintf("JSON_REMOVE(%s, '$.%s')", $doc, $key)
             : sprintf("(%s - '%s')", $doc, $key);
     }
@@ -67,9 +78,9 @@ trait DatabasePlatformTrait
      * MySQL:      column REGEXP pattern
      * PostgreSQL: column ~ pattern
      */
-    private function regexpMatch(string $column, string $pattern): string
+    public function regexpMatch(string $column, string $pattern): string
     {
-        return $this->isMySQL()
+        return $this->isMySQL
             ? sprintf('%s REGEXP %s', $column, $pattern)
             : sprintf('%s ~ %s', $column, $pattern);
     }
@@ -80,13 +91,13 @@ trait DatabasePlatformTrait
      * MySQL:      GROUP_CONCAT(expr ORDER BY orderExpr SEPARATOR sep)
      * PostgreSQL: STRING_AGG(expr, sep ORDER BY orderExpr)
      *
-     * @param string      $expr     The expression to concatenate
+     * @param string      $expr      The expression to concatenate
      * @param string      $separator The separator string (e.g. "'-'")
-     * @param string|null $orderBy  Optional ORDER BY expression
+     * @param string|null $orderBy   Optional ORDER BY expression
      */
-    private function groupConcat(string $expr, string $separator, ?string $orderBy = null): string
+    public function groupConcat(string $expr, string $separator, ?string $orderBy = null): string
     {
-        if ($this->isMySQL()) {
+        if ($this->isMySQL) {
             $sql = sprintf('GROUP_CONCAT(%s', $expr);
             if (null !== $orderBy) {
                 $sql .= sprintf(' ORDER BY %s', $orderBy);

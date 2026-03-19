@@ -6,7 +6,7 @@ namespace Akeneo\Channel\Infrastructure\Doctrine\Query;
 
 use Akeneo\Channel\Infrastructure\Component\Query\PublicApi\FindActivatedCurrenciesInterface;
 use Akeneo\Tool\Component\StorageUtils\Cache\CachedQueryInterface;
-use Akeneo\Tool\Component\StorageUtils\Database\DatabasePlatformTrait;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
 
@@ -17,17 +17,12 @@ use Doctrine\DBAL\Exception as DBALException;
  */
 class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, CachedQueryInterface
 {
-    use DatabasePlatformTrait;
-
     private array $activatedCurrenciesForChannels = [];
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
-
-    private function getConnection(): Connection
-    {
-        return $this->connection;
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelper $sql,
+    ) {
     }
 
     /**
@@ -81,7 +76,7 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
      */
     private function fetchActivatedCurrenciesForAllChannels(): array
     {
-        $jsonArrayAgg = $this->jsonArrayAgg('cu.code');
+        $jsonArrayAgg = $this->sql->jsonArrayAgg('cu.code');
 
         $sql = <<<SQL
             SELECT ch.code as channel_code, {$jsonArrayAgg} as activated_currencies
