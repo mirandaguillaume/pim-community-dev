@@ -1,8 +1,13 @@
 services:
+    Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper:
+        arguments:
+            - '@database_connection'
+
     pim_channel.query.sql.get_channel_code_with_locale_codes:
         class: 'Akeneo\Channel\Infrastructure\Query\Sql\SqlGetChannelCodeWithLocaleCodes'
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper'
 
     pim_channel.query.cache.channel_exists_with_locale:
         class: 'Akeneo\Channel\Infrastructure\Component\Query\PublicApi\Cache\CachedChannelExistsWithLocale'
@@ -18,6 +23,7 @@ services:
     Akeneo\Channel\Infrastructure\Query\Sql\IsChannelUsedInProductProductExportJob:
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper'
             -
                 - '%pim_connector.job_name.xlsx_product_export%'
                 - '%pim_connector.job_name.xlsx_product_model_export%'
@@ -42,6 +48,7 @@ services:
         class: Akeneo\Channel\Infrastructure\Query\Sql\SqlFindChannels
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper'
 
     Akeneo\Channel\Infrastructure\Query\Cache\CachedFindChannels:
         class: Akeneo\Channel\Infrastructure\Query\Cache\CachedFindChannels

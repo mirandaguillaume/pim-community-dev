@@ -6,7 +6,7 @@ use Akeneo\Channel\API\Query\Channel;
 use Akeneo\Channel\API\Query\ConversionUnitCollection;
 use Akeneo\Channel\API\Query\FindChannels;
 use Akeneo\Channel\API\Query\LabelCollection;
-use Akeneo\Tool\Component\StorageUtils\Database\DatabasePlatformTrait;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -15,16 +15,10 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlFindChannels implements FindChannels
 {
-    use DatabasePlatformTrait;
-
     public function __construct(
-        private Connection $connection
+        private Connection $connection,
+        private SqlPlatformHelper $sql,
     ) {
-    }
-
-    private function getConnection(): Connection
-    {
-        return $this->connection;
     }
 
     /**
@@ -32,16 +26,16 @@ final readonly class SqlFindChannels implements FindChannels
      */
     public function findAll(): array
     {
-        $localeCodes = $this->jsonRemoveKey(
-            $this->jsonObjectAgg("COALESCE(l.id, 'NO_LOCALE')", 'l.code'),
+        $localeCodes = $this->sql->jsonRemoveKey(
+            $this->sql->jsonObjectAgg("COALESCE(l.id, 'NO_LOCALE')", 'l.code'),
             'NO_LOCALE'
         );
-        $labels = $this->jsonRemoveKey(
-            $this->jsonObjectAgg("COALESCE(ct.locale, 'NO_LABEL')", 'ct.label'),
+        $labels = $this->sql->jsonRemoveKey(
+            $this->sql->jsonObjectAgg("COALESCE(ct.locale, 'NO_LABEL')", 'ct.label'),
             'NO_LABEL'
         );
-        $currencies = $this->jsonRemoveKey(
-            $this->jsonObjectAgg("COALESCE(cur.id, 'NO_CURRENCY')", 'cur.code'),
+        $currencies = $this->sql->jsonRemoveKey(
+            $this->sql->jsonObjectAgg("COALESCE(cur.id, 'NO_CURRENCY')", 'cur.code'),
             'NO_CURRENCY'
         );
 
