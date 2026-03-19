@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetExistingAttributeOptionCodes as GetExistingAttributeOptionCodesInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -14,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetExistingAttributeOptionCodes implements GetExistingAttributeOptionCodesInterface
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private Connection $connection, private SqlPlatformHelperInterface $platformHelper)
     {
     }
 
@@ -35,8 +36,10 @@ final readonly class GetExistingAttributeOptionCodes implements GetExistingAttri
             }
         }
 
+        $jsonArrayAgg = $this->platformHelper->jsonArrayAgg('pim_catalog_attribute_option.code');
+
         $query = <<<SQL
-                    SELECT pim_catalog_attribute.code as attribute_code, JSON_ARRAYAGG(pim_catalog_attribute_option.code) as option_codes
+                    SELECT pim_catalog_attribute.code as attribute_code, {$jsonArrayAgg} as option_codes
                     FROM pim_catalog_attribute_option INNER JOIN pim_catalog_attribute ON pim_catalog_attribute_option.attribute_id = pim_catalog_attribute.id
                     WHERE (pim_catalog_attribute.code, pim_catalog_attribute_option.code) IN (%s)
                     GROUP BY pim_catalog_attribute.code

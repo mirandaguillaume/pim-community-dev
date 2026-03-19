@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\AttributeOption;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetAttributeOptions;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 
@@ -17,17 +18,19 @@ final readonly class SqlGetAttributeOptions implements GetAttributeOptions
 {
     private const BATCH_QUERY_SIZE = 1000;
 
-    public function __construct(private Connection $connection)
+    public function __construct(private Connection $connection, private SqlPlatformHelperInterface $platformHelper)
     {
     }
 
     public function forAttributeCode(string $attributeCode): iterable
     {
+        $jsonObjectAgg = $this->platformHelper->jsonObjectAgg('active_locales.code', 'option_value.value');
+
         $sql = <<<SQL
             WITH active_locales as (select code from pim_catalog_locale where is_activated is true)
             SELECT
                 attribute.code AS attributeCode, attribute_option.code as attributeOptionCode, attribute_option.id as attributeOptionId,
-                JSON_OBJECTAGG(active_locales.code, option_value.value) as labels
+                {$jsonObjectAgg} as labels
             FROM active_locales
                      CROSS JOIN pim_catalog_attribute attribute
                      INNER JOIN pim_catalog_attribute_option attribute_option ON attribute.id = attribute_option.attribute_id

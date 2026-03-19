@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -16,7 +17,7 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class SqlGetAttributes implements GetAttributes
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private Connection $connection, private SqlPlatformHelperInterface $platformHelper)
     {
     }
 
@@ -26,15 +27,19 @@ final readonly class SqlGetAttributes implements GetAttributes
             return [];
         }
 
+        $jsonArrayAgg = $this->platformHelper->jsonArrayAgg('locale.code');
+        $jsonObjectAgg = $this->platformHelper->jsonObjectAgg('translation.locale', 'translation.label');
+        $jsonArray = $this->platformHelper->jsonArray();
+
         $query = <<<SQL
             WITH locale_specific_codes AS (
-                SELECT attribute_locale.attribute_id, JSON_ARRAYAGG(locale.code) AS locale_codes
+                SELECT attribute_locale.attribute_id, {$jsonArrayAgg} AS locale_codes
                 FROM pim_catalog_attribute_locale attribute_locale
                 INNER JOIN pim_catalog_locale locale ON attribute_locale.locale_id = locale.id
                 GROUP BY attribute_locale.attribute_id
             ),
             translation as (
-                SELECT attribute.code, JSON_OBJECTAGG(translation.locale, translation.label) as translations
+                SELECT attribute.code, {$jsonObjectAgg} as translations
                 FROM pim_catalog_attribute as attribute
                     JOIN pim_catalog_attribute_translation translation ON translation.foreign_key = attribute.id
                 WHERE translation.label IS NOT NULL
@@ -53,7 +58,7 @@ final readonly class SqlGetAttributes implements GetAttributes
                    attribute.backend_type,
                    attribute.useable_as_grid_filter,
                    attribute.main_identifier,
-                   COALESCE(locale_codes, JSON_ARRAY()) AS available_locale_codes,
+                   COALESCE(locale_codes, {$jsonArray}) AS available_locale_codes,
                    translation.translations
             FROM pim_catalog_attribute attribute
                 LEFT JOIN locale_specific_codes on attribute.id = attribute_id

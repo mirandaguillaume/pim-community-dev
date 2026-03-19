@@ -44,4 +44,9 @@ final class PostgreSqlPlatformHelperSpec extends ObjectBehavior
         $this->groupConcat('currency.code', "'-'", 'currency.code')
             ->shouldReturn("STRING_AGG(currency.code, '-' ORDER BY currency.code)");
     }
+
+    public function it_generates_empty_json_array(): void
+    {
+        $this->jsonArray()->shouldReturn("'[]'::jsonb");
+    }
 }

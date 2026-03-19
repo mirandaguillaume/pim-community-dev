@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Infrastructure\Query\Sql;
 use Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Query\AttributeGroup\GetAttributeGroupsActivationQueryInterface;
 use Akeneo\Pim\Structure\Bundle\Domain\Query\Sql\GetAttributeGroupsInterface;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -19,14 +20,17 @@ class GetAttributeGroups implements GetAttributeGroupsInterface
         private readonly Connection $connection,
         private readonly FeatureFlags $featureFlags,
         private readonly GetAttributeGroupsActivationQueryInterface $getAttributeGroupsActivationQuery,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
     public function all(): iterable
     {
+        $jsonObjectAgg = $this->platformHelper->jsonObjectAgg('locale', 'label');
+
         $sql = <<<SQL
                 WITH attribute_group_labels AS (
-                    SELECT foreign_key AS attribute_group_id, JSON_OBJECTAGG(locale, label) AS labels
+                    SELECT foreign_key AS attribute_group_id, {$jsonObjectAgg} AS labels
                     FROM `pim_catalog_attribute_group_translation`
                     GROUP BY foreign_key
                 ),

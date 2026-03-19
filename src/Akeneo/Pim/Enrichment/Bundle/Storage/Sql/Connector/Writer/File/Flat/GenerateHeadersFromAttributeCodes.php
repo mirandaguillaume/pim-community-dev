@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Connector\Writer\File\Flat;
 
 use Akeneo\Pim\Enrichment\Component\Product\Connector\Writer\File\FlatFileHeader;
 use Akeneo\Pim\Enrichment\Component\Product\Connector\Writer\File\GenerateFlatHeadersFromAttributeCodesInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -17,7 +18,7 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class GenerateHeadersFromAttributeCodes implements GenerateFlatHeadersFromAttributeCodesInterface
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private Connection $connection, private SqlPlatformHelperInterface $platformHelper)
     {
     }
 
@@ -43,9 +44,11 @@ final readonly class GenerateHeadersFromAttributeCodes implements GenerateFlatHe
             ['channelCode' => $channelCode]
         )->fetchFirstColumn();
 
+        $jsonArrayAgg = $this->platformHelper->jsonArrayAgg('l.code');
+
         $attributesDataSql = <<<SQL
                         WITH attribute_specific_to_locales as (
-                             SELECT attribute_id, JSON_ARRAYAGG(l.code) AS specific_to_locales
+                             SELECT attribute_id, {$jsonArrayAgg} AS specific_to_locales
                              FROM pim_catalog_locale l
                              JOIN pim_catalog_attribute_locale al ON al.locale_id = l.id
                              GROUP BY al.attribute_id

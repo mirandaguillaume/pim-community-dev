@@ -3,13 +3,14 @@
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\GetAttributeTranslations;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 
 class SqlGetAttributeTranslations implements GetAttributeTranslations
 {
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private readonly Connection $connection, private readonly SqlPlatformHelperInterface $platformHelper)
     {
     }
 
@@ -58,10 +59,12 @@ class SqlGetAttributeTranslations implements GetAttributeTranslations
             return [];
         }
 
+        $jsonObjectAgg = $this->platformHelper->jsonObjectAgg('attribute_translation.locale', 'attribute_translation.label');
+
         $query = <<<SQL
                 SELECT
                     code,
-                    JSON_OBJECTAGG(attribute_translation.locale, attribute_translation.label) as labels
+                    {$jsonObjectAgg} as labels
                 FROM pim_catalog_attribute_translation attribute_translation
                 LEFT JOIN pim_catalog_attribute attribute ON attribute.id = attribute_translation.foreign_key
                 WHERE attribute.code IN (:attributeCodes)
