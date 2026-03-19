@@ -145,6 +145,7 @@ $rules = [
             // Common Dependencies
             'Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag',
             'Akeneo\Tool\Component\StorageUtils\Cache\LRUCache',
+            'Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface',
             'Akeneo\Tool\Component\StorageUtils\Repository\SearchableRepositoryInterface',
             'Akeneo\Channel\Infrastructure\Component\Query\PublicApi',
         ]
