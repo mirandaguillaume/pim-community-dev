@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Channel\Infrastructure\Query\Sql;
 
 use Akeneo\Channel\Infrastructure\Component\Query\IsChannelUsedInProductExportJobInterface;
-use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -18,7 +18,7 @@ final readonly class IsChannelUsedInProductProductExportJob implements IsChannel
 {
     public function __construct(
         private Connection $dbConnection,
-        private SqlPlatformHelper $sql,
+        private SqlPlatformHelperInterface $sql,
         private array $productExportJobNames,
     ) {
     }

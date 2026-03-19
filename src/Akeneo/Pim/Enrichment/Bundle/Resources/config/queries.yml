@@ -62,7 +62,7 @@ services:
         class: Akeneo\Channel\Infrastructure\Doctrine\Query\FindActivatedCurrencies
         arguments:
             - '@database_connection'
-            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         tags: ['akeneo.pim.cached_query']
 
     akeneo.pim.enrichment.product.grid.query.fetch_product_and_product_model_rows:

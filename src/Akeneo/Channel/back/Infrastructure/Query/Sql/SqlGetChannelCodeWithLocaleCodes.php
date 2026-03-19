@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Channel\Infrastructure\Query\Sql;
 
 use Akeneo\Channel\Infrastructure\Component\Query\PublicApi\GetChannelCodeWithLocaleCodesInterface;
-use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelper;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -17,7 +17,7 @@ final class SqlGetChannelCodeWithLocaleCodes implements GetChannelCodeWithLocale
 {
     public function __construct(
         private readonly Connection $connection,
-        private readonly SqlPlatformHelper $sql,
+        private readonly SqlPlatformHelperInterface $sql,
     ) {
     }
 
