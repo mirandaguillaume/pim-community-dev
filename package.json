@@ -133,7 +133,7 @@
   },
   "dependencies": {
     "@types/react-query": "^1.2.9",
-    "ajv": "^6.10.2",
+    "ajv": "^6.14.0",
     "akeneo-design-system": "link:front-packages/akeneo-design-system",
     "backbone": "0.9.10",
     "core-js": "^3.6.5",
