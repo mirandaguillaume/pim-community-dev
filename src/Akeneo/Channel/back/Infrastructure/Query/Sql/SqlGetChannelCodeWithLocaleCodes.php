@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Channel\Infrastructure\Query\Sql;
 
 use Akeneo\Channel\Infrastructure\Component\Query\PublicApi\GetChannelCodeWithLocaleCodesInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -14,17 +15,18 @@ use Doctrine\DBAL\Connection;
  */
 final class SqlGetChannelCodeWithLocaleCodes implements GetChannelCodeWithLocaleCodesInterface
 {
-    /**
-     * @param Connection $connection
-     */
-    public function __construct(private $connection)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $sql,
+    ) {
     }
 
     public function findAll(): array
     {
+        $jsonArrayAgg = $this->sql->jsonArrayAgg('locale.code');
+
         $sql = <<<SQL
-            SELECT channel.code AS channelCode, JSON_ARRAYAGG(locale.code) AS localeCodes
+            SELECT channel.code AS channelCode, {$jsonArrayAgg} AS localeCodes
             FROM pim_catalog_channel channel
                 LEFT JOIN pim_catalog_channel_locale channel_locale on channel.id = channel_locale.channel_id
                 LEFT JOIN pim_catalog_locale locale ON channel_locale.locale_id = locale.id

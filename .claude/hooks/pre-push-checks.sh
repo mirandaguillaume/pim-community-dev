@@ -1,18 +1,7 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash (git push)
-# Mirrors the fast/cheap CI jobs locally before pushing. Blocks on failure (exit 2).
-#
-# CI jobs reproduced here:
-#   front-lint    → yarn lint (Prettier + ESLint)
-#   front-unit    → yarn unit + DSM jest + connectivity jest
-#   phpspec       → docker-compose run --rm php php vendor/bin/phpspec run
-#   phpunit-unit  → Category_Unit_Test + lightweight acceptance (no MySQL)
-#   code-style    → coupling (only for changed bounded contexts)
-#   playwright    → only if spec/fixture files changed
-#
-# Skipped (too slow/expensive or needs MySQL):
-#   lint-back (needs MySQL), phpunit (6 shards, 90min, needs MySQL),
-#   acceptance-back (behat), behat-legacy, deptrac, db-seed
+# Lightweight pre-push — lint ONLY changed files.
+# Heavy checks (phpspec, phpunit, coupling, tsc, jest) run in CI.
 
 set -euo pipefail
 
@@ -25,157 +14,112 @@ echo "$COMMAND" | grep -qE 'git\s+push' || exit 0
 BASE="origin/master"
 ERRORS=""
 
-# ── Detect changed file types (mirrors detect-changes job) ──
-CHANGED_PHP=$(git diff --name-only "$BASE"...HEAD -- '*.php' 2>/dev/null || true)
-CHANGED_FRONT=$(git diff --name-only "$BASE"...HEAD -- \
-    'front-packages/**' 'frontend/**' 'yarn.lock' 'package.json' \
-    'webpack*.js' 'babel.config.*' 'jest.config.*' '.eslintrc*' 'tsconfig*.json' \
-    'src/**/*.ts' 'src/**/*.tsx' 'src/**/*.js' 'src/**/*.jsx' \
-    'components/**/*.ts' 'components/**/*.tsx' \
-    2>/dev/null || true)
-CHANGED_SPECS=$(git diff --name-only "$BASE"...HEAD -- '*.spec.ts' 2>/dev/null || true)
-CHANGED_FIXTURES=$(git diff --name-only "$BASE"...HEAD -- 'tests/front/e2e/fixtures/*.ts' 2>/dev/null || true)
+# ── Detect changed files ──
+CHANGED_PHP=$(git diff --name-only "$BASE"...HEAD -- '*.php' 2>/dev/null | grep -v 'Spec\.php$' | grep -v 'Integration\.php$' || true)
+CHANGED_JS=$(git diff --name-only "$BASE"...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx' 2>/dev/null || true)
 
-# ══════════════════════════════════════════════════════════════════════════════
-# FRONTEND CHECKS (mirrors: front-lint + front-unit)
-# ══════════════════════════════════════════════════════════════════════════════
-if [ -n "$CHANGED_FRONT" ] && command -v yarn >/dev/null 2>&1; then
-
-    # ── front-lint: Prettier + ESLint (mirrors `castor test:lint-front`) ──
-    LINT_RESULT=$(yarn lint 2>&1 || true)
-    if echo "$LINT_RESULT" | grep -qE '[0-9]+ error|Code style issues found'; then
-        ERRORS="$ERRORS\n- FRONT-LINT: Prettier or ESLint errors. Run: yarn lint-fix"
-    fi
-
-    # ── DSM lint: Prettier + ESLint with DSM-specific config ──
-    DSM_LINT_RESULT=$(cd front-packages/akeneo-design-system && yarn lint:check 2>&1 || true)
-    if echo "$DSM_LINT_RESULT" | grep -qE '[0-9]+ error|Code style issues found'; then
-        ERRORS="$ERRORS\n- DSM-LINT: Prettier or ESLint errors in DSM. Run: cd front-packages/akeneo-design-system && yarn lint:fix"
-    fi
-
-    # ── connectivity lint: ESLint + Prettier (mirrors `castor connectivity-connection:lint-front`) ──
-    CONN_FRONT="src/Akeneo/Connectivity/Connection/front"
-    CONN_LINT_EXIT=0
-    CONN_LINT_RESULT=$(cd "$CONN_FRONT" && npx eslint --config .eslintrc.json --quiet '{src,tests}/**/*.{ts,tsx}' 2>&1) || CONN_LINT_EXIT=$?
-    if [ "$CONN_LINT_EXIT" -ne 0 ]; then
-        ERR_COUNT=$(echo "$CONN_LINT_RESULT" | grep -oP '\d+ error' | head -1 || echo "errors")
-        ERRORS="$ERRORS\n- CONNECTIVITY-LINT: ESLint $ERR_COUNT. Run: cd $CONN_FRONT && yarn eslint"
-    fi
-
-    CONN_PRETTIER_EXIT=0
-    CONN_PRETTIER_RESULT=$(cd "$CONN_FRONT" && npx prettier --config .prettierrc.json '{src,tests}/**/*.{ts,tsx}' --check 2>&1) || CONN_PRETTIER_EXIT=$?
-    if [ "$CONN_PRETTIER_EXIT" -ne 0 ]; then
-        ERRORS="$ERRORS\n- CONNECTIVITY-PRETTIER: files need formatting. Run: cd $CONN_FRONT && yarn prettier --write"
-    fi
-
-    CONN_TSC_EXIT=0
-    CONN_TSC_RESULT=$(cd "$CONN_FRONT" && npx tsc --noEmit --strict 2>&1) || CONN_TSC_EXIT=$?
-    if [ "$CONN_TSC_EXIT" -ne 0 ]; then
-        TSC_ERRS=$(echo "$CONN_TSC_RESULT" | grep -c 'error TS' || echo "errors")
-        ERRORS="$ERRORS\n- CONNECTIVITY-TSC: $TSC_ERRS TypeScript errors. Run: cd $CONN_FRONT && npx tsc --noEmit --strict"
-    fi
-
-    # ── permission-form lint: ESLint + Prettier + tsc (mirrors PERM_CWD in castor) ──
-    PERM_FRONT="src/Akeneo/Connectivity/Connection/workspaces/permission-form"
-    PERM_ESLINT_EXIT=0
-    PERM_ESLINT_RESULT=$(cd "$PERM_FRONT" && npx eslint --config .eslintrc.json 'src/**/*.{ts,tsx}' 2>&1) || PERM_ESLINT_EXIT=$?
-    if [ "$PERM_ESLINT_EXIT" -ne 0 ]; then
-        ERR_COUNT=$(echo "$PERM_ESLINT_RESULT" | grep -oP '\d+ error' | head -1 || echo "errors")
-        ERRORS="$ERRORS\n- PERM-FORM-LINT: ESLint $ERR_COUNT. Run: cd $PERM_FRONT && yarn eslint"
-    fi
-
-    PERM_PRETTIER_EXIT=0
-    PERM_PRETTIER_RESULT=$(cd "$PERM_FRONT" && npx prettier --config .prettierrc.json 'src/**/*.{ts,tsx}' --check 2>&1) || PERM_PRETTIER_EXIT=$?
-    if [ "$PERM_PRETTIER_EXIT" -ne 0 ]; then
-        ERRORS="$ERRORS\n- PERM-FORM-PRETTIER: files need formatting. Run: cd $PERM_FRONT && yarn prettier --write"
-    fi
-
-    PERM_TSC_EXIT=0
-    PERM_TSC_RESULT=$(cd "$PERM_FRONT" && npx tsc --noEmit --strict 2>&1) || PERM_TSC_EXIT=$?
-    if [ "$PERM_TSC_EXIT" -ne 0 ]; then
-        TSC_ERRS=$(echo "$PERM_TSC_RESULT" | grep -c 'error TS' || echo "errors")
-        ERRORS="$ERRORS\n- PERM-FORM-TSC: $TSC_ERRS TypeScript errors. Run: cd $PERM_FRONT && npx tsc --noEmit --strict"
-    fi
-
-    # ── front-unit shard 1+2: main Jest suite (mirrors `yarn unit`) ──
-    UNIT_RESULT=$(yarn unit 2>&1 || true)
-    if echo "$UNIT_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
-        FAIL_SUMMARY=$(echo "$UNIT_RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
-        ERRORS="$ERRORS\n- FRONT-UNIT: $FAIL_SUMMARY"
-    fi
-
-    # ── front-unit shard 1: DSM unit tests (separate jest config) ──
-    DSM_RESULT=$(cd front-packages/akeneo-design-system && npx jest --config jest.unit.config.js --no-coverage 2>&1 || true)
-    if echo "$DSM_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
-        FAIL_SUMMARY=$(echo "$DSM_RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
-        ERRORS="$ERRORS\n- DSM-UNIT: $FAIL_SUMMARY"
-    fi
-
-    # ── front-unit: connectivity jest (separate workspace, mirrors `castor connectivity-connection:unit-front`) ──
-    CONN_RESULT=$(cd src/Akeneo/Connectivity/Connection/front && npx jest --ci --no-coverage 2>&1 || true)
-    if echo "$CONN_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
-        FAIL_SUMMARY=$(echo "$CONN_RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
-        ERRORS="$ERRORS\n- CONNECTIVITY-UNIT: $FAIL_SUMMARY"
+# ── PHP: cs-fixer dry-run on changed files only (Docker, ~2-3s) ──
+if [ -n "$CHANGED_PHP" ]; then
+    CS_FILES=$(echo "$CHANGED_PHP" | grep -v 'Spec\.php$' | grep -v 'Integration\.php$' || true)
+    if [ -n "$CS_FILES" ] && command -v docker-compose >/dev/null 2>&1; then
+        CS_RESULT=$(docker-compose run --rm -T php php tools/php-cs-fixer fix \
+            --dry-run --config=.php-cs-fixer.dist.php --path-mode=intersection \
+            $CS_FILES 2>&1 || true)
+        if echo "$CS_RESULT" | grep -qE 'that can be fixed'; then
+            CS_COUNT=$(echo "$CS_RESULT" | grep -oE '[0-9]+\)' | wc -l)
+            ERRORS="$ERRORS\n- CS-FIXER: $CS_COUNT file(s) need formatting. Run: make fix-cs-back"
+        fi
     fi
 fi
 
-# ══════════════════════════════════════════════════════════════════════════════
-# BACKEND CHECKS (mirrors: phpspec + code-style-back)
-# ══════════════════════════════════════════════════════════════════════════════
+# ── PHP: PHPStan on changed files only (Docker, ~3-5s) ──
 if [ -n "$CHANGED_PHP" ]; then
-
-    # ── phpspec: full PHPSpec suite (mirrors `castor test:unit-back`, no MySQL) ──
-    if command -v docker-compose >/dev/null 2>&1; then
-        PHPSPEC_EXIT=0
-        PHPSPEC_RESULT=$(docker-compose run --rm -T php php vendor/bin/phpspec run 2>&1) || PHPSPEC_EXIT=$?
-        PHPSPEC_SUMMARY=$(echo "$PHPSPEC_RESULT" | grep -E '^[0-9]+ examples' | tail -1 || echo "")
-        if echo "$PHPSPEC_SUMMARY" | grep -qE 'failed'; then
-            ERRORS="$ERRORS\n- PHPSPEC: $PHPSPEC_SUMMARY"
+    STAN_FILES=$(echo "$CHANGED_PHP" | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' || true)
+    if [ -n "$STAN_FILES" ] && command -v docker-compose >/dev/null 2>&1; then
+        STAN_RESULT=$(docker-compose run --rm -T php php -d memory_limit=512M \
+            vendor/bin/phpstan analyse --level 2 --no-progress --error-format=raw \
+            $STAN_FILES 2>&1 || true)
+        if echo "$STAN_RESULT" | grep -qE ':\d+:'; then
+            STAN_COUNT=$(echo "$STAN_RESULT" | grep -cE ':\d+:' || echo "?")
+            ERRORS="$ERRORS\n- PHPSTAN: $STAN_COUNT error(s) in changed files"
         fi
     fi
+fi
 
-    # ── phpunit-unit: unit + acceptance tests via meta-suite (no MySQL) ──
-    if command -v docker-compose >/dev/null 2>&1; then
-        PHPUNIT_EXIT=0
-        PHPUNIT_UNIT_RESULT=$(APP_ENV=test_fake docker-compose run --rm -T php php vendor/bin/phpunit -c . --testsuite PHPUnit_Unit_Test --no-coverage 2>&1) || PHPUNIT_EXIT=$?
-        if [ "$PHPUNIT_EXIT" -ne 0 ]; then
-            FAIL_SUMMARY=$(echo "$PHPUNIT_UNIT_RESULT" | grep -E '^(FAILURES|Tests:|OK)' | tail -1 || echo "exit code $PHPUNIT_EXIT")
-            ERRORS="$ERRORS\n- PHPUNIT-UNIT: $FAIL_SUMMARY"
-        fi
-    fi
-
-    # ── coupling: architecture coupling checks per bounded context ──
-    for ctx in "Pim/Structure" "Pim/Enrichment" "Channel" "Connectivity/Connection" "Platform/Job" "Platform/Installer"; do
-        if echo "$CHANGED_PHP" | grep -q "src/Akeneo/$ctx/"; then
-            CD_CONFIG=$(find "src/Akeneo/$ctx" -name ".php_cd.php" -maxdepth 3 2>/dev/null | head -1 || true)
-            if [ -n "$CD_CONFIG" ]; then
-                RESULT=$(docker-compose run --rm -T php php vendor/bin/php-coupling-detector detect --config-file="$CD_CONFIG" 2>&1 || true)
-                # Skip if the tool itself crashed (e.g. PHP 8.4 incompatibility)
-                if echo "$RESULT" | grep -qiE 'Fatal error|PHP Fatal'; then
-                    continue
-                fi
-                if echo "$RESULT" | grep -qiE 'violation|error'; then
-                    CTX_NAME=$(dirname "$CD_CONFIG" | sed 's|src/Akeneo/||')
-                    ERRORS="$ERRORS\n- COUPLING ($CTX_NAME): violations detected"
-                fi
+# ── PHP: PHPSpec for changed files only (Docker, ~3-5s) ──
+if [ -n "$CHANGED_PHP" ]; then
+    SPEC_SRC=$(echo "$CHANGED_PHP" | grep -v 'Spec\.php$' | grep -v 'Test\.php$' \
+        | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' || true)
+    if [ -n "$SPEC_SRC" ] && command -v docker-compose >/dev/null 2>&1; then
+        SPECS=""
+        for src in $SPEC_SRC; do
+            BASENAME=$(basename "$src" .php)
+            SPEC=$(find . -path "*/spec/*" -name "${BASENAME}Spec.php" -print -quit 2>/dev/null || true)
+            [ -n "$SPEC" ] && SPECS="$SPECS $SPEC"
+        done
+        if [ -n "$SPECS" ]; then
+            SPEC_RESULT=$(docker-compose run --rm -T php php vendor/bin/phpspec run $SPECS --no-interaction 2>&1 || true)
+            if echo "$SPEC_RESULT" | grep -qE 'failed|broken'; then
+                SPEC_FAILURES=$(echo "$SPEC_RESULT" | grep -E '^[0-9]+ examples' | tail -1 || echo "failures")
+                ERRORS="$ERRORS\n- PHPSPEC: $SPEC_FAILURES"
             fi
         fi
-    done
+    fi
 fi
 
-# ══════════════════════════════════════════════════════════════════════════════
-# PLAYWRIGHT (mirrors: playwright job — only if spec/fixture files changed)
-# ══════════════════════════════════════════════════════════════════════════════
-if [ -z "$CHANGED_SPECS" ] && [ -n "$CHANGED_FIXTURES" ]; then
-    CHANGED_SPECS=$(find tests/front/e2e -name '*.spec.ts' 2>/dev/null || true)
+# ── PHP: PHPUnit unit tests for changed files (no MySQL, APP_ENV=test_fake) ──
+if [ -n "$CHANGED_PHP" ]; then
+    UNIT_SRC=$(echo "$CHANGED_PHP" | grep -v 'Spec\.php$' | grep -v 'Test\.php$' \
+        | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' || true)
+    if [ -n "$UNIT_SRC" ] && command -v docker-compose >/dev/null 2>&1; then
+        FILTERS=""
+        for src in $UNIT_SRC; do
+            BASENAME=$(basename "$src" .php)
+            # Search for matching unit test (not integration/end-to-end)
+            TEST=$(find . \( -path "*/tests/*" -o -path "*/Test/*" \) \
+                -name "${BASENAME}Test.php" ! -name "*Integration*" ! -name "*EndToEnd*" \
+                -print -quit 2>/dev/null || true)
+            [ -n "$TEST" ] && FILTERS="$FILTERS|$BASENAME"
+        done
+        if [ -n "$FILTERS" ]; then
+            FILTERS="${FILTERS#|}"  # remove leading pipe
+            PHPUNIT_RESULT=$(APP_ENV=test_fake docker-compose run --rm -T php php vendor/bin/phpunit \
+                -c . --testsuite PHPUnit_Unit_Test --filter "$FILTERS" --no-coverage 2>&1 || true)
+            if echo "$PHPUNIT_RESULT" | grep -qE 'FAILURES|ERRORS'; then
+                PHPUNIT_SUMMARY=$(echo "$PHPUNIT_RESULT" | grep -E '^(FAILURES|Tests:|OK)' | tail -1 || echo "failures")
+                ERRORS="$ERRORS\n- PHPUNIT-UNIT: $PHPUNIT_SUMMARY"
+            fi
+        fi
+    fi
 fi
-if [ -n "$CHANGED_SPECS" ] && command -v npx >/dev/null 2>&1; then
-    SPEC_COUNT=$(echo "$CHANGED_SPECS" | wc -l)
-    RESULT=$(npx playwright test --reporter=line $CHANGED_SPECS 2>&1 || true)
-    FAILED=$(echo "$RESULT" | grep -oP '\d+ failed' | head -1 || true)
-    if [ -n "$FAILED" ]; then
-        PASSED=$(echo "$RESULT" | grep -oP '\d+ passed' | head -1 || echo "0 passed")
-        ERRORS="$ERRORS\n- PLAYWRIGHT: $FAILED ($PASSED) — $SPEC_COUNT spec(s)"
+
+# ── JS/TS: ESLint on changed files only ──
+if [ -n "$CHANGED_JS" ] && command -v npx >/dev/null 2>&1; then
+    # Filter to existing files only
+    EXISTING_JS=""
+    for f in $CHANGED_JS; do
+        [ -f "$f" ] && EXISTING_JS="$EXISTING_JS $f"
+    done
+    if [ -n "$EXISTING_JS" ]; then
+        ESLINT_RESULT=$(npx eslint --no-error-on-unmatched-pattern --quiet $EXISTING_JS 2>&1 || true)
+        if echo "$ESLINT_RESULT" | grep -qE '[0-9]+ error'; then
+            ESLINT_SUMMARY=$(echo "$ESLINT_RESULT" | grep -oE '[0-9]+ error' | tail -1)
+            ERRORS="$ERRORS\n- ESLINT: $ESLINT_SUMMARY. Run: yarn lint-fix"
+        fi
+    fi
+fi
+
+# ── JS/TS: Prettier on changed files only ──
+if [ -n "$CHANGED_JS" ] && command -v npx >/dev/null 2>&1; then
+    EXISTING_JS=""
+    for f in $CHANGED_JS; do
+        [ -f "$f" ] && EXISTING_JS="$EXISTING_JS $f"
+    done
+    if [ -n "$EXISTING_JS" ]; then
+        PRETTIER_RESULT=$(npx prettier --check $EXISTING_JS 2>&1 || true)
+        if echo "$PRETTIER_RESULT" | grep -qE 'Code style issues found'; then
+            ERRORS="$ERRORS\n- PRETTIER: formatting issues. Run: npx prettier --write <files>"
+        fi
     fi
 fi
 

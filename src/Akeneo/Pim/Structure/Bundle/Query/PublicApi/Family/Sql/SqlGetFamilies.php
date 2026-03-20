@@ -6,13 +6,14 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Family\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\Family;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetFamilies;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 
 class SqlGetFamilies implements GetFamilies
 {
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private readonly Connection $connection, private readonly SqlPlatformHelperInterface $platformHelper)
     {
     }
 
@@ -22,9 +23,12 @@ class SqlGetFamilies implements GetFamilies
             return [];
         }
 
+        $jsonObjectAgg = $this->platformHelper->jsonObjectAgg('translation.locale', 'translation.label');
+        $jsonArrayAgg = $this->platformHelper->jsonArrayAgg('family_attribute.attribute_code');
+
         $sql = <<<SQL
             WITH family_label as (
-                SELECT family.code AS family_code, JSON_OBJECTAGG(translation.locale, translation.label) AS labels
+                SELECT family.code AS family_code, {$jsonObjectAgg} AS labels
                 FROM pim_catalog_family family
                     LEFT JOIN pim_catalog_family_translation translation ON family.id = translation.foreign_key
                 WHERE family.code IN (:familyCodes)
@@ -42,7 +46,7 @@ class SqlGetFamilies implements GetFamilies
             SELECT 
                 family.code, 
                 family_label.labels, 
-                JSON_ARRAYAGG(family_attribute.attribute_code) AS attributeCodes
+                {$jsonArrayAgg} AS attributeCodes
             FROM pim_catalog_family family
                 LEFT JOIN family_label ON family.code = family_label.family_code
                 INNER JOIN family_attribute ON family_attribute.family_code = family.code

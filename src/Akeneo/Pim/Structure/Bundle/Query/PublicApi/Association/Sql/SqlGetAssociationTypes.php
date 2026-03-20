@@ -7,13 +7,14 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Association\Sql;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\AssociationType;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\GetAssociationTypesInterface;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\LabelCollection;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 
 final readonly class SqlGetAssociationTypes implements GetAssociationTypesInterface
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private Connection $connection, private SqlPlatformHelperInterface $platformHelper)
     {
     }
 
@@ -22,9 +23,11 @@ final readonly class SqlGetAssociationTypes implements GetAssociationTypesInterf
      */
     public function forCodes(array $associationTypeCodes): array
     {
+        $jsonObjectAgg = $this->platformHelper->jsonObjectAgg('locale', 'label');
+
         $query = <<<SQL
             WITH association_type_labels AS (
-                SELECT foreign_key as association_type_id, JSON_OBJECTAGG(locale, label) as labels
+                SELECT foreign_key as association_type_id, {$jsonObjectAgg} as labels
                 FROM pim_catalog_association_type_translation
                 GROUP BY foreign_key
             )

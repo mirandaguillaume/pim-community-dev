@@ -6,6 +6,7 @@ use Akeneo\Channel\API\Query\Channel;
 use Akeneo\Channel\API\Query\ConversionUnitCollection;
 use Akeneo\Channel\API\Query\FindChannels;
 use Akeneo\Channel\API\Query\LabelCollection;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -15,7 +16,8 @@ use Doctrine\DBAL\Connection;
 final readonly class SqlFindChannels implements FindChannels
 {
     public function __construct(
-        private Connection $connection
+        private Connection $connection,
+        private SqlPlatformHelperInterface $sql,
     ) {
     }
 
@@ -24,23 +26,36 @@ final readonly class SqlFindChannels implements FindChannels
      */
     public function findAll(): array
     {
+        $localeCodes = $this->sql->jsonRemoveKey(
+            $this->sql->jsonObjectAgg("COALESCE(l.id, 'NO_LOCALE')", 'l.code'),
+            'NO_LOCALE'
+        );
+        $labels = $this->sql->jsonRemoveKey(
+            $this->sql->jsonObjectAgg("COALESCE(ct.locale, 'NO_LABEL')", 'ct.label'),
+            'NO_LABEL'
+        );
+        $currencies = $this->sql->jsonRemoveKey(
+            $this->sql->jsonObjectAgg("COALESCE(cur.id, 'NO_CURRENCY')", 'cur.code'),
+            'NO_CURRENCY'
+        );
+
         $sql = <<<SQL
-                SELECT 
-                    c.code AS channelCode, 
-                    JSON_REMOVE(JSON_OBJECTAGG(IFNULL(l.id, 'NO_LOCALE'), l.code), '$.NO_LOCALE') AS localeCodes,
-                    JSON_REMOVE(JSON_OBJECTAGG(IFNULL(ct.locale, 'NO_LABEL'), ct.label), '$.NO_LABEL') AS labels,
-                    JSON_REMOVE(JSON_OBJECTAGG(IFNULL(cur.id, 'NO_CURRENCY'), cur.code), '$.NO_CURRENCY') AS activatedCurrencies,
+                SELECT
+                    c.code AS channelCode,
+                    {$localeCodes} AS localeCodes,
+                    {$labels} AS labels,
+                    {$currencies} AS activatedCurrencies,
                     c.conversionUnits
                 FROM pim_catalog_channel c
-                LEFT JOIN pim_catalog_channel_locale cl 
+                LEFT JOIN pim_catalog_channel_locale cl
                     ON c.id = cl.channel_id
-                LEFT JOIN pim_catalog_locale l 
+                LEFT JOIN pim_catalog_locale l
                     ON cl.locale_id = l.id
-                LEFT JOIN pim_catalog_channel_translation ct 
+                LEFT JOIN pim_catalog_channel_translation ct
                     ON c.id = ct.foreign_key
-                LEFT JOIN pim_catalog_channel_currency cc 
+                LEFT JOIN pim_catalog_channel_currency cc
                     ON c.id = cc.channel_id
-                LEFT JOIN pim_catalog_currency cur 
+                LEFT JOIN pim_catalog_currency cur
                     ON cc.currency_id = cur.id
                 GROUP BY c.code;
             SQL;

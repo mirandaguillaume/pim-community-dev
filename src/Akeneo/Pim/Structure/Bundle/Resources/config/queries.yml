@@ -3,16 +3,19 @@ services:
         class: 'Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql\GetExistingAttributeOptionCodes'
         arguments:
             $connection: '@database_connection'
+            $platformHelper: '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo.pim.structure.query.get_existing_attribute_options_with_values:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql\SqlGetExistingAttributeOptionsWithValues
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo.pim.structure.query.search_attribute_options:
         class: 'Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql\SqlSearchAttributeOptions'
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo.pim.structure.query.lru_cached_get_existing_attribute_options_with_values:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Cache\LruCachedGetExistingAttributeOptionsWithValues
@@ -30,6 +33,7 @@ services:
         class: 'Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql\SqlGetAttributes'
         arguments:
             $connection: '@database_connection'
+            $platformHelper: '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo.pim.structure.query.is_there_at_least_one_attribute_configured_with_measurement_family:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql\IsThereAtLeastOneAttributeConfiguredWithMeasurementFamily
@@ -116,6 +120,7 @@ services:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\Association\Sql\SqlGetAssociationTypes
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo.pim.structure.query.find_flatten_attributes:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql\SqlFindFlattenAttributes
@@ -131,6 +136,7 @@ services:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql\SqlGetAttributeTranslations
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo.pim.structure.query.get_category_translations:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\Category\Sql\SqlGetCategoryTranslations
@@ -186,6 +192,7 @@ services:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql\SqlGetAttributeOptions
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     pimee_security.query.get_viewable_attribute_codes_for_user:
         class: Akeneo\Pim\Structure\Component\Query\PublicApi\Permission\GetViewableAttributeCodesForUser
@@ -217,11 +224,13 @@ services:
             - '@database_connection'
             - '@feature_flags'
             - '@Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Query\AttributeGroup\GetAttributeGroupsActivationQuery'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetFamilies:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\Family\Sql\SqlGetFamilies
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo.pim.structure.query.sql_get_main_identifier_attribute_code:
         class: Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql\SqlGetMainIdentifierAttributeCode
