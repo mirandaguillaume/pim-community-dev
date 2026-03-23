@@ -59,11 +59,19 @@ final readonly class MySqlPlatformHelper implements SqlPlatformHelperInterface
 
     public function jsonMergePatch(string ...$docs): string
     {
+        if (\count($docs) < 2) {
+            throw new \InvalidArgumentException('jsonMergePatch requires at least 2 documents');
+        }
+
         return sprintf('JSON_MERGE_PATCH(%s)', implode(', ', $docs));
     }
 
     public function jsonMergePreserve(string ...$docs): string
     {
+        if (\count($docs) < 2) {
+            throw new \InvalidArgumentException('jsonMergePreserve requires at least 2 documents');
+        }
+
         return sprintf('JSON_MERGE_PRESERVE(%s)', implode(', ', $docs));
     }
 

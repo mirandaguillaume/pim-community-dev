@@ -65,6 +65,11 @@ final class PostgreSqlPlatformHelperSpec extends ObjectBehavior
         $this->jsonExtract('scores', '$."rates"')->shouldReturn("(scores #> '{rates}')");
     }
 
+    public function it_generates_json_extract_with_dotted_quoted_key(): void
+    {
+        $this->jsonExtract('data', '$."foo.bar"')->shouldReturn("(data #> '{foo.bar}')");
+    }
+
     public function it_generates_json_extract_text(): void
     {
         $this->jsonExtractText('scores', '$.status')->shouldReturn("(scores #>> '{status}')");
@@ -76,10 +81,20 @@ final class PostgreSqlPlatformHelperSpec extends ObjectBehavior
             ->shouldReturn("(COALESCE(pm1.raw_values, '{}') || p.raw_values)");
     }
 
+    public function it_throws_when_json_merge_patch_has_fewer_than_two_args(): void
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->during('jsonMergePatch', ["doc"]);
+    }
+
     public function it_generates_json_merge_preserve(): void
     {
         $this->jsonMergePreserve("COALESCE(pm2.qa, '{}')", "p.qa")
             ->shouldReturn("(COALESCE(pm2.qa, '{}') || p.qa)");
+    }
+
+    public function it_throws_when_json_merge_preserve_has_fewer_than_two_args(): void
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->during('jsonMergePreserve', ["doc"]);
     }
 
     public function it_generates_conditional(): void
