@@ -121,4 +121,25 @@ final class MySqlPlatformHelperSpec extends ObjectBehavior
         $this->jsonContains('some_array', ':familyVariantCode')
             ->shouldReturn(':familyVariantCode MEMBER OF(some_array)');
     }
+
+    public function it_generates_upsert_clause(): void
+    {
+        $this->upsertClause(
+            ['product_uuid'],
+            ['completeness = VALUES(completeness)']
+        )->shouldReturn('ON DUPLICATE KEY UPDATE completeness = VALUES(completeness)');
+    }
+
+    public function it_generates_upsert_clause_with_multiple_update_expressions(): void
+    {
+        $this->upsertClause(
+            ['code'],
+            ['labels = :labels', 'units = :units']
+        )->shouldReturn('ON DUPLICATE KEY UPDATE labels = :labels, units = :units');
+    }
+
+    public function it_generates_inserted_value(): void
+    {
+        $this->insertedValue('completeness')->shouldReturn('VALUES(completeness)');
+    }
 }

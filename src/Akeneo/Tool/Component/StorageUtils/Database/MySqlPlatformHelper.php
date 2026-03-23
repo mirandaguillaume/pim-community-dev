@@ -104,4 +104,14 @@ final readonly class MySqlPlatformHelper implements SqlPlatformHelperInterface
     {
         return sprintf('%s MEMBER OF(%s)', $valueExpr, $arrayExpr);
     }
+
+    public function upsertClause(array $conflictColumns, array $updateExpressions): string
+    {
+        return 'ON DUPLICATE KEY UPDATE ' . implode(', ', $updateExpressions);
+    }
+
+    public function insertedValue(string $column): string
+    {
+        return sprintf('VALUES(%s)', $column);
+    }
 }

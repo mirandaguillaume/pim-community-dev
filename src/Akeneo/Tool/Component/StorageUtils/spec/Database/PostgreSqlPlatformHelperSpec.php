@@ -136,4 +136,25 @@ final class PostgreSqlPlatformHelperSpec extends ObjectBehavior
         $this->jsonContains('some_array', ':familyVariantCode')
             ->shouldReturn('some_array @> to_jsonb(:familyVariantCode::text)');
     }
+
+    public function it_generates_upsert_clause(): void
+    {
+        $this->upsertClause(
+            ['product_uuid'],
+            ['completeness = EXCLUDED.completeness']
+        )->shouldReturn('ON CONFLICT (product_uuid) DO UPDATE SET completeness = EXCLUDED.completeness');
+    }
+
+    public function it_generates_upsert_clause_with_multiple_conflict_columns(): void
+    {
+        $this->upsertClause(
+            ['connection_code', 'event_datetime', 'event_type'],
+            ['event_count = event_count + :count']
+        )->shouldReturn('ON CONFLICT (connection_code, event_datetime, event_type) DO UPDATE SET event_count = event_count + :count');
+    }
+
+    public function it_generates_inserted_value(): void
+    {
+        $this->insertedValue('completeness')->shouldReturn('EXCLUDED.completeness');
+    }
 }

@@ -111,6 +111,20 @@ final readonly class PostgreSqlPlatformHelper implements SqlPlatformHelperInterf
         return sprintf('%s @> to_jsonb(%s::text)', $arrayExpr, $valueExpr);
     }
 
+    public function upsertClause(array $conflictColumns, array $updateExpressions): string
+    {
+        return sprintf(
+            'ON CONFLICT (%s) DO UPDATE SET %s',
+            implode(', ', $conflictColumns),
+            implode(', ', $updateExpressions)
+        );
+    }
+
+    public function insertedValue(string $column): string
+    {
+        return sprintf('EXCLUDED.%s', $column);
+    }
+
     /**
      * Converts a MySQL JSON path ('$.key', '$."key"', '$.foo.bar')
      * to PostgreSQL array path format ('{key}', '{foo,bar}').

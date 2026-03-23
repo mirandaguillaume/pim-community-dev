@@ -145,4 +145,23 @@ interface SqlPlatformHelperInterface
      * @param string $valueExpr The value to search for (e.g. ':param', 'column')
      */
     public function jsonContains(string $arrayExpr, string $valueExpr): string;
+
+    /**
+     * Generates the upsert clause to append after an INSERT ... VALUES statement.
+     *
+     * @param string[] $conflictColumns Columns forming the unique constraint
+     *                                  (MySQL ignores these; PG requires them for ON CONFLICT)
+     * @param string[] $updateExpressions Raw SQL assignments (e.g. 'col = :param', 'col = col + :val')
+     */
+    public function upsertClause(array $conflictColumns, array $updateExpressions): string;
+
+    /**
+     * References the value that was proposed for insertion (in ON DUPLICATE KEY context).
+     *
+     * Use inside upsertClause update expressions:
+     *   'completeness = ' . $helper->insertedValue('completeness')
+     *
+     * @param string $column The column name
+     */
+    public function insertedValue(string $column): string;
 }
