@@ -1,0 +1,47 @@
+# AST Metrics configuration — Akeneo PIM Community Edition
+# Baseline: 2026-03-23 (5 739 files, avg CC 1.45, avg MI 65)
+#
+# Mode: INFORMATIONAL (fail_on_error: false)
+# ASTMetrics reports violations but does NOT fail the CI.
+# Goal: observe trends, identify regressions, then switch to blocking mode.
+
+sources:
+  - ./src/Akeneo
+
+exclude:
+  - /vendor/
+  - /node_modules/
+  - /tests/
+  - /spec/
+  - /Test/
+  - /Specification/
+  - /EndToEnd/
+  - /Acceptance/
+
+reports:
+  html: ./var/ast-metrics/report
+  markdown: ./var/ast-metrics/report.md
+
+requirements:
+  rules:
+    # Non-blocking mode: report violations but don't fail CI
+    fail_on_error: false
+
+    complexity:
+      # Industry standard: max 10 per function
+      # Current avg: 1.45/method (good), but 19 files > 50
+      max_cyclomatic: 10
+
+    volume:
+      max_loc: 300
+      max_loc_by_method: 30
+      max_methods_per_class: 20
+      max_parameters_per_method: 5
+
+    architecture:
+      min_maintainability: 70
+      max_afferent_coupling: 30
+      max_efferent_coupling: 15
+      no_god_class: true
+      coupling:
+        forbidden: []

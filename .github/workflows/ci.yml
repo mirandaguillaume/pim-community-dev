@@ -1448,6 +1448,55 @@ jobs:
   # ===========================================================================
   # CI SUCCESS: Final gate job
   # ===========================================================================
+  # ===========================================================================
+  # CODE METRICS: ASTMetrics analysis (non-blocking, informational)
+  # ===========================================================================
+  code-metrics:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true'
+    timeout-minutes: 10
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install AST Metrics
+        run: |
+          curl -sSL https://github.com/Halleck45/ast-metrics/releases/latest/download/ast-metrics_Linux_x86_64 -o /usr/local/bin/ast-metrics
+          chmod +x /usr/local/bin/ast-metrics
+
+      - name: Run AST Metrics analysis
+        run: |
+          ast-metrics analyze \
+            --config .ast-metrics.yaml \
+            --report-html var/ast-metrics/report \
+            --report-json var/ast-metrics/report.json \
+            --report-markdown var/ast-metrics/report.md \
+            src/Akeneo/ || true
+
+      - name: Run AST Metrics lint (non-blocking)
+        run: |
+          ast-metrics lint --config .ast-metrics.yaml src/Akeneo/ > var/ast-metrics/lint.txt 2>&1 || true
+          VIOLATIONS=$(grep -c "HIGH\|MEDIUM" var/ast-metrics/lint.txt 2>/dev/null || echo "0")
+          HIGH=$(grep -c "HIGH" var/ast-metrics/lint.txt 2>/dev/null || echo "0")
+          echo "### AST Metrics Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Metric | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|--------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Total violations | ${VIOLATIONS} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| High severity | ${HIGH} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "See artifacts for full report." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload AST Metrics report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ast-metrics-report
+          path: var/ast-metrics/
+          retention-days: 30
+
   ci-success:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs:
