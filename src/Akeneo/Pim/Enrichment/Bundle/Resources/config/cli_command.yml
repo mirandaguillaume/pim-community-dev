@@ -56,6 +56,10 @@ services:
 
     Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\MigrateToUuidFillJson:
         parent: base_uuid_migration_step
+        arguments:
+            - '@database_connection'
+            - '@monolog.logger'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\MigrateToUuidSetNotNullableUuidColumns:
         parent: base_uuid_migration_step

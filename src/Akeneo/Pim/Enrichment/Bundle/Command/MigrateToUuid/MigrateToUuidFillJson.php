@@ -4,6 +4,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid;
 
 use Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\Utils\LogContext;
 use Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\Utils\StatusAwareTrait;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -36,7 +37,8 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
 
     public function __construct(
         private readonly Connection $connection,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly SqlPlatformHelperInterface $platformHelper
     ) {
     }
 
@@ -65,12 +67,14 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
             return false;
         }
 
+        $hasId = $this->platformHelper->jsonPathExists('quantified_associations', '$.*.products[*].id');
+        $hasUuid = $this->platformHelper->jsonPathExists('quantified_associations', '$.*.products[*].uuid');
         $sql = <<<SQL
                 SELECT EXISTS(
                     SELECT 1
                     FROM {table_name}
-                    WHERE JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].id')
-                        AND NOT JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].uuid')
+                    WHERE {$hasId}
+                        AND NOT {$hasUuid}
                     LIMIT 1
                 ) as missing
             SQL;
@@ -86,11 +90,13 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
 
     public function getMissingCount(): int
     {
+        $hasId = $this->platformHelper->jsonPathExists('quantified_associations', '$.*.products[*].id');
+        $hasUuid = $this->platformHelper->jsonPathExists('quantified_associations', '$.*.products[*].uuid');
         $sql = <<<SQL
                 SELECT COUNT(1)
                 FROM {table_name}
-                WHERE JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].id')
-                    AND NOT JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].uuid');
+                WHERE {$hasId}
+                    AND NOT {$hasUuid};
             SQL;
 
         $count = 0;
@@ -143,11 +149,13 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
 
     private function getFormerAssociations(string $tableName, $previousProductId = -1): array
     {
+        $hasId = $this->platformHelper->jsonPathExists('quantified_associations', '$.*.products[*].id');
+        $hasUuid = $this->platformHelper->jsonPathExists('quantified_associations', '$.*.products[*].uuid');
         $sql = <<<SQL
                 SELECT id, quantified_associations
                 FROM {table_name}
-                WHERE JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].id')
-                    AND NOT JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].uuid')
+                WHERE {$hasId}
+                    AND NOT {$hasUuid}
                     AND id > :previousProductId
                 ORDER BY id
                 LIMIT :limit
