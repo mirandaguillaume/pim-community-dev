@@ -10,23 +10,27 @@ declare(strict_types=1);
 namespace Akeneo\Tool\Bundle\ElasticsearchBundle\Infrastructure\PublicApi;
 
 use Akeneo\Tool\Component\Elasticsearch\PublicApi\Read\IndexMigrationIsDoneInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 class IndexMigrationIsDone implements IndexMigrationIsDoneInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function byIndexAliasAndHash(string $indexAlias, string $hash): bool
     {
+        $extractStatus = $this->platformHelper->jsonExtractText('`values`', '$.status');
         $sql = <<<SQL
                 SELECT EXISTS (
                     SELECT 1
-                    FROM pim_index_migration 
-                    WHERE index_alias = :index_alias 
+                    FROM pim_index_migration
+                    WHERE index_alias = :index_alias
                     AND hash = :hash
-                    AND JSON_EXTRACT(`values`, '$.status') = 'done'
+                    AND {$extractStatus} = 'done'
                 ) as index_migration_is_done
             SQL;
 
