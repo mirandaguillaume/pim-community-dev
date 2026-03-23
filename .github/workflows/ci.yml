@@ -1452,7 +1452,7 @@ jobs:
   sast:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     continue-on-error: true
     container:
@@ -1462,6 +1462,7 @@ jobs:
 
       - name: Run Semgrep (PHP security rules)
         run: |
+          mkdir -p var/sast
           semgrep scan \
             --config p/php \
             --config p/symfony \
@@ -1472,7 +1473,6 @@ jobs:
             --json \
             --json-output var/sast/semgrep.json \
             src/Akeneo/ || true
-          mkdir -p var/sast
 
       - name: Run Semgrep (JavaScript/TypeScript security rules)
         run: |
