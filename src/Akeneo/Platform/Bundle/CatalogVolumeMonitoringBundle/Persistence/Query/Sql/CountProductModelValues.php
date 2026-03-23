@@ -6,6 +6,7 @@ namespace Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Persistence\Query
 
 use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\Query\CountQuery;
 use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\ReadModel\CountVolume;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -19,8 +20,10 @@ class CountProductModelValues implements CountQuery
 {
     private const VOLUME_NAME = 'count_product_model_values';
 
-    public function __construct(private readonly Connection $connection)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -28,8 +31,11 @@ class CountProductModelValues implements CountQuery
      */
     public function fetch(): CountVolume
     {
+        $allValues = $this->platformHelper->jsonPathQuery('raw_values', '$.*.*.*');
+        $valueCount = $this->platformHelper->jsonLength($allValues);
+
         $sql = <<<SQL
-                       SELECT SUM(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*'))) as sum_product_model_values
+                       SELECT SUM({$valueCount}) as sum_product_model_values
                        FROM pim_catalog_product_model
             SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
