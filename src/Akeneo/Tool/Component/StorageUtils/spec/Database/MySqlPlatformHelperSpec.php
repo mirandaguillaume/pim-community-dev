@@ -49,4 +49,38 @@ final class MySqlPlatformHelperSpec extends ObjectBehavior
     {
         $this->jsonArray()->shouldReturn('JSON_ARRAY()');
     }
+
+    public function it_generates_json_extract(): void
+    {
+        $this->jsonExtract('raw_values', '$.sku')->shouldReturn("JSON_EXTRACT(raw_values, '$.sku')");
+    }
+
+    public function it_generates_json_extract_with_nested_path(): void
+    {
+        $this->jsonExtract('scores', '$."rates"')->shouldReturn('JSON_EXTRACT(scores, \'$."rates"\')');
+    }
+
+    public function it_generates_json_extract_text(): void
+    {
+        $this->jsonExtractText('scores', '$.average_ranks_consolidated_at')
+            ->shouldReturn("JSON_UNQUOTE(JSON_EXTRACT(scores, '$.average_ranks_consolidated_at'))");
+    }
+
+    public function it_generates_json_merge_patch(): void
+    {
+        $this->jsonMergePatch("COALESCE(pm1.raw_values, '{}')", "COALESCE(pm.raw_values, '{}')", "p.raw_values")
+            ->shouldReturn("JSON_MERGE_PATCH(COALESCE(pm1.raw_values, '{}'), COALESCE(pm.raw_values, '{}'), p.raw_values)");
+    }
+
+    public function it_generates_json_merge_preserve(): void
+    {
+        $this->jsonMergePreserve("COALESCE(pm2.quantified_associations, '{}')", "p.quantified_associations")
+            ->shouldReturn("JSON_MERGE_PRESERVE(COALESCE(pm2.quantified_associations, '{}'), p.quantified_associations)");
+    }
+
+    public function it_generates_conditional(): void
+    {
+        $this->conditional('attribute.is_scopable', 'channel.code', "'<all_channels>'")
+            ->shouldReturn("IF(attribute.is_scopable, channel.code, '<all_channels>')");
+    }
 }

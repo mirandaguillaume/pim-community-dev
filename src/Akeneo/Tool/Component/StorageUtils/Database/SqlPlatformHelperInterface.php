@@ -48,4 +48,56 @@ interface SqlPlatformHelperInterface
      * Returns an empty JSON array literal.
      */
     public function jsonArray(): string;
+
+    /**
+     * Extracts a value from a JSON document at the given path.
+     * Returns a JSON-typed value (quoted strings, typed scalars).
+     *
+     * The path uses MySQL JSON path syntax (e.g. '$.sku', '$."attribute_code"').
+     * Do NOT include outer quotes — the method handles quoting internally.
+     *
+     * @param string $doc  The JSON column or expression
+     * @param string $path The JSON path (e.g. '$.sku', '$."attribute_code"')
+     */
+    public function jsonExtract(string $doc, string $path): string;
+
+    /**
+     * Extracts a scalar text value from a JSON document (unquoted).
+     * Use this in WHERE clauses for string comparisons.
+     *
+     * Same path contract as jsonExtract().
+     *
+     * @param string $doc  The JSON column or expression
+     * @param string $path The JSON path
+     */
+    public function jsonExtractText(string $doc, string $path): string;
+
+    /**
+     * Merges JSON documents with RFC 7396 patch semantics (last value wins,
+     * null removes keys). Use for product value inheritance chains.
+     *
+     * @param string ...$docs Two or more JSON expressions to merge
+     */
+    public function jsonMergePatch(string ...$docs): string;
+
+    /**
+     * Merges JSON documents preserving all array elements (no dedup).
+     * Use for quantified associations and array-type merges.
+     *
+     * Note: PostgreSQL implementation uses || which is last-key-wins for
+     * objects. True array-preserving merge will require a custom PG function
+     * when PostgreSQL migration starts.
+     *
+     * @param string ...$docs Two or more JSON expressions to merge
+     */
+    public function jsonMergePreserve(string ...$docs): string;
+
+    /**
+     * Returns a conditional expression (ternary).
+     *
+     * @param string $condition The boolean condition
+     * @param string $then      The value when true
+     * @param string $else      The value when false
+     */
+    public function conditional(string $condition, string $then, string $else): string;
 }
