@@ -10,6 +10,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\FetchProductRowsFromUuidsInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductCompletenesses;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
@@ -28,6 +29,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
         private Connection $connection,
         private WriteValueCollectionFactory $valueCollectionFactory,
         private GetProductCompletenesses $getProductCompletenesses,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -137,12 +139,14 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
      */
     private function getValueCollection(array $uuids, array $attributeCodes, string $channelCode, string $localeCode): array
     {
+        $mergedValues = $this->platformHelper->jsonMergePreserve("COALESCE(pm1.raw_values, '{}')", "COALESCE(pm2.raw_values, '{}')", "p.raw_values");
+
         $sql = <<<SQL
-                        SELECT 
+                        SELECT
                             BIN_TO_UUID(p.uuid) AS uuid,
                             a_label.code attribute_as_label_code,
                             a_image.code attribute_as_image_code,
-                            JSON_MERGE(COALESCE(pm1.raw_values, '{}'), COALESCE(pm2.raw_values, '{}'), p.raw_values) as raw_values
+                            {$mergedValues} as raw_values
                         FROM
                             pim_catalog_product p
                             LEFT JOIN pim_catalog_product_model pm1 ON pm1.id = p.product_model_id
@@ -150,7 +154,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
                             LEFT JOIN pim_catalog_family f ON f.id = p.family_id
                             LEFT JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
                             LEFT JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
-                        WHERE 
+                        WHERE
                             uuid IN (:uuids)
             SQL;
 

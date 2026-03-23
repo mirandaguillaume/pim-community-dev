@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
@@ -20,8 +21,10 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class GetValuesAndPropertiesFromProductModelCodes
 {
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function fromProductModelCodes(array $productModelCodes): array
@@ -32,6 +35,8 @@ final readonly class GetValuesAndPropertiesFromProductModelCodes
 
         $productModelCodes = (fn (string ...$productModelCodes) => $productModelCodes)(...$productModelCodes);
 
+        $mergedValues = $this->platformHelper->jsonMergePreserve("COALESCE(parent_product_model.raw_values, '{}')", "product_model.raw_values");
+
         $query = <<<SQL
             SELECT
                    product_model.id as id,
@@ -39,15 +44,12 @@ final readonly class GetValuesAndPropertiesFromProductModelCodes
                    family.code as 'family',
                    family_variant.code as 'family_variant',
                    parent_product_model.code as 'parent',
-                   JSON_MERGE(
-                       COALESCE(parent_product_model.raw_values, '{}'),
-                       product_model.raw_values
-                   ) as raw_values,
+                   {$mergedValues} as raw_values,
                    product_model.created as 'created',
                    product_model.updated as 'updated'
             FROM pim_catalog_product_model as product_model
             INNER JOIN pim_catalog_family_variant family_variant ON product_model.family_variant_id = family_variant.id
-            INNER JOIN pim_catalog_family family ON family_variant.family_id = family.id 
+            INNER JOIN pim_catalog_family family ON family_variant.family_id = family.id
             LEFT JOIN pim_catalog_product_model parent_product_model ON parent_product_model.id = product_model.parent_id
             WHERE product_model.code IN (:productModelCodes)
             SQL;

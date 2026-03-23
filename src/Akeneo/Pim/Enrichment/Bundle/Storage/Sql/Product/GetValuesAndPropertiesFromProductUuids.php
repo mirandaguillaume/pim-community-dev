@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
@@ -22,8 +23,10 @@ use Ramsey\Uuid\UuidInterface;
  */
 final readonly class GetValuesAndPropertiesFromProductUuids
 {
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -31,6 +34,8 @@ final readonly class GetValuesAndPropertiesFromProductUuids
      */
     public function fetchByProductUuids(array $productUuids): array
     {
+        $mergedValues = $this->platformHelper->jsonMergePreserve("COALESCE(pm1.raw_values, '{}')", "COALESCE(pm2.raw_values, '{}')", "p.raw_values");
+
         $query = <<<SQL
             WITH main_identifier AS (
                 SELECT id
@@ -55,7 +60,7 @@ final readonly class GetValuesAndPropertiesFromProductUuids
                 p.updated,
                 f.code AS family_code,
                 group_codes,
-                JSON_MERGE(COALESCE(pm1.raw_values, '{}'), COALESCE(pm2.raw_values, '{}'), p.raw_values) as raw_values
+                {$mergedValues} as raw_values
             FROM pim_catalog_product p
             LEFT JOIN pim_catalog_family f ON p.family_id = f.id
             LEFT JOIN pim_catalog_product_model pm1 ON p.product_model_id = pm1.id

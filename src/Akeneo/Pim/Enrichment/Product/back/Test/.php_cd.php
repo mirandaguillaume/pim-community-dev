@@ -86,6 +86,7 @@ $rules = [
         'Akeneo\Tool\Component\StorageUtils\Cache\CachedQueryInterface',
         'Akeneo\Tool\Component\StorageUtils\Cache\LRUCache',
         'Akeneo\Tool\Component\StorageUtils\StorageEvents',
+        'Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface',
 
         // Symfony, Doctrine DBAL and other libs
         'Psr\\',
