@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductLabelsInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -12,12 +13,16 @@ use Ramsey\Uuid\Uuid;
 
 class SqlGetProductLabels implements GetProductLabelsInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function byIdentifiersAndLocaleAndScope(array $identifiers, string $locale, string $channel): array
     {
+        $mergedValues = $this->platformHelper->jsonMergePatch("COALESCE(pm1.raw_values, '{}')", "COALESCE(pm.raw_values, '{}')", "COALESCE(p.raw_values, '{}')");
+
         $query = <<<SQL
             WITH main_identifier AS (
                 SELECT id
@@ -27,10 +32,10 @@ class SqlGetProductLabels implements GetProductLabelsInterface
             )
             SELECT
                 pcpud.raw_data AS identifier,
-                a.code as label_code, 
-                a.is_localizable as label_is_localizable, 
+                a.code as label_code,
+                a.is_localizable as label_is_localizable,
                 a.is_scopable AS label_is_scopable,
-                JSON_MERGE_PATCH(COALESCE(pm1.raw_values, '{}'), COALESCE(pm.raw_values, '{}'), COALESCE(p.raw_values, '{}')) as raw_values
+                {$mergedValues} as raw_values
             FROM pim_catalog_product p
             LEFT JOIN pim_catalog_family f ON p.family_id = f.id
             LEFT JOIN pim_catalog_attribute a ON f.label_attribute_id = a.id
@@ -65,13 +70,15 @@ class SqlGetProductLabels implements GetProductLabelsInterface
 
     public function byUuidsAndLocaleAndScope(array $uuids, string $locale, string $channel): array
     {
+        $mergedValues = $this->platformHelper->jsonMergePatch("COALESCE(pm1.raw_values, '{}')", "COALESCE(pm.raw_values, '{}')", "COALESCE(p.raw_values, '{}')");
+
         $query = <<<SQL
             SELECT
                 BIN_TO_UUID(p.uuid) AS uuid,
-                a.code as label_code, 
-                a.is_localizable as label_is_localizable, 
+                a.code as label_code,
+                a.is_localizable as label_is_localizable,
                 a.is_scopable AS label_is_scopable,
-                JSON_MERGE_PATCH(COALESCE(pm1.raw_values, '{}'), COALESCE(pm.raw_values, '{}'), COALESCE(p.raw_values, '{}')) as raw_values
+                {$mergedValues} as raw_values
             FROM pim_catalog_product p
             LEFT JOIN pim_catalog_family f ON p.family_id = f.id
             LEFT JOIN pim_catalog_attribute a ON f.label_attribute_id = a.id

@@ -19,6 +19,7 @@ services:
         arguments:
             - '@database_connection'
             - '@akeneo_elasticsearch.client.product_and_product_model'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     pim_analytics.query.is_demo_catalog:
         class: Akeneo\Platform\Bundle\AnalyticsBundle\Query\Sql\IsDemoCatalog

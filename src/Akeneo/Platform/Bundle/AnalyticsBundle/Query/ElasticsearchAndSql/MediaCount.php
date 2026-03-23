@@ -7,6 +7,7 @@ namespace Akeneo\Platform\Bundle\AnalyticsBundle\Query\ElasticsearchAndSql;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Component\Analytics\MediaCountQuery;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -48,8 +49,11 @@ use Doctrine\DBAL\Connection;
  */
 class MediaCount implements MediaCountQuery
 {
-    public function __construct(private readonly Connection $connection, private readonly Client $client)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly Client $client,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function countFiles(): int
@@ -68,6 +72,17 @@ class MediaCount implements MediaCountQuery
 
     private function fetchESFieldPathsForAttributesOfType(string $attributeType): array
     {
+        $channelExpr = $this->platformHelper->conditional(
+            'attribute.is_scopable',
+            'channel_locale.channel_code',
+            "'<all_channels>'"
+        );
+        $localeExpr = $this->platformHelper->conditional(
+            'attribute.is_localizable',
+            'channel_locale.locale_code',
+            "'<all_locales>'"
+        );
+
         $sql = <<<SQL
                 WITH channel_locale AS (
                     SELECT
@@ -84,9 +99,9 @@ class MediaCount implements MediaCountQuery
                         'values.',
                         attribute.code,
                         '-media.',
-                        IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
+                        {$channelExpr},
                         '.',
-                        IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
+                        {$localeExpr}
                     ) AS elasticsearch_field_name
                 FROM channel_locale
                 JOIN pim_catalog_attribute attribute

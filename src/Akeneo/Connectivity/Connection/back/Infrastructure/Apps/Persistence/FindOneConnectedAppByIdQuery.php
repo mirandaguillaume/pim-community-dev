@@ -7,6 +7,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence;
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\FindOneConnectedAppByIdQueryInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence\DenormalizeConnectedAppTrait;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -17,12 +18,16 @@ final readonly class FindOneConnectedAppByIdQuery implements FindOneConnectedApp
 {
     use DenormalizeConnectedAppTrait;
 
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function execute(string $appId): ?ConnectedApp
     {
+        $isCustomApp = $this->platformHelper->conditional('test_app.client_id IS NULL', 'FALSE', 'TRUE');
+
         $selectQuery = <<<SQL
             SELECT
                 connected_app.id,
@@ -36,7 +41,7 @@ final readonly class FindOneConnectedAppByIdQuery implements FindOneConnectedApp
                 connected_app.connection_code,
                 connected_app.user_group_name,
                 oro_user.username AS connection_username,
-                IF(test_app.client_id IS NULL, FALSE, TRUE) AS is_custom_app,
+                {$isCustomApp} AS is_custom_app,
                 connected_app.has_outdated_scopes
             FROM akeneo_connectivity_connected_app connected_app
             JOIN akeneo_connectivity_connection connection ON connection.code = connected_app.connection_code

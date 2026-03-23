@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\InternalApi\Family;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetRequiredAttributesMasksForAttributeType;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMaskForChannelAndLocale;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -18,8 +19,10 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class PriceCollectionSqlGetRequiredAttributesMasks implements GetRequiredAttributesMasksForAttributeType
 {
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -27,6 +30,9 @@ final readonly class PriceCollectionSqlGetRequiredAttributesMasks implements Get
      */
     public function fromFamilyCodes(array $familyCodes): array
     {
+        $scopePart = $this->platformHelper->conditional('attribute.is_scopable', 'channel_locale.channel_code', "'<all_channels>'");
+        $localePart = $this->platformHelper->conditional('attribute.is_localizable', 'channel_locale.locale_code', "'<all_locales>'");
+
         $sql = <<<SQL
             WITH
             channel_locale AS (
@@ -58,9 +64,9 @@ final readonly class PriceCollectionSqlGetRequiredAttributesMasks implements Get
                         '-',
                         currency_channel.concatenated_currency_codes,
                         '-',
-                        IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
+                        {$scopePart},
                         '-',
-                        IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
+                        {$localePart}
                     )
                 ) AS mask
             FROM pim_catalog_family family

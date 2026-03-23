@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product\QuantifiedAssociation
 
 use Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query\QuantifiedAssociation\GetIdMappingFromProductIdsQuery;
 use Akeneo\Pim\Enrichment\Component\Product\Query\FindQuantifiedAssociationTypeCodesInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -13,8 +14,12 @@ use Ramsey\Uuid\UuidInterface;
 
 final readonly class GetProductQuantifiedAssociationsByProductUuids
 {
-    public function __construct(private Connection $connection, private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery, private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes)
-    {
+    public function __construct(
+        private Connection $connection,
+        private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery,
+        private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -43,10 +48,12 @@ final readonly class GetProductQuantifiedAssociationsByProductUuids
 
     private function fetchQuantifiedAssociations(array $productUuids): array
     {
+        $mergedQA = $this->platformHelper->jsonMergePreserve("COALESCE(pm2.quantified_associations, '{}')", "COALESCE(pm1.quantified_associations, '{}')", "COALESCE(p.quantified_associations, '{}')");
+
         $query = <<<SQL
             SELECT
                 BIN_TO_UUID(p.uuid) AS uuid,
-                JSON_MERGE_PRESERVE(COALESCE(pm2.quantified_associations, '{}'), COALESCE(pm1.quantified_associations, '{}'), COALESCE(p.quantified_associations, '{}')) AS all_quantified_associations
+                {$mergedQA} AS all_quantified_associations
             FROM pim_catalog_product p
             LEFT JOIN pim_catalog_product_model pm1 ON p.product_model_id = pm1.id
             LEFT JOIN pim_catalog_product_model pm2 ON pm1.parent_id = pm2.id

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Connectivity\Connection\Infrastructure\CustomApps\Persistence;
 
 use Akeneo\Connectivity\Connection\Domain\CustomApps\Persistence\GetCustomAppQueryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -13,8 +14,10 @@ use Doctrine\DBAL\Connection;
  */
 class GetCustomAppQuery implements GetCustomAppQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -29,11 +32,17 @@ class GetCustomAppQuery implements GetCustomAppQueryInterface
      */
     public function execute(string $id): ?array
     {
+        $authorExpr = $this->platformHelper->conditional(
+            'app.user_id IS NOT NULL',
+            "CONCAT_WS(' ', user.name_prefix, user.first_name, user.middle_name, user.last_name, user.name_suffix)",
+            'NULL',
+        );
+
         $query = <<<SQL
-            SELECT 
+            SELECT
                 app.client_id AS id,
                 app.name,
-                IF(app.user_id IS NOT NULL, CONCAT_WS(' ', user.name_prefix, user.first_name, user.middle_name, user.last_name, user.name_suffix), NULL) AS author,
+                {$authorExpr} AS author,
                 app.activate_url,
                 app.callback_url,
                 (

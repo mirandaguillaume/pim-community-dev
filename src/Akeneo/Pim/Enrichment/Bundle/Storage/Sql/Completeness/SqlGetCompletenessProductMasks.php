@@ -10,6 +10,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Completeness\Query\GetCompletenessPr
 use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -24,8 +25,13 @@ use Webmozart\Assert\Assert;
  */
 final readonly class SqlGetCompletenessProductMasks implements GetCompletenessProductMasks
 {
-    public function __construct(private Connection $connection, private MaskItemGenerator $maskItemGenerator, private GetAttributes $getAttributes, private NormalizerInterface $valuesNormalizer)
-    {
+    public function __construct(
+        private Connection $connection,
+        private MaskItemGenerator $maskItemGenerator,
+        private GetAttributes $getAttributes,
+        private NormalizerInterface $valuesNormalizer,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -37,6 +43,8 @@ final readonly class SqlGetCompletenessProductMasks implements GetCompletenessPr
         // PIM-9783: the initial query didn't use the CTE, we filtered directly the product in the main SELECT. There
         // was some performance issues with a big number of productIdentifier. The CTE allows to fix it (please check
         // the issue for further information).
+        $mergedValues = $this->platformHelper->jsonMergePreserve("COALESCE(pm1.raw_values, '{}')", "COALESCE(pm2.raw_values, '{}')", "product.raw_values");
+
         $sql = <<<SQL
             WITH
             filtered_product AS (
@@ -45,11 +53,7 @@ final readonly class SqlGetCompletenessProductMasks implements GetCompletenessPr
             SELECT
                 BIN_TO_UUID(product.uuid) AS uuid,
                 family.code AS familyCode,
-                JSON_MERGE(
-                       COALESCE(pm1.raw_values, '{}'),
-                       COALESCE(pm2.raw_values, '{}'),
-                       product.raw_values
-                ) AS rawValues
+                {$mergedValues} AS rawValues
             FROM filtered_product
                 INNER JOIN pim_catalog_product product ON filtered_product.uuid = product.uuid
                 LEFT JOIN pim_catalog_family family ON product.family_id = family.id

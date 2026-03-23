@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuidCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultCodes;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultIds;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -24,7 +25,8 @@ final readonly class GetEvaluationRatesByProductsAndCriterionQuery implements Ge
 {
     public function __construct(
         private Connection $dbConnection,
-        private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
+        private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -33,9 +35,10 @@ final readonly class GetEvaluationRatesByProductsAndCriterionQuery implements Ge
         Assert::isInstanceOf($productUuidCollection, ProductUuidCollection::class);
 
         $ratesPath = sprintf('$."%s"', TransformCriterionEvaluationResultCodes::PROPERTIES_ID['rates']);
+        $jsonExtract = $this->platformHelper->jsonExtract('e.result', $ratesPath);
 
         $query = <<<SQL
-            SELECT BIN_TO_UUID(p.uuid) AS product_uuid, JSON_EXTRACT(e.result, '$ratesPath') AS rates
+            SELECT BIN_TO_UUID(p.uuid) AS product_uuid, {$jsonExtract} AS rates
             FROM pim_catalog_product p
                 JOIN pim_data_quality_insights_product_criteria_evaluation e ON e.product_uuid = p.uuid
             WHERE p.uuid IN (:productUuids) AND e.criterion_code = :criterionCode;

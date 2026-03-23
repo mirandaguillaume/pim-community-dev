@@ -46,4 +46,57 @@ final readonly class PostgreSqlPlatformHelper implements SqlPlatformHelperInterf
     {
         return "'[]'::jsonb";
     }
+
+    public function jsonExtract(string $doc, string $path): string
+    {
+        $pgPath = $this->convertJsonPath($path);
+
+        return sprintf('(%s #> %s)', $doc, $pgPath);
+    }
+
+    public function jsonExtractText(string $doc, string $path): string
+    {
+        $pgPath = $this->convertJsonPath($path);
+
+        return sprintf('(%s #>> %s)', $doc, $pgPath);
+    }
+
+    public function jsonMergePatch(string ...$docs): string
+    {
+        if (\count($docs) < 2) {
+            throw new \InvalidArgumentException('jsonMergePatch requires at least 2 documents');
+        }
+
+        return '(' . implode(' || ', $docs) . ')';
+    }
+
+    public function jsonMergePreserve(string ...$docs): string
+    {
+        if (\count($docs) < 2) {
+            throw new \InvalidArgumentException('jsonMergePreserve requires at least 2 documents');
+        }
+
+        // PG || is last-key-wins for objects. True array-preserving merge
+        // will require a custom SQL function when PG migration starts.
+        return '(' . implode(' || ', $docs) . ')';
+    }
+
+    public function conditional(string $condition, string $then, string $else): string
+    {
+        return sprintf('CASE WHEN %s THEN %s ELSE %s END', $condition, $then, $else);
+    }
+
+    /**
+     * Converts a MySQL JSON path ('$.key', '$."key"', '$.foo.bar')
+     * to PostgreSQL array path format ('{key}', '{foo,bar}').
+     */
+    private function convertJsonPath(string $mysqlPath): string
+    {
+        $path = preg_replace('/^\$\.?/', '', $mysqlPath);
+        // Split on dots NOT inside double-quotes
+        preg_match_all('/"[^"]*"|[^.]+/', $path, $matches);
+        $cleaned = array_map(static fn (string $s): string => trim($s, '"'), $matches[0]);
+
+        return "'{" . implode(',', $cleaned) . "}'";
+    }
 }

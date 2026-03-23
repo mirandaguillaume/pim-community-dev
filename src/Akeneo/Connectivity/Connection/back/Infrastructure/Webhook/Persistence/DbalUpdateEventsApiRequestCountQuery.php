@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Connectivity\Connection\Infrastructure\Webhook\Persistence;
 
 use Akeneo\Connectivity\Connection\Domain\Webhook\Persistence\Query\UpdateEventsApiRequestCountQueryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 
@@ -14,8 +15,10 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalUpdateEventsApiRequestCountQuery implements UpdateEventsApiRequestCountQueryInterface
 {
-    public function __construct(private readonly Connection $dbalConnection)
-    {
+    public function __construct(
+        private readonly Connection $dbalConnection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -25,11 +28,17 @@ class DbalUpdateEventsApiRequestCountQuery implements UpdateEventsApiRequestCoun
      */
     public function execute(\DateTimeImmutable $dateTime, int $eventCount): int
     {
+        $eventCountExpr = $this->platformHelper->conditional(
+            'DATE_FORMAT(updated, "%Y%m%d%H") = DATE_FORMAT(:updated, "%Y%m%d%H")',
+            'event_count + :event_count',
+            ':event_count',
+        );
+
         $upsertQuery = <<<SQL
             INSERT INTO akeneo_connectivity_connection_events_api_request_count (event_minute, event_count, updated)
             VALUES(:event_minute, :event_count, :updated)
             ON DUPLICATE KEY UPDATE
-                event_count = IF(DATE_FORMAT(updated, "%Y%m%d%H") = DATE_FORMAT(:updated, "%Y%m%d%H"), event_count + :event_count, :event_count),
+                event_count = {$eventCountExpr},
                 updated = :updated
             SQL;
 

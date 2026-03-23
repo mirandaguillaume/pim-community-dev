@@ -72,12 +72,14 @@ services:
                 - 'akeneo_reference_entity_collection'
                 - 'pim_catalog_asset_collection'
                 - 'pim_assets_collection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         tags:
             - { name: akeneo.pim.structure.query.get_required_attributes_masks_per_attribute_type }
 
     Akeneo\Pim\Structure\Bundle\Query\InternalApi\Family\PriceCollectionSqlGetRequiredAttributesMasks:
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         tags:
             - { name: akeneo.pim.structure.query.get_required_attributes_masks_per_attribute_type }
 

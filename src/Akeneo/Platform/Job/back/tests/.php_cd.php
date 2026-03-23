@@ -48,6 +48,7 @@ $rules = [
             'Doctrine\DBAL\Connection',
             'Doctrine\DBAL\ArrayParameterType',
             'Doctrine\DBAL\ParameterType',
+            'Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface',
             'Oro\Bundle\SecurityBundle\SecurityFacade',
             'Symfony\Component',
             'Symfony\Bundle\SecurityBundle\Security',

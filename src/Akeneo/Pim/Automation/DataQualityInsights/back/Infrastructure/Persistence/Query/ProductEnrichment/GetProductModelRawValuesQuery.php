@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Q
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEnrichment\GetProductRawValuesQueryInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelId;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
@@ -19,7 +20,8 @@ class GetProductModelRawValuesQuery implements GetProductRawValuesQueryInterface
 {
     public function __construct(
         /** * @var Connection */
-        private readonly Connection $dbConnection
+        private readonly Connection $dbConnection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -27,12 +29,11 @@ class GetProductModelRawValuesQuery implements GetProductRawValuesQueryInterface
     {
         Assert::isInstanceOf($productModelId, ProductModelId::class);
 
+        $mergedValues = $this->platformHelper->jsonMergePreserve("COALESCE(product_model_parent.raw_values, '{}')", 'product_model.raw_values');
+
         $query = <<<SQL
             SELECT
-                JSON_MERGE(
-                    COALESCE(product_model_parent.raw_values, '{}'),
-                    product_model.raw_values
-                ) AS raw_values
+                {$mergedValues} AS raw_values
                 FROM pim_catalog_product_model AS product_model
                 LEFT JOIN pim_catalog_product_model AS product_model_parent ON product_model_parent.id = product_model.parent_id
             WHERE product_model.id = :product_model_id;

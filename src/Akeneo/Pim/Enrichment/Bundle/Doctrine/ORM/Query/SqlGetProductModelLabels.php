@@ -5,25 +5,30 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductModelLabelsInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 
 class SqlGetProductModelLabels implements GetProductModelLabelsInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function byCodesAndLocaleAndScope(array $codes, string $locale, string $scope): array
     {
+        $mergedValues = $this->platformHelper->jsonMergePatch("COALESCE(pm1.raw_values, '{}')", "COALESCE(pm.raw_values, '{}')");
+
         $query = <<<SQL
             SELECT
                 pm.code,
-                a.code as label_code, 
-                a.is_localizable as label_is_localizable, 
+                a.code as label_code,
+                a.is_localizable as label_is_localizable,
                 a.is_scopable AS label_is_scopable,
-                JSON_MERGE_PATCH(COALESCE(pm1.raw_values, '{}'), COALESCE(pm.raw_values, '{}')) as raw_values
+                {$mergedValues} as raw_values
             FROM pim_catalog_product_model pm
             LEFT JOIN pim_catalog_product_model pm1 ON pm.parent_id = pm1.id
             JOIN pim_catalog_family_variant fv ON pm.family_variant_id = fv.id

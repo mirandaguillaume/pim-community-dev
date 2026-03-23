@@ -17,6 +17,7 @@ services:
       - '@database_connection'
       - '@Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\GetDeactivatedTemplateAttributes'
       - '@Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\DeactivatedTemplateAttributesInValueCollectionFilter'
+      - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
   Akeneo\Category\Domain\Query\GetCategoryTreesInterface:
     class: Akeneo\Category\Infrastructure\Storage\Sql\GetCategoryTreesSql

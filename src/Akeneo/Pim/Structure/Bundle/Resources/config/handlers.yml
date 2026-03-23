@@ -6,3 +6,4 @@ services:
   Akeneo\Pim\Structure\Bundle\Application\SwitchMainIdentifier\SwitchMainIdentifierHandler:
     arguments:
       - '@database_connection'
+      - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
