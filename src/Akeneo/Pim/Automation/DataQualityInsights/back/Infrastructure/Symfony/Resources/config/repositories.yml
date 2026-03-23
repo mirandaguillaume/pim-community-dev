@@ -29,6 +29,7 @@ services:
       Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Repository\DashboardScoresProjectionRepository:
           arguments:
               - '@database_connection'
+              - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
       Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Repository\AttributeGroupActivationRepository:
           arguments:

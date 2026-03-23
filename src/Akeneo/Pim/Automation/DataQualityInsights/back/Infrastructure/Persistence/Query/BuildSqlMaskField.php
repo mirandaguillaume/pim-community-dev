@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Query;
 
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Query\Completeness\AttributeCase;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -17,6 +18,7 @@ class BuildSqlMaskField
      */
     public function __construct(
         private readonly iterable $attributeCases,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -30,14 +32,17 @@ class BuildSqlMaskField
 
     private function getDefaultMask(): string
     {
+        $scopePart = $this->platformHelper->conditional('attribute.is_scopable', 'channel_locale.channel_code', "'<all_channels>'");
+        $localePart = $this->platformHelper->conditional('attribute.is_localizable', 'channel_locale.locale_code', "'<all_locales>'");
+
         return <<<SQL
             JSON_ARRAYAGG(
                 CONCAT(
                     attribute.code,
                     '-',
-                    IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
+                    {$scopePart},
                     '-',
-                    IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
+                    {$localePart}
                 )
             )
             AS mask
@@ -55,6 +60,9 @@ class BuildSqlMaskField
 
     private function getMaskWithCases(string $cases): string
     {
+        $scopePart = $this->platformHelper->conditional('attribute.is_scopable', 'channel_locale.channel_code', "'<all_channels>'");
+        $localePart = $this->platformHelper->conditional('attribute.is_localizable', 'channel_locale.locale_code', "'<all_locales>'");
+
         return "
 JSON_ARRAYAGG(
     CONCAT(
@@ -63,9 +71,9 @@ JSON_ARRAYAGG(
             ELSE attribute.code
         END,
         '-',
-        IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
+        {$scopePart},
         '-',
-        IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
+        {$localePart}
     )
 ) AS mask
 ";

@@ -9,6 +9,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ChannelCode;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\DashboardProjectionType;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rank;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -19,8 +20,10 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class GetAverageRanksQuery implements GetAverageRanksQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function byFamilies(ChannelCode $channelCode, LocaleCode $localeCode, array $familyCodes): array
@@ -35,12 +38,13 @@ final readonly class GetAverageRanksQuery implements GetAverageRanksQueryInterfa
 
     private function fetchByCodes(ChannelCode $channelCode, LocaleCode $localeCode, string $entityType, array $entityCodes): array
     {
-        $path = sprintf('\'$.average_ranks."%s"."%s"\'', $channelCode, $localeCode);
+        $path = sprintf('$.average_ranks."%s"."%s"', $channelCode, $localeCode);
+        $jsonExtractText = $this->platformHelper->jsonExtractText('scores', $path);
 
         $query = <<<SQL
             SELECT
                 code,
-                JSON_UNQUOTE(JSON_EXTRACT(scores, $path)) AS average_rank
+                {$jsonExtractText} AS average_rank
             FROM pim_data_quality_insights_dashboard_scores_projection
             WHERE type = :type AND code IN (:codes)
             SQL;
