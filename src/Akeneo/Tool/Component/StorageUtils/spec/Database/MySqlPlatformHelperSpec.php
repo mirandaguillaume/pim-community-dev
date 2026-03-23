@@ -93,4 +93,32 @@ final class MySqlPlatformHelperSpec extends ObjectBehavior
         $this->conditional('attribute.is_scopable', 'channel.code', "'<all_channels>'")
             ->shouldReturn("IF(attribute.is_scopable, channel.code, '<all_channels>')");
     }
+
+    public function it_generates_json_path_query(): void
+    {
+        $this->jsonPathQuery('raw_values', '$.*.*.*')
+            ->shouldReturn("JSON_EXTRACT(raw_values, '\$.*.*.*')");
+    }
+
+    public function it_generates_json_length(): void
+    {
+        $this->jsonLength('some_expr')->shouldReturn('JSON_LENGTH(some_expr)');
+    }
+
+    public function it_generates_json_type(): void
+    {
+        $this->jsonType('image_value')->shouldReturn('JSON_TYPE(image_value)');
+    }
+
+    public function it_generates_json_path_exists(): void
+    {
+        $this->jsonPathExists('scores', '$.average_ranks_consolidated_at')
+            ->shouldReturn("JSON_CONTAINS_PATH(scores, 'one', '\$.average_ranks_consolidated_at')");
+    }
+
+    public function it_generates_json_contains(): void
+    {
+        $this->jsonContains('some_array', ':familyVariantCode')
+            ->shouldReturn(':familyVariantCode MEMBER OF(some_array)');
+    }
 }

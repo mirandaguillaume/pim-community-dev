@@ -102,4 +102,38 @@ final class PostgreSqlPlatformHelperSpec extends ObjectBehavior
         $this->conditional('a.is_scopable', 'c.code', "'<all_channels>'")
             ->shouldReturn("CASE WHEN a.is_scopable THEN c.code ELSE '<all_channels>' END");
     }
+
+    public function it_generates_json_path_query(): void
+    {
+        $this->jsonPathQuery('raw_values', '$.*.*.*')
+            ->shouldReturn("jsonb_path_query_array(raw_values, '\$.*.*.*')");
+    }
+
+    public function it_generates_json_length(): void
+    {
+        $this->jsonLength('some_expr')->shouldReturn('jsonb_array_length(some_expr)');
+    }
+
+    public function it_generates_json_type(): void
+    {
+        $this->jsonType('image_value')->shouldReturn('UPPER(jsonb_typeof(image_value))');
+    }
+
+    public function it_generates_json_path_exists(): void
+    {
+        $this->jsonPathExists('scores', '$.average_ranks_consolidated_at')
+            ->shouldReturn("jsonb_path_exists(scores, '\$.average_ranks_consolidated_at')");
+    }
+
+    public function it_generates_json_path_exists_with_wildcard(): void
+    {
+        $this->jsonPathExists('quantified_associations', '$.*.products[*].id')
+            ->shouldReturn("jsonb_path_exists(quantified_associations, '\$.*.products[*].id')");
+    }
+
+    public function it_generates_json_contains(): void
+    {
+        $this->jsonContains('some_array', ':familyVariantCode')
+            ->shouldReturn('some_array @> to_jsonb(:familyVariantCode::text)');
+    }
 }

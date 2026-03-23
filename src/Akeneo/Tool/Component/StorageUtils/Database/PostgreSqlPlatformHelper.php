@@ -86,6 +86,31 @@ final readonly class PostgreSqlPlatformHelper implements SqlPlatformHelperInterf
         return sprintf('CASE WHEN %s THEN %s ELSE %s END', $condition, $then, $else);
     }
 
+    public function jsonPathQuery(string $doc, string $path): string
+    {
+        return sprintf("jsonb_path_query_array(%s, '%s')", $doc, $path);
+    }
+
+    public function jsonLength(string $expr): string
+    {
+        return sprintf('jsonb_array_length(%s)', $expr);
+    }
+
+    public function jsonType(string $expr): string
+    {
+        return sprintf('UPPER(jsonb_typeof(%s))', $expr);
+    }
+
+    public function jsonPathExists(string $doc, string $path): string
+    {
+        return sprintf("jsonb_path_exists(%s, '%s')", $doc, $path);
+    }
+
+    public function jsonContains(string $arrayExpr, string $valueExpr): string
+    {
+        return sprintf('%s @> to_jsonb(%s::text)', $arrayExpr, $valueExpr);
+    }
+
     /**
      * Converts a MySQL JSON path ('$.key', '$."key"', '$.foo.bar')
      * to PostgreSQL array path format ('{key}', '{foo,bar}').
