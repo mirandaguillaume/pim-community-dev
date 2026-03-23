@@ -81,10 +81,13 @@ final readonly class DashboardScoresProjectionRepository implements DashboardSco
 
     public function save(DashboardRatesProjection $ratesProjection): void
     {
+        $mergedScores = $this->platformHelper->jsonMergePatch('scores', ':scores');
+        $upsert = $this->platformHelper->upsertClause(['type', 'code'], ["scores = {$mergedScores}"]);
+
         $query = <<<SQL
             INSERT INTO pim_data_quality_insights_dashboard_scores_projection (type, code, scores)
             VALUES (:type, :code, :scores)
-            ON DUPLICATE KEY UPDATE scores = JSON_MERGE_PATCH(scores, :scores);
+            {$upsert};
             SQL;
 
         $this->db->executeQuery($query, [

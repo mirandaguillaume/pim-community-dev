@@ -34,12 +34,15 @@ class DbalUpdateEventsApiRequestCountQuery implements UpdateEventsApiRequestCoun
             ':event_count',
         );
 
+        $upsert = $this->platformHelper->upsertClause(['event_minute'], [
+            "event_count = {$eventCountExpr}",
+            'updated = :updated',
+        ]);
+
         $upsertQuery = <<<SQL
             INSERT INTO akeneo_connectivity_connection_events_api_request_count (event_minute, event_count, updated)
             VALUES(:event_minute, :event_count, :updated)
-            ON DUPLICATE KEY UPDATE
-                event_count = {$eventCountExpr},
-                updated = :updated
+            {$upsert}
             SQL;
 
         return $this->dbalConnection->executeStatement(
