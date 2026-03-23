@@ -36,6 +36,7 @@ services:
         class: Akeneo\Tool\Bundle\MeasureBundle\Persistence\MeasurementFamilyRepository
         arguments:
             - '@doctrine.dbal.default_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo_measure.application.save_measurement_family_handler:
         class: Akeneo\Tool\Bundle\MeasureBundle\Application\SaveMeasurementFamily\SaveMeasurementFamilyHandler

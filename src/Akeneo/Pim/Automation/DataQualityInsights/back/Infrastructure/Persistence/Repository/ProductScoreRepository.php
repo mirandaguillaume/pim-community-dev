@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\R
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\ProductScoreRepositoryInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -36,8 +37,10 @@ use Webmozart\Assert\Assert;
  */
 final readonly class ProductScoreRepository implements ProductScoreRepositoryInterface
 {
-    public function __construct(private Connection $dbConnection)
-    {
+    public function __construct(
+        private Connection $dbConnection,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -62,14 +65,20 @@ final readonly class ProductScoreRepository implements ProductScoreRepositoryInt
             );
         }, $productsScores));
 
+        $upsert = $this->platformHelper->upsertClause(
+            ['product_uuid'],
+            [
+                'evaluated_at = product_score_values.evaluated_at',
+                'scores = product_score_values.scores',
+                'scores_partial_criteria = product_score_values.scores_partial_criteria',
+            ]
+        );
+
         $this->dbConnection->executeQuery(
             <<<SQL
-                INSERT IGNORE INTO pim_data_quality_insights_product_score (product_uuid, evaluated_at, scores, scores_partial_criteria) 
+                INSERT IGNORE INTO pim_data_quality_insights_product_score (product_uuid, evaluated_at, scores, scores_partial_criteria)
                 VALUES $insertValues AS product_score_values
-                ON DUPLICATE KEY UPDATE 
-                    evaluated_at = product_score_values.evaluated_at, 
-                    scores = product_score_values.scores, 
-                    scores_partial_criteria = product_score_values.scores_partial_criteria;
+                $upsert;
                 SQL
         );
     }

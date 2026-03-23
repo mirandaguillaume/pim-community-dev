@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Platform\Installer\Infrastructure\Command;
 
 use Akeneo\Platform\Installer\Infrastructure\Exception\UcsOnlyMigrationException;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,6 +30,7 @@ final class MigrateZddCommand extends Command
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger,
+        private readonly SqlPlatformHelperInterface $platformHelper,
         \Traversable $zddMigrations,
     ) {
         $this->zddMigrations = iterator_to_array($zddMigrations);
@@ -146,10 +148,15 @@ final class MigrateZddCommand extends Command
 
     private function markAsMigrated(ZddMigration $zddMigration): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['code'],
+            ['status = ' . $this->platformHelper->insertedValue('status'), 'start_time = NOW()']
+        );
+
         $this->connection->executeQuery(<<<SQL
-                INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
+                INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`)
                 VALUES (:code, :status, NOW(), :values)
-                ON DUPLICATE KEY UPDATE status=VALUES(status), start_time=NOW();
+                $upsert;
             SQL, [
             'code' => $this->getZddMigrationCode($zddMigration),
             'status' => 'finished',

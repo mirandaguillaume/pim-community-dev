@@ -10,6 +10,7 @@ services:
     Akeneo\Connectivity\Connection\Infrastructure\ErrorManagement\Persistence\DbalErrorCountRepository:
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Connectivity\Connection\Infrastructure\ErrorManagement\Persistence\ElasticsearchBusinessErrorRepository:
         arguments:

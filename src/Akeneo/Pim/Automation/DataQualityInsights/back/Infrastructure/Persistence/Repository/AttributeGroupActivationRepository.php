@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\R
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\AttributeGroupActivation;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\AttributeGroupActivationRepositoryInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupCode;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 
@@ -16,16 +17,23 @@ use Doctrine\DBAL\ParameterType;
  */
 final class AttributeGroupActivationRepository implements AttributeGroupActivationRepositoryInterface
 {
-    public function __construct(protected Connection $dbConnection)
-    {
+    public function __construct(
+        protected Connection $dbConnection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function save(AttributeGroupActivation $attributeGroupActivation): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['attribute_group_code'],
+            ['activated = :activated', 'updated_at = NOW()']
+        );
+
         $query = <<<SQL
-            INSERT INTO pim_data_quality_insights_attribute_group_activation (attribute_group_code, activated, updated_at) 
+            INSERT INTO pim_data_quality_insights_attribute_group_activation (attribute_group_code, activated, updated_at)
             VALUES (:attributeGroupCode, :activated, NOW())
-            ON DUPLICATE KEY UPDATE activated = :activated, updated_at = NOW();
+            $upsert;
             SQL;
 
         $this->dbConnection->executeQuery(

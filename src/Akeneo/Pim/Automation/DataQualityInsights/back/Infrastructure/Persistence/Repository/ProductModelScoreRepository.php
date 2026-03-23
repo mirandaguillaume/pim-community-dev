@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\R
 
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\ProductModelScoreRepositoryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
@@ -17,7 +18,8 @@ use Webmozart\Assert\Assert;
 class ProductModelScoreRepository implements ProductModelScoreRepositoryInterface
 {
     public function __construct(
-        private readonly Connection $dbConnection
+        private readonly Connection $dbConnection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -42,10 +44,15 @@ class ProductModelScoreRepository implements ProductModelScoreRepositoryInterfac
             $scores = sprintf('scores_%d', $index);
             $scoresPartialCriteria = sprintf('scores_partial_criteria_%d', $index);
 
+            $upsert = $this->platformHelper->upsertClause(
+                ['product_model_id'],
+                ["evaluated_at = :$evaluatedAt", "scores = :$scores", "scores_partial_criteria = :$scoresPartialCriteria"]
+            );
+
             $queries .= <<<SQL
                 INSERT IGNORE INTO pim_data_quality_insights_product_model_score (product_model_id, evaluated_at, scores, scores_partial_criteria)
                 VALUES (:$productModelId, :$evaluatedAt, :$scores, :$scoresPartialCriteria)
-                ON DUPLICATE KEY UPDATE evaluated_at = :$evaluatedAt, scores = :$scores, scores_partial_criteria = :$scoresPartialCriteria;
+                $upsert;
                 SQL;
             $queriesParameters[$productModelId] = (string) $productModelScore->getEntityId();
             $queriesParametersTypes[$productModelId] = ParameterType::INTEGER;

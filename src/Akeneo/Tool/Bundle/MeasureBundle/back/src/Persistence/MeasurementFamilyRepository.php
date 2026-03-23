@@ -11,6 +11,7 @@ use Akeneo\Tool\Bundle\MeasureBundle\Model\MeasurementFamilyCode;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\Operation;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\Unit;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\UnitCode;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
@@ -28,8 +29,10 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
     /** @var MeasurementFamily[] */
     private array $measurementFamilyCache = [];
 
-    public function __construct(private readonly Connection $sqlConnection)
-    {
+    public function __construct(
+        private readonly Connection $sqlConnection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function all(): array
@@ -53,15 +56,17 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
 
     public function save(MeasurementFamily $measurementFamily)
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['code'],
+            ['labels = :labels', 'standard_unit = :standard_unit', 'units = :units']
+        );
+
         $updateSql = <<<SQL
                 INSERT INTO akeneo_measurement
                     (code, labels, standard_unit, units)
                 VALUES
                     (:code, :labels, :standard_unit, :units)
-                ON DUPLICATE KEY UPDATE
-                    labels = :labels,
-                    standard_unit = :standard_unit,
-                    units = :units;
+                $upsert;
             SQL;
         $normalizedMeasurementFamily = $measurementFamily->normalize();
 
