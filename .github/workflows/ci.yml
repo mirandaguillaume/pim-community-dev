@@ -1468,10 +1468,8 @@ jobs:
             --config p/symfony \
             --config p/security-audit \
             --config p/xss \
-            --sarif \
-            --output var/sast/semgrep.sarif \
             --json \
-            --json-output var/sast/semgrep.json \
+            --output var/sast/semgrep-php.json \
             src/Akeneo/ || true
 
       - name: Run Semgrep (JavaScript/TypeScript security rules)
@@ -1480,15 +1478,24 @@ jobs:
             --config p/javascript \
             --config p/typescript \
             --config p/react \
-            --sarif \
-            --output var/sast/semgrep-frontend.sarif \
             --json \
-            --json-output var/sast/semgrep-frontend.json \
+            --output var/sast/semgrep-frontend.json \
+            src/Akeneo/ front-packages/ || true
+
+      - name: Generate SARIF reports for GitHub Security tab
+        run: |
+          semgrep scan \
+            --config p/php --config p/symfony --config p/security-audit --config p/xss \
+            --sarif --output var/sast/semgrep-php.sarif \
+            src/Akeneo/ || true
+          semgrep scan \
+            --config p/javascript --config p/typescript --config p/react \
+            --sarif --output var/sast/semgrep-frontend.sarif \
             src/Akeneo/ front-packages/ || true
 
       - name: Summarize findings
         run: |
-          PHP_FINDINGS=$(cat var/sast/semgrep.json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d.get('results',[])))" 2>/dev/null || echo "0")
+          PHP_FINDINGS=$(cat var/sast/semgrep-php.json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d.get('results',[])))" 2>/dev/null || echo "0")
           JS_FINDINGS=$(cat var/sast/semgrep-frontend.json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d.get('results',[])))" 2>/dev/null || echo "0")
           echo "### SAST (Semgrep) Summary" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
