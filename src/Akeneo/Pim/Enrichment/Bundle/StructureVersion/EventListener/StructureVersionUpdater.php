@@ -4,6 +4,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\StructureVersion\EventListener;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,8 +22,10 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 #[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'onPostSaveAll')]
 class StructureVersionUpdater
 {
-    public function __construct(protected ManagerRegistry $doctrine)
-    {
+    public function __construct(
+        protected ManagerRegistry $doctrine,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
 
@@ -60,8 +63,10 @@ class StructureVersionUpdater
 
     private function replaceVersionLastUpdate($subject): void
     {
-        $sql = <<<'SQL'
-            REPLACE INTO akeneo_structure_version_last_update SET resource_name = :resource_name, last_update = now();
+        $upsert = $this->platformHelper->upsertClause(['resource_name'], ['last_update = NOW()']);
+        $sql = <<<SQL
+            INSERT INTO akeneo_structure_version_last_update (resource_name, last_update)
+            VALUES (:resource_name, NOW()) {$upsert}
             SQL;
 
         $connection = $this->doctrine->getConnection();

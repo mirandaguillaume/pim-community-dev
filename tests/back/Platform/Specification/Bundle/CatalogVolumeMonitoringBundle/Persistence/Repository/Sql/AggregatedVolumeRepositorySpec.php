@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Specification\Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Persistence\Repository\Sql;
 
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Statement;
 use PhpSpec\ObjectBehavior;
@@ -14,9 +15,10 @@ use Prophecy\Argument;
 
 class AggregatedVolumeRepositorySpec extends ObjectBehavior
 {
-    function let(Connection $connection)
+    function let(Connection $connection, SqlPlatformHelperInterface $platformHelper)
     {
-        $this->beConstructedWith($connection);
+        $platformHelper->upsertClause(Argument::cetera())->willReturn('');
+        $this->beConstructedWith($connection, $platformHelper);
     }
 
     function it_is_initializable()

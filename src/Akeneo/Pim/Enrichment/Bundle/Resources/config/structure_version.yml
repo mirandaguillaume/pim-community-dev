@@ -10,6 +10,7 @@ services:
         class: 'Akeneo\Pim\Enrichment\Bundle\StructureVersion\EventListener\StructureVersionUpdater'
         arguments:
             - '@doctrine'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         autoconfigure: true
 
     pim_structure_version.provider.structure_version.product:
