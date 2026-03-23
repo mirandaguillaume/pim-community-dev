@@ -1446,6 +1446,73 @@ jobs:
           key: test-timings-phpunit-${{ github.ref }}-${{ github.run_number }}
 
   # ===========================================================================
+  # ===========================================================================
+  # SAST: Semgrep static security analysis (non-blocking, informational)
+  # ===========================================================================
+  sast:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true'
+    timeout-minutes: 15
+    continue-on-error: true
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Semgrep (PHP security rules)
+        run: |
+          semgrep scan \
+            --config p/php \
+            --config p/symfony \
+            --config p/security-audit \
+            --config p/xss \
+            --sarif \
+            --output var/sast/semgrep.sarif \
+            --json \
+            --json-output var/sast/semgrep.json \
+            src/Akeneo/ || true
+          mkdir -p var/sast
+
+      - name: Run Semgrep (JavaScript/TypeScript security rules)
+        run: |
+          semgrep scan \
+            --config p/javascript \
+            --config p/typescript \
+            --config p/react \
+            --sarif \
+            --output var/sast/semgrep-frontend.sarif \
+            --json \
+            --json-output var/sast/semgrep-frontend.json \
+            src/Akeneo/ front-packages/ || true
+
+      - name: Summarize findings
+        run: |
+          PHP_FINDINGS=$(cat var/sast/semgrep.json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d.get('results',[])))" 2>/dev/null || echo "0")
+          JS_FINDINGS=$(cat var/sast/semgrep-frontend.json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d.get('results',[])))" 2>/dev/null || echo "0")
+          echo "### SAST (Semgrep) Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Scope | Findings |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|----------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| PHP (p/php + p/symfony + p/security-audit + p/xss) | ${PHP_FINDINGS} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| JS/TS (p/javascript + p/typescript + p/react) | ${JS_FINDINGS} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "See artifacts for full SARIF report." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: var/sast/
+        continue-on-error: true
+
+      - name: Upload SAST report
+        uses: actions/upload-artifact@v4
+        with:
+          name: sast-semgrep-report
+          path: var/sast/
+          retention-days: 30
+
   # CI SUCCESS: Final gate job
   # ===========================================================================
   # ===========================================================================
