@@ -10,6 +10,7 @@ use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\DeactivatedTem
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\DeactivatedTemplateAttributesInValueCollectionFilter;
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\GetDeactivatedTemplateAttributes;
 use Akeneo\Category\ServiceApi\ExternalApiCategory;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 
@@ -23,6 +24,7 @@ final readonly class GetCategoriesSql implements GetCategoriesInterface
         private Connection $connection,
         private GetDeactivatedTemplateAttributes $getDeactivatedTemplateAttributes,
         private DeactivatedTemplateAttributesInValueCollectionFilter $deactivatedAttributesInValueCollectionFilter,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -36,6 +38,8 @@ final readonly class GetCategoriesSql implements GetCategoriesInterface
     {
         $sqlWhere = $sqlParameters->getSqlWhere();
         $sqlLimitOffset = $sqlParameters->getLimitAndOffset();
+        $conditionalPosition = $this->platformHelper->conditional(':with_position', 'COALESCE(position_cte.position, 1)', "''");
+        $conditionalValueCollection = $this->platformHelper->conditional(':with_enriched_attributes', 'value_collection_cte.value_collection', "''");
 
         $sqlQuery = <<<SQL
                 WITH category_filtered_cte as (
@@ -94,16 +98,8 @@ final readonly class GetCategoriesSql implements GetCategoriesInterface
                     category.rgt,
                     category.lvl,
                     translation_cte.translations,
-                    IF(
-                        :with_position,
-                        COALESCE(position_cte.position, 1),
-                        ''
-                    ) as position,
-                    IF(
-                        :with_enriched_attributes,
-                        value_collection_cte.value_collection,
-                        ''
-                    ) as value_collection
+                    {$conditionalPosition} as position,
+                    {$conditionalValueCollection} as value_collection
                 FROM category_filtered_cte
                     LEFT JOIN pim_catalog_category as category on category_filtered_cte.id = category.id
                     LEFT JOIN pim_catalog_category as parent_category on category.parent_id = parent_category.id
