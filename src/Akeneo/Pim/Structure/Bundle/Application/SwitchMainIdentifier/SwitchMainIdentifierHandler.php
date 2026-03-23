@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\Structure\Bundle\Application\SwitchMainIdentifier;
 
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -12,7 +13,8 @@ use Webmozart\Assert\Assert;
 final readonly class SwitchMainIdentifierHandler
 {
     public function __construct(
-        private Connection $connection
+        private Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -41,10 +43,12 @@ final readonly class SwitchMainIdentifierHandler
         string $formerMainIdentifierCode,
         string $newMainIdentifierCode
     ): void {
+        $toggleMainIdentifier = $this->platformHelper->conditional('main_identifier', '0', '1');
+
         $sql = <<<SQL
             UPDATE pim_catalog_attribute
             SET
-                main_identifier = IF(main_identifier, 0, 1),
+                main_identifier = {$toggleMainIdentifier},
                 updated = NOW()
             WHERE code IN (:formerMainIdentifierCode, :newMainIdentifierCode)
             SQL;
