@@ -122,14 +122,16 @@ final readonly class DashboardScoresProjectionRepository implements DashboardSco
     private function saveAverageRanks(DashboardRatesProjection $ratesProjection): void
     {
         $mergedScores = $this->platformHelper->jsonMergePatch('scores', ':scores');
+        $pathExists = $this->platformHelper->jsonPathExists('scores', '$.average_ranks_consolidated_at');
+        $extractDate = $this->platformHelper->jsonExtractText('scores', '$.average_ranks_consolidated_at');
 
         $query = <<<SQL
             UPDATE pim_data_quality_insights_dashboard_scores_projection
             SET scores = {$mergedScores}
             WHERE type = :type AND code = :code
               AND (
-                  NOT JSON_CONTAINS_PATH(scores, 'one', '$.average_ranks_consolidated_at')
-                  OR JSON_UNQUOTE(JSON_EXTRACT(scores, '$.average_ranks_consolidated_at')) < :consolidated_at
+                  NOT {$pathExists}
+                  OR {$extractDate} < :consolidated_at
               );
             SQL;
         $scores = [
