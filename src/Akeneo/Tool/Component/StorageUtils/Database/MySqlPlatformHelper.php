@@ -46,4 +46,29 @@ final readonly class MySqlPlatformHelper implements SqlPlatformHelperInterface
     {
         return 'JSON_ARRAY()';
     }
+
+    public function jsonExtract(string $doc, string $path): string
+    {
+        return sprintf("JSON_EXTRACT(%s, '%s')", $doc, $path);
+    }
+
+    public function jsonExtractText(string $doc, string $path): string
+    {
+        return sprintf("JSON_UNQUOTE(JSON_EXTRACT(%s, '%s'))", $doc, $path);
+    }
+
+    public function jsonMergePatch(string ...$docs): string
+    {
+        return sprintf('JSON_MERGE_PATCH(%s)', implode(', ', $docs));
+    }
+
+    public function jsonMergePreserve(string ...$docs): string
+    {
+        return sprintf('JSON_MERGE_PRESERVE(%s)', implode(', ', $docs));
+    }
+
+    public function conditional(string $condition, string $then, string $else): string
+    {
+        return sprintf('IF(%s, %s, %s)', $condition, $then, $else);
+    }
 }
