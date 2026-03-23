@@ -9,6 +9,7 @@ use Akeneo\Platform\Job\Application\SearchJobExecution\SearchJobExecutionInterfa
 use Akeneo\Platform\Job\Application\SearchJobExecution\SearchJobExecutionQuery;
 use Akeneo\Platform\Job\Domain\Model\Status;
 use Akeneo\Platform\Job\Infrastructure\Hydrator\JobExecutionRowHydrator;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -25,6 +26,7 @@ class SearchJobExecution implements SearchJobExecutionInterface
     public function __construct(
         private readonly Connection $connection,
         private readonly JobExecutionRowHydrator $jobExecutionRowHydrator,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -59,6 +61,12 @@ class SearchJobExecution implements SearchJobExecutionInterface
 
     private function buildSqlQuery(SearchJobExecutionQuery $query): string
     {
+        $hasError = $this->platformHelper->conditional(
+            "COALESCE(step_execution.failure_exceptions, 'a:0:{}') <> 'a:0:{}' OR COALESCE(step_execution.errors, 'a:0:{}') <> 'a:0:{}'",
+            '1',
+            '0'
+        );
+
         $sql = <<<SQL
                 WITH job_executions AS (
                     SELECT
@@ -86,7 +94,7 @@ class SearchJobExecution implements SearchJobExecutionInterface
                         'start_time', step_execution.start_time,
                         'end_time', step_execution.end_time,
                         'warning_count', step_execution.warning_count,
-                        'has_error', IF(IFNULL(step_execution.failure_exceptions, 'a:0:{}') <> 'a:0:{}' OR IFNULL(step_execution.errors, 'a:0:{}') <> 'a:0:{}', 1, 0),
+                        'has_error', {$hasError},
                         'total_items', JSON_EXTRACT(step_execution.tracking_data, '$.totalItems'),
                         'processed_items', JSON_EXTRACT(step_execution.tracking_data, '$.processedItems'),
                         'status', step_execution.status,
