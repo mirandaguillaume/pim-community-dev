@@ -6,6 +6,7 @@ namespace Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Persistence\Query
 
 use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\Query\AverageMaxQuery;
 use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\ReadModel\AverageMaxVolumes;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -17,8 +18,10 @@ class AverageMaxProductModelValues implements AverageMaxQuery
 {
     private const VOLUME_NAME = 'average_max_product_model_values';
 
-    public function __construct(private readonly Connection $connection)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -26,10 +29,13 @@ class AverageMaxProductModelValues implements AverageMaxQuery
      */
     public function fetch(): AverageMaxVolumes
     {
+        $allValues = $this->platformHelper->jsonPathQuery('raw_values', '$.*.*.*');
+        $valueCount = $this->platformHelper->jsonLength($allValues);
+
         $sql = <<<SQL
-                        SELECT 
-                          MAX(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*'))) AS max,
-                          CEIL(AVG(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*')))) AS average
+                        SELECT
+                          MAX({$valueCount}) AS max,
+                          CEIL(AVG({$valueCount})) AS average
                         FROM pim_catalog_product_model;
             SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();

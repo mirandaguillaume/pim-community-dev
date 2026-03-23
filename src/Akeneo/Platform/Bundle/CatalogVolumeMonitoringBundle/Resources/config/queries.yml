@@ -39,6 +39,7 @@ services:
         class: 'Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Persistence\Query\Sql\AverageMaxProductValues'
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         tags:
             - { name: pim_volume_monitoring.persistence.average_max_query_to_aggregate }
 
@@ -46,6 +47,7 @@ services:
         class: 'Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Persistence\Query\Sql\AverageMaxProductModelValues'
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         tags:
             - { name: pim_volume_monitoring.persistence.average_max_query_to_aggregate }
 
@@ -166,6 +168,7 @@ services:
         class: 'Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Persistence\Query\Sql\CountProductValues'
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         tags:
             - { name: pim_volume_monitoring.persistence.count_query_to_aggregate }
 
@@ -173,6 +176,7 @@ services:
         class: 'Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Persistence\Query\Sql\CountProductModelValues'
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         tags:
             - { name: pim_volume_monitoring.persistence.count_query_to_aggregate }
 
