@@ -6,3 +6,4 @@ services:
             - '@akeneo.pim.enrichment.completeness.mask_item_generator.generator'
             - '@akeneo.pim.structure.query.sql_get_attributes'
             - '@pim_catalog.normalizer.storage.product.product_values'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'

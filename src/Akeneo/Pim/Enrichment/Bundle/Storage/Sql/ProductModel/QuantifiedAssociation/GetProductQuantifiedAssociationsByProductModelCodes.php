@@ -7,14 +7,19 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel\QuantifiedAssoci
 use Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query\QuantifiedAssociation\GetIdMappingFromProductIdsQuery;
 use Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\IdMapping;
 use Akeneo\Pim\Enrichment\Component\Product\Query\FindQuantifiedAssociationTypeCodesInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 
 final readonly class GetProductQuantifiedAssociationsByProductModelCodes
 {
-    public function __construct(private Connection $connection, private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery, private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes)
-    {
+    public function __construct(
+        private Connection $connection,
+        private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery,
+        private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -43,10 +48,12 @@ final readonly class GetProductQuantifiedAssociationsByProductModelCodes
 
     private function fetchQuantifiedAssociations(array $productModelCodes): array
     {
+        $mergedQA = $this->platformHelper->jsonMergePreserve("COALESCE(parent_product_model.quantified_associations, '{}')", "COALESCE(product_model.quantified_associations, '{}')");
+
         $query = <<<SQL
             SELECT
                 product_model.code,
-                JSON_MERGE_PRESERVE(COALESCE(parent_product_model.quantified_associations, '{}'), COALESCE(product_model.quantified_associations, '{}')) AS all_quantified_associations
+                {$mergedQA} AS all_quantified_associations
             FROM pim_catalog_product_model as product_model
             LEFT JOIN pim_catalog_product_model parent_product_model ON parent_product_model.id = product_model.parent_id
             WHERE product_model.code IN (:productModelCodes)

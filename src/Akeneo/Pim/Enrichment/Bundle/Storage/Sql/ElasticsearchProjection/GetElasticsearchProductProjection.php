@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\GetAdditionalPropertiesForProduct
 use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\GetElasticsearchProductProjectionInterface;
 use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Model\ElasticsearchProductProjection;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\ReadValueCollectionFactory;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
@@ -35,6 +36,7 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
         private NormalizerInterface $valuesNormalizer,
         private ReadValueCollectionFactory $readValueCollectionFactory,
         private LoggerInterface $logger,
+        private SqlPlatformHelperInterface $platformHelper,
         private iterable $additionalDataProviders = []
     ) {
         Assert::allIsInstanceOf(
@@ -127,8 +129,12 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
 
     private function fetchRows(array $productUuids): array
     {
+        $mergedValues = $this->platformHelper->jsonMergePatch("product.raw_values", "COALESCE(sub_product_model.raw_values, JSON_OBJECT())", "COALESCE(root_product_model.raw_values, JSON_OBJECT())");
+        $jsonArray = $this->platformHelper->jsonArray();
+        $mergedCategories = $this->platformHelper->jsonMergePreserve("COALESCE(product_categories.category_codes, {$jsonArray})", "COALESCE(ancestor_categories.category_codes, {$jsonArray})");
+
         $sql = <<<SQL
-            WITH 
+            WITH
                 main_identifier AS (
                     SELECT id
                     FROM pim_catalog_attribute
@@ -152,16 +158,12 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
                         GREATEST(product.updated, COALESCE(sub_product_model.updated, 0), COALESCE(root_product_model.updated, 0)) AS updated_date,
                         product.updated AS entity_updated_date,
                         COALESCE(JSON_KEYS(product.raw_values), JSON_OBJECT()) AS attribute_codes_in_product_raw_values,
-                        JSON_MERGE_PATCH(
-                            product.raw_values,
-                            COALESCE(sub_product_model.raw_values, JSON_OBJECT()),
-                            COALESCE(root_product_model.raw_values, JSON_OBJECT())
-                        ) as raw_values,
+                        {$mergedValues} as raw_values,
                         attribute.code AS attribute_as_label_code,
                         CASE WHEN root_product_model.id IS NOT NULL THEN 2 ELSE 1 END AS product_lvl_in_attribute_set
                     FROM
                         pim_catalog_product product
-                        LEFT JOIN pim_catalog_product_unique_data 
+                        LEFT JOIN pim_catalog_product_unique_data
                             ON pim_catalog_product_unique_data.product_uuid = product.uuid
                             AND pim_catalog_product_unique_data.attribute_id = (SELECT id FROM main_identifier)
                         LEFT JOIN pim_catalog_product_model sub_product_model ON sub_product_model.id = product.product_model_id
@@ -262,15 +264,12 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
                     product.attribute_codes_in_product_raw_values,
                     product.raw_values,
                     product.attribute_as_label_code,
-                    JSON_MERGE_PRESERVE(
-                        COALESCE(product_categories.category_codes, JSON_ARRAY()),
-                        COALESCE(ancestor_categories.category_codes, JSON_ARRAY())
-                    ) AS category_codes,
-                    COALESCE(ancestor_categories.category_codes, JSON_ARRAY()) as category_codes_of_ancestors,
-                    COALESCE(product_groups.group_codes, JSON_ARRAY()) AS group_codes,
-                    COALESCE(product_family_label.labels, JSON_ARRAY()) AS family_labels,
-                    COALESCE(family_attributes.attribute_codes_in_family, JSON_ARRAY()) AS attribute_codes_in_family,
-                    COALESCE(variant_product_attributes.attribute_codes_at_variant_product_level, JSON_ARRAY()) AS attribute_codes_at_variant_product_level
+                    {$mergedCategories} AS category_codes,
+                    COALESCE(ancestor_categories.category_codes, {$jsonArray}) as category_codes_of_ancestors,
+                    COALESCE(product_groups.group_codes, {$jsonArray}) AS group_codes,
+                    COALESCE(product_family_label.labels, {$jsonArray}) AS family_labels,
+                    COALESCE(family_attributes.attribute_codes_in_family, {$jsonArray}) AS attribute_codes_in_family,
+                    COALESCE(variant_product_attributes.attribute_codes_at_variant_product_level, {$jsonArray}) AS attribute_codes_at_variant_product_level
                 FROM
                     product
                     LEFT JOIN product_groups ON product_groups.product_uuid = product.uuid

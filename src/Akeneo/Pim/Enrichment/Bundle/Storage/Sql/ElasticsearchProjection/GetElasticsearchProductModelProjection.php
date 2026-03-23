@@ -9,6 +9,7 @@ use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\GetElasticsearchProductModelProje
 use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Model\ElasticsearchProductModelProjection;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\ReadValueCollectionFactory;
 use Akeneo\Pim\Enrichment\Component\Product\Normalizer\Indexing\Value\ValueCollectionNormalizer;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
@@ -32,6 +33,7 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
         private readonly ReadValueCollectionFactory $readValueCollectionFactory,
         private readonly NormalizerInterface $valueCollectionNormalizer,
         private readonly LoggerInterface $logger,
+        private readonly SqlPlatformHelperInterface $platformHelper,
         private readonly iterable $additionalDataProviders = []
     ) {
     }
@@ -93,6 +95,10 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
 
     private function getValuesAndPropertiesFromProductModelCodes(array $productModelCodes): array
     {
+        $mergedValues = $this->platformHelper->jsonMergePatch("COALESCE(root_product_model.raw_values, '{}')", "COALESCE(product_model.raw_values, '{}')");
+        $jsonArray = $this->platformHelper->jsonArray();
+        $mergedCategories = $this->platformHelper->jsonMergePreserve("COALESCE(product_model_categories.category_codes, {$jsonArray})", "COALESCE(root_product_model_categories.category_codes, {$jsonArray})");
+
         $query = <<<SQL
             WITH
                 product_model AS (
@@ -103,7 +109,7 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
                         root_product_model.code AS parent_code,
                         GREATEST(product_model.updated, COALESCE(root_product_model.updated, 0)) as updated,
                         product_model.updated as entity_updated,
-                        JSON_MERGE_PATCH(COALESCE(root_product_model.raw_values, '{}'), COALESCE(product_model.raw_values, '{}')) AS raw_values,
+                        {$mergedValues} AS raw_values,
                         family.code AS family_code,
                         family_variant.code AS family_variant_code,
                         product_model.parent_id,
@@ -140,11 +146,11 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
                     GROUP BY product_model.id
                 ),
                 product_model_family_labels AS (
-                    SELECT 
+                    SELECT
                         family.family_id,
                         JSON_OBJECTAGG(locale.code, family_translation.label) AS labels
-                    FROM 
-                        (SELECT DISTINCT product_model.family_id FROM product_model) family  
+                    FROM
+                        (SELECT DISTINCT product_model.family_id FROM product_model) family
                         CROSS JOIN pim_catalog_locale locale
                         LEFT JOIN pim_catalog_family_translation family_translation ON family_translation.foreign_key = family.family_id AND family_translation.locale = locale.code
                     WHERE locale.is_activated = true
@@ -152,12 +158,9 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
                 )
                 SELECT
                     product_model.*,
-                    JSON_MERGE_PRESERVE(
-                        COALESCE(product_model_categories.category_codes, JSON_ARRAY()),
-                        COALESCE(root_product_model_categories.category_codes, JSON_ARRAY())
-                    ) AS category_codes,
-                    COALESCE(root_product_model_categories.category_codes, JSON_ARRAY()) as ancestor_category_codes,
-                    COALESCE(product_model_family_labels.labels, JSON_ARRAY()) AS family_labels
+                    {$mergedCategories} AS category_codes,
+                    COALESCE(root_product_model_categories.category_codes, {$jsonArray}) as ancestor_category_codes,
+                    COALESCE(product_model_family_labels.labels, {$jsonArray}) AS family_labels
                 FROM product_model
                 LEFT JOIN product_model_categories ON product_model_categories.product_model_id = product_model.id
                 LEFT JOIN root_product_model_categories ON root_product_model_categories.product_model_id = product_model.id

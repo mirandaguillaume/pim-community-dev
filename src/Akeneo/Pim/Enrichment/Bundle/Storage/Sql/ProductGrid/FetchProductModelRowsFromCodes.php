@@ -9,6 +9,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel;
 use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\FetchProductModelRowsFromCodesInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
@@ -24,7 +25,8 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
     public function __construct(
         private Connection $connection,
         private WriteValueCollectionFactory $valueCollectionFactory,
-        private ProductModelImagesFromCodes $productModelImagesFromCodes
+        private ProductModelImagesFromCodes $productModelImagesFromCodes,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -242,18 +244,20 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
 
     private function getValueCollection(array $codes, array $attributeCodes, string $channelCode, string $localeCode): array
     {
+        $mergedValues = $this->platformHelper->jsonMergePreserve("COALESCE(parent.raw_values, '{}')", "pm.raw_values");
+
         $sql = <<<SQL
-                        SELECT 
+                        SELECT
                             pm.code,
                             a_label.code attribute_as_label_code,
-                            JSON_MERGE(COALESCE(parent.raw_values, '{}'), pm.raw_values) as raw_values
+                            {$mergedValues} as raw_values
                         FROM
                             pim_catalog_product_model pm
                             JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
                             JOIN pim_catalog_family f ON f.id = fv.family_id
                             LEFT JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
                             LEFT JOIN pim_catalog_product_model parent on parent.id = pm.parent_id
-                        WHERE 
+                        WHERE
                             pm.code IN (:codes)
             SQL;
 

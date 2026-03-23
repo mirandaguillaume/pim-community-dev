@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Product\Infrastructure\Query;
 
 use Akeneo\Pim\Enrichment\Product\Domain\Query\GetCategoryCodes;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -17,8 +18,10 @@ use Webmozart\Assert\Assert;
  */
 final readonly class SqlGetCategoryCodes implements GetCategoryCodes
 {
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -36,13 +39,17 @@ final readonly class SqlGetCategoryCodes implements GetCategoryCodes
             $uuids
         );
 
+        $jsonArray = $this->platformHelper->jsonArray();
+        $jsonArrayAgg = $this->platformHelper->jsonArrayAgg('mc.category_code');
+        $categoryAgg = $this->platformHelper->conditional("COUNT(mc.category_code) = 0", $jsonArray, $jsonArrayAgg);
+
         $sql = <<<SQL
             WITH
             existing_product AS (
                 SELECT uuid, product_model_id FROM pim_catalog_product WHERE uuid IN (:product_uuids)
             )
-            SELECT BIN_TO_UUID(p.uuid) AS uuid, IF(COUNT(mc.category_code) = 0, JSON_ARRAY(), JSON_ARRAYAGG(mc.category_code)) as category_codes
-            FROM 
+            SELECT BIN_TO_UUID(p.uuid) AS uuid, {$categoryAgg} as category_codes
+            FROM
                 existing_product p
                 LEFT JOIN (
                     SELECT

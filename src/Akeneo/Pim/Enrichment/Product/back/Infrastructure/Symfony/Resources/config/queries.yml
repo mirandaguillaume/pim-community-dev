@@ -3,6 +3,7 @@ services:
         class: Akeneo\Pim\Enrichment\Product\Infrastructure\Query\SqlGetCategoryCodes
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Pim\Enrichment\Product\Domain\Query\GetNonViewableCategoryCodes:
         class: Akeneo\Pim\Enrichment\Product\Infrastructure\Query\GetNonViewableCategoryCodes
