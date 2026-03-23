@@ -29,7 +29,7 @@ class DbalSelectErrorCountPerConnectionQuery implements SelectErrorCountPerConne
         \DateTimeImmutable $upToDateTime
     ): ErrorCountPerConnection {
         $sqlQuery = <<<SQL
-            SELECT conn.code as connection_code, IFNULL(SUM(error.error_count), 0) as error_count
+            SELECT conn.code as connection_code, COALESCE(SUM(error.error_count), 0) as error_count
 
             FROM akeneo_connectivity_connection AS conn
             LEFT JOIN akeneo_connectivity_connection_audit_error AS error

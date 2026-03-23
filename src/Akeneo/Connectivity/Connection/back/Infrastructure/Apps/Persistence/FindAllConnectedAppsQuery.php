@@ -6,6 +6,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\FindAllConnectedAppsQueryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -16,12 +17,17 @@ final readonly class FindAllConnectedAppsQuery implements FindAllConnectedAppsQu
 {
     use DenormalizeConnectedAppTrait;
 
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function execute(): array
     {
+        $isCustomApp = $this->platformHelper->conditional('akeneo_connectivity_test_app.client_id IS NULL', 'FALSE', 'TRUE');
+        $isPending = $this->platformHelper->conditional('pending.marketplace_public_app_id IS NULL', 'FALSE', 'TRUE');
+
         $selectSQL = <<<SQL
             WITH pending (marketplace_public_app_id) AS (
                 SELECT marketplace_public_app_id
@@ -42,8 +48,8 @@ final readonly class FindAllConnectedAppsQuery implements FindAllConnectedAppsQu
                 connected_app.certified,
                 connected_app.partner,
                 oro_user.username AS connection_username,
-                IF(akeneo_connectivity_test_app.client_id IS NULL, FALSE, TRUE) AS is_custom_app,
-                IF(pending.marketplace_public_app_id IS NULL, FALSE, TRUE) AS is_pending,
+                {$isCustomApp} AS is_custom_app,
+                {$isPending} AS is_pending,
                 connected_app.has_outdated_scopes
             FROM akeneo_connectivity_connected_app AS connected_app
             JOIN akeneo_connectivity_connection connection ON connection.code = connected_app.connection_code

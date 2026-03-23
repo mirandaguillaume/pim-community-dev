@@ -27,6 +27,7 @@ services:
     Akeneo\Connectivity\Connection\Infrastructure\Webhook\Persistence\DbalUpdateEventsApiRequestCountQuery:
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Connectivity\Connection\Infrastructure\Webhook\Persistence\DbalSelectEventsApiRequestCountWithinLastHourQuery:
         arguments:

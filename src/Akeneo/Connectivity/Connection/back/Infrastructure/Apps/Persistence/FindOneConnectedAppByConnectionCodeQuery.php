@@ -7,6 +7,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence;
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\FindOneConnectedAppByConnectionCodeQueryInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence\DenormalizeConnectedAppTrait;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -17,12 +18,17 @@ final readonly class FindOneConnectedAppByConnectionCodeQuery implements FindOne
 {
     use DenormalizeConnectedAppTrait;
 
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function execute(string $connectionCode): ?ConnectedApp
     {
+        $isCustomApp = $this->platformHelper->conditional('test_app.client_id IS NULL', 'FALSE', 'TRUE');
+        $isPending = $this->platformHelper->conditional('access_token.token IS NULL AND auth_code.token IS NOT NULL', 'TRUE', 'FALSE');
+
         $selectQuery = <<<SQL
             SELECT
                 connected_app.id,
@@ -36,8 +42,8 @@ final readonly class FindOneConnectedAppByConnectionCodeQuery implements FindOne
                 connected_app.connection_code,
                 connected_app.user_group_name,
                 oro_user.username AS connection_username,
-                IF(test_app.client_id IS NULL, FALSE, TRUE) AS is_custom_app,
-                IF(access_token.token IS NULL AND auth_code.token IS NOT NULL, TRUE, FALSE) AS is_pending,
+                {$isCustomApp} AS is_custom_app,
+                {$isPending} AS is_pending,
                 connected_app.has_outdated_scopes
             FROM akeneo_connectivity_connected_app AS connected_app
             JOIN akeneo_connectivity_connection AS connection ON connection.code = connected_app.connection_code AND connected_app.connection_code = :connectionCode
