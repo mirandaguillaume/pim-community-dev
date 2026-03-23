@@ -10,6 +10,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\Has
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelIdCollection;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -22,7 +23,8 @@ final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDa
 {
     public function __construct(
         private Connection $dbConnection,
-        private ProductModelIdFactory $factory
+        private ProductModelIdFactory $factory,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -39,6 +41,8 @@ final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDa
             return null;
         }
 
+        $latestUpdate = $this->platformHelper->conditional('parent.updated > product_model.updated', 'parent.updated', 'product_model.updated');
+
         $query = <<<SQL
             SELECT product_model.id
             FROM pim_catalog_product_model AS product_model
@@ -48,7 +52,7 @@ final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDa
                     SELECT 1 FROM pim_data_quality_insights_product_model_criteria_evaluation AS evaluation
                     WHERE evaluation.product_id = product_model.id
                       AND evaluation.evaluated_at >=
-                          IF(parent.updated > product_model.updated, parent.updated, product_model.updated)
+                          {$latestUpdate}
                 )
             SQL;
 

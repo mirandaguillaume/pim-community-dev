@@ -9,6 +9,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionCode;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultCodes;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultIds;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -20,17 +21,19 @@ use Doctrine\DBAL\ParameterType;
 final readonly class GetEvaluationRatesByProductModelsAndCriterionQuery implements GetEvaluationRatesByProductsAndCriterionQueryInterface
 {
     public function __construct(
-        private Connection                            $dbConnection,
-        private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
+        private Connection $dbConnection,
+        private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
     public function execute(ProductEntityIdCollection $productIdCollection, CriterionCode $criterionCode): array
     {
         $ratesPath = sprintf('$."%s"', TransformCriterionEvaluationResultCodes::PROPERTIES_ID['rates']);
+        $jsonExtract = $this->platformHelper->jsonExtract('result', $ratesPath);
 
         $query = <<<SQL
-            SELECT product_id, JSON_EXTRACT(result, '$ratesPath') AS rates
+            SELECT product_id, {$jsonExtract} AS rates
             FROM pim_data_quality_insights_product_model_criteria_evaluation
             WHERE product_id IN (:productIds) AND criterion_code = :criterionCode;
             SQL;

@@ -8,6 +8,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\DashboardPurgeDateCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\DashboardRatesProjection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\DashboardScoresProjectionRepositoryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -72,8 +73,10 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class DashboardScoresProjectionRepository implements DashboardScoresProjectionRepositoryInterface
 {
-    public function __construct(private Connection $db)
-    {
+    public function __construct(
+        private Connection $db,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function save(DashboardRatesProjection $ratesProjection): void
@@ -118,10 +121,12 @@ final readonly class DashboardScoresProjectionRepository implements DashboardSco
 
     private function saveAverageRanks(DashboardRatesProjection $ratesProjection): void
     {
+        $mergedScores = $this->platformHelper->jsonMergePatch('scores', ':scores');
+
         $query = <<<SQL
             UPDATE pim_data_quality_insights_dashboard_scores_projection
-            SET scores = JSON_MERGE_PATCH(scores, :scores)
-            WHERE type = :type AND code = :code 
+            SET scores = {$mergedScores}
+            WHERE type = :type AND code = :code
               AND (
                   NOT JSON_CONTAINS_PATH(scores, 'one', '$.average_ranks_consolidated_at')
                   OR JSON_UNQUOTE(JSON_EXTRACT(scores, '$.average_ranks_consolidated_at')) < :consolidated_at

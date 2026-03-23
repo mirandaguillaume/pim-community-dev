@@ -5,6 +5,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Q
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetRequiredAttributesMasks;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMaskForChannelAndLocale;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -14,8 +15,11 @@ class GetAttributeTypesMasksQuery implements GetRequiredAttributesMasks
     /** @var string[] */
     private readonly array $attributeTypes;
 
-    public function __construct(private readonly Connection $connection, array $attributeTypes)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+        array $attributeTypes,
+    ) {
         $this->attributeTypes = array_map(fn ($code) => (string) $code, $attributeTypes);
     }
 
@@ -24,6 +28,14 @@ class GetAttributeTypesMasksQuery implements GetRequiredAttributesMasks
      */
     public function fromFamilyCodes(array $familyCodes): array
     {
+        $priceCond = $this->platformHelper->conditional(
+            "attribute.attribute_type = 'pim_catalog_price_collection'",
+            "CONCAT(attribute.code, '-', (SELECT GROUP_CONCAT(currency.code ORDER BY currency.code SEPARATOR '-') FROM pim_catalog_channel channel JOIN pim_catalog_channel_currency pccc ON channel.id = pccc.channel_id JOIN pim_catalog_currency currency ON pccc.currency_id = currency.id WHERE channel.code = channel_code GROUP BY channel.id))",
+            'attribute.code'
+        );
+        $scopePart = $this->platformHelper->conditional('attribute.is_scopable', 'channel_locale.channel_code', "'<all_channels>'");
+        $localePart = $this->platformHelper->conditional('attribute.is_localizable', 'channel_locale.locale_code', "'<all_locales>'");
+
         $sql = <<<SQL
             SELECT
                 family.code AS family_code,
@@ -31,26 +43,11 @@ class GetAttributeTypesMasksQuery implements GetRequiredAttributesMasks
                 locale_code,
                 JSON_ARRAYAGG(
                     CONCAT(
-                        IF(
-                            attribute.attribute_type = 'pim_catalog_price_collection',
-                            CONCAT(
-                                attribute.code,
-                                '-',
-                                (
-                                    SELECT GROUP_CONCAT(currency.code ORDER BY currency.code SEPARATOR '-')
-                                    FROM pim_catalog_channel channel
-                                    JOIN pim_catalog_channel_currency pccc ON channel.id = pccc.channel_id
-                                    JOIN pim_catalog_currency currency ON pccc.currency_id = currency.id
-                                    WHERE channel.code  = channel_code
-                                    GROUP BY channel.id
-                                )
-                            ),
-                            attribute.code
-                        ),
+                        {$priceCond},
                         '-',
-                        IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
+                        {$scopePart},
                         '-',
-                        IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
+                        {$localePart}
                     )
                 ) AS mask
             FROM pim_catalog_family family

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Specification\Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Query;
 
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Query\Completeness\AttributeCase;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\ObjectBehavior;
 
@@ -14,9 +15,11 @@ use PhpSpec\ObjectBehavior;
  */
 final class BuildSqlMaskFieldSpec extends ObjectBehavior
 {
-    public function it_returns_masks_when_no_attribute_case()
+    public function it_returns_masks_when_no_attribute_case(SqlPlatformHelperInterface $platformHelper)
     {
-        $this->beConstructedWith([]);
+        $platformHelper->conditional('attribute.is_scopable', 'channel_locale.channel_code', "'<all_channels>'")->willReturn("IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>')");
+        $platformHelper->conditional('attribute.is_localizable', 'channel_locale.locale_code', "'<all_locales>'")->willReturn("IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')");
+        $this->beConstructedWith([], $platformHelper);
         $sql = <<<SQL
             JSON_ARRAYAGG(
                 CONCAT(
@@ -33,12 +36,14 @@ final class BuildSqlMaskFieldSpec extends ObjectBehavior
         $this->__invoke()->shouldReturn($sql);
     }
 
-    public function it_returns_masks_whith_attribute_cases(AttributeCase $attributeTypeA, AttributeCase $attributeTypeB)
+    public function it_returns_masks_whith_attribute_cases(AttributeCase $attributeTypeA, AttributeCase $attributeTypeB, SqlPlatformHelperInterface $platformHelper)
     {
+        $platformHelper->conditional('attribute.is_scopable', 'channel_locale.channel_code', "'<all_channels>'")->willReturn("IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>')");
+        $platformHelper->conditional('attribute.is_localizable', 'channel_locale.locale_code', "'<all_locales>'")->willReturn("IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')");
         $this->beConstructedWith([
             $attributeTypeA,
             $attributeTypeB,
-        ]);
+        ], $platformHelper);
         $attributeTypeA->getCase()->willReturn(
             "WHEN attribute.attribute_type = 'typeA'
             THEN 'TypeA'"

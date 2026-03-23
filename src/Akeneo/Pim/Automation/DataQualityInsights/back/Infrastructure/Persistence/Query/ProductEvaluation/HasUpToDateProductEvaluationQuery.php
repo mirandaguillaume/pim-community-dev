@@ -10,6 +10,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuidCollection;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -23,7 +24,8 @@ final readonly class HasUpToDateProductEvaluationQuery implements HasUpToDateEva
 {
     public function __construct(
         private Connection $dbConnection,
-        private ProductUuidFactory $idFactory
+        private ProductUuidFactory $idFactory,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -45,6 +47,9 @@ final readonly class HasUpToDateProductEvaluationQuery implements HasUpToDateEva
             return null;
         }
 
+        $innerCond = $this->platformHelper->conditional('parent.updated > product.updated', 'parent.updated', 'product.updated');
+        $outerCond = $this->platformHelper->conditional('grand_parent.updated > parent.updated AND grand_parent.updated > product.updated', 'grand_parent.updated', $innerCond);
+
         $query = <<<SQL
             SELECT BIN_TO_UUID(product.uuid) AS uuid
             FROM pim_catalog_product AS product
@@ -55,9 +60,7 @@ final readonly class HasUpToDateProductEvaluationQuery implements HasUpToDateEva
                     SELECT 1 FROM pim_data_quality_insights_product_criteria_evaluation AS evaluation
                     WHERE evaluation.product_uuid = product.uuid
                     AND evaluation.evaluated_at >=
-                        IF(grand_parent.updated > parent.updated AND grand_parent.updated > product.updated, grand_parent.updated,
-                            IF(parent.updated > product.updated, parent.updated, product.updated)
-                        )
+                        {$outerCond}
                 )
             SQL;
 
