@@ -146,6 +146,7 @@ services:
         class: Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Completeness\SqlSaveCompletenesses
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product\GetCategoryCodesByProductUuids:
         arguments:
@@ -495,3 +496,4 @@ services:
         class: 'Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product\SqlUpdateIdentifierValuesQuery'
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'

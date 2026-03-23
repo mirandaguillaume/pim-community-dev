@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\SaveRevokedAccessTokensOfDisconnectedAppQueryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -15,11 +16,16 @@ final readonly class SaveRevokedAccessTokensOfDisconnectedAppQuery implements Sa
 {
     public function __construct(
         private Connection $connection,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
     public function execute(string $appId): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['token'],
+            ['`token` = ' . $this->platformHelper->insertedValue('token')]
+        );
         $query = <<<SQL
             INSERT INTO akeneo_connectivity_revoked_app_token (`token`)
             SELECT access_token.token
@@ -28,7 +34,7 @@ final readonly class SaveRevokedAccessTokensOfDisconnectedAppQuery implements Sa
             JOIN akeneo_connectivity_connection connection ON connection.client_id = client.id
             JOIN akeneo_connectivity_connected_app app ON connection.code = app.connection_code
             WHERE app.id = :app_id
-            ON DUPLICATE KEY UPDATE `token` = access_token.token
+            {$upsert}
             SQL;
 
         $this->connection->executeQuery($query, [

@@ -30,6 +30,7 @@ services:
     Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence\CreateUserConsentQuery:
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence\GetAsymmetricKeysQuery:
         arguments:
@@ -39,6 +40,7 @@ services:
         arguments:
             - '@database_connection'
             - '@Akeneo\Connectivity\Connection\Infrastructure\Service\Clock\SystemClock'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence\GetAccessTokenQuery:
         arguments:
@@ -87,6 +89,7 @@ services:
     Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence\SaveRevokedAccessTokensOfDisconnectedAppQuery:
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence\IsAccessTokenRevokedQuery:
         arguments:

@@ -55,6 +55,7 @@ services:
     Akeneo\Tool\Bundle\ElasticsearchBundle\Infrastructure\Repository\IndexMigrationRepository:
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     Akeneo\Tool\Component\Elasticsearch\PublicApi\Read\IndexMigrationIsDoneInterface:
         class: Akeneo\Tool\Bundle\ElasticsearchBundle\Infrastructure\PublicApi\IndexMigrationIsDone

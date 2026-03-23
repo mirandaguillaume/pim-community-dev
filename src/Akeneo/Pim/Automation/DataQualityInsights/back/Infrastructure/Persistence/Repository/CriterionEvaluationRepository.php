@@ -9,6 +9,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelId;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultCodes;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\DeadlockException;
 use Doctrine\DBAL\ParameterType;
@@ -21,18 +22,23 @@ class CriterionEvaluationRepository
 {
     public function __construct(
         private readonly Connection $dbConnection,
-        private readonly TransformCriterionEvaluationResultCodes $transformCriterionEvaluationResult
+        private readonly TransformCriterionEvaluationResultCodes $transformCriterionEvaluationResult,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
     public function createCriterionEvaluationsForProducts(Write\CriterionEvaluationCollection $criteriaEvaluations): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['product_uuid', 'criterion_code'],
+            ['status = :%s']
+        );
         $queryFormat = <<<SQL
             INSERT INTO pim_data_quality_insights_product_criteria_evaluation
                 (product_uuid, criterion_code, status)
             SELECT uuid, :%s, :%s
             FROM pim_catalog_product WHERE uuid = :%s
-            ON DUPLICATE KEY UPDATE status = :%s;
+            {$upsert};
             SQL;
 
         $this->createFromSqlQueryFormat($queryFormat, $criteriaEvaluations);
@@ -40,10 +46,14 @@ class CriterionEvaluationRepository
 
     public function createCriterionEvaluationsForProductModels(Write\CriterionEvaluationCollection $criteriaEvaluations): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['criterion_code', 'product_id'],
+            ['status = :%s']
+        );
         $queryFormat = <<<SQL
             INSERT INTO pim_data_quality_insights_product_model_criteria_evaluation
                 (criterion_code, status, product_id) VALUES (:%s, :%s, :%s)
-            ON DUPLICATE KEY UPDATE status = :%s;
+            {$upsert};
             SQL;
 
         $this->createFromSqlQueryFormat($queryFormat, $criteriaEvaluations);

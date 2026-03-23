@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\UpdateIdentifierValuesQuery;
 use Akeneo\Pim\Enrichment\Component\Product\Value\IdentifierValueInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 
@@ -17,8 +18,10 @@ use Doctrine\DBAL\ParameterType;
 final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuery
 {
     private ?bool $doesTableExist = null;
-    public function __construct(private readonly Connection $connection)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -32,12 +35,16 @@ final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuer
 
         $parameters = \implode(', ', \array_fill(0, \count($products), '(?, ?)'));
 
+        $upsert = $this->platformHelper->upsertClause(
+            ['product_uuid'],
+            ['identifiers = ' . $this->platformHelper->insertedValue('identifiers')]
+        );
         $statement = $this->connection->prepare(
             \sprintf(
                 <<<SQL
                     INSERT INTO pim_catalog_product_identifiers(product_uuid, identifiers)
                     VALUES %s
-                    ON DUPLICATE KEY UPDATE identifiers = VALUES(identifiers);
+                    {$upsert};
                     SQL,
                 $parameters
             )

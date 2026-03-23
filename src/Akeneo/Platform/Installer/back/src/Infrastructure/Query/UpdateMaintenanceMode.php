@@ -10,21 +10,28 @@ declare(strict_types=1);
 namespace Akeneo\Platform\Installer\Infrastructure\Query;
 
 use Akeneo\Platform\Installer\Domain\Query\UpdateMaintenanceModeInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 
 class UpdateMaintenanceMode implements UpdateMaintenanceModeInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function execute(bool $enabled): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['code'],
+            ['`values` = :values']
+        );
         $query = <<<SQL
                 INSERT INTO pim_configuration (`code`,`values`)
                 VALUES (:code, :values)
-                ON DUPLICATE KEY UPDATE `values`= :values
+                {$upsert}
             SQL;
 
         $this->connection->executeStatement($query, [

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Command\ZddMigrations;
 
 use Akeneo\Platform\Installer\Infrastructure\Command\ZddMigration;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -25,6 +26,7 @@ final class V20230512143522FillNewCompletenessTableZddMigration implements ZddMi
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -71,6 +73,10 @@ final class V20230512143522FillNewCompletenessTableZddMigration implements ZddMi
 
     private function insertCompleteness(array $uuids): int
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['product_uuid'],
+            ['completeness = ' . $this->platformHelper->insertedValue('completeness')]
+        );
         $sql = <<<SQL
             INSERT INTO pim_catalog_product_completeness(product_uuid, completeness)
             WITH channels AS (SELECT id, code FROM pim_catalog_channel),
@@ -88,7 +94,7 @@ final class V20230512143522FillNewCompletenessTableZddMigration implements ZddMi
                      INNER JOIN locales ON c.locale_id = locales.id
                      INNER JOIN completeness_by_locale ON c.product_uuid = completeness_by_locale.product_uuid AND c.channel_id = completeness_by_locale.channel_id
             GROUP BY c.product_uuid
-            ON DUPLICATE KEY UPDATE completeness = VALUES(completeness);
+            {$upsert};
             SQL;
         return \intval($this->connection->executeStatement(
             $sql,

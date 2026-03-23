@@ -115,6 +115,7 @@ services:
         arguments:
             - '@database_connection'
             - '@monolog.logger'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         tags:
             - { name: 'akeneo.pim.zdd_migration' }
         public: true
