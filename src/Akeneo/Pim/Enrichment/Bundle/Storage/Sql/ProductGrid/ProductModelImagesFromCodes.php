@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductGrid;
 
 use Akeneo\Pim\Enrichment\Component\Product\Factory\WriteValueCollectionFactory;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
@@ -33,8 +34,11 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class ProductModelImagesFromCodes
 {
-    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory)
-    {
+    public function __construct(
+        private Connection $connection,
+        private WriteValueCollectionFactory $valueCollectionFactory,
+        private SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -221,8 +225,9 @@ final readonly class ProductModelImagesFromCodes
             $images[$code]['image'] = null;
         }
 
+        $jsonType = $this->platformHelper->jsonType('image_value');
         $sql = <<<SQL
-                        SELECT 
+                        SELECT
                         /*+ SET_VAR(sort_buffer_size = 1000000) */
                             pm_root.code,
                             a_image.code as attribute_code,
@@ -242,8 +247,8 @@ final readonly class ProductModelImagesFromCodes
                         WHERE
                             pm_root.code = :code
                         HAVING
-                            image_value IS NOT NULL AND JSON_TYPE(image_value) != 'NULL'
-                        ORDER BY 
+                            image_value IS NOT NULL AND {$jsonType} != 'NULL'
+                        ORDER BY
                             pm_child.created ASC
                         LIMIT 1
             SQL;
@@ -303,6 +308,7 @@ final readonly class ProductModelImagesFromCodes
             $images[$code]['image'] = null;
         }
 
+        $jsonType = $this->platformHelper->jsonType('image_value');
         $sql = <<<SQL
                         WITH product_child AS (
                             SELECT root.code AS root_code, product.family_id, product.raw_values, product.created
@@ -341,8 +347,8 @@ final readonly class ProductModelImagesFromCodes
                                image_value
                         FROM product_child_extracted_image_code
                         HAVING
-                            image_value IS NOT NULL AND JSON_TYPE(image_value) != 'NULL'
-                        ORDER BY 
+                            image_value IS NOT NULL AND {$jsonType} != 'NULL'
+                        ORDER BY
                             created ASC
                         LIMIT 1
             SQL;

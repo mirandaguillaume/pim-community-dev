@@ -106,6 +106,7 @@ services:
         arguments:
             - '@database_connection'
             - '@akeneo.pim.enrichment.factory.write_value_collection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo.pim.enrichment.connector.write.file.flat.generate_headers_from_family_codes:
         class: 'Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Connector\Writer\File\Flat\GenerateHeadersFromFamilyCodes'
