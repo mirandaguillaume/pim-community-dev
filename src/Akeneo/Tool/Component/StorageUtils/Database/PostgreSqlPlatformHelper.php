@@ -63,11 +63,19 @@ final readonly class PostgreSqlPlatformHelper implements SqlPlatformHelperInterf
 
     public function jsonMergePatch(string ...$docs): string
     {
+        if (\count($docs) < 2) {
+            throw new \InvalidArgumentException('jsonMergePatch requires at least 2 documents');
+        }
+
         return '(' . implode(' || ', $docs) . ')';
     }
 
     public function jsonMergePreserve(string ...$docs): string
     {
+        if (\count($docs) < 2) {
+            throw new \InvalidArgumentException('jsonMergePreserve requires at least 2 documents');
+        }
+
         // PG || is last-key-wins for objects. True array-preserving merge
         // will require a custom SQL function when PG migration starts.
         return '(' . implode(' || ', $docs) . ')';
@@ -85,8 +93,9 @@ final readonly class PostgreSqlPlatformHelper implements SqlPlatformHelperInterf
     private function convertJsonPath(string $mysqlPath): string
     {
         $path = preg_replace('/^\$\.?/', '', $mysqlPath);
-        $segments = preg_split('/\./', $path);
-        $cleaned = array_map(static fn (string $s): string => trim($s, '"'), $segments);
+        // Split on dots NOT inside double-quotes
+        preg_match_all('/"[^"]*"|[^.]+/', $path, $matches);
+        $cleaned = array_map(static fn (string $s): string => trim($s, '"'), $matches[0]);
 
         return "'{" . implode(',', $cleaned) . "}'";
     }

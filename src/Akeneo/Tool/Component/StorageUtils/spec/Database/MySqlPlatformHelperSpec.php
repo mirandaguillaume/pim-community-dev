@@ -72,10 +72,20 @@ final class MySqlPlatformHelperSpec extends ObjectBehavior
             ->shouldReturn("JSON_MERGE_PATCH(COALESCE(pm1.raw_values, '{}'), COALESCE(pm.raw_values, '{}'), p.raw_values)");
     }
 
+    public function it_throws_when_json_merge_patch_has_fewer_than_two_args(): void
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->during('jsonMergePatch', ["doc"]);
+    }
+
     public function it_generates_json_merge_preserve(): void
     {
         $this->jsonMergePreserve("COALESCE(pm2.quantified_associations, '{}')", "p.quantified_associations")
             ->shouldReturn("JSON_MERGE_PRESERVE(COALESCE(pm2.quantified_associations, '{}'), p.quantified_associations)");
+    }
+
+    public function it_throws_when_json_merge_preserve_has_fewer_than_two_args(): void
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->during('jsonMergePreserve', ["doc"]);
     }
 
     public function it_generates_conditional(): void
