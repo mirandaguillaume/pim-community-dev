@@ -6,8 +6,9 @@ namespace Akeneo\Channel\Infrastructure\Doctrine\Query;
 
 use Akeneo\Channel\Infrastructure\Component\Query\PublicApi\FindActivatedCurrenciesInterface;
 use Akeneo\Tool\Component\StorageUtils\Cache\CachedQueryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author    Samir Boulil <samir.boulil@akeneo.com>
@@ -18,8 +19,10 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
 {
     private array $activatedCurrenciesForChannels = [];
 
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $sql,
+    ) {
     }
 
     /**
@@ -73,15 +76,17 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
      */
     private function fetchActivatedCurrenciesForAllChannels(): array
     {
+        $jsonArrayAgg = $this->sql->jsonArrayAgg('cu.code');
+
         $sql = <<<SQL
-            SELECT ch.code as channel_code, JSON_ARRAYAGG(cu.code) as activated_currencies
+            SELECT ch.code as channel_code, {$jsonArrayAgg} as activated_currencies
             FROM pim_catalog_channel ch
               INNER JOIN pim_catalog_channel_currency chcu on ch.id = chcu.channel_id
               INNER JOIN pim_catalog_currency cu on chcu.currency_id = cu.id
-            WHERE cu.is_activated IS TRUE
+            WHERE cu.is_activated = 1
             GROUP BY ch.code;
             SQL;
-        $statement = $this->entityManager->getConnection()->executeQuery($sql);
+        $statement = $this->connection->executeQuery($sql);
 
         $results = $statement->fetchAllAssociative();
         $currenciesIndexedByChannel = [];
