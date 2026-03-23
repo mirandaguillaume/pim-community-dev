@@ -14,6 +14,7 @@ services:
             - '@database_connection'
             - '@logger'
             - '%pim_catalog.compute_family_variant_structure_changes.job_name%'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
         autoconfigure: true
 
     pim_catalog.event_subscriber.remove_attributes_from_family_variants_on_family_update:
