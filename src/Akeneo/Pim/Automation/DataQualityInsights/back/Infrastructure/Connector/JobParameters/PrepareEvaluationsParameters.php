@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Constraints;
  */
 final class PrepareEvaluationsParameters implements ConstraintCollectionProviderInterface, DefaultValuesProviderInterface
 {
-    public const UPDATED_SINCE_PARAMETER = 'updated_since';
-    public const UPDATED_SINCE_DATE_FORMAT = 'Y-m-d H:i:s';
-    public const UPDATED_SINCE_DEFAULT_TIME = '-1 DAY';
+    public const string UPDATED_SINCE_PARAMETER = 'updated_since';
+    public const string UPDATED_SINCE_DATE_FORMAT = 'Y-m-d H:i:s';
+    public const string UPDATED_SINCE_DEFAULT_TIME = '-1 DAY';
 
     public function getConstraintCollection(): Constraints\Collection
     {

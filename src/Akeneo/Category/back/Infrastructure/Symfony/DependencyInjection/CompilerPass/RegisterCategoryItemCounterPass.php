@@ -15,9 +15,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterCategoryItemCounterPass implements CompilerPassInterface
 {
-    final public const CATEGORY_TAG = 'pim_enrich.doctrine.counter.category_item';
+    final public const string CATEGORY_TAG = 'pim_enrich.doctrine.counter.category_item';
 
-    final public const CATEGORY_REGISTRY = 'pim_enrich.doctrine.counter.category_registry';
+    final public const string CATEGORY_REGISTRY = 'pim_enrich.doctrine.counter.category_registry';
 
     public function process(ContainerBuilder $container)
     {

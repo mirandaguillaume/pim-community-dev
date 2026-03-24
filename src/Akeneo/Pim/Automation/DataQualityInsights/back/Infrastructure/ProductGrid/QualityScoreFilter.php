@@ -16,6 +16,7 @@ final class QualityScoreFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $filterDatasource, $data)
     {
         $filterValue = $data['value'] ?? null;

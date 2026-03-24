@@ -63,6 +63,7 @@ class AclPrivilegeType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'oro_acl_privilege';

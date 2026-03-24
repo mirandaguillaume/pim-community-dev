@@ -11,6 +11,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Query\Sorter;
  */
 class Directions
 {
-    final public const ASCENDING = 'ASC';
-    final public const DESCENDING = 'DESC';
+    final public const string ASCENDING = 'ASC';
+    final public const string DESCENDING = 'DESC';
 }

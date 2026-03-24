@@ -30,6 +30,7 @@ class FamilyVariantDatasource extends RepositoryDatasource
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getResults(): array
     {
         $familyVariants = $this->qb->getQuery()->getResult();

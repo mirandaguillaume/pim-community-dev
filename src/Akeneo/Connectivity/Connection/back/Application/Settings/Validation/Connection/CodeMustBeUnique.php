@@ -15,11 +15,13 @@ class CodeMustBeUnique extends Constraint
 {
     public string $message = 'akeneo_connectivity.connection.connection.constraint.code.must_be_unique';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
+    #[\Override]
     public function validatedBy(): string
     {
         return 'connection_code_must_be_unique';

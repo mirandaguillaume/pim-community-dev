@@ -16,7 +16,7 @@ use Akeneo\Tool\Component\FileStorage\FilesystemProvider;
 
 final readonly class StorageClientProvider
 {
-    private const LOCAL_FILESYSTEM_NAME = 'localFilesystem';
+    private const string LOCAL_FILESYSTEM_NAME = 'localFilesystem';
 
     /**
      * @param iterable<StorageClientProviderInterface> $storageClientProviders

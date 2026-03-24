@@ -24,6 +24,7 @@ class FamilyAttributeUsedAsAxis extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_family_attribute_used_as_axis';
@@ -32,6 +33,7 @@ class FamilyAttributeUsedAsAxis extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

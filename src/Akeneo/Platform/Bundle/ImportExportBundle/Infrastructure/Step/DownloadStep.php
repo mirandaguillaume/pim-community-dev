@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class DownloadStep extends AbstractStep
 {
-    private const STORAGE_KEY = 'storage';
+    private const string STORAGE_KEY = 'storage';
 
     public function __construct(
         string $name,

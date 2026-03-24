@@ -10,5 +10,5 @@ namespace Akeneo\Connectivity\Connection\Domain\Audit\Model;
  */
 final class AllConnectionCode
 {
-    public const CODE = '<all>';
+    public const string CODE = '<all>';
 }

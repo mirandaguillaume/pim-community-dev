@@ -16,6 +16,7 @@ class ImageAllowedExtensions extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_image_allowed_extensions_validator';
@@ -24,6 +25,7 @@ class ImageAllowedExtensions extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::PROPERTY_CONSTRAINT;

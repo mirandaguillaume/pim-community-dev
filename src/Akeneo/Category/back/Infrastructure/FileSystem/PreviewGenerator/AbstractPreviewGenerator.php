@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 abstract class AbstractPreviewGenerator implements PreviewGeneratorInterface
 {
     /** The limit above which we do not try to generate a preview, in bytes */
-    private const PREVIEW_SIZE_LIMIT = 60_000_000;
+    private const int PREVIEW_SIZE_LIMIT = 60_000_000;
 
     /**
      * @param ?string[] $supportedMimeTypes

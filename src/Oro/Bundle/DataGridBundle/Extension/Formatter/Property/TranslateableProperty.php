@@ -6,8 +6,8 @@ use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
 
 class TranslateableProperty extends FieldProperty
 {
-    final public const DOMAIN_KEY = 'domain';
-    final public const LOCALE_KEY = 'locale';
+    final public const string DOMAIN_KEY = 'domain';
+    final public const string LOCALE_KEY = 'locale';
 
     /** @var array */
     protected $excludeParams = [self::DOMAIN_KEY, self::LOCALE_KEY];
@@ -15,6 +15,7 @@ class TranslateableProperty extends FieldProperty
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getRawValue(ResultRecordInterface $record)
     {
         $value = parent::getRawValue($record);

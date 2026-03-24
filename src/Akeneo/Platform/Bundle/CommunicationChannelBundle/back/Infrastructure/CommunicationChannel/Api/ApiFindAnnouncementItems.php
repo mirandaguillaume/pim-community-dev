@@ -15,7 +15,7 @@ use GuzzleHttp\Client;
  */
 final class ApiFindAnnouncementItems implements FindAnnouncementItemsInterface
 {
-    private const BASE_URI = '/announcements';
+    private const string BASE_URI = '/announcements';
 
     private readonly \GuzzleHttp\Client $client;
 

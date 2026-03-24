@@ -16,7 +16,7 @@ use Doctrine\DBAL\ParameterType;
  */
 class SqlAttributes implements AttributesInterface
 {
-    private const LRU_CACHE_SIZE = 1000;
+    private const int LRU_CACHE_SIZE = 1000;
 
     private readonly LRUCache $attributeIdsByCodes;
 

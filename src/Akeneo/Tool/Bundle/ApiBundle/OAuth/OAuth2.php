@@ -35,8 +35,8 @@ class OAuth2
     public const TOKEN_TYPE_BEARER = 'bearer';
 
     // Default token lifetimes in seconds
-    private const DEFAULT_ACCESS_TOKEN_LIFETIME = 3600;
-    private const DEFAULT_REFRESH_TOKEN_LIFETIME = 1209600; // 14 days
+    private const int DEFAULT_ACCESS_TOKEN_LIFETIME = 3600;
+    private const int DEFAULT_REFRESH_TOKEN_LIFETIME = 1209600; // 14 days
 
     protected IOAuth2Storage $storage;
     private int $accessTokenLifetime;

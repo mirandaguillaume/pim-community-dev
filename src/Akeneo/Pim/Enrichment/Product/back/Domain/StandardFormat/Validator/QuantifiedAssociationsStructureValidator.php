@@ -13,10 +13,10 @@ use Ramsey\Uuid\Uuid;
  */
 class QuantifiedAssociationsStructureValidator
 {
-    private const PRODUCT_LINK_TYPE = 'products';
-    private const PRODUCT_UUID_LINK_TYPE = 'product_uuids';
-    private const PRODUCT_MODEL_LINK_TYPE = 'product_models';
-    private const QUANTIFIED_LINK_TYPES = [self::PRODUCT_LINK_TYPE, self::PRODUCT_UUID_LINK_TYPE, self::PRODUCT_MODEL_LINK_TYPE];
+    private const string PRODUCT_LINK_TYPE = 'products';
+    private const string PRODUCT_UUID_LINK_TYPE = 'product_uuids';
+    private const string PRODUCT_MODEL_LINK_TYPE = 'product_models';
+    private const array QUANTIFIED_LINK_TYPES = [self::PRODUCT_LINK_TYPE, self::PRODUCT_UUID_LINK_TYPE, self::PRODUCT_MODEL_LINK_TYPE];
 
     public function validate(string $field, mixed $data): void
     {

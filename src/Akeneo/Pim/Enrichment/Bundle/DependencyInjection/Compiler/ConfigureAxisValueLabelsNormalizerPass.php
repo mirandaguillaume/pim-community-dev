@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class ConfigureAxisValueLabelsNormalizerPass implements CompilerPassInterface
 {
-    private const SERVICE_TAG = 'pim_axis_value_label_normalizer';
+    private const string SERVICE_TAG = 'pim_axis_value_label_normalizer';
 
     public function process(ContainerBuilder $container)
     {

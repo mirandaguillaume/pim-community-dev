@@ -86,6 +86,7 @@ class ActionExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getPriority()
     {
         // should  be applied before formatter extension

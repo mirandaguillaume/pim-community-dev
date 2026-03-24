@@ -14,7 +14,7 @@ use GuzzleHttp\Client;
  */
 final class ApiFindNewAnnouncementIds implements FindNewAnnouncementIdsInterface
 {
-    private const BASE_URI = '/new_announcements';
+    private const string BASE_URI = '/new_announcements';
 
     private readonly \GuzzleHttp\Client $client;
 

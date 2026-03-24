@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntityIdentifierType extends AbstractType
 {
-    final public const NAME = 'pim_enrich_entity_identifier';
+    final public const string NAME = 'pim_enrich_entity_identifier';
 
     public function __construct(protected ManagerRegistry $registry)
     {
@@ -124,6 +124,7 @@ class EntityIdentifierType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -132,6 +133,7 @@ class EntityIdentifierType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return HiddenType::class;

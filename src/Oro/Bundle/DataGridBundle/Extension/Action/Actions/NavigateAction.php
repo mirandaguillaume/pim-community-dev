@@ -26,6 +26,7 @@ class NavigateAction extends AbstractAction
      * merge method). To avoid changing this low-level method, we do a recursive merge in this method, to be able to
      * merge the options and the additional parameters with the sub options.
      */
+    #[\Override]
     public function getOptions()
     {
         $additionalOptions = self::$additionalOptions;

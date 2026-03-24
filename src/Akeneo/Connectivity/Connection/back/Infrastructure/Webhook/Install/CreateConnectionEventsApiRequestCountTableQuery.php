@@ -11,7 +11,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Webhook\Install;
  */
 final class CreateConnectionEventsApiRequestCountTableQuery
 {
-    public const QUERY = <<<SQL
+    public const string QUERY = <<<SQL
         CREATE TABLE IF NOT EXISTS akeneo_connectivity_connection_events_api_request_count(
             event_minute INT NOT NULL,
             event_count INT NOT NULL,

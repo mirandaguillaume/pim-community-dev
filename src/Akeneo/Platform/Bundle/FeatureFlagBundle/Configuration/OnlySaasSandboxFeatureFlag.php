@@ -12,7 +12,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
  */
 final readonly class OnlySaasSandboxFeatureFlag implements FeatureFlag
 {
-    private const SAAS_SANDBOX_PRODUCT_CODES = [
+    private const array SAAS_SANDBOX_PRODUCT_CODES = [
         'serenity_sandbox',
         'growth_edition_sandbox',
     ];

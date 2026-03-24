@@ -16,7 +16,7 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class SqlGetAttributeOptions implements GetAttributeOptions
 {
-    private const BATCH_QUERY_SIZE = 1000;
+    private const int BATCH_QUERY_SIZE = 1000;
 
     public function __construct(private Connection $connection, private SqlPlatformHelperInterface $platformHelper)
     {

@@ -25,9 +25,9 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 final class CheckApiRequestContentSizeListener
 {
     // Maximum allowed request content size in bytes
-    private const MAX_CONTENT_SIZE = 300;
+    private const int MAX_CONTENT_SIZE = 300;
 
-    private const API_AUTH_ROUTE = 'fos_oauth_server_token';
+    private const string API_AUTH_ROUTE = 'fos_oauth_server_token';
 
     public function onKernelRequest(RequestEvent $event)
     {

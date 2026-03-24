@@ -13,27 +13,27 @@ class HTMLFilter
     /**
      * Attribute name context.
      */
-    final public const CTX_ATTR_NAME = 'attr_name';
+    final public const string CTX_ATTR_NAME = 'attr_name';
 
     /**
      * Attribute value context.
      */
-    final public const CTX_ATTR_VALUE = 'attr_value';
+    final public const string CTX_ATTR_VALUE = 'attr_value';
 
     /**
      * Tag attributes context.
      */
-    final public const CTX_TAG_ATTRS = 'tag_attrs';
+    final public const string CTX_TAG_ATTRS = 'tag_attrs';
 
     /**
      * Tag content context.
      */
-    final public const CTX_TAG_CONTENT = 'tag_content';
+    final public const string CTX_TAG_CONTENT = 'tag_content';
 
     /**
      * Tag name context.
      */
-    final public const CTX_TAG_NAME = 'tag_name';
+    final public const string CTX_TAG_NAME = 'tag_name';
 
     /**
      * Ignore content of these tags.

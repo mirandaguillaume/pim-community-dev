@@ -27,8 +27,8 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    private const BATCH_SIZE = 1000;
-    private const TABLE_NAMES = [
+    private const int BATCH_SIZE = 1000;
+    private const array TABLE_NAMES = [
         'pim_catalog_product',
         'pim_catalog_product_model',
     ];

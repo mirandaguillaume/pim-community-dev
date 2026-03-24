@@ -17,6 +17,7 @@ class FileNormalizer extends AbstractValueDataNormalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function normalize($file, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return $this->doNormalize($file, $format, $context);

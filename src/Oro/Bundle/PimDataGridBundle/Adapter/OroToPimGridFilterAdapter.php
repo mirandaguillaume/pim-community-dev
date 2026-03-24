@@ -15,8 +15,8 @@ use Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionDispatcher;
  */
 class OroToPimGridFilterAdapter implements GridFilterAdapterInterface
 {
-    final public const PRODUCT_GRID_NAME = 'product-grid';
-    final public const ATTRIBUTE_GRID_NAME = 'attribute-grid';
+    final public const string PRODUCT_GRID_NAME = 'product-grid';
+    final public const string ATTRIBUTE_GRID_NAME = 'attribute-grid';
 
     public function __construct(
         protected MassActionDispatcher $massActionDispatcher,

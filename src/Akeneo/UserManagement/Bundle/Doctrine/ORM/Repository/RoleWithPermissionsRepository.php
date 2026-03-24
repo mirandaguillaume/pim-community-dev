@@ -17,8 +17,8 @@ use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
  */
 class RoleWithPermissionsRepository implements IdentifiableObjectRepositoryInterface
 {
-    private const ACL_EXTENSION_KEY = 'action';
-    private const ACL_PERMISSION = 'EXECUTE';
+    private const string ACL_EXTENSION_KEY = 'action';
+    private const string ACL_PERMISSION = 'EXECUTE';
 
     public function __construct(private readonly IdentifiableObjectRepositoryInterface $roleRepository, private readonly AclManager $aclManager)
     {

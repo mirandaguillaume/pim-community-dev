@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class RegisterReferenceDataConfigurationsPass implements CompilerPassInterface
 {
-    final public const REFERENCE_DATA_REGISTRY = 'pim_reference_data.registry';
+    final public const string REFERENCE_DATA_REGISTRY = 'pim_reference_data.registry';
 
     /**
      * {@inheritdoc}

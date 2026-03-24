@@ -15,6 +15,7 @@ class IsCustomAppsNumberLimitReached extends Constraint
 {
     public string $message = 'akeneo_connectivity.connection.connect.custom_apps.create_modal.errors.limit_reached';
 
+    #[\Override]
     public function getTargets(): string
     {
         return Constraint::CLASS_CONSTRAINT;

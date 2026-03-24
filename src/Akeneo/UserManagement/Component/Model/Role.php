@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class Role implements RoleInterface, \Stringable
 {
-    final public const TYPE_DEFAULT = 'default';
+    final public const string TYPE_DEFAULT = 'default';
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]

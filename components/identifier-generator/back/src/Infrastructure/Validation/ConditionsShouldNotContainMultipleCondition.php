@@ -20,6 +20,7 @@ final class ConditionsShouldNotContainMultipleCondition extends Constraint
     /**
      * @inerhitDoc
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
@@ -30,6 +31,7 @@ final class ConditionsShouldNotContainMultipleCondition extends Constraint
         return 'types';
     }
 
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return ['types'];

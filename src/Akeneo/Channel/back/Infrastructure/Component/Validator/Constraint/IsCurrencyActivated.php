@@ -17,6 +17,7 @@ class IsCurrencyActivated extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_is_currency_activated_validator';

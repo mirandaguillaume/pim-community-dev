@@ -16,10 +16,10 @@ use Symfony\Component\DependencyInjection\Reference;
 class AddMassActionHandlersPass implements CompilerPassInterface
 {
     /** @staticvar string */
-    final public const HANDLER_REGISTRY_SERVICE = 'pim_datagrid.extension.mass_action.handler.registry';
+    final public const string HANDLER_REGISTRY_SERVICE = 'pim_datagrid.extension.mass_action.handler.registry';
 
     /** @staticvar string */
-    final public const HANDLER_EXTENSION_TAG = 'pim_datagrid.extension.mass_action.handler';
+    final public const string HANDLER_EXTENSION_TAG = 'pim_datagrid.extension.mass_action.handler';
 
     /**
      * {@inheritdoc}

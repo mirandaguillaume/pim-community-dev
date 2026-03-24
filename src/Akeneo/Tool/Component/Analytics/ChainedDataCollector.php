@@ -11,7 +11,7 @@ namespace Akeneo\Tool\Component\Analytics;
  */
 class ChainedDataCollector
 {
-    final public const DEFAULT_COLLECTOR_TYPE = 'default';
+    final public const string DEFAULT_COLLECTOR_TYPE = 'default';
 
     /** @var DataCollectorInterface[][] */
     protected $collectors = [];

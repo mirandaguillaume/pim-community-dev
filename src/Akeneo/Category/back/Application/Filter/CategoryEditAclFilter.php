@@ -14,7 +14,7 @@ use Oro\Bundle\SecurityBundle\SecurityFacade;
  */
 class CategoryEditAclFilter
 {
-    private const ACLS = [
+    private const array ACLS = [
         'values' => 'pim_enrich_product_category_edit_attributes',
         'permissions' => 'pimee_enrich_category_edit_permissions',
     ];

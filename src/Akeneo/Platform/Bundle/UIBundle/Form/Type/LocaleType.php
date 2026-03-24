@@ -29,6 +29,7 @@ class LocaleType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return SymfonyLocaleType::class;
@@ -37,6 +38,7 @@ class LocaleType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_locale';

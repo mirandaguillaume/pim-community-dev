@@ -19,16 +19,16 @@ use Symfony\Component\Form\FormFactoryInterface;
 class CategoryFilter extends NumberFilter
 {
     /** @staticvar integer */
-    final public const UNKNOWN_TREE = 0;
+    final public const int UNKNOWN_TREE = 0;
 
     /** @staticvar integer */
-    final public const DEFAULT_TYPE = 1;
+    final public const int DEFAULT_TYPE = 1;
 
     /** @staticvar integer */
-    final public const UNCLASSIFIED_CATEGORY = -1;
+    final public const int UNCLASSIFIED_CATEGORY = -1;
 
     /** @staticvar integer */
-    final public const ALL_CATEGORY = -2;
+    final public const int ALL_CATEGORY = -2;
 
     /** @var CategoryRepositoryInterface */
     protected $categoryRepo;
@@ -51,6 +51,7 @@ class CategoryFilter extends NumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);
@@ -74,6 +75,7 @@ class CategoryFilter extends NumberFilter
      *
      * @return array|bool
      */
+    #[\Override]
     public function parseData(mixed $data): array|bool
     {
         if (!is_array($data) || !array_key_exists('value', $data) || !is_array($data['value'])) {
@@ -146,6 +148,7 @@ class CategoryFilter extends NumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormType()
     {
         return CategoryFilterType::class;

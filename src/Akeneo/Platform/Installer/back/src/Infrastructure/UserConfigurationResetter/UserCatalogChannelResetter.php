@@ -18,7 +18,7 @@ use Doctrine\DBAL\Connection;
 
 class UserCatalogChannelResetter implements UserConfigurationResetterInterface
 {
-    private const DEFAULT_CATALOG_CHANNEL_CODE = 'ecommerce';
+    private const string DEFAULT_CATALOG_CHANNEL_CODE = 'ecommerce';
 
     public function __construct(private readonly Connection $connection)
     {

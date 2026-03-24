@@ -25,7 +25,7 @@ use Ramsey\Uuid\Uuid;
 class Client
 {
     /** Number of split requests when retrying bulk index */
-    private const NUMBER_OF_BATCHES_ON_RETRY = 2;
+    private const int NUMBER_OF_BATCHES_ON_RETRY = 2;
     private readonly NativeClient $client;
     private readonly int $maxExpectedIndexationLatencyInMicroseconds;
 

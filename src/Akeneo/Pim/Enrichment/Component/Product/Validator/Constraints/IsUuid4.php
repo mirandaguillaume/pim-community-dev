@@ -12,6 +12,7 @@ class IsUuid4 extends Constraint
 {
     public string $message = 'The version of the uuid "{{ uuid }}" should be 4, {{ version }} given.';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

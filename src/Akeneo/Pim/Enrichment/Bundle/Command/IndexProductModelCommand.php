@@ -28,9 +28,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class IndexProductModelCommand extends Command
 {
-    private const DEFAULT_BATCH_SIZE = 1000;
+    private const int DEFAULT_BATCH_SIZE = 1000;
 
-    private const ERROR_CODE_USAGE = 1;
+    private const int ERROR_CODE_USAGE = 1;
 
     private readonly BackoffElasticSearchStateHandler $batchEsStateHandler;
 

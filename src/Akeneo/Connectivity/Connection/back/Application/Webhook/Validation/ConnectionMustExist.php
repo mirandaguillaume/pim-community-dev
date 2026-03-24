@@ -15,11 +15,13 @@ class ConnectionMustExist extends Constraint
 {
     public string $message = 'akeneo_connectivity.connection.webhook.error.not_found';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
+    #[\Override]
     public function validatedBy(): string
     {
         return 'connection_must_exist';

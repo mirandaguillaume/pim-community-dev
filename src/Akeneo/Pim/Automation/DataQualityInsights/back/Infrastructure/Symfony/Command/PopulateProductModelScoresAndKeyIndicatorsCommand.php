@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'pim:data-quality-insights:populate-product-models-scores-and-ki', description: 'Populate scores and key indicators for existing product models')]
 class PopulateProductModelScoresAndKeyIndicatorsCommand extends Command
 {
-    private const BULK_SIZE = 1000;
+    private const int BULK_SIZE = 1000;
 
     public function __construct(
         private readonly Connection $dbConnection,

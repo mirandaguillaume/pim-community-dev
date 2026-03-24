@@ -15,7 +15,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\CriterionEvalua
  */
 final class SynchronousCriterionEvaluationsFilter implements SynchronousCriterionEvaluationsFilterInterface
 {
-    private const SYNCHRONOUS_CRITERION_CODES = [
+    private const array SYNCHRONOUS_CRITERION_CODES = [
         EvaluateCompletenessOfRequiredAttributes::CRITERION_CODE,
         EvaluateCompletenessOfNonRequiredAttributes::CRITERION_CODE,
         EvaluateImageEnrichment::CRITERION_CODE,

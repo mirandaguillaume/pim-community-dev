@@ -32,7 +32,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductModelRepositoryInt
  */
 class AncestorIdFilter extends AbstractFieldFilter
 {
-    private const ANCESTOR_ID_ES_FIELD = 'ancestors.ids';
+    private const string ANCESTOR_ID_ES_FIELD = 'ancestors.ids';
 
     public function __construct(
         private readonly ProductModelRepositoryInterface $productModelRepository,

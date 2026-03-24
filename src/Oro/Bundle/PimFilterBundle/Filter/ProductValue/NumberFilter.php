@@ -43,6 +43,7 @@ class NumberFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);
@@ -71,6 +72,7 @@ class NumberFilter extends OroNumberFilter
      *
      * @return string
      */
+    #[\Override]
     public function getOperator($type)
     {
         $operatorTypes = [
@@ -93,6 +95,7 @@ class NumberFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function parseData(mixed $data): array|bool
     {
         if (!is_array($data)
@@ -113,6 +116,7 @@ class NumberFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getMetadata()
     {
         $attribute = $this->getAttribute();

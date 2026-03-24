@@ -22,7 +22,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class EntityTypeFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    private const ES_FIELD = 'document_type';
+    private const string ES_FIELD = 'document_type';
 
     public function __construct(
         array $supportedFields = [],

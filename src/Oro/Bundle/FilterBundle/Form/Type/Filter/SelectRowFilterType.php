@@ -9,10 +9,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SelectRowFilterType extends AbstractChoiceType
 {
-    final public const NAME = 'oro_type_selectrow_filter';
+    final public const string NAME = 'oro_type_selectrow_filter';
 
-    final public const NOT_SELECTED_VALUE = 0;
-    final public const SELECTED_VALUE = 1;
+    final public const int NOT_SELECTED_VALUE = 0;
+    final public const int SELECTED_VALUE = 1;
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -33,6 +33,7 @@ class SelectRowFilterType extends AbstractChoiceType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -41,6 +42,7 @@ class SelectRowFilterType extends AbstractChoiceType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceFilterType::class;

@@ -17,6 +17,7 @@ final class IdentifierAttributeCreationLimit extends Constraint
     /**
      * @inerhitDoc
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

@@ -12,10 +12,10 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Group\GetGroupTranslations;
 
 class AssociationTranslator
 {
-    private const PRODUCT_MODELS_COLUMN_SUFFIX = '-product_models';
-    private const PRODUCTS_COLUMN_SUFFIX = '-products';
-    private const PRODUCT_UUIDS_COLUMN_SUFFIX = '-product_uuids';
-    private const GROUPS_ASSOCIATIONS_SUFFIX = '-groups';
+    private const string PRODUCT_MODELS_COLUMN_SUFFIX = '-product_models';
+    private const string PRODUCTS_COLUMN_SUFFIX = '-products';
+    private const string PRODUCT_UUIDS_COLUMN_SUFFIX = '-product_uuids';
+    private const string GROUPS_ASSOCIATIONS_SUFFIX = '-groups';
 
     public function __construct(
         private readonly AssociationColumnsResolver $associationColumnsResolver,

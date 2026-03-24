@@ -36,6 +36,7 @@ class AuthorProperty extends FieldProperty
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getRawValue(ResultRecordInterface $record)
     {
         $author = parent::getRawValue($record);
@@ -55,6 +56,7 @@ class AuthorProperty extends FieldProperty
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function convertValue($value)
     {
         if (!isset($this->userCachedResults[$value['author']])) {

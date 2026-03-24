@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
  */
 class ReachRequestLimitLogger
 {
-    final public const TYPE = 'event_api.reach_requests_limit';
+    final public const string TYPE = 'event_api.reach_requests_limit';
 
     public function __construct(private readonly LoggerInterface $logger)
     {

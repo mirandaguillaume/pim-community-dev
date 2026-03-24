@@ -19,6 +19,7 @@ class GroupApiType extends GroupType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -29,6 +30,7 @@ class GroupApiType extends GroupType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'group';

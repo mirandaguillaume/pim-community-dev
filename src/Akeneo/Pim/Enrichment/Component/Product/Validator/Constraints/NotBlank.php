@@ -12,6 +12,7 @@ class NotBlank extends BaseConstraint
     /** @var string */
     public $attributeCode;
 
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return ['attributeCode'];

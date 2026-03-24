@@ -89,6 +89,7 @@ class AttributeOptionType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_enrich_attribute_option';

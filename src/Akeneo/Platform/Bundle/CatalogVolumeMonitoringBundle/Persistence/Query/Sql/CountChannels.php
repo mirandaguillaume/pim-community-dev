@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class CountChannels implements CountQuery
 {
-    private const VOLUME_NAME = 'count_channels';
+    private const string VOLUME_NAME = 'count_channels';
 
     public function __construct(private readonly Connection $connection)
     {

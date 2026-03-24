@@ -41,6 +41,7 @@ class CategoryTranslation extends AbstractTranslation implements CategoryTransla
     /**
      * @param CategoryInterface $foreignKey
      */
+    #[\Override]
     public function setForeignKey($foreignKey): self
     {
         $this->foreignKey = $foreignKey;
@@ -48,6 +49,7 @@ class CategoryTranslation extends AbstractTranslation implements CategoryTransla
         return $this;
     }
 
+    #[\Override]
     public function getForeignKey(): CategoryInterface
     {
         return $this->foreignKey;

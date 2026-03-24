@@ -22,6 +22,7 @@ class PriceFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormType()
     {
         return PriceFilterType::class;
@@ -30,6 +31,7 @@ class PriceFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);
@@ -57,6 +59,7 @@ class PriceFilter extends OroNumberFilter
      *
      * {@inheritdoc}
      */
+    #[\Override]
     public function parseData(mixed $data): array|bool
     {
         $data['type'] ??= null;
@@ -80,6 +83,7 @@ class PriceFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getMetadata()
     {
         $metadata = parent::getMetadata();
@@ -93,6 +97,7 @@ class PriceFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getOperator($type)
     {
         $operatorTypes = [

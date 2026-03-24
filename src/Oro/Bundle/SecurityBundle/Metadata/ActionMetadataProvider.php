@@ -4,7 +4,7 @@ namespace Oro\Bundle\SecurityBundle\Metadata;
 
 class ActionMetadataProvider
 {
-    final public const CACHE_KEY = 'data';
+    final public const string CACHE_KEY = 'data';
 
     /**
      * @var AclAnnotationProvider

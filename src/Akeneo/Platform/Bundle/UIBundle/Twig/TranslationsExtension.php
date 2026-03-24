@@ -36,6 +36,7 @@ class TranslationsExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFunctions()
     {
         return [

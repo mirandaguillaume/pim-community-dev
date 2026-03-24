@@ -16,22 +16,22 @@ final class InstallerEvents
      *
      * You can use it to create new tables that are not managed with doctrine.
      */
-    public const POST_DB_CREATE = 'pim_installer.post_db_create';
+    public const string POST_DB_CREATE = 'pim_installer.post_db_create';
 
     /**
      * This event is dispatched before launching any assets dump command.
      */
-    public const PRE_ASSETS_DUMP = 'pim_installer.pre_assets_dump';
+    public const string PRE_ASSETS_DUMP = 'pim_installer.pre_assets_dump';
 
     /**
      * This event is dispatched after launching all assets dump command.
      */
-    public const POST_ASSETS_DUMP = 'pim_installer.post_assets_dump';
+    public const string POST_ASSETS_DUMP = 'pim_installer.post_assets_dump';
 
     /**
      * This event is dispatched after launching all assets dump command.
      */
-    public const POST_SYMFONY_ASSETS_DUMP = 'pim_installer.post_symfony_assets_dump';
+    public const string POST_SYMFONY_ASSETS_DUMP = 'pim_installer.post_symfony_assets_dump';
 
     /**
      * This event is dispatched before each fixture load.
@@ -39,7 +39,7 @@ final class InstallerEvents
      * The event listener receives an
      * Symfony\Component\EventDispatcher\GenericEvent instance containing the job profile code.
      */
-    public const PRE_LOAD_FIXTURE = 'pim_installer.pre_load_fixture';
+    public const string PRE_LOAD_FIXTURE = 'pim_installer.pre_load_fixture';
 
     /**
      * This event is dispatched after each fixture load.
@@ -47,25 +47,25 @@ final class InstallerEvents
      * The event listener receives an
      * Symfony\Component\EventDispatcher\GenericEvent instance containing the job profile code.
      */
-    public const POST_LOAD_FIXTURE = 'pim_installer.post_load_fixture';
+    public const string POST_LOAD_FIXTURE = 'pim_installer.post_load_fixture';
 
     /**
      * This event is dispatched before any fixture has been loaded.
      */
-    public const PRE_LOAD_FIXTURES = 'pim_installer.pre_load_fixtures';
+    public const string PRE_LOAD_FIXTURES = 'pim_installer.pre_load_fixtures';
 
     /**
      * This event is dispatched after when all fixtures are loaded.
      */
-    public const POST_LOAD_FIXTURES = 'pim_installer.post_load_fixtures';
+    public const string POST_LOAD_FIXTURES = 'pim_installer.post_load_fixtures';
 
     /**
      * This event is dispatched before the instance has been reset.
      */
-    public const PRE_RESET_INSTANCE = 'pim_installer.pre_reset_instance';
+    public const string PRE_RESET_INSTANCE = 'pim_installer.pre_reset_instance';
 
     /**
      * This event is dispatched after the instance has been reset.
      */
-    public const POST_RESET_INSTANCE = 'pim_installer.post_reset_instance';
+    public const string POST_RESET_INSTANCE = 'pim_installer.post_reset_instance';
 }

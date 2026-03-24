@@ -38,6 +38,7 @@ class StructuredAttributeOptionNormalizer extends AttributeOptionNormalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $optionsValues = $context['onlyActivatedLocales']

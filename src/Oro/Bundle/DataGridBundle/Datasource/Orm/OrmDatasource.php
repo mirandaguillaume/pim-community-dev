@@ -12,7 +12,7 @@ use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
 
 class OrmDatasource implements DatasourceInterface
 {
-    final public const TYPE = 'orm';
+    final public const string TYPE = 'orm';
 
     /** @var QueryBuilder */
     protected $qb;

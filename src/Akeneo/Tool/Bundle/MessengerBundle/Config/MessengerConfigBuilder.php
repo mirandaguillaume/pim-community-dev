@@ -31,11 +31,11 @@ use Webmozart\Assert\Assert;
  */
 final readonly class MessengerConfigBuilder
 {
-    private const CONFIG_FILEPATH = 'config/messages.yml';
-    private const CONFIG_FILEPATH_FOR_ENV = 'config/messages_%s.yml';
-    public const MAX_RETRIES_DEFAULT = 1;
+    private const string CONFIG_FILEPATH = 'config/messages.yml';
+    private const string CONFIG_FILEPATH_FOR_ENV = 'config/messages_%s.yml';
+    public const int MAX_RETRIES_DEFAULT = 1;
 
-    private const SERIALIZER = 'akeneo_messenger.envelope.serializer';
+    private const string SERIALIZER = 'akeneo_messenger.envelope.serializer';
 
     public function __construct(private string $env)
     {

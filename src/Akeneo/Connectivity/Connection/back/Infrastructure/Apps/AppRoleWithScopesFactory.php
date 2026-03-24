@@ -17,7 +17,7 @@ use Akeneo\UserManagement\Component\Storage\Saver\RoleWithPermissionsSaver;
  */
 final readonly class AppRoleWithScopesFactory implements AppRoleWithScopesFactoryInterface
 {
-    private const APP_ROLE_TYPE = 'app';
+    private const string APP_ROLE_TYPE = 'app';
 
     public function __construct(
         private ScopeMapperRegistry $scopeMapperRegistry,

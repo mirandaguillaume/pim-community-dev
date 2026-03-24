@@ -11,11 +11,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DateRangeFilterType extends AbstractType
 {
-    final public const TYPE_BETWEEN = 1;
-    final public const TYPE_NOT_BETWEEN = 2;
-    final public const TYPE_MORE_THAN = 3;
-    final public const TYPE_LESS_THAN = 4;
-    final public const NAME = 'oro_type_date_range_filter';
+    final public const int TYPE_BETWEEN = 1;
+    final public const int TYPE_NOT_BETWEEN = 2;
+    final public const int TYPE_MORE_THAN = 3;
+    final public const int TYPE_LESS_THAN = 4;
+    final public const string NAME = 'oro_type_date_range_filter';
 
     public function __construct(protected TranslatorInterface $translator)
     {
@@ -24,6 +24,7 @@ class DateRangeFilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -32,6 +33,7 @@ class DateRangeFilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return FilterType::class;

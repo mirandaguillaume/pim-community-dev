@@ -28,8 +28,8 @@ use Symfony\Component\Mime\MimeTypes;
  */
 class FileController
 {
-    final public const DEFAULT_IMAGE_KEY = '__default_image__';
-    final public const SVG_MIME_TYPES = ['image/svg', 'image/svg+xml'];
+    final public const string DEFAULT_IMAGE_KEY = '__default_image__';
+    final public const array SVG_MIME_TYPES = ['image/svg', 'image/svg+xml'];
 
     public function __construct(
         protected ImagineController $imagineController,

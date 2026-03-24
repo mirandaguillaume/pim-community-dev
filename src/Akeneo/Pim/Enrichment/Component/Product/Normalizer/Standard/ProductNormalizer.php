@@ -14,8 +14,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductNormalizer implements NormalizerInterface
 {
-    final public const FIELD_ASSOCIATIONS = 'associations';
-    final public const FIELD_QUANTIFIED_ASSOCIATIONS = 'quantified_associations';
+    final public const string FIELD_ASSOCIATIONS = 'associations';
+    final public const string FIELD_QUANTIFIED_ASSOCIATIONS = 'quantified_associations';
 
     /**
      * ProductNormalizer constructor.

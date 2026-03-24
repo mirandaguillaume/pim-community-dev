@@ -12,21 +12,21 @@ namespace Akeneo\Tool\Component\StorageUtils\Exception;
  */
 class InvalidPropertyTypeException extends PropertyException
 {
-    final public const EXPECTED_CODE = 100;
+    final public const int EXPECTED_CODE = 100;
 
-    final public const SCALAR_EXPECTED_CODE = 101;
-    final public const BOOLEAN_EXPECTED_CODE = 102;
-    final public const FLOAT_EXPECTED_CODE = 103;
-    final public const INTEGER_EXPECTED_CODE = 104;
-    final public const NUMERIC_EXPECTED_CODE = 105;
-    final public const STRING_EXPECTED_CODE = 106;
-    final public const DECIMAL_EXPECTED_CODE = 107;
+    final public const int SCALAR_EXPECTED_CODE = 101;
+    final public const int BOOLEAN_EXPECTED_CODE = 102;
+    final public const int FLOAT_EXPECTED_CODE = 103;
+    final public const int INTEGER_EXPECTED_CODE = 104;
+    final public const int NUMERIC_EXPECTED_CODE = 105;
+    final public const int STRING_EXPECTED_CODE = 106;
+    final public const int DECIMAL_EXPECTED_CODE = 107;
 
-    final public const ARRAY_EXPECTED_CODE = 200;
-    final public const VALID_ARRAY_STRUCTURE_EXPECTED_CODE = 201;
-    final public const ARRAY_OF_ARRAYS_EXPECTED_CODE = 202;
-    final public const ARRAY_KEY_EXPECTED_CODE = 203;
-    final public const ARRAY_OF_OBJECTS_EXPECTED_CODE = 204;
+    final public const int ARRAY_EXPECTED_CODE = 200;
+    final public const int VALID_ARRAY_STRUCTURE_EXPECTED_CODE = 201;
+    final public const int ARRAY_OF_ARRAYS_EXPECTED_CODE = 202;
+    final public const int ARRAY_KEY_EXPECTED_CODE = 203;
+    final public const int ARRAY_OF_OBJECTS_EXPECTED_CODE = 204;
 
     /**
      * @param string          $propertyName

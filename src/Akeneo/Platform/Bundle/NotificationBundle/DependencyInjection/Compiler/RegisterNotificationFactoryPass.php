@@ -15,11 +15,11 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterNotificationFactoryPass implements CompilerPassInterface
 {
-    final public const DEFAULT_PRIORITY = 25;
+    final public const int DEFAULT_PRIORITY = 25;
 
-    final public const NOTIFICATION_FACTORY_REGISTRY = 'pim_notification.registry.factory.notification';
+    final public const string NOTIFICATION_FACTORY_REGISTRY = 'pim_notification.registry.factory.notification';
 
-    final public const NOTIFICATION_FACTORY_TAG = 'pim_notification.factory.notification';
+    final public const string NOTIFICATION_FACTORY_TAG = 'pim_notification.factory.notification';
 
     /**
      * @param ContainerBuilder $container

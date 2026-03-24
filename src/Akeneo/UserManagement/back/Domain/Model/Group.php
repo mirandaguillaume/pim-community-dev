@@ -4,7 +4,7 @@ namespace Akeneo\UserManagement\Domain\Model;
 
 class Group
 {
-    final public const DEFAULT_TYPE = 'default';
+    final public const string DEFAULT_TYPE = 'default';
 
     private function __construct(
         private readonly int $id,

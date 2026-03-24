@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ValueCollectionNormalizer implements NormalizerInterface
 {
-    final public const INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
+    final public const string INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
 
     public function __construct(private readonly NormalizerInterface $normalizer)
     {

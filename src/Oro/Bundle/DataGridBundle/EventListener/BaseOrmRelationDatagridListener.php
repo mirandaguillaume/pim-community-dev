@@ -19,8 +19,8 @@ class BaseOrmRelationDatagridListener
      * Included/excluded param names
      * populated by oro/datagrid/column-form-listener on frontend
      */
-    final public const GRID_PARAM_DATA_IN = 'data_in';
-    final public const GRID_PARAM_DATA_NOT_IN = 'data_not_in';
+    final public const string GRID_PARAM_DATA_IN = 'data_in';
+    final public const string GRID_PARAM_DATA_NOT_IN = 'data_not_in';
 
     /**
      * @param string            $paramName  Parameter name that should be taken from request and binded to query

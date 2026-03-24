@@ -14,11 +14,13 @@ class CodeMustBeUnique extends Constraint
 {
     public string $message = 'pim_measurements.validation.unit.code.must_be_unique';
 
+    #[\Override]
     public function validatedBy(): string
     {
         return 'akeneo_measurement.validation.unit.code_must_be_unique';
     }
 
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

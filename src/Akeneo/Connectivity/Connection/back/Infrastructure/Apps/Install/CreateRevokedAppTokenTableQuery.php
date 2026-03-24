@@ -10,7 +10,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Install;
  */
 final class CreateRevokedAppTokenTableQuery
 {
-    public const QUERY = <<<'SQL'
+    public const string QUERY = <<<'SQL'
         CREATE TABLE IF NOT EXISTS akeneo_connectivity_revoked_app_token (
             token VARCHAR(255) NOT NULL PRIMARY KEY
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci

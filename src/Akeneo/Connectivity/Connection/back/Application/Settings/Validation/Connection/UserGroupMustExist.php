@@ -14,6 +14,7 @@ class UserGroupMustExist extends Constraint
 {
     public string $message = 'akeneo_connectivity.connection.connection.constraint.user_group.must_exist';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

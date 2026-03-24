@@ -15,8 +15,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterDataCollectorPass implements CompilerPassInterface
 {
-    final public const REGISTRY_ID = 'pim_analytics.data_collector.chained';
-    final public const COLLECTOR_TAG = 'pim_analytics.data_collector';
+    final public const string REGISTRY_ID = 'pim_analytics.data_collector.chained';
+    final public const string COLLECTOR_TAG = 'pim_analytics.data_collector';
 
     /**
      * {@inheritdoc}

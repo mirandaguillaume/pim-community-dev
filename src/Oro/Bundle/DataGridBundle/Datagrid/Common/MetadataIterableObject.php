@@ -6,9 +6,9 @@ use Oro\Bundle\DataGridBundle\Common\IterableObject;
 
 class MetadataIterableObject extends IterableObject
 {
-    final public const GRID_NAME_KEY = 'gridName';
-    final public const OPTIONS_KEY = 'options';
-    final public const REQUIRED_MODULES_KEY = 'requireJSModules';
+    final public const string GRID_NAME_KEY = 'gridName';
+    final public const string OPTIONS_KEY = 'options';
+    final public const string REQUIRED_MODULES_KEY = 'requireJSModules';
 
     /**
      * Default metadata array
@@ -26,6 +26,7 @@ class MetadataIterableObject extends IterableObject
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public static function createNamed($name, array $params)
     {
         $params = self::getDefaultMetadata();
@@ -37,6 +38,7 @@ class MetadataIterableObject extends IterableObject
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getName()
     {
         if (!isset($this[self::OPTIONS_KEY][self::GRID_NAME_KEY])) {

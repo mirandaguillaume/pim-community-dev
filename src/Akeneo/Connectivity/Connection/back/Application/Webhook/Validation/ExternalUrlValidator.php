@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ExternalUrlValidator extends ConstraintValidator
 {
-    private const DOMAIN_BLACKLIST = [
+    private const array DOMAIN_BLACKLIST = [
         'localhost',
         'elasticsearch',
         'memcached',

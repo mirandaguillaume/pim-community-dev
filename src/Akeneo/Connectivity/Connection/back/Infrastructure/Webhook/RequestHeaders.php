@@ -11,7 +11,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Webhook;
  */
 final class RequestHeaders
 {
-    public const HEADER_REQUEST_SIGNATURE = 'X-Akeneo-Request-Signature';
-    public const HEADER_REQUEST_TIMESTAMP = 'X-Akeneo-Request-Timestamp';
-    public const HEADER_REQUEST_USERAGENT = 'User-Agent';
+    public const string HEADER_REQUEST_SIGNATURE = 'X-Akeneo-Request-Signature';
+    public const string HEADER_REQUEST_TIMESTAMP = 'X-Akeneo-Request-Timestamp';
+    public const string HEADER_REQUEST_USERAGENT = 'User-Agent';
 }

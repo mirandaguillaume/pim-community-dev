@@ -14,6 +14,7 @@ class EventSubscriptionsLimit extends Constraint
 {
     public string $message = 'akeneo_connectivity.connection.webhook.error.limit_reached';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

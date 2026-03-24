@@ -15,7 +15,7 @@ class MigrateToUuidCreateIndexes implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    private const DEFAULT_INDEX_NAME = 'product_uuid';
+    private const string DEFAULT_INDEX_NAME = 'product_uuid';
 
     public function __construct(
         private readonly Connection $connection,

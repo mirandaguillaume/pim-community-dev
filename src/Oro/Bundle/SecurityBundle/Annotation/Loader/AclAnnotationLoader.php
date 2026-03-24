@@ -10,8 +10,8 @@ use Symfony\Component\Finder\Finder;
 
 class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderInterface
 {
-    final public const ANNOTATION_CLASS = Acl::class;
-    final public const ANCESTOR_CLASS = AclAncestor::class;
+    final public const string ANNOTATION_CLASS = Acl::class;
+    final public const string ANCESTOR_CLASS = AclAncestor::class;
 
     /**
      * Constructor

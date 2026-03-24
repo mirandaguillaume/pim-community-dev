@@ -21,7 +21,7 @@ class MigrateToUuidSetNotNullableUuidColumns implements MigrateToUuidStep
         'pim_comment_comment',
     ];
 
-    private const TABLE_WITHOUT_UUID_COMMENT = [
+    private const array TABLE_WITHOUT_UUID_COMMENT = [
         'pim_catalog_completeness',
         'pim_data_quality_insights_product_criteria_evaluation',
         'pim_data_quality_insights_product_score',

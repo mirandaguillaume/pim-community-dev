@@ -14,7 +14,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyException;
  */
 class InvalidOptionsException extends InvalidPropertyException
 {
-    final public const VALID_ENTITY_CODE_EXPECTED_CODES = 306;
+    final public const int VALID_ENTITY_CODE_EXPECTED_CODES = 306;
 
     private readonly array $propertyValues;
 

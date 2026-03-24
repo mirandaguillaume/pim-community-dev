@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraint;
  */
 class VariantProductParent extends Constraint
 {
-    final public const NO_PARENT = 'pim_catalog.constraint.variant_product_has_parent';
-    final public const INVALID_PARENT = 'pim_catalog.constraint.invalid_variant_product_parent';
+    final public const string NO_PARENT = 'pim_catalog.constraint.variant_product_has_parent';
+    final public const string INVALID_PARENT = 'pim_catalog.constraint.invalid_variant_product_parent';
 
     /** @var string */
     public $propertyPath = 'parent';
@@ -25,6 +25,7 @@ class VariantProductParent extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_invalid_variant_product_parent';
@@ -33,6 +34,7 @@ class VariantProductParent extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string
     {
         return Constraint::CLASS_CONSTRAINT;

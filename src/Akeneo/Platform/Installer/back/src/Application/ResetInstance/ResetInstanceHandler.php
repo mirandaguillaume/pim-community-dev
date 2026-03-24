@@ -17,7 +17,7 @@ use Akeneo\Platform\Installer\Domain\Service\UserConfigurationResetterInterface;
 
 final readonly class ResetInstanceHandler
 {
-    private const TABLES_TO_KEEP = [
+    private const array TABLES_TO_KEEP = [
         'acl_classes',
         'acl_entries',
         'acl_object_identities',

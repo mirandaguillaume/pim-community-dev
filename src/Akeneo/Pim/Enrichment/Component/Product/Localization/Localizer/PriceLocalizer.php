@@ -17,6 +17,7 @@ class PriceLocalizer extends NumberLocalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validate($prices, $attributeCode, array $options = [])
     {
         $violations = new ConstraintViolationList();
@@ -32,6 +33,7 @@ class PriceLocalizer extends NumberLocalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function delocalize($prices, array $options = [])
     {
         foreach ($prices as $index => $price) {
@@ -46,6 +48,7 @@ class PriceLocalizer extends NumberLocalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function localize($prices, array $options = [])
     {
         if (!is_array($prices)) {

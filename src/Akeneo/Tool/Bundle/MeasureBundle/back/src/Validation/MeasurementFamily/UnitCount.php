@@ -8,9 +8,10 @@ use Symfony\Component\Validator\Constraint;
 
 class UnitCount extends Constraint
 {
-    final public const MAX_MESSAGE = 'pim_measurements.validation.measurement_family.units.should_contain_max_elements';
-    final public const MIN_MESSAGE = 'pim_measurements.validation.measurement_family.units.should_contain_at_least_one_unit';
+    final public const string MAX_MESSAGE = 'pim_measurements.validation.measurement_family.units.should_contain_max_elements';
+    final public const string MIN_MESSAGE = 'pim_measurements.validation.measurement_family.units.should_contain_at_least_one_unit';
 
+    #[\Override]
     public function validatedBy(): string
     {
         return 'akeneo_measurement.validation.measurement_family.unit_count';

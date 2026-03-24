@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class ImmutableVariantAxes extends Constraint
 {
-    final public const IMMUTABLE_VARIANT_AXES = 'pim_catalog.constraint.family_variant_axes_immutable';
+    final public const string IMMUTABLE_VARIANT_AXES = 'pim_catalog.constraint.family_variant_axes_immutable';
 
     /** @var string */
     public $propertyPath = 'axes';
@@ -23,6 +23,7 @@ class ImmutableVariantAxes extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_immutable_variant_axes_validator';
@@ -31,6 +32,7 @@ class ImmutableVariantAxes extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return Constraint::CLASS_CONSTRAINT;

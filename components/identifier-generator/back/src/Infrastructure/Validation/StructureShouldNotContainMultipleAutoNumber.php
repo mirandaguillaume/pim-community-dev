@@ -13,11 +13,12 @@ use Symfony\Component\Validator\Constraint;
 final class StructureShouldNotContainMultipleAutoNumber extends Constraint
 {
     public string $message = 'validation.identifier_generator.structure_auto_number_limit_reached';
-    public const LIMIT_PER_STRUCTURE = 1;
+    public const int LIMIT_PER_STRUCTURE = 1;
 
     /**
      * @inerhitDoc
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

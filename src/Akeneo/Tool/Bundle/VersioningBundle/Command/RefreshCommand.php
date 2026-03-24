@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RefreshCommand extends Command
 {
-    private const JOB_CODE = 'versioning_refresh';
+    private const string JOB_CODE = 'versioning_refresh';
 
     public function __construct(
         private readonly ExecuteJobExecutionHandlerInterface $jobExecutionRunner,

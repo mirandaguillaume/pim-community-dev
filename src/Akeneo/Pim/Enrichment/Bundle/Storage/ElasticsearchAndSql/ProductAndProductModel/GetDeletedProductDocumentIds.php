@@ -19,7 +19,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 final readonly class GetDeletedProductDocumentIds
 {
-    private const CHUNK_SIZE = 500;
+    private const int CHUNK_SIZE = 500;
 
     public function __construct(
         private Client $client,

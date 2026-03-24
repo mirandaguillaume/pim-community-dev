@@ -20,6 +20,7 @@ class ProductCompletenessFilter extends BooleanFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);

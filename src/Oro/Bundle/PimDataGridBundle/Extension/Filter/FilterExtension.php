@@ -26,7 +26,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class FilterExtension extends AbstractExtension
 {
     /** @staticvar string Query param */
-    final public const FILTER_ROOT_PARAM = '_filter';
+    final public const string FILTER_ROOT_PARAM = '_filter';
 
     /**
      * @var FilterInterface[]

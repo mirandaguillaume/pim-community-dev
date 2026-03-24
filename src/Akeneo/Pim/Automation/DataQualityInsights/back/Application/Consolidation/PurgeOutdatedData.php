@@ -12,12 +12,12 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\TimePeriod;
 
 final readonly class PurgeOutdatedData
 {
-    public const EVALUATIONS_RETENTION_DAYS = 1;
+    public const int EVALUATIONS_RETENTION_DAYS = 1;
 
-    public const CONSOLIDATION_RETENTION_DAYS = 7;
-    public const CONSOLIDATION_RETENTION_WEEKS = 4;
-    public const CONSOLIDATION_RETENTION_MONTHS = 15;
-    public const CONSOLIDATION_RETENTION_YEARS = 3;
+    public const int CONSOLIDATION_RETENTION_DAYS = 7;
+    public const int CONSOLIDATION_RETENTION_WEEKS = 4;
+    public const int CONSOLIDATION_RETENTION_MONTHS = 15;
+    public const int CONSOLIDATION_RETENTION_YEARS = 3;
 
     public function __construct(
         private DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository

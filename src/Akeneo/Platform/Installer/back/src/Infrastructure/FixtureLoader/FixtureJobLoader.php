@@ -18,7 +18,7 @@ use Doctrine\Persistence\ObjectRepository;
 class FixtureJobLoader
 {
     /** @staticvar */
-    final public const JOB_TYPE = 'fixtures';
+    final public const string JOB_TYPE = 'fixtures';
 
     /**
      * @param ObjectRepository<JobInstance> $jobInstanceRepository

@@ -18,13 +18,13 @@ namespace Akeneo\Platform\Bundle\PimVersionBundle\Version;
 final class GrowthVersion implements PimVersion
 {
     /** @staticvar string */
-    private const VERSION_CODENAME = 'Growth Edition';
+    private const string VERSION_CODENAME = 'Growth Edition';
 
     /** @staticvar string */
-    private const EDITION_NAME = 'Growth Edition';
+    private const string EDITION_NAME = 'Growth Edition';
 
     /** @staticvar string **/
-    private const EDITION_CODE = 'growth_edition_instance';
+    private const string EDITION_CODE = 'growth_edition_instance';
 
     public function versionCodename(): string
     {

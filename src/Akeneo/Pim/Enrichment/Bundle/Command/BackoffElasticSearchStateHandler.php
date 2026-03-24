@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BackoffElasticSearchStateHandler
 {
-    final public const MAX_RETRY_COUNTER = 10;
-    final public const BACKOFF_LOGARITHMIC_INCREMENT = 2;
+    final public const int MAX_RETRY_COUNTER = 10;
+    final public const int BACKOFF_LOGARITHMIC_INCREMENT = 2;
 
     public function __construct(private readonly int $maxNumberRetry = self::MAX_RETRY_COUNTER, private readonly int $backoffLogarithmicIncrement = self::BACKOFF_LOGARITHMIC_INCREMENT)
     {

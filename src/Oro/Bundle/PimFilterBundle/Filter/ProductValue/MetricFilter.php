@@ -44,6 +44,7 @@ class MetricFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function init($name, array $params)
     {
         parent::init($name, $params);
@@ -54,6 +55,7 @@ class MetricFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormType()
     {
         return MetricFilterType::class;
@@ -62,6 +64,7 @@ class MetricFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);
@@ -91,6 +94,7 @@ class MetricFilter extends OroNumberFilter
      *
      * {@inheritdoc}
      */
+    #[\Override]
     public function parseData(mixed $data): array|bool
     {
         $data['type'] ??= null;
@@ -119,6 +123,7 @@ class MetricFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getMetadata()
     {
         $metadata = parent::getMetadata();
@@ -131,6 +136,7 @@ class MetricFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getOperator($type)
     {
         $operatorTypes = [

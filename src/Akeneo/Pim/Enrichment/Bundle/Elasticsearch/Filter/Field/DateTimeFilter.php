@@ -21,8 +21,8 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    final public const DATETIME_FORMAT = 'Y-m-d H:i:s';
-    final public const RELATIVE_DATETIME_FORMAT = '/^(now|[+-][0-9]+\s?(minute|hour|day|week|month|year)s?)$/';
+    final public const string DATETIME_FORMAT = 'Y-m-d H:i:s';
+    final public const string RELATIVE_DATETIME_FORMAT = '/^(now|[+-][0-9]+\s?(minute|hour|day|week|month|year)s?)$/';
 
     /** @var IdentifiableObjectRepositoryInterface */
     protected $jobInstanceRepository;

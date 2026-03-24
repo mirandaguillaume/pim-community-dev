@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
  */
 class ImagePreviewController
 {
-    private const THUMBNAIL_FILENAME = 'thumbnail.jpeg';
+    private const string THUMBNAIL_FILENAME = 'thumbnail.jpeg';
 
     /**
      * Why do we need to have this?
@@ -34,7 +34,7 @@ class ImagePreviewController
      * (cannot be empty), we decided to put a dummy root flag (here: vendor/akeneo/pim-community-dev/config/packages/liip_imagine.yml#L8)
      * and remove it here to get the flysystem path.
      */
-    private const ROOT_FLAG = '__root__';
+    private const string ROOT_FLAG = '__root__';
 
     public function __construct(
         private readonly GetAttribute $getAttribute,

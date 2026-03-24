@@ -22,6 +22,7 @@ class FamilyFilter extends AjaxChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $dataSource, $data)
     {
         $data = $this->parseData($data);
@@ -46,6 +47,7 @@ class FamilyFilter extends AjaxChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getMetadata()
     {
         $metadata = parent::getMetadata();
@@ -59,6 +61,7 @@ class FamilyFilter extends AjaxChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormOptions()
     {
         return array_merge(

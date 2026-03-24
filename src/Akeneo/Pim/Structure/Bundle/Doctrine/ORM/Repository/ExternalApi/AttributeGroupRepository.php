@@ -59,6 +59,7 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
             ->execute();
     }
 
+    #[\Override]
     public function count(array $searchFilters = []): int
     {
         try {

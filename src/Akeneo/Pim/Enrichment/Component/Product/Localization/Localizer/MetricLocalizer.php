@@ -16,6 +16,7 @@ class MetricLocalizer extends NumberLocalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validate($metric, $attributeCode, array $options = [])
     {
         if (!isset($metric['amount'])) {
@@ -28,6 +29,7 @@ class MetricLocalizer extends NumberLocalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function delocalize($metric, array $options = [])
     {
         if (isset($metric['amount'])) {
@@ -40,6 +42,7 @@ class MetricLocalizer extends NumberLocalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function localize($metric, array $options = [])
     {
         if (!is_array($metric)) {

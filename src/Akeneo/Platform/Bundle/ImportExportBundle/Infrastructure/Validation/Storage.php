@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 
 class Storage extends Constraint
 {
-    final public const UNAVAILABLE_TYPE = 'pim_import_export.form.job_instance.validation.storage.unavailable_type';
+    final public const string UNAVAILABLE_TYPE = 'pim_import_export.form.job_instance.validation.storage.unavailable_type';
 
     public function __construct(
         /** @var string[] */

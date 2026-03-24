@@ -6,12 +6,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SystemAwareResolver
 {
-    final public const PARAMETER_REGEX = '#%([\w\._]+)%#';
-    final public const STATIC_METHOD_REGEX = '#%([\w\._]+)%::([\w\._]+)#';
-    final public const STATIC_METHOD_CLEAN_REGEX = '#([^\'"%:\s]+)::([\w\._]+)#';
-    final public const SERVICE_METHOD = '#@([\w\._]+)->([\w\._]+)(\((.*)\))*#';
-    final public const SERVICE = '#@([\w\._]+)#';
-    final public const TWIG_TEMPLATE = '#^@.+\.twig$#';
+    final public const string PARAMETER_REGEX = '#%([\w\._]+)%#';
+    final public const string STATIC_METHOD_REGEX = '#%([\w\._]+)%::([\w\._]+)#';
+    final public const string STATIC_METHOD_CLEAN_REGEX = '#([^\'"%:\s]+)::([\w\._]+)#';
+    final public const string SERVICE_METHOD = '#@([\w\._]+)->([\w\._]+)(\((.*)\))*#';
+    final public const string SERVICE = '#@([\w\._]+)#';
+    final public const string TWIG_TEMPLATE = '#^@.+\.twig$#';
 
     /**
      * @var ContainerInterface

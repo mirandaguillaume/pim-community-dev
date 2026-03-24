@@ -22,7 +22,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class IdentifierFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    final public const IDENTIFIER_KEY = 'identifier';
+    final public const string IDENTIFIER_KEY = 'identifier';
 
     /**
      * @param array<string> $supportedFields

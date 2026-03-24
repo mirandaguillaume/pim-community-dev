@@ -30,8 +30,8 @@ use Webmozart\Assert\Assert;
  */
 final readonly class QuantifiedAssociationUserIntentCollectionApplier implements UserIntentApplier
 {
-    private const PRODUCTS = 'products';
-    private const PRODUCT_MODELS = 'product_models';
+    private const string PRODUCTS = 'products';
+    private const string PRODUCT_MODELS = 'product_models';
 
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,

@@ -80,6 +80,7 @@ class NumberType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_number';
@@ -88,6 +89,7 @@ class NumberType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return TextType::class;

@@ -22,6 +22,7 @@ class PersistedConnectionEntityManager extends EntityManagerDecorator
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getConnection(): Connection
     {
         $this->checkConnection();
@@ -32,6 +33,7 @@ class PersistedConnectionEntityManager extends EntityManagerDecorator
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function flush(): void
     {
         $this->checkConnection();

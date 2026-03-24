@@ -15,9 +15,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterPresentersPass implements CompilerPassInterface
 {
-    final public const LOCALIZATION_PRESENTER_REGISTRY = 'pim_catalog.localization.presenter.registry';
+    final public const string LOCALIZATION_PRESENTER_REGISTRY = 'pim_catalog.localization.presenter.registry';
 
-    final public const LOCALIZATION_PRESENTER_TAG = 'pim_catalog.localization.presenter';
+    final public const string LOCALIZATION_PRESENTER_TAG = 'pim_catalog.localization.presenter';
 
     /**
      * {@inheritdoc}

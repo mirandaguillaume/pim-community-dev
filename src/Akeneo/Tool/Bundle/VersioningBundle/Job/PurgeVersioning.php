@@ -15,7 +15,7 @@ use Akeneo\Tool\Component\Connector\Step\TaskletInterface;
  */
 final class PurgeVersioning implements TaskletInterface
 {
-    protected const JOB_CODE = 'versioning_purge';
+    protected const string JOB_CODE = 'versioning_purge';
 
     protected StepExecution $stepExecution;
 

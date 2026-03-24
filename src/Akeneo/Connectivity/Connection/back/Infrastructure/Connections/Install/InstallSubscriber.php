@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 #[AsEventListener(event: InstallerEvents::POST_LOAD_FIXTURES, method: 'loadFixtures', priority: -10)]
 class InstallSubscriber
 {
-    final public const ICECAT_DEMO_DEV = 'icecat_demo_dev';
+    final public const string ICECAT_DEMO_DEV = 'icecat_demo_dev';
 
     public function __construct(
         private readonly DbalConnection $dbalConnection,

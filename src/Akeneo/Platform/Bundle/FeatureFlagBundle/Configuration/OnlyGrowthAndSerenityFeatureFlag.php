@@ -6,7 +6,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 
 class OnlyGrowthAndSerenityFeatureFlag implements FeatureFlag
 {
-    private const EDITIONS = [
+    private const array EDITIONS = [
         'serenity_instance',
         'growth_edition_instance',
     ];

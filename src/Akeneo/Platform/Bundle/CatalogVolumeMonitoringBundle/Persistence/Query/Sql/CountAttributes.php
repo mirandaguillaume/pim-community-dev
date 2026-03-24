@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class CountAttributes implements CountQuery
 {
-    private const VOLUME_NAME = 'count_attributes';
+    private const string VOLUME_NAME = 'count_attributes';
 
     public function __construct(private readonly Connection $connection)
     {

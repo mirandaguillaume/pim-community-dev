@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'pim:product:clean-removed-products', description: 'Erase documents present in Elasticsearch but missing in MySQL')]
 class CleanRemovedProductsCommand extends Command
 {
-    private const DEFAULT_BATCH_SIZE = 100;
+    private const int DEFAULT_BATCH_SIZE = 100;
 
     public function __construct(
         private readonly GetDeletedProductDocumentIds $getDeletedProductDocumentIds,

@@ -57,6 +57,7 @@ class AddParametersToProductGridListener extends AddParametersToGridListener
     /**
      * @return array
      */
+    #[\Override]
     protected function prepareParameters()
     {
         $queryParameters = parent::prepareParameters();

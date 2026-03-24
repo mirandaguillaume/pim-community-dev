@@ -13,7 +13,7 @@ namespace Akeneo\Tool\Component\Batch\Job;
  */
 class BatchStatus implements \Stringable
 {
-    final public const __DEFAULT = self::UNKNOWN;
+    final public const int __DEFAULT = self::UNKNOWN;
 
     /**
      * Constructor
@@ -34,16 +34,16 @@ class BatchStatus implements \Stringable
      * steps that have finished processing, but were not successful, and where
      * they should be skipped on a restart (so FAILED is the wrong status).
      */
-    final public const COMPLETED = 1;
-    final public const STARTING = 2;
-    final public const STARTED = 3;
-    final public const STOPPING = 4;
-    final public const STOPPED = 5;
-    final public const FAILED = 6;
-    final public const ABANDONED = 7;
-    final public const UNKNOWN = 8;
-    final public const PAUSING = 9;
-    final public const PAUSED = 10;
+    final public const int COMPLETED = 1;
+    final public const int STARTING = 2;
+    final public const int STARTED = 3;
+    final public const int STOPPING = 4;
+    final public const int STOPPED = 5;
+    final public const int FAILED = 6;
+    final public const int ABANDONED = 7;
+    final public const int UNKNOWN = 8;
+    final public const int PAUSING = 9;
+    final public const int PAUSED = 10;
 
     protected static array $statusLabels = [
         self::COMPLETED => 'COMPLETED',

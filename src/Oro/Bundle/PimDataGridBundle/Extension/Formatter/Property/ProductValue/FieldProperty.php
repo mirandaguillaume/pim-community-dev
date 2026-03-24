@@ -17,6 +17,7 @@ class FieldProperty extends OroFieldProperty
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function convertValue($value)
     {
         return $value['data'];
@@ -25,6 +26,7 @@ class FieldProperty extends OroFieldProperty
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getRawValue(ResultRecordInterface $record)
     {
         try {

@@ -18,6 +18,7 @@ class ObjectClassExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFilters()
     {
         return [

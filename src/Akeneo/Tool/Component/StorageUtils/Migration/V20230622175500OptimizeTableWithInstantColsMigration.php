@@ -13,7 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class V20230622175500OptimizeTableWithInstantColsMigration implements ZddMigration
 {
-    private const TABLES_THAT_HAVE_INSTANT_COLS = [
+    private const array TABLES_THAT_HAVE_INSTANT_COLS = [
         'akeneo_asset_manager_asset_family',
         'akeneo_asset_manager_attribute',
         'akeneo_batch_job_execution',

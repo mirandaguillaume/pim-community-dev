@@ -12,6 +12,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  */
 class NumberValue extends ScalarValue
 {
+    #[\Override]
     public function isEqual(ValueInterface $value): bool
     {
         if (!$value instanceof NumberValue) {

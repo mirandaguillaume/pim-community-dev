@@ -82,6 +82,7 @@ class FieldNodeDefinition extends AbstractNodeDefinition
      *
      * @return array
      */
+    #[\Override]
     protected function prepareDefinition(array $definition)
     {
         if (!isset($definition['options'])) {

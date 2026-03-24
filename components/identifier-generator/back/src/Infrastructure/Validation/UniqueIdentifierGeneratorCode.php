@@ -17,6 +17,7 @@ final class UniqueIdentifierGeneratorCode extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

@@ -22,6 +22,7 @@ class RangeValidator extends BaseRangeValidator
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validate($value, Constraint $constraint)
     {
         if (!$constraint instanceof Range) {

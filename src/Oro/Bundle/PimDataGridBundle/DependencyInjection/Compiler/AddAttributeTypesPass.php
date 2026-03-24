@@ -15,10 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class AddAttributeTypesPass implements CompilerPassInterface
 {
     /** @staticvar string */
-    final public const REGISTRY_ID = 'pim_datagrid.datagrid.configuration.product.configuration_registry';
+    final public const string REGISTRY_ID = 'pim_datagrid.datagrid.configuration.product.configuration_registry';
 
     /** @staticvar string */
-    final public const PARAM_PREFIX = 'pim_datagrid.product.attribute_type.';
+    final public const string PARAM_PREFIX = 'pim_datagrid.product.attribute_type.';
 
     /**
      * {@inheritdoc}

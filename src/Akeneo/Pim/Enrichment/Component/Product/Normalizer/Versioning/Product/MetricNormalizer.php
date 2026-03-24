@@ -14,10 +14,10 @@ use Webmozart\Assert\Assert;
  */
 class MetricNormalizer extends AbstractValueDataNormalizer
 {
-    final public const LABEL_SEPARATOR = '-';
-    final public const MULTIPLE_FIELDS_FORMAT = 'multiple_fields';
-    final public const SINGLE_FIELD_FORMAT = 'single_field';
-    final public const UNIT_LABEL = 'unit';
+    final public const string LABEL_SEPARATOR = '-';
+    final public const string MULTIPLE_FIELDS_FORMAT = 'multiple_fields';
+    final public const string SINGLE_FIELD_FORMAT = 'single_field';
+    final public const string UNIT_LABEL = 'unit';
 
     /** @var string[] */
     protected $supportedFormats = ['flat'];
@@ -35,6 +35,7 @@ class MetricNormalizer extends AbstractValueDataNormalizer
      *
      * @param MetricInterface $object
      */
+    #[\Override]
     public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $context = $this->resolveContext($context);

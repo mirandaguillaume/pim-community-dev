@@ -16,13 +16,13 @@ use Symfony\Component\DependencyInjection\Reference;
 class RegisterJobParametersPass implements CompilerPassInterface
 {
     /** @staticvar int The default provider priority */
-    final public const DEFAULT_PRIORITY = 100;
+    final public const int DEFAULT_PRIORITY = 100;
 
     /** @staticvar string The registry id */
-    final public const REGISTRY_ID = 'akeneo_batch.job.job_parameters.%s_registry';
+    final public const string REGISTRY_ID = 'akeneo_batch.job.job_parameters.%s_registry';
 
     /** @staticvar string */
-    final public const SERVICE_TAG = 'akeneo_batch.job.job_parameters.%s';
+    final public const string SERVICE_TAG = 'akeneo_batch.job.job_parameters.%s';
 
     /**
      * @param $type

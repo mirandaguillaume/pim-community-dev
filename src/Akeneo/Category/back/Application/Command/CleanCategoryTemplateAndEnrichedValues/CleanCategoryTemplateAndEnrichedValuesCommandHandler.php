@@ -16,7 +16,7 @@ use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
  */
 class CleanCategoryTemplateAndEnrichedValuesCommandHandler
 {
-    private const CATEGORY_BATCH_SIZE = 100;
+    private const int CATEGORY_BATCH_SIZE = 100;
 
     public function __construct(
         private readonly GetEnrichedValuesByTemplateUuid $getEnrichedValuesByTemplateUuid,

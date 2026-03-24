@@ -14,6 +14,7 @@ class CodeChallengeMustBeValid extends Constraint
 {
     public string $message = 'invalid_client';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

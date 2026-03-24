@@ -13,7 +13,7 @@ use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\ReadModel\AverageMa
  */
 class AverageMaxVolumesNormalizer
 {
-    private const VOLUME_TYPE = 'average_max';
+    private const string VOLUME_TYPE = 'average_max';
 
     public function normalize(AverageMaxVolumes $data): array
     {

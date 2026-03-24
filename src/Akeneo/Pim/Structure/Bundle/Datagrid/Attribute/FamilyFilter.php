@@ -11,6 +11,7 @@ use Webmozart\Assert\Assert;
 
 class FamilyFilter extends ChoiceFilter
 {
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         Assert::implementsInterface($ds, PimFilterDatasourceAdapterInterface::class);

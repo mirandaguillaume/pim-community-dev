@@ -20,7 +20,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
 class DateValueUserIntentFactory implements ValueUserIntentFactory
 {
     use ValidateDataTrait;
-    private const PATTERN = '/^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})(T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)(([-+](\d{2}):(\d{2})|Z)?))?$/';
+    private const string PATTERN = '/^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})(T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)(([-+](\d{2}):(\d{2})|Z)?))?$/';
 
     public function getSupportedAttributeTypes(): array
     {

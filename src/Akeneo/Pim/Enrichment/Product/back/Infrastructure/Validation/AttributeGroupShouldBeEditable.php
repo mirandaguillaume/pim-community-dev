@@ -17,6 +17,7 @@ final class AttributeGroupShouldBeEditable extends Constraint
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::PROPERTY_CONSTRAINT;

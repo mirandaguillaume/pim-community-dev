@@ -14,6 +14,7 @@ class UserIdMustBeValid extends Constraint
 {
     public string $message = 'User ID must be valid';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

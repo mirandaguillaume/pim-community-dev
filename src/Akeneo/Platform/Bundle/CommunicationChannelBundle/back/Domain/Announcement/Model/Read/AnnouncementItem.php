@@ -11,7 +11,7 @@ namespace Akeneo\Platform\CommunicationChannel\Domain\Announcement\Model\Read;
  */
 final class AnnouncementItem
 {
-    private const DATE_FORMAT = 'F\, jS Y';
+    private const string DATE_FORMAT = 'F\, jS Y';
 
     private readonly \DateTimeImmutable $startDate;
 

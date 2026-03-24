@@ -18,8 +18,8 @@ use Psr\Log\LoggerInterface;
  */
 class ResilientDeadlockConnection
 {
-    private const MAX_RETRY = 5;
-    private const DELAY_BETWEEN_RETRY_IN_MICROSECONDS = 300000;
+    private const int MAX_RETRY = 5;
+    private const int DELAY_BETWEEN_RETRY_IN_MICROSECONDS = 300000;
 
     /**
      * This delay is useful to not restart exactly at the same time concurrent processes locked by the same deadlock,
@@ -27,8 +27,8 @@ class ResilientDeadlockConnection
      * The maximum delay is increased in function of the number of retries to minimize the probability of the deadlock to occur,
      * at the cost of increasing the latency
      */
-    private const MINIMUM_RANDOM_DELAY_IN_MICROSECONDS = 50000;
-    private const MAXIMUM_RANDOM_DELAY_IN_MICROSECONDS = 100000;
+    private const int MINIMUM_RANDOM_DELAY_IN_MICROSECONDS = 50000;
+    private const int MAXIMUM_RANDOM_DELAY_IN_MICROSECONDS = 100000;
 
     public function __construct(
         private readonly Connection $connection,

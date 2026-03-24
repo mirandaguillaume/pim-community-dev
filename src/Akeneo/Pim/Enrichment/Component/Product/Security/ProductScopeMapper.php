@@ -12,11 +12,11 @@ use Akeneo\Connectivity\Connection\Infrastructure\Apps\Security\ScopeMapperInter
  */
 class ProductScopeMapper implements ScopeMapperInterface
 {
-    private const SCOPE_READ_PRODUCTS = 'read_products';
-    private const SCOPE_WRITE_PRODUCTS = 'write_products';
-    private const SCOPE_DELETE_PRODUCTS = 'delete_products';
+    private const string SCOPE_READ_PRODUCTS = 'read_products';
+    private const string SCOPE_WRITE_PRODUCTS = 'write_products';
+    private const string SCOPE_DELETE_PRODUCTS = 'delete_products';
 
-    private const SCOPE_ACL_MAP = [
+    private const array SCOPE_ACL_MAP = [
         self::SCOPE_READ_PRODUCTS => [
             'pim_api_product_list',
         ],
@@ -28,7 +28,7 @@ class ProductScopeMapper implements ScopeMapperInterface
         ],
     ];
 
-    private const SCOPE_MESSAGE_MAP = [
+    private const array SCOPE_MESSAGE_MAP = [
         self::SCOPE_READ_PRODUCTS => [
             'icon' => 'products',
             'type' => 'view',
@@ -46,7 +46,7 @@ class ProductScopeMapper implements ScopeMapperInterface
         ],
     ];
 
-    private const SCOPE_HIERARCHY = [
+    private const array SCOPE_HIERARCHY = [
         self::SCOPE_WRITE_PRODUCTS => [
             self::SCOPE_READ_PRODUCTS,
         ],

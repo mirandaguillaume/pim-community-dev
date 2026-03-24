@@ -32,7 +32,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 #[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'bulkComputeVariantStructureChanges')]
 class ComputeFamilyVariantStructureChangesSubscriber
 {
-    final public const DISABLE_JOB_LAUNCHING = 'DISABLE_COMPUTE_FAMILY_VARIANT_STRUCTURE_CHANGES_LAUNCHING';
+    final public const string DISABLE_JOB_LAUNCHING = 'DISABLE_COMPUTE_FAMILY_VARIANT_STRUCTURE_CHANGES_LAUNCHING';
 
     /** @var array<string, bool> */
     private array $isFamilyVariantNew = [];

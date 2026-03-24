@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class SearchJobUser implements SearchJobUserInterface
 {
-    private const USER_TYPE = 'user';
+    private const string USER_TYPE = 'user';
 
     public function __construct(
         private readonly Connection $connection,

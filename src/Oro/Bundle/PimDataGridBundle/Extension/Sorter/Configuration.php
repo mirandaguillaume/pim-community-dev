@@ -18,6 +18,7 @@ class Configuration extends OroConfiguration
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $builder = new TreeBuilder('sorters');

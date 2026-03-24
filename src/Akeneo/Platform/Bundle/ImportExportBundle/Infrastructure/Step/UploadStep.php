@@ -24,7 +24,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class UploadStep extends AbstractStep
 {
-    private const STORAGE_KEY = 'storage';
+    private const string STORAGE_KEY = 'storage';
 
     public function __construct(
         $name,

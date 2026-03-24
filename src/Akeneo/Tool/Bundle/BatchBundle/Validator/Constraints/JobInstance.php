@@ -27,6 +27,7 @@ class JobInstance extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'akeneo_job_instance_validator';
@@ -35,6 +36,7 @@ class JobInstance extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

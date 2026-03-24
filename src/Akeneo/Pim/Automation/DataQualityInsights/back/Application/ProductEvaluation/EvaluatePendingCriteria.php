@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
  */
 class EvaluatePendingCriteria
 {
-    final public const NO_LIMIT = -1;
+    final public const int NO_LIMIT = -1;
 
     public function __construct(
         private readonly CriterionEvaluationRepositoryInterface                 $repository,

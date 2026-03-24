@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Encoder\EncoderInterface;
 class CsvEncoder implements EncoderInterface
 {
     /** @staticvar string */
-    final public const FORMAT = 'csv';
+    final public const string FORMAT = 'csv';
 
     /** @var bool */
     protected $firstExecution = true;

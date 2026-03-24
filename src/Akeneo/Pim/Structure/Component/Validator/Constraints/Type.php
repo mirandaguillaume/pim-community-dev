@@ -19,6 +19,7 @@ class Type extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): array|string
     {
         return self::CLASS_CONSTRAINT;
@@ -27,6 +28,7 @@ class Type extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return ['type', 'message'];
@@ -35,6 +37,7 @@ class Type extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_structure_type_validator';

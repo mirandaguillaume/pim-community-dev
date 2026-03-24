@@ -18,6 +18,7 @@ class UniqueDatagridViewEntity extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_unique_datagrid_view_validator_entity';
@@ -26,6 +27,7 @@ class UniqueDatagridViewEntity extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

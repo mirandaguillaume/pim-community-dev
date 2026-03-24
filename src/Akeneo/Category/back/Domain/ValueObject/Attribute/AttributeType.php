@@ -12,12 +12,12 @@ use Webmozart\Assert\Assert;
  */
 class AttributeType implements \Stringable
 {
-    final public const TEXT = 'text';
-    final public const TEXTAREA = 'textarea';
-    final public const RICH_TEXT = 'richtext';
-    final public const IMAGE = 'image';
+    final public const string TEXT = 'text';
+    final public const string TEXTAREA = 'textarea';
+    final public const string RICH_TEXT = 'richtext';
+    final public const string IMAGE = 'image';
 
-    final public const ATTRIBUTE_TYPES = [
+    final public const array ATTRIBUTE_TYPES = [
         self::TEXT,
         self::TEXTAREA,
         self::RICH_TEXT,

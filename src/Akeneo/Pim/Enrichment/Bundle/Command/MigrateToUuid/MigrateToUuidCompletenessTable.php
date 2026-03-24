@@ -21,8 +21,8 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    public const TABLE_NAME = 'pim_catalog_completeness';
-    public const INSERT_BATCH_SIZE = 100000;
+    public const string TABLE_NAME = 'pim_catalog_completeness';
+    public const int INSERT_BATCH_SIZE = 100000;
 
     public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger)
     {

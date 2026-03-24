@@ -14,10 +14,10 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class Builder
 {
-    final public const DATASOURCE_PATH = '[source]';
-    final public const DATASOURCE_TYPE_PATH = '[source][type]';
-    final public const DATASOURCE_ACL_PATH = '[source][acl_resource]';
-    final public const BASE_DATAGRID_CLASS_PATH = '[options][base_datagrid_class]';
+    final public const string DATASOURCE_PATH = '[source]';
+    final public const string DATASOURCE_TYPE_PATH = '[source][type]';
+    final public const string DATASOURCE_ACL_PATH = '[source][acl_resource]';
+    final public const string BASE_DATAGRID_CLASS_PATH = '[options][base_datagrid_class]';
 
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;

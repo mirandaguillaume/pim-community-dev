@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  */
 final class CategoryFieldClearer implements ClearerInterface
 {
-    private const SUPPORTED_FIELD = 'categories';
+    private const string SUPPORTED_FIELD = 'categories';
 
     /**
      * {@inheritDoc}

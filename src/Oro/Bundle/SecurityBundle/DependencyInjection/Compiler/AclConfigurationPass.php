@@ -11,24 +11,24 @@ use Symfony\Component\Yaml\Yaml;
 
 class AclConfigurationPass implements CompilerPassInterface
 {
-    final public const NEW_ACL_VOTER_CLASS = 'oro_security.acl.voter.class';
-    final public const NEW_ACL_PROVIDER = 'oro_security.acl.provider';
-    final public const NEW_ACL_DBAL_PROVIDER_CLASS = 'oro_security.acl.dbal.provider.class';
-    final public const NEW_ACL_PERMISSION_GRANTING_STRATEGY = 'oro_security.acl.permission_granting_strategy';
-    final public const NEW_ACL_PERMISSION_MAP = 'oro_security.acl.permission_map';
-    final public const NEW_ACL_OBJECT_ID_STRATEGY = 'oro_security.acl.object_identity_retrieval_strategy';
+    final public const string NEW_ACL_VOTER_CLASS = 'oro_security.acl.voter.class';
+    final public const string NEW_ACL_PROVIDER = 'oro_security.acl.provider';
+    final public const string NEW_ACL_DBAL_PROVIDER_CLASS = 'oro_security.acl.dbal.provider.class';
+    final public const string NEW_ACL_PERMISSION_GRANTING_STRATEGY = 'oro_security.acl.permission_granting_strategy';
+    final public const string NEW_ACL_PERMISSION_MAP = 'oro_security.acl.permission_map';
+    final public const string NEW_ACL_OBJECT_ID_STRATEGY = 'oro_security.acl.object_identity_retrieval_strategy';
 
-    final public const DEFAULT_ACL_VOTER = 'security.acl.voter.basic_permissions';
-    final public const DEFAULT_ACL_VOTER_LINK = 'oro_security.acl.voter_link';
-    final public const DEFAULT_ACL_PROVIDER = 'security.acl.dbal.provider';
-    final public const DEFAULT_ACL_CACHE = 'security.acl.cache.doctrine';
+    final public const string DEFAULT_ACL_VOTER = 'security.acl.voter.basic_permissions';
+    final public const string DEFAULT_ACL_VOTER_LINK = 'oro_security.acl.voter_link';
+    final public const string DEFAULT_ACL_PROVIDER = 'security.acl.dbal.provider';
+    final public const string DEFAULT_ACL_CACHE = 'security.acl.cache.doctrine';
 
-    final public const ACL_EXTENSION_SELECTOR = 'oro_security.acl.extension_selector';
-    final public const ACL_EXTENSION_TAG = 'oro_security.acl.extension';
+    final public const string ACL_EXTENSION_SELECTOR = 'oro_security.acl.extension_selector';
+    final public const string ACL_EXTENSION_TAG = 'oro_security.acl.extension';
 
-    final public const DOCTRINE_CONVERTER = 'sensio_framework_extra.converter.doctrine.orm';
-    final public const DOCTRINE_CONVERTER_CLASS = 'Oro\Bundle\SecurityBundle\Request\ParamConverter\DoctrineParamConverter';
-    final public const SECURITY_FACADE_SERVICE = 'oro_security.security_facade';
+    final public const string DOCTRINE_CONVERTER = 'sensio_framework_extra.converter.doctrine.orm';
+    final public const string DOCTRINE_CONVERTER_CLASS = 'Oro\Bundle\SecurityBundle\Request\ParamConverter\DoctrineParamConverter';
+    final public const string SECURITY_FACADE_SERVICE = 'oro_security.security_facade';
 
     /**
      * {@inheritDoc}

@@ -25,10 +25,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 final readonly class CreateJobInstanceHandler implements CreateJobInstanceHandlerInterface
 {
-    private const IMPORT_TYPE = 'import';
-    private const EXPORT_TYPE = 'export';
-    private const CREATE_EXPORT_JOB_ACL = 'pim_importexport_export_profile_create';
-    private const CREATE_IMPORT_JOB_ACL = 'pim_importexport_import_profile_create';
+    private const string IMPORT_TYPE = 'import';
+    private const string EXPORT_TYPE = 'export';
+    private const string CREATE_EXPORT_JOB_ACL = 'pim_importexport_export_profile_create';
+    private const string CREATE_IMPORT_JOB_ACL = 'pim_importexport_import_profile_create';
 
     public function __construct(
         private JobInstanceFactory $jobInstanceFactory,

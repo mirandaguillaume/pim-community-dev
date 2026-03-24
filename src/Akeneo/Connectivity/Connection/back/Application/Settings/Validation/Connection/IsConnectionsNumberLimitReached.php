@@ -14,6 +14,7 @@ class IsConnectionsNumberLimitReached extends Constraint
 {
     public string $message = 'akeneo_connectivity.connection.connection.constraint.connections_number_limit_reached';
 
+    #[\Override]
     public function getTargets(): string
     {
         return Constraint::CLASS_CONSTRAINT;

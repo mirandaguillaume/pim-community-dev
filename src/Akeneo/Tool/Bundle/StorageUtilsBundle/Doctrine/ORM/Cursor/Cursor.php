@@ -60,6 +60,7 @@ class Cursor extends AbstractCursor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function next(): void
     {
         parent::next();

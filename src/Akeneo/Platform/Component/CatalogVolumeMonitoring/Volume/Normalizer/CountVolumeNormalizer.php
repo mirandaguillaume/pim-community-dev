@@ -13,7 +13,7 @@ use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\ReadModel\CountVolu
  */
 class CountVolumeNormalizer
 {
-    private const VOLUME_TYPE = 'count';
+    private const string VOLUME_TYPE = 'count';
     public function normalize(CountVolume $data): array
     {
         $data = [

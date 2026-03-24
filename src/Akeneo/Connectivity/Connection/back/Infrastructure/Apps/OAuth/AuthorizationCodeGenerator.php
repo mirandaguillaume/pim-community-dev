@@ -19,7 +19,7 @@ use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
  */
 class AuthorizationCodeGenerator implements AuthorizationCodeGeneratorInterface
 {
-    private const AUTH_CODE_LIFETIME = 30;
+    private const int AUTH_CODE_LIFETIME = 30;
 
     public function __construct(
         private readonly ClientManagerInterface $clientManager,

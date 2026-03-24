@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class AverageMaxProductValuesPerFamily implements AverageMaxQuery
 {
-    private const VOLUME_NAME = 'average_max_product_values_per_family';
+    private const string VOLUME_NAME = 'average_max_product_values_per_family';
 
     public function __construct(private readonly Connection $connection)
     {

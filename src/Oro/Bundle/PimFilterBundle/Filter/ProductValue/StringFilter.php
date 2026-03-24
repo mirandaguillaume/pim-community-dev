@@ -33,6 +33,7 @@ class StringFilter extends OroStringFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->prepareData($ds, $data);
@@ -79,6 +80,7 @@ class StringFilter extends OroStringFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function parseData($data): false|array
     {
         if (!is_array($data) || !array_key_exists('value', $data) || !$data['value']) {
@@ -93,6 +95,7 @@ class StringFilter extends OroStringFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getOperator($type)
     {
         if (!isset($this->operatorTypes[$type])) {

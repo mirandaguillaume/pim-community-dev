@@ -35,6 +35,7 @@ class ProductModelReader extends Reader implements FileReaderInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function read()
     {
         $data = parent::read();
@@ -52,6 +53,7 @@ class ProductModelReader extends Reader implements FileReaderInterface
     /**
      * @return array
      */
+    #[\Override]
     protected function getArrayConverterOptions()
     {
         $jobParameters = $this->stepExecution->getJobParameters();

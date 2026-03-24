@@ -14,13 +14,13 @@ namespace Akeneo\Tool\Component\Batch\Job;
  */
 class ExitStatus implements \Stringable
 {
-    final public const MAX_SEVERITY = 7;
+    final public const int MAX_SEVERITY = 7;
 
     /**
      * Convenient constant value representing unknown state - assumed not
      * continuable.
      */
-    final public const UNKNOWN = "UNKNOWN";
+    final public const string UNKNOWN = "UNKNOWN";
 
     /**
      * Convenient constant value representing continuable state where processing
@@ -29,29 +29,29 @@ class ExitStatus implements \Stringable
      * another thread or process and the caller is not required to wait for the
      * result.
      */
-    final public const EXECUTING = "EXECUTING";
+    final public const string EXECUTING = "EXECUTING";
 
     /**
      * Convenient constant value representing finished processing.
      */
-    final public const COMPLETED = "COMPLETED";
+    final public const string COMPLETED = "COMPLETED";
 
     /**
      * Convenient constant value representing job that did no processing (e.g.
      * because it was already complete).
      */
-    final public const NOOP = "NOOP";
+    final public const string NOOP = "NOOP";
 
     /**
      * Convenient constant value representing finished processing with an error.
      */
-    final public const FAILED = "FAILED";
+    final public const string FAILED = "FAILED";
 
     /**
      * Convenient constant value representing finished processing with
      * interrupted status.
      */
-    final public const STOPPED = "STOPPED";
+    final public const string STOPPED = "STOPPED";
 
     /** @var int[] */
     protected static array $statusSeverity = [

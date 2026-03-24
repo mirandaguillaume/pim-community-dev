@@ -34,6 +34,7 @@ class QuantifiedAssociationsFieldSetter extends AbstractFieldSetter
         $entity->patchQuantifiedAssociations($data);
     }
 
+    #[\Override]
     public function supportsField($field)
     {
         return 'quantified_associations' === $field;

@@ -23,18 +23,18 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     use NormalizerAwareTrait;
 
     /** @staticvar string */
-    private const FIELD_CATEGORY = 'categories';
+    private const string FIELD_CATEGORY = 'categories';
 
     /** @staticvar string */
-    private const FIELD_FAMILY_VARIANT = 'family_variant';
+    private const string FIELD_FAMILY_VARIANT = 'family_variant';
 
     /** @staticvar string */
-    private const FIELD_CODE = 'code';
+    private const string FIELD_CODE = 'code';
 
-    private const FIELD_PARENT = 'parent';
+    private const string FIELD_PARENT = 'parent';
 
     /** @staticvar string */
-    private const ITEM_SEPARATOR = ',';
+    private const string ITEM_SEPARATOR = ',';
 
     public function __construct(private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer)
     {

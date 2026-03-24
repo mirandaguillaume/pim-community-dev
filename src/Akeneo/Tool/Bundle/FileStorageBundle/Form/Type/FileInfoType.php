@@ -46,6 +46,7 @@ class FileInfoType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'akeneo_file_storage_file_info';

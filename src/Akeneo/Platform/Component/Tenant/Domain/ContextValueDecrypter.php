@@ -21,7 +21,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class ContextValueDecrypter implements ContextValueDecrypterInterface
 {
-    private const OPEN_SSL_CIPHER_METHOD = 'aes-256-cbc';
+    private const string OPEN_SSL_CIPHER_METHOD = 'aes-256-cbc';
 
     public function __construct(private string $encodedEncryptionKey)
     {

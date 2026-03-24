@@ -23,6 +23,7 @@ class ExportMassAction extends WidgetMassAction implements ExportMassActionInter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function setOptions(ActionConfiguration $options)
     {
         $options['frontend_type'] = 'export';
@@ -45,6 +46,7 @@ class ExportMassAction extends WidgetMassAction implements ExportMassActionInter
     /**
      * Add method to assert required route parameters
      */
+    #[\Override]
     protected function assertHasRequiredOptions()
     {
         parent::assertHasRequiredOptions();

@@ -14,6 +14,7 @@ class ClientIdMustBeValid extends Constraint
 {
     public string $message = 'Client ID must be valid';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

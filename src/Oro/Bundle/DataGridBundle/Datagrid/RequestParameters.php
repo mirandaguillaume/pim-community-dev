@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestParameters
 {
-    final public const ADDITIONAL_PARAMETERS = '_parameters';
-    final public const DEFAULT_ROOT_PARAM = 'grid';
+    final public const string ADDITIONAL_PARAMETERS = '_parameters';
+    final public const string DEFAULT_ROOT_PARAM = 'grid';
 
     /** @var string */
     protected $rootParam;

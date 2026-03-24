@@ -12,10 +12,10 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Comparator;
 class ComparatorRegistry implements ComparatorRegistryInterface
 {
     /** @staticvar string */
-    final public const COMPARATOR_ATTRIBUTE = 'attribute';
+    final public const string COMPARATOR_ATTRIBUTE = 'attribute';
 
     /** @staticvar string */
-    final public const COMPARATOR_FIELD = 'field';
+    final public const string COMPARATOR_FIELD = 'field';
 
     /** @var ComparatorInterface[] */
     protected $comparators = [];

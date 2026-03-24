@@ -14,6 +14,7 @@ final class UserOwnsDefaultGridViews extends Constraint
 {
     public string $message = 'The "{{ label }}" view is private and does not belong to {{ username }}';
 
+    #[\Override]
     public function getTargets(): array
     {
         return [Constraint::CLASS_CONSTRAINT];

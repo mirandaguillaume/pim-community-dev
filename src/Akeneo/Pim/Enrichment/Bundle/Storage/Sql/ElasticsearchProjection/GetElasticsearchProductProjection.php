@@ -26,7 +26,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class GetElasticsearchProductProjection implements GetElasticsearchProductProjectionInterface
 {
-    private const INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
+    private const string INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
 
     /**
      * @param GetAdditionalPropertiesForProductProjectionInterface[] $additionalDataProviders

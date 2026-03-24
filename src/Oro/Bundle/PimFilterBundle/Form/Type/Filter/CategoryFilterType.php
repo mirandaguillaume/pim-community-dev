@@ -16,10 +16,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CategoryFilterType extends NumberFilterType
 {
     /** @staticvar integer */
-    final public const EXCLUDE_SUB = 0;
+    final public const int EXCLUDE_SUB = 0;
 
     /** @staticvar integer */
-    final public const INCLUDE_SUB = 1;
+    final public const int INCLUDE_SUB = 1;
 
     /** @staticvar string */
     public const NAME = 'pim_type_category_filter';
@@ -27,6 +27,7 @@ class CategoryFilterType extends NumberFilterType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -35,6 +36,7 @@ class CategoryFilterType extends NumberFilterType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return NumberFilterType::class;
@@ -43,6 +45,7 @@ class CategoryFilterType extends NumberFilterType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $choices = [

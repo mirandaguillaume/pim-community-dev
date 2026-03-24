@@ -25,6 +25,7 @@ class NumberFormat extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_localization_number_format';

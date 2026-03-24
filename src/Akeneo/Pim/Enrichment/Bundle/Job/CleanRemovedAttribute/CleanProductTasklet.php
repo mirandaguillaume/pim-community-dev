@@ -14,7 +14,7 @@ use Akeneo\Tool\Component\Connector\Step\TaskletInterface;
 
 class CleanProductTasklet implements TaskletInterface, TrackableTaskletInterface
 {
-    private const BATCH_SIZE = 100;
+    private const int BATCH_SIZE = 100;
 
     private StepExecution $stepExecution;
 

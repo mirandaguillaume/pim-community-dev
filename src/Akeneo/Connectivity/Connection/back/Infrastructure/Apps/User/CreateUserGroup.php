@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class CreateUserGroup implements CreateUserGroupInterface
 {
-    private const APP_USER_GROUP_TYPE = 'app';
+    private const string APP_USER_GROUP_TYPE = 'app';
 
     public function __construct(
         private readonly SimpleFactoryInterface $userGroupFactory,

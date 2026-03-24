@@ -25,7 +25,7 @@ class SynchronousJobLauncher implements JobLauncherInterface
     /**
      * Interval in seconds before checking if the process is still running.
      */
-    private const RUNNING_PROCESS_CHECK_INTERVAL = 5;
+    private const int RUNNING_PROCESS_CHECK_INTERVAL = 5;
 
     public function __construct(
         private readonly JobExecutionManager $executionManager,

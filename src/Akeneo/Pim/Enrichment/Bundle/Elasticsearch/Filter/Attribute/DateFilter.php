@@ -20,9 +20,9 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class DateFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    final public const DATETIME_FORMAT = 'Y-m-d';
-    final public const HUMAN_DATETIME_FORMAT = "yyyy-mm-dd";
-    final public const RELATIVE_DATE_FORMAT = '/^(now|[+-][0-9]+\s?(day|week|month|year)s?)$/';
+    final public const string DATETIME_FORMAT = 'Y-m-d';
+    final public const string HUMAN_DATETIME_FORMAT = "yyyy-mm-dd";
+    final public const string RELATIVE_DATE_FORMAT = '/^(now|[+-][0-9]+\s?(day|week|month|year)s?)$/';
 
     public function __construct(
         ElasticsearchFilterValidator $filterValidator,

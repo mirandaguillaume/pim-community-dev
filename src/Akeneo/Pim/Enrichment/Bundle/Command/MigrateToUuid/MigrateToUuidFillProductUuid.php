@@ -16,7 +16,7 @@ class MigrateToUuidFillProductUuid implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    private const BATCH_SIZE = 1000;
+    private const int BATCH_SIZE = 1000;
 
     public function __construct(
         private readonly Connection $connection,

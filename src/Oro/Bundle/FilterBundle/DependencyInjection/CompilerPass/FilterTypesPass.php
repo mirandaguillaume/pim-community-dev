@@ -8,8 +8,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class FilterTypesPass implements CompilerPassInterface
 {
-    final public const FILTER_EXTENSION_ID = 'oro_filter.extension.orm_filter';
-    final public const TAG_NAME = 'oro_filter.extension.orm_filter.filter';
+    final public const string FILTER_EXTENSION_ID = 'oro_filter.extension.orm_filter';
+    final public const string TAG_NAME = 'oro_filter.extension.orm_filter.filter';
 
     /**
      * {@inheritDoc}

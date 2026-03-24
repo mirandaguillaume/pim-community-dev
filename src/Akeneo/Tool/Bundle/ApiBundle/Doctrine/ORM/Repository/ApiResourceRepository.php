@@ -70,6 +70,7 @@ class ApiResourceRepository extends EntityRepository implements ApiResourceRepos
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function count(array $criteria = []): int
     {
         try {

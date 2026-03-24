@@ -16,12 +16,12 @@ use Webmozart\Assert\Assert;
  */
 final readonly class Process
 {
-    public const PROCESS_TYPE_NO = 'no';
-    public const PROCESS_TYPE_TRUNCATE = 'truncate';
-    public const PROCESS_TYPE_NOMENCLATURE = 'nomenclature';
+    public const string PROCESS_TYPE_NO = 'no';
+    public const string PROCESS_TYPE_TRUNCATE = 'truncate';
+    public const string PROCESS_TYPE_NOMENCLATURE = 'nomenclature';
 
-    public const PROCESS_OPERATOR_EQ = '=';
-    public const PROCESS_OPERATOR_LTE = '<=';
+    public const string PROCESS_OPERATOR_EQ = '=';
+    public const string PROCESS_OPERATOR_LTE = '<=';
 
     /**
      * @param ProcessType $type

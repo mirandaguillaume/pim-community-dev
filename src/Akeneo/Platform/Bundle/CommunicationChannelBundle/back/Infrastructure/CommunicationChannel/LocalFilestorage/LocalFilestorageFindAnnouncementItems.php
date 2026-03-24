@@ -14,9 +14,9 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Query\FindAnnouncem
  */
 final readonly class LocalFilestorageFindAnnouncementItems implements FindAnnouncementItemsInterface
 {
-    public const LIMIT = 10;
+    public const int LIMIT = 10;
 
-    private const FILENAME = 'serenity-updates.json';
+    private const string FILENAME = 'serenity-updates.json';
 
     private string|bool $externalJson;
 

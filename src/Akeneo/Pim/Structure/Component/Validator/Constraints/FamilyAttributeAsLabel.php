@@ -26,6 +26,7 @@ class FamilyAttributeAsLabel extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_family_attribute_as_label_validator';
@@ -34,6 +35,7 @@ class FamilyAttributeAsLabel extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

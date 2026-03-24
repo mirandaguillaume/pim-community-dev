@@ -18,11 +18,11 @@ use Psr\Log\LoggerInterface;
  */
 class V20221214GiveNewCategoryAclToUserWithOldCategoryAclZddMigration implements ZddMigration
 {
-    private const ACL_CATEGORY_CREATE = 'pim_enrich_product_category_create';
-    private const ACL_CATEGORY_EDIT = 'pim_enrich_product_category_edit';
-    private const ACL_ENRICH_CATEGORY_TEMPLATE = 'pim_enrich_product_category_template';
-    private const ACL_ENRICH_CATEGORY_EDIT_ATTRIBUTES = 'pim_enrich_product_category_edit_attributes';
-    private const ACL_ENRICH_CATEGORY_ORDER_TREES = 'pim_enrich_product_category_order_trees';
+    private const string ACL_CATEGORY_CREATE = 'pim_enrich_product_category_create';
+    private const string ACL_CATEGORY_EDIT = 'pim_enrich_product_category_edit';
+    private const string ACL_ENRICH_CATEGORY_TEMPLATE = 'pim_enrich_product_category_template';
+    private const string ACL_ENRICH_CATEGORY_EDIT_ATTRIBUTES = 'pim_enrich_product_category_edit_attributes';
+    private const string ACL_ENRICH_CATEGORY_ORDER_TREES = 'pim_enrich_product_category_order_trees';
 
     private string $currentRoleName = '';
     private array $grantedPermissions = [];

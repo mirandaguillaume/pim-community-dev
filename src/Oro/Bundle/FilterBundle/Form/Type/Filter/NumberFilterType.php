@@ -28,6 +28,7 @@ class NumberFilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -36,6 +37,7 @@ class NumberFilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return FilterType::class;

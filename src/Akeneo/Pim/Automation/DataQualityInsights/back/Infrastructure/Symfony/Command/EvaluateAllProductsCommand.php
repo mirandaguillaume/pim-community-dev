@@ -26,8 +26,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class EvaluateAllProductsCommand extends Command
 {
-    private const LIMIT_PER_LOOP = 1000;
-    private const DEFAULT_BULK_SIZE = 100;
+    private const int LIMIT_PER_LOOP = 1000;
+    private const int DEFAULT_BULK_SIZE = 100;
 
     public function __construct(
         private readonly Connection                        $dbConnection,

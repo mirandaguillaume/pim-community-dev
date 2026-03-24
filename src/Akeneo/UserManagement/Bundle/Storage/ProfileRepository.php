@@ -9,7 +9,7 @@ use Akeneo\UserManagement\Component\Storage\ProfileRepositoryInterface;
 
 class ProfileRepository implements ProfileRepositoryInterface
 {
-    private const TRANSLATION_PREFIX = 'pim_user.profile.';
+    private const string TRANSLATION_PREFIX = 'pim_user.profile.';
 
     public function findAll(): array
     {

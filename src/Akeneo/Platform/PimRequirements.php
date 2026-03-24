@@ -19,15 +19,15 @@ use Symfony\Requirements\Requirement;
  */
 class PimRequirements
 {
-    final public const REQUIRED_PHP_VERSION = '8.4.0';
-    final public const REQUIRED_GD_VERSION = '2.0';
-    final public const REQUIRED_GHOSTSCRIPT_VERSION = '9.53';
-    final public const REQUIRED_CURL_VERSION = '7.74';
-    final public const REQUIRED_ICU_VERSION = '67.1';
-    final public const LOWEST_REQUIRED_MYSQL_VERSION = '8.0.30';
-    final public const GREATEST_REQUIRED_MYSQL_VERSION = '9.0.0';
+    final public const string REQUIRED_PHP_VERSION = '8.4.0';
+    final public const string REQUIRED_GD_VERSION = '2.0';
+    final public const string REQUIRED_GHOSTSCRIPT_VERSION = '9.53';
+    final public const string REQUIRED_CURL_VERSION = '7.74';
+    final public const string REQUIRED_ICU_VERSION = '67.1';
+    final public const string LOWEST_REQUIRED_MYSQL_VERSION = '8.0.30';
+    final public const string GREATEST_REQUIRED_MYSQL_VERSION = '9.0.0';
 
-    final public const REQUIRED_EXTENSIONS = [
+    final public const array REQUIRED_EXTENSIONS = [
         'apcu',
         'bcmath',
         'curl',

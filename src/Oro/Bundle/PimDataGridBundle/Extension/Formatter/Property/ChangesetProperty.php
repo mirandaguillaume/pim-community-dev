@@ -23,6 +23,7 @@ class ChangesetProperty extends FieldProperty
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function convertValue($changeset)
     {
         foreach ($changeset as $code => $diff) {

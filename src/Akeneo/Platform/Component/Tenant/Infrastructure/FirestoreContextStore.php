@@ -26,7 +26,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class FirestoreContextStore implements ContextStoreInterface
 {
-    private const MAX_RETRY = 5;
+    private const int MAX_RETRY = 5;
 
     public function __construct(
         private FirestoreClient $firestoreClient,

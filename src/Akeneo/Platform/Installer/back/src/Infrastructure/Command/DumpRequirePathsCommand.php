@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'pim:installer:dump-require-paths', description: 'Dump the paths for all the requirejs.yml files for each bundle')]
 class DumpRequirePathsCommand extends Command
 {
-    final public const MAIN_CONFIG_FILE_NAME = 'js/require-paths.js';
+    final public const string MAIN_CONFIG_FILE_NAME = 'js/require-paths.js';
 
     /**
      * @param class-string[] $bundles

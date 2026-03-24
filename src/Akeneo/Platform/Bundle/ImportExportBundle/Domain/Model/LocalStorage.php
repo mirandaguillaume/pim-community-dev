@@ -11,7 +11,7 @@ namespace Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model;
 
 final readonly class LocalStorage implements StorageInterface
 {
-    public const TYPE = 'local';
+    public const string TYPE = 'local';
 
     public function __construct(private string $filePath)
     {

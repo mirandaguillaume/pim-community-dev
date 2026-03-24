@@ -16,13 +16,13 @@ use Symfony\Component\DependencyInjection\Reference;
 class VolumeQueryPass implements CompilerPassInterface
 {
     /** @staticvar string */
-    final public const VOLUME_NORMALIZER_SERVICE = 'pim_volume_monitoring.volume.normalizer.volumes';
+    final public const string VOLUME_NORMALIZER_SERVICE = 'pim_volume_monitoring.volume.normalizer.volumes';
 
     /** @staticvar string */
-    final public const COUNT_QUERY_TAG = 'pim_volume_monitoring.persistence.count_query';
+    final public const string COUNT_QUERY_TAG = 'pim_volume_monitoring.persistence.count_query';
 
     /** @staticvar string */
-    final public const AVERAGE_MAX_QUERY_TAG = 'pim_volume_monitoring.persistence.average_max_query';
+    final public const string AVERAGE_MAX_QUERY_TAG = 'pim_volume_monitoring.persistence.average_max_query';
 
     /**
      * {@inheritdoc}

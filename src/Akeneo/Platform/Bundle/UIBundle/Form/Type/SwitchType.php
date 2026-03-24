@@ -46,6 +46,7 @@ class SwitchType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return CheckboxType::class;
@@ -54,6 +55,7 @@ class SwitchType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'switch';

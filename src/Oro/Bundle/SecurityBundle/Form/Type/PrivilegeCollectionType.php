@@ -24,6 +24,7 @@ class PrivilegeCollectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'oro_acl_collection';
@@ -32,6 +33,7 @@ class PrivilegeCollectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return CollectionType::class;

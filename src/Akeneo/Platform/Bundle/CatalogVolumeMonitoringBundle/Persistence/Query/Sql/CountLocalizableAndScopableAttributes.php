@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class CountLocalizableAndScopableAttributes implements CountQuery
 {
-    private const VOLUME_NAME = 'count_localizable_and_scopable_attributes';
+    private const string VOLUME_NAME = 'count_localizable_and_scopable_attributes';
 
     public function __construct(private readonly Connection $connection)
     {

@@ -15,7 +15,7 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
  */
 class CountProducts implements CountQuery
 {
-    private const VOLUME_NAME = 'count_products';
+    private const string VOLUME_NAME = 'count_products';
 
     public function __construct(private readonly Client $client)
     {

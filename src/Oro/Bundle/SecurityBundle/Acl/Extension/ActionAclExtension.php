@@ -139,6 +139,7 @@ class ActionAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getDefaultPermission()
     {
         return 'EXECUTE';

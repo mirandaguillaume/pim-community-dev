@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class AppAuthorizationSession implements AppAuthorizationSessionInterface
 {
-    private const SESSION_PREFIX = '_app_auth_';
+    private const string SESSION_PREFIX = '_app_auth_';
 
     public function __construct(private readonly RequestStack $requestStack)
     {

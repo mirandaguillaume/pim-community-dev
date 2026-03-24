@@ -15,13 +15,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class AttributeNormalizer implements NormalizerInterface
 {
-    final public const ITEM_SEPARATOR = ',';
-    final public const LOCALIZABLE_PATTERN = '{locale}:{value}';
-    final public const GROUP_SEPARATOR = '|';
-    final public const GLOBAL_SCOPE = 'Global';
-    final public const CHANNEL_SCOPE = 'Channel';
+    final public const string ITEM_SEPARATOR = ',';
+    final public const string LOCALIZABLE_PATTERN = '{locale}:{value}';
+    final public const string GROUP_SEPARATOR = '|';
+    final public const string GLOBAL_SCOPE = 'Global';
+    final public const string CHANNEL_SCOPE = 'Channel';
 
-    private const MAX_NUMBER_OF_ATTRIBUTE_OPTIONS_CODE = 10000;
+    private const int MAX_NUMBER_OF_ATTRIBUTE_OPTIONS_CODE = 10000;
 
     /** @var string[] */
     protected array $supportedFormats = ['flat'];

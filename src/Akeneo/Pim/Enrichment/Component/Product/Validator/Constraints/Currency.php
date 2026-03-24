@@ -13,13 +13,14 @@ use Symfony\Component\Validator\Constraint;
  */
 class Currency extends Constraint
 {
-    final public const CURRENCY = '9b385d80-5d67-494b-b824-0b59b84d609a';
+    final public const string CURRENCY = '9b385d80-5d67-494b-b824-0b59b84d609a';
 
     public string $message = 'Please specify a valid currency for the %attribute_code% attribute, the %currency_code% code was sent.';
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_currency_validator';
@@ -28,6 +29,7 @@ class Currency extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return [self::PROPERTY_CONSTRAINT, self::CLASS_CONSTRAINT];

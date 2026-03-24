@@ -11,11 +11,11 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Exception;
  */
 class InvalidOperatorException extends \LogicException
 {
-    final public const EXPECTED_CODE = 100;
-    final public const SCALAR_EXPECTED_CODE = 101;
-    final public const ARRAY_EXPECTED_CODE = 200;
-    final public const NOT_SUPPORTED_CODE = 300;
-    final public const NOT_EMPTY_VALUE_EXPECTED_CODE = 400;
+    final public const int EXPECTED_CODE = 100;
+    final public const int SCALAR_EXPECTED_CODE = 101;
+    final public const int ARRAY_EXPECTED_CODE = 200;
+    final public const int NOT_SUPPORTED_CODE = 300;
+    final public const int NOT_EMPTY_VALUE_EXPECTED_CODE = 400;
 
     /** @var array */
     protected $operators;

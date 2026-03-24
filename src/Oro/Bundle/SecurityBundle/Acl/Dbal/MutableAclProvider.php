@@ -106,6 +106,7 @@ class MutableAclProvider extends BaseMutableAclProvider
      * @param SecurityIdentityInterface $sid
      * @throws \InvalidArgumentException
      */
+    #[\Override]
     public function deleteSecurityIdentity(SecurityIdentityInterface $sid)
     {
         $this->connection->executeQuery($this->getDeleteSecurityIdentityIdSql($sid));
@@ -172,6 +173,7 @@ class MutableAclProvider extends BaseMutableAclProvider
      * @throws \InvalidArgumentException
      * @return string
      */
+    #[\Override]
     protected function getDeleteSecurityIdentityIdSql(SecurityIdentityInterface $sid)
     {
         $select = $this->getSelectSecurityIdentityIdSql($sid);
@@ -192,6 +194,7 @@ class MutableAclProvider extends BaseMutableAclProvider
      * This method is an adaptation of the fix coming from https://github.com/symfony/security-acl/pull/29 (The PR was never merged for no reason, despite one approve)
      * We cannot override the hydrateObjectIdentities method to do exactly the same fix as the PR, so we fix the results
      */
+    #[\Override]
     public function findAcls(array $oids, array $sids = [])
     {
         /** @var \SplObjectStorage $acls */

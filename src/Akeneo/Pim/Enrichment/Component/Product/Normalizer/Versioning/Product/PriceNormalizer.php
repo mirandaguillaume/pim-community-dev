@@ -13,7 +13,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductPriceInterface;
  */
 class PriceNormalizer extends AbstractValueDataNormalizer
 {
-    final public const DECIMAL_PRECISION = 2;
+    final public const int DECIMAL_PRECISION = 2;
     /** @var string[] */
     protected $supportedFormats = ['flat'];
 
@@ -41,6 +41,7 @@ class PriceNormalizer extends AbstractValueDataNormalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFieldName($object, array $context = [])
     {
         return sprintf('%s-%s', parent::getFieldName($object, $context), $object->getCurrency());

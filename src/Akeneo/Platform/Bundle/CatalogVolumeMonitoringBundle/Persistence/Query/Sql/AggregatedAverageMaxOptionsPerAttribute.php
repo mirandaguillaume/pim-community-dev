@@ -17,7 +17,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class AggregatedAverageMaxOptionsPerAttribute implements AverageMaxQuery
 {
-    private const VOLUME_NAME = 'average_max_options_per_attribute';
+    private const string VOLUME_NAME = 'average_max_options_per_attribute';
 
     public function __construct(private readonly Connection $connection)
     {

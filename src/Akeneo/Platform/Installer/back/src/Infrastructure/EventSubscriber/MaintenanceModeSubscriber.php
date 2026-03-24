@@ -33,7 +33,7 @@ class MaintenanceModeSubscriber
     ) {
     }
 
-    private const EXCLUDED_ROUTES = [
+    private const array EXCLUDED_ROUTES = [
         'akeneo_installer_maintenance_page',
         'akeneo_installer_is_maintenance_mode_enabled',
     ];

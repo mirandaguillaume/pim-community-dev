@@ -15,8 +15,8 @@ use Ramsey\Uuid\UuidInterface;
  */
 final readonly class ElasticsearchProductProjection implements ElasticsearchProjection
 {
-    public const INDEX_PREFIX_ID   = 'product_';
-    private const INDEX_DATE_FORMAT = 'c';
+    public const string INDEX_PREFIX_ID   = 'product_';
+    private const string INDEX_DATE_FORMAT = 'c';
 
     public function __construct(
         private UuidInterface $uuid,

@@ -21,7 +21,7 @@ use Doctrine\DBAL\ParameterType;
  */
 class SearchJobExecution implements SearchJobExecutionInterface
 {
-    private const SEARCH_PART_PARAM_SUFFIX = 'search_part';
+    private const string SEARCH_PART_PARAM_SUFFIX = 'search_part';
 
     public function __construct(
         private readonly Connection $connection,

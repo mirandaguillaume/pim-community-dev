@@ -12,8 +12,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
  */
 final readonly class Row
 {
-    private const PRODUCT_TYPE = 'product';
-    private const PRODUCT_MODEL_TYPE = 'product_model';
+    private const string PRODUCT_TYPE = 'product';
+    private const string PRODUCT_MODEL_TYPE = 'product_model';
 
     private function __construct(
         private ?string $identifier,

@@ -23,13 +23,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductPropertiesNormalizer implements NormalizerInterface
 {
-    private const FIELD_COMPLETENESS = 'completeness';
-    private const FIELD_FAMILY_VARIANT = 'family_variant';
-    private const FIELD_IN_GROUP = 'in_group';
-    private const FIELD_ID = 'id';
-    private const FIELD_PARENT = 'parent';
-    private const FIELD_ANCESTORS = 'ancestors';
-    private const FIELD_CATEGORIES_OF_ANCESTORS = 'categories_of_ancestors';
+    private const string FIELD_COMPLETENESS = 'completeness';
+    private const string FIELD_FAMILY_VARIANT = 'family_variant';
+    private const string FIELD_IN_GROUP = 'in_group';
+    private const string FIELD_ID = 'id';
+    private const string FIELD_PARENT = 'parent';
+    private const string FIELD_ANCESTORS = 'ancestors';
+    private const string FIELD_CATEGORIES_OF_ANCESTORS = 'categories_of_ancestors';
 
     /** @var NormalizerInterface[] */
     private readonly iterable $additionalDataNormalizers;

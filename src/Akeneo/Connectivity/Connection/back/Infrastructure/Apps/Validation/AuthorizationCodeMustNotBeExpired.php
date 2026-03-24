@@ -15,6 +15,7 @@ class AuthorizationCodeMustNotBeExpired extends Constraint
     public string $message = 'invalid_grant';
     public string $cause = 'Code has expired';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

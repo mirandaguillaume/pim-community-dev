@@ -24,7 +24,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class ReferenceEntityProperty implements PropertyInterface
 {
-    private const TYPE = 'reference_entity';
+    private const string TYPE = 'reference_entity';
 
     private function __construct(
         private string $attributeCode,

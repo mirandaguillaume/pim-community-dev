@@ -20,6 +20,7 @@ class AjaxChoiceFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormType()
     {
         return AjaxChoiceFilterType::class;
@@ -28,6 +29,7 @@ class AjaxChoiceFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getForm()
     {
         if (null === $this->form) {
@@ -40,6 +42,7 @@ class AjaxChoiceFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getMetadata()
     {
         $formView = $this->getForm()->createView();
@@ -79,6 +82,7 @@ class AjaxChoiceFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function parseData($data)
     {
         if (isset($data['type']) && in_array($data['type'], [FilterType::TYPE_EMPTY, FilterType::TYPE_NOT_EMPTY])) {

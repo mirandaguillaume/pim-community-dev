@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class GetFromIdentifiersAction
 {
-    final public const MAX_RESULTS = 100;
+    final public const int MAX_RESULTS = 100;
 
     public function __construct(
         private readonly ProductQueryBuilderFactoryInterface $productQueryBuilderFactory,

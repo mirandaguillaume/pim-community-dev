@@ -14,8 +14,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterPreviewGeneratorPass implements CompilerPassInterface
 {
-    private const PREVIEW_GENERATOR_REGISTRY = 'pim_category.infrastructure.registry.preview_generator';
-    private const PREVIEW_GENERATOR_TAG = 'pim_category.preview_generator';
+    private const string PREVIEW_GENERATOR_REGISTRY = 'pim_category.infrastructure.registry.preview_generator';
+    private const string PREVIEW_GENERATOR_TAG = 'pim_category.preview_generator';
 
     public function process(ContainerBuilder $container)
     {

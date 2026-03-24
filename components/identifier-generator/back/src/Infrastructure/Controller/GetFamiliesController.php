@@ -22,8 +22,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 final readonly class GetFamiliesController
 {
-    private const DEFAULT_PAGE_PAGINATION = 1;
-    private const DEFAULT_LIMIT_PAGINATION = 20;
+    private const int DEFAULT_PAGE_PAGINATION = 1;
+    private const int DEFAULT_LIMIT_PAGINATION = 20;
 
     public function __construct(
         private FindFamiliesWithLabels $findFamiliesWithLabels,

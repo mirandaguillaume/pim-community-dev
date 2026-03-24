@@ -13,9 +13,9 @@ use Webmozart\Assert\Assert;
  */
 final class Operation
 {
-    public const STANDARD_OPERATOR = 'mul';
-    public const STANDARD_VALUE = '1';
-    private const SUPPORTED_OPERATORS = [self::STANDARD_OPERATOR, 'div', 'add', 'sub'];
+    public const string STANDARD_OPERATOR = 'mul';
+    public const string STANDARD_VALUE = '1';
+    private const array SUPPORTED_OPERATORS = [self::STANDARD_OPERATOR, 'div', 'add', 'sub'];
 
     private readonly string $operator;
 

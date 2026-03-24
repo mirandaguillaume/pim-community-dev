@@ -17,7 +17,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class AncestorCodeFilter extends AbstractFieldFilter
 {
-    private const ANCESTOR_CODES_ES_FIELD = 'ancestors.codes';
+    private const string ANCESTOR_CODES_ES_FIELD = 'ancestors.codes';
 
     public function __construct(
         private readonly ProductModelRepositoryInterface $productModelRepository,

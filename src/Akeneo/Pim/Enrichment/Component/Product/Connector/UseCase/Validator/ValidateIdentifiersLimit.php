@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 final class ValidateIdentifiersLimit
 {
-    private const LIMIT = 100;
+    private const int LIMIT = 100;
 
     /**
      * @throws BadRequestException

@@ -20,9 +20,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductNormalizer implements NormalizerInterface
 {
-    private const FIELD_ATTRIBUTES_OF_ANCESTORS = 'attributes_of_ancestors';
-    private const FIELD_DOCUMENT_TYPE = 'document_type';
-    private const FIELD_ATTRIBUTES_IN_LEVEL = 'attributes_for_this_level';
+    private const string FIELD_ATTRIBUTES_OF_ANCESTORS = 'attributes_of_ancestors';
+    private const string FIELD_DOCUMENT_TYPE = 'document_type';
+    private const string FIELD_ATTRIBUTES_IN_LEVEL = 'attributes_for_this_level';
 
     public function __construct(private readonly NormalizerInterface $propertiesNormalizer, private readonly EntityWithFamilyVariantAttributesProvider $attributesProvider)
     {

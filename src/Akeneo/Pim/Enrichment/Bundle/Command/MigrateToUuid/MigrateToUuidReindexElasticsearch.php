@@ -23,7 +23,7 @@ final class MigrateToUuidReindexElasticsearch implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    private const BATCH_SIZE = 500;
+    private const int BATCH_SIZE = 500;
 
     public function __construct(
         private readonly Connection $connection,

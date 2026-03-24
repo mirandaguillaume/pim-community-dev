@@ -15,9 +15,9 @@ use Webmozart\Assert\Assert;
  */
 class QuantifiedLink
 {
-    private const QUANTITY_KEY = 'quantity';
-    private const IDENTIFIER_KEY = 'identifier';
-    private const UUID_KEY = 'uuid';
+    private const string QUANTITY_KEY = 'quantity';
+    private const string IDENTIFIER_KEY = 'identifier';
+    private const string UUID_KEY = 'uuid';
 
     private function __construct(
         private readonly int $quantity,

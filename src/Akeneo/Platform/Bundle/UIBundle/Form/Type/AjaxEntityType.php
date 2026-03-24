@@ -61,6 +61,7 @@ class AjaxEntityType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_ajax_entity';
@@ -69,6 +70,7 @@ class AjaxEntityType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return HiddenType::class;

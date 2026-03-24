@@ -14,8 +14,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class FieldFilterHelper
 {
-    /** @var string */
-    final public const CODE_PROPERTY = 'code';
+    final public const string CODE_PROPERTY = 'code';
 
     /**
      * Get field code part

@@ -18,7 +18,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class RoleWithPermissionsUpdater implements ObjectUpdaterInterface
 {
-    private const ACL_DEFAULT_EXTENSION = 'action';
+    private const string ACL_DEFAULT_EXTENSION = 'action';
 
     public function __construct(private ObjectUpdaterInterface $roleUpdater, private AclManager $aclManager)
     {

@@ -21,6 +21,7 @@ class PhpSerializedArrayType extends Type
         return $platform->getClobTypeDeclarationSQL($column);
     }
 
+    #[\Override]
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
@@ -30,6 +31,7 @@ class PhpSerializedArrayType extends Type
         return serialize($value);
     }
 
+    #[\Override]
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): mixed
     {
         if ($value === null) {

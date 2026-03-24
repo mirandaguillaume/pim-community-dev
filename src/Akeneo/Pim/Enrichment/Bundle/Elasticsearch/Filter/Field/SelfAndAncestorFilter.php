@@ -37,7 +37,7 @@ use Doctrine\DBAL\Connection;
  */
 class SelfAndAncestorFilter extends AbstractFieldFilter
 {
-    private const ANCESTOR_ID_ES_FIELD = 'ancestors.ids';
+    private const string ANCESTOR_ID_ES_FIELD = 'ancestors.ids';
 
     /**
      * @param string[] $supportedFields

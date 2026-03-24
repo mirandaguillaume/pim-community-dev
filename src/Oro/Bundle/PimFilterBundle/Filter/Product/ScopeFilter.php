@@ -52,6 +52,7 @@ class ScopeFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function init($name, array $params)
     {
         parent::init($name, $params);
@@ -62,6 +63,7 @@ class ScopeFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $channelCode = $this->parseData($data);
@@ -77,6 +79,7 @@ class ScopeFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getMetadata()
     {
         $metadata = parent::getMetadata();
@@ -91,6 +94,7 @@ class ScopeFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormType()
     {
         return ScopeFilterType::class;
@@ -99,6 +103,7 @@ class ScopeFilter extends ChoiceFilter
     /**
      * @param mixed $data
      */
+    #[\Override]
     protected function parseData($data): string|bool
     {
         if (!is_array($data) || empty($data['value'])) {

@@ -11,8 +11,8 @@ namespace Akeneo\Pim\Enrichment\Component\Error\Documentation;
  */
 class Documentation
 {
-    final public const STYLE_TEXT = 'text';
-    final public const STYLE_INFORMATION = 'information';
+    final public const string STYLE_TEXT = 'text';
+    final public const string STYLE_INFORMATION = 'information';
 
     /** @var array<string, MessageParameterInterface> */
     private readonly array $messageParameters;

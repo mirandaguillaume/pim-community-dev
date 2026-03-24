@@ -10,6 +10,7 @@ class SelectRowFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormType()
     {
         return SelectRowFilterType::class;
@@ -18,6 +19,7 @@ class SelectRowFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);
@@ -56,6 +58,7 @@ class SelectRowFilter extends ChoiceFilter
      *
      * @return array
      */
+    #[\Override]
     protected function parseData($data)
     {
         $expectedChoices = [SelectRowFilterType::NOT_SELECTED_VALUE, SelectRowFilterType::SELECTED_VALUE];

@@ -76,6 +76,7 @@ class RoleApiType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'role';

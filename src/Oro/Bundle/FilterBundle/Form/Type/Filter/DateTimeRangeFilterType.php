@@ -10,13 +10,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateTimeRangeFilterType extends AbstractType
 {
-    final public const TYPE_BETWEEN = DateRangeFilterType::TYPE_BETWEEN;
-    final public const TYPE_NOT_BETWEEN = DateRangeFilterType::TYPE_NOT_BETWEEN;
-    final public const NAME = 'oro_type_datetime_range_filter';
+    final public const int TYPE_BETWEEN = DateRangeFilterType::TYPE_BETWEEN;
+    final public const int TYPE_NOT_BETWEEN = DateRangeFilterType::TYPE_NOT_BETWEEN;
+    final public const string NAME = 'oro_type_datetime_range_filter';
 
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -25,6 +26,7 @@ class DateTimeRangeFilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return DateRangeFilterType::class;

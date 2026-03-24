@@ -12,13 +12,15 @@ use Symfony\Component\Validator\Constraint;
  */
 class ShouldNotBeUsedByProductAttribute extends Constraint
 {
-    final public const MEASUREMENT_FAMILY_REMOVAL_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_cannot_be_removed';
+    final public const string MEASUREMENT_FAMILY_REMOVAL_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_cannot_be_removed';
 
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;
     }
 
+    #[\Override]
     public function validatedBy(): string
     {
         return 'akeneo_measurement.validation.delete_measurement_family.should_not_be_used_by_product_attribute';

@@ -11,6 +11,6 @@ namespace Akeneo\Pim\Enrichment\Component\Error\Documentation;
  */
 final class MessageParameterTypes
 {
-    public const HREF = 'href';
-    public const ROUTE = 'route';
+    public const string HREF = 'href';
+    public const string ROUTE = 'route';
 }

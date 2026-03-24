@@ -19,6 +19,7 @@ class PricesPresenter extends NumberPresenter
      * Presents a structured price set to be readable. If locale option is set, the prices are formatted according to
      * the locale. If no locale option is set, the default is the price amount then the currency symbol.
      */
+    #[\Override]
     public function present($prices, array $options = [])
     {
         if ('' === $prices || null === $prices) {
