@@ -10,16 +10,16 @@ use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationPass implements CompilerPassInterface
 {
-    final public const BUILDER_SERVICE_ID = 'oro_datagrid.datagrid.builder';
-    final public const PROVIDER_SERVICE_ID = 'oro_datagrid.configuration.provider';
-    final public const CHAIN_PROVIDER_SERVICE_ID = 'oro_datagrid.configuration.provider.chain';
+    final public const string BUILDER_SERVICE_ID = 'oro_datagrid.datagrid.builder';
+    final public const string PROVIDER_SERVICE_ID = 'oro_datagrid.configuration.provider';
+    final public const string CHAIN_PROVIDER_SERVICE_ID = 'oro_datagrid.configuration.provider.chain';
 
-    final public const SOURCE_TAG_NAME = 'oro_datagrid.datasource';
-    final public const EXTENSION_TAG_NAME = 'oro_datagrid.extension';
-    final public const PROVIDER_TAG_NAME = 'oro_datagrid.configuration.provider';
+    final public const string SOURCE_TAG_NAME = 'oro_datagrid.datasource';
+    final public const string EXTENSION_TAG_NAME = 'oro_datagrid.extension';
+    final public const string PROVIDER_TAG_NAME = 'oro_datagrid.configuration.provider';
 
-    final public const CONFIG_FILE_NAME = 'datagrid.yml';
-    final public const ROOT_PARAMETER = 'datagrid';
+    final public const string CONFIG_FILE_NAME = 'datagrid.yml';
+    final public const string ROOT_PARAMETER = 'datagrid';
 
     /**
      * {@inheritDoc}

@@ -8,12 +8,13 @@ use Oro\Bundle\FilterBundle\Filter\ChoiceFilter;
 
 class ProductTypologyFilter extends ChoiceFilter
 {
-    private const PRODUCT_TYPOLOGY_SIMPLE = 'simple';
-    private const PRODUCT_TYPOLOGY_VARIANT = 'variant';
+    private const string PRODUCT_TYPOLOGY_SIMPLE = 'simple';
+    private const string PRODUCT_TYPOLOGY_VARIANT = 'variant';
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);

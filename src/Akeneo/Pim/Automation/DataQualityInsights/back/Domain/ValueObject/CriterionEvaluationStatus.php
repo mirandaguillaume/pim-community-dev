@@ -10,13 +10,13 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  */
 final class CriterionEvaluationStatus implements \Stringable
 {
-    public const PENDING = 'pending';
-    public const IN_PROGRESS = 'in_progress';
-    public const DONE = 'done';
-    public const TIMEOUT = 'timeout';
-    public const ERROR = 'error';
+    public const string PENDING = 'pending';
+    public const string IN_PROGRESS = 'in_progress';
+    public const string DONE = 'done';
+    public const string TIMEOUT = 'timeout';
+    public const string ERROR = 'error';
 
-    private const STATUS_LIST = [
+    private const array STATUS_LIST = [
         self::PENDING,
         self::IN_PROGRESS,
         self::DONE,

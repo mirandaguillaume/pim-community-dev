@@ -14,6 +14,7 @@ class RedirectMassAction extends AbstractAction implements MassActionInterface
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function setOptions(ActionConfiguration $options)
     {
         $options['frontend_type'] = 'redirect';

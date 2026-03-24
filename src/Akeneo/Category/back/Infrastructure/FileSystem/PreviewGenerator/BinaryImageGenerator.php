@@ -14,8 +14,8 @@ use Akeneo\Category\Domain\ValueObject\Attribute\AttributeType;
  */
 class BinaryImageGenerator extends AbstractPreviewGenerator
 {
-    private const DEFAULT_IMAGE = 'pim_category.default_image.image';
-    final public const SUPPORTED_TYPES = [
+    private const string DEFAULT_IMAGE = 'pim_category.default_image.image';
+    final public const array SUPPORTED_TYPES = [
         PreviewGeneratorRegistry::THUMBNAIL_TYPE => 'am_binary_image_thumbnail_category',
         PreviewGeneratorRegistry::THUMBNAIL_SMALL_TYPE => 'am_binary_image_thumbnail_small_category',
         PreviewGeneratorRegistry::PREVIEW_TYPE => 'am_binary_image_preview_category',

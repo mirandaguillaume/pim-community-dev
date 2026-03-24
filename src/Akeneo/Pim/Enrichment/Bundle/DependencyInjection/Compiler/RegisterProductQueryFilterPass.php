@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class RegisterProductQueryFilterPass implements CompilerPassInterface
 {
     /** @staticvar integer */
-    private const DEFAULT_PRIORITY = 25;
+    private const int DEFAULT_PRIORITY = 25;
 
     public function __construct(private readonly string $type)
     {

@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class CountProductValues implements CountQuery
 {
-    private const VOLUME_NAME = 'count_product_values';
+    private const string VOLUME_NAME = 'count_product_values';
 
     public function __construct(private readonly Connection $connection)
     {

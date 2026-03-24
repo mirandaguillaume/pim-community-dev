@@ -21,8 +21,8 @@ class MigrateToUuidCommand extends Command
 {
     use MigrateToUuidTrait;
 
-    private const DQI_JOB_NAME = 'data_quality_insights_evaluations';
-    private const WAIT_TIME_IN_SECONDS = 30;
+    private const string DQI_JOB_NAME = 'data_quality_insights_evaluations';
+    private const int WAIT_TIME_IN_SECONDS = 30;
 
     /** @var array<MigrateToUuidStep> */
     private readonly array $steps;

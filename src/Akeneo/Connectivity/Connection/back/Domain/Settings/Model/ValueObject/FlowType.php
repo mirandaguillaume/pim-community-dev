@@ -11,11 +11,11 @@ namespace Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject;
  */
 class FlowType implements \Stringable
 {
-    final public const DATA_SOURCE = 'data_source';
-    final public const DATA_DESTINATION = 'data_destination';
-    final public const OTHER = 'other';
+    final public const string DATA_SOURCE = 'data_source';
+    final public const string DATA_DESTINATION = 'data_destination';
+    final public const string OTHER = 'other';
 
-    private const CONSTRAINT_KEY = 'akeneo_connectivity.connection.connection.constraint.flow_type.%s';
+    private const string CONSTRAINT_KEY = 'akeneo_connectivity.connection.connection.constraint.flow_type.%s';
 
     /** @var FlowType::* */
     private readonly string $flowType;

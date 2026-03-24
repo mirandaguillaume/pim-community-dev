@@ -17,7 +17,7 @@ use League\Flysystem\FilesystemOperator;
 
 final class PurgeFilesystemsTasklet implements TaskletInterface
 {
-    private const SKIPPED_FILESYSTEMS = ['localFilesystem'];
+    private const array SKIPPED_FILESYSTEMS = ['localFilesystem'];
 
     private ?StepExecution $stepExecution = null;
 

@@ -11,26 +11,26 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Exception;
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
-    final public const EXPECTED_CODE = 100;
-    final public const BOOLEAN_EXPECTED_CODE = 101;
-    final public const FLOAT_EXPECTED_CODE = 102;
-    final public const INTEGER_EXPECTED_CODE = 103;
-    final public const NUMERIC_EXPECTED_CODE = 104;
-    final public const STRING_EXPECTED_CODE = 105;
-    final public const ARRAY_EXPECTED_CODE = 106;
-    final public const ARRAY_OF_ARRAYS_EXPECTED_CODE = 107;
+    final public const int EXPECTED_CODE = 100;
+    final public const int BOOLEAN_EXPECTED_CODE = 101;
+    final public const int FLOAT_EXPECTED_CODE = 102;
+    final public const int INTEGER_EXPECTED_CODE = 103;
+    final public const int NUMERIC_EXPECTED_CODE = 104;
+    final public const int STRING_EXPECTED_CODE = 105;
+    final public const int ARRAY_EXPECTED_CODE = 106;
+    final public const int ARRAY_OF_ARRAYS_EXPECTED_CODE = 107;
 
-    final public const ARRAY_KEY_EXPECTED_CODE = 200;
-    final public const ARRAY_INVALID_KEY_CODE = 201;
-    final public const ARRAY_NUMERIC_KEY_EXPECTED_CODE = 202;
-    final public const ARRAY_STRING_KEY_EXPECTED_CODE = 203;
-    final public const ARRAY_STRING_VALUE_EXPECTED_CODE = 204;
-    final public const EMPTY_ARRAY_CODE = 205;
+    final public const int ARRAY_KEY_EXPECTED_CODE = 200;
+    final public const int ARRAY_INVALID_KEY_CODE = 201;
+    final public const int ARRAY_NUMERIC_KEY_EXPECTED_CODE = 202;
+    final public const int ARRAY_STRING_KEY_EXPECTED_CODE = 203;
+    final public const int ARRAY_STRING_VALUE_EXPECTED_CODE = 204;
+    final public const int EMPTY_ARRAY_CODE = 205;
 
-    final public const VALID_ENTITY_CODE_EXPECTED_CODE = 300;
-    final public const LOCALE_AND_SCOPE_EXPECTED_CODE = 301;
-    final public const SCOPE_EXPECTED_CODE = 302;
-    final public const ASSOCIATION_FORMAT_EXPECTED_CODE = 303;
+    final public const int VALID_ENTITY_CODE_EXPECTED_CODE = 300;
+    final public const int LOCALE_AND_SCOPE_EXPECTED_CODE = 301;
+    final public const int SCOPE_EXPECTED_CODE = 302;
+    final public const int ASSOCIATION_FORMAT_EXPECTED_CODE = 303;
 
     /**
      * @param string          $className

@@ -20,6 +20,7 @@ class BooleanFilter extends OroBooleanFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         if (!$data = $this->parseData($data)) {
@@ -51,6 +52,7 @@ class BooleanFilter extends OroBooleanFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function parseData($data): array|bool
     {
         $allowedValues = [
@@ -72,6 +74,7 @@ class BooleanFilter extends OroBooleanFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormType()
     {
         return BooleanFilterType::class;

@@ -17,6 +17,7 @@ final class CategoryCodesShouldExist extends Constraint
     /**
      * @inerhitDoc
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

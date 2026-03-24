@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductValueNormalizer implements NormalizerInterface
 {
-    final public const DECIMAL_PRECISION = 4;
+    final public const int DECIMAL_PRECISION = 4;
 
     public function __construct(private readonly NormalizerInterface $normalizer, private readonly GetAttributes $getAttributes)
     {

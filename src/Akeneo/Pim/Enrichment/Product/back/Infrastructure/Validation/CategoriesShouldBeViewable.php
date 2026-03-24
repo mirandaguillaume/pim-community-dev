@@ -17,6 +17,7 @@ final class CategoriesShouldBeViewable extends Constraint
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

@@ -16,8 +16,8 @@ use OpenSpout\Reader\XLSX\Reader as XlsxReader;
  */
 final class SpoutReaderFactory
 {
-    public const XLSX = 'xlsx';
-    public const CSV = 'csv';
+    public const string XLSX = 'xlsx';
+    public const string CSV = 'csv';
 
     /**
      * @return XlsxReader|CsvReader

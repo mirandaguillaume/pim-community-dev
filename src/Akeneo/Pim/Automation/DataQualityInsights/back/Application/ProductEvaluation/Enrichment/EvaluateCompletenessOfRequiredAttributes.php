@@ -15,9 +15,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionCode;
  */
 final readonly class EvaluateCompletenessOfRequiredAttributes implements EvaluateCriterionInterface
 {
-    public const CRITERION_CODE = 'completeness_of_required_attributes';
+    public const string CRITERION_CODE = 'completeness_of_required_attributes';
 
-    public const CRITERION_COEFFICIENT = 2;
+    public const int CRITERION_COEFFICIENT = 2;
 
     private CriterionCode $code;
 

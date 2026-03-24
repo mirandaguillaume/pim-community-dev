@@ -14,6 +14,7 @@ class WidgetMassAction extends AbstractAction implements MassActionInterface
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function setOptions(ActionConfiguration $options)
     {
         if (empty($options['frontend_options'])) {

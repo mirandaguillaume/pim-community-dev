@@ -16,7 +16,7 @@ use Oro\Bundle\FilterBundle\Grid\Extension\Configuration;
  */
 class RegisterKeyIndicatorFilter
 {
-    final public const PRODUCT_DATAGRID_NAME = 'product-grid';
+    final public const string PRODUCT_DATAGRID_NAME = 'product-grid';
 
     public function __construct(
         private readonly FeatureFlag $dqiFeature,

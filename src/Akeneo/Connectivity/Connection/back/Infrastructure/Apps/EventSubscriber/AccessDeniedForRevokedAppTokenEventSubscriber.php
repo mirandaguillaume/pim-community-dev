@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 #[AsEventListener(event: ApiAuthenticationFailedEvent::class, method: 'throwIfDeniedAccessTokenIsRevoked')]
 class AccessDeniedForRevokedAppTokenEventSubscriber
 {
-    private const MESSAGE = 'The access token provided is invalid. Your app has been disconnected from that PIM.';
+    private const string MESSAGE = 'The access token provided is invalid. Your app has been disconnected from that PIM.';
 
     public function __construct(
         private readonly IsAccessTokenRevokedQueryInterface $isAccessTokenRevokedQuery,

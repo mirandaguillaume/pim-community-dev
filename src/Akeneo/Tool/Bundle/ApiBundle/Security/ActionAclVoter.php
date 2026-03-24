@@ -32,7 +32,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class ActionAclVoter extends Voter implements VoterInterface
 {
-    final public const OID_IDENTIFIER = 'action';
+    final public const string OID_IDENTIFIER = 'action';
 
     /** @var VoterInterface */
     protected $baseAclVoter;
@@ -56,6 +56,7 @@ class ActionAclVoter extends Voter implements VoterInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function vote(TokenInterface $token, mixed $subject, array $attributes): int
     {
         foreach ($attributes as $attribute) {

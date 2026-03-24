@@ -21,6 +21,7 @@ abstract class AbstractDateFilter extends OroAbstractDateFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);
@@ -46,6 +47,7 @@ abstract class AbstractDateFilter extends OroAbstractDateFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function isValidData($data)
     {
         // Empty operator does not need any value
@@ -141,6 +143,7 @@ abstract class AbstractDateFilter extends OroAbstractDateFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function parseData(mixed $data)
     {
         if (!$this->isValidData($data)) {

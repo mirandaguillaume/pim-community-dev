@@ -13,8 +13,8 @@ namespace Oro\Bundle\PimDataGridBundle\Normalizer;
  */
 class IdEncoder
 {
-    final public const PRODUCT_TYPE = 'product';
-    final public const PRODUCT_MODEL_TYPE = 'product_model';
+    final public const string PRODUCT_TYPE = 'product';
+    final public const string PRODUCT_MODEL_TYPE = 'product_model';
 
     /**
      * Encode id and type to a type_id format.

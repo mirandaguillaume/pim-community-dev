@@ -22,7 +22,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class JobExecutionManager
 {
-    private const MAX_TIME_TO_UPDATE_HEALTH_CHECK = 5;
+    private const int MAX_TIME_TO_UPDATE_HEALTH_CHECK = 5;
 
     public function __construct(private readonly Connection $connection)
     {

@@ -8,13 +8,13 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    final public const DEFAULT_TYPE = 'field';
-    final public const DEFAULT_FRONTEND_TYPE = PropertyInterface::TYPE_STRING;
+    final public const string DEFAULT_TYPE = 'field';
+    final public const string DEFAULT_FRONTEND_TYPE = PropertyInterface::TYPE_STRING;
 
-    final public const TYPE_KEY = 'type';
-    final public const COLUMNS_KEY = 'columns';
-    final public const OTHER_COLUMNS_KEY = 'other_columns';
-    final public const PROPERTIES_KEY = 'properties';
+    final public const string TYPE_KEY = 'type';
+    final public const string COLUMNS_KEY = 'columns';
+    final public const string OTHER_COLUMNS_KEY = 'other_columns';
+    final public const string PROPERTIES_KEY = 'properties';
 
     /**
      * @param        $types

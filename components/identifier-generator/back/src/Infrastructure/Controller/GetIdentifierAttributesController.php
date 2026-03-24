@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 final readonly class GetIdentifierAttributesController
 {
-    private const MAX_RESULTS = 20;
+    private const int MAX_RESULTS = 20;
 
     public function __construct(
         private FindFlattenAttributesInterface $findFlattenAttributes,

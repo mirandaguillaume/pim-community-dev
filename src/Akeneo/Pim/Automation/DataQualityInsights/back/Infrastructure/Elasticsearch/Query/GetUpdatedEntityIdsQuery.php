@@ -17,8 +17,8 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
  */
 class GetUpdatedEntityIdsQuery implements GetUpdatedEntityIdsQueryInterface
 {
-    private const PRODUCT_IDENTIFIER_PREFIX = 'product_';
-    private const PRODUCT_MODEL_IDENTIFIER_PREFIX = 'product_model_';
+    private const string PRODUCT_IDENTIFIER_PREFIX = 'product_';
+    private const string PRODUCT_MODEL_IDENTIFIER_PREFIX = 'product_model_';
 
     public function __construct(
         private readonly Client                          $esClient,

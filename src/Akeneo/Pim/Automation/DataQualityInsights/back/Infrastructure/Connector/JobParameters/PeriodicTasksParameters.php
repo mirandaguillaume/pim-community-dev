@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints;
  */
 final class PeriodicTasksParameters implements ConstraintCollectionProviderInterface, DefaultValuesProviderInterface
 {
-    public const DATE_FIELD = 'date';
-    public const DATE_FORMAT = 'Y-m-d H:i:s';
+    public const string DATE_FIELD = 'date';
+    public const string DATE_FORMAT = 'Y-m-d H:i:s';
 
     public function getConstraintCollection(): Constraints\Collection
     {

@@ -18,7 +18,7 @@ use Doctrine\DBAL\Connection;
 
 class UserCatalogLocaleResetter implements UserConfigurationResetterInterface
 {
-    private const DEFAULT_CATALOG_LOCALE_CODE = 'en_US';
+    private const string DEFAULT_CATALOG_LOCALE_CODE = 'en_US';
 
     public function __construct(private readonly Connection $connection)
     {

@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
  */
 class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns implements ZddMigration
 {
-    final public const TABLES_TO_UPDATE = [
+    final public const array TABLES_TO_UPDATE = [
         'pim_catalog_category_product' => [
             'column' => 'product_id',
             'triggers' => [

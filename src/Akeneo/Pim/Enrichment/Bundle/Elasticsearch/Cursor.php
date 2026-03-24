@@ -124,6 +124,7 @@ class Cursor extends AbstractCursor implements CursorInterface, ResultAwareInter
      * is more result in ES than in MySQL).
      * Returning fewer results can cause some UoW issues (c.f. ticket)
      */
+    #[\Override]
     protected function getNextItems(array $esQuery): array
     {
         $pageSize = $this->pageSize;

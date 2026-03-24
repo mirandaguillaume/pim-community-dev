@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class StreamedFileResponse extends StreamedResponse
 {
     /** @staticvar int */
-    final public const CHUNK = 1024;
+    final public const int CHUNK = 1024;
 
     /**
      * @param resource $resource

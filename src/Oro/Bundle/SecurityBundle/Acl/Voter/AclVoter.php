@@ -48,6 +48,7 @@ class AclVoter extends BaseAclVoter implements PermissionGrantingStrategyContext
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function vote(TokenInterface $token, $object, array $attributes): int
     {
         $this->securityToken = $token;

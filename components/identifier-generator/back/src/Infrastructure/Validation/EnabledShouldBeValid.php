@@ -19,6 +19,7 @@ final class EnabledShouldBeValid extends Constraint
     /**
      * @inerhitDoc
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

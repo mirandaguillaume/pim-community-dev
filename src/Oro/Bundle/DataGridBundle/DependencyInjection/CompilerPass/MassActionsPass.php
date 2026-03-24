@@ -7,8 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MassActionsPass implements CompilerPassInterface
 {
-    final public const MASS_ACTION_EXTENSION_ID = 'oro_datagrid.extension.mass_action';
-    final public const TAG_NAME = 'oro_datagrid.extension.mass_action.type';
+    final public const string MASS_ACTION_EXTENSION_ID = 'oro_datagrid.extension.mass_action';
+    final public const string TAG_NAME = 'oro_datagrid.extension.mass_action.type';
 
     /**
      * {@inheritDoc}

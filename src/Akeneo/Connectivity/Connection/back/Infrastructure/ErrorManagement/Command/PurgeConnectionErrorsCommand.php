@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PurgeConnectionErrorsCommand extends Command
 {
-    private const TABLE_NOT_FOUND_ERROR_CODE = '42S02';
+    private const string TABLE_NOT_FOUND_ERROR_CODE = '42S02';
 
     public function __construct(
         private readonly SelectAllAuditableConnectionCodeQuery $selectAllAuditableConnectionCodes,

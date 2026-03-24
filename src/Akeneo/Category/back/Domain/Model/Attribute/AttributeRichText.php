@@ -86,6 +86,7 @@ class AttributeRichText extends Attribute
      *     additional_properties: array<string, mixed>
      * }
      */
+    #[\Override]
     public function normalize(): array
     {
         return array_merge(

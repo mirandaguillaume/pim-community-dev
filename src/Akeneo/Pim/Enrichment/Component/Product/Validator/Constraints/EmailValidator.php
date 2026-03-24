@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class EmailValidator extends BaseValidator
 {
+    #[\Override]
     public function validate($value, Constraint $constraint)
     {
         if (!$constraint instanceof Email) {

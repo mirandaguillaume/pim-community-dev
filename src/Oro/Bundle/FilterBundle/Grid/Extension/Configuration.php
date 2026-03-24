@@ -8,10 +8,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    final public const FILTERS_KEY = 'filters';
-    final public const FILTERS_PATH = '[filters]';
-    final public const COLUMNS_PATH = '[filters][columns]';
-    final public const DEFAULT_FILTERS_PATH = '[filters][default]';
+    final public const string FILTERS_KEY = 'filters';
+    final public const string FILTERS_PATH = '[filters]';
+    final public const string COLUMNS_PATH = '[filters][columns]';
+    final public const string DEFAULT_FILTERS_PATH = '[filters][default]';
 
     /**
      * @param $types

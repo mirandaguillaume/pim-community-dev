@@ -28,6 +28,7 @@ class DateTimeRangeFilter extends AbstractDateFilter
      *
      * Override to set the time of the DateTime object on-the-fly according to the chosen operator.
      */
+    #[\Override]
     public function parseData(mixed $data)
     {
         if (!$this->isValidData($data)) {

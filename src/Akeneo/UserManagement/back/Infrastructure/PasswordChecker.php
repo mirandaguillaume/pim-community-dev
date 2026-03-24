@@ -19,8 +19,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PasswordChecker implements PasswordCheckerInterface
 {
-    private const PASSWORD_MINIMUM_LENGTH = 8;
-    private const PASSWORD_MAXIMUM_LENGTH = 4096;
+    private const int PASSWORD_MINIMUM_LENGTH = 8;
+    private const int PASSWORD_MAXIMUM_LENGTH = 4096;
     public function __construct(
         private readonly UserPasswordHasherInterface $encoder,
         private readonly TranslatorInterface $translator,

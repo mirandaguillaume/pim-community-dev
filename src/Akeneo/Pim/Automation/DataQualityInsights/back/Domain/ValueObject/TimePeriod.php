@@ -10,12 +10,12 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  */
 final class TimePeriod implements \Stringable
 {
-    public const DAILY = 'daily';
-    public const WEEKLY = 'weekly';
-    public const MONTHLY = 'monthly';
-    public const YEARLY = 'yearly';
+    public const string DAILY = 'daily';
+    public const string WEEKLY = 'weekly';
+    public const string MONTHLY = 'monthly';
+    public const string YEARLY = 'yearly';
 
-    private const ALLOWED_VALUES = [
+    private const array ALLOWED_VALUES = [
         self::DAILY,
         self::WEEKLY,
         self::MONTHLY,

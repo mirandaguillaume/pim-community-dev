@@ -27,9 +27,9 @@ use Symfony\Component\Console\Question\Question;
 
 class PurgeCommand extends Command
 {
-    private const JOB_CODE = 'versioning_purge';
+    private const string JOB_CODE = 'versioning_purge';
 
-    final public const DEFAULT_MORE_THAN_DAYS = 90;
+    final public const int DEFAULT_MORE_THAN_DAYS = 90;
 
     public function __construct(
         private readonly LoggerInterface $logger,

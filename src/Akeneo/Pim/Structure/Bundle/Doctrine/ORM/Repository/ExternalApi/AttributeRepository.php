@@ -67,6 +67,7 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function count(array $searchFilters = []): int
     {
         try {

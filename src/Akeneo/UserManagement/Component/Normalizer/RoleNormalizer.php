@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  */
 final class RoleNormalizer implements NormalizerInterface
 {
-    private const ACL_EXTENSION_KEY = 'action';
+    private const string ACL_EXTENSION_KEY = 'action';
 
     private array $supportedFormats = ['array', 'standard'];
     private ?array $cacheIndexedAclIds = null;

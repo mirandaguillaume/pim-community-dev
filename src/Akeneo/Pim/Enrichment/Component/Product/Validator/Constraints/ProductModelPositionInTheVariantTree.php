@@ -18,12 +18,13 @@ use Symfony\Component\Validator\Constraint;
  */
 class ProductModelPositionInTheVariantTree extends Constraint
 {
-    final public const INVALID_PARENT = 'pim_catalog.constraint.cannot_have_product_model_as_parent';
-    final public const CANNOT_HAVE_PARENT = 'pim_catalog.constraint.cannot_have_parent';
+    final public const string INVALID_PARENT = 'pim_catalog.constraint.cannot_have_product_model_as_parent';
+    final public const string CANNOT_HAVE_PARENT = 'pim_catalog.constraint.cannot_have_parent';
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_has_a_root_product_model_as_parent';
@@ -32,6 +33,7 @@ class ProductModelPositionInTheVariantTree extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

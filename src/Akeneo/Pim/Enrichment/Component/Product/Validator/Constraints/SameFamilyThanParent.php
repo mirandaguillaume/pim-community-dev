@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class SameFamilyThanParent extends Constraint
 {
-    final public const MESSAGE = 'pim_catalog.constraint.variant_product_invalid_family';
+    final public const string MESSAGE = 'pim_catalog.constraint.variant_product_invalid_family';
 
     /** @var string */
     public $propertyPath = 'family';
@@ -21,6 +21,7 @@ class SameFamilyThanParent extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_family_same_family_than_parent';
@@ -29,6 +30,7 @@ class SameFamilyThanParent extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

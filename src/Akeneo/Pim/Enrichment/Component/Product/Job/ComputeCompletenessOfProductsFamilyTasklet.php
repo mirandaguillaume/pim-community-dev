@@ -31,7 +31,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class ComputeCompletenessOfProductsFamilyTasklet implements TaskletInterface
 {
-    private const BATCH_SIZE = 100;
+    private const int BATCH_SIZE = 100;
 
     private StepExecution $stepExecution;
 

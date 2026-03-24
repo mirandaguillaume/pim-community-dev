@@ -18,6 +18,7 @@ class ReferenceDataOptionsExist extends Constraint
     /**
      * {@inheritdoc}}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'reference_data_options_exist_validator';

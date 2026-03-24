@@ -12,11 +12,11 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\TimePeriod;
 
 final class DashboardRates
 {
-    private const NUMBER_OF_DAYS_TO_RETURN = 7;
+    private const int NUMBER_OF_DAYS_TO_RETURN = 7;
 
-    private const NUMBER_OF_WEEKS_TO_RETURN = 4;
+    private const int NUMBER_OF_WEEKS_TO_RETURN = 4;
 
-    private const NUMBER_OF_MONTHS_TO_RETURN = 6;
+    private const int NUMBER_OF_MONTHS_TO_RETURN = 6;
 
     private readonly string $channelCode;
 

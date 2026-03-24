@@ -30,10 +30,10 @@ use Symfony\Component\Process\Process;
 final class JobExecutionWatchdogCommand extends Command
 {
     /** Interval in seconds before updating health check if job is still running. */
-    public const HEALTH_CHECK_INTERVAL = 5;
+    public const int HEALTH_CHECK_INTERVAL = 5;
 
     /** Interval in microseconds before checking if the process is still running. */
-    private const RUNNING_PROCESS_CHECK_INTERVAL = 200000;
+    private const int RUNNING_PROCESS_CHECK_INTERVAL = 200000;
 
     public function __construct(
         private readonly JobExecutionManager $executionManager,

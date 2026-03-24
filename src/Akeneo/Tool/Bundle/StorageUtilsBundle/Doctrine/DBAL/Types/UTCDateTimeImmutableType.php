@@ -19,6 +19,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
 
     private static ?\DateTimeZone $utc = null;
 
+    #[\Override]
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if ($value instanceof \DateTimeImmutable) {
@@ -28,6 +29,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
         return parent::convertToDatabaseValue($value, $platform);
     }
 
+    #[\Override]
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?\DateTimeImmutable
     {
         if (null === $value || $value instanceof \DateTimeImmutable) {

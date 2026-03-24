@@ -22,6 +22,7 @@ class AttributeTypeForOption extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_attribute_type_for_option_validator';
@@ -30,6 +31,7 @@ class AttributeTypeForOption extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

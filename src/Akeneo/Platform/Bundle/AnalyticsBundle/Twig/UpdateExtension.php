@@ -30,6 +30,7 @@ class UpdateExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFunctions()
     {
         return [

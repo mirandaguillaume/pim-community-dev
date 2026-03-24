@@ -10,7 +10,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  */
 final class Rank implements \JsonSerializable, \Stringable
 {
-    public const LETTERS_MAPPING = [
+    public const array LETTERS_MAPPING = [
         1 => 'A',
         2 => 'B',
         3 => 'C',

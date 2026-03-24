@@ -16,6 +16,7 @@ class ExportExecutionController extends JobExecutionController
     /**
      * @AclAncestor("pim_importexport_export_execution_download_log")
      */
+    #[\Override]
     public function downloadLogFileAction($id)
     {
         return parent::downloadLogFileAction($id);
@@ -24,6 +25,7 @@ class ExportExecutionController extends JobExecutionController
     /**
      * @AclAncestor("pim_importexport_export_execution_download_files")
      */
+    #[\Override]
     public function downloadFilesAction($id, $archiver, $key)
     {
         return parent::downloadFilesAction($id, $archiver, $key);

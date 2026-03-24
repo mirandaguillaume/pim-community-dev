@@ -19,7 +19,7 @@ use Akeneo\Tool\Component\Elasticsearch\QueryString;
  */
 class MediaFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    final public const PATH_SUFFIX = 'original_filename';
+    final public const string PATH_SUFFIX = 'original_filename';
 
     public function __construct(
         ElasticsearchFilterValidator $filterValidator,

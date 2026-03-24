@@ -125,6 +125,7 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
     /**
      * @return array|FormExtensionInterface[]
      */
+    #[\Override]
     protected function getExtensions()
     {
         return $this->formExtensions;

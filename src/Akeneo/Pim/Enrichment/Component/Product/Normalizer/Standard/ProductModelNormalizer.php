@@ -17,15 +17,15 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductModelNormalizer implements NormalizerInterface
 {
-    private const FIELD_CODE = 'code';
-    private const FIELD_FAMILY_VARIANT = 'family_variant';
-    private const FIELD_CATEGORIES = 'categories';
-    private const FIELD_VALUES = 'values';
-    private const FIELD_CREATED = 'created';
-    private const FIELD_UPDATED = 'updated';
-    private const FIELD_PARENT = 'parent';
-    private const FIELD_ASSOCIATIONS = 'associations';
-    private const FIELD_QUANTIFIED_ASSOCIATIONS = 'quantified_associations';
+    private const string FIELD_CODE = 'code';
+    private const string FIELD_FAMILY_VARIANT = 'family_variant';
+    private const string FIELD_CATEGORIES = 'categories';
+    private const string FIELD_VALUES = 'values';
+    private const string FIELD_CREATED = 'created';
+    private const string FIELD_UPDATED = 'updated';
+    private const string FIELD_PARENT = 'parent';
+    private const string FIELD_ASSOCIATIONS = 'associations';
+    private const string FIELD_QUANTIFIED_ASSOCIATIONS = 'quantified_associations';
 
     /**
      * @param CollectionFilterInterface $filter The collection filter

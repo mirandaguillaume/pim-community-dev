@@ -14,6 +14,7 @@ class RegexValidator extends BaseValidator
      *
      * Copy of Symfony RegexValidator to add custom violation parameters.
      */
+    #[\Override]
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof Regex) {

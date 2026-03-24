@@ -6,13 +6,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BooleanFilterType extends AbstractChoiceType
 {
-    final public const TYPE_YES = 1;
-    final public const TYPE_NO = 2;
-    final public const NAME = 'oro_type_boolean_filter';
+    final public const int TYPE_YES = 1;
+    final public const int TYPE_NO = 2;
+    final public const string NAME = 'oro_type_boolean_filter';
 
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -21,6 +22,7 @@ class BooleanFilterType extends AbstractChoiceType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceFilterType::class;

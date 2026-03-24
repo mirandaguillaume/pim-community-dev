@@ -15,7 +15,7 @@ final class RanksDistribution
     /** @var array */
     private $ranksDistribution;
 
-    private const DEFAULT_DISTRIBUTION = [
+    private const array DEFAULT_DISTRIBUTION = [
         'rank_1' => 0,
         'rank_2' => 0,
         'rank_3' => 0,

@@ -10,7 +10,7 @@ use Akeneo\Platform\Bundle\PimVersionBundle\VersionProviderInterface;
 
 final class MarketplaceUrlGenerator implements MarketplaceUrlGeneratorInterface
 {
-    private const START_QUERY = '/?';
+    private const string START_QUERY = '/?';
     private readonly string $marketplaceUrl;
 
     public function __construct(

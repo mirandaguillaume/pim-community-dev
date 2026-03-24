@@ -20,6 +20,7 @@ class FilterStructureLocale extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'filter_structure_locale_validator';

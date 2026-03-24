@@ -43,8 +43,8 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
 
 class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
 {
-    private const JOB_NAME = 'clean_removed_attribute_job';
-    private const JOB_TRACKER_ROUTE = 'akeneo_job_process_tracker_details';
+    private const string JOB_NAME = 'clean_removed_attribute_job';
+    private const string JOB_TRACKER_ROUTE = 'akeneo_job_process_tracker_details';
 
     public function __construct(
         private readonly EntityManagerClearerInterface $entityManagerClearer,

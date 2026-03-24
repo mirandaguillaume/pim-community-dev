@@ -14,6 +14,7 @@ class AjaxMassAction extends AbstractAction implements MassActionInterface
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function setOptions(ActionConfiguration $options)
     {
         $options['frontend_type'] = 'ajax';

@@ -19,6 +19,7 @@ final class AttributeShouldHaveType extends Constraint
     /**
      * @inerhitDoc
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
@@ -29,6 +30,7 @@ final class AttributeShouldHaveType extends Constraint
         return 'type';
     }
 
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return ['type'];

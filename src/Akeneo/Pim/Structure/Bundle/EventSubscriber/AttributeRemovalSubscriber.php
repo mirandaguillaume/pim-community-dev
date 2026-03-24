@@ -23,8 +23,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 #[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'blacklistAttributeCodeAndLaunchJob')]
 class AttributeRemovalSubscriber
 {
-    private const JOB_NAME = 'clean_removed_attribute_job';
-    private const BATCH_SIZE = 1000;
+    private const string JOB_NAME = 'clean_removed_attribute_job';
+    private const int BATCH_SIZE = 1000;
 
     private array $attributeCodesToClean = [];
     private bool $terminateEventIsRegistered = false;

@@ -12,10 +12,10 @@ use Akeneo\Connectivity\Connection\Infrastructure\Apps\Security\ScopeMapperInter
  */
 class AssociationTypeScopeMapper implements ScopeMapperInterface
 {
-    private const SCOPE_READ_ASSOCIATION_TYPES = 'read_association_types';
-    private const SCOPE_WRITE_ASSOCIATION_TYPES = 'write_association_types';
+    private const string SCOPE_READ_ASSOCIATION_TYPES = 'read_association_types';
+    private const string SCOPE_WRITE_ASSOCIATION_TYPES = 'write_association_types';
 
-    private const SCOPE_ACL_MAP = [
+    private const array SCOPE_ACL_MAP = [
         self::SCOPE_READ_ASSOCIATION_TYPES => [
             'pim_api_association_type_list',
         ],
@@ -24,7 +24,7 @@ class AssociationTypeScopeMapper implements ScopeMapperInterface
         ],
     ];
 
-    private const SCOPE_MESSAGE_MAP = [
+    private const array SCOPE_MESSAGE_MAP = [
         self::SCOPE_READ_ASSOCIATION_TYPES => [
             'icon' => 'association_types',
             'type' => 'view',
@@ -37,7 +37,7 @@ class AssociationTypeScopeMapper implements ScopeMapperInterface
         ],
     ];
 
-    private const SCOPE_HIERARCHY = [
+    private const array SCOPE_HIERARCHY = [
         self::SCOPE_WRITE_ASSOCIATION_TYPES => [
             self::SCOPE_READ_ASSOCIATION_TYPES,
         ],

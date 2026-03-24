@@ -16,6 +16,7 @@ class AuthorizationCodeMustBeValid extends Constraint
     public string $message = 'invalid_grant';
     public string $cause = 'Code is not valid';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

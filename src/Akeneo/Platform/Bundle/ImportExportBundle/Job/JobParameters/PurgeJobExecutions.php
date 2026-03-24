@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 class PurgeJobExecutions implements ConstraintCollectionProviderInterface, DefaultValuesProviderInterface
 {
-    private const JOB_NAME = 'job_executions_purge';
+    private const string JOB_NAME = 'job_executions_purge';
 
     public function supports(JobInterface $job): bool
     {

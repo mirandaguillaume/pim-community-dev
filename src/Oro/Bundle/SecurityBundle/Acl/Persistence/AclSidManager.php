@@ -9,7 +9,7 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface as SID;
 
 class AclSidManager extends AbstractAclManager
 {
-    final public const ROLE_DISABLED_FLAG = '-DISABLED-';
+    final public const string ROLE_DISABLED_FLAG = '-DISABLED-';
 
     /**
      * Constructor

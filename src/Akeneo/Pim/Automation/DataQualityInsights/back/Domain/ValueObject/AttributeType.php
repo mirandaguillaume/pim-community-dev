@@ -12,7 +12,7 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
  */
 final readonly class AttributeType implements \Stringable
 {
-    public const EVALUABLE_ATTRIBUTE_TYPES = [
+    public const array EVALUABLE_ATTRIBUTE_TYPES = [
         AttributeTypes::TEXT,
         AttributeTypes::TEXTAREA,
         AttributeTypes::OPTION_SIMPLE_SELECT,

@@ -11,6 +11,6 @@ namespace Akeneo\Tool\Bundle\ApiBundle;
  */
 class Documentation
 {
-    final public const URL = 'http://api.akeneo.com/api-reference.html#';
-    final public const URL_DOCUMENTATION = 'http://api.akeneo.com/documentation/';
+    final public const string URL = 'http://api.akeneo.com/api-reference.html#';
+    final public const string URL_DOCUMENTATION = 'http://api.akeneo.com/documentation/';
 }

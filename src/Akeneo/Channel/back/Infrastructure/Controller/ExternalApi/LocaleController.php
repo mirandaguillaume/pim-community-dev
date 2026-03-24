@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class LocaleController
 {
-    private const AUTHORIZED_FIELD_FILTERS = ['enabled'];
+    private const array AUTHORIZED_FIELD_FILTERS = ['enabled'];
 
     public function __construct(
         private readonly ApiResourceRepositoryInterface $repository,

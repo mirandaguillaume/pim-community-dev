@@ -46,6 +46,7 @@ class ReferenceDataFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);
@@ -68,6 +69,7 @@ class ReferenceDataFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormOptions()
     {
         $attribute = $this->getAttribute();

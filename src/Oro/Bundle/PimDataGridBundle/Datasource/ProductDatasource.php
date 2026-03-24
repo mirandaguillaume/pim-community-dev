@@ -55,6 +55,7 @@ class ProductDatasource extends Datasource
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getResults()
     {
         $attributeIdsToDisplay = $this->getConfiguration('displayed_attribute_ids');
@@ -97,6 +98,7 @@ class ProductDatasource extends Datasource
      *
      * @return Datasource
      */
+    #[\Override]
     protected function initializeQueryBuilder($method, array $config = [])
     {
         $factoryConfig = [];

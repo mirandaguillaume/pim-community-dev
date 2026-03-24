@@ -26,9 +26,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class GetAvailablePropertiesController
 {
-    private const DEFAULT_LIMIT_PAGINATION = 20;
-    private const FIELD_TRANSLATION_BASE = 'pim_catalog_identifier_generator.structure.fields.';
-    private const SYSTEM_GROUP_TRANSLATION_KEY = 'pim_catalog_identifier_generator.structure.field_groups.system';
+    private const int DEFAULT_LIMIT_PAGINATION = 20;
+    private const string FIELD_TRANSLATION_BASE = 'pim_catalog_identifier_generator.structure.fields.';
+    private const string SYSTEM_GROUP_TRANSLATION_KEY = 'pim_catalog_identifier_generator.structure.field_groups.system';
 
     public function __construct(
         private GetGroupedAttributes $getGroupedAttributes,

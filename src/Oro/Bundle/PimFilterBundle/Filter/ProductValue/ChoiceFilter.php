@@ -54,6 +54,7 @@ class ChoiceFilter extends AjaxChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);
@@ -102,6 +103,7 @@ class ChoiceFilter extends AjaxChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormOptions()
     {
         $attribute = $this->getAttribute();

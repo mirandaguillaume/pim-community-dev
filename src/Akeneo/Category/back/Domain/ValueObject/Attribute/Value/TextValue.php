@@ -78,6 +78,7 @@ final class TextValue extends AbstractValue
      *     attribute_code: string,
      * }>
      */
+    #[\Override]
     public function normalize(): array
     {
         return array_merge_recursive(

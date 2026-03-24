@@ -18,13 +18,13 @@ namespace Akeneo\Platform\Bundle\PimVersionBundle\Version;
 final class SerenityVersion implements PimVersion
 {
     /** @staticvar string */
-    private const VERSION_CODENAME = 'Buttercup';
+    private const string VERSION_CODENAME = 'Buttercup';
 
     /** @staticvar string */
-    private const EDITION_NAME = 'Serenity';
+    private const string EDITION_NAME = 'Serenity';
 
     /** @staticvar string **/
-    private const EDITION_CODE = 'serenity_instance';
+    private const string EDITION_CODE = 'serenity_instance';
 
     public function versionCodename(): string
     {

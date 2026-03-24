@@ -27,13 +27,13 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, EquatableInterface, \Stringable
 {
-    final public const ROLE_DEFAULT = 'ROLE_USER';
-    final public const GROUP_DEFAULT = 'All';
-    final public const ROLE_ANONYMOUS = 'IS_AUTHENTICATED_ANONYMOUSLY';
-    final public const DEFAULT_TIMEZONE = 'UTC';
-    final public const TYPE_USER = 'user';
-    final public const TYPE_API = 'api';
-    final public const TYPE_JOB = 'job';
+    final public const string ROLE_DEFAULT = 'ROLE_USER';
+    final public const string GROUP_DEFAULT = 'All';
+    final public const string ROLE_ANONYMOUS = 'IS_AUTHENTICATED_ANONYMOUSLY';
+    final public const string DEFAULT_TIMEZONE = 'UTC';
+    final public const string TYPE_USER = 'user';
+    final public const string TYPE_API = 'api';
+    final public const string TYPE_JOB = 'job';
 
     /** @var int|string */
     #[ORM\Id]

@@ -20,7 +20,7 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
  */
 final readonly class GpsReceiver implements ReceiverInterface
 {
-    private const ACKNOWLEDGE_DEADLINE_IN_SECONDS = 600;
+    private const int ACKNOWLEDGE_DEADLINE_IN_SECONDS = 600;
 
     public function __construct(private Subscription $subscription, private SerializerInterface $serializer)
     {

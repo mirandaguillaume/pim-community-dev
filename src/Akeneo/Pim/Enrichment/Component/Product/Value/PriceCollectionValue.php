@@ -53,6 +53,7 @@ class PriceCollectionValue extends AbstractValue implements PriceCollectionValue
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function hasData(): bool
     {
         foreach ($this->data as $price) {

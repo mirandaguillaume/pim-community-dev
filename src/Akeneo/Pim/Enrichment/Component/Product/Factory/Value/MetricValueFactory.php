@@ -18,7 +18,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 final readonly class MetricValueFactory implements ValueFactory
 {
-    private const AMOUNT_DECIMAL_FORMAT_REGEX = '#^-?\d+(\.\d+)?$#';
+    private const string AMOUNT_DECIMAL_FORMAT_REGEX = '#^-?\d+(\.\d+)?$#';
 
     public function __construct(
         private MetricFactory $metricFactory,

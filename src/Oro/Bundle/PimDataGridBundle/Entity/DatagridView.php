@@ -19,8 +19,8 @@ use Doctrine\ORM\Mapping as ORM;
 class DatagridView
 {
     /** @staticvar string */
-    final public const TYPE_PUBLIC = 'public';
-    final public const TYPE_PRIVATE = 'private';
+    final public const string TYPE_PUBLIC = 'public';
+    final public const string TYPE_PRIVATE = 'private';
 
     /** @var int */
     #[ORM\Id]

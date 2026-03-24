@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  */
 final class WrittenFileInfo
 {
-    private const LOCAL_FILESYSTEM = 'localFilesystem';
+    private const string LOCAL_FILESYSTEM = 'localFilesystem';
 
     private readonly string $sourceKey;
     private readonly string $sourceStorage;

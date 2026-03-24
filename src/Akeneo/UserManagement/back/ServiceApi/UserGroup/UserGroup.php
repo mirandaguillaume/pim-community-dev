@@ -4,7 +4,7 @@ namespace Akeneo\UserManagement\ServiceApi\UserGroup;
 
 class UserGroup
 {
-    final public const DEFAULT_NAME = 'All';
+    final public const string DEFAULT_NAME = 'All';
 
     public function __construct(
         private readonly int $id,

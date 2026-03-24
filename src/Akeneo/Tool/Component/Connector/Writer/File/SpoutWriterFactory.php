@@ -16,8 +16,8 @@ use OpenSpout\Writer\XLSX\Writer as XlsxWriter;
  */
 final class SpoutWriterFactory
 {
-    public const XLSX = 'xlsx';
-    public const CSV = 'csv';
+    public const string XLSX = 'xlsx';
+    public const string CSV = 'csv';
 
     public static function create(string $type, array $normalizedOptions = []): WriterInterface
     {

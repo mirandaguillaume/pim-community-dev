@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 class RefreshVersioning implements ConstraintCollectionProviderInterface, DefaultValuesProviderInterface
 {
-    private const JOB_NAME = 'versioning_refresh';
+    private const string JOB_NAME = 'versioning_refresh';
 
     public function supports(JobInterface $job): bool
     {

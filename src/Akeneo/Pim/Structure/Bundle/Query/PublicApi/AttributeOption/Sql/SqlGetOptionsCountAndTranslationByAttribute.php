@@ -18,7 +18,7 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class SqlGetOptionsCountAndTranslationByAttribute implements GetOptionsCountAndTranslationByAttribute
 {
-    private const MAX_PAGE_SIZE = 20;
+    private const int MAX_PAGE_SIZE = 20;
 
     public function __construct(private Connection $connection)
     {

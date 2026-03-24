@@ -22,9 +22,9 @@ use Webmozart\Assert\Assert;
  */
 class TrackUsageOfLoadPredefinedAttributesController
 {
-    private const LOAD_PREDEFINED_ATTRIBUTES = 'load_predefined_attributes';
+    private const string LOAD_PREDEFINED_ATTRIBUTES = 'load_predefined_attributes';
 
-    private const CREATE_FIRST_ATTRIBUTE = 'create_first_attribute';
+    private const string CREATE_FIRST_ATTRIBUTE = 'create_first_attribute';
 
     public function __construct(
         private readonly SecurityFacade $securityFacade,

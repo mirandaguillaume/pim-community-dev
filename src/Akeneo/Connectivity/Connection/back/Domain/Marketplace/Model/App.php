@@ -10,7 +10,7 @@ namespace Akeneo\Connectivity\Connection\Domain\Marketplace\Model;
  */
 class App
 {
-    private const MARKETPLACE_REQUIRED_KEYS = [
+    private const array MARKETPLACE_REQUIRED_KEYS = [
         'id',
         'name',
         'logo',
@@ -21,7 +21,7 @@ class App
         'callback_url',
     ];
 
-    private const CUSTOM_APP_REQUIRED_KEYS = [
+    private const array CUSTOM_APP_REQUIRED_KEYS = [
         'id',
         'name',
         'activate_url',

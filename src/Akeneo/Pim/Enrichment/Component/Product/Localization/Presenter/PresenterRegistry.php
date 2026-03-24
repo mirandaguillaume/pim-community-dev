@@ -15,11 +15,11 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class PresenterRegistry implements PresenterRegistryInterface
 {
-    final public const TYPE_PRODUCT_VALUE = 'product_value';
+    final public const string TYPE_PRODUCT_VALUE = 'product_value';
 
-    final public const TYPE_PRODUCT_FIELD = 'product_field';
+    final public const string TYPE_PRODUCT_FIELD = 'product_field';
 
-    final public const TYPE_ATTRIBUTE_OPTION = 'attribute_option';
+    final public const string TYPE_ATTRIBUTE_OPTION = 'attribute_option';
 
     /** @var IdentifiableObjectRepositoryInterface */
     protected $attributeRepository;

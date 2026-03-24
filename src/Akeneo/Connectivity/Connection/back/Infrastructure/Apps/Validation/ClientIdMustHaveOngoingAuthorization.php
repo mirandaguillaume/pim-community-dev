@@ -14,6 +14,7 @@ class ClientIdMustHaveOngoingAuthorization extends Constraint
 {
     public string $message = 'Client ID must have an ongoing authorization';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

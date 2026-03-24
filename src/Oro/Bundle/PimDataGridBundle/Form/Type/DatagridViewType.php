@@ -50,6 +50,7 @@ class DatagridViewType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_datagrid_view';

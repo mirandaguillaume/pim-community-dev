@@ -41,6 +41,7 @@ class AsyncSelectType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_async_select';
@@ -49,6 +50,7 @@ class AsyncSelectType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return HiddenType::class;

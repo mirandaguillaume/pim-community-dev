@@ -15,7 +15,7 @@ use Akeneo\Connectivity\Connection\Infrastructure\Marketplace\WebMarketplaceApiI
  */
 class GetAllExtensionsQuery implements GetAllExtensionsQueryInterface
 {
-    private const MAX_REQUESTS = 10;
+    private const int MAX_REQUESTS = 10;
 
     public function __construct(private readonly WebMarketplaceApiInterface $webMarketplaceApi, private readonly int $pagination)
     {

@@ -20,6 +20,7 @@ class Channel extends Choice
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_at_least_a_channel';

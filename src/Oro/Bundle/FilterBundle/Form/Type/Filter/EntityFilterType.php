@@ -8,11 +8,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntityFilterType extends AbstractChoiceType
 {
-    final public const NAME = 'oro_type_entity_filter';
+    final public const string NAME = 'oro_type_entity_filter';
 
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -21,6 +22,7 @@ class EntityFilterType extends AbstractChoiceType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceFilterType::class;

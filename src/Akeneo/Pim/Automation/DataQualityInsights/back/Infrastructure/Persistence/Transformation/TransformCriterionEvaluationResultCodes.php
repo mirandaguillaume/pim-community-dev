@@ -15,20 +15,20 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
  */
 final readonly class TransformCriterionEvaluationResultCodes
 {
-    public const PROPERTIES_ID = [
+    public const array PROPERTIES_ID = [
         'data' => 1,
         'rates' => 2,
         'status' => 3,
     ];
 
-    public const DATA_TYPES_ID = [
+    public const array DATA_TYPES_ID = [
         'attributes_with_rates' => 1,
         'total_number_of_attributes' => 2,
         'number_of_improvable_attributes' => 3,
         'hashed_values' => 4,
     ];
 
-    public const STATUS_ID = [
+    public const array STATUS_ID = [
         CriterionEvaluationResultStatus::DONE => 1,
         CriterionEvaluationResultStatus::IN_PROGRESS => 2,
         CriterionEvaluationResultStatus::ERROR => 3,

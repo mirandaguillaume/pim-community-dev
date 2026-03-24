@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class AverageMaxCategoriesInOneCategory implements AverageMaxQuery
 {
-    private const VOLUME_NAME = 'average_max_categories_in_one_category';
+    private const string VOLUME_NAME = 'average_max_categories_in_one_category';
 
     public function __construct(private readonly Connection $connection)
     {

@@ -12,7 +12,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
  */
 final readonly class OnlySaasFeatureFlag implements FeatureFlag
 {
-    private const SAAS_EDITIONS = [
+    private const array SAAS_EDITIONS = [
         'serenity_instance',
         'growth_edition_instance',
         'pim_trial_instance',

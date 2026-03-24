@@ -11,5 +11,5 @@ namespace Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model;
 
 final class NoneStorage
 {
-    public const TYPE = 'none';
+    public const string TYPE = 'none';
 }

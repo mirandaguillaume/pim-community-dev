@@ -16,7 +16,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStand
  */
 class FieldConverter implements FieldConverterInterface
 {
-    private const PRODUCT_MODEL_FIELDS = ['parent', 'code', 'family_variant', 'categories'];
+    private const array PRODUCT_MODEL_FIELDS = ['parent', 'code', 'family_variant', 'categories'];
 
     public function __construct(private readonly FieldSplitter $fieldSplitter, private readonly AssociationColumnsResolver $assocFieldResolver)
     {

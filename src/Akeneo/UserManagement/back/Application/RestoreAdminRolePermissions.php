@@ -11,7 +11,7 @@ use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 
 class RestoreAdminRolePermissions
 {
-    final public const ROLE_ADMINISTRATOR_IDENTIFIER = 'ROLE_ADMINISTRATOR';
+    final public const string ROLE_ADMINISTRATOR_IDENTIFIER = 'ROLE_ADMINISTRATOR';
 
     public function __construct(
         private readonly AclManager $aclManager,

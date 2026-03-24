@@ -16,9 +16,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class FreeText implements PropertyInterface
 {
-    public const LENGTH_LIMIT = 100;
+    public const int LENGTH_LIMIT = 100;
 
-    private const TYPE = 'free_text';
+    private const string TYPE = 'free_text';
 
     private function __construct(
         private string $value,

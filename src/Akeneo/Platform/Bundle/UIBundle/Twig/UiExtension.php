@@ -14,6 +14,7 @@ class UiExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getTokenParsers()
     {
         return [

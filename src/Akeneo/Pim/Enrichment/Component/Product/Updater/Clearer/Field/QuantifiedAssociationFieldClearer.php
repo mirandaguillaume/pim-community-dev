@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  */
 final class QuantifiedAssociationFieldClearer implements ClearerInterface
 {
-    private const SUPPORTED_FIELD = 'quantified_associations';
+    private const string SUPPORTED_FIELD = 'quantified_associations';
 
     /**
      * {@inheritDoc}

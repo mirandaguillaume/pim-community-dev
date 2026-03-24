@@ -32,12 +32,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\UniqueConstraint(name: 'searchunique_idx', columns: ['code'])]
 class JobInstance
 {
-    final public const STATUS_READY = 0;
-    final public const STATUS_DRAFT = 1;
-    final public const STATUS_IN_PROGRESS = 2;
+    final public const int STATUS_READY = 0;
+    final public const int STATUS_DRAFT = 1;
+    final public const int STATUS_IN_PROGRESS = 2;
 
-    final public const TYPE_IMPORT = 'import';
-    final public const TYPE_EXPORT = 'export';
+    final public const string TYPE_IMPORT = 'import';
+    final public const string TYPE_EXPORT = 'export';
 
     /** @var int */
     #[ORM\Id]

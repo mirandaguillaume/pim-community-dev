@@ -17,6 +17,7 @@ class LocaleExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFilters()
     {
         return [

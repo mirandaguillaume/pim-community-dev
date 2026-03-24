@@ -25,7 +25,7 @@ use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 #[AsEventListener(event: StorageEvents::POST_SAVE, method: 'loadDefaultPrivilegesAfterSave')]
 class AddDefaultPrivilegesSubscriber
 {
-    private const FIXTURE_ROLE_JOB_NAME = 'fixtures_user_role_csv';
+    private const string FIXTURE_ROLE_JOB_NAME = 'fixtures_user_role_csv';
 
     public function __construct(private readonly ObjectRepository $roleRepository, private readonly AclManager $aclManager)
     {

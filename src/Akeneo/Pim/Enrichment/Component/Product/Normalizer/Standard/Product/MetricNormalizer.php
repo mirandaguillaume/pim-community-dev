@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class MetricNormalizer implements NormalizerInterface
 {
-    final public const DECIMAL_PRECISION = 4;
+    final public const int DECIMAL_PRECISION = 4;
 
     /**
      * {@inheritdoc}

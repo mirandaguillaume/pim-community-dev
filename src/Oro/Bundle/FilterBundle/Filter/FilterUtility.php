@@ -6,16 +6,16 @@ use Oro\Bundle\FilterBundle\Datasource\FilterDatasourceAdapterInterface;
 
 class FilterUtility
 {
-    final public const CONDITION_OR = 'OR';
-    final public const CONDITION_AND = 'AND';
+    final public const string CONDITION_OR = 'OR';
+    final public const string CONDITION_AND = 'AND';
 
-    final public const CONDITION_KEY = 'filter_condition';
-    final public const BY_HAVING_KEY = 'filter_by_having';
-    final public const ENABLED_KEY = 'enabled';
-    final public const TYPE_KEY = 'type';
-    final public const FRONTEND_TYPE_KEY = 'ftype';
-    final public const DATA_NAME_KEY = 'data_name';
-    final public const FORM_OPTIONS_KEY = 'options';
+    final public const string CONDITION_KEY = 'filter_condition';
+    final public const string BY_HAVING_KEY = 'filter_by_having';
+    final public const string ENABLED_KEY = 'enabled';
+    final public const string TYPE_KEY = 'type';
+    final public const string FRONTEND_TYPE_KEY = 'ftype';
+    final public const string DATA_NAME_KEY = 'data_name';
+    final public const string FORM_OPTIONS_KEY = 'options';
 
     public function getParamMap()
     {

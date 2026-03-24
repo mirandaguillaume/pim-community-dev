@@ -14,6 +14,7 @@ class MaxAttributeGroupCount extends Constraint
 {
     public string $message = 'pim_structure.validation.attribute_groups.max';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

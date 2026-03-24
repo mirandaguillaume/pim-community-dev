@@ -18,8 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AddMissingJobInstanceRemoveCompletenessChannelLocale extends Command
 {
-    final public const EXIT_SUCCESS_CODE = 0;
-    final public const EXIT_ERROR_CODE = 1;
+    final public const int EXIT_SUCCESS_CODE = 0;
+    final public const int EXIT_ERROR_CODE = 1;
 
     public function __construct(private readonly Connection $connection)
     {

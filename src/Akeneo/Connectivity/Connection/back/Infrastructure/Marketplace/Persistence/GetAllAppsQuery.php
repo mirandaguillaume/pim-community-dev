@@ -17,7 +17,7 @@ use Akeneo\Connectivity\Connection\Infrastructure\Marketplace\WebMarketplaceApiI
  */
 final readonly class GetAllAppsQuery implements GetAllAppsQueryInterface
 {
-    private const MAX_REQUESTS = 10;
+    private const int MAX_REQUESTS = 10;
 
     public function __construct(
         private WebMarketplaceApiInterface $webMarketplaceApi,

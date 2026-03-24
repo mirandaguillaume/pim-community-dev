@@ -18,7 +18,7 @@ class MigrateToUuidCleanGhostRecords implements MigrateToUuidStep
 {
     use MigrateToUuidTrait;
     use StatusAwareTrait;
-    private const BATCH_SIZE = 10000;
+    private const int BATCH_SIZE = 10000;
 
     /** @var string[] */
     private array $ignoredTables = [

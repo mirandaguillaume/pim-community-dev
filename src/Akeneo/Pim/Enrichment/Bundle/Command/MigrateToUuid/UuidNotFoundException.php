@@ -10,7 +10,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid;
  */
 class UuidNotFoundException extends \LogicException
 {
-    final public const MESSAGE = 'No uuid found';
+    final public const string MESSAGE = 'No uuid found';
 
     public function __construct()
     {

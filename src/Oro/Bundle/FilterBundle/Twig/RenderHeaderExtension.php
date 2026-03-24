@@ -15,16 +15,17 @@ class RenderHeaderExtension extends AbstractExtension
     /**
      * Block with required JS files
      */
-    final public const HEADER_JAVASCRIPT = 'oro_filter_header_javascript';
+    final public const string HEADER_JAVASCRIPT = 'oro_filter_header_javascript';
 
     /**
      * Block with required CSS files
      */
-    final public const HEADER_STYLESHEET = 'oro_filter_header_stylesheet';
+    final public const string HEADER_STYLESHEET = 'oro_filter_header_stylesheet';
 
     /**
      * @return array
      */
+    #[\Override]
     public function getFunctions()
     {
         return [

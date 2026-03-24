@@ -25,6 +25,7 @@ class DateFormat extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_localization_date_format';

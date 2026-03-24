@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class PriceNormalizer implements NormalizerInterface
 {
-    final public const DECIMAL_PRECISION = 2;
+    final public const int DECIMAL_PRECISION = 2;
 
     /**
      * {@inheritdoc}

@@ -7,10 +7,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UrlProperty extends AbstractProperty
 {
-    final public const ROUTE_KEY = 'route';
-    final public const IS_ABSOLUTE_KEY = 'isAbsolute';
-    final public const ANCHOR_KEY = 'anchor';
-    final public const PARAMS_KEY = 'params';
+    final public const string ROUTE_KEY = 'route';
+    final public const string IS_ABSOLUTE_KEY = 'isAbsolute';
+    final public const string ANCHOR_KEY = 'anchor';
+    final public const string PARAMS_KEY = 'params';
 
     /** @var array */
     protected $excludeParams = [self::ROUTE_KEY, self::IS_ABSOLUTE_KEY, self::ANCHOR_KEY, self::PARAMS_KEY];

@@ -9,7 +9,7 @@ use Symfony\Component\Security\Http\FirewallMapInterface;
 
 final readonly class Firewall
 {
-    private const API_FIREWALL = 'api';
+    private const string API_FIREWALL = 'api';
 
     public function __construct(
         private FirewallMapInterface $firewall,

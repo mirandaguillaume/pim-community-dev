@@ -68,6 +68,7 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
         return $this->httpUtils->generateUri($request, $this->options['login_path']);
     }
 
+    #[\Override]
     public function supports(Request $request): bool
     {
         return ($this->options['post_only'] ? $request->isMethod('POST') : true)
@@ -95,6 +96,7 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
         return $passport;
     }
 
+    #[\Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         return new UsernamePasswordToken($passport->getUser(), $firewallName, $passport->getUser()->getRoles());
@@ -105,6 +107,7 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
         return $this->successHandler->onAuthenticationSuccess($request, $token);
     }
 
+    #[\Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         return $this->failureHandler->onAuthenticationFailure($request, $exception);
@@ -143,6 +146,7 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
         $this->httpKernel = $httpKernel;
     }
 
+    #[\Override]
     public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         if (!$this->options['use_forward']) {

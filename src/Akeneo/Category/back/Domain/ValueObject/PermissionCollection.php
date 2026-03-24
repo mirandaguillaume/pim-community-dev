@@ -12,9 +12,9 @@ use Webmozart\Assert\Assert;
  */
 final class PermissionCollection
 {
-    public const VIEW = 'view';
-    public const EDIT = 'edit';
-    public const OWN = 'own';
+    public const string VIEW = 'view';
+    public const string EDIT = 'edit';
+    public const string OWN = 'own';
 
     /** @var array<string, array<int>> */
     private array $removedUserGroupIdsFromPermissions;

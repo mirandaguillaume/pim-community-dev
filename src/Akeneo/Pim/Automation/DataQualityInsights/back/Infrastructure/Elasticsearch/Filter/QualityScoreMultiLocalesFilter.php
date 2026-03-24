@@ -16,10 +16,10 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 final class QualityScoreMultiLocalesFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    public const FIELD = 'quality_score_multi_locales';
+    public const string FIELD = 'quality_score_multi_locales';
 
-    public const OPERATOR_IN_AT_LEAST_ONE_LOCALE = 'IN AT LEAST ONE LOCALE';
-    public const OPERATOR_IN_ALL_LOCALES = 'IN ALL LOCALES';
+    public const string OPERATOR_IN_AT_LEAST_ONE_LOCALE = 'IN AT LEAST ONE LOCALE';
+    public const string OPERATOR_IN_ALL_LOCALES = 'IN ALL LOCALES';
 
     public function __construct(
         private readonly GetScoresPropertyStrategy $getScoresProperty

@@ -19,7 +19,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    final public const IDENTIFIER_KEY = 'identifier';
+    final public const string IDENTIFIER_KEY = 'identifier';
 
     public function __construct(
         array $supportedAttributeTypes = [],
@@ -74,6 +74,7 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsAttribute(AttributeInterface $attribute)
     {
         return in_array($attribute->getType(), $this->supportedAttributeTypes);
@@ -82,6 +83,7 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getAttributeTypes()
     {
         return $this->supportedAttributeTypes;

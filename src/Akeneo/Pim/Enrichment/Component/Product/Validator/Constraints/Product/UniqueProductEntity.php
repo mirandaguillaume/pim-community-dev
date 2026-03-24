@@ -15,13 +15,14 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueProductEntity extends Constraint
 {
-    final public const UNIQUE_PRODUCT_ENTITY = 'f69dca22-17a2-458a-958c-2e9f98f85c00';
+    final public const string UNIQUE_PRODUCT_ENTITY = 'f69dca22-17a2-458a-958c-2e9f98f85c00';
 
     public $message = 'The %identifier% identifier is already used for another product.';
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_unique_product_validator_entity';
@@ -30,6 +31,7 @@ class UniqueProductEntity extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

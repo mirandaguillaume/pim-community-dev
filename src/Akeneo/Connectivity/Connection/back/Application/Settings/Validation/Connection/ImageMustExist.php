@@ -15,11 +15,13 @@ class ImageMustExist extends Constraint
 {
     public string $message = 'akeneo_connectivity.connection.connection.constraint.image.must_exist';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
+    #[\Override]
     public function validatedBy(): string
     {
         return 'connection_image_must_exist';

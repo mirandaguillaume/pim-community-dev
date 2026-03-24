@@ -11,7 +11,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Connections\WrongCredent
  */
 final class CreateWrongCredentialsCombinationQuery
 {
-    public const QUERY = <<<SQL
+    public const string QUERY = <<<SQL
         CREATE TABLE akeneo_connectivity_connection_wrong_credentials_combination
         (
             connection_code     varchar(100) not null,

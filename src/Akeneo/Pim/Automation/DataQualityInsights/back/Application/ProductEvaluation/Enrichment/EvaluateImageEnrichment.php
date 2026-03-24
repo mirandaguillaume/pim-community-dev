@@ -20,9 +20,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate;
  */
 class EvaluateImageEnrichment implements EvaluateCriterionInterface
 {
-    final public const CRITERION_CODE = 'enrichment_image';
+    final public const string CRITERION_CODE = 'enrichment_image';
 
-    final public const CRITERION_COEFFICIENT = 2;
+    final public const int CRITERION_COEFFICIENT = 2;
 
     private readonly CriterionCode $code;
 

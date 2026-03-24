@@ -7,8 +7,8 @@ use Twig\Environment;
 
 class TwigTemplateProperty extends AbstractProperty
 {
-    final public const CONTEXT_KEY = 'context';
-    final public const TEMPLATE_KEY = 'template';
+    final public const string CONTEXT_KEY = 'context';
+    final public const string TEMPLATE_KEY = 'template';
 
     /** @var array */
     protected $excludeParams = [self::CONTEXT_KEY, self::TEMPLATE_KEY];

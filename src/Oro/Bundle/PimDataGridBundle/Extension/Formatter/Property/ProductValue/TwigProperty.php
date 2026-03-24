@@ -14,7 +14,7 @@ use Twig\Environment;
 class TwigProperty extends FieldProperty
 {
     /** @staticvar string */
-    final public const TEMPLATE_KEY = 'template';
+    final public const string TEMPLATE_KEY = 'template';
 
     public function __construct(protected Environment $environment)
     {
@@ -23,6 +23,7 @@ class TwigProperty extends FieldProperty
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function convertValue($value)
     {
         if ($value) {

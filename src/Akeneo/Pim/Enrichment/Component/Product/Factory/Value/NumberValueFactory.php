@@ -30,6 +30,7 @@ final class NumberValueFactory extends ScalarValueFactory implements ValueFactor
         return $this->createWithoutCheckingData($attribute, $channelCode, $localeCode, $data);
     }
 
+    #[\Override]
     public function createWithoutCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data): ValueInterface
     {
         $attributeCode = $attribute->code();

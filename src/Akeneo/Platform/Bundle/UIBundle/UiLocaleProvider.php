@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class UiLocaleProvider implements LocaleProviderInterface
 {
-    final public const MAIN_LOCALE = 'en_US';
+    final public const string MAIN_LOCALE = 'en_US';
     protected float $minPercentage;
 
     /**

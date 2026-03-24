@@ -17,6 +17,7 @@ class StyleExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFilters()
     {
         return [

@@ -26,10 +26,10 @@ use Symfony\Component\Security\Http\FirewallMapInterface;
 class UserContext
 {
     /** @staticvar string */
-    final public const REQUEST_LOCALE_PARAM = 'dataLocale';
+    final public const string REQUEST_LOCALE_PARAM = 'dataLocale';
 
     /** @staticvar string */
-    final public const USER_PRODUCT_CATEGORY_TYPE = 'product';
+    final public const string USER_PRODUCT_CATEGORY_TYPE = 'product';
 
     /** @var TokenStorageInterface */
     protected $tokenStorage;

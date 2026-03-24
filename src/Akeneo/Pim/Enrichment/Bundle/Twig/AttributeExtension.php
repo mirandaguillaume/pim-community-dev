@@ -18,6 +18,7 @@ class AttributeExtension extends \Twig\Extension\AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFunctions()
     {
         return [

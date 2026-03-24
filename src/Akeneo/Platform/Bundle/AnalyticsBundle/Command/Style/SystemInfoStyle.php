@@ -18,6 +18,7 @@ class SystemInfoStyle extends SymfonyStyle
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function table(array $headers, array $rows)
     {
         $headers = array_map(

@@ -33,10 +33,10 @@ use Webmozart\Assert\Assert;
  */
 final readonly class AssociationUserIntentCollectionApplier implements UserIntentApplier
 {
-    private const PRODUCTS = 'products';
-    private const PRODUCT_UUIDS = 'product_uuids';
-    private const PRODUCT_MODELS = 'product_models';
-    private const GROUPS = 'groups';
+    private const string PRODUCTS = 'products';
+    private const string PRODUCT_UUIDS = 'product_uuids';
+    private const string PRODUCT_MODELS = 'product_models';
+    private const string GROUPS = 'groups';
 
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,

@@ -23,6 +23,7 @@ class CategoryType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

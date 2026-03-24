@@ -68,6 +68,7 @@ class ReferenceDataAttributeCopier extends AbstractAttributeCopier
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsAttributes(AttributeInterface $fromAttribute, AttributeInterface $toAttribute)
     {
         $supportsFrom = in_array($fromAttribute->getType(), $this->supportedFromTypes);

@@ -24,8 +24,8 @@ class AddParametersToGridListener
      *
      * @staticvar string
      */
-    final public const GRID_PARAM_DATA_IN = 'data_in';
-    final public const GRID_PARAM_DATA_NOT_IN = 'data_not_in';
+    final public const string GRID_PARAM_DATA_IN = 'data_in';
+    final public const string GRID_PARAM_DATA_NOT_IN = 'data_not_in';
 
     /** @var RequestParameters */
     protected $requestParams;

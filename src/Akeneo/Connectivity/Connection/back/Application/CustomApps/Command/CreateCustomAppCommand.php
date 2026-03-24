@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[IsCustomAppsNumberLimitReached]final readonly class CreateCustomAppCommand
 {
-    private const MESSAGE_PREFIX = 'akeneo_connectivity.connection.connect.custom_apps.create_modal.errors.';
+    private const string MESSAGE_PREFIX = 'akeneo_connectivity.connection.connect.custom_apps.create_modal.errors.';
     public function __construct(
         #[Assert\NotBlank(message: self::MESSAGE_PREFIX . 'client_id.not_blank')]
         #[Assert\Length(max: 36, maxMessage: self::MESSAGE_PREFIX . 'client_id.max_length')]

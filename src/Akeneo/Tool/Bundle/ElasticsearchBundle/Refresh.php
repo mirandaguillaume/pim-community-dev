@@ -13,9 +13,9 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle;
  */
 final class Refresh
 {
-    public const ENABLE = true;
-    public const DISABLE = false;
-    public const WAIT_FOR = 'wait_for';
+    public const bool ENABLE = true;
+    public const bool DISABLE = false;
+    public const string WAIT_FOR = 'wait_for';
 
     /**
      * @param string $type

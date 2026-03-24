@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class RegisterIdentifierFilters
 {
-    final public const PRODUCT_DATAGRID_NAME = 'product-grid';
+    final public const string PRODUCT_DATAGRID_NAME = 'product-grid';
 
     public function __construct(
         private readonly GetAttributes $getAttributes,

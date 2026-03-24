@@ -30,6 +30,7 @@ class FamilyAttributeAsImage extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_family_attribute_as_image_validator';
@@ -38,6 +39,7 @@ class FamilyAttributeAsImage extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

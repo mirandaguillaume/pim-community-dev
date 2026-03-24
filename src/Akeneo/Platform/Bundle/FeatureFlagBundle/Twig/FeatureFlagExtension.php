@@ -12,6 +12,7 @@ class FeatureFlagExtension extends AbstractExtension
     {
     }
 
+    #[\Override]
     public function getFunctions()
     {
         return [

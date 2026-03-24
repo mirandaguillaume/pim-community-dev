@@ -15,6 +15,7 @@ class TemplateCodeShouldBeUnique extends Constraint
 {
     public string $message = 'akeneo.category.validation.template.code.unique';
 
+    #[\Override]
     public function validatedBy(): string
     {
         return TemplateCodeShouldBeUniqueValidator::class;

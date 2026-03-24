@@ -10,11 +10,13 @@ final class LocaleCode extends Constraint
 {
     public $message = 'pim_enrich.entity.locale.constraint.invalid_locale_code';
 
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_locale_code_validator';

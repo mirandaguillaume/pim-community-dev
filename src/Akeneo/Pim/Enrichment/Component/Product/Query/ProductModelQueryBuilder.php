@@ -10,6 +10,7 @@ class ProductModelQueryBuilder extends AbstractEntityWithValuesQueryBuilder
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function execute()
     {
         $this->addFilter('entity_type', Operators::EQUALS, ProductModelInterface::class);

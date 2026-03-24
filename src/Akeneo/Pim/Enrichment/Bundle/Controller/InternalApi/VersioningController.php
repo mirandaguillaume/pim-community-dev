@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class VersioningController
 {
-    private const MAX_VERSION_COUNT = 200;
+    private const int MAX_VERSION_COUNT = 200;
 
     public function __construct(
         private readonly VersionRepositoryInterface $versionRepository,

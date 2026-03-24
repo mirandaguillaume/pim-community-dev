@@ -14,6 +14,7 @@ class ProductValueRendererExtension extends AbstractExtension
     {
     }
 
+    #[\Override]
     public function getFunctions(): array
     {
         return [

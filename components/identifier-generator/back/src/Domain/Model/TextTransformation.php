@@ -14,9 +14,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class TextTransformation
 {
-    public const NO = 'no';
-    public const UPPERCASE = 'uppercase';
-    public const LOWERCASE = 'lowercase';
+    public const string NO = 'no';
+    public const string UPPERCASE = 'uppercase';
+    public const string LOWERCASE = 'lowercase';
 
     /**
      * @param TextTransformationNormalized $value

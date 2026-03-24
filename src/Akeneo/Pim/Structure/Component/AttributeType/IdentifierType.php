@@ -24,6 +24,7 @@ class IdentifierType extends AbstractAttributeType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isUnique()
     {
         return true;

@@ -17,13 +17,13 @@ use Symfony\Component\DependencyInjection\Definition;
 class RegisterViewElementsPass implements CompilerPassInterface
 {
     /** @staticvar int The default view element position */
-    final public const DEFAULT_POSITION = 100;
+    final public const int DEFAULT_POSITION = 100;
 
     /** @staticvar string The registry id */
-    final public const REGISTRY_ID = 'pim_enrich.view_element.registry';
+    final public const string REGISTRY_ID = 'pim_enrich.view_element.registry';
 
     /** @staticvar string */
-    final public const VIEW_ELEMENT_TAG = 'pim_enrich.view_element';
+    final public const string VIEW_ELEMENT_TAG = 'pim_enrich.view_element';
 
     /** @var ReferenceFactory */
     protected $factory;

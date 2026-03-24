@@ -14,7 +14,7 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker;
  */
 final readonly class RoleWithPermissions implements ArrayConverterInterface
 {
-    private const FIELDS_PRESENCE = ['role'];
+    private const array FIELDS_PRESENCE = ['role'];
 
     public function __construct(private FieldsRequirementChecker $fieldsRequirementChecker)
     {

@@ -27,6 +27,7 @@ class LocaleExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFunctions()
     {
         return [
@@ -40,6 +41,7 @@ class LocaleExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFilters()
     {
         return [

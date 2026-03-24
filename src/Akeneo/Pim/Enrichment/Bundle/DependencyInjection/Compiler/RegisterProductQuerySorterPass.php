@@ -16,13 +16,13 @@ use Symfony\Component\DependencyInjection\Reference;
 class RegisterProductQuerySorterPass implements CompilerPassInterface
 {
     /** @staticvar integer */
-    final public const DEFAULT_PRIORITY = 25;
+    final public const int DEFAULT_PRIORITY = 25;
 
     /** @staticvar string */
-    final public const QUERY_SORTER_REGISTRY = 'pim_catalog.query.sorter.registry';
+    final public const string QUERY_SORTER_REGISTRY = 'pim_catalog.query.sorter.registry';
 
     /** @staticvar string */
-    final public const QUERY_SORTER_TAG = 'pim_catalog.elasticsearch.query.sorter';
+    final public const string QUERY_SORTER_TAG = 'pim_catalog.elasticsearch.query.sorter';
 
     /**
      * {@inheritdoc}

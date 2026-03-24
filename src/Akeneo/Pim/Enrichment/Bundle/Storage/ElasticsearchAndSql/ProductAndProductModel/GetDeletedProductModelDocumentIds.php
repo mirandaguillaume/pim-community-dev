@@ -18,7 +18,7 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class GetDeletedProductModelDocumentIds
 {
-    private const CHUNK_SIZE = 500;
+    private const int CHUNK_SIZE = 500;
 
     public function __construct(private Client $esClient, private Connection $connection)
     {

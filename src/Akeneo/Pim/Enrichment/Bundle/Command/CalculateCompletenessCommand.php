@@ -29,7 +29,7 @@ class CalculateCompletenessCommand extends Command
 {
     use LockableTrait;
 
-    private const DEFAULT_BATCH_SIZE = 1000;
+    private const int DEFAULT_BATCH_SIZE = 1000;
 
     public function __construct(
         private readonly ProductAndAncestorsIndexer $productAndAncestorsIndexer,

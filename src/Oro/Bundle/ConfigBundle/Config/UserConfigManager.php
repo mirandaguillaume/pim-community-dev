@@ -33,6 +33,7 @@ class UserConfigManager extends ConfigManager
     /**
      * @return string
      */
+    #[\Override]
     public function getScopedEntityName()
     {
         return 'user';
@@ -41,6 +42,7 @@ class UserConfigManager extends ConfigManager
     /**
      * @return int
      */
+    #[\Override]
     public function getScopeId()
     {
         return 0;

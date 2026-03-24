@@ -26,7 +26,7 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface as SID;
  */
 class AclPrivilegeRepository implements EventDispatcherAware
 {
-    final public const ROOT_PRIVILEGE_NAME = '(default)';
+    final public const string ROOT_PRIVILEGE_NAME = '(default)';
 
     /**
      * @var AclManager

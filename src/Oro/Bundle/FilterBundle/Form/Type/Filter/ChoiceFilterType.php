@@ -16,6 +16,7 @@ class ChoiceFilterType extends AbstractChoiceType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -24,6 +25,7 @@ class ChoiceFilterType extends AbstractChoiceType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return FilterType::class;
@@ -52,6 +54,7 @@ class ChoiceFilterType extends AbstractChoiceType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         parent::finishView($view, $form, $options);

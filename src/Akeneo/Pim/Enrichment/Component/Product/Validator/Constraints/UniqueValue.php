@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueValue extends Constraint
 {
-    final public const UNIQUE_VALUE = '4313666f-d637-4c7a-a515-0cf9693ca5ef';
+    final public const string UNIQUE_VALUE = '4313666f-d637-4c7a-a515-0cf9693ca5ef';
 
     /** @var string */
     public $message = 'The {{ attribute_code }} attribute can not have the same value more than once. The {{ value }} value is already set on another product.';
@@ -21,6 +21,7 @@ class UniqueValue extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_unique_value_validator';
@@ -29,6 +30,7 @@ class UniqueValue extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

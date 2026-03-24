@@ -140,6 +140,7 @@ class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFi
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsAttribute(AttributeInterface $attribute)
     {
         $referenceDataName = $attribute->getReferenceDataName();

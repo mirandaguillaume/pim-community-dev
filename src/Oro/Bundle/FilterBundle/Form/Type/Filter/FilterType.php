@@ -13,10 +13,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FilterType extends AbstractType
 {
-    final public const NAME = 'oro_type_filter';
-    final public const TYPE_EMPTY = 'empty';
-    final public const TYPE_NOT_EMPTY = 'not empty';
-    final public const TYPE_IN_LIST = 'in';
+    final public const string NAME = 'oro_type_filter';
+    final public const string TYPE_EMPTY = 'empty';
+    final public const string TYPE_NOT_EMPTY = 'not empty';
+    final public const string TYPE_IN_LIST = 'in';
 
     public function __construct(protected TranslatorInterface $translator)
     {
@@ -25,6 +25,7 @@ class FilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

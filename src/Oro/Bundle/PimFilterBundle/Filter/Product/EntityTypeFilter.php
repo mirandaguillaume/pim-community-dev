@@ -16,8 +16,9 @@ use Oro\Bundle\FilterBundle\Filter\ChoiceFilter;
  */
 class EntityTypeFilter extends ChoiceFilter
 {
-    final public const ENTITY_TYPE_PRODUCT = 'product';
+    final public const string ENTITY_TYPE_PRODUCT = 'product';
 
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);

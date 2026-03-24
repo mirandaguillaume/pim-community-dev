@@ -23,6 +23,7 @@ final class QualityScoreSorter extends BaseFieldSorter
         parent::__construct($supportedFields);
     }
 
+    #[\Override]
     public function addFieldSorter($field, $direction, $locale = null, $channel = null): FieldSorterInterface
     {
         $field = sprintf('data_quality_insights.%s.%s.%s', ($this->getScoresProperty)(), $channel, $locale);

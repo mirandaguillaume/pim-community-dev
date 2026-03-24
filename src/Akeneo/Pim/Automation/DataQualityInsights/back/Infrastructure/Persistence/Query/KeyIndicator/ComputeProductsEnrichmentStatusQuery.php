@@ -21,7 +21,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
  */
 final readonly class ComputeProductsEnrichmentStatusQuery implements ComputeProductsKeyIndicator
 {
-    private const GOOD_ENRICHMENT_RATIO = 80;
+    private const int GOOD_ENRICHMENT_RATIO = 80;
 
     public function __construct(
         private GetLocalesByChannelQueryInterface                        $getLocalesByChannelQuery,

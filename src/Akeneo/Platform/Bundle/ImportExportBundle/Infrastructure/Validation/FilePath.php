@@ -8,8 +8,8 @@ use Symfony\Component\Validator\Constraint;
 
 class FilePath extends Constraint
 {
-    final public const UNSUPPORTED_EXTENSION = 'pim_import_export.form.job_instance.validation.file_path.unsupported_extension';
-    final public const NON_PRINTABLE_FILE_PATH = 'pim_import_export.form.job_instance.validation.file_path.non_printable_filepath';
+    final public const string UNSUPPORTED_EXTENSION = 'pim_import_export.form.job_instance.validation.file_path.unsupported_extension';
+    final public const string NON_PRINTABLE_FILE_PATH = 'pim_import_export.form.job_instance.validation.file_path.non_printable_filepath';
 
     public function __construct(
         /** @var string[] */

@@ -48,6 +48,7 @@ class ChoiceFilter extends AbstractFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getMetadata()
     {
         $formView = $this->getForm()->createView();

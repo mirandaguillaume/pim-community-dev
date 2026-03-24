@@ -32,6 +32,7 @@ class AclAccessLevelSelectorType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return CheckboxType::class;
@@ -40,6 +41,7 @@ class AclAccessLevelSelectorType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_acl_access_level_selector';

@@ -10,8 +10,8 @@ use GuzzleHttp\Client;
 
 class FetchFamilyTemplates implements FetchFamilyTemplatesInterface
 {
-    private const MINIFIED_DIRECTORY = '/dist';
-    private const TEMPLATES_DIRECTORY = '/templates/families';
+    private const string MINIFIED_DIRECTORY = '/dist';
+    private const string TEMPLATES_DIRECTORY = '/templates/families';
 
     private readonly Client $client;
 

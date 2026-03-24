@@ -18,7 +18,7 @@ use Symfony\Component\Lock\LockInterface;
 
 class CategorySaver implements SaverInterface, BulkSaverInterface
 {
-    private const LOCK_TTL_IN_SECONDS = 10;
+    private const int LOCK_TTL_IN_SECONDS = 10;
 
     public function __construct(private readonly ObjectManager $objectManager, private readonly EventDispatcherInterface $eventDispatcher, private readonly LockFactory $lockFactory)
     {

@@ -37,8 +37,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ProductModelProcessor extends AbstractProcessor implements ItemProcessorInterface, StepExecutionAwareInterface, NonBlockingWarningAggregatorInterface
 {
-    private const SUB_PRODUCT_MODEL = 'sub_product_model';
-    private const ROOT_PRODUCT_MODEL = 'root_product_model';
+    private const string SUB_PRODUCT_MODEL = 'sub_product_model';
+    private const string ROOT_PRODUCT_MODEL = 'root_product_model';
 
     private readonly \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $productModelRepository;
 

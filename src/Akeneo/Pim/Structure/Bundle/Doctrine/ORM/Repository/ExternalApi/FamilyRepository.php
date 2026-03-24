@@ -72,6 +72,7 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
      *
      * @return int
      */
+    #[\Override]
     public function count(array $searchFilters = []): int
     {
         try {

@@ -18,7 +18,7 @@ use Akeneo\Tool\Component\Connector\Step\TaskletInterface;
  */
 final class SchedulePeriodicTasksTasklet implements TaskletInterface
 {
-    protected const JOB_CODE = 'schedule_dqi_periodic_tasks';
+    protected const string JOB_CODE = 'schedule_dqi_periodic_tasks';
 
     protected StepExecution $stepExecution;
 

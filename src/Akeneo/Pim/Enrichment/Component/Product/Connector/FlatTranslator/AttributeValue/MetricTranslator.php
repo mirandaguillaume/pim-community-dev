@@ -10,7 +10,7 @@ use Akeneo\Tool\Bundle\MeasureBundle\ServiceApi\GetUnitTranslations;
 
 class MetricTranslator implements FlatAttributeValueTranslatorInterface
 {
-    private const UNIT_SUFFIX = '-unit';
+    private const string UNIT_SUFFIX = '-unit';
 
     public function __construct(private readonly GetUnitTranslations $getUnitTranslations)
     {

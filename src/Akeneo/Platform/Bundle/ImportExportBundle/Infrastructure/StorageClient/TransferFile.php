@@ -13,7 +13,7 @@ use Akeneo\Platform\Bundle\ImportExportBundle\Domain\StorageClientInterface;
 
 final class TransferFile
 {
-    private const TEMPORARY_DESTINATION_FILE_PATH_PREFIX = '.tmp-';
+    private const string TEMPORARY_DESTINATION_FILE_PATH_PREFIX = '.tmp-';
 
     public function transfer(
         StorageClientInterface $sourceFilesystem,

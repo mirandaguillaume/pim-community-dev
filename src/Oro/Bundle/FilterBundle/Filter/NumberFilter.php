@@ -73,6 +73,7 @@ class NumberFilter extends AbstractFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getMetadata()
     {
         $metadata = parent::getMetadata();

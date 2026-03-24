@@ -14,8 +14,8 @@ use Webmozart\Assert\Assert;
  */
 class QuantifiedAssociationCollection
 {
-    private const PRODUCT_MODELS_QUANTIFIED_LINKS_KEY = 'product_models';
-    private const PRODUCTS_QUANTIFIED_LINKS_KEY = 'products';
+    private const string PRODUCT_MODELS_QUANTIFIED_LINKS_KEY = 'product_models';
+    private const string PRODUCTS_QUANTIFIED_LINKS_KEY = 'products';
 
     private function __construct(
         private readonly array $quantifiedAssociations

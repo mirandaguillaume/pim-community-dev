@@ -25,8 +25,8 @@ use Webmozart\Assert\Assert;
  */
 final class PayloadFormatValidator extends ConstraintValidator
 {
-    private const WRONG_LOCALE_FORMAT = 'Property "%s" expects an array with the key "locale" as string. Check the expected format on the API documentation.';
-    private const WRONG_SCOPE_FORMAT = 'Property "%s" expects an array with the key "scope" as string. Check the expected format on the API documentation.';
+    private const string WRONG_LOCALE_FORMAT = 'Property "%s" expects an array with the key "locale" as string. Check the expected format on the API documentation.';
+    private const string WRONG_SCOPE_FORMAT = 'Property "%s" expects an array with the key "scope" as string. Check the expected format on the API documentation.';
 
     /** @var array<string, string> */
     private array $attributeTypeByCodes = [];

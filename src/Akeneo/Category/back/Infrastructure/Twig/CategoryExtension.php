@@ -29,6 +29,7 @@ class CategoryExtension extends AbstractExtension
         $this->categoryItemsCounter = $categoryItemsCounter;
     }
 
+    #[\Override]
     public function getFunctions()
     {
         return [

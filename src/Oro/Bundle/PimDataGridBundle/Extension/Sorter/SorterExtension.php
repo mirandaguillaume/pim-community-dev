@@ -17,13 +17,13 @@ use Oro\Bundle\DataGridBundle\Extension\AbstractExtension;
 class SorterExtension extends AbstractExtension
 {
     /** @staticvar string Query param */
-    final public const SORTERS_ROOT_PARAM = '_sort_by';
+    final public const string SORTERS_ROOT_PARAM = '_sort_by';
 
     /** @staticvar string Ascending sorting direction */
-    final public const DIRECTION_ASC = "ASC";
+    final public const string DIRECTION_ASC = "ASC";
 
     /** @staticvar string Descending sorting direction */
-    final public const DIRECTION_DESC = "DESC";
+    final public const string DIRECTION_DESC = "DESC";
 
     /**
      * @var SorterInterface[]
@@ -117,6 +117,7 @@ class SorterExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getPriority()
     {
         // should visit after all extensions

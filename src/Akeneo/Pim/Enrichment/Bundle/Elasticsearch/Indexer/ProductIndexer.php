@@ -23,8 +23,8 @@ use Ramsey\Uuid\UuidInterface;
  */
 class ProductIndexer implements ProductIndexerInterface
 {
-    private const PRODUCT_IDENTIFIER_PREFIX = 'product_';
-    private const BATCH_SIZE = 500;
+    private const string PRODUCT_IDENTIFIER_PREFIX = 'product_';
+    private const int BATCH_SIZE = 500;
 
     public function __construct(
         private readonly Client $productAndProductModelClient,

@@ -13,11 +13,11 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterVersionPurgerAdvisorPass implements CompilerPassInterface
 {
-    final public const DEFAULT_PRIORITY = 100;
+    final public const int DEFAULT_PRIORITY = 100;
 
-    final public const REGISTRY_ID = 'pim_versioning.purger.version';
+    final public const string REGISTRY_ID = 'pim_versioning.purger.version';
 
-    final public const ADVISOR_TAG_NAME = 'pim_versioning.purger.advisor';
+    final public const string ADVISOR_TAG_NAME = 'pim_versioning.purger.advisor';
 
     /**
      * {@inheritdoc}

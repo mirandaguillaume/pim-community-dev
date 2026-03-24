@@ -10,9 +10,9 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  */
 final readonly class DashboardProjectionType implements \Stringable
 {
-    public const CATALOG = 'catalog';
-    public const CATEGORY = 'category';
-    public const FAMILY = 'family';
+    public const string CATALOG = 'catalog';
+    public const string CATEGORY = 'category';
+    public const string FAMILY = 'family';
 
     private function __construct(private string $type)
     {

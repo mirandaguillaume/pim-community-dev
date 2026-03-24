@@ -9,8 +9,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroFilterExtension extends Extension
 {
-    final public const PARAMETER_TWIG_LAYOUT = 'oro_filter.twig.layout';
-    final public const PARAMETER_TWIG_HEADER = 'oro_filter.twig.header';
+    final public const string PARAMETER_TWIG_LAYOUT = 'oro_filter.twig.layout';
+    final public const string PARAMETER_TWIG_HEADER = 'oro_filter.twig.header';
 
     /**
      * {@inheritdoc}

@@ -11,10 +11,8 @@ class RequiredAttributesMaskForChannelAndLocale
 {
     /**
      * This separator should not be allowed in attribute codes
-     *
-     * @var string
      */
-    final public const ATTRIBUTE_CHANNEL_LOCALE_SEPARATOR = '-';
+    final public const string ATTRIBUTE_CHANNEL_LOCALE_SEPARATOR = '-';
 
     /**
      * @param string[] $mask

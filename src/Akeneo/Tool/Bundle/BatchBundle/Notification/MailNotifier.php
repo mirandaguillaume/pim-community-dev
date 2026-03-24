@@ -19,8 +19,8 @@ use Twig\Environment;
  */
 class MailNotifier implements Notifier
 {
-    private const SUCCESS_SUBJECT_TEMPLATE = 'Akeneo successfully completed your "%s" job';
-    private const FAILURE_SUBJECT_TEMPLATE = 'Akeneo completed your "%s" job with errors';
+    private const string SUCCESS_SUBJECT_TEMPLATE = 'Akeneo successfully completed your "%s" job';
+    private const string FAILURE_SUBJECT_TEMPLATE = 'Akeneo completed your "%s" job with errors';
 
     private array $recipientEmails = [];
 

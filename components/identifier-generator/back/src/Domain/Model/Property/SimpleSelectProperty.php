@@ -24,7 +24,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class SimpleSelectProperty implements PropertyInterface
 {
-    private const TYPE = 'simple_select';
+    private const string TYPE = 'simple_select';
 
     private function __construct(
         private string $attributeCode,

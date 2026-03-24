@@ -15,6 +15,7 @@ class CsvUserReader extends Reader
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function read(): ?array
     {
         $item = parent::read();

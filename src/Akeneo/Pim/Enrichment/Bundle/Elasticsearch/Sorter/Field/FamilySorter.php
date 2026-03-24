@@ -33,6 +33,7 @@ class FamilySorter extends BaseFieldSorter
         $this->localeRepository = $localeRepository;
     }
 
+    #[\Override]
     public function addFieldSorter($field, $direction, $locale = null, $channel = null): FieldSorterInterface
     {
         if (null === $this->searchQueryBuilder) {

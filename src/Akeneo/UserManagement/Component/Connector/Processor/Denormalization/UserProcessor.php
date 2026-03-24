@@ -47,6 +47,7 @@ class UserProcessor extends Processor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function process($item): ?UserInterface
     {
         if ($item['password'] ?? null) {

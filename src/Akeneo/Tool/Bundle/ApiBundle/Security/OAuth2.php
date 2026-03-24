@@ -29,6 +29,7 @@ class OAuth2 extends BaseOAuth2
         parent::__construct($storage, $config);
     }
 
+    #[\Override]
     public function verifyAccessToken(string $tokenParam, ?string $scope = null): IOAuth2AccessToken
     {
         try {
@@ -59,6 +60,7 @@ class OAuth2 extends BaseOAuth2
      *
      * @throws OAuth2ServerException
      */
+    #[\Override]
     public function grantAccessToken(?Request $request = null): Response
     {
         $response = parent::grantAccessToken($request);

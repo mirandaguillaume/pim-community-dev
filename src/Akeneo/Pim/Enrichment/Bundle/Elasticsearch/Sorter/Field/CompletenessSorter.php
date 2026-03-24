@@ -23,6 +23,7 @@ class CompletenessSorter extends BaseFieldSorter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function addFieldSorter($field, $direction, $locale = null, $channel = null): FieldSorterInterface
     {
         $this->checkLocaleAndChannel($locale, $channel);

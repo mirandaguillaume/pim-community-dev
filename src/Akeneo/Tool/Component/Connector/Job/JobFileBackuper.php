@@ -9,7 +9,7 @@ use League\Flysystem\FilesystemOperator;
 
 class JobFileBackuper
 {
-    private const BACKUP_DIR = 'backup';
+    private const string BACKUP_DIR = 'backup';
 
     public function __construct(
         private readonly FilesystemOperator $filesystemOperator,

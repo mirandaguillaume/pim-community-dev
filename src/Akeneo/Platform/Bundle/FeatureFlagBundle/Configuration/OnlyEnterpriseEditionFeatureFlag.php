@@ -13,7 +13,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 
 final readonly class OnlyEnterpriseEditionFeatureFlag implements FeatureFlag
 {
-    private const EDITIONS = [
+    private const array EDITIONS = [
         'flexibility_instance',
         'serenity_instance',
     ];

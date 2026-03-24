@@ -20,6 +20,7 @@ class CustomFormExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function loadTypes(): array
     {
         return $this->initialTypes;

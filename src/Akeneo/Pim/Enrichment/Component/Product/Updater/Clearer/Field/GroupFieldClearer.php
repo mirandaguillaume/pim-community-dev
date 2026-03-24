@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  */
 final class GroupFieldClearer implements ClearerInterface
 {
-    private const SUPPORTED_FIELD = 'groups';
+    private const string SUPPORTED_FIELD = 'groups';
 
     /**
      * {@inheritDoc}

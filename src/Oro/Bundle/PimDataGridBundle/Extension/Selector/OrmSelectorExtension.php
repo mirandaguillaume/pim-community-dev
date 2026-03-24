@@ -18,10 +18,7 @@ use Oro\Bundle\DataGridBundle\Extension\Formatter\Configuration as FormatterConf
  */
 class OrmSelectorExtension extends AbstractExtension
 {
-    /**
-     * @var string
-     */
-    final public const COLUMN_SELECTOR_PATH = 'selector';
+    final public const string COLUMN_SELECTOR_PATH = 'selector';
 
     /**
      * @var SelectorInterface[]
@@ -81,6 +78,7 @@ class OrmSelectorExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getPriority()
     {
         return -400;

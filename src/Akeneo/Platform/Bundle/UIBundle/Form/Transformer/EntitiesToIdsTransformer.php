@@ -14,6 +14,7 @@ class EntitiesToIdsTransformer extends EntityToIdTransformer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function transform($value)
     {
         if (null === $value || [] === $value) {
@@ -36,6 +37,7 @@ class EntitiesToIdsTransformer extends EntityToIdTransformer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function reverseTransform($value)
     {
         if (!is_array($value) && !$value instanceof \Traversable) {

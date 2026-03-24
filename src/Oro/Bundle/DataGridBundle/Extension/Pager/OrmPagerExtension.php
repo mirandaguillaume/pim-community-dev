@@ -24,11 +24,11 @@ class OrmPagerExtension extends AbstractExtension
     /**
      * Query params
      */
-    final public const PAGER_ROOT_PARAM = '_pager';
-    final public const PAGE_PARAM = '_page';
-    final public const PER_PAGE_PARAM = '_per_page';
+    final public const string PAGER_ROOT_PARAM = '_pager';
+    final public const string PAGE_PARAM = '_page';
+    final public const string PER_PAGE_PARAM = '_per_page';
 
-    final public const TOTAL_PARAM = 'totalRecords';
+    final public const string TOTAL_PARAM = 'totalRecords';
 
     /** @var Pager */
     protected $pager;
@@ -96,6 +96,7 @@ class OrmPagerExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getPriority()
     {
         // Pager should proceed closest to end of accepting chain

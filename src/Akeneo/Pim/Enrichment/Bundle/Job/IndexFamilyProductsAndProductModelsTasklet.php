@@ -31,7 +31,7 @@ use Webmozart\Assert\Assert;
  */
 final class IndexFamilyProductsAndProductModelsTasklet implements TaskletInterface, TrackableTaskletInterface
 {
-    private const DEFAULT_BATCH_SIZE = 100;
+    private const int DEFAULT_BATCH_SIZE = 100;
 
     private StepExecution $stepExecution;
 

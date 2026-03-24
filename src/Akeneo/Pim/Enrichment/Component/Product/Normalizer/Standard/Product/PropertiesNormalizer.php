@@ -18,17 +18,17 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class PropertiesNormalizer implements NormalizerInterface
 {
-    final public const FIELD_UUID = 'uuid';
-    final public const FIELD_IDENTIFIER = 'identifier';
-    final public const FIELD_LABEL = 'label';
-    final public const FIELD_FAMILY = 'family';
-    final public const FIELD_PARENT = 'parent';
-    final public const FIELD_GROUPS = 'groups';
-    final public const FIELD_CATEGORIES = 'categories';
-    final public const FIELD_ENABLED = 'enabled';
-    final public const FIELD_VALUES = 'values';
-    final public const FIELD_CREATED = 'created';
-    final public const FIELD_UPDATED = 'updated';
+    final public const string FIELD_UUID = 'uuid';
+    final public const string FIELD_IDENTIFIER = 'identifier';
+    final public const string FIELD_LABEL = 'label';
+    final public const string FIELD_FAMILY = 'family';
+    final public const string FIELD_PARENT = 'parent';
+    final public const string FIELD_GROUPS = 'groups';
+    final public const string FIELD_CATEGORIES = 'categories';
+    final public const string FIELD_ENABLED = 'enabled';
+    final public const string FIELD_VALUES = 'values';
+    final public const string FIELD_CREATED = 'created';
+    final public const string FIELD_UPDATED = 'updated';
 
     public function __construct(private readonly CollectionFilterInterface $filter, private readonly NormalizerInterface $normalizer)
     {

@@ -11,12 +11,13 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueVariantAxis extends Constraint
 {
-    final public const DUPLICATE_VALUE_IN_PRODUCT_MODEL = 'pim_catalog.constraint.product_model_with_same_axis_value_already_exists';
-    final public const DUPLICATE_VALUE_IN_VARIANT_PRODUCT = 'pim_catalog.constraint.variant_product_with_same_axis_value_already_exists';
+    final public const string DUPLICATE_VALUE_IN_PRODUCT_MODEL = 'pim_catalog.constraint.product_model_with_same_axis_value_already_exists';
+    final public const string DUPLICATE_VALUE_IN_VARIANT_PRODUCT = 'pim_catalog.constraint.variant_product_with_same_axis_value_already_exists';
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_unique_variant_axes_validator';
@@ -25,6 +26,7 @@ class UniqueVariantAxis extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return Constraint::CLASS_CONSTRAINT;

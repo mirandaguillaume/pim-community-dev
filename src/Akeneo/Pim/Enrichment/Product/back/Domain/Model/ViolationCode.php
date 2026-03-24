@@ -10,9 +10,9 @@ namespace Akeneo\Pim\Enrichment\Product\Domain\Model;
  */
 final class ViolationCode
 {
-    public const PERMISSION = 1;
-    public const USER_IS_NOT_OWNER = 2;
-    public const USER_CANNOT_EDIT_ATTRIBUTE = 4;
+    public const int PERMISSION = 1;
+    public const int USER_IS_NOT_OWNER = 2;
+    public const int USER_CANNOT_EDIT_ATTRIBUTE = 4;
 
     public static function buildGlobalViolationCode(int ...$violationCodes): int
     {

@@ -29,7 +29,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PublishJobToQueueCommand extends Command
 {
-    final public const EXIT_SUCCESS_CODE = 0;
+    final public const int EXIT_SUCCESS_CODE = 0;
 
     public function __construct(
         private readonly PublishJobToQueueInterface $publishJobToQueue,

@@ -16,13 +16,13 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class RegisterGenericProvidersPass implements CompilerPassInterface
 {
     /** @staticvar int The default provider priority */
-    final public const DEFAULT_PRIORITY = 100;
+    final public const int DEFAULT_PRIORITY = 100;
 
     /** @staticvar string The registry id */
-    final public const REGISTRY_ID = 'pim_enrich.provider.%s.chained';
+    final public const string REGISTRY_ID = 'pim_enrich.provider.%s.chained';
 
     /** @staticvar string */
-    final public const PROVIDER_TAG = 'pim_enrich.provider.%s';
+    final public const string PROVIDER_TAG = 'pim_enrich.provider.%s';
 
     /** @var ReferenceFactory */
     protected $factory;

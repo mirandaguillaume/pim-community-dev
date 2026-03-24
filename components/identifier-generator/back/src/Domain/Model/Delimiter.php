@@ -13,7 +13,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class Delimiter
 {
-    public const LENGTH_LIMIT = 100;
+    public const int LENGTH_LIMIT = 100;
 
     private function __construct(
         private ?string $value,

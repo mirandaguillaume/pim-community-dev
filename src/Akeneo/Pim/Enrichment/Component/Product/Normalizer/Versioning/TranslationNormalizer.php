@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class TranslationNormalizer implements NormalizerInterface
 {
-    final public const LABEL_SEPARATOR = '-';
+    final public const string LABEL_SEPARATOR = '-';
 
     /**  @var string[] */
     protected $supportedFormats = ['flat'];

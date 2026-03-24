@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class AverageMaxCategoryLevels implements AverageMaxQuery
 {
-    private const VOLUME_NAME = 'average_max_category_levels';
+    private const string VOLUME_NAME = 'average_max_category_levels';
 
     public function __construct(private readonly Connection $connection)
     {

@@ -13,9 +13,9 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface;
  */
 class ProductAssociation implements ArrayConverterInterface
 {
-    final public const QUANTITY_SEPARATOR = '|';
+    final public const string QUANTITY_SEPARATOR = '|';
 
-    final public const IDENTIFIER_SEPARATOR = ',';
+    final public const string IDENTIFIER_SEPARATOR = ',';
 
     /** @var ArrayConverterInterface */
     protected $productConverter;

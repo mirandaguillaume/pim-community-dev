@@ -18,8 +18,9 @@ class RenderLayoutExtension extends AbstractExtension
     /**
      * JS block suffix
      */
-    final public const SUFFIX = '_js';
+    final public const string SUFFIX = '_js';
 
+    #[\Override]
     public function getFunctions(): array
     {
         return [
@@ -61,6 +62,7 @@ class RenderLayoutExtension extends AbstractExtension
         return '';
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [

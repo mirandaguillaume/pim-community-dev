@@ -24,7 +24,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class InitializeProductsEvaluationsCommand extends Command
 {
-    private const BATCH_SIZE = 100;
+    private const int BATCH_SIZE = 100;
 
     public function __construct(
         private readonly Connection $dbConnection,

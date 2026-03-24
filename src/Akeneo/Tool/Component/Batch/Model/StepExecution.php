@@ -27,9 +27,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'akeneo_batch_step_execution')]
 class StepExecution implements \Stringable
 {
-    private const TRACKING_DATA_PROCESSED_ITEMS = 'processedItems';
-    private const TRACKING_DATA_TOTAL_ITEMS = 'totalItems';
-    private const TRACKING_DATA_DEFAULT = [
+    private const string TRACKING_DATA_PROCESSED_ITEMS = 'processedItems';
+    private const string TRACKING_DATA_TOTAL_ITEMS = 'totalItems';
+    private const array TRACKING_DATA_DEFAULT = [
         self::TRACKING_DATA_PROCESSED_ITEMS => 0,
         self::TRACKING_DATA_TOTAL_ITEMS => 0,
     ];

@@ -20,7 +20,7 @@ class OrmFilterExtension extends AbstractExtension
     /**
      * Query param
      */
-    final public const FILTER_ROOT_PARAM = '_filter';
+    final public const string FILTER_ROOT_PARAM = '_filter';
 
     /** @var FilterInterface[] */
     protected $filters = [];

@@ -13,14 +13,16 @@ use Symfony\Component\Validator\Constraint;
  */
 class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUnits extends Constraint
 {
-    final public const MEASUREMENT_FAMILY_UNIT_REMOVAL_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_units_is_locked_for_updates';
-    final public const MEASUREMENT_FAMILY_OPERATION_UPDATE_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_unit_operations_locked_for_updates';
+    final public const string MEASUREMENT_FAMILY_UNIT_REMOVAL_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_units_is_locked_for_updates';
+    final public const string MEASUREMENT_FAMILY_OPERATION_UPDATE_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_unit_operations_locked_for_updates';
 
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;
     }
 
+    #[\Override]
     public function validatedBy(): string
     {
         return 'akeneo_measurement.validation.create_measurement_family.when_used_in_a_product_attribute_should_be_able_to_update_only_labels_and_symbol_and_add_units';

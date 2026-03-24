@@ -20,6 +20,7 @@ class AttributeOptionNormalizer extends BaseNormalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof AttributeOptionInterface && in_array($format, $this->supportedFormats);
@@ -28,6 +29,7 @@ class AttributeOptionNormalizer extends BaseNormalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         if (array_key_exists('field_name', $context)) {
@@ -51,6 +53,7 @@ class AttributeOptionNormalizer extends BaseNormalizer
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function normalizeLabels(AttributeOptionInterface $entity, $context): array
     {
         $labels = [];

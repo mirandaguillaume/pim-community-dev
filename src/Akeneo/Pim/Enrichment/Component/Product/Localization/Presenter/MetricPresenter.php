@@ -34,6 +34,7 @@ class MetricPresenter extends NumberPresenter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function present($value, array $options = [])
     {
         if (isset($options['versioned_attribute'])) {

@@ -82,6 +82,7 @@ class DateType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return BaseDateType::class;
@@ -90,6 +91,7 @@ class DateType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_date';

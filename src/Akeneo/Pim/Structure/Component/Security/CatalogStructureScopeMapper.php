@@ -13,10 +13,10 @@ use Akeneo\Connectivity\Connection\Infrastructure\Apps\Security\ScopeMapperInter
  */
 class CatalogStructureScopeMapper implements ScopeMapperInterface
 {
-    private const SCOPE_READ_CATALOG_STRUCTURE = 'read_catalog_structure';
-    private const SCOPE_WRITE_CATALOG_STRUCTURE = 'write_catalog_structure';
+    private const string SCOPE_READ_CATALOG_STRUCTURE = 'read_catalog_structure';
+    private const string SCOPE_WRITE_CATALOG_STRUCTURE = 'write_catalog_structure';
 
-    private const SCOPE_ACL_MAP = [
+    private const array SCOPE_ACL_MAP = [
         self::SCOPE_READ_CATALOG_STRUCTURE => [
             'pim_api_attribute_list',
             'pim_api_attribute_group_list',
@@ -31,7 +31,7 @@ class CatalogStructureScopeMapper implements ScopeMapperInterface
         ],
     ];
 
-    private const SCOPE_MESSAGE_MAP = [
+    private const array SCOPE_MESSAGE_MAP = [
         self::SCOPE_READ_CATALOG_STRUCTURE => [
             'icon' => 'catalog_structure',
             'type' => 'view',
@@ -44,7 +44,7 @@ class CatalogStructureScopeMapper implements ScopeMapperInterface
         ],
     ];
 
-    private const SCOPE_HIERARCHY = [
+    private const array SCOPE_HIERARCHY = [
         self::SCOPE_READ_CATALOG_STRUCTURE => [],
         self::SCOPE_WRITE_CATALOG_STRUCTURE => [
             self::SCOPE_READ_CATALOG_STRUCTURE,

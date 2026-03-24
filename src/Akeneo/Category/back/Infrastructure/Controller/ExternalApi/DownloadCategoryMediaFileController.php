@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 final readonly class DownloadCategoryMediaFileController
 {
-    private const CATEGORY_STORAGE_ALIAS = 'categoryStorage';
+    private const string CATEGORY_STORAGE_ALIAS = 'categoryStorage';
 
     public function __construct(
         private SecurityFacade $securityFacade,

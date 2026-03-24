@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class Boolean extends Constraint
 {
-    final public const NOT_BOOLEAN_ERROR = '541d44c2-0cec-4b43-87f7-5df101b2a951';
+    final public const string NOT_BOOLEAN_ERROR = '541d44c2-0cec-4b43-87f7-5df101b2a951';
 
     public string $message = 'pim_catalog.constraint.boolean.boolean_value_is_required';
 
@@ -22,6 +22,7 @@ class Boolean extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

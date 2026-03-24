@@ -21,7 +21,7 @@ class Extension
     /** @var array<string> */
     private array $categories;
 
-    private const REQUIRED_KEYS = [
+    private const array REQUIRED_KEYS = [
         'id',
         'name',
         'logo',

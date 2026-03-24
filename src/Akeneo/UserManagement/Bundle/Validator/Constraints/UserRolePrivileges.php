@@ -17,6 +17,7 @@ class UserRolePrivileges extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): array
     {
         return [Constraint::PROPERTY_CONSTRAINT];

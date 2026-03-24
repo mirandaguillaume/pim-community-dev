@@ -9,13 +9,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TextFilterType extends AbstractType
 {
-    final public const TYPE_CONTAINS = 1;
-    final public const TYPE_NOT_CONTAINS = 2;
-    final public const TYPE_EQUAL = 3;
-    final public const TYPE_STARTS_WITH = 4;
-    final public const TYPE_ENDS_WITH = 5;
-    final public const TYPE_EMPTY = 'empty';
-    final public const NAME = 'oro_type_text_filter';
+    final public const int TYPE_CONTAINS = 1;
+    final public const int TYPE_NOT_CONTAINS = 2;
+    final public const int TYPE_EQUAL = 3;
+    final public const int TYPE_STARTS_WITH = 4;
+    final public const int TYPE_ENDS_WITH = 5;
+    final public const string TYPE_EMPTY = 'empty';
+    final public const string NAME = 'oro_type_text_filter';
 
     public function __construct(protected TranslatorInterface $translator)
     {
@@ -24,6 +24,7 @@ class TextFilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
@@ -32,6 +33,7 @@ class TextFilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return FilterType::class;

@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class SystemConfigurationPass implements CompilerPassInterface
 {
-    final public const CONFIG_FILE_NAME = 'system_configuration.yml';
+    final public const string CONFIG_FILE_NAME = 'system_configuration.yml';
 
     /**
      * {@inheritDoc}

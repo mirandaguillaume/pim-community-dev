@@ -135,6 +135,7 @@ class AclRoleType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_user_role_form';

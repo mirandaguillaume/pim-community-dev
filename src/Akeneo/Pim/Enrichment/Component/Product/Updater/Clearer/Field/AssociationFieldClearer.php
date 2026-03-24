@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class AssociationFieldClearer implements ClearerInterface
 {
-    private const SUPPORTED_FIELD = 'associations';
+    private const string SUPPORTED_FIELD = 'associations';
 
     public function __construct(private TwoWayAssociationUpdaterInterface $twoWayAssociationUpdater)
     {

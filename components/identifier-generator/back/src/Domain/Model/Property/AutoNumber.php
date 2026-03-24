@@ -16,11 +16,11 @@ use Webmozart\Assert\Assert;
  */
 final readonly class AutoNumber implements PropertyInterface
 {
-    public const LIMIT_NUMBER_MIN = 0;
-    public const LIMIT_DIGITS_MIN = 1;
-    public const LIMIT_DIGITS_MAX = 15;
+    public const int LIMIT_NUMBER_MIN = 0;
+    public const int LIMIT_DIGITS_MIN = 1;
+    public const int LIMIT_DIGITS_MAX = 15;
 
-    private const TYPE = 'auto_number';
+    private const string TYPE = 'auto_number';
 
     public function __construct(
         private int $numberMin,

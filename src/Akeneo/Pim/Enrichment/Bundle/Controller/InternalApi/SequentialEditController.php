@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SequentialEditController
 {
-    private const MAX_PRODUCT_COUNT = 1000;
+    private const int MAX_PRODUCT_COUNT = 1000;
 
     public function __construct(
         protected MassActionParametersParser $parameterParser,

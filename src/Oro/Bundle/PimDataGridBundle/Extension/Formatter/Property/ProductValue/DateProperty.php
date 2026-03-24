@@ -31,6 +31,7 @@ class DateProperty extends FieldProperty
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function convertValue($value)
     {
         $result = !$value instanceof \DateTime ? $this->getBackendData($value) : $value;

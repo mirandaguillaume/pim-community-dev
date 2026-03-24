@@ -17,6 +17,7 @@ class EditMassAction extends RedirectMassAction
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function setOptions(ActionConfiguration $options)
     {
         if (empty($options['handler'])) {

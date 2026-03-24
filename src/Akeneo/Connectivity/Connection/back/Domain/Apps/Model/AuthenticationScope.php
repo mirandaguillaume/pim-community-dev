@@ -10,9 +10,9 @@ namespace Akeneo\Connectivity\Connection\Domain\Apps\Model;
  */
 final class AuthenticationScope
 {
-    public const SCOPE_OPENID = 'openid';
-    public const SCOPE_PROFILE = 'profile';
-    public const SCOPE_EMAIL = 'email';
+    public const string SCOPE_OPENID = 'openid';
+    public const string SCOPE_PROFILE = 'profile';
+    public const string SCOPE_EMAIL = 'email';
 
     /**
      * @return array<string>

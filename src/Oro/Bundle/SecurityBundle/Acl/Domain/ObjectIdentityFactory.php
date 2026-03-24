@@ -12,7 +12,7 @@ use Symfony\Component\Security\Acl\Exception\InvalidDomainObjectException;
  */
 class ObjectIdentityFactory
 {
-    final public const ROOT_IDENTITY_TYPE = '(root)';
+    final public const string ROOT_IDENTITY_TYPE = '(root)';
 
     /**
      * @var AclExtensionSelector

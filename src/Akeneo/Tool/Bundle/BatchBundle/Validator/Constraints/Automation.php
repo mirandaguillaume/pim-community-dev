@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraint;
  */
 final class Automation extends Constraint
 {
+    #[\Override]
     public function validatedBy(): string
     {
         return 'akeneo_job_instance_automation_validator';

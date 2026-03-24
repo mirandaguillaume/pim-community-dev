@@ -9,7 +9,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class IterableObject implements \ArrayAccess, \IteratorAggregate
 {
-    final public const NAME_KEY = 'name';
+    final public const string NAME_KEY = 'name';
 
     /** @var PropertyAccessor */
     protected $accessor;

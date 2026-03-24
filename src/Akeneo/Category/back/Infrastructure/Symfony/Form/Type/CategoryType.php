@@ -72,6 +72,7 @@ class CategoryType extends AbstractType
         );
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'pim_category';

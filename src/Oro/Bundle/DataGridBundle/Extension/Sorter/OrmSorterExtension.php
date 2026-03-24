@@ -14,17 +14,17 @@ class OrmSorterExtension extends AbstractExtension
     /**
      * Query param
      */
-    final public const SORTERS_ROOT_PARAM = '_sort_by';
+    final public const string SORTERS_ROOT_PARAM = '_sort_by';
 
     /**
      * Ascending sorting direction
      */
-    final public const DIRECTION_ASC = "ASC";
+    final public const string DIRECTION_ASC = "ASC";
 
     /**
      * Descending sorting direction
      */
-    final public const DIRECTION_DESC = "DESC";
+    final public const string DIRECTION_DESC = "DESC";
 
     /**
      * {@inheritDoc}
@@ -108,6 +108,7 @@ class OrmSorterExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getPriority()
     {
         // should visit after all extensions

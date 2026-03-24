@@ -9,10 +9,10 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface as SID;
 
 class BatchItem
 {
-    final public const STATE_NONE = 0;
-    final public const STATE_CREATE = 1;
-    final public const STATE_UPDATE = 2;
-    final public const STATE_DELETE = 3;
+    final public const int STATE_NONE = 0;
+    final public const int STATE_CREATE = 1;
+    final public const int STATE_UPDATE = 2;
+    final public const int STATE_DELETE = 3;
 
     /**
      * Array of ACEs. This is used only for new ACL (state = CREATE)

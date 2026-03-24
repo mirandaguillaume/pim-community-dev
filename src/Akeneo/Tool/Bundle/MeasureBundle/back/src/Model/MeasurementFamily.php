@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  */
 class MeasurementFamily
 {
-    final public const MIN_UNIT_COUNT = 1;
+    final public const int MIN_UNIT_COUNT = 1;
 
     private readonly UnitCode $standardUnitCode;
 

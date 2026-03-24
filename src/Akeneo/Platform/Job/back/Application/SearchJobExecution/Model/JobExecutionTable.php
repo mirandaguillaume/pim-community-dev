@@ -13,8 +13,8 @@ use Webmozart\Assert\Assert;
  */
 final class JobExecutionTable
 {
-    private const ROWS = 'rows';
-    private const MATCHES_COUNT = 'matches_count';
+    private const string ROWS = 'rows';
+    private const string MATCHES_COUNT = 'matches_count';
 
     public function __construct(
         /** @var JobExecutionRow[] */

@@ -12,13 +12,15 @@ use Symfony\Component\Validator\Constraint;
  */
 final class Scheduling extends Constraint
 {
-    public const IMPORT_SHOULD_HAVE_STORAGE = 'akeneo.job_automation.validation.import_should_have_storage';
+    public const string IMPORT_SHOULD_HAVE_STORAGE = 'akeneo.job_automation.validation.import_should_have_storage';
 
+    #[\Override]
     public function validatedBy(): string
     {
         return 'akeneo_job_instance_scheduling_validator';
     }
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

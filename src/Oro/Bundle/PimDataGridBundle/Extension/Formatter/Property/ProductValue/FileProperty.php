@@ -14,6 +14,7 @@ class FileProperty extends FieldProperty
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function convertValue($value)
     {
         return $value['data']['originalFilename'];

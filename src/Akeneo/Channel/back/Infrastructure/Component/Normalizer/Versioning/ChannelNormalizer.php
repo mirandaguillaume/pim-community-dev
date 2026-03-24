@@ -14,8 +14,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ChannelNormalizer implements NormalizerInterface
 {
-    final public const ITEM_SEPARATOR = ',';
-    final public const UNIT_LABEL_PREFIX = 'conversion_unit';
+    final public const string ITEM_SEPARATOR = ',';
+    final public const string UNIT_LABEL_PREFIX = 'conversion_unit';
 
     /** @var string[] */
     protected $supportedFormats = ['flat'];

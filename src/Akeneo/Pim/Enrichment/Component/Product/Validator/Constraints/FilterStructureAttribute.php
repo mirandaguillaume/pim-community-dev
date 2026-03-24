@@ -20,6 +20,7 @@ class FilterStructureAttribute extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'filter_structure_attribute_validator';

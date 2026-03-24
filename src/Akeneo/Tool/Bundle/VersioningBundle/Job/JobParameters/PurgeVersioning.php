@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 class PurgeVersioning implements ConstraintCollectionProviderInterface, DefaultValuesProviderInterface
 {
-    private const JOB_NAME = 'versioning_purge';
+    private const string JOB_NAME = 'versioning_purge';
 
     public function supports(JobInterface $job): bool
     {

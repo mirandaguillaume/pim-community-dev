@@ -23,8 +23,8 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Refresh;
  */
 class ProductModelIndexer implements ProductModelIndexerInterface
 {
-    private const PRODUCT_MODEL_IDENTIFIER_PREFIX = 'product_model_';
-    private const BATCH_SIZE = 500;
+    private const string PRODUCT_MODEL_IDENTIFIER_PREFIX = 'product_model_';
+    private const int BATCH_SIZE = 500;
 
     public function __construct(private readonly Client $productAndProductModelClient, private readonly GetElasticsearchProductModelProjectionInterface $getElasticsearchProductModelProjection)
     {

@@ -31,6 +31,7 @@ class ProductColumnSorter extends DefaultColumnSorter implements ColumnSorterInt
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function sort(array $columns, array $context = [])
     {
         if (isset($context['filters']['structure']['attributes'])
@@ -55,6 +56,7 @@ class ProductColumnSorter extends DefaultColumnSorter implements ColumnSorterInt
         return parent::sort($columns);
     }
 
+    #[\Override]
     protected function getFirstDefaultColumns(): array
     {
         return \array_merge(['uuid', $this->identifierAttributeCode()], $this->firstDefaultColumns);

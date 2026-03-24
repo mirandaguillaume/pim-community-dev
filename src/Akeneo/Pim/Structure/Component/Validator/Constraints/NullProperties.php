@@ -25,6 +25,7 @@ class NullProperties extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;
@@ -41,6 +42,7 @@ class NullProperties extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return ['properties'];

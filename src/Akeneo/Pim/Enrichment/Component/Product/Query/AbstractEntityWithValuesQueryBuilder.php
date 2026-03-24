@@ -17,8 +17,8 @@ use Akeneo\Tool\Component\StorageUtils\Cursor\CursorFactoryInterface;
 
 class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterface
 {
-    final public const DOCUMENT_TYPE_FACET_NAME = 'document_type_facet';
-    private const DOCUMENT_TYPE_FIELD = 'document_type';
+    final public const string DOCUMENT_TYPE_FACET_NAME = 'document_type_facet';
+    private const string DOCUMENT_TYPE_FIELD = 'document_type';
 
     /** @var mixed */
     protected $qb;

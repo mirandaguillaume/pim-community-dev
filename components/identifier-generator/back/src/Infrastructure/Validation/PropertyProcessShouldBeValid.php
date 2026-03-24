@@ -17,6 +17,7 @@ final class PropertyProcessShouldBeValid extends Constraint
     /**
      * @inerhitDoc
      */
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

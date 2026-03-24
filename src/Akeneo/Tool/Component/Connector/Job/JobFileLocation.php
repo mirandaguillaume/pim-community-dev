@@ -17,9 +17,9 @@ namespace Akeneo\Tool\Component\Connector\Job;
  */
 final readonly class JobFileLocation
 {
-    private const REMOTE_SCHEMA = 'pim_remote://';
+    private const string REMOTE_SCHEMA = 'pim_remote://';
 
-    private const LOCAL_TEMP_PREFIX = 'from_remote_';
+    private const string LOCAL_TEMP_PREFIX = 'from_remote_';
 
     public function __construct(private string $path, private bool $remote)
     {

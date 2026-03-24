@@ -18,7 +18,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class DownloadFileFromStorage implements DownloadFileFromStorageInterface
 {
-    private const MAX_FILE_SIZE = 512_000_000;
+    private const int MAX_FILE_SIZE = 512_000_000;
 
     public function __construct(
         private StorageClientProvider $storageClientProvider,

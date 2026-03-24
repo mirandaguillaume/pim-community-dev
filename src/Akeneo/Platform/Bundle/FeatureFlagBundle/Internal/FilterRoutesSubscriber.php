@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 #[AsEventListener(event: KernelEvents::CONTROLLER, method: 'filterRoutesFromDisabledFeatureFlags')]
 class FilterRoutesSubscriber
 {
-    final public const FEATURE_KEY = '_feature';
+    final public const string FEATURE_KEY = '_feature';
 
     public function __construct(private readonly FeatureFlags $featureFlags)
     {

@@ -15,7 +15,7 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Persistence\Repository\Connec
  */
 class CreateConnection implements CreateConnectionInterface
 {
-    private const CONNECTION_TYPE_APP = 'app';
+    private const string CONNECTION_TYPE_APP = 'app';
 
     public function __construct(
         private readonly ConnectionRepositoryInterface $repository,

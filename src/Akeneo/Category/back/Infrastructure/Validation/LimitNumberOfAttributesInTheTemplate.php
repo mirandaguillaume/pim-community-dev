@@ -14,6 +14,7 @@ final class LimitNumberOfAttributesInTheTemplate extends Constraint
 {
     public string $message = 'akeneo.category.validation.attribute.limit.title';
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

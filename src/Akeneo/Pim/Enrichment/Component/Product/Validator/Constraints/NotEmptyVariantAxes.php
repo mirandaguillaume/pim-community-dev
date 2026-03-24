@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class NotEmptyVariantAxes extends Constraint
 {
-    final public const EMPTY_AXIS_VALUE = 'pim_catalog.constraint.can_have_family_variant_empty_axis_value';
+    final public const string EMPTY_AXIS_VALUE = 'pim_catalog.constraint.can_have_family_variant_empty_axis_value';
 
     /** @var string */
     public $propertyPath = 'attribute';
@@ -19,6 +19,7 @@ class NotEmptyVariantAxes extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function validatedBy(): string
     {
         return 'pim_not_empty_axes_validator';
@@ -27,6 +28,7 @@ class NotEmptyVariantAxes extends Constraint
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getTargets(): string|array
     {
         return Constraint::CLASS_CONSTRAINT;

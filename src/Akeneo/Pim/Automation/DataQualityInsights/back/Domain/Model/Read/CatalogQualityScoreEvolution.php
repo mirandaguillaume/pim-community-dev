@@ -9,7 +9,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rank;
 
 final class CatalogQualityScoreEvolution
 {
-    private const NUMBER_OF_PAST_MONTHS_TO_RETURN = 5;
+    private const int NUMBER_OF_PAST_MONTHS_TO_RETURN = 5;
 
     public function __construct(private readonly \DateTimeImmutable $referenceDate, private array $scores, private readonly string $channel, private readonly string $locale)
     {

@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  */
 final class LimitNumberOfAttributesInTheTemplateValidator extends ConstraintValidator
 {
-    private const ERROR_CODE = 'attributes_limit_reached';
+    private const string ERROR_CODE = 'attributes_limit_reached';
 
     public function __construct(
         private readonly GetAttribute $getAttribute,

@@ -7,11 +7,12 @@ use Oro\Bundle\FilterBundle\Form\Type\Filter\BooleanFilterType;
 
 class BooleanFilter extends ChoiceFilter
 {
-    final public const NULLABLE_KEY = 'nullable';
+    final public const string NULLABLE_KEY = 'nullable';
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getFormType()
     {
         return BooleanFilterType::class;
@@ -20,6 +21,7 @@ class BooleanFilter extends ChoiceFilter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function apply(FilterDatasourceAdapterInterface $ds, $data)
     {
         $data = $this->parseData($data);
@@ -52,6 +54,7 @@ class BooleanFilter extends ChoiceFilter
     /**
      * @param mixed $data
      */
+    #[\Override]
     public function parseData($data): array|bool
     {
         $allowedValues = [BooleanFilterType::TYPE_YES, BooleanFilterType::TYPE_NO];

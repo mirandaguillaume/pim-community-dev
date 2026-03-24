@@ -14,10 +14,10 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class RunMessageProcess
 {
-    private const RUNNING_PROCESS_CHECK_INTERVAL_MICROSECONDS = 1000;
-    private const LONG_RUNNING_PROCESS_THRESHOLD_IN_SECONDS = 300;
-    private const PROCESS_TIME_LIMIT_IN_SECONDS = 3600; // 60 min
-    private const MODIFY_ACK_DEADLINE_FREQUENCY_IN_SECONDS = 480; // 8 min
+    private const int RUNNING_PROCESS_CHECK_INTERVAL_MICROSECONDS = 1000;
+    private const int LONG_RUNNING_PROCESS_THRESHOLD_IN_SECONDS = 300;
+    private const int PROCESS_TIME_LIMIT_IN_SECONDS = 3600; // 60 min
+    private const int MODIFY_ACK_DEADLINE_FREQUENCY_IN_SECONDS = 480; // 8 min
 
     public function __construct(
         private readonly SerializerInterface $serializer,

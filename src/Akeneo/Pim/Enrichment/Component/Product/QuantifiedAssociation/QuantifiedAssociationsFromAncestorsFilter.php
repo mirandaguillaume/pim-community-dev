@@ -21,8 +21,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithQuantifiedAssociatio
  */
 class QuantifiedAssociationsFromAncestorsFilter
 {
-    private const PRODUCTS_QUANTIFIED_LINKS_KEY = 'products';
-    private const PRODUCT_MODELS_QUANTIFIED_LINKS_KEY = 'product_models';
+    private const string PRODUCTS_QUANTIFIED_LINKS_KEY = 'products';
+    private const string PRODUCT_MODELS_QUANTIFIED_LINKS_KEY = 'product_models';
 
     public function __construct(private readonly QuantifiedAssociationsMerger $quantifiedAssociationsMerger)
     {

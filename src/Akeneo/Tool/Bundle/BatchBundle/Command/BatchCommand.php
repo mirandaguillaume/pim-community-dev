@@ -35,9 +35,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[AsCommand(name: 'akeneo:batch:job', description: '[Internal] Please use "akeneo:batch:publish-job-to-queue" to launch a registered job instance')]
 class BatchCommand extends Command
 {
-    final public const EXIT_SUCCESS_CODE = 0;
-    final public const EXIT_ERROR_CODE = 1;
-    final public const EXIT_WARNING_CODE = 2;
+    final public const int EXIT_SUCCESS_CODE = 0;
+    final public const int EXIT_ERROR_CODE = 1;
+    final public const int EXIT_WARNING_CODE = 2;
 
     public function __construct(
         private readonly LoggerInterface $logger,

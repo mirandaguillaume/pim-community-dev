@@ -13,7 +13,7 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Query\FindNewAnnoun
  */
 final readonly class LocalFilestorageFindNewAnnouncementIds implements FindNewAnnouncementIdsInterface
 {
-    private const FILENAME = 'serenity-updates.json';
+    private const string FILENAME = 'serenity-updates.json';
 
     private string|bool $externalJson;
 

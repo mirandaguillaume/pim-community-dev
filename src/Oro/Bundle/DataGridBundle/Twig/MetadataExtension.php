@@ -14,6 +14,7 @@ class MetadataExtension extends \Twig\Extension\AbstractExtension
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getFunctions()
     {
         return [

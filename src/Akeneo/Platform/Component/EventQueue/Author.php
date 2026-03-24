@@ -14,11 +14,9 @@ use Webmozart\Assert\Assert;
  */
 class Author
 {
-    /** @var string */
-    final public const TYPE_API = 'api';
+    final public const string TYPE_API = 'api';
 
-    /** @var string */
-    final public const TYPE_UI = 'ui';
+    final public const string TYPE_UI = 'ui';
 
     private function __construct(private readonly string $name, private readonly string $type)
     {

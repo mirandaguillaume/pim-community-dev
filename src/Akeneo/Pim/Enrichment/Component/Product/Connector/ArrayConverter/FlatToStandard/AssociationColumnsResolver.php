@@ -13,20 +13,15 @@ use Akeneo\Pim\Structure\Component\Repository\AssociationTypeRepositoryInterface
  */
 class AssociationColumnsResolver
 {
-    /** @var string */
-    final public const GROUP_ASSOCIATION_SUFFIX = '-groups';
+    final public const string GROUP_ASSOCIATION_SUFFIX = '-groups';
 
-    /** @var string */
-    final public const PRODUCT_ASSOCIATION_SUFFIX = '-products';
+    final public const string PRODUCT_ASSOCIATION_SUFFIX = '-products';
 
-    /** @var string */
-    final public const PRODUCT_UUID_ASSOCIATION_SUFFIX = '-product_uuids';
+    final public const string PRODUCT_UUID_ASSOCIATION_SUFFIX = '-product_uuids';
 
-    /** @var string */
-    final public const PRODUCT_MODEL_ASSOCIATION_SUFFIX = '-product_models';
+    final public const string PRODUCT_MODEL_ASSOCIATION_SUFFIX = '-product_models';
 
-    /** @var string */
-    final public const QUANTITY_SUFFIX = '-quantity';
+    final public const string QUANTITY_SUFFIX = '-quantity';
 
     /** @var AssociationTypeRepositoryInterface */
     protected $assocTypeRepository;

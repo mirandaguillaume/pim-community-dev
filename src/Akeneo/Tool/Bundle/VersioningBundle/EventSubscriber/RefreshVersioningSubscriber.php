@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 #[AsEventListener(event: InstallerEvents::POST_LOAD_FIXTURES, method: 'refreshVersioning', priority: 200)]
 class RefreshVersioningSubscriber
 {
-    private const JOB_CODE = 'versioning_refresh';
+    private const string JOB_CODE = 'versioning_refresh';
 
     public function __construct(
         private readonly ExecuteJobExecutionHandlerInterface $jobExecutionRunner,
