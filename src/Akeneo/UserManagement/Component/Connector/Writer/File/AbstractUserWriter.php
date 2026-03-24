@@ -147,7 +147,7 @@ abstract class AbstractUserWriter extends AbstractFileWriter implements
 
     public function getState(): array
     {
-        if (null === $this->flatRowBuffer) {
+        if (!$this->flatRowBuffer instanceof \Akeneo\Tool\Component\Connector\Writer\File\FlatItemBuffer) {
             return [];
         }
 

@@ -23,7 +23,7 @@ class AccessLevelToBooleanTransformer implements DataTransformerInterface
             return '';
         }
 
-        return $value === AccessLevel::SYSTEM_LEVEL ? true : false;
+        return $value === AccessLevel::SYSTEM_LEVEL;
     }
 
     /**

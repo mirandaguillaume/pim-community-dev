@@ -105,7 +105,7 @@ class ProductWriter extends AbstractItemMediaWriter implements ItemWriterInterfa
 
         if (isset($filters['structure']['attributes'])
             && !empty($filters['structure']['attributes'])
-            && $this->hasItems === true) {
+            && $this->hasItems) {
             $attributeCodes = $filters['structure']['attributes'];
         } elseif ($parameters->has('selected_properties')) {
             $attributeCodes = $parameters->get('selected_properties');
@@ -114,7 +114,7 @@ class ProductWriter extends AbstractItemMediaWriter implements ItemWriterInterfa
         $headers = [];
         if (!empty($attributeCodes)) {
             $headers = ($this->generateHeadersFromAttributeCodes)($attributeCodes, $channelCode, $localeCodes);
-        } elseif (!empty($this->familyCodes)) {
+        } elseif ($this->familyCodes !== []) {
             $headers = ($this->generateHeadersFromFamilyCodes)($this->familyCodes, $channelCode, $localeCodes);
         }
 

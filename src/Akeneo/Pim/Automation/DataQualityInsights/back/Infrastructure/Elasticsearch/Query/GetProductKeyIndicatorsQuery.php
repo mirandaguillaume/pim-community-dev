@@ -55,7 +55,7 @@ final readonly class GetProductKeyIndicatorsQuery implements GetProductKeyIndica
 
     private function executeQuery(ChannelCode $channelCode, LocaleCode $localeCode, array $keyIndicatorCodes, array $extraTerms = []): array
     {
-        if (empty($keyIndicatorCodes)) {
+        if ($keyIndicatorCodes === []) {
             return [];
         }
 

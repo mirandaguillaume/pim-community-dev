@@ -30,7 +30,7 @@ final readonly class FlagConnectedAppWithOutdatedScopesAction
     public function __invoke(Request $request): Response
     {
         $user = $this->tokenStorage->getToken()?->getUser();
-        if (null === $user) {
+        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             throw new AccessDeniedHttpException('Not an authenticated App');
         }
 
@@ -39,7 +39,7 @@ final readonly class FlagConnectedAppWithOutdatedScopesAction
         }
 
         $connectedApp = $this->findOneConnectedAppByUserIdentifierQuery->execute($user->getUserIdentifier());
-        if (null === $connectedApp) {
+        if (!$connectedApp instanceof \Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp) {
             throw new AccessDeniedHttpException('Not an authenticated App');
         }
 

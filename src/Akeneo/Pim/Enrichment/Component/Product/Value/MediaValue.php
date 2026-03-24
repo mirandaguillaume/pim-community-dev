@@ -55,10 +55,10 @@ class MediaValue extends AbstractValue implements MediaValueInterface, \Stringab
         $comparedMedia = $value->getData();
         $thisMedia = $this->getData();
 
-        if (null === $thisMedia && null === $comparedMedia) {
+        if (!$thisMedia instanceof \Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface && !$comparedMedia instanceof \Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface) {
             return true;
         }
-        if (null === $thisMedia || null === $comparedMedia) {
+        if (!$thisMedia instanceof \Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface || !$comparedMedia instanceof \Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface) {
             return false;
         }
 

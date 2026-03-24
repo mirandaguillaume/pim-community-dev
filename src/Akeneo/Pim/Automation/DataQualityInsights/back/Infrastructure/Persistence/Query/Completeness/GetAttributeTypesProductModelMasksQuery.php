@@ -96,7 +96,7 @@ class GetAttributeTypesProductModelMasksQuery implements GetProductModelAttribut
             ]
         )->fetchAllAssociative();
 
-        if (empty($rows)) {
+        if ($rows === []) {
             return null;
         }
 

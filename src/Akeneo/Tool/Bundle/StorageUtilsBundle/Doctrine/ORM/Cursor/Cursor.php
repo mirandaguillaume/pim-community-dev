@@ -190,7 +190,7 @@ class Cursor extends AbstractCursor
         $entities = null;
         $currentIds = array_slice($this->getEntitiesIds(), $this->getOffSet(), $this->pageSize);
 
-        if (!empty($currentIds)) {
+        if ($currentIds !== []) {
             $items = $this->getRepository()->findByIds($currentIds);
             $this->currentPage++;
             $orderedResult = array_fill_keys($currentIds, null);

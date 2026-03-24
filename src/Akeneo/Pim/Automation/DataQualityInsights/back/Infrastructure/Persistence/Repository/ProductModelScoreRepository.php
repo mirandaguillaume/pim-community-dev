@@ -28,7 +28,7 @@ class ProductModelScoreRepository implements ProductModelScoreRepositoryInterfac
      */
     public function saveAll(array $productsScores): void
     {
-        if (empty($productsScores)) {
+        if ($productsScores === []) {
             return;
         }
 

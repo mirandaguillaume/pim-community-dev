@@ -76,7 +76,7 @@ final class RoleNormalizer implements NormalizerInterface
             $this->cacheIndexedAclIds = [];
             foreach ($this->aclManager->getAllExtensions() as $extension) {
                 $extensionKey = $extension->getExtensionKey();
-                if ($extensionKey !== static::ACL_EXTENSION_KEY) {
+                if ($extensionKey !== self::ACL_EXTENSION_KEY) {
                     continue;
                 }
 

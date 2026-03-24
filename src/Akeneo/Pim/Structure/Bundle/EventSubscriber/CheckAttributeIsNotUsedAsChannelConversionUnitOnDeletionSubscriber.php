@@ -34,7 +34,7 @@ class CheckAttributeIsNotUsedAsChannelConversionUnitOnDeletionSubscriber
 
         $channelCodes = $this->channelCodesUsedAsConversionUnit($attribute->getCode());
         if (0 < count($channelCodes)) {
-            throw new CannotRemoveAttributeException('flash.attribute.used_as_conversion_unit', ['%channelCodes%' => join(', ', $channelCodes)]);
+            throw new CannotRemoveAttributeException('flash.attribute.used_as_conversion_unit', ['%channelCodes%' => implode(', ', $channelCodes)]);
         }
     }
 

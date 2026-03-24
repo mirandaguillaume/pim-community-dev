@@ -54,7 +54,7 @@ class FileValidator extends ConstraintValidator
      */
     protected function validateFileExtension(FileInfoInterface $fileInfo, File $constraint)
     {
-        if (empty($constraint->allowedExtensions)) {
+        if ($constraint->allowedExtensions === []) {
             return;
         }
         $extension = $this->getExtension($fileInfo);
@@ -151,7 +151,7 @@ class FileValidator extends ConstraintValidator
 
     private function validateMimeType(FileInfoInterface $fileInfo, File $constraint)
     {
-        if (empty($constraint->allowedExtensions)) {
+        if ($constraint->allowedExtensions === []) {
             return;
         }
 

@@ -78,7 +78,7 @@ SQL;
                 ['lastUuid' => Types::BINARY],
             );
 
-            if (empty($rows)) {
+            if ($rows === []) {
                 return;
             }
 

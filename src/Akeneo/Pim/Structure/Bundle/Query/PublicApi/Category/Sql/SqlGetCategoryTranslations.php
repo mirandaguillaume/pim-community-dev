@@ -17,7 +17,7 @@ class SqlGetCategoryTranslations implements GetCategoryTranslations
 
     public function byCategoryCodesAndLocale(array $categoryCodes, string $locale): array
     {
-        if (empty($categoryCodes)) {
+        if ($categoryCodes === []) {
             return [];
         }
 

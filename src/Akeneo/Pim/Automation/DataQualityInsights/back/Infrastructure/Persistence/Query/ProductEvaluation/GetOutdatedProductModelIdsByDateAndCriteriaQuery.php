@@ -44,7 +44,7 @@ final readonly class GetOutdatedProductModelIdsByDateAndCriteriaQuery implements
         ];
 
         $criteriaSubQuery = '';
-        if (!empty($criteria)) {
+        if ($criteria !== []) {
             $criteriaSubQuery = 'AND criterion_code IN (:criterion_codes)';
             $queryParameters['criterion_codes'] = $criteria;
             $queryTypes['criterion_codes'] = ArrayParameterType::STRING;

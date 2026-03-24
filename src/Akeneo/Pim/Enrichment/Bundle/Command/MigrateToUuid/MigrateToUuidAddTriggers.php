@@ -39,7 +39,7 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
     public function getMissingCount(): int
     {
         $count = 0;
-        foreach ($this->getTablesToMigrate() as $tableName => $columnNames) {
+        foreach (array_keys($this->getTablesToMigrate()) as $tableName) {
             if (!$this->triggerExists(self::getInsertTriggerName($tableName))) {
                 $count++;
             }

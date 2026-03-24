@@ -56,7 +56,7 @@ final class ShouldStayOwnerOfTheProductValidator extends ConstraintValidator
             $uuid = $this->getProductUuids->fromUuid($command->productIdentifierOrUuid()->uuid());
         }
 
-        if (null === $uuid) {
+        if (!$uuid instanceof \Ramsey\Uuid\UuidInterface) {
             // product creation mode
             return;
         }

@@ -259,7 +259,7 @@ abstract class AbstractItemMediaWriter implements
         );
         $identifier = $this->getItemIdentifier($item);
 
-        foreach ($mediaAttributeTypes as $attributeCode => $attributeType) {
+        foreach (array_keys($mediaAttributeTypes) as $attributeCode) {
             if (!isset($item['values'][$attributeCode])) {
                 continue;
             }
@@ -278,7 +278,7 @@ abstract class AbstractItemMediaWriter implements
                         $paths = [];
                         foreach ($value['paths'] as $fileKey) {
                             $writtenFile = $this->checkMediaFile($fileKey, $exportDirectory);
-                            if (null !== $writtenFile) {
+                            if ($writtenFile instanceof \Akeneo\Tool\Component\Connector\Writer\File\WrittenFileInfo) {
                                 $paths[] = $writtenFile->outputFilepath();
                                 $this->writtenFiles[] = $writtenFile;
                             } else {
@@ -288,7 +288,7 @@ abstract class AbstractItemMediaWriter implements
                         $item['values'][$attributeCode][$index]['paths'] = $paths;
                     } elseif (\is_string($value['data'])) {
                         $writtenFile = $this->checkMediaFile($value['data'], $exportDirectory);
-                        if (null !== $writtenFile) {
+                        if ($writtenFile instanceof \Akeneo\Tool\Component\Connector\Writer\File\WrittenFileInfo) {
                             $item['values'][$attributeCode][$index]['data'] = $writtenFile->outputFilepath();
                             $this->writtenFiles[] = $writtenFile;
                         }
@@ -371,7 +371,7 @@ abstract class AbstractItemMediaWriter implements
 
     public function getState(): array
     {
-        if (null === $this->flatRowBuffer) {
+        if (!$this->flatRowBuffer instanceof \Akeneo\Tool\Component\Connector\Writer\File\FlatItemBuffer) {
             return [];
         }
 

@@ -49,6 +49,7 @@ class PlaceholderTokenParser extends AbstractTokenParser
                 $this->getTag()
             );
         }
+        return null;
     }
 
     /**

@@ -41,7 +41,7 @@ final class AttributeCodeShouldBeUniqueInTheTemplateValidator extends Constraint
 
         $attributes = $attributeCollection->getAttributes();
 
-        if (empty($attributes)) {
+        if ($attributes === []) {
             return;
         }
 

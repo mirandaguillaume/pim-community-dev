@@ -54,7 +54,7 @@ class UserProcessor extends Processor
             $this->skipItemWithMessage($item, 'Passwords cannot be imported via flat files');
         }
         $ignoredFieldsPresent = array_intersect(array_keys($item), $this->ignoredFields);
-        if ($ignoredFieldsPresent) {
+        if ($ignoredFieldsPresent !== []) {
             $ignoreFieldsString = implode(', ', $ignoredFieldsPresent);
             $warning = new Warning(
                 $this->stepExecution,
@@ -83,17 +83,15 @@ class UserProcessor extends Processor
         /** @var UserInterface $user */
         $user = $this->findOrCreateObject($itemIdentifier);
 
-        if (isset($item['roles']) && $user->getId()) {
-            if ($this->editRolePermissionsUserQuery->isLastRoleWithEditRolePermissionsRoleForUser($item['roles'], (int) $user->getId())) {
-                $this->skipItemWithMessage($item, 'pim_user.user.fields_errors.roles.last_user_with_edit_role_permissions');
-            }
+        if (isset($item['roles']) && $user->getId() && $this->editRolePermissionsUserQuery->isLastRoleWithEditRolePermissionsRoleForUser($item['roles'], (int) $user->getId())) {
+            $this->skipItemWithMessage($item, 'pim_user.user.fields_errors.roles.last_user_with_edit_role_permissions');
         }
 
         $itemDefaultProductGridView = $item['default_product_grid_view'] ?? null;
         if (null !== $itemDefaultProductGridView) {
             $defaultProductGridView = $this->gridViewRepository->findPrivateDatagridViewByLabel($itemDefaultProductGridView, $user)
                 ?? $this->gridViewRepository->findPublicDatagridViewByLabel($itemDefaultProductGridView);
-            if (null !== $defaultProductGridView) {
+            if ($defaultProductGridView instanceof \Oro\Bundle\PimDataGridBundle\Entity\DatagridView) {
                 $item['default_product_grid_view'] = $defaultProductGridView->getId();
             }
         }

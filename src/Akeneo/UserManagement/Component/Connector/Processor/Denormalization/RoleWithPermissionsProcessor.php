@@ -41,10 +41,8 @@ final class RoleWithPermissionsProcessor extends AbstractProcessor implements It
         /** @var RoleWithPermissions $roleWithPermissions */
         $roleWithPermissions = $this->findOrCreateRoleWithPermissions($itemIdentifier);
 
-        if ($this->editRolePermissionsRoleQuery->isLastRoleWithEditRolePermissions($item['role'])) {
-            if (count(array_intersect(MinimumEditRolePermission::getAllValues(), $item['permissions'])) < count(MinimumEditRolePermission::getAllValues())) {
-                $this->skipItemWithMessage($item, 'pim_user.controller.role.message.cannot_remove_last_edit_role_permission');
-            }
+        if ($this->editRolePermissionsRoleQuery->isLastRoleWithEditRolePermissions($item['role']) && count(array_intersect(MinimumEditRolePermission::getAllValues(), $item['permissions'])) < count(MinimumEditRolePermission::getAllValues())) {
+            $this->skipItemWithMessage($item, 'pim_user.controller.role.message.cannot_remove_last_edit_role_permission');
         }
         try {
             $permissions = (null === $roleWithPermissions->role()->getId()) ? ['permissions' => []] : [];

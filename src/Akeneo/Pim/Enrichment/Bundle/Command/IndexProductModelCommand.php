@@ -97,7 +97,7 @@ class IndexProductModelCommand extends Command
             $requestedCodes = $input->getArgument('codes');
             $existingroductModelCodes = $this->getProductModelExistingAmong->among($requestedCodes);
             $nonExistingCodes = array_diff($requestedCodes, $existingroductModelCodes);
-            if (!empty($nonExistingCodes)) {
+            if ($nonExistingCodes !== []) {
                 $output->writeln(
                     sprintf(
                         '<error>Some product models were not found for the given codes: %s</error>',

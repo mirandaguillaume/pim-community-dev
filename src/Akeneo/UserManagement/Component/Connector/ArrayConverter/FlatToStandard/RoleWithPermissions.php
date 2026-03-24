@@ -49,11 +49,7 @@ final readonly class RoleWithPermissions implements ArrayConverterInterface
         foreach ($item as $property => $data) {
             switch ($property) {
                 case 'permissions':
-                    if ('' === $data) {
-                        $convertedItem[$property] = [];
-                    } else {
-                        $convertedItem[$property] = \explode(',', (string) $data);
-                    }
+                    $convertedItem[$property] = '' === $data ? [] : \explode(',', (string) $data);
                     break;
                 default:
                     $convertedItem[$property] = (string) $data;

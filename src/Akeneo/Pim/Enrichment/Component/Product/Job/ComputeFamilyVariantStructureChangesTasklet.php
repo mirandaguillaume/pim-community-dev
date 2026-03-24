@@ -146,14 +146,14 @@ class ComputeFamilyVariantStructureChangesTasklet implements TaskletInterface
             }
         }
 
-        if (!empty($productModels)) {
+        if ($productModels !== []) {
             $validProductModels = $this->validateProductModels($productModels);
             $this->productModelSaver->saveAll($validProductModels);
             $this->stepExecution->incrementSummaryInfo('process', count($validProductModels));
             $this->clearBatchCaches();
         }
 
-        if (!empty($products)) {
+        if ($products !== []) {
             $validProducts = $this->validateProducts($products);
             $this->productSaver->saveAll($validProducts);
             $this->stepExecution->incrementSummaryInfo('process', count($validProducts));

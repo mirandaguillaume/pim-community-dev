@@ -37,7 +37,7 @@ class CreateTemplateCommandHandler
     {
         $categoryTreeId = $command->categoryTreeId;
         $categoryTree = $this->getCategory->byId($categoryTreeId->getValue());
-        if ($categoryTree === null) {
+        if (!$categoryTree instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
             throw new CategoryTreeNotFoundException();
         }
 
@@ -74,14 +74,9 @@ class CreateTemplateCommandHandler
      */
     private function validateTemplateCreation(Category $categoryTree): bool
     {
-        if (($this->getCategoryTemplateByCategoryTree)($categoryTree->getId())) {
+        if (($this->getCategoryTemplateByCategoryTree)($categoryTree->getId()) instanceof \Akeneo\Category\Domain\Model\Enrichment\Template) {
             return false;
         }
-
-        if ($categoryTree->getParentId() !== null) {
-            return false;
-        }
-
-        return true;
+        return !$categoryTree->getParentId() instanceof \Akeneo\Category\Domain\ValueObject\CategoryId;
     }
 }

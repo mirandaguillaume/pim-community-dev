@@ -60,7 +60,7 @@ final class RemoveNonExistingProductValuesTasklet implements TaskletInterface
         Assert::isArray($values);
 
         $attribute = $this->getAttributes->forCode($attributeCode);
-        if (null === $attribute) {
+        if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
             throw new \InvalidArgumentException(sprintf('The "%s" attribute code was not found', $attributeCode));
         }
 

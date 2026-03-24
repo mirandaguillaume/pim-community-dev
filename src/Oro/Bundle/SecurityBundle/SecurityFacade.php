@@ -27,7 +27,7 @@ class SecurityFacade implements SecurityFacadeInterface
     {
         // check method level ACL
         $annotation = $this->annotationProvider->findAnnotation($class, $method);
-        if ($annotation !== null) {
+        if ($annotation instanceof \Oro\Bundle\SecurityBundle\Annotation\Acl) {
             $this->logger->debug(
                 sprintf('Check an access using "%s" ACL annotation.', $annotation->getId())
             );
@@ -48,7 +48,7 @@ class SecurityFacade implements SecurityFacadeInterface
     {
         $annotation = $this->annotationProvider->findAnnotation($class, $method);
 
-        return $annotation ? $annotation->getPermission() : null;
+        return $annotation instanceof \Oro\Bundle\SecurityBundle\Annotation\Acl ? $annotation->getPermission() : null;
     }
 
     /**

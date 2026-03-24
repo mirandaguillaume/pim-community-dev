@@ -187,7 +187,7 @@ class App
             return $this;
         }
 
-        $values['url'] = self::appendQueryParametersToUrl($values['url'], $queryParameters);
+        $values['url'] = $this->appendQueryParametersToUrl($values['url'], $queryParameters);
 
         /* @phpstan-ignore-next-line */
         return self::fromWebMarketplaceValues($values);
@@ -199,10 +199,7 @@ class App
     public function withPimUrlSource(array $queryParameters): self
     {
         $app = clone $this;
-        $app->activateUrl = self::appendQueryParametersToUrl(
-            $app->activateUrl,
-            $queryParameters
-        );
+        $app->activateUrl = $this->appendQueryParametersToUrl($app->activateUrl, $queryParameters);
 
         return $app;
     }
@@ -230,7 +227,7 @@ class App
     /**
      * @param array<string> $queryParameters
      */
-    private static function appendQueryParametersToUrl(string $url, array $queryParameters): string
+    private function appendQueryParametersToUrl(string $url, array $queryParameters): string
     {
         $query = \http_build_query($queryParameters);
 

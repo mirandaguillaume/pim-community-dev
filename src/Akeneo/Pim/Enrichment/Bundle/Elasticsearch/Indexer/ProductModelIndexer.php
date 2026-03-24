@@ -47,7 +47,7 @@ class ProductModelIndexer implements ProductModelIndexerInterface
      */
     public function indexFromProductModelCodes(array $productModelCodes, array $options = []): void
     {
-        if (empty($productModelCodes)) {
+        if ($productModelCodes === []) {
             return;
         }
 
@@ -88,7 +88,7 @@ class ProductModelIndexer implements ProductModelIndexerInterface
      */
     public function removeFromProductModelIds(array $productModelIds, array $options = []): void
     {
-        if (empty($productModelIds)) {
+        if ($productModelIds === []) {
             return;
         }
 

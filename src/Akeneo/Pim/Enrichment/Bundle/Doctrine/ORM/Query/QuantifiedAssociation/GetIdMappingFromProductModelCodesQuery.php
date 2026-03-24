@@ -22,7 +22,7 @@ class GetIdMappingFromProductModelCodesQuery implements GetIdMappingFromProductM
 
     public function execute(array $productModelCodes): IdMapping
     {
-        if (empty($productModelCodes)) {
+        if ($productModelCodes === []) {
             return IdMapping::createFromMapping([]);
         }
 

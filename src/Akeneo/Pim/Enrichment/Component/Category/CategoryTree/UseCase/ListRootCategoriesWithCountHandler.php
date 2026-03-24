@@ -36,7 +36,7 @@ class ListRootCategoriesWithCountHandler
             $defaultCategoryTreeId
         );
 
-        if ($rootCategoryToExpand === null) {
+        if (!$rootCategoryToExpand instanceof \Akeneo\Category\Infrastructure\Component\Classification\Model\CategoryInterface) {
             return [];
         }
 

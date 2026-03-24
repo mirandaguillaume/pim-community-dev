@@ -85,7 +85,7 @@ class CollectApiError
         }
 
         $connection = $this->connectionContext->getConnection();
-        if (null === $connection) {
+        if (!$connection instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection) {
             return;
         }
 
@@ -112,7 +112,7 @@ class CollectApiError
     private function isConnectionCollectable(): bool
     {
         $connection = $this->connectionContext->getConnection();
-        if (null === $connection) {
+        if (!$connection instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection) {
             return false;
         }
 

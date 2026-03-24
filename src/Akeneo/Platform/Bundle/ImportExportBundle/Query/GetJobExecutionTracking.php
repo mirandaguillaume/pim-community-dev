@@ -159,7 +159,7 @@ class GetJobExecutionTracking
         }
 
         $duration = $now->getTimestamp() - $stepExecution->getStartTime()->getTimestamp();
-        if ($stepExecution->getEndTime()) {
+        if ($stepExecution->getEndTime() instanceof \DateTime) {
             $duration = $stepExecution->getEndTime()->getTimestamp() - $stepExecution->getStartTime()->getTimestamp();
         }
 

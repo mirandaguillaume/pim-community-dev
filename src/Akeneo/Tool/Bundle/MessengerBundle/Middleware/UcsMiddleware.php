@@ -29,7 +29,7 @@ class UcsMiddleware implements MiddlewareInterface
         // If there is none, we fallback on the tenantid coming from the env variables.
         $tenantId = $envelope->last(TenantIdStamp::class)?->pimTenantId() ?: $this->pimTenantId;
 
-        if ($tenantId && null === $envelope->last(TenantIdStamp::class)) {
+        if ($tenantId && !$envelope->last(TenantIdStamp::class) instanceof \Symfony\Component\Messenger\Stamp\StampInterface) {
             $envelope = $envelope->with(new TenantIdStamp($tenantId));
         }
 
@@ -37,7 +37,7 @@ class UcsMiddleware implements MiddlewareInterface
             $envelope->getMessage()->setTenantId($tenantId);
         }
 
-        if (null === $envelope->last(CorrelationIdStamp::class)) {
+        if (!$envelope->last(CorrelationIdStamp::class) instanceof \Symfony\Component\Messenger\Stamp\StampInterface) {
             $envelope = $envelope->with(CorrelationIdStamp::generate());
         }
 

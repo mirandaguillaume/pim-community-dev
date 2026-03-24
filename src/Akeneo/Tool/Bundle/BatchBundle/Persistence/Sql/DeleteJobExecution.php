@@ -54,7 +54,7 @@ final readonly class DeleteJobExecution
         $query = 'DELETE FROM akeneo_batch_job_execution';
 
         $conditions = [];
-        if (!empty($jobInstanceCodes)) {
+        if ($jobInstanceCodes !== []) {
             $conditions[] = 'job_instance_id IN (
                 SELECT ji.id
                 FROM akeneo_batch_job_instance ji
@@ -62,11 +62,11 @@ final readonly class DeleteJobExecution
             )';
         }
 
-        if ($status !== null) {
+        if ($status instanceof \Akeneo\Tool\Component\Batch\Job\BatchStatus) {
             $conditions[] = 'status = :status_code';
         }
 
-        $query .= empty($conditions) ? '' : ' WHERE ' . implode(' AND ', $conditions);
+        $query .= $conditions === [] ? '' : ' WHERE ' . implode(' AND ', $conditions);
 
         return $this->connection->executeStatement(
             $query,
@@ -99,7 +99,7 @@ final readonly class DeleteJobExecution
             SQL;
 
         $conditions = [];
-        if (!empty($jobInstanceCodes)) {
+        if ($jobInstanceCodes !== []) {
             $conditions[] = 'job_instance_id IN (
                 SELECT ji.id
                 FROM akeneo_batch_job_instance ji
@@ -107,11 +107,11 @@ final readonly class DeleteJobExecution
             )';
         }
 
-        if ($status !== null) {
+        if ($status instanceof \Akeneo\Tool\Component\Batch\Job\BatchStatus) {
             $conditions[] = 'status = :status_code';
         }
 
-        $query = sprintf($query, empty($conditions) ? '' : ' AND ' . implode(' AND ', $conditions));
+        $query = sprintf($query, $conditions === [] ? '' : ' AND ' . implode(' AND ', $conditions));
 
         return $this->connection->executeStatement(
             $query,

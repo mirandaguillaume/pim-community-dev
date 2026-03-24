@@ -173,7 +173,7 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
      */
     private function countProductInCategories(array $categoriesWithoutCount): array
     {
-        if (empty($categoriesWithoutCount)) {
+        if ($categoriesWithoutCount === []) {
             return [];
         }
 

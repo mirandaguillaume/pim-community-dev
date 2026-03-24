@@ -23,7 +23,7 @@ class ClientProvider implements ClientProviderInterface
     {
         $client = $this->findClientByAppId($app->getId());
 
-        if ($client === null) {
+        if (!$client instanceof \Akeneo\Tool\Bundle\ApiBundle\Entity\Client) {
             $client = $this->clientManager->createClient();
             if (!$client instanceof Client) {
                 throw new \LogicException(
@@ -45,7 +45,7 @@ class ClientProvider implements ClientProviderInterface
     {
         $client = $this->clientManager->findClientBy(['marketplacePublicAppId' => $appId]);
 
-        if (null !== $client && !$client instanceof Client) {
+        if ($client instanceof \Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface && !$client instanceof Client) {
             throw new \LogicException(
                 \sprintf('Expected null or instance of %s, got %s', Client::class, \get_debug_type($client))
             );

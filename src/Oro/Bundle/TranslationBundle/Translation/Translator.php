@@ -43,7 +43,7 @@ class Translator extends BaseTranslator implements LocaleAwareInterface, Transla
         for ($i = count($fallbackCatalogues) - 1; $i >= 0; $i--) {
             $localeTranslations = $fallbackCatalogues[$i]->all();
             // if there are domains -> filter only their translations
-            if ($domains) {
+            if ($domains !== []) {
                 $localeTranslations = array_intersect_key($localeTranslations, $domains);
             }
             foreach ($localeTranslations as $domain => $domainTranslations) {

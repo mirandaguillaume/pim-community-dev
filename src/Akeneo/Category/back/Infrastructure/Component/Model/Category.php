@@ -24,8 +24,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: \Akeneo\Category\Infrastructure\Doctrine\ORM\Repository\CategoryRepository::class)]
 #[ORM\Table(name: 'pim_catalog_category')]
 #[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
-#[ORM\Index(columns: ['lft'], name: 'left_idx')]
-#[ORM\Index(columns: ['updated'], name: 'updated_idx')]
+#[ORM\Index(name: 'left_idx', columns: ['lft'])]
+#[ORM\Index(name: 'updated_idx', columns: ['updated'])]
 #[ORM\UniqueConstraint(name: 'pim_category_code_uc', columns: ['code'])]
 class Category extends BaseCategory implements CategoryInterface, \Stringable
 {
@@ -181,7 +181,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
 
     public function getLabel(): string
     {
-        $translated = ($this->getTranslation()) ? $this->getTranslation()->getLabel() : null;
+        $translated = ($this->getTranslation() instanceof \Akeneo\Category\Infrastructure\Component\Model\CategoryTranslationInterface) ? $this->getTranslation()->getLabel() : null;
 
         return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
     }

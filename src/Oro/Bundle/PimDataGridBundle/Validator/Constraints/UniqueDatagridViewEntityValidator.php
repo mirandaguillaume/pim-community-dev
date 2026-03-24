@@ -39,7 +39,7 @@ class UniqueDatagridViewEntityValidator extends ConstraintValidator
             $datagridViewFromDb = $this->datagridViewRepository->findPrivateDatagridViewByLabel($entity->getLabel(), $entity->getOwner());
         }
 
-        if (null !== $datagridViewFromDb
+        if ($datagridViewFromDb instanceof \Oro\Bundle\PimDataGridBundle\Entity\DatagridView
             && $datagridViewFromDb->getId() !== $entity->getId()
         ) {
             $this->context->buildViolation($constraint->message)

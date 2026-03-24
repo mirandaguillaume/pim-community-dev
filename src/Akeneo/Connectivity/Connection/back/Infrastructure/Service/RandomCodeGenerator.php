@@ -16,6 +16,7 @@ class RandomCodeGenerator implements RandomCodeGeneratorInterface
 {
     public function generate(): string
     {
+        $randomData = '';
         if (@\file_exists('/dev/urandom')) { // Get 100 bytes of random data
             $randomData = \file_get_contents('/dev/urandom', false, null, 0, 100);
         } elseif (\function_exists('openssl_random_pseudo_bytes')) { // Get 100 bytes of pseudo-random data
@@ -25,7 +26,7 @@ class RandomCodeGenerator implements RandomCodeGeneratorInterface
             }
         }
         // Last resort: mt_rand
-        if (empty($randomData)) { // Get 108 bytes of (pseudo-random, insecure) data
+        if (in_array($randomData, ['', '0', false], true)) { // Get 108 bytes of (pseudo-random, insecure) data
             $randomData = \random_int(0, \mt_getrandmax())
                 . \random_int(0, \mt_getrandmax())
                 . \random_int(0, \mt_getrandmax())

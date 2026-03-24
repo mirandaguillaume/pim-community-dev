@@ -24,7 +24,7 @@ final readonly class GetCategoriesSql implements GetCategoriesInterface
         private Connection $connection,
         private GetDeactivatedTemplateAttributes $getDeactivatedTemplateAttributes,
         private DeactivatedTemplateAttributesInValueCollectionFilter $deactivatedAttributesInValueCollectionFilter,
-        private readonly SqlPlatformHelperInterface $platformHelper,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -114,14 +114,14 @@ final readonly class GetCategoriesSql implements GetCategoriesInterface
             $sqlParameters->getTypes(),
         )->fetchAllAssociative();
 
-        if (!$results) {
+        if ($results === []) {
             return [];
         }
         $deactivatedAttributes = $this->getDeactivatedTemplateAttributes->execute();
         $retrievedCategories = [];
 
         foreach ($results as $rawCategory) {
-            if (!empty($deactivatedAttributes) && !empty($rawCategory['value_collection'])) {
+            if ($deactivatedAttributes !== [] && !empty($rawCategory['value_collection'])) {
                 $rawCategory['value_collection'] = $this->filterOutEnrichedValuesOfDeactivatedAttributes(
                     $deactivatedAttributes,
                     $rawCategory['value_collection'],

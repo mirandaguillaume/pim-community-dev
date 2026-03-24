@@ -119,11 +119,7 @@ class VersionManager
                 fn ($version) => (is_countable($version->getChangeset()) ? count($version->getChangeset()) : 0) > 0
             );
 
-            if (!empty($builtVersions)) {
-                $previousVersion = end($builtVersions);
-            } else {
-                $previousVersion = $this->getNewestLogEntry($versionable);
-            }
+            $previousVersion = $builtVersions === [] ? $this->getNewestLogEntry($versionable) : end($builtVersions);
 
             $createdVersions[] = $this->versionBuilder
                 ->buildVersion(
@@ -245,7 +241,7 @@ class VersionManager
      */
     public function buildPendingVersion(Version $pending, ?Version $previousVersion = null)
     {
-        if (null === $previousVersion) {
+        if (!$previousVersion instanceof \Akeneo\Tool\Component\Versioning\Model\Version) {
             $previousVersion = $this->getVersionRepository()
                 ->getNewestLogEntry($pending->getResourceName(), $pending->getResourceId(), $pending->getResourceUuid(), false);
         }

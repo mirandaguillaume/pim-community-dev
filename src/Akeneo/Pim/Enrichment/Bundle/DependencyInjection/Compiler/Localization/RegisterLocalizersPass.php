@@ -29,7 +29,7 @@ class RegisterLocalizersPass implements CompilerPassInterface
         }
         $definition = $container->getDefinition(self::LOCALIZATION_LOCALIZER_REGISTRY);
 
-        foreach ($container->findTaggedServiceIds(self::LOCALIZATION_LOCALIZER_TAG) as $id => $tags) {
+        foreach (array_keys($container->findTaggedServiceIds(self::LOCALIZATION_LOCALIZER_TAG)) as $id) {
             $definition->addMethodCall('register', [new Reference($id)]);
         }
     }

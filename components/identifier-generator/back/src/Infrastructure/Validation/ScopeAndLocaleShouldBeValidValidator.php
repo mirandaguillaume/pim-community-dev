@@ -33,7 +33,7 @@ final class ScopeAndLocaleShouldBeValidValidator extends ConstraintValidator
         }
 
         $attribute = $this->getAttributes->forCode($condition['attributeCode']);
-        if (null === $attribute) {
+        if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
             return;
         }
 
@@ -47,25 +47,21 @@ final class ScopeAndLocaleShouldBeValidValidator extends ConstraintValidator
                     ])
                     ->atPath('[scope]')
                     ->addViolation();
-            } else {
-                if (!$this->scopeExists($condition['scope'])) {
-                    $this->context
-                        ->buildViolation($constraint->unknownScope, [
-                            '{{ scopeCode }}' => $condition['scope'],
-                        ])
-                        ->atPath('[scope]')
-                        ->addViolation();
-                } else {
-                    $validScope = $condition['scope'];
-                }
-            }
-        } else {
-            if (\array_key_exists('scope', $condition)) {
+            } elseif (!$this->scopeExists($condition['scope'])) {
                 $this->context
-                    ->buildViolation($constraint->notExpectedField)
+                    ->buildViolation($constraint->unknownScope, [
+                        '{{ scopeCode }}' => $condition['scope'],
+                    ])
                     ->atPath('[scope]')
                     ->addViolation();
+            } else {
+                $validScope = $condition['scope'];
             }
+        } elseif (\array_key_exists('scope', $condition)) {
+            $this->context
+                ->buildViolation($constraint->notExpectedField)
+                ->atPath('[scope]')
+                ->addViolation();
         }
 
         if ($attribute->isLocalizable()) {
@@ -76,25 +72,21 @@ final class ScopeAndLocaleShouldBeValidValidator extends ConstraintValidator
                     ])
                     ->atPath('[locale]')
                     ->addViolation();
-            } else {
-                if (!$this->localeExists($condition['locale'])) {
-                    $this->context
-                        ->buildViolation($constraint->unknownLocale, [
-                            '{{ localeCode }}' => $condition['locale'],
-                        ])
-                        ->atPath('[locale]')
-                        ->addViolation();
-                } else {
-                    $validLocale = $condition['locale'];
-                }
-            }
-        } else {
-            if (\array_key_exists('locale', $condition)) {
+            } elseif (!$this->localeExists($condition['locale'])) {
                 $this->context
-                    ->buildViolation($constraint->notExpectedField)
+                    ->buildViolation($constraint->unknownLocale, [
+                        '{{ localeCode }}' => $condition['locale'],
+                    ])
                     ->atPath('[locale]')
                     ->addViolation();
+            } else {
+                $validLocale = $condition['locale'];
             }
+        } elseif (\array_key_exists('locale', $condition)) {
+            $this->context
+                ->buildViolation($constraint->notExpectedField)
+                ->atPath('[locale]')
+                ->addViolation();
         }
 
         if ($validLocale

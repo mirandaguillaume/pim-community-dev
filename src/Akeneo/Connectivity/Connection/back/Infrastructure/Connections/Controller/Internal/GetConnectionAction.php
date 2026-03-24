@@ -34,7 +34,7 @@ final readonly class GetConnectionAction
         $query = new FindAConnectionQuery($request->get('code', ''));
         $connection = $this->findAConnectionHandler->handle($query);
 
-        if (null === $connection || 'default' !== $connection->type()) {
+        if (!$connection instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\ConnectionWithCredentials || 'default' !== $connection->type()) {
             return new JsonResponse(null, Response::HTTP_NOT_FOUND);
         }
 

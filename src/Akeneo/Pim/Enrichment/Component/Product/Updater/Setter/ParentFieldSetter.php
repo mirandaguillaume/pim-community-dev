@@ -74,7 +74,7 @@ class ParentFieldSetter extends AbstractFieldSetter
 
         $product->setParent($parent);
         $product->setFamilyVariant($familyVariant);
-        if (null === $product->getFamily()) {
+        if (!$product->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             $product->setFamily($familyVariant->getFamily());
         }
     }

@@ -109,7 +109,7 @@ class ExternalApiCategory
             'code' => $this->code,
             'parent' => $this->parentCode,
             'updated' => $this->updated,
-            'labels' => empty($this->labels) ? (object) [] : $this->labels,
+            'labels' => $this->labels === null || $this->labels === [] ? (object) [] : $this->labels,
         ];
 
         if ($withPosition) {
@@ -118,7 +118,7 @@ class ExternalApiCategory
 
         if ($withEnrichedAttributes) {
             // cast as object when array is empty to output "values: {}"
-            $normalizedCategory['values'] = empty($this->values) ? (object) [] : $this->values;
+            $normalizedCategory['values'] = $this->values === null || $this->values === [] ? (object) [] : $this->values;
         }
 
         return $normalizedCategory;

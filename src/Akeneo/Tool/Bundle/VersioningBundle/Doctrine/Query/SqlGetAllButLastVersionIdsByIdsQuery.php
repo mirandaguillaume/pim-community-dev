@@ -20,7 +20,7 @@ class SqlGetAllButLastVersionIdsByIdsQuery
 
     public function execute(array $versionIds): array
     {
-        if (empty($versionIds)) {
+        if ($versionIds === []) {
             return [];
         }
 

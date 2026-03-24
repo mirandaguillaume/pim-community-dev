@@ -23,7 +23,7 @@ final readonly class NonExistentPriceCollectionValueFilter implements NonExisten
     {
         $priceCollectionValues = $onGoingFilteredRawValues->notFilteredValuesOfTypes(AttributeTypes::PRICE_COLLECTION);
 
-        if (empty($priceCollectionValues)) {
+        if ($priceCollectionValues === []) {
             return $onGoingFilteredRawValues;
         }
 
@@ -63,18 +63,16 @@ final readonly class NonExistentPriceCollectionValueFilter implements NonExisten
 
                         $amountByCurrency = [];
                         foreach ($value as $price) {
-                            if (isset($price['amount']) && isset($price['currency'])) {
-                                if (in_array($price['currency'], $activatedCurrencies)) {
-                                    //Only the last price by currency is kept
-                                    $amountByCurrency[$price['currency']] = $price['amount'];
-                                }
+                            if (isset($price['amount']) && isset($price['currency']) && in_array($price['currency'], $activatedCurrencies)) {
+                                //Only the last price by currency is kept
+                                $amountByCurrency[$price['currency']] = $price['amount'];
                             }
                         }
                         $formattedPriceData = [];
                         foreach ($amountByCurrency as $currency => $amount) {
                             $formattedPriceData[] = ['currency' => $currency, 'amount' => $amount];
                         }
-                        if (!empty($formattedPriceData)) {
+                        if ($formattedPriceData !== []) {
                             $priceCollectionValues[$channel][$locale] = $formattedPriceData;
                         }
                     }

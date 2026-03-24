@@ -47,7 +47,7 @@ class ProductGridController
         }
 
         $attributes = $this->listAttributesQuery->fetch($locale, $page, $search, $user->getId());
-        $attributesAsFilters = empty($attributes) ? [] : $this->formatAttributesAsFilters($attributes);
+        $attributesAsFilters = $attributes === [] ? [] : $this->formatAttributesAsFilters($attributes);
 
         return new JsonResponse($attributesAsFilters);
     }

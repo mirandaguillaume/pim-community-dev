@@ -123,7 +123,7 @@ class JobExecution implements \Stringable
             $this->stepExecutions = clone $this->stepExecutions;
         }
 
-        if ($this->executionContext) {
+        if ($this->executionContext instanceof \Akeneo\Tool\Component\Batch\Item\ExecutionContext) {
             $this->executionContext = clone $this->executionContext;
         }
     }
@@ -383,7 +383,7 @@ class JobExecution implements \Stringable
      */
     public function getExitStatus()
     {
-        if ($this->exitStatus === null && $this->exitCode !== null) {
+        if (!$this->exitStatus instanceof \Akeneo\Tool\Component\Batch\Job\ExitStatus && $this->exitCode !== null) {
             $this->exitStatus = new ExitStatus($this->exitCode);
         }
 

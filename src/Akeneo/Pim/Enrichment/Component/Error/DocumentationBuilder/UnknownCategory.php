@@ -19,11 +19,7 @@ final class UnknownCategory implements DocumentationBuilderInterface
 {
     public function support($object): bool
     {
-        if ($object instanceof UnknownCategoryException) {
-            return true;
-        }
-
-        return false;
+        return $object instanceof UnknownCategoryException;
     }
 
     public function buildDocumentation($object): DocumentationCollection

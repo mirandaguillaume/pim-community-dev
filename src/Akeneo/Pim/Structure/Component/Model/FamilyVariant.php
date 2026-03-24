@@ -170,7 +170,7 @@ class FamilyVariant implements FamilyVariantInterface
     public function updateAxesForLevel(int $level, array $axes): void
     {
         Assert::allIsInstanceOf($axes, AttributeInterface::class);
-        if (null === $attributeSet = $this->getVariantAttributeSet($level)) {
+        if (!($attributeSet = $this->getVariantAttributeSet($level)) instanceof \Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface) {
             $attributeSet = new VariantAttributeSet();
             $attributeSet->setLevel($level);
             $this->addVariantAttributeSet($attributeSet);
@@ -200,7 +200,7 @@ class FamilyVariant implements FamilyVariantInterface
     public function updateAttributesForLevel(int $level, array $attributes): void
     {
         Assert::allIsInstanceOf($attributes, AttributeInterface::class);
-        if (null === $attributeSet = $this->getVariantAttributeSet($level)) {
+        if (!($attributeSet = $this->getVariantAttributeSet($level)) instanceof \Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface) {
             $attributeSet = new VariantAttributeSet();
             $attributeSet->setLevel($level);
             $this->addVariantAttributeSet($attributeSet);

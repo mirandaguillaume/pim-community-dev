@@ -137,7 +137,7 @@ class GetCategorySql implements GetCategoryInterface
         }
 
         $deactivatedAttributes = $this->getDeactivatedTemplateAttributes->execute();
-        if (!empty($deactivatedAttributes) && !empty($result['value_collection'])) {
+        if ($deactivatedAttributes !== [] && !empty($result['value_collection'])) {
             $result['value_collection'] = $this->filterOutEnrichedValuesOfDeactivatedAttributes(
                 $deactivatedAttributes,
                 $result['value_collection'],
@@ -163,7 +163,7 @@ class GetCategorySql implements GetCategoryInterface
         $deactivatedAttributes = $this->getDeactivatedTemplateAttributes->execute();
 
         while (($result = $stmt->fetchAssociative()) !== false) {
-            if (!empty($deactivatedAttributes) && !empty($result['value_collection'])) {
+            if ($deactivatedAttributes !== [] && !empty($result['value_collection'])) {
                 $result['value_collection'] = $this->filterOutEnrichedValuesOfDeactivatedAttributes(
                     $deactivatedAttributes,
                     $result['value_collection'],

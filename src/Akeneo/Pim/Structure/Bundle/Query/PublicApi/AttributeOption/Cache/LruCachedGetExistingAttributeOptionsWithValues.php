@@ -26,7 +26,7 @@ final readonly class LruCachedGetExistingAttributeOptionsWithValues implements G
      */
     public function fromAttributeCodeAndOptionCodes(array $optionKeys): array
     {
-        if (empty($optionKeys)) {
+        if ($optionKeys === []) {
             return [];
         }
 

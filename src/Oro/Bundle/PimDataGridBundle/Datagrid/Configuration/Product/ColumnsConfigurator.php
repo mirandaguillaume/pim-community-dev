@@ -110,7 +110,7 @@ class ColumnsConfigurator implements ConfiguratorInterface
 
             if ($attributeTypeConf && $attributeTypeConf['column']) {
                 $columnConfig = $attributeTypeConf['column'];
-                $columnConfig = $columnConfig + [
+                $columnConfig += [
                     'label'      => $attribute['label'],
                     'order'      => $attribute['sortOrder'],
                     'group'      => $attribute['group'],

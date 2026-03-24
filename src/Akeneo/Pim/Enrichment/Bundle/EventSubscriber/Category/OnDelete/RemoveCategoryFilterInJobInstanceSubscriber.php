@@ -142,7 +142,7 @@ class RemoveCategoryFilterInJobInstanceSubscriber
             }
         }
 
-        if (!empty($jobsToUpdate)) {
+        if ($jobsToUpdate !== []) {
             $this->bulkSaver->saveAll($jobsToUpdate);
         }
 
@@ -169,8 +169,8 @@ class RemoveCategoryFilterInJobInstanceSubscriber
                     }
                 }
 
-                if (empty($newValues)) {
-                    $rawParameters['filters']['data'][$filterKey]['value'] = empty($this->computedRootCodes)
+                if ($newValues === []) {
+                    $rawParameters['filters']['data'][$filterKey]['value'] = $this->computedRootCodes === []
                         ? self::DEFAULT_CATEGORY_FILTER_VALUE
                         : array_unique($this->computedRootCodes)
                     ;

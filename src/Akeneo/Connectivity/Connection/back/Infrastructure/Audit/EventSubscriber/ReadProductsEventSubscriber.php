@@ -46,7 +46,7 @@ final readonly class ReadProductsEventSubscriber
 
         $connection = $this->getValidConnectionBehindReadProductsEvent($event);
 
-        if (null === $connection) {
+        if (!$connection instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection) {
             return;
         }
 

@@ -539,11 +539,7 @@ class StepExecution implements \Stringable
      */
     public function incrementSummaryInfo($key, $increment = 1)
     {
-        if (!isset($this->summary[$key])) {
-            $this->summary[$key] = $increment;
-        } else {
-            $this->summary[$key] = $this->summary[$key] + $increment;
-        }
+        $this->summary[$key] = isset($this->summary[$key]) ? $this->summary[$key] + $increment : $increment;
     }
 
     /**

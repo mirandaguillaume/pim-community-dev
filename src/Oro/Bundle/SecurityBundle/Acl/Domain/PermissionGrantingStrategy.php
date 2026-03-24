@@ -53,7 +53,7 @@ class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
      */
     protected function getContext()
     {
-        if ($this->contextLink === null) {
+        if (!$this->contextLink instanceof \Oro\Bundle\SecurityBundle\DependencyInjection\Utils\ServiceLink) {
             throw new \RuntimeException('The context link is not set.');
         }
 

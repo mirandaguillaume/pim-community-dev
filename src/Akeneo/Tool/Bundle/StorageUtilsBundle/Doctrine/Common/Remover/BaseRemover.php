@@ -61,7 +61,7 @@ class BaseRemover implements RemoverInterface, BulkRemoverInterface
      */
     public function removeAll(array $objects, array $options = [])
     {
-        if (empty($objects)) {
+        if ($objects === []) {
             return;
         }
 

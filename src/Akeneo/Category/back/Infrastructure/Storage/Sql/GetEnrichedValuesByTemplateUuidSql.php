@@ -62,7 +62,7 @@ class GetEnrichedValuesByTemplateUuidSql implements GetEnrichedValuesByTemplateU
                 ],
             )->fetchAllAssociative();
 
-            if (empty($rows)) {
+            if ($rows === []) {
                 return;
             }
             $valuesByCode = [];

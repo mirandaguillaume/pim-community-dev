@@ -50,7 +50,7 @@ class EntityWithValuesFieldFilter implements FilterInterface
             }
 
             $comparator = $this->comparatorRegistry->getFieldComparator($field);
-            $originalData = !isset($originalEntity[$field]) ? null : $originalEntity[$field];
+            $originalData = isset($originalEntity[$field]) ? $originalEntity[$field] : null;
             $diff = $comparator->compare($value, $originalData);
 
             if (null !== $diff) {

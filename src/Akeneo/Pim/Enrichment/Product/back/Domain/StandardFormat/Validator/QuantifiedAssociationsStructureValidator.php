@@ -164,6 +164,6 @@ class QuantifiedAssociationsStructureValidator
      */
     private function isArraySequential(array $data): bool
     {
-        return empty($data) || array_keys($data) === range(0, count($data) - 1);
+        return $data === [] || array_keys($data) === range(0, count($data) - 1);
     }
 }

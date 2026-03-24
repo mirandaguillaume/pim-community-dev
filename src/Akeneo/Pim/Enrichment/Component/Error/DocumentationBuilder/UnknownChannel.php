@@ -20,13 +20,8 @@ final class UnknownChannel implements DocumentationBuilderInterface
 {
     public function support($object): bool
     {
-        if (
-            $object instanceof ConstraintViolationInterface
-            && $object->getCode() === ScopableValues::SCOPABLE_VALUES
-        ) {
-            return true;
-        }
-        return false;
+        return $object instanceof ConstraintViolationInterface
+        && $object->getCode() === ScopableValues::SCOPABLE_VALUES;
     }
 
     /**

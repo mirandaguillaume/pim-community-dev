@@ -59,7 +59,7 @@ final readonly class SqlGetCompletenesses implements GetProductCompletenesses
         // to fill missing uuids
         $productUuidsAsStrings = \array_map(fn (UuidInterface $uuid): string => $uuid->toString(), $productUuids);
         $missingUuids = \array_diff($productUuidsAsStrings, \array_keys($results));
-        if (!empty($missingUuids)) {
+        if ($missingUuids !== []) {
             foreach ($missingUuids as $missingUuid) {
                 $results[$missingUuid] = new ProductCompletenessCollection(Uuid::fromString($missingUuid), []);
             }
@@ -82,7 +82,7 @@ final readonly class SqlGetCompletenesses implements GetProductCompletenesses
                 continue;
             }
 
-            if (!empty($locales)) {
+            if ($locales !== []) {
                 $completenessByLocale = \array_intersect_key($completenessByLocale, \array_flip($locales));
             }
 

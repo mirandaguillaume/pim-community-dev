@@ -86,7 +86,7 @@ class QueueJobLauncher implements JobLauncherInterface
         }
 
         $jobExecution = $this->jobRepository->createJobExecution($job, $jobInstance, $jobParameters);
-        if ($user) {
+        if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             $jobExecution->setUser($user->getUserIdentifier());
         }
 

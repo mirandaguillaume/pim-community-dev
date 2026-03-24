@@ -73,7 +73,7 @@ class ProductAndProductModelDatasource extends Datasource
         );
 
         $errors = $this->validator->validate($getRowsQueryParameters);
-        if (count($errors)) {
+        if (count($errors) > 0) {
             throw new \LogicException(
                 sprintf(
                     'Invalid query parameters sent to fetch data in the product and product model datagrid: "%s".',

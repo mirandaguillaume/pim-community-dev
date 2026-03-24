@@ -73,7 +73,7 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
     protected function getFamilyLabel(ProductInterface $product, $locale)
     {
         $family = $product->getFamily();
-        if (null === $family) {
+        if (!$family instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             return null;
         }
 
@@ -94,7 +94,7 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
         $locale = current($context['locales']);
         $completeness = $completenesses->getCompletenessForChannelAndLocale($channel, $locale);
 
-        return $completeness ? $completeness->ratio() : null;
+        return $completeness instanceof \Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompleteness ? $completeness->ratio() : null;
     }
 
     /**

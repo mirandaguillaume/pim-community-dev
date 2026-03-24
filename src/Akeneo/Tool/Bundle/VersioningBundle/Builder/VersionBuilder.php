@@ -44,8 +44,8 @@ class VersionBuilder
         $resourceId = method_exists($versionable, 'getUuid') ? null : $versionable->getId();
         $resourceUuid = method_exists($versionable, 'getUuid') ? $versionable->getUuid() : null;
 
-        $versionNumber = $previousVersion ? $previousVersion->getVersion() + 1 : 1;
-        $oldSnapshot = $previousVersion ? $previousVersion->getSnapshot() : [];
+        $versionNumber = $previousVersion instanceof \Akeneo\Tool\Component\Versioning\Model\Version ? $previousVersion->getVersion() + 1 : 1;
+        $oldSnapshot = $previousVersion instanceof \Akeneo\Tool\Component\Versioning\Model\Version ? $previousVersion->getSnapshot() : [];
 
         // TODO: we don't use direct json serialize due to convert to audit data based on array_diff
         $snapshot = $this->normalizer->normalize($versionable, 'flat', []);
@@ -92,8 +92,8 @@ class VersionBuilder
      */
     public function buildPendingVersion(Version $pending, ?Version $previousVersion = null)
     {
-        $versionNumber = $previousVersion ? $previousVersion->getVersion() + 1 : 1;
-        $oldSnapshot = $previousVersion ? $previousVersion->getSnapshot() : [];
+        $versionNumber = $previousVersion instanceof \Akeneo\Tool\Component\Versioning\Model\Version ? $previousVersion->getVersion() + 1 : 1;
+        $oldSnapshot = $previousVersion instanceof \Akeneo\Tool\Component\Versioning\Model\Version ? $previousVersion->getSnapshot() : [];
 
         $modification = $pending->getChangeset();
         $snapshotFromPreviousVersion = \array_replace($modification, $oldSnapshot);

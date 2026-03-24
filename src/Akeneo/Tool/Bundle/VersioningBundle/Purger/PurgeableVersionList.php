@@ -30,7 +30,7 @@ final readonly class PurgeableVersionList implements \Countable
 
     public function remove(array $versionIds): self
     {
-        if (empty($versionIds)) {
+        if ($versionIds === []) {
             return $this;
         }
 
@@ -41,7 +41,7 @@ final readonly class PurgeableVersionList implements \Countable
 
     public function keep(array $versionIds): self
     {
-        if (!empty($versionIds)) {
+        if ($versionIds !== []) {
             $versionIds = array_values(array_intersect($this->versionIds, $versionIds));
         }
 

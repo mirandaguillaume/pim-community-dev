@@ -19,7 +19,7 @@ class SqlGetFamilies implements GetFamilies
 
     public function byCodes(array $familyCodes): array
     {
-        if (empty($familyCodes)) {
+        if ($familyCodes === []) {
             return [];
         }
 

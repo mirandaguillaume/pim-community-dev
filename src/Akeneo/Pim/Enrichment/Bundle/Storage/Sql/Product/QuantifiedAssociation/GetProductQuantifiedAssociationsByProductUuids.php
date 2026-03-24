@@ -37,7 +37,7 @@ final readonly class GetProductQuantifiedAssociationsByProductUuids
      */
     public function fromProductUuids(array $productUuids): array
     {
-        if (empty($productUuids)) {
+        if ($productUuids === []) {
             return [];
         }
 
@@ -134,7 +134,7 @@ final readonly class GetProductQuantifiedAssociationsByProductUuids
                     'uuid' => $associationWithProductId['uuid'],
                 ];
             }
-            if (!empty($uniqueQuantifiedAssociations)) {
+            if ($uniqueQuantifiedAssociations !== []) {
                 $result[$associationTypeCode]['products'] = array_values($uniqueQuantifiedAssociations);
             }
         }

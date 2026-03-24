@@ -115,15 +115,13 @@ abstract class AbstractPager implements PagerInterface
             if ($this->page === 0) {
                 $this->page = 1;
             }
+        } elseif ($max === 0) {
+            $this->maxPerPage = 0;
+            $this->page = 0;
         } else {
-            if ($max === 0) {
-                $this->maxPerPage = 0;
-                $this->page = 0;
-            } else {
-                $this->maxPerPage = 1;
-                if ($this->page === 0) {
-                    $this->page = 1;
-                }
+            $this->maxPerPage = 1;
+            if ($this->page === 0) {
+                $this->page = 1;
             }
         }
     }

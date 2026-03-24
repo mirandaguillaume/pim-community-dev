@@ -27,7 +27,7 @@ class RestoreAdminRolePermissions
         $permissions = $roleWithPermissions->permissions();
 
         $restoredPermissions = [];
-        foreach ($permissions as $acl => $isGranted) {
+        foreach (array_keys($permissions) as $acl) {
             $restoredPermissions[$acl] = true;
         }
 
@@ -44,7 +44,7 @@ class RestoreAdminRolePermissions
         $roleIdentifier = self::ROLE_ADMINISTRATOR_IDENTIFIER
         ;
         $roleWithPermissions = $this->roleWithPermissionsRepository->findOneByIdentifier($roleIdentifier);
-        if (null === $roleWithPermissions) {
+        if (!$roleWithPermissions instanceof \Akeneo\UserManagement\Component\Connector\RoleWithPermissions) {
             if (!$forceCreation) {
                 throw new UnknownUserRole(sprintf('The "%s" user role does not exist', $roleIdentifier));
             }

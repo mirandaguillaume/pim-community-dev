@@ -54,11 +54,9 @@ class UserPreferencesValidator extends ConstraintValidator
      */
     protected function validateCatalogScope($user, Constraint $constraint)
     {
-        if (is_callable($user->getCatalogScope(...))) {
-            if (!$user->getCatalogScope()) {
-                $this->context->buildViolation($constraint->missingScopeMsg)
-                    ->addViolation();
-            }
+        if (is_callable($user->getCatalogScope(...)) && !$user->getCatalogScope()) {
+            $this->context->buildViolation($constraint->missingScopeMsg)
+                ->addViolation();
         }
     }
 

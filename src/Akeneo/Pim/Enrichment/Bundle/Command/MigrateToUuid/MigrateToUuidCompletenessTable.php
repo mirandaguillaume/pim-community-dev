@@ -82,7 +82,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
                 SQL
         );
 
-        $this->logger->notice(sprintf('Will create the temporary completeness table'), $logContext->toArray());
+        $this->logger->notice('Will create the temporary completeness table', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 CREATE TABLE pim_catalog_completeness_temp (SELECT id, locale_id, channel_id, missing_count, required_count, product_uuid FROM pim_catalog_completeness WHERE 1 = 0)
@@ -90,7 +90,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Add primary key to speed up the lookup during inserts
-        $this->logger->notice(sprintf('Will set the primary key and autoincrement on id'), $logContext->toArray());
+        $this->logger->notice('Will set the primary key and autoincrement on id', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 ALTER TABLE pim_catalog_completeness_temp MODIFY COLUMN id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY
@@ -98,7 +98,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Insert uuids
-        $this->logger->notice(sprintf('Will insert data into temporary table'), $logContext->toArray());
+        $this->logger->notice('Will insert data into temporary table', $logContext->toArray());
         do {
             $count = $this->connection->executeQuery(
                 <<<SQL
@@ -120,7 +120,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         } while ($count > 0);
 
         // Put index on the uuid column
-        $this->logger->notice(sprintf('Will index on the temporary completeness table uuid column'), $logContext->toArray());
+        $this->logger->notice('Will index on the temporary completeness table uuid column', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 CREATE INDEX product_uuid ON pim_catalog_completeness_temp (product_uuid)
@@ -128,7 +128,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Set uuids as not nullable
-        $this->logger->notice(sprintf('Will set the uuid column as not nullable'), $logContext->toArray());
+        $this->logger->notice('Will set the uuid column as not nullable', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 ALTER TABLE pim_catalog_completeness_temp
@@ -137,7 +137,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Drop original table
-        $this->logger->notice(sprintf('Will drop the original table'), $logContext->toArray());
+        $this->logger->notice('Will drop the original table', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 DROP TABLE pim_catalog_completeness;
@@ -145,7 +145,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Replace with temporary table which is now ready
-        $this->logger->notice(sprintf('Will rename the temporary table'), $logContext->toArray());
+        $this->logger->notice('Will rename the temporary table', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 RENAME TABLE pim_catalog_completeness_temp TO pim_catalog_completeness;
@@ -153,7 +153,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Temporarily disable foreign key checks
-        $this->logger->notice(sprintf('Will disable foreign key checks'), $logContext->toArray());
+        $this->logger->notice('Will disable foreign key checks', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 SET FOREIGN_KEY_CHECKS=0
@@ -161,7 +161,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Add channel foreign key
-        $this->logger->notice(sprintf('Will add foreign key towards channels'), $logContext->toArray());
+        $this->logger->notice('Will add foreign key towards channels', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 ALTER TABLE pim_catalog_completeness
@@ -173,7 +173,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Add locale foreign key
-        $this->logger->notice(sprintf('Will add foreign key towards locales'), $logContext->toArray());
+        $this->logger->notice('Will add foreign key towards locales', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 ALTER TABLE pim_catalog_completeness
@@ -185,14 +185,14 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Temporarily disable unique checks
-        $this->logger->notice(sprintf('Will disable unique checks'), $logContext->toArray());
+        $this->logger->notice('Will disable unique checks', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 SET UNIQUE_CHECKS=0
                 SQL
         );
 
-        $this->logger->notice(sprintf('Will create unique constraint'), $logContext->toArray());
+        $this->logger->notice('Will create unique constraint', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 ALTER TABLE pim_catalog_completeness
@@ -201,7 +201,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
         );
 
         // Re-enable checks
-        $this->logger->notice(sprintf('Will re-enable checks'), $logContext->toArray());
+        $this->logger->notice('Will re-enable checks', $logContext->toArray());
         $this->connection->executeQuery(
             <<<SQL
                 SET UNIQUE_CHECKS=1

@@ -20,13 +20,8 @@ class UnknownCurrency implements DocumentationBuilderInterface
 {
     public function support($object): bool
     {
-        if (
-            $object instanceof ConstraintViolationInterface
-            && $object->getCode() === Currency::CURRENCY
-        ) {
-            return true;
-        }
-        return false;
+        return $object instanceof ConstraintViolationInterface
+        && $object->getCode() === Currency::CURRENCY;
     }
 
     /**

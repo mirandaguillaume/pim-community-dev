@@ -93,7 +93,7 @@ class NotificationController
     {
         $user = $this->userContext->getUser();
 
-        if (null !== $user) {
+        if ($user instanceof \Akeneo\UserManagement\Component\Model\UserInterface) {
             $this->userNotifRepository->markAsViewed($user, $id);
         }
 
@@ -114,7 +114,7 @@ class NotificationController
 
         $user = $this->userContext->getUser();
 
-        if (null !== $user) {
+        if ($user instanceof \Akeneo\UserManagement\Component\Model\UserInterface) {
             $notification = $this->userNotifRepository->findOneBy(
                 [
                     'id'   => $id,

@@ -109,11 +109,7 @@ class HalResource
         }
 
         foreach ($this->data as $key => $value) {
-            if (isset($data[$key]) && is_array($value)) {
-                $data[$key] = array_merge($data[$key], $value);
-            } else {
-                $data[$key] = $value;
-            }
+            $data[$key] = isset($data[$key]) && is_array($value) ? array_merge($data[$key], $value) : $value;
         }
 
         foreach ($this->embedded as $rel => $embedded) {

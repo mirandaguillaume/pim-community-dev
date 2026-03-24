@@ -59,7 +59,7 @@ final readonly class ImageValueFactory implements ValueFactory
 
         $file = $data instanceof FileInfoInterface ? $data : $this->getFile($data);
 
-        if ($file === null) {
+        if (!$file instanceof \Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface) {
             throw InvalidPropertyException::validEntityCodeExpected(
                 $attribute->code(),
                 'fileinfo key',

@@ -40,16 +40,16 @@ class RegisterGenericProvidersPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(sprintf(static::REGISTRY_ID, $this->providerType))) {
+        if (!$container->hasDefinition(sprintf(self::REGISTRY_ID, $this->providerType))) {
             return;
         }
 
-        $registryDefinition = $container->getDefinition(sprintf(static::REGISTRY_ID, $this->providerType));
+        $registryDefinition = $container->getDefinition(sprintf(self::REGISTRY_ID, $this->providerType));
 
         $providers = [];
-        foreach ($container->findTaggedServiceIds(sprintf(static::PROVIDER_TAG, $this->providerType)) as $serviceId => $tags) {
+        foreach ($container->findTaggedServiceIds(sprintf(self::PROVIDER_TAG, $this->providerType)) as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = $tag['priority'] ?? static::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? self::DEFAULT_PRIORITY;
                 if (!isset($providers[$priority])) {
                     $providers[$priority] = [];
                 }

@@ -21,7 +21,7 @@ final class QualityScoreFilter extends ChoiceFilter
     {
         $filterValue = $data['value'] ?? null;
 
-        if (! is_array($filterValue) || empty($filterValue)) {
+        if (! is_array($filterValue) || $filterValue === []) {
             return false;
         }
 

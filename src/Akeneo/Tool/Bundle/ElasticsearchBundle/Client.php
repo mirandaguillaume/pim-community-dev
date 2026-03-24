@@ -65,7 +65,7 @@ class Client
             'body' => $body,
         ];
 
-        if (null !== $refresh) {
+        if ($refresh instanceof \Akeneo\Tool\Bundle\ElasticsearchBundle\Refresh) {
             $params['refresh'] = $refresh->getType();
         }
 
@@ -125,7 +125,7 @@ class Client
 
             $paramsComputedSize += $estimatedAddedSize;
 
-            if (null !== $refresh) {
+            if ($refresh instanceof \Akeneo\Tool\Bundle\ElasticsearchBundle\Refresh) {
                 $params['refresh'] = $refresh->getType();
             }
         }
@@ -145,7 +145,7 @@ class Client
             $mergedResponse = $this->doChunkedBulkIndex($params, $mergedResponse, $length);
         } catch (BadRequest400Exception) {
             $chunkLength = intdiv($length, self::NUMBER_OF_BATCHES_ON_RETRY);
-            $chunkLength = $chunkLength % 2 == 0 ? $chunkLength : $chunkLength + 1;
+            $chunkLength = $chunkLength % 2 === 0 ? $chunkLength : $chunkLength + 1;
 
             $mergedResponse = $this->doChunkedBulkIndex($params, $mergedResponse, $chunkLength);
         } catch (\Exception $e) {

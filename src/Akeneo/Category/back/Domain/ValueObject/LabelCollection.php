@@ -56,7 +56,7 @@ final class LabelCollection implements \IteratorAggregate
         Assert::notEmpty($localeCode);
         Assert::nullOrMaxLength($label, 255);
 
-        $this->labels[$localeCode] = empty($label) ? null : $label;
+        $this->labels[$localeCode] = in_array($label, [null, '', '0'], true) ? null : $label;
     }
 
     public function hasTranslation(string $localeCode): bool

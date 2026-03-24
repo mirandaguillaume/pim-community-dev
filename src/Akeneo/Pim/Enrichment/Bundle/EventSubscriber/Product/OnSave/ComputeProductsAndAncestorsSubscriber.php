@@ -58,7 +58,7 @@ final readonly class ComputeProductsAndAncestorsSubscriber
             $products
         );
 
-        if (empty($productUuids)) {
+        if ($productUuids === []) {
             return;
         }
 

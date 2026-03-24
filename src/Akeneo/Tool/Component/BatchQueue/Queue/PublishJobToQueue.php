@@ -83,7 +83,7 @@ class PublishJobToQueue implements PublishJobToQueueInterface
             'env' => $this->kernelEnv,
         ];
 
-        if (true === $noLog) {
+        if ($noLog) {
             $options['no-log'] = true;
         }
 
@@ -106,7 +106,7 @@ class PublishJobToQueue implements PublishJobToQueueInterface
                 throw new \RuntimeException(
                     sprintf(
                         'Emails "%s" are invalid: %s',
-                        join(', ', $emails),
+                        implode(', ', $emails),
                         $violationMessages,
                     )
                 );

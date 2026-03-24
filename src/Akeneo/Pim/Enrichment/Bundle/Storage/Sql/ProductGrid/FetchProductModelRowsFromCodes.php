@@ -40,7 +40,7 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
      */
     public function __invoke(array $codes, array $attributeCodes, string $channelCode, string $localeCode): array
     {
-        if (empty($codes)) {
+        if ($codes === []) {
             return [];
         }
 

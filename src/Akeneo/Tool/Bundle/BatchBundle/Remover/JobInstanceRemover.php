@@ -48,7 +48,7 @@ class JobInstanceRemover implements RemoverInterface, BulkRemoverInterface
      */
     public function removeAll(array $objects, array $options = []): void
     {
-        if (empty($objects)) {
+        if ($objects === []) {
             return;
         }
 

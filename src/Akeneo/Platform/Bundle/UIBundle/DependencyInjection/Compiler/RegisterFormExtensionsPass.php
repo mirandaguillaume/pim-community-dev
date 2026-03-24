@@ -24,11 +24,11 @@ class RegisterFormExtensionsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(static::PROVIDER_ID)) {
+        if (!$container->hasDefinition(self::PROVIDER_ID)) {
             return;
         }
 
-        $providerDefinition = $container->getDefinition(static::PROVIDER_ID);
+        $providerDefinition = $container->getDefinition(self::PROVIDER_ID);
 
         $extensionConfig = [];
         $attributeFields = [];

@@ -90,7 +90,7 @@ abstract class AbstractItemCategoryRepository implements
      */
     public function getItemsCountInCategory(array $categoryIds = [])
     {
-        if (empty($categoryIds)) {
+        if ($categoryIds === []) {
             return 0;
         }
 

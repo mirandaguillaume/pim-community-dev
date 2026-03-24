@@ -56,7 +56,7 @@ final readonly class CreateConnectionHandler
 
         $query = new FindAConnectionQuery((string) $connection->code());
         $connectionDTO = $this->findAConnectionHandler->handle($query);
-        if (null === $connectionDTO) {
+        if (!$connectionDTO instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\ConnectionWithCredentials) {
             throw new \RuntimeException();
         }
 

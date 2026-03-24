@@ -123,7 +123,7 @@ class ProductModel implements ArrayConverterInterface
      */
     protected function getOptionalAssociationFields(): array
     {
-        if (empty($this->optionalAssocFields)) {
+        if ($this->optionalAssocFields === []) {
             $this->optionalAssocFields = array_merge(
                 $this->assocColumnsResolver->resolveAssociationColumns(),
                 $this->assocColumnsResolver->resolveQuantifiedAssociationColumns()

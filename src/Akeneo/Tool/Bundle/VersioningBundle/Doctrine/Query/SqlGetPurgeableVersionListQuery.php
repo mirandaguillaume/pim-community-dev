@@ -86,7 +86,7 @@ class SqlGetPurgeableVersionListQuery
             $statement->bindValue('last_id', $lastId, ParameterType::INTEGER);
             $results = $statement->executeQuery()->fetchAllAssociative();
 
-            if (!empty($results)) {
+            if ($results !== []) {
                 $lastResult = end($results);
                 $lastId = $lastResult['id'];
                 $loggedAt = $lastResult['logged_at'];
@@ -95,7 +95,7 @@ class SqlGetPurgeableVersionListQuery
                     array_map(fn ($row) => intval($row['id']), $results)
                 );
             }
-        } while (!empty($results));
+        } while ($results !== []);
     }
 
     public function countByResource(string $resourceName): int

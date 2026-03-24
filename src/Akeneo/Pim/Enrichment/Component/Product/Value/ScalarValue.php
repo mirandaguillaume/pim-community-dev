@@ -40,7 +40,7 @@ class ScalarValue extends AbstractValue implements ValueInterface, \Stringable
     public function __toString(): string
     {
         if (is_bool($this->data)) {
-            return true === $this->data ? '1' : '0';
+            return $this->data ? '1' : '0';
         }
         return (string) $this->data;
     }

@@ -109,7 +109,7 @@ class SqlGetConnectorProductsWithOptions implements Query\GetConnectorProducts
      */
     private function getOptionWithLabels(array $optionCodes): array
     {
-        if (empty($optionCodes)) {
+        if ($optionCodes === []) {
             return [];
         }
 

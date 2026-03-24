@@ -98,7 +98,7 @@ abstract class AbstractStep implements StepInterface
                 $this->dispatchStepExecutionEvent(EventInterface::STEP_EXECUTION_SUCCEEDED, $stepExecution);
             }
         } catch (\Exception $e) {
-            $stepExecution->upgradeStatus(self::determineBatchStatus($e));
+            $stepExecution->upgradeStatus($this->determineBatchStatus($e));
 
             $exitStatus = $exitStatus->logicalAnd($this->getDefaultExitStatusForFailure($e));
             $stepExecution->addFailureException($e);
@@ -120,7 +120,7 @@ abstract class AbstractStep implements StepInterface
         $this->jobRepository->updateStepExecution($stepExecution);
     }
 
-    private static function determineBatchStatus(\Exception $e): int
+    private function determineBatchStatus(\Exception $e): int
     {
         if ($e instanceof JobInterruptedException || $e->getPrevious() instanceof JobInterruptedException) {
             return BatchStatus::STOPPED;

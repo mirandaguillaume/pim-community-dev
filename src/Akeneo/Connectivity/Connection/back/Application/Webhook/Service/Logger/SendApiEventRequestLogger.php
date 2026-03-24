@@ -40,7 +40,7 @@ class SendApiEventRequestLogger
             'headers' => $headers,
             'message' => $message,
             'success' => $success,
-            'response' => $response !== null ? ['status_code' => $response->getStatusCode()] : null,
+            'response' => $response instanceof \Psr\Http\Message\ResponseInterface ? ['status_code' => $response->getStatusCode()] : null,
             'event_count' => \count($webhookRequest->apiEvents()),
             'events' => \array_map(function (WebhookEvent $event): array {
                 $date = \DateTime::createFromFormat(\DateTime::ATOM, $event->eventDateTime());

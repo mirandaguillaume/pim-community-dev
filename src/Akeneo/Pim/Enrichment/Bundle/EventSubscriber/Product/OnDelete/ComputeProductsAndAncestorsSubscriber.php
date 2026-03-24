@@ -35,7 +35,7 @@ final readonly class ComputeProductsAndAncestorsSubscriber
             return;
         }
         // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-        if ($product::class == 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
+        if ($product::class === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
             return;
         }
         if (!$event->hasArgument('unitary') || true !== $event->getArgument('unitary')) {
@@ -66,7 +66,7 @@ final readonly class ComputeProductsAndAncestorsSubscriber
             $this->esClient->refreshIndex();
         }
 
-        if (!empty($products)) {
+        if ($products !== []) {
             $this->productAndAncestorsIndexer->removeFromProductUuidsAndReindexAncestors(
                 $event->getSubjectId(),
                 $this->getAncestorCodes($products)

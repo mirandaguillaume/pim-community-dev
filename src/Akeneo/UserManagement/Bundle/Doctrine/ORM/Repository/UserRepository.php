@@ -39,7 +39,7 @@ class UserRepository extends EntityRepository implements UserRepositoryInterface
      */
     public function findByGroupIds(array $groupIds)
     {
-        if (empty($groupIds)) {
+        if ($groupIds === []) {
             return [];
         }
 

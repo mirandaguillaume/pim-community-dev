@@ -177,7 +177,7 @@ class EntityWithFamilyVariantNormalizer implements NormalizerInterface
 
         if ($entity instanceof ProductInterface && $entity->isVariant()) {
             $completenessCollection = $this->completenessCalculator->fromProductUuid($entity->getUuid());
-            if (null === $completenessCollection) {
+            if (!$completenessCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompletenessWithMissingAttributeCodesCollection) {
                 // TODO There is a remaining getId()
                 $completenessCollection = new ProductCompletenessWithMissingAttributeCodesCollection($entity->getId(), []);
             }

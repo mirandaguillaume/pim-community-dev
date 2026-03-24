@@ -29,7 +29,7 @@ final readonly class RedirectToEditConnectedAppAction
     public function __invoke(string $id): Response
     {
         $connectedApp = $this->findOneConnectedAppByIdQuery->execute($id);
-        if (null === $connectedApp) {
+        if (!$connectedApp instanceof \Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp) {
             throw new NotFoundHttpException();
         }
 

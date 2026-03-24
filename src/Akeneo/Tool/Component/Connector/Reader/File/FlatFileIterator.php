@@ -63,7 +63,7 @@ class FlatFileIterator implements FileIteratorInterface
         $sheet->getRowIterator()->rewind();
 
         $headers = $sheet->getRowIterator()->current();
-        $this->headers = $headers ? $headers->toArray() : [];
+        $this->headers = $headers instanceof \OpenSpout\Common\Entity\Row ? $headers->toArray() : [];
         $this->rows = $sheet->getRowIterator();
     }
 
@@ -84,7 +84,7 @@ class FlatFileIterator implements FileIteratorInterface
     {
         $data = $this->rows->current();
 
-        if (!$this->valid() || empty($data)) {
+        if (!$this->valid() || !$data instanceof \OpenSpout\Common\Entity\Row) {
             $this->rewind();
 
             return null;
@@ -138,7 +138,7 @@ class FlatFileIterator implements FileIteratorInterface
      */
     public function __destruct()
     {
-        if (null !== $this->reader) {
+        if ($this->reader instanceof \OpenSpout\Reader\ReaderInterface) {
             $this->reader->close();
         }
 

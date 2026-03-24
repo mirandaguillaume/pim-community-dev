@@ -21,7 +21,7 @@ class ResultRecord implements ResultRecordInterface
                     $arrayData[$name] = $value;
                 }
             }
-            if ($arrayData) {
+            if ($arrayData !== []) {
                 $this->valueContainers[] = $arrayData;
             }
         } elseif (is_object($data)) {
@@ -51,7 +51,7 @@ class ResultRecord implements ResultRecordInterface
                 return $accessor->getValue($data, $name);
             } elseif (is_object($data)) {
                 $fieldName = $name;
-                $camelizedFieldName = self::camelize($fieldName);
+                $camelizedFieldName = $this->camelize($fieldName);
                 $getters = [];
                 $getters[] = 'get' . $camelizedFieldName;
                 $getters[] = 'is' . $camelizedFieldName;
@@ -84,7 +84,7 @@ class ResultRecord implements ResultRecordInterface
      *
      * @return string
      */
-    private static function camelize($property)
+    private function camelize($property)
     {
         return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
     }

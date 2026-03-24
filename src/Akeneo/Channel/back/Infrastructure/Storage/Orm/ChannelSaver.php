@@ -47,7 +47,7 @@ final readonly class ChannelSaver implements ChannelSaverInterface
      */
     private function doSaveAll(array $channels, array $commonOptions = []): void
     {
-        if (empty($channels)) {
+        if ($channels === []) {
             return;
         }
 

@@ -19,7 +19,7 @@ final class ConnectionType implements \Stringable
     {
         $type ??= self::DEFAULT_TYPE;
 
-        if (empty($type)) {
+        if ($type === '' || $type === '0') {
             throw new \InvalidArgumentException('akeneo_connectivity.connection.connection.constraint.type.required');
         }
 

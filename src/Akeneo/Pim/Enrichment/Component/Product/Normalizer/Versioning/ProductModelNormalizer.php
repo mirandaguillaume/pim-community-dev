@@ -65,7 +65,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
      */
     public function supportsNormalization($data, $format = null): bool
     {
-        return $data instanceof ProductModelInterface && in_array($format, ['flat']);
+        return $data instanceof ProductModelInterface && $format == 'flat';
     }
 
     /**
@@ -75,7 +75,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
      */
     private function normalizeParent(?ProductModelInterface $parent = null): string
     {
-        return $parent ? $parent->getCode() : '';
+        return $parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface ? $parent->getCode() : '';
     }
 
     /**

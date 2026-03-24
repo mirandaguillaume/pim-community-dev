@@ -19,13 +19,8 @@ final class UniqueProductIdentifier implements DocumentationBuilderInterface
 {
     public function support($object): bool
     {
-        if (
-            $object instanceof ConstraintViolationInterface
-            && $object->getCode() === UniqueProductEntity::UNIQUE_PRODUCT_ENTITY
-        ) {
-            return true;
-        }
-        return false;
+        return $object instanceof ConstraintViolationInterface
+        && $object->getCode() === UniqueProductEntity::UNIQUE_PRODUCT_ENTITY;
     }
 
     /**

@@ -158,13 +158,11 @@ class BatchStatus implements \Stringable
 
         if ($this->value > self::STARTED || $otherStatus > self::STARTED) {
             $newStatus = max($this->value, $otherStatus);
-        } else {
+        } elseif ($this->value === self::COMPLETED || $otherStatus === self::COMPLETED) {
             // Both less than or equal to STARTED
-            if ($this->value === self::COMPLETED || $otherStatus === self::COMPLETED) {
-                $newStatus = self::COMPLETED;
-            } else {
-                $newStatus = max($this->value, $otherStatus);
-            }
+            $newStatus = self::COMPLETED;
+        } else {
+            $newStatus = max($this->value, $otherStatus);
         }
         $this->value = $newStatus;
 

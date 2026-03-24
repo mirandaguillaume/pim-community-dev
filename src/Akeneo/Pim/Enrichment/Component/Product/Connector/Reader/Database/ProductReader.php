@@ -71,7 +71,7 @@ class ProductReader implements ItemReaderInterface, InitializableInterface, Step
             $this->stepExecution->incrementSummaryInfo('read');
 
             $channel = $this->getConfiguredChannel();
-            if (null !== $channel) {
+            if ($channel instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface) {
                 $this->metricConverter->convert($product, $channel);
             }
 
@@ -138,7 +138,7 @@ class ProductReader implements ItemReaderInterface, InitializableInterface, Step
 
     protected function getProductsCursor(array $filters, ?ChannelInterface $channel = null): CursorInterface
     {
-        $options = null !== $channel ? ['default_scope' => $channel->getCode()] : [];
+        $options = $channel instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface ? ['default_scope' => $channel->getCode()] : [];
 
         $productQueryBuilder = $this->pqbFactory->create($options);
         foreach ($filters as $filter) {
@@ -155,7 +155,7 @@ class ProductReader implements ItemReaderInterface, InitializableInterface, Step
 
     public function totalItems(): int
     {
-        if (null === $this->products) {
+        if (!$this->products instanceof \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface) {
             throw new \RuntimeException('Unable to compute the total items the reader will process until the reader is not initialized');
         }
 
@@ -164,7 +164,7 @@ class ProductReader implements ItemReaderInterface, InitializableInterface, Step
 
     public function getState(): array
     {
-        return null !== $this->products ? ['position' =>  $this->products->key()] : [];
+        return $this->products instanceof \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface ? ['position' =>  $this->products->key()] : [];
     }
 
     public function setState(array $state): void

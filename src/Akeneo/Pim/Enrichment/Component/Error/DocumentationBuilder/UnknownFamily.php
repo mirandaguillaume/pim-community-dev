@@ -19,11 +19,7 @@ final class UnknownFamily implements DocumentationBuilderInterface
 {
     public function support($object): bool
     {
-        if ($object instanceof UnknownFamilyException) {
-            return true;
-        }
-
-        return false;
+        return $object instanceof UnknownFamilyException;
     }
 
     public function buildDocumentation($object): DocumentationCollection

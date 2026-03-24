@@ -118,14 +118,11 @@ final readonly class ListProductsQueryHandler
     {
         if (null === $channelCodeToFilterValuesOn) {
             return $localeCodesToFilterValuesOn;
+        } elseif (null === $localeCodesToFilterValuesOn) {
+            $channel = $this->channelRepository->findOneByIdentifier($channelCodeToFilterValuesOn);
+            return $channel->getLocaleCodes();
         } else {
-            if (null === $localeCodesToFilterValuesOn) {
-                $channel = $this->channelRepository->findOneByIdentifier($channelCodeToFilterValuesOn);
-
-                return $channel->getLocaleCodes();
-            } else {
-                return $localeCodesToFilterValuesOn;
-            }
+            return $localeCodesToFilterValuesOn;
         }
     }
 }

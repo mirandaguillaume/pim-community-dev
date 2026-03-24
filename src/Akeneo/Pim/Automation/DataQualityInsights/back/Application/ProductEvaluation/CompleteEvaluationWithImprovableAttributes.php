@@ -52,7 +52,7 @@ class CompleteEvaluationWithImprovableAttributes
     ): Read\CriterionEvaluationCollection {
         $criterionEvaluation = $criterionEvaluationCollection->get($criterionCode);
 
-        if (null === $criterionEvaluation) {
+        if (!$criterionEvaluation instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\CriterionEvaluation) {
             return $criterionEvaluationCollection;
         }
 

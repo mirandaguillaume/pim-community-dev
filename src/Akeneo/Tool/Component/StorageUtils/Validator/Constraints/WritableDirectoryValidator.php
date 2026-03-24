@@ -35,7 +35,7 @@ class WritableDirectoryValidator extends ConstraintValidator
             $path = dirname($value);
             $writable = null;
 
-            while (null === $writable && strlen($path) > 0) {
+            while (null === $writable && $path !== '') {
                 if (is_dir($path)) {
                     $writable = is_writable($path);
                 } else {

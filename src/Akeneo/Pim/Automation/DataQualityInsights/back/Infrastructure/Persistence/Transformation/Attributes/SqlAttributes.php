@@ -41,7 +41,7 @@ class SqlAttributes implements AttributesInterface
                 ['ids' => ArrayParameterType::INTEGER]
             )->fetchOne();
 
-            return !$attributesCodes ? [] : json_decode($attributesCodes, true, 512, JSON_THROW_ON_ERROR);
+            return $attributesCodes ? json_decode($attributesCodes, true, 512, JSON_THROW_ON_ERROR) : [];
         });
 
         $attributesCodes = [];
@@ -63,7 +63,7 @@ class SqlAttributes implements AttributesInterface
                 ['codes' => ArrayParameterType::STRING]
             )->fetchOne();
 
-            return !$attributesIds ? [] : json_decode($attributesIds, true, 512, JSON_THROW_ON_ERROR);
+            return $attributesIds ? json_decode($attributesIds, true, 512, JSON_THROW_ON_ERROR) : [];
         });
     }
 

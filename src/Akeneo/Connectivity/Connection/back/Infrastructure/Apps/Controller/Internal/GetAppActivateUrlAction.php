@@ -48,7 +48,7 @@ final readonly class GetAppActivateUrlAction
         }
 
         $app = $this->getAppQuery->execute($id);
-        if (null === $app) {
+        if (!$app instanceof \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App) {
             throw new NotFoundHttpException("Invalid app identifier");
         }
 

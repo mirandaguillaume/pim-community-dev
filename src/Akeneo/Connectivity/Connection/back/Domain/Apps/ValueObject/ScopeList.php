@@ -30,7 +30,7 @@ final class ScopeList
 
     public static function fromScopeString(string $scopeString): self
     {
-        $scopes = empty($scopeString) ? [] : \explode(' ', $scopeString);
+        $scopes = $scopeString === '' || $scopeString === '0' ? [] : \explode(' ', $scopeString);
 
         return new self($scopes);
     }

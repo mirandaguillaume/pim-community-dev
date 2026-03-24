@@ -132,19 +132,19 @@ class ListProductsByUuidController
             $queryParameters['search_scope'] = $query->searchChannelCode;
         }
         if (null !== $query->localeCodes) {
-            $queryParameters['locales'] = join(',', $query->localeCodes);
+            $queryParameters['locales'] = implode(',', $query->localeCodes);
         }
         if (null !== $query->attributeCodes) {
-            $queryParameters['attributes'] = join(',', $query->attributeCodes);
+            $queryParameters['attributes'] = implode(',', $query->attributeCodes);
         }
-        if (true === $query->withAttributeOptionsAsBoolean()) {
+        if ($query->withAttributeOptionsAsBoolean()) {
             $queryParameters['with_attribute_options'] = 'true';
         }
-        if (true === $query->withQualityScores()) {
+        if ($query->withQualityScores()) {
             $queryParameters['with_quality_scores'] = 'true';
         }
 
-        if (true === $query->withCompletenesses()) {
+        if ($query->withCompletenesses()) {
             $queryParameters['with_completenesses'] = 'true';
         }
 

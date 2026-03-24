@@ -23,7 +23,7 @@ class RegenerateConnectionSecretHandler
     public function handle(RegenerateConnectionSecretCommand $command): void
     {
         $connection = $this->repository->findOneByCode($command->code());
-        if (null === $connection) {
+        if (!$connection instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection) {
             throw new \InvalidArgumentException(
                 \sprintf('Connection with code "%s" does not exist', $command->code())
             );

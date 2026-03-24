@@ -75,9 +75,9 @@ class FilteredProductReader implements
         $product = null;
         $product = $this->getNextProduct();
 
-        if (null !== $product) {
+        if ($product instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface) {
             $channel = $this->getConfiguredChannel();
-            if (null !== $channel) {
+            if ($channel instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface) {
                 $this->metricConverter->convert($product, $channel);
             }
         }
@@ -143,7 +143,7 @@ class FilteredProductReader implements
         ];
         $options = ['filters' => $filters];
 
-        if (null !== $channel) {
+        if ($channel instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface) {
             $options['default_scope'] = $channel->getCode();
         }
 
@@ -177,7 +177,7 @@ class FilteredProductReader implements
 
     public function totalItems(): int
     {
-        if (null === $this->products) {
+        if (!$this->products instanceof \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface) {
             throw new \RuntimeException('Unable to compute the total items the reader will process if the reader is not initialized');
         }
 
@@ -186,7 +186,7 @@ class FilteredProductReader implements
 
     public function getState(): array
     {
-        return null !== $this->products ? ['position' =>  $this->products->key()] : [];
+        return $this->products instanceof \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface ? ['position' =>  $this->products->key()] : [];
     }
 
     public function setState(array $state): void

@@ -52,7 +52,7 @@ class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
     private function translateHeader(string $columnCode, string $locale): string
     {
         $translator = $this->headerRegistry->getTranslator($columnCode);
-        $columnLabelized = null !== $translator ? $translator->translate($columnCode, $locale)
+        $columnLabelized = $translator instanceof \Akeneo\Pim\Enrichment\Component\Product\Connector\FlatTranslator\Header\FlatHeaderTranslatorInterface ? $translator->translate($columnCode, $locale)
             : sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $columnCode);
 
         return sprintf(

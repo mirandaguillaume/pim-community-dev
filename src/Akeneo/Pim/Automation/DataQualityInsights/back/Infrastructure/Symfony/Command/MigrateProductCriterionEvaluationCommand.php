@@ -74,6 +74,6 @@ final class MigrateProductCriterionEvaluationCommand extends Command
             SQL;
         $tablesToMigrate = $this->dbConnection->executeQuery($query)->fetchAllAssociative();
 
-        return empty($tablesToMigrate);
+        return $tablesToMigrate === [];
     }
 }

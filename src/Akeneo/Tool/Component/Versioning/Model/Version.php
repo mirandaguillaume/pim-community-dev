@@ -15,11 +15,11 @@ use Ramsey\Uuid\UuidInterface;
  */
 #[ORM\Entity(repositoryClass: \Akeneo\Tool\Bundle\VersioningBundle\Doctrine\ORM\VersionRepository::class)]
 #[ORM\Table(name: 'pim_versioning_version')]
-#[ORM\Index(columns: ['pending'], name: 'pending_idx')]
-#[ORM\Index(columns: ['version'], name: 'version_idx')]
-#[ORM\Index(columns: ['logged_at'], name: 'logged_at_idx')]
-#[ORM\Index(columns: ['resource_name', 'resource_id', 'version'], name: 'resource_name_resource_id_version_idx')]
-#[ORM\Index(columns: ['resource_name', 'resource_uuid', 'version'], name: 'resource_name_resource_uuid_version_idx')]
+#[ORM\Index(name: 'pending_idx', columns: ['pending'])]
+#[ORM\Index(name: 'version_idx', columns: ['version'])]
+#[ORM\Index(name: 'logged_at_idx', columns: ['logged_at'])]
+#[ORM\Index(name: 'resource_name_resource_id_version_idx', columns: ['resource_name', 'resource_id', 'version'])]
+#[ORM\Index(name: 'resource_name_resource_uuid_version_idx', columns: ['resource_name', 'resource_uuid', 'version'])]
 class Version implements VersionInterface
 {
     /**
@@ -196,7 +196,7 @@ class Version implements VersionInterface
      */
     public function setSnapshot(array $snapshot)
     {
-        if (!empty($snapshot)) {
+        if ($snapshot !== []) {
             $this->pending = false;
         }
 

@@ -87,7 +87,7 @@ final readonly class SqlFindUsers implements FindUsers
             $sqlLimitPart = sprintf('LIMIT %s', $limit);
         }
 
-        $sqlWhereParts = empty($sqlWhereParts) ? '' : 'AND ' . implode(' AND ', $sqlWhereParts);
+        $sqlWhereParts = $sqlWhereParts === [] ? '' : 'AND ' . implode(' AND ', $sqlWhereParts);
 
         $type = User::TYPE_USER;
 

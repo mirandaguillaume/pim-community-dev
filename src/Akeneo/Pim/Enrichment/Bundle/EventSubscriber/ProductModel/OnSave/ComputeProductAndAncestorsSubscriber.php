@@ -66,14 +66,14 @@ final readonly class ComputeProductAndAncestorsSubscriber
 
     private function computeAndIndexFromProductModelCodes(array $productModelCodes): void
     {
-        if (empty($productModelCodes)) {
+        if ($productModelCodes === []) {
             return;
         }
 
         $variantProductUuids = $this->getDescendantVariantProductUuids->fromProductModelCodes(
             $productModelCodes
         );
-        if (!empty($variantProductUuids)) {
+        if ($variantProductUuids !== []) {
             $this->computeAndPersistProductCompletenesses->fromProductUuids($variantProductUuids);
         }
 

@@ -21,7 +21,7 @@ class ExternalApiSearchFiltersValidator
 
     public function validate(array $searchFilters): void
     {
-        if (empty($searchFilters)) {
+        if ($searchFilters === []) {
             return;
         }
 
@@ -97,7 +97,7 @@ class ExternalApiSearchFiltersValidator
             }
         }
 
-        if (!empty($exceptionMessages)) {
+        if ($exceptionMessages !== []) {
             throw new \InvalidArgumentException(implode(' ', $exceptionMessages));
         }
     }

@@ -31,12 +31,12 @@ final readonly class RefreshConnectedAppHandler
     public function handle(RefreshConnectedAppCommand $command): void
     {
         $connectedApp = $this->findOneConnectedAppByIdQuery->execute($command->getAppId());
-        if (null === $connectedApp) {
+        if (!$connectedApp instanceof \Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp) {
             throw new \LogicException('Cannot refresh a non-exisiting connected app');
         }
 
         $app = $this->getAppQuery->execute($command->getAppId());
-        if (null === $app) {
+        if (!$app instanceof \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App) {
             throw new \LogicException('Cannot refresh a non-exisiting app');
         }
 

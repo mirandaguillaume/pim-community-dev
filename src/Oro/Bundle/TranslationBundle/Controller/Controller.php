@@ -16,7 +16,7 @@ class Controller
      */
     public function __construct(protected TranslatorInterface $translator, protected Environment $templating, string $template, protected $options)
     {
-        if (empty($template)) {
+        if ($template === '' || $template === '0') {
             throw new \InvalidArgumentException('Please provide valid twig template as third argument');
         }
         $this->template = $template;

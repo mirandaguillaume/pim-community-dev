@@ -69,10 +69,10 @@ class MetricValue extends AbstractValue implements MetricValueInterface, \String
         $comparedMetric = $value->getData();
         $thisMetric = $this->getData();
 
-        if (null === $thisMetric && null === $comparedMetric) {
+        if (!$thisMetric instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\MetricInterface && !$comparedMetric instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\MetricInterface) {
             return true;
         }
-        if (null === $thisMetric || null === $comparedMetric) {
+        if (!$thisMetric instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\MetricInterface || !$comparedMetric instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\MetricInterface) {
             return false;
         }
 

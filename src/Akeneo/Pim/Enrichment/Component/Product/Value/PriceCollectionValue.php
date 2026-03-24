@@ -94,10 +94,10 @@ class PriceCollectionValue extends AbstractValue implements PriceCollectionValue
         $comparedPriceCollection = $value->getData();
         $thisPriceCollection = $this->getData();
 
-        if (null === $thisPriceCollection && null === $comparedPriceCollection) {
+        if (!$thisPriceCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\PriceCollectionInterface && !$comparedPriceCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\PriceCollectionInterface) {
             return true;
         }
-        if (null === $thisPriceCollection || null === $comparedPriceCollection) {
+        if (!$thisPriceCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\PriceCollectionInterface || !$comparedPriceCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\PriceCollectionInterface) {
             return false;
         }
         if ($comparedPriceCollection->count() !== $thisPriceCollection->count()) {

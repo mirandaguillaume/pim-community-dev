@@ -49,7 +49,7 @@ class ValidMetricValidator extends ConstraintValidator
         } elseif ($object instanceof MetricInterface && null !== $object->getData()) {
             $familyProperty = 'family';
             $unitProperty = 'unit';
-        } elseif ($object instanceof MetricValueInterface && null !== $object->getData()
+        } elseif ($object instanceof MetricValueInterface && $object->getData() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\MetricInterface
             && (null !== $object->getUnit() || null !== $object->getAmount())
         ) {
             $object = $object->getData();

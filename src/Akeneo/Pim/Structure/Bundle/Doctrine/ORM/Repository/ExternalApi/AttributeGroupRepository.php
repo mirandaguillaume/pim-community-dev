@@ -97,7 +97,7 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
 
     protected function validateSearchFilters(array $searchFilters): void
     {
-        if (empty($searchFilters)) {
+        if ($searchFilters === []) {
             return;
         }
 
@@ -145,7 +145,7 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
                 $exceptionMessages[] = $violation->getMessage();
             }
         }
-        if (!empty($exceptionMessages)) {
+        if ($exceptionMessages !== []) {
             throw new \InvalidArgumentException(implode(' ', $exceptionMessages));
         }
     }

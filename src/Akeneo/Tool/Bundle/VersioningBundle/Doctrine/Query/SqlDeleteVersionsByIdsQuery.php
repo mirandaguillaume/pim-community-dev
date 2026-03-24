@@ -23,7 +23,7 @@ class SqlDeleteVersionsByIdsQuery
      */
     public function execute(array $versionIds): void
     {
-        if (empty($versionIds)) {
+        if ($versionIds === []) {
             return;
         }
 

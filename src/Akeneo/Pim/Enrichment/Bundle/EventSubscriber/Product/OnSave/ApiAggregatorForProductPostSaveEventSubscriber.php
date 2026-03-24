@@ -64,7 +64,7 @@ final class ApiAggregatorForProductPostSaveEventSubscriber
 
     public function dispatchAllEvents(): void
     {
-        if (empty($this->eventProducts)) {
+        if ($this->eventProducts === []) {
             return;
         }
 

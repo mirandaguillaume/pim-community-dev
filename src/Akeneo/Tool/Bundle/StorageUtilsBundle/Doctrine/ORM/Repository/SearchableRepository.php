@@ -19,11 +19,7 @@ class SearchableRepository extends EntityRepository implements SearchableReposit
      */
     public function findBySearch($search = null, array $options = [])
     {
-        if (method_exists($this, 'getAlias')) {
-            $alias = $this->getAlias();
-        } else {
-            $alias = 'alias';
-        }
+        $alias = method_exists($this, 'getAlias') ? $this->getAlias() : 'alias';
 
         $qb = $this->createQueryBuilder($alias);
         $qb->select("$alias.id, $alias.code");

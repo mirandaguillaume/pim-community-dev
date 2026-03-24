@@ -39,7 +39,7 @@ final class DispatchProductRemovedEventSubscriber implements DispatchBufferedPim
             return;
         }
 
-        if (null === $user = $this->security->getUser()) {
+        if (!($user = $this->security->getUser()) instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             return;
         }
 

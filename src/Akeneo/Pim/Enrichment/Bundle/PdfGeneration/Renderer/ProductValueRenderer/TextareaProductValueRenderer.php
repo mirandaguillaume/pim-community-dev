@@ -11,7 +11,7 @@ class TextareaProductValueRenderer implements ProductValueRenderer
 {
     public function render(Environment $environment, AttributeInterface $attribute, ?ValueInterface $value, string $localeCode): ?string
     {
-        if (null === $value) {
+        if (!$value instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface) {
             return null;
         }
 

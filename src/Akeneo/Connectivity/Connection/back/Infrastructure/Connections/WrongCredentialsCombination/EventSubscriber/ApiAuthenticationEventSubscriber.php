@@ -30,7 +30,7 @@ class ApiAuthenticationEventSubscriber
             return;
         }
 
-        if (null === $this->connectionContext->getConnection()) {
+        if (!$this->connectionContext->getConnection() instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection) {
             return;
         }
 

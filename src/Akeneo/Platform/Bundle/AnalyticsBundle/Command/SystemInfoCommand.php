@@ -71,7 +71,7 @@ class SystemInfoCommand extends Command
                 $data = implode(",\n", $data);
             }
 
-            if (!empty($formattedData)) {
+            if ($formattedData !== []) {
                 $formattedData[] = new TableSeparator();
             }
             $formattedData[] = [$this->translator->trans('pim_analytics.info_type.' . $key), $data];

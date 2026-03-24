@@ -108,7 +108,7 @@ class CategoryRepository extends EntityRepository implements ApiResourceReposito
                             $qb->andWhere($qb->expr()->lt('r.right', $parentCategory->getRight()));
                             $qb->andWhere($qb->expr()->eq('r.root', $parentCategory->getRoot()));
                         } elseif ('is_root' === $property) {
-                            if (true === (bool) $criterion['value']) {
+                            if ((bool) $criterion['value']) {
                                 $qb->andWhere($qb->expr()->isNull('r.parent'));
                             } else {
                                 $qb->andWhere($qb->expr()->isNotNull('r.parent'));
@@ -137,7 +137,7 @@ class CategoryRepository extends EntityRepository implements ApiResourceReposito
 
     protected function validateSearchFilters(array $searchFilters): void
     {
-        if (empty($searchFilters)) {
+        if ($searchFilters === []) {
             return;
         }
 
@@ -213,7 +213,7 @@ class CategoryRepository extends EntityRepository implements ApiResourceReposito
             }
         }
 
-        if (!empty($exceptionMessages)) {
+        if ($exceptionMessages !== []) {
             throw new \InvalidArgumentException(implode(' ', $exceptionMessages));
         }
     }

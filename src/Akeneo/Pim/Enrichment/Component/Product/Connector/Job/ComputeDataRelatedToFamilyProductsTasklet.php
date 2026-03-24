@@ -66,7 +66,7 @@ class ComputeDataRelatedToFamilyProductsTasklet implements TaskletInterface, Ini
     {
         $this->initialize();
         $familyCodes = $this->extractFamilyCodes();
-        if (empty($familyCodes)) {
+        if ($familyCodes === []) {
             return;
         }
 
@@ -135,7 +135,7 @@ class ComputeDataRelatedToFamilyProductsTasklet implements TaskletInterface, Ini
 
     private function saveProducts(array $products): void
     {
-        if (empty($products)) {
+        if ($products === []) {
             return;
         }
 

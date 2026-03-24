@@ -114,7 +114,7 @@ class MediaCount implements MediaCountQuery
 
     private function countMediasFromES(array $fieldPaths): int
     {
-        if (empty($fieldPaths)) {
+        if ($fieldPaths === []) {
             return 0;
         }
 

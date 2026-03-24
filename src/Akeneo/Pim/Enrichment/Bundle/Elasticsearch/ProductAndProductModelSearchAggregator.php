@@ -31,13 +31,13 @@ class ProductAndProductModelSearchAggregator
         }
 
         $categoryCodes = $this->getCategoryCodes($rawFilters);
-        if (!empty($categoryCodes)) {
+        if ($categoryCodes !== []) {
             $clauses[] = [
                 'terms' => ['categories_of_ancestors' => $categoryCodes],
             ];
         }
 
-        if (!empty($clauses)) {
+        if ($clauses !== []) {
             $searchQueryBuilder->addMustNot(
                 [
                     'bool' => [

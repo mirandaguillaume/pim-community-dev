@@ -95,7 +95,7 @@ class ProductModelAssociationProcessor extends AbstractProcessor implements
         }
 
         $entity = $this->findEntity($item['code'], $item);
-        if (null === $entity) {
+        if (!$entity instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             $this->skipItemWithMessage($item, sprintf('No product model with code "%s" has been found', $item['code']));
         }
 
@@ -104,7 +104,7 @@ class ProductModelAssociationProcessor extends AbstractProcessor implements
         if ($enabledComparison) {
             $item = $this->filterIdenticalData($entity, $item);
 
-            if (empty($item)) {
+            if ($item === []) {
                 $this->detach($entity);
                 $this->stepExecution->incrementSummaryInfo('product_model_skipped_no_diff');
 

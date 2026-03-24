@@ -17,7 +17,7 @@ class SqlGetFamilyTranslations implements GetFamilyTranslations
 
     public function byFamilyCodesAndLocale(array $familyCodes, string $locale): array
     {
-        if (empty($familyCodes)) {
+        if ($familyCodes === []) {
             return [];
         }
 

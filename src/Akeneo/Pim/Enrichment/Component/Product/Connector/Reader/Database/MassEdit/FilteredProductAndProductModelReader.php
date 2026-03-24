@@ -76,9 +76,9 @@ class FilteredProductAndProductModelReader implements
         $product = null;
         $product = $this->getNextProduct();
 
-        if (null !== $product) {
+        if ($product instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface) {
             $channel = $this->getConfiguredChannel();
-            if (null !== $channel) {
+            if ($channel instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface) {
                 $this->metricConverter->convert($product, $channel);
             }
         }
@@ -149,7 +149,7 @@ class FilteredProductAndProductModelReader implements
     {
         $options = ['filters' => $filters];
 
-        if (null !== $channel) {
+        if ($channel instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface) {
             $options['default_scope'] = $channel->getCode();
         }
 
@@ -177,15 +177,13 @@ class FilteredProductAndProductModelReader implements
             }
 
             if ($entity instanceof ProductModelInterface) {
-                if ($this->stepExecution) {
-                    if (!$this->readChildren) {
-                        $warning = 'This bulk action doesn\'t support Product models entities yet.';
-                        $this->stepExecution->addWarning(
-                            $warning,
-                            [],
-                            new DataInvalidItem(['code' => $entity->getCode()])
-                        );
-                    }
+                if ($this->stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution && !$this->readChildren) {
+                    $warning = 'This bulk action doesn\'t support Product models entities yet.';
+                    $this->stepExecution->addWarning(
+                        $warning,
+                        [],
+                        new DataInvalidItem(['code' => $entity->getCode()])
+                    );
                 }
 
                 $entity = null;
@@ -202,7 +200,7 @@ class FilteredProductAndProductModelReader implements
 
     public function totalItems(): int
     {
-        if (null === $this->productsAndProductModels) {
+        if (!$this->productsAndProductModels instanceof \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface) {
             throw new \RuntimeException('Unable to compute the total items the reader will process if the reader is not initialized');
         }
 
@@ -211,7 +209,7 @@ class FilteredProductAndProductModelReader implements
 
     public function getState(): array
     {
-        return null !== $this->productsAndProductModels ? ['position' =>  $this->productsAndProductModels->key()] : [];
+        return $this->productsAndProductModels instanceof \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface ? ['position' =>  $this->productsAndProductModels->key()] : [];
     }
 
     public function setState(array $state): void

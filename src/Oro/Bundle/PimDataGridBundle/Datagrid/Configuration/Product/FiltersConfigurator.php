@@ -57,7 +57,7 @@ class FiltersConfigurator implements ConfiguratorInterface
             }
 
             $filterConfig = $attributeTypeConf['filter'];
-            $filterConfig = $filterConfig + [
+            $filterConfig += [
                 ProductFilterUtility::DATA_NAME_KEY => $attributeCode,
                 'label'                             => $attribute['label'],
                 'enabled'                           => false,

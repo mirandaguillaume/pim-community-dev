@@ -81,7 +81,7 @@ class AttributeOptionSearchableRepository implements SearchableRepositoryInterfa
      */
     protected function applyQueryOptions(QueryBuilder $qb, array $options)
     {
-        if (isset($options['identifiers']) && is_array($options['identifiers']) && !empty($options['identifiers'])) {
+        if (isset($options['identifiers']) && is_array($options['identifiers']) && (isset($options['identifiers']) && $options['identifiers'] !== [])) {
             $qb->andWhere('o.code in (:codes)');
             $qb->setParameter('codes', $options['identifiers']);
         }

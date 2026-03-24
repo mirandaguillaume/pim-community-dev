@@ -26,7 +26,7 @@ class SqlFindFamilyCodes implements FindFamilyCodes
     {
         $searchLocaleCondition = null !== $query->search?->labelLocale ? 'AND translation.locale = :locale_code' : '';
         $includeCondition = null !== $query->includeCodes ? 'AND code IN (:include_codes)' : '';
-        $excludeCondition = !empty($query->excludeCodes) ? 'AND code NOT IN (:exclude_codes)' : '';
+        $excludeCondition = $query->excludeCodes === null || $query->excludeCodes === [] ? '' : 'AND code NOT IN (:exclude_codes)';
         $limitClause = null !== $query->pagination?->limit ? 'LIMIT :limit' : '';
         $offsetClause = null !== $this->getOffset($query->pagination) ? 'OFFSET :offset' : '';
 
@@ -67,7 +67,7 @@ class SqlFindFamilyCodes implements FindFamilyCodes
 
     private function getOffset(?FamilyQueryPagination $pagination): ?int
     {
-        if (null === $pagination || null === $pagination->page || null === $pagination->limit) {
+        if (in_array(null, [$pagination, $pagination->page, $pagination->limit], true)) {
             return null;
         }
 

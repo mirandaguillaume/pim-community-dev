@@ -34,17 +34,17 @@ class RegisterFlatToStandardConverterPass implements CompilerPassInterface
 
     protected function registerConverters(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(static::CONVERTER_REGISTRY)) {
+        if (!$container->hasDefinition(self::CONVERTER_REGISTRY)) {
             return;
         }
 
-        $registry = $container->getDefinition(static::CONVERTER_REGISTRY);
-        $converters = $container->findTaggedServiceIds(static::CONVERTER_TAG);
+        $registry = $container->getDefinition(self::CONVERTER_REGISTRY);
+        $converters = $container->findTaggedServiceIds(self::CONVERTER_TAG);
         $services = [];
 
         foreach ($converters as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = $tag['priority'] ?? static::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? self::DEFAULT_PRIORITY;
                 $services[$priority][] = $serviceId;
             }
         }

@@ -30,7 +30,7 @@ class SqlGetProductUuids implements GetProductUuids
 
     public function fromIdentifiers(array $identifiers): array
     {
-        if (empty($identifiers)) {
+        if ($identifiers === []) {
             return [];
         }
 

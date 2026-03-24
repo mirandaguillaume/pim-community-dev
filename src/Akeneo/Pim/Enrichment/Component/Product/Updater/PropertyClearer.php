@@ -28,7 +28,7 @@ final readonly class PropertyClearer implements PropertyClearerInterface
     public function clear($entity, string $property, array $options = []): void
     {
         $clearer = $this->clearerRegistry->getClearer($property);
-        if (null === $clearer) {
+        if (!$clearer instanceof \Akeneo\Pim\Enrichment\Component\Product\Updater\Clearer\ClearerInterface) {
             throw UnknownPropertyException::unknownProperty($property);
         }
 

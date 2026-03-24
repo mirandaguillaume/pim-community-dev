@@ -37,13 +37,13 @@ class SameFamilyThanParentValidator extends ConstraintValidator
             return;
         }
 
-        if (null === $parent = $product->getParent()) {
+        if (!($parent = $product->getParent()) instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return;
         }
 
         $parentFamily = $parent->getFamilyVariant()->getFamily();
 
-        if (null !== $product->getFamily() && $product->getFamily()->getCode() !== $parentFamily->getCode()) {
+        if ($product->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface && $product->getFamily()->getCode() !== $parentFamily->getCode()) {
             $this->context->buildViolation(SameFamilyThanParent::MESSAGE)->atPath($constraint->propertyPath)->addViolation();
         }
     }

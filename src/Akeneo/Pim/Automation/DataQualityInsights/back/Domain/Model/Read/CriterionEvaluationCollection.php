@@ -33,12 +33,12 @@ final class CriterionEvaluationCollection implements \IteratorAggregate, \Counta
     public function getCriterionRates(CriterionCode $criterionCode): ?ChannelLocaleRateCollection
     {
         $criterionEvaluation = $this->get($criterionCode);
-        if (null === $criterionEvaluation) {
+        if (!$criterionEvaluation instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\CriterionEvaluation) {
             return null;
         }
 
         $criterionEvaluationResult = $criterionEvaluation->getResult();
-        if (null === $criterionEvaluationResult) {
+        if (!$criterionEvaluationResult instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\CriterionEvaluationResult) {
             return null;
         }
 
@@ -57,6 +57,6 @@ final class CriterionEvaluationCollection implements \IteratorAggregate, \Counta
 
     public function isEmpty(): bool
     {
-        return empty($this->criteriaEvaluations);
+        return $this->criteriaEvaluations === [];
     }
 }

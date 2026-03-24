@@ -24,7 +24,7 @@ class CategoryQueryHandler implements CategoryQueryInterface
     {
         $category = $this->getCategory->byId($categoryId);
 
-        if ($category === null) {
+        if (!$category instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
             throw new NotFoundHttpException();
         }
 
@@ -44,7 +44,7 @@ class CategoryQueryHandler implements CategoryQueryInterface
     {
         $category = $this->getCategory->byCode($categoryCode);
 
-        if ($category === null) {
+        if (!$category instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
             throw new NotFoundHttpException();
         }
 

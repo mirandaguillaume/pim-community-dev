@@ -52,7 +52,7 @@ class AclAnnotationStorage
             throw new \InvalidArgumentException('$class must not be empty.');
         }
 
-        if (empty($method)) {
+        if (in_array($method, [null, '', '0'], true)) {
             if (!isset($this->classes[$class]['!'])) {
                 return null;
             }
@@ -75,7 +75,7 @@ class AclAnnotationStorage
      */
     public function has($class, ?string $method = null)
     {
-        if (empty($method)) {
+        if (in_array($method, [null, '', '0'], true)) {
             if (!isset($this->classes[$class]['!'])) {
                 return false;
             }
@@ -179,7 +179,7 @@ class AclAnnotationStorage
         }
 
         if (isset($this->classes[$class])) {
-            if (empty($method)) {
+            if (in_array($method, [null, '', '0'], true)) {
                 if (isset($this->classes[$class]['!']) && $this->classes[$class]['!'] !== $id) {
                     throw new \RuntimeException(
                         sprintf(
@@ -204,12 +204,10 @@ class AclAnnotationStorage
                 }
                 $this->classes[$class][$method] = $id;
             }
+        } elseif (in_array($method, [null, '', '0'], true)) {
+            $this->classes[$class] = ['!' => $id];
         } else {
-            if (empty($method)) {
-                $this->classes[$class] = ['!' => $id];
-            } else {
-                $this->classes[$class] = [$method => $id];
-            }
+            $this->classes[$class] = [$method => $id];
         }
     }
 

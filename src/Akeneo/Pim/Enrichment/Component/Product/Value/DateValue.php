@@ -52,10 +52,10 @@ class DateValue extends AbstractValue implements DateValueInterface, \Stringable
         $thisDate = $this->getData();
         $comparedDate = $value->getData();
 
-        if (null === $thisDate && null === $comparedDate) {
+        if (!$thisDate instanceof \DateTime && !$comparedDate instanceof \DateTime) {
             return true;
         }
-        if (null === $thisDate || null === $comparedDate) {
+        if (!$thisDate instanceof \DateTime || !$comparedDate instanceof \DateTime) {
             return false;
         }
 

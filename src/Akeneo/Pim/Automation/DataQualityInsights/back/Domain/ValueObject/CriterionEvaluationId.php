@@ -16,7 +16,7 @@ final class CriterionEvaluationId implements \Stringable
 
     public function __construct(?string $uuid = null)
     {
-        if (empty($uuid)) {
+        if (in_array($uuid, [null, '', '0'], true)) {
             $uuid = strval(Uuid::uuid4());
         }
         $this->uuid = $uuid;

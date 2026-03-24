@@ -55,14 +55,8 @@ final class DefaultAttributeValidation implements DocumentationBuilderInterface
 
     public function support($object): bool
     {
-        if (
-            $object instanceof ConstraintViolationInterface
-            && in_array($object->getCode(), self::SUPPORTED_CONSTRAINTS_CODES)
-        ) {
-            return true;
-        }
-
-        return false;
+        return $object instanceof ConstraintViolationInterface
+        && in_array($object->getCode(), self::SUPPORTED_CONSTRAINTS_CODES);
     }
 
     /**

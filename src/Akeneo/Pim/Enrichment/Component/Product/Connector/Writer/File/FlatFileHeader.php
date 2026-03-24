@@ -34,7 +34,7 @@ final class FlatFileHeader
         ?bool $isLocaleSpecific = false,
         ?array $specificToLocales = []
     ) {
-        if ($isLocaleSpecific && empty($specificToLocales)) {
+        if ($isLocaleSpecific && ($specificToLocales === null || $specificToLocales === [])) {
             throw new \InvalidArgumentException(
                 'A list of locales to which the header is specific to must be provided '
                 . 'when the header is defined as locale specific'
@@ -82,7 +82,7 @@ final class FlatFileHeader
             (AttributeTypes::METRIC === $attributeType),
             (AttributeTypes::PRICE_COLLECTION === $attributeType),
             $channelCurrencyCodes,
-            !empty($specificToLocales),
+            $specificToLocales !== [],
             $specificToLocales
         );
     }

@@ -35,7 +35,7 @@ class UpdateConnectedAppScopesWithAuthorizationHandler
 
         $appAuthorization = $this->appAuthorizationSession->getAppAuthorization($appId);
 
-        if (null === $appAuthorization) {
+        if (!$appAuthorization instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization) {
             throw new \LogicException('There is no active app authorization in session');
         }
 

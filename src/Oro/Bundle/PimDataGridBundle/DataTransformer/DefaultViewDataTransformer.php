@@ -53,10 +53,8 @@ class DefaultViewDataTransformer implements DataTransformerInterface
         foreach ($aliases as $alias) {
             $field = 'default_' . str_replace('-', '_', (string) $alias) . '_view';
 
-            if (property_exists($value, $field)) {
-                if ($value->getDefaultGridView($alias) !== $value->$field) {
-                    $value->setDefaultGridView($alias, $value->$field);
-                }
+            if (property_exists($value, $field) && $value->getDefaultGridView($alias) !== $value->$field) {
+                $value->setDefaultGridView($alias, $value->$field);
             }
         }
 

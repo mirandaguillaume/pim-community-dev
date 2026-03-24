@@ -25,7 +25,7 @@ final class RanksDistribution
 
     public function __construct(array $ranksDistribution)
     {
-        if (!empty(array_diff_key($ranksDistribution, self::DEFAULT_DISTRIBUTION))) {
+        if (array_diff_key($ranksDistribution, self::DEFAULT_DISTRIBUTION) !== []) {
             throw new \InvalidArgumentException('Invalid rank keys');
         }
 

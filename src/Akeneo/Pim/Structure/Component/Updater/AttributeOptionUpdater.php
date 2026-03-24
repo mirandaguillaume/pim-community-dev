@@ -114,7 +114,7 @@ class AttributeOptionUpdater implements ObjectUpdaterInterface
 
         if ('attribute' === $field) {
             $attribute = $this->findAttribute(strval($data));
-            if (null !== $attribute) {
+            if ($attribute instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface) {
                 $attributeOption->setAttribute($attribute);
             } else {
                 throw InvalidPropertyException::validEntityCodeExpected(

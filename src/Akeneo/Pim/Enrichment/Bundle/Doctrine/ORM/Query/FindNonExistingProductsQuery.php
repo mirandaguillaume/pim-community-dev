@@ -18,7 +18,7 @@ class FindNonExistingProductsQuery implements FindNonExistingProductsQueryInterf
 
     public function byProductIdentifiers(array $productIdentifiers): array
     {
-        if (empty($productIdentifiers)) {
+        if ($productIdentifiers === []) {
             return [];
         }
 
@@ -46,7 +46,7 @@ class FindNonExistingProductsQuery implements FindNonExistingProductsQueryInterf
 
     public function byProductUuids(array $productUuids): array
     {
-        if (empty($productUuids)) {
+        if ($productUuids === []) {
             return [];
         }
 

@@ -42,7 +42,7 @@ final readonly class UpdateAttributeGroupActivationSubscriber
             $attributeGroupCode = new AttributeGroupCode($attributeGroup->getCode());
             $attributeGroupActivation = $this->getAttributeGroupActivationQuery->byCode($attributeGroupCode);
 
-            if (null === $attributeGroupActivation) {
+            if (!$attributeGroupActivation instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\AttributeGroupActivation) {
                 $attributeGroupActivation = new AttributeGroupActivation($attributeGroupCode, true);
                 $this->attributeGroupActivationRepository->save($attributeGroupActivation);
             }

@@ -25,12 +25,12 @@ class RegisterStandardToFlatConverterPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(static::CONVERTER_REGISTRY)) {
+        if (!$container->hasDefinition(self::CONVERTER_REGISTRY)) {
             return;
         }
 
-        $registryDefinition = $container->getDefinition(static::CONVERTER_REGISTRY);
-        $converters = $container->findTaggedServiceIds(static::CONVERTER_TAG);
+        $registryDefinition = $container->getDefinition(self::CONVERTER_REGISTRY);
+        $converters = $container->findTaggedServiceIds(self::CONVERTER_TAG);
 
         foreach ($converters as $serviceId => $tags) {
             $this->registerConverter($registryDefinition, $tags, $serviceId);
@@ -44,7 +44,7 @@ class RegisterStandardToFlatConverterPass implements CompilerPassInterface
     protected function registerConverter(Definition $registry, array $tags, $serviceId)
     {
         foreach ($tags as $tag) {
-            $priority = isset($tag['priority']) ? (int) $tag['priority'] : static::DEFAULT_PRIORITY;
+            $priority = isset($tag['priority']) ? (int) $tag['priority'] : self::DEFAULT_PRIORITY;
             $registry->addMethodCall(
                 'register',
                 [new Reference($serviceId), $priority]

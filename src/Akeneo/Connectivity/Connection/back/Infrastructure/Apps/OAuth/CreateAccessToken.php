@@ -47,7 +47,7 @@ class CreateAccessToken implements CreateAccessTokenInterface
     public function create(string $appId, string $code): array
     {
         $client = $this->clientProvider->findClientByAppId($appId);
-        if (null === $client) {
+        if (!$client instanceof \Akeneo\Tool\Bundle\ApiBundle\Entity\Client) {
             throw new \InvalidArgumentException('No client found with the given client id.');
         }
 

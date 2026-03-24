@@ -21,17 +21,17 @@ final readonly class FilterValues
 
     public function filterByLocaleCodes(array $localeCodesToFilterOn): self
     {
-        return new static($this->channelCodeToKeep, $localeCodesToFilterOn, $this->attributeCodesToKeep);
+        return new self($this->channelCodeToKeep, $localeCodesToFilterOn, $this->attributeCodesToKeep);
     }
 
     public function filterByChannelCode(string $channelCodeToFilterOn): self
     {
-        return new static($channelCodeToFilterOn, $this->localeCodesToKeep, $this->attributeCodesToKeep);
+        return new self($channelCodeToFilterOn, $this->localeCodesToKeep, $this->attributeCodesToKeep);
     }
 
     public function filterByAttributeCodes(array $attributeCodesToKeep): self
     {
-        return new static($this->channelCodeToKeep, $this->localeCodesToKeep, $attributeCodesToKeep);
+        return new self($this->channelCodeToKeep, $this->localeCodesToKeep, $attributeCodesToKeep);
     }
 
     public function execute(array $standardFormatValues): array

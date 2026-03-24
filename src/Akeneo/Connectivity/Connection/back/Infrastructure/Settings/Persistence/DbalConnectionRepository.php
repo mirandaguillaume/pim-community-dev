@@ -81,7 +81,7 @@ class DbalConnectionRepository implements ConnectionRepositoryInterface
                 'code' => (string) $connection->code(),
                 'label' => (string) $connection->label(),
                 'flow_type' => (string) $connection->flowType(),
-                'image' => null !== $connection->image() ? (string) $connection->image() : null,
+                'image' => $connection->image() instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ConnectionImage ? (string) $connection->image() : null,
                 'auditable' => (bool) $connection->auditable(),
             ],
             [

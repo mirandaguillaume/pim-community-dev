@@ -52,7 +52,7 @@ class ListCategoriesController
         try {
             $searchFilters = json_decode($queryParameters['search'] ?? '[]', true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
-            throw new BadRequestHttpException(sprintf('The search query parameter must be a valid JSON: %s', $e->getMessage()));
+            throw new BadRequestHttpException(sprintf('The search query parameter must be a valid JSON: %s', $e->getMessage()), $e);
         }
         $offset = $queryParameters['limit'] * ($queryParameters['page'] - 1);
         $withEnrichedAttributes = $request->query->getBoolean('with_enriched_attributes');

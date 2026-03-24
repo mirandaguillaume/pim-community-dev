@@ -62,7 +62,7 @@ final readonly class UpdateNomenclatureHandler
         } else {
             $attribute = $this->getAttributes->forCode($command->getPropertyCode());
 
-            if (null === $attribute) {
+            if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
                 throw UndefinedAttributeException::withAttributeCode($command->getPropertyCode());
             }
 

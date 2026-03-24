@@ -48,7 +48,7 @@ class AttributeCollection implements \Countable
             $this->attributes,
             static fn ($attribute) => $attribute->getIdentifier() === $identifier,
         );
-        if (empty($attribute) || count($attribute) > 1) {
+        if ($attribute === [] || count($attribute) > 1) {
             return null;
         }
 
@@ -61,7 +61,7 @@ class AttributeCollection implements \Countable
             $this->attributes,
             static fn ($attribute) => (string) $attribute->getUuid() === $uuid,
         );
-        if (empty($attribute) || count($attribute) > 1) {
+        if ($attribute === [] || count($attribute) > 1) {
             return null;
         }
 
@@ -74,7 +74,7 @@ class AttributeCollection implements \Countable
             $this->attributes,
             static fn ($attribute) => (string) $attribute->getCode() === $code,
         );
-        if (empty($attribute) || count($attribute) > 1) {
+        if ($attribute === [] || count($attribute) > 1) {
             return null;
         }
 
@@ -165,7 +165,7 @@ class AttributeCollection implements \Countable
         // ignoring the attributes that are not in the collection. Co-edition use case
         foreach ($orderedAttributeUuids as $attributeUuid) {
             $attribute = $this->getAttributeByUuid($attributeUuid);
-            if (null === $attribute) {
+            if (!$attribute instanceof \Akeneo\Category\Domain\Model\Attribute\Attribute) {
                 continue;
             }
             $attribute->setOrder(AttributeOrder::fromInteger($order++));

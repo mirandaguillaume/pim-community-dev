@@ -47,7 +47,7 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
                 if (null !== $tableProperties[MigrateToUuidStep::FOREIGN_KEY_INDEX] && !$this->constraintExists($tableName, $tableProperties[MigrateToUuidStep::FOREIGN_KEY_INDEX])) {
                     $count++;
                 }
-                foreach ($tableProperties[MigrateToUuidStep::UNIQUE_CONSTRAINTS_INDEX] as $constraintName => $constraintColumns) {
+                foreach (array_keys($tableProperties[MigrateToUuidStep::UNIQUE_CONSTRAINTS_INDEX]) as $constraintName) {
                     if (!$this->constraintExists($tableName, $constraintName)) {
                         $count++;
                     }

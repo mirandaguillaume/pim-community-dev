@@ -150,7 +150,7 @@ class SearchQueryBuilder
      */
     public function getQuery(array $source = []): array
     {
-        if (empty($source)) {
+        if ($source === []) {
             $source = ['id', 'identifier', 'document_type'];
         }
 
@@ -158,24 +158,24 @@ class SearchQueryBuilder
             '_source' => $source,
         ];
 
-        if (!empty($this->filterClauses)) {
+        if ($this->filterClauses !== []) {
             $searchQuery['query']['constant_score']['filter']['bool']['filter'] = $this->filterClauses;
         }
 
-        if (!empty($this->mustNotClauses)) {
+        if ($this->mustNotClauses !== []) {
             $searchQuery['query']['constant_score']['filter']['bool']['must_not'] = $this->mustNotClauses;
         }
 
-        if (!empty($this->shouldClauses)) {
+        if ($this->shouldClauses !== []) {
             $searchQuery['query']['constant_score']['filter']['bool']['should'] = $this->shouldClauses;
             $searchQuery['query']['constant_score']['filter']['bool']['minimum_should_match'] = 1;
         }
 
-        if (!empty($this->sortClauses)) {
+        if ($this->sortClauses !== []) {
             $searchQuery['sort'] = $this->sortClauses;
         }
 
-        if (!empty($this->aggsClauses)) {
+        if ($this->aggsClauses !== []) {
             $searchQuery['aggs'] = $this->aggsClauses;
         }
 

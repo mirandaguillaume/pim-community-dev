@@ -59,7 +59,7 @@ class FamilySaver implements SaverInterface, BulkSaverInterface
      */
     public function saveAll(array $families, array $options = [])
     {
-        if (empty($families)) {
+        if ($families === []) {
             return;
         }
 

@@ -96,7 +96,7 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
         }
 
         if ($shouldCleanAllBlacklistedAttributes) {
-            if (empty($allBlacklistedAttributeCodes)) {
+            if ($allBlacklistedAttributeCodes === []) {
                 $io->writeln('<info>There was no blacklisted attributes to clean.</info>');
                 $io->writeln('Nothing to do.');
 
@@ -272,7 +272,7 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
         array $allBlacklistedAttributeCodes
     ): bool {
         $nonExistingBlacklistedAttributeCodes = array_diff($attributeCodesToClean, $allBlacklistedAttributeCodes);
-        if (!empty($nonExistingBlacklistedAttributeCodes)) {
+        if ($nonExistingBlacklistedAttributeCodes !== []) {
             $io->writeln('<error>The following attribute codes do not exist in the Blacklist:</error>');
             $io->listing($nonExistingBlacklistedAttributeCodes);
 

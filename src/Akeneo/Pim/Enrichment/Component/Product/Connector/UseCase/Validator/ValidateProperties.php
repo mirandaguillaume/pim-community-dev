@@ -40,7 +40,7 @@ final class ValidateProperties
      */
     public function validate(array $search): void
     {
-        foreach ($search as $propertyCode => $filters) {
+        foreach (array_keys($search) as $propertyCode) {
             $propertyCode = (string) $propertyCode;
             $isExistingAttribute = $this->isExistingAttribute($propertyCode);
 

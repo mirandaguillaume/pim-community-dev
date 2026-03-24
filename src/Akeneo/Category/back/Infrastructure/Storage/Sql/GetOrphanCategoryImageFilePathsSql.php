@@ -97,7 +97,7 @@ final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCate
             $offset += 1000;
 
             $rawValueCollections = $result->fetchFirstColumn();
-            if (empty($rawValueCollections)) {
+            if ($rawValueCollections === []) {
                 return;
             }
 

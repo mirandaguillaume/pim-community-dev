@@ -87,7 +87,7 @@ class GetUpdatedEntityIdsQuery implements GetUpdatedEntityIdsQueryInterface
 
     private function searchAfter(array $query, array $searchAfter): array
     {
-        if (!empty($searchAfter)) {
+        if ($searchAfter !== []) {
             $query['search_after'] = $searchAfter;
         }
 

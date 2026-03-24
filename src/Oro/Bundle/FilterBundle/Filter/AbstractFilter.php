@@ -188,11 +188,7 @@ abstract class AbstractFilter implements FilterInterface
         $keys = [];
         $paramMap = $this->util->getParamMap();
         foreach (array_keys($params) as $key) {
-            if (isset($paramMap[$key])) {
-                $keys[] = $paramMap[$key];
-            } else {
-                $keys[] = $key;
-            }
+            $keys[] = isset($paramMap[$key]) ? $paramMap[$key] : $key;
         }
 
         return array_combine($keys, array_values($params));

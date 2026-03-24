@@ -15,7 +15,7 @@ class ConnectionImage implements \Stringable
 
     public function __construct(string $filePath)
     {
-        if (empty($filePath)) {
+        if ($filePath === '' || $filePath === '0') {
             throw new \InvalidArgumentException('akeneo_connectivity.connection.connection.constraint.image.not_empty');
         }
 

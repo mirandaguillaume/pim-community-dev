@@ -63,7 +63,7 @@ class AttributeOption implements ArrayConverterInterface
                 $convertedItem[$field] = (int) $data;
             } elseif (\preg_match('/^label-(?P<locale>[\w_]+)$/', $field, $matches)) {
                 $locale = $this->findLocales->find($matches['locale']);
-                if (null === $locale || !$locale->isActivated()) {
+                if (!$locale instanceof \Akeneo\Channel\API\Query\Locale || !$locale->isActivated()) {
                     $this->unexpectedFieldException($field);
                 }
                 $convertedItem['labels'][$locale->getCode()] = $data;

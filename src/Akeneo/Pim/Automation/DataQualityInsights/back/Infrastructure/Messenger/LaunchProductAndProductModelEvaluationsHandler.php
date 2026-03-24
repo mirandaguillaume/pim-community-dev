@@ -60,7 +60,7 @@ final readonly class LaunchProductAndProductModelEvaluationsHandler
         }
 
         $this->logger->debug(sprintf('DQI - Evaluation of %d products start', $productUuidsToEvaluate->count()));
-        $criteriaToEvaluate = empty($message->criteriaToEvaluate)
+        $criteriaToEvaluate = $message->criteriaToEvaluate === []
             ? $this->productCriteriaRegistry->getAllCriterionCodes()
             : \array_map(fn (string $criterionCode) => new CriterionCode($criterionCode), $message->criteriaToEvaluate);
 
@@ -80,7 +80,7 @@ final readonly class LaunchProductAndProductModelEvaluationsHandler
         }
 
         $this->logger->debug(sprintf('DQI - Evaluation of %d product-models start', $productModelIdsToEvaluate->count()));
-        $criteriaToEvaluate = empty($message->criteriaToEvaluate)
+        $criteriaToEvaluate = $message->criteriaToEvaluate === []
             ? $this->productModelCriteriaRegistry->getAllCriterionCodes()
             : \array_map(fn (string $criterionCode) => new CriterionCode($criterionCode), $message->criteriaToEvaluate);
 

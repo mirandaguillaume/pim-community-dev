@@ -37,7 +37,7 @@ class EntityWithFamilyVariantRepository implements EntityWithFamilyVariantReposi
     {
         $familyVariant = $entity->getFamilyVariant();
 
-        if (null === $familyVariant || ($entity instanceof ProductModelInterface && $entity->isRootProductModel())) {
+        if (!$familyVariant instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface || ($entity instanceof ProductModelInterface && $entity->isRootProductModel())) {
             return [];
         }
 

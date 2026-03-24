@@ -182,7 +182,7 @@ class CsvEncoder implements EncoderInterface
      */
     private function checkHasStringKeys(array $data)
     {
-        if (empty($data)) {
+        if ($data === []) {
             return;
         }
 

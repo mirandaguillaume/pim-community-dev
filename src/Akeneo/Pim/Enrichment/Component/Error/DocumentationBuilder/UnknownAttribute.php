@@ -19,11 +19,7 @@ final class UnknownAttribute implements DocumentationBuilderInterface
 {
     public function support($object): bool
     {
-        if ($object instanceof UnknownAttributeException) {
-            return true;
-        }
-
-        return false;
+        return $object instanceof UnknownAttributeException;
     }
 
     public function buildDocumentation($object): DocumentationCollection

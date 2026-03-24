@@ -21,7 +21,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
 {
     public function getCategoriesByIds(array $categoriesIds = [])
     {
-        if (empty($categoriesIds)) {
+        if ($categoriesIds === []) {
             return new ArrayCollection();
         }
 
@@ -43,7 +43,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
 
     public function getCategoriesByCodes(array $categoriesCodes = [])
     {
-        if (empty($categoriesCodes)) {
+        if ($categoriesCodes === []) {
             return new ArrayCollection();
         }
 
@@ -136,7 +136,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
 
     public function getCategoryIdsByCodes(array $categoriesCodes)
     {
-        if (empty($categoriesCodes)) {
+        if ($categoriesCodes === []) {
             return [];
         }
 
@@ -215,7 +215,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
                     $qb->expr()->in('node.'.$config['parent'], $ancestorsIds),
                 );
 
-                if (!empty($grantedCategoryIds)) {
+                if ($grantedCategoryIds !== []) {
                     $qb->andWhere('node.id IN (:ids)')
                         ->setParameter('ids', $grantedCategoryIds);
                 }
@@ -264,7 +264,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
             }
         }
 
-        if (empty($tree)) {
+        if ($tree === []) {
             // No node found with getParent() == null, meaning the absolute tree
             // root was not part of the set. We try to find the lowest level nodes
             // or a node without item part, meaning that it's a referenced parent but without

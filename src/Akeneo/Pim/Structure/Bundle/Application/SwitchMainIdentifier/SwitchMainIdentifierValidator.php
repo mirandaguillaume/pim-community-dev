@@ -40,7 +40,7 @@ final class SwitchMainIdentifierValidator
 
     private function validateAttributeExists(): void
     {
-        if (null === $this->newMainIdentifier) {
+        if (!$this->newMainIdentifier instanceof \Akeneo\Pim\Structure\Component\Model\Attribute) {
             throw new CanNotSwitchMainIdentifierException(sprintf(
                 '%s attribute does not exist',
                 $this->newMainIdentifier

@@ -37,7 +37,7 @@ final readonly class GetProductModelScoresByCodesQuery implements GetProductMode
      */
     public function byProductModelCodes(array $productModelCodes): array
     {
-        if (empty($productModelCodes)) {
+        if ($productModelCodes === []) {
             return [];
         }
 

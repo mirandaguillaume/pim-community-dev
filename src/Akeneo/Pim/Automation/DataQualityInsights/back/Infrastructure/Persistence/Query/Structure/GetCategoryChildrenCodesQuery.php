@@ -32,7 +32,7 @@ final readonly class GetCategoryChildrenCodesQuery implements GetCategoryChildre
         $statement = $this->connection->executeQuery($query, ['category_code' => $categoryCode]);
         $categoryCodes = $statement->fetchFirstColumn();
 
-        if (empty($categoryCodes)) {
+        if ($categoryCodes === []) {
             throw new \RuntimeException(sprintf('The category %s was not found.', $categoryCode));
         }
 

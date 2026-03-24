@@ -141,10 +141,10 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
      */
     private function hasRawFilter(string $filterProperty, string $value): bool
     {
-        return !empty(array_filter(
+        return array_filter(
             $this->getRawFilters(),
             fn ($filter) => $value === $filter[$filterProperty]
-        ));
+        ) !== [];
     }
 
     /**
@@ -154,12 +154,12 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
      */
     private function hasFilterOnCategoryWhichImplyAggregation(): bool
     {
-        $hasFilter = !empty(array_filter(
+        $hasFilter = array_filter(
             $this->getRawFilters(),
             fn (array $filter) => 'field' === $filter['type']
                 && 'categories' === $filter['field']
                 && (Operators::IN_LIST === $filter['operator'] || Operators::IN_CHILDREN_LIST === $filter['operator'])
-        ));
+        ) !== [];
 
         return $hasFilter;
     }

@@ -48,7 +48,7 @@ class ChildCategory
 
     public function expanded(): bool
     {
-        return !empty($this->childrenCategoriesToExpand);
+        return $this->childrenCategoriesToExpand !== [];
     }
 
     public function numberProductsInCategory(): int

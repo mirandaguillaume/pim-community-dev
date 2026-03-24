@@ -40,7 +40,7 @@ class AddParametersToProductGridListener extends AddParametersToGridListener
         CatalogContext $catalogContext,
         UserContext $userContext,
         $isEditMode = false,
-        RequestStack $requestStack
+        ?RequestStack $requestStack = null
     ) {
         parent::__construct($paramNames, $requestParams, $isEditMode);
 

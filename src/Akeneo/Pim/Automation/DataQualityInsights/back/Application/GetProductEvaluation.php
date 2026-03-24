@@ -74,7 +74,7 @@ class GetProductEvaluation
             $criterionEvaluation = $criteriaEvaluations->get($criterionCode);
             $criteriaRates[] = $this->formatCriterionEvaluation(
                 $criterionCode,
-                $criterionEvaluation !== null ? $criterionEvaluation->getResult() : null,
+                $criterionEvaluation instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\CriterionEvaluation ? $criterionEvaluation->getResult() : null,
                 $channelCode,
                 $localeCode
             );
@@ -85,18 +85,18 @@ class GetProductEvaluation
 
     private function formatCriterionEvaluation(CriterionCode $criterionCode, ?Read\CriterionEvaluationResult $evaluationResult, ChannelCode $channelCode, LocaleCode $localeCode): array
     {
-        $rate = null !== $evaluationResult ? $evaluationResult->getRates()->getByChannelAndLocale($channelCode, $localeCode) : null;
-        $attributes = null !== $evaluationResult ? $evaluationResult->getAttributes()->getByChannelAndLocale($channelCode, $localeCode) : [];
-        $status = null !== $evaluationResult ? $evaluationResult->getStatus()->get($channelCode, $localeCode) : null;
+        $rate = $evaluationResult instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\CriterionEvaluationResult ? $evaluationResult->getRates()->getByChannelAndLocale($channelCode, $localeCode) : null;
+        $attributes = $evaluationResult instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\CriterionEvaluationResult ? $evaluationResult->getAttributes()->getByChannelAndLocale($channelCode, $localeCode) : [];
+        $status = $evaluationResult instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\CriterionEvaluationResult ? $evaluationResult->getStatus()->get($channelCode, $localeCode) : null;
 
         return [
             'code' => strval($criterionCode),
             'rate' => [
-                'value' => null !== $rate ? $rate->toInt() : null,
-                'rank' => null !== $rate ? $rate->toLetter() : null,
+                'value' => $rate instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate ? $rate->toInt() : null,
+                'rank' => $rate instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate ? $rate->toLetter() : null,
             ],
             'improvable_attributes' => $attributes ?? [],
-            'status' => null !== $status ? strval($status) : CriterionEvaluationResultStatus::IN_PROGRESS,
+            'status' => $status instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionEvaluationResultStatus ? strval($status) : CriterionEvaluationResultStatus::IN_PROGRESS,
         ];
     }
 }

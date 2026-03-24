@@ -41,7 +41,7 @@ class ProductAttributeFilter implements AttributeFilterInterface
     public function filter(array $standardProduct): array
     {
         if (array_key_exists('values', $standardProduct) && is_array($standardProduct['values'])) {
-            foreach ($standardProduct['values'] as $code => $value) {
+            foreach (array_keys($standardProduct['values']) as $code) {
                 if (null === $this->attributeRepository->findOneByIdentifier($code)) {
                     throw UnknownPropertyException::unknownProperty($code);
                 }
@@ -78,12 +78,9 @@ class ProductAttributeFilter implements AttributeFilterInterface
             return $this->keepOnlyAttributes($standardProduct, $attributes);
         }
 
-        if (isset($standardProduct['family'])) {
-            if (null !== $family = $this->familyRepository->findOneByIdentifier($standardProduct['family'])) {
-                $attributes = $family->getAttributes();
-
-                return $this->keepOnlyAttributes($standardProduct, $attributes);
-            }
+        if (isset($standardProduct['family']) && null !== $family = $this->familyRepository->findOneByIdentifier($standardProduct['family'])) {
+            $attributes = $family->getAttributes();
+            return $this->keepOnlyAttributes($standardProduct, $attributes);
         }
 
         return $standardProduct;

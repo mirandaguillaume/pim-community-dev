@@ -23,7 +23,7 @@ class GetUuidMappingQuery implements GetUuidMappingQueryInterface
 
     public function fromProductIdentifiers(array $productIdentifiers, array $productUuids): UuidMapping
     {
-        if (empty($productIdentifiers) && empty($productUuids)) {
+        if ($productIdentifiers === [] && $productUuids === []) {
             return UuidMapping::createFromMapping([]);
         }
 
@@ -55,7 +55,7 @@ class GetUuidMappingQuery implements GetUuidMappingQueryInterface
 
     public function fromProductIds(array $productIds, array $productUuids): UuidMapping
     {
-        if (empty($productIds) && empty($productUuids)) {
+        if ($productIds === [] && $productUuids === []) {
             return UuidMapping::createFromMapping([]);
         }
 

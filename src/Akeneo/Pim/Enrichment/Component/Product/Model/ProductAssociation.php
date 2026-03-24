@@ -22,7 +22,7 @@ class ProductAssociation extends AbstractAssociation implements ProductAssociati
     #[ORM\JoinColumn(name: 'association_type_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     protected $associationType;
 
-    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface::class, inversedBy: 'associations', cascade: ['detach'])]
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface::class, cascade: ['detach'], inversedBy: 'associations')]
     #[ORM\JoinColumn(name: 'owner_uuid', referencedColumnName: 'uuid', nullable: false, onDelete: 'CASCADE')]
     protected $owner;
 

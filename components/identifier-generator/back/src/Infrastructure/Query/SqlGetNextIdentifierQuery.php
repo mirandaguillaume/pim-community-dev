@@ -50,6 +50,6 @@ SQL;
 
         $result = ((int) $result) + 1;
 
-        return ($result < $numberMin) ? $numberMin : $result;
+        return max($numberMin, $result);
     }
 }

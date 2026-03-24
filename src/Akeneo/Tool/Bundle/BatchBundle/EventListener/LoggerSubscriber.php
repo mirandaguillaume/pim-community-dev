@@ -246,7 +246,7 @@ class LoggerSubscriber
                 );
             }
 
-            return sprintf("[%s]", join(', ', $result));
+            return sprintf("[%s]", implode(', ', $result));
         }
 
         if (is_bool($data)) {

@@ -178,7 +178,7 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
      */
     private function countProductInCategories(array $categoriesWithoutCount): array
     {
-        if (empty($categoriesWithoutCount)) {
+        if ($categoriesWithoutCount === []) {
             return [];
         }
 

@@ -61,7 +61,7 @@ class MetricComparator implements ComparatorInterface
 
         $diff = array_diff_assoc((array) $tmpData['data'], (array) $originals['data']);
 
-        if (!empty($diff)) {
+        if ($diff !== []) {
             return $data;
         }
 

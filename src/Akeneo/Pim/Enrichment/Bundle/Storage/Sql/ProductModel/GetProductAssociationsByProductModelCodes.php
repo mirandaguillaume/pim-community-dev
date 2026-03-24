@@ -21,7 +21,7 @@ final readonly class GetProductAssociationsByProductModelCodes
 
     public function fetchByProductModelCodes(array $productModelCodes): array
     {
-        if (empty($productModelCodes)) {
+        if ($productModelCodes === []) {
             return [];
         }
 

@@ -26,7 +26,7 @@ class EntityWithFamilyVariantAttributesProvider
     {
         $familyVariant = $entityWithFamilyVariant->getFamilyVariant();
 
-        if (null === $familyVariant) {
+        if (!$familyVariant instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface) {
             return [];
         }
 
@@ -35,7 +35,7 @@ class EntityWithFamilyVariantAttributesProvider
             $attributes = $familyVariant->getCommonAttributes()->toArray();
         } else {
             $variantAttributeSet = $familyVariant->getVariantAttributeSet($level);
-            if (null === $variantAttributeSet) {
+            if (!$variantAttributeSet instanceof \Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface) {
                 return [];
             }
 
@@ -53,7 +53,7 @@ class EntityWithFamilyVariantAttributesProvider
         $familyVariant = $entityWithFamilyVariant->getFamilyVariant();
 
         $level = $entityWithFamilyVariant->getVariationLevel();
-        if (null === $familyVariant || EntityWithFamilyVariantInterface::ROOT_VARIATION_LEVEL === $level) {
+        if (!$familyVariant instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface || EntityWithFamilyVariantInterface::ROOT_VARIATION_LEVEL === $level) {
             return [];
         }
 

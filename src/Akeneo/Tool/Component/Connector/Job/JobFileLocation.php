@@ -59,7 +59,7 @@ final readonly class JobFileLocation
      */
     public function url(): string
     {
-        if (true === $this->remote) {
+        if ($this->remote) {
             return self::REMOTE_SCHEMA . $this->path;
         }
 

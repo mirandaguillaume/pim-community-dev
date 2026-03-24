@@ -112,7 +112,7 @@ class CalculateCompletenessCommand extends Command
                 ]
             );
 
-            if (empty($rows)) {
+            if ($rows === []) {
                 return;
             }
 

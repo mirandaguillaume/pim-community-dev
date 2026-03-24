@@ -161,7 +161,7 @@ class LocaleController
      */
     private function prepareSearchCriterias(array $searchParameters): array
     {
-        if (empty($searchParameters)) {
+        if ($searchParameters === []) {
             return [];
         }
 

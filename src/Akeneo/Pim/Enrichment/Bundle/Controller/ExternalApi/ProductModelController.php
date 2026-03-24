@@ -434,10 +434,10 @@ class ProductModelController
             $queryParameters['search_scope'] = $query->searchChannelCode;
         }
         if (null !== $query->localeCodes) {
-            $queryParameters['locales'] = join(',', $query->localeCodes);
+            $queryParameters['locales'] = implode(',', $query->localeCodes);
         }
         if (null !== $query->attributeCodes) {
-            $queryParameters['attributes'] = join(',', $query->attributeCodes);
+            $queryParameters['attributes'] = implode(',', $query->attributeCodes);
         }
 
         if (PaginationTypes::OFFSET === $query->paginationType) {

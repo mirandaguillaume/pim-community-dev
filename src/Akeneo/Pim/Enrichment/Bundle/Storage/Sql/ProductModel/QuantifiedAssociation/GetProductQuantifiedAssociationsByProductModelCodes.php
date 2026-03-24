@@ -37,7 +37,7 @@ final readonly class GetProductQuantifiedAssociationsByProductModelCodes
      */
     public function fromProductModelCodes(array $productModelCodes): array
     {
-        if (empty($productModelCodes)) {
+        if ($productModelCodes === []) {
             return [];
         }
 
@@ -120,7 +120,7 @@ final readonly class GetProductQuantifiedAssociationsByProductModelCodes
                     'quantity'   => (int) $associationWithProductId['quantity'],
                 ];
             }
-            if (!empty($uniqueQuantifiedAssociations)) {
+            if ($uniqueQuantifiedAssociations !== []) {
                 $result[$associationTypeCode]['products'] = array_values($uniqueQuantifiedAssociations);
             }
         }

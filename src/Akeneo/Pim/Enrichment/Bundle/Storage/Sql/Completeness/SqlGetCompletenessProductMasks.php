@@ -147,7 +147,7 @@ final readonly class SqlGetCompletenessProductMasks implements GetCompletenessPr
             }
         }
 
-        if (empty($masks)) {
+        if ($masks === []) {
             return [];
         }
 

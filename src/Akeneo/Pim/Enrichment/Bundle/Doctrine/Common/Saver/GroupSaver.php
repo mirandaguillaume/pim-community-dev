@@ -81,7 +81,7 @@ class GroupSaver implements SaverInterface, BulkSaverInterface
      */
     public function saveAll(array $groups, array $options = [])
     {
-        if (empty($groups)) {
+        if ($groups === []) {
             return;
         }
 

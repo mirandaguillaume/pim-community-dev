@@ -42,7 +42,7 @@ final class IsUserOwnerOfTheProductValidator extends ConstraintValidator
             $uuid = $command->productIdentifierOrUuid()->uuid();
         }
 
-        if (null === $uuid) {
+        if (!$uuid instanceof \Ramsey\Uuid\UuidInterface) {
             return;
         }
 

@@ -42,7 +42,7 @@ class ProductIndexer implements ProductIndexerInterface
      */
     public function indexFromProductUuids(array $productUuids, array $options = []): void
     {
-        if (empty($productUuids)) {
+        if ($productUuids === []) {
             return;
         }
 

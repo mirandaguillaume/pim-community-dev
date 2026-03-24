@@ -89,7 +89,7 @@ class ProductNormalizer implements NormalizerInterface
 
     private function hasParent(EntityWithFamilyVariantInterface $entityWithFamilyVariant): bool
     {
-        return null !== $entityWithFamilyVariant->getParent();
+        return $entityWithFamilyVariant->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
     }
 
     /**
@@ -108,7 +108,7 @@ class ProductNormalizer implements NormalizerInterface
         if ($product->isVariant()) {
             $familyAttributes = $this->attributesProvider->getAttributes($product);
             $familyAttributesCodes = array_map(fn (AttributeInterface $attribute) => $attribute->getCode(), $familyAttributes);
-        } elseif (null !== $product->getFamily()) {
+        } elseif ($product->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             $familyAttributesCodes = $product->getFamily()->getAttributeCodes();
         }
 

@@ -41,7 +41,7 @@ class FamilyAttributeUsedAsAxisValidator extends ConstraintValidator
 
         foreach ($family->getFamilyVariants() as $familyVariant) {
             $missingAttributesUsedAsAxis = $this->getMissingAttributeCodesUsedAsAxis($family, $familyVariant);
-            if (!empty($missingAttributesUsedAsAxis)) {
+            if ($missingAttributesUsedAsAxis !== []) {
                 $this->buildViolationsForMissingAttributesUsedAsAxis(
                     $constraint,
                     $familyVariant,

@@ -52,7 +52,7 @@ class CachedGetLocalesByChannelQuery implements GetLocalesByChannelQueryInterfac
 
     public function getChannelLocaleCollection(): ChannelLocaleCollection
     {
-        if (null === $this->cachedChannelLocaleCollection) {
+        if (!$this->cachedChannelLocaleCollection instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\ChannelLocaleCollection) {
             $channelsLocales = $this->getArray();
             $this->cachedChannelLocaleCollection = new ChannelLocaleCollection($channelsLocales);
         }

@@ -46,7 +46,7 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
     private function addAttributesConfig(DatagridConfiguration $configuration): void
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
-        $requestFilters = $currentRequest
+        $requestFilters = $currentRequest instanceof \Symfony\Component\HttpFoundation\Request
             ? (array_merge($currentRequest->request->all(), $currentRequest->query->all())['filters'] ?? [])
             : [];
         $filterValues = array_replace($this->requestParams->get('_filter', []), $requestFilters);
@@ -63,7 +63,7 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
         $filters = $this->userContext->getUser()->getProductGridFilters();
 
         $usedAttributeCodes = array_unique(array_merge($attributesUsedAsFilter, $attributesUsedAsColumn, $filters));
-        $attributeIds = empty($usedAttributeCodes) ? [] : $this->attributeRepository->getAttributeIdsUseableInGrid($usedAttributeCodes);
+        $attributeIds = $usedAttributeCodes === [] ? [] : $this->attributeRepository->getAttributeIdsUseableInGrid($usedAttributeCodes);
 
         $attributes = [];
         if (!empty($attributeIds)) {
@@ -87,7 +87,7 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
             $attributeCodes = explode(',', (string) $params['view']['columns']);
         }
 
-        $attributeIds = empty($attributeCodes) ? [] : $this->attributeRepository->getAttributeIdsUseableInGrid($attributeCodes);
+        $attributeIds = $attributeCodes === [] ? [] : $this->attributeRepository->getAttributeIdsUseableInGrid($attributeCodes);
 
         $path = $this->getSourcePath(self::DISPLAYED_ATTRIBUTES_KEY);
         $configuration->offsetSetByPath($path, $attributeIds);

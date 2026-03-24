@@ -51,7 +51,7 @@ class ComputeAndPersistProductCompletenesses
                     $completenessCollections,
                     $previousCompletenessCollections
                 );
-                if (null !== $productWasCompletedEventsCollection) {
+                if ($productWasCompletedEventsCollection instanceof \Akeneo\Pim\Enrichment\Product\API\Event\Completeness\ProductWasCompletedOnChannelLocaleCollection) {
                     $this->eventDispatcher->dispatch($productWasCompletedEventsCollection);
                 }
             } catch (\Throwable $exception) {

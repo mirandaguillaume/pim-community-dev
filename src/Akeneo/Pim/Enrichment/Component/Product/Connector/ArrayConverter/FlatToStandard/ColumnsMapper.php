@@ -17,7 +17,7 @@ class ColumnsMapper
      */
     public function map(array $row, array $mapping)
     {
-        if (empty($mapping)) {
+        if ($mapping === []) {
             return $row;
         }
 

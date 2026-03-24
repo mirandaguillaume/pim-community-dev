@@ -65,7 +65,7 @@ class AddAttributeValueProcessor extends AbstractProcessor
 
         $filteredValues = $this->extractValuesToUpdate($entity, $actions[0]);
 
-        if (empty($filteredValues)) {
+        if ($filteredValues === []) {
             $this->stepExecution->incrementSummaryInfo('skipped_products');
 
             return null;

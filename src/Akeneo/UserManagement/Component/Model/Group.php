@@ -152,7 +152,7 @@ class Group implements GroupInterface, \Stringable
                 sprintf('$role must be an instance of %s or a string', Group::class)
             );
         }
-        if ($roleObject) {
+        if ($roleObject instanceof \Akeneo\UserManagement\Component\Model\RoleInterface) {
             $this->roles->removeElement($roleObject);
         }
     }

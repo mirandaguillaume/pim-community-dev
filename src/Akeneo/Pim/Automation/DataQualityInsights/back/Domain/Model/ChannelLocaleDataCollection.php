@@ -71,6 +71,6 @@ final class ChannelLocaleDataCollection implements \IteratorAggregate
 
     public function isEmpty(): bool
     {
-        return empty($this->channelLocaleData);
+        return $this->channelLocaleData === [];
     }
 }

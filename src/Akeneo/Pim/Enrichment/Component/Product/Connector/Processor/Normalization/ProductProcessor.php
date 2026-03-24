@@ -96,7 +96,7 @@ class ProductProcessor implements ItemProcessorInterface, StepExecutionAwareInte
         return array_filter($attributeCodes, function (string $attributeCode) use ($jobLocales) {
             $attribute = $this->getAttributes->forCode($attributeCode);
 
-            if (null === $attribute) {
+            if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
                 return false;
             }
 
@@ -104,7 +104,7 @@ class ProductProcessor implements ItemProcessorInterface, StepExecutionAwareInte
                 return true;
             }
 
-            return !empty(array_intersect($jobLocales, $attribute->availableLocaleCodes()));
+            return array_intersect($jobLocales, $attribute->availableLocaleCodes()) !== [];
         });
     }
 

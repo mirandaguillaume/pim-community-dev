@@ -48,7 +48,7 @@ class RegisterJobParametersPass implements CompilerPassInterface
         $serviceTag = sprintf(self::SERVICE_TAG, $this->type);
         foreach ($container->findTaggedServiceIds($serviceTag) as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = $tag['priority'] ?? static::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? self::DEFAULT_PRIORITY;
                 if (!isset($providers[$priority])) {
                     $providers[$priority] = [];
                 }

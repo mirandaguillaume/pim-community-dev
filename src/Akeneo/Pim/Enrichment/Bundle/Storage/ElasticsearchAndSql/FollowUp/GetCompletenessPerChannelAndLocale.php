@@ -123,7 +123,7 @@ class GetCompletenessPerChannelAndLocale implements GetCompletenessPerChannelAnd
      */
     private function countCompleteProductsInCategoriesByChannelAndLocale(array $categoriesCodeAndLocalesByChannels): array
     {
-        if (empty($categoriesCodeAndLocalesByChannels)) {
+        if ($categoriesCodeAndLocalesByChannels === []) {
             return [];
         }
 

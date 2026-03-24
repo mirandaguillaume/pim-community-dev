@@ -27,7 +27,7 @@ class GetAncestorProductModelCodes
      */
     public function fromProductUuids(array $productUuids): array
     {
-        if (empty($productUuids)) {
+        if ($productUuids === []) {
             return [];
         }
 

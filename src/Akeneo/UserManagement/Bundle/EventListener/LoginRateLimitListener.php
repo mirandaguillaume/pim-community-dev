@@ -66,7 +66,7 @@ final readonly class LoginRateLimitListener
 
     private function incrementFailureCounter(UserInterface $user)
     {
-        if (null === $user->getAuthenticationFailureResetDate()) {
+        if (!$user->getAuthenticationFailureResetDate() instanceof \DateTime) {
             $user->setAuthenticationFailureResetDate(new \DateTime());
         }
 

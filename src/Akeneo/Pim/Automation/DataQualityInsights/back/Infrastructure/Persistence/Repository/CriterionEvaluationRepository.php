@@ -119,7 +119,7 @@ class CriterionEvaluationRepository
                 $success = true;
             } catch (DeadlockException) {
                 $retry++;
-                if ($retry == 5) {
+                if ($retry === 5) {
                     $this->executeWithLock($query, $queryParametersValues, $queryParametersTypes);
                     $success = true;
                 } else {
@@ -199,7 +199,7 @@ class CriterionEvaluationRepository
 
     private function formatCriterionEvaluationResult(?Write\CriterionEvaluationResult $criterionEvaluationResult): ?string
     {
-        if (null === $criterionEvaluationResult) {
+        if (!$criterionEvaluationResult instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\CriterionEvaluationResult) {
             return null;
         }
 
@@ -210,6 +210,6 @@ class CriterionEvaluationRepository
 
     private function formatDate(?\DateTimeImmutable $date): ?string
     {
-        return null !== $date ? $date->format(Clock::TIME_FORMAT) : null;
+        return $date instanceof \DateTimeImmutable ? $date->format(Clock::TIME_FORMAT) : null;
     }
 }

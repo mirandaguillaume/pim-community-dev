@@ -61,7 +61,7 @@ class AttributeSaver implements SaverInterface, BulkSaverInterface
      */
     public function saveAll(array $attributes, array $options = [])
     {
-        if (empty($attributes)) {
+        if ($attributes === []) {
             return;
         }
 

@@ -29,7 +29,7 @@ final readonly class GetAttributeGroupActivationController
 
         $attributeGroupActivation = $this->getAttributeGroupActivationQuery->byCode($attributeGroupCode);
 
-        if (null === $attributeGroupActivation) {
+        if (!$attributeGroupActivation instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\AttributeGroupActivation) {
             return new JsonResponse(null, Response::HTTP_NOT_FOUND);
         }
 

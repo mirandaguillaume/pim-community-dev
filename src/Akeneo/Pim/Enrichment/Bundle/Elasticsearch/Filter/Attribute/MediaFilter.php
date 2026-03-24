@@ -53,7 +53,7 @@ class MediaFilter extends AbstractAttributeFilter implements AttributeFilterInte
         }
 
         $attributePath = $this->getAttributePath($attribute, $locale, $channel);
-        $indexedAttributePath = $attributePath . '.' . static::PATH_SUFFIX;
+        $indexedAttributePath = $attributePath . '.' . self::PATH_SUFFIX;
 
         switch ($operator) {
             case Operators::STARTS_WITH:

@@ -63,7 +63,7 @@ class ProductPdfRenderer implements RendererInterface
      */
     public function supports($object, $format)
     {
-        return $object instanceof ProductInterface && $format === static::PDF_FORMAT;
+        return $object instanceof ProductInterface && $format === self::PDF_FORMAT;
     }
 
     protected function getAttributeCodes(ProductInterface $product): array
@@ -76,7 +76,7 @@ class ProductPdfRenderer implements RendererInterface
      */
     protected function canRenderAttribute(?AttributeInterface $attribute): bool
     {
-        return null !== $attribute;
+        return $attribute instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface;
     }
 
     /**
@@ -89,7 +89,7 @@ class ProductPdfRenderer implements RendererInterface
         $groups = [];
 
         $attributeCodes = $product->getUsedAttributeCodes();
-        if ($product->getFamily()) {
+        if ($product->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             $attributeCodes = array_unique(array_merge($attributeCodes, $product->getFamily()->getAttributeCodes()));
         }
 
@@ -168,7 +168,7 @@ class ProductPdfRenderer implements RendererInterface
             ->setDefaults(
                 [
                     'renderingDate' => new \DateTime(),
-                    'filter' => static::THUMBNAIL_FILTER,
+                    'filter' => self::THUMBNAIL_FILTER,
                 ]
             )
             ->setDefined(['groupedAttributes', 'imagePaths', 'customFont']);

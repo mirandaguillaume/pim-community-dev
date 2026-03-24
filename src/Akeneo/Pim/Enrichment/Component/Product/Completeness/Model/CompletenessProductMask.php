@@ -41,11 +41,11 @@ class CompletenessProductMask
     // TODO: TIP-1212: remove null on accepted argument for the mask (a product could be currently without a family)
     public function completenessCollectionForProduct(?RequiredAttributesMask $attributeRequirementMask)
     {
-        if (null === $this->familyCode && null !== $attributeRequirementMask) {
+        if (null === $this->familyCode && $attributeRequirementMask instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask) {
             throw new \InvalidArgumentException('You cannot provide an attribute requirement mask when a product is not in a family.');
-        } elseif (null !== $this->familyCode && null === $attributeRequirementMask) {
+        } elseif (null !== $this->familyCode && !$attributeRequirementMask instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask) {
             throw new \InvalidArgumentException('You have to provide an attribute requirement mask when a product is in a family.');
-        } elseif (null === $this->familyCode && null === $attributeRequirementMask) {
+        } elseif (null === $this->familyCode && !$attributeRequirementMask instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask) {
             return new ProductCompletenessWithMissingAttributeCodesCollection($this->id, []);
         } else {
             $productCompletenesses = array_map(

@@ -44,7 +44,7 @@ class FamilyAttributeAsImageValidator extends ConstraintValidator
             return;
         }
 
-        if (null === $family->getAttributeAsImage()) {
+        if (!$family->getAttributeAsImage() instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface) {
             return;
         }
 
@@ -59,7 +59,7 @@ class FamilyAttributeAsImageValidator extends ConstraintValidator
             $this->context
                 ->buildViolation(sprintf(
                     $constraint->messageAttributeType,
-                    join(', ', array_map(fn ($validAttributeType) => sprintf('"%s"', $validAttributeType), $this->validAttributeTypes))
+                    implode(', ', array_map(fn ($validAttributeType) => sprintf('"%s"', $validAttributeType), $this->validAttributeTypes))
                 ))
                 ->atPath($constraint->propertyPath)
                 ->addViolation();

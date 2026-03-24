@@ -25,7 +25,7 @@ final class AttributeShouldHaveTypeValidator extends ConstraintValidator
         }
 
         $attribute = $this->getAttributes->forCode($target);
-        if (null !== $attribute && $attribute->type() !== $constraint->type) {
+        if ($attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute && $attribute->type() !== $constraint->type) {
             $this->context
                 ->buildViolation($constraint->message, [
                     '{{ code }}' => $target,

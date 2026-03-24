@@ -32,7 +32,7 @@ class NonExistentReferenceDataMultiSelectValuesFilter implements NonExistentValu
     {
         $selectValues = $onGoingFilteredRawValues->notFilteredValuesOfTypes($type);
 
-        if (empty($selectValues)) {
+        if ($selectValues === []) {
             return $onGoingFilteredRawValues;
         }
 

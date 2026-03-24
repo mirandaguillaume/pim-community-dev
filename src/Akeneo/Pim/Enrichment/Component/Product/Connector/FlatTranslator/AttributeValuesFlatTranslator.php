@@ -33,7 +33,7 @@ class AttributeValuesFlatTranslator
 
         $translator = $this->attributeValueRegistry->getTranslator($attributeType, $columnName);
 
-        return null === $translator ? $values : $translator->translate($attributeCode, $attributeProperties, $values, $locale);
+        return $translator instanceof \Akeneo\Pim\Enrichment\Component\Product\Connector\FlatTranslator\AttributeValue\FlatAttributeValueTranslatorInterface ? $translator->translate($attributeCode, $attributeProperties, $values, $locale) : $values;
     }
 
     private function getAttributeFromColumnName(string $columnName): AttributeInterface

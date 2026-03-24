@@ -27,6 +27,6 @@ final class ExternalJavascriptDependenciesExtension extends AbstractExtension
 
     public function getExternalJavascriptDependencies(): string
     {
-        return join("\n", $this->dependenciesProvider->getScripts());
+        return implode("\n", $this->dependenciesProvider->getScripts());
     }
 }

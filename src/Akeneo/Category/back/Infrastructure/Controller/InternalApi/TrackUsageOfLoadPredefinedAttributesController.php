@@ -42,7 +42,7 @@ class TrackUsageOfLoadPredefinedAttributesController
         try {
             $this->getTemplate->byUuid(TemplateUuid::fromString($templateUuid));
         } catch (TemplateNotFoundException $e) {
-            throw new NotFoundHttpException($e->getMessage());
+            throw new NotFoundHttpException($e->getMessage(), $e);
         }
 
         try {

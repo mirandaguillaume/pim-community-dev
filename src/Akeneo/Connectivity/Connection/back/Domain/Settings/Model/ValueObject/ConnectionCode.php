@@ -17,7 +17,7 @@ class ConnectionCode implements \Stringable
     {
         $code = \trim($code);
 
-        if (empty($code)) {
+        if ($code === '' || $code === '0') {
             throw new \InvalidArgumentException('akeneo_connectivity.connection.connection.constraint.code.required');
         }
         if (\mb_strlen($code) < 3) {

@@ -26,7 +26,7 @@ class NonExistentMultiSelectValuesFilter implements NonExistentValuesFilter
     {
         $selectValues = $onGoingFilteredRawValues->notFilteredValuesOfTypes(AttributeTypes::OPTION_MULTI_SELECT);
 
-        if (empty($selectValues)) {
+        if ($selectValues === []) {
             return $onGoingFilteredRawValues;
         }
 
@@ -101,7 +101,7 @@ class NonExistentMultiSelectValuesFilter implements NonExistentValuesFilter
     {
         $result = [];
 
-        if (empty($existentOptionCodesIndexedInsensitive)) {
+        if ($existentOptionCodesIndexedInsensitive === []) {
             return [];
         }
 

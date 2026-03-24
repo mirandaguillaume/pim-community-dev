@@ -24,7 +24,7 @@ final readonly class SqlGetValuesOfSiblings implements GetValuesOfSiblings
 
     public function for(EntityWithFamilyVariantInterface $entity, array $attributeCodesToFilter = []): array
     {
-        if (null === $entity->getParent()) {
+        if (!$entity->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return [];
         }
 
@@ -69,7 +69,7 @@ final readonly class SqlGetValuesOfSiblings implements GetValuesOfSiblings
         foreach ($rows as $row) {
             $rawValues = json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR) ?? [];
 
-            if (!empty($attributeCodesToFilter)) {
+            if ($attributeCodesToFilter !== []) {
                 $rawValues = array_filter($rawValues, fn (string $attributeCode) => in_array($attributeCode, $attributeCodesToFilter), ARRAY_FILTER_USE_KEY);
             }
 

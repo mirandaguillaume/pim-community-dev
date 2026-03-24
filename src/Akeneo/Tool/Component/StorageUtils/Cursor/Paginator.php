@@ -135,7 +135,7 @@ class Paginator implements PaginatorInterface
             $pageSize++;
         } while ($pageSize < $this->pageSize && null !== $current && false !== $current);
 
-        if (empty($result)) {
+        if ($result === []) {
             return false;
         }
 

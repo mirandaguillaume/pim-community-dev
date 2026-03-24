@@ -156,7 +156,7 @@ class ProductAndProductModelReader implements
     {
         $options = ['filters' => $filters];
 
-        if (null !== $channel) {
+        if ($channel instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface) {
             $options['default_scope'] = $channel->getCode();
         }
 
@@ -167,7 +167,7 @@ class ProductAndProductModelReader implements
 
     public function totalItems(): int
     {
-        if (null === $this->productsAndProductModels) {
+        if (!$this->productsAndProductModels instanceof \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface) {
             throw new \RuntimeException('Unable to compute the total items the reader will process until the reader is not initialized');
         }
 
@@ -176,7 +176,7 @@ class ProductAndProductModelReader implements
 
     public function getState(): array
     {
-        return null !== $this->productsAndProductModels ? ['position' =>  $this->productsAndProductModels->key()] : [];
+        return $this->productsAndProductModels instanceof \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface ? ['position' =>  $this->productsAndProductModels->key()] : [];
     }
 
     public function setState(array $state): void

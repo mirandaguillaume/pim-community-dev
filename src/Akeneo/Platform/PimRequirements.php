@@ -83,7 +83,7 @@ class PimRequirements
             'Install and enable the <strong>GD</strong> extension at least ' . self::REQUIRED_GD_VERSION . ' version'
         );
 
-        $isGhostScriptInstalled = !empty(shell_exec('which gs'));
+        $isGhostScriptInstalled = !(in_array(shell_exec('which gs'), ['', '0'], true) || shell_exec('which gs') === false || shell_exec('which gs') === null);
         $isGhostScriptVersionSupported = $this->isGhostScriptVersionSupported();
         $requirements[] = new Requirement(
             $isGhostScriptInstalled && $isGhostScriptVersionSupported,
@@ -91,7 +91,7 @@ class PimRequirements
             'Install the <strong>Ghostscript</strong> executable at least ' . self::REQUIRED_GHOSTSCRIPT_VERSION . ' version'
         );
 
-        $isAspellInstalled = !empty(shell_exec('which aspell'));
+        $isAspellInstalled = !(in_array(shell_exec('which aspell'), ['', '0'], true) || shell_exec('which aspell') === false || shell_exec('which aspell') === null);
         $requirements[] = new Requirement(
             $isAspellInstalled,
             'Aspell executable must be available',
@@ -219,7 +219,7 @@ class PimRequirements
 
     protected function getBytes(string $val): float
     {
-        if (empty($val)) {
+        if ($val === '' || $val === '0') {
             return (float) 0;
         }
 

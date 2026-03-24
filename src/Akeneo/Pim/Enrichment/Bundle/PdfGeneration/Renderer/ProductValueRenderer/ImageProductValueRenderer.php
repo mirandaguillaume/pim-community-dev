@@ -11,7 +11,7 @@ class ImageProductValueRenderer implements ProductValueRenderer
 {
     public function render(Environment $environment, AttributeInterface $attribute, ?ValueInterface $value, string $localeCode): ?string
     {
-        if (null !== $value && $value->getData() !== null) {
+        if ($value instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface && $value->getData() !== null) {
             return $value->getData()->getOriginalFilename();
         }
 

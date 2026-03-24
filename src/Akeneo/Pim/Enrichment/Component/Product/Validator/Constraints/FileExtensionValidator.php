@@ -37,7 +37,7 @@ class FileExtensionValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, FileExtension::class);
         }
 
-        if (!empty($constraint->allowedExtensions)) {
+        if ($constraint->allowedExtensions !== []) {
             $extensionTokens = explode('.', $filePath);
             $extension = end($extensionTokens);
             if (!in_array(strtolower($extension), $constraint->allowedExtensions)) {

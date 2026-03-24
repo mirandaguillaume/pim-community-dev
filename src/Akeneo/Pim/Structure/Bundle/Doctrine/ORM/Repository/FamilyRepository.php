@@ -88,12 +88,12 @@ class FamilyRepository extends EntityRepository implements FamilyRepositoryInter
             ->join('r.channel', 'c')
             ->where('r.required = 1');
 
-        if (null !== $channel) {
+        if ($channel instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface) {
             $qb->andWhere('r.channel = :channel')
                 ->setParameter('channel', $channel);
         }
 
-        if (null !== $family) {
+        if ($family instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             $qb->andWhere('f.id = :familyId')
                 ->setParameter('familyId', $family->getId());
         }
@@ -106,7 +106,7 @@ class FamilyRepository extends EntityRepository implements FamilyRepositoryInter
      */
     public function findByIds(array $familyIds)
     {
-        if (empty($familyIds)) {
+        if ($familyIds === []) {
             throw new \InvalidArgumentException('Array must contain at least one family id');
         }
 

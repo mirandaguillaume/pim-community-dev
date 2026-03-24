@@ -53,7 +53,7 @@ class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriber
             }
         }
 
-        if (!empty($jobsToUpdate)) {
+        if ($jobsToUpdate !== []) {
             $this->bulkSaver->saveAll($jobsToUpdate);
         }
     }
@@ -70,7 +70,7 @@ class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriber
         $filter = $rawParameters['filters']['data'][$filterIndex];
         $updatedFilterValue = array_diff($filter['value'], [$familyCode]);
 
-        if (empty($updatedFilterValue)) {
+        if ($updatedFilterValue === []) {
             unset($rawParameters['filters']['data'][$filterIndex]);
             $rawParameters['filters']['data'] = array_values($rawParameters['filters']['data']);
         } else {

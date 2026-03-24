@@ -101,7 +101,7 @@ class JobRegistry
             fn ($job) => $job['type'] === $jobType
         );
 
-        if (empty($jobs)) {
+        if ($jobs === []) {
             throw new UndefinedJobException(
                 sprintf('There is no registered job with the type "%s"', $jobType)
             );
@@ -121,7 +121,7 @@ class JobRegistry
     {
         $jobs = array_filter($this->getAllEnabledJobs(), fn ($job) => $job['type'] === $jobType);
 
-        if (empty($jobs)) {
+        if ($jobs === []) {
             throw new UndefinedJobException(
                 sprintf('There is no registered job with the type "%s"', $jobType)
             );

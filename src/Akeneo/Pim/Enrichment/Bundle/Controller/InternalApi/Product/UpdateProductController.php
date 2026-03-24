@@ -104,7 +104,7 @@ final class UpdateProductController
                 )
             ) > 0;
             if ($hasPermissionException) {
-                throw new AccessDeniedHttpException();
+                throw new AccessDeniedHttpException($e->getMessage(), $e);
             }
             $product = $this->findProductOr404($uuid);
             $violations = $e->violations();
@@ -174,7 +174,7 @@ final class UpdateProductController
 
         $dataFiltered = $this->emptyValuesFilter->filter($product, ['values' => $values]);
 
-        if (!empty($dataFiltered)) {
+        if ($dataFiltered !== []) {
             $data = array_replace($data, $dataFiltered);
         } else {
             $data['values'] = [];
@@ -213,7 +213,7 @@ final class UpdateProductController
 
         $dataFiltered = $this->emptyValuesFilter->filter($product, ['values' => $values]);
 
-        if (!empty($dataFiltered)) {
+        if ($dataFiltered !== []) {
             $data = array_replace($data, $dataFiltered);
         } else {
             $data['values'] = [];

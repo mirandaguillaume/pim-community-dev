@@ -60,7 +60,7 @@ class RegisterSerializerPass implements CompilerPassInterface
     {
         $services = $container->findTaggedServiceIds($tagName);
 
-        if (empty($services)) {
+        if ($services === []) {
             throw new \RuntimeException(
                 sprintf('You must tag at least one service as "%s" to use the Serializer service', $tagName)
             );

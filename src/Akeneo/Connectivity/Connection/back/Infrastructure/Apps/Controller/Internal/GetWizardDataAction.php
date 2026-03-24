@@ -46,12 +46,12 @@ final readonly class GetWizardDataAction
 
         $app = $this->getAppQuery->execute($clientId);
 
-        if (null === $app) {
+        if (!$app instanceof \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App) {
             throw new NotFoundHttpException("Invalid app identifier");
         }
 
         $appAuthorization = $this->appAuthorizationSession->getAppAuthorization($clientId);
-        if (null === $appAuthorization) {
+        if (!$appAuthorization instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization) {
             throw new NotFoundHttpException("Invalid app identifier");
         }
 
@@ -74,7 +74,7 @@ final readonly class GetWizardDataAction
     private function getAuthorizationScopes(string $appId, AppAuthorization $appAuthorization): array
     {
         $connectedApp = $this->findOneConnectedAppByIdQuery->execute($appId);
-        $isFirstConnection = null === $connectedApp;
+        $isFirstConnection = !$connectedApp instanceof \Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
 
         $originalScopes = $isFirstConnection ? null : $connectedApp->getScopes();
         $requestedScopes = $appAuthorization->getAuthorizationScopes()->getScopes();

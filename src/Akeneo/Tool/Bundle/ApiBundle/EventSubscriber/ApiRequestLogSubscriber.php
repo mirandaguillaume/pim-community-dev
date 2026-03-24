@@ -48,7 +48,7 @@ class ApiRequestLogSubscriber
     {
         $token = $this->tokenStorage->getToken();
 
-        if (null === $token) {
+        if (!$token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface) {
             return null;
         }
 

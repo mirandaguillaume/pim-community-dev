@@ -23,7 +23,7 @@ class MultiSelectProductValueRenderer implements ProductValueRenderer
 
         $optionCodes = $value->getData();
 
-        return join(', ', array_map(fn ($optionCode): string => $this->getOptionLabel($attribute, $optionCode, $localeCode), $optionCodes));
+        return implode(', ', array_map(fn ($optionCode): string => $this->getOptionLabel($attribute, $optionCode, $localeCode), $optionCodes));
     }
 
     public function supportsAttributeType(string $attributeType): bool

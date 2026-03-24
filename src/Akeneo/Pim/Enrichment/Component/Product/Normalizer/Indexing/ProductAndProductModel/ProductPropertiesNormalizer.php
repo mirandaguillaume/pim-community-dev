@@ -107,12 +107,12 @@ class ProductPropertiesNormalizer implements NormalizerInterface
         }
         $data[self::FIELD_PARENT] = $parentCode;
 
-        $data[StandardPropertiesNormalizer::FIELD_VALUES] = !$product->getValues()->isEmpty()
-            ? $this->normalizer->normalize(
+        $data[StandardPropertiesNormalizer::FIELD_VALUES] = $product->getValues()->isEmpty()
+            ? [] : $this->normalizer->normalize(
                 $product->getValues(),
                 ValueCollectionNormalizer::INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX,
                 $context
-            ) : [];
+            );
 
         $data[self::FIELD_ANCESTORS] = $this->getAncestors($product);
 
@@ -136,7 +136,7 @@ class ProductPropertiesNormalizer implements NormalizerInterface
     private function getLabel(array $values, ProductInterface $product): array
     {
         $family = $product->getFamily();
-        if (null === $family || null === $family->getAttributeAsLabel()) {
+        if (!$family instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface || null === $family->getAttributeAsLabel()) {
             return [];
         }
 
@@ -180,7 +180,7 @@ class ProductPropertiesNormalizer implements NormalizerInterface
     private function getAncestorsIds(EntityWithFamilyVariantInterface $entityWithFamilyVariant): array
     {
         $ancestorsIds = [];
-        while (null !== $parent = $entityWithFamilyVariant->getParent()) {
+        while (($parent = $entityWithFamilyVariant->getParent()) instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             $ancestorsIds[] = 'product_model_' . $parent->getId();
             $entityWithFamilyVariant = $parent;
         }
@@ -194,7 +194,7 @@ class ProductPropertiesNormalizer implements NormalizerInterface
     private function getAncestorsCodes(EntityWithFamilyVariantInterface $entityWithFamilyVariant)
     {
         $ancestorsCodes = [];
-        while (null !== $parent = $entityWithFamilyVariant->getParent()) {
+        while (($parent = $entityWithFamilyVariant->getParent()) instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             $ancestorsCodes[] = $parent->getCode();
             $entityWithFamilyVariant = $parent;
         }
@@ -210,7 +210,7 @@ class ProductPropertiesNormalizer implements NormalizerInterface
     private function getAncestorsLabels(EntityWithFamilyVariantInterface $entity): array
     {
         $family = $entity->getFamily();
-        if (null === $family) {
+        if (!$family instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             return [];
         }
 
@@ -305,7 +305,7 @@ class ProductPropertiesNormalizer implements NormalizerInterface
         if ($product->isVariant()) {
             $dates = [$date];
             $parent = $product->getParent();
-            while (null !== $parent) {
+            while ($parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
                 $dates[] = $parent->getUpdated();
                 $parent = $parent->getParent();
             }

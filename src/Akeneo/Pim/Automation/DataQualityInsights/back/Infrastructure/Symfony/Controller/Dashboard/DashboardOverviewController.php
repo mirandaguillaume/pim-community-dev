@@ -36,7 +36,7 @@ final readonly class DashboardOverviewController
             return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
 
-        if (empty($rates)) {
+        if (!$rates instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\DashboardRates) {
             return new JsonResponse([]);
         }
 

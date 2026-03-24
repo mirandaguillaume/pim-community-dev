@@ -97,7 +97,7 @@ class ListRootCategoriesWithCountIncludingSubCategories implements Query\ListRoo
      */
     private function countProductInCategories(array $categoriesWithoutCount, int $rootCategoryIdToExpand): array
     {
-        if (empty($categoriesWithoutCount)) {
+        if ($categoriesWithoutCount === []) {
             return [];
         }
 

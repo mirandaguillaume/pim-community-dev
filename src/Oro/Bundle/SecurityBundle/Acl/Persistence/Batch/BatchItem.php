@@ -97,7 +97,7 @@ class BatchItem
      */
     public function addAce($type, ?string $field, SID $sid, $granting, $mask, ?string $strategy, $replace = false)
     {
-        if ($this->aces === null) {
+        if (!$this->aces instanceof \Doctrine\Common\Collections\ArrayCollection) {
             $this->aces = new ArrayCollection();
         }
         $this->aces->add(new Ace($type, $field, $sid, $granting, $mask, $strategy, $replace));
@@ -115,7 +115,7 @@ class BatchItem
      */
     public function removeAce($type, ?string $field, SID $sid, $granting, $mask, ?bool $strategy)
     {
-        if ($this->aces !== null) {
+        if ($this->aces instanceof \Doctrine\Common\Collections\ArrayCollection) {
             $toRemoveKey = null;
             foreach ($this->aces as $key => $val) {
                 if ($sid->equals($val->getSecurityIdentity())
@@ -145,7 +145,7 @@ class BatchItem
      */
     public function removeAces($type, ?string $field, SID $sid)
     {
-        if ($this->aces !== null) {
+        if ($this->aces instanceof \Doctrine\Common\Collections\ArrayCollection) {
             $toRemoveKeys = [];
             foreach ($this->aces as $key => $val) {
                 if ($sid->equals($val->getSecurityIdentity())
@@ -156,7 +156,7 @@ class BatchItem
                     break;
                 }
             }
-            if (!empty($toRemoveKeys)) {
+            if ($toRemoveKeys !== []) {
                 foreach ($toRemoveKeys as $key) {
                     $this->aces->remove($key);
                 }

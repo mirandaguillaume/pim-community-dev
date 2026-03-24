@@ -53,7 +53,7 @@ final readonly class GetProductModelIdsImpactedByAttributeGroupActivationQuery i
         }
 
 
-        if (!empty($productModelIds)) {
+        if ($productModelIds !== []) {
             yield $this->idFactory->createCollection($productModelIds);
         }
     }

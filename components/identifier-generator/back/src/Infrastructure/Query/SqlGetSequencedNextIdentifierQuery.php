@@ -39,7 +39,7 @@ final readonly class SqlGetSequencedNextIdentifierQuery implements GetNextIdenti
         while (!$isSuccessful && $remainingRetries > 0) {
             $isSuccessful = $this->updateLastAllocatedNumber($identifierGenerator, $prefix, $newAllocatedNumber) === 1;
             if (!$isSuccessful) {
-                $newAllocatedNumber = $newAllocatedNumber + 1;
+                $newAllocatedNumber += 1;
                 $remainingRetries--;
             }
         }

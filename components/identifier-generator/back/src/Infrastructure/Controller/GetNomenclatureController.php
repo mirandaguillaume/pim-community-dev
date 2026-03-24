@@ -39,9 +39,9 @@ final readonly class GetNomenclatureController
 
             return new JsonResponse($nomenclature);
         } catch (UndefinedAttributeException $e) {
-            throw new NotFoundHttpException($e->getMessage());
+            throw new NotFoundHttpException($e->getMessage(), $e);
         } catch (UnexpectedAttributeTypeException $e) {
-            throw new BadRequestHttpException($e->getMessage());
+            throw new BadRequestHttpException($e->getMessage(), $e);
         }
     }
 }

@@ -75,7 +75,7 @@ class AssociatedProductDatasource extends ProductDatasource
         }
 
         $association = $this->getAssociation($sourceProduct, $this->getConfiguration('association_type_id'));
-        if (null === $association) {
+        if (!$association instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface) {
             return ['totalRecords' => 0, 'data' => []];
         }
 
@@ -91,7 +91,7 @@ class AssociatedProductDatasource extends ProductDatasource
         $associatedProductsIdsFromParent = [];
         $associatedProductModelsIdsFromParent = [];
         $parentAssociation = $this->getParentAssociation($sourceProduct, $this->getConfiguration('association_type_id'));
-        if (null !== $parentAssociation) {
+        if ($parentAssociation instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface) {
             $associatedProductsIdsFromParent = $this->getAssociatedProductIds($parentAssociation);
             $associatedProductModelsIdsFromParent = $this->getAssociatedProductModelIds($parentAssociation);
         }
@@ -156,7 +156,7 @@ class AssociatedProductDatasource extends ProductDatasource
     {
         $parent = $product->getParent();
 
-        if (null === $parent) {
+        if (!$parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return null;
         }
 

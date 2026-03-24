@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: \Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\AttributeRepository::class)]
 #[ORM\Table(name: 'pim_catalog_attribute')]
 #[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
-#[ORM\Index(columns: ['code'], name: 'searchcode_idx')]
+#[ORM\Index(name: 'searchcode_idx', columns: ['code'])]
 #[ORM\UniqueConstraint(name: 'searchunique_idx', columns: ['code', 'entity_type'])]
 class Attribute extends AbstractAttribute
 {

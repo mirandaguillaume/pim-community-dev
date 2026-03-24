@@ -81,7 +81,7 @@ class CategoryTreeController extends AbstractController
         $selectNodeId = $request->get('select_node_id', -1);
 
         $selectNode = $this->getCategory->byId($selectNodeId);
-        if (!$selectNode) {
+        if (!$selectNode instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
             $selectNode = $this->userContext->getUserCategoryTree($this->rawConfiguration['related_entity']);
         }
 
@@ -389,7 +389,7 @@ class CategoryTreeController extends AbstractController
 
     protected function getChildrenCategories(Request $request, ?\Akeneo\Category\Infrastructure\Component\Classification\Model\CategoryInterface $selectNode, $parent): array|\Doctrine\Common\Collections\ArrayCollection
     {
-        if (null !== $selectNode) {
+        if ($selectNode instanceof \Akeneo\Category\Infrastructure\Component\Classification\Model\CategoryInterface) {
             $categories = $this->categoryRepository->getChildrenTreeByParentId($parent->getId(), $selectNode->getId());
         } else {
             $categories = $this->categoryRepository->getChildrenByParentId($parent->getId());

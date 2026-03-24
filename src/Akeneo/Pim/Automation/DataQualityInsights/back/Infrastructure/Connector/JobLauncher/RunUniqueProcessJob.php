@@ -95,7 +95,7 @@ final readonly class RunUniqueProcessJob
         $this->logger->info($process->getIncrementalOutput());
 
         $errors = $process->getIncrementalErrorOutput();
-        if ($errors) {
+        if ($errors !== '' && $errors !== '0') {
             $this->logger->error($errors);
         }
     }

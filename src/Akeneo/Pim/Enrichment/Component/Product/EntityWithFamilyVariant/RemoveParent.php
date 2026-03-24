@@ -79,7 +79,7 @@ class RemoveParent implements RemoveParentInterface
     private function mergeQuantifiedAssociations(ProductInterface $product): void
     {
         $parent = $product->getParent();
-        while (null !== $parent) {
+        while ($parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             $product->mergeQuantifiedAssociations($parent->getQuantifiedAssociations());
             $parent = $parent->getParent();
         }

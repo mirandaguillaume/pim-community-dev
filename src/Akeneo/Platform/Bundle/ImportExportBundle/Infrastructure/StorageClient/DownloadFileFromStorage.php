@@ -45,7 +45,7 @@ final readonly class DownloadFileFromStorage implements DownloadFileFromStorageI
                 $destinationFilePath,
             );
         } catch (\Exception $exception) {
-            $message = $exception->getPrevious() ? $exception->getPrevious()->getMessage() : $exception->getMessage();
+            $message = $exception->getPrevious() instanceof \Throwable ? $exception->getPrevious()->getMessage() : $exception->getMessage();
             $this->eventDispatcher->dispatch(new FileCannotBeImported($message));
         }
 
@@ -61,7 +61,7 @@ final readonly class DownloadFileFromStorage implements DownloadFileFromStorageI
             $fileExists = $storageClient->fileExists($filePath);
         } catch (\Exception $exception) {
             if (!$sourceStorage instanceof LocalStorage) {
-                throw new \RuntimeException('Cannot connect to the server, please check your connection settings and try again.');
+                throw new \RuntimeException('Cannot connect to the server, please check your connection settings and try again.', $exception->getCode(), $exception);
             }
 
             throw $exception;

@@ -27,7 +27,7 @@ class GetCategoriesParametersBuilderSql implements GetCategoriesParametersBuilde
         bool $withPosition,
         bool $isEnrichedAttributes,
     ): ExternalApiSqlParameters {
-        if (empty($searchFilters)) {
+        if ($searchFilters === []) {
             $sqlParameters = new ExternalApiSqlParameters('1=1');
         } else {
             $sqlParameters = $this->searchFilters->build($searchFilters);

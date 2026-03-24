@@ -22,7 +22,7 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
 {
     final public const string DATETIME_FORMAT = 'Y-m-d';
     final public const string HUMAN_DATETIME_FORMAT = "yyyy-mm-dd";
-    final public const string RELATIVE_DATE_FORMAT = '/^(now|[+-][0-9]+\s?(day|week|month|year)s?)$/';
+    final public const string RELATIVE_DATE_FORMAT = '/^(now|[+-]\d+\s?(day|week|month|year)s?)$/';
 
     public function __construct(
         ElasticsearchFilterValidator $filterValidator,
@@ -198,8 +198,8 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
                 FieldFilterHelper::checkDateTime(
                     $field,
                     $value,
-                    static::DATETIME_FORMAT,
-                    static::HUMAN_DATETIME_FORMAT,
+                    self::DATETIME_FORMAT,
+                    self::HUMAN_DATETIME_FORMAT,
                     static::class
                 );
 
@@ -213,7 +213,7 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
                 if (2 !== count($value)) {
                     throw InvalidPropertyTypeException::validArrayStructureExpected(
                         $field,
-                        sprintf('should contain 2 strings with the format "%s"', static::HUMAN_DATETIME_FORMAT),
+                        sprintf('should contain 2 strings with the format "%s"', self::HUMAN_DATETIME_FORMAT),
                         static::class,
                         $value
                     );
@@ -223,8 +223,8 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
                     FieldFilterHelper::checkDateTime(
                         $field,
                         $singleValue,
-                        static::DATETIME_FORMAT,
-                        static::HUMAN_DATETIME_FORMAT,
+                        self::DATETIME_FORMAT,
+                        self::HUMAN_DATETIME_FORMAT,
                         static::class
                     );
                 }
@@ -248,20 +248,20 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
         $dateTime = $value;
 
         if (!$dateTime instanceof \DateTimeInterface) {
-            $dateTime = \DateTimeImmutable::createFromFormat(static::DATETIME_FORMAT, $dateTime);
+            $dateTime = \DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $dateTime);
 
             $lastErrors = false !== $dateTime ? $dateTime->getLastErrors() : false;
             if (false === $dateTime || (false !== $lastErrors && 0 < $lastErrors['warning_count'])) {
                 throw InvalidPropertyException::dateExpected(
                     $field,
-                    static::HUMAN_DATETIME_FORMAT,
+                    self::HUMAN_DATETIME_FORMAT,
                     static::class,
                     $value
                 );
             }
         }
 
-        return $dateTime->format(static::DATETIME_FORMAT);
+        return $dateTime->format(self::DATETIME_FORMAT);
     }
 
     protected function convertRelativeDate($value)

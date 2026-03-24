@@ -50,7 +50,7 @@ final readonly class GetProductUuidsToEvaluateQuery implements GetEntityIdsToEva
             }
         }
 
-        if (!empty($productUuids)) {
+        if ($productUuids !== []) {
             yield $this->idFactory->createCollection($productUuids);
         }
     }

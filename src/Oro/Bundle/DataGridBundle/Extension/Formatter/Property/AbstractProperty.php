@@ -180,11 +180,7 @@ abstract class AbstractProperty implements PropertyInterface
     {
         $keys = [];
         foreach (array_keys($params) as $key) {
-            if (isset($this->paramMap[$key])) {
-                $keys[] = $this->paramMap[$key];
-            } else {
-                $keys[] = $key;
-            }
+            $keys[] = isset($this->paramMap[$key]) ? $this->paramMap[$key] : $key;
         }
 
         return array_combine($keys, array_values($params));

@@ -61,7 +61,7 @@ final class ProductUuidCursor implements ProductUuidCursorInterface
             $this->rewind();
         }
 
-        return !empty($this->uuids);
+        return $this->uuids !== null && $this->uuids !== [];
     }
 
     /**

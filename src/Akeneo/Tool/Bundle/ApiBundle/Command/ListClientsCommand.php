@@ -32,7 +32,7 @@ class ListClientsCommand extends Command
     {
         $clients = $this->clientRepository->findAll();
 
-        if (empty($clients)) {
+        if ($clients === []) {
             $output->writeln('No client is currently registered.');
 
             return Command::SUCCESS;

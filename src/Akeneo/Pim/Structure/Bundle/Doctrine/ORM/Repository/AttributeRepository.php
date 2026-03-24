@@ -51,7 +51,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->leftJoin('a.group', 'g')
             ->leftJoin('g.translations', 'gtrans');
 
-        if (!empty($attributeIds)) {
+        if ($attributeIds !== []) {
             $qb->andWhere($qb->expr()->in('a.id', $attributeIds));
         }
 
@@ -170,7 +170,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('att')
             ->from($this->getEntityName(), 'att', 'att.code');
-        if (!empty($ids)) {
+        if ($ids !== []) {
             $qb->andWhere('att.id IN (:ids)')->setParameter('ids', $ids);
         }
         $results = $qb->getQuery()->getArrayResult();
@@ -188,7 +188,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
                 ->addSelect('g.sortOrder')
                 ->addSelect(sprintf('%s as groupLabel', $groupLabelExpr))
                 ->setParameter('locale', $locale);
-            if (!empty($ids)) {
+            if ($ids !== []) {
                 $qb->andWhere('att.id IN (:ids)')->setParameter('ids', $ids);
             }
             $attributes = $qb->getQuery()->getArrayResult();
@@ -211,14 +211,14 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->select('att.id')
             ->from($this->getEntityName(), 'att', 'att.id');
 
-        if (is_array($codes) && !empty($codes)) {
+        if (is_array($codes) && $codes !== []) {
             $qb->andWhere('att.code IN (:codes)');
             $qb->setParameter('codes', $codes);
         } elseif (is_array($codes)) {
             return [];
         }
 
-        if (is_array($groupIds) && !empty($groupIds)) {
+        if (is_array($groupIds) && $groupIds !== []) {
             $qb->andWhere('att.group IN (:groupIds)');
             $qb->setParameter('groupIds', $groupIds);
         } elseif (is_array($groupIds)) {
@@ -283,7 +283,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->getArrayResult();
 
         $attributes = [];
-        if (!empty($results)) {
+        if ($results !== []) {
             foreach ($results as $attribute) {
                 $attributes[$attribute['code']] = $attribute['type'];
             }

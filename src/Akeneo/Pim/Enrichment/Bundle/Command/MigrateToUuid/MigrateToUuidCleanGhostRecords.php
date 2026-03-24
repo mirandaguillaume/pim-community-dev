@@ -169,7 +169,7 @@ class MigrateToUuidCleanGhostRecords implements MigrateToUuidStep
                     ]
                 ))->fetchOne();
 
-                if (true === $result) {
+                if ($result) {
                     return true;
                 }
             }

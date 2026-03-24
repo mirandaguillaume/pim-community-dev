@@ -67,7 +67,7 @@ class ViewElementExtension extends AbstractExtension
                 ],
             ] + $context;
 
-            if (true === $this->debug) {
+            if ($this->debug) {
                 $content .= sprintf("<!-- Start view element template: %s -->\n", $element->getTemplate());
             }
 
@@ -76,7 +76,7 @@ class ViewElementExtension extends AbstractExtension
                 array_replace_recursive($elementContext, $element->getParameters($context))
             );
 
-            if (true === $this->debug) {
+            if ($this->debug) {
                 $content .= sprintf("<!-- End view element template: %s -->\n", $element->getTemplate());
             }
         }

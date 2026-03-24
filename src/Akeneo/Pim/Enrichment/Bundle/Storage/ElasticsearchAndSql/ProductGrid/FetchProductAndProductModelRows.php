@@ -84,8 +84,8 @@ final readonly class FetchProductAndProductModelRows implements Query\FetchProdu
         return new Rows(
             $sortedRows,
             $productAndProductModelIdentifiersCursor->count(),
-            $documentTypeFacet !== null ? $documentTypeFacet->getCountForKey(ProductInterface::class) : null,
-            $documentTypeFacet !== null ? $documentTypeFacet->getCountForKey(ProductModelInterface::class) : null
+            $documentTypeFacet instanceof \Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Facet\Facet ? $documentTypeFacet->getCountForKey(ProductInterface::class) : null,
+            $documentTypeFacet instanceof \Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Facet\Facet ? $documentTypeFacet->getCountForKey(ProductModelInterface::class) : null
         );
     }
 }

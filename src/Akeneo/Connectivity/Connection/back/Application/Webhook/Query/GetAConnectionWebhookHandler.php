@@ -25,7 +25,7 @@ class GetAConnectionWebhookHandler
     public function handle(GetAConnectionWebhookQuery $query): ?EventSubscriptionFormData
     {
         $webhook = $this->getAConnectionWebhookQuery->execute($query->code());
-        if (null === $webhook) {
+        if (!$webhook instanceof \Akeneo\Connectivity\Connection\Domain\Webhook\Model\Read\ConnectionWebhook) {
             return null;
         }
 

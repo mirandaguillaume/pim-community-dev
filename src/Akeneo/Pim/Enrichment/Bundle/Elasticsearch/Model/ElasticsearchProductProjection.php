@@ -75,7 +75,7 @@ final readonly class ElasticsearchProductProjection implements ElasticsearchProj
     public function toArray(): array
     {
         $inGroup = null;
-        if (!empty($this->groupCodes)) {
+        if ($this->groupCodes !== []) {
             $inGroup = [];
             foreach ($this->groupCodes as $groupCode) {
                 $inGroup[$groupCode] = true;

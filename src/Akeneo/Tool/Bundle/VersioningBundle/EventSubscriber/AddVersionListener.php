@@ -79,7 +79,7 @@ class AddVersionListener
         $versionedCount = count($this->versionableEntities);
         $this->versionableEntities = [];
 
-        if ($versionedCount) {
+        if ($versionedCount !== 0) {
             $this->versionManager->getObjectManager()->flush();
             $this->detachVersions();
         }

@@ -60,13 +60,13 @@ class ProductModelNormalizer implements NormalizerInterface
         $oldestLog = $this->versionManager->getOldestLogEntry($productModel);
         $newestLog = $this->versionManager->getNewestLogEntry($productModel);
 
-        $created = null !== $oldestLog
+        $created = $oldestLog instanceof \Akeneo\Tool\Component\Versioning\Model\Version
             ? $this->versionNormalizer->normalize(
                 $oldestLog,
                 'internal_api',
                 ['timezone' => $this->userContext->getUserTimezone()]
             ) : null;
-        $updated = null !== $newestLog
+        $updated = $newestLog instanceof \Akeneo\Tool\Component\Versioning\Model\Version
             ? $this->versionNormalizer->normalize(
                 $newestLog,
                 'internal_api',

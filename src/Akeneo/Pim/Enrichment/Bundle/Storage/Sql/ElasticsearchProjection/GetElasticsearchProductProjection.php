@@ -50,7 +50,7 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
      */
     public function fromProductUuids(array $productUuids): iterable
     {
-        if (empty($productUuids)) {
+        if ($productUuids === []) {
             return [];
         }
 

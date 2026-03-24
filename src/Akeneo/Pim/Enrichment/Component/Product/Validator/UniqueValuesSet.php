@@ -73,12 +73,10 @@ class UniqueValuesSet
      */
     protected function getEntityId(EntityWithValuesInterface $entity): string
     {
-        if ($entity instanceof ProductInterface || $entity instanceof ProductModelInterface) {
-            if (null !== $entity->getCreated()) {
-                return $entity instanceof ProductInterface && $entity::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
-                    ? $entity->getUuid()->toString()
-                    : $entity->getId();
-            }
+        if (($entity instanceof ProductInterface || $entity instanceof ProductModelInterface) && null !== $entity->getCreated()) {
+            return $entity instanceof ProductInterface && $entity::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+                ? $entity->getUuid()->toString()
+                : $entity->getId();
         }
 
         return spl_object_hash($entity);

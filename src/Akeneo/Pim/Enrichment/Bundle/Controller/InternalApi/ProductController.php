@@ -265,7 +265,7 @@ class ProductController
                 )
             ) > 0;
             if ($hasPermissionException) {
-                throw new AccessDeniedHttpException();
+                throw new AccessDeniedHttpException($e->getMessage(), $e);
             }
             $normalizedViolations = $this->normalizeViolations($e->violations(), $product);
 
@@ -337,7 +337,7 @@ class ProductController
             'locale' => $this->userContext->getUiLocale()->getCode(),
         ]);
         $dataFiltered = $this->emptyValuesFilter->filter($product, ['values' => $values]);
-        if (!empty($dataFiltered)) {
+        if ($dataFiltered !== []) {
             $data = array_replace($data, $dataFiltered);
         } else {
             $data['values'] = [];

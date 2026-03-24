@@ -245,7 +245,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
         $sorter->setQueryBuilder($this->getQueryBuilder());
 
         $localeCode = !$attribute->isLocalizable() && !$attribute->isLocaleSpecific() ? null : $context['locale'];
-        $scopeCode = !$attribute->isScopable() ? null : $context['scope'];
+        $scopeCode = $attribute->isScopable() ? $context['scope'] : null;
 
         $sorter->addAttributeSorter($attribute, $direction, $localeCode, $scopeCode);
 

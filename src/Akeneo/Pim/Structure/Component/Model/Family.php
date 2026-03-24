@@ -375,7 +375,7 @@ class Family implements FamilyInterface, \Stringable
      */
     public function getLabel()
     {
-        $translated = $this->getTranslation() ? $this->getTranslation()->getLabel() : null;
+        $translated = $this->getTranslation() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyTranslationInterface ? $this->getTranslation()->getLabel() : null;
 
         return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }

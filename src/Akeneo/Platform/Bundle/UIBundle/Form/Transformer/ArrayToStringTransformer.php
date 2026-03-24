@@ -55,11 +55,7 @@ class ArrayToStringTransformer implements DataTransformerInterface
      */
     private function transformStringToArray($stringValue)
     {
-        if (trim($this->delimiter)) {
-            $separator = trim($this->delimiter);
-        } else {
-            $separator = $this->delimiter;
-        }
+        $separator = trim($this->delimiter) !== '' && trim($this->delimiter) !== '0' ? trim($this->delimiter) : $this->delimiter;
         $arrayValue = explode($separator, $stringValue);
         return $this->filterArrayValue($arrayValue);
     }
@@ -71,11 +67,7 @@ class ArrayToStringTransformer implements DataTransformerInterface
      */
     private function transformArrayToString(array $arrayValue)
     {
-        if (trim($this->delimiter)) {
-            $separator = trim($this->delimiter);
-        } else {
-            $separator = $this->delimiter;
-        }
+        $separator = trim($this->delimiter) !== '' && trim($this->delimiter) !== '0' ? trim($this->delimiter) : $this->delimiter;
         return implode($separator, $this->filterArrayValue($arrayValue));
     }
 

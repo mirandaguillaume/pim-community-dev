@@ -265,7 +265,7 @@ class ProductController
         if (!isset($data['identifier']) || $data['identifier'] === '') {
             throw new DocumentedHttpException(
                 Documentation::URL . 'post_products_uuid',
-                sprintf(self::NO_IDENTIFIER_MESSAGE)
+                self::NO_IDENTIFIER_MESSAGE
             );
         }
 
@@ -331,7 +331,7 @@ class ProductController
         if (array_key_exists('identifier', $data) && (null === $data['identifier'] || '' === $data['identifier'])) {
             throw new DocumentedHttpException(
                 Documentation::URL . 'patch_products_uuid__uuid_',
-                sprintf(self::NO_IDENTIFIER_MESSAGE)
+                self::NO_IDENTIFIER_MESSAGE
             );
         }
 
@@ -380,7 +380,7 @@ class ProductController
             try {
                 $product = $this->addParent->to($product, (string) $data['parent']);
             } catch (\InvalidArgumentException $exception) {
-                throw new UnprocessableEntityHttpException($exception->getMessage());
+                throw new UnprocessableEntityHttpException($exception->getMessage(), $exception);
             }
             $isCreation = true;
         }
@@ -514,7 +514,7 @@ class ProductController
         try {
             $dataFiltered = $this->emptyValuesFilter->filter($product, ['values' => $data['values']]);
 
-            if (!empty($dataFiltered)) {
+            if ($dataFiltered !== []) {
                 $data = array_replace($data, $dataFiltered);
             } else {
                 $data['values'] = [];
@@ -683,19 +683,19 @@ class ProductController
             $queryParameters['search_scope'] = $query->searchChannelCode;
         }
         if (null !== $query->localeCodes) {
-            $queryParameters['locales'] = join(',', $query->localeCodes);
+            $queryParameters['locales'] = implode(',', $query->localeCodes);
         }
         if (null !== $query->attributeCodes) {
-            $queryParameters['attributes'] = join(',', $query->attributeCodes);
+            $queryParameters['attributes'] = implode(',', $query->attributeCodes);
         }
-        if (true === $query->withAttributeOptionsAsBoolean()) {
+        if ($query->withAttributeOptionsAsBoolean()) {
             $queryParameters['with_attribute_options'] = 'true';
         }
-        if (true === $query->withQualityScores()) {
+        if ($query->withQualityScores()) {
             $queryParameters['with_quality_scores'] = 'true';
         }
 
-        if (true === $query->withCompletenesses()) {
+        if ($query->withCompletenesses()) {
             $queryParameters['with_completenesses'] = 'true';
         }
 

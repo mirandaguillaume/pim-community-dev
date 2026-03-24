@@ -20,7 +20,7 @@ final readonly class TransformRawValuesCollections
     {
         $attributes = $this->getAttributesUsedByProducts($rawValueCollections);
 
-        if (empty($attributes)) {
+        if ($attributes === []) {
             return [];
         }
 

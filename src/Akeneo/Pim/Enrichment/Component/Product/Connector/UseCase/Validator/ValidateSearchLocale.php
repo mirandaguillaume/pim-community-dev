@@ -43,7 +43,7 @@ final readonly class ValidateSearchLocale
             }
         }
 
-        if (!empty($errors)) {
+        if ($errors !== []) {
             $plural = count($errors) > 1
                 ? 'Locales "%s" do not exist or are not activated.' : 'Locale "%s" does not exist or is not activated.';
             throw new InvalidQueryException(sprintf($plural, implode(', ', $errors)));
@@ -60,12 +60,10 @@ final readonly class ValidateSearchLocale
                     // but it is actually not officially supported as it not in the API documentation.
                     // Removing the support of locale for the completeness filter for the products
                     // would not be considered as a BC break.
-                    if (isset($filter['locales'])) {
-                        if (!is_array($filter['locales'])) {
-                            throw new InvalidQueryException(
-                                sprintf('Property "completeness" expects an array with the key "locales".')
-                            );
-                        }
+                    if (isset($filter['locales']) && !is_array($filter['locales'])) {
+                        throw new InvalidQueryException(
+                            'Property "completeness" expects an array with the key "locales".'
+                        );
                     }
                 } else {
                     if (isset($filter['locale']) && !is_string($filter['locale'])) {

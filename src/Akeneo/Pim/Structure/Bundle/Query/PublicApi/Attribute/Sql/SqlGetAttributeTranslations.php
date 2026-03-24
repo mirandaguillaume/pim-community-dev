@@ -19,7 +19,7 @@ class SqlGetAttributeTranslations implements GetAttributeTranslations
      */
     public function byAttributeCodesAndLocale(array $attributeCodes, string $locale): array
     {
-        if (empty($attributeCodes)) {
+        if ($attributeCodes === []) {
             return [];
         }
 
@@ -55,7 +55,7 @@ class SqlGetAttributeTranslations implements GetAttributeTranslations
      */
     public function byAttributeCodes(array $attributeCodes): array
     {
-        if (empty($attributeCodes)) {
+        if ($attributeCodes === []) {
             return [];
         }
 

@@ -1,13 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Parameter \#1 \$array of function array_unique expects an array of values castable to string, list given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../Domain/Model/Enrichment/Category.php
-			reportUnmatched: false
-
-		-
 			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -342,6 +335,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../Domain/ValueObject/Attribute/Value/AbstractValue.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between array\{size\: int, extension\: string, file_path\: string, mime_type\: string, original_filename\: string\} and array\{\} will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: ../Domain/ValueObject/Attribute/Value/ImageValue.php
 
 		-
 			message: '#^Property Akeneo\\Category\\Domain\\ValueObject\\LabelCollection\:\:\$labels \(array\<string, string\>\) does not accept array\<string, string\|null\>\.$#'

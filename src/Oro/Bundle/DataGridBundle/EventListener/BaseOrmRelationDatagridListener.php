@@ -50,11 +50,7 @@ class BaseOrmRelationDatagridListener
             $queryBuilder = $datasource->getQueryBuilder();
 
             $additionalParams = $this->requestParams->get(RequestParameters::ADDITIONAL_PARAMETERS);
-            if (isset($additionalParams[self::GRID_PARAM_DATA_IN])) {
-                $dataIn = $additionalParams[self::GRID_PARAM_DATA_IN];
-            } else {
-                $dataIn = [0];
-            }
+            $dataIn = isset($additionalParams[self::GRID_PARAM_DATA_IN]) ? $additionalParams[self::GRID_PARAM_DATA_IN] : [0];
 
             if (isset($additionalParams[self::GRID_PARAM_DATA_NOT_IN])) {
                 $dataOut = $additionalParams[self::GRID_PARAM_DATA_NOT_IN];

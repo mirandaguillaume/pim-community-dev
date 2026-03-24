@@ -68,7 +68,7 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
             }
         }
 
-        if (!empty($productUuidsToClean)) {
+        if ($productUuidsToClean !== []) {
             $products = $this->productRepository->getItemsFromUuids($productUuidsToClean);
             $this->cleanProducts($products);
         }

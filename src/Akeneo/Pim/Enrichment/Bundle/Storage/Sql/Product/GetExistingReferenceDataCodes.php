@@ -26,7 +26,7 @@ final readonly class GetExistingReferenceDataCodes implements GetExistingReferen
 
     public function fromReferenceDataNameAndCodes(string $referenceDataName, array $codes): array
     {
-        if (empty($codes)) {
+        if ($codes === []) {
             return [];
         }
 

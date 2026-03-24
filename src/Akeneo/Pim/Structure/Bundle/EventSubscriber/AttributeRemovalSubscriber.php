@@ -58,7 +58,7 @@ class AttributeRemovalSubscriber
 
     public function launchCleanAttributeJob(): void
     {
-        if (empty($this->attributeCodesToClean)) {
+        if ($this->attributeCodesToClean === []) {
             return;
         }
 

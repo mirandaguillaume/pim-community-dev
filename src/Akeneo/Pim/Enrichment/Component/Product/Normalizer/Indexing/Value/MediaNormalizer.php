@@ -33,17 +33,7 @@ class MediaNormalizer extends AbstractProductValueNormalizer implements Normaliz
         $data = $value->getData();
 
         if (null !== $data) {
-            $normalizedMedia = [];
-
-            $normalizedMedia['extension'] = $data->getExtension();
-            $normalizedMedia['key'] = $data->getKey();
-            $normalizedMedia['hash'] = $data->getHash();
-            $normalizedMedia['mime_type'] = $data->getMimeType();
-            $normalizedMedia['original_filename'] = $data->getOriginalFilename();
-            $normalizedMedia['size'] = $data->getSize();
-            $normalizedMedia['storage'] = $data->getStorage();
-
-            return $normalizedMedia;
+            return ['extension' => $data->getExtension(), 'key' => $data->getKey(), 'hash' => $data->getHash(), 'mime_type' => $data->getMimeType(), 'original_filename' => $data->getOriginalFilename(), 'size' => $data->getSize(), 'storage' => $data->getStorage()];
         }
 
         return null;

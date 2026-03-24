@@ -69,7 +69,7 @@ class SubStepTester implements StepTester
             return true;
         }
 
-        if (!is_array($return) || empty($return)) {
+        if (!is_array($return) || $return === []) {
             return false;
         }
 

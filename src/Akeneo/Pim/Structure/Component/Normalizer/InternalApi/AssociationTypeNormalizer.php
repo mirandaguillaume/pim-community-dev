@@ -35,11 +35,11 @@ class AssociationTypeNormalizer implements NormalizerInterface
         $firstVersion = $this->versionManager->getOldestLogEntry($object);
         $lastVersion = $this->versionManager->getNewestLogEntry($object);
 
-        $firstVersion = null !== $firstVersion
+        $firstVersion = $firstVersion instanceof \Akeneo\Tool\Component\Versioning\Model\Version
             ? $this->versionNormalizer->normalize($firstVersion, 'internal_api')
             : null;
 
-        $lastVersion = null !== $lastVersion
+        $lastVersion = $lastVersion instanceof \Akeneo\Tool\Component\Versioning\Model\Version
             ? $this->versionNormalizer->normalize($lastVersion, 'internal_api')
             : null;
 

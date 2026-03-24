@@ -22,7 +22,7 @@ class SqlGetProductCompletenessRatio implements GetProductCompletenessRatio
     public function forChannelCodeAndLocaleCode(UuidInterface $productUuid, string $channelCode, string $localeCode): ?int
     {
         $completenessCollection = $this->getProductCompletenesses->fromProductUuids([$productUuid], $channelCode, [$localeCode]);
-        if (!$completenessCollection) {
+        if ($completenessCollection === []) {
             return null;
         }
 

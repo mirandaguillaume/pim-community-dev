@@ -358,7 +358,7 @@ final readonly class ConnectorProduct
             );
         }
 
-        return !empty($associatedProducts) ? array_unique(array_merge(...$associatedProducts)) : [];
+        return $associatedProducts === [] ? [] : array_unique(array_merge(...$associatedProducts));
     }
 
     public function associatedProductModelCodes(): array
@@ -368,14 +368,14 @@ final readonly class ConnectorProduct
             $associatedProductModels[] = $associations['product_models'];
         }
 
-        return !empty($associatedProductModels) ? array_unique(array_merge(...$associatedProductModels)) : [];
+        return $associatedProductModels === [] ? [] : array_unique(array_merge(...$associatedProductModels));
     }
 
     public function associatedWithQuantityProductIdentifiers()
     {
         $associatedWithQuantityProducts = array_map(fn ($quantifiedAssociations) => array_column($quantifiedAssociations['products'], 'identifier'), array_values($this->quantifiedAssociations));
 
-        if (empty($associatedWithQuantityProducts)) {
+        if ($associatedWithQuantityProducts === []) {
             return [];
         }
 
@@ -386,7 +386,7 @@ final readonly class ConnectorProduct
     {
         $associatedWithQuantityProductModels = array_map(fn ($quantifiedAssociations) => array_column($quantifiedAssociations['product_models'], 'identifier'), array_values($this->quantifiedAssociations));
 
-        if (empty($associatedWithQuantityProductModels)) {
+        if ($associatedWithQuantityProductModels === []) {
             return [];
         }
 

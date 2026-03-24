@@ -151,7 +151,7 @@ class AttributeGroupUpdater implements ObjectUpdaterInterface
 
         foreach ($data as $attributeCode) {
             $attribute = $this->findAttribute($attributeCode);
-            if (null === $attribute) {
+            if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface) {
                 throw InvalidPropertyException::validEntityCodeExpected(
                     'attributes',
                     'attribute code',

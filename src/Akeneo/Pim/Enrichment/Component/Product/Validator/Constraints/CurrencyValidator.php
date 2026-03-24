@@ -37,26 +37,23 @@ class CurrencyValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, Currency::class);
         }
 
-        if ($object instanceof ProductPriceInterface) {
-            if (!in_array($object->getCurrency(), $this->getCurrencyCodes())) {
-                $attributeCode = $this->context->getObject() instanceof AbstractValue
-                    ? $this->context->getObject()->getAttributeCode()
-                    : '';
-
-                $this->context->buildViolation($constraint->message, [
-                    '%attribute_code%' => $attributeCode,
-                    '%currency_code%' => $object->getCurrency(),
-                ])
-                    ->atPath('currency')
-                    ->setCode(Currency::CURRENCY)
-                    ->addViolation();
-            }
+        if ($object instanceof ProductPriceInterface && !in_array($object->getCurrency(), $this->getCurrencyCodes())) {
+            $attributeCode = $this->context->getObject() instanceof AbstractValue
+                ? $this->context->getObject()->getAttributeCode()
+                : '';
+            $this->context->buildViolation($constraint->message, [
+                '%attribute_code%' => $attributeCode,
+                '%currency_code%' => $object->getCurrency(),
+            ])
+                ->atPath('currency')
+                ->setCode(Currency::CURRENCY)
+                ->addViolation();
         }
     }
 
     protected function getCurrencyCodes(): array
     {
-        if (empty($this->currencyCodes)) {
+        if ($this->currencyCodes === []) {
             $this->currencyCodes = $this->findActivatedCurrencies->forAllChannels();
         }
 

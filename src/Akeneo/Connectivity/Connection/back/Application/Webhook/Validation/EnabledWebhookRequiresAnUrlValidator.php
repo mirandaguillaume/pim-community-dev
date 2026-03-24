@@ -24,7 +24,7 @@ class EnabledWebhookRequiresAnUrlValidator extends ConstraintValidator
         if (!$webhook instanceof ConnectionWebhook) {
             throw new UnexpectedTypeException($webhook, ConnectionWebhook::class);
         }
-        if ($webhook->enabled() && (null === $webhook->url() || '' === (string) $webhook->url())) {
+        if ($webhook->enabled() && (!$webhook->url() instanceof \Akeneo\Connectivity\Connection\Domain\ValueObject\Url || '' === (string) $webhook->url())) {
             $this->context->buildViolation($constraint->message)->atPath('url')->addViolation();
         }
     }

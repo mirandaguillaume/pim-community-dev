@@ -54,7 +54,7 @@ class VersionDataCollector implements DataCollectorInterface
         $version = '';
         $request = $this->requestStack->getCurrentRequest();
 
-        if (null !== $request) {
+        if ($request instanceof \Symfony\Component\HttpFoundation\Request) {
             $version = $request->server->get('SERVER_SOFTWARE');
         }
 
@@ -70,7 +70,7 @@ class VersionDataCollector implements DataCollectorInterface
         $resetEvents = $this->installStatusManager->getPimResetEvents();
         $collectedData['reset_event_count'] = count($resetEvents);
 
-        if (!empty($resetEvents)) {
+        if ($resetEvents !== []) {
             $collectedData['last_reset_time'] = end($resetEvents)['time']->format('c');
         }
 

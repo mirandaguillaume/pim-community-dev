@@ -35,7 +35,7 @@ class GetNormalizedProductQualityScores implements GetNormalizedQualityScoresInt
 
     private function filterProductQualityScores(QualityScoreCollection $qualityScoreCollection, ?string $channel, array $locales): QualityScoreCollection
     {
-        if (null === $channel && empty($locales)) {
+        if (null === $channel && $locales === []) {
             return $qualityScoreCollection;
         }
 
@@ -45,7 +45,7 @@ class GetNormalizedProductQualityScores implements GetNormalizedQualityScoresInt
                 continue;
             }
             foreach ($scoresLocales as $scoreLocale => $score) {
-                if (empty($locales) || in_array($scoreLocale, $locales)) {
+                if ($locales === [] || in_array($scoreLocale, $locales)) {
                     $filteredQualityScores[$scoreChannel][$scoreLocale] = $score;
                 }
             }

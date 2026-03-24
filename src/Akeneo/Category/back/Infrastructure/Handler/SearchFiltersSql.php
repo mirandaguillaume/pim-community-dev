@@ -37,7 +37,7 @@ class SearchFiltersSql implements SearchFilters
                     case '=':
                         if ('parent' === $field) {
                             $parentCategory = $this->getCategory->byCode($criterion['value']);
-                            if (!$parentCategory) {
+                            if (!$parentCategory instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
                                 throw new \InvalidArgumentException(sprintf('Parent code %s does not exist.', $criterion['value']));
                             }
                             $sqlWhere = $this->addSqlAndIfNecessary($sqlWhere);
@@ -52,7 +52,7 @@ class SearchFiltersSql implements SearchFilters
                             $sqlTypes['root'] = ParameterType::INTEGER;
                         } elseif ('is_root' === $field) {
                             $sqlWhere = $this->addSqlAndIfNecessary($sqlWhere);
-                            if (true === (bool) $criterion['value']) {
+                            if ((bool) $criterion['value']) {
                                 $sqlWhere .= 'category.parent_id IS NULL';
                             } else {
                                 $sqlWhere .= 'category.parent_id IS NOT NULL';
@@ -86,7 +86,7 @@ class SearchFiltersSql implements SearchFilters
 
     private function addSqlAndIfNecessary(string $sqlWhere): string
     {
-        if (!empty($sqlWhere)) {
+        if ($sqlWhere !== '' && $sqlWhere !== '0') {
             return $sqlWhere.' AND ';
         }
 

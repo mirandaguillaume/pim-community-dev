@@ -28,7 +28,7 @@ final readonly class RoleWithPermissionsSaver implements BulkSaverInterface
 
     public function saveAll(array $rolesWithPermissions, array $options = []): void
     {
-        if (empty($rolesWithPermissions)) {
+        if ($rolesWithPermissions === []) {
             return;
         }
         Assert::allIsInstanceOf($rolesWithPermissions, RoleWithPermissions::class);

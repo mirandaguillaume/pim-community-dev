@@ -82,7 +82,7 @@ class PublishJobToQueueCommand extends Command
     {
         $jobInstanceCode = $input->getArgument('code');
         $config = $input->getOption('config') ? $this->decodeConfiguration($input->getOption('config')) : [];
-        $noLog = $input->getOption('no-log') ? true : false;
+        $noLog = (bool) $input->getOption('no-log');
         $username = $input->getOption('username');
         $email = $input->getOption('email');
 

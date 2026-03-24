@@ -123,7 +123,7 @@ class ProductExportController
     protected function getUser(): ?UserInterface
     {
         $token = $this->tokenStorage->getToken();
-        if (null === $token || !is_object($user = $token->getUser())) {
+        if (!$token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface || !is_object($user = $token->getUser())) {
             return null;
         }
 
@@ -154,7 +154,7 @@ class ProductExportController
             $contextParams = [
                 'locale'    => $dataSourceParams['dataLocale'],
                 'scope'     => $dataSourceParams['scopeCode'],
-                'ui_locale' => null !== $user
+                'ui_locale' => $user instanceof \Symfony\Component\Security\Core\User\UserInterface
                     ? $user->getUiLocale()->getCode()
                     : $this->requestStack->getCurrentRequest()->getDefaultLocale(),
             ];
@@ -168,7 +168,7 @@ class ProductExportController
      */
     protected function buildFilePath(string $filePath, array $contextParameters): string
     {
-        $data = ['%datetime%' => date(static::DATETIME_FORMAT)];
+        $data = ['%datetime%' => date(self::DATETIME_FORMAT)];
         foreach ($contextParameters as $key => $value) {
             $data['%' . $key . '%'] = $value;
         }

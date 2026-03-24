@@ -33,8 +33,8 @@ final readonly class MatchCategoryHandler implements MatchConditionHandler
         return match ($condition->operator()) {
             CategoryOperator::IN => null !== $productProjection->categoryCodes() && [] !== \array_intersect($productProjection->categoryCodes(), (array) $condition->value()),
             CategoryOperator::NOT_IN => null !== $productProjection->categoryCodes() && [] === \array_intersect($productProjection->categoryCodes(), (array) $condition->value()),
-            CategoryOperator::CLASSIFIED => !empty($productProjection->categoryCodes()),
-            CategoryOperator::UNCLASSIFIED => empty($productProjection->categoryCodes()),
+            CategoryOperator::CLASSIFIED => $productProjection->categoryCodes() !== [],
+            CategoryOperator::UNCLASSIFIED => $productProjection->categoryCodes() === [],
             CategoryOperator::IN_CHILDREN_LIST => $this->categoriesHaveAtLeastOneChild->among((array) $condition->value(), $productProjection->categoryCodes()),
             CategoryOperator::NOT_IN_CHILDREN_LIST => !$this->categoriesHaveAtLeastOneChild->among((array) $condition->value(), $productProjection->categoryCodes()),
         };

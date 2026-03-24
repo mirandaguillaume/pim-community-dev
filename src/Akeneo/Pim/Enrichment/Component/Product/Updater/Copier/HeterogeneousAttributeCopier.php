@@ -37,7 +37,7 @@ final readonly class HeterogeneousAttributeCopier implements AttributeCopierInte
     public function supportsAttributes(AttributeInterface $fromAttribute, AttributeInterface $toAttribute): bool
     {
         return $fromAttribute->getType() !== $toAttribute->getType()
-            && null !== $this->valueDataConverterRegistry->getDataConverter($fromAttribute, $toAttribute);
+            && $this->valueDataConverterRegistry->getDataConverter($fromAttribute, $toAttribute) instanceof \Akeneo\Pim\Enrichment\Component\Product\Updater\Converter\ValueDataConverter;
     }
 
     /**

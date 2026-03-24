@@ -33,7 +33,7 @@ class AddDefaultPrivilegesSubscriber
 
     public function loadDefaultPrivilegesForAllRoles(InstallerEvent $event): void
     {
-        if (!$event->hasArgument('job_name') || static::FIXTURE_ROLE_JOB_NAME !== $event->getArgument('job_name')) {
+        if (!$event->hasArgument('job_name') || self::FIXTURE_ROLE_JOB_NAME !== $event->getArgument('job_name')) {
             return;
         }
 

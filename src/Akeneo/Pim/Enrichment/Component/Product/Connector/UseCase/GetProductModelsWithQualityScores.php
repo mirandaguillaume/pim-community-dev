@@ -76,7 +76,7 @@ final readonly class GetProductModelsWithQualityScores implements GetProductMode
 
     private function filterProductModelQualityScores(QualityScoreCollection $productModelQualityScores, ?string $channel, array $locales): QualityScoreCollection
     {
-        if (null === $channel && empty($locales)) {
+        if (null === $channel && $locales === []) {
             return $productModelQualityScores;
         }
 
@@ -86,7 +86,7 @@ final readonly class GetProductModelsWithQualityScores implements GetProductMode
                 continue;
             }
             foreach ($scoresLocales as $scoreLocale => $score) {
-                if (empty($locales) || in_array($scoreLocale, $locales)) {
+                if ($locales === [] || in_array($scoreLocale, $locales)) {
                     $filteredQualityScores[$scoreChannel][$scoreLocale] = $score;
                 }
             }

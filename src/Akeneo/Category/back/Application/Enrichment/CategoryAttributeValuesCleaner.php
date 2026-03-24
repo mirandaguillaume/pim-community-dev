@@ -36,7 +36,7 @@ class CategoryAttributeValuesCleaner
                 $channelCode,
                 $localeCodes,
             );
-            if (!empty($valuesToRemove)) {
+            if ($valuesToRemove !== []) {
                 foreach ($valuesToRemove as $value) {
                     $enrichedValues->removeValue($value);
                 }
@@ -45,7 +45,7 @@ class CategoryAttributeValuesCleaner
             }
         }
 
-        if (!empty($cleanedEnrichedValues)) {
+        if ($cleanedEnrichedValues !== []) {
             $this->updateCategoryEnrichedValues->execute($cleanedEnrichedValues);
         }
     }
@@ -62,7 +62,7 @@ class CategoryAttributeValuesCleaner
                 $enrichedValues,
                 $templateAttributes,
             );
-            if (!empty($valuesToRemove)) {
+            if ($valuesToRemove !== []) {
                 foreach ($valuesToRemove as $value) {
                     $enrichedValues->removeValue($value);
                 }
@@ -70,7 +70,7 @@ class CategoryAttributeValuesCleaner
                 $cleanedEnrichedValues[$categoryCode] = $enrichedValues;
             }
 
-            if (!empty($cleanedEnrichedValues)) {
+            if ($cleanedEnrichedValues !== []) {
                 $this->updateCategoryEnrichedValues->execute($cleanedEnrichedValues);
             }
         }

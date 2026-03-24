@@ -233,7 +233,7 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
             }
         }
 
-        if (!empty($shouldClauses)) {
+        if ($shouldClauses !== []) {
             $this->searchQueryBuilder->addFilter(['bool' => ['should' => $shouldClauses]]);
         }
 

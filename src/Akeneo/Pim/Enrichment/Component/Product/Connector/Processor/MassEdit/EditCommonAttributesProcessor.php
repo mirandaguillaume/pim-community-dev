@@ -121,7 +121,7 @@ class EditCommonAttributesProcessor extends AbstractProcessor
             }
         }
 
-        if (empty($filteredValues)) {
+        if ($filteredValues === []) {
             $this->stepExecution->incrementSummaryInfo('skipped_products');
             $this->addWarning($product);
             $this->productDetacher->detach($product);
@@ -136,11 +136,7 @@ class EditCommonAttributesProcessor extends AbstractProcessor
 
     protected function isAttributeEditable(ProductInterface $product, string $attributeCode): bool
     {
-        if (!$this->productRepository->hasAttributeInFamily($product->getUuid(), $attributeCode)) {
-            return false;
-        }
-
-        return true;
+        return $this->productRepository->hasAttributeInFamily($product->getUuid(), $attributeCode);
     }
 
     /**

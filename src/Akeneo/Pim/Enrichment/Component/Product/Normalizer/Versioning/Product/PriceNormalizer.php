@@ -32,7 +32,7 @@ class PriceNormalizer extends AbstractValueDataNormalizer
     {
         $data = $object->getData();
         if (null !== $data && '' !== $data) {
-            $data = number_format($data, static::DECIMAL_PRECISION, '.', '');
+            $data = number_format($data, self::DECIMAL_PRECISION, '.', '');
         }
 
         return (string) $data;

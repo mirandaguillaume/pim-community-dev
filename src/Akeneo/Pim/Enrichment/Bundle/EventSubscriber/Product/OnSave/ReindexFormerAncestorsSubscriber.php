@@ -38,7 +38,7 @@ class ReindexFormerAncestorsSubscriber
     {
         $product = $event->getSubject();
         $unitary = $event->getArguments()['unitary'] ?? false;
-        if (false === $unitary || empty($this->formerParentCodes) || !$product instanceof ProductInterface) {
+        if (false === $unitary || $this->formerParentCodes === [] || !$product instanceof ProductInterface) {
             return;
         }
 
@@ -52,7 +52,7 @@ class ReindexFormerAncestorsSubscriber
     public function reIndexAll(GenericEvent $event): void
     {
         $products = $event->getSubject();
-        if (empty($this->formerParentCodes) || !reset($products) instanceof ProductInterface) {
+        if ($this->formerParentCodes === [] || !reset($products) instanceof ProductInterface) {
             return;
         }
 

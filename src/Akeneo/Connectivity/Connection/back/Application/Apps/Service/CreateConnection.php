@@ -45,7 +45,7 @@ class CreateConnection implements CreateConnectionInterface
 
         $connectionWithCredentials = $this->selectConnectionWithCredentialsByCodeQuery->execute($code);
 
-        if (null === $connectionWithCredentials) {
+        if (!$connectionWithCredentials instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\ConnectionWithCredentials) {
             throw new \LogicException('The connection just created should be available, it is not.');
         }
 

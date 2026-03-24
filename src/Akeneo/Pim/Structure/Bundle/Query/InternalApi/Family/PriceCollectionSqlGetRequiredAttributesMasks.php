@@ -21,7 +21,7 @@ final readonly class PriceCollectionSqlGetRequiredAttributesMasks implements Get
 {
     public function __construct(
         private Connection $connection,
-        private readonly SqlPlatformHelperInterface $platformHelper,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 

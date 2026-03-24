@@ -21,13 +21,13 @@ class RegisterCategoryItemCounterPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(static::CATEGORY_REGISTRY)) {
+        if (!$container->hasDefinition(self::CATEGORY_REGISTRY)) {
             return;
         }
 
-        $registryDefinition = $container->getDefinition(static::CATEGORY_REGISTRY);
+        $registryDefinition = $container->getDefinition(self::CATEGORY_REGISTRY);
 
-        foreach ($container->findTaggedServiceIds(static::CATEGORY_TAG) as $serviceId => $attributes) {
+        foreach ($container->findTaggedServiceIds(self::CATEGORY_TAG) as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 $registryDefinition->addMethodCall(
                     'register',

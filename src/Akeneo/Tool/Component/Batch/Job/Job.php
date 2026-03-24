@@ -214,7 +214,7 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
             }
         }
 
-        if ($stepExecution !== null && BatchStatus::STOPPED === $stepExecution->getStatus()->getValue()) {
+        if ($stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution && BatchStatus::STOPPED === $stepExecution->getStatus()->getValue()) {
             $jobExecution->setStatus($stepExecution->getStatus());
             $jobExecution->setExitStatus($stepExecution->getExitStatus());
             $this->jobRepository->updateJobExecution($jobExecution);
@@ -223,7 +223,7 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
         }
 
         // Update the job status to be the same as the last step
-        if ($stepExecution !== null) {
+        if ($stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution) {
             $this->dispatchJobExecutionEvent(EventInterface::BEFORE_JOB_STATUS_UPGRADE, $jobExecution);
 
             $jobExecution->upgradeStatus($stepExecution->getStatus()->getValue());
@@ -243,7 +243,7 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
             throw new JobInterruptedException("JobExecution interrupted.");
         }
 
-        if ($stepExecution === null) {
+        if (!$stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution) {
             $stepExecution = $jobExecution->createStepExecution($step->getName());
             $stepExecution->setStartTime(new \DateTime());
         }
@@ -350,7 +350,7 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
 
     private function isRunnable(?StepExecution $stepExecution): bool
     {
-        return null === $stepExecution || in_array($stepExecution->getStatus()->getValue(), [BatchStatus::STARTING, BatchStatus::PAUSED]);
+        return !$stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution || in_array($stepExecution->getStatus()->getValue(), [BatchStatus::STARTING, BatchStatus::PAUSED]);
     }
 
     private function getStepExecution(JobExecution $jobExecution, int $index): ?StepExecution

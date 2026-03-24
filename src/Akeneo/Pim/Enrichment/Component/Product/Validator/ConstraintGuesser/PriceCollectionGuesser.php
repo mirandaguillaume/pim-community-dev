@@ -23,12 +23,7 @@ class PriceCollectionGuesser implements ConstraintGuesserInterface
      */
     public function supportAttribute(AttributeInterface $attribute)
     {
-        return in_array(
-            $attribute->getType(),
-            [
-                AttributeTypes::PRICE_COLLECTION,
-            ]
-        );
+        return $attribute->getType() == AttributeTypes::PRICE_COLLECTION;
     }
 
     /**

@@ -39,7 +39,7 @@ class ConsolidateProductScores
             $productsScores[] = new ProductScores($productId, $this->clock->getCurrentTime(), $scores, $scoresPartialCriteria);
         }
 
-        if (!empty($productsScores)) {
+        if ($productsScores !== []) {
             $this->productScoreRepository->saveAll($productsScores);
         }
     }

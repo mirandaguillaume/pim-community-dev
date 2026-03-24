@@ -89,7 +89,7 @@ abstract class AbstractMetric implements MetricInterface, \Stringable
      */
     public function __toString(): string
     {
-        return join(' ', array_filter([
+        return implode(' ', array_filter([
             $this->data !== null ? sprintf('%.4F', $this->data) : null,
             $this->unit,
         ]));

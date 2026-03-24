@@ -50,7 +50,7 @@ class MigrateToUuidCreateIndexes implements MigrateToUuidStep
                 $count++;
             }
             $additionalIndexes = $tableProperties[self::TEMPORARY_INDEXES_INDEX] ?? [];
-            foreach ($additionalIndexes as $indexName => $columns) {
+            foreach (array_keys($additionalIndexes) as $indexName) {
                 if (!$this->indexExists($tableName, $indexName)) {
                     $count++;
                 }

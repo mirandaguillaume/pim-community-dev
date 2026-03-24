@@ -36,7 +36,7 @@ class TokenController
             $grantType = $request->request->get('grant_type');
             $message = $this->getErrorMessage($e->getMessage(), $grantType);
 
-            throw new UnprocessableEntityHttpException($message ?? $e->getDescription());
+            throw new UnprocessableEntityHttpException($message ?? $e->getDescription(), $e);
         }
     }
 
