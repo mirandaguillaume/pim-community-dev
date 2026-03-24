@@ -18,6 +18,20 @@
         <server name="KERNEL_CLASS" value="Kernel" force="true" />
     </php>
 
+    <source>
+        <include>
+            <directory suffix=".php">src/Akeneo</directory>
+            <directory suffix=".php">components</directory>
+        </include>
+        <exclude>
+            <directory>src/Akeneo/*/Bundle/*/Tests</directory>
+            <directory>src/Akeneo/*/*/tests</directory>
+            <directory>src/Akeneo/*/*/*/tests</directory>
+            <directory>src/Akeneo/*/*/*/*/tests</directory>
+            <directory suffix="Spec.php">src</directory>
+        </exclude>
+    </source>
+
     <groups>
         <exclude>
             <group>skip</group>

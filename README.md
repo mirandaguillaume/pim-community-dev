@@ -4,6 +4,7 @@
 [![AST Metrics](https://img.shields.io/badge/AST%20Metrics-MI%2065%20·%20CC%201.45-blue?logo=github&logoColor=white)](https://halleck45.github.io/ast-metrics/)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%20max-brightgreen?logo=php)](https://phpstan.org/)
 [![SAST](https://img.shields.io/badge/SAST-Semgrep-orange?logo=semgrep)](https://semgrep.dev/)
+[![codecov](https://codecov.io/gh/mirandaguillaume/pim-community-dev/graph/badge.svg)](https://codecov.io/gh/mirandaguillaume/pim-community-dev)
 [![PHP 8.4](https://img.shields.io/badge/PHP-8.4-purple?logo=php)](https://www.php.net/releases/8.4/en.php)
 [![Symfony 6.4](https://img.shields.io/badge/Symfony-6.4%20LTS-black?logo=symfony)](https://symfony.com/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/akeneo/localized.svg)](https://crowdin.com/project/akeneo)
