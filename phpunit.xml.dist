@@ -24,6 +24,20 @@
         </exclude>
     </groups>
 
+    <source>
+        <include>
+            <directory suffix=".php">src/Akeneo</directory>
+            <directory suffix=".php">components</directory>
+        </include>
+        <exclude>
+            <directory>src/Akeneo/*/Bundle/*/Tests</directory>
+            <directory>src/Akeneo/*/*/tests</directory>
+            <directory>src/Akeneo/*/*/*/tests</directory>
+            <directory>src/Akeneo/*/*/*/*/tests</directory>
+            <directory suffix="Spec.php">src</directory>
+        </exclude>
+    </source>
+
     <testsuites>
         <testsuite name="PIM_Integration_Test">
             <directory suffix="Integration.php">src</directory>

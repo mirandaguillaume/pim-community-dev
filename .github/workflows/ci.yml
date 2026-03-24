@@ -746,6 +746,28 @@ jobs:
       - name: Run PHPUnit unit tests (no MySQL)
         run: castor test:phpunit-unit
 
+      - name: Collect PHPUnit coverage (Xdebug)
+        continue-on-error: true
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            -e XDEBUG_MODE=coverage \
+            -e APP_ENV=test_fake \
+            php php vendor/bin/phpunit -c . \
+              --testsuite PHPUnit_Unit_Test \
+              --coverage-clover var/tests/phpunit/coverage.xml \
+              --coverage-text \
+              --no-logging
+
+      - name: Upload PHPUnit coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpunit-coverage
+          path: var/tests/phpunit/coverage.xml
+          retention-days: 30
+
       - name: Upload PHPUnit Unit results
         if: always()
         uses: actions/upload-artifact@v4
