@@ -1522,7 +1522,6 @@ jobs:
 
   # CI SUCCESS: Final gate job
   # ===========================================================================
-  # ===========================================================================
   # CODE METRICS: ASTMetrics analysis (non-blocking, informational)
   # ===========================================================================
   code-metrics:
@@ -1563,8 +1562,6 @@ jobs:
           echo "|--------|-------|" >> "$GITHUB_STEP_SUMMARY"
           echo "| Total violations | ${VIOLATIONS} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| High severity | ${HIGH} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "See artifacts for full report." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload AST Metrics report
         uses: actions/upload-artifact@v4
