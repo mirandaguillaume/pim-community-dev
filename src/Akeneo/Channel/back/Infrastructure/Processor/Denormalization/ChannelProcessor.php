@@ -60,7 +60,7 @@ class ChannelProcessor extends AbstractProcessor implements ItemProcessorInterfa
         return $channel;
     }
 
-    private function saveProcessedItemInStepExecutionContext(string $itemIdentifier, mixed $processedItem)
+    private function saveProcessedItemInStepExecutionContext(string $itemIdentifier, mixed $processedItem): void
     {
         $executionContext = $this->stepExecution->getExecutionContext();
         $processedItemsBatch = $executionContext->get('processed_items_batch') ?? [];

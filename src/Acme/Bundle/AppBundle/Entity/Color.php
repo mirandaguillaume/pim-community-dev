@@ -70,7 +70,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
@@ -86,7 +86,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param string $hex
      */
-    public function setHex($hex)
+    public function setHex($hex): void
     {
         $this->hex = $hex;
     }
@@ -102,7 +102,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param int $red
      */
-    public function setRed($red)
+    public function setRed($red): void
     {
         $this->red = $red;
     }
@@ -118,7 +118,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param int $green
      */
-    public function setGreen($green)
+    public function setGreen($green): void
     {
         $this->green = $green;
     }
@@ -134,7 +134,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param int $blue
      */
-    public function setBlue($blue)
+    public function setBlue($blue): void
     {
         $this->blue = $blue;
     }
@@ -150,7 +150,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param int $hue
      */
-    public function setHue($hue)
+    public function setHue($hue): void
     {
         $this->hue = $hue;
     }
@@ -166,7 +166,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param int $hslSaturation
      */
-    public function setHslSaturation($hslSaturation)
+    public function setHslSaturation($hslSaturation): void
     {
         $this->hslSaturation = $hslSaturation;
     }
@@ -182,7 +182,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param int $light
      */
-    public function setLight($light)
+    public function setLight($light): void
     {
         $this->light = $light;
     }
@@ -198,7 +198,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param int $hsvSaturation
      */
-    public function setHsvSaturation($hsvSaturation)
+    public function setHsvSaturation($hsvSaturation): void
     {
         $this->hsvSaturation = $hsvSaturation;
     }
@@ -214,7 +214,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param int $value
      */
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->value = $value;
     }
@@ -222,7 +222,7 @@ class Color extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * {@inheritdoc}
      */
-    public static function getLabelProperty()
+    public static function getLabelProperty(): string
     {
         return 'name';
     }

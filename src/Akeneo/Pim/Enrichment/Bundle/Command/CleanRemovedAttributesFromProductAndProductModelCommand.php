@@ -199,7 +199,7 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
     /**
      * Launches the clean command on given ids
      */
-    private function launchCleanTask(array $productIds, string $env, string $rootDir)
+    private function launchCleanTask(array $productIds, string $env, string $rootDir): void
     {
         $process = new Process(
             [
@@ -232,7 +232,7 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
                 . " - %d product(s)\n"
                 . " Do you want to proceed?",
             implode(
-                array_map(fn (string $attributeCode) => sprintf(" - %s\n", $attributeCode), $attributeCodes)
+                array_map(fn (string $attributeCode): string => sprintf(" - %s\n", $attributeCode), $attributeCodes)
             ),
             $countProductModels,
             $countProductVariants,
@@ -306,7 +306,7 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
         $this->eventDispatcher->dispatch(new GenericEvent(), AttributeEvents::POST_CLEAN);
     }
 
-    private function purgeCleanedBlackListedAttributes(array $allBlacklistedAttributeCodes)
+    private function purgeCleanedBlackListedAttributes(array $allBlacklistedAttributeCodes): void
     {
         $this->attributeCodeBlacklister->removeFromBlacklist($allBlacklistedAttributeCodes);
     }

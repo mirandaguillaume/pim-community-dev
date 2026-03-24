@@ -18,11 +18,9 @@ abstract class AbstractAttributeSetter implements AttributeSetterInterface
     /** @var string[] */
     protected $supportedTypes = [];
 
-    /** @var EntityWithValuesBuilderInterface */
-    protected $entityWithValuesBuilder;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Builder\EntityWithValuesBuilderInterface $entityWithValuesBuilder;
 
-    /** @var OptionsResolver */
-    protected $resolver;
+    protected \Symfony\Component\OptionsResolver\OptionsResolver $resolver;
 
     public function __construct(EntityWithValuesBuilderInterface $entityWithValuesBuilder)
     {

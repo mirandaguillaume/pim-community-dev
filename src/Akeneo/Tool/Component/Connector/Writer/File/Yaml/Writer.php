@@ -24,11 +24,9 @@ class Writer extends AbstractFileWriter implements ItemWriterInterface, Flushabl
     final public const int INLINE_ARRAY_LEVEL = 8;
     final public const int INDENT_SPACES = 4;
 
-    /** @var ArrayConverterInterface */
-    protected $arrayConverter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface $arrayConverter;
 
-    /** @var bool */
-    protected $isFirstWriting;
+    protected bool $isFirstWriting;
 
     protected array $state = [];
 
@@ -47,7 +45,7 @@ class Writer extends AbstractFileWriter implements ItemWriterInterface, Flushabl
         $this->isFirstWriting = true;
     }
 
-    public function initialize()
+    public function initialize(): void
     {
         $filePath = $this->state['file_path'] ?? null;
 

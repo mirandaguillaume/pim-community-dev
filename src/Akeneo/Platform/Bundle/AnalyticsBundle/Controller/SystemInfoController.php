@@ -29,9 +29,9 @@ class SystemInfoController
      *
      * @return Response
      */
-    public function indexAction($_format)
+    public function indexAction($_format): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
-        $moveToEnd = function (array $data, string $key) {
+        $moveToEnd = function (array $data, string $key): array {
             $value = $data[$key];
             unset($data[$key]);
             $data[$key] = $value;

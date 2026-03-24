@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class OAuth2 extends BaseOAuth2
 {
-    public function __construct(IOAuth2Storage $storage, private readonly EventDispatcherInterface $eventDispatcher, $config = [])
+    public function __construct(IOAuth2Storage $storage, private readonly EventDispatcherInterface $eventDispatcher, array $config = [])
     {
         parent::__construct($storage, $config);
     }

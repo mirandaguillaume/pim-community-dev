@@ -18,7 +18,7 @@ class JobInstanceRepository extends EntityRepository implements IdentifiableObje
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): ?object
     {
         return $this->findOneBy(['code' => $code]);
     }
@@ -26,7 +26,7 @@ class JobInstanceRepository extends EntityRepository implements IdentifiableObje
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['code'];
     }

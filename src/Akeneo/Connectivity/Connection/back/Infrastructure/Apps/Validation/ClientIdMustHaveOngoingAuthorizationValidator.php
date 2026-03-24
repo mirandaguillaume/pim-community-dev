@@ -19,7 +19,7 @@ class ClientIdMustHaveOngoingAuthorizationValidator extends ConstraintValidator
     {
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof ClientIdMustHaveOngoingAuthorization) {
             throw new UnexpectedTypeException($constraint, ClientIdMustHaveOngoingAuthorization::class);

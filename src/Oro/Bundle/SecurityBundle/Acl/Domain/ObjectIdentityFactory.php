@@ -14,10 +14,7 @@ class ObjectIdentityFactory
 {
     final public const string ROOT_IDENTITY_TYPE = '(root)';
 
-    /**
-     * @var AclExtensionSelector
-     */
-    protected $extensionSelector;
+    protected \Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionSelector $extensionSelector;
 
     /**
      * Constructor
@@ -36,7 +33,7 @@ class ObjectIdentityFactory
      *              string: The ACL extension key
      * @return ObjectIdentity
      */
-    public function root(\Symfony\Component\Security\Acl\Domain\ObjectIdentity|string $oidOrExtensionKey)
+    public function root(\Symfony\Component\Security\Acl\Domain\ObjectIdentity|string $oidOrExtensionKey): \Symfony\Component\Security\Acl\Domain\ObjectIdentity
     {
         if ($oidOrExtensionKey instanceof ObjectIdentity) {
             $oidOrExtensionKey = $this->extensionSelector
@@ -56,7 +53,7 @@ class ObjectIdentityFactory
      * @throws InvalidAclException
      * @return ObjectIdentity
      */
-    public function underlying(ObjectIdentity $oid)
+    public function underlying(ObjectIdentity $oid): \Symfony\Component\Security\Acl\Domain\ObjectIdentity
     {
         if ($oid->getIdentifier() === self::ROOT_IDENTITY_TYPE
             || $oid->getIdentifier() === ($extensionKey = $this->extensionSelector->select($oid)->getExtensionKey())

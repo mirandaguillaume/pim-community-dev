@@ -19,8 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ProductModelController extends AbstractListCategoryController
 {
-    /** @var ProductModelRepositoryInterface */
-    protected $productModelRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductModelRepositoryInterface $productModelRepository;
 
     /**
      * @param ProductModelRepositoryInterface       $productModelRepository

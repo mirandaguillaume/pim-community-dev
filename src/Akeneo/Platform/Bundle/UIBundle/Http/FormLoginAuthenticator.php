@@ -46,7 +46,7 @@ use Symfony\Component\Security\Http\SecurityRequestAttributes;
  */
 class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
 {
-    private $options;
+    private array $options;
     private ?\Symfony\Component\HttpKernel\HttpKernelInterface $httpKernel = null;
 
     public function __construct(private readonly HttpUtils $httpUtils, private readonly UserProviderInterface $userProvider, private readonly AuthenticationSuccessHandlerInterface $successHandler, private readonly AuthenticationFailureHandlerInterface $failureHandler, array $options)

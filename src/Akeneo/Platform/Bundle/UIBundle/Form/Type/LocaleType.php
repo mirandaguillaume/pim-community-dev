@@ -9,8 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LocaleType extends AbstractType
 {
-    /** @var LocaleProviderInterface */
-    protected $localeProvider;
+    protected \Akeneo\Tool\Component\Localization\Provider\LocaleProviderInterface $localeProvider;
 
     public function __construct(LocaleProviderInterface $localeProvider)
     {

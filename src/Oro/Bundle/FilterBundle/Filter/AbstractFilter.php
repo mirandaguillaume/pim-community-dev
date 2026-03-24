@@ -10,11 +10,9 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 abstract class AbstractFilter implements FilterInterface
 {
-    /** @var FormFactoryInterface */
-    protected $formFactory;
+    protected \Symfony\Component\Form\FormFactoryInterface $formFactory;
 
-    /** @var FilterUtility */
-    protected $util;
+    protected \Oro\Bundle\FilterBundle\Filter\FilterUtility $util;
 
     /** @var string */
     protected $name;
@@ -40,7 +38,7 @@ abstract class AbstractFilter implements FilterInterface
     /**
      * {@inheritDoc}
      */
-    public function init($name, array $params)
+    public function init($name, array $params): void
     {
         $this->name = $name;
         $this->params = $params;

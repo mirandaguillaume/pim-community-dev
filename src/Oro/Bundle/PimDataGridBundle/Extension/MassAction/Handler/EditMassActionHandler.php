@@ -18,11 +18,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class EditMassActionHandler implements MassActionHandlerInterface
 {
-    /** @var HydratorInterface */
-    protected $hydrator;
+    protected \Oro\Bundle\PimDataGridBundle\Datasource\ResultRecord\HydratorInterface $hydrator;
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         HydratorInterface $hydrator,

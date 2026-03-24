@@ -81,7 +81,7 @@ class CategoryType extends AbstractType
     /**
      * Add an event subscriber.
      */
-    public function addEventSubscriber(EventSubscriberInterface $subscriber)
+    public function addEventSubscriber(EventSubscriberInterface $subscriber): void
     {
         $this->subscribers[] = $subscriber;
     }

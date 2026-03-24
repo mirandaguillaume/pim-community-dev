@@ -37,7 +37,7 @@ class GetCategoryTreeTemplatesSql implements GetCategoryTreeTemplates
         );
 
         return array_map(
-            fn (string $uuid) => TemplateUuid::fromString($uuid),
+            fn (string $uuid): \Akeneo\Category\Domain\ValueObject\Template\TemplateUuid => TemplateUuid::fromString($uuid),
             $result->fetchFirstColumn(),
         );
     }

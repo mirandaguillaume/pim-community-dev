@@ -18,8 +18,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class AttributeCopier extends AbstractAttributeCopier
 {
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
     /**
      * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
@@ -51,7 +50,7 @@ class AttributeCopier extends AbstractAttributeCopier
         AttributeInterface $fromAttribute,
         AttributeInterface $toAttribute,
         array $options = []
-    ) {
+    ): void {
         $options = $this->resolver->resolve($options);
         $fromLocale = $options['from_locale'];
         $toLocale = $options['to_locale'];
@@ -87,9 +86,9 @@ class AttributeCopier extends AbstractAttributeCopier
         AttributeInterface $fromAttribute,
         AttributeInterface $toAttribute,
         $fromLocale,
-        $toLocale,
+        ?string $toLocale,
         $fromScope,
-        $toScope
+        ?string $toScope
     ) {
         $fromValue = $fromEntityWithValues->getValue($fromAttribute->getCode(), $fromLocale, $fromScope);
         $fromData = (null !== $fromValue)

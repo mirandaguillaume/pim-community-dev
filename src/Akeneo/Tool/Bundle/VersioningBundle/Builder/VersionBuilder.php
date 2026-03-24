@@ -17,11 +17,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class VersionBuilder
 {
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var VersionFactory */
-    protected $versionFactory;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Factory\VersionFactory $versionFactory;
 
     public function __construct(NormalizerInterface $normalizer, VersionFactory $versionFactory)
     {
@@ -90,7 +88,7 @@ class VersionBuilder
      * @param Version|null $previousVersion
      * @return Version
      */
-    public function buildPendingVersion(Version $pending, ?Version $previousVersion = null)
+    public function buildPendingVersion(Version $pending, ?Version $previousVersion = null): Version
     {
         $versionNumber = $previousVersion ? $previousVersion->getVersion() + 1 : 1;
         $oldSnapshot = $previousVersion ? $previousVersion->getSnapshot() : [];
@@ -123,22 +121,22 @@ class VersionBuilder
      *
      * @return array
      */
-    protected function mergeSnapshots(array $oldSnapshot, array $newSnapshot)
+    protected function mergeSnapshots(array $oldSnapshot, array $newSnapshot): array
     {
         $localNewSnapshot = array_map(
-            fn ($newItem) => ['new' => $newItem],
+            fn ($newItem): array => ['new' => $newItem],
             $newSnapshot
         );
 
         $localOldSnapshot = array_map(
-            fn ($oldItem) => ['old' => $oldItem],
+            fn ($oldItem): array => ['old' => $oldItem],
             $oldSnapshot
         );
 
         $mergedSnapshot = array_replace_recursive($localNewSnapshot, $localOldSnapshot);
 
         return array_map(
-            fn ($mergedItem) => [
+            fn (array $mergedItem): array => [
                 'old' => array_key_exists('old', $mergedItem) ? $mergedItem['old'] : '',
                 'new' => array_key_exists('new', $mergedItem) ? $mergedItem['new'] : '',
             ],
@@ -152,11 +150,11 @@ class VersionBuilder
      *
      * @return array
      */
-    protected function filterChangeset(array $changeset)
+    protected function filterChangeset(array $changeset): array
     {
         return array_filter(
             $changeset,
-            fn ($item) => $this->hasValueChanged($item['old'], $item['new'])
+            fn (array $item): bool => $this->hasValueChanged($item['old'], $item['new'])
         );
     }
 

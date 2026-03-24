@@ -20,7 +20,7 @@ class GetAttributeTypesMasksQuery implements GetRequiredAttributesMasks
         private readonly SqlPlatformHelperInterface $platformHelper,
         array $attributeTypes,
     ) {
-        $this->attributeTypes = array_map(fn ($code) => (string) $code, $attributeTypes);
+        $this->attributeTypes = array_map(fn ($code): string => (string) $code, $attributeTypes);
     }
 
     /**

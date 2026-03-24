@@ -32,7 +32,7 @@ final class ElasticsearchEventsApiDebugRepository implements EventsApiDebugRepos
     {
         $flattenedContext = '';
 
-        \array_walk_recursive($log['context'], function ($value, $key) use (&$flattenedContext): void {
+        \array_walk_recursive($log['context'], function (string $value, $key) use (&$flattenedContext): void {
             $flattenedContext .= $value . ' ';
         });
 

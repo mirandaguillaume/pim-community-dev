@@ -18,11 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class AttributeFilterDumper implements DumperInterface
 {
-    /** @var FilterRegistryInterface */
-    protected $registry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Query\Filter\FilterRegistryInterface $registry;
 
-    /** @var AttributeRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $repository;
 
     public function __construct(FilterRegistryInterface $registry, AttributeRepositoryInterface $repository)
     {
@@ -33,7 +31,7 @@ class AttributeFilterDumper implements DumperInterface
     /**
      * {@inheritdoc}
      */
-    public function dump(OutputInterface $output)
+    public function dump(OutputInterface $output): void
     {
         $output->writeln("<info>Useable attributes filters...</info>");
         $attributeFilters = $this->getAttributeFilters();
@@ -55,7 +53,7 @@ class AttributeFilterDumper implements DumperInterface
      *
      * @return array
      */
-    protected function getAttributeFilters()
+    protected function getAttributeFilters(): array
     {
         $attributeFilters = [];
         foreach ($this->registry->getAttributeFilters() as $filter) {
@@ -77,7 +75,7 @@ class AttributeFilterDumper implements DumperInterface
      *
      * @return array
      */
-    protected function getFilterInformationForAttribute(AttributeInterface $attribute, array $attributeFilters)
+    protected function getFilterInformationForAttribute(AttributeInterface $attribute, array $attributeFilters): array
     {
         $field = $attribute->getCode();
         $attributeType = $attribute->getType();

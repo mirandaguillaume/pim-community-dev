@@ -45,7 +45,7 @@ abstract class AbstractReader implements ItemReaderInterface, InitializableInter
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -53,7 +53,7 @@ abstract class AbstractReader implements ItemReaderInterface, InitializableInter
     /**
      * {@inheritdoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->initializeReader();
 

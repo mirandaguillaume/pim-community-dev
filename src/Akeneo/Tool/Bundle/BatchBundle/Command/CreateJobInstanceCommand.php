@@ -97,7 +97,7 @@ class CreateJobInstanceCommand extends Command
     /**
      * @return string
      */
-    protected function getErrorMessages(ConstraintViolationListInterface $errors)
+    protected function getErrorMessages(ConstraintViolationListInterface $errors): string
     {
         $errorsStr = '';
 

@@ -16,8 +16,7 @@ abstract class AbstractValueConverter implements ValueConverterInterface
     /** @var array */
     protected $supportedFieldType;
 
-    /** @var FieldSplitter */
-    protected $fieldSplitter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\FieldSplitter $fieldSplitter;
 
     public function __construct(FieldSplitter $fieldSplitter)
     {

@@ -24,10 +24,7 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
  */
 class MutableAclProvider extends BaseMutableAclProvider
 {
-    /**
-     * @var PermissionGrantingStrategyInterface
-     */
-    protected $permissionStrategy;
+    protected \Symfony\Component\Security\Acl\Model\PermissionGrantingStrategyInterface $permissionStrategy;
 
     /**
      * Constructor.
@@ -50,7 +47,7 @@ class MutableAclProvider extends BaseMutableAclProvider
     /**
      * Clear cache by $oid
      */
-    public function clearOidCache(ObjectIdentityInterface $oid)
+    public function clearOidCache(ObjectIdentityInterface $oid): void
     {
         $this->cache->evictFromCacheByIdentity($oid);
     }
@@ -58,7 +55,7 @@ class MutableAclProvider extends BaseMutableAclProvider
     /**
      * Put in cache empty ACL object for given OID
      */
-    public function cacheEmptyAcl(ObjectIdentityInterface $oid)
+    public function cacheEmptyAcl(ObjectIdentityInterface $oid): void
     {
         $this->cache->putInCache(new Acl(0, $oid, $this->permissionStrategy, [], true));
     }
@@ -66,7 +63,7 @@ class MutableAclProvider extends BaseMutableAclProvider
     /**
      * Initiates a transaction
      */
-    public function beginTransaction()
+    public function beginTransaction(): void
     {
         $this->connection->beginTransaction();
     }
@@ -74,7 +71,7 @@ class MutableAclProvider extends BaseMutableAclProvider
     /**
      * Commits a transaction
      */
-    public function commit()
+    public function commit(): void
     {
         $this->connection->commit();
     }
@@ -82,7 +79,7 @@ class MutableAclProvider extends BaseMutableAclProvider
     /**
      * Rolls back a transaction
      */
-    public function rollBack()
+    public function rollBack(): void
     {
         $this->connection->rollBack();
     }
@@ -94,7 +91,7 @@ class MutableAclProvider extends BaseMutableAclProvider
      *                        It is the user's username if $sid is UserSecurityIdentity
      *                        or the role name if $sid is RoleSecurityIdentity
      */
-    public function updateSecurityIdentity(SecurityIdentityInterface $sid, $oldName)
+    public function updateSecurityIdentity(SecurityIdentityInterface $sid, $oldName): void
     {
         $this->connection->executeQuery($this->getUpdateSecurityIdentitySql($sid, $oldName));
     }
@@ -107,7 +104,7 @@ class MutableAclProvider extends BaseMutableAclProvider
      * @throws \InvalidArgumentException
      */
     #[\Override]
-    public function deleteSecurityIdentity(SecurityIdentityInterface $sid)
+    public function deleteSecurityIdentity(SecurityIdentityInterface $sid): void
     {
         $this->connection->executeQuery($this->getDeleteSecurityIdentityIdSql($sid));
     }
@@ -115,7 +112,7 @@ class MutableAclProvider extends BaseMutableAclProvider
     /**
      * Clear ACLs internal cache
      */
-    public function clearCache()
+    public function clearCache(): void
     {
         $this->cache->clearCache();
     }
@@ -135,7 +132,7 @@ class MutableAclProvider extends BaseMutableAclProvider
      * @throws \InvalidArgumentException
      * @return string
      */
-    protected function getUpdateSecurityIdentitySql(SecurityIdentityInterface $sid, $oldName)
+    protected function getUpdateSecurityIdentitySql(SecurityIdentityInterface $sid, string $oldName): string
     {
         if ($sid instanceof UserSecurityIdentity) {
             if ($sid->getUsername() == $oldName) {

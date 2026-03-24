@@ -26,7 +26,7 @@ class AttributeTypeRegistry
      *
      * @return AttributeTypeRegistry
      */
-    public function register(string $alias, AttributeTypeInterface $type, ?string $feature = null)
+    public function register(string $alias, AttributeTypeInterface $type, ?string $feature = null): static
     {
         $this->types[$alias] = [
             'attribute_type' => $type,
@@ -62,13 +62,13 @@ class AttributeTypeRegistry
      *
      * @return array
      */
-    public function getAliases()
+    public function getAliases(): array
     {
         $aliases = array_keys($this->types);
 
         return array_filter(
             $aliases,
-            fn ($alias) => null === $this->types[$alias]['feature'] || $this->featureFlags->isEnabled($this->types[$alias]['feature'])
+            fn (string $alias): bool => null === $this->types[$alias]['feature'] || $this->featureFlags->isEnabled($this->types[$alias]['feature'])
         );
     }
 
@@ -77,7 +77,7 @@ class AttributeTypeRegistry
      *
      * @return array
      */
-    public function getSortedAliases()
+    public function getSortedAliases(): array
     {
         $types = array_combine($this->getAliases(), $this->getAliases());
         asort($types);

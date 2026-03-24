@@ -16,11 +16,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class RequestParametersExtractor implements RequestParametersExtractorInterface
 {
-    /** @var RequestParameters */
-    protected $requestParams;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\RequestParameters $requestParams;
 
-    /** @var RequestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
     public function __construct(RequestParameters $requestParams, RequestStack $requestStack)
     {

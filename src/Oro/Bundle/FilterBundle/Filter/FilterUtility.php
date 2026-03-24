@@ -17,12 +17,12 @@ class FilterUtility
     final public const string DATA_NAME_KEY = 'data_name';
     final public const string FORM_OPTIONS_KEY = 'options';
 
-    public function getParamMap()
+    public function getParamMap(): array
     {
         return [self::FRONTEND_TYPE_KEY => self::TYPE_KEY];
     }
 
-    public function getExcludeParams()
+    public function getExcludeParams(): array
     {
         return [self::DATA_NAME_KEY, self::FORM_OPTIONS_KEY];
     }

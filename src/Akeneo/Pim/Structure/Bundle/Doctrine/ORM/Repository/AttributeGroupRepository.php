@@ -18,8 +18,9 @@ class AttributeGroupRepository extends EntityRepository implements AttributeGrou
 {
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getIdToLabelOrderedBySortOrder()
+    public function getIdToLabelOrderedBySortOrder(): array
     {
         $groups = $this->buildAllOrderedBySortOrder()->getQuery()->getResult();
         $orderedGroups = [];
@@ -33,7 +34,7 @@ class AttributeGroupRepository extends EntityRepository implements AttributeGrou
     /**
      * {@inheritdoc}
      */
-    public function findDefaultAttributeGroup()
+    public function findDefaultAttributeGroup(): ?object
     {
         return $this->findOneBy(['code' => AttributeGroupInterface::DEFAULT_CODE]);
     }
@@ -41,7 +42,7 @@ class AttributeGroupRepository extends EntityRepository implements AttributeGrou
     /**
      * {@inheritdoc}
      */
-    public function getMaxSortOrder()
+    public function getMaxSortOrder(): int
     {
         return (int) $this->createQueryBuilder('ag')
             ->select('MAX(ag.sortOrder)')
@@ -52,7 +53,7 @@ class AttributeGroupRepository extends EntityRepository implements AttributeGrou
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): ?object
     {
         return $this->findOneBy(['code' => $code]);
     }
@@ -60,7 +61,7 @@ class AttributeGroupRepository extends EntityRepository implements AttributeGrou
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['code'];
     }
@@ -68,7 +69,7 @@ class AttributeGroupRepository extends EntityRepository implements AttributeGrou
     /**
      * @return QueryBuilder
      */
-    protected function buildAllOrderedBySortOrder()
+    protected function buildAllOrderedBySortOrder(): \Doctrine\ORM\QueryBuilder
     {
         return $this->createQueryBuilder('attribute_group')
             ->orderBy('attribute_group.sortOrder');

@@ -50,7 +50,7 @@ final class IndexFamilyProductsAndProductModelsTasklet implements TaskletInterfa
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -63,7 +63,7 @@ final class IndexFamilyProductsAndProductModelsTasklet implements TaskletInterfa
     /**
      * {@inheritdoc}
      */
-    public function execute()
+    public function execute(): void
     {
         if ($this->familyReader instanceof InitializableInterface) {
             $this->familyReader->initialize();

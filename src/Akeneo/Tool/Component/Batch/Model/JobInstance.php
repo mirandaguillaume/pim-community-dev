@@ -130,7 +130,7 @@ class JobInstance
      *
      * @return JobInstance
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -154,7 +154,7 @@ class JobInstance
      *
      * @return JobInstance
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->label = $label;
 
@@ -208,7 +208,7 @@ class JobInstance
      *
      * @return JobInstance
      */
-    public function setStatus($status)
+    public function setStatus($status): static
     {
         $this->status = $status;
 
@@ -222,7 +222,7 @@ class JobInstance
      *
      * @return JobInstance
      */
-    public function setType($type)
+    public function setType($type): static
     {
         $this->type = $type;
 
@@ -246,7 +246,7 @@ class JobInstance
      *
      * @return JobInstance
      */
-    public function setRawParameters($rawParameters)
+    public function setRawParameters($rawParameters): static
     {
         $this->rawParameters = $rawParameters;
 
@@ -268,7 +268,7 @@ class JobInstance
      *
      * @return JobInstance
      */
-    public function setScheduled($scheduled)
+    public function setScheduled(bool $scheduled): static
     {
         $this->scheduled = $scheduled;
 
@@ -278,7 +278,7 @@ class JobInstance
     /**
      * @return boolean
      */
-    public function isScheduled()
+    public function isScheduled(): bool
     {
         return $this->scheduled;
     }
@@ -318,7 +318,7 @@ class JobInstance
     /**
      * @return JobInstance
      */
-    public function addJobExecution(JobExecution $jobExecution)
+    public function addJobExecution(JobExecution $jobExecution): static
     {
         $this->jobExecutions->add($jobExecution);
 
@@ -328,7 +328,7 @@ class JobInstance
     /**
      * @return JobInstance
      */
-    public function removeJobExecution(JobExecution $jobExecution)
+    public function removeJobExecution(JobExecution $jobExecution): static
     {
         $this->jobExecutions->removeElement($jobExecution);
 
@@ -346,7 +346,7 @@ class JobInstance
      *
      * @return JobInstance
      */
-    public function setJobName($jobName)
+    public function setJobName($jobName): static
     {
         if (null !== $this->jobName) {
             throw new \LogicException('Job name already set in JobInstance');
@@ -367,7 +367,7 @@ class JobInstance
      *
      * @return JobInstance
      */
-    public function setConnector($connector)
+    public function setConnector($connector): static
     {
         if (null !== $this->connector) {
             throw new \LogicException('Connector already set in JobInstance');

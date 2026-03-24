@@ -33,7 +33,7 @@ final readonly class LoadEntitySubscriber
      * For products, we also add the identifier as a regular value
      * so that it can be used in the product edit form transparently.
      */
-    public function postLoad(LifecycleEventArgs $event)
+    public function postLoad(LifecycleEventArgs $event): void
     {
         $entity = $event->getObject();
         if (!$entity instanceof EntityWithQuantifiedAssociationsInterface) {

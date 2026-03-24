@@ -16,8 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class AttributeGroupSearchableRepository implements SearchableRepositoryInterface
 {
-    /** @var EntityManagerInterface */
-    protected $entityManager;
+    protected \Doctrine\ORM\EntityManagerInterface $entityManager;
 
     /**
      * @param string                 $entityName
@@ -30,7 +29,7 @@ class AttributeGroupSearchableRepository implements SearchableRepositoryInterfac
     /**
      * {@inheritdoc}
      */
-    public function findBySearch($search = null, array $options = [])
+    public function findBySearch($search = null, array $options = []): mixed
     {
         $qb = $this->findBySearchQb($search, $options);
 
@@ -40,7 +39,7 @@ class AttributeGroupSearchableRepository implements SearchableRepositoryInterfac
     /**
      * @return array
      */
-    protected function resolveOptions(array $options)
+    protected function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();
         $resolver->setDefaults(

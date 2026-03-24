@@ -29,7 +29,7 @@ class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderI
     /**
      * Loads ACL annotations from PHP files
      */
-    public function load(AclAnnotationStorage $storage)
+    public function load(AclAnnotationStorage $storage): void
     {
         if (!empty($this->subDirs)) {
             $directories = [];
@@ -112,7 +112,7 @@ class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderI
      * @param  string           $className
      * @return \ReflectionClass
      */
-    protected function getReflectionClass($className)
+    protected function getReflectionClass($className): \ReflectionClass
     {
         return new \ReflectionClass($className);
     }
@@ -123,7 +123,7 @@ class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderI
      * @param  string $fileName
      * @return string
      */
-    protected function getFileContent($fileName)
+    protected function getFileContent($fileName): string|false
     {
         return file_get_contents($fileName);
     }
@@ -132,7 +132,7 @@ class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderI
      * @param $filePattern
      * @return array
      */
-    private function findFiles($filePattern, array $dirs)
+    private function findFiles(string $filePattern, array $dirs): array
     {
         $finder = new Finder();
         $finder

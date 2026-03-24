@@ -21,7 +21,7 @@ class CommentRepository extends EntityRepository implements CommentRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getComments($resourceName, $resourceId)
+    public function getComments($resourceName, $resourceId): array
     {
         Assert::notNull($resourceId);
 

@@ -21,7 +21,7 @@ class CreateUserValidator extends ConstraintValidator
      * @param UserInterface         $user
      * @param Constraint|CreateUser $constraint
      */
-    public function validate($user, Constraint $constraint)
+    public function validate($user, Constraint $constraint): void
     {
         if ($this->isUserCreated($user)) {
             return;
@@ -35,7 +35,7 @@ class CreateUserValidator extends ConstraintValidator
         return null !== $user->getId();
     }
 
-    private function validateUsername(UserInterface $user, CreateUser $constraint)
+    private function validateUsername(UserInterface $user, CreateUser $constraint): void
     {
         $username = $user->getUserIdentifier();
         if (preg_match('/\s/', $username) !== 0) {

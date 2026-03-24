@@ -30,12 +30,12 @@ class DateRangeFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getTestFormType()
+    protected function getTestFormType(): \Oro\Bundle\FilterBundle\Form\Type\Filter\DateRangeFilterType
     {
         return $this->type;
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertEquals(DateRangeFilterType::NAME, $this->type->getBlockPrefix());
     }
@@ -43,7 +43,7 @@ class DateRangeFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public static function configureOptionsDataProvider()
+    public static function configureOptionsDataProvider(): array
     {
         return [
             [
@@ -70,7 +70,7 @@ class DateRangeFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public static function bindDataProvider()
+    public static function bindDataProvider(): array
     {
         return [
             'empty' => [

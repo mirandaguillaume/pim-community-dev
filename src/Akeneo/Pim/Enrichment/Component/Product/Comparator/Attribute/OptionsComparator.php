@@ -14,8 +14,7 @@ use Webmozart\Assert\Assert;
  */
 class OptionsComparator implements ComparatorInterface
 {
-    /** @var array */
-    protected $types;
+    protected array $types;
 
     public function __construct(array $types)
     {
@@ -25,7 +24,7 @@ class OptionsComparator implements ComparatorInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($type)
+    public function supports($type): bool
     {
         return \in_array($type, $this->types);
     }

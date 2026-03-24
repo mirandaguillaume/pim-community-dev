@@ -50,7 +50,7 @@ class FromSizeIdentifierResultCursorFactory implements CursorFactoryInterface
     /**
      * @return array
      */
-    protected function resolveOptions(array $options)
+    protected function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined(

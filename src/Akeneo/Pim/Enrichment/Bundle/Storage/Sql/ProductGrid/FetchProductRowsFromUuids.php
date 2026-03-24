@@ -185,7 +185,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
 
         foreach ($valueCollections as $productUuid => $valueCollection) {
             $result[$productUuid]['value_collection'] = $valueCollection->filter(
-                fn (ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
+                fn (ValueInterface $value): bool => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
                     && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null)
             );
         }

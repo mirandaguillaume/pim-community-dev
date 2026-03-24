@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class AllowedExtensionsValidator extends ConstraintValidator
 {
     /** @var string[] */
-    protected $validExtensions;
+    protected array $validExtensions;
 
     /**
      * @param string[] $validExtensions
@@ -27,7 +27,7 @@ class AllowedExtensionsValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof FileAllowedExtensions && !$constraint instanceof ImageAllowedExtensions) {
             throw new UnexpectedTypeException(

@@ -12,8 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class AssociationTypeNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $translationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $translationNormalizer;
 
     public function __construct(NormalizerInterface $translationNormalizer)
     {

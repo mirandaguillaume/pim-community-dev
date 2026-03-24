@@ -36,7 +36,7 @@ class VersioningController
      *
      * @return JSONResponse
      */
-    public function getAction($entityType, $entityId)
+    public function getAction($entityType, $entityId): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if (Uuid::isValid($entityId)) {
             $entityUuid = Uuid::fromString($entityId);

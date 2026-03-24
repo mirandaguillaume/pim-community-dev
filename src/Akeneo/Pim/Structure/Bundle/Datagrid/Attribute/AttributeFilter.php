@@ -53,7 +53,7 @@ final class AttributeFilter extends AbstractFilter
     /**
      * {@inheritDoc}
      */
-    protected function getFormType()
+    protected function getFormType(): string
     {
         return TextFilterType::class;
     }
@@ -64,6 +64,6 @@ final class AttributeFilter extends AbstractFilter
             return [];
         }
 
-        return array_map(fn ($word) => sprintf('%%%s%%', \addcslashes((string) $word, '_%')), preg_split('/\s+/', (string) $data['value']));
+        return array_map(fn ($word): string => sprintf('%%%s%%', \addcslashes((string) $word, '_%')), preg_split('/\s+/', (string) $data['value']));
     }
 }

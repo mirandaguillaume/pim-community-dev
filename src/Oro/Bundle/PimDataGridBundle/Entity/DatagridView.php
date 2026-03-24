@@ -58,7 +58,7 @@ class DatagridView
      *
      * @return bool
      */
-    public function isPublic()
+    public function isPublic(): bool
     {
         return $this->type === self::TYPE_PUBLIC;
     }
@@ -78,7 +78,7 @@ class DatagridView
      *
      * @return DatagridView
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->label = $label;
 
@@ -102,7 +102,7 @@ class DatagridView
      *
      * @return DatagridView
      */
-    public function setType($type)
+    public function setType($type): static
     {
         $this->type = $type;
 
@@ -125,7 +125,7 @@ class DatagridView
      *
      * @return DatagridView
      */
-    public function setOwner(UserInterface $owner)
+    public function setOwner(UserInterface $owner): static
     {
         $this->owner = $owner;
 
@@ -149,7 +149,7 @@ class DatagridView
      *
      * @return DatagridView
      */
-    public function setDatagridAlias($datagridAlias)
+    public function setDatagridAlias($datagridAlias): static
     {
         $this->datagridAlias = $datagridAlias;
 
@@ -172,7 +172,7 @@ class DatagridView
      *
      * @return DatagridView
      */
-    public function setColumns(array $columns)
+    public function setColumns(array $columns): static
     {
         $this->columns = $columns;
 
@@ -196,7 +196,7 @@ class DatagridView
      *
      * @return DatagridView
      */
-    public function setOrder($order)
+    public function setOrder($order): static
     {
         $this->columns = empty($order) ? [] : explode(',', $order);
 
@@ -208,7 +208,7 @@ class DatagridView
      *
      * @return string
      */
-    public function getOrder()
+    public function getOrder(): string
     {
         return implode(',', $this->columns);
     }
@@ -220,7 +220,7 @@ class DatagridView
      *
      * @return DatagridView
      */
-    public function setFilters($filters)
+    public function setFilters($filters): static
     {
         $this->filters = $filters;
 

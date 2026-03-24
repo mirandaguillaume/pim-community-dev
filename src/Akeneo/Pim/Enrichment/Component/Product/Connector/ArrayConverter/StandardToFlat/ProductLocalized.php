@@ -14,11 +14,9 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface;
  */
 class ProductLocalized implements ArrayConverterInterface
 {
-    /** @var ArrayConverterInterface */
-    protected $converter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface $converter;
 
-    /** @var AttributeConverterInterface */
-    protected $localizer;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Localization\Localizer\AttributeConverterInterface $localizer;
 
     public function __construct(
         ArrayConverterInterface $converter,

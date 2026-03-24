@@ -47,7 +47,7 @@ final readonly class TransformCommonCriterionResultDataIds implements TransformR
 
     private function transformResultAttributeDataIdsToCodes(array $resultAttributeIdsData): array
     {
-        return $this->transformChannelLocaleDataIds->transformToCodes($resultAttributeIdsData, function (array $attributeData) {
+        return $this->transformChannelLocaleDataIds->transformToCodes($resultAttributeIdsData, function (array $attributeData): array {
             $attributeCodesData = [];
             $attributesCodes = $this->attributes->getCodesByIds(array_keys($attributeData));
 

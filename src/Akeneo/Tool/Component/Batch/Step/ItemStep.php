@@ -81,7 +81,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
     /**
      * {@inheritdoc}
      */
-    public function doExecute(StepExecution $stepExecution)
+    public function doExecute(StepExecution $stepExecution): void
     {
         $itemsToWrite = [];
         $batchCount = 0;
@@ -189,7 +189,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
         }
     }
 
-    public function flushStepElements()
+    public function flushStepElements(): void
     {
         foreach ($this->getStepElements() as $element) {
             if ($element instanceof FlushableInterface) {
@@ -224,7 +224,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
     /**
      * @param array $processedItems
      */
-    protected function write($processedItems)
+    protected function write(array $processedItems)
     {
         try {
             $this->writer->write($processedItems);

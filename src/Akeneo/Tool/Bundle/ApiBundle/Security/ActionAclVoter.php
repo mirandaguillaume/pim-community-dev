@@ -34,8 +34,7 @@ class ActionAclVoter extends Voter implements VoterInterface
 {
     final public const string OID_IDENTIFIER = 'action';
 
-    /** @var VoterInterface */
-    protected $baseAclVoter;
+    protected \Symfony\Component\Security\Core\Authorization\Voter\VoterInterface $baseAclVoter;
 
     /**
      * @param string         $oidType

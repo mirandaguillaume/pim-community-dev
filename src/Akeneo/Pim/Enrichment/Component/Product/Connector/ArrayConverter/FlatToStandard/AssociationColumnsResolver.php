@@ -23,8 +23,7 @@ class AssociationColumnsResolver
 
     final public const string QUANTITY_SUFFIX = '-quantity';
 
-    /** @var AssociationTypeRepositoryInterface */
-    protected $assocTypeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AssociationTypeRepositoryInterface $assocTypeRepository;
 
     /** @var array */
     protected $assocFieldsCache;

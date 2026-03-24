@@ -46,7 +46,7 @@ class SetAttributeOptionSortOrderSubscriber
         }
     }
 
-    public function onPreSaveAll(GenericEvent $event)
+    public function onPreSaveAll(GenericEvent $event): void
     {
         $subjects = $event->getSubject();
         if (!is_array($subjects)) {
@@ -75,7 +75,7 @@ class SetAttributeOptionSortOrderSubscriber
      */
     private function setSortOrders(array $options): void
     {
-        $options = array_filter($options, fn (AttributeOptionInterface $option) => null === $option->getSortOrder());
+        $options = array_filter($options, fn (AttributeOptionInterface $option): bool => null === $option->getSortOrder());
 
         if (0 === \count($options)) {
             return;

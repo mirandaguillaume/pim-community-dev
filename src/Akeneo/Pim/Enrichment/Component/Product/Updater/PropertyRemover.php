@@ -21,11 +21,9 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class PropertyRemover implements PropertyRemoverInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
-    /** @var RemoverRegistryInterface */
-    protected $removerRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Updater\Remover\RemoverRegistryInterface $removerRegistry;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
@@ -38,7 +36,7 @@ class PropertyRemover implements PropertyRemoverInterface
     /**
      * {@inheritdoc}
      */
-    public function removeData($entityWithValues, $field, $data, array $options = [])
+    public function removeData($entityWithValues, $field, $data, array $options = []): static
     {
         if (!$entityWithValues instanceof EntityWithValuesInterface) {
             throw InvalidObjectException::objectExpected(

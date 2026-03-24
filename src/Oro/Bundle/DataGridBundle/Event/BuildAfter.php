@@ -15,8 +15,7 @@ class BuildAfter extends Event implements GridEventInterface
 {
     final public const string NAME = 'oro_datagrid.datgrid.build.after';
 
-    /** @var DatagridInterface */
-    protected $datagrid;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface $datagrid;
 
     public function __construct(DatagridInterface $datagrid)
     {

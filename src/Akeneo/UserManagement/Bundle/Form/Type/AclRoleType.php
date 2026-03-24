@@ -65,7 +65,7 @@ class AclRoleType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::SUBMIT,
-            function (FormEvent $event) {
+            function (FormEvent $event): void {
                 $role = $event->getData();
                 if ($role instanceof RoleInterface && null === $role->getRole() && null === $role->getId()) {
                     $roleName = \strtoupper(\trim(\preg_replace('/[^\w\-]/i', '_', $role->getLabel())));

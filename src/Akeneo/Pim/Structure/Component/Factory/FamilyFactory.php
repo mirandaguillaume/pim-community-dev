@@ -16,14 +16,11 @@ use Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface;
  */
 class FamilyFactory implements SimpleFactoryInterface
 {
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
-    /** @var AttributeRequirementFactory */
-    protected $factory;
+    protected \Akeneo\Pim\Structure\Component\Factory\AttributeRequirementFactory $factory;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     /**
      * @param string                       $familyClass

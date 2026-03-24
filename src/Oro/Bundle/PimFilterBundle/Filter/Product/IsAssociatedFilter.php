@@ -23,14 +23,11 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class IsAssociatedFilter extends BooleanFilter
 {
-    /** @var RequestParametersExtractorInterface */
-    protected $extractor;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Request\RequestParametersExtractorInterface $extractor;
 
-    /** @var AssociationTypeRepositoryInterface */
-    protected $assocTypeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AssociationTypeRepositoryInterface $assocTypeRepository;
 
-    /** @var ProductRepositoryInterface */
-    protected $productRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterface $productRepository;
 
     /**
      * Constructor
@@ -58,7 +55,7 @@ class IsAssociatedFilter extends BooleanFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (!$data) {

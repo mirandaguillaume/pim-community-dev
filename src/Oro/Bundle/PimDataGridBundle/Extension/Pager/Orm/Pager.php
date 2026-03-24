@@ -17,10 +17,7 @@ use Oro\Bundle\PimDataGridBundle\Extension\Pager\AbstractPager;
  */
 class Pager extends AbstractPager implements PagerInterface
 {
-    /**
-     * @var QueryBuilder
-     */
-    protected $qb;
+    protected ?\Doctrine\ORM\QueryBuilder $qb;
 
     /**
      * Constructor
@@ -37,7 +34,7 @@ class Pager extends AbstractPager implements PagerInterface
     /**
      * @return $this
      */
-    public function setQueryBuilder(QueryBuilder $qb)
+    public function setQueryBuilder(QueryBuilder $qb): static
     {
         $this->qb = $qb;
 
@@ -55,7 +52,7 @@ class Pager extends AbstractPager implements PagerInterface
     /**
      * {@inheritdoc}
      */
-    public function init()
+    public function init(): void
     {
         $this->setNbResults($this->computeNbResult());
 

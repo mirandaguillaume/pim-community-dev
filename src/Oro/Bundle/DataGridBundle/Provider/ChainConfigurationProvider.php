@@ -12,7 +12,7 @@ class ChainConfigurationProvider implements ConfigurationProviderInterface
     /**
      * Registers the given provider in the chain
      */
-    public function addProvider(ConfigurationProviderInterface $provider)
+    public function addProvider(ConfigurationProviderInterface $provider): void
     {
         $this->providers[] = $provider;
     }
@@ -20,7 +20,7 @@ class ChainConfigurationProvider implements ConfigurationProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function isApplicable($gridName)
+    public function isApplicable($gridName): bool
     {
         return true;
     }

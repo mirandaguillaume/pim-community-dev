@@ -17,8 +17,7 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class GroupsFilter extends AjaxChoiceFilter
 {
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     /**
      * Constructor
@@ -43,7 +42,7 @@ class GroupsFilter extends AjaxChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (!$data) {
@@ -60,7 +59,7 @@ class GroupsFilter extends AjaxChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getFormOptions()
+    protected function getFormOptions(): array
     {
         return array_merge(
             parent::getFormOptions(),

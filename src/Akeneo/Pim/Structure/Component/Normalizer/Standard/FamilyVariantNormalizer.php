@@ -62,7 +62,7 @@ class FamilyVariantNormalizer implements NormalizerInterface
      */
     private function normalizeVariantAttributeSets(Collection $variantAttributeSets): array
     {
-        return $variantAttributeSets->map(fn (VariantAttributeSetInterface $variantAttributeSet) => [
+        return $variantAttributeSets->map(fn (VariantAttributeSetInterface $variantAttributeSet): array => [
             'level' => $variantAttributeSet->getLevel(),
             'axes' => $this->normalizeAttributes($variantAttributeSet->getAxes()),
             'attributes' => $this->normalizeAttributes($variantAttributeSet->getAttributes()),

@@ -16,8 +16,9 @@ class InvalidDataItemConverter implements ArrayConverterInterface
 {
     /**
      * {@inheritdoc}
+     * @return string[]
      */
-    public function convert(array $item, array $options = [])
+    public function convert(array $item, array $options = []): array
     {
         $convertedItem = [];
 

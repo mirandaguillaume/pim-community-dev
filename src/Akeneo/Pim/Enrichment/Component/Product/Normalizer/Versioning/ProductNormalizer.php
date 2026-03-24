@@ -49,8 +49,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /** @var string[] */
     protected $supportedFormats = ['flat'];
 
-    /** @var CollectionFilterInterface | null */
-    protected $filter;
+    protected ?\Akeneo\Pim\Enrichment\Bundle\Filter\CollectionFilterInterface $filter;
 
     public function __construct(
         private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalized,

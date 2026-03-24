@@ -17,10 +17,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 #[AsEventListener(event: EventInterface::BEFORE_JOB_EXECUTION, method: 'setJobExecutionLogFile')]
 class SetJobExecutionLogFileSubscriber
 {
-    /**
-     * @var BatchLogHandler $logger
-     */
-    protected $logger;
+    protected \Akeneo\Tool\Bundle\BatchBundle\Monolog\Handler\BatchLogHandler $logger;
 
     public function __construct(BatchLogHandler $logger)
     {
@@ -30,7 +27,7 @@ class SetJobExecutionLogFileSubscriber
     /**
      * Set the job execution log file
      */
-    public function setJobExecutionLogFile(JobExecutionEvent $event)
+    public function setJobExecutionLogFile(JobExecutionEvent $event): void
     {
         $jobExecution = $event->getJobExecution();
         $jobExecution->setLogFile(

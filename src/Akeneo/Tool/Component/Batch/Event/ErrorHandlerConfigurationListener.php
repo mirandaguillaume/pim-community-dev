@@ -16,7 +16,7 @@ class ErrorHandlerConfigurationListener
     {
     }
 
-    public function onConsoleCommand(ConsoleCommandEvent $consoleCommandEvent)
+    public function onConsoleCommand(ConsoleCommandEvent $consoleCommandEvent): void
     {
         if ('prod' === $this->environment) {
             $handler = new ErrorHandler($this->logger);

@@ -56,6 +56,6 @@ final readonly class GetCategoryChildrenIdsSql implements GetCategoryChildrenIds
             return [];
         }
 
-        return array_map(fn ($result) => (int) $result['id'], $results);
+        return array_map(fn (array $result): int => (int) $result['id'], $results);
     }
 }

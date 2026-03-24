@@ -12,7 +12,7 @@ namespace Akeneo\Tool\Component\Localization\Presenter;
 class BooleanPresenter implements PresenterInterface
 {
     /** @var string[] */
-    protected $allowedFields;
+    protected array $allowedFields;
 
     /**
      * @param string[] $allowedFields
@@ -25,7 +25,7 @@ class BooleanPresenter implements PresenterInterface
     /**
      * {@inheritdoc}
      */
-    public function present($value, array $options = [])
+    public function present($value, array $options = []): string
     {
         if (in_array($value, [true, 'true', '1', 1], true)) {
             return 'true';
@@ -40,7 +40,7 @@ class BooleanPresenter implements PresenterInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($fieldCode)
+    public function supports($fieldCode): bool
     {
         return in_array($fieldCode, $this->allowedFields);
     }

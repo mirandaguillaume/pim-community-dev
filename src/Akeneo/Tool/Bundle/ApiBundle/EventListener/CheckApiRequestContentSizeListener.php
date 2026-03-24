@@ -29,7 +29,7 @@ final class CheckApiRequestContentSizeListener
 
     private const string API_AUTH_ROUTE = 'fos_oauth_server_token';
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

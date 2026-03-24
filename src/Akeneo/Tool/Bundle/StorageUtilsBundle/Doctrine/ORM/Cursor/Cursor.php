@@ -17,8 +17,7 @@ use LogicException;
  */
 class Cursor extends AbstractCursor
 {
-    /** @var QueryBuilder */
-    protected $queryBuilder;
+    protected \Doctrine\ORM\QueryBuilder $queryBuilder;
 
     /** @var int */
     protected $position = 0;
@@ -32,8 +31,7 @@ class Cursor extends AbstractCursor
     /** @var \ArrayIterator */
     protected $entitiesPage;
 
-    /** @var EntityManager */
-    protected $entityManager;
+    protected \Doctrine\ORM\EntityManager $entityManager;
 
     /** @var CursorableRepositoryInterface */
     protected $repository;
@@ -130,7 +128,7 @@ class Cursor extends AbstractCursor
     /**
      * @return int
      */
-    protected function getOffSet()
+    protected function getOffSet(): int|float
     {
         return $this->pageSize * $this->currentPage;
     }
@@ -185,7 +183,7 @@ class Cursor extends AbstractCursor
      *
      * @return \ArrayIterator
      */
-    protected function getNextEntitiesPage()
+    protected function getNextEntitiesPage(): ?\ArrayIterator
     {
         $entities = null;
         $currentIds = array_slice($this->getEntitiesIds(), $this->getOffSet(), $this->pageSize);

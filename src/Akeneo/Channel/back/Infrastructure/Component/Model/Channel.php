@@ -91,7 +91,7 @@ class Channel implements ChannelInterface, \Stringable
      *
      * @return Channel
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -109,7 +109,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -119,7 +119,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale($locale): static
     {
         $this->locale = $locale;
 
@@ -161,7 +161,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addTranslation(TranslationInterface $translation)
+    public function addTranslation(TranslationInterface $translation): static
     {
         if (!$this->translations->contains($translation)) {
             $this->translations->add($translation);
@@ -173,7 +173,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeTranslation(TranslationInterface $translation)
+    public function removeTranslation(TranslationInterface $translation): static
     {
         $this->translations->removeElement($translation);
 
@@ -183,7 +183,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getTranslationFQCN()
+    public function getTranslationFQCN(): string
     {
         return ChannelTranslation::class;
     }
@@ -201,7 +201,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->getTranslation()->setLabel($label);
 
@@ -219,7 +219,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCategory(CategoryInterface $category)
+    public function setCategory(CategoryInterface $category): static
     {
         if ($this->category === null) {
             $this->category = $category;
@@ -247,7 +247,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCurrencies(array $currencies)
+    public function setCurrencies(array $currencies): void
     {
         foreach ($this->currencies as $currency) {
             if (!in_array($currency, $currencies)) {
@@ -263,7 +263,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addCurrency(CurrencyInterface $currency)
+    public function addCurrency(CurrencyInterface $currency): static
     {
         if (!$this->hasCurrency($currency)) {
             $this->currencies[] = $currency;
@@ -275,7 +275,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeCurrency(CurrencyInterface $currency)
+    public function removeCurrency(CurrencyInterface $currency): static
     {
         $this->currencies->removeElement($currency);
 
@@ -303,7 +303,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLocales(array $locales)
+    public function setLocales(array $locales): void
     {
         foreach ($this->locales as $locale) {
             if (!in_array($locale, $locales)) {
@@ -319,7 +319,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addLocale(LocaleInterface $locale)
+    public function addLocale(LocaleInterface $locale): static
     {
         if (!$this->hasLocale($locale)) {
             $this->locales[] = $locale;
@@ -332,7 +332,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeLocale(LocaleInterface $locale)
+    public function removeLocale(LocaleInterface $locale): static
     {
         if ($this->locales->removeElement($locale)) {
             $locale->removeChannel($this);
@@ -360,7 +360,7 @@ class Channel implements ChannelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setConversionUnits(array $conversionUnits)
+    public function setConversionUnits(array $conversionUnits): static
     {
         $this->conversionUnits = $conversionUnits;
 
@@ -402,7 +402,7 @@ class Channel implements ChannelInterface, \Stringable
         return $events;
     }
 
-    private function addEvent($event): void
+    private function addEvent(\Akeneo\Channel\Infrastructure\Component\Event\ChannelCategoryHasBeenUpdated $event): void
     {
         $this->events[] = $event;
     }

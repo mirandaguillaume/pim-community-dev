@@ -15,23 +15,15 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class MassActionEvent extends Event
 {
-    /**
-     * @var DatagridInterface
-     */
-    protected $datagrid;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface $datagrid;
 
-    /**
-     * @var MassActionInterface
-     */
-    protected $massAction;
+    protected \Oro\Bundle\DataGridBundle\Extension\MassAction\Actions\MassActionInterface $massAction;
 
     /**
      * Entities or documents which are impacted by mass action
      * Can be just ids if needed
-     *
-     * @var array
      */
-    protected $objects;
+    protected array $objects;
 
     /**
      * Constructor

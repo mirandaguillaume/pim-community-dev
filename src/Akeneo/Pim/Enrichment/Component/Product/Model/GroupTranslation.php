@@ -33,7 +33,7 @@ class GroupTranslation extends AbstractTranslation implements GroupTranslationIn
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->label = $label;
 

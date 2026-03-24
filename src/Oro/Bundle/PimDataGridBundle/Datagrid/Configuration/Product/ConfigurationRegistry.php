@@ -15,7 +15,7 @@ class ConfigurationRegistry
     /**
      * @param array
      */
-    protected $configurations;
+    protected array $configurations;
 
     /**
      * Instanciate the registry
@@ -28,7 +28,7 @@ class ConfigurationRegistry
     /**
      * @param array $configurations
      */
-    public function setConfigurations($configurations)
+    public function setConfigurations($configurations): void
     {
         $this->configurations = $configurations;
     }
@@ -40,7 +40,7 @@ class ConfigurationRegistry
      *
      * @return bool
      */
-    public function hasConfiguration($attributeType)
+    public function hasConfiguration($attributeType): bool
     {
         return isset($this->configurations[$attributeType]);
     }

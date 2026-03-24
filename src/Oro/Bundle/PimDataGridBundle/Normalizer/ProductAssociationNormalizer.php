@@ -20,8 +20,7 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
 {
     use SerializerAwareTrait;
 
-    /** @var ImageNormalizer */
-    protected $imageNormalizer;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Normalizer\InternalApi\ImageNormalizer $imageNormalizer;
 
     public function __construct(
         ImageNormalizer $imageNormalizer,
@@ -70,7 +69,7 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
      * @param string           $locale
      * @return string
      */
-    protected function getFamilyLabel(ProductInterface $product, $locale)
+    protected function getFamilyLabel(ProductInterface $product, ?string $locale)
     {
         $family = $product->getFamily();
         if (null === $family) {
@@ -102,7 +101,7 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
      *
      * @return string
      */
-    protected function getLabel($code, ?string $value = null)
+    protected function getLabel($code, ?string $value = null): string
     {
         return '' === $value || null === $value ? sprintf('[%s]', $code) : $value;
     }

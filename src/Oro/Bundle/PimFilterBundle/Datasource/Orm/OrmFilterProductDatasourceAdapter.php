@@ -51,7 +51,7 @@ class OrmFilterProductDatasourceAdapter extends OrmFilterDatasourceAdapter imple
      * @return string
      */
     #[\Override]
-    public function getFormatByComparisonType($comparisonType)
+    public function getFormatByComparisonType($comparisonType): string
     {
         return '%s';
     }

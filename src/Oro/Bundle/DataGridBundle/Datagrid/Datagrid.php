@@ -59,7 +59,7 @@ class Datagrid implements DatagridInterface
     /**
      * {@inheritDoc}
      */
-    public function setDatasource(DatasourceInterface $source)
+    public function setDatasource(DatasourceInterface $source): static
     {
         $this->datasource = $source;
 
@@ -95,7 +95,7 @@ class Datagrid implements DatagridInterface
     /**
      * {@inheritDoc}
      */
-    public function setAcceptor(Acceptor $acceptor)
+    public function setAcceptor(Acceptor $acceptor): static
     {
         $this->acceptor = $acceptor;
 

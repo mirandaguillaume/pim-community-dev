@@ -46,7 +46,7 @@ class AssociatedProductDatasource extends ProductDatasource
      *
      * @param string $sortOrder
      */
-    public function setSortOrder($sortOrder)
+    public function setSortOrder($sortOrder): void
     {
         $this->sortOrder = $sortOrder;
     }
@@ -67,7 +67,7 @@ class AssociatedProductDatasource extends ProductDatasource
      * {@inheritdoc}
      */
     #[\Override]
-    public function getResults()
+    public function getResults(): array
     {
         $sourceProduct = $this->getConfiguration('current_product', false);
         if (!$sourceProduct instanceof ProductInterface) {
@@ -250,7 +250,7 @@ class AssociatedProductDatasource extends ProductDatasource
         array $identifiersFromInheritance,
         $locale,
         $scope
-    ) {
+    ): array {
         $dataLocale = $this->getParameters()['dataLocale'];
         $dataChannel = $this->getParameters()['dataChannel'];
 

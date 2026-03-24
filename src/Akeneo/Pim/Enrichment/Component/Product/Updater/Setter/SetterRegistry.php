@@ -20,8 +20,7 @@ class SetterRegistry implements SetterRegistryInterface
     /** @var FieldSetterInterface[] priorized field setters */
     protected $fieldSetters = [];
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     public function __construct(IdentifiableObjectRepositoryInterface $repository)
     {
@@ -31,7 +30,7 @@ class SetterRegistry implements SetterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(SetterInterface $setter)
+    public function register(SetterInterface $setter): static
     {
         if ($setter instanceof FieldSetterInterface) {
             $this->fieldSetters[] = $setter;

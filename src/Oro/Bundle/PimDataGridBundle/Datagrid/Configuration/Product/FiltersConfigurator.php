@@ -17,8 +17,7 @@ use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
  */
 class FiltersConfigurator implements ConfiguratorInterface
 {
-    /** @var ConfigurationRegistry */
-    protected $registry;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ConfigurationRegistry $registry;
 
     /**
      * @param ConfigurationRegistry $registry the conf registry
@@ -31,7 +30,7 @@ class FiltersConfigurator implements ConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function configure(DatagridConfiguration $configuration)
+    public function configure(DatagridConfiguration $configuration): void
     {
         $attributes = $configuration->offsetGet(self::SOURCE_KEY)[self::USEABLE_ATTRIBUTES_KEY];
         $attributes ??= [];
@@ -92,7 +91,7 @@ class FiltersConfigurator implements ConfiguratorInterface
     {
         uasort(
             $filters,
-            function ($first, $second) {
+            function (array $first, array $second): int {
                 if ($first['groupOrder'] === null || $second['groupOrder'] === null) {
                     return $first['groupOrder'] === $second['groupOrder']
                         ? 0 : ($first['groupOrder'] === null ? 1 : -1);

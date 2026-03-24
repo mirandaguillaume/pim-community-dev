@@ -19,8 +19,7 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class AssociationTypeUpdater implements ObjectUpdaterInterface
 {
-    /** @var TranslatableUpdater */
-    protected $translatableUpdater;
+    protected \Akeneo\Tool\Component\Localization\TranslatableUpdater $translatableUpdater;
 
     public function __construct(TranslatableUpdater $translatableUpdater)
     {
@@ -30,7 +29,7 @@ class AssociationTypeUpdater implements ObjectUpdaterInterface
     /**
      * {@inheritdoc}
      */
-    public function update($associationType, array $data, array $options = [])
+    public function update($associationType, array $data, array $options = []): static
     {
         if (!$associationType instanceof AssociationTypeInterface) {
             throw InvalidObjectException::objectExpected(

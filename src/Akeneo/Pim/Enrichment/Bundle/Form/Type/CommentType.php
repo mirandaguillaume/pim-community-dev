@@ -21,11 +21,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CommentType extends AbstractType
 {
-    /** @var CommentRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Pim\Enrichment\Component\Comment\Repository\CommentRepositoryInterface $repository;
 
-    /** @var TranslatorInterface  */
-    protected $translator;
+    protected \Symfony\Contracts\Translation\TranslatorInterface $translator;
 
     /**
      * @param string $dataClass

@@ -18,11 +18,9 @@ abstract class AbstractAttributeRemover implements AttributeRemoverInterface
     /** @var array */
     protected $supportedTypes = [];
 
-    /** @var AttributeValidatorHelper */
-    protected $attrValidatorHelper;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Validator\AttributeValidatorHelper $attrValidatorHelper;
 
-    /** @var OptionsResolver */
-    protected $resolver;
+    protected \Symfony\Component\OptionsResolver\OptionsResolver $resolver;
 
     public function __construct(AttributeValidatorHelper $attrValidatorHelper)
     {

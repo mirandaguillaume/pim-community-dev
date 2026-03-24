@@ -26,8 +26,9 @@ class CurrencyRepository extends EntityRepository implements CurrencyRepositoryI
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getActivatedCurrencyCodes()
+    public function getActivatedCurrencyCodes(): array
     {
         $qb = $this->getActivatedCurrenciesQB();
         $qb->select('c.code');
@@ -45,7 +46,7 @@ class CurrencyRepository extends EntityRepository implements CurrencyRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): ?object
     {
         return $this->findOneBy(['code' => $code]);
     }
@@ -53,7 +54,7 @@ class CurrencyRepository extends EntityRepository implements CurrencyRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['code'];
     }

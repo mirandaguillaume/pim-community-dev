@@ -45,7 +45,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
      *
      * @return Reader
      */
-    public function setCodeField($codeField)
+    public function setCodeField(string $codeField): static
     {
         $this->codeField = $codeField;
 
@@ -57,7 +57,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
      *
      * @return string
      */
-    public function getCodeField()
+    public function getCodeField(): string
     {
         return $this->codeField;
     }
@@ -65,7 +65,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -186,7 +186,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
     /**
      * {@inheritdoc}
      */
-    public function flush()
+    public function flush(): void
     {
         $this->yaml = null;
     }

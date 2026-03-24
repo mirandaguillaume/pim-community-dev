@@ -40,7 +40,7 @@ final class PrepareEvaluationsParameters implements ConstraintCollectionProvider
         ];
     }
 
-    public function supports(JobInterface $job)
+    public function supports(JobInterface $job): bool
     {
         return $job->getName() === 'data_quality_insights_prepare_evaluations';
     }

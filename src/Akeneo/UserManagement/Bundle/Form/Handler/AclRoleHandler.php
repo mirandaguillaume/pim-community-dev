@@ -51,12 +51,12 @@ class AclRoleHandler
     ) {
     }
 
-    public function setAclManager(AclManager $aclManager)
+    public function setAclManager(AclManager $aclManager): void
     {
         $this->aclManager = $aclManager;
     }
 
-    public function setEntityManager(ObjectManager $manager)
+    public function setEntityManager(ObjectManager $manager): void
     {
         $this->manager = $manager;
     }
@@ -97,7 +97,7 @@ class AclRoleHandler
 
         if ($this->editRolePermissionsRoleQuery->isLastRoleWithEditRolePermissions($role)) {
             // This function extracts the user inputs from the form
-            $filterSelectedEditRolePrivilegesFn = function (AclPrivilege $formPrivilege) {
+            $filterSelectedEditRolePrivilegesFn = function (AclPrivilege $formPrivilege): false|array {
                 // Check only the privileges with the identity/key for the minimum edit role permissions
                 if (false === in_array(
                     $formPrivilege->getIdentity()->getId(),
@@ -117,7 +117,7 @@ class AclRoleHandler
                 //  ]
                 return array_filter(
                     $formPrivilege->getPermissions()->toArray(),
-                    fn ($permission) => $permission->getName() === $this->aclExtension->getDefaultPermission() && $permission->getAccessLevel() === AccessLevel::SYSTEM_LEVEL
+                    fn ($permission): bool => $permission->getName() === $this->aclExtension->getDefaultPermission() && $permission->getAccessLevel() === AccessLevel::SYSTEM_LEVEL
                 );
             };
 
@@ -137,7 +137,7 @@ class AclRoleHandler
      *
      * @return bool
      */
-    public function process(Role $role)
+    public function process(Role $role): bool
     {
         if (in_array($this->getRequest()->getMethod(), ['POST', 'PUT'])) {
             $this->form->handleRequest($this->getRequest());
@@ -158,7 +158,7 @@ class AclRoleHandler
         return false;
     }
 
-    public function reinitializeData(Role $role)
+    public function reinitializeData(Role $role): void
     {
         $errors = $this->form?->getErrors();
         if ($this->form->isSubmitted() && $errors) {
@@ -175,7 +175,7 @@ class AclRoleHandler
      *
      * @return FormView
      */
-    public function createView()
+    public function createView(): \Symfony\Component\Form\FormView
     {
         return $this->form->createView();
     }
@@ -226,7 +226,7 @@ class AclRoleHandler
     protected function filterPrivileges(ArrayCollection $privileges, array $rootIds)
     {
         return $privileges->filter(
-            fn (AclPrivilege $entry) => in_array($entry->getExtensionKey(), $rootIds) && $entry->isVisible()
+            fn (AclPrivilege $entry): bool => in_array($entry->getExtensionKey(), $rootIds) && $entry->isVisible()
         );
     }
 

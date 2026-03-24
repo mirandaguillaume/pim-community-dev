@@ -16,11 +16,9 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class IsReferenceDataConfiguredValidator extends ConstraintValidator
 {
-    /** @var ConfigurationRegistryInterface */
-    protected $registry;
+    protected ?\Akeneo\Pim\Structure\Component\ReferenceData\ConfigurationRegistryInterface $registry;
 
-    /** @var array */
-    protected $referenceDataTypes;
+    protected array $referenceDataTypes;
 
     /**
      * @param ConfigurationRegistryInterface|null $registry
@@ -34,7 +32,7 @@ class IsReferenceDataConfiguredValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($attribute, Constraint $constraint)
+    public function validate($attribute, Constraint $constraint): void
     {
         if (!$constraint instanceof IsReferenceDataConfigured) {
             throw new UnexpectedTypeException($constraint, IsReferenceDataConfigured::class);

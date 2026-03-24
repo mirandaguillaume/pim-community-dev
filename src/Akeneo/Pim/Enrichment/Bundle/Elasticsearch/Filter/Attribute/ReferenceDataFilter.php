@@ -23,11 +23,9 @@ use Webmozart\Assert\Assert;
  */
 class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    /** @var ReferenceDataRepositoryResolver */
-    protected $referenceDataRepositoryResolver;
+    protected \Akeneo\Pim\Enrichment\Bundle\Doctrine\ReferenceDataRepositoryResolver $referenceDataRepositoryResolver;
 
-    /** @var ConfigurationRegistryInterface */
-    protected $registry;
+    protected \Akeneo\Pim\Structure\Component\ReferenceData\ConfigurationRegistryInterface $registry;
 
     public function __construct(
         ElasticsearchFilterValidator $filterValidator,
@@ -53,7 +51,7 @@ class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFi
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }
@@ -170,7 +168,7 @@ class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFi
         Assert::implementsInterface($referenceDataRepository, ReferenceDataRepositoryInterface::class);
         $existingReferenceData =  $referenceDataRepository->findCodesByIdentifiers($values);
         $referenceDataCodes = array_map(
-            fn ($referenceData) => $referenceData['code'],
+            fn (array $referenceData) => $referenceData['code'],
             $existingReferenceData
         );
 

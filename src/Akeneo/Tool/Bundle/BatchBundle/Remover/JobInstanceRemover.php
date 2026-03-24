@@ -79,7 +79,7 @@ class JobInstanceRemover implements RemoverInterface, BulkRemoverInterface
         );
     }
 
-    private function deleteRunningUser(JobInstance $jobInstance)
+    private function deleteRunningUser(JobInstance $jobInstance): void
     {
         try {
             $this->deleteRunningUser->execute($jobInstance->getCode());

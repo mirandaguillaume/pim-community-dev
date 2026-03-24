@@ -21,11 +21,9 @@ use Doctrine\Common\Collections\Collection;
  */
 class ProductUniqueDataSynchronizer
 {
-    /** @var ProductUniqueDataFactory */
-    protected $factory;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Factory\ProductUniqueDataFactory $factory;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     public function __construct(ProductUniqueDataFactory $factory, IdentifiableObjectRepositoryInterface $attributeRepository)
     {
@@ -33,7 +31,7 @@ class ProductUniqueDataSynchronizer
         $this->attributeRepository = $attributeRepository;
     }
 
-    public function synchronize(ProductInterface $product)
+    public function synchronize(ProductInterface $product): void
     {
         // We get the unique data collection that we can to update
         $uniqueDataCollectionToUpdate = $product->getUniqueData();
@@ -80,7 +78,7 @@ class ProductUniqueDataSynchronizer
         );
     }
 
-    private function handleRemovals(Collection $uniqueDataCollectionToUpdate, array $attributeCodes)
+    private function handleRemovals(Collection $uniqueDataCollectionToUpdate, array $attributeCodes): void
     {
         // We now map the corresponding UniqueDataInterface collection from the given attribute codes
         $uniqueDataCollectionToRemove = $this->getUniqueDataCollectionFromAttributeCodes(
@@ -98,7 +96,7 @@ class ProductUniqueDataSynchronizer
         array $actualUniqueDataCollection,
         Collection $uniqueDataCollectionToUpdate,
         array $attributeCodes
-    ) {
+    ): void {
         // We now map the corresponding UniqueDataInterface collection from the given attribute codes
         $uniqueDataCollectionToAdd = $this->getUniqueDataCollectionFromAttributeCodes(
             $actualUniqueDataCollection,
@@ -115,7 +113,7 @@ class ProductUniqueDataSynchronizer
         Collection $uniqueDataCollectionToUpdate,
         array $attributeCodes,
         ProductInterface $product
-    ) {
+    ): void {
         // We now map the corresponding UniqueDataInterface collection from the given attribute codes
         $uniqueDataCollectionToUpdateValue = $this->getUniqueDataCollectionFromAttributeCodes(
             $uniqueDataCollectionToUpdate->toArray(),
@@ -130,7 +128,7 @@ class ProductUniqueDataSynchronizer
         }
     }
 
-    private function getAttributeCodes(array $uniqueDataCollectionToUpdate)
+    private function getAttributeCodes(array $uniqueDataCollectionToUpdate): array
     {
         return array_values(array_map(
             fn ($uniqueData) => $uniqueData->getAttribute()->getCode(),
@@ -138,15 +136,18 @@ class ProductUniqueDataSynchronizer
         ));
     }
 
-    private function getUniqueDataCollectionFromAttributeCodes(array $uniqueDataCollection, $attributeCodes)
+    private function getUniqueDataCollectionFromAttributeCodes(array $uniqueDataCollection, array $attributeCodes): array
     {
         return array_filter(
             $uniqueDataCollection,
-            fn (ProductUniqueDataInterface $uniqueData) => in_array($uniqueData->getAttribute()->getCode(), $attributeCodes)
+            fn (ProductUniqueDataInterface $uniqueData): bool => in_array($uniqueData->getAttribute()->getCode(), $attributeCodes)
         );
     }
 
-    private function createUniqueDataFromProduct(ProductInterface $product)
+    /**
+     * @return mixed[]
+     */
+    private function createUniqueDataFromProduct(ProductInterface $product): array
     {
         $uniqueData = [];
 

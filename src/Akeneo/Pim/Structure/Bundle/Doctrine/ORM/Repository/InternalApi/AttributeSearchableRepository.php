@@ -30,7 +30,7 @@ class AttributeSearchableRepository implements SearchableRepositoryInterface
      *
      * @return AttributeInterface[]
      */
-    public function findBySearch($search = null, array $options = [])
+    public function findBySearch($search = null, array $options = []): mixed
     {
         $qb = $this->findBySearchQb($search, $options);
 
@@ -43,7 +43,7 @@ class AttributeSearchableRepository implements SearchableRepositoryInterface
     /**
      * @return array
      */
-    protected function resolveOptions(array $options)
+    protected function resolveOptions(array $options): array
     {
         $options = $this->getResolver()->resolve($options);
 
@@ -110,7 +110,7 @@ class AttributeSearchableRepository implements SearchableRepositoryInterface
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    protected function findBySearchQb($search, array $options)
+    protected function findBySearchQb(string $search, array $options)
     {
         //TODO: refactor on master because this is exactly the same that FamilySearchableRepository
         //TODO: and should be put in Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM\Repository\SearchableRepository

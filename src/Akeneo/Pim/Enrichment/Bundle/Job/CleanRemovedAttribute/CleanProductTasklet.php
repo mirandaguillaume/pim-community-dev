@@ -26,7 +26,7 @@ class CleanProductTasklet implements TaskletInterface, TrackableTaskletInterface
     ) {
     }
 
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -39,7 +39,7 @@ class CleanProductTasklet implements TaskletInterface, TrackableTaskletInterface
     /**
      * {@inheritdoc}
      */
-    public function execute()
+    public function execute(): void
     {
         $attributeCodes = $this->stepExecution->getJobParameters()->get('attribute_codes');
 

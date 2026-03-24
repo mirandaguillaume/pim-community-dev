@@ -93,7 +93,7 @@ class ProductProcessor implements ItemProcessorInterface, StepExecutionAwareInte
      */
     protected function filterLocaleSpecificAttributeCodes(array $attributeCodes, array $jobLocales): array
     {
-        return array_filter($attributeCodes, function (string $attributeCode) use ($jobLocales) {
+        return array_filter($attributeCodes, function (string $attributeCode) use ($jobLocales): bool {
             $attribute = $this->getAttributes->forCode($attributeCode);
 
             if (null === $attribute) {

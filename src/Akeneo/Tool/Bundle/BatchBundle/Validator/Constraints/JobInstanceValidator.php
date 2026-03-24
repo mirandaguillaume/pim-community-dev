@@ -17,8 +17,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class JobInstanceValidator extends ConstraintValidator
 {
-    /** @var JobRegistry */
-    protected $jobRegistry;
+    protected \Akeneo\Tool\Component\Batch\Job\JobRegistry $jobRegistry;
 
     /**
      * Constructor
@@ -31,7 +30,7 @@ class JobInstanceValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($entity, Constraint $constraint)
+    public function validate($entity, Constraint $constraint): void
     {
         if ($entity instanceof JobInstanceModel) {
             try {

@@ -75,7 +75,7 @@ class NotificationController
      *
      * @return JsonResponse
      */
-    public function countUnreadAction()
+    public function countUnreadAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $user = $this->userContext->getUser();
 
@@ -89,7 +89,7 @@ class NotificationController
      *
      * @return JsonResponse
      */
-    public function markAsViewedAction(?int $id)
+    public function markAsViewedAction(?int $id): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $user = $this->userContext->getUser();
 
@@ -106,7 +106,7 @@ class NotificationController
      * @param int $id
      * @return Response
      */
-    public function removeAction(Request $request, $id)
+    public function removeAction(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');

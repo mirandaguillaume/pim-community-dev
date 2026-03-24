@@ -22,7 +22,7 @@ class OutputFileFetcher implements FileFetcherInterface
     /**
      * {@inheritdoc}
      */
-    public function fetch(FilesystemReader $filesystem, $fileKey, array $options = [])
+    public function fetch(FilesystemReader $filesystem, $fileKey, array $options = []): \SplFileInfo
     {
         if (!isset($options['filePath']) || '' === $options['filePath']) {
             throw new \InvalidArgumentException('Options "filePath" has to be filled');

@@ -20,7 +20,7 @@ class ValueConverterRegistry implements ValueConverterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(ValueConverterInterface $converter)
+    public function register(ValueConverterInterface $converter): static
     {
         $this->converters[] = $converter;
 

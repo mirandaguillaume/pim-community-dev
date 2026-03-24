@@ -21,7 +21,7 @@ class ConvertToSimpleProductProcessor extends AbstractProcessor
     {
     }
 
-    public function process($product)
+    public function process($product): ?\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface
     {
         Assert::isInstanceOf($product, ProductInterface::class);
 

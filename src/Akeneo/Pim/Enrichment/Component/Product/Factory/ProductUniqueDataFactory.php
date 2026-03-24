@@ -15,8 +15,7 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
  */
 class ProductUniqueDataFactory
 {
-    /** @var string */
-    protected $productUniqueDataClass;
+    protected string $productUniqueDataClass;
 
     public function __construct(string $productUniqueDataClass)
     {

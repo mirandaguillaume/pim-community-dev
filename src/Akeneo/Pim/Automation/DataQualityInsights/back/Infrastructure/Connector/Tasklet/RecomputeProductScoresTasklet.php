@@ -51,7 +51,7 @@ final class RecomputeProductScoresTasklet implements TaskletInterface
                 }
 
                 $this->consolidateProductScores->consolidate(
-                    $this->idFactory->createCollection(array_map(fn ($uuid) => (string) $uuid, $uuids))
+                    $this->idFactory->createCollection(array_map(fn ($uuid): string => (string) $uuid, $uuids))
                 );
                 $lastProductUuidAsBytes = end($uuids);
             } while (false === $this->isTimeboxReached($startTime));

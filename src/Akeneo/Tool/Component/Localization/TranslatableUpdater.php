@@ -16,7 +16,7 @@ class TranslatableUpdater
     /**
      * Update data to translate label
      */
-    public function update(TranslatableInterface $object, array $data)
+    public function update(TranslatableInterface $object, array $data): void
     {
         foreach ($data as $localeCode => $label) {
             $object->setLocale($localeCode);

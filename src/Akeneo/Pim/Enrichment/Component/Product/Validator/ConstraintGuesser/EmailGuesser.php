@@ -19,15 +19,16 @@ class EmailGuesser implements ConstraintGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function supportAttribute(AttributeInterface $attribute)
+    public function supportAttribute(AttributeInterface $attribute): bool
     {
         return AttributeTypes::TEXT === $attribute->getType();
     }
 
     /**
      * {@inheritdoc}
+     * @return list<\Akeneo\Pim\Enrichment\Component\Product\Validator\Constraints\Email>
      */
-    public function guessConstraints(AttributeInterface $attribute)
+    public function guessConstraints(AttributeInterface $attribute): array
     {
         $constraints = [];
 

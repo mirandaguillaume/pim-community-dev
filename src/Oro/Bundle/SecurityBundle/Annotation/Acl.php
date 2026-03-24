@@ -127,7 +127,7 @@ class Acl
      *
      * @param string $permission
      */
-    public function setPermission($permission)
+    public function setPermission($permission): void
     {
         $this->permission = $permission;
     }

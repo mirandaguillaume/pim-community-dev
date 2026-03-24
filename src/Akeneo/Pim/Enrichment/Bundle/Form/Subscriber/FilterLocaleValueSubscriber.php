@@ -34,7 +34,7 @@ class FilterLocaleValueSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function preSetData(FormEvent $event)
+    public function preSetData(FormEvent $event): void
     {
         $data = $event->getData();
         $form = $event->getForm();
@@ -70,7 +70,7 @@ class FilterLocaleValueSubscriber implements EventSubscriberInterface
     /**
      * @return bool
      */
-    protected function isInCurrentLocale(ValueInterface $value)
+    protected function isInCurrentLocale(ValueInterface $value): bool
     {
         return $value->isLocalizable() && $value->getLocaleCode() === $this->currentLocale;
     }
@@ -78,7 +78,7 @@ class FilterLocaleValueSubscriber implements EventSubscriberInterface
     /**
      * @return bool
      */
-    protected function isInComparisonLocale(ValueInterface $value)
+    protected function isInComparisonLocale(ValueInterface $value): bool
     {
         return $value->isLocalizable() && $value->getLocaleCode() === $this->comparisonLocale;
     }

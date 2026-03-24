@@ -32,7 +32,7 @@ class ProductModelUpdater implements ObjectUpdaterInterface
     /**
      * {@inheritdoc}
      */
-    public function update($productModel, array $data, array $options = [])
+    public function update($productModel, array $data, array $options = []): static
     {
         if (!$productModel instanceof ProductModelInterface) {
             throw InvalidObjectException::objectExpected(
@@ -128,14 +128,14 @@ class ProductModelUpdater implements ObjectUpdaterInterface
         );
     }
 
-    private function validateScalar(string $field, $data)
+    private function validateScalar(string $field, $data): void
     {
         if (null !== $data && !is_scalar($data)) {
             throw InvalidPropertyTypeException::scalarExpected($field, static::class, $data);
         }
     }
 
-    private function validateScalarArray(string $field, $data)
+    private function validateScalarArray(string $field, $data): void
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected($field, static::class, $data);

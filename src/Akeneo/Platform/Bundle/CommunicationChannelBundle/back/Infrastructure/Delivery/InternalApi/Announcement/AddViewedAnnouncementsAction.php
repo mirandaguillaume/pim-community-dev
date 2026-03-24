@@ -24,7 +24,7 @@ class AddViewedAnnouncementsAction
     {
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->request->has('viewed_announcement_ids')) {
             throw new UnprocessableEntityHttpException('You should give a "viewed_announcements_ids" key.');

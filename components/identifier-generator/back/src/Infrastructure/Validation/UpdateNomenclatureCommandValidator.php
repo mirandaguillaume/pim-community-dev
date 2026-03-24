@@ -25,7 +25,7 @@ final readonly class UpdateNomenclatureCommandValidator implements CommandValida
         if (0 < $violations->count()) {
             throw new ViolationsException(new ErrorList(
                 \array_map(
-                    static fn($violation) => new Error((string) $violation->getMessage(), $violation->getParameters(), $violation->getPropertyPath()),
+                    static fn(\Symfony\Component\Validator\ConstraintViolationInterface $violation): \Akeneo\Pim\Automation\IdentifierGenerator\Application\Validation\Error => new Error((string) $violation->getMessage(), $violation->getParameters(), $violation->getPropertyPath()),
                     \iterator_to_array($violations)
                 )
             ));

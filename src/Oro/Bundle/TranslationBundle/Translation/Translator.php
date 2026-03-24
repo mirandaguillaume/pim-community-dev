@@ -22,7 +22,7 @@ class Translator extends BaseTranslator implements LocaleAwareInterface, Transla
      * @param string|null $locale  locale of translations, by default is current locale
      * @return array
      */
-    public function getTranslations(array $domains = [], ?string $locale = null)
+    public function getTranslations(array $domains = [], ?string $locale = null): array
     {
         if (null === $locale) {
             $locale = $this->getLocale();

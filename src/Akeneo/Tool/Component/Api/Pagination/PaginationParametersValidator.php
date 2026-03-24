@@ -13,8 +13,7 @@ use Akeneo\Tool\Component\Api\Exception\PaginationParametersException;
  */
 class PaginationParametersValidator implements ParameterValidatorInterface
 {
-    /** @var array */
-    protected $configuration;
+    protected array $configuration;
 
     public function __construct(array $configuration)
     {
@@ -24,7 +23,7 @@ class PaginationParametersValidator implements ParameterValidatorInterface
     /**
      * {@inheritdoc}
      */
-    public function validate(array $parameters, array $options = [])
+    public function validate(array $parameters, array $options = []): void
     {
         if (!isset($parameters['pagination_type'])) {
             $parameters['pagination_type'] = PaginationTypes::OFFSET;
@@ -111,7 +110,7 @@ class PaginationParametersValidator implements ParameterValidatorInterface
      *
      * @return bool
      */
-    protected function isInteger(string|int $parameter)
+    protected function isInteger(string|int $parameter): bool
     {
         return strval($parameter) === strval(intval($parameter));
     }

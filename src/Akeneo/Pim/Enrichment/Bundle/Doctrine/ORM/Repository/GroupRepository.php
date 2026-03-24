@@ -17,7 +17,7 @@ class GroupRepository extends EntityRepository implements GroupRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getOptions($dataLocale, $collectionId = null, $search = '', array $options = [])
+    public function getOptions($dataLocale, $collectionId = null, $search = '', array $options = []): array
     {
         $identifier = isset($options['type']) && 'code' === $options['type'] ? 'code' : 'id';
 
@@ -95,7 +95,7 @@ class GroupRepository extends EntityRepository implements GroupRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): ?object
     {
         return $this->findOneBy(['code' => $code]);
     }
@@ -103,7 +103,7 @@ class GroupRepository extends EntityRepository implements GroupRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['code'];
     }

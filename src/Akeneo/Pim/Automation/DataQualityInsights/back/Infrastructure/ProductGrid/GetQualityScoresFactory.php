@@ -41,6 +41,6 @@ class GetQualityScoresFactory
                 throw new \InvalidArgumentException(sprintf('Invalid type %s', $type));
         }
 
-        return array_map(fn (Read\Scores $scores) => ($this->getScoresByCriteria)($scores), $scoresByIds);
+        return array_map(fn (Read\Scores $scores): \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\ChannelLocaleRateCollection => ($this->getScoresByCriteria)($scores), $scoresByIds);
     }
 }

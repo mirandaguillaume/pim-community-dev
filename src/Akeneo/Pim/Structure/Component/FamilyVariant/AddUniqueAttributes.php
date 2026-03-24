@@ -19,7 +19,7 @@ use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
  */
 class AddUniqueAttributes
 {
-    public function addToFamilyVariant(FamilyVariantInterface $familyVariant)
+    public function addToFamilyVariant(FamilyVariantInterface $familyVariant): void
     {
         $familyUniqueAttributes = $this->getFamilyUniqueAttributes($familyVariant->getFamily());
 

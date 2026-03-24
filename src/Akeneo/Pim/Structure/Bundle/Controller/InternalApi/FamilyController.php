@@ -33,32 +33,23 @@ class FamilyController
 {
     final public const int FAMILY_VARIANTS_LIMIT = 20;
 
-    /** @var FamilyRepositoryInterface */
-    protected $familyRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\FamilyRepositoryInterface $familyRepository;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var FamilySearchableRepository */
-    protected $familySearchableRepo;
+    protected \Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\InternalApi\FamilySearchableRepository $familySearchableRepo;
 
-    /** @var FamilyFactory */
-    protected $familyFactory;
+    protected \Akeneo\Pim\Structure\Component\Factory\FamilyFactory $familyFactory;
 
-    /** @var FamilyUpdater */
-    protected $updater;
+    protected \Akeneo\Pim\Structure\Component\Updater\FamilyUpdater $updater;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var RemoverInterface */
-    protected $remover;
+    protected \Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface $remover;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    protected \Oro\Bundle\SecurityBundle\SecurityFacade $securityFacade;
 
     protected $attributeFields = [
         'attributes',
@@ -72,8 +63,7 @@ class FamilyController
         'labels',
     ];
 
-    /** @var NormalizerInterface */
-    protected $constraintViolationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $constraintViolationNormalizer;
 
     public function __construct(
         FamilyRepositoryInterface $familyRepository,
@@ -105,7 +95,7 @@ class FamilyController
      *
      * @return JsonResponse
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $options = $request->query->all('options') ?: ['limit' => 20, 'expanded' => 1];
         $expanded = !isset($options['expanded']) || $options['expanded'] === 1;
@@ -139,7 +129,7 @@ class FamilyController
      *
      * @return JsonResponse
      */
-    public function getAction(Request $request, $identifier)
+    public function getAction(Request $request, string $identifier): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $family = $this->getFamily($identifier);
         $applyFilters = $request->query->getBoolean('apply_filters', true);
@@ -159,7 +149,7 @@ class FamilyController
      * @param string  $code
      * @return Response
      */
-    public function putAction(Request $request, $code)
+    public function putAction(Request $request, string $code): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -182,7 +172,7 @@ class FamilyController
      * @param string  $code
      * @return Response
      */
-    public function removeAction(Request $request, $code)
+    public function removeAction(Request $request, string $code): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -212,7 +202,7 @@ class FamilyController
         $family = $this->getFamily($code);
         $allowedTypes = FamilyVariant::getAvailableAxesAttributeTypes();
 
-        $availableAxes = $family->getAttributes()->filter(fn (AttributeInterface $attribute) => in_array($attribute->getType(), $allowedTypes));
+        $availableAxes = $family->getAttributes()->filter(fn (AttributeInterface $attribute): bool => in_array($attribute->getType(), $allowedTypes));
 
         $normalizedAvailableAttributes = [];
         foreach ($availableAxes as $availableAxis) {
@@ -258,11 +248,11 @@ class FamilyController
         }
 
         if (!$this->securityFacade->isGranted('pim_enrich_family_edit_properties')) {
-            $data = array_filter($data, fn ($value, $key) => !in_array($key, $this->propertiesFields));
+            $data = array_filter($data, fn ($value, $key): bool => !in_array($key, $this->propertiesFields));
         }
 
         if (!$this->securityFacade->isGranted('pim_enrich_family_edit_attributes')) {
-            $data = array_filter($data, fn ($value, $key) => !in_array($key, $this->attributeFields));
+            $data = array_filter($data, fn ($value, $key): bool => !in_array($key, $this->attributeFields));
         }
 
         $this->updater->update($family, $data);
@@ -296,7 +286,7 @@ class FamilyController
      *
      * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');

@@ -31,7 +31,7 @@ abstract class SubStep extends StepNode
      * @param string $text
      * @param array  $arguments
      */
-    public function __construct($text, array $arguments)
+    public function __construct(string $text, array $arguments)
     {
         parent::__construct('Given', $text, $arguments, 0);
     }
@@ -41,7 +41,7 @@ abstract class SubStep extends StepNode
      *
      * @param string $language
      */
-    public function setLanguage($language)
+    public function setLanguage($language): void
     {
         $this->language = $language;
     }

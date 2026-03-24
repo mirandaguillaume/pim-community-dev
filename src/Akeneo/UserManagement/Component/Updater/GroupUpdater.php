@@ -25,7 +25,7 @@ class GroupUpdater implements ObjectUpdaterInterface
      *     'name': 'IT support',
      * }
      */
-    public function update($group, array $data, array $options = [])
+    public function update($group, array $data, array $options = []): static
     {
         if (!$group instanceof GroupInterface) {
             throw InvalidObjectException::objectExpected(
@@ -46,7 +46,7 @@ class GroupUpdater implements ObjectUpdaterInterface
      *
      * @throws \InvalidArgumentException
      */
-    protected function setData(GroupInterface $group, $field, mixed $data)
+    protected function setData(GroupInterface $group, string $field, mixed $data)
     {
         switch ($field) {
             case 'code':

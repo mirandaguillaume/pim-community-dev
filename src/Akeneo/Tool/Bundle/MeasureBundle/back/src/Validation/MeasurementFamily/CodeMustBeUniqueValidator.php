@@ -19,7 +19,7 @@ class CodeMustBeUniqueValidator extends ConstraintValidator
     {
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof CodeMustBeUnique) {
             throw new UnexpectedTypeException($constraint, CodeMustBeUnique::class);
@@ -32,7 +32,7 @@ class CodeMustBeUniqueValidator extends ConstraintValidator
         }
     }
 
-    private function isCodeAlreadyUsed(string $code)
+    private function isCodeAlreadyUsed(string $code): bool
     {
         try {
             $this->measurementFamilyRepository->getByCode(MeasurementFamilyCode::fromString($code));

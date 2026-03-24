@@ -131,7 +131,7 @@ class SaveMeasurementFamiliesAction
      */
     private function assertCreateMeasurementFamilyCommandIsValid(
         CreateMeasurementFamilyCommand $createMeasurementFamilyCommand
-    ) {
+    ): void {
         $violations = $this->validator->validate($createMeasurementFamilyCommand);
         if ($violations->count() > 0) {
             throw new ViolationHttpException(
@@ -178,7 +178,7 @@ class SaveMeasurementFamiliesAction
      */
     private function assertSaveMeasurementFamilyCommandIsValid(
         SaveMeasurementFamilyCommand $saveMeasurementFamilyCommand
-    ) {
+    ): void {
         $violations = $this->validator->validate($saveMeasurementFamilyCommand);
         if ($violations->count() > 0) {
             throw new ViolationHttpException(
@@ -191,7 +191,7 @@ class SaveMeasurementFamiliesAction
     /**
      * @throws ViolationHttpException
      */
-    private function assertUnitsAreCorrectlyIndexed(array $normalizedMeasurementFamily)
+    private function assertUnitsAreCorrectlyIndexed(array $normalizedMeasurementFamily): void
     {
         $violations = $this->validator->validate($normalizedMeasurementFamily, [
             new Assert\Collection([
@@ -251,7 +251,7 @@ class SaveMeasurementFamiliesAction
      */
     private function getNormalizedUnitsFromNormalizedMeasurementFamily(array $normalizedMeasurementFamily): array
     {
-        return array_map(static fn (array $unit) => [
+        return array_map(static fn (array $unit): array => [
             'code' => $unit['code'],
             'convert_from_standard' => $unit['convert_from_standard'],
             'labels' => $unit['labels'] ?? [],

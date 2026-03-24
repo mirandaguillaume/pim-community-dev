@@ -13,14 +13,11 @@ use Akeneo\Pim\Structure\Component\Repository\GroupTypeRepositoryInterface;
  */
 class FieldConverter implements FieldConverterInterface
 {
-    /** @var AssociationColumnsResolver */
-    protected $assocFieldResolver;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\AssociationColumnsResolver $assocFieldResolver;
 
-    /** @var FieldSplitter */
-    protected $fieldSplitter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\FieldSplitter $fieldSplitter;
 
-    /** @var GroupTypeRepositoryInterface */
-    protected $groupTypeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\GroupTypeRepositoryInterface $groupTypeRepository;
 
     public function __construct(
         FieldSplitter $fieldSplitter,

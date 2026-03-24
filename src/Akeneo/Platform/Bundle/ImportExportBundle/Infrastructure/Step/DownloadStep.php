@@ -35,7 +35,7 @@ final class DownloadStep extends AbstractStep
         parent::__construct($name, $eventDispatcher, $jobRepository);
     }
 
-    public function doExecute(StepExecution $stepExecution)
+    public function doExecute(StepExecution $stepExecution): void
     {
         $jobExecution = $stepExecution->getJobExecution();
 

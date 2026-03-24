@@ -11,7 +11,7 @@ class GroupApiType extends GroupType
     /**
      * {@inheritdoc}
      */
-    public function addEntityFields(FormBuilderInterface $builder)
+    public function addEntityFields(FormBuilderInterface $builder): void
     {
         $builder->addEventSubscriber(new PatchSubscriber());
     }

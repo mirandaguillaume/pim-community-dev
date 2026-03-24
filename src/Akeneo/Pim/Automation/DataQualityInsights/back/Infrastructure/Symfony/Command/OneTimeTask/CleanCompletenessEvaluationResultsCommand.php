@@ -35,7 +35,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addOption('bulk-size', 's', InputOption::VALUE_REQUIRED, sprintf('Bulk size (%d by default)', $this->bulkSize));
     }
@@ -194,8 +194,8 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
     private function countAttributesByChannelAndLocales(array $attributesList): array
     {
         return array_map(
-            fn ($attributesByLocale) => array_map(
-                fn ($attributes) => is_countable($attributes) ? count($attributes) : 0,
+            fn ($attributesByLocale): array => array_map(
+                fn ($attributes): int => is_countable($attributes) ? count($attributes) : 0,
                 $attributesByLocale
             ),
             $attributesList
@@ -208,7 +208,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
             return;
         }
 
-        $values = implode(', ', array_map(fn (array $result) => sprintf(
+        $values = implode(', ', array_map(fn (array $result): string => sprintf(
             "(UUID_TO_BIN('%s'), '%s', '%s', '%s')",
             $result['product_uuid'],
             $result['criterion_code'],
@@ -232,7 +232,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
             return;
         }
 
-        $values = implode(', ', array_map(fn (array $result) => sprintf(
+        $values = implode(', ', array_map(fn (array $result): string => sprintf(
             "(%d, '%s', '%s', '%s')",
             $result['product_id'],
             $result['criterion_code'],

@@ -19,7 +19,7 @@ final readonly class DashboardQualityScoreEvolutionController
     {
     }
 
-    public function __invoke(Request $request, string $channel, string $locale)
+    public function __invoke(Request $request, string $channel, string $locale): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             if ($request->query->has('category')) {

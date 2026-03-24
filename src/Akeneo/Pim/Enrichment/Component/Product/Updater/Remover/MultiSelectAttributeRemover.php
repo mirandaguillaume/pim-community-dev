@@ -17,8 +17,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class MultiSelectAttributeRemover extends AbstractAttributeRemover
 {
-    /** @var EntityWithValuesBuilderInterface */
-    protected $entityWithValuesBuilder;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Builder\EntityWithValuesBuilderInterface $entityWithValuesBuilder;
 
     /**
      * @param AttributeValidatorHelper         $attrValidatorHelper

@@ -41,7 +41,7 @@ final readonly class GetProductModelsWithQualityScores implements GetProductMode
 
         $productModelsQualityScores = $this->getProductsQualityScores($connectorProductModelList);
 
-        $productModelsWithQualityScores = array_map(function (ConnectorProductModel $productModel) use ($productModelsQualityScores, $channel, $locales) {
+        $productModelsWithQualityScores = array_map(function (ConnectorProductModel $productModel) use ($productModelsQualityScores, $channel, $locales): \Akeneo\Pim\Enrichment\Component\Product\Connector\ReadModel\ConnectorProductModel {
             if (!isset($productModelsQualityScores[$productModel->code()])) {
                 return $productModel->buildWithQualityScores(new QualityScoreCollection([]));
             }
@@ -58,7 +58,7 @@ final readonly class GetProductModelsWithQualityScores implements GetProductMode
         return new ConnectorProductModelList(
             $connectorProductModelList->totalNumberOfProductModels(),
             array_map(
-                fn (ConnectorProductModel $productModel) => $productModel->buildWithQualityScores(new QualityScoreCollection([])),
+                fn (ConnectorProductModel $productModel): \Akeneo\Pim\Enrichment\Component\Product\Connector\ReadModel\ConnectorProductModel => $productModel->buildWithQualityScores(new QualityScoreCollection([])),
                 $connectorProductModelList->connectorProductModels()
             )
         );
@@ -67,7 +67,7 @@ final readonly class GetProductModelsWithQualityScores implements GetProductMode
     private function getProductsQualityScores(ConnectorProductModelList $connectorProductModelList): array
     {
         $productModelCodes = array_map(
-            fn (ConnectorProductModel $connectorProductModel) => $connectorProductModel->code(),
+            fn (ConnectorProductModel $connectorProductModel): string => $connectorProductModel->code(),
             $connectorProductModelList->connectorProductModels()
         );
 

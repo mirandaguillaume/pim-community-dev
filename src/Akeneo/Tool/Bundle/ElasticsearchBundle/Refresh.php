@@ -27,7 +27,7 @@ final class Refresh
     /**
      * @return Refresh
      */
-    public static function enable()
+    public static function enable(): self
     {
         return new self(Refresh::ENABLE);
     }
@@ -45,7 +45,7 @@ final class Refresh
     /**
      * @return Refresh
      */
-    public static function disable()
+    public static function disable(): self
     {
         return new self(Refresh::DISABLE);
     }
@@ -53,7 +53,7 @@ final class Refresh
     /**
      * @return Refresh
      */
-    public static function waitFor()
+    public static function waitFor(): self
     {
         return new self(Refresh::WAIT_FOR);
     }

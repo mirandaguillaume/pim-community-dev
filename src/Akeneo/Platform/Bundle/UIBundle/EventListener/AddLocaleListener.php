@@ -28,7 +28,7 @@ class AddLocaleListener
     /**
      * @param string $locale
      */
-    public function setLocale($locale)
+    public function setLocale($locale): void
     {
         $this->locale = $locale;
     }
@@ -36,7 +36,7 @@ class AddLocaleListener
     /**
      * Post load
      */
-    public function postLoad(LifecycleEventArgs $args)
+    public function postLoad(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
 

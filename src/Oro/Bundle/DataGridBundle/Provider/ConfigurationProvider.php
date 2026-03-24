@@ -16,7 +16,7 @@ class ConfigurationProvider implements ConfigurationProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function isApplicable($gridName)
+    public function isApplicable($gridName): bool
     {
         return isset($this->rawConfiguration[$gridName]);
     }

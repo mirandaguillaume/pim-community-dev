@@ -18,8 +18,7 @@ class LocaleNormalizer implements NormalizerInterface
     /** @var string[] */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     public function __construct(UserContext $userContext)
     {

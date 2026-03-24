@@ -37,7 +37,7 @@ final class ApiAggregatorForAttributePostSaveEventSubscriber
         $this->isActivated = false;
     }
 
-    public function aggregateEvent(GenericEvent $event)
+    public function aggregateEvent(GenericEvent $event): void
     {
         $attribute = $event->getSubject();
         $unitary = $event->getArguments()['unitary'] ?? false;

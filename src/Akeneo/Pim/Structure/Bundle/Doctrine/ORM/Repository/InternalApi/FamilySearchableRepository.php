@@ -16,8 +16,7 @@ use Doctrine\ORM\QueryBuilder;
  */
 class FamilySearchableRepository implements SearchableRepositoryInterface
 {
-    /** @var EntityManagerInterface */
-    protected $entityManager;
+    protected \Doctrine\ORM\EntityManagerInterface $entityManager;
 
     /**
      * @param string                 $entityName
@@ -32,7 +31,7 @@ class FamilySearchableRepository implements SearchableRepositoryInterface
      *
      * @return FamilyInterface[]
      */
-    public function findBySearch($search = null, array $options = [])
+    public function findBySearch($search = null, array $options = []): mixed
     {
         $qb = $this->entityManager->createQueryBuilder()->select('f')->from($this->entityName, 'f');
 
@@ -52,7 +51,7 @@ class FamilySearchableRepository implements SearchableRepositoryInterface
      *
      * @return QueryBuilder
      */
-    protected function applyQueryOptions(QueryBuilder $qb, array $options)
+    protected function applyQueryOptions(QueryBuilder $qb, array $options): QueryBuilder
     {
         if (isset($options['identifiers']) && is_array($options['identifiers']) && !empty($options['identifiers'])) {
             $qb->andWhere('f.code in (:codes)');

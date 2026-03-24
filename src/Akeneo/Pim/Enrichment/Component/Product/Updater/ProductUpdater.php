@@ -26,14 +26,11 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class ProductUpdater implements ObjectUpdaterInterface
 {
-    /** @var PropertySetterInterface */
-    protected $propertySetter;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\PropertySetterInterface $propertySetter;
 
-    /** @var ObjectUpdaterInterface */
-    protected $valuesUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $valuesUpdater;
 
-    /** @var array */
-    protected $ignoredFields = [];
+    protected array $ignoredFields;
 
     public function __construct(
         PropertySetterInterface $propertySetter,

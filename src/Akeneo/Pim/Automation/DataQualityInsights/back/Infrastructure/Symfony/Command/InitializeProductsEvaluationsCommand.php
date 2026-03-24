@@ -34,7 +34,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
     }
 
@@ -82,7 +82,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         $progressBar = new ProgressBar($io, $productCount);
         $progressBar->start();
 
-        $criteria = array_map(fn ($criterionCode) => strval($criterionCode), $this->productCriteriaRegistry->getAllCriterionCodes());
+        $criteria = array_map(fn (\Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionCode $criterionCode): string => strval($criterionCode), $this->productCriteriaRegistry->getAllCriterionCodes());
 
         $lastProductUuidAsBytes = '';
         while ($productUuids = $this->getProductUuidsFrom($lastProductUuidAsBytes)) {
@@ -123,7 +123,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         $progressBar = new ProgressBar($io, $productModelCount);
         $progressBar->start();
 
-        $criteria = array_map(fn ($criterionCode) => strval($criterionCode), $this->productModelCriteriaRegistry->getAllCriterionCodes());
+        $criteria = array_map(fn (\Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionCode $criterionCode): string => strval($criterionCode), $this->productModelCriteriaRegistry->getAllCriterionCodes());
         $statusPending = CriterionEvaluationStatus::PENDING;
 
         $lastProductModelId = 0;

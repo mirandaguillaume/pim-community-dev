@@ -10,10 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ServiceLink
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected \Symfony\Component\DependencyInjection\ContainerInterface $container;
 
     /**
      * @var mixed

@@ -15,8 +15,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class TokenController
 {
-    /** @var OAuth2 */
-    protected $oauthServer;
+    protected \Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2 $oauthServer;
 
     public function __construct(OAuth2 $oauthServer)
     {
@@ -28,7 +27,7 @@ class TokenController
      * @throws UnprocessableEntityHttpException
      * @return Response
      */
-    public function tokenAction(Request $request)
+    public function tokenAction(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         try {
             return $this->oauthServer->grantAccessToken($request);

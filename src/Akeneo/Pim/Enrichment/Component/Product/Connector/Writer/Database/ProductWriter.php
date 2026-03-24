@@ -19,14 +19,12 @@ use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
  */
 class ProductWriter implements ItemWriterInterface, StepExecutionAwareInterface, InitializableInterface
 {
-    /** @var VersionManager */
-    protected $versionManager;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionManager $versionManager;
 
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var BulkSaverInterface */
-    protected $productSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface $productSaver;
 
     public function __construct(
         VersionManager $versionManager,
@@ -39,7 +37,7 @@ class ProductWriter implements ItemWriterInterface, StepExecutionAwareInterface,
     /**
      * {@inheritdoc}
      */
-    public function write(array $items)
+    public function write(array $items): void
     {
         foreach ($items as $item) {
             $this->incrementCount($item);
@@ -51,7 +49,7 @@ class ProductWriter implements ItemWriterInterface, StepExecutionAwareInterface,
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -59,7 +57,7 @@ class ProductWriter implements ItemWriterInterface, StepExecutionAwareInterface,
     /**
      * {@inheritdoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         $jobParameters = $this->stepExecution->getJobParameters();
         $realTimeVersioning = $jobParameters->get('realTimeVersioning');

@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 final class RegisterCommandsThatNeedUserSystemPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $registerDefinition = $container->findDefinition(AuthenticatedAsAdminCommandRegistry::class);
         $commandServiceIds = $container->findTaggedServiceIds('akeneo.command.authenticated_as_admin_user');

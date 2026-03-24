@@ -18,7 +18,7 @@ class FamilyTemplate
         public string $iconPath,
         public array $attributes,
     ) {
-        $this->attributes = array_map(fn ($attribute) => new FamilyTemplateAttribute(
+        $this->attributes = array_map(fn (array $attribute): \Akeneo\Pim\Structure\FamilyTemplate\Domain\ReadModel\FamilyTemplateAttribute => new FamilyTemplateAttribute(
             $attribute['attributeId'],
             $attribute['type'],
             $attribute['scopable'],

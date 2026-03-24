@@ -23,9 +23,9 @@ class MeasuresController
     /**
      * @return JsonResponse
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
-        $normalizedMeasurementFamilies = array_map(function (MeasurementFamily $family) {
+        $normalizedMeasurementFamilies = array_map(function (MeasurementFamily $family): array {
             $normalizedMeasurementFamily = $family->normalize();
             $normalizedMeasurementFamily['is_locked'] = $this->isThereAtLeastOneAttributeConfiguredWithMeasurementFamily
                 ->execute($normalizedMeasurementFamily['code']);

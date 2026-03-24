@@ -28,7 +28,7 @@ class PriceConverter extends AbstractValueConverter
     /**
      * {@inheritdoc}
      */
-    public function convert(array $attributeFieldInfo, $value)
+    public function convert(array $attributeFieldInfo, $value): array
     {
         if ('' !== $value) {
             $data = $this->fieldSplitter->splitPrices($value);
@@ -50,7 +50,7 @@ class PriceConverter extends AbstractValueConverter
      *
      * @return array
      */
-    protected function convertPrice($value, AttributeInterface $attribute)
+    protected function convertPrice($value, AttributeInterface $attribute): array
     {
         if ('' === $value) {
             $priceValue = null;

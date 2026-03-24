@@ -35,7 +35,7 @@ class FormatterExtension extends AbstractExtension
     /**
      * Validate configs nad fill default values
      */
-    public function processConfigs(DatagridConfiguration $config)
+    public function processConfigs(DatagridConfiguration $config): void
     {
         $columns = $config->offsetGetOr(Configuration::COLUMNS_KEY, []);
         $properties = $config->offsetGetOr(Configuration::PROPERTIES_KEY, []);
@@ -52,7 +52,7 @@ class FormatterExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function visitResult(DatagridConfiguration $config, ResultsIterableObject $result)
+    public function visitResult(DatagridConfiguration $config, ResultsIterableObject $result): void
     {
         $rows = (array) $result->offsetGetOr('data', []);
 
@@ -91,7 +91,7 @@ class FormatterExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data)
+    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data): void
     {
         // get only columns here because columns will be represented on frontend
         $columns = $config->offsetGetOr(Configuration::COLUMNS_KEY, []);
@@ -114,7 +114,7 @@ class FormatterExtension extends AbstractExtension
      *
      * @param string            $name
      */
-    public function registerProperty($name, PropertyInterface $property)
+    public function registerProperty($name, PropertyInterface $property): void
     {
         $this->properties[$name] = $property;
     }

@@ -17,7 +17,7 @@ class QueryBuilderUtility
      * We update the query to count, get ids and fetch data, so, we can lost expected query builder parameters,
      * and we have to remove them
      */
-    public static function removeExtraParameters(QueryBuilder $qb)
+    public static function removeExtraParameters(QueryBuilder $qb): void
     {
         $parameters = $qb->getParameters();
         $dql = $qb->getDQL();

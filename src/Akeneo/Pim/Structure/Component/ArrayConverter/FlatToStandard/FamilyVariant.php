@@ -12,8 +12,7 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker;
  */
 class FamilyVariant implements ArrayConverterInterface
 {
-    /** @var FieldsRequirementChecker */
-    protected $fieldChecker;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker $fieldChecker;
 
     public function __construct(FieldsRequirementChecker $fieldChecker)
     {

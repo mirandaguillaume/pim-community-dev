@@ -20,7 +20,7 @@ class InvalidAttributeValueTypeException extends InvalidPropertyTypeException im
 {
     public function __construct(
         string $attributeCode,
-        $attributeValue,
+        mixed $attributeValue,
         string $className,
         private readonly TemplatedErrorMessage $templatedErrorMessage,
         int $code = 0,
@@ -40,7 +40,7 @@ class InvalidAttributeValueTypeException extends InvalidPropertyTypeException im
      * {@inheritdoc}
      */
     #[\Override]
-    public static function stringExpected($attributeCode, $className, $attributeValue)
+    public static function stringExpected($attributeCode, $className, $attributeValue): static
     {
         $message = 'The {attribute} attribute requires a string, a {invalid} was detected.';
         $templatedErrorMessage = new TemplatedErrorMessage(

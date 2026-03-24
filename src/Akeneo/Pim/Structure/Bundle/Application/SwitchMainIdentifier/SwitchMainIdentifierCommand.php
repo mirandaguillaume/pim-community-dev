@@ -13,7 +13,7 @@ final readonly class SwitchMainIdentifierCommand
     ) {
     }
 
-    public static function fromIdentifierCode(string $newMainIdentifierCode)
+    public static function fromIdentifierCode(string $newMainIdentifierCode): self
     {
         return new self($newMainIdentifierCode);
     }

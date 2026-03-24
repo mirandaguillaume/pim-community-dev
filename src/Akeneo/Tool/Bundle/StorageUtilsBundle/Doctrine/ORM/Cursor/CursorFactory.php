@@ -15,8 +15,7 @@ use Doctrine\ORM\EntityManager;
  */
 class CursorFactory implements CursorFactoryInterface
 {
-    /** @var EntityManager */
-    protected $entityManager;
+    protected \Doctrine\ORM\EntityManager $entityManager;
 
     /** @var string */
     protected $entityClass;

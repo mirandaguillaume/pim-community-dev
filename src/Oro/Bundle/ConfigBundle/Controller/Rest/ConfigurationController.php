@@ -17,14 +17,11 @@ use Symfony\Component\HttpKernel\Config\FileLocator;
  */
 class ConfigurationController
 {
-    /** @var ConfigManager */
-    protected $configManager;
+    protected \Oro\Bundle\ConfigBundle\Config\ConfigManager $configManager;
 
-    /** @var FileLocator */
-    protected $fileLocator;
+    protected \Symfony\Component\HttpKernel\Config\FileLocator $fileLocator;
 
-    /** @var array */
-    protected $options;
+    protected array $options;
 
     /**
      * @param string        $loadingMessagesFile
@@ -45,7 +42,7 @@ class ConfigurationController
      *
      * @return JsonResponse
      */
-    public function getAction()
+    public function getAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $data = [];
 
@@ -87,7 +84,7 @@ class ConfigurationController
      *
      * @return string
      */
-    protected function getMessagesFilePath()
+    protected function getMessagesFilePath(): string|array
     {
         return $this->fileLocator->locate($this->loadingMessagesFile);
     }

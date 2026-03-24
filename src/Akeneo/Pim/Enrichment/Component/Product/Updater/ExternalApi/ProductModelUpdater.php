@@ -27,7 +27,7 @@ class ProductModelUpdater implements ObjectUpdaterInterface
     /**
      * {@inheritdoc}
      */
-    public function update($productModel, array $data, array $options = [])
+    public function update($productModel, array $data, array $options = []): static
     {
         if (!$productModel instanceof ProductModelInterface) {
             throw InvalidObjectException::objectExpected(

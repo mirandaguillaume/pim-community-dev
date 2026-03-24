@@ -26,6 +26,6 @@ final readonly class GetAllFamilyCodesQuery implements GetAllFamilyCodesQueryInt
 
         $statement = $this->connection->executeQuery($query);
 
-        return array_map(fn ($row) => new FamilyCode($row['code']), $statement->fetchAllAssociative());
+        return array_map(fn (array $row): \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\FamilyCode => new FamilyCode($row['code']), $statement->fetchAllAssociative());
     }
 }

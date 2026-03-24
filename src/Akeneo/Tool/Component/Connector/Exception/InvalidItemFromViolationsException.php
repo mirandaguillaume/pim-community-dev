@@ -18,8 +18,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 class InvalidItemFromViolationsException extends BaseInvalidItemException
 {
-    /** @var ConstraintViolationListInterface */
-    protected $violations;
+    protected \Symfony\Component\Validator\ConstraintViolationListInterface $violations;
 
     /**
      * @param ConstraintViolationListInterface|null $violations

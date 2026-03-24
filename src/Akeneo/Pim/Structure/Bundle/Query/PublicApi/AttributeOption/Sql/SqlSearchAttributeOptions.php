@@ -93,7 +93,7 @@ class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
         ])->fetchAllAssociative();
 
         return array_map(
-            static fn (array $attributeOption) => new AttributeOption(
+            static fn (array $attributeOption): \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\AttributeOption => new AttributeOption(
                 $attributeOption['code'],
                 null !== $attributeOption['labels'] ? json_decode((string) $attributeOption['labels'], true, 512, JSON_THROW_ON_ERROR) : [],
             ),

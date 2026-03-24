@@ -32,7 +32,7 @@ class LegacyMeasureFamilyController
      *
      * @return JsonResponse
      */
-    public function getAction($code)
+    public function getAction($code): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $measuresConfig = $this->legacyMeasurementProvider->getMeasurementFamilies();
         foreach ($measuresConfig as $key => $value) {
@@ -55,7 +55,7 @@ class LegacyMeasureFamilyController
      * @throws UnprocessableEntityHttpException
      * @return JsonResponse
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             $this->parameterValidator->validate($request->query->all());
@@ -91,7 +91,7 @@ class LegacyMeasureFamilyController
     /**
      * @return array
      */
-    protected function convertMeasureFamilies(array $queryParameters)
+    protected function convertMeasureFamilies(array $queryParameters): array
     {
         $measuresConfig = $this->legacyMeasurementProvider->getMeasurementFamilies();
         $limit = $queryParameters['limit'];

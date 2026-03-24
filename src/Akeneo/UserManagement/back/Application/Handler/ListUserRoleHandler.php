@@ -27,7 +27,7 @@ class ListUserRoleHandler implements ListUserRoleInterface
     {
         $result = ($this->findAllUserRoles)();
 
-        return array_map(static fn (DomainUserRole $userRole) => new UserRole(
+        return array_map(static fn (DomainUserRole $userRole): \Akeneo\UserManagement\ServiceApi\UserRole\UserRole => new UserRole(
             $userRole->getId(),
             $userRole->getRole(),
             $userRole->getLabel(),

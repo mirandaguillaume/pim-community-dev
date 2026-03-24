@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 final class ProductKeyIndicatorsByFeatureRegistryPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $registryDefinition = $container->findDefinition(ProductKeyIndicatorsByFeatureRegistry::class);
         $keyIndicatorServiceIds = $container->findTaggedServiceIds('akeneo.pim.automation.data_quality_insights.compute_product_key_indicator');

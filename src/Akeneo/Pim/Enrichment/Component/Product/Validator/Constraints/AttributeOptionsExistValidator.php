@@ -23,7 +23,7 @@ class AttributeOptionsExistValidator extends ConstraintValidator
     {
     }
 
-    public function validate($values, Constraint $constraint)
+    public function validate($values, Constraint $constraint): void
     {
         if (!$constraint instanceof AttributeOptionsExist) {
             throw new UnexpectedTypeException($constraint, AttributeOptionsExist::class);
@@ -42,7 +42,7 @@ class AttributeOptionsExistValidator extends ConstraintValidator
         }
 
         $existingOptionCodes = $this->getExistingOptionCodesIndexedByAttributeCodes($optionValues);
-        array_walk_recursive($existingOptionCodes, function (string &$value) {
+        array_walk_recursive($existingOptionCodes, function (string &$value): void {
             $value = strtolower($value);
         });
 

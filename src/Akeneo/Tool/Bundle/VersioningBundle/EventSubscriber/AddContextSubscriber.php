@@ -18,10 +18,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 #[AsEventListener(event: EventInterface::BEFORE_JOB_EXECUTION, method: 'addContext')]
 class AddContextSubscriber
 {
-    /**
-     * @var VersionContext
-     */
-    protected $versionContext;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionContext $versionContext;
 
     /**
      * Constructor
@@ -34,7 +31,7 @@ class AddContextSubscriber
     /**
      * Add context in version manager
      */
-    public function addContext(JobExecutionEvent $event)
+    public function addContext(JobExecutionEvent $event): void
     {
         $jobInstance = $event->getJobExecution()->getJobInstance();
         if ($jobInstance->getType() === JobInstance::TYPE_IMPORT) {

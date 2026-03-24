@@ -31,7 +31,7 @@ class ProductModelCsvExport implements ConstraintCollectionProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getConstraintCollection()
+    public function getConstraintCollection(): \Symfony\Component\Validator\Constraints\Collection
     {
         $baseConstraint = $this->simpleProvider->getConstraintCollection();
         $constraintFields = $baseConstraint->fields;
@@ -57,7 +57,7 @@ class ProductModelCsvExport implements ConstraintCollectionProviderInterface
         );
         $constraintFields['file_locale'] = [
             new ActivatedLocale(['groups' => ['Default', 'FileConfiguration']]),
-            new Callback(function ($value, ExecutionContextInterface $context) {
+            new Callback(function ($value, ExecutionContextInterface $context): void {
                 $fields = $context->getRoot();
                 if (true === $fields['with_label'] && empty($value)) {
                     $context
@@ -106,7 +106,7 @@ class ProductModelCsvExport implements ConstraintCollectionProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports(JobInterface $job)
+    public function supports(JobInterface $job): bool
     {
         return in_array($job->getName(), $this->supportedJobNames);
     }

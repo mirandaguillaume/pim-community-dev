@@ -19,11 +19,9 @@ use Twig\TwigFunction;
  */
 class TranslationsExtension extends AbstractExtension
 {
-    /** @var CommandLauncher */
-    protected $commandLauncher;
+    protected \Akeneo\Tool\Component\Console\CommandLauncher $commandLauncher;
 
-    /** @var RequestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
     public function __construct(
         CommandLauncher $commandLauncher,
@@ -76,7 +74,7 @@ class TranslationsExtension extends AbstractExtension
      *
      * @return string
      */
-    protected function getLocale()
+    protected function getLocale(): string
     {
         $request = $this->requestStack->getMainRequest();
         if (null === $request) {

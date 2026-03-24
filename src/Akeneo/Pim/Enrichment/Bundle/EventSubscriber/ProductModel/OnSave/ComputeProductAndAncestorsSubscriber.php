@@ -59,7 +59,7 @@ final readonly class ComputeProductAndAncestorsSubscriber
         }
 
         $this->computeAndIndexFromProductModelCodes(array_map(
-            fn (ProductModelInterface $productModel) => $productModel->getCode(),
+            fn (ProductModelInterface $productModel): ?string => $productModel->getCode(),
             $productModels
         ));
     }

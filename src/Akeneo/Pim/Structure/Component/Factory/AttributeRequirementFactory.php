@@ -30,7 +30,7 @@ class AttributeRequirementFactory
      *
      * @return AttributeRequirementInterface
      */
-    public function createAttributeRequirement(AttributeInterface $attribute, ChannelInterface $channel, $required)
+    public function createAttributeRequirement(AttributeInterface $attribute, ChannelInterface $channel, $required): object
     {
         $requirement = new $this->attrRequirementClass();
         $requirement->setAttribute($attribute);

@@ -26,7 +26,7 @@ final readonly class GetCategoryCodesByProductModelCodes
      */
     public function fromProductModelCodes(array $productModelCodes): array
     {
-        $productModelCodes = (fn (string ...$productModelCodes) => $productModelCodes)(... $productModelCodes);
+        $productModelCodes = (fn (string ...$productModelCodes): array => $productModelCodes)(... $productModelCodes);
 
         $results = [];
 

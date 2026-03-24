@@ -54,7 +54,7 @@ final readonly class AuthorizeAction
     ) {
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if (!$this->marketplaceActivateFeatureFlag->isEnabled()) {
             throw new NotFoundHttpException();

@@ -21,11 +21,9 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class PropertyAdder implements PropertyAdderInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
-    /** @var AdderRegistryInterface */
-    protected $adderRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Updater\Adder\AdderRegistryInterface $adderRegistry;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
@@ -38,7 +36,7 @@ class PropertyAdder implements PropertyAdderInterface
     /**
      * {@inheritdoc}
      */
-    public function addData($product, $field, $data, array $options = [])
+    public function addData($product, $field, $data, array $options = []): static
     {
         if (!$product instanceof EntityWithValuesInterface) {
             throw InvalidObjectException::objectExpected(

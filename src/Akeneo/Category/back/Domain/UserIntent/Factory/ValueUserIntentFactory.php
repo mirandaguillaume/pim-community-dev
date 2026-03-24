@@ -100,7 +100,7 @@ final readonly class ValueUserIntentFactory implements UserIntentFactory
     private function extractCategoryAttributeUuids(array $localeCompositeKeys): array
     {
         // Get uuids
-        $categoryAttributeUuids = array_map(function (string $keyWithLocale) {
+        $categoryAttributeUuids = array_map(function (string $keyWithLocale): \Akeneo\Category\Domain\ValueObject\Attribute\AttributeUuid {
             $uuid = explode(AbstractValue::SEPARATOR, $keyWithLocale)[1];
 
             return AttributeUuid::fromString($uuid);

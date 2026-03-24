@@ -40,7 +40,7 @@ class StepExecutionNormalizer implements NormalizerInterface
             'warnings' => $normalizedWarnings,
             'errors' => $stepExecution->getErrors(),
             'failures' => array_map(
-                fn ($failure) => $this->translator->trans($failure['message'], $failure['messageParameters']),
+                fn (array $failure): string => $this->translator->trans($failure['message'], $failure['messageParameters']),
                 $stepExecution->getFailureExceptions()
             ),
         ];
@@ -56,7 +56,7 @@ class StepExecutionNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function normalizeWarnings(Collection $warnings, array $context = [])
+    protected function normalizeWarnings(Collection $warnings, array $context = []): array
     {
         $result = [];
         $selectedWarnings = [];
@@ -82,7 +82,7 @@ class StepExecutionNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function normalizeSummary(array $summary)
+    protected function normalizeSummary(array $summary): array
     {
         $result = [];
         foreach ($summary as $key => $value) {
@@ -100,7 +100,7 @@ class StepExecutionNormalizer implements NormalizerInterface
      *
      * @return string
      */
-    protected function normalizeStatus($status)
+    protected function normalizeStatus($status): string
     {
         $status = sprintf('pim_import_export.batch_status.%d', $status);
 

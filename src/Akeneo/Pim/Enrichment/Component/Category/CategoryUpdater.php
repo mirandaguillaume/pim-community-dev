@@ -15,11 +15,9 @@ use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
  */
 class CategoryUpdater implements ObjectUpdaterInterface
 {
-    /** @var ObjectUpdaterInterface */
-    protected $categoryUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $categoryUpdater;
 
-    /** @var TranslatableUpdater */
-    protected $translatableUpdater;
+    protected \Akeneo\Tool\Component\Localization\TranslatableUpdater $translatableUpdater;
 
     public function __construct(ObjectUpdaterInterface $categoryUpdater, TranslatableUpdater $translatableUpdater)
     {
@@ -30,7 +28,7 @@ class CategoryUpdater implements ObjectUpdaterInterface
     /**
      * {@inheritdoc}
      */
-    public function update($category, array $data, array $options = [])
+    public function update($category, array $data, array $options = []): static
     {
         $this->categoryUpdater->update($category, $data, $options);
 

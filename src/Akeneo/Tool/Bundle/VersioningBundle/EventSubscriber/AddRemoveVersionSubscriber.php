@@ -23,20 +23,15 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 #[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'addRemoveVersion')]
 class AddRemoveVersionSubscriber
 {
-    /** @var VersionFactory */
-    protected $versionFactory;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Factory\VersionFactory $versionFactory;
 
-    /** @var VersionRepositoryInterface */
-    protected $versionRepository;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Repository\VersionRepositoryInterface $versionRepository;
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
-    /** @var AuthorizationCheckerInterface */
-    protected $authorizationChecker;
+    protected \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker;
 
-    /** @var SaverInterface */
-    protected $versionSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $versionSaver;
 
     public function __construct(
         VersionFactory $versionFactory,
@@ -52,7 +47,7 @@ class AddRemoveVersionSubscriber
         $this->versionSaver = $versionSaver;
     }
 
-    public function addRemoveVersion(RemoveEvent $event)
+    public function addRemoveVersion(RemoveEvent $event): void
     {
         $author = '';
         $subject = $event->getSubject();
@@ -91,7 +86,7 @@ class AddRemoveVersionSubscriber
         $this->versionSaver->save($version, $options);
     }
 
-    private function shouldUseUuid($subject): bool
+    private function shouldUseUuid(\Akeneo\Tool\Component\Versioning\Model\VersionableInterface $subject): bool
     {
         return method_exists($subject, 'getUuid')
             && $subject::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'

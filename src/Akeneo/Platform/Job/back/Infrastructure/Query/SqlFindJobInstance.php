@@ -97,7 +97,7 @@ class SqlFindJobInstance implements FindJobInstanceInterface
         )->fetchAllAssociative();
 
         return array_map(
-            static fn (array $jobInstance) => new JobInstance(
+            static fn (array $jobInstance): \Akeneo\Platform\Job\ServiceApi\JobInstance\JobInstance => new JobInstance(
                 $jobInstance['code'],
                 $jobInstance['label'],
                 unserialize($jobInstance['raw_parameters'], ['allowed_classes' => false]),

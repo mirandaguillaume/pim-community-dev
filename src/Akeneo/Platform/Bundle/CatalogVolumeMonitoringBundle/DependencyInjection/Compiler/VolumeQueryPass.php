@@ -27,13 +27,13 @@ class VolumeQueryPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $this->register($container, self::COUNT_QUERY_TAG, 'addCountVolumeQuery');
         $this->register($container, self::AVERAGE_MAX_QUERY_TAG, 'addAverageMaxVolumeQuery');
     }
 
-    private function register(ContainerBuilder $container, string $tagName, string $functionName)
+    private function register(ContainerBuilder $container, string $tagName, string $functionName): void
     {
         $volumeNormalizer = $container->getDefinition(self::VOLUME_NORMALIZER_SERVICE);
 

@@ -14,8 +14,7 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker;
  */
 class Channel implements ArrayConverterInterface
 {
-    /** @var FieldsRequirementChecker */
-    protected $fieldChecker;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker $fieldChecker;
 
     public function __construct(FieldsRequirementChecker $fieldChecker)
     {
@@ -73,7 +72,7 @@ class Channel implements ArrayConverterInterface
      *
      * @return array
      */
-    protected function convertField(array $convertedItem, $field, mixed $data)
+    protected function convertField(array $convertedItem, $field, mixed $data): array
     {
         if (str_contains($field, 'label-')) {
             $labelTokens = explode('-', $field);
@@ -97,7 +96,7 @@ class Channel implements ArrayConverterInterface
      *
      * @return array
      */
-    protected function convertUnits($flatUnits)
+    protected function convertUnits($flatUnits): array
     {
         $units = array_filter(explode(',', $flatUnits));
 

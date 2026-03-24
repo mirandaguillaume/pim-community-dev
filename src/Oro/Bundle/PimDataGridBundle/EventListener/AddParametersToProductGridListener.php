@@ -17,14 +17,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class AddParametersToProductGridListener extends AddParametersToGridListener
 {
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
-    /** @var CatalogContext */
-    protected $catalogContext;
+    protected \Akeneo\Pim\Enrichment\Bundle\Context\CatalogContext $catalogContext;
 
-    /** @var RequestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
     /**
      * @param array             $paramNames     Parameter name that should be binded to query
@@ -80,7 +77,7 @@ class AddParametersToProductGridListener extends AddParametersToGridListener
      *
      * @return string
      */
-    protected function getLocale($queryParameters)
+    protected function getLocale(array $queryParameters)
     {
         $dataLocale = null;
         if (isset($queryParameters['dataLocale'])) {

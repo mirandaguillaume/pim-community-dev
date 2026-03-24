@@ -21,7 +21,7 @@ class ConfigureSortersListener
     /**
      * Reconfigure sorters
      */
-    public function onBuildBefore(BuildBefore $event)
+    public function onBuildBefore(BuildBefore $event): void
     {
         $config = $event->getConfig();
         $sortersPath = sprintf('%s[%s]', SorterConfiguration::SORTERS_PATH, Configuration::COLUMNS_KEY);

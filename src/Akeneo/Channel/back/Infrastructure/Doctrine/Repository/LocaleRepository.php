@@ -55,8 +55,9 @@ class LocaleRepository extends EntityRepository implements LocaleRepositoryInter
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getActivatedLocaleCodes()
+    public function getActivatedLocaleCodes(): array
     {
         $qb = $this->getActivatedLocalesQB();
         $qb->select('l.code');
@@ -86,7 +87,7 @@ class LocaleRepository extends EntityRepository implements LocaleRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function getDeletedLocalesForChannel(ChannelInterface $channel)
+    public function getDeletedLocalesForChannel(ChannelInterface $channel): mixed
     {
         $currentLocaleIds = array_map(
             fn (LocaleInterface $locale) => $locale->getId(),
@@ -106,7 +107,7 @@ class LocaleRepository extends EntityRepository implements LocaleRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): ?object
     {
         return $this->findOneBy(['code' => $code]);
     }
@@ -114,7 +115,7 @@ class LocaleRepository extends EntityRepository implements LocaleRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['code'];
     }

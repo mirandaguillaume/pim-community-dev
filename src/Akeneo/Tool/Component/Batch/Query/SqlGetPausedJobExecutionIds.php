@@ -33,6 +33,6 @@ final readonly class SqlGetPausedJobExecutionIds implements GetPausedJobExecutio
             ['paused_status' => BatchStatus::PAUSED],
         )->fetchFirstColumn();
 
-        return array_map(static fn (string $id) => (int) $id, $result);
+        return array_map(static fn (string $id): int => (int) $id, $result);
     }
 }

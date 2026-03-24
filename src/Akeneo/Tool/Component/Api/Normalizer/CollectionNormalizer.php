@@ -44,7 +44,7 @@ class CollectionNormalizer implements NormalizerInterface, SerializerAwareInterf
     /**
      * {@inheritdoc}
      */
-    public function setSerializer(SerializerInterface $serializer)
+    public function setSerializer(SerializerInterface $serializer): void
     {
         $this->serializer = $serializer;
     }

@@ -26,7 +26,7 @@ class KeyIndicatorFilter extends ChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $filterDatasource, $data)
+    public function apply(FilterDatasourceAdapterInterface $filterDatasource, $data): bool
     {
         $filterValue = isset($data['value']) ? (bool) $data['value'] : null;
 

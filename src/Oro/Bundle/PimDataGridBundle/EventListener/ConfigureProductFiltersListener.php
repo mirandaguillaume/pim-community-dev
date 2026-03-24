@@ -15,8 +15,7 @@ use Oro\Bundle\FilterBundle\Grid\Extension\Configuration;
  */
 class ConfigureProductFiltersListener
 {
-    /** @var UserContext  */
-    protected $context;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $context;
 
     /** @var array */
     protected $disallowed = ['scope', 'locale'];
@@ -26,7 +25,7 @@ class ConfigureProductFiltersListener
         $this->context = $context;
     }
 
-    public function onBuildAfter(BuildAfter $event)
+    public function onBuildAfter(BuildAfter $event): void
     {
         $defaults = $this->context->getUser()->getProductGridFilters();
 

@@ -83,7 +83,7 @@ class ChannelController
     public function listCategoryTreeAction(): JsonResponse
     {
         $categoryTrees = $this->findCategoryTrees->execute();
-        $normalizeCategoryTrees = array_map(fn (CategoryTree $categoryTree) => $categoryTree->normalize(), $categoryTrees);
+        $normalizeCategoryTrees = array_map(fn (CategoryTree $categoryTree): array => $categoryTree->normalize(), $categoryTrees);
 
         return new JsonResponse($normalizeCategoryTrees);
     }

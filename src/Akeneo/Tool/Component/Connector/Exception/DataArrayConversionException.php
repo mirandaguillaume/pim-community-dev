@@ -14,8 +14,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 class DataArrayConversionException extends ArrayConversionException
 {
-    /** @var ConstraintViolationListInterface */
-    protected $violations;
+    protected ?\Symfony\Component\Validator\ConstraintViolationListInterface $violations;
 
     /**
      * @param string                                $message

@@ -92,7 +92,7 @@ class SqlGetPurgeableVersionListQuery
                 $loggedAt = $lastResult['logged_at'];
                 yield new PurgeableVersionList(
                     $resourceName,
-                    array_map(fn ($row) => intval($row['id']), $results)
+                    array_map(fn (array $row): int => intval($row['id']), $results)
                 );
             }
         } while (!empty($results));

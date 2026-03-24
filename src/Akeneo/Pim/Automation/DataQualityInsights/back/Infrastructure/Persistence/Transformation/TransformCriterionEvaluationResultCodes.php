@@ -102,7 +102,7 @@ final readonly class TransformCriterionEvaluationResultCodes
 
     private function transformChannelLocaleDataByAttributesFromCodesToIds(array $dataByAttributes): array
     {
-        return $this->transformChannelLocaleDataFromCodesToIds($dataByAttributes, function (array $attributeData) {
+        return $this->transformChannelLocaleDataFromCodesToIds($dataByAttributes, function (array $attributeData): array {
             $attributeIdsData = [];
             $attributesIds = $this->attributes->getIdsByCodes(array_keys($attributeData));
 
@@ -124,7 +124,7 @@ final readonly class TransformCriterionEvaluationResultCodes
 
     private function transformStatusCodesToIds(array $statusCodes): array
     {
-        return $this->transformChannelLocaleDataFromCodesToIds($statusCodes, function (string $statusCode) {
+        return $this->transformChannelLocaleDataFromCodesToIds($statusCodes, function (string $statusCode): int {
             if (!isset(self::STATUS_ID[$statusCode])) {
                 throw new CriterionEvaluationResultTransformationFailedException(sprintf('Unknown status code "%s"', $statusCode));
             }

@@ -29,7 +29,7 @@ class FamilyRequirementsValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($family, Constraint $constraint)
+    public function validate($family, Constraint $constraint): void
     {
         if (!$constraint instanceof FamilyRequirements) {
             throw new UnexpectedTypeException($constraint, FamilyRequirements::class);

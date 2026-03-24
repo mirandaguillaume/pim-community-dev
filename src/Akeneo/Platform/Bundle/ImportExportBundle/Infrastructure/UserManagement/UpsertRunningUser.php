@@ -27,7 +27,7 @@ class UpsertRunningUser
     public function execute(string $jobCode, array $userGroupCodes): void
     {
         $username = $this->resolveScheduledJobRunningUsername->fromJobCode($jobCode);
-        $allRoleCodes = array_map(static fn (UserRole $role) => $role->getRole(), $this->listUserRole->all());
+        $allRoleCodes = array_map(static fn (UserRole $role): string => $role->getRole(), $this->listUserRole->all());
 
         $upsertUserCommand = UpsertUserCommand::job(
             $username,

@@ -20,8 +20,7 @@ use Akeneo\Pim\Structure\Component\Repository\FamilyVariantRepositoryInterface;
  */
 class FamilyVariantFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    /** @var FamilyVariantRepositoryInterface */
-    protected $familyVariantRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\FamilyVariantRepositoryInterface $familyVariantRepository;
 
     public function __construct(
         FamilyVariantRepositoryInterface $familyVariantRepository,
@@ -36,7 +35,7 @@ class FamilyVariantFilter extends AbstractFieldFilter implements FieldFilterInte
     /**
      * {@inheritdoc}
      */
-    public function addFieldFilter($field, $operator, $value, $locale = null, $channel = null, $options = [])
+    public function addFieldFilter($field, $operator, $value, $locale = null, $channel = null, $options = []): static
     {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');

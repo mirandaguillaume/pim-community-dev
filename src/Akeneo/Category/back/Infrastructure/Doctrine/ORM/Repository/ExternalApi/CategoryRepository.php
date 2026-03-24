@@ -49,7 +49,7 @@ class CategoryRepository extends EntityRepository implements ApiResourceReposito
      *
      * @return array
      */
-    public function searchAfterOffset(array $searchFilters, array $orders, $limit, $offset)
+    public function searchAfterOffset(array $searchFilters, array $orders, $limit, $offset): mixed
     {
         $qb = $this->createQueryBuilder('r');
         $qb = $this->addFilters($qb, $searchFilters);

@@ -14,8 +14,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class RequestDataCollector implements DataCollectorInterface
 {
-    /** @var RequestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack)
     {
@@ -25,7 +24,7 @@ class RequestDataCollector implements DataCollectorInterface
     /**
      * {@inheritdoc}
      */
-    public function collect()
+    public function collect(): array
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
 

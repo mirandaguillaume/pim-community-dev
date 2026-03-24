@@ -17,7 +17,7 @@ class BaseEmptyValueProvider implements EmptyValueProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getEmptyValue($attribute)
+    public function getEmptyValue($attribute): array|string|false|null
     {
         $emptyValue = match ($attribute->getType()) {
             AttributeTypes::METRIC => [
@@ -36,7 +36,7 @@ class BaseEmptyValueProvider implements EmptyValueProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($element)
+    public function supports($element): bool
     {
         return $element instanceof AttributeInterface;
     }

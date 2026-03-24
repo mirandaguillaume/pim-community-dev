@@ -24,7 +24,7 @@ class ListAnnouncementsAction
     {
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if (null === $user = $this->userContext->getUser()) {
             throw new NotFoundHttpException('Current user not found');
@@ -48,6 +48,6 @@ class ListAnnouncementsAction
 
     private function normalizeAnnouncementItems(array $announcementItems): array
     {
-        return array_map(fn (AnnouncementItem $item) => $item->toArray(), $announcementItems);
+        return array_map(fn (AnnouncementItem $item): array => $item->toArray(), $announcementItems);
     }
 }

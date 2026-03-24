@@ -10,10 +10,7 @@ use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 
 class ActionAclExtension extends AbstractAclExtension
 {
-    /**
-     * @var ActionMetadataProvider
-     */
-    protected $actionMetadataProvider;
+    protected \Oro\Bundle\SecurityBundle\Metadata\ActionMetadataProvider $actionMetadataProvider;
 
     /**
      * Constructor
@@ -45,7 +42,7 @@ class ActionAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtensionKey()
+    public function getExtensionKey(): string
     {
         return 'action';
     }
@@ -53,7 +50,7 @@ class ActionAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function validateMask($mask, $object, $permission = null)
+    public function validateMask($mask, $object, $permission = null): void
     {
         if ($mask === 0) {
             return;
@@ -68,7 +65,7 @@ class ActionAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function getObjectIdentity($val)
+    public function getObjectIdentity($val): \Symfony\Component\Security\Acl\Domain\ObjectIdentity
     {
         $type = $id = null;
         if (is_string($val)) {
@@ -84,7 +81,7 @@ class ActionAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function getMaskBuilder($permission)
+    public function getMaskBuilder($permission): \Oro\Bundle\SecurityBundle\Acl\Extension\ActionMaskBuilder
     {
         return new ActionMaskBuilder();
     }
@@ -92,7 +89,7 @@ class ActionAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function getAllMaskBuilders()
+    public function getAllMaskBuilders(): array
     {
         return [new ActionMaskBuilder()];
     }
@@ -108,7 +105,7 @@ class ActionAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function getAccessLevel($mask, $permission = null)
+    public function getAccessLevel($mask, $permission = null): int
     {
         return $mask === 0
             ? AccessLevel::NONE_LEVEL
@@ -117,8 +114,9 @@ class ActionAclExtension extends AbstractAclExtension
 
     /**
      * {@inheritdoc}
+     * @return list<'EXECUTE'>
      */
-    public function getPermissions($mask = null, $setOnly = false)
+    public function getPermissions($mask = null, $setOnly = false): array
     {
         $result = [];
         if ($mask === null || $setOnly || $mask !== 0) {
@@ -131,7 +129,7 @@ class ActionAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function getAllowedPermissions(ObjectIdentity $oid)
+    public function getAllowedPermissions(ObjectIdentity $oid): array
     {
         return ['EXECUTE'];
     }
@@ -140,7 +138,7 @@ class ActionAclExtension extends AbstractAclExtension
      * {@inheritdoc}
      */
     #[\Override]
-    public function getDefaultPermission()
+    public function getDefaultPermission(): string
     {
         return 'EXECUTE';
     }

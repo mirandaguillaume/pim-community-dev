@@ -20,15 +20,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class TranslatableFieldType extends AbstractType
 {
-    /**
-     * @var ValidatorInterface
-     */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /**
-     * @var UserContext
-     */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     public function __construct(ValidatorInterface $validator, UserContext $userContext)
     {

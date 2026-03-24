@@ -64,7 +64,7 @@ class Warning
      *
      * @return StepExecution
      */
-    public function getStepExecution()
+    public function getStepExecution(): \Akeneo\Tool\Component\Batch\Model\StepExecution
     {
         return $this->stepExecution;
     }
@@ -75,7 +75,7 @@ class Warning
      *
      * @return $this
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): static
     {
         $this->stepExecution = $stepExecution;
 
@@ -99,7 +99,7 @@ class Warning
      *
      * @return $this
      */
-    public function setReason($reason)
+    public function setReason($reason): static
     {
         $this->reason = $reason;
 
@@ -111,7 +111,7 @@ class Warning
      *
      * @return array
      */
-    public function getReasonParameters()
+    public function getReasonParameters(): array
     {
         return $this->reasonParameters;
     }
@@ -122,7 +122,7 @@ class Warning
      *
      * @return $this
      */
-    public function setReasonParameters(array $reasonParameters)
+    public function setReasonParameters(array $reasonParameters): static
     {
         $this->reasonParameters = $reasonParameters;
 
@@ -134,7 +134,7 @@ class Warning
      *
      * @return array
      */
-    public function getItem()
+    public function getItem(): array
     {
         return $this->item;
     }
@@ -146,7 +146,7 @@ class Warning
      *
      * @return $this
      */
-    public function setItem($item)
+    public function setItem(array $item): static
     {
         $this->item = $item;
 
@@ -158,7 +158,7 @@ class Warning
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'reason'           => $this->reason,

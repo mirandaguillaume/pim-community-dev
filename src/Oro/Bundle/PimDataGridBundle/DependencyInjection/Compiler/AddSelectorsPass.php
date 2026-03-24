@@ -24,7 +24,7 @@ class AddSelectorsPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $extension = $container->getDefinition(self::SELECTOR_EXTENSION_ID);
         if ($extension) {

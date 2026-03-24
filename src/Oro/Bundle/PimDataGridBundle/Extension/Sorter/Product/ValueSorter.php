@@ -15,8 +15,7 @@ use Oro\Bundle\PimDataGridBundle\Extension\Sorter\SorterInterface;
  */
 class ValueSorter implements SorterInterface
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
@@ -26,7 +25,7 @@ class ValueSorter implements SorterInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(DatasourceInterface $datasource, $field, $direction)
+    public function apply(DatasourceInterface $datasource, $field, $direction): void
     {
         $attribute = $this->attributeRepository->findOneByIdentifier($field);
 

@@ -29,7 +29,7 @@ class StructureVersionUpdater
     }
 
 
-    public function onPostSave(GenericEvent $event)
+    public function onPostSave(GenericEvent $event): void
     {
         $subject = $event->getSubject();
 
@@ -46,7 +46,7 @@ class StructureVersionUpdater
         }
     }
 
-    public function onPostSaveAll(GenericEvent $event)
+    public function onPostSaveAll(GenericEvent $event): void
     {
         $subject = current($event->getSubject());
 

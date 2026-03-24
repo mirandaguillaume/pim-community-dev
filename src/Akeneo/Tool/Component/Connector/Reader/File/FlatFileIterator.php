@@ -36,7 +36,7 @@ class FlatFileIterator implements FileIteratorInterface
      * @throws UnsupportedTypeException
      * @throws FileNotFoundException
      */
-    public function __construct(protected $type, protected $filePath, array $options = [])
+    public function __construct(string protected $type, protected $filePath, array $options = [])
     {
         $this->fileInfo = new \SplFileInfo($filePath);
 
@@ -84,7 +84,7 @@ class FlatFileIterator implements FileIteratorInterface
     {
         $data = $this->rows->current();
 
-        if (!$this->valid() || empty($data)) {
+        if (!$this->valid() || !$data instanceof \OpenSpout\Common\Entity\Row) {
             $this->rewind();
 
             return null;
@@ -124,7 +124,7 @@ class FlatFileIterator implements FileIteratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getDirectoryPath()
+    public function getDirectoryPath(): string
     {
         if (null === $this->archivePath) {
             return $this->fileInfo->getPath();
@@ -152,7 +152,7 @@ class FlatFileIterator implements FileIteratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }

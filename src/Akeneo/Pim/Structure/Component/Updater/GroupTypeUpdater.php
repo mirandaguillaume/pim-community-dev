@@ -28,7 +28,7 @@ class GroupTypeUpdater implements ObjectUpdaterInterface
      *     ]
      * ]
      */
-    public function update($groupType, array $data, array $options = [])
+    public function update($groupType, array $data, array $options = []): static
     {
         if (!$groupType instanceof GroupTypeInterface) {
             throw InvalidObjectException::objectExpected(

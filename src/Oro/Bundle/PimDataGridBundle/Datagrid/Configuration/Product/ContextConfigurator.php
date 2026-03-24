@@ -44,23 +44,17 @@ class ContextConfigurator implements ConfiguratorInterface
     /** @var DatagridConfiguration */
     protected $configuration;
 
-    /** @var ObjectRepository */
-    protected $objectRepository;
+    protected \Doctrine\Persistence\ObjectRepository $objectRepository;
 
-    /** @var RequestParameters */
-    protected $requestParams;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\RequestParameters $requestParams;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
-    /** @var RequestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
-    /** @var ObjectManager */
-    protected $objectManager;
+    protected \Doctrine\Persistence\ObjectManager $objectManager;
 
-    /** @var GroupRepositoryInterface */
-    protected $productGroupRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface $productGroupRepository;
 
     public function __construct(
         ObjectRepository $objectRepository,
@@ -81,7 +75,7 @@ class ContextConfigurator implements ConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function configure(DatagridConfiguration $configuration)
+    public function configure(DatagridConfiguration $configuration): void
     {
         $this->configuration = $configuration;
         $this->addProductStorage();
@@ -105,7 +99,7 @@ class ContextConfigurator implements ConfiguratorInterface
      *
      * @return string
      */
-    protected function getSourcePath($key)
+    protected function getSourcePath(string $key): string
     {
         return sprintf(self::SOURCE_PATH, $key);
     }
@@ -276,7 +270,7 @@ class ContextConfigurator implements ConfiguratorInterface
      *
      * @return string[]
      */
-    protected function getUserGridColumns()
+    protected function getUserGridColumns(): array
     {
         $params = $this->requestParams->get(RequestParameters::ADDITIONAL_PARAMETERS);
 

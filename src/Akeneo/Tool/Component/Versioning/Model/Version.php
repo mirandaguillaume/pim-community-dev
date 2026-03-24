@@ -48,17 +48,11 @@ class Version implements VersionInterface
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     protected $version;
 
-    /**
-     * @var \DateTime
-     */
     #[ORM\Column(name: 'logged_at', type: Types::DATETIME_MUTABLE)]
-    protected $loggedAt;
+    protected \DateTime $loggedAt;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(type: Types::BOOLEAN)]
-    protected $pending;
+    protected bool $pending;
 
     #[ORM\Column(name: 'resource_name', type: Types::STRING)]
     protected $resourceName;
@@ -112,7 +106,7 @@ class Version implements VersionInterface
      *
      * @return Version
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -171,7 +165,7 @@ class Version implements VersionInterface
      *
      * @return Version
      */
-    public function setVersion($version)
+    public function setVersion($version): static
     {
         $this->version = $version;
 
@@ -194,7 +188,7 @@ class Version implements VersionInterface
      *
      * @return Version
      */
-    public function setSnapshot(array $snapshot)
+    public function setSnapshot(array $snapshot): static
     {
         if (!empty($snapshot)) {
             $this->pending = false;
@@ -221,7 +215,7 @@ class Version implements VersionInterface
      *
      * @return Version
      */
-    public function setChangeset(array $changeset)
+    public function setChangeset(array $changeset): static
     {
         $this->changeset = $changeset;
 

@@ -19,11 +19,9 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class InGroupFilter extends BooleanFilter
 {
-    /** @var RequestParametersExtractorInterface */
-    protected $extractor;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Request\RequestParametersExtractorInterface $extractor;
 
-    /** @var ObjectCodeResolver */
-    protected $codeResolver;
+    protected \Akeneo\Pim\Enrichment\Bundle\Doctrine\Common\Filter\ObjectCodeResolver $codeResolver;
 
     /**
      * Constructor
@@ -48,7 +46,7 @@ class InGroupFilter extends BooleanFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (!$data) {

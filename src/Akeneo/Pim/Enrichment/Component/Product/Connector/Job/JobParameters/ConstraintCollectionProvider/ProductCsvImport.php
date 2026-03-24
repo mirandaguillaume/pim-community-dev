@@ -17,11 +17,9 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 class ProductCsvImport implements ConstraintCollectionProviderInterface
 {
-    /** @var ConstraintCollectionProviderInterface */
-    protected $simpleProvider;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParameters\ConstraintCollectionProviderInterface $simpleProvider;
 
-    /** @var array */
-    protected $supportedJobNames;
+    protected array $supportedJobNames;
 
     public function __construct(ConstraintCollectionProviderInterface $simpleProvider, array $supportedJobNames)
     {
@@ -32,7 +30,7 @@ class ProductCsvImport implements ConstraintCollectionProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getConstraintCollection()
+    public function getConstraintCollection(): \Symfony\Component\Validator\Constraints\Collection
     {
         $baseConstraint = $this->simpleProvider->getConstraintCollection();
         $constraintFields = $baseConstraint->fields;
@@ -53,7 +51,7 @@ class ProductCsvImport implements ConstraintCollectionProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports(JobInterface $job)
+    public function supports(JobInterface $job): bool
     {
         return in_array($job->getName(), $this->supportedJobNames);
     }

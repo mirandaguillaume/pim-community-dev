@@ -15,11 +15,9 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
  */
 class NumberLocalizerTransformer implements DataTransformerInterface
 {
-    /** @var LocalizerInterface */
-    protected $localizer;
+    protected \Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface $localizer;
 
-    /** @var array */
-    protected $options;
+    protected array $options;
 
     public function __construct(LocalizerInterface $localizer, array $options)
     {

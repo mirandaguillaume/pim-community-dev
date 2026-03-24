@@ -46,7 +46,7 @@ final readonly class Structure
      */
     public function normalize(): array
     {
-        return \array_map(static fn(PropertyInterface $property) => $property->normalize(), $this->properties);
+        return \array_map(static fn(PropertyInterface $property): array => $property->normalize(), $this->properties);
     }
 
     /**

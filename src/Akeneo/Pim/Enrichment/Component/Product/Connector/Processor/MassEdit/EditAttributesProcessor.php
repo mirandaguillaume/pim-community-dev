@@ -21,29 +21,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class EditAttributesProcessor extends AbstractProcessor
 {
-    /** @var ValidatorInterface */
-    protected $productValidator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $productValidator;
 
-    /** @var ValidatorInterface */
-    protected $productModelValidator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $productModelValidator;
 
-    /** @var ObjectUpdaterInterface */
-    protected $productUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $productUpdater;
 
-    /** @var ObjectUpdaterInterface */
-    protected $productModelUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $productModelUpdater;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
-    /** @var CheckAttributeEditable */
-    protected $checkAttributeEditable;
+    protected \Akeneo\Pim\Enrichment\Component\Product\EntityWithFamilyVariant\CheckAttributeEditable $checkAttributeEditable;
 
-    /** @var FilterInterface */
-    protected $productEmptyValuesFilter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Comparator\Filter\FilterInterface $productEmptyValuesFilter;
 
-    /** @var FilterInterface */
-    protected $productModelEmptyValuesFilter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Comparator\Filter\FilterInterface $productModelEmptyValuesFilter;
 
     public function __construct(
         ValidatorInterface $productValidator,
@@ -68,7 +60,7 @@ class EditAttributesProcessor extends AbstractProcessor
     /**
      * {@inheritdoc}
      */
-    public function process($entity)
+    public function process($entity): ?\Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithFamilyInterface
     {
         $actions = $this->getConfiguredActions();
 

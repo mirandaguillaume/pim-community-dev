@@ -165,7 +165,7 @@ SQL;
             throw new UnableToFetchIdentifierGeneratorException('Cannot fetch identifiers generators');
         }
 
-        return \array_map(fn($data) => $this->fromDatabaseToModel($data), $result);
+        return \array_map(fn(array $data): \Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\IdentifierGenerator => $this->fromDatabaseToModel($data), $result);
     }
 
     /**

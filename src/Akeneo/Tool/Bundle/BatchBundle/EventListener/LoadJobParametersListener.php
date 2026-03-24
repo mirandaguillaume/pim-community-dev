@@ -18,8 +18,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  */
 class LoadJobParametersListener
 {
-    /** @var JobParametersFactory */
-    protected $jobParametersFactory;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParametersFactory $jobParametersFactory;
 
     public function __construct(JobParametersFactory $jobParametersFactory)
     {

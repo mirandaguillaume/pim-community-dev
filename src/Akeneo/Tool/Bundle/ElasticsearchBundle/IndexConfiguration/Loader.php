@@ -28,7 +28,7 @@ class Loader
      * @return IndexConfiguration
      * @throws \Exception
      */
-    public function load()
+    public function load(): \Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\IndexConfiguration
     {
         $settings = [];
         $mappings = [];
@@ -44,7 +44,7 @@ class Loader
 
             $configuration = $yaml->parse(file_get_contents($configurationFile));
 
-            array_walk_recursive($configuration, function (&$value) {
+            array_walk_recursive($configuration, function (&$value): void {
                 $value = $this->parameterBag->resolveValue($value);
             });
 

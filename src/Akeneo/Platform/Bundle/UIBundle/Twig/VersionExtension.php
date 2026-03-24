@@ -35,7 +35,7 @@ class VersionExtension extends AbstractExtension
      *
      * @return string
      */
-    public function version()
+    public function version(): string
     {
         return $this->versionProvider->getFullVersion();
     }

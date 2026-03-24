@@ -35,7 +35,7 @@ class CategoryUpdater implements ObjectUpdaterInterface
         $this->accessor = PropertyAccess::createPropertyAccessor();
     }
 
-    public function update($category, array $data, array $options = [])
+    public function update($category, array $data, array $options = []): static
     {
         if (!$category instanceof CategoryInterface) {
             throw InvalidObjectException::objectExpected(ClassUtils::getClass($category), CategoryInterface::class);

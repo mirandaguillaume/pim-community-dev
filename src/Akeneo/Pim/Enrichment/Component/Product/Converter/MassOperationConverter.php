@@ -16,20 +16,15 @@ class MassOperationConverter implements ConverterInterface
 {
     final public const string EDIT_COMMON_JOB_CODE = 'edit_common_attributes';
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
-    /** @var ConverterInterface */
-    protected $productValueConverter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Converter\ConverterInterface $productValueConverter;
 
-    /** @var AttributeConverterInterface */
-    protected $localizedConverter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Localization\Localizer\AttributeConverterInterface $localizedConverter;
 
-    /** @var CollectionFilterInterface */
-    protected $productValuesFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\CollectionFilterInterface $productValuesFilter;
 
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    protected \Oro\Bundle\SecurityBundle\SecurityFacade $securityFacade;
 
     /** @var array */
     protected $acls = [
@@ -56,7 +51,7 @@ class MassOperationConverter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(array $operation)
+    public function convert(array $operation): array
     {
         if ($operation['jobInstanceCode'] === self::EDIT_COMMON_JOB_CODE) {
             $values = $operation['actions'][0]['normalized_values'];
@@ -77,7 +72,7 @@ class MassOperationConverter implements ConverterInterface
             $operation['actions'][0]['normalized_values'] = $values;
         }
 
-        $operation['actions'] = array_filter($operation['actions'], function ($action) {
+        $operation['actions'] = array_filter($operation['actions'], function (array $action): bool {
             if (!isset($action['field'])) {
                 return true;
             }

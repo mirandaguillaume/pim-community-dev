@@ -19,11 +19,9 @@ class FamilyNormalizer implements NormalizerInterface
     /** @var string[] */
     protected $supportedFormats = ['flat'];
 
-    /** @var NormalizerInterface */
-    protected $translationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $translationNormalizer;
 
-    /** @var NormalizerInterface */
-    protected $standardNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $standardNormalizer;
 
     public function __construct(
         NormalizerInterface $standardNormalizer,
@@ -70,7 +68,7 @@ class FamilyNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function normalizeRequirements(array $requirements)
+    protected function normalizeRequirements(array $requirements): array
     {
         $flat = [];
         foreach ($requirements as $channelCode => $attributeCodes) {

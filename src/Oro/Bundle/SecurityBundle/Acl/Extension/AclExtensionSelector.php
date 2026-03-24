@@ -12,10 +12,7 @@ use Symfony\Component\Security\Acl\Model\ObjectIdentityInterface;
  */
 class AclExtensionSelector
 {
-    /**
-     * @var ObjectIdAccessor
-     */
-    protected $objectIdAccessor;
+    protected \Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdAccessor $objectIdAccessor;
 
     /**
      * @var AclExtensionInterface[]
@@ -40,7 +37,7 @@ class AclExtensionSelector
     /**
      * Adds ACL extension
      */
-    public function addAclExtension(AclExtensionInterface $extension)
+    public function addAclExtension(AclExtensionInterface $extension): void
     {
         $this->extensions[] = $extension;
     }
@@ -115,7 +112,7 @@ class AclExtensionSelector
      * @param string $type
      * @return InvalidDomainObjectException
      */
-    protected function createAclExtensionNotFoundException(mixed $val, $type, int|string $id)
+    protected function createAclExtensionNotFoundException(mixed $val, $type, int|string $id): \Symfony\Component\Security\Acl\Exception\InvalidDomainObjectException
     {
         $objInfo = is_object($val) && !($val instanceof ObjectIdentityInterface)
             ? $val::class

@@ -11,11 +11,9 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
 {
     final public const string NAME_KEY = 'name';
 
-    /** @var PropertyAccessor */
-    protected $accessor;
+    protected \Symfony\Component\PropertyAccess\PropertyAccessor $accessor;
 
-    /** @var array */
-    protected $params;
+    protected array $params;
 
     protected function __construct(array $params)
     {
@@ -29,7 +27,7 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      *
      * @return $this
      */
-    public static function create(array $params)
+    public static function create(array $params): static
     {
         return new static($params);
     }
@@ -42,7 +40,7 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      *
      * @return $this
      */
-    public static function createNamed($name, array $params)
+    public static function createNamed($name, array $params): static
     {
         $params[self::NAME_KEY] = $name;
 
@@ -152,7 +150,7 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      *
      * @return $this
      */
-    public function offsetSetByPath($path, mixed $value)
+    public function offsetSetByPath(string|\Symfony\Component\PropertyAccess\PropertyPathInterface $path, mixed $value): static
     {
         $this->accessor->setValue($this->params, $path, $value);
 
@@ -173,7 +171,7 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      *
      * @return $this
      */
-    public function merge(array $params)
+    public function merge(array $params): static
     {
         $this->params = array_merge($this->params, $params);
 
@@ -187,7 +185,7 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      *
      * @return $this
      */
-    public function offsetAddToArray($offset, array $value)
+    public function offsetAddToArray($offset, array $value): static
     {
         $this[$offset] = isset($this[$offset]) && is_array($this[$offset]) ? $this[$offset] : [];
         $this[$offset] = array_merge($this[$offset], $value);
@@ -202,7 +200,7 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      *
      * @return $this
      */
-    public function offsetAddToArrayByPath($path, array $value)
+    public function offsetAddToArrayByPath($path, array $value): static
     {
         $oldValue = $this->offsetGetByPath($path, []);
         $this->offsetSetByPath($path, array_merge($oldValue, $value));
@@ -216,7 +214,7 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      *
      * @return $this
      */
-    public function validateConfiguration(ConfigurationInterface $configuration)
+    public function validateConfiguration(ConfigurationInterface $configuration): static
     {
         $processor = new Processor();
         $this->params = $processor->processConfiguration($configuration, $this->toArray());

@@ -58,7 +58,7 @@ class StructureVersion implements StructureVersionProviderInterface
      *
      * @param string $resourceName
      */
-    public function addResource($resourceName)
+    public function addResource($resourceName): void
     {
         if (!in_array($resourceName, $this->resourceNames)) {
             $this->resourceNames[] = $resourceName;

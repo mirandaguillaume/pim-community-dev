@@ -144,7 +144,7 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
 
         $attributeValues = array_filter(
             $valueCollection->normalize(),
-            fn (array $attributeValue) => null !== $attributeValue['data'],
+            fn (array $attributeValue): bool => null !== $attributeValue['data'],
         );
 
         return $attributeValues;

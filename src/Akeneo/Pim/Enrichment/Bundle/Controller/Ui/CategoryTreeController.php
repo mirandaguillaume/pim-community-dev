@@ -93,7 +93,7 @@ class CategoryTreeController extends AbstractController
             $selectedTreeId = $selectNode->isRoot() ? $selectNode->getId() : $selectNode->getRoot();
         }
 
-        $formatedTrees = array_map(fn (CategoryTree $tree) => [
+        $formatedTrees = array_map(fn (CategoryTree $tree): array => [
             'id' => $tree->getId()->getValue(),
             'code' => (string) $tree->getCode(),
             'label' => $tree->getLabel($this->userContext->getCurrentLocaleCode()),
@@ -114,7 +114,7 @@ class CategoryTreeController extends AbstractController
      * @throws AccessDeniedException
      *
      */
-    public function moveNodeAction(Request $request)
+    public function moveNodeAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -160,7 +160,7 @@ class CategoryTreeController extends AbstractController
      * @throws AccessDeniedException
      *
      */
-    public function childrenAction(Request $request)
+    public function childrenAction(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         if (false === $this->securityFacade->isGranted($this->buildAclName('category_list'))) {
             throw new AccessDeniedException();
@@ -299,7 +299,7 @@ class CategoryTreeController extends AbstractController
      * @throws AccessDeniedException
      *
      */
-    public function removeAction(Request $request, $id)
+    public function removeAction(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -382,7 +382,7 @@ class CategoryTreeController extends AbstractController
      *
      * @return array
      */
-    protected function getFormOptions(CategoryInterface $category)
+    protected function getFormOptions(CategoryInterface $category): array
     {
         return [];
     }
@@ -403,7 +403,7 @@ class CategoryTreeController extends AbstractController
      *
      * @return string
      */
-    protected function buildAclName($name)
+    protected function buildAclName(string $name): string
     {
         return $this->rawConfiguration['acl'] . '_' . $name;
     }
@@ -413,7 +413,7 @@ class CategoryTreeController extends AbstractController
      *
      * @return string
      */
-    protected function buildRouteName($name)
+    protected function buildRouteName(string $name): string
     {
         return $this->rawConfiguration['route'] . '_' . $name;
     }

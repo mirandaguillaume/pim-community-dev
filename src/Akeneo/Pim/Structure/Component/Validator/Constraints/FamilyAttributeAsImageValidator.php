@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class FamilyAttributeAsImageValidator extends ConstraintValidator
 {
     /** @var string[] */
-    protected $validAttributeTypes;
+    protected array $validAttributeTypes;
 
     /**
      * @param string[] $validAttributeTypes
@@ -59,7 +59,7 @@ class FamilyAttributeAsImageValidator extends ConstraintValidator
             $this->context
                 ->buildViolation(sprintf(
                     $constraint->messageAttributeType,
-                    join(', ', array_map(fn ($validAttributeType) => sprintf('"%s"', $validAttributeType), $this->validAttributeTypes))
+                    join(', ', array_map(fn (string $validAttributeType): string => sprintf('"%s"', $validAttributeType), $this->validAttributeTypes))
                 ))
                 ->atPath($constraint->propertyPath)
                 ->addViolation();

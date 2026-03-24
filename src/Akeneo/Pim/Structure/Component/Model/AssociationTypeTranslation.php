@@ -33,7 +33,7 @@ class AssociationTypeTranslation extends AbstractTranslation implements Associat
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->label = $label;
 

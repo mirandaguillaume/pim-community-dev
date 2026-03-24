@@ -41,12 +41,12 @@ final readonly class CriterionEvaluationResult
         $attributes = $this->data['attributes_with_rates'] ?? [];
 
         if ((is_countable($attributes) ? count($attributes) : 0) > 0) {
-            return ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($attributes, function ($attributes) {
+            return ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($attributes, function ($attributes): array {
                 if (false === is_array($attributes)) {
                     return [];
                 }
 
-                $attributes = array_keys(array_filter($attributes, fn ($rate) => $rate < 100));
+                $attributes = array_keys(array_filter($attributes, fn ($rate): bool => $rate < 100));
 
                 return $attributes;
             });
@@ -55,7 +55,7 @@ final readonly class CriterionEvaluationResult
         // The 'attributes' array key is deprecated but kept here to allow backward compatibility
         $attributes = $this->data['attributes'] ?? [];
 
-        return ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($attributes, fn ($attributeCodes) => is_array($attributeCodes) ? $attributeCodes : []);
+        return ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($attributes, fn ($attributeCodes): array => is_array($attributeCodes) ? $attributeCodes : []);
     }
 
     public function getStatus(): CriterionEvaluationResultStatusCollection

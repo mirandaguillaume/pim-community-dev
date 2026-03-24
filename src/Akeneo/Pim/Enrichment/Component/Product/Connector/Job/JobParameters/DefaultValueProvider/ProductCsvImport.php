@@ -15,11 +15,9 @@ use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
  */
 class ProductCsvImport implements DefaultValuesProviderInterface
 {
-    /** @var DefaultValuesProviderInterface */
-    protected $simpleProvider;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderInterface $simpleProvider;
 
-    /** @var array */
-    protected $supportedJobNames;
+    protected array $supportedJobNames;
 
     public function __construct(DefaultValuesProviderInterface $simpleProvider, array $supportedJobNames)
     {
@@ -49,7 +47,7 @@ class ProductCsvImport implements DefaultValuesProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports(JobInterface $job)
+    public function supports(JobInterface $job): bool
     {
         return in_array($job->getName(), $this->supportedJobNames);
     }

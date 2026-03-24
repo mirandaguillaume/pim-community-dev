@@ -17,7 +17,7 @@ class GroupsAndRolesVisibilityChecker extends NonEmptyPropertyVisibilityChecker
      * {@inheritdoc}
      */
     #[\Override]
-    public function isVisible(array $config = [], array $context = [])
+    public function isVisible(array $config = [], array $context = []): bool
     {
         return parent::isVisible(['property' => '[form][groups]'], $context)
             || parent::isVisible(['property'    => '[form][rolesCollection]'], $context);

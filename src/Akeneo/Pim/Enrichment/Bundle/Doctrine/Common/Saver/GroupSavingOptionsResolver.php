@@ -36,7 +36,7 @@ class GroupSavingOptionsResolver implements SavingOptionsResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveSaveAllOptions(array $options)
+    public function resolveSaveAllOptions(array $options): array
     {
         return array_merge($this->resolveSaveOptions($options), ['unitary' => false]);
     }
@@ -44,7 +44,7 @@ class GroupSavingOptionsResolver implements SavingOptionsResolverInterface
     /**
      * @return OptionsResolver
      */
-    protected function createOptionsResolver()
+    protected function createOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined(['copy_values_to_products', 'add_products', 'remove_products'])

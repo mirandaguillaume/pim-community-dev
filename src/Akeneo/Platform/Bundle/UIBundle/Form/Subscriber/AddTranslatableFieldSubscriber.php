@@ -23,30 +23,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AddTranslatableFieldSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var ValidatorInterface
-     */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /**
-     * @var FormFactoryInterface
-     */
-    protected $formFactory;
+    protected \Symfony\Component\Form\FormFactoryInterface $formFactory;
 
-    /**
-     * @var TranslationFactory
-     */
-    protected $translationFactory;
+    protected \Akeneo\Tool\Component\Localization\Factory\TranslationFactory $translationFactory;
 
-    /**
-     * @var array
-     */
-    protected $options;
+    protected array $options;
 
-    /**
-     * @var UserContext
-     */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     /**
      * Constructor
@@ -85,7 +70,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
      * On pre set data event
      * Build the custom form based on the provided locales
      */
-    public function preSetData(FormEvent $event)
+    public function preSetData(FormEvent $event): void
     {
         $data = $event->getData();
         $form = $event->getForm();
@@ -116,7 +101,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
     /**
      * On submit event (validation)
      */
-    public function submit(FormEvent $event)
+    public function submit(FormEvent $event): void
     {
         $form = $event->getForm();
 
@@ -150,7 +135,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
     /**
      * On post submit event (after validation)
      */
-    public function postSubmit(FormEvent $event)
+    public function postSubmit(FormEvent $event): void
     {
         $form = $event->getForm();
         $data = $event->getData();
@@ -176,9 +161,9 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
      *
      * @param array $data
      *
-     * @return mixed string
+     * @return array{locale: mixed, fieldName: mixed, translation: mixed}[] string
      */
-    protected function bindTranslations($data)
+    protected function bindTranslations($data): array
     {
         $collection = [];
         $availableTrans = [];
@@ -209,7 +194,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
      *
      * @return string[]
      */
-    protected function getFieldNames()
+    protected function getFieldNames(): array
     {
         $userLocales = $this->userContext->getUserLocaleCodes();
         $collection = [];

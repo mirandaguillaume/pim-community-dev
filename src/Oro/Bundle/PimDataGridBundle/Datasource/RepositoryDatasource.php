@@ -17,14 +17,12 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
 {
     public const DEFAULT_QUERY_PARAMS_KEY = 'default_query_params';
 
-    /** @var DatagridRepositoryInterface */
-    protected $repository;
+    protected \Oro\Bundle\PimDataGridBundle\Doctrine\ORM\Repository\DatagridRepositoryInterface $repository;
 
     /** @var QueryBuilder */
     protected $qb;
 
-    /** @var HydratorInterface */
-    protected $hydrator;
+    protected \Oro\Bundle\PimDataGridBundle\Datasource\ResultRecord\HydratorInterface $hydrator;
 
     /** @var array */
     protected $parameters = [];
@@ -42,7 +40,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function process(DatagridInterface $grid, array $config)
+    public function process(DatagridInterface $grid, array $config): void
     {
         $this->qb = $this->repository->createDatagridQueryBuilder();
 
@@ -64,7 +62,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function setParameters($parameters)
+    public function setParameters($parameters): static
     {
         $this->parameters += $parameters;
         if ($this->qb instanceof QueryBuilder) {
@@ -103,7 +101,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function getMassActionRepository()
+    public function getMassActionRepository(): never
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }
@@ -111,7 +109,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository)
+    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository): never
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }
@@ -119,7 +117,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function setHydrator(HydratorInterface $hydrator)
+    public function setHydrator(HydratorInterface $hydrator): never
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }

@@ -166,7 +166,7 @@ final class SetIdentifiersSubscriber
     ): ConstraintViolationListInterface {
         return new ConstraintViolationList(
             \array_map(
-                fn(ConstraintViolationInterface $constraintViolation) => new ConstraintViolation(
+                fn(ConstraintViolationInterface $constraintViolation): \Symfony\Component\Validator\ConstraintViolation => new ConstraintViolation(
                     $constraintViolation->getMessage(),
                     $constraintViolation->getMessageTemplate(),
                     $constraintViolation->getParameters(),

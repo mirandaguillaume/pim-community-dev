@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityRepository;
 class ProductModelRepository extends EntityRepository implements IdentifiableObjectRepositoryInterface
 {
     /** @var CatalogProductModelRepositoryInterface */
-    protected $productModelRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductModelRepositoryInterface $productModelRepository;
 
     public function __construct(
         EntityManager $em,

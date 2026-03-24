@@ -96,6 +96,6 @@ class UpdateTotalFieldsLimitCommand extends Command
 
     private function getEsClients(): array
     {
-        return array_filter($this->esClientsRegistry->getClients(), fn (Client $client) => in_array($client->getIndexName(), $this->indexesToUpdate));
+        return array_filter($this->esClientsRegistry->getClients(), fn (Client $client): bool => in_array($client->getIndexName(), $this->indexesToUpdate));
     }
 }

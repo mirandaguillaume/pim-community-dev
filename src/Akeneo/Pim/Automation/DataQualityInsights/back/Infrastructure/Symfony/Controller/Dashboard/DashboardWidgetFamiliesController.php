@@ -22,7 +22,7 @@ final readonly class DashboardWidgetFamiliesController
     {
     }
 
-    public function __invoke(Request $request, string $channel, string $locale)
+    public function __invoke(Request $request, string $channel, string $locale): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             $channelCode = new ChannelCode($channel);
@@ -45,6 +45,6 @@ final readonly class DashboardWidgetFamiliesController
             throw new \InvalidArgumentException('The list of families must be an array');
         }
 
-        return array_map(fn ($familyCode) => new FamilyCode($familyCode), $requestFamilies);
+        return array_map(fn ($familyCode): \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\FamilyCode => new FamilyCode($familyCode), $requestFamilies);
     }
 }

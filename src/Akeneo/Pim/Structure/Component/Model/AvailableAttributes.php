@@ -17,7 +17,7 @@ class AvailableAttributes
     /**
      * Set attribute
      */
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes): void
     {
         $this->attributes = $attributes;
     }

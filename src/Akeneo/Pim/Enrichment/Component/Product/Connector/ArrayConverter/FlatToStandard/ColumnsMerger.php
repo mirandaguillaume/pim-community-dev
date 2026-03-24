@@ -31,11 +31,9 @@ use Ramsey\Uuid\Uuid;
  */
 class ColumnsMerger
 {
-    /** @var AttributeColumnInfoExtractor */
-    protected $fieldExtractor;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\AttributeColumnInfoExtractor $fieldExtractor;
 
-    /** @var AssociationColumnsResolver */
-    protected $associationColumnResolver;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\AssociationColumnsResolver $associationColumnResolver;
 
     public function __construct(AttributeColumnInfoExtractor $fieldExtractor, AssociationColumnsResolver $associationColumnResolver)
     {
@@ -93,7 +91,7 @@ class ColumnsMerger
      *
      * @return string
      */
-    protected function getCleanFieldName(array $attributeInfos)
+    protected function getCleanFieldName(array $attributeInfos): string
     {
         $attribute = $attributeInfos['attribute'];
         $cleanField = $attribute->getCode();
@@ -112,7 +110,7 @@ class ColumnsMerger
      *
      * @return array collected metrics
      */
-    protected function collectMetricData(array $collectedMetrics, array $attributeInfos, $fieldValue)
+    protected function collectMetricData(array $collectedMetrics, array $attributeInfos, $fieldValue): array
     {
         $cleanField = $this->getCleanFieldName($attributeInfos);
 
@@ -169,7 +167,7 @@ class ColumnsMerger
      *
      * @return array collected metrics
      */
-    protected function collectPriceData(array $collectedPrices, array $attributeInfos, mixed $fieldValue, array $options)
+    protected function collectPriceData(array $collectedPrices, array $attributeInfos, mixed $fieldValue, array $options): array
     {
         $cleanField = $this->getCleanFieldName($attributeInfos);
         if (null !== $attributeInfos['price_currency']) {
@@ -226,7 +224,7 @@ class ColumnsMerger
         }
 
         $values = explode(ProductAssociation::IDENTIFIER_SEPARATOR, (string) $fieldValue);
-        $isUuids = \count(\array_filter($values, fn ($value) => !Uuid::isValid($value))) === 0;
+        $isUuids = \count(\array_filter($values, fn (string $value): bool => !Uuid::isValid($value))) === 0;
 
         if ($isUuids) {
             $newQuantifiedAssociations = ['uuids' => $values];
@@ -246,7 +244,7 @@ class ColumnsMerger
      *
      * @return array
      */
-    protected function mergePriceData(array $resultRow, array $collectedPrices)
+    protected function mergePriceData(array $resultRow, array $collectedPrices): array
     {
         foreach ($collectedPrices as $fieldName => $prices) {
             $resultRow[$fieldName] = implode(AttributeColumnInfoExtractor::ARRAY_SEPARATOR, $prices);
@@ -278,7 +276,7 @@ class ColumnsMerger
 
                 $resultRow[sprintf('%s%s%s', $associationTypeCode, AttributeColumnInfoExtractor::FIELD_SEPARATOR, $entityType)]
                 = array_map(
-                    function ($uuid, $quantity) use ($isUuids) {
+                    function ($uuid, $quantity) use ($isUuids): array {
                         if ($isUuids) {
                             return ['uuid' => $uuid, 'quantity' => (int) $quantity];
                         } else {

@@ -46,7 +46,7 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
      * @param int   $offset
      * @return array
      */
-    public function searchAfterOffset(array $searchFilters, array $orders, $limit, $offset)
+    public function searchAfterOffset(array $searchFilters, array $orders, $limit, $offset): mixed
     {
         $qb = $this->createQueryBuilder('r');
         $qb = $this->addFilters($qb, $searchFilters);
@@ -94,7 +94,7 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierCode()
+    public function getIdentifierCode(): string
     {
         return $this->attributeRepository->getIdentifierCode();
     }

@@ -78,7 +78,7 @@ class StoreFileCommand extends Command
      *
      * @return bool
      */
-    protected function hasFileSystem($storageFsAlias)
+    protected function hasFileSystem($storageFsAlias): bool
     {
         try {
             $this->filesystemProvider->getFilesystem($storageFsAlias);

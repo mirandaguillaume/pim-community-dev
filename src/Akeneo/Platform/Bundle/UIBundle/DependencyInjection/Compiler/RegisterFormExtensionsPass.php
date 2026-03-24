@@ -22,7 +22,7 @@ class RegisterFormExtensionsPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(static::PROVIDER_ID)) {
             return;
@@ -60,7 +60,7 @@ class RegisterFormExtensionsPass implements CompilerPassInterface
      *
      * @return \SplFileInfo[]
      */
-    protected function listConfigFiles(ContainerBuilder $container)
+    protected function listConfigFiles(ContainerBuilder $container): array
     {
         $files = [];
 
@@ -103,7 +103,7 @@ class RegisterFormExtensionsPass implements CompilerPassInterface
      *
      * @return \SplFileInfo[]
      */
-    protected function listConfigFilesInDirectory($directory)
+    protected function listConfigFilesInDirectory(string|array $directory): array
     {
         $files = [];
         $finder = new Finder();

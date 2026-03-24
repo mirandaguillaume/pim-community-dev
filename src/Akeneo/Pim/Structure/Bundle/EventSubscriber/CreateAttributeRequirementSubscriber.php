@@ -23,8 +23,7 @@ use Webmozart\Assert\Assert;
 #[AsDoctrineListener(event: Events::prePersist)]
 class CreateAttributeRequirementSubscriber
 {
-    /** @var AttributeRequirementFactory */
-    protected $requirementFactory;
+    protected \Akeneo\Pim\Structure\Component\Factory\AttributeRequirementFactory $requirementFactory;
 
     /**
      * Constructor
@@ -37,7 +36,7 @@ class CreateAttributeRequirementSubscriber
     /**
      * Create requirements for each families' attributes for the newly created channel
      */
-    public function prePersist(LifecycleEventArgs $event)
+    public function prePersist(LifecycleEventArgs $event): void
     {
         $entity = $event->getObject();
 

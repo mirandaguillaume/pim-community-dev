@@ -49,13 +49,11 @@ class Comment implements CommentInterface
     #[ORM\Column(type: Types::TEXT)]
     protected $body;
 
-    /** @var \DateTime */
     #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE)]
-    protected $createdAt;
+    protected \DateTime $createdAt;
 
-    /** @var \DateTime */
     #[ORM\Column(name: 'replied_at', type: Types::DATETIME_MUTABLE)]
-    protected $repliedAt;
+    protected \DateTime $repliedAt;
 
     /** @var CommentInterface */
     #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Comment\Model\CommentInterface::class, inversedBy: 'children')]
@@ -85,7 +83,7 @@ class Comment implements CommentInterface
     /**
      * {@inheritdoc}
      */
-    public function setResourceId($resourceId)
+    public function setResourceId($resourceId): static
     {
         $this->resourceId = $resourceId;
 
@@ -103,7 +101,7 @@ class Comment implements CommentInterface
     /**
      * {@inheritdoc}
      */
-    public function setResourceName($resourceName)
+    public function setResourceName($resourceName): static
     {
         $this->resourceName = $resourceName;
 
@@ -121,7 +119,7 @@ class Comment implements CommentInterface
     /**
      * {@inheritdoc}
      */
-    public function setAuthor(UserInterface $author)
+    public function setAuthor(UserInterface $author): static
     {
         $this->author = $author;
 
@@ -139,7 +137,7 @@ class Comment implements CommentInterface
     /**
      * {@inheritdoc}
      */
-    public function setBody($body)
+    public function setBody($body): static
     {
         $this->body = $body;
 
@@ -157,7 +155,7 @@ class Comment implements CommentInterface
     /**
      * {@inheritdoc}
      */
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt(\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -175,7 +173,7 @@ class Comment implements CommentInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent(CommentInterface $parent)
+    public function setParent(CommentInterface $parent): static
     {
         $this->parent = $parent;
 
@@ -193,7 +191,7 @@ class Comment implements CommentInterface
     /**
      * {@inheritdoc}
      */
-    public function setRepliedAt(\DateTime $repliedAt)
+    public function setRepliedAt(\DateTime $repliedAt): static
     {
         $this->repliedAt = $repliedAt;
 
@@ -219,7 +217,7 @@ class Comment implements CommentInterface
     /**
      * {@inheritdoc}
      */
-    public function setChildren(ArrayCollection $children)
+    public function setChildren(ArrayCollection $children): static
     {
         $this->children = $children;
 

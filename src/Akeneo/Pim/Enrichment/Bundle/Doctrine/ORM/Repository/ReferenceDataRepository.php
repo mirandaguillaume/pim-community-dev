@@ -21,7 +21,7 @@ class ReferenceDataRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function findBySearch($search = null, array $options = [])
+    public function findBySearch($search = null, array $options = []): array
     {
         if (null !== $labelProperty = $this->getReferenceDataLabelProperty()) {
             $selectDql = sprintf(
@@ -85,7 +85,7 @@ class ReferenceDataRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($identifier)
+    public function findOneByIdentifier($identifier): ?object
     {
         return $this->findOneBy(['code' => $identifier]);
     }
@@ -93,7 +93,7 @@ class ReferenceDataRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function findCodesByIdentifiers(array $referenceDataCodes)
+    public function findCodesByIdentifiers(array $referenceDataCodes): mixed
     {
         return $this->createQueryBuilder($this->getAlias())
             ->select($this->getAlias() . '.code')

@@ -12,10 +12,7 @@ use Oro\Bundle\FilterBundle\Filter\FilterUtility;
  */
 class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
 {
-    /**
-     * @var QueryBuilder
-     */
-    protected $qb;
+    protected \Doctrine\ORM\QueryBuilder $qb;
 
     /**
      * @var OrmExpressionBuilder
@@ -39,7 +36,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
      *                            Can be FilterUtility::CONDITION_OR or FilterUtility::CONDITION_AND.
      * @param bool   $isComputed  Specifies whether the restriction should be added to the HAVING part of a query.
      */
-    public function addRestriction($restriction, $condition, $isComputed = false)
+    public function addRestriction($restriction, $condition, $isComputed = false): void
     {
         if ($this->fixComparison($restriction, $condition)) {
             return;
@@ -63,7 +60,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function groupBy($_)
+    public function groupBy($_): mixed
     {
         return call_user_func_array($this->qb->groupBy(...), func_get_args());
     }
@@ -71,7 +68,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function addGroupBy($_)
+    public function addGroupBy($_): mixed
     {
         return call_user_func_array($this->qb->addGroupBy(...), func_get_args());
     }
@@ -91,7 +88,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function setParameter($key, $value, $type = null)
+    public function setParameter($key, $value, $type = null): void
     {
         $this->qb->setParameter($key, $value, $type);
     }
@@ -142,7 +139,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
      *                            Can be FilterUtility::CONDITION_OR or FilterUtility::CONDITION_AND.
      * @return bool true if a the given restriction was applied to the query builder; otherwise, false.
      */
-    protected function tryApplyWhereRestriction(mixed $restriction, $condition)
+    protected function tryApplyWhereRestriction(mixed $restriction, $condition): bool
     {
         if (!($restriction instanceof Expr\Comparison)) {
             return false;

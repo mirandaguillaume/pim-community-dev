@@ -26,7 +26,7 @@ final readonly class SaveResetEvent
         $newResetEvents = [...$previousEvents, ['time' => $dateTime]];
 
         $normalizedEvents = array_map(
-            static fn (array $resetEvent) => ['time' => $resetEvent['time']->format('c')],
+            static fn (array $resetEvent): array => ['time' => $resetEvent['time']->format('c')],
             $newResetEvents,
         );
 

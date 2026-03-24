@@ -59,7 +59,7 @@ class UiLocaleProvider implements LocaleProviderInterface
      *
      * @return int
      */
-    protected function getProgress($locale)
+    protected function getProgress($locale): int
     {
         $catalogue = $this->translator->getCatalogue($locale);
 

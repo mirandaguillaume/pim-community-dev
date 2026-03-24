@@ -20,20 +20,15 @@ class ChannelNormalizer implements NormalizerInterface
     /** @var array $supportedFormats */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var NormalizerInterface */
-    protected $channelNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $channelNormalizer;
 
-    /** @var NormalizerInterface */
-    protected $localeNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $localeNormalizer;
 
-    /** @var VersionRepositoryInterface */
-    protected $versionRepository;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Repository\VersionRepositoryInterface $versionRepository;
 
-    /** @var NormalizerInterface */
-    protected $versionNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $versionNormalizer;
 
-    /** @var CollectionFilterInterface */
-    protected $collectionFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\CollectionFilterInterface $collectionFilter;
 
     public function __construct(
         NormalizerInterface $channelNormalizer,

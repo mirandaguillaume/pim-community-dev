@@ -23,7 +23,7 @@ class DateFormatValidator extends ConstraintValidator
      * {@inheritdoc}
      * @param DateFormat $constraint
      */
-    public function validate($date, Constraint $constraint)
+    public function validate($date, Constraint $constraint): void
     {
         if (null === $date) {
             return;
@@ -53,7 +53,7 @@ class DateFormatValidator extends ConstraintValidator
      *
      * @return bool
      */
-    protected function hasSameSeparators($date, $pattern)
+    protected function hasSameSeparators($date, $pattern): bool
     {
         preg_match('|(\W)+|', $date, $dateSeparators);
         preg_match('|(\W)+|', $pattern, $patternSeparators);

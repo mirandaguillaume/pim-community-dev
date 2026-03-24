@@ -22,14 +22,11 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
  */
 class DummyFilter implements AttributeFilterInterface, FieldFilterInterface
 {
-    /** @var array */
-    protected $supportedAttributeTypes;
+    protected array $supportedAttributeTypes;
 
-    /** @var array */
-    protected $supportedFields;
+    protected array $supportedFields;
 
-    /** @var array */
-    protected $supportedOperators;
+    protected array $supportedOperators;
 
     /** @var mixed */
     protected $queryBuilder;
@@ -44,7 +41,7 @@ class DummyFilter implements AttributeFilterInterface, FieldFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsAttribute(AttributeInterface $attribute)
+    public function supportsAttribute(AttributeInterface $attribute): bool
     {
         return in_array($attribute->getType(), $this->supportedAttributeTypes);
     }
@@ -52,7 +49,7 @@ class DummyFilter implements AttributeFilterInterface, FieldFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsField($field)
+    public function supportsField($field): bool
     {
         return in_array($field, $this->supportedFields);
     }
@@ -60,7 +57,7 @@ class DummyFilter implements AttributeFilterInterface, FieldFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsOperator($operator)
+    public function supportsOperator($operator): bool
     {
         return in_array($operator, $this->supportedOperators);
     }
@@ -75,14 +72,14 @@ class DummyFilter implements AttributeFilterInterface, FieldFilterInterface
         $locale = null,
         $scope = null,
         $options = []
-    ) {
+    ): static {
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addFieldFilter($field, $operator, $value, $locale = null, $scope = null, $options = [])
+    public function addFieldFilter($field, $operator, $value, $locale = null, $scope = null, $options = []): static
     {
         return $this;
     }
@@ -114,7 +111,7 @@ class DummyFilter implements AttributeFilterInterface, FieldFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function setQueryBuilder($queryBuilder)
+    public function setQueryBuilder($queryBuilder): void
     {
         $this->queryBuilder = $queryBuilder;
     }

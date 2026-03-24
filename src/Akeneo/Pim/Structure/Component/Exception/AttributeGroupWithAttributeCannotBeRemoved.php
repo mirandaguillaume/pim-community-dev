@@ -13,7 +13,7 @@ use Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface;
 
 class AttributeGroupWithAttributeCannotBeRemoved extends UserFacingError
 {
-    public static function createFromAttributeGroup(AttributeGroupInterface $attributeGroup)
+    public static function createFromAttributeGroup(AttributeGroupInterface $attributeGroup): self
     {
         return new self('pim_enrich.attribute_group.remove.attribute_group_with_attribute_cannot_be_removed', [
             'attributeGroup' => $attributeGroup,

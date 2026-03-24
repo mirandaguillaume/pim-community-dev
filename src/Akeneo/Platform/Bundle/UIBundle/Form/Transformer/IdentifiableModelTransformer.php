@@ -18,8 +18,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class IdentifiableModelTransformer implements DataTransformerInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $repository;
 
     /** @var bool */
     protected $multiple;

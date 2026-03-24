@@ -34,7 +34,7 @@ class StringFilter extends OroStringFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->prepareData($ds, $data);
         if (!$data) {
@@ -96,7 +96,7 @@ class StringFilter extends OroStringFilter
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getOperator($type)
+    protected function getOperator($type): string
     {
         if (!isset($this->operatorTypes[$type])) {
             throw new \InvalidArgumentException(sprintf('Operator %s is not supported', $type));

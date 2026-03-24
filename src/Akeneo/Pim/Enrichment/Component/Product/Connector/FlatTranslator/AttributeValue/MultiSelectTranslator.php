@@ -43,7 +43,7 @@ class MultiSelectTranslator implements FlatAttributeValueTranslatorInterface
 
             $optionCodes = explode(',', (string) $value);
             $labelizedOptions = array_map(
-                function ($optionCode) use ($attributeCode, $locale, $attributeOptionTranslations) {
+                function (string $optionCode) use ($attributeCode, $locale, $attributeOptionTranslations) {
                     $optionKey = self::generateOptionKey($attributeCode, $optionCode);
 
                     return $attributeOptionTranslations[$optionKey][$locale] ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $optionCode);
@@ -66,7 +66,7 @@ class MultiSelectTranslator implements FlatAttributeValueTranslatorInterface
             }
             $optionCodes = explode(',', (string) $value);
             $currentOptionKeys = array_map(
-                static fn ($optionCode) => self::generateOptionKey($attributeCode, $optionCode),
+                static fn (string $optionCode): string => self::generateOptionKey($attributeCode, $optionCode),
                 $optionCodes
             );
 

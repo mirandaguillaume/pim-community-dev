@@ -22,11 +22,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class MediaController
 {
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var PathGeneratorInterface */
-    protected $pathGenerator;
+    protected \Akeneo\Tool\Component\FileStorage\PathGeneratorInterface $pathGenerator;
 
     public function __construct(ValidatorInterface $validator, PathGeneratorInterface $pathGenerator, private readonly FileStorer $fileStorer)
     {
@@ -40,7 +38,7 @@ class MediaController
      *
      * @return Response
      */
-    public function postAction(Request $request)
+    public function postAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');

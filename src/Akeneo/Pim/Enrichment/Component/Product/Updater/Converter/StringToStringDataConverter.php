@@ -43,7 +43,7 @@ final class StringToStringDataConverter implements ValueDataConverter
     /**
      * {@inheritdoc}
      */
-    public function convert(ValueInterface $sourceValue, AttributeInterface $targetAttribute)
+    public function convert(ValueInterface $sourceValue, AttributeInterface $targetAttribute): string
     {
         Assert::string($sourceValue->getData());
 

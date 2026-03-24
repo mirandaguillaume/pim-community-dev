@@ -21,11 +21,9 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class PropertyCopier implements PropertyCopierInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
-    /** @var CopierRegistryInterface */
-    protected $copierRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Updater\Copier\CopierRegistryInterface $copierRegistry;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
@@ -44,7 +42,7 @@ class PropertyCopier implements PropertyCopierInterface
         $fromField,
         $toField,
         array $options = []
-    ) {
+    ): static {
         if (!$fromEntityWithValues instanceof EntityWithValuesInterface
             || !$toEntityWithValues instanceof EntityWithValuesInterface
         ) {

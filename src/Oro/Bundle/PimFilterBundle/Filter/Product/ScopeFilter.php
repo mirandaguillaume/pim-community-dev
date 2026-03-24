@@ -19,15 +19,9 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class ScopeFilter extends ChoiceFilter
 {
-    /**
-     * @var CatalogContext
-     */
-    protected $catalogContext;
+    protected \Akeneo\Pim\Enrichment\Bundle\Context\CatalogContext $catalogContext;
 
-    /**
-     * @var UserContext
-     */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     /**
      * Constructor
@@ -53,7 +47,7 @@ class ScopeFilter extends ChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function init($name, array $params)
+    public function init($name, array $params): void
     {
         parent::init($name, $params);
         // TODO : useful ? I would expect that it's configured in datasource itself
@@ -64,7 +58,7 @@ class ScopeFilter extends ChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $channelCode = $this->parseData($data);
         if (!$channelCode) {
@@ -95,7 +89,7 @@ class ScopeFilter extends ChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getFormType()
+    protected function getFormType(): string
     {
         return ScopeFilterType::class;
     }

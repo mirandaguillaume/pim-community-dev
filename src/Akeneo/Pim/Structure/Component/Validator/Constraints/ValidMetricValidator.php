@@ -21,8 +21,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ValidMetricValidator extends ConstraintValidator
 {
-    /** @var PropertyAccessorInterface */
-    protected $propertyAccessor;
+    protected \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor;
 
     public function __construct(PropertyAccessorInterface $propertyAccessor, private readonly LegacyMeasurementProvider $legacyMeasureProvider)
     {
@@ -37,7 +36,7 @@ class ValidMetricValidator extends ConstraintValidator
      *
      * @throws \Exception
      */
-    public function validate($object, Constraint $constraint)
+    public function validate($object, Constraint $constraint): void
     {
         if (!$constraint instanceof ValidMetric) {
             throw new UnexpectedTypeException($constraint, ValidMetric::class);

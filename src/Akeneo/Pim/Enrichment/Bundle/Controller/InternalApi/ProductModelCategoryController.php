@@ -19,14 +19,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ProductModelCategoryController
 {
-    /** @var ProductModelRepositoryInterface */
-    protected $productModelRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductModelRepositoryInterface $productModelRepository;
 
-    /** @var ItemCategoryRepositoryInterface */
-    protected $productModelCategoryRepository;
+    protected \Akeneo\Category\Infrastructure\Component\Classification\Repository\ItemCategoryRepositoryInterface $productModelCategoryRepository;
 
-    /** @var ObjectFilterInterface */
-    protected $objectFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\ObjectFilterInterface $objectFilter;
 
     public function __construct(
         ProductModelRepositoryInterface $productModelRepository,
@@ -45,7 +42,7 @@ class ProductModelCategoryController
      *
      * @AclAncestor("pim_enrich_product_model_categories_view")
      */
-    public function listAction($id): JsonResponse
+    public function listAction(string $id): JsonResponse
     {
         $result = [];
         $productModel = $this->findProductModelOr404($id);

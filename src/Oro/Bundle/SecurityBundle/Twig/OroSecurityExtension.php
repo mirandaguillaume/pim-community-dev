@@ -8,10 +8,7 @@ use Twig\TwigFunction;
 
 class OroSecurityExtension extends AbstractExtension
 {
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    protected \Oro\Bundle\SecurityBundle\SecurityFacade $securityFacade;
 
     public function __construct(SecurityFacade $securityFacade)
     {
@@ -40,7 +37,7 @@ class OroSecurityExtension extends AbstractExtension
      *
      * @return bool
      */
-    public function checkResourceIsGranted(string|array $attributes, mixed $object = null)
+    public function checkResourceIsGranted(string|array $attributes, mixed $object = null): bool
     {
         return $this->securityFacade->isGranted($attributes, $object);
     }

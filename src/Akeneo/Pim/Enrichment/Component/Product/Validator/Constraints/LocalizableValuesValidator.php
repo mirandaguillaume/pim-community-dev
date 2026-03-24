@@ -24,7 +24,7 @@ final class LocalizableValuesValidator extends ConstraintValidator
      * @param object     $values
      * @param Constraint $constraint
      */
-    public function validate($values, Constraint $constraint)
+    public function validate($values, Constraint $constraint): void
     {
         if (!$constraint instanceof LocalizableValues) {
             throw new UnexpectedTypeException($constraint, LocalizableValues::class);

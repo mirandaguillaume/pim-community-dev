@@ -101,7 +101,7 @@ class Client implements ClientInterface
     /**
      * @param string $label
      */
-    public function setLabel($label)
+    public function setLabel($label): void
     {
         $this->label = $label;
     }

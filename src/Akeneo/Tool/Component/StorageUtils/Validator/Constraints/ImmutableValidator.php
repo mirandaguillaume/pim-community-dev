@@ -18,10 +18,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class ImmutableValidator extends ConstraintValidator
 {
-    /**
-     * @var EntityManager
-     */
-    protected $em;
+    protected \Doctrine\ORM\EntityManager $em;
 
     /**
      * Constructor
@@ -37,7 +34,7 @@ class ImmutableValidator extends ConstraintValidator
      * @param object     $entity
      * @param Constraint $constraint
      */
-    public function validate($entity, Constraint $constraint)
+    public function validate($entity, Constraint $constraint): void
     {
         $originalData = $this->em->getUnitOfWork()->getOriginalEntityData($entity);
         $accessor = PropertyAccess::createPropertyAccessor();

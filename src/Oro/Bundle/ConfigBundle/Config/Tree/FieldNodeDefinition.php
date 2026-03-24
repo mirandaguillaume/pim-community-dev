@@ -42,7 +42,7 @@ class FieldNodeDefinition extends AbstractNodeDefinition
      *
      * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         $this->definition['options'] = $options;
 
@@ -56,7 +56,7 @@ class FieldNodeDefinition extends AbstractNodeDefinition
      *
      * @return $this
      */
-    public function replaceOption($name, mixed $value)
+    public function replaceOption($name, mixed $value): static
     {
         $this->definition['options'][$name] = $value;
 
@@ -68,7 +68,7 @@ class FieldNodeDefinition extends AbstractNodeDefinition
      *
      * @return array
      */
-    public function toFormFieldOptions()
+    public function toFormFieldOptions(): array
     {
         return ['target_field' => $this, ...array_intersect_key(
             $this->getOptions(),
@@ -103,7 +103,7 @@ class FieldNodeDefinition extends AbstractNodeDefinition
      *
      * TODO: use ConstraintFactory here, https://magecore.atlassian.net/browse/BAP-2270
      */
-    protected function newConstraint($name, $options)
+    protected function newConstraint(string $name, $options)
     {
         if (str_contains((string) $name, '\\') && class_exists($name)) {
             $className = (string) $name;
@@ -117,7 +117,7 @@ class FieldNodeDefinition extends AbstractNodeDefinition
     /**
      * @return array
      */
-    protected function parseValidator(array $nodes)
+    protected function parseValidator(array $nodes): array
     {
         $values = [];
 

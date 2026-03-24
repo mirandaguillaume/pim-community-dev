@@ -24,8 +24,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
-    /** @var ImageNormalizer */
-    protected $imageNormalizer;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Normalizer\InternalApi\ImageNormalizer $imageNormalizer;
 
     public function __construct(
         private readonly CollectionFilterInterface $filter,
@@ -81,7 +80,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      * @param string           $locale
      * @return string
      */
-    protected function getFamilyLabel(ProductInterface $product, $locale)
+    protected function getFamilyLabel(ProductInterface $product, ?string $locale)
     {
         $family = $product->getFamily();
         if (null === $family) {
@@ -97,7 +96,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      * @param string           $locale
      * @return string
      */
-    protected function getGroupsLabels(ProductInterface $product, $locale)
+    protected function getGroupsLabels(ProductInterface $product, $locale): string
     {
         $groups = [];
         foreach ($product->getGroups() as $group) {
@@ -128,7 +127,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      *
      * @return string
      */
-    protected function getLabel($code, ?string $value = null)
+    protected function getLabel($code, ?string $value = null): string
     {
         return '' === $value || null === $value ? sprintf('[%s]', $code) : $value;
     }
@@ -153,7 +152,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      *
      * @return array
      */
-    private function normalizeValues(WriteValueCollection $values, $format, array $context = [])
+    private function normalizeValues(WriteValueCollection $values, ?string $format, array $context = [])
     {
         foreach ($context['filter_types'] as $filterType) {
             $values = $this->filter->filterCollection($values, $filterType, $context);

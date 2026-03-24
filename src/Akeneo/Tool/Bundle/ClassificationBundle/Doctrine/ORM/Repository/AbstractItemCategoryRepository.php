@@ -109,7 +109,7 @@ abstract class AbstractItemCategoryRepository implements
     /**
      * {@inheritdoc}
      */
-    public function applyFilterByUnclassified($qb)
+    public function applyFilterByUnclassified($qb): void
     {
         $this->joinQueryBuilderOnCategories($qb);
 
@@ -119,7 +119,7 @@ abstract class AbstractItemCategoryRepository implements
     /**
      * {@inheritdoc}
      */
-    public function applyFilterByCategoryIds($qb, array $categoryIds, $include = true)
+    public function applyFilterByCategoryIds($qb, array $categoryIds, $include = true): void
     {
         $rootAlias = $qb->getRootAliases()[0];
         $filterCatIds = uniqid('filterCatIds');
@@ -149,7 +149,7 @@ abstract class AbstractItemCategoryRepository implements
     /**
      * {@inheritdoc}
      */
-    public function applyFilterByCategoryIdsOrUnclassified($qb, array $categoryIds)
+    public function applyFilterByCategoryIdsOrUnclassified($qb, array $categoryIds): void
     {
         $filterCatIds = uniqid('filterCatIdsOrUnclassified');
 

@@ -17,8 +17,7 @@ class InvalidOperatorException extends \LogicException
     final public const int NOT_SUPPORTED_CODE = 300;
     final public const int NOT_EMPTY_VALUE_EXPECTED_CODE = 400;
 
-    /** @var array */
-    protected $operators;
+    protected array $operators;
 
     /**
      * @param string          $className
@@ -46,7 +45,7 @@ class InvalidOperatorException extends \LogicException
      * @param mixed  $value a value that is not a scalar (array, object, null)
      * @return InvalidOperatorException
      */
-    public static function scalarExpected(array $operators, $className, mixed $value)
+    public static function scalarExpected(array $operators, $className, mixed $value): self
     {
         $message = 'Only scalar values are allowed for operators %s, "%s" given.';
 
@@ -68,7 +67,7 @@ class InvalidOperatorException extends \LogicException
      *
      * @return InvalidOperatorException
      */
-    public static function arrayExpected($operators, $className, mixed $value)
+    public static function arrayExpected($operators, $className, mixed $value): self
     {
         $message = 'Only array values are allowed for operators %s, "%s" given.';
 
@@ -89,7 +88,7 @@ class InvalidOperatorException extends \LogicException
      *
      * @return InvalidOperatorException
      */
-    public static function notSupported($operator, $className)
+    public static function notSupported(string $operator, $className): self
     {
         $message = 'Operator "%s" is not supported';
 

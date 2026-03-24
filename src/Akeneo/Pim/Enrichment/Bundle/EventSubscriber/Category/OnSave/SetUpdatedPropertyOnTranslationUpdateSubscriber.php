@@ -33,7 +33,7 @@ class SetUpdatedPropertyOnTranslationUpdateSubscriber
         $this->updateCategoryUpdatedDate($args);
     }
 
-    private function updateCategoryUpdatedDate(LifecycleEventArgs $args)
+    private function updateCategoryUpdatedDate(LifecycleEventArgs $args): void
     {
         /** @var CategoryTranslation */
         $entity = $args->getObject();

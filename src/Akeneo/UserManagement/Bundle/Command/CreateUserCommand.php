@@ -196,7 +196,7 @@ class CreateUserCommand extends Command
         $question
             ->setHidden(true)
             ->setHiddenFallback(false)
-            ->setValidator(function ($answer) use ($password) {
+            ->setValidator(function ($answer) use ($password): string {
                 if ($password !== $answer) {
                     throw new \InvalidArgumentException("The passwords must match.");
                 }

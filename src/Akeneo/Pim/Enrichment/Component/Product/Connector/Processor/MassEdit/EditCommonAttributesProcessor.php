@@ -22,20 +22,16 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class EditCommonAttributesProcessor extends AbstractProcessor
 {
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var ProductRepositoryInterface */
-    protected $productRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterface $productRepository;
 
     /** @var array */
     protected $skippedAttributes = [];
 
-    /** @var ObjectUpdaterInterface */
-    protected $productUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $productUpdater;
 
-    /** @var ObjectDetacherInterface */
-    protected $productDetacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\ObjectDetacherInterface $productDetacher;
 
     public function __construct(
         ValidatorInterface $validator,
@@ -106,7 +102,7 @@ class EditCommonAttributesProcessor extends AbstractProcessor
      *
      * @return ProductInterface $product
      */
-    protected function updateProduct(ProductInterface $product, array $actions)
+    protected function updateProduct(ProductInterface $product, array $actions): ?\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface
     {
         $normalizedValues = $actions['normalized_values'];
         $filteredValues = [];
@@ -149,7 +145,7 @@ class EditCommonAttributesProcessor extends AbstractProcessor
      *
      * @return bool
      */
-    protected function isProductValid(ProductInterface $product)
+    protected function isProductValid(ProductInterface $product): bool
     {
         $violations = $this->validator->validate($product);
         $this->addWarningMessage($violations, $product);
@@ -160,7 +156,7 @@ class EditCommonAttributesProcessor extends AbstractProcessor
     /**
      * @return bool
      */
-    protected function isProductEditable(ProductInterface $product)
+    protected function isProductEditable(ProductInterface $product): bool
     {
         return true;
     }

@@ -20,8 +20,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\Sorter\FieldSorterInterface;
  */
 class FamilySorter extends BaseFieldSorter
 {
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
     /**
      * @param LocaleRepositoryInterface $localeRepository

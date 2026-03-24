@@ -26,7 +26,7 @@ final readonly class RedirectToEditConnectedAppAction
     ) {
     }
 
-    public function __invoke(string $id): Response
+    public function __invoke(string $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $connectedApp = $this->findOneConnectedAppByIdQuery->execute($id);
         if (null === $connectedApp) {

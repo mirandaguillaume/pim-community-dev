@@ -19,7 +19,7 @@ class Registry
      *
      * @param int             $position
      */
-    public function add(WidgetInterface $widget, $position)
+    public function add(WidgetInterface $widget, $position): void
     {
         if (!isset($this->widgets[$position])) {
             $this->widgets[$position] = $widget;

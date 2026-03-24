@@ -8,10 +8,7 @@ use Twig\TokenParser\AbstractTokenParser;
 
 class PlaceholderTokenParser extends AbstractTokenParser
 {
-    /**
-     * @var array
-     */
-    protected $placeholders;
+    protected array $placeholders;
 
     /**
      * @param array  $placeholders Array with placeholders

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Validation;
 
 class OperationValueValidator extends ConstraintValidator
 {
-    public function validate($convertValue, Constraint $constraint)
+    public function validate($convertValue, Constraint $constraint): void
     {
         $validator = Validation::createValidator();
         $violations = $validator->validate(
@@ -21,7 +21,7 @@ class OperationValueValidator extends ConstraintValidator
             [
                 new NotBlank(),
                 new Callback(
-                    function ($value, ExecutionContextInterface $context) {
+                    function ($value, ExecutionContextInterface $context): void {
                         if (null !== $value && '' !== $value && !$this->isStringNumericWithoutScientificNotation($value)) {
                             $context->buildViolation(OperationValue::VALUE_SHOULD_BE_A_NUMBER_IN_A_STRING)
                                 ->addViolation();
@@ -42,7 +42,7 @@ class OperationValueValidator extends ConstraintValidator
         }
     }
 
-    private function isStringNumericWithoutScientificNotation($value)
+    private function isStringNumericWithoutScientificNotation($value): bool
     {
         return is_string($value) && preg_match('~^\d*\.?\d+$~', $value) === 1;
     }

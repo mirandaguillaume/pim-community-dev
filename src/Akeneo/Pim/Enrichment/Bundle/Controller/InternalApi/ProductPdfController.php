@@ -22,11 +22,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ProductPdfController
 {
-    /** @var ProductRepositoryInterface */
-    protected $productRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterface $productRepository;
 
-    /** @var RendererRegistry */
-    protected $rendererRegistry;
+    protected \Akeneo\Pim\Enrichment\Bundle\PdfGeneration\Renderer\RendererRegistry $rendererRegistry;
 
     public function __construct(ProductRepositoryInterface $productRepository, RendererRegistry $rendererRegistry)
     {
@@ -44,7 +42,7 @@ class ProductPdfController
      *@throws HttpException
      *
      */
-    public function downloadPdfAction(Request $request, string $uuid)
+    public function downloadPdfAction(Request $request, string $uuid): \Symfony\Component\HttpFoundation\Response
     {
         $product = $this->findProductOr404($uuid);
         $renderingDate = new \DateTime('now');

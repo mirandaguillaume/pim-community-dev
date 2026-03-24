@@ -17,7 +17,7 @@ class AssociationUpdateGuesser implements UpdateGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function supportAction($action)
+    public function supportAction($action): bool
     {
         return in_array(
             $action,
@@ -27,8 +27,9 @@ class AssociationUpdateGuesser implements UpdateGuesserInterface
 
     /**
      * {@inheritdoc}
+     * @return list
      */
-    public function guessUpdates(EntityManager $em, $entity, $action)
+    public function guessUpdates(EntityManager $em, $entity, $action): array
     {
         $pendings = [];
 

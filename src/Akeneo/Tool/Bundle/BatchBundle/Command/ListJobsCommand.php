@@ -71,7 +71,7 @@ class ListJobsCommand extends Command
      *
      * @return HelperInterface
      */
-    protected function buildTable(array $jobs, OutputInterface $output)
+    protected function buildTable(array $jobs, OutputInterface $output): \Symfony\Component\Console\Helper\Table
     {
         $rows = [];
         foreach ($jobs as $job) {

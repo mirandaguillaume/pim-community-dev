@@ -21,7 +21,7 @@ class CategoryItemsCounterRegistry
      *
      * @param string $type
      */
-    public function register(CategoryItemsCounterInterface $categoryItemsCounter, $type)
+    public function register(CategoryItemsCounterInterface $categoryItemsCounter, $type): static
     {
         self::$categoryItemsCounter[$type] = $categoryItemsCounter;
 

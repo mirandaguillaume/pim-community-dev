@@ -17,11 +17,9 @@ use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
 #[AsDoctrineListener(event: Events::loadClassMetadata, priority: 100)]
 class ConfigureMappingsSubscriber
 {
-    /** @var MappingsOverrideConfiguratorInterface */
-    protected $configurator;
+    protected \Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\MappingsOverrideConfiguratorInterface $configurator;
 
-    /** @var array */
-    protected $mappingOverrides;
+    protected array $mappingOverrides;
 
     public function __construct(MappingsOverrideConfiguratorInterface $configurator, array $mappingOverrides)
     {
@@ -29,7 +27,7 @@ class ConfigureMappingsSubscriber
         $this->mappingOverrides = $mappingOverrides;
     }
 
-    public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
+    public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs): void
     {
         $this->configurator->configure(
             $eventArgs->getClassMetadata(),

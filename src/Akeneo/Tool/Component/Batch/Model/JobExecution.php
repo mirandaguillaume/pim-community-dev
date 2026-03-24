@@ -142,7 +142,7 @@ class JobExecution implements \Stringable
      *
      * @return ExecutionContext with its attributes
      */
-    public function getExecutionContext()
+    public function getExecutionContext(): ?\Akeneo\Tool\Component\Batch\Item\ExecutionContext
     {
         return $this->executionContext;
     }
@@ -154,7 +154,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setExecutionContext(ExecutionContext $executionContext)
+    public function setExecutionContext(ExecutionContext $executionContext): static
     {
         $this->executionContext = $executionContext;
 
@@ -166,7 +166,7 @@ class JobExecution implements \Stringable
      *
      * @return \DateTime the time that this execution ended
      */
-    public function getEndTime()
+    public function getEndTime(): ?\DateTime
     {
         return $this->endTime;
     }
@@ -178,7 +178,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setEndTime(\DateTime $endTime)
+    public function setEndTime(\DateTime $endTime): static
     {
         $this->endTime = $endTime;
 
@@ -190,7 +190,7 @@ class JobExecution implements \Stringable
      *
      * @return \DateTime the time this execution started
      */
-    public function getStartTime()
+    public function getStartTime(): ?\DateTime
     {
         return $this->startTime;
     }
@@ -202,7 +202,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setStartTime(\DateTime $startTime)
+    public function setStartTime(\DateTime $startTime): static
     {
         $this->startTime = $startTime;
 
@@ -213,7 +213,7 @@ class JobExecution implements \Stringable
      *
      * @return \DateTime the time this execution has been created
      */
-    public function getCreateTime()
+    public function getCreateTime(): ?\DateTime
     {
         return $this->createTime;
     }
@@ -225,7 +225,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setCreateTime(\DateTime $createTime)
+    public function setCreateTime(\DateTime $createTime): static
     {
         $this->createTime = $createTime;
 
@@ -237,7 +237,7 @@ class JobExecution implements \Stringable
      *
      * @return \DateTime time this execution has been updated
      */
-    public function getUpdatedTime()
+    public function getUpdatedTime(): ?\DateTime
     {
         return $this->updatedTime;
     }
@@ -249,7 +249,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setUpdatedTime(\DateTime $updatedTime)
+    public function setUpdatedTime(\DateTime $updatedTime): static
     {
         $this->updatedTime = $updatedTime;
 
@@ -295,7 +295,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setPid($pid)
+    public function setPid($pid): static
     {
         $this->pid = $pid;
 
@@ -317,7 +317,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setUser($user)
+    public function setUser($user): static
     {
         $this->user = $user;
 
@@ -329,7 +329,7 @@ class JobExecution implements \Stringable
      *
      * @return BatchStatus the current status of this step
      */
-    public function getStatus()
+    public function getStatus(): \Akeneo\Tool\Component\Batch\Job\BatchStatus
     {
         return new BatchStatus($this->status);
     }
@@ -341,7 +341,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setStatus(BatchStatus $status)
+    public function setStatus(BatchStatus $status): static
     {
         $this->status = $status->getValue();
 
@@ -357,7 +357,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function upgradeStatus(mixed $status)
+    public function upgradeStatus(mixed $status): static
     {
         $newBatchStatus = $this->getStatus();
         $newBatchStatus->upgradeTo($status);
@@ -369,7 +369,7 @@ class JobExecution implements \Stringable
     /**
      * @return JobExecution
      */
-    public function setExitStatus(ExitStatus $exitStatus)
+    public function setExitStatus(ExitStatus $exitStatus): static
     {
         $this->exitStatus = $exitStatus;
         $this->exitCode = $exitStatus->getExitCode();
@@ -381,7 +381,7 @@ class JobExecution implements \Stringable
     /**
      * @return ExitStatus exitCode
      */
-    public function getExitStatus()
+    public function getExitStatus(): ?\Akeneo\Tool\Component\Batch\Job\ExitStatus
     {
         if ($this->exitStatus === null && $this->exitCode !== null) {
             $this->exitStatus = new ExitStatus($this->exitCode);
@@ -407,7 +407,7 @@ class JobExecution implements \Stringable
      *
      * @return StepExecution the created stepExecution
      */
-    public function createStepExecution(mixed $stepName)
+    public function createStepExecution(mixed $stepName): \Akeneo\Tool\Component\Batch\Model\StepExecution
     {
         $stepExecution = new StepExecution($stepName, $this);
 
@@ -420,7 +420,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function addStepExecution(StepExecution $stepExecution)
+    public function addStepExecution(StepExecution $stepExecution): static
     {
         $this->stepExecutions[] = $stepExecution;
 
@@ -444,7 +444,7 @@ class JobExecution implements \Stringable
      * stop.
      * @return bool if the status is BatchStatus::STOPPING
      */
-    public function isStopping()
+    public function isStopping(): bool
     {
         return $this->status == BatchStatus::STOPPING;
     }
@@ -455,7 +455,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function stop()
+    public function stop(): static
     {
         /** @var StepExecution $stepExecution */
         foreach ($this->stepExecutions as $stepExecution) {
@@ -470,7 +470,7 @@ class JobExecution implements \Stringable
      * Get failure exceptions
      * @return mixed
      */
-    public function getFailureExceptions()
+    public function getFailureExceptions(): ?array
     {
         return $this->failureExceptions;
     }
@@ -480,7 +480,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function addFailureException(\Exception $e)
+    public function addFailureException(\Exception $e): static
     {
         $this->failureExceptions[] = [
             'class'             => $e::class,
@@ -499,7 +499,7 @@ class JobExecution implements \Stringable
      *
      * @return array containing all exceptions causing failure for this JobExecution.
      */
-    public function getAllFailureExceptions()
+    public function getAllFailureExceptions(): ?array
     {
         $allExceptions = $this->failureExceptions;
 
@@ -518,7 +518,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setJobInstance(JobInstance $jobInstance)
+    public function setJobInstance(JobInstance $jobInstance): static
     {
         $this->jobInstance = $jobInstance;
         $this->jobInstance->addJobExecution($this);
@@ -531,7 +531,7 @@ class JobExecution implements \Stringable
      *
      * @return JobInstance The job to which the JobExecution is associated
      */
-    public function getJobInstance()
+    public function getJobInstance(): ?\Akeneo\Tool\Component\Batch\Model\JobInstance
     {
         return $this->jobInstance;
     }
@@ -553,7 +553,7 @@ class JobExecution implements \Stringable
      *
      * @return JobExecution
      */
-    public function setLogFile($logFile)
+    public function setLogFile($logFile): static
     {
         $this->logFile = $logFile;
 

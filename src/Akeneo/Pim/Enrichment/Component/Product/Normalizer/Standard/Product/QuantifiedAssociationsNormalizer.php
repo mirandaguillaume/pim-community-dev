@@ -46,7 +46,10 @@ class QuantifiedAssociationsNormalizer implements NormalizerInterface
         return $entity->normalizeQuantifiedAssociations();
     }
 
-    public function normalizeOnlyParentsAssociations($entity, $format = null, array $context = [])
+    /**
+     * @return mixed[]
+     */
+    public function normalizeOnlyParentsAssociations($entity, $format = null, array $context = []): array
     {
         if (!$entity instanceof EntityWithFamilyVariantInterface) {
             return [];

@@ -15,11 +15,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ReferenceDataConfigurationRestController
 {
-    /** @var ConfigurationRegistryInterface */
-    protected $registry;
+    protected \Akeneo\Pim\Structure\Component\ReferenceData\ConfigurationRegistryInterface $registry;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
     public function __construct(ConfigurationRegistryInterface $registry, NormalizerInterface $normalizer)
     {
@@ -32,7 +30,7 @@ class ReferenceDataConfigurationRestController
      *
      * @return JsonResponse
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $referenceConfig = $this->registry->all();
 

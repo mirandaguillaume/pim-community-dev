@@ -23,7 +23,7 @@ class ContentTypeNegotiatorPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('pim_api.negotiator.content_type_negotiator')) {
             return;
@@ -36,7 +36,7 @@ class ContentTypeNegotiatorPass implements CompilerPassInterface
         }
     }
 
-    private function addRule(array $rule, ContainerBuilder $container)
+    private function addRule(array $rule, ContainerBuilder $container): void
     {
         $matcher = $this->createRequestMatcher(
             $container,

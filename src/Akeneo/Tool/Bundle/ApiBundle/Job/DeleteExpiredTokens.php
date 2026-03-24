@@ -21,7 +21,7 @@ class DeleteExpiredTokens implements TaskletInterface
     ) {
     }
 
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }

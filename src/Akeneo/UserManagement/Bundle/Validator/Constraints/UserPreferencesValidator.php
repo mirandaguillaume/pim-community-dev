@@ -21,7 +21,7 @@ class UserPreferencesValidator extends ConstraintValidator
      * @param UserInterface $user
      * @param Constraint                              $constraint
      */
-    public function validate($user, Constraint $constraint)
+    public function validate($user, Constraint $constraint): void
     {
         $this->validateCatalogLocale($user, $constraint);
         $this->validateCatalogScope($user, $constraint);

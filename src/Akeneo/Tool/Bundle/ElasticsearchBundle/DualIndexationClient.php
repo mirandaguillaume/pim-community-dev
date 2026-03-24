@@ -34,7 +34,7 @@ final class DualIndexationClient extends Client
      * {@inheritDoc}
      */
     #[\Override]
-    public function index($id, array $body, ?Refresh $refresh = null): array
+    public function index(string $id, array $body, ?Refresh $refresh = null): array
     {
         $this->dualClient->index($id, $body, $refresh);
 
@@ -45,7 +45,7 @@ final class DualIndexationClient extends Client
      * {@inheritDoc}
      */
     #[\Override]
-    public function bulkIndexes($documents, $keyAsId = null, ?Refresh $refresh = null): array
+    public function bulkIndexes($documents, ?string $keyAsId = null, ?Refresh $refresh = null): array
     {
         $this->dualClient->bulkIndexes($documents, $keyAsId, $refresh);
 

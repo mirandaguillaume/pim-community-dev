@@ -39,7 +39,7 @@ class EnsureConsistentAttributeGroupOrderTasklet implements TaskletInterface, Tr
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -47,7 +47,7 @@ class EnsureConsistentAttributeGroupOrderTasklet implements TaskletInterface, Tr
     /**
      * {@inheritdoc}
      */
-    public function execute()
+    public function execute(): void
     {
         if ($this->attributeGroupReader instanceof InitializableInterface) {
             $this->attributeGroupReader->initialize();

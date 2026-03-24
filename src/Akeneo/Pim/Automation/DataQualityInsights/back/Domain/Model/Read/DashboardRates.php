@@ -31,7 +31,10 @@ final class DashboardRates
         $this->timePeriod = strval($timePeriod);
     }
 
-    public function toArray()
+    /**
+     * @return mixed[]
+     */
+    public function toArray(): array
     {
         if (! array_key_exists($this->timePeriod, $this->rates)) {
             return [];
@@ -40,9 +43,9 @@ final class DashboardRates
         $result = $this->convertRatesByTimePeriod($this->timePeriod);
 
         $actions = [
-            TimePeriod::DAILY => fn (array $rates) => $this->ensureRatesContainEnoughDays($rates),
-            TimePeriod::WEEKLY => fn (array $rates) => $this->ensureRatesContainEnoughWeeks($rates),
-            TimePeriod::MONTHLY => fn (array $rates) => $this->ensureRatesContainEnoughMonths($rates),
+            TimePeriod::DAILY => fn (array $rates): array => $this->ensureRatesContainEnoughDays($rates),
+            TimePeriod::WEEKLY => fn (array $rates): array => $this->ensureRatesContainEnoughWeeks($rates),
+            TimePeriod::MONTHLY => fn (array $rates): array => $this->ensureRatesContainEnoughMonths($rates),
         ];
 
         return $actions[$this->timePeriod]($result);

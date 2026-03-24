@@ -75,7 +75,7 @@ class AjaxChoiceFilterType extends ChoiceFilterType
      * {@inheritdoc}
      */
     #[\Override]
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['choices'] = $view->children['valueChoices']->vars['choices'];
         $view->vars['preload_choices'] = $options['preload_choices'];
@@ -91,7 +91,7 @@ class AjaxChoiceFilterType extends ChoiceFilterType
      *
      * @return array
      */
-    protected function getOperatorChoices($options)
+    protected function getOperatorChoices(array $options): array
     {
         $operatorChoices = [strtolower(Operators::IN_LIST)];
 

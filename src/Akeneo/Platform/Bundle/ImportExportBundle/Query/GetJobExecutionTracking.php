@@ -166,7 +166,10 @@ class GetJobExecutionTracking
         return $duration;
     }
 
-    private function createStepExecutionsTrackingWithoutJob(Collection $stepExecutions, string $jobName)
+    /**
+     * @return mixed[]
+     */
+    private function createStepExecutionsTrackingWithoutJob(Collection $stepExecutions, string $jobName): array
     {
         $stepExecutionsTracking = [];
         /** @var StepExecution $stepExecution */
@@ -177,7 +180,7 @@ class GetJobExecutionTracking
         return $stepExecutionsTracking;
     }
 
-    private function createStepExecutionTrackingFromStepExecution(StepExecution $stepExecution, string $jobName)
+    private function createStepExecutionTrackingFromStepExecution(StepExecution $stepExecution, string $jobName): \Akeneo\Platform\Bundle\ImportExportBundle\Model\StepExecutionTracking
     {
         $duration = $this->computeDuration($stepExecution);
 

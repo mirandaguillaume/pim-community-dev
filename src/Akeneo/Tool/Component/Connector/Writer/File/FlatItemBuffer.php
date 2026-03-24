@@ -32,7 +32,7 @@ class FlatItemBuffer extends JSONFileBuffer implements BufferInterface, \Countab
      * {@inheritdoc}
      */
     #[\Override]
-    public function write($items, array $options = [])
+    public function write($items, array $options = []): void
     {
         foreach ($items as $item) {
             $this->addToHeaders(array_keys($item));
@@ -63,7 +63,7 @@ class FlatItemBuffer extends JSONFileBuffer implements BufferInterface, \Countab
     /**
      * Add the specified keys to the list of headers
      */
-    public function addToHeaders(array $keys)
+    public function addToHeaders(array $keys): void
     {
         $headers = array_merge($this->headers, $keys);
         $headers = array_unique($headers);

@@ -16,8 +16,7 @@ class MandatoryPropertyException extends PropertyException
     /** @var string */
     protected $propertyName;
 
-    /** @var string */
-    protected $className;
+    protected string $className;
 
     public function __construct(
         string $propertyName,
@@ -38,7 +37,7 @@ class MandatoryPropertyException extends PropertyException
      *
      * @return MandatoryPropertyException
      */
-    public static function mandatoryProperty($propertyName, $className)
+    public static function mandatoryProperty(string $propertyName, $className): static
     {
         return new static(
             $propertyName,

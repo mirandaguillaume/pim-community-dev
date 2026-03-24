@@ -28,7 +28,7 @@ class UserNotificationFactory
      *
      * @return UserNotificationInterface
      */
-    public function createUserNotification(NotificationInterface $notification, UserInterface $user)
+    public function createUserNotification(NotificationInterface $notification, UserInterface $user): object
     {
         $entity = new $this->className();
 

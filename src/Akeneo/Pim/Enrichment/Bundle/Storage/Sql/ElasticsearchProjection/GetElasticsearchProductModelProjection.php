@@ -337,7 +337,10 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
         return $rowsIndexedByProductModelCode;
     }
 
-    private function getCompletenesses(array $productModelCodes)
+    /**
+     * @return mixed[]
+     */
+    private function getCompletenesses(array $productModelCodes): array
     {
         $sql = <<<SQL
             WITH descendant_product_uuids as ( 

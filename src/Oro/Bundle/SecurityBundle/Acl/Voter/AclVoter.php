@@ -40,7 +40,7 @@ class AclVoter extends BaseAclVoter implements PermissionGrantingStrategyContext
     /**
      * Sets the ACL extension selector
      */
-    public function setAclExtensionSelector(AclExtensionSelector $selector)
+    public function setAclExtensionSelector(AclExtensionSelector $selector): void
     {
         $this->extensionSelector = $selector;
     }
@@ -89,7 +89,7 @@ class AclVoter extends BaseAclVoter implements PermissionGrantingStrategyContext
     /**
      * {@inheritdoc}
      */
-    public function getSecurityToken()
+    public function getSecurityToken(): ?\Symfony\Component\Security\Core\Authentication\Token\TokenInterface
     {
         return $this->securityToken;
     }
@@ -97,7 +97,7 @@ class AclVoter extends BaseAclVoter implements PermissionGrantingStrategyContext
     /**
      * {@inheritdoc}
      */
-    public function getAclExtension()
+    public function getAclExtension(): ?\Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionInterface
     {
         return $this->extension;
     }

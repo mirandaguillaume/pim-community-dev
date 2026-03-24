@@ -15,11 +15,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class LocaleController
 {
-    /** @var LocaleProviderInterface */
-    protected $localeProvider;
+    protected \Akeneo\Tool\Component\Localization\Provider\LocaleProviderInterface $localeProvider;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
     public function __construct(LocaleProviderInterface $localeProvider, NormalizerInterface $normalizer)
     {
@@ -32,7 +30,7 @@ class LocaleController
      *
      * @return JsonResponse
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $result = [];
         foreach ($this->localeProvider->getLocales() as $locale) {

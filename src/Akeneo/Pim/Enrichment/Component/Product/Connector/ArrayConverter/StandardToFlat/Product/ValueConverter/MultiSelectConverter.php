@@ -30,8 +30,9 @@ class MultiSelectConverter extends AbstractValueConverter implements ValueConver
      * [
      *     'colors-de_DE-ecommerce' => 'blue,yellow,red',
      * ]
+     * @return string[]
      */
-    public function convert($attributeCode, $data)
+    public function convert($attributeCode, $data): array
     {
         $convertedItem = [];
 

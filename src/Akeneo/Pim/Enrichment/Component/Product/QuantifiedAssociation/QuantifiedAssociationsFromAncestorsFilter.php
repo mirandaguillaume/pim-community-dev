@@ -28,7 +28,10 @@ class QuantifiedAssociationsFromAncestorsFilter
     {
     }
 
-    public function filter(array $data, EntityWithQuantifiedAssociationsInterface $entity)
+    /**
+     * @return mixed[]
+     */
+    public function filter(array $data, EntityWithQuantifiedAssociationsInterface $entity): array
     {
         if (!$entity instanceof EntityWithFamilyVariantInterface) {
             return $data;

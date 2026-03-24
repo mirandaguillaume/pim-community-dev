@@ -16,7 +16,7 @@ class RemoveAttributeCodesFromBlacklistTasklet implements TaskletInterface
     {
     }
 
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -24,7 +24,7 @@ class RemoveAttributeCodesFromBlacklistTasklet implements TaskletInterface
     /**
      * {@inheritdoc}
      */
-    public function execute()
+    public function execute(): void
     {
         $attributeCodes = $this->stepExecution
             ->getJobExecution()

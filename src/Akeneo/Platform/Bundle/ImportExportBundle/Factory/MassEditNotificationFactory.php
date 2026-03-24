@@ -17,7 +17,7 @@ use Doctrine\Common\Util\ClassUtils;
 class MassEditNotificationFactory extends AbstractNotificationFactory implements NotificationFactoryInterface
 {
     /** @var string[] */
-    protected $notificationTypes;
+    protected array $notificationTypes;
 
     /**
      * @param string[] $notificationTypes
@@ -28,7 +28,7 @@ class MassEditNotificationFactory extends AbstractNotificationFactory implements
         $this->notificationTypes = $notificationTypes;
     }
 
-    public function create($jobExecution)
+    public function create($jobExecution): object
     {
         if (!$jobExecution instanceof JobExecution) {
             throw new \InvalidArgumentException(sprintf('Expects a Akeneo\Tool\Component\Batch\Model\JobExecution, "%s" provided', ClassUtils::getClass($jobExecution)));
@@ -49,7 +49,7 @@ class MassEditNotificationFactory extends AbstractNotificationFactory implements
         return $notification;
     }
 
-    public function supports($type)
+    public function supports($type): bool
     {
         return in_array($type, $this->notificationTypes);
     }

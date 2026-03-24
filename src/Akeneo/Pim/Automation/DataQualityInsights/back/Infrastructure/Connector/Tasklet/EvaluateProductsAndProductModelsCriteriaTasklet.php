@@ -79,7 +79,7 @@ final class EvaluateProductsAndProductModelsCriteriaTasklet implements TaskletIn
         } while ($this->isTimeboxReached($startTime) === false);
     }
 
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }

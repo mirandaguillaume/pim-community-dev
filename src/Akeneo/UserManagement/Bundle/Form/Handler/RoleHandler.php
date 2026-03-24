@@ -14,20 +14,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class RoleHandler
 {
-    /**
-     * @var FormInterface
-     */
-    protected $form;
+    protected \Symfony\Component\Form\FormInterface $form;
 
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
-    /**
-     * @var ObjectManager
-     */
-    protected $manager;
+    protected \Doctrine\Persistence\ObjectManager $manager;
 
     public function __construct(FormInterface $form, RequestStack $requestStack, ObjectManager $manager)
     {
@@ -41,7 +32,7 @@ class RoleHandler
      *
      * @return bool True on successfull processing, false otherwise
      */
-    public function process(Role $entity)
+    public function process(Role $entity): bool
     {
         $this->form->setData($entity);
 

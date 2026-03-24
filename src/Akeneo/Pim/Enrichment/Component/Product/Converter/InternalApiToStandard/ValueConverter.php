@@ -12,8 +12,7 @@ use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
  */
 class ValueConverter implements ConverterInterface
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
@@ -44,7 +43,7 @@ class ValueConverter implements ConverterInterface
      *     }
      * }
      */
-    public function convert(array $productValues)
+    public function convert(array $productValues): array
     {
         $mediaAttributes = $this->attributeRepository->findMediaAttributeCodes();
 

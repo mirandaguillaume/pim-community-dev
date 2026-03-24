@@ -47,7 +47,7 @@ final readonly class SqlFindProductIdentifier implements FindIdentifier
         }
         Assert::allString($uuids);
 
-        $uuidsAsBytes = \array_map(function (string $uuid) {
+        $uuidsAsBytes = \array_map(function (string $uuid): string {
             if (!Uuid::isValid($uuid)) {
                 throw new \InvalidArgumentException(sprintf('Uuid should be a valid uuid, %s given', $uuid));
             }

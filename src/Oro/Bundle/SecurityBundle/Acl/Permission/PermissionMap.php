@@ -11,10 +11,7 @@ use Symfony\Component\Security\Acl\Permission\PermissionMapInterface;
  */
 class PermissionMap implements PermissionMapInterface
 {
-    /**
-     * @var AclExtensionSelector
-     */
-    protected $extensionSelector;
+    protected \Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionSelector $extensionSelector;
 
     /**
      * Constructor

@@ -24,7 +24,7 @@ class ReferenceDataOptionsExistValidator extends ConstraintValidator
     {
     }
 
-    public function validate($values, Constraint $constraint)
+    public function validate($values, Constraint $constraint): void
     {
         if (!$constraint instanceof ReferenceDataOptionsExist) {
             throw new UnexpectedTypeException($constraint, ReferenceDataOptionsExist::class);
@@ -45,7 +45,7 @@ class ReferenceDataOptionsExistValidator extends ConstraintValidator
         $referenceDataNames = $this->getReferenceDataNamesIndexedByAttributeCode($refDataValues->getAttributeCodes());
 
         $existingRefDataCodes = $this->getExistingReferenceDadaCodesIndexedByAttributeCodes($refDataValues, $referenceDataNames);
-        array_walk_recursive($existingRefDataCodes, function (string &$value) {
+        array_walk_recursive($existingRefDataCodes, function (string &$value): void {
             $value = strtolower($value);
         });
 

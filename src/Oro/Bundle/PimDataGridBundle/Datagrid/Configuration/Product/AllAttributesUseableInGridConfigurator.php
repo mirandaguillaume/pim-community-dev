@@ -30,7 +30,7 @@ class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function configure(DatagridConfiguration $configuration)
+    public function configure(DatagridConfiguration $configuration): void
     {
         $this->addAttributesIds($configuration);
         $this->addAttributesConfig($configuration);
@@ -39,7 +39,7 @@ class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
     /**
      * Inject the displayed attribute ids in the datagrid configuration
      */
-    private function addAttributesIds(DatagridConfiguration $configuration)
+    private function addAttributesIds(DatagridConfiguration $configuration): void
     {
         $attributeCodes = [];
         $params = $this->requestParams->get(RequestParameters::ADDITIONAL_PARAMETERS);
@@ -57,7 +57,7 @@ class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
     /**
      * Inject attributes configurations in the datagrid configuration
      */
-    private function addAttributesConfig(DatagridConfiguration $configuration)
+    private function addAttributesConfig(DatagridConfiguration $configuration): void
     {
         $attributeIds = $this->attributeRepository->getAttributeIdsUseableInGrid();
 
@@ -91,7 +91,7 @@ class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
     /**
      * @param string $key the configuration key
      */
-    private function getSourcePath($key): string
+    private function getSourcePath(string $key): string
     {
         return sprintf(self::SOURCE_PATH, $key);
     }

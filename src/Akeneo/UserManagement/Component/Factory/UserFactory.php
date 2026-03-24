@@ -23,23 +23,17 @@ use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
  */
 class UserFactory implements SimpleFactoryInterface
 {
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
-    /** @var CategoryRepositoryInterface */
-    protected $categoryRepository;
+    protected \Akeneo\Category\Infrastructure\Component\Classification\Repository\CategoryRepositoryInterface $categoryRepository;
 
-    /** @var GroupRepositoryInterface */
-    protected $groupRepository;
+    protected \Akeneo\UserManagement\Component\Repository\GroupRepositoryInterface $groupRepository;
 
-    /** @var RoleRepositoryInterface */
-    protected $roleRepository;
+    protected \Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface $roleRepository;
 
-    /** @var string */
-    protected $userClass;
+    protected string $userClass;
 
     /** @var DefaultProperty[] */
     private readonly array $defaultProperties;
@@ -68,7 +62,7 @@ class UserFactory implements SimpleFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function create()
+    public function create(): object
     {
         $user = new $this->userClass();
         if (null !== $uiLocale = $this->getDefaultUiLocale()) {
@@ -90,7 +84,7 @@ class UserFactory implements SimpleFactoryInterface
             $user->addRole($role);
         }
 
-        return array_reduce($this->defaultProperties, fn ($user, DefaultProperty $defaultProperty) => $defaultProperty->mutate($user), $user);
+        return array_reduce($this->defaultProperties, fn (\Akeneo\UserManagement\Component\Model\UserInterface $user, DefaultProperty $defaultProperty): \Akeneo\UserManagement\Component\Model\UserInterface => $defaultProperty->mutate($user), $user);
     }
 
     /**

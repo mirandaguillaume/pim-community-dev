@@ -12,14 +12,11 @@ namespace Akeneo\Tool\Component\Connector\ArrayConverter;
  */
 class DummyConverter implements ArrayConverterInterface
 {
-    /** @var FieldsRequirementChecker */
-    protected $checker;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker $checker;
 
-    /** @var array */
-    protected $fieldsPresence;
+    protected array $fieldsPresence;
 
-    /** @var array */
-    protected $fieldsFilling;
+    protected array $fieldsFilling;
 
     public function __construct(
         FieldsRequirementChecker $checker,
@@ -34,7 +31,7 @@ class DummyConverter implements ArrayConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(array $item, array $options = [])
+    public function convert(array $item, array $options = []): array
     {
         if (!empty($this->fieldsPresence)) {
             $this->checker->checkFieldsPresence($item, $this->fieldsPresence);

@@ -40,38 +40,27 @@ use Webmozart\Assert\Assert;
  */
 class AttributeController
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
-    /** @var ObjectFilterInterface */
-    protected $attributeFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\ObjectFilterInterface $attributeFilter;
 
-    /** @var SearchableRepositoryInterface */
-    protected $attributeSearchRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\SearchableRepositoryInterface $attributeSearchRepository;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var RemoverInterface */
-    protected $remover;
+    protected \Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface $remover;
 
-    /** @var AttributeFactory */
-    protected $factory;
+    protected \Akeneo\Pim\Structure\Component\Factory\AttributeFactory $factory;
 
-    /** @var LocalizerInterface */
-    protected $numberLocalizer;
+    protected \Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface $numberLocalizer;
 
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,
@@ -114,7 +103,7 @@ class AttributeController
      *
      * @return JsonResponse
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         // Merge POST body + query params (query takes precedence), because this
         // endpoint accepts both GET and POST — the frontend switches to POST when
@@ -195,7 +184,7 @@ class AttributeController
      * @throws NotFoundHttpException
      * @return JsonResponse
      */
-    public function getAction(Request $request, $identifier)
+    public function getAction(Request $request, string $identifier): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $attribute = $this->attributeRepository->findOneByIdentifier($identifier);
 
@@ -220,7 +209,7 @@ class AttributeController
      * @return Response
      * @AclAncestor("pim_enrich_attribute_create")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -266,7 +255,7 @@ class AttributeController
      * @return Response
      * @AclAncestor("pim_enrich_attribute_edit")
      */
-    public function postAction(Request $request, $identifier)
+    public function postAction(Request $request, string $identifier): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -403,7 +392,7 @@ class AttributeController
      *
      * @return JsonResponse
      */
-    public function listAxesAction(Request $request)
+    public function listAxesAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $locale = $request->get('locale');
         $attributeAxes = $this->attributeRepository->findAvailableAxes($locale);

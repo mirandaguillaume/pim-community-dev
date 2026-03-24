@@ -25,20 +25,15 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class GroupSaver implements SaverInterface, BulkSaverInterface
 {
-    /** @var ObjectManager */
-    protected $objectManager;
+    protected \Doctrine\Persistence\ObjectManager $objectManager;
 
-    /** @var VersionContext */
-    protected $versionContext;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionContext $versionContext;
 
-    /** @var SavingOptionsResolverInterface */
-    protected $optionsResolver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SavingOptionsResolverInterface $optionsResolver;
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher;
 
-    /** @var BulkObjectDetacherInterface */
-    protected $detacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\BulkObjectDetacherInterface $detacher;
 
     /**
      * @param string                              $productClassName
@@ -61,7 +56,7 @@ class GroupSaver implements SaverInterface, BulkSaverInterface
     /**
      * {@inheritdoc}
      */
-    public function save($group, array $options = [])
+    public function save($group, array $options = []): void
     {
         $this->validateGroup($group);
 
@@ -79,7 +74,7 @@ class GroupSaver implements SaverInterface, BulkSaverInterface
     /**
      * {@inheritdoc}
      */
-    public function saveAll(array $groups, array $options = [])
+    public function saveAll(array $groups, array $options = []): void
     {
         if (empty($groups)) {
             return;

@@ -50,7 +50,7 @@ class GetAllCustomAppsQuery implements GetAllCustomAppsQueryInterface
 
         return GetAllCustomAppsResult::create(
             \count($rows),
-            \array_map(function ($row): App {
+            \array_map(function (array $row): App {
                 $row['connected'] = (bool) $row['connected'];
 
                 return App::fromCustomAppValues($row);

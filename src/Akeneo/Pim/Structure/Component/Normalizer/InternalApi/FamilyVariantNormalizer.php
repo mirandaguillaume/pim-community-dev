@@ -18,11 +18,9 @@ class FamilyVariantNormalizer implements NormalizerInterface
     /** @var array */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var StructureVersionProviderInterface */
-    protected $structureVersionProvider;
+    protected \Akeneo\Platform\Bundle\UIBundle\Provider\StructureVersion\StructureVersionProviderInterface $structureVersionProvider;
 
     public function __construct(
         NormalizerInterface $normalizer,

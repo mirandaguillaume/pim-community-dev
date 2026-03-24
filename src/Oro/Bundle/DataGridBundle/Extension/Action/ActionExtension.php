@@ -22,14 +22,11 @@ class ActionExtension extends AbstractExtension
     public const ACTION_CONFIGURATION_KEY = 'action_configuration';
     public const ACTION_TYPE_KEY = 'type';
 
-    /** @var ContainerInterface */
-    protected $container;
+    protected \Symfony\Component\DependencyInjection\ContainerInterface $container;
 
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    protected \Oro\Bundle\SecurityBundle\SecurityFacade $securityFacade;
 
-    /** @var TranslatorInterface */
-    protected $translator;
+    protected \Symfony\Contracts\Translation\TranslatorInterface $translator;
 
     /** @var array */
     protected $actions = [];
@@ -50,7 +47,7 @@ class ActionExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function isApplicable(DatagridConfiguration $config)
+    public function isApplicable(DatagridConfiguration $config): bool
     {
         $actions = $config->offsetGetOr(static::ACTION_KEY, []);
 
@@ -60,12 +57,12 @@ class ActionExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function processConfigs(DatagridConfiguration $config)
+    public function processConfigs(DatagridConfiguration $config): void
     {
         $actionConfiguration = $config->offsetGetOr(static::ACTION_CONFIGURATION_KEY);
 
         if ($actionConfiguration && is_callable($actionConfiguration)) {
-            $callable = function (ResultRecordInterface $record) use ($actionConfiguration) {
+            $callable = function (ResultRecordInterface $record) use ($actionConfiguration): array {
                 $result = call_user_func($actionConfiguration, $record);
 
                 return is_array($result) ? $result : [];
@@ -87,7 +84,7 @@ class ActionExtension extends AbstractExtension
      * {@inheritDoc}
      */
     #[\Override]
-    public function getPriority()
+    public function getPriority(): int
     {
         // should  be applied before formatter extension
         // this extension add dynamic property and this may cause a bug
@@ -97,7 +94,7 @@ class ActionExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data)
+    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data): void
     {
         $actionsMetadata = [];
         $actions = $config->offsetGetOr(static::ACTION_KEY, []);
@@ -140,7 +137,7 @@ class ActionExtension extends AbstractExtension
      *
      * @return $this
      */
-    public function registerAction($type, $serviceId)
+    public function registerAction($type, $serviceId): static
     {
         $this->actions[$type] = $serviceId;
 
@@ -184,7 +181,7 @@ class ActionExtension extends AbstractExtension
      *
      * @return bool
      */
-    protected function isResourceGranted($aclResource)
+    protected function isResourceGranted($aclResource): bool
     {
         $delimiter = strpos($aclResource, ';');
         if ($delimiter) {

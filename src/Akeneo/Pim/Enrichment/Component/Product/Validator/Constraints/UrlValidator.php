@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class UrlValidator extends BaseUrlValidator
 {
     #[\Override]
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof Url) {
             throw new UnexpectedTypeException($constraint, Url::class);

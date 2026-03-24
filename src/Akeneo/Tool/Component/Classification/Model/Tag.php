@@ -28,7 +28,7 @@ class Tag implements TagInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 

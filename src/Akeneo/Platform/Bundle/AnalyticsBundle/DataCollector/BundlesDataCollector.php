@@ -13,8 +13,7 @@ use Akeneo\Tool\Component\Analytics\DataCollectorInterface;
  */
 class BundlesDataCollector implements DataCollectorInterface
 {
-    /** @var array */
-    protected $bundles;
+    protected array $bundles;
 
     public function __construct(array $bundles)
     {
@@ -26,7 +25,7 @@ class BundlesDataCollector implements DataCollectorInterface
      *
      * Collect the list of registered bundles
      */
-    public function collect()
+    public function collect(): array
     {
         $bundles = $this->bundles;
         natsort($bundles);

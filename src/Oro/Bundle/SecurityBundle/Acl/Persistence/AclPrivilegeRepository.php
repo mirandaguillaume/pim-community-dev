@@ -28,10 +28,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
 {
     final public const string ROOT_PRIVILEGE_NAME = '(default)';
 
-    /**
-     * @var AclManager
-     */
-    protected $manager;
+    protected \Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager $manager;
 
     protected ?EventDispatcherInterface $eventDispatcher = null;
 
@@ -159,7 +156,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
      * @throws \RuntimeException
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function savePrivileges(SID $sid, \Doctrine\Common\Collections\ArrayCollection|array $privileges)
+    public function savePrivileges(SID $sid, \Doctrine\Common\Collections\ArrayCollection|array $privileges): void
     {
         /**
          * @var $rootKeys
@@ -321,8 +318,8 @@ class AclPrivilegeRepository implements EventDispatcherAware
         SID $sid,
         OID $oid,
         $existingMask,
-        $masks,
-        $rootMasks,
+        array $masks,
+        array $rootMasks,
         AclExtensionInterface $extension
     ): bool|int {
         $mask = $this->findSimilarMask($masks, $existingMask, $extension);
@@ -399,7 +396,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
      * @param MaskBuilder[] $maskBuilders
      * @return int[]
      */
-    protected function getPermissionMasks(\Doctrine\Common\Collections\ArrayCollection|array $permissions, AclExtensionInterface $extension, array $maskBuilders)
+    protected function getPermissionMasks(\Doctrine\Common\Collections\ArrayCollection|array $permissions, AclExtensionInterface $extension, array $maskBuilders): array
     {
         $masks = [];
 
@@ -451,7 +448,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
         /** @var \ArrayIterator $iterator */
         $iterator = $privileges->getIterator();
         $iterator->uasort(
-            function (AclPrivilege $a, AclPrivilege $b) {
+            function (AclPrivilege $a, AclPrivilege $b): int {
                 if (strpos($a->getIdentity()->getId(), ObjectIdentityFactory::ROOT_IDENTITY_TYPE)) {
                     return -1;
                 }
@@ -578,11 +575,11 @@ class AclPrivilegeRepository implements EventDispatcherAware
      *                           Set to not null class-field-based or object-field-based ACE
      * @return EntryInterface[]
      */
-    protected function getAces(SID $sid, AclInterface $acl, $type, ?string $field)
+    protected function getAces(SID $sid, AclInterface $acl, $type, ?string $field): array
     {
         return array_filter(
             $this->manager->getAceProvider()->getAces($acl, $type, $field),
-            function ($ace) use (&$sid) {
+            function (\Symfony\Component\Security\Acl\Model\EntryInterface $ace) use (&$sid) {
                 /** @var EntryInterface $ace */
 
                 return $sid->equals($ace->getSecurityIdentity());

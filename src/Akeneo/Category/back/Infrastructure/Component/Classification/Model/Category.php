@@ -70,7 +70,7 @@ class Category implements CategoryInterface
         return $this->id;
     }
 
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -82,7 +82,7 @@ class Category implements CategoryInterface
         return $this->code;
     }
 
-    public function setLeft($left)
+    public function setLeft($left): static
     {
         $this->left = $left;
 
@@ -94,7 +94,7 @@ class Category implements CategoryInterface
         return $this->left;
     }
 
-    public function setLevel($level)
+    public function setLevel($level): static
     {
         $this->level = $level;
 
@@ -106,7 +106,7 @@ class Category implements CategoryInterface
         return $this->level;
     }
 
-    public function setRight($right)
+    public function setRight($right): static
     {
         $this->right = $right;
 
@@ -118,7 +118,7 @@ class Category implements CategoryInterface
         return $this->right;
     }
 
-    public function setRoot($root)
+    public function setRoot($root): static
     {
         $this->root = $root;
 
@@ -130,7 +130,7 @@ class Category implements CategoryInterface
         return $this->root;
     }
 
-    public function setParent(?CategoryInterface $parent = null)
+    public function setParent(?CategoryInterface $parent = null): static
     {
         $this->parent = $parent;
 
@@ -142,7 +142,7 @@ class Category implements CategoryInterface
         return $this->parent;
     }
 
-    public function addChild(CategoryInterface $child)
+    public function addChild(CategoryInterface $child): static
     {
         $child->setParent($this);
         $this->children[] = $child;
@@ -150,14 +150,14 @@ class Category implements CategoryInterface
         return $this;
     }
 
-    public function removeChild(CategoryInterface $children)
+    public function removeChild(CategoryInterface $children): static
     {
         $this->children->removeElement($children);
 
         return $this;
     }
 
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return count($this->getChildren()) > 0;
     }
@@ -167,7 +167,7 @@ class Category implements CategoryInterface
         return $this->children;
     }
 
-    public function isRoot()
+    public function isRoot(): bool
     {
         return null === $this->getParent();
     }

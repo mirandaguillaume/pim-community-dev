@@ -21,7 +21,7 @@ class FieldProperty extends AbstractProperty
 
             $choices = $this->getOr('choices', []);
             $translated = array_map(
-                fn ($item) => $translator->trans($item),
+                fn (string $item): string => $translator->trans($item),
                 $choices
             );
 

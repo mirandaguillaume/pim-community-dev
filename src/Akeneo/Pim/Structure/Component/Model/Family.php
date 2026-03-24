@@ -126,7 +126,7 @@ class Family implements FamilyInterface, \Stringable
      *
      * @return Family
      */
-    public function setCreated($created)
+    public function setCreated($created): static
     {
         $this->created = $created;
 
@@ -150,7 +150,7 @@ class Family implements FamilyInterface, \Stringable
      *
      * @return Family
      */
-    public function setUpdated($updated)
+    public function setUpdated($updated): static
     {
         $this->updated = $updated;
 
@@ -168,7 +168,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -178,7 +178,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addAttribute(AttributeInterface $attribute)
+    public function addAttribute(AttributeInterface $attribute): static
     {
         if (!$this->attributes->contains($attribute)) {
             $this->attributes->add($attribute);
@@ -192,7 +192,7 @@ class Family implements FamilyInterface, \Stringable
      *
      * @throws \InvalidArgumentException
      */
-    public function removeAttribute(AttributeInterface $attribute)
+    public function removeAttribute(AttributeInterface $attribute): static
     {
         $this->attributes->removeElement($attribute);
 
@@ -209,8 +209,9 @@ class Family implements FamilyInterface, \Stringable
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getAttributeCodes()
+    public function getAttributeCodes(): array
     {
         $codes = [];
         foreach ($this->attributes as $attribute) {
@@ -222,8 +223,9 @@ class Family implements FamilyInterface, \Stringable
 
     /**
      * {@inheritdoc}
+     * @return array<string, \non-empty-list<mixed>>
      */
-    public function getGroupedAttributes()
+    public function getGroupedAttributes(): array
     {
         $result = [];
         foreach ($this->attributes as $attribute) {
@@ -244,7 +246,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function hasAttributeCode($attributeCode)
+    public function hasAttributeCode($attributeCode): bool
     {
         return in_array($attributeCode, $this->getAttributeCodes());
     }
@@ -252,7 +254,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setAttributeAsLabel(AttributeInterface $attributeAsLabel)
+    public function setAttributeAsLabel(AttributeInterface $attributeAsLabel): static
     {
         $this->attributeAsLabel = $attributeAsLabel;
 
@@ -291,7 +293,7 @@ class Family implements FamilyInterface, \Stringable
     public function getAttributeAsLabelChoices()
     {
         return $this->attributes->filter(
-            fn ($attribute) => in_array(
+            fn ($attribute): bool => in_array(
                 $attribute->getType(),
                 [AttributeTypes::TEXT, AttributeTypes::IDENTIFIER]
             )
@@ -301,7 +303,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale($locale): static
     {
         $this->locale = $locale;
 
@@ -343,7 +345,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addTranslation(TranslationInterface $translation)
+    public function addTranslation(TranslationInterface $translation): static
     {
         if (!$this->translations->contains($translation)) {
             $this->translations->set($translation->getLocale(), $translation);
@@ -355,7 +357,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeTranslation(TranslationInterface $translation)
+    public function removeTranslation(TranslationInterface $translation): static
     {
         $this->translations->removeElement($translation);
 
@@ -365,7 +367,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getTranslationFQCN()
+    public function getTranslationFQCN(): string
     {
         return FamilyTranslation::class;
     }
@@ -383,7 +385,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->getTranslation()->setLabel($label);
 
@@ -393,7 +395,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addAttributeRequirement(AttributeRequirementInterface $requirement)
+    public function addAttributeRequirement(AttributeRequirementInterface $requirement): static
     {
         $requirementKey = $this->getAttributeRequirementKey($requirement);
         $requirements = $this->getAttributeRequirements();
@@ -411,7 +413,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeAttributeRequirement(AttributeRequirementInterface $requirement)
+    public function removeAttributeRequirement(AttributeRequirementInterface $requirement): static
     {
         $this->requirements->removeElement($requirement);
 
@@ -421,7 +423,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setAttributeRequirements(array $requirements)
+    public function setAttributeRequirements(array $requirements): static
     {
         foreach ($requirements as $requirement) {
             $requirement->setFamily($this);
@@ -433,8 +435,9 @@ class Family implements FamilyInterface, \Stringable
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getAttributeRequirements()
+    public function getAttributeRequirements(): array
     {
         $result = [];
 
@@ -449,7 +452,7 @@ class Family implements FamilyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getAttributeRequirementKey(AttributeRequirementInterface $requirement)
+    public function getAttributeRequirementKey(AttributeRequirementInterface $requirement): string
     {
         return sprintf(
             '%s_%s',

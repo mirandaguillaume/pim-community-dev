@@ -17,11 +17,9 @@ class BuildBefore extends Event implements GridEventInterface
 {
     final public const string NAME = 'oro_datagrid.datgrid.build.before';
 
-    /** @var DatagridInterface */
-    protected $datagrid;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface $datagrid;
 
-    /** @var DatagridConfiguration */
-    protected $config;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration $config;
 
     public function __construct(DatagridInterface $datagrid, DatagridConfiguration $config)
     {

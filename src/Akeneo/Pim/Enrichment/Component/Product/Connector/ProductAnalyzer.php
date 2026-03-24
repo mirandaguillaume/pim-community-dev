@@ -17,7 +17,7 @@ class ProductAnalyzer implements AnalyzerInterface
     /**
      * {@inheritdoc}
      */
-    public function analyze(ItemReaderInterface $reader)
+    public function analyze(ItemReaderInterface $reader): array
     {
         $stats = [
             "columns_count" => 0,
@@ -65,7 +65,7 @@ class ProductAnalyzer implements AnalyzerInterface
      *
      * @return int
      */
-    protected function countValues(array $values)
+    protected function countValues(array $values): int
     {
         $valuesCount = 0;
 
@@ -86,7 +86,7 @@ class ProductAnalyzer implements AnalyzerInterface
      * @param int   $lineNumber
      * @return array
      */
-    protected function computeValuesStats($valuesCount, array $currentStats, $lineNumber)
+    protected function computeValuesStats($valuesCount, array $currentStats, $lineNumber): array
     {
         $valuesStat = [];
 

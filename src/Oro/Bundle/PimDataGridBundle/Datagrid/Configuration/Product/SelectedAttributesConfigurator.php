@@ -31,7 +31,7 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function configure(DatagridConfiguration $configuration)
+    public function configure(DatagridConfiguration $configuration): void
     {
         $this->addAttributesIds($configuration);
         $this->addAttributesConfig($configuration);
@@ -96,7 +96,7 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
     /**
      * @param string $key the configuration key
      */
-    private function getSourcePath($key): string
+    private function getSourcePath(string $key): string
     {
         return sprintf(self::SOURCE_PATH, $key);
     }

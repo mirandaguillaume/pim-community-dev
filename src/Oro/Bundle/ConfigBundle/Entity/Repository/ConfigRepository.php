@@ -17,7 +17,7 @@ class ConfigRepository extends EntityRepository
      * @param string $section
      * @return array
      */
-    public function loadSettings($entity, $entityId, $section)
+    public function loadSettings($entity, $entityId, $section): array
     {
         $criteria = [
             'scopedEntity' => $entity,
@@ -50,7 +50,7 @@ class ConfigRepository extends EntityRepository
      * @param $scopeId
      * @return Config
      */
-    public function getByEntity($entityName, $scopeId)
+    public function getByEntity($entityName, $scopeId): object
     {
         $config = $this->findOneBy(['scopedEntity' => $entityName, 'recordId' => $scopeId]);
 

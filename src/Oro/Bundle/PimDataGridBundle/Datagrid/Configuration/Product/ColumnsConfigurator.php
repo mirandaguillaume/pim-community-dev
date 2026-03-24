@@ -18,8 +18,7 @@ class ColumnsConfigurator implements ConfiguratorInterface
     /** @var DatagridConfiguration */
     protected $configuration;
 
-    /** @var ConfigurationRegistry */
-    protected $registry;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ConfigurationRegistry $registry;
 
     /** @var array */
     protected $propertiesColumns;
@@ -52,7 +51,7 @@ class ColumnsConfigurator implements ConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function configure(DatagridConfiguration $configuration)
+    public function configure(DatagridConfiguration $configuration): void
     {
         $this->configuration = $configuration;
         $this->preparePropertiesColumns();
@@ -123,7 +122,7 @@ class ColumnsConfigurator implements ConfiguratorInterface
 
         uasort(
             $this->attributesColumns,
-            fn ($col1, $col2) => strcmp((string) $col1['label'], (string) $col2['label'])
+            fn ($col1, $col2): int => strcmp((string) $col1['label'], (string) $col2['label'])
         );
     }
 
@@ -168,7 +167,7 @@ class ColumnsConfigurator implements ConfiguratorInterface
         );
     }
 
-    private function prepareOtherColumns()
+    private function prepareOtherColumns(): void
     {
         $otherColumns = $this->configuration->offsetGetByPath(
             sprintf('[%s]', FormatterConfiguration::OTHER_COLUMNS_KEY)

@@ -56,8 +56,9 @@ class PriceConverter extends AbstractValueConverter implements ValueConverterInt
      *     'super_price-fr_FR-ecommerce-EUR' => '30',
      *     'super_price-fr_FR-ecommerce-USD' => '29',
      * ]
+     * @return string[]
      */
-    public function convert($attributeCode, $data)
+    public function convert($attributeCode, $data): array
     {
         $convertedItem = [];
 

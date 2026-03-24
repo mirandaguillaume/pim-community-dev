@@ -89,7 +89,7 @@ class JobTrackerController
         );
 
         return new StreamedResponse(
-            function () use ($zip, $jobExecution) {
+            function () use ($zip, $jobExecution): void {
                 foreach ($this->archivist->getArchives($jobExecution, true) as $archiver => $archiveNames) {
                     foreach ($archiveNames as $filePath => $archiveKey) {
                         $zip->addFileFromStream(

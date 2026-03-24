@@ -32,7 +32,7 @@ class ContentSecurityPolicyExtension extends AbstractExtension
         ];
     }
 
-    public function getScriptNonce()
+    public function getScriptNonce(): string
     {
         return $this->scriptNonceGenerator->getGeneratedNonce();
     }

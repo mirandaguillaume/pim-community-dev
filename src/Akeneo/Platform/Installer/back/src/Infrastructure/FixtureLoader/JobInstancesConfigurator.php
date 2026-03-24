@@ -17,8 +17,7 @@ use Akeneo\Tool\Component\Batch\Model\JobInstance;
  */
 class JobInstancesConfigurator
 {
-    /** @var FixturePathProvider */
-    protected $pathProvider;
+    protected \Akeneo\Platform\Installer\Infrastructure\FixtureLoader\FixturePathProvider $pathProvider;
 
     public function __construct(FixturePathProvider $pathProvider)
     {

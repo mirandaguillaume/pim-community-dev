@@ -108,7 +108,7 @@ final readonly class MessengerConfigBuilder
             $routing[$pimMessageConfig['message_class']] = $transportNames;
         }
 
-        $duplicateTransportNames = \array_filter($allTransportNames, static fn (int $count) => $count > 1);
+        $duplicateTransportNames = \array_filter($allTransportNames, static fn (int $count): bool => $count > 1);
         if ([] !== $duplicateTransportNames) {
             throw new \LogicException('These transports are defined more than once: ' . \implode(', ', $duplicateTransportNames));
         }

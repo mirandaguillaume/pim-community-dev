@@ -23,12 +23,12 @@ class TextFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getTestFormType()
+    protected function getTestFormType(): \Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType
     {
         return $this->type;
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertEquals(TextFilterType::NAME, $this->type->getBlockPrefix());
     }
@@ -36,7 +36,7 @@ class TextFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public static function configureOptionsDataProvider()
+    public static function configureOptionsDataProvider(): array
     {
         return [
             [
@@ -57,7 +57,7 @@ class TextFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public static function bindDataProvider()
+    public static function bindDataProvider(): array
     {
         return [
             'simple text' => [

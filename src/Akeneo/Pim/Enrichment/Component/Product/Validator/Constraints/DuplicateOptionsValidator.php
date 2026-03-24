@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  */
 final class DuplicateOptionsValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         Assert::isInstanceOf($constraint, DuplicateOptions::class);
         if (!is_array($value) || \count($value) <= 1) {

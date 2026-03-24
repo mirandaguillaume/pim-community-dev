@@ -13,8 +13,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Comparator\ComparatorInterface;
  */
 class BooleanComparator implements ComparatorInterface
 {
-    /** @var array */
-    protected $types;
+    protected array $types;
 
     public function __construct(array $types)
     {
@@ -24,7 +23,7 @@ class BooleanComparator implements ComparatorInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($type)
+    public function supports($type): bool
     {
         return in_array($type, $this->types);
     }

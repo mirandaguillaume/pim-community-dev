@@ -14,7 +14,7 @@ class PlaceholderNode extends \Twig_Node
     /**
      * @var array Array with placeholder data
      */
-    protected $placeholder;
+    protected array $placeholder;
 
     /**
      * @param array $placeholder Array with placeholder data
@@ -33,7 +33,7 @@ class PlaceholderNode extends \Twig_Node
     /**
      * {@inheritDoc}
      */
-    public function compile(Twig_Compiler $compiler)
+    public function compile(Twig_Compiler $compiler): void
     {
         /*if (isset($this->placeholder['label'])) {
             $compiler

@@ -35,38 +35,27 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AssociationTypeController
 {
-    /** @var ApiResourceRepository */
-    protected $repository;
+    protected \Akeneo\Tool\Bundle\ApiBundle\Doctrine\ORM\Repository\ApiResourceRepository $repository;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var ParameterValidatorInterface */
-    protected $parameterValidator;
+    protected \Akeneo\Tool\Component\Api\Pagination\ParameterValidatorInterface $parameterValidator;
 
-    /** @var PaginatorInterface */
-    protected $paginator;
+    protected \Akeneo\Tool\Component\Api\Pagination\PaginatorInterface $paginator;
 
-    /** @var SimpleFactoryInterface */
-    protected $factory;
+    protected \Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface $factory;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var  ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var StreamResourceResponse */
-    protected $partialUpdateStreamResource;
+    protected \Akeneo\Tool\Bundle\ApiBundle\Stream\StreamResourceResponse $partialUpdateStreamResource;
 
-    /** @var array */
-    protected $apiConfiguration;
+    protected array $apiConfiguration;
 
     public function __construct(
         ApiResourceRepository $repository,
@@ -102,7 +91,7 @@ class AssociationTypeController
      * @return JsonResponse
      * @AclAncestor("pim_api_association_type_list")
      */
-    public function getAction(Request $request, $code)
+    public function getAction(Request $request, string $code): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $associationType = $this->repository->findOneByIdentifier($code);
         if (null === $associationType) {
@@ -121,7 +110,7 @@ class AssociationTypeController
      * @return JsonResponse
      * @AclAncestor("pim_api_association_type_list")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             $this->parameterValidator->validate($request->query->all());
@@ -259,7 +248,7 @@ class AssociationTypeController
      *
      * @throws DocumentedHttpException
      */
-    protected function updateAssociationType(AssociationTypeInterface $associationType, array $data, $anchor)
+    protected function updateAssociationType(AssociationTypeInterface $associationType, array $data, string $anchor)
     {
         try {
             $this->updater->update($associationType, $data);
@@ -293,7 +282,7 @@ class AssociationTypeController
      * @param int                      $status
      * @return Response
      */
-    protected function getResponse(AssociationTypeInterface $associationType, $status)
+    protected function getResponse(AssociationTypeInterface $associationType, $status): \Symfony\Component\HttpFoundation\Response
     {
         $response = new Response(null, $status);
         $url = $this->router->generate(

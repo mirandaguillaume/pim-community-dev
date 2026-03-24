@@ -33,7 +33,7 @@ class FileValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof File) {
             throw new UnexpectedTypeException($constraint, File::class);
@@ -105,7 +105,7 @@ class FileValidator extends ConstraintValidator
      * Convert the limit to the smallest possible number
      * (i.e. try "MB", then "kB", then "bytes")
      */
-    protected function factorizeSizes($size, $limit, $binaryFormat)
+    protected function factorizeSizes($size, $limit, $binaryFormat): array
     {
         if ($binaryFormat) {
             $coef = BaseFileValidator::MIB_BYTES;
@@ -144,12 +144,12 @@ class FileValidator extends ConstraintValidator
      *
      * @return bool
      */
-    protected static function moreDecimalsThan($double, $numberOfDecimals)
+    protected static function moreDecimalsThan($double, $numberOfDecimals): bool
     {
         return strlen((string) $double) > strlen(round($double, $numberOfDecimals));
     }
 
-    private function validateMimeType(FileInfoInterface $fileInfo, File $constraint)
+    private function validateMimeType(FileInfoInterface $fileInfo, File $constraint): void
     {
         if (empty($constraint->allowedExtensions)) {
             return;

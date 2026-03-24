@@ -24,7 +24,7 @@ final readonly class PurgeOutdatedData
     ) {
     }
 
-    public function purgeAllFrom(\DateTimeImmutable $date)
+    public function purgeAllFrom(\DateTimeImmutable $date): void
     {
         $this->purgeDashboardProjectionRatesFrom($date);
     }

@@ -10,10 +10,7 @@ use Symfony\Component\Security\Acl\Model\ObjectIdentityRetrievalStrategyInterfac
  */
 class ObjectIdentityRetrievalStrategy implements ObjectIdentityRetrievalStrategyInterface
 {
-    /**
-     * @var ObjectIdentityFactory
-     */
-    protected $objectIdentityFactory = null;
+    protected \Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory $objectIdentityFactory;
 
     /**
      * Constructor

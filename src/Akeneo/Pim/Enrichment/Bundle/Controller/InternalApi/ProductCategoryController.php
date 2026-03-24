@@ -19,14 +19,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ProductCategoryController
 {
-    /** @var ProductRepositoryInterface */
-    protected $productRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterface $productRepository;
 
-    /** @var ProductCategoryRepositoryInterface */
-    protected $productCategoryRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductCategoryRepositoryInterface $productCategoryRepository;
 
-    /** @var ObjectFilterInterface */
-    protected $objectFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\ObjectFilterInterface $objectFilter;
 
     public function __construct(
         ProductRepositoryInterface $productRepository,
@@ -47,7 +44,7 @@ class ProductCategoryController
      *
      * @return JsonResponse
      */
-    public function listAction($uuid)
+    public function listAction(string $uuid): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $result = [];
         $product = $this->findProductOr404($uuid);
@@ -83,7 +80,7 @@ class ProductCategoryController
     /**
      * @return array
      */
-    protected function buildTrees(array $trees)
+    protected function buildTrees(array $trees): array
     {
         $result = [];
 
@@ -106,7 +103,7 @@ class ProductCategoryController
     /**
      * @return array
      */
-    protected function buildCategories(ProductInterface $product)
+    protected function buildCategories(ProductInterface $product): array
     {
         $result = [];
 

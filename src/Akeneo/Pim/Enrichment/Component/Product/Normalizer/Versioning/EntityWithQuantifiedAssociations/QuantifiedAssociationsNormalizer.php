@@ -30,7 +30,7 @@ class QuantifiedAssociationsNormalizer implements NormalizerInterface
         return $results;
     }
 
-    private function normalizeQuantifiedProductLinks(array $quantifiedProductLinks, string $associationTypeCode)
+    private function normalizeQuantifiedProductLinks(array $quantifiedProductLinks, string $associationTypeCode): array
     {
         return [
             sprintf('%s-products', $associationTypeCode) => implode(',', $this->identifierProducts($quantifiedProductLinks)),
@@ -38,7 +38,7 @@ class QuantifiedAssociationsNormalizer implements NormalizerInterface
         ];
     }
 
-    private function normalizeQuantifiedProductModelLinks(array $quantifiedProductModelLinks, string $associationTypeCode)
+    private function normalizeQuantifiedProductModelLinks(array $quantifiedProductModelLinks, string $associationTypeCode): array
     {
         return [
             sprintf('%s-product_models', $associationTypeCode) => implode(',', $this->identifierProducts($quantifiedProductModelLinks)),

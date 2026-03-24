@@ -13,8 +13,7 @@ namespace Akeneo\Tool\Component\Console;
  */
 class CommandResult implements CommandResultInterface
 {
-    /** @var array */
-    protected $commandOutput;
+    protected array $commandOutput;
 
     /**
      * @param int $commandStatus

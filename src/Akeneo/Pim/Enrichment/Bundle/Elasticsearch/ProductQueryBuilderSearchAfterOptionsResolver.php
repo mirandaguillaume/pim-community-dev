@@ -28,7 +28,7 @@ class ProductQueryBuilderSearchAfterOptionsResolver implements ProductQueryBuild
     /**
      * @return OptionsResolver
      */
-    protected function createOptionsResolver()
+    protected function createOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined(['locale', 'scope', 'limit', 'search_after', 'search_after_unique_key', 'with_document_type_facet']);

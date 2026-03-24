@@ -27,7 +27,7 @@ class ProductQueryBuilderOptionsResolver implements ProductQueryBuilderOptionsRe
     /**
      * @return OptionsResolver
      */
-    protected function createOptionsResolver()
+    protected function createOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined(['locale', 'scope', 'with_document_type_facet']);

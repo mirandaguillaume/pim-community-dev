@@ -84,7 +84,7 @@ class ResultRecord implements ResultRecordInterface
      *
      * @return string
      */
-    private static function camelize($property)
+    private static function camelize($property): string
     {
         return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
     }

@@ -19,11 +19,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class BaseRemover implements RemoverInterface, BulkRemoverInterface
 {
-    /** @var ObjectManager */
-    protected $objectManager;
+    protected \Doctrine\Persistence\ObjectManager $objectManager;
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher;
 
     /**
      * @param string                           $removedClass
@@ -40,7 +38,7 @@ class BaseRemover implements RemoverInterface, BulkRemoverInterface
     /**
      * {@inheritdoc}
      */
-    public function remove($object, array $options = [])
+    public function remove($object, array $options = []): void
     {
         $this->validateObject($object);
 
@@ -59,7 +57,7 @@ class BaseRemover implements RemoverInterface, BulkRemoverInterface
     /**
      * {@inheritdoc}
      */
-    public function removeAll(array $objects, array $options = [])
+    public function removeAll(array $objects, array $options = []): void
     {
         if (empty($objects)) {
             return;

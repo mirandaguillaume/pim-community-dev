@@ -17,8 +17,7 @@ use Doctrine\ORM\EntityManager;
  */
 class ProductMassActionRepository implements ProductMassActionRepositoryInterface
 {
-    /** @var EntityManager */
-    protected $em;
+    protected \Doctrine\ORM\EntityManager $em;
 
     /**
      * @param string        $entityName
@@ -33,7 +32,7 @@ class ProductMassActionRepository implements ProductMassActionRepositoryInterfac
      *
      * @param ProductQueryBuilder $queryBuilder
      */
-    public function applyMassActionParameters($queryBuilder, $inset, array $values)
+    public function applyMassActionParameters($queryBuilder, $inset, array $values): void
     {
         if (!empty($values)) {
             $inset ? $this->includeProducts($queryBuilder, $values) : $this->excludeProducts($queryBuilder, $values);
@@ -43,7 +42,7 @@ class ProductMassActionRepository implements ProductMassActionRepositoryInterfac
     /**
      * {@inheritdoc}
      */
-    public function deleteFromIds(array $identifiers)
+    public function deleteFromIds(array $identifiers): never
     {
         throw new \LogicException("Products should not be removed using this method");
     }
@@ -64,7 +63,7 @@ class ProductMassActionRepository implements ProductMassActionRepositoryInterfac
     {
         $queryBuilder->addFilter('id', Operators::NOT_IN_LIST, $productIds);
 
-        $productModelIds = array_values(array_filter($productIds, fn ($id) => str_starts_with((string) $id, 'product_model_')));
+        $productModelIds = array_values(array_filter($productIds, fn ($id): bool => str_starts_with((string) $id, 'product_model_')));
 
         if (!empty($productModelIds)) {
             $queryBuilder->addFilter('ancestor.id', Operators::NOT_IN_LIST, $productModelIds);

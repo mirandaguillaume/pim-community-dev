@@ -62,7 +62,7 @@ final readonly class FindAllConnectedAppsQuery implements FindAllConnectedAppsQu
         $dataRows = $this->connection->executeQuery($selectSQL)->fetchAllAssociative();
 
         return \array_map(
-            fn ($dataRow): ConnectedApp => $this->denormalizeRow($dataRow),
+            fn (array $dataRow): ConnectedApp => $this->denormalizeRow($dataRow),
             $dataRows
         );
     }

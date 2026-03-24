@@ -15,11 +15,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ReferenceDataCollectionNormalizer implements NormalizerInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
-    /** @var ReferenceDataRepositoryResolverInterface */
-    protected $repositoryResolver;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ReferenceDataRepositoryResolverInterface $repositoryResolver;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $attributeRepository,

@@ -11,7 +11,7 @@ class SearchFilter extends AbstractFilter
     /**
      * {@inheritDoc}
      */
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (0 === count($data)) {
@@ -38,7 +38,7 @@ class SearchFilter extends AbstractFilter
     /**
      * {@inheritDoc}
      */
-    protected function getFormType()
+    protected function getFormType(): string
     {
         return TextFilterType::class;
     }
@@ -46,12 +46,12 @@ class SearchFilter extends AbstractFilter
     /**
      * @return array
      */
-    protected function parseData(mixed $data)
+    protected function parseData(mixed $data): array
     {
         if (!is_array($data) || !array_key_exists('value', $data) || !$data['value']) {
             return [];
         }
 
-        return array_map(fn ($word) => sprintf('%%%s%%', \addcslashes((string) $word, '_%')), preg_split('/\s+/', (string) ($words = $data['value'])));
+        return array_map(fn ($word): string => sprintf('%%%s%%', \addcslashes((string) $word, '_%')), preg_split('/\s+/', (string) ($words = $data['value'])));
     }
 }

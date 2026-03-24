@@ -20,7 +20,7 @@ class SkipFirstVersionPurgerAdvisor implements VersionPurgerAdvisorInterface
     /**
      * {@inheritdoc}
      */
-    public function supports(PurgeableVersionList $version)
+    public function supports(PurgeableVersionList $version): bool
     {
         return true;
     }

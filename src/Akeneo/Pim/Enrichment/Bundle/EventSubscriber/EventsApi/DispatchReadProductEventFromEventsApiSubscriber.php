@@ -23,7 +23,7 @@ class DispatchReadProductEventFromEventsApiSubscriber
 
     public function dispatchReadProductOnProductEventsApiSaved(
         EventsApiRequestSucceededEvent $eventsApiRequestSucceeded
-    ) {
+    ): void {
         $count = 0;
         foreach ($eventsApiRequestSucceeded->getEvents() as $event) {
             if ($event instanceof ProductUpdated

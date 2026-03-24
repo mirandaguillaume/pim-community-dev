@@ -81,7 +81,7 @@ class Product extends AbstractSimpleArrayConverter implements ArrayConverterInte
      *
      * @return array
      */
-    protected function convertGroups(mixed $data, array $convertedItem)
+    protected function convertGroups(mixed $data, array $convertedItem): array
     {
         if (!array_key_exists('groups', $convertedItem)) {
             $convertedItem['groups'] = '';

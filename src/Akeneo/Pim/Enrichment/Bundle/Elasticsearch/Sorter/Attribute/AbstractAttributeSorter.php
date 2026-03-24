@@ -22,11 +22,9 @@ abstract class AbstractAttributeSorter implements AttributeSorterInterface
     /** @var SearchQueryBuilder */
     protected $searchQueryBuilder;
 
-    /** @var AttributeValidatorHelper  */
-    protected $attrValidatorHelper;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Validator\AttributeValidatorHelper $attrValidatorHelper;
 
-    /** @var array */
-    protected $supportedAttributeTypes;
+    protected array $supportedAttributeTypes;
 
     public function __construct(
         AttributeValidatorHelper $attrValidatorHelper,
@@ -98,7 +96,7 @@ abstract class AbstractAttributeSorter implements AttributeSorterInterface
     /**
      * {@inheritdoc}
      */
-    public function setQueryBuilder($searchQueryBuilder)
+    public function setQueryBuilder($searchQueryBuilder): void
     {
         if (!$searchQueryBuilder instanceof SearchQueryBuilder) {
             throw new \InvalidArgumentException(

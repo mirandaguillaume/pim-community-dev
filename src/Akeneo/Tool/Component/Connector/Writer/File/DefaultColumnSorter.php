@@ -14,11 +14,9 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\FieldSplitter;
  */
 class DefaultColumnSorter implements ColumnSorterInterface
 {
-    /** @var FieldSplitter */
-    protected $fieldSplitter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\FieldSplitter $fieldSplitter;
 
-    /** @var array */
-    protected $firstDefaultColumns;
+    protected array $firstDefaultColumns;
 
     public function __construct(FieldSplitter $fieldSplitter, array $firstDefaultColumns)
     {
@@ -29,7 +27,7 @@ class DefaultColumnSorter implements ColumnSorterInterface
     /**
      * {@inheritdoc}
      */
-    public function sort(array $unsortedColumns, array $context = [])
+    public function sort(array $unsortedColumns, array $context = []): array
     {
         $mainColumns = [];
         $trailingColumns = [];
@@ -57,7 +55,7 @@ class DefaultColumnSorter implements ColumnSorterInterface
      *
      * @return bool
      */
-    protected function isInOrderConf($column)
+    protected function isInOrderConf($column): bool
     {
         $splitedColumn = $this->fieldSplitter->splitFieldName($column);
         $column = is_array($splitedColumn) ? $splitedColumn[0] : $column;

@@ -39,6 +39,6 @@ class SqlFindAllUserRoles implements FindAllUserRoles
 
         $results = $this->connection->executeQuery($query)->fetchAllAssociative();
 
-        return array_map(static fn (array $data) => UserRole::createFromDatabase($data), $results);
+        return array_map(static fn (array $data): \Akeneo\UserManagement\Domain\Model\UserRole => UserRole::createFromDatabase($data), $results);
     }
 }

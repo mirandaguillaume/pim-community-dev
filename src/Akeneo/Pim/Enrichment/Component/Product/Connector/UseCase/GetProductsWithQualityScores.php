@@ -37,7 +37,7 @@ final readonly class GetProductsWithQualityScores implements GetProductsWithQual
 
         $productsQualityScores = $this->getProductsQualityScores($connectorProductList);
 
-        $productsWithQualityScores = array_map(function (ConnectorProduct $product) use ($productsQualityScores, $channel, $locales) {
+        $productsWithQualityScores = array_map(function (ConnectorProduct $product) use ($productsQualityScores, $channel, $locales): \Akeneo\Pim\Enrichment\Component\Product\Connector\ReadModel\ConnectorProduct {
             if (isset($productsQualityScores[$product->uuid()->toString()])) {
                 $productQualityScores = $this->filterProductQualityScores($productsQualityScores[$product->uuid()->toString()], $channel, $locales);
                 return $product->buildWithQualityScores($productQualityScores);
@@ -54,7 +54,7 @@ final readonly class GetProductsWithQualityScores implements GetProductsWithQual
         return new ConnectorProductList(
             $connectorProductList->totalNumberOfProducts(),
             array_map(
-                fn (ConnectorProduct $product) => $product->buildWithQualityScores(new QualityScoreCollection([])),
+                fn (ConnectorProduct $product): \Akeneo\Pim\Enrichment\Component\Product\Connector\ReadModel\ConnectorProduct => $product->buildWithQualityScores(new QualityScoreCollection([])),
                 $connectorProductList->connectorProducts()
             )
         );
@@ -63,7 +63,7 @@ final readonly class GetProductsWithQualityScores implements GetProductsWithQual
     private function getProductsQualityScores(ConnectorProductList $connectorProductList): array
     {
         $productUuids = array_map(
-            fn (ConnectorProduct $connectorProduct) => $connectorProduct->uuid(),
+            fn (ConnectorProduct $connectorProduct): \Ramsey\Uuid\UuidInterface => $connectorProduct->uuid(),
             $connectorProductList->connectorProducts()
         );
 

@@ -19,11 +19,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderFactoryInte
  */
 class CategoryProductsCounter implements CategoryItemsCounterInterface
 {
-    /** @var ProductQueryBuilderFactoryInterface */
-    protected $pqbFactory;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderFactoryInterface $pqbFactory;
 
-    /** @var CategoryRepositoryInterface */
-    protected $categoryRepository;
+    protected \Akeneo\Category\Infrastructure\Component\Classification\Repository\CategoryRepositoryInterface $categoryRepository;
 
     public function __construct(
         ProductQueryBuilderFactoryInterface $pqbFactory,
@@ -36,7 +34,7 @@ class CategoryProductsCounter implements CategoryItemsCounterInterface
     /**
      * {@inheritdoc}
      */
-    public function getItemsCountInCategory(CategoryInterface $category, $inChildren = false, $inProvided = true)
+    public function getItemsCountInCategory(CategoryInterface $category, $inChildren = false, $inProvided = true): int
     {
         $categoryCodes = $inChildren
             ? $this->categoryRepository->getAllChildrenCodes($category, $inProvided)

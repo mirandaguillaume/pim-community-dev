@@ -21,13 +21,13 @@ class StreamedFileResponse extends StreamedResponse
      * @param int      $status
      * @param array    $headers
      */
-    public function __construct($resource, $status = 200, $headers = [])
+    public function __construct($resource, int $status = 200, array $headers = [])
     {
         if (!is_resource($resource)) {
             throw new \InvalidArgumentException(sprintf('A resource is expected, "%s" given', gettype($resource)));
         }
 
-        $callback = function () use ($resource) {
+        $callback = function () use ($resource): void {
             $out = fopen('php://output', 'wb');
 
             stream_copy_to_stream($resource, $out);

@@ -36,7 +36,7 @@ class GetCategoryLabelsController
         return new JsonResponse(
             \array_reduce(
                 \iterator_to_array($this->categoryQuery->byCodes($categoryCodes)),
-                function ($old, $category) use ($userLocale) {
+                function (array $old, \Akeneo\Category\ServiceApi\Category $category) use ($userLocale): array {
                     $old[$category->getCode()] = $category->getLabels()[$userLocale] ?? \sprintf('[%s]', $category->getCode());
 
                     return $old;

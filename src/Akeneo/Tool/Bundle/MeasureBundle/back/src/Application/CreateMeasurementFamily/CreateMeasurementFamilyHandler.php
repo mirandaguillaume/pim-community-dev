@@ -42,9 +42,9 @@ class CreateMeasurementFamilyHandler
     private function units(CreateMeasurementFamilyCommand $saveMeasurementFamilyCommand): array
     {
         return array_map(
-            function (array $unit) {
+            function (array $unit): \Akeneo\Tool\Bundle\MeasureBundle\Model\Unit {
                 $operations = array_map(
-                    static fn (array $operation) => Operation::create(
+                    static fn (array $operation): \Akeneo\Tool\Bundle\MeasureBundle\Model\Operation => Operation::create(
                         $operation['operator'],
                         $operation['value']
                     ),

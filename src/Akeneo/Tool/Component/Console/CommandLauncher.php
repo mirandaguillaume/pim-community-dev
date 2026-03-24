@@ -16,13 +16,12 @@ use Symfony\Component\Process\PhpExecutableFinder;
 class CommandLauncher
 {
     /** @var string Application root directory */
-    protected $rootDir;
+    protected string $rootDir;
 
     /** @var string Application execution environment */
-    protected $environment;
+    protected string $environment;
 
-    /** @var string */
-    protected $logsDir;
+    protected string $logsDir;
 
     public function __construct(string $rootDir, string $environment, string $logsDir)
     {
@@ -43,7 +42,7 @@ class CommandLauncher
      *
      * @return string
      */
-    protected function buildCommandString($command)
+    protected function buildCommandString($command): string
     {
         $phpCommand = $this->getPhp();
 
@@ -63,7 +62,7 @@ class CommandLauncher
      *
      * @return null
      */
-    public function executeBackground($command, $logfile = null)
+    public function executeBackground($command, $logfile = null): null
     {
         $cmd = $this->buildCommandString($command);
         if (null === $logfile) {
@@ -84,7 +83,7 @@ class CommandLauncher
      *
      * @return CommandResultInterface
      */
-    public function executeForeground($command)
+    public function executeForeground($command): \Akeneo\Tool\Component\Console\CommandResult
     {
         $cmd = $this->buildCommandString($command);
         $cmd = escapeshellcmd($cmd);

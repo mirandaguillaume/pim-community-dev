@@ -14,8 +14,7 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker;
  */
 class Locale implements ArrayConverterInterface
 {
-    /** @var FieldsRequirementChecker */
-    protected $fieldChecker;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker $fieldChecker;
 
     public function __construct(FieldsRequirementChecker $fieldChecker)
     {
@@ -57,7 +56,7 @@ class Locale implements ArrayConverterInterface
      *
      * @return array
      */
-    protected function convertField(array $convertedItem, $field, mixed $data)
+    protected function convertField(array $convertedItem, $field, mixed $data): array
     {
         if ('code' === $field) {
             $convertedItem[$field] = $data;

@@ -14,8 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class DateProperty extends FieldProperty
 {
-    /** @var PresenterInterface */
-    protected $presenter;
+    protected \Akeneo\Tool\Component\Localization\Presenter\PresenterInterface $presenter;
 
     /**
      * @param TranslatorInterface $translator

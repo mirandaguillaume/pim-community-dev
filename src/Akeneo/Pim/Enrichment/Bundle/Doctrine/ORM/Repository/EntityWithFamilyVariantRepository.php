@@ -16,11 +16,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\VariantProductRepositoryI
  */
 class EntityWithFamilyVariantRepository implements EntityWithFamilyVariantRepositoryInterface
 {
-    /** @var ProductModelRepositoryInterface */
-    protected $productModelRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductModelRepositoryInterface $productModelRepository;
 
-    /** @var VariantProductRepositoryInterface */
-    protected $productRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\VariantProductRepositoryInterface $productRepository;
 
     public function __construct(
         ProductModelRepositoryInterface $productModelRepository,

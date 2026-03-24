@@ -30,7 +30,7 @@ class UserManager implements UserProviderInterface
      *
      * @throws \RuntimeException
      */
-    public function updateUser(SecurityUserInterface $user)
+    public function updateUser(SecurityUserInterface $user): void
     {
         $this->updatePassword($user);
 
@@ -52,7 +52,7 @@ class UserManager implements UserProviderInterface
     /**
      * Updates a user password if a plain password is set
      */
-    public function updatePassword(UserInterface $user)
+    public function updatePassword(UserInterface $user): void
     {
         if (0 !== strlen((string) ($password = $user->getPlainPassword()))) {
             $hasher = $this->getPasswordHasher($user);
@@ -63,7 +63,7 @@ class UserManager implements UserProviderInterface
     /**
      * Deletes a user
      */
-    public function deleteUser(SecurityUserInterface $user)
+    public function deleteUser(SecurityUserInterface $user): void
     {
         $this->getStorageManager()->remove($user);
         $this->getStorageManager()->flush();
@@ -140,7 +140,7 @@ class UserManager implements UserProviderInterface
     /**
      * Reloads a user
      */
-    public function reloadUser(SecurityUserInterface $user)
+    public function reloadUser(SecurityUserInterface $user): void
     {
         $this->getStorageManager()->refresh($user);
     }
@@ -211,7 +211,7 @@ class UserManager implements UserProviderInterface
      *
      * @return string
      */
-    public function getClass()
+    public function getClass(): string
     {
         return $this->class;
     }
@@ -224,7 +224,7 @@ class UserManager implements UserProviderInterface
         return $class === $this->getClass();
     }
 
-    protected function getPasswordHasher(UserInterface $user)
+    protected function getPasswordHasher(UserInterface $user): \Symfony\Component\PasswordHasher\PasswordHasherInterface
     {
         return $this->passwordHasherFactory->getPasswordHasher($user);
     }
@@ -256,7 +256,7 @@ class UserManager implements UserProviderInterface
     /**
      * @return ObjectManager
      */
-    public function getStorageManager()
+    public function getStorageManager(): \Doctrine\Persistence\ObjectManager
     {
         return $this->om;
     }

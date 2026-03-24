@@ -23,10 +23,7 @@ class PriceFilterType extends AbstractType
     /** @staticvar string */
     public const NAME = 'pim_type_price_filter';
 
-    /**
-     * @var CurrencyRepositoryInterface
-     */
-    protected $currencyRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\CurrencyRepositoryInterface $currencyRepository;
 
     public function __construct(CurrencyRepositoryInterface $currencyRepository)
     {
@@ -67,7 +64,7 @@ class PriceFilterType extends AbstractType
      *
      * @return array
      */
-    protected function createCurrencyOptions(array $options)
+    protected function createCurrencyOptions(array $options): array
     {
         $result = ['required' => false];
         if ($options['currency_choices']) {
@@ -99,7 +96,7 @@ class PriceFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
 

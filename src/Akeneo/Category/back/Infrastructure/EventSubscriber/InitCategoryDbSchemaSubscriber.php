@@ -24,7 +24,7 @@ class InitCategoryDbSchemaSubscriber
         $this->addCategoryAttributeTable();
     }
 
-    private function addValueCollectionInCategoryTable()
+    private function addValueCollectionInCategoryTable(): void
     {
         $columns = $this->dbalConnection->createSchemaManager()->listTableColumns('pim_catalog_category');
         if (array_key_exists('value_collection', $columns)) {
@@ -38,7 +38,7 @@ class InitCategoryDbSchemaSubscriber
         $this->dbalConnection->executeQuery($addCategoryValueCollectionQuery);
     }
 
-    private function addCategoryTemplateTable()
+    private function addCategoryTemplateTable(): void
     {
         $query = <<<SQL
             CREATE TABLE IF NOT EXISTS pim_catalog_category_template (
@@ -52,7 +52,7 @@ class InitCategoryDbSchemaSubscriber
         $this->dbalConnection->executeQuery($query);
     }
 
-    private function addCategoryTreeTemplateTable()
+    private function addCategoryTreeTemplateTable(): void
     {
         $query = <<<SQL
                 CREATE TABLE IF NOT EXISTS `pim_catalog_category_tree_template` (
@@ -67,7 +67,7 @@ class InitCategoryDbSchemaSubscriber
         $this->dbalConnection->executeQuery($query);
     }
 
-    private function addCategoryAttributeTable()
+    private function addCategoryAttributeTable(): void
     {
         $query = <<<SQL
                 CREATE TABLE IF NOT EXISTS `pim_catalog_category_attribute` (

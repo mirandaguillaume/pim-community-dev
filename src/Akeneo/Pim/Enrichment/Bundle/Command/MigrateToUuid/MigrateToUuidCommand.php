@@ -154,7 +154,7 @@ class MigrateToUuidCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function start()
+    private function start(): void
     {
         $this->connection->executeQuery(<<<SQL
                 INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 

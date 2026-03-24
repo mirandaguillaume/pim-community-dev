@@ -28,7 +28,7 @@ class MediaNormalizer extends AbstractProductValueNormalizer implements Normaliz
     /**
      * {@inheritdoc}
      */
-    protected function getNormalizedData(ValueInterface $value)
+    protected function getNormalizedData(ValueInterface $value): ?array
     {
         $data = $value->getData();
 

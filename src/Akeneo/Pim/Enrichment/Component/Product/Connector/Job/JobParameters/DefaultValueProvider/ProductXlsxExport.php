@@ -18,17 +18,13 @@ use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
  */
 class ProductXlsxExport implements DefaultValuesProviderInterface
 {
-    /** @var DefaultValuesProviderInterface */
-    protected $simpleProvider;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderInterface $simpleProvider;
 
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
-    /** @var array */
-    protected $supportedJobNames;
+    protected array $supportedJobNames;
 
     public function __construct(
         DefaultValuesProviderInterface $simpleProvider,
@@ -93,7 +89,7 @@ class ProductXlsxExport implements DefaultValuesProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports(JobInterface $job)
+    public function supports(JobInterface $job): bool
     {
         return in_array($job->getName(), $this->supportedJobNames);
     }

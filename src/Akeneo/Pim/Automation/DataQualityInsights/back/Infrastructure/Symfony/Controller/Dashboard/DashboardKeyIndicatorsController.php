@@ -23,7 +23,7 @@ final readonly class DashboardKeyIndicatorsController
     {
     }
 
-    public function __invoke(Request $request, string $channel, string $locale)
+    public function __invoke(Request $request, string $channel, string $locale): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             $channel = new ChannelCode($channel);

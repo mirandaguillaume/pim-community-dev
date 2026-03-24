@@ -178,7 +178,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setValues(WriteValueCollection $values)
+    public function setValues(WriteValueCollection $values): static
     {
         $formerValues = WriteValueCollection::fromCollection($this->values ?? new WriteValueCollection());
         foreach ($formerValues as $formerValue) {
@@ -222,7 +222,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addValue(ValueInterface $value)
+    public function addValue(ValueInterface $value): static
     {
         if (true === $this->values->add($value)) {
             $this->dirty = true;
@@ -234,7 +234,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeValue(ValueInterface $value)
+    public function removeValue(ValueInterface $value): static
     {
         if (true === $this->values->remove($value)) {
             $this->dirty = true;
@@ -308,7 +308,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeCategory(CategoryInterface $category)
+    public function removeCategory(CategoryInterface $category): static
     {
         if (true === $this->categories->removeElement($category)) {
             $this->dirty = true;
@@ -320,7 +320,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addCategory(CategoryInterface $category)
+    public function addCategory(CategoryInterface $category): static
     {
         if (!$this->categories->contains($category) && !$this->hasAncestryCategory($category)) {
             $this->categories->add($category);
@@ -337,13 +337,13 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $formerCategories = $this->getCategories();
         $categoriesToAdd = $categories->filter(
-            fn (CategoryInterface $category) => !$formerCategories->contains($category)
+            fn (CategoryInterface $category): bool => !$formerCategories->contains($category)
         );
         foreach ($categoriesToAdd as $categoryToAdd) {
             $this->addCategory($categoryToAdd);
         }
         $categoriesToRemove = $formerCategories->filter(
-            fn (CategoryInterface $category) => !$categories->contains($category)
+            fn (CategoryInterface $category): bool => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $this->removeCategory($categoryToRemove);
@@ -623,7 +623,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getAssociations()
+    public function getAssociations(): \Doctrine\Common\Collections\ArrayCollection
     {
         return new ArrayCollection($this->associations->toArray());
     }
@@ -719,7 +719,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getAllAssociations()
+    public function getAllAssociations(): \Doctrine\Common\Collections\ArrayCollection
     {
         $clonedAssociations = [];
         foreach ($this->associations as $association) {

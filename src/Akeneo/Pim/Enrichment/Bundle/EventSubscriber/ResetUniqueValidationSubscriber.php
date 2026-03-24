@@ -17,11 +17,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Validator\UniqueValuesSet;
  */
 class ResetUniqueValidationSubscriber
 {
-    /** @var UniqueValuesSet */
-    protected $uniqueValueSet;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Validator\UniqueValuesSet $uniqueValueSet;
 
-    /** @var UniqueAxesCombinationSet */
-    protected $uniqueAxesCombinationSet;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Validator\UniqueAxesCombinationSet $uniqueAxesCombinationSet;
 
     public function __construct(UniqueValuesSet $uniqueValueSet, UniqueAxesCombinationSet $uniqueAxesCombinationSet)
     {
@@ -33,7 +31,7 @@ class ResetUniqueValidationSubscriber
      * Reset the Unique Value Set.
      * Called on EventInterface::ITEM_STEP_AFTER_BATCH
      */
-    public function onAkeneoBatchItemStepAfterBatch()
+    public function onAkeneoBatchItemStepAfterBatch(): void
     {
         $this->uniqueValueSet->reset();
         $this->uniqueAxesCombinationSet->reset();

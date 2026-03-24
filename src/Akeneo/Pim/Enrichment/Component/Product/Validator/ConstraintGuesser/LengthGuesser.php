@@ -25,7 +25,7 @@ class LengthGuesser implements ConstraintGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function supportAttribute(AttributeInterface $attribute)
+    public function supportAttribute(AttributeInterface $attribute): bool
     {
         return in_array(
             $attribute->getType(),
@@ -39,8 +39,9 @@ class LengthGuesser implements ConstraintGuesserInterface
 
     /**
      * {@inheritdoc}
+     * @return list<\Akeneo\Pim\Enrichment\Component\Product\Validator\Constraints\Length>
      */
-    public function guessConstraints(AttributeInterface $attribute)
+    public function guessConstraints(AttributeInterface $attribute): array
     {
         $constraints = [];
 

@@ -16,11 +16,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AddProductValueProcessor extends AbstractProcessor
 {
-    /** @var PropertyAdderInterface */
-    protected $propertyAdder;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\PropertyAdderInterface $propertyAdder;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
     public function __construct(PropertyAdderInterface $propertyAdder, ValidatorInterface $validator)
     {
@@ -51,7 +49,7 @@ class AddProductValueProcessor extends AbstractProcessor
      *
      * @return bool
      */
-    protected function isProductValid(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product)
+    protected function isProductValid(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product): bool
     {
         $violations = $this->validator->validate($product);
         $this->addWarningMessage($violations, $product);

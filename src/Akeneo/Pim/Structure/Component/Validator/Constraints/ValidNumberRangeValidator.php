@@ -23,7 +23,7 @@ class ValidNumberRangeValidator extends ConstraintValidator
      *
      * @throws \Exception
      */
-    public function validate($entity, Constraint $constraint)
+    public function validate($entity, Constraint $constraint): void
     {
         if (!$constraint instanceof ValidNumberRange) {
             throw new UnexpectedTypeException($constraint, ValidNumberRange::class);
@@ -60,7 +60,7 @@ class ValidNumberRangeValidator extends ConstraintValidator
      * @param int   $number
      * @return bool
      */
-    protected function isNumberValid(mixed $entity, $number)
+    protected function isNumberValid(mixed $entity, $number): bool
     {
         if ($entity->isNegativeAllowed()) {
             if ($number == (int) $number || $entity->isDecimalsAllowed()) {

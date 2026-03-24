@@ -16,17 +16,15 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 class AttributeConverter implements AttributeConverterInterface
 {
-    /** @var LocalizerRegistryInterface */
-    protected $localizerRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Localization\Localizer\LocalizerRegistryInterface $localizerRegistry;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     /** @var ConstraintViolationListInterface */
     protected $violations;
 
     /** @var array[] */
-    protected $attributeTypeByCodes;
+    protected array $attributeTypeByCodes;
 
     public function __construct(
         LocalizerRegistryInterface $localizerRegistry,
@@ -40,7 +38,7 @@ class AttributeConverter implements AttributeConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convertToDefaultFormats(array $items, array $options = [])
+    public function convertToDefaultFormats(array $items, array $options = []): array
     {
         $this->violations = new ConstraintViolationList();
         $this->cacheAttributeTypeByCodes(array_keys($items));
@@ -126,7 +124,7 @@ class AttributeConverter implements AttributeConverterInterface
      *     }]
      *     [...]
      */
-    public function convertToLocalizedFormats(array $items, array $options = [])
+    public function convertToLocalizedFormats(array $items, array $options = []): array
     {
         $this->cacheAttributeTypeByCodes(array_keys($items));
 
@@ -152,7 +150,7 @@ class AttributeConverter implements AttributeConverterInterface
      *
      * @return array
      */
-    protected function convertToDefaultFormat(LocalizerInterface $localizer, array $item, array $options, $path)
+    protected function convertToDefaultFormat(LocalizerInterface $localizer, array $item, array $options, $path): array
     {
         $violations = $localizer->validate($item['data'], $path, $options);
         if (null !== $violations && $violations->count() > 0) {
@@ -170,7 +168,7 @@ class AttributeConverter implements AttributeConverterInterface
      * @param string $attributeCode
      * @return string
      */
-    protected function buildPropertyPath(array $data, $attributeCode)
+    protected function buildPropertyPath(array $data, string $attributeCode): string
     {
         $channelCode = isset($data['scope']) && '' !== $data['scope'] ? $data['scope'] : '<all_channels>';
         $localeCode = isset($data['locale']) && '' !== $data['locale'] ? $data['locale'] : '<all_locales>';
@@ -178,7 +176,7 @@ class AttributeConverter implements AttributeConverterInterface
         return sprintf('values[%s-%s-%s]', $attributeCode, $channelCode, $localeCode);
     }
 
-    private function cacheAttributeTypeByCodes(array $codes)
+    private function cacheAttributeTypeByCodes(array $codes): void
     {
         $codesToFetch = array_diff($codes, array_keys($this->attributeTypeByCodes));
 

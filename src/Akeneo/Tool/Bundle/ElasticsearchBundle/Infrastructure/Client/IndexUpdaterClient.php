@@ -28,7 +28,7 @@ final class IndexUpdaterClient
         string $sourceIndexName,
         string $destinationAliasName,
         string $destinationIndexName
-    ) {
+    ): void {
         $this->assertResponseIsAcknowledged(
             $this->client->indices()->updateAliases([
                 'body' => [
@@ -63,7 +63,7 @@ final class IndexUpdaterClient
         );
     }
 
-    public function reindexAllDocuments(string $sourceAliasName, string $destinationAliasName)
+    public function reindexAllDocuments(string $sourceAliasName, string $destinationAliasName): void
     {
         $this->logger->notice("First indexation into the new elasticsearch index");
         $reindexResponse = $this->client->reindex([
@@ -99,7 +99,7 @@ final class IndexUpdaterClient
         $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse, JSON_THROW_ON_ERROR)]);
     }
 
-    public function reindexDocumentsAfterSwitch(string $sourceAliasName, string $destinationAliasName)
+    public function reindexDocumentsAfterSwitch(string $sourceAliasName, string $destinationAliasName): void
     {
         $this->logger->notice("Reindex document indexed before the index switch");
         $reindexResponse = $this->client->reindex([
@@ -119,7 +119,7 @@ final class IndexUpdaterClient
         $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse, JSON_THROW_ON_ERROR)]);
     }
 
-    public function createDestinationIndex(string $destinationIndexName, string $destinationAliasName, array $sourceIndexConfiguration)
+    public function createDestinationIndex(string $destinationIndexName, string $destinationAliasName, array $sourceIndexConfiguration): void
     {
         $sourceIndexConfiguration['settings']['index']['number_of_replicas'] = 0;
         $sourceIndexConfiguration['settings']['index']['refresh_interval'] = -1;

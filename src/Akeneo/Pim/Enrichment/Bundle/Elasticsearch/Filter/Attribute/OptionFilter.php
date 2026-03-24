@@ -20,8 +20,7 @@ use Akeneo\Pim\Structure\Component\Repository\AttributeOptionRepositoryInterface
  */
 class OptionFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    /** @var AttributeOptionRepositoryInterface */
-    protected $attributeOptionRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeOptionRepositoryInterface $attributeOptionRepository;
 
     public function __construct(
         ElasticsearchFilterValidator $filterValidator,
@@ -45,7 +44,7 @@ class OptionFilter extends AbstractAttributeFilter implements AttributeFilterInt
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }
@@ -139,7 +138,7 @@ class OptionFilter extends AbstractAttributeFilter implements AttributeFilterInt
 
         $attributeOptions = $this->attributeOptionRepository->findCodesByIdentifiers($attribute->getCode(), $values);
         $optionCodes = array_map(
-            fn ($attributeOptions) => $attributeOptions['code'],
+            fn (array $attributeOptions) => $attributeOptions['code'],
             $attributeOptions
         );
 

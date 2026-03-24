@@ -61,7 +61,7 @@ class SubStepTester implements StepTester
         return $this->baseTester->tearDown($env, $feature, $step, $skip, $result);
     }
 
-    private function supportsResult(CallResult $result)
+    private function supportsResult(CallResult $result): bool
     {
         $return = $result->getReturn();
 

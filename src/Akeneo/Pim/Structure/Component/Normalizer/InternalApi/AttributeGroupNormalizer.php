@@ -16,11 +16,9 @@ class AttributeGroupNormalizer implements NormalizerInterface
     /** @var array $supportedFormats */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var ObjectRepository */
-    protected $attributeRepository;
+    protected \Doctrine\Persistence\ObjectRepository $attributeRepository;
 
     public function __construct(NormalizerInterface $normalizer, ObjectRepository $attributeRepository)
     {

@@ -23,7 +23,7 @@ class PriceFilter extends OroNumberFilter
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getFormType()
+    protected function getFormType(): string
     {
         return PriceFilterType::class;
     }
@@ -32,7 +32,7 @@ class PriceFilter extends OroNumberFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (!$data) {
@@ -98,7 +98,7 @@ class PriceFilter extends OroNumberFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function getOperator($type)
+    public function getOperator($type): string
     {
         $operatorTypes = [
             NumberFilterType::TYPE_EQUAL         => Operators::EQUALS,

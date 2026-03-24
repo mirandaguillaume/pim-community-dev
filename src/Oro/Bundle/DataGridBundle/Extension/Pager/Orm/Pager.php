@@ -10,8 +10,7 @@ use Oro\Bundle\DataGridBundle\ORM\Query\QueryCountCalculator;
 
 class Pager extends AbstractPager implements PagerInterface
 {
-    /** @var QueryBuilder */
-    protected $qb;
+    protected ?\Doctrine\ORM\QueryBuilder $qb;
 
     /** @var array */
     protected $parameters = [];
@@ -25,7 +24,7 @@ class Pager extends AbstractPager implements PagerInterface
     /**
      * @return $this
      */
-    public function setQueryBuilder(QueryBuilder $qb)
+    public function setQueryBuilder(QueryBuilder $qb): static
     {
         $this->qb = $qb;
 
@@ -59,7 +58,7 @@ class Pager extends AbstractPager implements PagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getResults($hydrationMode = Query::HYDRATE_OBJECT)
+    public function getResults($hydrationMode = Query::HYDRATE_OBJECT): mixed
     {
         return $this->getQueryBuilder()->getQuery()->getResult($hydrationMode);
     }
@@ -67,7 +66,7 @@ class Pager extends AbstractPager implements PagerInterface
     /**
      * {@inheritdoc}
      */
-    public function init()
+    public function init(): void
     {
         $this->resetIterator();
 
@@ -124,7 +123,7 @@ class Pager extends AbstractPager implements PagerInterface
      *
      * @return boolean
      */
-    public function hasParameter($name)
+    public function hasParameter($name): bool
     {
         return isset($this->parameters[$name]);
     }
@@ -134,7 +133,7 @@ class Pager extends AbstractPager implements PagerInterface
      *
      * @param string $name
      */
-    public function setParameter($name, mixed $value)
+    public function setParameter($name, mixed $value): void
     {
         $this->parameters[$name] = $value;
     }

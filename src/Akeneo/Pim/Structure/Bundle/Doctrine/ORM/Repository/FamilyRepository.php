@@ -79,7 +79,7 @@ class FamilyRepository extends EntityRepository implements FamilyRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function getFullFamilies(?FamilyInterface $family = null, ?ChannelInterface $channel = null)
+    public function getFullFamilies(?FamilyInterface $family = null, ?ChannelInterface $channel = null): mixed
     {
         $qb = $this->createQueryBuilder('f')
             ->select('f')
@@ -104,7 +104,7 @@ class FamilyRepository extends EntityRepository implements FamilyRepositoryInter
     /**
      * {@inheritdoc}*
      */
-    public function findByIds(array $familyIds)
+    public function findByIds(array $familyIds): mixed
     {
         if (empty($familyIds)) {
             throw new \InvalidArgumentException('Array must contain at least one family id');
@@ -120,7 +120,7 @@ class FamilyRepository extends EntityRepository implements FamilyRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): ?object
     {
         return $this->findOneBy(['code' => $code]);
     }
@@ -128,7 +128,7 @@ class FamilyRepository extends EntityRepository implements FamilyRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['code'];
     }
@@ -136,7 +136,7 @@ class FamilyRepository extends EntityRepository implements FamilyRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function hasAttribute($id, $attributeCode)
+    public function hasAttribute($id, $attributeCode): bool
     {
         $queryBuilder = $this->createQueryBuilder('f')
             ->select(1)

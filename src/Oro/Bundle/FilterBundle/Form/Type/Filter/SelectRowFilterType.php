@@ -16,7 +16,7 @@ class SelectRowFilterType extends AbstractChoiceType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $emptyData = function ($form, $submittedData) {
+        $emptyData = function ($form, $submittedData): ?array {
             if ($submittedData === null) {
                 return $submittedData;
             } elseif ($submittedData === '') {

@@ -74,7 +74,7 @@ class Locale implements LocaleInterface, VersionableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -92,7 +92,7 @@ class Locale implements LocaleInterface, VersionableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -102,7 +102,7 @@ class Locale implements LocaleInterface, VersionableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getLanguage()
+    public function getLanguage(): ?string
     {
         return (null === $this->code) ? null : substr($this->code, 0, 2);
     }
@@ -134,7 +134,7 @@ class Locale implements LocaleInterface, VersionableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addChannel(ChannelInterface $channel)
+    public function addChannel(ChannelInterface $channel): static
     {
         if (!$this->channels->contains($channel)) {
             $this->channels->add($channel);
@@ -147,7 +147,7 @@ class Locale implements LocaleInterface, VersionableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeChannel(ChannelInterface $channel)
+    public function removeChannel(ChannelInterface $channel): static
     {
         $this->channels->removeElement($channel);
         if ($this->channels->count() === 0) {

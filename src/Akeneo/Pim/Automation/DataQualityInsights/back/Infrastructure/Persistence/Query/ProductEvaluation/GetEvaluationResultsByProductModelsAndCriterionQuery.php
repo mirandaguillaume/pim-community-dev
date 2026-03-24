@@ -43,7 +43,7 @@ final readonly class GetEvaluationResultsByProductModelsAndCriterionQuery implem
         $stmt = $this->dbConnection->executeQuery(
             $query,
             [
-                'productModelIds' => array_map(fn (string $productModelId) => (int) $productModelId, $productModelIdCollection->toArrayString()),
+                'productModelIds' => array_map(fn (string $productModelId): int => (int) $productModelId, $productModelIdCollection->toArrayString()),
                 'criterionCode' => $criterionCode,
             ],
             [

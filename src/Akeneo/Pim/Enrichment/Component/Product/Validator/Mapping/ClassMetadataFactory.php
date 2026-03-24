@@ -20,7 +20,7 @@ class ClassMetadataFactory
      *
      * @return ClassMetadata
      */
-    public function createMetadata($class)
+    public function createMetadata($class): \Symfony\Component\Validator\Mapping\ClassMetadata
     {
         return new ClassMetadata($class);
     }

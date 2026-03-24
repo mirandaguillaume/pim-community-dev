@@ -42,7 +42,7 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         $clauses = [];
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');

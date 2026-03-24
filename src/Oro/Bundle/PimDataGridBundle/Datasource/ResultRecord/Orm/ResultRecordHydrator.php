@@ -16,8 +16,9 @@ class ResultRecordHydrator implements HydratorInterface
 {
     /**
      * {@inheritdoc}
+     * @return \Oro\Bundle\DataGridBundle\Datasource\ResultRecord[]
      */
-    public function hydrate($qb, array $options = [])
+    public function hydrate($qb, array $options = []): array
     {
         $records = [];
         foreach ($qb->getQuery()->getResult() as $record) {

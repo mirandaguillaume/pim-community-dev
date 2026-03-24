@@ -10,7 +10,7 @@ class EntityFilter extends ChoiceFilter
      * {@inheritDoc}
      */
     #[\Override]
-    public function init($name, array $params)
+    public function init($name, array $params): void
     {
         $params[FilterUtility::FRONTEND_TYPE_KEY] = 'choice';
         parent::init($name, $params);
@@ -20,7 +20,7 @@ class EntityFilter extends ChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getFormType()
+    protected function getFormType(): string
     {
         return EntityFilterType::class;
     }

@@ -63,7 +63,7 @@ class PopulateProductModelScoresAndKeyIndicatorsCommand extends Command
 
         while ($productModelIds = $this->getNextProductModelIds($lastProductModelId)) {
             try {
-                $productModelIdsCollection = $this->idFactory->createCollection(array_map(fn ($productModelId) => (string) $productModelId, $productModelIds));
+                $productModelIdsCollection = $this->idFactory->createCollection(array_map(fn ($productModelId): string => (string) $productModelId, $productModelIds));
                 $this->createCriteriaEvaluations->create($completenessCriteria, $productModelIdsCollection);
                 $lastProductModelId = end($productModelIds);
             } catch (\Throwable $e) {
@@ -147,6 +147,6 @@ class PopulateProductModelScoresAndKeyIndicatorsCommand extends Command
             ]
         );
 
-        return array_map(static fn ($resultRow) => (int) $resultRow['id'], $bulkResult->fetchAllAssociative());
+        return array_map(static fn (array $resultRow): int => (int) $resultRow['id'], $bulkResult->fetchAllAssociative());
     }
 }

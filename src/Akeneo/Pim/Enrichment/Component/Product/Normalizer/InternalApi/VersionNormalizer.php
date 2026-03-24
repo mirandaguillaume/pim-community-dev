@@ -100,7 +100,7 @@ class VersionNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function convertChangeset(array $changeset, array $context)
+    protected function convertChangeset(array $changeset, array $context): array
     {
         $attributeCodes = [];
         foreach (array_keys($changeset) as $valueHeader) {

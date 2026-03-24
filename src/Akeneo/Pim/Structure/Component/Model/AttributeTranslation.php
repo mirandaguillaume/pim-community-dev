@@ -33,7 +33,7 @@ class AttributeTranslation extends AbstractTranslation implements AttributeTrans
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->label = $label;
 

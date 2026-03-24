@@ -88,7 +88,7 @@ class AttributeTranslator implements FlatHeaderTranslatorInterface
         return $columnLabelized;
     }
 
-    private function getChannelTranslations($locale): array
+    private function getChannelTranslations(string $locale): array
     {
         if ($this->channelTranslationCache === null) {
             $this->channelTranslationCache = $this->getChannelTranslations->byLocale($locale);

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class DashboardController
 {
-    public function __invoke()
+    public function __invoke(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         return new JsonResponse(null, Response::HTTP_OK);
     }

@@ -45,7 +45,7 @@ class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterf
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -53,7 +53,7 @@ class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterf
     /**
      * {@inheritdoc}
      */
-    public function execute()
+    public function execute(): void
     {
         $this->initialize();
         $familyCodes = $this->extractFamilyCodes();
@@ -91,7 +91,7 @@ class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterf
     /**
      * {@inheritdoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->cacheClearer->clear();
 

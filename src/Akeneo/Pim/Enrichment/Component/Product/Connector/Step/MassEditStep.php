@@ -17,8 +17,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class MassEditStep extends AbstractStep
 {
-    /** @var TemporaryFileCleaner */
-    protected $cleaner;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\Item\MassEdit\TemporaryFileCleaner $cleaner;
 
     /**
      * @param string                   $name
@@ -27,7 +26,7 @@ class MassEditStep extends AbstractStep
      * @param TemporaryFileCleaner     $cleaner
      */
     public function __construct(
-        $name,
+        string $name,
         EventDispatcherInterface $eventDispatcher,
         JobRepositoryInterface $jobRepository,
         TemporaryFileCleaner $cleaner

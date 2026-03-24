@@ -23,23 +23,17 @@ class FamilyNormalizer implements NormalizerInterface
     /** @var array */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var NormalizerInterface */
-    protected $familyNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $familyNormalizer;
 
-    /** @var NormalizerInterface */
-    protected $attributeNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $attributeNormalizer;
 
-    /** @var CollectionFilterInterface */
-    protected $collectionFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\CollectionFilterInterface $collectionFilter;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var VersionManager */
-    protected $versionManager;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionManager $versionManager;
 
-    /** @var NormalizerInterface */
-    protected $versionNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $versionNormalizer;
 
     public function __construct(
         NormalizerInterface $familyNormalizer,
@@ -122,7 +116,7 @@ class FamilyNormalizer implements NormalizerInterface
      * @param array           $context
      * @return array
      */
-    protected function normalizeAttributes(FamilyInterface $family, $fullAttributes, $context)
+    protected function normalizeAttributes(FamilyInterface $family, $fullAttributes, $context): array
     {
         $attributes = $this->attributeRepository->findAttributesByFamily($family);
 
@@ -153,7 +147,7 @@ class FamilyNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function normalizeRequirements($requirements, $fullAttributes)
+    protected function normalizeRequirements($requirements, $fullAttributes): array
     {
         $result = [];
 

@@ -99,7 +99,7 @@ final readonly class UpdateUserCommandHandler
         return $user;
     }
 
-    private function isPasswordUpdating($data): bool
+    private function isPasswordUpdating(array $data): bool
     {
         return (isset($data['current_password']) && !empty($data['current_password']))
             || (isset($data['new_password']) && !empty($data['new_password']))

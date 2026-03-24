@@ -24,20 +24,15 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 class SimpleJobLauncher implements JobLauncherInterface
 {
-    /** @var JobRepositoryInterface */
-    protected $jobRepository;
+    protected \Akeneo\Tool\Component\Batch\Job\JobRepositoryInterface $jobRepository;
 
-    /** @var JobParametersFactory */
-    protected $jobParametersFactory;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParametersFactory $jobParametersFactory;
 
-    /** @var JobRegistry */
-    protected $jobRegistry;
+    protected \Akeneo\Tool\Component\Batch\Job\JobRegistry $jobRegistry;
 
-    /** @var JobParametersValidator */
-    protected $jobParametersValidator;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParametersValidator $jobParametersValidator;
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher;
 
     /**
      * Constructor
@@ -151,7 +146,7 @@ class SimpleJobLauncher implements JobLauncherInterface
      * @param string       $eventName    Name of the event
      * @param JobExecution $jobExecution Object to store job execution
      */
-    private function dispatchJobExecutionEvent($eventName, JobExecution $jobExecution)
+    private function dispatchJobExecutionEvent(string $eventName, JobExecution $jobExecution): void
     {
         $event = new JobExecutionEvent($jobExecution);
         $this->eventDispatcher->dispatch($event, $eventName);

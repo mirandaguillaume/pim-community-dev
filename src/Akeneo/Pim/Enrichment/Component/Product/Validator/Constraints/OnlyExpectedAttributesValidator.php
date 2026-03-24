@@ -40,7 +40,7 @@ class OnlyExpectedAttributesValidator extends ConstraintValidator
         $levelAttributes = $this->attributesProvider->getAttributes($entity);
 
         $levelAttributeCodes = array_map(
-            fn ($attribute) => $attribute->getCode(),
+            fn (\Akeneo\Pim\Structure\Component\Model\AttributeInterface $attribute) => $attribute->getCode(),
             $levelAttributes
         );
 

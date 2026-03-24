@@ -25,14 +25,11 @@ class ProductDatasource extends Datasource
     /** @var ProductQueryBuilderInterface */
     protected $pqb;
 
-    /** @var ProductQueryBuilderFactoryInterface */
-    protected $factory;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderFactoryInterface $factory;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var FilterEntityWithValuesSubscriber */
-    protected $filterEntityWithValuesSubscriber;
+    protected \Oro\Bundle\PimDataGridBundle\EventSubscriber\FilterEntityWithValuesSubscriber $filterEntityWithValuesSubscriber;
 
     /**
      * @param ObjectManager                       $om
@@ -56,7 +53,7 @@ class ProductDatasource extends Datasource
      * {@inheritdoc}
      */
     #[\Override]
-    public function getResults()
+    public function getResults(): array
     {
         $attributeIdsToDisplay = $this->getConfiguration('displayed_attribute_ids');
         $attributes = $this->getConfiguration('attributes_configuration');
@@ -99,7 +96,7 @@ class ProductDatasource extends Datasource
      * @return Datasource
      */
     #[\Override]
-    protected function initializeQueryBuilder($method, array $config = [])
+    protected function initializeQueryBuilder($method, array $config = []): static
     {
         $factoryConfig = [];
         $factoryConfig['repository_parameters'] = $config;

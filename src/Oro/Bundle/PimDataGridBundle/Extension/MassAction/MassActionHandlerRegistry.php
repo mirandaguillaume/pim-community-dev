@@ -23,7 +23,7 @@ class MassActionHandlerRegistry
      *
      * @throws \LogicException
      */
-    public function addHandler($alias, MassActionHandlerInterface $handler)
+    public function addHandler($alias, MassActionHandlerInterface $handler): void
     {
         if (isset($this->handlers[$alias])) {
             throw new \LogicException(

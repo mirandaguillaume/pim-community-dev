@@ -24,17 +24,14 @@ class ValueNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     /** @var string[] */
     protected $supportedFormats = ['csv', 'flat'];
 
-    /** @var int */
-    protected $precision;
+    protected int $precision;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeOptionRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeOptionRepository;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $attributeRepository,
@@ -129,7 +126,7 @@ class ValueNormalizer implements NormalizerInterface, NormalizerAwareInterface
      *
      * @return string
      */
-    protected function getFieldName(ValueInterface $value)
+    protected function getFieldName(ValueInterface $value): string
     {
         // TODO : should be extracted
         $suffix = '';
@@ -166,7 +163,7 @@ class ValueNormalizer implements NormalizerInterface, NormalizerAwareInterface
      *
      * @return Collection
      */
-    protected function sortOptions(Collection $optionsCollection, AttributeInterface $attribute)
+    protected function sortOptions(Collection $optionsCollection, AttributeInterface $attribute): \Doctrine\Common\Collections\ArrayCollection
     {
         $options = [];
         foreach ($optionsCollection as $optionCode) {
@@ -178,7 +175,7 @@ class ValueNormalizer implements NormalizerInterface, NormalizerAwareInterface
 
         usort(
             $options,
-            function ($first, $second) {
+            function ($first, $second): int {
                 $sort = $first->getSortOrder() - $second->getSortOrder();
 
                 return (int) ($sort !== 0 ?? $first->getCode() - $second->getCode());

@@ -21,11 +21,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class DateType extends AbstractType
 {
-    /** @var LocaleResolver */
-    protected $localeResolver;
+    protected \Akeneo\Platform\Bundle\UIBundle\Resolver\LocaleResolver $localeResolver;
 
-    /** @var DateFactory */
-    protected $dateFactory;
+    protected \Akeneo\Tool\Component\Localization\Factory\DateFactory $dateFactory;
 
     public function __construct(LocaleResolver $localeResolver, DateFactory $dateFactory)
     {
@@ -38,7 +36,7 @@ class DateType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $placeholderDefault = fn (Options $options) => $options['required'] ? null : '';
+        $placeholderDefault = fn (Options $options): ?string => $options['required'] ? null : '';
 
         $constraint = new DateFormat();
         $dateFormat = $this->dateFactory->create(['locale' => $this->localeResolver->getCurrentLocale()])->getPattern();
@@ -51,7 +49,7 @@ class DateType extends AbstractType
                 'invalid_message_parameters' => ['{{ date_format }}' => $dateFormat],
                 'format'                     => $dateFormat,
             ]
-        )->setNormalizer('placeholder', function (Options $options, $placeholder) use ($placeholderDefault) {
+        )->setNormalizer('placeholder', function (Options $options, $placeholder) use ($placeholderDefault): string|array {
             if (is_string($placeholder)) {
                 return $placeholder;
             } elseif (is_array($placeholder)) {
@@ -74,7 +72,7 @@ class DateType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['placeholder'] = $options['placeholder'];
     }

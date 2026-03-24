@@ -12,7 +12,7 @@ class StringFilter extends AbstractFilter
     /**
      * {@inheritDoc}
      */
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (!$data) {
@@ -48,7 +48,7 @@ class StringFilter extends AbstractFilter
     /**
      * {@inheritDoc}
      */
-    protected function getFormType()
+    protected function getFormType(): string
     {
         return TextFilterType::class;
     }
@@ -89,7 +89,7 @@ class StringFilter extends AbstractFilter
      *
      * @return string
      */
-    protected function getOperator($type)
+    protected function getOperator(int|string $type): string
     {
         $operatorTypes = [
             TextFilterType::TYPE_CONTAINS     => Operators::IS_LIKE,

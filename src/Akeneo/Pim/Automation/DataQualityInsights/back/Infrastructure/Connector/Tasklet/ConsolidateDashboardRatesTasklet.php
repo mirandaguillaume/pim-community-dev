@@ -26,7 +26,7 @@ final class ConsolidateDashboardRatesTasklet implements TaskletInterface
     /**
      * @inheritDoc
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -34,7 +34,7 @@ final class ConsolidateDashboardRatesTasklet implements TaskletInterface
     /**
      * @inheritDoc
      */
-    public function execute()
+    public function execute(): void
     {
         try {
             $jobParameters = $this->stepExecution->getJobParameters();

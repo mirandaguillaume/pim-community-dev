@@ -34,11 +34,8 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     protected $code;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'sort_order', type: Types::INTEGER)]
-    protected $sortOrder;
+    protected int $sortOrder;
 
     /**
      * @var \DateTime
@@ -104,7 +101,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -122,7 +119,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -140,7 +137,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setSortOrder($sortOrder)
+    public function setSortOrder($sortOrder): static
     {
         $this->sortOrder = $sortOrder;
 
@@ -158,7 +155,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCreated($created)
+    public function setCreated($created): static
     {
         $this->created = $created;
 
@@ -176,7 +173,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setUpdated($updated)
+    public function setUpdated($updated): static
     {
         $this->updated = $updated;
 
@@ -186,7 +183,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addAttribute(AttributeInterface $attribute)
+    public function addAttribute(AttributeInterface $attribute): static
     {
         $this->attributes[] = $attribute;
         $attribute->setGroup($this);
@@ -197,7 +194,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeAttribute(AttributeInterface $attribute)
+    public function removeAttribute(AttributeInterface $attribute): static
     {
         $this->attributes->removeElement($attribute);
         $attribute->setGroup(null);
@@ -237,7 +234,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale($locale): static
     {
         $this->locale = $locale;
 
@@ -279,7 +276,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addTranslation(TranslationInterface $translation)
+    public function addTranslation(TranslationInterface $translation): static
     {
         if (!$this->translations->contains($translation)) {
             $this->translations->add($translation);
@@ -291,7 +288,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeTranslation(TranslationInterface $translation)
+    public function removeTranslation(TranslationInterface $translation): static
     {
         $this->translations->removeElement($translation);
 
@@ -301,7 +298,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getTranslationFQCN()
+    public function getTranslationFQCN(): string
     {
         return AttributeGroupTranslation::class;
     }
@@ -319,7 +316,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->getTranslation()->setLabel($label);
 

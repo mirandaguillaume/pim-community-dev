@@ -49,14 +49,14 @@ class V20230622175500OptimizeTableWithInstantColsMigration implements ZddMigrati
         return 'OptimizeTableWithInstantCols';
     }
 
-    private function optimizeTables(array $tableNames)
+    private function optimizeTables(array $tableNames): void
     {
         foreach ($tableNames as $tableName) {
             $this->optimizeTable($tableName);
         }
     }
 
-    private function optimizeTable(string $tableName)
+    private function optimizeTable(string $tableName): void
     {
         $sql = <<<SQL
                 OPTIMIZE TABLE $tableName;

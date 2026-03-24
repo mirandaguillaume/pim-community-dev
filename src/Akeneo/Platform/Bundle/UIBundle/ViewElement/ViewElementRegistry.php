@@ -20,7 +20,7 @@ class ViewElementRegistry
      * @param string               $type
      * @param int                  $position
      */
-    public function add(ViewElementInterface $element, $type, $position)
+    public function add(ViewElementInterface $element, $type, $position): void
     {
         if (!isset($this->elements[$type][$position])) {
             $this->elements[$type][$position] = $element;

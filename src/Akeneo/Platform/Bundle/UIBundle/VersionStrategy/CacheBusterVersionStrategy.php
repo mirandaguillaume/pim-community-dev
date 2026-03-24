@@ -7,8 +7,7 @@ use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
 class CacheBusterVersionStrategy implements VersionStrategyInterface
 {
-    /** @var VersionProviderInterface */
-    protected $versionProvider;
+    protected \Akeneo\Platform\Bundle\PimVersionBundle\VersionProviderInterface $versionProvider;
 
     public function __construct(VersionProviderInterface $versionProvider)
     {

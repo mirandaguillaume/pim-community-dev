@@ -64,7 +64,7 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
     /**
      * @dataProvider configureOptionsDataProvider
      */
-    public function testSetDefaultOptions(array $defaultOptions, array $requiredOptions = [])
+    public function testSetDefaultOptions(array $defaultOptions, array $requiredOptions = []): void
     {
         $resolver = $this->createMockOptionsResolver();
 
@@ -94,7 +94,7 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
         array $formData,
         array $viewData,
         array $customOptions = []
-    ) {
+    ): void {
         $form = $this->factory->create($this->getTestFormType(), null, $customOptions);
 
         $form->submit($bindData);

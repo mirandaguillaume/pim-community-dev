@@ -15,8 +15,7 @@ use Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface;
  */
 class AttributeFactory implements SimpleFactoryInterface
 {
-    /** @var AttributeTypeRegistry */
-    protected $registry;
+    protected \Akeneo\Pim\Structure\Component\AttributeTypeRegistry $registry;
 
     /**
      * @param string                $attributeClass
@@ -30,7 +29,7 @@ class AttributeFactory implements SimpleFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function create()
+    public function create(): object
     {
         $attribute = new $this->attributeClass();
         $attribute->setEntityType($this->productClass);

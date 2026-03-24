@@ -41,7 +41,7 @@ class OrmSorterExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function processConfigs(DatagridConfiguration $config)
+    public function processConfigs(DatagridConfiguration $config): void
     {
         $this->validateConfiguration(
             new Configuration(),
@@ -52,7 +52,7 @@ class OrmSorterExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource)
+    public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource): void
     {
         $sorters = $this->getSortersToApply($config);
         $multisort = $config->offsetGetByPath(Configuration::MULTISORT_PATH, false);
@@ -73,7 +73,7 @@ class OrmSorterExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data)
+    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data): void
     {
         $multisort = $config->offsetGetByPath(Configuration::MULTISORT_PATH, false);
         $sorters = $this->getSorters($config);
@@ -109,7 +109,7 @@ class OrmSorterExtension extends AbstractExtension
      * {@inheritDoc}
      */
     #[\Override]
-    public function getPriority()
+    public function getPriority(): int
     {
         // should visit after all extensions
         return -250;
@@ -139,7 +139,7 @@ class OrmSorterExtension extends AbstractExtension
      *
      * @return array
      */
-    protected function getSortersToApply(DatagridConfiguration $config)
+    protected function getSortersToApply(DatagridConfiguration $config): array
     {
         $result = [];
 
@@ -174,7 +174,7 @@ class OrmSorterExtension extends AbstractExtension
      *
      * @return string
      */
-    protected function normalizeDirection($direction)
+    protected function normalizeDirection($direction): string
     {
         switch (true) {
             case in_array($direction, [self::DIRECTION_ASC, self::DIRECTION_DESC], true):

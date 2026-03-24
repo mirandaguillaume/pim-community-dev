@@ -25,7 +25,7 @@ class MeasureManager
      *
      * @return array the measure symbols
      */
-    public function getUnitSymbolsForFamily($family)
+    public function getUnitSymbolsForFamily($family): array
     {
         $familyConfig = $this->getFamilyConfig($family);
         $unitsConfig = $familyConfig['units'];
@@ -79,7 +79,7 @@ class MeasureManager
      *
      * @return array the measure units code
      */
-    public function getUnitCodesForFamily($family)
+    public function getUnitCodesForFamily($family): array
     {
         $familyConfig = $this->getFamilyConfig($family);
 

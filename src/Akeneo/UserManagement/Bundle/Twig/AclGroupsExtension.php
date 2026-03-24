@@ -51,7 +51,7 @@ class AclGroupsExtension extends AbstractExtension
      *
      * @return string[]
      */
-    public function getAclGroupNames()
+    public function getAclGroupNames(): array
     {
         $config = $this->getConfig();
 
@@ -61,7 +61,7 @@ class AclGroupsExtension extends AbstractExtension
     /**
      * @return array
      */
-    protected function getConfig()
+    protected function getConfig(): array
     {
         $config = [];
         foreach ($this->bundles as $class) {
@@ -85,7 +85,7 @@ class AclGroupsExtension extends AbstractExtension
      *
      * @return array
      */
-    protected function getSortedGroups($config)
+    protected function getSortedGroups(array $config)
     {
         $groups = $this->getGroups($config);
         $groups = $this->sortGroups($groups);
@@ -96,7 +96,7 @@ class AclGroupsExtension extends AbstractExtension
     /**
      * @return array
      */
-    protected function getGroups(array $config)
+    protected function getGroups(array $config): array
     {
         $groups = [];
         foreach ($config as $groupName => $groupConfig) {
@@ -114,12 +114,12 @@ class AclGroupsExtension extends AbstractExtension
     /**
      * @return array
      */
-    protected function sortGroups(array $groups)
+    protected function sortGroups(array $groups): array
     {
         foreach ($groups as $permissionGroup => $group) {
             usort(
                 $groups[$permissionGroup],
-                function ($first, $second) {
+                function (array $first, array $second): int {
                     if ($first['order'] === $second['order']) {
                         return 0;
                     }
@@ -138,7 +138,7 @@ class AclGroupsExtension extends AbstractExtension
 
     protected function filterGroupsDisabledByFeatureFlag(array $config): array
     {
-        return array_filter($config, function ($group) {
+        return array_filter($config, function (array $group): bool {
             if (!array_key_exists('feature', $group)) {
                 return true;
             }

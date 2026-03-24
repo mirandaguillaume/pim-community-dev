@@ -8,10 +8,8 @@ class ActionMetadata implements AclClassInfo
 {
     /**
      * Defines if the ACL must be enabled/disabled at creation for all roles.
-     *
-     * @var bool
      */
-    protected $isEnabledAtCreation;
+    protected bool $isEnabledAtCreation;
 
     /**
      * Gets an action name

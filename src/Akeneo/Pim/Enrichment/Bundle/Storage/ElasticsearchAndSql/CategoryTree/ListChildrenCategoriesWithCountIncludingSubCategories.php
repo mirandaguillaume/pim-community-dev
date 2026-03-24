@@ -270,7 +270,7 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
             ]
         )->fetchAllAssociative();
 
-        $ids = array_map(fn ($row) => (int) $row['id'], $rows);
+        $ids = array_map(fn (array $row): int => (int) $row['id'], $rows);
 
         return $ids;
     }

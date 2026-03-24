@@ -17,7 +17,7 @@ class ActionMetadataCacheClearer implements CacheClearerInterface
     /**
      * {inheritdoc}
      */
-    public function clear($cacheDir)
+    public function clear($cacheDir): void
     {
         $this->provider->clearCache();
     }

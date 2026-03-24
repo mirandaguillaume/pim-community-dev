@@ -17,14 +17,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class EntityWithValuesFieldFilter implements FilterInterface
 {
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var ComparatorRegistry */
-    protected $comparatorRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Comparator\ComparatorRegistry $comparatorRegistry;
 
-    /** @var array */
-    protected $entityFields;
+    protected array $entityFields;
 
     public function __construct(
         NormalizerInterface $normalizer,

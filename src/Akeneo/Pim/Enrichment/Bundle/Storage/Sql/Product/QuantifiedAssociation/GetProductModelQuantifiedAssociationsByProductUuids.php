@@ -72,7 +72,7 @@ final readonly class GetProductModelQuantifiedAssociationsByProductUuids
         return $rows;
     }
 
-    private function hydrateQuantifiedAssociations($rows): array
+    private function hydrateQuantifiedAssociations(array $rows): array
     {
         $validQuantifiedAssociationTypeCodes = $this->findQuantifiedAssociationTypeCodes->execute();
 
@@ -99,10 +99,13 @@ final readonly class GetProductModelQuantifiedAssociationsByProductUuids
         return $results;
     }
 
+    /**
+     * @return array{product_models: list<mixed>}[]
+     */
     private function associationsWithIdentifiers(
         array $allQuantifiedAssociationsWithProductId,
         array $validQuantifiedAssociationTypeCodes
-    ) {
+    ): array {
         $productIds = [];
         foreach ($allQuantifiedAssociationsWithProductId as $quantifiedAssociationWithId) {
             if (empty($quantifiedAssociationWithId)) {

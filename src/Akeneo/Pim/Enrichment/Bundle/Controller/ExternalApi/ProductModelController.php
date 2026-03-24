@@ -274,7 +274,7 @@ class ProductModelController
         $this->warmupQueryCache->fromRequest($request);
         $resource = $request->getContent(true);
         $this->apiAggregatorForProductModelPostSave->activate();
-        $response = $this->partialUpdateStreamResource->streamResponse($resource, [], function () {
+        $response = $this->partialUpdateStreamResource->streamResponse($resource, [], function (): void {
             try {
                 $this->apiAggregatorForProductModelPostSave->dispatchAllEvents();
             } catch (\Throwable $exception) {

@@ -19,8 +19,7 @@ use Doctrine\Persistence\ObjectManager;
  */
 class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInterface
 {
-    /** @var ObjectManager */
-    protected $objectManager;
+    protected \Doctrine\Persistence\ObjectManager $objectManager;
 
     /** @var array */
     protected $scheduledForCheck;
@@ -34,7 +33,7 @@ class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInter
     /**
      * {@inheritdoc}
      */
-    public function detach($object)
+    public function detach($object): void
     {
         $visited = [];
         $this->objectManager->detach($object);
@@ -44,7 +43,7 @@ class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInter
     /**
      * {@inheritdoc}
      */
-    public function detachAll(array $objects)
+    public function detachAll(array $objects): void
     {
         foreach ($objects as $object) {
             $this->detach($object);
@@ -94,7 +93,7 @@ class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInter
 
         $associationMappings = array_filter(
             $class->associationMappings,
-            fn ($assoc) => $assoc['isCascadeDetach']
+            fn (array $assoc) => $assoc['isCascadeDetach']
         );
 
         foreach ($associationMappings as $assoc) {

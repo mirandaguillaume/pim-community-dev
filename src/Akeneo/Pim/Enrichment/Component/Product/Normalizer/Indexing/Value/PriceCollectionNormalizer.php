@@ -28,7 +28,7 @@ class PriceCollectionNormalizer extends AbstractProductValueNormalizer implement
     /**
      * {@inheritdoc}
      */
-    protected function getNormalizedData(ValueInterface $value)
+    protected function getNormalizedData(ValueInterface $value): ?array
     {
         $currencyIndexedPrices = [];
         $prices = $value->getData();

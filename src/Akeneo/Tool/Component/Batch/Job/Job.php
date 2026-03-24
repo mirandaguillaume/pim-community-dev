@@ -293,7 +293,7 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
      * @param string       $eventName    Name of the event
      * @param JobExecution $jobExecution Object to store job execution
      */
-    private function dispatchJobExecutionEvent($eventName, JobExecution $jobExecution)
+    private function dispatchJobExecutionEvent(string $eventName, JobExecution $jobExecution): void
     {
         $event = new JobExecutionEvent($jobExecution);
         $this->eventDispatcher->dispatch($event, $eventName);
@@ -341,7 +341,7 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
         return $path;
     }
 
-    private function deleteWorkingDirectory(string $directory)
+    private function deleteWorkingDirectory(string $directory): void
     {
         if ($this->filesystem->exists($directory)) {
             $this->filesystem->remove($directory);

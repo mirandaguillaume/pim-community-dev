@@ -21,7 +21,7 @@ class StorageDataCollector implements DataCollectorInterface
     /**
      * {@inheritdoc}
      */
-    public function collect()
+    public function collect(): array
     {
         return ['mysql_version' => $this->connection->getNativeConnection()->getAttribute(\PDO::ATTR_SERVER_VERSION)];
     }

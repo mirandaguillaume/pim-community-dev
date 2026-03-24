@@ -25,11 +25,9 @@ class JobInstanceWriter implements ItemWriterInterface, StepExecutionAwareInterf
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var BulkSaverInterface */
-    protected $bulkSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface $bulkSaver;
 
-    /** @var BulkObjectDetacherInterface */
-    protected $bulkDetacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\BulkObjectDetacherInterface $bulkDetacher;
 
     public function __construct(
         BulkSaverInterface $bulkSaver,

@@ -18,8 +18,7 @@ use Akeneo\Pim\Structure\Component\Repository\FamilyRepositoryInterface;
  */
 class FamilyFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    /** @var FamilyRepositoryInterface */
-    protected $familyRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\FamilyRepositoryInterface $familyRepository;
 
     public function __construct(
         FamilyRepositoryInterface $familyRepository,
@@ -41,7 +40,7 @@ class FamilyFilter extends AbstractFieldFilter implements FieldFilterInterface
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }
@@ -96,8 +95,9 @@ class FamilyFilter extends AbstractFieldFilter implements FieldFilterInterface
      * @param string $field
      *
      * @throws ObjectNotFoundException
+     * @return mixed[]
      */
-    protected function checkValue($field, mixed $values)
+    protected function checkValue($field, mixed $values): array
     {
         FieldFilterHelper::checkArray($field, $values, static::class);
         $familyCodes = [];

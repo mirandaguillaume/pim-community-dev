@@ -30,8 +30,9 @@ class MediaConverter extends AbstractValueConverter implements ValueConverterInt
      * [
      *     'front_picture-de_DE-ecommerce' => 'x5/78/87/sdqdsqf654qsd6f5465sdqfsqdf65_toto.jpg',
      * ]
+     * @return string[]
      */
-    public function convert($attributeCode, $data)
+    public function convert($attributeCode, $data): array
     {
         $convertedItem = [];
 

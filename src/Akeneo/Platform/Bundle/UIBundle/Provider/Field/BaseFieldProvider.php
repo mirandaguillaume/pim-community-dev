@@ -41,7 +41,7 @@ class BaseFieldProvider implements FieldProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($element)
+    public function supports($element): bool
     {
         return $element instanceof AttributeInterface
             && in_array($element->getType(), array_keys($this->fields));

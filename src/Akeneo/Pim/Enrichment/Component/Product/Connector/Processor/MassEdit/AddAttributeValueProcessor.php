@@ -20,20 +20,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AddAttributeValueProcessor extends AbstractProcessor
 {
-    /** @var ValidatorInterface */
-    protected $productValidator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $productValidator;
 
-    /** @var ValidatorInterface */
-    protected $productModelValidator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $productModelValidator;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
-    /** @var CheckAttributeEditable */
-    protected $checkAttributeEditable;
+    protected \Akeneo\Pim\Enrichment\Component\Product\EntityWithFamilyVariant\CheckAttributeEditable $checkAttributeEditable;
 
-    /** @var array */
-    protected $supportedTypes;
+    protected array $supportedTypes;
 
     public function __construct(
         ValidatorInterface $productValidator,
@@ -53,7 +48,7 @@ class AddAttributeValueProcessor extends AbstractProcessor
     /**
      * {@inheritdoc}
      */
-    public function process($entity)
+    public function process($entity): ?\Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithFamilyInterface
     {
         $actions = $this->getConfiguredActions();
 

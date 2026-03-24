@@ -20,8 +20,7 @@ use Akeneo\Tool\Component\Connector\Reader\File\MediaPathTransformer;
  */
 class ProductReader extends Reader implements FileReaderInterface
 {
-    /** @var MediaPathTransformer */
-    protected $mediaPathTransformer;
+    protected \Akeneo\Tool\Component\Connector\Reader\File\MediaPathTransformer $mediaPathTransformer;
 
     /**
      * @param FileIteratorFactory     $fileIteratorFactory
@@ -62,7 +61,7 @@ class ProductReader extends Reader implements FileReaderInterface
      * @return array
      */
     #[\Override]
-    protected function getArrayConverterOptions()
+    protected function getArrayConverterOptions(): array
     {
         $jobParameters = $this->stepExecution->getJobParameters();
 

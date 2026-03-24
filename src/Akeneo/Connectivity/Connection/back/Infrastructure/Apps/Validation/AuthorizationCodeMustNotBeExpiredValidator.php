@@ -19,7 +19,7 @@ class AuthorizationCodeMustNotBeExpiredValidator extends ConstraintValidator
     {
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!\is_string($value)) {
             throw new \InvalidArgumentException('The value to validate must be a string');

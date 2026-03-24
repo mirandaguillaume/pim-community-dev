@@ -58,7 +58,7 @@ class AttributeGroupController
      * @return JsonResponse
      * @AclAncestor("pim_api_attribute_group_list")
      */
-    public function getAction(Request $request, $code)
+    public function getAction(Request $request, string $code): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $attributeGroup = $this->repository->findOneByIdentifier($code);
         if (null === $attributeGroup) {
@@ -77,7 +77,7 @@ class AttributeGroupController
      * @return JsonResponse
      * @AclAncestor("pim_api_attribute_group_list")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             $this->parameterValidator->validate($request->query->all());
@@ -224,7 +224,7 @@ class AttributeGroupController
      *
      * @throws DocumentedHttpException
      */
-    protected function updateAttributeGroup(AttributeGroupInterface $attributeGroup, array $data, $anchor)
+    protected function updateAttributeGroup(AttributeGroupInterface $attributeGroup, array $data, string $anchor)
     {
         try {
             $this->updater->update($attributeGroup, $data);
@@ -282,7 +282,7 @@ class AttributeGroupController
      * @param int                     $status
      * @return Response
      */
-    protected function getResponse(AttributeGroupInterface $attributeGroup, $status)
+    protected function getResponse(AttributeGroupInterface $attributeGroup, $status): \Symfony\Component\HttpFoundation\Response
     {
         $response = new Response(null, $status);
         $url = $this->router->generate(

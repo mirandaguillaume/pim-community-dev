@@ -30,8 +30,9 @@ class TextConverter extends AbstractValueConverter implements ValueConverterInte
      * [
      *     'name-de_DE-ecommerce' => 'Wii U',
      * ]
+     * @return string[]
      */
-    public function convert($attributeCode, $data)
+    public function convert($attributeCode, $data): array
     {
         $convertedItem = [];
 

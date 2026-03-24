@@ -62,7 +62,7 @@ final class PersistTwoWayAssociationSubscriber
         }
     }
 
-    public function indexAssociatedEntities()
+    public function indexAssociatedEntities(): void
     {
         $this->productIndexer->indexFromProductUuids($this->productUuidsToIndex);
         $this->productModelIndexer->indexFromProductModelCodes($this->productModelCodesToIndex);

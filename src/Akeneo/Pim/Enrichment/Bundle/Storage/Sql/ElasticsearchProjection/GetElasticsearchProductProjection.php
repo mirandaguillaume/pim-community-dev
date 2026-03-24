@@ -296,7 +296,7 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
 
     private function calculateAttributeCodeAncestors(array $rows): array
     {
-        return \array_map(static function (array $row) {
+        return \array_map(static function (array $row): array {
             if (null === $row['family_variant_code']) {
                 $row['attribute_codes_of_ancestor'] = [];
 
@@ -326,7 +326,7 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
      */
     private function calculateAttributeCodeForOwnLevel(array $rows): array
     {
-        return \array_map(static function (array $row) {
+        return \array_map(static function (array $row): array {
             $attributesInProduct = \json_decode((string) $row['attribute_codes_in_product_raw_values'], true, 512, JSON_THROW_ON_ERROR);
             $attributeCodesAtVariantProductLevel = \json_decode((string) $row['attribute_codes_at_variant_product_level'], true, 512, JSON_THROW_ON_ERROR);
             $attributeCodesInFamily = \json_decode((string) $row['attribute_codes_in_family'], true, 512, JSON_THROW_ON_ERROR);

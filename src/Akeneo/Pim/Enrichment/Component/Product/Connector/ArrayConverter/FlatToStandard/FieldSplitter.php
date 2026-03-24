@@ -36,12 +36,12 @@ class FieldSplitter extends BaseFieldSplitter
      *
      * @return array
      */
-    public function splitCollection($value)
+    public function splitCollection($value): array
     {
         $tokens = [];
         if ('' !== $value) {
             $tokens = explode(AttributeColumnInfoExtractor::ARRAY_SEPARATOR, $value);
-            array_walk($tokens, function (&$token) {
+            array_walk($tokens, function (&$token): void {
                 $token = trim($token);
             });
         }
@@ -58,7 +58,7 @@ class FieldSplitter extends BaseFieldSplitter
      *
      * @return array
      */
-    public function splitPrices($value)
+    public function splitPrices($value): array
     {
         $prices = [];
         if ('' !== $value) {
@@ -87,7 +87,7 @@ class FieldSplitter extends BaseFieldSplitter
             }
 
 
-            array_walk($prices, function (&$price) {
+            array_walk($prices, function (&$price): void {
                 $price = trim($price);
             });
         }

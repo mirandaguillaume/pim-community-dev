@@ -33,7 +33,7 @@ class GetProductScoresQuery implements GetProductScoresQueryInterface
         $scoresByUuid = $this->getProductScoresByUuidsQuery->byProductUuids($productUuids);
 
         return array_map(
-            fn (Read\Scores $scores) => $this->qualityScoreCollection(($this->getScoresByCriteria)($scores)),
+            fn (Read\Scores $scores): \Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Model\QualityScoreCollection => $this->qualityScoreCollection(($this->getScoresByCriteria)($scores)),
             $scoresByUuid
         );
     }
@@ -47,7 +47,7 @@ class GetProductScoresQuery implements GetProductScoresQueryInterface
 
     private function qualityScoreCollection(ChannelLocaleRateCollection $channelLocaleRateCollection): QualityScoreCollection
     {
-        $qualityScores = $channelLocaleRateCollection->mapWith(static fn (Rate $rate) => new QualityScore($rate->toLetter(), $rate->toInt()));
+        $qualityScores = $channelLocaleRateCollection->mapWith(static fn (Rate $rate): \Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Model\QualityScore => new QualityScore($rate->toLetter(), $rate->toInt()));
         return new QualityScoreCollection($qualityScores);
     }
 }

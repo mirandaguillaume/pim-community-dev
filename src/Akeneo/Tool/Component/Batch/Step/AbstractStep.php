@@ -64,7 +64,7 @@ abstract class AbstractStep implements StepInterface
      *
      * @throws JobInterruptedException
      */
-    final public function execute(StepExecution $stepExecution)
+    final public function execute(StepExecution $stepExecution): void
     {
         $this->dispatchStepExecutionEvent(EventInterface::BEFORE_STEP_EXECUTION, $stepExecution);
         if ($stepExecution->getStatus()->getValue() === BatchStatus::PAUSED) {
@@ -170,7 +170,7 @@ abstract class AbstractStep implements StepInterface
         $this->dispatch($event, EventInterface::INVALID_ITEM);
     }
 
-    private function dispatch(Event $event, $eventName): void
+    private function dispatch(Event $event, ?string $eventName): void
     {
         $this->eventDispatcher->dispatch($event, $eventName);
     }

@@ -20,8 +20,7 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class NumberFilter extends OroNumberFilter
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     /**
      * Constructor
@@ -44,7 +43,7 @@ class NumberFilter extends OroNumberFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (!$data) {
@@ -73,7 +72,7 @@ class NumberFilter extends OroNumberFilter
      * @return string
      */
     #[\Override]
-    public function getOperator($type)
+    public function getOperator($type): string
     {
         $operatorTypes = [
             NumberFilterType::TYPE_EQUAL         => Operators::EQUALS,

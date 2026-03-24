@@ -34,7 +34,7 @@ class Range extends BaseRange
     /**
      * {@inheritdoc}
      */
-    public function __construct($options = null)
+    public function __construct(?array $options = null)
     {
         if (isset($options['min']) && is_numeric($options['min'])) {
             $options['min'] = floatval($options['min']);

@@ -42,9 +42,8 @@ class Notification implements NotificationInterface
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected $comment;
 
-    /** @var \DateTime */
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    protected $created;
+    protected \DateTime $created;
 
     /** @var string */
     #[ORM\Column(type: Types::STRING, length: 20)]
@@ -70,7 +69,7 @@ class Notification implements NotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setMessage($message)
+    public function setMessage($message): static
     {
         $this->message = $message;
 
@@ -88,7 +87,7 @@ class Notification implements NotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setComment($comment)
+    public function setComment($comment): static
     {
         $this->comment = $comment;
 
@@ -106,7 +105,7 @@ class Notification implements NotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setType($type)
+    public function setType($type): static
     {
         $this->type = $type;
 
@@ -124,7 +123,7 @@ class Notification implements NotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setRoute($route)
+    public function setRoute($route): static
     {
         $this->route = $route;
 
@@ -142,7 +141,7 @@ class Notification implements NotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setRouteParams(array $routeParams)
+    public function setRouteParams(array $routeParams): static
     {
         $this->routeParams = $routeParams;
 
@@ -160,7 +159,7 @@ class Notification implements NotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setMessageParams(array $messageParams)
+    public function setMessageParams(array $messageParams): static
     {
         $this->messageParams = $messageParams;
 
@@ -186,7 +185,7 @@ class Notification implements NotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setContext(array $context)
+    public function setContext(array $context): static
     {
         $this->context = $context;
 

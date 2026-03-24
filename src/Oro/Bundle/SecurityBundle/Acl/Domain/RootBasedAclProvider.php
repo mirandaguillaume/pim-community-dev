@@ -18,10 +18,7 @@ class RootBasedAclProvider implements AclProviderInterface
      */
     protected $baseAclProvider;
 
-    /**
-     * @var ObjectIdentityFactory
-     */
-    protected $objectIdentityFactory = null;
+    protected \Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory $objectIdentityFactory;
 
     /**
      * Constructor
@@ -34,7 +31,7 @@ class RootBasedAclProvider implements AclProviderInterface
     /**
      * Sets the base ACL provider
      */
-    public function setBaseAclProvider(AclProviderInterface $provider)
+    public function setBaseAclProvider(AclProviderInterface $provider): void
     {
         $this->baseAclProvider = $provider;
     }

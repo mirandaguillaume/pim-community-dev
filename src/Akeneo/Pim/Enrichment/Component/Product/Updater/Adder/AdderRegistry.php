@@ -20,8 +20,7 @@ class AdderRegistry implements AdderRegistryInterface
     /** @var FieldAdderInterface[] priorized field adders */
     protected $fieldAdders = [];
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     public function __construct(IdentifiableObjectRepositoryInterface $repository)
     {
@@ -31,7 +30,7 @@ class AdderRegistry implements AdderRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(AdderInterface $adder)
+    public function register(AdderInterface $adder): static
     {
         if ($adder instanceof FieldAdderInterface) {
             $this->fieldAdders[] = $adder;

@@ -19,7 +19,7 @@ final class ExternalMeasurementFamilyNormalizer implements NormalizerInterface
             $normalizedMeasurementFamily['labels'] = new \ArrayObject();
         }
 
-        $normalizedMeasurementFamily['units'] = array_map(function (array $normalizedUnit) {
+        $normalizedMeasurementFamily['units'] = array_map(function (array $normalizedUnit): array {
             if ([] === $normalizedUnit['labels']) {
                 $normalizedUnit['labels'] = new \ArrayObject();
             }

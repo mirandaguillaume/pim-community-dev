@@ -46,7 +46,7 @@ class ChainedStepsExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function load(ContainerBuilder $container, array $config)
+    public function load(ContainerBuilder $container, array $config): void
     {
         $definition = new Definition(SubStepTester::class, [new Reference(TesterExtension::STEP_TESTER_ID)]);
         $definition->addTag(TesterExtension::STEP_TESTER_WRAPPER_TAG, ['priority' => 100]);

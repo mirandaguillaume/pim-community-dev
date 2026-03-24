@@ -19,8 +19,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 #[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'checkChannelLink')]
 class CurrencyDisablingSubscriber
 {
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
@@ -33,7 +32,7 @@ class CurrencyDisablingSubscriber
      *
      * @throws LinkedChannelException
      */
-    public function checkChannelLink(GenericEvent $event)
+    public function checkChannelLink(GenericEvent $event): void
     {
         $object = $event->getSubject();
 

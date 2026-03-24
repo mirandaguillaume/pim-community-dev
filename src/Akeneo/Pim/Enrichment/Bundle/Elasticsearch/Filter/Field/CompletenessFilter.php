@@ -34,7 +34,7 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
     /**
      * {@inheritdoc}
      */
-    public function addFieldFilter($field, $operator, $value, $locale = null, $channel = null, $options = [])
+    public function addFieldFilter($field, $operator, $value, $locale = null, $channel = null, $options = []): static
     {
         if (empty($locale) && empty($options['locales'])) {
             throw InvalidPropertyException::dataExpected('completeness', 'a valid locale', static::class);

@@ -191,7 +191,7 @@ class CountImpactedProducts
      */
     private function removeIdFilter(array $filers): array
     {
-        return array_filter($filers, function ($condition) {
+        return array_filter($filers, function (array $condition): bool {
             if ('id' === $condition['field']) {
                 return false;
             }
@@ -255,7 +255,7 @@ class CountImpactedProducts
     {
         $attributeFilters = array_filter(
             $rawFilters,
-            function ($filter) {
+            function (array $filter): bool {
                 $operator = $filter['operator'];
 
                 return

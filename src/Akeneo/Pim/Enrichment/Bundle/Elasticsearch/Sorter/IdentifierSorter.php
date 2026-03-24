@@ -18,8 +18,7 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
  */
 class IdentifierSorter extends BaseFieldSorter implements AttributeSorterInterface
 {
-    /** @var array */
-    protected $supportedAttributes;
+    protected array $supportedAttributes;
 
     /**
      * @param array $supportedFields
@@ -35,7 +34,7 @@ class IdentifierSorter extends BaseFieldSorter implements AttributeSorterInterfa
     /**
      * {@inheritdoc}
      */
-    public function addAttributeSorter(AttributeInterface $attribute, $direction, $locale = null, $channel = null)
+    public function addAttributeSorter(AttributeInterface $attribute, $direction, $locale = null, $channel = null): static
     {
         $this->addFieldSorter('identifier', $direction);
 
@@ -45,7 +44,7 @@ class IdentifierSorter extends BaseFieldSorter implements AttributeSorterInterfa
     /**
      * {@inheritdoc}
      */
-    public function supportsAttribute(AttributeInterface $attribute)
+    public function supportsAttribute(AttributeInterface $attribute): bool
     {
         return in_array($attribute->getType(), $this->supportedAttributes);
     }

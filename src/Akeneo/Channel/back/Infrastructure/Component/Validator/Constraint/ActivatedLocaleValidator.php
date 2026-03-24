@@ -15,8 +15,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class ActivatedLocaleValidator extends ConstraintValidator
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $localeRepository;
 
     public function __construct(IdentifiableObjectRepositoryInterface $localeRepository)
     {
@@ -26,7 +25,7 @@ class ActivatedLocaleValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($locale, Constraint $constraint)
+    public function validate($locale, Constraint $constraint): void
     {
         if ($locale instanceof LocaleInterface || (is_string($locale) && '' !== $locale)) {
             if (is_string($locale)) {

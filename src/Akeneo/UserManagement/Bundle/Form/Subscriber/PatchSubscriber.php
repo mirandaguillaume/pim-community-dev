@@ -22,7 +22,7 @@ class PatchSubscriber implements EventSubscriberInterface
         return [FormEvents::PRE_SUBMIT => 'preBind'];
     }
 
-    public function preBind(FormEvent $event)
+    public function preBind(FormEvent $event): void
     {
         $form = $event->getForm();
         $data = $event->getData();

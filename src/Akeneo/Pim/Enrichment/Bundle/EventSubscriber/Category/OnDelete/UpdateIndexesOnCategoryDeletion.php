@@ -36,7 +36,7 @@ final class UpdateIndexesOnCategoryDeletion
     {
     }
 
-    public function storeCategoryCodesToRemove(GenericEvent $event)
+    public function storeCategoryCodesToRemove(GenericEvent $event): void
     {
         if (!$event->getSubject() instanceof CategoryInterface) {
             return;
@@ -49,7 +49,7 @@ final class UpdateIndexesOnCategoryDeletion
         $this->categoryCodesToRemove[] = $parentCategory->getCode();
     }
 
-    public function updateIndexes(GenericEvent $event)
+    public function updateIndexes(GenericEvent $event): void
     {
         if (!$event->getSubject() instanceof CategoryInterface) {
             return;

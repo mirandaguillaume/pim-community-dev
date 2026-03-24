@@ -90,6 +90,6 @@ class GetCategoryTreesSql implements GetCategoryTreesInterface
             return null;
         }
 
-        return array_map(static fn ($result) => CategoryTree::fromDatabase($result), $results);
+        return array_map(static fn (array $result): \Akeneo\Category\Domain\Model\Classification\CategoryTree => CategoryTree::fromDatabase($result), $results);
     }
 }

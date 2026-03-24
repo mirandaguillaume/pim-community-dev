@@ -17,11 +17,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class JobParametersValidator
 {
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var ConstraintCollectionProviderRegistry */
-    protected $registry;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParameters\ConstraintCollectionProviderRegistry $registry;
 
     public function __construct(ValidatorInterface $validator, ConstraintCollectionProviderRegistry $registry)
     {
@@ -35,7 +33,7 @@ class JobParametersValidator
      * @return ConstraintViolationListInterface A list of constraint violations. If the
      *                                          list is empty, validation succeeded.
      */
-    public function validate(JobInterface $job, JobParameters $jobParameters, $groups = null)
+    public function validate(JobInterface $job, JobParameters $jobParameters, string|\Symfony\Component\Validator\Constraints\GroupSequence|array|null $groups = null)
     {
         $provider = $this->registry->get($job);
         $collection = $provider->getConstraintCollection();

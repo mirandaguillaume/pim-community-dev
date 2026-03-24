@@ -44,7 +44,7 @@ class PauseJobOnSigtermSubscriber
         $jobExecution = $event->getJobExecution();
         $job = $this->jobRegistry->get($jobExecution->getJobInstance()->getJobName());
 
-        pcntl_signal(\SIGTERM, function () use ($job, $jobExecution) {
+        pcntl_signal(\SIGTERM, function () use ($job, $jobExecution): void {
             if (!$jobExecution->isRunning()) {
                 return;
             }

@@ -24,7 +24,7 @@ class ResolveDoctrineTargetRepositoryPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $this->resolveTargetRepositories($container);
     }
@@ -55,7 +55,7 @@ class ResolveDoctrineTargetRepositoryPass implements CompilerPassInterface
      *
      * @return string[]
      */
-    protected function getParametersMapping(ContainerBuilder $container)
+    protected function getParametersMapping(ContainerBuilder $container): array
     {
         $repositoryIds = $container->findTaggedServiceIds($this->tag);
 

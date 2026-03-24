@@ -15,17 +15,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class FamilyNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $translationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $translationNormalizer;
 
-    /** @var CollectionFilterInterface */
-    protected $collectionFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\CollectionFilterInterface $collectionFilter;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var AttributeRequirementRepositoryInterface */
-    protected $attributeRequirementRepo;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRequirementRepositoryInterface $attributeRequirementRepo;
 
     public function __construct(
         NormalizerInterface $translationNormalizer,
@@ -70,7 +66,7 @@ class FamilyNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function normalizeAttributes(FamilyInterface $family)
+    protected function normalizeAttributes(FamilyInterface $family): array
     {
         $attributes = $this->collectionFilter->filterCollection(
             $this->attributeRepository->findAttributesByFamily($family),
@@ -93,7 +89,7 @@ class FamilyNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function normalizeRequirements(FamilyInterface $family)
+    protected function normalizeRequirements(FamilyInterface $family): array
     {
         $requirements = $this->attributeRequirementRepo->findRequiredAttributesCodesByFamily($family);
         $required = [];

@@ -15,8 +15,7 @@ class GroupViolationNormalizer implements NormalizerInterface
     /** @var array */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
     public function __construct(NormalizerInterface $normalizer)
     {

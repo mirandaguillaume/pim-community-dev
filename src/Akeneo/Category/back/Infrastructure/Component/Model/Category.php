@@ -52,10 +52,9 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     #[ORM\OneToMany(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface::class, mappedBy: 'category')]
     protected $channels;
 
-    /** @var \DateTimeInterface */
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    protected $created;
+    protected \DateTime $created;
 
     #[Gedmo\Timestampable(on: 'change', field: ['parent'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
@@ -73,12 +72,12 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
         $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
-    public function hasProducts()
+    public function hasProducts(): bool
     {
         return $this->products->count() !== 0;
     }
 
-    public function getProducts()
+    public function getProducts(): \Doctrine\Common\Collections\Collection
     {
         return $this->products;
     }
@@ -88,7 +87,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
      *
      * @return int
      */
-    public function getProductsCount()
+    public function getProductsCount(): int
     {
         return $this->products->count();
     }
@@ -125,7 +124,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
         return $this->updated;
     }
 
-    public function setLocale($locale)
+    public function setLocale($locale): static
     {
         $this->locale = $locale ? $this->reformatLocale($locale) : $locale;
 
@@ -158,7 +157,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
         return $this->translations;
     }
 
-    public function addTranslation(TranslationInterface $translation)
+    public function addTranslation(TranslationInterface $translation): static
     {
         if (!$this->translations->contains($translation)) {
             $this->translations->add($translation);
@@ -167,14 +166,14 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
         return $this;
     }
 
-    public function removeTranslation(TranslationInterface $translation)
+    public function removeTranslation(TranslationInterface $translation): static
     {
         $this->translations->removeElement($translation);
 
         return $this;
     }
 
-    public function getTranslationFQCN()
+    public function getTranslationFQCN(): string
     {
         return CategoryTranslation::class;
     }
@@ -193,7 +192,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
      *
      * @return CategoryInterface
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->getTranslation()->setLabel($label);
 

@@ -20,14 +20,11 @@ use Symfony\Component\Validator\ConstraintViolationList;
  */
 class Value implements ArrayConverterInterface
 {
-    /** @var ValueConverterRegistryInterface */
-    protected $converterRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\ValueConverter\ValueConverterRegistryInterface $converterRegistry;
 
-    /** @var AttributeColumnInfoExtractor */
-    protected $attrFieldExtractor;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\AttributeColumnInfoExtractor $attrFieldExtractor;
 
-    /** @var ColumnsMerger */
-    protected $columnsMerger;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\ColumnsMerger $columnsMerger;
 
     public function __construct(
         AttributeColumnInfoExtractor $attrFieldExtractor,
@@ -174,7 +171,7 @@ class Value implements ArrayConverterInterface
      *
      * @return array
      */
-    protected function mergeValueToItem(array $item, array $value)
+    protected function mergeValueToItem(array $item, array $value): array
     {
         if (empty($value)) {
             return $item;

@@ -23,7 +23,7 @@ class RuntimeErrorException extends \RuntimeException
     /**
      * @return array
      */
-    public function getMessageParameters()
+    public function getMessageParameters(): array
     {
         return $this->messageParameters;
     }

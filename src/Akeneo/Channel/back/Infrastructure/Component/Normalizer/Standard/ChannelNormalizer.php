@@ -12,8 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ChannelNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $translationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $translationNormalizer;
 
     public function __construct(NormalizerInterface $translationNormalizer)
     {
@@ -49,7 +48,7 @@ class ChannelNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function normalizeCurrencies(ChannelInterface $channel)
+    protected function normalizeCurrencies(ChannelInterface $channel): array
     {
         $currencies = [];
         foreach ($channel->getCurrencies() as $currency) {

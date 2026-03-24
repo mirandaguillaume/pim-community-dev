@@ -37,7 +37,7 @@ class GetJobTypeAction
         return new JsonResponse($jobTypes);
     }
 
-    private function denyAccessUnlessAclIsGranted()
+    private function denyAccessUnlessAclIsGranted(): void
     {
         if (!$this->securityFacade->isGranted('pim_enrich_job_tracker_index')) {
             throw new AccessDeniedHttpException('Access forbidden. You are not allowed to list job types.');

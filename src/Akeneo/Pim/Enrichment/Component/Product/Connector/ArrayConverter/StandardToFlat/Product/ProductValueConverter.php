@@ -14,11 +14,9 @@ use Akeneo\Tool\Component\StorageUtils\Repository\CachedObjectRepositoryInterfac
  */
 class ProductValueConverter
 {
-    /** @var ValueConverterRegistry */
-    protected $converterRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\StandardToFlat\Product\ValueConverter\ValueConverterRegistry $converterRegistry;
 
-    /** @var CachedObjectRepositoryInterface */
-    protected $attributeRepo;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\CachedObjectRepositoryInterface $attributeRepo;
 
     public function __construct(
         ValueConverterRegistry $converterRegistry,

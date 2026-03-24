@@ -102,7 +102,7 @@ class StepExecutionArchivist
      * @throws \InvalidArgumentException
      *
      */
-    public function getArchive(JobExecution $jobExecution, $archiver, $key)
+    public function getArchive(JobExecution $jobExecution, $archiver, string $key)
     {
         if (!isset($this->archivers[$archiver])) {
             throw new \InvalidArgumentException(

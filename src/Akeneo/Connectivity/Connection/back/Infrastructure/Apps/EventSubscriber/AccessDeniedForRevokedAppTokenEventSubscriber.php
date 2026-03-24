@@ -24,7 +24,7 @@ class AccessDeniedForRevokedAppTokenEventSubscriber
     ) {
     }
 
-    public function throwIfDeniedAccessTokenIsRevoked(ApiAuthenticationFailedEvent $event)
+    public function throwIfDeniedAccessTokenIsRevoked(ApiAuthenticationFailedEvent $event): void
     {
         $token = $event->getToken();
         $isRevoked = $this->isAccessTokenRevokedQuery->execute($token);

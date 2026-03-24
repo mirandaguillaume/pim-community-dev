@@ -74,7 +74,7 @@ class BulkUpdateProductQualityScoresIndex implements BulkUpdateProductQualitySco
 
         $this->esClient->bulkUpdate(
             array_map(
-                fn ($productId) => $identifierPrefix . $productId,
+                fn (string $productId): string => $identifierPrefix . $productId,
                 $entityIdCollection->toArrayString()
             ),
             $params

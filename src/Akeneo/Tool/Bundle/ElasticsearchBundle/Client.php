@@ -57,7 +57,7 @@ class Client
      * @throws IndexationException
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_quickstart.html#_index_a_document}
      */
-    public function index($id, array $body, ?Refresh $refresh = null)
+    public function index(string $id, array $body, ?Refresh $refresh = null)
     {
         $params = [
             'index' => $this->indexName,
@@ -90,7 +90,7 @@ class Client
      * @throws IndexationException
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_indexing_documents.html#_bulk_indexing}
      */
-    public function bulkIndexes($documents, ?string $keyAsId = null, ?Refresh $refresh = null)
+    public function bulkIndexes($documents, ?string $keyAsId = null, ?Refresh $refresh = null): array
     {
         $params = [];
         $paramsComputedSize = 0;
@@ -186,7 +186,7 @@ class Client
      *
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_quickstart.html#_get_a_document}
      */
-    public function get($id)
+    public function get(string $id)
     {
         $params = [
             'index' => $this->indexName,
@@ -240,7 +240,7 @@ class Client
      *
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_quickstart.html#_delete_a_document}
      */
-    public function delete($id)
+    public function delete(string $id)
     {
         $params = [
             'index' => $this->indexName,
@@ -271,7 +271,7 @@ class Client
         return $this->client->bulk($params);
     }
 
-    public function bulkUpdate($documentIds, $params)
+    public function bulkUpdate($documentIds, array $params)
     {
         $queries = [];
 
@@ -361,7 +361,7 @@ class Client
     /**
      * @throws IndexationException
      */
-    private function throwIndexationExceptionFromResponse(array $response)
+    private function throwIndexationExceptionFromResponse(array $response): void
     {
         foreach ($response['items'] as $item) {
             if (isset($item['index']['error'])) {

@@ -51,14 +51,14 @@ final class StreamResourceResponse
      *
      * @return StreamedResponse
      */
-    public function streamResponse($resource, array $uriParameters = [], ?callable $postResponseCallable = null)
+    public function streamResponse($resource, array $uriParameters = [], ?callable $postResponseCallable = null): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         $response = new StreamedResponse();
         $response->headers->set('Content-Type', static::CONTENT_TYPE);
 
         $this->checkLineNumberInInput($resource);
 
-        $response->setCallback(function () use ($resource, $uriParameters, $postResponseCallable) {
+        $response->setCallback(function () use ($resource, $uriParameters, $postResponseCallable): void {
             rewind($resource);
             $this->ensureOutputBufferingIsStarted();
 
@@ -145,7 +145,7 @@ final class StreamResourceResponse
      *
      * @throws HttpException
      */
-    protected function checkLineNumberInInput($resource)
+    protected function checkLineNumberInInput($resource): void
     {
         $maxNumberResources = $this->configuration['input']['max_resources_number'];
 
@@ -193,7 +193,7 @@ final class StreamResourceResponse
      *
      * @return string content of the line, truncated by the buffer size if the line is too long
      */
-    protected function getNextLine($resource)
+    protected function getNextLine($resource): string|false
     {
         $bufferSize = $this->configuration['input']['buffer_size'];
 
@@ -218,7 +218,7 @@ final class StreamResourceResponse
      *
      * @throws HttpException
      */
-    protected function checkLineLength($line, $resource)
+    protected function checkLineLength(string $line, $resource): void
     {
         $bufferSize = $this->configuration['input']['buffer_size'];
 
@@ -242,7 +242,7 @@ final class StreamResourceResponse
      * @param array $content
      * @param int   $lineNumber
      */
-    protected function flushOutputBuffer($content, $lineNumber)
+    protected function flushOutputBuffer(array $content, int $lineNumber): void
     {
         $jsonContent = 1 === $lineNumber ? json_encode($content, JSON_THROW_ON_ERROR) : PHP_EOL . json_encode($content, JSON_THROW_ON_ERROR);
 
@@ -257,7 +257,7 @@ final class StreamResourceResponse
      * Do note that is not possible to close all the output buffers before flushing the data,
      * because it's needed for the tests.
      */
-    protected function ensureOutputBufferingIsStarted()
+    protected function ensureOutputBufferingIsStarted(): void
     {
         if (0 === ob_get_level()) {
             ob_start();

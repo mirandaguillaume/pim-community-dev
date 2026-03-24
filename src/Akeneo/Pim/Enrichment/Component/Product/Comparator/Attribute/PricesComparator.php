@@ -13,8 +13,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Comparator\ComparatorInterface;
  */
 class PricesComparator implements ComparatorInterface
 {
-    /** @var array */
-    protected $types;
+    protected array $types;
 
     public function __construct(array $types)
     {
@@ -24,7 +23,7 @@ class PricesComparator implements ComparatorInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($type)
+    public function supports($type): bool
     {
         return in_array($type, $this->types);
     }
@@ -60,7 +59,7 @@ class PricesComparator implements ComparatorInterface
         }
 
         if ($dataPrices !== $originalPrices) {
-            $data['data'] = array_filter($data['data'], fn (array $price) => null !== $price['amount']);
+            $data['data'] = array_filter($data['data'], fn (array $price): bool => null !== $price['amount']);
             return $data;
         }
 

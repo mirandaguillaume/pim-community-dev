@@ -19,11 +19,9 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class SearchAfterHalPaginator implements PaginatorInterface
 {
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var OptionsResolver */
-    protected $resolver;
+    protected \Symfony\Component\OptionsResolver\OptionsResolver $resolver;
 
     public function __construct(RouterInterface $router)
     {
@@ -109,7 +107,7 @@ class SearchAfterHalPaginator implements PaginatorInterface
      * @param string      $routeName
      *
      */
-    protected function createLink($routeName, array $parameters, ?string $searchAfterIdentifierOrUuid, string $linkName): Link
+    protected function createLink(string $routeName, array $parameters, ?string $searchAfterIdentifierOrUuid, string $linkName): Link
     {
         $parameters['search_after'] = $searchAfterIdentifierOrUuid;
 

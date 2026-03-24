@@ -14,11 +14,9 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class InvalidItemEvent extends Event implements EventInterface
 {
-    /** @var array */
-    protected $reasonParameters;
+    protected array $reasonParameters;
 
-    /** @var InvalidItemInterface */
-    protected $item;
+    protected \Akeneo\Tool\Component\Batch\Item\InvalidItemInterface $item;
 
     /**
      * @param string                $class

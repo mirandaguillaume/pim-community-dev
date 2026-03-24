@@ -28,7 +28,7 @@ class TextConverter extends AbstractValueConverter
     /**
      * {@inheritdoc}
      */
-    public function convert(array $attributeFieldInfo, $value)
+    public function convert(array $attributeFieldInfo, $value): array
     {
         $code = $attributeFieldInfo['attribute']->getCode();
 

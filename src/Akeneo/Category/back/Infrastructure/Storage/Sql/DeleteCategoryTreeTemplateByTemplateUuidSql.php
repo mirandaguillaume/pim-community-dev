@@ -21,7 +21,7 @@ class DeleteCategoryTreeTemplateByTemplateUuidSql implements DeleteCategoryTreeT
 
     public function __invoke(TemplateUuid $templateUuid): void
     {
-        $this->connection->transactional(function (Connection $connection) use ($templateUuid) {
+        $this->connection->transactional(function (Connection $connection) use ($templateUuid): void {
             $connection->executeQuery(
                 <<<SQL
                         DELETE FROM pim_catalog_category_tree_template

@@ -23,7 +23,7 @@ class InvalidItemsCollector
     /**
      * Collect unique invalid items
      */
-    public function collect(InvalidItemEvent $event)
+    public function collect(InvalidItemEvent $event): void
     {
         $invalidItem = $event->getItem();
         $itemData = $invalidItem instanceof FileInvalidItem ? ['position' => $invalidItem->getItemPosition()] : $invalidItem->getInvalidData();
@@ -46,7 +46,7 @@ class InvalidItemsCollector
      *
      * @return string
      */
-    protected function getHashKey(array $item)
+    protected function getHashKey(array $item): string
     {
         return md5(serialize($item));
     }

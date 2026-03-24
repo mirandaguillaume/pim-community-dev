@@ -24,8 +24,9 @@ class AttributeRepository extends EntityRepository implements
 
     /**
      * {@inheritdoc}
+     * @return non-empty-array<mixed>[]
      */
-    public function findTranslatedLabels(array $options = [])
+    public function findTranslatedLabels(array $options = []): array
     {
         $queryBuilder = $this->createQueryBuilder('a')
             ->select('a.code')

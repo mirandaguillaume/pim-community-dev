@@ -17,8 +17,7 @@ use Doctrine\ORM\UnexpectedResultException;
  */
 class ApiResourceRepository extends EntityRepository implements ApiResourceRepositoryInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $identifiableRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $identifiableRepository;
 
     /**
      * @param EntityManager                         $em
@@ -46,7 +45,7 @@ class ApiResourceRepository extends EntityRepository implements ApiResourceRepos
     /**
      * {@inheritdoc}
      */
-    public function searchAfterOffset(array $criteria, array $orders, $limit, $offset)
+    public function searchAfterOffset(array $criteria, array $orders, $limit, $offset): mixed
     {
         $qb = $this->createQueryBuilder('r');
 

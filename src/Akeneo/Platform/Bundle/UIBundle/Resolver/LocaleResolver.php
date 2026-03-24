@@ -13,8 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class LocaleResolver
 {
-    /** @var RequestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
     /**
      * @param string       $defaultLocale

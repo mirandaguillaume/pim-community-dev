@@ -39,7 +39,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
     /**
      * {@inheritdoc}
      */
-    public function execute()
+    public function execute(): \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface
     {
         if ($this->defaultContext['with_document_type_facet'] ?? false) {
             $this->getQueryBuilder()->addFacet(self::DOCUMENT_TYPE_FACET_NAME, self::DOCUMENT_TYPE_FIELD);
@@ -48,7 +48,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
         $allowedCursorOptions = ['page_size', 'search_after', 'search_after_unique_key', 'limit', 'from'];
         $cursorOptions = array_filter(
             $this->defaultContext,
-            fn ($key) => in_array($key, $allowedCursorOptions),
+            fn ($key): bool => in_array($key, $allowedCursorOptions),
             ARRAY_FILTER_USE_KEY
         );
 
@@ -63,7 +63,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
     /**
      * {@inheritdoc}
      */
-    public function setQueryBuilder($queryBuilder)
+    public function setQueryBuilder($queryBuilder): static
     {
         $this->qb = $queryBuilder;
 
@@ -85,7 +85,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
     /**
      * {@inheritdoc}
      */
-    public function addFilter($field, $operator, $value, array $context = [])
+    public function addFilter($field, $operator, $value, array $context = []): static
     {
         $attribute = null;
         $filterType = 'field';
@@ -128,7 +128,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
     /**
      * {@inheritdoc}
      */
-    public function addSorter($field, $direction, array $context = [])
+    public function addSorter($field, $direction, array $context = []): static
     {
         $attribute = $this->attributeRepository->findOneBy(['code' => $field]);
 
@@ -157,7 +157,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
     /**
      * {@inheritdoc}
      */
-    public function getRawFilters()
+    public function getRawFilters(): array
     {
         return $this->rawFilters;
     }
@@ -173,7 +173,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
      *
      * @return ProductQueryBuilderInterface
      */
-    protected function addFieldFilter(FieldFilterInterface $filter, $field, $operator, mixed $value, array $context)
+    protected function addFieldFilter(FieldFilterInterface $filter, $field, $operator, mixed $value, array $context): static
     {
         $filter->setQueryBuilder($this->getQueryBuilder());
         $filter->addFieldFilter($field, $operator, $value, $context['locale'], $context['scope'], $context);
@@ -198,7 +198,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
         $operator,
         mixed $value,
         array $context
-    ) {
+    ): static {
         $locale = $attribute->isLocalizable() ? $context['locale'] : null;
         $scope = $attribute->isScopable() ? $context['scope'] : null;
 
@@ -218,7 +218,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
      *
      * @return ProductQueryBuilderInterface
      */
-    protected function addFieldSorter(FieldSorterInterface $sorter, $field, $direction, array $context)
+    protected function addFieldSorter(FieldSorterInterface $sorter, $field, $direction, array $context): static
     {
         $sorter->setQueryBuilder($this->getQueryBuilder());
         $sorter->addFieldSorter($field, $direction, $context['locale'], $context['scope']);
@@ -241,7 +241,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
         AttributeInterface $attribute,
         $direction,
         array $context
-    ) {
+    ): static {
         $sorter->setQueryBuilder($this->getQueryBuilder());
 
         $localeCode = !$attribute->isLocalizable() && !$attribute->isLocaleSpecific() ? null : $context['locale'];
@@ -258,7 +258,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
      *
      * @return array
      */
-    protected function getFinalContext(array $context)
+    protected function getFinalContext(array $context): array
     {
         return array_merge($this->defaultContext, $context);
     }

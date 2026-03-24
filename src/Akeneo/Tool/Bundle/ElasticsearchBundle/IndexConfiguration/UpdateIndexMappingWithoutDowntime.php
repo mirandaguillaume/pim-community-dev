@@ -64,7 +64,7 @@ final readonly class UpdateIndexMappingWithoutDowntime
         }
     }
 
-    private function createMigrationSourceAlias($sourceIndexAlias): string
+    private function createMigrationSourceAlias(string $sourceIndexAlias): string
     {
         $migrationAlias = sprintf('%s_migration_alias', $sourceIndexAlias);
 

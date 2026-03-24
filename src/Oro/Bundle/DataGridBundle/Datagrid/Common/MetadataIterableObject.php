@@ -15,7 +15,7 @@ class MetadataIterableObject extends IterableObject
      *
      * @return array
      */
-    protected static function getDefaultMetadata()
+    protected static function getDefaultMetadata(): array
     {
         return [
             self::REQUIRED_MODULES_KEY => [],

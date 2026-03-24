@@ -10,7 +10,7 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
     /**
      * @param mixed[] $children
      */
-    public function __construct($name, $definition = [], protected $children = [])
+    public function __construct($name, array $definition = [], protected $children = [])
     {
         parent::__construct($name, $definition);
     }
@@ -22,7 +22,7 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
      *
      * @return $this
      */
-    public function setLevel($level)
+    public function setLevel($level): static
     {
         $this->level = $level;
 
@@ -60,7 +60,7 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
     /**
      * {@inheritDoc}
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return !$this->children;
     }
@@ -70,7 +70,7 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
      *
      * @return AbstractNodeDefinition
      */
-    public function first()
+    public function first(): mixed
     {
         $this->resort();
 
@@ -82,11 +82,11 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
      *
      * @return void
      */
-    public function resort()
+    public function resort(): void
     {
         usort(
             $this->children,
-            fn (AbstractNodeDefinition $a, AbstractNodeDefinition $b) => $a->getPriority() > $b->getPriority() ? -1 : 1
+            fn (AbstractNodeDefinition $a, AbstractNodeDefinition $b): int => $a->getPriority() > $b->getPriority() ? -1 : 1
         );
     }
 
@@ -95,7 +95,7 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
      *
      * @return array
      */
-    public function toBlockConfig()
+    public function toBlockConfig(): array
     {
         return [
             $this->getName() => array_intersect_key(
@@ -110,7 +110,7 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
      *
      * @return array
      */
-    public function toViewData()
+    public function toViewData(): array
     {
         return array_intersect_key($this->definition, array_flip(['title', 'priority', 'description', 'icon']));
     }

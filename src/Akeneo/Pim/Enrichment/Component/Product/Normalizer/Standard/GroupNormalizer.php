@@ -12,8 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class GroupNormalizer implements NormalizerInterface
 {
-    /** @var TranslationNormalizer */
-    protected $translationNormalizer;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Normalizer\Standard\TranslationNormalizer $translationNormalizer;
 
     public function __construct(TranslationNormalizer $translationNormalizer)
     {

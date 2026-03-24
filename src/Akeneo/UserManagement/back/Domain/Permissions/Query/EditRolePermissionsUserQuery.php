@@ -62,7 +62,7 @@ class EditRolePermissionsUserQuery
     private function getRoleLeftWithEditRolePermissions(array $roles): array
     {
         $editRoleRolesPermissions = $this->editRolePermissionsRoleQuery->getRolesWithMinimumEditRolePermissions();
-        $editRoleRolesNamePermissions = array_map(fn ($role) => $role->getRole(), $editRoleRolesPermissions);
-        return array_filter($roles, (fn ($role) => in_array($role, $editRoleRolesNamePermissions)));
+        $editRoleRolesNamePermissions = array_map(fn (\Akeneo\UserManagement\Component\Model\RoleInterface $role): ?string => $role->getRole(), $editRoleRolesPermissions);
+        return array_filter($roles, (fn (string $role): bool => in_array($role, $editRoleRolesNamePermissions)));
     }
 }

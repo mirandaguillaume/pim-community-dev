@@ -17,8 +17,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class GroupFieldRemover extends AbstractFieldRemover
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $groupRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $groupRepository;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $groupRepository,
@@ -33,7 +32,7 @@ class GroupFieldRemover extends AbstractFieldRemover
      *
      * Expected data input format : ["group_code", "another_group_code"]
      */
-    public function removeFieldData($product, $field, $data, array $options = [])
+    public function removeFieldData($product, $field, $data, array $options = []): void
     {
         if (!$product instanceof ProductInterface) {
             throw InvalidObjectException::objectExpected(

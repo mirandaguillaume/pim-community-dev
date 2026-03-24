@@ -20,7 +20,7 @@ class PimUIExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -77,7 +77,7 @@ class PimUIExtension extends Extension
      *
      * @return array
      */
-    protected function addItemsToPlaceholders(array $placeholders, array $items)
+    protected function addItemsToPlaceholders(array $placeholders, array $items): array
     {
         foreach ($placeholders as $placeholderName => $placeholder) {
             if (isset($placeholder['items']) && (is_countable($placeholder['items']) ? count($placeholder['items']) : 0)) {
@@ -111,7 +111,7 @@ class PimUIExtension extends Extension
      *
      * @return array
      */
-    protected function overwritePlaceholders($configPlaceholders, $placeholders)
+    protected function overwritePlaceholders($configPlaceholders, array $placeholders): array
     {
         foreach ($configPlaceholders as $placeholderName => $configPlaceholder) {
             foreach ($configPlaceholder['items'] as $itemId => $item) {
@@ -146,7 +146,7 @@ class PimUIExtension extends Extension
      *
      * @return array
      */
-    protected function changeOrders(array $placeholders)
+    protected function changeOrders(array $placeholders): array
     {
         foreach ($placeholders as $placeholderName => $placeholderData) {
             if (isset($placeholders[$placeholderName]['items'])) {
@@ -165,7 +165,7 @@ class PimUIExtension extends Extension
      *
      * @return int
      */
-    protected function comparePlaceholderBlocks($a, $b)
+    protected function comparePlaceholderBlocks(array $a, array $b): int
     {
         $aOrder = 1;
         if (isset($a['order'])) {

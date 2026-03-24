@@ -20,23 +20,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ProductAndProductModelQueryBuilderFactory implements ProductQueryBuilderFactoryInterface
 {
-    /** @var string */
-    protected $pqbClass;
+    protected string $pqbClass;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     /** FilterRegistryInterface */
-    protected $filterRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Query\Filter\FilterRegistryInterface $filterRegistry;
 
     /** SorterRegistryInterface */
-    protected $sorterRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Query\Sorter\SorterRegistryInterface $sorterRegistry;
 
     /** CursorFactoryInterface */
-    protected $cursorFactory;
+    protected \Akeneo\Tool\Component\StorageUtils\Cursor\CursorFactoryInterface $cursorFactory;
 
-    /** @var ProductQueryBuilderOptionsResolverInterface */
-    protected $optionsResolver;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderOptionsResolverInterface $optionsResolver;
 
     public function __construct(
         string $pqbClass,

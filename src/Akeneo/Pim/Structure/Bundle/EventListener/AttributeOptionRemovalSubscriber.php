@@ -21,11 +21,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 #[AsEventListener(event: StorageEvents::PRE_REMOVE, method: 'disallowRemovalIfOptionIsUsedAsAttributeAxes')]
 class AttributeOptionRemovalSubscriber
 {
-    /** @var FamilyVariantsByAttributeAxesInterface */
-    protected $familyVariantsByAttributeAxes;
+    protected \Akeneo\Pim\Structure\Component\FamilyVariant\Query\FamilyVariantsByAttributeAxesInterface $familyVariantsByAttributeAxes;
 
-    /** @var ProductAndProductModelQueryBuilderFactory */
-    protected $pqbFactory;
+    protected \Akeneo\Pim\Enrichment\Bundle\Elasticsearch\ProductAndProductModelQueryBuilderFactory $pqbFactory;
 
     public function __construct(
         FamilyVariantsByAttributeAxesInterface $familyVariantsByAttributeAxes,

@@ -78,7 +78,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -96,7 +96,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -114,7 +114,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCreated($created)
+    public function setCreated($created): static
     {
         $this->created = $created;
 
@@ -132,7 +132,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setUpdated($updated)
+    public function setUpdated($updated): static
     {
         $this->updated = $updated;
 
@@ -142,7 +142,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale($locale): static
     {
         $this->locale = $locale;
 
@@ -184,7 +184,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addTranslation(TranslationInterface $translation)
+    public function addTranslation(TranslationInterface $translation): static
     {
         if (!$this->translations->contains($translation)) {
             $this->translations->add($translation);
@@ -196,7 +196,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeTranslation(TranslationInterface $translation)
+    public function removeTranslation(TranslationInterface $translation): static
     {
         $this->translations->removeElement($translation);
 
@@ -206,7 +206,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getTranslationFQCN()
+    public function getTranslationFQCN(): string
     {
         return AssociationTypeTranslation::class;
     }
@@ -224,7 +224,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->getTranslation()->setLabel($label);
 

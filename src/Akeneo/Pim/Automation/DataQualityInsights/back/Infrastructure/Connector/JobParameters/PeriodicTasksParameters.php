@@ -39,7 +39,7 @@ final class PeriodicTasksParameters implements ConstraintCollectionProviderInter
         ];
     }
 
-    public function supports(JobInterface $job)
+    public function supports(JobInterface $job): bool
     {
         return $job->getName() === 'data_quality_insights_periodic_tasks';
     }

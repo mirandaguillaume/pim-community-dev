@@ -24,11 +24,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class ProductAndProductModelQuickExport implements ConstraintCollectionProviderInterface
 {
-    /** @var ConstraintCollectionProviderInterface */
-    protected $simpleConstraint;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParameters\ConstraintCollectionProviderInterface $simpleConstraint;
 
-    /** @var array */
-    protected $supportedJobNames;
+    protected array $supportedJobNames;
 
     public function __construct(ConstraintCollectionProviderInterface $simple, array $supportedJobNames, private readonly string $filePathExtension)
     {
@@ -39,7 +37,7 @@ class ProductAndProductModelQuickExport implements ConstraintCollectionProviderI
     /**
      * {@inheritdoc}
      */
-    public function getConstraintCollection()
+    public function getConstraintCollection(): \Symfony\Component\Validator\Constraints\Collection
     {
         $baseConstraint = $this->simpleConstraint->getConstraintCollection();
         $constraintFields = $baseConstraint->fields;
@@ -73,7 +71,7 @@ class ProductAndProductModelQuickExport implements ConstraintCollectionProviderI
         );
         $constraintFields['file_locale'] = [
             new ActivatedLocale(['groups' => ['Default', 'FileConfiguration']]),
-            new Callback(function ($value, ExecutionContextInterface $context) {
+            new Callback(function ($value, ExecutionContextInterface $context): void {
                 $fields = $context->getRoot();
                 if (true === $fields['with_label'] && empty($value)) {
                     $context
@@ -89,7 +87,7 @@ class ProductAndProductModelQuickExport implements ConstraintCollectionProviderI
     /**
      * {@inheritdoc}
      */
-    public function supports(JobInterface $job)
+    public function supports(JobInterface $job): bool
     {
         return in_array($job->getName(), $this->supportedJobNames);
     }

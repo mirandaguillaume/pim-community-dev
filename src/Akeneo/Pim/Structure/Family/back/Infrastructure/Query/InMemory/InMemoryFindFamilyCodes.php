@@ -21,7 +21,7 @@ class InMemoryFindFamilyCodes implements FindFamilyCodes
         return $this->familyCodes;
     }
 
-    public function save(string $familyCode)
+    public function save(string $familyCode): void
     {
         $this->familyCodes[] = $familyCode;
     }

@@ -41,7 +41,7 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
         return $this->attributeGroupRepository->findOneByIdentifier($identifier);
     }
 
-    public function searchAfterOffset(array $searchFilters, array $orders, $limit, $offset)
+    public function searchAfterOffset(array $searchFilters, array $orders, $limit, $offset): mixed
     {
         $qb = $this->createQueryBuilder('r');
         $qb = $this->addFilters($qb, $searchFilters);

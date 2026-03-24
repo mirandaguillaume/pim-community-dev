@@ -26,11 +26,10 @@ use Akeneo\Tool\Component\Connector\Reader\File\FileReaderInterface;
  */
 class Reader implements FileReaderInterface, TrackableItemReaderInterface, InitializableInterface, StatefulInterface
 {
-    /** @var FileIteratorFactory */
-    protected $fileIteratorFactory;
+    protected \Akeneo\Tool\Component\Connector\Reader\File\FileIteratorFactory $fileIteratorFactory;
 
     /** ArrayConverterInterface */
-    protected $converter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface $converter;
 
     /** @var FileIteratorInterface */
     protected $fileIterator;
@@ -38,8 +37,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var array */
-    protected $options;
+    protected array $options;
 
     protected array $state = [];
 
@@ -115,7 +113,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -123,7 +121,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
     /**
      * {@inheritdoc}
      */
-    public function flush()
+    public function flush(): void
     {
         $this->fileIterator = null;
     }
@@ -133,7 +131,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
      *
      * @return array
      */
-    protected function getArrayConverterOptions()
+    protected function getArrayConverterOptions(): array
     {
         return [];
     }

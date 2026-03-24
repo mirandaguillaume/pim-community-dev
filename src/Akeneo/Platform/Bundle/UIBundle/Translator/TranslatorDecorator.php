@@ -36,7 +36,7 @@ class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, 
      * Deprecated since Symfony 4.2, will be removed in Symfony 5.
      * Use trans instead, see Symfony\Contracts\Translation\TranslatorInterface
      */
-    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
+    public function transChoice(string $id, $number, array $parameters = [], ?string $domain = null, ?string $locale = null): string
     {
         try {
             $parameters['%count%'] = $number;
@@ -50,7 +50,7 @@ class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function setLocale(string $locale)
+    public function setLocale(string $locale): void
     {
         Assert::implementsInterface($this->symfonyTranslator, LocaleAwareInterface::class);
 

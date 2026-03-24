@@ -27,7 +27,7 @@ class ResolveTargetRepositorySubscriber
      * @param string $object
      * @param string $newRepository
      */
-    public function addResolveTargetRepository($object, $newRepository)
+    public function addResolveTargetRepository($object, $newRepository): void
     {
         static::$resolveTargetRepo[ltrim($object)] = $newRepository;
     }
@@ -35,7 +35,7 @@ class ResolveTargetRepositorySubscriber
     /**
      * Processes event and resolves new object repository class
      */
-    public function loadClassMetadata(LoadClassMetadataEventArgs $args)
+    public function loadClassMetadata(LoadClassMetadataEventArgs $args): void
     {
         $classMetadata = $args->getClassMetadata();
         $className = $classMetadata->getName();

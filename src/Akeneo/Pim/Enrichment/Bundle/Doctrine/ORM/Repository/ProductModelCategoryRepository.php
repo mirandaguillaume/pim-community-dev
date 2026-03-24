@@ -20,7 +20,7 @@ class ProductModelCategoryRepository extends AbstractItemCategoryRepository impl
      * @param string        $entityName
      * @param string        $categoryClass
      */
-    public function __construct(EntityManager $em, $entityName, protected $categoryClass)
+    public function __construct(EntityManager $em, string $entityName, protected $categoryClass)
     {
         parent::__construct($em, $entityName);
     }

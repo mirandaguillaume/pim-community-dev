@@ -31,7 +31,7 @@ final readonly class RunUniqueProcessJob
     {
     }
 
-    public function run(string $jobName, \Closure $buildJobParameters)
+    public function run(string $jobName, \Closure $buildJobParameters): void
     {
         $jobInstance = $this->getJobInstance($jobName);
 

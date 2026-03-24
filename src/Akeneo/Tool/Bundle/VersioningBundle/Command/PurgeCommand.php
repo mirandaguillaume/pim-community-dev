@@ -82,7 +82,7 @@ class PurgeCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function interact(InputInterface $input, OutputInterface $output)
+    public function interact(InputInterface $input, OutputInterface $output): void
     {
         if (null !== $input->getOption('more-than-days') && null !== $input->getOption('less-than-days')) {
             throw new InvalidArgumentException(
@@ -94,7 +94,7 @@ class PurgeCommand extends Command
         $isForced = $input->getOption('force');
 
         if (null !== $resourceFQCN && !class_exists($resourceFQCN)) {
-            $errorCallback = function ($resourceFQCN) use ($output): never {
+            $errorCallback = function (string $resourceFQCN) use ($output): never {
                 $output->writeln('<info>Abort the purge operation. Nothing has been deleted from the database.</info>');
                 throw new InvalidArgumentException(
                     sprintf(
@@ -111,7 +111,7 @@ class PurgeCommand extends Command
 
             $helper = $this->getHelper('question');
             $question = new Question('<question>Please insert a valid fully qualified class name: </question>');
-            $question->setValidator(function ($answer) {
+            $question->setValidator(function ($answer): string {
                 if (!class_exists($answer)) {
                     throw new \RuntimeException(
                         'The fully qualified class name does not exist. Please choose a value from the table above.'

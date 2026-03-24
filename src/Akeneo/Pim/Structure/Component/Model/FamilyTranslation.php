@@ -33,7 +33,7 @@ class FamilyTranslation extends AbstractTranslation implements FamilyTranslation
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->label = $label;
 

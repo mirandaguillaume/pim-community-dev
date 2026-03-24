@@ -23,7 +23,7 @@ class RootEndpointController
     /**
      * @return JsonResponse
      */
-    public function getAction(Request $request)
+    public function getAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $routes = $this->router->getRouteCollection();
 

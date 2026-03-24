@@ -22,7 +22,7 @@ class FeatureFlagAclPrivilegesEventSubscriber
     ) {
     }
 
-    public function disableAclIfFeatureIsDisabled(PrivilegesPostLoadEvent $event)
+    public function disableAclIfFeatureIsDisabled(PrivilegesPostLoadEvent $event): void
     {
         $event->setPrivileges(
             $event->getPrivileges()->filter(

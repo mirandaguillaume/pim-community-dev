@@ -18,7 +18,7 @@ class BusinessArrayConversionException extends ArrayConversionException
     /**
      * @return string
      */
-    public function getMessageKey()
+    public function getMessageKey(): string
     {
         return $this->messageKey;
     }

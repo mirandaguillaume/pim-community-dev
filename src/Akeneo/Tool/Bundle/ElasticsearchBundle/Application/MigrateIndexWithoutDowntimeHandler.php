@@ -22,7 +22,7 @@ class MigrateIndexWithoutDowntimeHandler implements MigrateIndexWithoutDowntimeH
     {
     }
 
-    public function handle(MigrateIndexWithoutDowntime $command)
+    public function handle(MigrateIndexWithoutDowntime $command): void
     {
         $currentDatetime = $this->clock->now();
         $temporaryIndexAlias = $this->initTemporaryIndexAlias($command, $currentDatetime);

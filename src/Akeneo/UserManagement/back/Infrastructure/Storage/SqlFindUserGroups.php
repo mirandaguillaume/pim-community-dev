@@ -35,7 +35,7 @@ class SqlFindUserGroups implements FindUserGroups
             ]
         )->fetchAllAssociative();
 
-        return array_map(static fn ($data) => Group::createFromDatabase($data), $results);
+        return array_map(static fn (array $data): \Akeneo\UserManagement\Domain\Model\Group => Group::createFromDatabase($data), $results);
     }
 
     private function buildQuery(

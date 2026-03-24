@@ -16,8 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class FieldFilterDumper implements DumperInterface
 {
-    /** @var FilterRegistryInterface */
-    protected $registry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Query\Filter\FilterRegistryInterface $registry;
 
     public function __construct(FilterRegistryInterface $registry)
     {
@@ -27,7 +26,7 @@ class FieldFilterDumper implements DumperInterface
     /**
      * {@inheritdoc}
      */
-    public function dump(OutputInterface $output)
+    public function dump(OutputInterface $output): void
     {
         $output->writeln("<info>Useable field filters...</info>");
 

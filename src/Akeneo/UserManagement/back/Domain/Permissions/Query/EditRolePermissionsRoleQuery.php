@@ -28,7 +28,7 @@ class EditRolePermissionsRoleQuery
         foreach ($roles as $role) {
             $roleWithPermission = $this->roleWithPermissionsRepository->findOneByIdentifier($role->getRole());
             $rolePermissions = $roleWithPermission->permissions();
-            $minimumPermissions = array_filter($rolePermissions, function ($permission) use ($rolePermissions, $minimumEditRolePermissions) {
+            $minimumPermissions = array_filter($rolePermissions, function ($permission) use ($rolePermissions, $minimumEditRolePermissions): bool {
                 $isMinimumEditRolePermissions = in_array($permission, $minimumEditRolePermissions);
                 return $isMinimumEditRolePermissions && $rolePermissions[$permission];
             }, ARRAY_FILTER_USE_KEY);
@@ -40,7 +40,7 @@ class EditRolePermissionsRoleQuery
         return $minimumPermissionsRoles;
     }
 
-    public function isLastRoleWithEditRolePermissions(string $role)
+    public function isLastRoleWithEditRolePermissions(string $role): bool
     {
         $minimumEditRoleRoles = $this->getRolesWithMinimumEditRolePermissions();
         return (count($minimumEditRoleRoles) <= 1 && in_array($role, $minimumEditRoleRoles));

@@ -34,7 +34,7 @@ class TextAreaNormalizer extends AbstractProductValueNormalizer implements Norma
     /**
      * {@inheritdoc}
      */
-    protected function getNormalizedData(ValueInterface $value)
+    protected function getNormalizedData(ValueInterface $value): ?string
     {
         $textAreaValue = $value->getData();
 

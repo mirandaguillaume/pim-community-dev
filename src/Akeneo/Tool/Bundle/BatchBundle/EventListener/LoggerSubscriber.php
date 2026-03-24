@@ -31,11 +31,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[AsEventListener(event: EventInterface::INVALID_ITEM, method: 'invalidItem')]
 class LoggerSubscriber
 {
-    /** @var LoggerInterface */
-    protected $logger;
+    protected \Psr\Log\LoggerInterface $logger;
 
-    /** @var TranslatorInterface */
-    protected $translator;
+    protected \Symfony\Contracts\Translation\TranslatorInterface $translator;
 
     /** @var string */
     protected $translationLocale = 'en';
@@ -54,7 +52,7 @@ class LoggerSubscriber
      *
      * @param string $translationLocale
      */
-    public function setTranslationLocale($translationLocale)
+    public function setTranslationLocale($translationLocale): void
     {
         $this->translationLocale = $translationLocale;
     }
@@ -64,7 +62,7 @@ class LoggerSubscriber
      *
      * @param string $translationDomain
      */
-    public function setTranslationDomain($translationDomain)
+    public function setTranslationDomain($translationDomain): void
     {
         $this->translationDomain = $translationDomain;
     }
@@ -72,7 +70,7 @@ class LoggerSubscriber
     /**
      * Log the job execution creation
      */
-    public function jobExecutionCreated(JobExecutionEvent $event)
+    public function jobExecutionCreated(JobExecutionEvent $event): void
     {
         $jobExecution = $event->getJobExecution();
 
@@ -82,7 +80,7 @@ class LoggerSubscriber
     /**
      * Log the job execution before the job execution
      */
-    public function beforeJobExecution(JobExecutionEvent $event)
+    public function beforeJobExecution(JobExecutionEvent $event): void
     {
         $jobExecution = $event->getJobExecution();
 
@@ -92,7 +90,7 @@ class LoggerSubscriber
     /**
      * Log the job execution when the job execution stopped
      */
-    public function jobExecutionStopped(JobExecutionEvent $event)
+    public function jobExecutionStopped(JobExecutionEvent $event): void
     {
         $jobExecution = $event->getJobExecution();
 
@@ -102,7 +100,7 @@ class LoggerSubscriber
     /**
      * Log the job execution when the job execution was interrupted
      */
-    public function jobExecutionInterrupted(JobExecutionEvent $event)
+    public function jobExecutionInterrupted(JobExecutionEvent $event): void
     {
         $jobExecution = $event->getJobExecution();
 
@@ -113,7 +111,7 @@ class LoggerSubscriber
     /**
      * Log the job execution when a fatal error was raised during job execution
      */
-    public function jobExecutionFatalError(JobExecutionEvent $event)
+    public function jobExecutionFatalError(JobExecutionEvent $event): void
     {
         $jobExecution = $event->getJobExecution();
 
@@ -126,7 +124,7 @@ class LoggerSubscriber
     /**
      * Log the job execution before its status is upgraded
      */
-    public function beforeJobStatusUpgrade(JobExecutionEvent $event)
+    public function beforeJobStatusUpgrade(JobExecutionEvent $event): void
     {
         $jobExecution = $event->getJobExecution();
 
@@ -136,7 +134,7 @@ class LoggerSubscriber
     /**
      * Log the step execution before the step execution
      */
-    public function beforeStepExecution(StepExecutionEvent $event)
+    public function beforeStepExecution(StepExecutionEvent $event): void
     {
         $stepExecution = $event->getStepExecution();
 
@@ -146,7 +144,7 @@ class LoggerSubscriber
     /**
      * Log the step execution when the step execution succeeded
      */
-    public function stepExecutionSucceeded(StepExecutionEvent $event)
+    public function stepExecutionSucceeded(StepExecutionEvent $event): void
     {
         $stepExecution = $event->getStepExecution();
 
@@ -156,7 +154,7 @@ class LoggerSubscriber
     /**
      * Log the step execution when the step execution was interrupted
      */
-    public function stepExecutionInterrupted(StepExecutionEvent $event)
+    public function stepExecutionInterrupted(StepExecutionEvent $event): void
     {
         $stepExecution = $event->getStepExecution();
 
@@ -172,7 +170,7 @@ class LoggerSubscriber
      *
      * @return null
      */
-    public function stepExecutionErrored(StepExecutionEvent $event)
+    public function stepExecutionErrored(StepExecutionEvent $event): void
     {
         $stepExecution = $event->getStepExecution();
         $e = $event->getException();
@@ -185,7 +183,7 @@ class LoggerSubscriber
                 implode(
                     ', ',
                     array_map(
-                        fn ($exception) => $this->translator->trans(
+                        fn (array $exception) => $this->translator->trans(
                             $exception['message'],
                             $exception['messageParameters'],
                             $this->translationDomain,
@@ -201,7 +199,7 @@ class LoggerSubscriber
     /**
      * Log the step execution when the step execution was completed
      */
-    public function stepExecutionCompleted(StepExecutionEvent $event)
+    public function stepExecutionCompleted(StepExecutionEvent $event): void
     {
         $stepExecution = $event->getStepExecution();
 
@@ -211,7 +209,7 @@ class LoggerSubscriber
     /**
      * Log invalid item event
      */
-    public function invalidItem(InvalidItemEvent $event)
+    public function invalidItem(InvalidItemEvent $event): void
     {
         $this->logger->warning(
             sprintf(
@@ -234,7 +232,7 @@ class LoggerSubscriber
      *
      * @return string
      */
-    private function formatAsString(mixed $data)
+    private function formatAsString(mixed $data): string
     {
         if (is_array($data)) {
             $result = [];

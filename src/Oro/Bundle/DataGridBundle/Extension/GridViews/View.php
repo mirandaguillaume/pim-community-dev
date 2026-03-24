@@ -4,11 +4,9 @@ namespace Oro\Bundle\DataGridBundle\Extension\GridViews;
 
 class View
 {
-    /** @var array */
-    protected $filtersData;
+    protected array $filtersData;
 
-    /** @var array */
-    protected $sortersData;
+    protected array $sortersData;
 
     /**
      * @param string $name
@@ -35,7 +33,7 @@ class View
      *
      * @return $this
      */
-    public function setSortersData(array $sortersData)
+    public function setSortersData(array $sortersData): static
     {
         $this->sortersData = $sortersData;
 
@@ -58,7 +56,7 @@ class View
      *
      * @return $this
      */
-    public function setFiltersData(array $filtersData)
+    public function setFiltersData(array $filtersData): static
     {
         $this->filtersData = $filtersData;
 
@@ -80,7 +78,7 @@ class View
      *
      * @return array
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         return [
             'name'    => $this->getName(),

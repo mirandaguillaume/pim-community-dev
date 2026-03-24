@@ -30,7 +30,7 @@ final readonly class ProductRemover implements RemoverInterface, BulkRemoverInte
     /**
      * {@inheritdoc}
      */
-    public function remove($product, array $options = [])
+    public function remove($product, array $options = []): void
     {
         Assert::implementsInterface($product, ProductInterface::class);
 
@@ -49,7 +49,7 @@ final readonly class ProductRemover implements RemoverInterface, BulkRemoverInte
     /**
      * {@inheritdoc}
      */
-    public function removeAll(array $products, array $options = [])
+    public function removeAll(array $products, array $options = []): void
     {
         if (empty($products)) {
             return;

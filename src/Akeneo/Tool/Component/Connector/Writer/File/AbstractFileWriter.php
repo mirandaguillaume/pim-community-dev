@@ -22,8 +22,7 @@ abstract class AbstractFileWriter implements ItemWriterInterface, StepExecutionA
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var Filesystem */
-    protected $localFs;
+    protected \Symfony\Component\Filesystem\Filesystem $localFs;
 
     /** @var string DateTime format for the file path placeholder */
     protected $datetimeFormat = 'Y-m-d_H-i-s';
@@ -70,7 +69,7 @@ abstract class AbstractFileWriter implements ItemWriterInterface, StepExecutionA
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }

@@ -22,7 +22,7 @@ class ConfigurationPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $this->registerDatagridFiles($container);
     }
@@ -60,7 +60,7 @@ class ConfigurationPass implements CompilerPassInterface
      *
      * @return SplFileInfo[] array the files (key: name of the file)
      */
-    protected function listDatagridFiles(ContainerBuilder $container)
+    protected function listDatagridFiles(ContainerBuilder $container): array
     {
         $files = [];
 
@@ -88,7 +88,7 @@ class ConfigurationPass implements CompilerPassInterface
      *
      * @return SplFileInfo[] array the files (key: name of the file)
      */
-    protected function listDatagridFilesInDirectory($directory)
+    protected function listDatagridFilesInDirectory(string|array $directory): array
     {
         $files = [];
         $finder = new Finder();

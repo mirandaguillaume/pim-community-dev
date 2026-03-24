@@ -20,7 +20,7 @@ class ClientIdMustBeValidValidator extends ConstraintValidator
     {
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof ClientIdMustBeValid) {
             throw new UnexpectedTypeException($constraint, ClientIdMustBeValid::class);

@@ -14,8 +14,7 @@ use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
  */
 class AttributeOptionsSorter
 {
-    /** @var BulkSaverInterface */
-    protected $optionSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface $optionSaver;
 
     /**
      * Constructor
@@ -28,7 +27,7 @@ class AttributeOptionsSorter
     /**
      * Update attribute option sorting
      */
-    public function updateSorting(AttributeInterface $attribute, array $sorting = [])
+    public function updateSorting(AttributeInterface $attribute, array $sorting = []): void
     {
         foreach ($attribute->getOptions() as $option) {
             if (isset($sorting[$option->getId()])) {

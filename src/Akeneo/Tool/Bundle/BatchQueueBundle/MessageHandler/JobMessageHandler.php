@@ -91,7 +91,7 @@ final readonly class JobMessageHandler
             $previousSigtermHandler = pcntl_signal_get_handler(\SIGTERM);
 
             if ($this->featureFlags->isEnabled('pause_jobs')) {
-                pcntl_signal(\SIGTERM, function () use ($process, $previousSigtermHandler) {
+                pcntl_signal(\SIGTERM, function () use ($process, $previousSigtermHandler): void {
                     $this->logger->notice(
                         'Received SIGTERM signal in job message handler and forwarding it to subprocess'
                     );

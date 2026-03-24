@@ -27,14 +27,11 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface;
  */
 class ArrayReader implements FileReaderInterface, InitializableInterface, StatefulInterface
 {
-    /** @var FileReaderInterface */
-    protected $reader;
+    protected \Akeneo\Tool\Component\Connector\Reader\File\FileReaderInterface $reader;
 
-    /** @var ArrayConverterInterface */
-    protected $converter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface $converter;
 
-    /** @var array */
-    protected $remainingItems;
+    protected array $remainingItems;
 
     public function __construct(
         FileReaderInterface $reader,
@@ -70,7 +67,7 @@ class ArrayReader implements FileReaderInterface, InitializableInterface, Statef
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->reader->setStepExecution($stepExecution);
     }
@@ -78,7 +75,7 @@ class ArrayReader implements FileReaderInterface, InitializableInterface, Statef
     /**
      * {@inheritdoc}
      */
-    public function flush()
+    public function flush(): void
     {
         $this->reader->flush();
     }

@@ -44,7 +44,7 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }
@@ -243,7 +243,7 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
      *
      * @return string
      */
-    protected function getFormattedDate($field, string|\DateTimeInterface $value)
+    protected function getFormattedDate($field, string|\DateTimeInterface $value): string
     {
         $dateTime = $value;
 

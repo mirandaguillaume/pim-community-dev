@@ -19,8 +19,7 @@ class Reader extends AbstractReader implements
     InitializableInterface,
     StepExecutionAwareInterface
 {
-    /** @var ObjectRepository */
-    protected $repository;
+    protected \Doctrine\Persistence\ObjectRepository $repository;
 
     public function __construct(ObjectRepository $repository)
     {
@@ -30,7 +29,7 @@ class Reader extends AbstractReader implements
     /**
      * {@inheritdoc}
      */
-    protected function getResults()
+    protected function getResults(): \ArrayIterator
     {
         return new \ArrayIterator($this->repository->findAll());
     }

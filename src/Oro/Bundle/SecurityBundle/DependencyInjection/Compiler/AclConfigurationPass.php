@@ -33,7 +33,7 @@ class AclConfigurationPass implements CompilerPassInterface
     /**
      * {@inheritDoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $this->configureAclExtensionSelector($container);
         $this->configureDefaultAclProvider($container);
@@ -123,7 +123,7 @@ class AclConfigurationPass implements CompilerPassInterface
      *
      * @return array
      */
-    protected function loadAclExtensions(ContainerBuilder $container)
+    protected function loadAclExtensions(ContainerBuilder $container): array
     {
         $extensions = [];
         foreach ($container->findTaggedServiceIds(self::ACL_EXTENSION_TAG) as $id => $attributes) {
@@ -139,13 +139,13 @@ class AclConfigurationPass implements CompilerPassInterface
         }
         usort(
             $extensions,
-            fn ($a, $b) => $a['priority'] == $b['priority']
+            fn (array $a, array $b): int => $a['priority'] == $b['priority']
                 ? 0
                 : (($a['priority'] < $b['priority']) ? -1 : 1)
         );
 
         return array_map(
-            fn ($el) => $el['id'],
+            fn (array $el): string => $el['id'],
             $extensions
         );
     }

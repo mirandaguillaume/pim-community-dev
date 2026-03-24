@@ -35,7 +35,7 @@ class BatchItem
      *
      * @return OID
      */
-    public function getOid()
+    public function getOid(): \Symfony\Component\Security\Acl\Domain\ObjectIdentity
     {
         return $this->oid;
     }
@@ -45,7 +45,7 @@ class BatchItem
      *
      * @return ACL
      */
-    public function getAcl()
+    public function getAcl(): ?\Symfony\Component\Security\Acl\Model\MutableAclInterface
     {
         return $this->acl;
     }
@@ -65,7 +65,7 @@ class BatchItem
      *
      * @param int $state
      */
-    public function setState($state)
+    public function setState($state): void
     {
         $this->state = $state;
     }
@@ -75,7 +75,7 @@ class BatchItem
      *
      * @return Ace[]
      */
-    public function getAces()
+    public function getAces(): \Doctrine\Common\Collections\ArrayCollection|array
     {
         return $this->aces ?? [];
     }
@@ -95,7 +95,7 @@ class BatchItem
      *                                  ANY strategy is used for $granting = false
      * @param bool $replace If true the mask and strategy of the existing ACE should be replaced with the given ones
      */
-    public function addAce($type, ?string $field, SID $sid, $granting, $mask, ?string $strategy, $replace = false)
+    public function addAce($type, ?string $field, SID $sid, $granting, $mask, ?string $strategy, $replace = false): void
     {
         if ($this->aces === null) {
             $this->aces = new ArrayCollection();
@@ -113,7 +113,7 @@ class BatchItem
      * @param bool      $granting
      * @param int       $mask
      */
-    public function removeAce($type, ?string $field, SID $sid, $granting, $mask, ?bool $strategy)
+    public function removeAce($type, ?string $field, SID $sid, $granting, $mask, ?bool $strategy): void
     {
         if ($this->aces !== null) {
             $toRemoveKey = null;
@@ -143,7 +143,7 @@ class BatchItem
      *                           Set to null for class-based or object-based ACE
      *                           Set to not null class-field-based or object-field-based ACE
      */
-    public function removeAces($type, ?string $field, SID $sid)
+    public function removeAces($type, ?string $field, SID $sid): void
     {
         if ($this->aces !== null) {
             $toRemoveKeys = [];

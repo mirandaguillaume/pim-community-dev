@@ -33,7 +33,7 @@ final readonly class GetValuesAndPropertiesFromProductModelCodes
             return [];
         }
 
-        $productModelCodes = (fn (string ...$productModelCodes) => $productModelCodes)(...$productModelCodes);
+        $productModelCodes = (fn (string ...$productModelCodes): array => $productModelCodes)(...$productModelCodes);
 
         $mergedValues = $this->platformHelper->jsonMergePreserve("COALESCE(parent_product_model.raw_values, '{}')", "product_model.raw_values");
 

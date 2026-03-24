@@ -30,26 +30,19 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class CategoryController
 {
-    /** @var ApiResourceRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Tool\Component\Api\Repository\ApiResourceRepositoryInterface $repository;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var SimpleFactoryInterface */
-    protected $factory;
+    protected \Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface $factory;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var StreamResourceResponse */
-    protected $partialUpdateStreamResource;
+    protected \Akeneo\Tool\Bundle\ApiBundle\Stream\StreamResourceResponse $partialUpdateStreamResource;
 
     public function __construct(
         protected SecurityFacade $securityFacade,
@@ -173,7 +166,7 @@ class CategoryController
      *
      * @throws DocumentedHttpException
      */
-    protected function updateCategory(CategoryInterface $category, array $data, $anchor)
+    protected function updateCategory(CategoryInterface $category, array $data, string $anchor)
     {
         $this->checkAclRights();
         try {
@@ -204,7 +197,7 @@ class CategoryController
      *
      * @return Response
      */
-    protected function getResponse(CategoryInterface $category, $status)
+    protected function getResponse(CategoryInterface $category, $status): \Symfony\Component\HttpFoundation\Response
     {
         $response = new Response(null, $status);
         $route = $this->router->generate(
@@ -236,7 +229,7 @@ class CategoryController
         }
     }
 
-    private function checkAclRights()
+    private function checkAclRights(): void
     {
         if ($this->securityFacade->isGranted('pim_api_category_edit') === false) {
             throw new AccessDeniedException();

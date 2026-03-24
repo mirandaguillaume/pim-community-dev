@@ -17,8 +17,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 abstract class AbstractProductValueNormalizer implements NormalizerInterface
 {
-    /** @var GetAttributes */
-    protected $getAttributes;
+    protected \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes $getAttributes;
 
     public function __construct(GetAttributes $getAttributes)
     {

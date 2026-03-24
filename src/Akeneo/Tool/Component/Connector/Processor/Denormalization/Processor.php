@@ -22,17 +22,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class Processor extends AbstractProcessor implements ItemProcessorInterface, StepExecutionAwareInterface
 {
-    /** @var SimpleFactoryInterface */
-    protected $factory;
+    protected \Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface $factory;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var ObjectDetacherInterface */
-    protected $objectDetacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\ObjectDetacherInterface $objectDetacher;
 
     /**
      * @param IdentifiableObjectRepositoryInterface $repository
@@ -121,7 +117,7 @@ class Processor extends AbstractProcessor implements ItemProcessorInterface, Ste
      *
      * @return ConstraintViolationListInterface
      */
-    protected function validate(mixed $entity)
+    protected function validate(mixed $entity): \Symfony\Component\Validator\ConstraintViolationListInterface
     {
         return $this->validator->validate($entity);
     }

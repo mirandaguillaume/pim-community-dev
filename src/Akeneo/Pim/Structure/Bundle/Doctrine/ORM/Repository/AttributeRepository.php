@@ -25,7 +25,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
     /**
      * {@inheritdoc}
      */
-    public function findAllInDefaultGroup()
+    public function findAllInDefaultGroup(): mixed
     {
         $qb = $this->createQueryBuilder('a');
         $qb
@@ -67,7 +67,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
     /**
      * {@inheritdoc}
      */
-    public function findUniqueAttributeCodes()
+    public function findUniqueAttributeCodes(): array
     {
         $codes = $this
             ->createQueryBuilder('a')
@@ -78,7 +78,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->getArrayResult();
 
         return array_map(
-            fn ($data) => $data['code'],
+            fn (array $data) => $data['code'],
             $codes
         );
     }
@@ -86,7 +86,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
     /**
      * {@inheritdoc}
      */
-    public function findMediaAttributeCodes()
+    public function findMediaAttributeCodes(): array
     {
         $codes = $this
             ->createQueryBuilder('a')
@@ -98,7 +98,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->getArrayResult();
 
         return array_map(
-            fn ($data) => $data['code'],
+            fn (array $data) => $data['code'],
             $codes
         );
     }
@@ -133,7 +133,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
     /**
      * {@inheritdoc}
      */
-    protected function getAxesQuery($locale)
+    protected function getAxesQuery($locale): \Doctrine\ORM\Query
     {
         return $this->findAllAxesQB()
             ->select('a.id')
@@ -149,7 +149,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): ?object
     {
         return $this->findOneBy(['code' => $code]);
     }
@@ -157,15 +157,16 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['code'];
     }
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getAttributesAsArray($withLabel = false, $locale = null, array $ids = [])
+    public function getAttributesAsArray($withLabel = false, $locale = null, array $ids = []): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('att')
@@ -204,8 +205,9 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
 
     /**
      * {@inheritdoc}
+     * @return int[]|string[]
      */
-    public function getAttributeIdsUseableInGrid($codes = null, $groupIds = null)
+    public function getAttributeIdsUseableInGrid($codes = null, $groupIds = null): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('att.id')
@@ -272,8 +274,9 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getAttributeTypeByCodes(array $codes)
+    public function getAttributeTypeByCodes(array $codes): array
     {
         $results = $this->createQueryBuilder('a')
             ->select('a.code, a.type')
@@ -294,8 +297,9 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getAttributeCodesByType($type)
+    public function getAttributeCodesByType($type): array
     {
         $qb = $this->createQueryBuilder('a');
         $qb
@@ -314,8 +318,9 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getAttributeCodesByGroup(AttributeGroupInterface $group)
+    public function getAttributeCodesByGroup(AttributeGroupInterface $group): array
     {
         $qb = $this->createQueryBuilder('a');
         $qb
@@ -354,7 +359,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
     /**
      * {@inheritdoc}
      */
-    public function findAttributesByFamily(FamilyInterface $family)
+    public function findAttributesByFamily(FamilyInterface $family): mixed
     {
         $qb = $this->createQueryBuilder('a');
         $qb

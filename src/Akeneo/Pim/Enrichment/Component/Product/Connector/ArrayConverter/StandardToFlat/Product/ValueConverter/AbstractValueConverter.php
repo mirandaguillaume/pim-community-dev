@@ -12,11 +12,9 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
  */
 abstract class AbstractValueConverter implements ValueConverterInterface
 {
-    /** @var AttributeColumnsResolver */
-    protected $columnsResolver;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\AttributeColumnsResolver $columnsResolver;
 
-    /** @var array */
-    protected $supportedAttributeTypes;
+    protected array $supportedAttributeTypes;
 
     public function __construct(AttributeColumnsResolver $columnsResolver, array $supportedAttributeTypes)
     {

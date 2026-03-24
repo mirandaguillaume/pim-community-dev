@@ -30,7 +30,7 @@ final class UuidFilter extends AbstractFieldFilter
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): self {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }

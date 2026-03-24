@@ -28,7 +28,7 @@ class MetricNormalizer extends AbstractProductValueNormalizer implements Normali
     /**
      * {@inheritdoc}
      */
-    protected function getNormalizedData(ValueInterface $value)
+    protected function getNormalizedData(ValueInterface $value): ?array
     {
         $productMetric = $value->getData();
 

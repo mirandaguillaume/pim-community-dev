@@ -32,7 +32,7 @@ final readonly class LoadEntityWithValuesSubscriber
      *
      * @param LifecycleEventArgs $event
      */
-    public function postLoad(LifecycleEventArgs $event)
+    public function postLoad(LifecycleEventArgs $event): void
     {
         $entity = $event->getObject();
         if (!$entity instanceof EntityWithValuesInterface) {

@@ -4,8 +4,7 @@ namespace Oro\Bundle\DataGridBundle\Extension\MassAction;
 
 class MassActionResponse implements MassActionResponseInterface
 {
-    /** @var array */
-    protected $options = [];
+    protected array $options;
 
     /**
      * @param boolean $successful

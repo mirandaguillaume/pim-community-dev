@@ -21,14 +21,11 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class ChoiceFilter extends AjaxChoiceFilter
 {
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var AttributeOptionRepositoryInterface */
-    protected $attributeOptionRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeOptionRepositoryInterface $attributeOptionRepository;
 
     /**
      * @param FormFactoryInterface               $factory
@@ -55,7 +52,7 @@ class ChoiceFilter extends AjaxChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (!$data) {
@@ -104,7 +101,7 @@ class ChoiceFilter extends AjaxChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getFormOptions()
+    protected function getFormOptions(): array
     {
         $attribute = $this->getAttribute();
 
@@ -130,7 +127,7 @@ class ChoiceFilter extends AjaxChoiceFilter
      * @param $optionCodes
      * @return array
      */
-    private function filterOnlyExistingOptions($optionCodes)
+    private function filterOnlyExistingOptions(array $optionCodes): array
     {
         $attribute = $this->getAttribute();
         $attributeOptions = $this->attributeOptionRepository->findCodesByIdentifiers(

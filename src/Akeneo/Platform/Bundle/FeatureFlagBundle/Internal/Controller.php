@@ -18,7 +18,7 @@ class Controller
     {
     }
 
-    public function isEnabledAction()
+    public function isEnabledAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         return new JsonResponse($this->featureFlags->all());
     }

@@ -21,8 +21,7 @@ class PresenterRegistry implements PresenterRegistryInterface
 
     final public const string TYPE_ATTRIBUTE_OPTION = 'attribute_option';
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     /** @var PresenterInterface[] */
     protected $presenters = [];
@@ -35,7 +34,7 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(PresenterInterface $presenter, $type)
+    public function register(PresenterInterface $presenter, $type): static
     {
         $this->presenters[$type][] = $presenter;
 
@@ -45,7 +44,7 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getPresenterByAttributeCode($code)
+    public function getPresenterByAttributeCode($code): ?\Akeneo\Tool\Component\Localization\Presenter\PresenterInterface
     {
         $attribute = $this->attributeRepository->findOneByIdentifier($code);
         if (null === $attribute) {
@@ -63,7 +62,7 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getPresenterByAttributeType($attributeType)
+    public function getPresenterByAttributeType($attributeType): ?\Akeneo\Tool\Component\Localization\Presenter\PresenterInterface
     {
         return $this->getPresenter($attributeType, self::TYPE_PRODUCT_VALUE);
     }
@@ -71,7 +70,7 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributeOptionPresenter($optionName)
+    public function getAttributeOptionPresenter($optionName): ?\Akeneo\Tool\Component\Localization\Presenter\PresenterInterface
     {
         return $this->getPresenter($optionName, self::TYPE_ATTRIBUTE_OPTION);
     }
@@ -79,7 +78,7 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getPresenterByFieldCode($code)
+    public function getPresenterByFieldCode($code): ?\Akeneo\Tool\Component\Localization\Presenter\PresenterInterface
     {
         return $this->getPresenter($code, self::TYPE_PRODUCT_FIELD);
     }

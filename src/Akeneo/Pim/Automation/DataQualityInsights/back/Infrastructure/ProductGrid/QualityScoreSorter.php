@@ -15,7 +15,7 @@ use Oro\Bundle\PimDataGridBundle\Extension\Sorter\SorterInterface;
  */
 final class QualityScoreSorter implements SorterInterface
 {
-    public function apply(DatasourceInterface $datasource, $field, $direction)
+    public function apply(DatasourceInterface $datasource, $field, $direction): void
     {
         if (!$datasource instanceof ProductDatasource
             && !$datasource instanceof ProductAndProductModelDatasource

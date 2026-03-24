@@ -36,7 +36,7 @@ final class MigrateZddCommand extends Command
         $this->zddMigrations = iterator_to_array($zddMigrations);
 
         Assert::allIsInstanceOf($this->zddMigrations, ZddMigration::class);
-        usort($this->zddMigrations, fn ($a, $b) => \strcmp(
+        usort($this->zddMigrations, fn ($a, $b): int => \strcmp(
             (new \ReflectionClass($a))->getShortName(),
             (new \ReflectionClass($b))->getShortName(),
         ));

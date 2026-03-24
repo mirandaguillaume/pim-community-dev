@@ -19,20 +19,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class SetAttributeRequirements extends AbstractProcessor
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
-    /** @var AttributeRequirementFactory */
-    protected $factory;
+    protected \Akeneo\Pim\Structure\Component\Factory\AttributeRequirementFactory $factory;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var ObjectDetacherInterface */
-    protected $detacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\ObjectDetacherInterface $detacher;
 
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,

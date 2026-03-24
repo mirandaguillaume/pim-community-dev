@@ -19,8 +19,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class PriceCollectionAttributeAdder extends AbstractAttributeAdder
 {
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
     /**
      * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
@@ -105,7 +104,7 @@ class PriceCollectionAttributeAdder extends AbstractAttributeAdder
      *
      * @return array
      */
-    protected function addNewPrices(PriceCollectionInterface $previousPrices, array $newPrices)
+    protected function addNewPrices(PriceCollectionInterface $previousPrices, array $newPrices): array
     {
         $newCurrencies = array_filter(array_map(fn (array $price): ?string => $price['currency'] ?? null, $newPrices));
 

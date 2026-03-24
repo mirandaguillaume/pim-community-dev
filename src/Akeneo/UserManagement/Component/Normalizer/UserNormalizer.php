@@ -92,7 +92,7 @@ class UserNormalizer implements NormalizerInterface
                 = $defaultView === null ? null : $defaultView->getId();
         }
 
-        $normalizedProperties = array_reduce($this->properties, fn ($result, string $propertyName) => $result + [$propertyName => $user->getProperty($propertyName)], []);
+        $normalizedProperties = array_reduce($this->properties, fn ($result, string $propertyName): array => $result + [$propertyName => $user->getProperty($propertyName)], []);
 
         $normalizedCompound = array_map(fn ($normalizer) => $normalizer->normalize($user, $format, $context), $this->userNormalizers);
 
@@ -114,7 +114,7 @@ class UserNormalizer implements NormalizerInterface
      */
     private function getRoleNames(UserInterface $user): array
     {
-        return $user->getRolesCollection()->map(fn (Role $role) => $role->getRole())->toArray();
+        return $user->getRolesCollection()->map(fn (Role $role): ?string => $role->getRole())->toArray();
     }
 
     /**
@@ -141,9 +141,9 @@ class UserNormalizer implements NormalizerInterface
     {
         $visibleGroups = array_values(array_filter(
             $user->getGroups()->toArray(),
-            static fn (Group $group) => $group->getName() !== 'All',
+            static fn (Group $group): bool => $group->getName() !== 'All',
         ));
 
-        return array_map(static fn (Group $group) => $group->getId(), $visibleGroups);
+        return array_map(static fn (Group $group): ?int => $group->getId(), $visibleGroups);
     }
 }

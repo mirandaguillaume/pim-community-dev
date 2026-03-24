@@ -346,7 +346,7 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
 
     private function sortCurrenciesByCode(array $currencies): array
     {
-        usort($currencies, fn (CurrencyInterface $a, CurrencyInterface $b) => $a->getCode() <=> $b->getCode());
+        usort($currencies, fn (CurrencyInterface $a, CurrencyInterface $b): int => $a->getCode() <=> $b->getCode());
 
         return $currencies;
     }

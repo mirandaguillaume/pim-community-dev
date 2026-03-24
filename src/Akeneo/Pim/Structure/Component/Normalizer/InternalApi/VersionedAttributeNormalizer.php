@@ -20,17 +20,13 @@ class VersionedAttributeNormalizer implements NormalizerInterface
     /** @var array $supportedFormats */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var VersionManager */
-    protected $versionManager;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionManager $versionManager;
 
-    /** @var NormalizerInterface */
-    protected $versionNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $versionNormalizer;
 
-    /** @var StructureVersionProviderInterface */
-    protected $structureVersionProvider;
+    protected \Akeneo\Platform\Bundle\UIBundle\Provider\StructureVersion\StructureVersionProviderInterface $structureVersionProvider;
 
     public function __construct(
         NormalizerInterface $normalizer,

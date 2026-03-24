@@ -22,7 +22,7 @@ class CheckAttributeIsNotUsedAsLabelOnDeletionSubscriber
     /**
      * @throws CannotRemoveAttributeException
      */
-    public function preRemove(RemoveEvent $event)
+    public function preRemove(RemoveEvent $event): void
     {
         $attribute = $event->getSubject();
         if (!$attribute instanceof AttributeInterface) {

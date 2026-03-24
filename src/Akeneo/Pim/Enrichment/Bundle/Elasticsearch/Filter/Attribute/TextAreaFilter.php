@@ -39,7 +39,7 @@ class TextAreaFilter extends AbstractAttributeFilter implements AttributeFilterI
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }

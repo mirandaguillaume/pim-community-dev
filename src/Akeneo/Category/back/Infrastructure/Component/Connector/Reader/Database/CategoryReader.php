@@ -17,15 +17,14 @@ use Akeneo\Tool\Component\Connector\Reader\Database\AbstractReader;
  */
 class CategoryReader extends AbstractReader implements ItemReaderInterface, InitializableInterface, StepExecutionAwareInterface
 {
-    /** @var CategoryRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Category\Infrastructure\Component\Classification\Repository\CategoryRepositoryInterface $repository;
 
     public function __construct(CategoryRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    protected function getResults()
+    protected function getResults(): \ArrayIterator
     {
         return new \ArrayIterator($this->repository->getOrderedAndSortedByTreeCategories());
     }

@@ -20,8 +20,7 @@ class CopierRegistry implements CopierRegistryInterface
     /** @var FieldCopierInterface[] priorized field copiers */
     protected $fieldCopiers = [];
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     public function __construct(IdentifiableObjectRepositoryInterface $repository)
     {
@@ -31,7 +30,7 @@ class CopierRegistry implements CopierRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(CopierInterface $copier)
+    public function register(CopierInterface $copier): static
     {
         if ($copier instanceof FieldCopierInterface) {
             $this->fieldCopiers[] = $copier;

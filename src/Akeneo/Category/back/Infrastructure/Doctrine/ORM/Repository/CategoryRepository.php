@@ -19,7 +19,7 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
  */
 class CategoryRepository extends NestedTreeRepository implements IdentifiableObjectRepositoryInterface, CategoryRepositoryInterface
 {
-    public function getCategoriesByIds(array $categoriesIds = [])
+    public function getCategoriesByIds(array $categoriesIds = []): \Doctrine\Common\Collections\ArrayCollection
     {
         if (empty($categoriesIds)) {
             return new ArrayCollection();
@@ -41,7 +41,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         return $result;
     }
 
-    public function getCategoriesByCodes(array $categoriesCodes = [])
+    public function getCategoriesByCodes(array $categoriesCodes = []): \Doctrine\Common\Collections\ArrayCollection
     {
         if (empty($categoriesCodes)) {
             return new ArrayCollection();
@@ -104,7 +104,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         return $this->getTreeFromParents($parentsIds);
     }
 
-    public function getAllChildrenIds(CategoryInterface $parent, $includeNode = false)
+    public function getAllChildrenIds(CategoryInterface $parent, $includeNode = false): array
     {
         $categoryQb = $this->getAllChildrenQueryBuilder($parent, $includeNode);
         $rootAlias = current($categoryQb->getRootAliases());
@@ -116,7 +116,10 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         return array_keys($categoryQb->getQuery()->getArrayResult());
     }
 
-    public function getAllChildrenCodes(CategoryInterface $parent, $includeNode = false)
+    /**
+     * @return mixed[]
+     */
+    public function getAllChildrenCodes(CategoryInterface $parent, $includeNode = false): array
     {
         $categoryQb = $this->getAllChildrenQueryBuilder($parent, $includeNode);
         $rootAlias = current($categoryQb->getRootAliases());
@@ -134,7 +137,10 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         return $codes;
     }
 
-    public function getCategoryIdsByCodes(array $categoriesCodes)
+    /**
+     * @return int[]
+     */
+    public function getCategoryIdsByCodes(array $categoriesCodes): array
     {
         if (empty($categoriesCodes)) {
             return [];
@@ -159,12 +165,12 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         return $ids;
     }
 
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): ?object
     {
         return $this->findOneBy(['code' => $code]);
     }
 
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['code'];
     }
@@ -176,7 +182,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         return $this->getChildren($parent, true);
     }
 
-    public function getChildrenGrantedByParentId(CategoryInterface $parent, array $grantedCategoryIds = [])
+    public function getChildrenGrantedByParentId(CategoryInterface $parent, array $grantedCategoryIds = []): mixed
     {
         return $this->getChildrenQueryBuilder($parent, true)
             ->andWhere('node.id IN (:ids)')
@@ -314,7 +320,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         return $result;
     }
 
-    public function isAncestor(CategoryInterface $parentNode, CategoryInterface $childNode)
+    public function isAncestor(CategoryInterface $parentNode, CategoryInterface $childNode): bool
     {
         $sameRoot = $parentNode->getRoot() === $childNode->getRoot();
 
@@ -324,7 +330,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         return $sameRoot && $isAncestor;
     }
 
-    public function getOrderedAndSortedByTreeCategories()
+    public function getOrderedAndSortedByTreeCategories(): mixed
     {
         $queryBuilder = $this->createQueryBuilder('c');
         $queryBuilder = $queryBuilder->orderBy('c.root')->addOrderBy('c.left');
@@ -349,7 +355,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
      * persistAsNextSiblingOf is working with the magic method __call()
      * To pass the PHP checking, we have to do this trick.
      */
-    public function persistAsNextSiblingOf(CategoryInterface $node, CategoryInterface $sibling)
+    public function persistAsNextSiblingOf(CategoryInterface $node, CategoryInterface $sibling): void
     {
         parent::persistAsNextSiblingOf($node, $sibling);
     }
@@ -358,7 +364,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
      * persistAsFirstChildOf is working with the magic method __call()
      * To pass the PHP checking, we have to do this trick.
      */
-    public function persistAsFirstChildOf(CategoryInterface $node, CategoryInterface $parent)
+    public function persistAsFirstChildOf(CategoryInterface $node, CategoryInterface $parent): void
     {
         parent::persistAsFirstChildOf($node, $parent);
     }

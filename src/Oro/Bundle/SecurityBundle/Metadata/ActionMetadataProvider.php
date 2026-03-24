@@ -6,10 +6,7 @@ class ActionMetadataProvider
 {
     final public const string CACHE_KEY = 'data';
 
-    /**
-     * @var AclAnnotationProvider
-     */
-    protected $annotationProvider;
+    protected \Oro\Bundle\SecurityBundle\Metadata\AclAnnotationProvider $annotationProvider;
 
     /**
      * @var array
@@ -30,7 +27,7 @@ class ActionMetadataProvider
      * @param  string $actionName The entity class name
      * @return bool
      */
-    public function isKnownAction($actionName)
+    public function isKnownAction($actionName): bool
     {
         $this->ensureMetadataLoaded();
 
@@ -42,7 +39,7 @@ class ActionMetadataProvider
      *
      * @return ActionMetadata[]
      */
-    public function getActions()
+    public function getActions(): array
     {
         $this->ensureMetadataLoaded();
 
@@ -52,7 +49,7 @@ class ActionMetadataProvider
     /**
      * Warms up the cache
      */
-    public function warmUpCache()
+    public function warmUpCache(): void
     {
         $this->ensureMetadataLoaded();
     }
@@ -60,7 +57,7 @@ class ActionMetadataProvider
     /**
      * Clears the cache
      */
-    public function clearCache()
+    public function clearCache(): void
     {
         $this->localCache = null;
     }

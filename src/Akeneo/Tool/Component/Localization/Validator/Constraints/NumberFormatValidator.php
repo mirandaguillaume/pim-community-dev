@@ -14,8 +14,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class NumberFormatValidator extends ConstraintValidator
 {
-    /** @var array */
-    protected $decimalSeparators;
+    protected array $decimalSeparators;
 
     public function __construct(array $decimalSeparators)
     {
@@ -44,7 +43,7 @@ class NumberFormatValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($number, Constraint $constraint)
+    public function validate($number, Constraint $constraint): void
     {
         preg_match('|\d+((?P<decimal>\D+)\d+)?|', (string) $number, $matches);
 

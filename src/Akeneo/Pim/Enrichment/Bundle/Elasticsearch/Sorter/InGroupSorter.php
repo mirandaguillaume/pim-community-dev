@@ -18,8 +18,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface;
  */
 class InGroupSorter extends BaseFieldSorter implements FieldSorterInterface
 {
-    /** @var GroupRepositoryInterface */
-    protected $groupRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface $groupRepository;
 
     /**
      * @param GroupRepositoryInterface $groupRepository
@@ -93,7 +92,7 @@ class InGroupSorter extends BaseFieldSorter implements FieldSorterInterface
      * {@inheritdoc}
      */
     #[\Override]
-    public function supportsField($field)
+    public function supportsField($field): bool
     {
         return (str_contains($field, 'in_group_'));
     }

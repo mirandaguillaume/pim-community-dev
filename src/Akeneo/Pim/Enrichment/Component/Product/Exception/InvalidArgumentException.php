@@ -51,7 +51,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function expected($name, $expected, $className, $data)
+    public static function expected(string $name, $expected, $className, $data): self
     {
         return new self(
             $className,
@@ -72,7 +72,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function booleanExpected($name, $className, $data)
+    public static function booleanExpected(string $name, $className, $data): self
     {
         return new self(
             $className,
@@ -92,7 +92,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function floatExpected($name, $className, $data)
+    public static function floatExpected(string $name, $className, $data): self
     {
         return new self(
             $className,
@@ -112,7 +112,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function integerExpected($name, $className, $data)
+    public static function integerExpected(string $name, $className, $data): self
     {
         return new self(
             $className,
@@ -132,7 +132,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function numericExpected($name, $className, $data)
+    public static function numericExpected(string $name, $className, $data): self
     {
         return new self(
             $className,
@@ -152,7 +152,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function stringExpected($name, $className, $data)
+    public static function stringExpected(string $name, $className, $data): self
     {
         return new self(
             $className,
@@ -172,7 +172,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function arrayExpected($name, $className, $data)
+    public static function arrayExpected(string $name, $className, $data): self
     {
         return new self(
             $className,
@@ -192,7 +192,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function arrayOfArraysExpected($name, $className, $data)
+    public static function arrayOfArraysExpected(string $name, $className, $data): self
     {
         return new self(
             $className,
@@ -213,7 +213,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function arrayKeyExpected($name, $key, $className, $data)
+    public static function arrayKeyExpected(string $name, $key, $className, $data): self
     {
         return new self(
             $className,
@@ -236,7 +236,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function arrayInvalidKey($name, $key, $because, $className, $data)
+    public static function arrayInvalidKey(string $name, $key, $because, $className, $data): self
     {
         $err = 'Attribute or field "%s" expects an array with valid data for the key "%s". %s, "%s" given.';
 
@@ -256,7 +256,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function validEntityCodeExpected($name, $key, $because, $className, $data)
+    public static function validEntityCodeExpected(string $name, $key, $because, $className, $data): self
     {
         $err = 'Attribute or field "%s" expects a valid %s. %s, "%s" given.';
 
@@ -275,7 +275,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function arrayNumericKeyExpected($name, $key, $className, $data)
+    public static function arrayNumericKeyExpected(string $name, $key, $className, $data): self
     {
         return new self(
             $className,
@@ -297,7 +297,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function arrayStringKeyExpected($name, $key, $className, $data)
+    public static function arrayStringKeyExpected(string $name, $key, $className, $data): self
     {
         return new self(
             $className,
@@ -319,7 +319,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function arrayStringValueExpected($name, $key, $className, $data)
+    public static function arrayStringValueExpected(string $name, $key, $className, $data): self
     {
         return new self(
             $className,
@@ -339,7 +339,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function emptyArray($name)
+    public static function emptyArray(string $name): self
     {
         return new self(
             null,
@@ -354,7 +354,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function localeAndScopeExpected($name, $className)
+    public static function localeAndScopeExpected(string $name, $className): self
     {
         return new self(
             $className,
@@ -372,7 +372,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function scopeExpected($name, $className)
+    public static function scopeExpected(string $name, $className): self
     {
         return new self(
             $className,
@@ -390,7 +390,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @return InvalidArgumentException
      */
-    public static function associationFormatExpected($name, $data)
+    public static function associationFormatExpected(string $name, $data): self
     {
         return new self(
             null,
@@ -409,7 +409,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @param string     $className
      * @return InvalidArgumentException
      */
-    public static function expectedFromPreviousException(\Exception $exception, $name, $className)
+    public static function expectedFromPreviousException(\Exception $exception, string $name, $className): self
     {
         return new self(
             $className,

@@ -13,8 +13,7 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface;
  */
 class ProductModelAssociation implements ArrayConverterInterface
 {
-    /** @var ArrayConverterInterface */
-    protected $productModelConverter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface $productModelConverter;
 
     public function __construct(ArrayConverterInterface $converter)
     {
@@ -63,6 +62,6 @@ class ProductModelAssociation implements ArrayConverterInterface
     {
         $allowed = ['code', 'associations', 'quantified_associations'];
 
-        return array_filter($item, fn ($key) => in_array($key, $allowed), ARRAY_FILTER_USE_KEY);
+        return array_filter($item, fn ($key): bool => in_array($key, $allowed), ARRAY_FILTER_USE_KEY);
     }
 }

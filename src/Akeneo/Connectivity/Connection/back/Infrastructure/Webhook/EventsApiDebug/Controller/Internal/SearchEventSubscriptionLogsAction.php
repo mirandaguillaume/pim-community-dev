@@ -23,7 +23,7 @@ final readonly class SearchEventSubscriptionLogsAction
     ) {
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$this->securityFacade->isGranted('akeneo_connectivity_connection_manage_settings')) {
             throw new AccessDeniedException();

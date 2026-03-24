@@ -75,7 +75,7 @@ class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDe
 
         return [
             'results' => \array_map(
-                fn ($hit) => $hit['_source'],
+                fn (array $hit) => $hit['_source'],
                 $result['hits']['hits']
             ),
             'search_after' => $this->encrypter->encrypt(
@@ -311,7 +311,7 @@ class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDe
             'first_id' => $result['hits']['hits'][0]['_source']['id'] ?? null,
             'first_search_after' => $result['hits']['hits'][0]['sort'] ?? null,
             'ids' => \array_map(
-                fn ($hit) => $hit['_source']['id'],
+                fn (array $hit) => $hit['_source']['id'],
                 $result['hits']['hits']
             ),
         ];
@@ -349,7 +349,7 @@ class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDe
             'ids' => \array_merge(
                 [$firstId],
                 \array_map(
-                    fn ($hit) => $hit['_source']['id'],
+                    fn (array $hit) => $hit['_source']['id'],
                     $result['hits']['hits']
                 )
             ),

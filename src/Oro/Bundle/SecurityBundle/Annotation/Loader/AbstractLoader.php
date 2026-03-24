@@ -23,7 +23,7 @@ abstract class AbstractLoader
         }
     }
 
-    public function setBundleDirectories(array $bundleDirectories)
+    public function setBundleDirectories(array $bundleDirectories): void
     {
         $this->bundleDirectories = $bundleDirectories;
     }

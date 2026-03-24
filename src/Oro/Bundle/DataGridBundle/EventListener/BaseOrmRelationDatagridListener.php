@@ -42,7 +42,7 @@ class BaseOrmRelationDatagridListener
      *       THEN true ELSE false END
      *  END) as relationColumnName
      */
-    public function onBuildAfter(BuildAfter $event)
+    public function onBuildAfter(BuildAfter $event): void
     {
         $datasource = $event->getDatagrid()->getDatasource();
         if ($datasource instanceof OrmDatasource) {

@@ -33,7 +33,7 @@ class ExecutionContext
      *
      * @return $this
      */
-    public function clearDirtyFlag()
+    public function clearDirtyFlag(): static
     {
         $this->dirty = false;
 
@@ -65,7 +65,7 @@ class ExecutionContext
      *
      * @return $this
      */
-    public function put($key, mixed $value)
+    public function put($key, mixed $value): static
     {
         $this->context[$key] = $value;
 
@@ -82,7 +82,7 @@ class ExecutionContext
      *
      * @return $this
      */
-    public function remove($key)
+    public function remove($key): static
     {
         if (isset($this->context[$key])) {
             unset($this->context[$key]);
@@ -96,7 +96,7 @@ class ExecutionContext
      *
      * @return array $keys
      */
-    public function getKeys()
+    public function getKeys(): array
     {
         return array_keys($this->context);
     }

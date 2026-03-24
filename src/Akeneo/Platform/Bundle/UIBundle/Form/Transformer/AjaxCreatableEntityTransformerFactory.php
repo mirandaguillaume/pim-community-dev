@@ -15,7 +15,7 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 class AjaxCreatableEntityTransformerFactory
 {
-    protected $doctrine;
+    protected \Doctrine\Persistence\ManagerRegistry $doctrine;
 
     public function __construct(ManagerRegistry $doctrine)
     {

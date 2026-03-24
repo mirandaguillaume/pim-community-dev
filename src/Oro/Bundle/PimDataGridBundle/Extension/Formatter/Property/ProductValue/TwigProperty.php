@@ -36,7 +36,7 @@ class TwigProperty extends FieldProperty
     /**
      * Load twig template
      */
-    protected function getTemplate()
+    protected function getTemplate(): \Twig\Template
     {
         $templateName = $this->get(self::TEMPLATE_KEY);
 

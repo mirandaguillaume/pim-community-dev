@@ -18,17 +18,13 @@ use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
  */
 class ProductValuesEditDataFilter implements CollectionFilterInterface
 {
-    /** @var ObjectFilterInterface */
-    protected $objectFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\ObjectFilterInterface $objectFilter;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
     /** @var AttributeInterface[] */
     protected $attributes = [];
@@ -54,7 +50,7 @@ class ProductValuesEditDataFilter implements CollectionFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function filterCollection($valuesData, $type, array $options = [])
+    public function filterCollection($valuesData, $type, array $options = []): array
     {
         $filteredValues = [];
         foreach ($valuesData as $attributeCode => $values) {
@@ -74,7 +70,7 @@ class ProductValuesEditDataFilter implements CollectionFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsCollection($collection, $type, array $options = [])
+    public function supportsCollection($collection, $type, array $options = []): bool
     {
         return false;
     }
@@ -85,7 +81,7 @@ class ProductValuesEditDataFilter implements CollectionFilterInterface
      *
      * @return array
      */
-    protected function getFilteredValues(AttributeInterface $attribute, array $values, array $options = [])
+    protected function getFilteredValues(AttributeInterface $attribute, array $values, array $options = []): array
     {
         $filteredValues = [];
 
@@ -104,7 +100,7 @@ class ProductValuesEditDataFilter implements CollectionFilterInterface
      * @param array                                                    $value
      * @return boolean
      */
-    protected function acceptValue(AttributeInterface $attribute, $value, array $options = [])
+    protected function acceptValue(AttributeInterface $attribute, array $value, array $options = []): bool
     {
         if (null !== $value['locale']) {
             $locale = $this->getLocale($value['locale']);

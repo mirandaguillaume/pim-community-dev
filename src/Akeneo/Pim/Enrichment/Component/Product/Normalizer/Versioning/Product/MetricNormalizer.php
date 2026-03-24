@@ -76,7 +76,7 @@ class MetricNormalizer extends AbstractValueDataNormalizer
      * @param bool            $decimalsAllowed
      * @return string
      */
-    public function getMetricData(MetricInterface $metric, $withUnit, $decimalsAllowed = true)
+    public function getMetricData(MetricInterface $metric, $withUnit, $decimalsAllowed = true): string|float|int
     {
         $data = $metric->getData();
         if (null === $data || '' === $data || 0 === $data) {
@@ -97,7 +97,7 @@ class MetricNormalizer extends AbstractValueDataNormalizer
      *
      * @return array
      */
-    protected function resolveContext(array $context = [])
+    protected function resolveContext(array $context = []): array
     {
         $context = array_merge(['metric_format' => self::MULTIPLE_FIELDS_FORMAT], $context);
 

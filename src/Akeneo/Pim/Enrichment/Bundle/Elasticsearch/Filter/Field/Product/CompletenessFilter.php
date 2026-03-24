@@ -29,8 +29,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\CachedObjectRepositoryInterfac
  */
 class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    /** @var CachedObjectRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\CachedObjectRepositoryInterface $channelRepository;
 
     public function __construct(
         CachedObjectRepositoryInterface $channelRepository,
@@ -45,7 +44,7 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
     /**
      * {@inheritdoc}
      */
-    public function addFieldFilter($field, $operator, $value, $locale = null, $channel = null, $options = [])
+    public function addFieldFilter($field, $operator, $value, $locale = null, $channel = null, $options = []): static
     {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
@@ -298,7 +297,7 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
      *
      * @return ChannelInterface
      */
-    protected function getChannelByCode($code)
+    protected function getChannelByCode(string $code)
     {
         $channel = $this->channelRepository->findOneByIdentifier($code);
         if (null === $channel) {

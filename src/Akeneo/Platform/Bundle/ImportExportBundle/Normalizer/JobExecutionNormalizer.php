@@ -34,7 +34,7 @@ class JobExecutionNormalizer implements NormalizerInterface, NormalizerAwareInte
 
         return [
             'failures' => array_map(
-                fn ($exception) => $this->translator->trans($exception['message'], $exception['messageParameters']),
+                fn (array $exception): string => $this->translator->trans($exception['message'], $exception['messageParameters']),
                 $jobExecution->getFailureExceptions()
             ),
             'stepExecutions' => $this->normalizeStepExecutions($jobExecution->getStepExecutions(), $format, $context),
@@ -58,7 +58,7 @@ class JobExecutionNormalizer implements NormalizerInterface, NormalizerAwareInte
      *
      * @return array
      */
-    protected function normalizeStepExecutions($stepExecutions, $format, array $context)
+    protected function normalizeStepExecutions($stepExecutions, ?string $format, array $context): array
     {
         $result = [];
         foreach ($stepExecutions as $stepExecution) {

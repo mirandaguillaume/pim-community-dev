@@ -15,8 +15,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class CategoryFieldRemover extends AbstractFieldRemover
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $categoryRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $categoryRepository;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $categoryRepository,
@@ -31,7 +30,7 @@ class CategoryFieldRemover extends AbstractFieldRemover
      *
      * Expected data input format : ["category_code", "another_category_code"]
      */
-    public function removeFieldData($product, $field, $data, array $options = [])
+    public function removeFieldData($product, $field, $data, array $options = []): void
     {
         $this->checkData($field, $data);
 

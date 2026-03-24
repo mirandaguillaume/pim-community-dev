@@ -21,17 +21,14 @@ use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
  */
 class ProductAndProductModelWriter implements ItemWriterInterface, StepExecutionAwareInterface, InitializableInterface
 {
-    /** @var VersionManager */
-    protected $versionManager;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionManager $versionManager;
 
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var BulkSaverInterface */
-    protected $productSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface $productSaver;
 
-    /** @var BulkSaverInterface */
-    protected $productModelSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface $productModelSaver;
 
     public function __construct(
         VersionManager $versionManager,
@@ -46,12 +43,12 @@ class ProductAndProductModelWriter implements ItemWriterInterface, StepExecution
     /**
      * {@inheritdoc}
      */
-    public function write(array $items)
+    public function write(array $items): void
     {
-        $products = array_filter($items, fn ($item) => $item instanceof ProductInterface);
-        $productModels = array_filter($items, fn ($item) => $item instanceof ProductModelInterface);
+        $products = array_filter($items, fn ($item): bool => $item instanceof ProductInterface);
+        $productModels = array_filter($items, fn ($item): bool => $item instanceof ProductModelInterface);
 
-        array_walk($items, function ($item) {
+        array_walk($items, function (\Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithFamilyInterface $item): void {
             $this->incrementCount($item);
         });
 
@@ -62,7 +59,7 @@ class ProductAndProductModelWriter implements ItemWriterInterface, StepExecution
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -70,7 +67,7 @@ class ProductAndProductModelWriter implements ItemWriterInterface, StepExecution
     /**
      * {@inheritdoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         $jobParameters = $this->stepExecution->getJobParameters();
         $realTimeVersioning = $jobParameters->get('realTimeVersioning');

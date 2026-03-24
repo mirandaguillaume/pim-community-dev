@@ -26,14 +26,14 @@ class QuantifiedLink
     ) {
     }
 
-    public static function fromIdentifier(string $identifier, int $quantity)
+    public static function fromIdentifier(string $identifier, int $quantity): self
     {
         Assert::stringNotEmpty($identifier);
 
         return new self($quantity, $identifier, null);
     }
 
-    public static function fromUuid(string $uuid, ?string $identifier, int $quantity)
+    public static function fromUuid(string $uuid, ?string $identifier, int $quantity): self
     {
         Assert::nullOrStringNotEmpty($identifier);
         Assert::uuid(

@@ -15,11 +15,9 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class ConversionUnitsValidator extends ConstraintValidator
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
-    /** @var MeasureManager */
-    protected $measureManager;
+    protected \Akeneo\Tool\Bundle\MeasureBundle\Manager\MeasureManager $measureManager;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $attributeRepository,
@@ -32,7 +30,7 @@ class ConversionUnitsValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($conversionUnits, Constraint $constraint)
+    public function validate($conversionUnits, Constraint $constraint): void
     {
         if (null !== $conversionUnits && is_array($conversionUnits)) {
             foreach ($conversionUnits as $attributeCode => $conversionUnit) {

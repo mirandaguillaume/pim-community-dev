@@ -25,7 +25,7 @@ class UploadedImageSubscriber
      * @param  string                    $kernelRootDir
      * @throws \InvalidArgumentException
      */
-    public function __construct($kernelRootDir)
+    public function __construct(string $kernelRootDir)
     {
         $this->webRoot = realpath($kernelRootDir . '/../public');
         if (!$this->webRoot) {
@@ -36,7 +36,7 @@ class UploadedImageSubscriber
     /**
      * Remove uploaded image if any.
      */
-    public function postRemove(LifecycleEventArgs $args)
+    public function postRemove(LifecycleEventArgs $args): void
     {
         /** @var EntityUploadedImageInterface $entity */
         $entity = $args->getObject();
@@ -46,7 +46,7 @@ class UploadedImageSubscriber
     /**
      * Handle preUpdate.
      */
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args): void
     {
         /** @var EntityUploadedImageInterface $entity */
         $entity = $args->getObject();
@@ -67,7 +67,7 @@ class UploadedImageSubscriber
     /**
      * Handle prePersist.
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $this->updateImageName($args);
     }
@@ -75,7 +75,7 @@ class UploadedImageSubscriber
     /**
      * Handle postPersist.
      */
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(LifecycleEventArgs $args): void
     {
         $this->handleImageUpload($args);
     }
@@ -83,7 +83,7 @@ class UploadedImageSubscriber
     /**
      * Handle postUpdate.
      */
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(LifecycleEventArgs $args): void
     {
         $this->handleImageUpload($args);
     }
@@ -127,7 +127,7 @@ class UploadedImageSubscriber
      *
      * @return string
      */
-    protected function getUploadRootDir(EntityUploadedImageInterface $entity)
+    protected function getUploadRootDir(EntityUploadedImageInterface $entity): string
     {
         return rtrim($this->webRoot, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $entity->getUploadDir();
     }
@@ -153,7 +153,7 @@ class UploadedImageSubscriber
      * @param  EntityUploadedImageInterface $entity
      * @return bool
      */
-    protected function hasUploadedImage($entity)
+    protected function hasUploadedImage($entity): bool
     {
         return $this->isExpectedEntity($entity) && null !== $entity->getImageFile();
     }
@@ -164,7 +164,7 @@ class UploadedImageSubscriber
      * @param  object $entity
      * @return bool
      */
-    protected function isExpectedEntity($entity)
+    protected function isExpectedEntity($entity): bool
     {
         return $entity instanceof EntityUploadedImageInterface;
     }

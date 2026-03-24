@@ -97,7 +97,7 @@ class FlysystemLoader implements LoaderInterface
      *
      * @throws NotLoadableException
      */
-    protected function retrieveContentFileFromLocal($path): \Liip\ImagineBundle\Model\Binary|string
+    protected function retrieveContentFileFromLocal(string $path): \Liip\ImagineBundle\Model\Binary|string
     {
         $content = file_get_contents($path);
         $mimeType = (new FileBinaryMimeTypeGuesser())->guessMimeType($path);

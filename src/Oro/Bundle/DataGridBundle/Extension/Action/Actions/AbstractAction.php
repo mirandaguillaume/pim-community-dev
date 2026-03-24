@@ -70,7 +70,7 @@ abstract class AbstractAction implements ActionInterface
      *
      * @throws \LogicException
      */
-    protected function assertHasRequiredOption($optionName)
+    protected function assertHasRequiredOption(string $optionName)
     {
         if (!isset($this->options[$optionName])) {
             throw new \LogicException(

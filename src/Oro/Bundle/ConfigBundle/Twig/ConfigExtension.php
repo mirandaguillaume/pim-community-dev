@@ -8,10 +8,7 @@ use Twig\TwigFunction;
 
 class ConfigExtension extends AbstractExtension
 {
-    /**
-     * @var ConfigManager
-     */
-    protected $userConfigManager;
+    protected \Oro\Bundle\ConfigBundle\Config\ConfigManager $userConfigManager;
 
     public function __construct(ConfigManager $userConfigManager)
     {

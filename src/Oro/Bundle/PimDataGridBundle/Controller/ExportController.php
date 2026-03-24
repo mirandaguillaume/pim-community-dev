@@ -19,14 +19,11 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class ExportController
 {
-    /** @var RequestStack $requestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
-    /** @var MassActionDispatcher $massActionDispatcher */
-    protected $massActionDispatcher;
+    protected \Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionDispatcher $massActionDispatcher;
 
-    /** @var SerializerInterface $serializer */
-    protected $serializer;
+    protected \Symfony\Component\Serializer\SerializerInterface $serializer;
 
     /** @var ExportMassAction $exportMassAction */
     protected $exportMassAction;
@@ -46,7 +43,7 @@ class ExportController
      *
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\Response
     {
         // Export time execution depends on entities exported
         ignore_user_abort(false);
@@ -60,7 +57,7 @@ class ExportController
      *
      * @return StreamedResponse
      */
-    protected function createStreamedResponse()
+    protected function createStreamedResponse(): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         $filename = $this->createFilename();
 
@@ -78,7 +75,7 @@ class ExportController
      *
      * @return string
      */
-    protected function createFilename()
+    protected function createFilename(): string
     {
         $dateTime = new \DateTime();
 
@@ -97,7 +94,7 @@ class ExportController
      */
     protected function quickExportCallback()
     {
-        return function () {
+        return function (): void {
             flush();
 
             $this->quickExport();

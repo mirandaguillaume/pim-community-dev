@@ -39,7 +39,7 @@ class IdFilter extends AbstractFieldFilter
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }
@@ -48,7 +48,7 @@ class IdFilter extends AbstractFieldFilter
 
         if (is_array($value)) {
             $value = array_map(
-                fn ($value) => (string) $this->prefix . $value,
+                fn ($value): string => (string) $this->prefix . $value,
                 $value
             );
         } else {

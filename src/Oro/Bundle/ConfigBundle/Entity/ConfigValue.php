@@ -60,7 +60,7 @@ class ConfigValue implements \Stringable
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -82,7 +82,7 @@ class ConfigValue implements \Stringable
      *
      * @return Config
      */
-    public function setConfig($config)
+    public function setConfig($config): static
     {
         $this->config = $config;
 
@@ -104,7 +104,7 @@ class ConfigValue implements \Stringable
      *
      * @return $this
      */
-    public function setValue($value)
+    public function setValue($value): static
     {
         $this->value = $value;
 
@@ -124,7 +124,7 @@ class ConfigValue implements \Stringable
      *
      * @return $this
      */
-    public function setSection($section)
+    public function setSection($section): static
     {
         $this->section = $section;
 

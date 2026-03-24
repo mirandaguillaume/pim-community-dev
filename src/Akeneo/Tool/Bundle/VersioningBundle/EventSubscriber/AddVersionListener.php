@@ -34,7 +34,7 @@ class AddVersionListener
     {
     }
 
-    public function onFlush(OnFlushEventArgs $args)
+    public function onFlush(OnFlushEventArgs $args): void
     {
         $em = $args->getObjectManager();
         $uow = $em->getUnitOfWork();
@@ -60,7 +60,7 @@ class AddVersionListener
         }
     }
 
-    public function postFlush(PostFlushEventArgs $args)
+    public function postFlush(PostFlushEventArgs $args): void
     {
         $this->processVersionableEntities();
     }
@@ -109,7 +109,7 @@ class AddVersionListener
      * @param EntityManager $em
      * @param object        $entity
      */
-    protected function checkScheduledUpdate($em, $entity)
+    protected function checkScheduledUpdate(\Doctrine\ORM\EntityManager $em, $entity)
     {
         $pendings = $this->updateGuesser
             ->guessUpdates($em, $entity, UpdateGuesserInterface::ACTION_UPDATE_ENTITY);
@@ -125,7 +125,7 @@ class AddVersionListener
      * @param EntityManager $em
      * @param object        $entity
      */
-    protected function checkScheduledCollection($em, $entity)
+    protected function checkScheduledCollection(\Doctrine\ORM\EntityManager $em, $entity)
     {
         $pendings = $this->updateGuesser
             ->guessUpdates($em, $entity, UpdateGuesserInterface::ACTION_UPDATE_COLLECTION);
@@ -141,7 +141,7 @@ class AddVersionListener
      * @param EntityManager $em
      * @param object        $entity
      */
-    protected function checkScheduledDeletion($em, $entity)
+    protected function checkScheduledDeletion(\Doctrine\ORM\EntityManager $em, $entity)
     {
         $pendings = $this->updateGuesser
             ->guessUpdates($em, $entity, UpdateGuesserInterface::ACTION_DELETE);
@@ -187,7 +187,7 @@ class AddVersionListener
      *
      * @return string
      */
-    protected function getObjectHash($object)
+    protected function getObjectHash($object): string
     {
         return sprintf(
             '%s#%s',

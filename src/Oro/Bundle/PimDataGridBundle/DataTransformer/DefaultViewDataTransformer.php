@@ -14,8 +14,7 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 class DefaultViewDataTransformer implements DataTransformerInterface
 {
-    /** @var DatagridViewRepositoryInterface */
-    protected $datagridViewRepo;
+    protected \Oro\Bundle\PimDataGridBundle\Repository\DatagridViewRepositoryInterface $datagridViewRepo;
 
     public function __construct(DatagridViewRepositoryInterface $datagridViewRepo)
     {

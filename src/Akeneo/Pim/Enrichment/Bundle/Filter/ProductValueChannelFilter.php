@@ -17,7 +17,7 @@ class ProductValueChannelFilter implements CollectionFilterInterface, ObjectFilt
     /**
      * {@inheritdoc}
      */
-    public function filterObject($value, $type, array $options = [])
+    public function filterObject($value, $type, array $options = []): bool
     {
         if (!$value instanceof ValueInterface) {
             throw new \LogicException('This filter only handles objects of type "ValueInterface"');
@@ -47,7 +47,7 @@ class ProductValueChannelFilter implements CollectionFilterInterface, ObjectFilt
     /**
      * {@inheritdoc}
      */
-    public function supportsObject($object, $type, array $options = [])
+    public function supportsObject($object, $type, array $options = []): bool
     {
         return $object instanceof ValueInterface;
     }
@@ -55,7 +55,7 @@ class ProductValueChannelFilter implements CollectionFilterInterface, ObjectFilt
     /**
      * {@inheritdoc}
      */
-    public function supportsCollection($collection, $type, array $options = [])
+    public function supportsCollection($collection, $type, array $options = []): bool
     {
         return $collection instanceof WriteValueCollection;
     }

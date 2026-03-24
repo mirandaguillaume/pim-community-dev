@@ -16,8 +16,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class DateTimeNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $stdNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $stdNormalizer;
 
     public function __construct(NormalizerInterface $normalizer)
     {

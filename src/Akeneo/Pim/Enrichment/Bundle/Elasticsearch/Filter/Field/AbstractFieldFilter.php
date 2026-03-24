@@ -58,7 +58,7 @@ abstract class AbstractFieldFilter implements FieldFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function setQueryBuilder($searchQueryBuilder)
+    public function setQueryBuilder($searchQueryBuilder): void
     {
         if (!$searchQueryBuilder instanceof SearchQueryBuilder) {
             throw new \InvalidArgumentException(

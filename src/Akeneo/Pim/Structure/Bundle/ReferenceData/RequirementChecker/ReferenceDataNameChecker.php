@@ -19,7 +19,7 @@ class ReferenceDataNameChecker implements CheckerInterface
     /**
      * {@inheritdoc}
      */
-    public function check(ReferenceDataConfigurationInterface $configuration)
+    public function check(ReferenceDataConfigurationInterface $configuration): bool
     {
         $name = $configuration->getName();
 
@@ -35,7 +35,7 @@ class ReferenceDataNameChecker implements CheckerInterface
     /**
      * {@inheritdoc}
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return sprintf('Reference data names must use only letters and be camel-cased.');
     }
@@ -51,7 +51,7 @@ class ReferenceDataNameChecker implements CheckerInterface
     /**
      * {@inheritdoc}
      */
-    public function isBlockingOnFailure()
+    public function isBlockingOnFailure(): bool
     {
         return true;
     }

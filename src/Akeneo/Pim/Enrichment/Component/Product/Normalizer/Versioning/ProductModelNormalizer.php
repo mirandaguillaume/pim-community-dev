@@ -122,7 +122,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
      *
      * @return array
      */
-    protected function normalizeAssociations($associations = [])
+    protected function normalizeAssociations($associations = []): array
     {
         $results = [];
         foreach ($associations as $association) {

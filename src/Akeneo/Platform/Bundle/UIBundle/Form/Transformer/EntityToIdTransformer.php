@@ -17,20 +17,14 @@ use Symfony\Component\PropertyAccess\PropertyPath;
  */
 class EntityToIdTransformer implements DataTransformerInterface
 {
-    /**
-     * @var EntityManager
-     */
-    protected $em;
+    protected \Doctrine\ORM\EntityManager $em;
 
     /**
      * @var string
      */
     protected $property;
 
-    /**
-     * @var PropertyPath
-     */
-    protected $propertyPath;
+    protected \Symfony\Component\PropertyAccess\PropertyPath $propertyPath;
 
     /**
      * @var callable
@@ -66,7 +60,7 @@ class EntityToIdTransformer implements DataTransformerInterface
      * @throws FormException When entity has composite key
      * @return string
      */
-    protected function getIdPropertyPathFromEntityManager(EntityManager $em, $className)
+    protected function getIdPropertyPathFromEntityManager(EntityManager $em, string $className): string
     {
         $meta = $em->getClassMetadata($className);
         try {

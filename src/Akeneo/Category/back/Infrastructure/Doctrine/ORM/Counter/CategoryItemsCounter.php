@@ -16,11 +16,9 @@ use Akeneo\Category\Infrastructure\Component\Classification\Repository\ItemCateg
  */
 class CategoryItemsCounter implements CategoryItemsCounterInterface
 {
-    /** @var ItemCategoryRepositoryInterface */
-    protected $itemRepository;
+    protected \Akeneo\Category\Infrastructure\Component\Classification\Repository\ItemCategoryRepositoryInterface $itemRepository;
 
-    /** @var CategoryRepositoryInterface */
-    protected $categoryRepository;
+    protected \Akeneo\Category\Infrastructure\Component\Classification\Repository\CategoryRepositoryInterface $categoryRepository;
 
     /**
      * @param ItemCategoryRepositoryInterface $itemRepository Item category repository

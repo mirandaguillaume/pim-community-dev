@@ -30,6 +30,6 @@ final readonly class DescendantProductModelIdsQuery implements DescendantProduct
             ['parentId' => $parentProductModelId]
         )->fetchAllAssociative();
 
-        return array_map(fn ($rowData) => (int) $rowData['id'], $resultRows);
+        return array_map(fn (array $rowData): int => (int) $rowData['id'], $resultRows);
     }
 }

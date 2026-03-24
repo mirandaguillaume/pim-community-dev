@@ -15,10 +15,8 @@ class TranslationFactory
 {
     /**
      * The entity translation class
-     *
-     * @var string
      */
-    protected $translationClass;
+    protected string $translationClass;
 
     /**
      * Constructor
@@ -29,7 +27,7 @@ class TranslationFactory
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($translationClass, protected $entityClass, protected $field)
+    public function __construct(string $translationClass, protected $entityClass, protected $field)
     {
         $refl = new \ReflectionClass($translationClass);
         if (!$refl->isSubClassOf(AbstractTranslation::class)) {
@@ -52,7 +50,7 @@ class TranslationFactory
      *
      * @return AbstractTranslation
      */
-    public function createTranslation($locale)
+    public function createTranslation($locale): object
     {
         $translation = new $this->translationClass();
         $translation->setLocale($locale);

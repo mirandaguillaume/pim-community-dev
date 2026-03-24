@@ -24,7 +24,7 @@ class LocaleUpdater implements ObjectUpdaterInterface
      *     'code' => 'en_US'
      * ]
      */
-    public function update($locale, array $data, array $options = [])
+    public function update($locale, array $data, array $options = []): static
     {
         if (!$locale instanceof LocaleInterface) {
             throw InvalidObjectException::objectExpected(

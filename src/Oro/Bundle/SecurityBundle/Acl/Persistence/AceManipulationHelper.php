@@ -150,7 +150,7 @@ class AceManipulationHelper
      *                                  ALL strategy is used for $granting = true
      *                                  ANY strategy is used for $granting = false
      */
-    public function insertAce(ACL $acl, $type, ?string $field, $index, SID $sid, $granting, $mask, ?string $strategy = null)
+    public function insertAce(ACL $acl, $type, ?string $field, $index, SID $sid, $granting, $mask, ?string $strategy = null): void
     {
         if ($field === null) {
             $acl->{"insert{$type}Ace"}($sid, $mask, $index, $granting, $strategy);
@@ -170,7 +170,7 @@ class AceManipulationHelper
      * @param integer $mask
      * @param string $strategy If null the strategy should not be changed
      */
-    public function updateAce(ACL $acl, $type, ?string $field, $index, $mask, $strategy = null)
+    public function updateAce(ACL $acl, $type, ?string $field, $index, $mask, $strategy = null): void
     {
         if ($field === null) {
             $acl->{"update{$type}Ace"}($index, $mask, $strategy);
@@ -188,7 +188,7 @@ class AceManipulationHelper
      *                           Set to not null class-field-based or object-field-based ACE
      * @param integer $index
      */
-    public function deleteAce(ACL $acl, $type, ?string $field, $index)
+    public function deleteAce(ACL $acl, $type, ?string $field, $index): void
     {
         if ($field === null) {
             $acl->{"delete{$type}Ace"}($index);

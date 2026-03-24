@@ -20,14 +20,11 @@ use Akeneo\Tool\Component\FileStorage\FilesystemProvider;
  */
 class MediaAttributeCopier extends AbstractAttributeCopier
 {
-    /** @var FileFetcherInterface */
-    protected $fileFetcher;
+    protected \Akeneo\Tool\Component\FileStorage\File\FileFetcherInterface $fileFetcher;
 
-    /** @var FileStorerInterface */
-    protected $fileStorer;
+    protected \Akeneo\Tool\Component\FileStorage\File\FileStorerInterface $fileStorer;
 
-    /** @var FilesystemProvider */
-    protected $filesystemProvider;
+    protected \Akeneo\Tool\Component\FileStorage\FilesystemProvider $filesystemProvider;
 
     /**
      * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
@@ -65,7 +62,7 @@ class MediaAttributeCopier extends AbstractAttributeCopier
         AttributeInterface $fromAttribute,
         AttributeInterface $toAttribute,
         array $options = []
-    ) {
+    ): void {
         $options = $this->resolver->resolve($options);
         $fromLocale = $options['from_locale'];
         $toLocale = $options['to_locale'];
@@ -101,9 +98,9 @@ class MediaAttributeCopier extends AbstractAttributeCopier
         AttributeInterface $fromAttribute,
         AttributeInterface $toAttribute,
         $fromLocale,
-        $toLocale,
+        ?string $toLocale,
         $fromScope,
-        $toScope
+        ?string $toScope
     ) {
         $fromValue = $fromEntityWithValues->getValue($fromAttribute->getCode(), $fromLocale, $fromScope);
         $file = null;

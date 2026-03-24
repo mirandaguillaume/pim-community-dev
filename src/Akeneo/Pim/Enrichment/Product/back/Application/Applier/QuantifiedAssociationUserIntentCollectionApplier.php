@@ -239,7 +239,7 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
     ): ?array {
         $quantifiedEntities = $quantifiedAssociationUserIntent->quantifiedProducts();
 
-        $newAssociations = array_map(static fn (QuantifiedEntity $quantifiedEntity) => [
+        $newAssociations = array_map(static fn (QuantifiedEntity $quantifiedEntity): array => [
             'identifier' => $quantifiedEntity->entityIdentifier(),
             'uuid' => null,
             'quantity' => $quantifiedEntity->quantity(),
@@ -262,7 +262,7 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
         $formerAssociatedIdentifiers = \array_column($formerAssociations, 'identifier');
         $formerAssociatedIdentifiers = array_filter(
             $formerAssociatedIdentifiers,
-            static fn ($formerAssociatedIdentifier) => $formerAssociatedIdentifier !== null
+            static fn (?string $formerAssociatedIdentifier): bool => $formerAssociatedIdentifier !== null
         );
         $viewableIdentifiers = $this->getViewableProducts->fromProductIdentifiers($formerAssociatedIdentifiers, $userId);
         $nonViewableFormerAssociations = \array_values(\array_filter(
@@ -284,7 +284,7 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
     ): ?array {
         $quantifiedEntities = $quantifiedAssociationUserIntent->quantifiedProductModels();
 
-        $newAssociations = array_map(static fn (QuantifiedEntity $quantifiedEntity) => [
+        $newAssociations = array_map(static fn (QuantifiedEntity $quantifiedEntity): array => [
             'identifier' => $quantifiedEntity->entityIdentifier(),
             'quantity' => $quantifiedEntity->quantity(),
         ], $quantifiedEntities);
@@ -338,11 +338,11 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
         $formerAssociatedUuids = \array_column($formerAssociations, 'uuid');
         $formerAssociatedUuids = array_filter(
             $formerAssociatedUuids,
-            static fn ($formerAssociatedUuid) => $formerAssociatedUuid !== null
+            static fn (?string $formerAssociatedUuid): bool => $formerAssociatedUuid !== null
         ) ?: [];
 
         $formerAssociatedUuids = \array_map(
-            static fn (string $formerAssociatedUuid) => Uuid::fromString($formerAssociatedUuid),
+            static fn (string $formerAssociatedUuid): \Ramsey\Uuid\UuidInterface => Uuid::fromString($formerAssociatedUuid),
             $formerAssociatedUuids
         );
 

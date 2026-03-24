@@ -26,7 +26,7 @@ class TypeProperty extends FieldProperty
      * {@inheritdoc}
      */
     #[\Override]
-    protected function convertValue($value)
+    protected function convertValue($value): string
     {
         return $this->translator->trans(sprintf('pim_datagrid.cells.type.%s', $value));
     }

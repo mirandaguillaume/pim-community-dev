@@ -37,7 +37,7 @@ class UpdateMappingIndexCommand extends Command
         parent::__construct();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this
             ->addArgument(
@@ -103,7 +103,7 @@ class UpdateMappingIndexCommand extends Command
 
     private function esClients(array $indexNames = []): array
     {
-        return array_filter($this->esClientsRegistry->getClients(), function (Client $client) use ($indexNames) {
+        return array_filter($this->esClientsRegistry->getClients(), function (Client $client) use ($indexNames): bool {
             if ($indexNames === []) {
                 return true;
             }

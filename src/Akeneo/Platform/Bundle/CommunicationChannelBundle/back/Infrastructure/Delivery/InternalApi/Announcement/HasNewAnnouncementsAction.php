@@ -22,7 +22,7 @@ class HasNewAnnouncementsAction
     {
     }
 
-    public function __invoke()
+    public function __invoke(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if (null === $user = $this->userContext->getUser()) {
             throw new NotFoundHttpException('Current user not found');

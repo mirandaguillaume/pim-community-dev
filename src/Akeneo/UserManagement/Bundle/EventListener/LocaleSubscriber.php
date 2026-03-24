@@ -32,7 +32,7 @@ class LocaleSubscriber
     {
     }
 
-    public function onPostUpdate(GenericEvent $event)
+    public function onPostUpdate(GenericEvent $event): void
     {
         $user = $event->getSubject();
 
@@ -43,7 +43,7 @@ class LocaleSubscriber
         }
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
         $locale = $this->getLocale($request);
@@ -53,7 +53,7 @@ class LocaleSubscriber
         }
     }
 
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $user = $event->getAuthenticationToken()->getUser();
 

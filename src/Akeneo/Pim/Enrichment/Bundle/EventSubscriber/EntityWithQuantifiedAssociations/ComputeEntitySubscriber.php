@@ -29,7 +29,7 @@ final class ComputeEntitySubscriber
     /**
      * Normalizes product values into "storage" format, and sets the result as raw values.
      */
-    public function computeRawQuantifiedAssociations(GenericEvent $event)
+    public function computeRawQuantifiedAssociations(GenericEvent $event): void
     {
         $subject = $event->getSubject();
         if (!$subject instanceof EntityWithQuantifiedAssociationsInterface) {

@@ -14,8 +14,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class TokenStorageDataCollector implements DataCollectorInterface
 {
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {
@@ -25,7 +24,7 @@ class TokenStorageDataCollector implements DataCollectorInterface
     /**
      * {@inheritdoc}
      */
-    public function collect()
+    public function collect(): array
     {
         $userId = null;
         if (null !== $token = $this->tokenStorage->getToken()) {

@@ -21,20 +21,15 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MassEditController
 {
-    /** @var MassActionParametersParser */
-    protected $parameterParser;
+    protected \Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionParametersParser $parameterParser;
 
-    /** @var GridFilterAdapterInterface */
-    protected $filterAdapter;
+    protected \Oro\Bundle\PimDataGridBundle\Adapter\GridFilterAdapterInterface $filterAdapter;
 
-    /** @var OperationJobLauncher */
-    protected $operationJobLauncher;
+    protected \Akeneo\Pim\Enrichment\Bundle\MassEditAction\OperationJobLauncher $operationJobLauncher;
 
-    /** @var ConverterInterface */
-    protected $operationConverter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Converter\ConverterInterface $operationConverter;
 
-    /** @var ItemsCounter */
-    protected $itemsCounter;
+    protected \Oro\Bundle\PimDataGridBundle\Adapter\ItemsCounter $itemsCounter;
 
     public function __construct(
         MassActionParametersParser $parameterParser,
@@ -56,7 +51,7 @@ class MassEditController
      *
      * @return JsonResponse
      */
-    public function getFilterAction(Request $request)
+    public function getFilterAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $parameters = $this->parameterParser->parse($request);
         $filters = $this->filterAdapter->adapt($parameters);
@@ -76,7 +71,7 @@ class MassEditController
      *
      * @return JsonResponse
      */
-    public function launchAction(Request $request)
+    public function launchAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);

@@ -14,8 +14,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class StepExecutionEvent extends Event implements EventInterface
 {
-    /** @var StepExecution */
-    protected $stepExecution;
+    protected \Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution;
 
     public function getException(): ?\Exception
     {

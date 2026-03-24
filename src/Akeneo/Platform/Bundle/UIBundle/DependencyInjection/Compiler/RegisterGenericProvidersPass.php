@@ -24,8 +24,7 @@ class RegisterGenericProvidersPass implements CompilerPassInterface
     /** @staticvar string */
     final public const string PROVIDER_TAG = 'pim_enrich.provider.%s';
 
-    /** @var ReferenceFactory */
-    protected $factory;
+    protected \Akeneo\Platform\Bundle\UIBundle\DependencyInjection\Reference\ReferenceFactory $factory;
 
     /**
      * @param string           $providerType
@@ -38,7 +37,7 @@ class RegisterGenericProvidersPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(sprintf(static::REGISTRY_ID, $this->providerType))) {
             return;

@@ -28,7 +28,7 @@ class FindMeasurementFamilies
         $allMeasurementFamilies = $this->measurementFamilyRepository->all();
 
         return array_map(
-            static fn (MeasurementFamilyAggregate $measurementFamily) => MeasurementFamily::fromAggregate($measurementFamily),
+            static fn (MeasurementFamilyAggregate $measurementFamily): \Akeneo\Tool\Bundle\MeasureBundle\ServiceApi\MeasurementFamily => MeasurementFamily::fromAggregate($measurementFamily),
             $allMeasurementFamilies
         );
     }

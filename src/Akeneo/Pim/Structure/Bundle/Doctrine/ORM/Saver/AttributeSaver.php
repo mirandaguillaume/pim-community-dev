@@ -30,7 +30,7 @@ class AttributeSaver implements SaverInterface, BulkSaverInterface
     /**
      * {@inheritdoc}
      */
-    public function save($attribute, array $options = [])
+    public function save($attribute, array $options = []): void
     {
         $this->validateAttribute($attribute);
 
@@ -59,7 +59,7 @@ class AttributeSaver implements SaverInterface, BulkSaverInterface
     /**
      * {@inheritdoc}
      */
-    public function saveAll(array $attributes, array $options = [])
+    public function saveAll(array $attributes, array $options = []): void
     {
         if (empty($attributes)) {
             return;

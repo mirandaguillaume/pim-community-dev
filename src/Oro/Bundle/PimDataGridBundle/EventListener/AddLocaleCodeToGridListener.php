@@ -20,8 +20,7 @@ class AddLocaleCodeToGridListener
     /** @staticvar string */
     final public const string LOCALE_PARAMETER = '[options][locale_parameter]';
 
-    /** @var RequestParameters */
-    protected $requestParams;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\RequestParameters $requestParams;
 
     public function __construct(RequestParameters $requestParams)
     {
@@ -31,7 +30,7 @@ class AddLocaleCodeToGridListener
     /**
      * Add locale parameter to the querybuilder
      */
-    public function onBuildAfter(BuildAfter $event)
+    public function onBuildAfter(BuildAfter $event): void
     {
         $datagrid = $event->getDatagrid();
         $datasource = $datagrid->getDatasource();

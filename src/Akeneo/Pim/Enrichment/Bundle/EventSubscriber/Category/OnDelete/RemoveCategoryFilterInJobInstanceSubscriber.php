@@ -26,11 +26,9 @@ class RemoveCategoryFilterInJobInstanceSubscriber
     protected const DEFAULT_CATEGORY_FILTER_VALUE    = ['master'];
     protected const DEFAULT_CATEGORY_FILTER_OPERATOR = 'IN CHILDREN';
 
-    /** @var EntityRepository */
-    protected $repository;
+    protected \Doctrine\ORM\EntityRepository $repository;
 
-    /** @var BulkSaverInterface */
-    protected $bulkSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface $bulkSaver;
 
     /** @var array */
     protected $computedCodes = [];

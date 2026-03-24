@@ -21,8 +21,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class MediaAttributeSetter extends AbstractAttributeSetter
 {
-    /** @var FileInfoRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Tool\Component\FileStorage\Repository\FileInfoRepositoryInterface $repository;
 
     /**
      * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
@@ -50,7 +49,7 @@ class MediaAttributeSetter extends AbstractAttributeSetter
         AttributeInterface $attribute,
         $data,
         array $options = []
-    ) {
+    ): void {
         $options = $this->resolver->resolve($options);
         $this->checkData($attribute, $data);
 

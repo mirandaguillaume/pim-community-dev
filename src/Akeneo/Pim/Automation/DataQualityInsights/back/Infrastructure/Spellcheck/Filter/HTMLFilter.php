@@ -187,7 +187,7 @@ class HTMLFilter
     {
         return preg_replace_callback(
             '/&\w+;/',
-            static fn ($match) => str_repeat(' ', strlen((string) $match[0])),
+            static fn ($match): string => str_repeat(' ', strlen((string) $match[0])),
             $string
         );
     }
@@ -199,7 +199,7 @@ class HTMLFilter
     {
         return preg_replace_callback(
             '/<meta[^>]+(http-equiv\s*=|name\s*=\s*["\']?([^>"\']+))[^>]*>/i',
-            static function ($match) {
+            static function ($match): string {
                 if (
                     count($match) < 3
                     || !in_array(strtolower($match[2]), self::$textMetaTags, true)

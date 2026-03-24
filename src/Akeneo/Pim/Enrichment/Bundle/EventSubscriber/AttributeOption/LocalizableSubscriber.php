@@ -25,7 +25,7 @@ final class LocalizableSubscriber
     /**
      * After load
      */
-    public function postLoad(LifecycleEventArgs $args)
+    public function postLoad(LifecycleEventArgs $args): void
     {
         $object = $args->getObject();
 

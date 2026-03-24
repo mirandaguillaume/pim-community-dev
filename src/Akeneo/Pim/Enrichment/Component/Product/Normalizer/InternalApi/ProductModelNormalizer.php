@@ -144,7 +144,7 @@ class ProductModelNormalizer implements NormalizerInterface
     /**
      * @return array
      */
-    protected function getAssociationMeta(ProductModelInterface $productModel)
+    protected function getAssociationMeta(ProductModelInterface $productModel): array
     {
         $meta = [];
         $associations = $productModel->getAssociations();
@@ -172,8 +172,8 @@ class ProductModelNormalizer implements NormalizerInterface
 
     private function formatQuantifiedAssociations(array $quantifiedAssociations): array
     {
-        return array_map(static function (array $quantifiedAssociation) {
-            $quantifiedAssociation['products'] = array_map(static fn (array $productLink) => array_filter(
+        return array_map(static function (array $quantifiedAssociation): array {
+            $quantifiedAssociation['products'] = array_map(static fn (array $productLink): array => array_filter(
                 $productLink,
                 fn (string $key): bool => in_array($key, ['uuid', 'quantity']),
                 ARRAY_FILTER_USE_KEY

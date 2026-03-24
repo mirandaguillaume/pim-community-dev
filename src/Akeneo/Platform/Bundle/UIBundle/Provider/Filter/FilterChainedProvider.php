@@ -16,8 +16,9 @@ class FilterChainedProvider implements FilterProviderInterface
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getFilters($element)
+    public function getFilters($element): array
     {
         $filters = [];
         foreach ($this->providers as $provider) {
@@ -31,7 +32,7 @@ class FilterChainedProvider implements FilterProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($element)
+    public function supports($element): bool
     {
         foreach ($this->providers as $provider) {
             if ($provider->supports($element)) {
@@ -45,7 +46,7 @@ class FilterChainedProvider implements FilterProviderInterface
     /**
      * Add a provider
      */
-    public function addProvider(FilterProviderInterface $provider)
+    public function addProvider(FilterProviderInterface $provider): void
     {
         $this->providers[] = $provider;
     }

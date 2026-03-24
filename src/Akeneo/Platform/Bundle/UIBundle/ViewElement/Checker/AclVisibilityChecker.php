@@ -13,8 +13,7 @@ use Oro\Bundle\SecurityBundle\SecurityFacade;
  */
 class AclVisibilityChecker implements VisibilityCheckerInterface
 {
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    protected \Oro\Bundle\SecurityBundle\SecurityFacade $securityFacade;
 
     public function __construct(SecurityFacade $securityFacade)
     {
@@ -24,7 +23,7 @@ class AclVisibilityChecker implements VisibilityCheckerInterface
     /**
      * {@inheritdoc}
      */
-    public function isVisible(array $config = [], array $context = [])
+    public function isVisible(array $config = [], array $context = []): bool
     {
         if (!isset($config['acl'])) {
             throw new \InvalidArgumentException('The "acl" should be provided in the configuration.');

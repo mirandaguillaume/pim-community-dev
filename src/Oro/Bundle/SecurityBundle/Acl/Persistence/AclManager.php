@@ -34,20 +34,11 @@ class AclManager extends AbstractAclManager
     final public const string CLASS_ACE = 'Class';
     final public const string OBJECT_ACE = 'Object';
 
-    /**
-     * @var ObjectIdentityFactory
-     */
-    protected $objectIdentityFactory;
+    protected \Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory $objectIdentityFactory;
 
-    /**
-     * @var AclExtensionSelector
-     */
-    protected $extensionSelector;
+    protected \Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionSelector $extensionSelector;
 
-    /**
-     * @var AceManipulationHelper
-     */
-    protected $aceProvider;
+    protected \Oro\Bundle\SecurityBundle\Acl\Persistence\AceManipulationHelper $aceProvider;
 
     /**
      * @var string
@@ -87,7 +78,7 @@ class AclManager extends AbstractAclManager
      *
      * @return bool
      */
-    public function isAclEnabled()
+    public function isAclEnabled(): bool
     {
         return $this->aclProvider !== null;
     }
@@ -148,7 +139,7 @@ class AclManager extends AbstractAclManager
      *
      * @return AclPrivilegeRepository
      */
-    public function getPrivilegeRepository()
+    public function getPrivilegeRepository(): object
     {
         $repository = new $this->privilegeRepositoryClass($this);
         if ($repository instanceof EventDispatcherAware && null !== $this->eventDispatcher) {
@@ -172,7 +163,7 @@ class AclManager extends AbstractAclManager
      * Flushes all changes to ACLs that have been queued up to now to the database.
      * This synchronizes the in-memory state of managed ACLs with the database.
      */
-    public function flush()
+    public function flush(): void
     {
         $this->validateAclEnabled();
 
@@ -258,7 +249,7 @@ class AclManager extends AbstractAclManager
      * @param string $extensionKey The ACL extension key
      * @return OID
      */
-    public function getRootOid($extensionKey)
+    public function getRootOid(\Symfony\Component\Security\Acl\Domain\ObjectIdentity|string $extensionKey)
     {
         return $this->objectIdentityFactory->root($extensionKey);
     }
@@ -292,7 +283,7 @@ class AclManager extends AbstractAclManager
     /**
      * Deletes an ACL for the given ObjectIdentity.
      */
-    public function deleteAcl(OID $oid)
+    public function deleteAcl(OID $oid): void
     {
         $this->validateAclEnabled();
 
@@ -321,7 +312,7 @@ class AclManager extends AbstractAclManager
      *                                  ANY strategy is used for $granting = false
      * @throws InvalidAclMaskException
      */
-    public function setPermission(SID $sid, OID $oid, $mask, $granting = true, ?string $strategy = null)
+    public function setPermission(SID $sid, OID $oid, $mask, $granting = true, ?string $strategy = null): void
     {
         $this->validateAclEnabled();
 
@@ -355,7 +346,7 @@ class AclManager extends AbstractAclManager
      * @throws InvalidAclMaskException
      * @throws \InvalidArgumentException
      */
-    public function setFieldPermission(SID $sid, OID $oid, $field, $mask, $granting = true, ?string $strategy = null)
+    public function setFieldPermission(SID $sid, OID $oid, $field, $mask, $granting = true, ?string $strategy = null): void
     {
         $this->validateAclEnabled();
 
@@ -385,7 +376,7 @@ class AclManager extends AbstractAclManager
      * @param string|null $strategy If null ACE with any strategy should be deleted
      * @throws InvalidAclMaskException
      */
-    public function deletePermission(SID $sid, OID $oid, $mask, $granting = true, ?string $strategy = null)
+    public function deletePermission(SID $sid, OID $oid, $mask, $granting = true, ?string $strategy = null): void
     {
         $this->validateAclEnabled();
 
@@ -416,7 +407,7 @@ class AclManager extends AbstractAclManager
      * @throws InvalidAclMaskException
      * @throws \InvalidArgumentException
      */
-    public function deleteFieldPermission(SID $sid, OID $oid, $field, $mask, $granting = true, ?string $strategy = null)
+    public function deleteFieldPermission(SID $sid, OID $oid, $field, $mask, $granting = true, ?string $strategy = null): void
     {
         $this->validateAclEnabled();
 
@@ -443,7 +434,7 @@ class AclManager extends AbstractAclManager
      * @param OID $oid
      * @throws InvalidAclMaskException
      */
-    public function deleteAllPermissions(SID $sid, OID $oid)
+    public function deleteAllPermissions(SID $sid, OID $oid): void
     {
         $this->validateAclEnabled();
 
@@ -471,7 +462,7 @@ class AclManager extends AbstractAclManager
      * @throws InvalidAclMaskException
      * @throws \InvalidArgumentException
      */
-    public function deleteAllFieldPermissions(SID $sid, OID $oid, $field)
+    public function deleteAllFieldPermissions(SID $sid, OID $oid, $field): void
     {
         $this->validateAclEnabled();
 
@@ -514,7 +505,7 @@ class AclManager extends AbstractAclManager
      * @throws \InvalidArgumentException
      * @return EntryInterface[]
      */
-    public function getFieldAces(SID $sid, OID $oid, $field)
+    public function getFieldAces(SID $sid, OID $oid, ?string $field)
     {
         $this->validateAclEnabled();
 
@@ -533,7 +524,7 @@ class AclManager extends AbstractAclManager
     /**
      * Clear ACLs provider cache
      */
-    public function clearCache()
+    public function clearCache(): void
     {
         $this->aclProvider->clearCache();
     }
@@ -582,7 +573,7 @@ class AclManager extends AbstractAclManager
      *                                  ANY strategy is used for $granting = false
      * @throws InvalidAclMaskException
      */
-    protected function setClassFieldPermission(SID $sid, OID $oid, $field, $mask, $granting = true, ?string $strategy = null)
+    protected function setClassFieldPermission(SID $sid, OID $oid, ?string $field, $mask, $granting = true, ?string $strategy = null)
     {
         $this->doSetPermission($sid, $oid, true, self::CLASS_ACE, $field, $mask, $granting, $strategy);
     }
@@ -599,7 +590,7 @@ class AclManager extends AbstractAclManager
      *                                  ANY strategy is used for $granting = false
      * @throws InvalidAclMaskException
      */
-    protected function setObjectFieldPermission(SID $sid, OID $oid, $field, $mask, $granting = true, ?string $strategy = null)
+    protected function setObjectFieldPermission(SID $sid, OID $oid, ?string $field, $mask, $granting = true, ?string $strategy = null)
     {
         $this->doSetPermission($sid, $oid, true, self::OBJECT_ACE, $field, $mask, $granting, $strategy);
     }
@@ -683,7 +674,7 @@ class AclManager extends AbstractAclManager
      * @param string|null $strategy If null ACE with any strategy should be deleted
      * @throws InvalidAclMaskException
      */
-    protected function deleteClassFieldPermission(SID $sid, OID $oid, $field, $mask, $granting = true, ?string $strategy = null)
+    protected function deleteClassFieldPermission(SID $sid, OID $oid, ?string $field, $mask, $granting = true, ?string $strategy = null)
     {
         $this->doDeletePermission($sid, $oid, self::CLASS_ACE, $field, $mask, $granting, $strategy);
     }
@@ -700,7 +691,7 @@ class AclManager extends AbstractAclManager
     protected function deleteObjectFieldPermission(
         SID $sid,
         OID $oid,
-        $field,
+        ?string $field,
         $mask,
         $granting = true,
         ?string $strategy = null
@@ -769,7 +760,7 @@ class AclManager extends AbstractAclManager
      * @param string $field
      * @throws InvalidAclMaskException
      */
-    protected function deleteAllClassFieldPermissions(SID $sid, OID $oid, $field)
+    protected function deleteAllClassFieldPermissions(SID $sid, OID $oid, ?string $field)
     {
         $this->doDeleteAllPermissions($sid, $oid, self::CLASS_ACE, $field);
     }
@@ -780,7 +771,7 @@ class AclManager extends AbstractAclManager
      * @param string $field
      * @throws InvalidAclMaskException
      */
-    protected function deleteAllObjectFieldPermissions(SID $sid, OID $oid, $field)
+    protected function deleteAllObjectFieldPermissions(SID $sid, OID $oid, ?string $field)
     {
         $this->doDeleteAllPermissions($sid, $oid, self::OBJECT_ACE, $field);
     }
@@ -818,7 +809,7 @@ class AclManager extends AbstractAclManager
      *                           Set to not null class-field-based or object-field-based ACE
      * @return EntryInterface[]
      */
-    protected function doGetAces(SID $sid, OID $oid, $type, ?string $field)
+    protected function doGetAces(SID $sid, OID $oid, $type, ?string $field): array
     {
         $acl = $this->getAcl($oid);
         if (!$acl) {
@@ -827,7 +818,7 @@ class AclManager extends AbstractAclManager
 
         return array_filter(
             $this->aceProvider->getAces($acl, $type, $field),
-            function ($ace) use (&$sid) {
+            function (\Symfony\Component\Security\Acl\Model\EntryInterface $ace) use (&$sid) {
                 /** @var EntryInterface $ace */
 
                 return $sid->equals($ace->getSecurityIdentity());
@@ -969,7 +960,7 @@ class AclManager extends AbstractAclManager
      *
      * @return string
      */
-    protected function getKey(OID $oid)
+    protected function getKey(OID $oid): string
     {
         return $oid->getType() . '!' . $oid->getIdentifier();
     }

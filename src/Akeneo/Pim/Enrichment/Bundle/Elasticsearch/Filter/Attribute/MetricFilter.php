@@ -23,11 +23,9 @@ class MetricFilter extends AbstractAttributeFilter implements AttributeFilterInt
 {
     final public const string PATH_SUFFIX = 'base_data';
 
-    /** @var MeasureManager */
-    protected $measureManager;
+    protected \Akeneo\Tool\Bundle\MeasureBundle\Manager\MeasureManager $measureManager;
 
-    /** @var MeasureConverter */
-    protected $measureConverter;
+    protected \Akeneo\Tool\Bundle\MeasureBundle\Convert\MeasureConverter $measureConverter;
 
     public function __construct(
         ElasticsearchFilterValidator $filterValidator,
@@ -53,7 +51,7 @@ class MetricFilter extends AbstractAttributeFilter implements AttributeFilterInt
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }

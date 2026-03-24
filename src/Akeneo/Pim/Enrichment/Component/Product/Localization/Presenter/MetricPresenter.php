@@ -35,7 +35,7 @@ class MetricPresenter extends NumberPresenter
      * {@inheritdoc}
      */
     #[\Override]
-    public function present($value, array $options = [])
+    public function present($value, array $options = []): string
     {
         if (isset($options['versioned_attribute'])) {
             $value = $this->getStructuredMetric($value, $options['versioned_attribute']);
@@ -78,7 +78,7 @@ class MetricPresenter extends NumberPresenter
 
         $amount = isset($value['amount']) ? parent::present($value['amount'], $options) : null;
 
-        return join(' ', array_filter([$amount, $unitLabel], fn ($value) => null !== $value && '' !== $value));
+        return join(' ', array_filter([$amount, $unitLabel], fn (?string $value): bool => null !== $value && '' !== $value));
     }
 
     /**
@@ -91,7 +91,7 @@ class MetricPresenter extends NumberPresenter
      *
      * @return array
      */
-    protected function getStructuredMetric($value, $versionedAttribute)
+    protected function getStructuredMetric($value, $versionedAttribute): array
     {
         $parts = preg_split('/-/', $versionedAttribute);
         $unit = end($parts);

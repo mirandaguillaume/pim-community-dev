@@ -30,13 +30,13 @@ class JobExecutionTrackingHydrator
         }
 
         $steps = array_map(
-            fn (array $step) => $this->stepExecutionHydrator->hydrate($step),
+            fn (array $step): \Akeneo\Platform\Job\Application\SearchJobExecution\Model\StepExecutionTracking => $this->stepExecutionHydrator->hydrate($step),
             $steps,
         );
 
         usort(
             $steps,
-            static fn (StepExecutionTracking $step1, StepExecutionTracking $step2) => $step1->getId() <=> $step2->getId(),
+            static fn (StepExecutionTracking $step1, StepExecutionTracking $step2): int => $step1->getId() <=> $step2->getId(),
         );
 
         return new JobExecutionTracking(

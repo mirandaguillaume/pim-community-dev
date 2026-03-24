@@ -19,8 +19,7 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class ReferenceDataFilter extends ChoiceFilter
 {
-    /** @var ConfigurationRegistryInterface */
-    protected $registry;
+    protected \Akeneo\Pim\Structure\Component\ReferenceData\ConfigurationRegistryInterface $registry;
 
     /**
      * @param FormFactoryInterface                    $factory
@@ -47,7 +46,7 @@ class ReferenceDataFilter extends ChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (!$data) {
@@ -70,7 +69,7 @@ class ReferenceDataFilter extends ChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getFormOptions()
+    protected function getFormOptions(): array
     {
         $attribute = $this->getAttribute();
         $referenceDataName = $attribute->getReferenceDataName();

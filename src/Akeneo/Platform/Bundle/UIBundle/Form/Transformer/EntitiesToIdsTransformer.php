@@ -13,9 +13,10 @@ class EntitiesToIdsTransformer extends EntityToIdTransformer
 {
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
     #[\Override]
-    public function transform($value)
+    public function transform($value): array
     {
         if (null === $value || [] === $value) {
             return [];
@@ -63,7 +64,7 @@ class EntitiesToIdsTransformer extends EntityToIdTransformer
      * @throws UnexpectedTypeException if query builder callback returns invalid type
      * @return array
      */
-    protected function loadEntitiesByIds(array $ids)
+    protected function loadEntitiesByIds(array $ids): mixed
     {
         $repository = $this->em->getRepository($this->className);
         if ($this->queryBuilderCallback) {

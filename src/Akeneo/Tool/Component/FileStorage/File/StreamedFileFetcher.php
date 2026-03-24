@@ -20,7 +20,7 @@ class StreamedFileFetcher implements FileFetcherInterface
     /**
      * {@inheritdoc}
      */
-    public function fetch(FilesystemReader $filesystem, $fileKey, array $options = [])
+    public function fetch(FilesystemReader $filesystem, $fileKey, array $options = []): \Akeneo\Tool\Component\FileStorage\StreamedFileResponse
     {
         if (!$filesystem->fileExists($fileKey)) {
             throw new FileNotFoundException($fileKey);

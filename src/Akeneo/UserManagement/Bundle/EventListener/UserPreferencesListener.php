@@ -36,7 +36,7 @@ class UserPreferencesListener
     /**
      * On flush
      */
-    public function onFlush(OnFlushEventArgs $args)
+    public function onFlush(OnFlushEventArgs $args): void
     {
         $manager = $args->getObjectManager();
         $uow = $manager->getUnitOfWork();
@@ -51,7 +51,7 @@ class UserPreferencesListener
     /**
      * Post flush
      */
-    public function postFlush(PostFlushEventArgs $args)
+    public function postFlush(PostFlushEventArgs $args): void
     {
         $manager = $args->getObjectManager();
 
@@ -132,7 +132,7 @@ class UserPreferencesListener
         $defaultScope = current(
             array_filter(
                 $channels,
-                fn ($channel) => $channel->getCode() !== $removedChannel->getCode()
+                fn (object $channel): bool => $channel->getCode() !== $removedChannel->getCode()
             )
         );
 
@@ -153,7 +153,7 @@ class UserPreferencesListener
         $defaultTree = current(
             array_filter(
                 $trees,
-                fn ($tree) => $tree->getCode() !== $removedTree->getCode()
+                fn ($tree): bool => $tree->getCode() !== $removedTree->getCode()
             )
         );
 

@@ -33,7 +33,7 @@ final class ComputeEntityRawValuesSubscriber
     /**
      * Normalizes product values into "storage" format, and sets the result as raw values.
      */
-    public function computeRawValues(GenericEvent $event)
+    public function computeRawValues(GenericEvent $event): void
     {
         $subject = $event->getSubject();
         if (!$subject instanceof EntityWithValuesInterface) {

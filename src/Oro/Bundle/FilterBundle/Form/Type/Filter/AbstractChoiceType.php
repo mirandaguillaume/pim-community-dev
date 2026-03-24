@@ -13,7 +13,7 @@ abstract class AbstractChoiceType extends AbstractType
     {
     }
 
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         if (!array_key_exists('strict', $options)) {
             $options['strict'] = true;

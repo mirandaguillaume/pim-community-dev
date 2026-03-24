@@ -20,8 +20,7 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class FamilyFieldSetter extends AbstractFieldSetter
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $familyRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $familyRepository;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $familyRepository,
@@ -36,7 +35,7 @@ class FamilyFieldSetter extends AbstractFieldSetter
      *
      * Expected data input format : "family_code"
      */
-    public function setFieldData($product, $field, $data, array $options = [])
+    public function setFieldData($product, $field, $data, array $options = []): void
     {
         if (!$product instanceof ProductInterface) {
             throw InvalidObjectException::objectExpected(

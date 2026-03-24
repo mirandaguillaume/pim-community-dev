@@ -92,7 +92,7 @@ final readonly class GetProductIdsImpactedByAttributeGroupActivationQuery implem
 
         $stmt = $this->dbConnection->executeQuery(
             'SELECT BIN_TO_UUID(product.uuid) FROM pim_catalog_product AS product WHERE product.family_id IN (:families)',
-            ['families' => \array_map(fn (FamilyId $familyId) => $familyId->toInt(), $impactedFamilies)],
+            ['families' => \array_map(fn (FamilyId $familyId): int => $familyId->toInt(), $impactedFamilies)],
             ['families' => ArrayParameterType::INTEGER,]
         );
 

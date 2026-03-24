@@ -31,11 +31,8 @@ class Currency implements CurrencyInterface, \Stringable
     #[ORM\Column(type: Types::STRING, length: 3, unique: true)]
     protected $code;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'is_activated', type: Types::BOOLEAN)]
-    protected $activated;
+    protected bool $activated;
 
     /**
      * Constructor
@@ -70,7 +67,7 @@ class Currency implements CurrencyInterface, \Stringable
      *
      * @return Currency
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -88,7 +85,7 @@ class Currency implements CurrencyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -106,7 +103,7 @@ class Currency implements CurrencyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function toggleActivation()
+    public function toggleActivation(): static
     {
         $this->activated = !$this->activated;
 
@@ -116,7 +113,7 @@ class Currency implements CurrencyInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setActivated($activated)
+    public function setActivated($activated): static
     {
         $this->activated = $activated;
 

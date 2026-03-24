@@ -15,11 +15,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class FileNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $stdNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $stdNormalizer;
 
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
     public function __construct(NormalizerInterface $stdNormalizer, RouterInterface $router)
     {

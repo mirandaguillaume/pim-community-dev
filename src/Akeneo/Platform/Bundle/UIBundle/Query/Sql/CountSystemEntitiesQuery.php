@@ -35,6 +35,6 @@ final readonly class CountSystemEntitiesQuery implements CountSystemEntitiesQuer
 
         $result = $this->dbConnection->executeQuery($query)->fetchAssociative();
 
-        return array_map(fn ($rawCount) => intval($rawCount), $result);
+        return array_map(fn ($rawCount): int => intval($rawCount), $result);
     }
 }

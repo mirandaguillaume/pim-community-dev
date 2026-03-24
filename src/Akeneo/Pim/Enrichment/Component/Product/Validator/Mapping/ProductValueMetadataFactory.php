@@ -23,17 +23,13 @@ use Symfony\Component\Validator\Mapping\MetadataInterface;
  */
 class ProductValueMetadataFactory implements MetadataFactoryInterface
 {
-    /** @var ConstraintGuesserInterface */
-    protected $guesser;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Validator\ConstraintGuesserInterface $guesser;
 
-    /** @var ClassMetadataFactory */
-    protected $factory;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Validator\Mapping\ClassMetadataFactory $factory;
 
-    /** @var array */
-    protected $attrConstraintsCache;
+    protected array $attrConstraintsCache;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     public function __construct(
         ConstraintGuesserInterface $guesser,

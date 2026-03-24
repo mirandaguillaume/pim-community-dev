@@ -38,6 +38,6 @@ final readonly class CountSettingsEntitiesQuery implements CountSettingsEntities
 
         $result = $this->dbConnection->executeQuery($query)->fetchAssociative();
 
-        return array_map(fn ($rawCount) => intval($rawCount), $result);
+        return array_map(fn ($rawCount): int => intval($rawCount), $result);
     }
 }

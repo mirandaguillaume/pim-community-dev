@@ -62,7 +62,7 @@ class DeleteMassActionHandler implements MassActionHandlerInterface
      * @param int                 $countRemoved
      * @return MassActionResponse
      */
-    protected function getResponse(MassActionInterface $massAction, $countRemoved = 0)
+    protected function getResponse(MassActionInterface $massAction, $countRemoved = 0): \Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionResponse
     {
         $responseMessage = $massAction->getOptions()->offsetGetByPath(
             '[messages][success]',

@@ -105,7 +105,7 @@ class CsvEncoder implements EncoderInterface
      *
      * @return array
      */
-    protected function getDefaultContext()
+    protected function getDefaultContext(): array
     {
         return [
             'delimiter'     => ';',
@@ -120,7 +120,7 @@ class CsvEncoder implements EncoderInterface
      * @param string $delimiter
      * @param string $enclosure
      */
-    private function encodeHeader($data, mixed $output, $delimiter, $enclosure)
+    private function encodeHeader($data, mixed $output, $delimiter, $enclosure): void
     {
         $this->write($output, array_keys($data), $delimiter, $enclosure);
         $this->hasHeader = true;
@@ -131,7 +131,7 @@ class CsvEncoder implements EncoderInterface
      * @param string $delimiter
      * @param string $enclosure
      */
-    private function write(mixed $output, $entry, $delimiter, $enclosure)
+    private function write(mixed $output, $entry, $delimiter, $enclosure): void
     {
         fputcsv($output, $entry, $delimiter, $enclosure);
     }
@@ -141,7 +141,7 @@ class CsvEncoder implements EncoderInterface
      * @throws \Exception
      * @return string
      */
-    private function readCsv(mixed $csvResource)
+    private function readCsv(mixed $csvResource): string|false
     {
         rewind($csvResource);
 
@@ -152,7 +152,7 @@ class CsvEncoder implements EncoderInterface
      *
      * @return array
      */
-    private function normalizeColumns(array $data, array $columns)
+    private function normalizeColumns(array $data, array $columns): array
     {
         foreach ($data as $key => $item) {
             $data[$key] = array_merge($columns, $item);
@@ -164,7 +164,7 @@ class CsvEncoder implements EncoderInterface
     /**
      * @return array
      */
-    private function getColumns(array $data)
+    private function getColumns(array $data): array
     {
         $columns = [];
 
@@ -180,7 +180,7 @@ class CsvEncoder implements EncoderInterface
     /**
      * @throws \InvalidArgumentException
      */
-    private function checkHasStringKeys(array $data)
+    private function checkHasStringKeys(array $data): void
     {
         if (empty($data)) {
             return;

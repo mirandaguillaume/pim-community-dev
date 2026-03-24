@@ -26,7 +26,7 @@ class WidgetController
      *
      * @return Response
      */
-    public function listAction()
+    public function listAction(): \Symfony\Component\HttpFoundation\Response
     {
         $output = '';
         $widgets = $this->widgetRegistry->getAll();
@@ -45,7 +45,7 @@ class WidgetController
      *
      * @return JsonResponse
      */
-    public function dataAction($alias)
+    public function dataAction($alias): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $widget = $this->widgetRegistry->get($alias);
 
@@ -60,7 +60,7 @@ class WidgetController
      *
      * @return string
      */
-    protected function renderWidget(WidgetInterface $widget)
+    protected function renderWidget(WidgetInterface $widget): string
     {
         return $this->templating->render($widget->getTemplate(), $widget->getParameters());
     }

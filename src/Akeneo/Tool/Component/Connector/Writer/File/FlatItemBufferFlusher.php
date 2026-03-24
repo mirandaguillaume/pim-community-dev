@@ -23,8 +23,7 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var ColumnSorterInterface */
-    protected $columnSorter;
+    protected ?\Akeneo\Tool\Component\Connector\Writer\File\ColumnSorterInterface $columnSorter;
 
     public function __construct(private readonly ColumnPresenterInterface $columnPresenter, ?ColumnSorterInterface $columnSorter = null)
     {
@@ -71,7 +70,7 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
      *
      * @return array
      */
-    protected function writeIntoSingleFile(FlatItemBuffer $buffer, array $writerOptions, $filePath, bool $withHeaders)
+    protected function writeIntoSingleFile(FlatItemBuffer $buffer, array $writerOptions, $filePath, bool $withHeaders): array
     {
         $writtenFiles = [];
 
@@ -118,7 +117,7 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
         $maxLinesPerFile,
         $basePathname,
         bool $withHeaders
-    ) {
+    ): array {
         $writtenFiles = [];
         $basePathPattern = $this->getNumberedPathname($basePathname);
         $writtenLinesCount = 0;
@@ -169,7 +168,7 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
         return $writtenFiles;
     }
 
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -230,7 +229,7 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
      *
      * @return string
      */
-    protected function getNumberedPathname($originalPathname)
+    protected function getNumberedPathname($originalPathname): string
     {
         $fileInfo = new \SplFileInfo($originalPathname);
 
@@ -253,7 +252,7 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
      *
      * @return WriterInterface
      */
-    protected function getWriter($filePath, array $options = [])
+    protected function getWriter(string $filePath, array $options = [])
     {
         if (!isset($options['type'])) {
             throw new \InvalidArgumentException('Option "type" have to be defined');

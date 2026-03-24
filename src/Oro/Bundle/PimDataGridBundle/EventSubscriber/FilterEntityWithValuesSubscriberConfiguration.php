@@ -14,10 +14,9 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 class FilterEntityWithValuesSubscriberConfiguration
 {
     /** @var AttributeInterface[] */
-    protected $attributeCodes = [];
+    protected array $attributeCodes;
 
-    /** @var boolean */
-    protected $filterEntityWithValues;
+    protected bool $filterEntityWithValues;
 
     /**
      * @param AttributeInterface[] $attributeCodes

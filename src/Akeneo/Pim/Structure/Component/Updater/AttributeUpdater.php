@@ -27,23 +27,18 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  */
 class AttributeUpdater implements ObjectUpdaterInterface
 {
-    /** @var AttributeGroupRepositoryInterface */
-    protected $attrGroupRepo;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeGroupRepositoryInterface $attrGroupRepo;
 
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
-    /** @var AttributeTypeRegistry */
-    protected $registry;
+    protected \Akeneo\Pim\Structure\Component\AttributeTypeRegistry $registry;
 
-    /** @var PropertyAccessor */
-    protected $accessor;
+    protected \Symfony\Component\PropertyAccess\PropertyAccessor $accessor;
 
-    /** @var TranslatableUpdater */
-    protected $translatableUpdater;
+    protected \Akeneo\Tool\Component\Localization\TranslatableUpdater $translatableUpdater;
 
     /** @var array<string> */
-    protected $ignoredFields = [];
+    protected array $ignoredFields;
 
     /**
      * @param array<string>                     $properties
@@ -68,7 +63,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
     /**
      * {@inheritdoc}
      */
-    public function update($attribute, array $data, array $options = [])
+    public function update($attribute, array $data, array $options = []): static
     {
         if (!$attribute instanceof AttributeInterface) {
             throw InvalidObjectException::objectExpected(
@@ -224,7 +219,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
      *
      * @throws UnknownPropertyException
      */
-    protected function setValue(AttributeInterface $attribute, $field, mixed $data)
+    protected function setValue(AttributeInterface $attribute, string|\Symfony\Component\PropertyAccess\PropertyPathInterface $field, mixed $data)
     {
         try {
             $this->accessor->setValue($attribute, $field, $data);

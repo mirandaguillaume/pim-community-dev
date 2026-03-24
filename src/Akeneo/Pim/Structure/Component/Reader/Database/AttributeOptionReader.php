@@ -20,8 +20,7 @@ class AttributeOptionReader extends AbstractReader implements
     InitializableInterface,
     StepExecutionAwareInterface
 {
-    /** @var AttributeOptionRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeOptionRepositoryInterface $repository;
 
     public function __construct(AttributeOptionRepositoryInterface $repository)
     {
@@ -31,7 +30,7 @@ class AttributeOptionReader extends AbstractReader implements
     /**
      * {@inheritdoc}
      */
-    protected function getResults()
+    protected function getResults(): \ArrayIterator
     {
         return new \ArrayIterator($this->repository->findBy([], ['attribute' => 'ASC', 'sortOrder' => 'ASC']));
     }

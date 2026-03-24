@@ -19,7 +19,7 @@ class RegexGuesser implements ConstraintGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function supportAttribute(AttributeInterface $attribute)
+    public function supportAttribute(AttributeInterface $attribute): bool
     {
         return in_array(
             $attribute->getType(),
@@ -32,8 +32,9 @@ class RegexGuesser implements ConstraintGuesserInterface
 
     /**
      * {@inheritdoc}
+     * @return list<\Akeneo\Pim\Enrichment\Component\Product\Validator\Constraints\Regex>
      */
-    public function guessConstraints(AttributeInterface $attribute)
+    public function guessConstraints(AttributeInterface $attribute): array
     {
         $constraints = [];
 

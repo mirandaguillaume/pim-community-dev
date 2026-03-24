@@ -27,7 +27,7 @@ class VersionContext
      *
      * @param string      $context
      */
-    public function addContextInfo(?string $info, $context = null)
+    public function addContextInfo(?string $info, $context = null): void
     {
         if ($context) {
             $this->mapping[$context] = $info;
@@ -55,7 +55,7 @@ class VersionContext
      *
      * @param string $context
      */
-    public function unsetContextInfo($context)
+    public function unsetContextInfo($context): void
     {
         if (isset($this->mapping[$context])) {
             unset($this->mapping[$context]);

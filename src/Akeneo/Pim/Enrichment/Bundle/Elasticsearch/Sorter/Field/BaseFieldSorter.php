@@ -19,8 +19,7 @@ class BaseFieldSorter implements FieldSorterInterface
     /** @var SearchQueryBuilder */
     protected $searchQueryBuilder;
 
-    /** @var array */
-    protected $supportedFields;
+    protected array $supportedFields;
 
     public function __construct(array $supportedFields = [])
     {
@@ -30,7 +29,7 @@ class BaseFieldSorter implements FieldSorterInterface
     /**
      * {@inheritdoc}
      */
-    public function setQueryBuilder($searchQueryBuilder)
+    public function setQueryBuilder($searchQueryBuilder): void
     {
         if (!$searchQueryBuilder instanceof SearchQueryBuilder) {
             throw new \InvalidArgumentException(
@@ -81,7 +80,7 @@ class BaseFieldSorter implements FieldSorterInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsField($field)
+    public function supportsField($field): bool
     {
         return in_array($field, $this->supportedFields);
     }

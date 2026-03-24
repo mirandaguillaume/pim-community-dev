@@ -15,8 +15,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class CategoryFieldAdder extends AbstractFieldAdder
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $categoryRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $categoryRepository;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $categoryRepository,
@@ -31,7 +30,7 @@ class CategoryFieldAdder extends AbstractFieldAdder
      *
      * Expected data input format : ["category_code"]
      */
-    public function addFieldData($product, $field, $data, array $options = [])
+    public function addFieldData($product, $field, $data, array $options = []): void
     {
         $this->checkData($field, $data);
 

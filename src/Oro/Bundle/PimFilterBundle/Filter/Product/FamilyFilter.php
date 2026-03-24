@@ -23,7 +23,7 @@ class FamilyFilter extends AjaxChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    public function apply(FilterDatasourceAdapterInterface $dataSource, $data)
+    public function apply(FilterDatasourceAdapterInterface $dataSource, $data): bool
     {
         $data = $this->parseData($data);
 
@@ -62,7 +62,7 @@ class FamilyFilter extends AjaxChoiceFilter
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getFormOptions()
+    protected function getFormOptions(): array
     {
         return array_merge(
             parent::getFormOptions(),

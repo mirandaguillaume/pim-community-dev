@@ -29,7 +29,7 @@ class AddUniqueAttributesToVariantProductAttributeSetSubscriber
     {
     }
 
-    public function addUniqueAttributes(GenericEvent $event)
+    public function addUniqueAttributes(GenericEvent $event): void
     {
         $subject = $event->getSubject();
 

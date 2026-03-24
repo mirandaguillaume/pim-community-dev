@@ -34,8 +34,9 @@ class MetricConverter extends AbstractValueConverter implements ValueConverterIn
      *     'weight-de_DE-print'      => '100',
      *     'weight-de_DE-print-unit' => 'MEGAHERTZ',
      * ]
+     * @return mixed[]
      */
-    public function convert($attributeCode, $data)
+    public function convert($attributeCode, $data): array
     {
         $convertedItem = [];
 

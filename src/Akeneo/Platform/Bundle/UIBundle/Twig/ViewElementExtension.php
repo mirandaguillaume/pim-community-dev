@@ -90,7 +90,7 @@ class ViewElementExtension extends AbstractExtension
      * @param string $type
      * @return string[]
      */
-    public function getViewElementAliases(array $context, $type)
+    public function getViewElementAliases(array $context, $type): array
     {
         $elements = $this->getViewElements($type, $context);
         $result = [];
@@ -109,7 +109,7 @@ class ViewElementExtension extends AbstractExtension
      *
      * @return ViewElementInterface[]
      */
-    protected function getViewElements($type, array $context = [])
+    protected function getViewElements($type, array $context = []): array
     {
         $elements = $this->registry->get($type);
         $result = [];

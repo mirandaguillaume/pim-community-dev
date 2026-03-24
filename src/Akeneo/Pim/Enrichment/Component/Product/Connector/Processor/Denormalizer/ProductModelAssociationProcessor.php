@@ -33,17 +33,13 @@ class ProductModelAssociationProcessor extends AbstractProcessor implements
     /** @var IdentifiableObjectRepositoryInterface */
     protected $repository;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var ObjectDetacherInterface */
-    protected $detacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\ObjectDetacherInterface $detacher;
 
-    /** @var FilterInterface */
-    protected $associationsFilter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Comparator\Filter\FilterInterface $associationsFilter;
 
     /** @var bool */
     protected $enabledComparison = true;
@@ -74,7 +70,7 @@ class ProductModelAssociationProcessor extends AbstractProcessor implements
     /**
      * {@inheritdoc}
      */
-    public function process($item)
+    public function process($item): ?\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface
     {
         if (!$this->hasAssociationToImport($item)) {
             $this->stepExecution->incrementSummaryInfo('product_model_skipped_no_associations');

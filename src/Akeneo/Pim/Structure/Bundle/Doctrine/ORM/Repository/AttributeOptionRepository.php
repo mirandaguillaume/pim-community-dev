@@ -18,7 +18,7 @@ class AttributeOptionRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function getOption($id, $collectionId = null, array $options = [])
+    public function getOption($id, $collectionId = null, array $options = []): ?object
     {
         if (null === $collectionId) {
             throw new \InvalidArgumentException('Please supply attribute id as collectionId');
@@ -33,7 +33,7 @@ class AttributeOptionRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function getOptions($dataLocale, $collectionId = null, $search = '', array $options = [])
+    public function getOptions($dataLocale, $collectionId = null, $search = '', array $options = []): array
     {
         if (null === $collectionId) {
             throw new \InvalidArgumentException('Please supply attribute id as collectionId');
@@ -91,7 +91,7 @@ class AttributeOptionRepository extends EntityRepository implements
         if ($autoSorting) {
             usort(
                 $results,
-                fn ($first, $second) => strcasecmp((string) $first['text'], (string) $second['text'])
+                fn (array $first, array $second): int => strcasecmp((string) $first['text'], (string) $second['text'])
             );
         }
 
@@ -125,7 +125,7 @@ class AttributeOptionRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): mixed
     {
         [$attributeCode, $optionCode] = explode('.', $code);
 
@@ -142,7 +142,7 @@ class AttributeOptionRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function findCodesByIdentifiers($code, array $optionCodes)
+    public function findCodesByIdentifiers($code, array $optionCodes): mixed
     {
         return $this->createQueryBuilder('o')
             ->select('o.code')
@@ -158,7 +158,7 @@ class AttributeOptionRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['attribute', 'code'];
     }

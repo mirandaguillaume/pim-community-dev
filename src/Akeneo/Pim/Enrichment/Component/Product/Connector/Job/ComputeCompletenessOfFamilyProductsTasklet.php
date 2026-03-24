@@ -49,7 +49,7 @@ class ComputeCompletenessOfFamilyProductsTasklet implements TaskletInterface, Tr
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
@@ -62,7 +62,7 @@ class ComputeCompletenessOfFamilyProductsTasklet implements TaskletInterface, Tr
     /**
      * {@inheritdoc}
      */
-    public function execute()
+    public function execute(): void
     {
         if ($this->familyReader instanceof InitializableInterface) {
             $this->familyReader->initialize();
@@ -102,7 +102,10 @@ class ComputeCompletenessOfFamilyProductsTasklet implements TaskletInterface, Tr
         $this->jobRepository->updateStepExecution($this->stepExecution);
     }
 
-    private function extractFamilyCodes()
+    /**
+     * @return mixed[]
+     */
+    private function extractFamilyCodes(): array
     {
         $familyCodes = [];
 

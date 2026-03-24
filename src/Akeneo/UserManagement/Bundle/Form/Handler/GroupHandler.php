@@ -11,20 +11,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class GroupHandler
 {
-    /**
-     * @var FormInterface
-     */
-    protected $form;
+    protected \Symfony\Component\Form\FormInterface $form;
 
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
-    /**
-     * @var ObjectManager
-     */
-    protected $manager;
+    protected \Doctrine\Persistence\ObjectManager $manager;
 
     public function __construct(FormInterface $form, RequestStack $requestStack, ObjectManager $manager)
     {
@@ -38,7 +29,7 @@ class GroupHandler
      *
      * @return bool           True on successfull processing, false otherwise
      */
-    public function process(GroupInterface $entity)
+    public function process(GroupInterface $entity): bool
     {
         $this->form->setData($entity);
 

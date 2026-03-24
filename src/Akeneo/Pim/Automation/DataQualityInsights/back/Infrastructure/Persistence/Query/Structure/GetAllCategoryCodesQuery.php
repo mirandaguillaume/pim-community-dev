@@ -26,6 +26,6 @@ final readonly class GetAllCategoryCodesQuery implements GetAllCategoryCodesQuer
 
         $statement = $this->connection->executeQuery($query);
 
-        return array_map(fn ($row) => new CategoryCode($row['code']), $statement->fetchAllAssociative());
+        return array_map(fn (array $row): \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CategoryCode => new CategoryCode($row['code']), $statement->fetchAllAssociative());
     }
 }

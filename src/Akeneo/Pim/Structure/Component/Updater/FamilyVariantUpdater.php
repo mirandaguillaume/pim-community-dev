@@ -183,7 +183,7 @@ class FamilyVariantUpdater implements ObjectUpdaterInterface
      */
     private function getAttributes(array $attributeCodes, int $level): array
     {
-        return array_map(function ($attributeCode) use ($level) {
+        return array_map(function (string $attributeCode) use ($level) {
             $attribute = $this->attributeRepository->findOneByIdentifier($attributeCode);
 
             if (null === $attribute) {

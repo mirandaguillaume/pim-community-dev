@@ -20,8 +20,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class FilterStructureLocaleValidator extends ConstraintValidator
 {
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
@@ -31,7 +30,7 @@ class FilterStructureLocaleValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof FilterStructureLocale) {
             throw new UnexpectedTypeException($constraint, FilterStructureLocale::class);

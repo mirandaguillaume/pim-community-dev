@@ -16,11 +16,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class UpdateProductValueProcessor extends AbstractProcessor
 {
-    /** @var PropertySetterInterface */
-    protected $propertySetter;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\PropertySetterInterface $propertySetter;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
     public function __construct(
         PropertySetterInterface $propertySetter,
@@ -53,7 +51,7 @@ class UpdateProductValueProcessor extends AbstractProcessor
      *
      * @return bool
      */
-    protected function isProductValid(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product)
+    protected function isProductValid(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product): bool
     {
         $violations = $this->validator->validate($product);
         $this->addWarningMessage($violations, $product);

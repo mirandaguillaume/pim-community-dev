@@ -20,7 +20,7 @@ class FieldsRequirementChecker
      *
      * @throws StructureArrayConversionException
      */
-    public function checkFieldsPresence(array $item, array $fields)
+    public function checkFieldsPresence(array $item, array $fields): void
     {
         foreach ($fields as $field) {
             if (!in_array($field, array_keys($item))) {
@@ -41,7 +41,7 @@ class FieldsRequirementChecker
      *
      * @throws DataArrayConversionException
      */
-    public function checkFieldsFilling(array $item, array $fields)
+    public function checkFieldsFilling(array $item, array $fields): void
     {
         foreach ($fields as $field) {
             if ('' == $item[$field]) {

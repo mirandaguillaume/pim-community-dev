@@ -17,7 +17,7 @@ class ValueConverterRegistry
     /**
      * {@inheritdoc}
      */
-    public function register(ValueConverterInterface $converter, $priority)
+    public function register(ValueConverterInterface $converter, $priority): static
     {
         $priority = (int) $priority;
         if (!isset($this->converters[$priority])) {

@@ -14,8 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ValueNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $standardNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $standardNormalizer;
 
     public function __construct(NormalizerInterface $standardNormalizer)
     {

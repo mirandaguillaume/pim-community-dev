@@ -21,7 +21,7 @@ class FileInfoFactory implements FileInfoFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createFromRawFile(\SplFileInfo $rawFile, $destFsAlias)
+    public function createFromRawFile(\SplFileInfo $rawFile, $destFsAlias): object
     {
         $pathInfo = $this->pathGenerator->generate($rawFile);
         $sha1 = sha1_file($rawFile->getPathname());

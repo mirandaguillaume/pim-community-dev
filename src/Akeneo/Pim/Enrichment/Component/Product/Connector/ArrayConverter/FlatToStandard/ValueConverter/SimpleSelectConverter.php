@@ -27,7 +27,7 @@ class SimpleSelectConverter extends AbstractValueConverter
     /**
      * {@inheritdoc}
      */
-    public function convert(array $attributeFieldInfo, $value)
+    public function convert(array $attributeFieldInfo, $value): array
     {
         if ('' === $value) {
             $value = null;

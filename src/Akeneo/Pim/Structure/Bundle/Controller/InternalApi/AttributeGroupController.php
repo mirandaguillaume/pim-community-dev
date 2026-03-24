@@ -67,7 +67,7 @@ class AttributeGroupController
      *
      * @return JsonResponse
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $applyFilters = $request->request->getBoolean('apply_filters', true);
 
@@ -100,7 +100,7 @@ class AttributeGroupController
      *
      * @return JsonResponse
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $attributeGroups = $this->attributeGroupRepo->findAll();
 
@@ -120,7 +120,7 @@ class AttributeGroupController
      *
      * @return JsonResponse
      */
-    public function getAction(string $identifier)
+    public function getAction(string $identifier): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $attributeGroup = $this->attributeGroupRepo->findOneByIdentifier($identifier);
 
@@ -136,7 +136,7 @@ class AttributeGroupController
      * @return Response
      * @AclAncestor("pim_enrich_attributegroup_create")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -184,7 +184,7 @@ class AttributeGroupController
      * @return Response
      * @AclAncestor("pim_enrich_attributegroup_edit")
      */
-    public function postAction(Request $request, $identifier)
+    public function postAction(Request $request, string $identifier): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -282,7 +282,7 @@ class AttributeGroupController
      *
      * @AclAncestor("pim_enrich_attributegroup_remove")
      */
-    public function removeAction(Request $request, $identifier)
+    public function removeAction(Request $request, $identifier): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $jobInstance = $this->jobInstanceRepository->findOneByIdentifier('delete_attribute_groups');
         $user = $this->tokenStorage->getToken()->getUser();

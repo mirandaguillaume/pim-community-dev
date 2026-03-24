@@ -47,7 +47,7 @@ class JSONFileBuffer implements BufferInterface
     /**
      * {@inheritdoc}
      */
-    public function write($item, array $options = [])
+    public function write($item, array $options = []): void
     {
         if (!is_array($item) && !is_scalar($item)) {
             throw new UnsupportedItemTypeException(

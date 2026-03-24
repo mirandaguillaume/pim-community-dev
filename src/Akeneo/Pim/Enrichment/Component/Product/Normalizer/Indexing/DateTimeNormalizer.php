@@ -19,8 +19,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class DateTimeNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $standardNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $standardNormalizer;
 
     public function __construct(NormalizerInterface $normalizer)
     {

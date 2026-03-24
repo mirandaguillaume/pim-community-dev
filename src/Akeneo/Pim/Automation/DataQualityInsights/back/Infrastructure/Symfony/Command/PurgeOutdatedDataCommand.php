@@ -26,7 +26,7 @@ final class PurgeOutdatedDataCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addOption(
             'date',
@@ -58,7 +58,7 @@ final class PurgeOutdatedDataCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function purgeOutdatedData(\DateTimeImmutable $purgeDate, OutputInterface $output)
+    private function purgeOutdatedData(\DateTimeImmutable $purgeDate, OutputInterface $output): void
     {
         $output->writeln('Start to purge dashboard projection rates and product scores.');
         $this->purgeOutdatedData->purgeAllFrom($purgeDate);

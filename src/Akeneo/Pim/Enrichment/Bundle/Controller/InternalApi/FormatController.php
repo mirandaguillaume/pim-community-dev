@@ -17,20 +17,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class FormatController
 {
-    /** @var DateFactory */
-    protected $dateFactory;
+    protected \Akeneo\Tool\Component\Localization\Factory\DateFactory $dateFactory;
 
-    /** @var DateFactory */
-    protected $datetimeFactory;
+    protected \Akeneo\Tool\Component\Localization\Factory\DateFactory $datetimeFactory;
 
-    /** @var LocaleResolver */
-    protected $localeResolver;
+    protected \Akeneo\Platform\Bundle\UIBundle\Resolver\LocaleResolver $localeResolver;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
-    /** @var array */
-    protected $formats;
+    protected array $formats;
 
     public function __construct(
         DateFactory $dateFactory,
@@ -51,7 +46,7 @@ class FormatController
      *
      * @return JsonResponse
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         return new JsonResponse($this->formats);
     }
@@ -61,7 +56,7 @@ class FormatController
      *
      * @return JsonResponse
      */
-    public function dateAction()
+    public function dateAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $locale = $this->localeResolver->getCurrentLocale();
         $dateFormatter = $this->dateFactory->create(['locale' => $locale]);

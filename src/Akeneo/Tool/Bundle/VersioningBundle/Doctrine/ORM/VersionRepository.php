@@ -29,7 +29,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getLogEntries(string $resourceName, ?string $resourceId, ?UuidInterface $resourceUuid, ?int $limit = null)
+    public function getLogEntries(string $resourceName, ?string $resourceId, ?UuidInterface $resourceUuid, ?int $limit = null): array
     {
         $params = [
             'resourceName' => $resourceName,
@@ -47,7 +47,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getOldestLogEntry($resourceName, $resourceId, ?UuidInterface $resourceUuid, $pending = false)
+    public function getOldestLogEntry($resourceName, $resourceId, ?UuidInterface $resourceUuid, $pending = false): ?\Akeneo\Tool\Component\Versioning\Model\Version
     {
         return $this->getOneLogEntry($resourceName, $resourceId, $resourceUuid, $pending, 'asc');
     }
@@ -55,7 +55,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getNewestLogEntry($resourceName, $resourceId, ?UuidInterface $resourceUuid, $pending = false)
+    public function getNewestLogEntry($resourceName, $resourceId, ?UuidInterface $resourceUuid, $pending = false): ?\Akeneo\Tool\Component\Versioning\Model\Version
     {
         return $this->getOneLogEntry($resourceName, $resourceId, $resourceUuid, $pending, 'desc');
     }
@@ -63,7 +63,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getNewestLogEntryForRessources($resourceNames)
+    public function getNewestLogEntryForRessources($resourceNames): ?object
     {
         return $this->findOneBy(['resourceName' => $resourceNames], ['loggedAt' => 'desc']);
     }
@@ -71,7 +71,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getPendingVersions($limit = null)
+    public function getPendingVersions($limit = null): array
     {
         return $this->findBy(['pending' => true], ['version' => 'asc'], $limit);
     }
@@ -81,7 +81,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
      *
      * @return int
      */
-    public function getPendingVersionsCount()
+    public function getPendingVersionsCount(): mixed
     {
         $qb = $this->createQueryBuilder('v')
             ->select('COUNT(v.id)')
@@ -137,7 +137,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findPotentiallyPurgeableBy(array $options = [])
+    public function findPotentiallyPurgeableBy(array $options = []): \Doctrine\DBAL\Result
     {
         $connection = $this->getEntityManager()->getConnection();
         $qb = $connection->createQueryBuilder();
@@ -169,7 +169,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findByIds(array $versionIds)
+    public function findByIds(array $versionIds): mixed
     {
         if (empty($versionIds)) {
             throw new \InvalidArgumentException('Array must contain at least one version id');
@@ -182,7 +182,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
         return $qb->getQuery()->getResult();
     }
 
-    public function setCursorFactory(CursorFactoryInterface $cursorFactory)
+    public function setCursorFactory(CursorFactoryInterface $cursorFactory): void
     {
         $this->cursorFactory = $cursorFactory;
     }

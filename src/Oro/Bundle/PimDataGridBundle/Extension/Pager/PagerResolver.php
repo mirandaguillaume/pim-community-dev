@@ -14,14 +14,11 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
  */
 class PagerResolver implements PagerResolverInterface
 {
-    /** @var PagerInterface */
-    protected $ormPager;
+    protected \Oro\Bundle\DataGridBundle\Extension\Pager\PagerInterface $ormPager;
 
-    /** @var PagerInterface */
-    protected $dummyPager;
+    protected \Oro\Bundle\DataGridBundle\Extension\Pager\PagerInterface $dummyPager;
 
-    /** @var array */
-    protected $gridsWithDummyPager;
+    protected array $gridsWithDummyPager;
 
     public function __construct(PagerInterface $ormPager, PagerInterface $dummyPager, array $gridsWithDummyPager)
     {

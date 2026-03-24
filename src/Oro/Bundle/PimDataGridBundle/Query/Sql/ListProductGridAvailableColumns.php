@@ -79,7 +79,7 @@ class ListProductGridAvailableColumns implements ListProductGridAvailableColumns
         }
 
         if ('' !== $searchOnLabel) {
-            $systemColumns = array_filter($systemColumns, fn ($property) => false !== stripos((string) $property['label'], $searchOnLabel));
+            $systemColumns = array_filter($systemColumns, fn (array $property): bool => false !== stripos((string) $property['label'], $searchOnLabel));
         }
 
         return $systemColumns;

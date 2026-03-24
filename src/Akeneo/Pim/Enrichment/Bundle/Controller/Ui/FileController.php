@@ -117,7 +117,7 @@ class FileController
      *
      * @return StreamedFileResponse
      */
-    public function downloadAction($filename)
+    public function downloadAction($filename): \Akeneo\Tool\Component\FileStorage\StreamedFileResponse
     {
         $filename = urldecode($filename);
 
@@ -163,7 +163,7 @@ class FileController
      *
      * @return RedirectResponse
      */
-    protected function renderDefaultImage($fileType, $filter)
+    protected function renderDefaultImage($fileType, $filter): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $imageUrl = $this->defaultImageProvider->getImageUrl($fileType, $filter);
 

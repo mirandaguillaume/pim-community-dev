@@ -43,7 +43,7 @@ class SqlFindCategoryTrees implements FindCategoryTrees
         $translationNormalizer = $this->translationNormalizer;
 
         return array_map(
-            static function (Category $category) use ($translationNormalizer) {
+            static function (Category $category) use ($translationNormalizer): \Akeneo\Category\Api\CategoryTree {
                 $categoryTree = new CategoryTree();
                 $categoryTree->code = $category->getCode();
                 $categoryTree->labels = $translationNormalizer->normalize($category, 'standard');

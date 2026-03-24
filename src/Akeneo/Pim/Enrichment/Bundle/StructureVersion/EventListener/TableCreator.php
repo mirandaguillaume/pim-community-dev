@@ -23,7 +23,7 @@ class TableCreator
     /**
      * Add the csv format
      */
-    public function onPostDBCreate()
+    public function onPostDBCreate(): void
     {
         $sql = <<<'SQL'
             DROP TABLE IF EXISTS akeneo_structure_version_last_update;

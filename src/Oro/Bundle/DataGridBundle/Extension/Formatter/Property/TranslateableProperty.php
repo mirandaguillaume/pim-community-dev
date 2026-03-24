@@ -16,7 +16,7 @@ class TranslateableProperty extends FieldProperty
      * {@inheritDoc}
      */
     #[\Override]
-    public function getRawValue(ResultRecordInterface $record)
+    public function getRawValue(ResultRecordInterface $record): string
     {
         $value = parent::getRawValue($record);
 

@@ -15,7 +15,7 @@ class ConfigureAxisValueLabelsNormalizerPass implements CompilerPassInterface
 {
     private const string SERVICE_TAG = 'pim_axis_value_label_normalizer';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $normalizer = $container->getDefinition('pim_enrich.normalizer.entity_with_family_variant');
 

@@ -59,7 +59,7 @@ class FilterExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function processConfigs(DatagridConfiguration $config)
+    public function processConfigs(DatagridConfiguration $config): void
     {
         // validate extension configuration
         $this->validateConfiguration(
@@ -71,7 +71,7 @@ class FilterExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource)
+    public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource): void
     {
         $filters = $this->getFiltersToApply($config);
         $values = $this->getValuesToApply($config);
@@ -98,7 +98,7 @@ class FilterExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data)
+    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data): void
     {
         $filtersState = $data->offsetGetByPath('[state][filters]', []);
         $filtersConfig = $config->offsetGetByPath(Configuration::COLUMNS_PATH);
@@ -142,7 +142,7 @@ class FilterExtension extends AbstractExtension
      *
      * @return $this
      */
-    public function addFilter($name, FilterInterface $filter)
+    public function addFilter($name, FilterInterface $filter): static
     {
         $this->filters[$name] = $filter;
 
@@ -155,7 +155,7 @@ class FilterExtension extends AbstractExtension
      *
      * @return FilterInterface[]
      */
-    protected function getFiltersToApply(DatagridConfiguration $config)
+    protected function getFiltersToApply(DatagridConfiguration $config): array
     {
         $filters = [];
         $filtersConfig = $config->offsetGetByPath(Configuration::COLUMNS_PATH);
@@ -194,7 +194,7 @@ class FilterExtension extends AbstractExtension
      *
      * @param string $gridName
      */
-    protected function getCategoryFilterConfig($gridName): ?array
+    protected function getCategoryFilterConfig(string $gridName): ?array
     {
         $gridConfigs = [
             'product-grid' => [
@@ -216,7 +216,7 @@ class FilterExtension extends AbstractExtension
      *
      * @return array
      */
-    protected function getValuesToApply(DatagridConfiguration $config)
+    protected function getValuesToApply(DatagridConfiguration $config): array
     {
         $result = [];
 

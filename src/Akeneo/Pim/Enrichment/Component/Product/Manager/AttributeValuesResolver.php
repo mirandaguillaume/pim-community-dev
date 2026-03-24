@@ -19,11 +19,9 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
  */
 class AttributeValuesResolver implements AttributeValuesResolverInterface
 {
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
     /** @var ChannelInterface[] */
     protected $channels;

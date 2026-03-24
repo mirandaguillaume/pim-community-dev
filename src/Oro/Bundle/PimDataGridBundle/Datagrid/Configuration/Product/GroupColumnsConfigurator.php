@@ -18,14 +18,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class GroupColumnsConfigurator extends ColumnsConfigurator
 {
-    /** @var GroupRepositoryInterface */
-    protected $groupRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface $groupRepository;
 
-    /** @var RequestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
-    /** @var RequestParameters */
-    protected $requestParams;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\RequestParameters $requestParams;
 
     /**
      * @param ConfigurationRegistry    $registry
@@ -49,7 +46,7 @@ class GroupColumnsConfigurator extends ColumnsConfigurator
      * {@inheritdoc}
      */
     #[\Override]
-    public function configure(DatagridConfiguration $configuration)
+    public function configure(DatagridConfiguration $configuration): void
     {
         $this->configuration = $configuration;
         $this->preparePropertiesColumns();

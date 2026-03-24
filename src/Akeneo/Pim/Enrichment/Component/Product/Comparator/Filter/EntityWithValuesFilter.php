@@ -18,23 +18,18 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class EntityWithValuesFilter implements FilterInterface
 {
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var ComparatorRegistry */
-    protected $comparatorRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Comparator\ComparatorRegistry $comparatorRegistry;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var array */
-    protected $entityFields;
+    protected array $entityFields;
 
-    /** @var FilterInterface */
-    protected $productFieldFilter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Comparator\Filter\FilterInterface $productFieldFilter;
 
     /** @var array[] */
-    protected $attributeTypeByCodes;
+    protected array $attributeTypeByCodes;
 
     public function __construct(
         NormalizerInterface $normalizer,
@@ -186,7 +181,7 @@ class EntityWithValuesFilter implements FilterInterface
      * @param string $code
      *
      */
-    protected function buildKey(array $data, $code): string
+    protected function buildKey(array $data, string $code): string
     {
         return sprintf('%s-%s-%s', $code, $data['locale'], $data['scope']);
     }

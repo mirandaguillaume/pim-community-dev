@@ -14,11 +14,10 @@ use Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderInterface
  */
 class ProductQuickExport implements DefaultValuesProviderInterface
 {
-    /** @var DefaultValuesProviderInterface */
-    protected $simpleProvider;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderInterface $simpleProvider;
 
     /** @var string[] */
-    protected $supportedJobNames;
+    protected array $supportedJobNames;
 
     /**
      * @param string[]                       $supportedJobNames
@@ -52,7 +51,7 @@ class ProductQuickExport implements DefaultValuesProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports(JobInterface $job)
+    public function supports(JobInterface $job): bool
     {
         return in_array($job->getName(), $this->supportedJobNames);
     }

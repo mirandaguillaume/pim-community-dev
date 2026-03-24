@@ -65,7 +65,7 @@ final class ClientMigration implements ClientMigrationInterface
         return $settingsResponse[$index]['settings']['index'];
     }
 
-    public function putIndexSetting(string $indexName, array $indexSettings)
+    public function putIndexSetting(string $indexName, array $indexSettings): void
     {
         $indicesClient = $this->client->indices();
 

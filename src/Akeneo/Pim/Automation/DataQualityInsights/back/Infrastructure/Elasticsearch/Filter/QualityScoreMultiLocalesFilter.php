@@ -34,7 +34,7 @@ final class QualityScoreMultiLocalesFilter extends AbstractFieldFilter implement
     /**
      * {@inheritdoc}
      */
-    public function addFieldFilter($field, $operator, $values, $locale = null, $channel = null, $options = [])
+    public function addFieldFilter($field, $operator, $values, $locale = null, $channel = null, $options = []): self
     {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
@@ -48,7 +48,7 @@ final class QualityScoreMultiLocalesFilter extends AbstractFieldFilter implement
             throw InvalidPropertyException::dataExpected($field, 'a channel', self::class);
         }
 
-        $values = array_map(fn ($value) => intval($value), $values);
+        $values = array_map(fn ($value): int => intval($value), $values);
         $applyOnAllSelectedLocales = $operator === self::OPERATOR_IN_ALL_LOCALES;
 
         $locales = $this->getLocalesFromOptions($options);

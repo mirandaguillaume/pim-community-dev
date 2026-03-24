@@ -150,7 +150,7 @@ class JobInstanceController
      *
      * @return Response
      */
-    public function launchImportAction(Request $request, $code)
+    public function launchImportAction(Request $request, string $code): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -168,7 +168,7 @@ class JobInstanceController
      *
      * @return Response
      */
-    public function launchExportAction(Request $request, $code)
+    public function launchExportAction(Request $request, string $code): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -184,7 +184,7 @@ class JobInstanceController
      *
      * @return JsonResponse
      */
-    protected function getAction($identifier)
+    protected function getAction(string $identifier): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $jobInstance = $this->getJobInstance($identifier);
         if ($this->objectFilter->filterObject($jobInstance, 'pim.internal_api.job_instance.show')) {
@@ -207,7 +207,7 @@ class JobInstanceController
      *
      * @return Response
      */
-    protected function putAction(Request $request, $identifier)
+    protected function putAction(Request $request, string $identifier): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -491,7 +491,7 @@ class JobInstanceController
         return $this->createAction($request, 'export');
     }
 
-    public function duplicateAction(Request $request, $code): Response
+    public function duplicateAction(Request $request, string $code): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');

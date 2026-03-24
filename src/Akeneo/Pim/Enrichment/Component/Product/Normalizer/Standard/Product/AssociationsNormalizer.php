@@ -68,7 +68,7 @@ class AssociationsNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    private function normalizeAssociations(array $associationAwareEntities, bool $withUuid = true)
+    private function normalizeAssociations(array $associationAwareEntities, bool $withUuid = true): array
     {
         $data = [];
 
@@ -129,7 +129,7 @@ class AssociationsNormalizer implements NormalizerInterface
             }
         }
 
-        $data = array_map(function ($association) use ($withUuid) {
+        $data = array_map(function (array $association) use ($withUuid): array {
             if ($withUuid) {
                 $association['product_uuids'] = array_values(array_unique($association['product_uuids']));
             } else {

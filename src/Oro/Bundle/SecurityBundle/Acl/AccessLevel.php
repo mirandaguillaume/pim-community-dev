@@ -60,7 +60,7 @@ final class AccessLevel
      * @param string $name
      * @return int
      */
-    public static function getConst($name)
+    public static function getConst($name): mixed
     {
         return (new \ReflectionClassConstant(self::class, $name))->getValue();
     }

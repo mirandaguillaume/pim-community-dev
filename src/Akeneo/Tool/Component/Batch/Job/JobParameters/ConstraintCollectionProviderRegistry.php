@@ -16,7 +16,7 @@ class ConstraintCollectionProviderRegistry
     /** @var ConstraintCollectionProviderInterface[] */
     protected $providers = [];
 
-    public function register(ConstraintCollectionProviderInterface $provider)
+    public function register(ConstraintCollectionProviderInterface $provider): void
     {
         $this->providers[] = $provider;
     }

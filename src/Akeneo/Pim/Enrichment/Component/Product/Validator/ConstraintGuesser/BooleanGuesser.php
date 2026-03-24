@@ -19,7 +19,7 @@ class BooleanGuesser implements ConstraintGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function supportAttribute(AttributeInterface $attribute)
+    public function supportAttribute(AttributeInterface $attribute): bool
     {
         return in_array(
             $attribute->getType(),
@@ -32,7 +32,7 @@ class BooleanGuesser implements ConstraintGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function guessConstraints(AttributeInterface $attribute)
+    public function guessConstraints(AttributeInterface $attribute): array
     {
         return [new Boolean()];
     }

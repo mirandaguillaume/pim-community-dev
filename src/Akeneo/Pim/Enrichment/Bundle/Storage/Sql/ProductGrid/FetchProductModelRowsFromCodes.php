@@ -288,7 +288,7 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
 
         foreach ($valueCollections as $productModelCode => $valueCollection) {
             $result[$productModelCode]['value_collection'] = $valueCollection->filter(
-                fn (ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
+                fn (ValueInterface $value): bool => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
                     && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null)
             );
         }

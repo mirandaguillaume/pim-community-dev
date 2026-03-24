@@ -63,7 +63,7 @@ class UserUpdater implements ObjectUpdaterInterface
      *     'tree': 'master'
      * }
      */
-    public function update($user, array $data, array $options = [])
+    public function update($user, array $data, array $options = []): static
     {
         if (!$user instanceof UserInterface) {
             throw InvalidObjectException::objectExpected(
@@ -240,7 +240,7 @@ class UserUpdater implements ObjectUpdaterInterface
      *
      * @throws InvalidPropertyException
      */
-    protected function findDefaultGridView($alias, $code): ?DatagridView
+    protected function findDefaultGridView(string $alias, $code): ?DatagridView
     {
         if ($code === '') {
             return null;
@@ -273,7 +273,7 @@ class UserUpdater implements ObjectUpdaterInterface
      *
      * @return LocaleInterface
      */
-    protected function findLocale($field, $code)
+    protected function findLocale(string $field, $code)
     {
         $locale = $this->localeRepository->findOneByIdentifier($code);
 
@@ -388,7 +388,7 @@ class UserUpdater implements ObjectUpdaterInterface
      * @throws FileTransferException
      * @throws \Exception
      */
-    private function setAvatar($user, $data)
+    private function setAvatar(\Akeneo\UserManagement\Component\Model\UserInterface $user, array $data): void
     {
         $fileInfo = null;
 

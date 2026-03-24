@@ -18,11 +18,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 #[AsEventListener(event: BuildVersionEvents::PRE_BUILD, method: 'preBuild')]
 class AddUserSubscriber
 {
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    protected ?\Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
-    /** @var AuthorizationCheckerInterface */
-    protected $authorizationChecker;
+    protected \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker;
 
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
@@ -35,7 +33,7 @@ class AddUserSubscriber
     /**
      * @return BuildVersionEvent
      */
-    public function preBuild(BuildVersionEvent $event)
+    public function preBuild(BuildVersionEvent $event): BuildVersionEvent
     {
         if (null === $this->tokenStorage) {
             return $event;

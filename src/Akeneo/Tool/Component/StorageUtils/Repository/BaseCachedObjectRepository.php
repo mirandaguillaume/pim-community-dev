@@ -11,8 +11,7 @@ namespace Akeneo\Tool\Component\StorageUtils\Repository;
  */
 class BaseCachedObjectRepository implements CachedObjectRepositoryInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface*/
-    protected $repository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $repository;
 
     /** @var array */
     protected $objectsCache;

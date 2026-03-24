@@ -33,7 +33,7 @@ final readonly class SetPriceCollectionValueApplier implements UserIntentApplier
                         'locale' => $userIntent->localeCode(),
                         'scope' => $userIntent->channelCode(),
                         'data' => \array_map(
-                            fn (PriceValue $priceValue) => [
+                            fn (PriceValue $priceValue): array => [
                                 'amount' => $priceValue->amount(),
                                 'currency' => $priceValue->currency(),
                             ],

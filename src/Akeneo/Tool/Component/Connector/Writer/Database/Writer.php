@@ -20,11 +20,9 @@ class Writer implements ItemWriterInterface, StepExecutionAwareInterface
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var BulkSaverInterface */
-    protected $bulkSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface $bulkSaver;
 
-    /** @var BulkObjectDetacherInterface */
-    protected $bulkDetacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\BulkObjectDetacherInterface $bulkDetacher;
 
     public function __construct(
         BulkSaverInterface $bulkSaver,
@@ -37,7 +35,7 @@ class Writer implements ItemWriterInterface, StepExecutionAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function write(array $objects)
+    public function write(array $objects): void
     {
         $this->incrementCount($objects);
         $this->bulkSaver->saveAll($objects);
@@ -47,7 +45,7 @@ class Writer implements ItemWriterInterface, StepExecutionAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }

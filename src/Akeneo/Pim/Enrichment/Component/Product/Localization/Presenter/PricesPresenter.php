@@ -61,7 +61,7 @@ class PricesPresenter extends NumberPresenter
      *
      * @return array
      */
-    protected function getStructuredPrice($price, $versionedAttribute)
+    protected function getStructuredPrice($price, $versionedAttribute): array
     {
         $parts = preg_split('/-/', $versionedAttribute);
         $currency = end($parts);
@@ -76,7 +76,7 @@ class PricesPresenter extends NumberPresenter
      *
      * @return string
      */
-    protected function getPrice(\NumberFormatter $numberFormatter, array $price)
+    protected function getPrice(\NumberFormatter $numberFormatter, array $price): string|false
     {
         if (!isset($price['amount'])) {
             return '';

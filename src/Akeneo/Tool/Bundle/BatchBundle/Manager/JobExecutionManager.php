@@ -16,10 +16,7 @@ use Doctrine\ORM\EntityManager;
  */
 class JobExecutionManager
 {
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
+    protected \Doctrine\ORM\EntityManager $entityManager;
 
     public function __construct(EntityManager $entityManager)
     {
@@ -47,7 +44,7 @@ class JobExecutionManager
      *
      * @return bool
      */
-    protected function processIsRunning(JobExecution $jobExecution)
+    protected function processIsRunning(JobExecution $jobExecution): bool
     {
         $pid = intval($jobExecution->getPid());
 
@@ -63,7 +60,7 @@ class JobExecutionManager
     /**
      * Mark a job execution as failed
      */
-    public function markAsFailed(JobExecution $jobExecution)
+    public function markAsFailed(JobExecution $jobExecution): void
     {
         $jobExecution->setStatus(new BatchStatus(BatchStatus::FAILED));
         $jobExecution->setExitStatus(new ExitStatus(ExitStatus::FAILED));

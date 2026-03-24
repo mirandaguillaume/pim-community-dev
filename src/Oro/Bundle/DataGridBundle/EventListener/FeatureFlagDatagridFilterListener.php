@@ -19,7 +19,7 @@ class FeatureFlagDatagridFilterListener
     ) {
     }
 
-    public function filterColumns(BuildBefore $event)
+    public function filterColumns(BuildBefore $event): void
     {
         $datagridConfiguration = $event->getConfig();
 
@@ -36,7 +36,7 @@ class FeatureFlagDatagridFilterListener
             return;
         }
 
-        $filters['columns'] = array_filter($filters['columns'], function ($properties) {
+        $filters['columns'] = array_filter($filters['columns'], function (array $properties): bool {
             if (isset($properties['feature_flag']) && !$this->featureFlags->isEnabled($properties['feature_flag'])) {
                 return false;
             }
@@ -47,7 +47,7 @@ class FeatureFlagDatagridFilterListener
         $datagridConfiguration->offsetAddToArray(Configuration::FILTERS_KEY, $filters);
     }
 
-    private function featureFlagOnDefaultColumns(DatagridConfiguration $datagridConfiguration)
+    private function featureFlagOnDefaultColumns(DatagridConfiguration $datagridConfiguration): void
     {
         $defaultColumns = $datagridConfiguration->offsetGet(FormatterConfiguration::COLUMNS_KEY);
 
@@ -55,7 +55,7 @@ class FeatureFlagDatagridFilterListener
             return;
         }
 
-        $defaultColumns = array_filter($defaultColumns, function ($properties) {
+        $defaultColumns = array_filter($defaultColumns, function (array $properties): bool {
             if (isset($properties['feature_flag']) && !$this->featureFlags->isEnabled($properties['feature_flag'])) {
                 return false;
             }
@@ -67,7 +67,7 @@ class FeatureFlagDatagridFilterListener
         $datagridConfiguration->offsetAddToArray(FormatterConfiguration::COLUMNS_KEY, $defaultColumns);
     }
 
-    private function featureFlagOnSorter(DatagridConfiguration $datagridConfiguration)
+    private function featureFlagOnSorter(DatagridConfiguration $datagridConfiguration): void
     {
         $defaultSorters = $datagridConfiguration->offsetGetByPath(SorterConfiguration::COLUMNS_PATH);
 
@@ -75,7 +75,7 @@ class FeatureFlagDatagridFilterListener
             return;
         }
 
-        $defaultSorters = array_filter($defaultSorters, function ($properties) {
+        $defaultSorters = array_filter($defaultSorters, function (array $properties): bool {
             if (isset($properties['feature_flag']) && !$this->featureFlags->isEnabled($properties['feature_flag'])) {
                 return false;
             }

@@ -39,7 +39,7 @@ class EntityIdentifierType extends AbstractType
     /**
      * @return EntitiesToIdsTransformer
      */
-    protected function createEntitiesToIdsTransformer(array $options)
+    protected function createEntitiesToIdsTransformer(array $options): \Akeneo\Platform\Bundle\UIBundle\Form\Transformer\EntitiesToIdsTransformer|\Akeneo\Platform\Bundle\UIBundle\Form\Transformer\EntityToIdTransformer
     {
         if ($options['multiple']) {
             return new EntitiesToIdsTransformer(
@@ -107,7 +107,7 @@ class EntityIdentifierType extends AbstractType
 
                 return $em;
             })
-            ->setNormalizer('queryBuilder', function (Options $options, $queryBuilder) {
+            ->setNormalizer('queryBuilder', function (Options $options, $queryBuilder): ?callable {
                 if (null !== $queryBuilder && !is_callable($queryBuilder)) {
                     throw new FormException(
                         sprintf(

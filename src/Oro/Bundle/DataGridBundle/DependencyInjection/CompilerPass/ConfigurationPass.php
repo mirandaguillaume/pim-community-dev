@@ -24,7 +24,7 @@ class ConfigurationPass implements CompilerPassInterface
     /**
      * {@inheritDoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $this->registerConfigFiles($container);
         $this->registerConfigProviders($container);

@@ -20,8 +20,7 @@ class FilterRegistry implements FilterRegistryInterface
     /** @var FieldFilterInterface[] prioritized field filters */
     protected $fieldFilters = [];
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
@@ -31,7 +30,7 @@ class FilterRegistry implements FilterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(FilterInterface $filter)
+    public function register(FilterInterface $filter): void
     {
         if ($filter instanceof FieldFilterInterface) {
             $this->fieldFilters[] = $filter;

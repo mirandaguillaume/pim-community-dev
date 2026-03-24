@@ -33,7 +33,7 @@ class AttributeGroupTranslation extends AbstractTranslation implements Attribute
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->label = $label;
 

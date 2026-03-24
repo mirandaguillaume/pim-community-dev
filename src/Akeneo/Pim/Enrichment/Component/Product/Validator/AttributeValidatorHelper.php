@@ -19,11 +19,9 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
  */
 class AttributeValidatorHelper
 {
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
-    /** @var ChannelRepositoryInterface */
-    protected $scopeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $scopeRepository;
 
     /** @var array */
     protected $localeCodes;
@@ -45,7 +43,7 @@ class AttributeValidatorHelper
      * @param string             $locale
      * @throws \LogicException
      */
-    public function validateLocale(AttributeInterface $attribute, $locale)
+    public function validateLocale(AttributeInterface $attribute, $locale): void
     {
         if (!$attribute->isLocalizable() && null === $locale) {
             return;
@@ -102,7 +100,7 @@ class AttributeValidatorHelper
     public function validateUnitFamilies(
         AttributeInterface $fromAttribute,
         AttributeInterface $toAttribute
-    ) {
+    ): void {
         if ($fromAttribute->getMetricFamily() !== $toAttribute->getMetricFamily()) {
             throw new \LogicException(
                 sprintf(
@@ -120,7 +118,7 @@ class AttributeValidatorHelper
      * @param string             $scope
      * @throws \LogicException
      */
-    public function validateScope(AttributeInterface $attribute, $scope)
+    public function validateScope(AttributeInterface $attribute, $scope): void
     {
         if (!$attribute->isScopable() && null === $scope) {
             return;

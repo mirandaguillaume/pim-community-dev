@@ -18,7 +18,7 @@ class ProductAssociationReader extends Reader implements FileReaderInterface
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getArrayConverterOptions()
+    protected function getArrayConverterOptions(): array
     {
         $jobParameters = $this->stepExecution->getJobParameters();
 

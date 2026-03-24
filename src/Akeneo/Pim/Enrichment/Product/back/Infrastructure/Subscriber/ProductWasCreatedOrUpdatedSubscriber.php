@@ -129,7 +129,7 @@ final class ProductWasCreatedOrUpdatedSubscriber
         }
 
         $events = \array_map(
-            function (ProductInterface $product) {
+            function (ProductInterface $product): \Akeneo\Pim\Enrichment\Product\API\Event\ProductWasCreated|\Akeneo\Pim\Enrichment\Product\API\Event\ProductWasUpdated {
                 $updatedAt = $product->getUpdated();
                 Assert::isInstanceOf($updatedAt, \DateTime::class);
                 $event = ($this->createdProductsByUuid[$product->getUuid()->toString()] ?? false)

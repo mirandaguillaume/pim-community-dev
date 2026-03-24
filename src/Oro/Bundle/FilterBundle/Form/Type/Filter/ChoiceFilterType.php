@@ -55,7 +55,7 @@ class ChoiceFilterType extends AbstractChoiceType
      * {@inheritDoc}
      */
     #[\Override]
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         parent::finishView($view, $form, $options);
         if (isset($options['populate_default'])) {

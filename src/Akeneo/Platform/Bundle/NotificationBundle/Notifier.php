@@ -19,17 +19,13 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class Notifier implements NotifierInterface
 {
-    /** @var UserNotificationFactory */
-    protected $userNotifFactory;
+    protected \Akeneo\Platform\Bundle\NotificationBundle\Factory\UserNotificationFactory $userNotifFactory;
 
-    /** @var UserProviderInterface */
-    protected $userProvider;
+    protected \Symfony\Component\Security\Core\User\UserProviderInterface $userProvider;
 
-    /** @var SaverInterface */
-    protected $notificationSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $notificationSaver;
 
-    /** @var BulkSaverInterface */
-    protected $userNotifsSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface $userNotifsSaver;
 
     public function __construct(
         UserNotificationFactory $userNotifFactory,
@@ -46,7 +42,7 @@ class Notifier implements NotifierInterface
     /**
      * {@inheritdoc}
      */
-    public function notify(NotificationInterface $notification, array $users)
+    public function notify(NotificationInterface $notification, array $users): static
     {
         $userNotifications = [];
         $users = $this->filterSystemUser($users);
@@ -72,11 +68,11 @@ class Notifier implements NotifierInterface
      *
      * @return array
      */
-    private function filterSystemUser(array $users)
+    private function filterSystemUser(array $users): array
     {
         return array_filter(
             $users,
-            function ($user) {
+            function ($user): bool {
                 if (is_string($user) && UserInterface::SYSTEM_USER_NAME === $user) {
                     return false;
                 }

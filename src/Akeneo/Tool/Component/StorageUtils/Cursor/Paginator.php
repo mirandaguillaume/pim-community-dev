@@ -11,11 +11,9 @@ namespace Akeneo\Tool\Component\StorageUtils\Cursor;
  */
 class Paginator implements PaginatorInterface
 {
-    /** @var CursorInterface */
-    protected $cursor;
+    protected \Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface $cursor;
 
-    /** @var int */
-    protected $pageNumber;
+    protected int $pageNumber;
 
     /** @var int */
     protected $currentPage;
@@ -43,7 +41,7 @@ class Paginator implements PaginatorInterface
     /**
      * {@inheritdoc}
      */
-    public function setPageSize($pageSize)
+    public function setPageSize($pageSize): static
     {
         $this->pageSize = $pageSize;
 
@@ -120,7 +118,7 @@ class Paginator implements PaginatorInterface
     /**
      * @return array
      */
-    private function getNextDataPage()
+    private function getNextDataPage(): false|array
     {
         $result = [];
         $pageSize = 0;

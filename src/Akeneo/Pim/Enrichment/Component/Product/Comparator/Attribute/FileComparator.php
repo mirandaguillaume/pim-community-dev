@@ -14,11 +14,9 @@ use Akeneo\Tool\Component\FileStorage\Repository\FileInfoRepositoryInterface;
  */
 class FileComparator implements ComparatorInterface
 {
-    /** @var  FileInfoRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Tool\Component\FileStorage\Repository\FileInfoRepositoryInterface $repository;
 
-    /** @var array */
-    protected $types;
+    protected array $types;
 
     public function __construct(array $types, FileInfoRepositoryInterface $repository)
     {
@@ -29,7 +27,7 @@ class FileComparator implements ComparatorInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($type)
+    public function supports($type): bool
     {
         return in_array($type, $this->types);
     }

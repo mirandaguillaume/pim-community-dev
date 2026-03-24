@@ -16,14 +16,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $productNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $productNormalizer;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\ExternalApi\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
     public function __construct(
         NormalizerInterface $productNormalizer,
@@ -87,7 +84,7 @@ class ProductNormalizer implements NormalizerInterface
     /**
      * @return array
      */
-    protected function addDownloadLink(array $values)
+    protected function addDownloadLink(array $values): array
     {
         foreach ($values as $index => $value) {
             if (null !== $value['data']) {
@@ -106,8 +103,8 @@ class ProductNormalizer implements NormalizerInterface
 
     private function formatQuantifiedAssociations(array $quantifiedAssociations): array
     {
-        return array_map(static function (array $quantifiedAssociation) {
-            $quantifiedAssociation['products'] = array_map(static fn (array $productLink) => array_filter(
+        return array_map(static function (array $quantifiedAssociation): array {
+            $quantifiedAssociation['products'] = array_map(static fn (array $productLink): array => array_filter(
                 $productLink,
                 fn (string $key): bool => in_array($key, ['identifier', 'quantity']),
                 ARRAY_FILTER_USE_KEY

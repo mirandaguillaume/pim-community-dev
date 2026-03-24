@@ -39,17 +39,13 @@ class VersionManager
      */
     protected $context;
 
-    /** @var ObjectManager */
-    protected $objectManager;
+    protected \Doctrine\Persistence\ObjectManager $objectManager;
 
-    /** @var VersionBuilder */
-    protected $versionBuilder;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Builder\VersionBuilder $versionBuilder;
 
-    /** @var VersionContext */
-    protected $versionContext;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionContext $versionContext;
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         ObjectManager $objectManager,
@@ -66,7 +62,7 @@ class VersionManager
     /**
      * @param string $username
      */
-    public function setUsername($username)
+    public function setUsername($username): void
     {
         $this->username = $username;
     }
@@ -82,7 +78,7 @@ class VersionManager
     /**
      * @param bool $mode
      */
-    public function setRealTimeVersioning($mode)
+    public function setRealTimeVersioning($mode): void
     {
         $this->realTimeVersioning = $mode;
     }
@@ -116,7 +112,7 @@ class VersionManager
 
             $builtVersions = array_filter(
                 $createdVersions,
-                fn ($version) => (is_countable($version->getChangeset()) ? count($version->getChangeset()) : 0) > 0
+                fn (\Akeneo\Tool\Component\Versioning\Model\Version $version): bool => (is_countable($version->getChangeset()) ? count($version->getChangeset()) : 0) > 0
             );
 
             if (!empty($builtVersions)) {
@@ -260,7 +256,7 @@ class VersionManager
      *
      * @return Version[]
      */
-    public function buildPendingVersions($versionable)
+    public function buildPendingVersions($versionable): array
     {
         $createdVersions = [];
 

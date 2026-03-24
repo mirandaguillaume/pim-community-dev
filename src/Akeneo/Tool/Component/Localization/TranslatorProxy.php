@@ -20,7 +20,7 @@ class TranslatorProxy
     /**
      * {@inheritdoc}
      */
-    public function trans($value, array $options = [])
+    public function trans(string $value, array $options = []): string
     {
         $parameters = $options['parameters'] ?? [];
         $domain = $options['domain'] ?? null;

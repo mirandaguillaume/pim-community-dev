@@ -17,7 +17,7 @@ class CodeValidator extends ConstraintValidator
 {
     private const int MAX_CODE_LENGTH = 100;
 
-    public function validate($code, Constraint $constraint)
+    public function validate($code, Constraint $constraint): void
     {
         $validator = Validation::createValidator();
         $violations = $validator->validate(

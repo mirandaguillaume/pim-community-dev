@@ -21,7 +21,7 @@ class ConfigurationRegistry implements ConfigurationRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(ReferenceDataConfigurationInterface $configuration, $name)
+    public function register(ReferenceDataConfigurationInterface $configuration, $name): static
     {
         $configuration->setName($name);
         self::$configurations[$name] = $configuration;
@@ -54,7 +54,7 @@ class ConfigurationRegistry implements ConfigurationRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function has($name)
+    public function has($name): bool
     {
         return isset(self::$configurations[$name]);
     }
@@ -70,7 +70,7 @@ class ConfigurationRegistry implements ConfigurationRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function unregister($name)
+    public function unregister($name): static
     {
         unset(self::$configurations[$name]);
 

@@ -52,7 +52,7 @@ final readonly class ProductScoreRepository implements ProductScoreRepositoryInt
             return;
         }
 
-        $insertValues = implode(', ', array_map(function (Write\ProductScores $productScore) {
+        $insertValues = implode(', ', array_map(function (Write\ProductScores $productScore): string {
             $productUuid = $productScore->getEntityId();
             Assert::isInstanceOf($productUuid, ProductUuid::class);
 

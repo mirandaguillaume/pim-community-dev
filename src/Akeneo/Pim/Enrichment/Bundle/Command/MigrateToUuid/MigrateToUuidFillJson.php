@@ -147,7 +147,7 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
         ]));
     }
 
-    private function getFormerAssociations(string $tableName, $previousProductId = -1): array
+    private function getFormerAssociations(string $tableName, int|string $previousProductId = -1): array
     {
         $hasId = $this->platformHelper->jsonPathExists('quantified_associations', '$.*.products[*].id');
         $hasUuid = $this->platformHelper->jsonPathExists('quantified_associations', '$.*.products[*].uuid');
@@ -177,7 +177,10 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
         return $result;
     }
 
-    private function getProductIdToUuidMap(array $productFormerAssociations, bool $dryRun)
+    /**
+     * @return mixed[]
+     */
+    private function getProductIdToUuidMap(array $productFormerAssociations, bool $dryRun): array
     {
         $productIds = [];
         foreach ($productFormerAssociations as $formerAssociation) {

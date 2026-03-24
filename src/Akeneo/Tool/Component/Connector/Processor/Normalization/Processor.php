@@ -15,11 +15,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class Processor implements ItemProcessorInterface
 {
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var ObjectDetacherInterface */
-    protected $objectDetacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\ObjectDetacherInterface $objectDetacher;
 
     public function __construct(NormalizerInterface $normalizer, ObjectDetacherInterface $objectDetacher)
     {

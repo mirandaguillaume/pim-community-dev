@@ -15,14 +15,11 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 class AjaxReferenceDataTransformer implements DataTransformerInterface
 {
-    /** @var ReferenceDataRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ReferenceDataRepositoryInterface $repository;
 
-    /** @var array */
-    protected $options;
+    protected array $options;
 
-    /** @var LabelRenderer */
-    protected $renderer;
+    protected \Akeneo\Pim\Enrichment\Component\Product\ReferenceData\LabelRenderer $renderer;
 
     /**
      * Constructor
@@ -81,7 +78,7 @@ class AjaxReferenceDataTransformer implements DataTransformerInterface
      *
      * @return array
      */
-    public function getOptions(mixed $value)
+    public function getOptions(mixed $value): ?array
     {
         if ($this->options['multiple']) {
             $options = [];

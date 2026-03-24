@@ -22,7 +22,7 @@ class ApiRequestLogSubscriber
     ) {
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         try {
             if (!$event->isMainRequest()) {

@@ -100,7 +100,7 @@ abstract class AbstractFilesystemArchiver implements ArchiverInterface
     {
         $job = $this->getJob($stepExecution);
 
-        $filteredSteps = array_values(array_filter($job->getSteps(), static fn (StepInterface $step) => $step->getName() === $stepExecution->getStepName()));
+        $filteredSteps = array_values(array_filter($job->getSteps(), static fn (StepInterface $step): bool => $step->getName() === $stepExecution->getStepName()));
 
         if (0 === count($filteredSteps)) {
             throw new \RuntimeException('No step found corresponding to step execution.');

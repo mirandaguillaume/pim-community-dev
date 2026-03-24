@@ -25,7 +25,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class ViolationNormalizer implements NormalizerInterface
 {
     /** @var AttributeRepository */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     public function __construct(IdentifiableObjectRepositoryInterface $attributeRepository)
     {
@@ -59,7 +59,7 @@ class ViolationNormalizer implements NormalizerInterface
     /**
      * @return array
      */
-    protected function normalizeViolations(ConstraintViolationListInterface $violations)
+    protected function normalizeViolations(ConstraintViolationListInterface $violations): array
     {
         $errors = [];
         $existingViolation = [];
@@ -189,7 +189,7 @@ class ViolationNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function getProductValuesErrors(ConstraintViolationInterface $violation, $productValueKey)
+    protected function getProductValuesErrors(ConstraintViolationInterface $violation, $productValueKey): array
     {
         $productValue = $violation->getRoot()->getValues()->getByKey($productValueKey);
         $attribute = $this->attributeRepository->findOneByIdentifier($productValue->getAttributeCode());

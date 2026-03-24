@@ -18,7 +18,7 @@ class RegisterComparatorsPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('pim_catalog.comparator.registry')) {
             return;
@@ -61,9 +61,9 @@ class RegisterComparatorsPass implements CompilerPassInterface
      *
      * @return array
      */
-    private function sortComparatorsByPriority(array $comparatorServices)
+    private function sortComparatorsByPriority(array $comparatorServices): array
     {
-        uasort($comparatorServices, function ($a, $b) {
+        uasort($comparatorServices, function ($a, $b): int {
             $priorityA = $a[0]['priority'] ?? 0;
             $priorityB = $b[0]['priority'] ?? 0;
 

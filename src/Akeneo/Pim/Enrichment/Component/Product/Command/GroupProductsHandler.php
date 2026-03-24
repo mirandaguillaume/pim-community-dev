@@ -41,7 +41,7 @@ class GroupProductsHandler
         $this->batchProductExecution(
             $group,
             $removedProductUuids,
-            function (GroupInterface $group, ProductInterface $product) {
+            function (GroupInterface $group, ProductInterface $product): void {
                 $product->removeGroup($group);
             }
         );
@@ -49,7 +49,7 @@ class GroupProductsHandler
         $this->batchProductExecution(
             $group,
             $addedProductUuids,
-            function (GroupInterface $group, ProductInterface $product) {
+            function (GroupInterface $group, ProductInterface $product): void {
                 $product->addGroup($group);
             }
         );

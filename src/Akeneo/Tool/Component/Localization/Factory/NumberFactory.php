@@ -11,8 +11,7 @@ namespace Akeneo\Tool\Component\Localization\Factory;
  */
 class NumberFactory
 {
-    /** @var array */
-    protected $numberFormats;
+    protected array $numberFormats;
 
     public function __construct(array $numberFormats)
     {
@@ -49,7 +48,7 @@ class NumberFactory
      *
      * @return array
      */
-    protected function resolve(array $options)
+    protected function resolve(array $options): array
     {
         $options = array_merge(
             [

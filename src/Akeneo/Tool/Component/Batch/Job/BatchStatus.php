@@ -64,7 +64,7 @@ class BatchStatus implements \Stringable
      *
      * @return $this
      */
-    public function setValue(mixed $value)
+    public function setValue(mixed $value): static
     {
         $this->value = $value;
 
@@ -86,7 +86,7 @@ class BatchStatus implements \Stringable
      *
      * @return boolean true if the status is STARTING
      */
-    public function isStarting()
+    public function isStarting(): bool
     {
         return $this->value === self::STARTING;
     }
@@ -96,7 +96,7 @@ class BatchStatus implements \Stringable
      *
      * @return boolean true if the status is STARTING, STARTED
      */
-    public function isRunning()
+    public function isRunning(): bool
     {
         return $this->value === self::STARTING || $this->value === self::STARTED;
     }
@@ -122,7 +122,7 @@ class BatchStatus implements \Stringable
      *
      * @return boolean true if the status is FAILED or greater
      */
-    public function isUnsuccessful()
+    public function isUnsuccessful(): bool
     {
         return ($this->value === self::FAILED || $this->value > self::FAILED);
     }
@@ -135,7 +135,7 @@ class BatchStatus implements \Stringable
      *
      * @return integer
      */
-    public static function max($value1, $value2)
+    public static function max($value1, $value2): int
     {
         return max($value1, $value2);
     }
@@ -152,7 +152,7 @@ class BatchStatus implements \Stringable
      *
      * @return BatchStatus with either this or the other status depending on their priority
      */
-    public function upgradeTo($otherStatus)
+    public function upgradeTo($otherStatus): static
     {
         $newStatus = $this->value;
 

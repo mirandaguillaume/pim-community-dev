@@ -19,8 +19,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class FilterStructureAttributeValidator extends ConstraintValidator
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
@@ -30,7 +29,7 @@ class FilterStructureAttributeValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($attributes, Constraint $constraint)
+    public function validate($attributes, Constraint $constraint): void
     {
         if (!$constraint instanceof FilterStructureAttribute) {
             throw new UnexpectedTypeException($constraint, FilterStructureAttribute::class);

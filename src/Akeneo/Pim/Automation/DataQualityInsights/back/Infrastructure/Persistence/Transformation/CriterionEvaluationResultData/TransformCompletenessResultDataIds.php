@@ -34,7 +34,7 @@ final readonly class TransformCompletenessResultDataIds implements TransformResu
         if (null !== $numberOfImprovableAttributes) {
             $dataByCodes['number_of_improvable_attributes'] = $this->transformChannelLocaleDataIds->transformToCodes($numberOfImprovableAttributes, fn ($number) => $number);
         } elseif (null !== $improvableAttributes) {
-            $dataByCodes['number_of_improvable_attributes'] = $this->transformChannelLocaleDataIds->transformToCodes($improvableAttributes, fn (array $attributesList) => count($attributesList));
+            $dataByCodes['number_of_improvable_attributes'] = $this->transformChannelLocaleDataIds->transformToCodes($improvableAttributes, fn (array $attributesList): int => count($attributesList));
         }
 
         if (null !== $totalNumberOfAttributes) {

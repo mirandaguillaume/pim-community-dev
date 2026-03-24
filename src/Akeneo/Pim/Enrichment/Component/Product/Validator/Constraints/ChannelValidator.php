@@ -17,8 +17,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ChannelValidator extends ChoiceValidator
 {
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
@@ -29,7 +28,7 @@ class ChannelValidator extends ChoiceValidator
      * {@inheritdoc}
      */
     #[\Override]
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof Channel) {
             throw new UnexpectedTypeException($constraint, Channel::class);

@@ -32,7 +32,7 @@ class VersionPurger implements VersionPurgerInterface
     /**
      * {@inheritdoc}
      */
-    public function purge(array $options)
+    public function purge(array $options): void
     {
         $optionResolver = new OptionsResolver();
         $this->configureOptions($optionResolver);
@@ -65,7 +65,7 @@ class VersionPurger implements VersionPurgerInterface
     /**
      * {@inheritdoc}
      */
-    public function addVersionPurgerAdvisor(VersionPurgerAdvisorInterface $versionPurgerAdvisor)
+    public function addVersionPurgerAdvisor(VersionPurgerAdvisorInterface $versionPurgerAdvisor): void
     {
         $this->versionPurgerAdvisors[] = $versionPurgerAdvisor;
     }
@@ -124,7 +124,7 @@ class VersionPurger implements VersionPurgerInterface
             ->setAllowedTypes('batch_size', 'int')
             ->setAllowedValues('date_operator', ['<', '>']);
 
-        $optionResolver->setNormalizer('limit_date', fn (Options $options, $value) => new \DateTime(
+        $optionResolver->setNormalizer('limit_date', fn (Options $options, $value): \DateTime => new \DateTime(
             sprintf('%d days ago', $options['days_number']),
             new \DateTimeZone('UTC')
         ));
@@ -139,7 +139,7 @@ class VersionPurger implements VersionPurgerInterface
         return $this->getAllResourceNamesQuery->execute();
     }
 
-    private function countVersionsToPurge($resourceName): int
+    private function countVersionsToPurge(string $resourceName): int
     {
         return $this->getPurgeableVersionListQuery->countByResource($resourceName);
     }

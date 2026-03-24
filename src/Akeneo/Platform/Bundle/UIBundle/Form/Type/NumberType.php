@@ -22,17 +22,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class NumberType extends AbstractType
 {
-    /** @var LocalizerInterface */
-    protected $localizer;
+    protected \Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface $localizer;
 
-    /** @var LocaleResolver */
-    protected $localeResolver;
+    protected \Akeneo\Platform\Bundle\UIBundle\Resolver\LocaleResolver $localeResolver;
 
-    /** @var NumberFormatValidator */
-    protected $formatValidator;
+    protected \Akeneo\Tool\Component\Localization\Validator\Constraints\NumberFormatValidator $formatValidator;
 
-    /** @var NumberFactory */
-    protected $numberFactory;
+    protected \Akeneo\Tool\Component\Localization\Factory\NumberFactory $numberFactory;
 
     public function __construct(
         LocalizerInterface $localizer,

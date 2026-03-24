@@ -20,7 +20,7 @@ class ReferenceFactory
      *
      * @return Reference
      */
-    public function createReference($serviceId)
+    public function createReference($serviceId): \Symfony\Component\DependencyInjection\Reference
     {
         return new Reference($serviceId);
     }

@@ -24,7 +24,7 @@ final readonly class GetConnectedAppAuthenticationScopesAction
     ) {
     }
 
-    public function __invoke(string $connectionCode): Response
+    public function __invoke(string $connectionCode): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $connectedApp = $this->findOneConnectedAppByConnectionCodeQuery->execute($connectionCode);
         if (null === $connectedApp) {

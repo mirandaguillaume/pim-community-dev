@@ -22,17 +22,14 @@ use Akeneo\Tool\Component\Connector\Writer\File\WrittenFileInfo;
  */
 class Writer extends AbstractFileWriter implements ItemWriterInterface, InitializableInterface, FlushableInterface
 {
-    /** @var ArrayConverterInterface */
-    protected $arrayConverter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface $arrayConverter;
 
     /** @var FlatItemBuffer */
     protected $flatRowBuffer = null;
 
-    /** @var FlatItemBufferFlusher */
-    protected $flusher;
+    protected \Akeneo\Tool\Component\Connector\Writer\File\FlatItemBufferFlusher $flusher;
 
-    /** @var BufferFactory */
-    protected $bufferFactory;
+    protected \Akeneo\Tool\Component\Buffer\BufferFactory $bufferFactory;
 
     protected array $state = [];
 

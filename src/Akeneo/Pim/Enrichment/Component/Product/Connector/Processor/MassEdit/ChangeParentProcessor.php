@@ -22,17 +22,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ChangeParentProcessor extends AbstractProcessor
 {
-    /** @var ValidatorInterface */
-    protected $productValidator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $productValidator;
 
-    /** @var ValidatorInterface */
-    protected $productModelValidator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $productModelValidator;
 
-    /** @var ObjectUpdaterInterface */
-    protected $productUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $productUpdater;
 
-    /** @var ObjectUpdaterInterface */
-    protected $productModelUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $productModelUpdater;
 
     public function __construct(
         ValidatorInterface $productValidator,

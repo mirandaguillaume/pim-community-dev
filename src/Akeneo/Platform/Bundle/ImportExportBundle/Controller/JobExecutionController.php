@@ -38,7 +38,7 @@ class JobExecutionController
      *
      * @throws UnableToReadFile
      */
-    public function downloadLogFileAction($id)
+    public function downloadLogFileAction($id): \Symfony\Component\HttpFoundation\Response
     {
         $jobExecution = $this->jobExecutionRepo->find($id);
 
@@ -69,7 +69,7 @@ class JobExecutionController
      *
      * @return StreamedResponse
      */
-    public function downloadFilesAction($id, $archiver, $key)
+    public function downloadFilesAction($id, $archiver, $key): \Akeneo\Tool\Component\FileStorage\StreamedFileResponse
     {
         $jobExecution = $this->jobExecutionRepo->find($id);
 

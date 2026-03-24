@@ -50,7 +50,7 @@ class GetAttributeGroups implements GetAttributeGroupsInterface
         $dqiFeatureIsEnabled = $this->featureFlags->isEnabled('data_quality_insights');
         $dqiAttributeGroupsActivation = $this->getAttributeGroupsActivationQuery->all();
 
-        return array_map(function (array $attributeGroup) use ($dqiFeatureIsEnabled, $dqiAttributeGroupsActivation) {
+        return array_map(function (array $attributeGroup) use ($dqiFeatureIsEnabled, $dqiAttributeGroupsActivation): array {
             $attributeGroup['sort_order'] = (int) $attributeGroup['sort_order'];
             $attributeGroup['labels'] = null !== $attributeGroup['labels'] ? json_decode((string) $attributeGroup['labels'], true, 512, JSON_THROW_ON_ERROR) : [];
             if ($dqiFeatureIsEnabled) {

@@ -54,7 +54,7 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
         return $this->measurementFamilyCache[$normalizedMeasurementFamilyCode];
     }
 
-    public function save(MeasurementFamily $measurementFamily)
+    public function save(MeasurementFamily $measurementFamily): void
     {
         $upsert = $this->platformHelper->upsertClause(
             ['code'],
@@ -113,7 +113,7 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
         $this->measurementFamilyCache = [];
     }
 
-    public function deleteByCode(MeasurementFamilyCode $measurementFamilyCode)
+    public function deleteByCode(MeasurementFamilyCode $measurementFamilyCode): void
     {
         $sql = <<<SQL
                 DELETE FROM akeneo_measurement
@@ -165,12 +165,12 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
         );
     }
 
-    private function hydrateUnit(string $code, array $normalizedLabels, array $convertFromStandard, string $symbol)
+    private function hydrateUnit(string $code, array $normalizedLabels, array $convertFromStandard, string $symbol): \Akeneo\Tool\Bundle\MeasureBundle\Model\Unit
     {
         $platform = $this->sqlConnection->getDatabasePlatform();
 
         $code = Type::getType(Types::STRING)->convertToPhpValue($code, $platform);
-        $operations = array_map(function (array $operation) use ($platform) {
+        $operations = array_map(function (array $operation) use ($platform): \Akeneo\Tool\Bundle\MeasureBundle\Model\Operation {
             $operator = Type::getType(Types::STRING)->convertToPhpValue($operation['operator'], $platform);
             $value = Type::getType(Types::STRING)->convertToPhpValue($operation['value'], $platform);
 

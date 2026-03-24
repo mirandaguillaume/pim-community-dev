@@ -24,7 +24,7 @@ final readonly class TransferFilesToStorageHandler
     ) {
     }
 
-    public function handle(TransferFilesToStorageCommand $command)
+    public function handle(TransferFilesToStorageCommand $command): void
     {
         $storage = $this->storageHydrator->hydrate($command->normalizedStorage);
         if ($storage instanceof LocalStorage && !$this->featureFlags->isEnabled('import_export_local_storage')) {

@@ -107,7 +107,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
      * @param string                   $format
      *
      */
-    private function normalizeValues(WriteValueCollection $values, $format, array $context = []): array
+    private function normalizeValues(WriteValueCollection $values, ?string $format, array $context = []): array
     {
         foreach ($context['filter_types'] as $filterType) {
             $values = $this->filter->filterCollection($values, $filterType, $context);

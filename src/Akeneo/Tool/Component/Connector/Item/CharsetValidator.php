@@ -18,8 +18,7 @@ class CharsetValidator implements StepExecutionAwareInterface
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var array */
-    protected $whiteListExtension;
+    protected array $whiteListExtension;
 
     /**
      * @param string $charset
@@ -36,7 +35,7 @@ class CharsetValidator implements StepExecutionAwareInterface
      * @throws CharsetException
      * @throws \Exception
      */
-    public function validate()
+    public function validate(): void
     {
         $jobParameters = $this->stepExecution->getJobParameters();
         $filePath = $jobParameters->get('storage')['file_path'];
@@ -97,7 +96,7 @@ class CharsetValidator implements StepExecutionAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }

@@ -65,6 +65,6 @@ class GetCategoryByIdsSql implements GetCategoryByIds
             return [];
         }
 
-        return array_map(fn ($category) => Category::fromDatabase($category), $rows);
+        return array_map(fn (array $category): \Akeneo\Category\Domain\Model\Enrichment\Category => Category::fromDatabase($category), $rows);
     }
 }

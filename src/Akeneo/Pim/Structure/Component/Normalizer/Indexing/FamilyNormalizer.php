@@ -16,11 +16,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class FamilyNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $translationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $translationNormalizer;
 
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
     /** @var string[] */
     protected $activatedLocaleCodes;

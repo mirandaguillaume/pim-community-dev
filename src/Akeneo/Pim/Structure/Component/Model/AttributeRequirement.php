@@ -57,7 +57,7 @@ class AttributeRequirement implements AttributeRequirementInterface
     /**
      * {@inheritdoc}
      */
-    public function setFamily(FamilyInterface $family)
+    public function setFamily(FamilyInterface $family): static
     {
         $this->family = $family;
 
@@ -75,7 +75,7 @@ class AttributeRequirement implements AttributeRequirementInterface
     /**
      * {@inheritdoc}
      */
-    public function setAttribute(AttributeInterface $attribute)
+    public function setAttribute(AttributeInterface $attribute): static
     {
         $this->attribute = $attribute;
 
@@ -101,7 +101,7 @@ class AttributeRequirement implements AttributeRequirementInterface
     /**
      * {@inheritdoc}
      */
-    public function setChannel(ChannelInterface $channel)
+    public function setChannel(ChannelInterface $channel): static
     {
         $this->channel = $channel;
 
@@ -127,7 +127,7 @@ class AttributeRequirement implements AttributeRequirementInterface
     /**
      * {@inheritdoc}
      */
-    public function setRequired($required)
+    public function setRequired($required): static
     {
         $this->required = (bool) $required;
 

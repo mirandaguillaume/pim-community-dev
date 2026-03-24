@@ -81,7 +81,7 @@ final readonly class SqlFindAttributeOptions implements FindAttributeOptions
             $types
         );
 
-        return array_map(fn ($line) => [
+        return array_map(fn (array $line): array => [
             'code' => $line['option_code'],
             'labels' => [$uiLocaleCode => $line['option_label'] ?? \sprintf('[%s]', $line['option_code'])],
         ], $results);

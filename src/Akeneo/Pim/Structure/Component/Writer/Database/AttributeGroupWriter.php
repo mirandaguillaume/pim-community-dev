@@ -19,14 +19,11 @@ class AttributeGroupWriter implements ItemWriterInterface, StepExecutionAwareInt
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var BulkSaverInterface */
-    protected $bulkSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface $bulkSaver;
 
-    /** @var BulkObjectDetacherInterface */
-    protected $bulkDetacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\BulkObjectDetacherInterface $bulkDetacher;
 
-    /** @var AttributeGroupRepositoryInterface */
-    protected $attributeGroupRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeGroupRepositoryInterface $attributeGroupRepository;
 
     public function __construct(
         BulkSaverInterface $bulkSaver,
@@ -46,7 +43,7 @@ class AttributeGroupWriter implements ItemWriterInterface, StepExecutionAwareInt
      * For example, we want to remove the price attribute from the product information group. We must put it
      * in the default group so we make sure it is always saved
      */
-    public function write(array $objects)
+    public function write(array $objects): void
     {
         $this->incrementCount($objects);
 
@@ -61,7 +58,7 @@ class AttributeGroupWriter implements ItemWriterInterface, StepExecutionAwareInt
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }

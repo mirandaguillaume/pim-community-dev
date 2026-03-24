@@ -16,8 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class AuthorProperty extends FieldProperty
 {
-    /** @var UserManager */
-    protected $userManager;
+    protected \Akeneo\UserManagement\Bundle\Manager\UserManager $userManager;
 
     /** @var string[] */
     protected $userCachedResults;
@@ -37,7 +36,7 @@ class AuthorProperty extends FieldProperty
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getRawValue(ResultRecordInterface $record)
+    protected function getRawValue(ResultRecordInterface $record): array
     {
         $author = parent::getRawValue($record);
 

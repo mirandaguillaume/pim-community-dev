@@ -51,7 +51,7 @@ class SearchQueryBuilder
      *
      * @return SearchQueryBuilder
      */
-    public function addMustNot(array $clause)
+    public function addMustNot(array $clause): static
     {
         $this->mustNotClauses[] = $clause;
 
@@ -64,7 +64,7 @@ class SearchQueryBuilder
      *
      * @return SearchQueryBuilder
      */
-    public function addFilter(array $clause)
+    public function addFilter(array $clause): static
     {
         $this->filterClauses[] = $clause;
 
@@ -111,7 +111,7 @@ class SearchQueryBuilder
      *
      * @return SearchQueryBuilder
      */
-    public function addShould(array $clause)
+    public function addShould(array $clause): static
     {
         $this->shouldClauses[] = $clause;
 
@@ -124,7 +124,7 @@ class SearchQueryBuilder
      *
      * @return $this
      */
-    public function addSort(array $sort)
+    public function addSort(array $sort): static
     {
         $this->sortClauses = array_merge($this->sortClauses, $sort);
 

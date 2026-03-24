@@ -17,7 +17,7 @@ class RegisterPreviewGeneratorPass implements CompilerPassInterface
     private const string PREVIEW_GENERATOR_REGISTRY = 'pim_category.infrastructure.registry.preview_generator';
     private const string PREVIEW_GENERATOR_TAG = 'pim_category.preview_generator';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $registry = $container->getDefinition(self::PREVIEW_GENERATOR_REGISTRY);
         $previewGenerators = $container->findTaggedServiceIds(self::PREVIEW_GENERATOR_TAG);

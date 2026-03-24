@@ -29,7 +29,7 @@ final class CheckChannelsOnDeletionSubscriber
      *
      * @throws ConflictHttpException
      */
-    public function checkChannels(GenericEvent $event)
+    public function checkChannels(GenericEvent $event): void
     {
         $subject = $event->getSubject();
 

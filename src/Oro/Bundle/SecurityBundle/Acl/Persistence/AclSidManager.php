@@ -23,7 +23,7 @@ class AclSidManager extends AbstractAclManager
      *
      * @return bool
      */
-    public function isAclEnabled()
+    public function isAclEnabled(): bool
     {
         return $this->aclProvider !== null;
     }
@@ -36,7 +36,7 @@ class AclSidManager extends AbstractAclManager
      *                        It is the user's username if $sid is UserSecurityIdentity
      *                        or the role name if $sid is RoleSecurityIdentity
      */
-    public function updateSid(SID $sid, $oldName)
+    public function updateSid(SID $sid, $oldName): void
     {
         if ($this->isAclEnabled()) {
             $this->aclProvider->updateSecurityIdentity($sid, $oldName);
@@ -46,7 +46,7 @@ class AclSidManager extends AbstractAclManager
     /**
      * Deletes the given security identity.
      */
-    public function deleteSid(SID $sid)
+    public function deleteSid(SID $sid): void
     {
         if ($this->isAclEnabled()) {
             if ($sid instanceof RoleSecurityIdentity) {

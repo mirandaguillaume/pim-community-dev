@@ -22,25 +22,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 #[AsEventListener(event: KernelEvents::REQUEST, method: 'onKernelRequest')]
 class UserContextListener
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
+    protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
-    /**
-     * @var AddLocaleListener
-     */
-    protected $listener;
+    protected \Akeneo\Platform\Bundle\UIBundle\EventListener\AddLocaleListener $listener;
 
-    /**
-     * @var CatalogContext
-     */
-    protected $catalogContext;
+    protected \Akeneo\Pim\Enrichment\Bundle\Context\CatalogContext $catalogContext;
 
-    /**
-     * @var UserContext
-     */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     /**
      * Constructor
@@ -57,7 +45,7 @@ class UserContextListener
         $this->userContext = $userContext;
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (HttpKernel::MAIN_REQUEST !== $event->getRequestType() || null === $this->tokenStorage->getToken()) {
             return;

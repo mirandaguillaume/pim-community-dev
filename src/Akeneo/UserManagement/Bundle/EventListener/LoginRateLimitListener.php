@@ -54,7 +54,7 @@ final readonly class LoginRateLimitListener
         $this->userManager->updateUser($user);
     }
 
-    public function onFailureLogin(LoginFailureEvent $event)
+    public function onFailureLogin(LoginFailureEvent $event): void
     {
         $user = $this->getUserFromPassport($event->getPassport());
         if (!$user instanceof UserInterface) {
@@ -64,7 +64,7 @@ final readonly class LoginRateLimitListener
         $this->incrementFailureCounter($user);
     }
 
-    private function incrementFailureCounter(UserInterface $user)
+    private function incrementFailureCounter(UserInterface $user): void
     {
         if (null === $user->getAuthenticationFailureResetDate()) {
             $user->setAuthenticationFailureResetDate(new \DateTime());
@@ -74,7 +74,7 @@ final readonly class LoginRateLimitListener
         $this->userManager->updateUser($user);
     }
 
-    private function getUserFromPassport($passport): ?UserInterface
+    private function getUserFromPassport(?\Symfony\Component\Security\Http\Authenticator\Passport\Passport $passport): ?UserInterface
     {
         if (!$passport instanceof Passport || !$passport->hasBadge(UserBadge::class)) {
             return null;

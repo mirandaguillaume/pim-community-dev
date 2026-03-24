@@ -40,6 +40,6 @@ final readonly class DescendantProductUuidsQuery implements DescendantProductUui
             ['productModelIds' => ArrayParameterType::INTEGER]
         )->fetchAllAssociative();
 
-        return array_map(fn ($rowData) => Uuid::fromString($rowData['uuid']), $resultRows);
+        return array_map(fn (array $rowData): \Ramsey\Uuid\UuidInterface => Uuid::fromString($rowData['uuid']), $resultRows);
     }
 }

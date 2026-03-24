@@ -14,15 +14,9 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 class AjaxEntityTransformer implements DataTransformerInterface
 {
-    /**
-     * @var AttributeOptionRepository
-     */
-    protected $repository;
+    protected \Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\AttributeOptionRepository $repository;
 
-    /**
-     * @var array
-     */
-    protected $options;
+    protected array $options;
 
     /**
      * Constructor
@@ -101,7 +95,7 @@ class AjaxEntityTransformer implements DataTransformerInterface
      *
      * @return array
      */
-    protected function getOption($entity)
+    protected function getOption($entity): array
     {
         return [
             'id'    => $this->repository->getOptionId($entity),
@@ -115,7 +109,7 @@ class AjaxEntityTransformer implements DataTransformerInterface
      *
      * @return object
      */
-    protected function getEntity(mixed $id)
+    protected function getEntity(mixed $id): ?object
     {
         return $this->repository->getOption($id, $this->options['collection_id'], $this->options);
     }

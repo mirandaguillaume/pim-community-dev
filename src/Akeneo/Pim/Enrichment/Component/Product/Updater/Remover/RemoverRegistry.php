@@ -20,8 +20,7 @@ class RemoverRegistry implements RemoverRegistryInterface
     /** @var FieldRemoverInterface[] priorized field removers */
     protected $fieldRemovers = [];
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     public function __construct(IdentifiableObjectRepositoryInterface $repository)
     {
@@ -31,7 +30,7 @@ class RemoverRegistry implements RemoverRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(RemoverInterface $remover)
+    public function register(RemoverInterface $remover): static
     {
         if ($remover instanceof FieldRemoverInterface) {
             $this->fieldRemovers[] = $remover;

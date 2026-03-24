@@ -16,14 +16,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class UserRoleController
 {
-    /** @var RoleRepository */
-    protected $roleRepository;
+    protected \Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\RoleRepository $roleRepository;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     public function __construct(
         RoleRepository $roleRepository,
@@ -38,7 +35,7 @@ class UserRoleController
     /**
      * @return JsonResponse
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $queryBuilder = $this->roleRepository->getAllButAnonymousQB();
         $roles = $queryBuilder->getQuery()->getResult();

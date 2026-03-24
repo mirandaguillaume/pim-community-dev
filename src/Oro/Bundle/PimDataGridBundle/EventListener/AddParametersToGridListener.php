@@ -27,8 +27,7 @@ class AddParametersToGridListener
     final public const string GRID_PARAM_DATA_IN = 'data_in';
     final public const string GRID_PARAM_DATA_NOT_IN = 'data_not_in';
 
-    /** @var RequestParameters */
-    protected $requestParams;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\RequestParameters $requestParams;
 
     /**
      * @param array             $paramNames    Parameter name that should be binded to query
@@ -44,7 +43,7 @@ class AddParametersToGridListener
     /**
      * Bound parameters in query builder
      */
-    public function onBuildAfter(BuildAfter $event)
+    public function onBuildAfter(BuildAfter $event): void
     {
         $datasource = $event->getDatagrid()->getDatasource();
         if ($datasource instanceof ParameterizableInterface) {
@@ -56,7 +55,7 @@ class AddParametersToGridListener
     /**
      * @return array
      */
-    protected function prepareParameters()
+    protected function prepareParameters(): array
     {
         $queryParameters = [];
         foreach ($this->paramNames as $paramName) {

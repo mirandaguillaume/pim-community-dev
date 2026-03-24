@@ -74,7 +74,7 @@ abstract class AbstractAclExtension implements AclExtensionInterface
      * @param string $id [output]
      * @throws \InvalidArgumentException
      */
-    protected function parseDescriptor($descriptor, &$type, &$id)
+    protected function parseDescriptor(string $descriptor, &$type, &$id)
     {
         $delim = strpos($descriptor, ':');
         if (!$delim) {

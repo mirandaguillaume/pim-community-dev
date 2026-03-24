@@ -20,14 +20,11 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class UniqueValueValidator extends ConstraintValidator
 {
-    /** @var ProductUniqueDataRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\ProductUniqueDataRepositoryInterface $repository;
 
-    /** @var UniqueValuesSet */
-    protected $uniqueValuesSet;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Validator\UniqueValuesSet $uniqueValuesSet;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     public function __construct(
         ProductUniqueDataRepositoryInterface $repository,
@@ -56,7 +53,7 @@ class UniqueValueValidator extends ConstraintValidator
      *
      * @see \Akeneo\Pim\Enrichment\Component\Product\Validator\ConstraintGuesser\UniqueValueGuesser
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueValue) {
             throw new UnexpectedTypeException($constraint, UniqueValue::class);
@@ -100,7 +97,7 @@ class UniqueValueValidator extends ConstraintValidator
      *
      * @return bool
      */
-    protected function alreadyExists(ValueInterface $value, ProductInterface $product)
+    protected function alreadyExists(ValueInterface $value, ProductInterface $product): bool
     {
         return $this->repository->uniqueDataExistsInAnotherProduct($value, $product);
     }
@@ -111,7 +108,7 @@ class UniqueValueValidator extends ConstraintValidator
      *
      * @return bool
      */
-    protected function hasAlreadyValidatedTheSameValue(ValueInterface $value, ProductInterface $product)
+    protected function hasAlreadyValidatedTheSameValue(ValueInterface $value, ProductInterface $product): bool
     {
         return false === $this->uniqueValuesSet->addValue($value, $product);
     }

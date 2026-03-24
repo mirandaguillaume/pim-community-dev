@@ -52,7 +52,7 @@ class CommentNormalizer implements NormalizerInterface, NormalizerAwareInterface
      *
      * @return array
      */
-    protected function normalizeChildren(array $children, array $context = [])
+    protected function normalizeChildren(array $children, array $context = []): array
     {
         $comments = [];
         foreach ($children as $child) {

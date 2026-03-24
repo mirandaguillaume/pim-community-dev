@@ -14,8 +14,7 @@ class DateFactory
     public const TYPE_DATE = \IntlDateFormatter::SHORT;
     public const TYPE_TIME = \IntlDateFormatter::NONE;
 
-    /** @var array */
-    protected $dateFormats;
+    protected array $dateFormats;
 
     public function __construct(array $dateFormats)
     {
@@ -26,7 +25,7 @@ class DateFactory
      * @param bool $fourDigitYear replace 2-digit year by 4-digit year format unless the format is explicitly specified
      * @return \IntlDateFormatter
      */
-    public function create(array $options = [], bool $fourDigitYear = true)
+    public function create(array $options = [], bool $fourDigitYear = true): \IntlDateFormatter
     {
         $options = $this->resolveOptions($options);
 
@@ -49,7 +48,7 @@ class DateFactory
     /**
      * @return array
      */
-    protected function resolveOptions(array $options)
+    protected function resolveOptions(array $options): array
     {
         if (!isset($options['date_format'])
             && isset($options['locale'])

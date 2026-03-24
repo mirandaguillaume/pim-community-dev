@@ -25,7 +25,7 @@ class Ace
      *
      * @return SecurityIdentityInterface
      */
-    public function getSecurityIdentity()
+    public function getSecurityIdentity(): \Symfony\Component\Security\Acl\Model\SecurityIdentityInterface
     {
         return $this->sid;
     }

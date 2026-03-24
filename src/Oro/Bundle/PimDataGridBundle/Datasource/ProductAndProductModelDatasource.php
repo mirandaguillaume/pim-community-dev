@@ -25,14 +25,11 @@ class ProductAndProductModelDatasource extends Datasource
     /** @var ProductQueryBuilderInterface */
     protected $pqb;
 
-    /** @var ProductQueryBuilderFactoryInterface */
-    protected $factory;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderFactoryInterface $factory;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
     /**
      * @param ObjectManager                         $om
@@ -58,7 +55,7 @@ class ProductAndProductModelDatasource extends Datasource
      * {@inheritdoc}
      */
     #[\Override]
-    public function getResults()
+    public function getResults(): array
     {
         $attributesToDisplay = $this->getAttributeCodesToDisplay();
 
@@ -121,7 +118,7 @@ class ProductAndProductModelDatasource extends Datasource
      * @return Datasource
      */
     #[\Override]
-    protected function initializeQueryBuilder($method, array $config = [])
+    protected function initializeQueryBuilder($method, array $config = []): static
     {
         $factoryConfig = [];
         $factoryConfig['repository_parameters'] = $config;

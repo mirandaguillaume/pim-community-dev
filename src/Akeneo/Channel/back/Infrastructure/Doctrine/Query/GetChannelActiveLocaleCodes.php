@@ -33,6 +33,6 @@ class GetChannelActiveLocaleCodes
             ['channel_code' => ParameterType::STRING]
         );
 
-        return array_map(fn ($value) => $value['code'], $statement->fetchAllAssociative());
+        return array_map(fn (array $value): mixed => $value['code'], $statement->fetchAllAssociative());
     }
 }

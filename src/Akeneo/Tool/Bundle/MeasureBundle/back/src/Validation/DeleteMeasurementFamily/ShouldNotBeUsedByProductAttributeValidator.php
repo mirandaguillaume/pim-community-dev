@@ -17,7 +17,7 @@ class ShouldNotBeUsedByProductAttributeValidator extends ConstraintValidator
     /**
      * @inheritDoc
      */
-    public function validate($deleteMeasurementFamily, Constraint $constraint)
+    public function validate($deleteMeasurementFamily, Constraint $constraint): void
     {
         if (!$constraint instanceof ShouldNotBeUsedByProductAttribute) {
             throw new UnexpectedTypeException($constraint, ShouldNotBeUsedByProductAttribute::class);

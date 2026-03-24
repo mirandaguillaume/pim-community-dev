@@ -38,7 +38,7 @@ class PartialUpdateListProductsByUuidController
         $resource = $request->getContent(true);
         $this->apiAggregatorForProductPostSave->activate();
 
-        return $this->partialUpdateStreamResource->streamResponse($resource, [], function () {
+        return $this->partialUpdateStreamResource->streamResponse($resource, [], function (): void {
             try {
                 $this->apiAggregatorForProductPostSave->dispatchAllEvents();
             } catch (\Throwable $exception) {

@@ -63,7 +63,7 @@ final readonly class HandleProcessMessageMiddleware implements MiddlewareInterfa
                 $receivedStamp->getTransportName(),
                 $tenantId,
                 $correlationId,
-                function () use ($envelope, $receiverStamp) {
+                function () use ($envelope, $receiverStamp): void {
                     $this->modifyAckDeadline($receiverStamp->receiver, $envelope);
                 }
             );

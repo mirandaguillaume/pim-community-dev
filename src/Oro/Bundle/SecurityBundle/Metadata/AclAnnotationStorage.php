@@ -96,7 +96,7 @@ class AclAnnotationStorage
      * @param  string|null     $type The annotation type
      * @return AclAnnotation[]
      */
-    public function getAnnotations(?string $type = null)
+    public function getAnnotations(?string $type = null): array
     {
         if ($type === null) {
             return array_values($this->annotations);
@@ -118,7 +118,7 @@ class AclAnnotationStorage
      * @param  string $class
      * @return bool   true if the class is registered in this storage; otherwise, false
      */
-    public function isKnownClass($class)
+    public function isKnownClass($class): bool
     {
         return isset($this->classes[$class]);
     }
@@ -130,7 +130,7 @@ class AclAnnotationStorage
      * @param  string $method
      * @return bool   true if the method is registered in this storage; otherwise, false
      */
-    public function isKnownMethod($class, $method)
+    public function isKnownMethod($class, $method): bool
     {
         return isset($this->classes[$class]) && isset($this->classes[$class][$method]);
     }
@@ -141,7 +141,7 @@ class AclAnnotationStorage
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function add(AclAnnotation $annotation, ?string $class = null, ?string $method = null)
+    public function add(AclAnnotation $annotation, ?string $class = null, ?string $method = null): void
     {
         $id = $annotation->getId();
         $this->annotations[$id] = $annotation;
@@ -156,7 +156,7 @@ class AclAnnotationStorage
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function addAncestor(AclAnnotationAncestor $ancestor, ?string $class = null, ?string $method = null)
+    public function addAncestor(AclAnnotationAncestor $ancestor, ?string $class = null, ?string $method = null): void
     {
         if ($class !== null) {
             $this->addBinding($ancestor->getId(), $class, $method);
@@ -172,7 +172,7 @@ class AclAnnotationStorage
      * @throws \InvalidArgumentException
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function addBinding($id, $class, ?string $method = null)
+    public function addBinding($id, ?string $class, ?string $method = null): void
     {
         if (empty($class)) {
             throw new \InvalidArgumentException('$class must not be empty.');

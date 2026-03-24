@@ -14,8 +14,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class VoterVisibilityChecker implements VisibilityCheckerInterface
 {
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    protected \Oro\Bundle\SecurityBundle\SecurityFacade $securityFacade;
 
     public function __construct(SecurityFacade $securityFacade)
     {
@@ -25,7 +24,7 @@ class VoterVisibilityChecker implements VisibilityCheckerInterface
     /**
      * {@inheritdoc}
      */
-    public function isVisible(array $config = [], array $context = [])
+    public function isVisible(array $config = [], array $context = []): bool
     {
         if (!isset($config['attribute'])) {
             throw new \InvalidArgumentException('The "attribute" should be provided in the configuration.');

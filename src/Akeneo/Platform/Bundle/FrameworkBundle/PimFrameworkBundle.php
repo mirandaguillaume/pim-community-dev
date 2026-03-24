@@ -16,7 +16,7 @@ class PimFrameworkBundle extends Bundle
     /**
      * {@inheritdoc }
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 

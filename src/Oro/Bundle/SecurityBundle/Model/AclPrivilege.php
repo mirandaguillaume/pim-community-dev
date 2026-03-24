@@ -48,7 +48,7 @@ class AclPrivilege
      * @param  AclPrivilegeIdentity $identity
      * @return AclPrivilege
      */
-    public function setIdentity($identity)
+    public function setIdentity($identity): static
     {
         $this->identity = $identity;
 
@@ -67,7 +67,7 @@ class AclPrivilege
      * @param  string       $group
      * @return AclPrivilege
      */
-    public function setGroup($group)
+    public function setGroup($group): static
     {
         $this->group = $group;
 
@@ -86,7 +86,7 @@ class AclPrivilege
      * @param  string       $extensionKey
      * @return AclPrivilege
      */
-    public function setExtensionKey($extensionKey)
+    public function setExtensionKey($extensionKey): static
     {
         $this->extensionKey = $extensionKey;
 
@@ -104,7 +104,7 @@ class AclPrivilege
     /**
      * @return bool
      */
-    public function hasPermissions()
+    public function hasPermissions(): bool
     {
         return !$this->permissions->isEmpty();
     }
@@ -112,7 +112,7 @@ class AclPrivilege
     /**
      * @return AclPrivilege
      */
-    public function addPermission(AclPermission $permission)
+    public function addPermission(AclPermission $permission): static
     {
         $this->permissions->set($permission->getName(), $permission);
 
@@ -122,7 +122,7 @@ class AclPrivilege
     /**
      * @return $this
      */
-    public function removePermission(AclPermission $permission)
+    public function removePermission(AclPermission $permission): static
     {
         $this->permissions->removeElement($permission);
 
@@ -133,7 +133,7 @@ class AclPrivilege
      * @param  string $name
      * @return bool
      */
-    public function hasPermission($name)
+    public function hasPermission(string|int $name)
     {
         return $this->permissions->containsKey($name);
     }

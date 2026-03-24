@@ -14,8 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class DataController
 {
-    /** @var ChainedDataCollector */
-    protected $dataCollector;
+    protected \Akeneo\Tool\Component\Analytics\ChainedDataCollector $dataCollector;
 
     public function __construct(ChainedDataCollector $dataCollector)
     {
@@ -27,7 +26,7 @@ class DataController
      *
      * @return JsonResponse
      */
-    public function collectAction()
+    public function collectAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $data = $this->dataCollector->collect('update_checker');
 

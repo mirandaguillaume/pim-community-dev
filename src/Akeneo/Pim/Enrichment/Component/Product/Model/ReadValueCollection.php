@@ -31,7 +31,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->values;
     }
@@ -39,7 +39,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function first()
+    public function first(): \Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface|false
     {
         return reset($this->values);
     }
@@ -47,7 +47,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function last()
+    public function last(): \Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface|false
     {
         return end($this->values);
     }
@@ -63,7 +63,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function next()
+    public function next(): \Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface|false
     {
         return next($this->values);
     }
@@ -71,7 +71,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function current()
+    public function current(): \Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface|false
     {
         return current($this->values);
     }
@@ -79,7 +79,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function contains(ValueInterface $value)
+    public function contains(ValueInterface $value): bool
     {
         return in_array($value, $this->values, true);
     }
@@ -87,12 +87,12 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function getValues()
+    public function getValues(): array
     {
         return array_values($this->values);
     }
 
-    public function getAttributeCodes()
+    public function getAttributeCodes(): array
     {
         return $this->attributeCodes;
     }
@@ -108,7 +108,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return empty($this->values);
     }
@@ -124,7 +124,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function filter(\Closure $filterBy)
+    public function filter(\Closure $filterBy): self
     {
         $filteredValues = array_filter($this->values, $filterBy);
 
@@ -134,7 +134,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function map(\Closure $mapFunction)
+    public function map(\Closure $mapFunction): self
     {
         $transformedValues = array_map($mapFunction, $this->values);
 

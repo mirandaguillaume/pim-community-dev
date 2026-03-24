@@ -17,7 +17,7 @@ class Channel extends AbstractSimpleArrayConverter implements ArrayConverterInte
     /**
      * {@inheritdoc}
      */
-    protected function convertProperty($property, $data, array $convertedItem, array $options)
+    protected function convertProperty($property, $data, array $convertedItem, array $options): array
     {
         switch ($property) {
             case 'locales':
@@ -25,7 +25,7 @@ class Channel extends AbstractSimpleArrayConverter implements ArrayConverterInte
                 $convertedItem[$property] = implode(',', array_filter($data));
                 break;
             case 'conversion_units':
-                $formattedConvertedUnits = array_map(fn ($key) => sprintf('%s:%s', trim((string) $key), trim((string) $data[$key])), array_keys(array_filter($data)));
+                $formattedConvertedUnits = array_map(fn (int|string $key): string => sprintf('%s:%s', trim((string) $key), trim((string) $data[$key])), array_keys(array_filter($data)));
 
                 $convertedItem[$property] = implode(',', $formattedConvertedUnits);
                 break;

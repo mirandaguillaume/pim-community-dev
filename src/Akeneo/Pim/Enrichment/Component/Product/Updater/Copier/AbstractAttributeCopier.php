@@ -23,14 +23,11 @@ abstract class AbstractAttributeCopier implements AttributeCopierInterface
     /** @var array */
     protected $supportedToTypes = [];
 
-    /** @var EntityWithValuesBuilderInterface */
-    protected $entityWithValuesBuilder;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Builder\EntityWithValuesBuilderInterface $entityWithValuesBuilder;
 
-    /** @var AttributeValidatorHelper */
-    protected $attrValidatorHelper;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Validator\AttributeValidatorHelper $attrValidatorHelper;
 
-    /** @var OptionsResolver */
-    protected $resolver;
+    protected \Symfony\Component\OptionsResolver\OptionsResolver $resolver;
 
     public function __construct(
         EntityWithValuesBuilderInterface $entityWithValuesBuilder,

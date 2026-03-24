@@ -147,7 +147,7 @@ abstract class AbstractDateFilter extends AbstractFilter
      * @param string                           $fieldName ,
      */
     protected function applyFilterBetween(
-        $ds,
+        \Oro\Bundle\FilterBundle\Datasource\FilterDatasourceAdapterInterface $ds,
         $dateStartValue,
         $dateEndValue,
         $startDateParameterName,
@@ -204,7 +204,7 @@ abstract class AbstractDateFilter extends AbstractFilter
      * @param string                           $fieldName
      */
     protected function applyFilterNotBetween(
-        $ds,
+        \Oro\Bundle\FilterBundle\Datasource\FilterDatasourceAdapterInterface $ds,
         $dateStartValue,
         $dateEndValue,
         $startDateParameterName,

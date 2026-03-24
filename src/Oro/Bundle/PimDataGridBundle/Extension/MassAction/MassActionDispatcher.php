@@ -28,20 +28,15 @@ class MassActionDispatcher
     /** @staticvar string */
     final public const string FAMILY_GRID_NAME = 'family-grid';
 
-    /** @var MassActionHandlerRegistry */
-    protected $handlerRegistry;
+    protected \Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionHandlerRegistry $handlerRegistry;
 
-    /** @var ManagerInterface */
-    protected $manager;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\ManagerInterface $manager;
 
-    /** @var RequestParameters */
-    protected $requestParams;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\RequestParameters $requestParams;
 
-    /** @var MassActionParametersParser */
-    protected $parametersParser;
+    protected \Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionParametersParser $parametersParser;
 
-    /** @var array */
-    protected $supportedGridNames;
+    protected array $supportedGridNames;
 
     public function __construct(
         MassActionHandlerRegistry $handlerRegistry,
@@ -130,7 +125,7 @@ class MassActionDispatcher
      * @throws \LogicException
      * @return array
      */
-    protected function prepareMassActionParameters(array $parameters)
+    protected function prepareMassActionParameters(array $parameters): array
     {
         $inset = $this->prepareInsetParameter($parameters);
         $values = $this->prepareValuesParameter($parameters);
@@ -218,12 +213,12 @@ class MassActionDispatcher
      * @throws \LogicException
      * @return MassActionInterface
      */
-    protected function getMassActionByName($massActionName, DatagridInterface $datagrid)
+    protected function getMassActionByName(string $massActionName, DatagridInterface $datagrid)
     {
         $massAction = null;
         $extensions = array_filter(
             $datagrid->getAcceptor()->getExtensions(),
-            fn (ExtensionVisitorInterface $extension) => $extension instanceof MassActionExtension
+            fn (ExtensionVisitorInterface $extension): bool => $extension instanceof MassActionExtension
         );
 
         /** @var MassActionExtension|bool $extension */

@@ -14,7 +14,7 @@ class UserConfigManager extends ConfigManager
     /**
      * DI setter for token storage
      */
-    public function setSecurity(TokenStorageInterface $tokenStorage)
+    public function setSecurity(TokenStorageInterface $tokenStorage): void
     {
         $this->tokenStorage = $tokenStorage;
 
@@ -34,7 +34,7 @@ class UserConfigManager extends ConfigManager
      * @return string
      */
     #[\Override]
-    public function getScopedEntityName()
+    public function getScopedEntityName(): string
     {
         return 'user';
     }
@@ -43,7 +43,7 @@ class UserConfigManager extends ConfigManager
      * @return int
      */
     #[\Override]
-    public function getScopeId()
+    public function getScopeId(): int
     {
         return 0;
     }

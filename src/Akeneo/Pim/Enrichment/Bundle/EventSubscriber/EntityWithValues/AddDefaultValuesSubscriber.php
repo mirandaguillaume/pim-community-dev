@@ -31,7 +31,7 @@ class AddDefaultValuesSubscriber
     {
     }
 
-    public function addDefaultValues(GenericEvent $event)
+    public function addDefaultValues(GenericEvent $event): void
     {
         $entity = $event->getSubject();
 

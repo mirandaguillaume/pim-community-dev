@@ -12,7 +12,7 @@ class YamlConverter implements QueryConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function parse($value, QueryBuilder $qb)
+    public function parse($value, QueryBuilder $qb): QueryBuilder
     {
         if (!is_array($value)) {
             $value = Yaml::parse(file_get_contents($value));
@@ -58,7 +58,7 @@ class YamlConverter implements QueryConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function dump(QueryBuilder $input)
+    public function dump(QueryBuilder $input): string
     {
         return '';
     }
@@ -66,7 +66,7 @@ class YamlConverter implements QueryConverterInterface
     /**
      * @param array        $value
      */
-    protected function addJoin(QueryBuilder $qb, $value)
+    protected function addJoin(QueryBuilder $qb, array $value)
     {
         $defaultValues = ['conditionType' => null, 'condition' => null];
         if (isset($value['join'])) {
@@ -89,7 +89,7 @@ class YamlConverter implements QueryConverterInterface
     /**
      * @param array        $value
      */
-    protected function addWhere(QueryBuilder $qb, $value)
+    protected function addWhere(QueryBuilder $qb, array $value)
     {
         if (isset($value['where'])) {
             if (isset($value['where']['and'])) {
@@ -109,7 +109,7 @@ class YamlConverter implements QueryConverterInterface
     /**
      * @param array        $value
      */
-    protected function addOrder(QueryBuilder $qb, $value)
+    protected function addOrder(QueryBuilder $qb, array $value)
     {
         if (isset($value['orderBy'])) {
             $qb->resetDQLPart('orderBy');

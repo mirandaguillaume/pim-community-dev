@@ -57,7 +57,7 @@ final readonly class SqlFindUsers implements FindUsers
         )->fetchAllAssociative();
 
         return array_map(
-            static fn ($data) => ServiceApiUser::createFromDatabase($data),
+            static fn (array $data): \Akeneo\UserManagement\Domain\Model\User => ServiceApiUser::createFromDatabase($data),
             $results
         );
     }

@@ -18,8 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class GroupFieldSetter extends AbstractFieldSetter
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $groupRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $groupRepository;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $groupRepository,
@@ -34,7 +33,7 @@ class GroupFieldSetter extends AbstractFieldSetter
      *
      * Expected data input format : ["group_code"]
      */
-    public function setFieldData($product, $field, $data, array $options = [])
+    public function setFieldData($product, $field, $data, array $options = []): void
     {
         if (!$product instanceof ProductInterface) {
             throw InvalidObjectException::objectExpected(

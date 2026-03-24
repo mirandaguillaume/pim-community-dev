@@ -18,8 +18,7 @@ use Twig\TwigFunction;
  */
 class CategoryExtension extends AbstractExtension
 {
-    /** @var CategoryItemsCounterRegistry */
-    protected $categoryItemsCounter;
+    protected \Akeneo\Category\Infrastructure\Doctrine\ORM\Counter\CategoryItemsCounterRegistry $categoryItemsCounter;
 
     /**
      * @param int $itemsLimitRemoval
@@ -136,7 +135,7 @@ class CategoryExtension extends AbstractExtension
      *
      * @throws \Exception
      */
-    public function exceedsProductsLimitForRemoval(CategoryInterface $category, $includeSub, $relatedEntity = 'product')
+    public function exceedsProductsLimitForRemoval(CategoryInterface $category, $includeSub, $relatedEntity = 'product'): bool
     {
         return null !== $this->itemsLimitRemoval
             && $this->countItems($category, $includeSub, $relatedEntity) > $this->itemsLimitRemoval;
@@ -167,7 +166,7 @@ class CategoryExtension extends AbstractExtension
         $withProductCount = false,
         $includeSub = false,
         $relatedEntity = 'product',
-    ) {
+    ): array {
         $result = [];
         foreach ($categories as $category) {
             $result[] = $this->formatCategoryFromArray(
@@ -206,7 +205,7 @@ class CategoryExtension extends AbstractExtension
         $withProductCount = false,
         $includeSub = false,
         $relatedEntity = 'product',
-    ) {
+    ): array {
         $state = $this->defineCategoryStateFromArray($category, $selectedIds);
         $label = $this->getLabel($category['item'], $withProductCount, $includeSub, $relatedEntity);
 
@@ -251,7 +250,7 @@ class CategoryExtension extends AbstractExtension
         $includeSub = false,
         array $children = [],
         $relatedEntity = 'product',
-    ) {
+    ): array {
         $state = $this->defineCategoryState($category, false, $selectedIds);
         $label = $this->getLabel($category, $withProductCount, $includeSub, $relatedEntity);
 
@@ -287,7 +286,7 @@ class CategoryExtension extends AbstractExtension
         $withProductCount = false,
         $includeSub = false,
         $relatedEntity = 'product',
-    ) {
+    ): array {
         $result = [];
         foreach ($categories as $category) {
             $result[] = $this->formatCategory($category, [], $withProductCount, $includeSub, [], $relatedEntity);
@@ -304,7 +303,7 @@ class CategoryExtension extends AbstractExtension
      *
      * @return array
      */
-    protected function formatCategoriesAndCount(array $categories, $selectedIds = [], $relatedEntity = 'product')
+    protected function formatCategoriesAndCount(array $categories, array $selectedIds = [], $relatedEntity = 'product'): array
     {
         $result = [];
         foreach ($categories as $category) {
@@ -361,7 +360,7 @@ class CategoryExtension extends AbstractExtension
         $withCount = false,
         $includeSub = false,
         $relatedEntity = 'product',
-    ) {
+    ): string {
         $label = $category->getLabel();
         if ($withCount) {
             $label = $label.' ('.$this->countItems($category, $includeSub, $relatedEntity).')';
@@ -392,7 +391,7 @@ class CategoryExtension extends AbstractExtension
      *
      * @return string
      */
-    protected function defineCategoryState(CategoryInterface $category, $hasChild = false, array $selectedIds = [])
+    protected function defineCategoryState(CategoryInterface $category, $hasChild = false, array $selectedIds = []): string
     {
         $state = $category->hasChildren() ? 'closed' : 'leaf';
 
@@ -422,7 +421,7 @@ class CategoryExtension extends AbstractExtension
      *
      * @return string
      */
-    protected function defineCategoryStateFromArray(array $category, $selectedIds = [])
+    protected function defineCategoryStateFromArray(array $category, array $selectedIds = [])
     {
         $children = $category['__children'];
         $category = $category['item'];
@@ -440,7 +439,7 @@ class CategoryExtension extends AbstractExtension
      *
      * @throws \Exception
      */
-    protected function getExtension($type)
+    protected function getExtension(string $type)
     {
         $categoryItemsCounter = $this->categoryItemsCounter->get($type);
 

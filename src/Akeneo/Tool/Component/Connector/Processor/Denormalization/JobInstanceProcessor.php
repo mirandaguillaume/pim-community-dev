@@ -24,26 +24,19 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class JobInstanceProcessor extends AbstractProcessor implements ItemProcessorInterface, StepExecutionAwareInterface
 {
-    /** @var SimpleFactoryInterface */
-    protected $factory;
+    protected \Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface $factory;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var ObjectDetacherInterface */
-    protected $objectDetacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\ObjectDetacherInterface $objectDetacher;
 
-    /** @var JobParametersValidator */
-    protected $jobParamsValidator;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParametersValidator $jobParamsValidator;
 
-    /** @var JobParametersFactory */
-    protected $jobParamsFactory;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParametersFactory $jobParamsFactory;
 
-    /** @var JobRegistry */
-    protected $jobRegistry;
+    protected \Akeneo\Tool\Component\Batch\Job\JobRegistry $jobRegistry;
 
     /**
      * @param IdentifiableObjectRepositoryInterface $repository

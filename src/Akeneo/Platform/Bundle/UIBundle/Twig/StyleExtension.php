@@ -32,7 +32,7 @@ class StyleExtension extends AbstractExtension
      *
      * @return string
      */
-    public function highlight($content)
+    public function highlight(string $content): string
     {
         return sprintf('<span class="AknRule-attribute">%s</span>', $content);
     }

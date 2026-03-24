@@ -30,8 +30,9 @@ class BooleanConverter extends AbstractValueConverter implements ValueConverterI
      * [
      *     'auto_lock-de_DE-ecommerce' => '0',
      * ]
+     * @return ''[]|'0'[]|'1'[]
      */
-    public function convert($attributeCode, $data)
+    public function convert($attributeCode, $data): array
     {
         $convertedItem = [];
 

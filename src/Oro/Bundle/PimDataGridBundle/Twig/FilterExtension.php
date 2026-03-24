@@ -37,7 +37,7 @@ class FilterExtension extends AbstractExtension
      *
      * @return string
      */
-    public function filterLabel($code)
+    public function filterLabel(string $code): ?string
     {
         $configuration = $this->datagridManager->getDatagrid('product-grid')->getAcceptor()->getConfig();
         $this->filtersConfigurator->configure($configuration);

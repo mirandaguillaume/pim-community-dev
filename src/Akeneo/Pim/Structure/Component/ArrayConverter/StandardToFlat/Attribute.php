@@ -14,8 +14,7 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\StandardToFlat\AbstractSimple
  */
 class Attribute extends AbstractSimpleArrayConverter implements ArrayConverterInterface
 {
-    /** @var array */
-    protected $booleanFields;
+    protected array $booleanFields;
 
     public function __construct(array $booleanFields)
     {
@@ -25,7 +24,7 @@ class Attribute extends AbstractSimpleArrayConverter implements ArrayConverterIn
     /**
      * {@inheritdoc}
      */
-    protected function convertProperty($property, $data, array $convertedItem, array $options)
+    protected function convertProperty($property, $data, array $convertedItem, array $options): array
     {
         switch ($property) {
             case 'labels':

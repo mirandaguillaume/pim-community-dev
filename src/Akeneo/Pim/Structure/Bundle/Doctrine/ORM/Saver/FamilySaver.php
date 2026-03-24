@@ -20,11 +20,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class FamilySaver implements SaverInterface, BulkSaverInterface
 {
-    /** @var ObjectManager */
-    protected $objectManager;
+    protected \Doctrine\Persistence\ObjectManager $objectManager;
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher;
 
     /**                                                           {@see \Akeneo\Pim\Enrichment\Bundle\EventSubscriber\ComputeCompletenessOnFamilyUpdateSubscriber})
      */
@@ -39,7 +37,7 @@ class FamilySaver implements SaverInterface, BulkSaverInterface
     /**
      * {@inheritdoc}
      */
-    public function save($family, array $options = [])
+    public function save($family, array $options = []): void
     {
         $this->validateFamily($family);
 
@@ -57,7 +55,7 @@ class FamilySaver implements SaverInterface, BulkSaverInterface
     /**
      * {@inheritdoc}
      */
-    public function saveAll(array $families, array $options = [])
+    public function saveAll(array $families, array $options = []): void
     {
         if (empty($families)) {
             return;

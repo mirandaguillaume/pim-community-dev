@@ -69,7 +69,7 @@ abstract class AbstractAttributeFilter implements AttributeFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function setQueryBuilder($searchQueryBuilder)
+    public function setQueryBuilder($searchQueryBuilder): void
     {
         if (!$searchQueryBuilder instanceof SearchQueryBuilder) {
             throw new \InvalidArgumentException(
@@ -87,7 +87,7 @@ abstract class AbstractAttributeFilter implements AttributeFilterInterface
      * @param string             $channel
      * @throws InvalidPropertyException
      */
-    protected function checkLocaleAndChannel(AttributeInterface $attribute, $locale, $channel)
+    protected function checkLocaleAndChannel(AttributeInterface $attribute, ?string $locale, ?string $channel)
     {
         try {
             $this->filterValidator->validateLocaleForAttribute($attribute->getCode(), $locale);

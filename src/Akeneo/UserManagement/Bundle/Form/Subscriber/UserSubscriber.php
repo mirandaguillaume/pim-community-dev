@@ -12,15 +12,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class UserSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var FormFactoryInterface
-     */
-    protected $factory;
+    protected \Symfony\Component\Form\FormFactoryInterface $factory;
 
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
+    protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
 
     /**
@@ -45,7 +39,7 @@ class UserSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function preSetData(FormEvent $event)
+    public function preSetData(FormEvent $event): void
     {
         /* @var $entity UserInterface */
         $entity = $event->getData();

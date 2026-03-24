@@ -40,7 +40,7 @@ class ResilientDeadlockConnection
      * @throws DeadlockException
      * @throws Exception
      */
-    public function executeQuery(string $sql, array $params = [], $types = [], ?string $cause = null): Result
+    public function executeQuery(string $sql, array $params = [], array $types = [], ?string $cause = null): Result
     {
         $retry = 0;
         while (true) {

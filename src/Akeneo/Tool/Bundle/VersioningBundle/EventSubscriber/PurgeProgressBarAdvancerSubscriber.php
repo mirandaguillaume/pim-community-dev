@@ -27,14 +27,14 @@ class PurgeProgressBarAdvancerSubscriber
     /**
      * Keeps the progress bar in track with the processed versions
      */
-    public function advanceProgressBar(PreAdvisementVersionEvent $preAdvisementVersionEvent)
+    public function advanceProgressBar(PreAdvisementVersionEvent $preAdvisementVersionEvent): void
     {
         if (null !== $this->progressBar) {
             $this->progressBar->advance();
         }
     }
 
-    public function setProgressBar(ProgressBar $progressBar)
+    public function setProgressBar(ProgressBar $progressBar): void
     {
         $this->progressBar = $progressBar;
     }

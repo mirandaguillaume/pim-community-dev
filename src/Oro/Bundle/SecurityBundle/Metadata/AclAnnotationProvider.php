@@ -27,7 +27,7 @@ class AclAnnotationProvider
     /**
      * Add new loader
      */
-    public function addLoader(AclAnnotationLoaderInterface $loader)
+    public function addLoader(AclAnnotationLoaderInterface $loader): void
     {
         $this->loaders[] = $loader;
     }
@@ -114,7 +114,7 @@ class AclAnnotationProvider
     /**
      * Warms up the cache
      */
-    public function warmUpCache()
+    public function warmUpCache(): void
     {
         $this->ensureAnnotationsLoaded();
     }
@@ -122,7 +122,7 @@ class AclAnnotationProvider
     /**
      * Clears the cache
      */
-    public function clearCache()
+    public function clearCache(): void
     {
         $this->storage = null;
     }
@@ -130,7 +130,7 @@ class AclAnnotationProvider
     /**
      * @return AclAnnotationStorage
      */
-    public function getBundleAnnotations(array $bundleDirectories)
+    public function getBundleAnnotations(array $bundleDirectories): \Oro\Bundle\SecurityBundle\Metadata\AclAnnotationStorage
     {
         $data = new AclAnnotationStorage();
         foreach ($this->loaders as $loader) {

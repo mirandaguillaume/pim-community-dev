@@ -33,7 +33,7 @@ final readonly class GetGroupAssociationsByProductModelCodes
             return [];
         }
 
-        $productModelCodes = (fn (string ...$codes) => $codes)(... $productModelCodes);
+        $productModelCodes = (fn (string ...$codes): array => $codes)(... $productModelCodes);
 
         $query = <<<SQL
             SELECT

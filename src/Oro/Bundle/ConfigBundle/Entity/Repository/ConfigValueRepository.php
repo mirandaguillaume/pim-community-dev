@@ -17,7 +17,7 @@ class ConfigValueRepository extends EntityRepository
      * @param integer $configId
      * @param array   $removed
      */
-    public function removeValues($configId, $removed)
+    public function removeValues($configId, $removed): void
     {
         $builder = $this->getEntityManager()->createQueryBuilder();
 

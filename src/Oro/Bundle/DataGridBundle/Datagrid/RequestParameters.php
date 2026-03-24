@@ -13,8 +13,7 @@ class RequestParameters
     /** @var string */
     protected $rootParam;
 
-    /** @var RequestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack)
     {
@@ -40,7 +39,7 @@ class RequestParameters
      *
      * @return void
      */
-    public function set($type, mixed $value)
+    public function set($type, mixed $value): void
     {
         $parameters = $this->getRootParameterValue();
         $currentValue = $this->get($type);
@@ -57,7 +56,7 @@ class RequestParameters
     /**
      * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->getRequest()->getLocale();
     }
@@ -67,7 +66,7 @@ class RequestParameters
      *
      * @return $this
      */
-    public function setRootParameter($rootParam)
+    public function setRootParameter($rootParam): static
     {
         $this->rootParam = $rootParam;
 

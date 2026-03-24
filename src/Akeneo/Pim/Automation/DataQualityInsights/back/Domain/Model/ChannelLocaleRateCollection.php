@@ -41,7 +41,7 @@ final class ChannelLocaleRateCollection implements \IteratorAggregate
 
         $rateCollection->rates = ChannelLocaleDataCollection::fromNormalizedChannelLocaleData(
             $rawRates,
-            fn ($rawRate) => new Rate(intval($rawRate))
+            fn ($rawRate): \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate => new Rate(intval($rawRate))
         );
 
         return $rateCollection;
@@ -61,7 +61,7 @@ final class ChannelLocaleRateCollection implements \IteratorAggregate
 
         $rateCollection->rates = ChannelLocaleDataCollection::fromNormalizedChannelLocaleData(
             $normalizedRates,
-            function (array $normalizedRate) {
+            function (array $normalizedRate): \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate {
                 Assert::keyExists($normalizedRate, 'value', 'The normalized rate is malformed');
                 return new Rate(intval($normalizedRate['value']));
             }
@@ -77,17 +77,17 @@ final class ChannelLocaleRateCollection implements \IteratorAggregate
 
     public function toArrayLetter(): array
     {
-        return $this->rates->mapWith(fn (Rate $rate) => $rate->toLetter());
+        return $this->rates->mapWith(fn (Rate $rate): string => $rate->toLetter());
     }
 
     public function toArrayInt(): array
     {
-        return $this->rates->mapWith(fn (Rate $rate) => $rate->toInt());
+        return $this->rates->mapWith(fn (Rate $rate): int => $rate->toInt());
     }
 
     public function toArrayIntRank(): array
     {
-        return $this->rates->mapWith(fn (Rate $rate) => Rank::fromRate($rate)->toInt());
+        return $this->rates->mapWith(fn (Rate $rate): int => Rank::fromRate($rate)->toInt());
     }
 
     /**
@@ -95,7 +95,7 @@ final class ChannelLocaleRateCollection implements \IteratorAggregate
      **/
     public function toNormalizedRates(): array
     {
-        return $this->rates->mapWith(fn (Rate $score) => [
+        return $this->rates->mapWith(fn (Rate $score): array => [
             'rank' => Rank::fromRate($score)->toInt(),
             'value' => $score->toInt(),
         ]);

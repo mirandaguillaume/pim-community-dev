@@ -12,8 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class CurrencyNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $stdNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $stdNormalizer;
 
     public function __construct(NormalizerInterface $stdNormalizer)
     {

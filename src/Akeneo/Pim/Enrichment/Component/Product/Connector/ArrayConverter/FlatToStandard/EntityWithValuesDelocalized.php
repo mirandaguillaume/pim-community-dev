@@ -15,11 +15,9 @@ use Akeneo\Tool\Component\Connector\Exception\DataArrayConversionException;
  */
 class EntityWithValuesDelocalized implements ArrayConverterInterface
 {
-    /** @var ArrayConverterInterface */
-    protected $converter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface $converter;
 
-    /** @var AttributeConverterInterface */
-    protected $delocalizer;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Localization\Localizer\AttributeConverterInterface $delocalizer;
 
     public function __construct(ArrayConverterInterface $converter, AttributeConverterInterface $delocalizer)
     {

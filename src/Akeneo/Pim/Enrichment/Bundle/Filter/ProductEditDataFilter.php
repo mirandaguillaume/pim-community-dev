@@ -14,11 +14,9 @@ use Oro\Bundle\SecurityBundle\SecurityFacade;
  */
 class ProductEditDataFilter implements CollectionFilterInterface
 {
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    protected \Oro\Bundle\SecurityBundle\SecurityFacade $securityFacade;
 
-    /** @var CollectionFilterInterface */
-    protected $productValuesFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\CollectionFilterInterface $productValuesFilter;
 
     /** @var array */
     protected $acls = [
@@ -40,8 +38,9 @@ class ProductEditDataFilter implements CollectionFilterInterface
      * Filter product data according to edit permissions
      *
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function filterCollection($collection, $type, array $options = [])
+    public function filterCollection($collection, $type, array $options = []): array
     {
         $newProductData = [];
         $product = $options['product'];
@@ -58,7 +57,7 @@ class ProductEditDataFilter implements CollectionFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsCollection($collection, $type, array $options = [])
+    public function supportsCollection($collection, $type, array $options = []): bool
     {
         return false;
     }

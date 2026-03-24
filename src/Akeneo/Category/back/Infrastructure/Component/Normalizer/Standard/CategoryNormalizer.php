@@ -14,8 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class CategoryNormalizer implements NormalizerInterface
 {
-    /** @var TranslationNormalizer */
-    protected $translationNormalizer;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Normalizer\Standard\TranslationNormalizer $translationNormalizer;
 
     public function __construct(TranslationNormalizer $translationNormalizer, private readonly DateTimeNormalizer $dateTimeNormalizer)
     {

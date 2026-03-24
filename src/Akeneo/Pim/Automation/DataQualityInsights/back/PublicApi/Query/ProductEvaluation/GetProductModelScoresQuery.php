@@ -29,7 +29,7 @@ class GetProductModelScoresQuery implements GetProductModelScoresQueryInterface
         $scoresByIdentifiers = $this->getProductModelScoresByCodesQuery->byProductModelCodes($productModelCodes);
 
         return array_map(
-            fn (Read\Scores $scores) => $this->qualityScoreCollection(($this->getScoresByCriteria)($scores)),
+            fn (Read\Scores $scores): \Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Model\QualityScoreCollection => $this->qualityScoreCollection(($this->getScoresByCriteria)($scores)),
             $scoresByIdentifiers
         );
     }
@@ -43,7 +43,7 @@ class GetProductModelScoresQuery implements GetProductModelScoresQueryInterface
 
     private function qualityScoreCollection(ChannelLocaleRateCollection $channelLocaleRateCollection): QualityScoreCollection
     {
-        $productModelScores = $channelLocaleRateCollection->mapWith(static fn (Rate $rate) => new QualityScore($rate->toLetter(), $rate->toInt()));
+        $productModelScores = $channelLocaleRateCollection->mapWith(static fn (Rate $rate): \Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Model\QualityScore => new QualityScore($rate->toLetter(), $rate->toInt()));
         return new QualityScoreCollection($productModelScores);
     }
 }

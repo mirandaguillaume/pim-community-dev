@@ -43,59 +43,41 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class MediaFileController
 {
-    /** @var ApiResourceRepositoryInterface */
-    protected $mediaRepository;
+    protected \Akeneo\Tool\Component\Api\Repository\ApiResourceRepositoryInterface $mediaRepository;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var ParameterValidatorInterface */
-    protected $parameterValidator;
+    protected \Akeneo\Tool\Component\Api\Pagination\ParameterValidatorInterface $parameterValidator;
 
-    /** @var PaginatorInterface */
-    protected $paginator;
+    protected \Akeneo\Tool\Component\Api\Pagination\PaginatorInterface $paginator;
 
-    /** @var FilesystemProvider */
-    protected $filesystemProvider;
+    protected \Akeneo\Tool\Component\FileStorage\FilesystemProvider $filesystemProvider;
 
-    /** @var FileFetcherInterface */
-    protected $fileFetcher;
+    protected \Akeneo\Tool\Component\FileStorage\File\FileFetcherInterface $fileFetcher;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $productRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $productRepository;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $productModelRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $productModelRepository;
 
-    /** @var ObjectUpdaterInterface */
-    protected $productUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $productUpdater;
 
-    /** @var SaverInterface */
-    protected $productSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $productSaver;
 
-    /** @var ObjectUpdaterInterface */
-    protected $productModelUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $productModelUpdater;
 
-    /** @var SaverInterface */
-    protected $productModelSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $productModelSaver;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var SaverInterface */
-    protected $fileInfoSaver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $fileInfoSaver;
 
-    /** @var FileStorerInterface */
-    protected $fileStorer;
+    protected \Akeneo\Tool\Component\FileStorage\File\FileStorerInterface $fileStorer;
 
-    /** @var RemoverInterface */
-    protected $remover;
+    protected \Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface $remover;
 
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var array */
-    protected $apiConfiguration;
+    protected array $apiConfiguration;
 
     public function __construct(
         ApiResourceRepositoryInterface $mediaRepository,
@@ -144,7 +126,7 @@ class MediaFileController
      * @throws HttpException
      * @return JsonResponse
      */
-    public function getAction(Request $request, $code)
+    public function getAction(Request $request, string $code): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $media = $this->mediaRepository->findOneByIdentifier(urldecode($code));
         if (null === $media || FileStorage::CATALOG_STORAGE_ALIAS !== $media->getStorage()) {
@@ -161,7 +143,7 @@ class MediaFileController
      * @throws HttpException
      * @return JsonResponse
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             $this->parameterValidator->validate($request->query->all());
@@ -286,7 +268,7 @@ class MediaFileController
      * @throws HttpException
      * @return Response
      */
-    protected function createProductMedia(Request $request)
+    protected function createProductMedia(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $productInfos = $this->getProductDecodedContent($request->request->get('product'));
         $product = $this->productRepository->findOneByIdentifier($productInfos['identifier']);

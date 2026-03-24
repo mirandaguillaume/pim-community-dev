@@ -23,14 +23,11 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class AttributeGroupUpdater implements ObjectUpdaterInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
-    /** @var AttributeGroupRepositoryInterface */
-    protected $attributeGroupRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeGroupRepositoryInterface $attributeGroupRepository;
 
-    /** @var TranslatableUpdater */
-    protected $translatableUpdater;
+    protected \Akeneo\Tool\Component\Localization\TranslatableUpdater $translatableUpdater;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $attributeRepository,
@@ -56,7 +53,7 @@ class AttributeGroupUpdater implements ObjectUpdaterInterface
      *     ]
      * ]
      */
-    public function update($attributeGroup, array $data, array $options = [])
+    public function update($attributeGroup, array $data, array $options = []): static
     {
         if (!$attributeGroup instanceof AttributeGroupInterface) {
             throw InvalidObjectException::objectExpected(
@@ -113,7 +110,7 @@ class AttributeGroupUpdater implements ObjectUpdaterInterface
      *
      * @throws InvalidPropertyException
      */
-    protected function setData($attributeGroup, $field, mixed $data)
+    protected function setData(\Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface|\Akeneo\Tool\Component\Localization\Model\TranslatableInterface $attributeGroup, $field, mixed $data)
     {
         if ('code' == $field) {
             $attributeGroup->setCode($data);

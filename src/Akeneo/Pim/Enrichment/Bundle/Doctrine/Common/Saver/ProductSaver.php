@@ -89,7 +89,7 @@ class ProductSaver implements SaverInterface, BulkSaverInterface
 
         $this->eventDispatcher->dispatch(new GenericEvent($products, $options), StorageEvents::PRE_SAVE_ALL);
 
-        $areProductsNew = array_map(fn ($product) => null === $product->getCreated(), $products);
+        $areProductsNew = array_map(fn ($product): bool => null === $product->getCreated(), $products);
 
         $this->objectManager->getConnection()->beginTransaction();
 

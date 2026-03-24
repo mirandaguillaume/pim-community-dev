@@ -73,7 +73,7 @@ class GroupType implements GroupTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -101,7 +101,7 @@ class GroupType implements GroupTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale($locale): static
     {
         $this->locale = $locale;
 
@@ -143,7 +143,7 @@ class GroupType implements GroupTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addTranslation(TranslationInterface $translation)
+    public function addTranslation(TranslationInterface $translation): static
     {
         if (!$this->translations->contains($translation)) {
             $this->translations->add($translation);
@@ -155,7 +155,7 @@ class GroupType implements GroupTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeTranslation(TranslationInterface $translation)
+    public function removeTranslation(TranslationInterface $translation): static
     {
         $this->translations->removeElement($translation);
 
@@ -165,7 +165,7 @@ class GroupType implements GroupTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getTranslationFQCN()
+    public function getTranslationFQCN(): string
     {
         return GroupTypeTranslation::class;
     }
@@ -183,7 +183,7 @@ class GroupType implements GroupTypeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->getTranslation()->setLabel($label);
 

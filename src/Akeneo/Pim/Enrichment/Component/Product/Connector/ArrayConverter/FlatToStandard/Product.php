@@ -26,29 +26,22 @@ use Akeneo\Tool\Component\Connector\Exception\StructureArrayConversionException;
  */
 class Product implements ArrayConverterInterface
 {
-    /** @var AttributeColumnsResolver */
-    protected $attrColumnsResolver;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\AttributeColumnsResolver $attrColumnsResolver;
 
-    /** @var AssociationColumnsResolver */
-    protected $assocColumnsResolver;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\AssociationColumnsResolver $assocColumnsResolver;
 
-    /** @var FieldConverter */
-    protected $fieldConverter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\FieldConverter $fieldConverter;
 
-    /** @var ColumnsMerger */
-    protected $columnsMerger;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\ColumnsMerger $columnsMerger;
 
-    /** @var ColumnsMapper */
-    protected $columnsMapper;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStandard\ColumnsMapper $columnsMapper;
 
     /** @var array */
     protected $optionalAssocFields;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var ArrayConverterInterface */
-    protected $productValueConverter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface $productValueConverter;
 
     public function __construct(
         AssociationColumnsResolver $assocColumnsResolver,
@@ -363,6 +356,6 @@ class Product implements ArrayConverterInterface
 
     private function filterQualityScoreFields(array $mappedItem): array
     {
-        return array_filter($mappedItem, fn ($field) => !str_starts_with((string) $field, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX)), ARRAY_FILTER_USE_KEY);
+        return array_filter($mappedItem, fn ($field): bool => !str_starts_with((string) $field, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX)), ARRAY_FILTER_USE_KEY);
     }
 }

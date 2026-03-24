@@ -27,7 +27,7 @@ class QualityScoreFilter extends AbstractFieldFilter implements FieldFilterInter
     /**
      * {@inheritdoc}
      */
-    public function addFieldFilter($field, $operator, $values, $locale = null, $channel = null, $options = [])
+    public function addFieldFilter($field, $operator, $values, $locale = null, $channel = null, $options = []): static
     {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
@@ -46,7 +46,7 @@ class QualityScoreFilter extends AbstractFieldFilter implements FieldFilterInter
         }
 
         try {
-            $values = array_map(function ($value) {
+            $values = array_map(function ($value): int {
                 $rank = is_numeric($value) ? Rank::fromInt(intval($value)) : Rank::fromLetter(strval($value));
                 return $rank->toInt();
             }, $values);

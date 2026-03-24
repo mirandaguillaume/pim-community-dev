@@ -26,7 +26,7 @@ class AclPrivilegeIdentity
      * @param  string               $id
      * @return AclPrivilegeIdentity
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -45,7 +45,7 @@ class AclPrivilegeIdentity
      * @param  string               $name
      * @return AclPrivilegeIdentity
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 

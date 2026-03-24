@@ -20,11 +20,9 @@ class ProductValuesNormalizer implements NormalizerInterface, SerializerAwareInt
 {
     use SerializerAwareTrait;
 
-    /** @var PresenterRegistryInterface */
-    protected $presenterRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Localization\Presenter\PresenterRegistryInterface $presenterRegistry;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     public function __construct(PresenterRegistryInterface $presenterRegistry, UserContext $userContext)
     {

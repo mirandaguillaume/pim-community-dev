@@ -28,29 +28,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AssociationTypeController
 {
-    /** @var AssociationTypeRepositoryInterface */
-    protected $associationTypeRepo;
+    protected \Akeneo\Pim\Structure\Component\Repository\AssociationTypeRepositoryInterface $associationTypeRepo;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var RemoverInterface */
-    protected $remover;
+    protected \Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface $remover;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
-    /** @var NormalizerInterface */
-    protected $constraintViolationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $constraintViolationNormalizer;
 
     public function __construct(
         AssociationTypeRepositoryInterface $associationTypeRepo,
@@ -75,7 +67,7 @@ class AssociationTypeController
     /**
      * @return JsonResponse
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $associationTypes = $this->associationTypeRepo->findAll();
 
@@ -89,7 +81,7 @@ class AssociationTypeController
      *
      * @return JsonResponse
      */
-    public function getAction($identifier)
+    public function getAction(string $identifier): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $associationType = $this->getAssociationTypeOr404($identifier);
 
@@ -104,7 +96,7 @@ class AssociationTypeController
      * @return Response
      * @AclAncestor("pim_enrich_associationtype_edit")
      */
-    public function postAction(Request $request, $identifier)
+    public function postAction(Request $request, string $identifier): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -149,7 +141,7 @@ class AssociationTypeController
      * @return Response
      * @AclAncestor("pim_enrich_associationtype_remove")
      */
-    public function removeAction(Request $request, $code)
+    public function removeAction(Request $request, string $code): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -188,7 +180,7 @@ class AssociationTypeController
      * @return Response
      * @AclAncestor("pim_enrich_associationtype_create")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');

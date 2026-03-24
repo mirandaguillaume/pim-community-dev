@@ -22,7 +22,7 @@ class SorterRegistry implements SorterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(SorterInterface $sorter)
+    public function register(SorterInterface $sorter): void
     {
         if ($sorter instanceof FieldSorterInterface) {
             $this->fieldSorters[] = $sorter;

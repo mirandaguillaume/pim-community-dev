@@ -49,7 +49,7 @@ class Link
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $link = [];
         $link[$this->rel]['href'] = $this->url;

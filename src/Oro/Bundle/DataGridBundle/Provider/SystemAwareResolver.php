@@ -13,10 +13,7 @@ class SystemAwareResolver
     final public const string SERVICE = '#@([\w\._]+)#';
     final public const string TWIG_TEMPLATE = '#^@.+\.twig$#';
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected \Symfony\Component\DependencyInjection\ContainerInterface $container;
 
     /** @var array parent configuration array node */
     protected $parentNode;
@@ -137,7 +134,7 @@ class SystemAwareResolver
      *
      * @return mixed
      */
-    protected function executeMethod($expression, array $optionsArguments = [])
+    protected function executeMethod($expression, array $optionsArguments = []): mixed
     {
         preg_match(static::SERVICE_METHOD, $expression, $matches);
         $service = $matches[1];

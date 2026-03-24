@@ -24,11 +24,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class ProductCsvExport implements ConstraintCollectionProviderInterface
 {
-    /** @var ConstraintCollectionProviderInterface */
-    protected $simpleProvider;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParameters\ConstraintCollectionProviderInterface $simpleProvider;
 
-    /** @var array */
-    protected $supportedJobNames;
+    protected array $supportedJobNames;
 
     public function __construct(ConstraintCollectionProviderInterface $simpleCsv, array $supportedJobNames)
     {
@@ -39,7 +37,7 @@ class ProductCsvExport implements ConstraintCollectionProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getConstraintCollection()
+    public function getConstraintCollection(): \Symfony\Component\Validator\Constraints\Collection
     {
         $baseConstraint = $this->simpleProvider->getConstraintCollection();
         $constraintFields = $baseConstraint->fields;
@@ -59,7 +57,7 @@ class ProductCsvExport implements ConstraintCollectionProviderInterface
         );
         $constraintFields['file_locale'] = [
             new ActivatedLocale(['groups' => ['Default', 'FileConfiguration']]),
-            new Callback(function ($value, ExecutionContextInterface $context) {
+            new Callback(function ($value, ExecutionContextInterface $context): void {
                 $fields = $context->getRoot();
                 if (true === $fields['with_label'] && empty($value)) {
                     $context
@@ -114,7 +112,7 @@ class ProductCsvExport implements ConstraintCollectionProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports(JobInterface $job)
+    public function supports(JobInterface $job): bool
     {
         return in_array($job->getName(), $this->supportedJobNames);
     }

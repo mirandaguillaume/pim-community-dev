@@ -76,7 +76,7 @@ final readonly class HasUpToDateProductEvaluationQuery implements HasUpToDateEva
             return null;
         }
 
-        $uuids = array_map(fn ($resultRow) => $resultRow['uuid'], $result);
+        $uuids = array_map(fn (array $resultRow): mixed => $resultRow['uuid'], $result);
 
         if (empty($uuids)) {
             return null;

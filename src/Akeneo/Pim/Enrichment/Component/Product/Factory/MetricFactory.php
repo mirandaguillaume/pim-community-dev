@@ -17,11 +17,9 @@ use Akeneo\Tool\Bundle\MeasureBundle\Manager\MeasureManager;
  */
 class MetricFactory
 {
-    /** @var MeasureConverter */
-    protected $measureConverter;
+    protected \Akeneo\Tool\Bundle\MeasureBundle\Convert\MeasureConverter $measureConverter;
 
-    /** @var MeasureManager */
-    protected $measureManager;
+    protected \Akeneo\Tool\Bundle\MeasureBundle\Manager\MeasureManager $measureManager;
 
     /**
      * This method creates a metric instance, after calculating base amount and

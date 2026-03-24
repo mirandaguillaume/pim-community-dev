@@ -11,8 +11,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  */
 class OptionValueWithLinkedData extends AbstractValue implements OptionValueInterface, \Stringable
 {
-    /** @var array */
-    protected $linkedData;
+    protected ?array $linkedData;
 
     /**
      * {@inheritdoc}

@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class AttributeTypeController
 {
-    /** @var AttributeTypeRegistry */
-    protected $registry;
+    protected \Akeneo\Pim\Structure\Component\AttributeTypeRegistry $registry;
 
     public function __construct(AttributeTypeRegistry $registry)
     {
@@ -25,7 +24,7 @@ class AttributeTypeController
      *
      * @return JsonResponse
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         return new JsonResponse($this->registry->getSortedAliases());
     }

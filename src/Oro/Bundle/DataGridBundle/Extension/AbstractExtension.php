@@ -12,8 +12,7 @@ use Symfony\Component\Config\Definition\Processor;
 
 abstract class AbstractExtension implements ExtensionVisitorInterface
 {
-    /** @var RequestParameters */
-    protected $requestParams;
+    protected ?\Oro\Bundle\DataGridBundle\Datagrid\RequestParameters $requestParams;
 
     public function __construct(?RequestParameters $requestParams = null)
     {
@@ -63,7 +62,7 @@ abstract class AbstractExtension implements ExtensionVisitorInterface
      * @param                             $config
      * @return array
      */
-    protected function validateConfiguration(ConfigurationInterface $configuration, $config)
+    protected function validateConfiguration(ConfigurationInterface $configuration, array $config)
     {
         $processor = new Processor();
         return $processor->processConfiguration(

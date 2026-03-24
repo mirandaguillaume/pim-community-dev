@@ -17,8 +17,7 @@ class StructuredAttributeOptionNormalizer extends AttributeOptionNormalizer
     /** @var array */
     protected $supportedFormat = ['json'];
 
-    /** @var ObjectFilterInterface */
-    protected $objectFilter;
+    protected \Akeneo\Pim\Enrichment\Bundle\Filter\ObjectFilterInterface $objectFilter;
 
     /**
      * @param LocaleRepositoryInterface $localeRepository
@@ -60,7 +59,7 @@ class StructuredAttributeOptionNormalizer extends AttributeOptionNormalizer
      *
      * @return array
      */
-    protected function normalizeOptionsValues($optionsValues)
+    protected function normalizeOptionsValues($optionsValues): array
     {
         $normalizedLabels = [];
         foreach ($optionsValues as $optionsValue) {

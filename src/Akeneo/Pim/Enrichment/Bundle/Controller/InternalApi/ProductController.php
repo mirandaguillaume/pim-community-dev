@@ -116,7 +116,7 @@ class ProductController
      * @return Response
      * @AClAncestor("pim_enrich_product_create")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -181,7 +181,7 @@ class ProductController
      * @AclAncestor("pim_enrich_product_remove")
      * @return Response
      */
-    public function removeAction(Request $request, $uuid)
+    public function removeAction(Request $request, string $uuid): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -207,7 +207,7 @@ class ProductController
      * @throws BadRequestHttpException   If the attribute is not removable
      * @throws NotFoundHttpException     If product is not found or the user cannot see it
      */
-    public function removeAttributeAction(Request $request, $uuid, $attributeId): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+    public function removeAttributeAction(Request $request, string $uuid, $attributeId): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');

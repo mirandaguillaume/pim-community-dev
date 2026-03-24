@@ -25,7 +25,7 @@ final class ProductModelIdCollection implements ProductEntityIdCollection
 
     public static function fromStrings(array $productEntityIds): self
     {
-        return new self(array_map(fn ($productModelId) => ProductModelId::fromString((string) $productModelId), $productEntityIds));
+        return new self(array_map(fn (string $productModelId): \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelId => ProductModelId::fromString((string) $productModelId), $productEntityIds));
     }
 
     /**
@@ -63,6 +63,6 @@ final class ProductModelIdCollection implements ProductEntityIdCollection
 
     public function toArrayString(): array
     {
-        return array_map(fn (ProductModelId $productModelId) => (string) $productModelId, $this->productModelIds);
+        return array_map(fn (ProductModelId $productModelId): string => (string) $productModelId, $this->productModelIds);
     }
 }

@@ -21,7 +21,7 @@ class BuildVersionEvent extends Event
      *
      * @return BuildVersionEvent
      */
-    public function setUsername($username)
+    public function setUsername($username): static
     {
         $this->username = $username;
 

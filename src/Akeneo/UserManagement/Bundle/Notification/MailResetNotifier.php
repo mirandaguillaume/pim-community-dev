@@ -23,7 +23,7 @@ class MailResetNotifier
     ) {
     }
 
-    public function notify(UserInterface $user)
+    public function notify(UserInterface $user): void
     {
         $parameters = ['user' => $user];
 

@@ -28,11 +28,9 @@ class AttributeOptionNormalizer implements NormalizerInterface, NormalizerAwareI
     /** @var array */
     protected $activeLocales;
 
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
-    /** @var SimpleFactoryInterface */
-    protected $optionValueFactory;
+    protected \Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface $optionValueFactory;
 
     public function __construct(LocaleRepositoryInterface $localeRepository, SimpleFactoryInterface $optionValueFactory)
     {
@@ -72,7 +70,7 @@ class AttributeOptionNormalizer implements NormalizerInterface, NormalizerAwareI
      *
      * @return Collection
      */
-    protected function ensureEmptyOptionValues(Collection $optionValues)
+    protected function ensureEmptyOptionValues(Collection $optionValues): Collection
     {
         $activeLocales = $this->getActiveLocales();
         $usedLocales = [];

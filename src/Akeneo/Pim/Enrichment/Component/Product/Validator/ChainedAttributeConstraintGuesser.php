@@ -18,15 +18,16 @@ class ChainedAttributeConstraintGuesser implements ConstraintGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function supportAttribute(AttributeInterface $attribute)
+    public function supportAttribute(AttributeInterface $attribute): bool
     {
         return true;
     }
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function guessConstraints(AttributeInterface $attribute)
+    public function guessConstraints(AttributeInterface $attribute): array
     {
         $constraints = [];
 
@@ -45,7 +46,7 @@ class ChainedAttributeConstraintGuesser implements ConstraintGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function addConstraintGuesser(ConstraintGuesserInterface $guesser)
+    public function addConstraintGuesser(ConstraintGuesserInterface $guesser): void
     {
         $this->guessers[] = $guesser;
     }

@@ -25,8 +25,7 @@ class RegisterViewElementsPass implements CompilerPassInterface
     /** @staticvar string */
     final public const string VIEW_ELEMENT_TAG = 'pim_enrich.view_element';
 
-    /** @var ReferenceFactory */
-    protected $factory;
+    protected \Akeneo\Platform\Bundle\UIBundle\DependencyInjection\Reference\ReferenceFactory $factory;
 
     public function __construct(ReferenceFactory $factory)
     {
@@ -36,7 +35,7 @@ class RegisterViewElementsPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(static::REGISTRY_ID)) {
             return;
@@ -58,7 +57,7 @@ class RegisterViewElementsPass implements CompilerPassInterface
      * @param string     $serviceId
      * @param array      $tag
      */
-    protected function registerViewElement($registryDefinition, $serviceId, $tag)
+    protected function registerViewElement($registryDefinition, string $serviceId, array $tag)
     {
         if (!isset($tag['type'])) {
             throw new \LogicException(sprintf('No type provided for the "%s" view element', $serviceId));

@@ -31,20 +31,15 @@ class UserContext
     /** @staticvar string */
     final public const string USER_PRODUCT_CATEGORY_TYPE = 'product';
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
-    /** @var LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface $localeRepository;
 
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
-    /** @var CategoryRepositoryInterface */
-    protected $categoryRepository;
+    protected \Akeneo\Category\Infrastructure\Component\Classification\Repository\CategoryRepositoryInterface $categoryRepository;
 
-    /** @var RequestStack */
-    protected $requestStack;
+    protected \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
     /** @var array */
     protected $userLocales;
@@ -165,7 +160,7 @@ class UserContext
     public function getUserLocaleCodes(): array
     {
         return array_map(
-            fn ($locale) => $locale->getCode(),
+            fn (\Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface $locale) => $locale->getCode(),
             $this->getUserLocales()
         );
     }
@@ -296,7 +291,7 @@ class UserContext
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $channels = array_keys($this->getChannelChoicesWithUserChannel());
         $locales = $this->getUserLocaleCodes();
@@ -312,7 +307,7 @@ class UserContext
     /**
      * @return CategoryInterface
      */
-    public function getAccessibleUserTree()
+    public function getAccessibleUserTree(): \Akeneo\Category\Infrastructure\Component\Classification\Model\CategoryInterface
     {
         return $this->getUserProductCategoryTree();
     }
@@ -391,7 +386,7 @@ class UserContext
      *
      * @return mixed|null
      */
-    protected function getUserOption($optionName)
+    protected function getUserOption(string $optionName)
     {
         $token = $this->tokenStorage->getToken();
 

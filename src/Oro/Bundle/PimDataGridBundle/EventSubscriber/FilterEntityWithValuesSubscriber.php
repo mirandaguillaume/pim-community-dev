@@ -32,8 +32,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 #[AsDoctrineListener(event: Events::postLoad, priority: 100)]
 class FilterEntityWithValuesSubscriber
 {
-    /** @var FilterEntityWithValuesSubscriberConfiguration */
-    protected $configuration;
+    protected \Oro\Bundle\PimDataGridBundle\EventSubscriber\FilterEntityWithValuesSubscriberConfiguration $configuration;
 
     public function __construct()
     {

@@ -23,11 +23,9 @@ use Webmozart\Assert\Assert;
  */
 class GroupUpdater implements ObjectUpdaterInterface
 {
-    /** @var GroupTypeRepositoryInterface */
-    protected $groupTypeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\GroupTypeRepositoryInterface $groupTypeRepository;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
 
 
@@ -52,7 +50,7 @@ class GroupUpdater implements ObjectUpdaterInterface
      *     'axis'   => ['size', 'color']
      * ]
      */
-    public function update($group, array $data, array $options = [])
+    public function update($group, array $data, array $options = []): static
     {
         if (!$group instanceof GroupInterface) {
             throw InvalidObjectException::objectExpected(

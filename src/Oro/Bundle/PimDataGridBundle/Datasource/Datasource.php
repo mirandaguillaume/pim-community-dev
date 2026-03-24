@@ -25,8 +25,7 @@ class Datasource implements DatasourceInterface, ParameterizableInterface
     /** @var QueryBuilder|SearchQueryBuilder */
     protected $qb;
 
-    /** @var ObjectManager */
-    protected $om;
+    protected \Doctrine\Persistence\ObjectManager $om;
 
     /** @var ObjectRepository */
     protected $repository;
@@ -34,8 +33,7 @@ class Datasource implements DatasourceInterface, ParameterizableInterface
     /** @var MassActionRepositoryInterface */
     protected $massActionRepository;
 
-    /** @var HydratorInterface */
-    protected $hydrator;
+    protected \Oro\Bundle\PimDataGridBundle\Datasource\ResultRecord\HydratorInterface $hydrator;
 
     /** @var array */
     protected $configuration;
@@ -56,7 +54,7 @@ class Datasource implements DatasourceInterface, ParameterizableInterface
     /**
      * {@inheritdoc}
      */
-    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository)
+    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository): void
     {
         $this->massActionRepository = $massActionRepository;
     }
@@ -64,7 +62,7 @@ class Datasource implements DatasourceInterface, ParameterizableInterface
     /**
      * {@inheritdoc}
      */
-    public function process(DatagridInterface $grid, array $config)
+    public function process(DatagridInterface $grid, array $config): void
     {
         $this->configuration = $config;
         $queryBuilderConfig = [];
@@ -123,7 +121,7 @@ class Datasource implements DatasourceInterface, ParameterizableInterface
     /**
      * {@inheritdoc}
      */
-    public function setHydrator(HydratorInterface $hydrator)
+    public function setHydrator(HydratorInterface $hydrator): static
     {
         $this->hydrator = $hydrator;
 
@@ -141,7 +139,7 @@ class Datasource implements DatasourceInterface, ParameterizableInterface
     /**
      * {@inheritdoc}
      */
-    public function setParameters($parameters)
+    public function setParameters($parameters): static
     {
         $this->parameters += $parameters;
 
@@ -184,7 +182,7 @@ class Datasource implements DatasourceInterface, ParameterizableInterface
      *
      * @return Datasource
      */
-    protected function initializeQueryBuilder($method, array $config = [])
+    protected function initializeQueryBuilder($method, array $config = []): static
     {
         $this->qb = $this->getRepository()->$method($config);
 

@@ -127,7 +127,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
      */
     private function createProductValuesInPivotFormat(array $productStandardFormat): array
     {
-        $attributeCodes = array_map(fn ($key) => (string) $key, array_keys($productStandardFormat['values']));
+        $attributeCodes = array_map(fn (int|string $key): string => (string) $key, array_keys($productStandardFormat['values']));
         $attributes = $this->getAttributes->forCodes($attributeCodes);
         $nonPriceAttributes = array_filter($attributes, fn (Attribute $attribute): bool => AttributeTypes::PRICE_COLLECTION !== $attribute->type());
 
@@ -228,7 +228,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
      */
     private function createPriceProductValuesInPivotFormat(array $productStandardFormat): array
     {
-        $attributeCodes = array_map(fn ($key) => (string) $key, array_keys($productStandardFormat['values']));
+        $attributeCodes = array_map(fn (int|string $key): string => (string) $key, array_keys($productStandardFormat['values']));
         $attributes = $this->getAttributes->forCodes($attributeCodes);
         $priceAttributes = array_filter($attributes, fn (Attribute $attribute): bool => AttributeTypes::PRICE_COLLECTION === $attribute->type());
 
@@ -327,7 +327,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
     {
         usort(
             $currencies,
-            fn (CurrencyInterface $a, CurrencyInterface $b) => $a->getCode() <=> $b->getCode()
+            fn (CurrencyInterface $a, CurrencyInterface $b): int => $a->getCode() <=> $b->getCode()
         );
 
         return $currencies;

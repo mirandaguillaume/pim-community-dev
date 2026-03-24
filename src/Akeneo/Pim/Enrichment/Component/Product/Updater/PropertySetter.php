@@ -22,11 +22,9 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
  */
 class PropertySetter implements PropertySetterInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
-    /** @var SetterRegistryInterface */
-    protected $setterRegistry;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Updater\Setter\SetterRegistryInterface $setterRegistry;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
@@ -41,7 +39,7 @@ class PropertySetter implements PropertySetterInterface
      *
      * @param ProductInterface|ProductModelInterface $entity
      */
-    public function setData($entity, $field, $data, array $options = [])
+    public function setData($entity, $field, $data, array $options = []): static
     {
         $setter = $this->setterRegistry->getSetter($field);
         if (null === $setter) {

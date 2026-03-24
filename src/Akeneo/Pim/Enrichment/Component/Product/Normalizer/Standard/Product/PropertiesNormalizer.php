@@ -78,7 +78,7 @@ class PropertiesNormalizer implements NormalizerInterface
      *
      * @return ArrayCollection
      */
-    private function normalizeValues(WriteValueCollection $values, $format, array $context = [])
+    private function normalizeValues(WriteValueCollection $values, ?string $format, array $context = [])
     {
         foreach ($context['filter_types'] as $filterType) {
             $values = $this->filter->filterCollection($values, $filterType, $context);

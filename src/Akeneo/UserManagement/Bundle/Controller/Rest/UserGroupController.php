@@ -16,8 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class UserGroupController
 {
-    /** @var GroupRepository */
-    protected $groupRepository;
+    protected \Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\GroupRepository $groupRepository;
 
     public function __construct(GroupRepository $groupRepository)
     {
@@ -29,9 +28,9 @@ class UserGroupController
      *
      * @return JsonResponse all user groups
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
-        $userGroups = array_map(fn (GroupInterface $group) => [
+        $userGroups = array_map(fn (GroupInterface $group): array => [
             'name' => $group->getName(),
             'meta' => [
                 'id'      => $group->getId(),

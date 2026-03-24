@@ -20,7 +20,7 @@ class LabelCollectionValidator extends ConstraintValidator
      * @param mixed $labels The value that should be validated
      * @param Constraint $constraint The constraint for the validation
      */
-    public function validate($labels, Constraint $constraint)
+    public function validate($labels, Constraint $constraint): void
     {
         if (empty($labels)) {
             return;
@@ -54,7 +54,7 @@ class LabelCollectionValidator extends ConstraintValidator
         }
     }
 
-    private function validateLabelForLocale(ValidatorInterface $validator, $label, $localeCode): void
+    private function validateLabelForLocale(ValidatorInterface $validator, $label, string $localeCode): void
     {
         $violations = $validator->validate($label, [
             new NotNull(),

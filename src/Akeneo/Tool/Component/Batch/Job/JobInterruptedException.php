@@ -40,7 +40,7 @@ class JobInterruptedException extends \Exception
      *
      * @return BatchStatus the status of the interruption (default STOPPED)
      */
-    public function getStatus()
+    public function getStatus(): ?\Akeneo\Tool\Component\Batch\Job\BatchStatus
     {
         return $this->status;
     }

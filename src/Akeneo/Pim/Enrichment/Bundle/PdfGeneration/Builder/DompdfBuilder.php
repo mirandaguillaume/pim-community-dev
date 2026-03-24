@@ -15,10 +15,7 @@ use Dompdf\Options;
  */
 class DompdfBuilder implements PdfBuilderInterface
 {
-    /**
-     * @var string
-     */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
      * @var Dompdf

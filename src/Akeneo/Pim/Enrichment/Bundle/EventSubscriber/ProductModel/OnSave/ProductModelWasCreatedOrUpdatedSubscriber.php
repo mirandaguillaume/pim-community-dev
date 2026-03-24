@@ -118,7 +118,7 @@ class ProductModelWasCreatedOrUpdatedSubscriber
 
         try {
             $events = \array_map(
-                function (ProductModelInterface $productModel) {
+                function (ProductModelInterface $productModel): \Akeneo\Pim\Enrichment\Component\Product\Event\ProductModelWasCreated|\Akeneo\Pim\Enrichment\Component\Product\Event\ProductModelWasUpdated {
                     $event = ($this->createdProductModelsByCode[$productModel->getCode()] ?? false)
                         ? new ProductModelWasCreated($productModel->getId(), \DateTimeImmutable::createFromMutable($productModel->getCreated()))
                         : new ProductModelWasUpdated($productModel->getId(), \DateTimeImmutable::createFromMutable($productModel->getCreated()))

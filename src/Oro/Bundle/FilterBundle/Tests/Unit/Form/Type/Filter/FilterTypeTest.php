@@ -27,7 +27,7 @@ class FilterTypeTest extends AbstractTypeTestCase
         return $this->type;
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertEquals(FilterType::NAME, $this->type->getBlockPrefix());
     }
@@ -35,7 +35,7 @@ class FilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public static function configureOptionsDataProvider()
+    public static function configureOptionsDataProvider(): array
     {
         return [
             [
@@ -62,7 +62,7 @@ class FilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public static function bindDataProvider()
+    public static function bindDataProvider(): array
     {
         return [
             'empty data' => [

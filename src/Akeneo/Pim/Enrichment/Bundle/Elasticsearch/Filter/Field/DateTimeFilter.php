@@ -24,11 +24,9 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
     final public const string DATETIME_FORMAT = 'Y-m-d H:i:s';
     final public const string RELATIVE_DATETIME_FORMAT = '/^(now|[+-][0-9]+\s?(minute|hour|day|week|month|year)s?)$/';
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $jobInstanceRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $jobInstanceRepository;
 
-    /** @var JobRepositoryInterface */
-    protected $jobRepository;
+    protected \Akeneo\Tool\Component\Batch\Job\JobRepositoryInterface $jobRepository;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $jobInstanceRepository,
@@ -181,7 +179,7 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
      *
      * @return array
      */
-    protected function getExistsClause($field)
+    protected function getExistsClause($field): array
     {
         return [
             'exists' => ['field' => $field],
@@ -259,7 +257,7 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
      *
      * @return string
      */
-    protected function getFormattedDate($field, string|\DateTimeInterface $value)
+    protected function getFormattedDate($field, string|\DateTimeInterface $value): string
     {
         $dateTime = $value;
         $utcTimeZone = new \DateTimeZone('UTC');

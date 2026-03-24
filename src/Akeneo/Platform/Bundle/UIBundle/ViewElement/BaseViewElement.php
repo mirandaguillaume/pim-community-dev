@@ -13,8 +13,7 @@ use Akeneo\Platform\Bundle\UIBundle\ViewElement\Checker\VisibilityCheckerInterfa
  */
 class BaseViewElement implements ViewElementInterface
 {
-    /** @var array */
-    protected $parameters = [];
+    protected array $parameters;
 
     /** @var array */
     protected $visibilityCheckers = [];
@@ -55,7 +54,7 @@ class BaseViewElement implements ViewElementInterface
     /**
      * {@inheritdoc}
      */
-    public function isVisible(array $context = [])
+    public function isVisible(array $context = []): bool
     {
         foreach ($this->visibilityCheckers as $item) {
             [$checker, $config] = $item;
@@ -70,7 +69,7 @@ class BaseViewElement implements ViewElementInterface
     /**
      * {@inheritdoc}
      */
-    public function addVisibilityChecker(VisibilityCheckerInterface $checker, array $config = [])
+    public function addVisibilityChecker(VisibilityCheckerInterface $checker, array $config = []): static
     {
         $this->visibilityCheckers[] = [$checker, $config];
 
@@ -80,7 +79,7 @@ class BaseViewElement implements ViewElementInterface
     /**
      * {@inheritdoc}
      */
-    public function setVisibilityCheckers(array $checkers)
+    public function setVisibilityCheckers(array $checkers): static
     {
         $this->visibilityCheckers = $checkers;
 

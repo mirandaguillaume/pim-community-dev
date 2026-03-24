@@ -59,7 +59,7 @@ class OAuthAuthenticator extends AbstractAuthenticator
         $userIdentifier = $user->getUserIdentifier();
 
         return new SelfValidatingPassport(
-            new UserBadge($userIdentifier, function (string $identifier) {
+            new UserBadge($userIdentifier, function (string $identifier): \Symfony\Component\Security\Core\User\UserInterface {
                 return $this->userProvider->loadUserByIdentifier($identifier);
             })
         );

@@ -22,14 +22,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class CommentController
 {
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
-    /** @var ObjectManager */
-    protected $doctrine;
+    protected \Doctrine\Persistence\ObjectManager $doctrine;
 
-    /** @var RemoverInterface */
-    protected $commentRemover;
+    protected \Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface $commentRemover;
 
     /**
      * @param string                $commentClassName
@@ -54,7 +51,7 @@ class CommentController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, string $id): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');

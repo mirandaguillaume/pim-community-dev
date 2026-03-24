@@ -30,7 +30,7 @@ class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
     /**
      * Sets the audit logger
      */
-    public function setAuditLogger(AuditLoggerInterface $auditLogger)
+    public function setAuditLogger(AuditLoggerInterface $auditLogger): void
     {
         $this->auditLogger = $auditLogger;
     }
@@ -40,7 +40,7 @@ class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
      *
      * @param ServiceLink $contextLink The link to a service implementing PermissionGrantingStrategyContextInterface
      */
-    public function setContext(ServiceLink $contextLink)
+    public function setContext(ServiceLink $contextLink): void
     {
         $this->contextLink = $contextLink;
     }

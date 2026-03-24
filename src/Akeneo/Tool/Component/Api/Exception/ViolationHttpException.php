@@ -15,7 +15,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class ViolationHttpException extends UnprocessableEntityHttpException
 {
     /** @var string */
-    protected $violations;
+    protected \Symfony\Component\Validator\ConstraintViolationListInterface $violations;
 
     /**
      * @param ConstraintViolationListInterface $violations
@@ -25,9 +25,9 @@ class ViolationHttpException extends UnprocessableEntityHttpException
      */
     public function __construct(
         ConstraintViolationListInterface $violations,
-        $message = 'Validation failed.',
+        string $message = 'Validation failed.',
         ?\Exception $previous = null,
-        $code = 0
+        int $code = 0
     ) {
         parent::__construct($message, $previous, $code);
 

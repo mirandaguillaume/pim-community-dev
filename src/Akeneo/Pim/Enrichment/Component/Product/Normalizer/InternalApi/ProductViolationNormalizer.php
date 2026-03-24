@@ -20,8 +20,7 @@ class ProductViolationNormalizer implements NormalizerInterface
     /** @var string[] */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {

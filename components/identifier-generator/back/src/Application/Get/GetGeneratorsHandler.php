@@ -26,6 +26,6 @@ final readonly class GetGeneratorsHandler
     {
         $identifiersGenerators = $this->identifierGeneratorRepository->getAll();
 
-        return \array_map(fn($identifierGenerator) => $identifierGenerator->normalize(), $identifiersGenerators);
+        return \array_map(fn(\Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\IdentifierGenerator $identifierGenerator): array => $identifierGenerator->normalize(), $identifiersGenerators);
     }
 }

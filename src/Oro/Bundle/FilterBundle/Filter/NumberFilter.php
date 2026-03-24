@@ -11,7 +11,7 @@ class NumberFilter extends AbstractFilter
     /**
      * {@inheritdoc}
      */
-    protected function getFormType()
+    protected function getFormType(): string
     {
         return NumberFilterType::class;
     }
@@ -19,7 +19,7 @@ class NumberFilter extends AbstractFilter
     /**
      * {@inheritdoc}
      */
-    public function apply(FilterDatasourceAdapterInterface $ds, $data)
+    public function apply(FilterDatasourceAdapterInterface $ds, $data): bool
     {
         $data = $this->parseData($data);
         if (!$data) {
@@ -57,7 +57,7 @@ class NumberFilter extends AbstractFilter
      *
      * @return string
      */
-    public function getOperator($type)
+    public function getOperator(int $type): string
     {
         $operatorTypes = [
             NumberFilterType::TYPE_EQUAL         => Operators::EQUALS,
@@ -96,7 +96,7 @@ class NumberFilter extends AbstractFilter
      *
      * @return array
      */
-    protected function getFormatterOptions($dataType)
+    protected function getFormatterOptions($dataType): array
     {
         $formatterOptions = [];
 

@@ -17,8 +17,7 @@ class HalResource
     /** @var array */
     protected $embedded = [];
 
-    /** @var array */
-    protected $data = [];
+    protected array $data;
 
     /**
      * @param Link[] $links    links of the resource
@@ -99,7 +98,7 @@ class HalResource
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $data = [];
 
@@ -130,7 +129,7 @@ class HalResource
      *
      * @return array
      */
-    protected function normalizeEmbedded(array $embeddedItems)
+    protected function normalizeEmbedded(array $embeddedItems): array
     {
         $data = [];
         foreach ($embeddedItems as $embeddedItem) {
@@ -147,7 +146,7 @@ class HalResource
      *
      * @return array
      */
-    protected function normalizeLinks(array $links)
+    protected function normalizeLinks(array $links): array
     {
         $data = [];
         foreach ($links as $link) {

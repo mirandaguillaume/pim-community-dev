@@ -28,7 +28,7 @@ class PriceNormalizer extends AbstractValueDataNormalizer
     /**
      * {@inheritdoc}
      */
-    protected function doNormalize($object, $format = null, array $context = [])
+    protected function doNormalize($object, $format = null, array $context = []): string
     {
         $data = $object->getData();
         if (null !== $data && '' !== $data) {
@@ -42,7 +42,7 @@ class PriceNormalizer extends AbstractValueDataNormalizer
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getFieldName($object, array $context = [])
+    protected function getFieldName($object, array $context = []): string
     {
         return sprintf('%s-%s', parent::getFieldName($object, $context), $object->getCurrency());
     }

@@ -8,14 +8,14 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginSubscriber
 {
-    protected $userManager;
+    protected \Akeneo\UserManagement\Bundle\Manager\UserManager $userManager;
 
     public function __construct(UserManager $userManager)
     {
         $this->userManager = $userManager;
     }
 
-    public function onLogin(InteractiveLoginEvent $event)
+    public function onLogin(InteractiveLoginEvent $event): void
     {
         $user = $event->getAuthenticationToken()->getUser();
 

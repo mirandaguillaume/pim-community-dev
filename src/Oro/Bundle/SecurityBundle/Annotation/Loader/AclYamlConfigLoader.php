@@ -11,7 +11,7 @@ class AclYamlConfigLoader extends AbstractLoader implements AclAnnotationLoaderI
     /**
      * Loads ACL annotations from YAML config files
      */
-    public function load(AclAnnotationStorage $storage)
+    public function load(AclAnnotationStorage $storage): void
     {
         foreach ($this->bundleDirectories as $bundleDir) {
             $file = $bundleDir . '/Resources/config/acl.yml';

@@ -17,8 +17,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ValidatorStep extends AbstractStep
 {
-    /** @var CharsetValidator */
-    protected $charsetValidator;
+    protected \Akeneo\Tool\Component\Connector\Item\CharsetValidator $charsetValidator;
 
     /**
      * @param string                   $name
@@ -27,7 +26,7 @@ class ValidatorStep extends AbstractStep
      * @param CharsetValidator         $charsetValidator
      */
     public function __construct(
-        $name,
+        string $name,
         EventDispatcherInterface $eventDispatcher,
         JobRepositoryInterface $jobRepository,
         CharsetValidator $charsetValidator

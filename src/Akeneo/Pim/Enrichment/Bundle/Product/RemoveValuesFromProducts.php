@@ -50,10 +50,10 @@ class RemoveValuesFromProducts
     {
         $paths = implode(
             ',',
-            array_map(fn ($attributeCode) => $this->connection->quote(sprintf('$."%s"', $attributeCode)), $attributeCodes)
+            array_map(fn (string $attributeCode): string => $this->connection->quote(sprintf('$."%s"', $attributeCode)), $attributeCodes)
         );
 
-        $uuidsAsBytes = \array_map(fn ($productUuid) => Uuid::fromString($productUuid)->getBytes(), $productUuids);
+        $uuidsAsBytes = \array_map(fn (string $productUuid): string => Uuid::fromString($productUuid)->getBytes(), $productUuids);
 
         $this->resilientDeadlockConnection->executeQuery(
             <<<SQL

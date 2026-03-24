@@ -20,8 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class CategoryFieldSetter extends AbstractFieldSetter
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $categoryRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $categoryRepository;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $categoryRepository,
@@ -36,7 +35,7 @@ class CategoryFieldSetter extends AbstractFieldSetter
      *
      * Expected data input format : ["category_code"]
      */
-    public function setFieldData($entity, $field, $data, array $options = [])
+    public function setFieldData($entity, $field, $data, array $options = []): void
     {
         if (!$entity instanceof CategoryAwareInterface) {
             throw InvalidObjectException::objectExpected($entity, EntityWithValuesInterface::class);
@@ -56,14 +55,14 @@ class CategoryFieldSetter extends AbstractFieldSetter
 
         $formerCategories = $entity->getCategories();
         $categoriesToAdd = $categories->filter(
-            fn (CategoryInterface $category) => !$formerCategories->contains($category)
+            fn (CategoryInterface $category): bool => !$formerCategories->contains($category)
         );
         foreach ($categoriesToAdd as $categoryToAdd) {
             $entity->addCategory($categoryToAdd);
         }
 
         $categoriesToRemove = $formerCategories->filter(
-            fn (CategoryInterface $category) => !$categories->contains($category)
+            fn (CategoryInterface $category): bool => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $entity->removeCategory($categoryToRemove);

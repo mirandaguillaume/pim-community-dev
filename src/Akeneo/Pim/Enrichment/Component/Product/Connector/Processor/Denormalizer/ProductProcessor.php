@@ -63,7 +63,7 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
     /**
      * {@inheritdoc}
      */
-    public function process($item)
+    public function process($item): ?\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface
     {
         $itemHasStatus = isset($item['enabled']);
         if (!isset($item['enabled'])) {
@@ -177,7 +177,7 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
      *
      * @return array
      */
-    protected function filterIdenticalData(ProductInterface $product, array $filteredItem)
+    protected function filterIdenticalData(ProductInterface $product, array $filteredItem): array
     {
         return $this->productFilter->filter($product, $filteredItem);
     }
@@ -228,7 +228,7 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
      *
      * @return array
      */
-    protected function filterItemData(array $item)
+    protected function filterItemData(array $item): array
     {
         // After the item will go through a comparator on its fields and values
         // uuid is not part of the needed compared values, so we unset it here
@@ -255,7 +255,7 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
      * @throws \InvalidArgumentException
      * @return ConstraintViolationListInterface
      */
-    protected function validateProduct(ProductInterface $product)
+    protected function validateProduct(ProductInterface $product): \Symfony\Component\Validator\ConstraintViolationListInterface
     {
         return $this->validator->validate($product);
     }
@@ -269,7 +269,7 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
         $this->detacher->detach($product);
     }
 
-    private function skipItemAndReturnException(array $item, $message, ?\Exception $previousException = null): InvalidItemException
+    private function skipItemAndReturnException(array $item, string $message, ?\Exception $previousException = null): InvalidItemException
     {
         if ($this->stepExecution) {
             $this->stepExecution->incrementSummaryInfo('skip');

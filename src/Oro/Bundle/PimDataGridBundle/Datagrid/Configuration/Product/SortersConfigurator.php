@@ -21,8 +21,7 @@ class SortersConfigurator implements ConfiguratorInterface
     /** @var DatagridConfiguration */
     protected $configuration;
 
-    /** @var ConfigurationRegistry */
-    protected $registry;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ConfigurationRegistry $registry;
 
     /**
      * @param ConfigurationRegistry $registry the conf registry
@@ -35,7 +34,7 @@ class SortersConfigurator implements ConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function configure(DatagridConfiguration $configuration)
+    public function configure(DatagridConfiguration $configuration): void
     {
         $this->configuration = $configuration;
         $this->addAttributeSorters();

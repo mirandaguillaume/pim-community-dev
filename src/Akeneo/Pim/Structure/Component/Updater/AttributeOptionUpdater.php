@@ -23,8 +23,7 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class AttributeOptionUpdater implements ObjectUpdaterInterface
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
@@ -46,7 +45,7 @@ class AttributeOptionUpdater implements ObjectUpdaterInterface
      *     }
      * }
      */
-    public function update($attributeOption, array $data, array $options = [])
+    public function update($attributeOption, array $data, array $options = []): static
     {
         if (!$attributeOption instanceof AttributeOptionInterface) {
             throw InvalidObjectException::objectExpected(

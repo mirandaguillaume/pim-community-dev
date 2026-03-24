@@ -70,7 +70,7 @@ class SqlCategoryTemplateAttributeSaver implements CategoryTemplateAttributeSave
      * @throws Exception
      * @throws \Doctrine\DBAL\Driver\Exception
      */
-    private function insertAttributes(array $attributes)
+    private function insertAttributes(array $attributes): void
     {
         $placeholders = \implode(
             ',',

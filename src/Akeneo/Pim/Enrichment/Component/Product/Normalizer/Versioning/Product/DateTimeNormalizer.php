@@ -47,7 +47,7 @@ class DateTimeNormalizer extends AbstractValueDataNormalizer
      *
      * @return array
      */
-    protected function resolveContext(array $context = [])
+    protected function resolveContext(array $context = []): array
     {
         return array_merge(['format' => $this->format], $context);
     }

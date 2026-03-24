@@ -11,7 +11,7 @@ namespace Akeneo\Pim\Structure\Component\Exception;
 
 class AttributeGroupOtherCannotBeRemoved extends UserFacingError
 {
-    public static function create()
+    public static function create(): self
     {
         return new self('pim_enrich.attribute_group.remove.attribute_group_other_cannot_be_removed');
     }

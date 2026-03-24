@@ -61,7 +61,7 @@ class ProductPdfRenderer implements RendererInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($object, $format)
+    public function supports($object, $format): bool
     {
         return $object instanceof ProductInterface && $format === static::PDF_FORMAT;
     }

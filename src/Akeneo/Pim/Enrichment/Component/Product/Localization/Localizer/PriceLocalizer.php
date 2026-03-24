@@ -18,7 +18,7 @@ class PriceLocalizer extends NumberLocalizer
      * {@inheritdoc}
      */
     #[\Override]
-    public function validate($prices, $attributeCode, array $options = [])
+    public function validate($prices, $attributeCode, array $options = []): ?\Symfony\Component\Validator\ConstraintViolationList
     {
         $violations = new ConstraintViolationList();
         foreach ($prices as $price) {

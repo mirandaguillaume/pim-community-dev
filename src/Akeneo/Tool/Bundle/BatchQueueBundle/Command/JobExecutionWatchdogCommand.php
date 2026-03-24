@@ -201,7 +201,7 @@ final class JobExecutionWatchdogCommand extends Command
     {
         $this->executionManager->updateHealthCheck($jobExecutionId);
 
-        pcntl_signal(\SIGTERM, function () use ($process) {
+        pcntl_signal(\SIGTERM, function () use ($process): void {
             $this->logger->notice('Received SIGTERM signal in watchdog command and forwarding it to subprocess');
             $process->signal(\SIGTERM);
         });

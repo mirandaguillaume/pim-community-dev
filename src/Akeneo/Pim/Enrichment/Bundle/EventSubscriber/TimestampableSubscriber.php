@@ -22,7 +22,7 @@ class TimestampableSubscriber
     /**
      * Before insert
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $object = $args->getObject();
 
@@ -37,7 +37,7 @@ class TimestampableSubscriber
     /**
      * Before update
      */
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args): void
     {
         $object = $args->getObject();
 

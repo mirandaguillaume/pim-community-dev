@@ -24,7 +24,7 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
     {
     }
 
-    public function save($object, array $options = [])
+    public function save($object, array $options = []): void
     {
         $this->validateObject($object);
 
@@ -46,7 +46,7 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
         }
     }
 
-    public function saveAll(array $objects, array $options = [])
+    public function saveAll(array $objects, array $options = []): void
     {
         if (empty($objects)) {
             return;
@@ -56,7 +56,7 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
 
         $this->eventDispatcher->dispatch(new GenericEvent($objects, $options), StorageEvents::PRE_SAVE_ALL);
 
-        $areObjectsNew = array_map(fn ($object) => null === $object->getId(), $objects);
+        $areObjectsNew = array_map(fn ($object): bool => null === $object->getId(), $objects);
 
         foreach ($objects as $i => $object) {
             $this->validateObject($object);

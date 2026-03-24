@@ -53,7 +53,7 @@ class RoleApiType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function addEntityFields(FormBuilderInterface $builder)
+    public function addEntityFields(FormBuilderInterface $builder): void
     {
         $builder->addEventSubscriber(new PatchSubscriber());
     }

@@ -35,17 +35,17 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
     /**
      * @return EntityFilterType
      */
-    protected function getTestFormType()
+    protected function getTestFormType(): \Oro\Bundle\FilterBundle\Form\Type\Filter\EntityFilterType
     {
         return $this->type;
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertEquals(EntityFilterType::NAME, $this->type->getBlockPrefix());
     }
 
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $this->assertEquals(ChoiceFilterType::NAME, $this->type->getParent());
     }
@@ -53,7 +53,7 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public static function configureOptionsDataProvider()
+    public static function configureOptionsDataProvider(): array
     {
         return [
             [
@@ -75,14 +75,14 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
         array $formData,
         array $viewData,
         array $customOptions = []
-    ) {
+    ): void {
         // bind method should be tested in functional test
     }
 
     /**
      * {@inheritDoc}
      */
-    public static function bindDataProvider()
+    public static function bindDataProvider(): array
     {
         return [
             'empty' => [

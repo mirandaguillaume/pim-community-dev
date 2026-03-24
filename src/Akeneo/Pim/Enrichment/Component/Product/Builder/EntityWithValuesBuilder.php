@@ -18,14 +18,11 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
  */
 class EntityWithValuesBuilder implements EntityWithValuesBuilderInterface
 {
-    /** @var AttributeValuesResolverInterface */
-    protected $valuesResolver;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Manager\AttributeValuesResolverInterface $valuesResolver;
 
-    /** @var ValueFactory */
-    protected $productValueFactory;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Factory\ValueFactory $productValueFactory;
 
-    /** @var GetAttributes */
-    protected $getAttributesQuery;
+    protected \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes $getAttributesQuery;
 
     public function __construct(
         AttributeValuesResolverInterface $valuesResolver,

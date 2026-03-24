@@ -44,7 +44,7 @@ class GetProductsWithCompletenesses implements GetProductsWithCompletenessesInte
         return new ConnectorProductList(
             $connectorProductList->totalNumberOfProducts(),
             array_map(
-                fn (ConnectorProduct $product)
+                fn (ConnectorProduct $product): \Akeneo\Pim\Enrichment\Component\Product\Connector\ReadModel\ConnectorProduct
                     => $product->buildWithCompletenesses($productCompletenesses[$product->uuid()->toString()]),
                 $connectorProductList->connectorProducts()
             )

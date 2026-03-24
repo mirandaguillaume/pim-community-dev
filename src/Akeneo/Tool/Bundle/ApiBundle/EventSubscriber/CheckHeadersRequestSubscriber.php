@@ -25,11 +25,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 #[AsEventListener(event: KernelEvents::REQUEST, method: 'onKernelRequest')]
 class CheckHeadersRequestSubscriber
 {
-    /** @var FormatNegotiator */
-    protected $formatNegotiator;
+    protected \FOS\RestBundle\Negotiation\FormatNegotiator $formatNegotiator;
 
-    /** @var ContentTypeNegotiator */
-    protected $contentTypeNegotiator;
+    protected \Akeneo\Tool\Bundle\ApiBundle\Negotiator\ContentTypeNegotiator $contentTypeNegotiator;
 
     public function __construct(
         FormatNegotiator $formatNegotiator,
@@ -45,7 +43,7 @@ class CheckHeadersRequestSubscriber
      * @throws NotAcceptableHttpException
      * @throws UnsupportedMediaTypeHttpException
      */
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

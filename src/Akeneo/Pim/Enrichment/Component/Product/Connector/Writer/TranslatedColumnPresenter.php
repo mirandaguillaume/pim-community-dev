@@ -23,7 +23,7 @@ class TranslatedColumnPresenter implements ColumnPresenterInterface
 
     private function findDuplicatedTranslations(array $columns): array
     {
-        $columnTranslations = array_map(fn (string $column) => $this->extractColumnTranslation($column), $columns);
+        $columnTranslations = array_map(fn (string $column): string => $this->extractColumnTranslation($column), $columns);
 
         return array_unique(array_diff_assoc($columnTranslations, array_unique($columnTranslations)));
     }
@@ -38,7 +38,7 @@ class TranslatedColumnPresenter implements ColumnPresenterInterface
 
     private function removeCodeWhenTranslationIsNotDuplicated(array $columns, array $duplicatedTranslations): array
     {
-        return array_map(function (string $column) use ($duplicatedTranslations) {
+        return array_map(function (string $column) use ($duplicatedTranslations): string {
             [$code, $columnTranslation] = explode(
                 FlatTranslatorInterface::COLUMN_CODE_AND_TRANSLATION_SEPARATOR,
                 $column,

@@ -26,7 +26,7 @@ class FileNormalizer extends AbstractValueDataNormalizer
     /**
      * {@inheritdoc}
      */
-    protected function doNormalize($file, $format = null, array $context = [])
+    protected function doNormalize($file, $format = null, array $context = []): array
     {
         return [
             $this->getFieldName($file, $context) => $file->getKey(),

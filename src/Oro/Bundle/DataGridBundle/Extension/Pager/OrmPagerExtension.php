@@ -50,7 +50,7 @@ class OrmPagerExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function isApplicable(DatagridConfiguration $config)
+    public function isApplicable(DatagridConfiguration $config): bool
     {
         /** @TODO disabled when hidden on toolbar */
         // enabled by default for ORM datasource
@@ -60,7 +60,7 @@ class OrmPagerExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource)
+    public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource): void
     {
         $defaultPerPage = $config->offsetGetByPath(ToolbarExtension::PAGER_DEFAULT_PER_PAGE_OPTION_PATH, 10);
 
@@ -73,7 +73,7 @@ class OrmPagerExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function visitResult(DatagridConfiguration $config, ResultsIterableObject $result)
+    public function visitResult(DatagridConfiguration $config, ResultsIterableObject $result): void
     {
         $result->offsetAddToArray('options', [self::TOTAL_PARAM => $this->pager->getNbResults()]);
     }
@@ -81,7 +81,7 @@ class OrmPagerExtension extends AbstractExtension
     /**
      * {@inheritDoc}
      */
-    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data)
+    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data): void
     {
         $defaultPerPage = $config->offsetGetByPath(ToolbarExtension::PAGER_DEFAULT_PER_PAGE_OPTION_PATH, 10);
 
@@ -97,7 +97,7 @@ class OrmPagerExtension extends AbstractExtension
      * {@inheritDoc}
      */
     #[\Override]
-    public function getPriority()
+    public function getPriority(): int
     {
         // Pager should proceed closest to end of accepting chain
         return -240;

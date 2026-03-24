@@ -74,7 +74,7 @@ class GetFromIdentifiersAction
         );
 
         $productUuids = array_map(
-            static fn (string $productUuid) => sprintf('product_%s', $productUuid),
+            static fn (string $productUuid): string => sprintf('product_%s', $productUuid),
             $productUuids
         );
 

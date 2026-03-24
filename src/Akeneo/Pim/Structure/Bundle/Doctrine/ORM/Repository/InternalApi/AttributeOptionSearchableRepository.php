@@ -18,11 +18,9 @@ use Doctrine\ORM\QueryBuilder;
  */
 class AttributeOptionSearchableRepository implements SearchableRepositoryInterface
 {
-    /** @var EntityManagerInterface */
-    protected $entityManager;
+    protected \Doctrine\ORM\EntityManagerInterface $entityManager;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     /**
      * @param string                       $entityName
@@ -41,7 +39,7 @@ class AttributeOptionSearchableRepository implements SearchableRepositoryInterfa
      *
      * @return AttributeOptionInterface[]
      */
-    public function findBySearch($search = null, array $options = [])
+    public function findBySearch($search = null, array $options = []): mixed
     {
         $qb = $this->entityManager->createQueryBuilder();
         $qb->select('o')
@@ -79,7 +77,7 @@ class AttributeOptionSearchableRepository implements SearchableRepositoryInterfa
      *
      * @return QueryBuilder
      */
-    protected function applyQueryOptions(QueryBuilder $qb, array $options)
+    protected function applyQueryOptions(QueryBuilder $qb, array $options): QueryBuilder
     {
         if (isset($options['identifiers']) && is_array($options['identifiers']) && !empty($options['identifiers'])) {
             $qb->andWhere('o.code in (:codes)');

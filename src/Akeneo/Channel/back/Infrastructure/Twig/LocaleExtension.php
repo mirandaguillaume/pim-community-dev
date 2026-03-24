@@ -89,7 +89,7 @@ class LocaleExtension extends AbstractExtension
      *
      * @return string
      */
-    public function currencySymbol($code, $translateIn = null)
+    public function currencySymbol(string $code, $translateIn = null): string
     {
         $translateIn = $translateIn ?: $this->getCurrentLocaleCode();
         $language = \Locale::getPrimaryLanguage($translateIn);
@@ -117,7 +117,7 @@ class LocaleExtension extends AbstractExtension
      * @param string           $translateIn
      * @return string
      */
-    public function flag(Environment $environment, $code, $short = true, $translateIn = null)
+    public function flag(Environment $environment, $code, $short = true, $translateIn = null): string
     {
         return $environment->render(
             '@PimUI/Locale/_flag.html.twig',

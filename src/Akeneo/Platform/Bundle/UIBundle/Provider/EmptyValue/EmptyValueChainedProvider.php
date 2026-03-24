@@ -31,7 +31,7 @@ class EmptyValueChainedProvider implements EmptyValueProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($element)
+    public function supports($element): bool
     {
         foreach ($this->providers as $provider) {
             if ($provider->supports($element)) {
@@ -45,7 +45,7 @@ class EmptyValueChainedProvider implements EmptyValueProviderInterface
     /**
      * Add a provider
      */
-    public function addProvider(EmptyValueProviderInterface $provider)
+    public function addProvider(EmptyValueProviderInterface $provider): void
     {
         $this->providers[] = $provider;
     }

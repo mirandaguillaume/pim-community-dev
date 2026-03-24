@@ -15,8 +15,7 @@ use Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface;
  */
 class GroupFactory implements SimpleFactoryInterface
 {
-    /** @var GroupTypeRepositoryInterface */
-    protected $groupTypeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\GroupTypeRepositoryInterface $groupTypeRepository;
 
     /**
      * @param string                       $groupClass

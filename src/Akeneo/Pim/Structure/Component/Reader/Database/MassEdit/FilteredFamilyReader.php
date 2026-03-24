@@ -25,8 +25,7 @@ class FilteredFamilyReader implements ItemReaderInterface, StepExecutionAwareInt
     /** @var ArrayCollection */
     protected $families;
 
-    /** @var FamilyRepositoryInterface */
-    protected $familyRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\FamilyRepositoryInterface $familyRepository;
 
     private bool $firstRead = true;
 
@@ -72,12 +71,12 @@ class FilteredFamilyReader implements ItemReaderInterface, StepExecutionAwareInt
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
 
-    public function initialize()
+    public function initialize(): void
     {
         $filters = $this->getConfiguredFilters();
         $this->families = $this->getFamilies($filters);
@@ -116,7 +115,7 @@ class FilteredFamilyReader implements ItemReaderInterface, StepExecutionAwareInt
     /**
      * @return array
      */
-    protected function getConfiguredFilters()
+    protected function getConfiguredFilters(): mixed
     {
         $jobParameters = $this->stepExecution->getJobParameters();
 

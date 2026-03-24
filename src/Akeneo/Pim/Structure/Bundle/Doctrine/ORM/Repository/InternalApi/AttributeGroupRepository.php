@@ -9,8 +9,7 @@ use Doctrine\ORM\EntityRepository;
 
 class AttributeGroupRepository extends EntityRepository implements TranslatedLabelsProviderInterface
 {
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     /**
      * @param UserContext   $userContext
@@ -26,8 +25,9 @@ class AttributeGroupRepository extends EntityRepository implements TranslatedLab
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function findTranslatedLabels(array $options = [])
+    public function findTranslatedLabels(array $options = []): array
     {
         $queryBuilder = $this->createQueryBuilder('g')
             ->select('g.code')

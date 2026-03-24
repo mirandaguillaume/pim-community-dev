@@ -26,7 +26,7 @@ class CategoryTranslation extends AbstractTranslation implements CategoryTransla
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     protected $label;
 
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->label = $label;
 

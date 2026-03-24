@@ -24,11 +24,9 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class AsyncSelectType extends AbstractType
 {
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var IdentifiableModelTransformerFactory */
-    protected $transformerFactory;
+    protected \Akeneo\Platform\Bundle\UIBundle\Form\Factory\IdentifiableModelTransformerFactory $transformerFactory;
 
     public function __construct(
         RouterInterface $router,
@@ -102,7 +100,7 @@ class AsyncSelectType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['attr']['data-url'] = $this->getUrl($options);
         $view->vars['attr']['data-min-input-length'] = $options['min-input-length'];
@@ -115,7 +113,7 @@ class AsyncSelectType extends AbstractType
     /**
      * @return string
      */
-    protected function getUrl(array $options)
+    protected function getUrl(array $options): string
     {
         return $this->router->generate($options['route']);
     }
@@ -124,7 +122,7 @@ class AsyncSelectType extends AbstractType
      * @param array                                 $options
      * @return DataTransformerInterface
      */
-    protected function createDataTransformer(IdentifiableObjectRepositoryInterface $repository, $options)
+    protected function createDataTransformer(IdentifiableObjectRepositoryInterface $repository, array $options)
     {
         $transformerOptions = [
             'multiple' => $options['multiple'],

@@ -46,7 +46,7 @@ class ProductAssociationProcessor extends AbstractProcessor implements ItemProce
     /**
      * {@inheritdoc}
      */
-    public function process($item)
+    public function process($item): ?\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface
     {
         if (!$this->hasAssociationToImport($item)) {
             $this->stepExecution->incrementSummaryInfo('product_skipped_no_associations');
@@ -115,7 +115,7 @@ class ProductAssociationProcessor extends AbstractProcessor implements ItemProce
      *
      * @return array
      */
-    protected function filterIdenticalData(ProductInterface $product, array $item)
+    protected function filterIdenticalData(ProductInterface $product, array $item): array
     {
         return $this->productAssocFilter->filter($product, $item);
     }

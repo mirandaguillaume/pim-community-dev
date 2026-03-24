@@ -75,31 +75,24 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
 
     /**
      * Is attribute is required
-     *
-     * @var bool
      */
     #[ORM\Column(name: 'is_required', type: Types::BOOLEAN)]
-    protected $required;
+    protected bool $required;
 
     /**
      * Is attribute value is required
-     *
-     * @var bool
      */
     #[ORM\Column(name: 'is_unique', type: Types::BOOLEAN)]
-    protected $unique;
+    protected bool $unique;
 
-    /** @var bool */
     #[ORM\Column(name: 'is_localizable', type: Types::BOOLEAN)]
-    protected $localizable;
+    protected bool $localizable;
 
-    /** @var bool */
     #[ORM\Column(name: 'is_scopable', type: Types::BOOLEAN)]
-    protected $scopable;
+    protected bool $scopable;
 
-    /** @var array */
     #[ORM\Column(type: 'array', nullable: true)]
-    protected $properties;
+    protected array $properties;
 
     /** @var ArrayCollection */
     #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeOptionInterface::class, mappedBy: 'attribute', cascade: ['persist', 'detach'])]
@@ -115,9 +108,8 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     protected $group;
 
-    /** @var bool */
     #[ORM\Column(name: 'useable_as_grid_filter', type: Types::BOOLEAN, options: ['default' => false])]
-    protected $useableAsGridFilter;
+    protected bool $useableAsGridFilter;
 
     /** @var ArrayCollection */
     #[ORM\ManyToMany(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface::class)]

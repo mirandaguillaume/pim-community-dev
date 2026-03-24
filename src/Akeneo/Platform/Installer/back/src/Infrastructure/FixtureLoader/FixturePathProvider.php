@@ -23,7 +23,7 @@ class FixturePathProvider
      *
      * @return string
      */
-    public function getFixturesPath(string $catalogPath)
+    public function getFixturesPath(string $catalogPath): string
     {
         $installerDataDir = null;
 

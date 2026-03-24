@@ -25,7 +25,7 @@ class MappingsOverrideConfigurator implements MappingsOverrideConfiguratorInterf
     /**
      * {@inheritdoc}
      */
-    public function configure(ClassMetadata $metadata, array $mappingOverrides, $configuration)
+    public function configure(ClassMetadata $metadata, array $mappingOverrides, $configuration): ClassMetadata
     {
         if (!$metadata instanceof OrmClassMetadata) {
             throw new \InvalidArgumentException(
@@ -94,7 +94,7 @@ class MappingsOverrideConfigurator implements MappingsOverrideConfiguratorInterf
      *
      * @return bool
      */
-    protected function hasRelation($type)
+    protected function hasRelation($type): bool
     {
         return in_array(
             $type,

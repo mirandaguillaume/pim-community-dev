@@ -59,7 +59,7 @@ final readonly class GetFamiliesController
             includeCodes: (($codes = $request->query->all()['codes'] ?? null) ? (array) $codes : null)
         ));
 
-        $normalizedFamilies = \array_map(fn($family) => $family->normalize(), $families);
+        $normalizedFamilies = \array_map(fn(\Akeneo\Pim\Structure\Family\ServiceAPI\Query\FamilyWithLabels $family): array => $family->normalize(), $families);
 
         return new JsonResponse($normalizedFamilies);
     }

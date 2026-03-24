@@ -25,7 +25,7 @@ final readonly class RequestAccessTokenAction
     {
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$this->featureFlag->isEnabled()) {
             throw new NotFoundHttpException();

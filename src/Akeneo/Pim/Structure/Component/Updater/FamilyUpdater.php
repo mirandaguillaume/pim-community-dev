@@ -47,7 +47,7 @@ class FamilyUpdater implements ObjectUpdaterInterface
     /**
      * {@inheritdoc}
      */
-    public function update($family, array $data, array $options = [])
+    public function update($family, array $data, array $options = []): static
     {
         if (!$family instanceof FamilyInterface) {
             throw InvalidObjectException::objectExpected(
@@ -94,7 +94,7 @@ class FamilyUpdater implements ObjectUpdaterInterface
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function validateScalarArray($field, mixed $data)
+    protected function validateScalarArray(string $field, mixed $data)
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected($field, static::class, $data);
@@ -147,7 +147,7 @@ class FamilyUpdater implements ObjectUpdaterInterface
      * @throws UnknownPropertyException
      * @throws InvalidPropertyException
      */
-    protected function setData(FamilyInterface $family, $field, mixed $data)
+    protected function setData(FamilyInterface $family, string $field, mixed $data)
     {
         match ($field) {
             'labels' => $this->setLabels($family, $data),
@@ -242,7 +242,7 @@ class FamilyUpdater implements ObjectUpdaterInterface
         FamilyInterface $family,
         array $attributeCodes,
         $channelCode
-    ) {
+    ): array {
         $requirements = [];
 
         $channel = $this->channelRepository->findOneByIdentifier($channelCode);

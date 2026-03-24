@@ -37,38 +37,27 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AttributeController
 {
-    /** @var AttributeRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Pim\Structure\Component\Repository\ExternalApi\AttributeRepositoryInterface $repository;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var SimpleFactoryInterface */
-    protected $factory;
+    protected \Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface $factory;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var  ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var PaginatorInterface */
-    protected $paginator;
+    protected \Akeneo\Tool\Component\Api\Pagination\PaginatorInterface $paginator;
 
-    /** @var ParameterValidatorInterface */
-    protected $parameterValidator;
+    protected \Akeneo\Tool\Component\Api\Pagination\ParameterValidatorInterface $parameterValidator;
 
-    /** @var StreamResourceResponse */
-    protected $partialUpdateStreamResource;
+    protected \Akeneo\Tool\Bundle\ApiBundle\Stream\StreamResourceResponse $partialUpdateStreamResource;
 
-    /** @var array */
-    protected $apiConfiguration;
+    protected array $apiConfiguration;
 
     public function __construct(
         AttributeRepositoryInterface $repository,
@@ -201,7 +190,7 @@ class AttributeController
         $resource = $request->getContent(true);
         $this->apiAggregatorForAttributePostSave->activate();
 
-        $response = $this->partialUpdateStreamResource->streamResponse($resource, [], function () {
+        $response = $this->partialUpdateStreamResource->streamResponse($resource, [], function (): void {
             try {
                 $this->apiAggregatorForAttributePostSave->dispatchAllEvents();
             } catch (\Throwable $exception) {
@@ -273,7 +262,7 @@ class AttributeController
      *
      * @throws DocumentedHttpException
      */
-    protected function updateAttribute(AttributeInterface $attribute, array $data, $anchor)
+    protected function updateAttribute(AttributeInterface $attribute, array $data, string $anchor)
     {
         try {
             $this->updater->update($attribute, $data);
@@ -331,7 +320,7 @@ class AttributeController
      * @param int                $status
      * @return Response
      */
-    protected function getResponse(AttributeInterface $attribute, $status)
+    protected function getResponse(AttributeInterface $attribute, $status): \Symfony\Component\HttpFoundation\Response
     {
         $response = new Response(null, $status);
         $url = $this->router->generate(

@@ -131,7 +131,7 @@ class ChannelUpdater implements ObjectUpdaterInterface
      * @param ChannelInterface $channel
      * @param array            $localizedLabels
      */
-    private function setLabels($channel, $localizedLabels): void
+    private function setLabels(\Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface $channel, $localizedLabels): void
     {
         // using known locale code when found (modulo case-insensitive comparison)
         // leaving unknown locale code as is for the moment (Jira PIM-10372)

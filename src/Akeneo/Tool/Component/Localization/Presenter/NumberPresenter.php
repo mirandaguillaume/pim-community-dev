@@ -13,11 +13,10 @@ use Akeneo\Tool\Component\Localization\Factory\NumberFactory;
  */
 class NumberPresenter implements PresenterInterface
 {
-    /** @var NumberFactory */
-    protected $numberFactory;
+    protected \Akeneo\Tool\Component\Localization\Factory\NumberFactory $numberFactory;
 
     /** @var string[] */
-    protected $attributeTypes;
+    protected array $attributeTypes;
 
     /**
      * @param string[]      $attributeTypes
@@ -50,7 +49,7 @@ class NumberPresenter implements PresenterInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($attributeType)
+    public function supports($attributeType): bool
     {
         return in_array($attributeType, $this->attributeTypes);
     }

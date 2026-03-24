@@ -66,7 +66,7 @@ final readonly class UserController
     /**
      * @return JsonResponse
      */
-    public function getCurrentAction()
+    public function getCurrentAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $token = $this->tokenStorage->getToken();
         $user = null !== $token ? $token->getUser() : null;
@@ -305,7 +305,7 @@ final readonly class UserController
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
-    private function getUserOr404($identifier): UserInterface
+    private function getUserOr404(int $identifier): UserInterface
     {
         $user = $this->repository->findOneBy(['id' => $identifier]);
 
@@ -318,7 +318,7 @@ final readonly class UserController
         return $user;
     }
 
-    private function updateUser(int $identifier, array $data): Response
+    private function updateUser(int $identifier, array $data): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             $updateUserCommand = new UpdateUserCommand($identifier, $data);
@@ -352,7 +352,7 @@ final readonly class UserController
         return $violations;
     }
 
-    private function additionalProperties($user): array
+    private function additionalProperties(array $user): array
     {
         $decimalSeparator = [];
         $decimalSeparator['ui_locale_decimal_separator'] = $this->numberFactory

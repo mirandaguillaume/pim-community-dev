@@ -17,8 +17,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class GroupFieldAdder extends AbstractFieldAdder
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $groupRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $groupRepository;
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $groupRepository,
@@ -33,7 +32,7 @@ class GroupFieldAdder extends AbstractFieldAdder
      *
      * Expected data input format : ["group_code"]
      */
-    public function addFieldData($product, $field, $data, array $options = [])
+    public function addFieldData($product, $field, $data, array $options = []): void
     {
         if (!$product instanceof ProductInterface) {
             throw InvalidObjectException::objectExpected(

@@ -48,7 +48,7 @@ class CategoryTreeController
         $selectedCategoryCountPerTree = $this->findCategoryCountPerTree($selectedCategoryCodes, $shouldIncludeChildren);
 
         return array_map(
-            static function (CategoryTree $categoryTree) use ($selectedCategoryCountPerTree) {
+            static function (CategoryTree $categoryTree) use ($selectedCategoryCountPerTree): array {
                 $result = $categoryTree->normalize();
                 $result['selectedCategoryCount'] = $selectedCategoryCountPerTree[$result['code']];
 

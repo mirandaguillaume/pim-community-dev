@@ -16,7 +16,7 @@ class DefaultValuesProviderRegistry
     /** @var DefaultValuesProviderInterface[] */
     protected $providers = [];
 
-    public function register(DefaultValuesProviderInterface $provider)
+    public function register(DefaultValuesProviderInterface $provider): void
     {
         $this->providers[] = $provider;
     }

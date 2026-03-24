@@ -34,10 +34,10 @@ final readonly class ClearPriceValueApplier implements UserIntentApplier
 
         $newPriceCollection = array_values(array_filter(
             $previousPriceCollection,
-            static fn (ProductPrice $value) => $value->getCurrency() !== $userIntent->currencyCode()
+            static fn (ProductPrice $value): bool => $value->getCurrency() !== $userIntent->currencyCode()
         ));
 
-        $normalizedPriceCollection = array_map(static fn (ProductPrice $value) => [
+        $normalizedPriceCollection = array_map(static fn (ProductPrice $value): array => [
             'amount' => $value->getData(),
             'currency' => $value->getCurrency(),
         ], $newPriceCollection);

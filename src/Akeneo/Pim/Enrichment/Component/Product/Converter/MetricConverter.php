@@ -18,14 +18,11 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class MetricConverter
 {
-    /** @var MeasureConverter */
-    protected $converter;
+    protected \Akeneo\Tool\Bundle\MeasureBundle\Convert\MeasureConverter $converter;
 
-    /** @var EntityWithValuesBuilderInterface */
-    protected $entityWithValuesBuilder;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Builder\EntityWithValuesBuilderInterface $entityWithValuesBuilder;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeRepository;
 
     public function __construct(
         MeasureConverter $converter,
@@ -40,7 +37,7 @@ class MetricConverter
     /**
      * Convert all the metric values into the channel configured conversion units
      */
-    public function convert(EntityWithValuesInterface $entityWithValues, ChannelInterface $channel)
+    public function convert(EntityWithValuesInterface $entityWithValues, ChannelInterface $channel): void
     {
         $channelUnits = $channel->getConversionUnits();
         foreach ($entityWithValues->getValues() as $value) {

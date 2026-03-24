@@ -52,7 +52,7 @@ class FieldFilterHelper
      *
      * @return bool
      */
-    public static function hasProperty($field)
+    public static function hasProperty($field): bool
     {
         return str_contains($field, '.');
     }
@@ -64,14 +64,14 @@ class FieldFilterHelper
      * @param string $className
      * @throws InvalidPropertyTypeException
      */
-    public static function checkArray($field, mixed $value, $className)
+    public static function checkArray($field, mixed $value, $className): void
     {
         if (!is_array($value)) {
             throw InvalidPropertyTypeException::arrayExpected(static::getCode($field), $className, $value);
         }
     }
 
-    public static function checkArrayOfStrings($field, $value, $className)
+    public static function checkArrayOfStrings($field, $value, $className): void
     {
         self::checkArray($field, $value, $className);
 
@@ -91,7 +91,7 @@ class FieldFilterHelper
      * @param string $className
      *
      */
-    public static function checkDateTime($field, string|\DateTimeInterface $value, $format, $dateMessageFormat, $className)
+    public static function checkDateTime($field, string|\DateTimeInterface $value, $format, $dateMessageFormat, $className): void
     {
         if ($value instanceof \DateTimeInterface) {
             return;
@@ -130,7 +130,7 @@ class FieldFilterHelper
      * @param string $className
      * @throws InvalidPropertyTypeException
      */
-    public static function checkString($field, mixed $value, $className)
+    public static function checkString($field, mixed $value, $className): void
     {
         if (!is_string($value)) {
             throw InvalidPropertyTypeException::stringExpected($field, $className, $value);
@@ -144,7 +144,7 @@ class FieldFilterHelper
      * @param string $className
      * @throws InvalidPropertyTypeException
      */
-    public static function checkIdentifier($field, mixed $value, $className)
+    public static function checkIdentifier($field, mixed $value, $className): void
     {
         $invalidIdField = static::hasProperty($field) && static::getProperty($field) === 'id' && !is_numeric($value);
         if ($invalidIdField) {

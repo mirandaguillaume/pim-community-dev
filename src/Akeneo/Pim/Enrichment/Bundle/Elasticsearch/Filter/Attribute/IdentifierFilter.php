@@ -41,7 +41,7 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }
@@ -75,7 +75,7 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
      * {@inheritdoc}
      */
     #[\Override]
-    public function supportsAttribute(AttributeInterface $attribute)
+    public function supportsAttribute(AttributeInterface $attribute): bool
     {
         return in_array($attribute->getType(), $this->supportedAttributeTypes);
     }

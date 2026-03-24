@@ -91,7 +91,7 @@ class ProductModelController
         $productModelIdentifiers = explode(',', (string) $request->get('identifiers'));
         $productModels = $this->productModelRepository->findByIdentifiers($productModelIdentifiers);
 
-        $normalizedProductModels = array_map(fn ($productModel) => $this->normalizeProductModel($productModel), $productModels);
+        $normalizedProductModels = array_map(fn (\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $productModel): array => $this->normalizeProductModel($productModel), $productModels);
 
         return new JsonResponse($normalizedProductModels);
     }
@@ -247,7 +247,7 @@ class ProductModelController
      *
      * @return JsonResponse
      */
-    public function listFamilyVariantProductModels(Request $request)
+    public function listFamilyVariantProductModels(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $search = trim($request->query->get('search'));
         $options = $request->query->all()['options'] ?? [];
@@ -370,7 +370,7 @@ class ProductModelController
      *
      * @throws NotFoundHttpException
      */
-    protected function findProductModelOr404($id): ProductModelInterface
+    protected function findProductModelOr404(string $id): ProductModelInterface
     {
         $productModel = $this->productModelRepository->find($id);
         $productModel = $this->objectFilter->filterObject($productModel, 'pim.internal_api.product.view') ? null : $productModel;

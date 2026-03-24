@@ -136,7 +136,7 @@ class ProductAndProductModelReader implements
         }
 
         if ($this->readChildren) {
-            $filters = array_map(function ($filter) {
+            $filters = array_map(function (array $filter): array {
                 if ('id' === $filter['field']) {
                     $filter['field'] = 'self_and_ancestor.id';
                 }
@@ -149,7 +149,7 @@ class ProductAndProductModelReader implements
             }, $filters);
         }
 
-        return array_filter($filters, fn ($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
+        return array_filter($filters, fn ($filter): bool => (is_countable($filter) ? count($filter) : 0) > 0);
     }
 
     private function getCursor(array $filters, ?ChannelInterface $channel = null): CursorInterface

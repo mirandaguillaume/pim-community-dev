@@ -19,8 +19,7 @@ class Builder
     final public const string DATASOURCE_ACL_PATH = '[source][acl_resource]';
     final public const string BASE_DATAGRID_CLASS_PATH = '[options][base_datagrid_class]';
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher;
 
     /** @var DatasourceInterface[] */
     protected $dataSources = [];
@@ -28,8 +27,7 @@ class Builder
     /** @var ExtensionVisitorInterface[] */
     protected $extensions = [];
 
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    protected \Oro\Bundle\SecurityBundle\SecurityFacade $securityFacade;
 
     /**
      * @param string $baseDatagridClass
@@ -92,7 +90,7 @@ class Builder
      *
      * @return $this
      */
-    public function registerDatasource($type, DatasourceInterface $dataSource)
+    public function registerDatasource($type, DatasourceInterface $dataSource): static
     {
         $this->dataSources[$type] = $dataSource;
 
@@ -106,7 +104,7 @@ class Builder
      *
      * @return $this
      */
-    public function registerExtension(ExtensionVisitorInterface $extension)
+    public function registerExtension(ExtensionVisitorInterface $extension): static
     {
         $this->extensions[] = $extension;
 
@@ -146,7 +144,7 @@ class Builder
      *
      * @return bool
      */
-    protected function isResourceGranted($aclResource)
+    protected function isResourceGranted($aclResource): bool
     {
         $delimiter = strpos($aclResource, ';');
         if ($delimiter) {

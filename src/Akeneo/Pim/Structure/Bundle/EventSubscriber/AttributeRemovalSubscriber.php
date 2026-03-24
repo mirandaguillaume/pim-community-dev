@@ -76,7 +76,7 @@ class AttributeRemovalSubscriber
      * Little hack in order to register on KernelEvents::TERMINATE and ConsoleEvents::TERMINATE only when we are in a context of an attribute deletion
      * We didn't want to instanciate this class and her service each time a command is executed
      */
-    private function registerCleanAttributeJobOnTerminate()
+    private function registerCleanAttributeJobOnTerminate(): void
     {
         if (!$this->terminateEventIsRegistered) {
             $this->eventDispatcher->addListener(KernelEvents::TERMINATE, $this->launchCleanAttributeJob(...));

@@ -31,7 +31,7 @@ class QueryCountCalculator
      * @param \Doctrine\Common\Collections\ArrayCollection|array|null $parameters Query parameters.
      * @return integer
      */
-    public function getCount(Query $query, \Doctrine\Common\Collections\ArrayCollection|array|null $parameters = null)
+    public function getCount(Query $query, \Doctrine\Common\Collections\ArrayCollection|array|null $parameters = null): int
     {
         if (!empty($parameters)) {
             $query = clone $query;
@@ -57,7 +57,7 @@ class QueryCountCalculator
      * @throws \Doctrine\ORM\Query\QueryException
      * @return array
      */
-    protected function processParameterMappings(Query $query, $paramMappings)
+    protected function processParameterMappings(Query $query, array $paramMappings): array
     {
         $sqlParams = [];
         $types = [];

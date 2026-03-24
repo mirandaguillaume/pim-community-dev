@@ -26,7 +26,7 @@ class ProductModelSaver implements SaverInterface, BulkSaverInterface
     /**
      * {@inheritdoc}
      */
-    public function save($productModel, array $options = [])
+    public function save($productModel, array $options = []): void
     {
         $this->validateProductModel($productModel);
         if (!$productModel->isDirty() && true !== ($options['force_save'] ?? false)) {
@@ -49,7 +49,7 @@ class ProductModelSaver implements SaverInterface, BulkSaverInterface
     /**
      * {@inheritdoc}
      */
-    public function saveAll(array $productModels, array $options = [])
+    public function saveAll(array $productModels, array $options = []): void
     {
         $productModels = array_unique($productModels, SORT_REGULAR);
         foreach ($productModels as $productModel) {
@@ -74,7 +74,7 @@ class ProductModelSaver implements SaverInterface, BulkSaverInterface
         $this->eventDispatcher->dispatch(new GenericEvent($productModels, $options), StorageEvents::PRE_SAVE_ALL);
 
         $areProductsNew = array_map(
-            fn ($productModel) => null === $productModel->getId(),
+            fn ($productModel): bool => null === $productModel->getId(),
             $productModels
         );
 

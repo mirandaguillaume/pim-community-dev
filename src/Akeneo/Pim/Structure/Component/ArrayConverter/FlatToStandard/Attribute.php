@@ -16,11 +16,9 @@ use Akeneo\Tool\Component\Connector\Exception\DataArrayConversionException;
  */
 class Attribute implements ArrayConverterInterface
 {
-    /** @var FieldsRequirementChecker */
-    protected $fieldChecker;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker $fieldChecker;
 
-    /** @var array */
-    protected $booleanFields;
+    protected array $booleanFields;
 
     public function __construct(FieldsRequirementChecker $fieldChecker, array $booleanFields)
     {
@@ -52,7 +50,7 @@ class Attribute implements ArrayConverterInterface
      * @param array  $convertedItem
      * @return array
      */
-    protected function convertFields($field, $booleanFields, mixed $data, $convertedItem)
+    protected function convertFields($field, $booleanFields, mixed $data, array $convertedItem): array
     {
         if (str_contains($field, 'label-')) {
             $labelTokens = explode('-', $field);

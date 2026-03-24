@@ -17,8 +17,7 @@ class ProductAssociation implements ArrayConverterInterface
 
     final public const string IDENTIFIER_SEPARATOR = ',';
 
-    /** @var ArrayConverterInterface */
-    protected $productConverter;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface $productConverter;
 
     public function __construct(ArrayConverterInterface $productConverter)
     {
@@ -69,7 +68,7 @@ class ProductAssociation implements ArrayConverterInterface
      *
      * @return array
      */
-    protected function filter(array $item)
+    protected function filter(array $item): array
     {
         $expectedFields = ['identifier', 'uuid', 'associations', 'quantified_associations'];
         foreach (array_keys($item) as $fieldName) {

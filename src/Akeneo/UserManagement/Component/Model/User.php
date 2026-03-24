@@ -95,11 +95,9 @@ class User implements UserInterface, EquatableInterface, \Stringable
 
     /**
      * The salt to use for hashing
-     *
-     * @var string
      */
     #[ORM\Column(type: Types::STRING)]
-    protected $salt;
+    protected string $salt;
 
     /**
      * Encrypted password. Must be persisted.
@@ -200,9 +198,8 @@ class User implements UserInterface, EquatableInterface, \Stringable
     #[ORM\Column(type: Types::STRING, length: 20, nullable: true)]
     protected $phone;
 
-    /** @var string */
     #[ORM\Column(type: Types::STRING, length: 30)]
-    protected $timezone;
+    protected string $timezone;
 
     /** @var array $property bag for properties extension */
     #[ORM\Column(type: Types::JSON)]
@@ -249,7 +246,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->plainPassword = null;
     }
@@ -257,7 +254,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getClass()
+    public function getClass(): string
     {
         return UserInterface::class;
     }
@@ -273,7 +270,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->getUserIdentifier();
     }
@@ -337,7 +334,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getFullName()
+    public function getFullName(): string
     {
         return \trim(\implode(' ', array_filter([
             $this->namePrefix,
@@ -479,7 +476,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function isPasswordRequestNonExpired($ttl)
+    public function isPasswordRequestNonExpired($ttl): bool
     {
         return $this->getPasswordRequestedAt() instanceof \DateTime
             && $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
@@ -488,7 +485,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -498,7 +495,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setUsername($username)
+    public function setUsername($username): static
     {
         $this->username = $username;
 
@@ -508,7 +505,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setEmail($email)
+    public function setEmail($email): static
     {
         $this->email = $email;
 
@@ -518,7 +515,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setFirstName($firstName = null)
+    public function setFirstName($firstName = null): static
     {
         $this->firstName = $firstName;
 
@@ -528,7 +525,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLastName($lastName = null)
+    public function setLastName($lastName = null): static
     {
         $this->lastName = $lastName;
 
@@ -538,7 +535,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setMiddleName($middleName)
+    public function setMiddleName($middleName): void
     {
         $this->middleName = $middleName;
     }
@@ -546,7 +543,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setNamePrefix($namePrefix)
+    public function setNamePrefix($namePrefix): void
     {
         $this->namePrefix = $namePrefix;
     }
@@ -554,7 +551,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setNameSuffix($nameSuffix)
+    public function setNameSuffix($nameSuffix): void
     {
         $this->nameSuffix = $nameSuffix;
     }
@@ -562,7 +559,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setImage($image = null)
+    public function setImage($image = null): static
     {
         $this->image = $image;
 
@@ -572,7 +569,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setImageFile(UploadedFile $imageFile)
+    public function setImageFile(UploadedFile $imageFile): static
     {
         $this->imageFile = $imageFile;
         // this will trienvogger PreUpdate callback even if only image has been changed
@@ -584,7 +581,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function unsetImageFile()
+    public function unsetImageFile(): static
     {
         $this->imageFile = null;
 
@@ -594,7 +591,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled): static
     {
         $this->enabled = (bool) $enabled;
 
@@ -604,7 +601,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setSalt($salt)
+    public function setSalt($salt): static
     {
         $this->salt = $salt;
 
@@ -614,7 +611,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setPassword($password)
+    public function setPassword($password): static
     {
         $this->password = $password;
 
@@ -624,7 +621,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setPlainPassword($password)
+    public function setPlainPassword($password): static
     {
         $this->plainPassword = $password;
 
@@ -634,7 +631,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setConfirmationToken($token)
+    public function setConfirmationToken($token): static
     {
         $this->confirmationToken = $token;
 
@@ -644,7 +641,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setPasswordRequestedAt(?\DateTime $time = null)
+    public function setPasswordRequestedAt(?\DateTime $time = null): static
     {
         $this->passwordRequestedAt = $time;
 
@@ -654,7 +651,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLastLogin(\DateTime $time)
+    public function setLastLogin(\DateTime $time): static
     {
         $this->lastLogin = $time;
 
@@ -664,7 +661,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setLoginCount($count)
+    public function setLoginCount($count): static
     {
         $this->loginCount = $count;
 
@@ -674,7 +671,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt(\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -684,7 +681,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt($updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
@@ -725,7 +722,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function hasRole($role)
+    public function hasRole($role): bool
     {
         if ($role instanceof Role) {
             $roleName = $role->getRole();
@@ -743,7 +740,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addRole(Role $role)
+    public function addRole(Role $role): static
     {
         if (!$this->hasRole($role)) {
             $this->roles->add($role);
@@ -755,7 +752,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeRole($role)
+    public function removeRole($role): void
     {
         if ($role instanceof Role) {
             $roleObject = $role;
@@ -774,7 +771,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setRoles($roles)
+    public function setRoles($roles): static
     {
         if (!$roles instanceof Collection && !is_array($roles)) {
             throw new \InvalidArgumentException(
@@ -794,7 +791,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setRolesCollection(Collection $collection)
+    public function setRolesCollection(Collection $collection): static
     {
         if (!$collection instanceof Collection) {
             throw new \InvalidArgumentException(
@@ -816,8 +813,9 @@ class User implements UserInterface, EquatableInterface, \Stringable
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getGroupNames()
+    public function getGroupNames(): array
     {
         $names = [];
 
@@ -832,7 +830,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function hasGroup($name)
+    public function hasGroup($name): bool
     {
         return in_array($name, $this->getGroupNames());
     }
@@ -840,7 +838,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function addGroup(GroupInterface $group)
+    public function addGroup(GroupInterface $group): static
     {
         if (!$this->getGroups()->contains($group)) {
             $this->getGroups()->add($group);
@@ -852,7 +850,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function removeGroup(GroupInterface $group)
+    public function removeGroup(GroupInterface $group): static
     {
         if ($this->getGroups()->contains($group)) {
             $this->getGroups()->removeElement($group);
@@ -864,7 +862,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setGroups(array $groups)
+    public function setGroups(array $groups): static
     {
         $this->groups->clear();
 
@@ -877,8 +875,9 @@ class User implements UserInterface, EquatableInterface, \Stringable
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getGroupsIds()
+    public function getGroupsIds(): array
     {
         $ids = [];
         foreach ($this->groups as $group) {
@@ -891,7 +890,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getImagePath()
+    public function getImagePath(): ?string
     {
         if ($this->image) {
             return $this->getUploadDir(true) . '/' . $this->image;
@@ -903,7 +902,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function generateToken()
+    public function generateToken(): string
     {
         return base_convert(bin2hex(hash('sha256', uniqid(random_int(0, mt_getrandmax()), true), true)), 16, 36);
     }
@@ -920,7 +919,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
      * {@inheritdoc}
      */
     #[ORM\PrePersist]
-    public function beforeSave()
+    public function beforeSave(): void
     {
         $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
@@ -931,7 +930,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
      * {@inheritdoc}
      */
     #[ORM\PreUpdate]
-    public function preUpdate()
+    public function preUpdate(): void
     {
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
@@ -939,7 +938,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function isCredentialsNonExpired()
+    public function isCredentialsNonExpired(): bool
     {
         return true;
     }
@@ -947,7 +946,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getUploadDir($forWeb = false)
+    public function getUploadDir($forWeb = false): string
     {
         $ds = DIRECTORY_SEPARATOR;
 
@@ -971,7 +970,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCatalogLocale(LocaleInterface $catalogLocale)
+    public function setCatalogLocale(LocaleInterface $catalogLocale): static
     {
         $this->catalogLocale = $catalogLocale;
 
@@ -989,7 +988,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setUiLocale(LocaleInterface $uiLocale)
+    public function setUiLocale(LocaleInterface $uiLocale): static
     {
         $this->uiLocale = $uiLocale;
 
@@ -1007,7 +1006,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setCatalogScope(ChannelInterface $catalogScope)
+    public function setCatalogScope(ChannelInterface $catalogScope): static
     {
         $this->catalogScope = $catalogScope;
 
@@ -1025,7 +1024,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setDefaultTree(CategoryInterface $defaultTree)
+    public function setDefaultTree(CategoryInterface $defaultTree): static
     {
         $this->defaultTree = $defaultTree;
 
@@ -1043,7 +1042,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setEmailNotifications($emailNotifications)
+    public function setEmailNotifications($emailNotifications): static
     {
         $this->emailNotifications = $emailNotifications;
 
@@ -1061,7 +1060,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setProductGridFilters(array $productGridFilters = [])
+    public function setProductGridFilters(array $productGridFilters = []): static
     {
         $this->productGridFilters = $productGridFilters;
 
@@ -1084,8 +1083,9 @@ class User implements UserInterface, EquatableInterface, \Stringable
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getDefaultGridViews()
+    public function getDefaultGridViews(): array
     {
         $views = [];
         foreach ($this->defaultGridViews as $datagridView) {
@@ -1098,7 +1098,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setDefaultGridView($alias, $defaultGridView)
+    public function setDefaultGridView($alias, $defaultGridView): static
     {
         if (null !== $gridView = $this->getDefaultGridView($alias)) {
             $this->defaultGridViews->removeElement($gridView);

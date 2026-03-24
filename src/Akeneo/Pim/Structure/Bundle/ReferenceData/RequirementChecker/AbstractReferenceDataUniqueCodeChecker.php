@@ -14,8 +14,7 @@ use Doctrine\Persistence\ObjectManager;
  */
 abstract class AbstractReferenceDataUniqueCodeChecker implements CheckerInterface
 {
-    /** @var ObjectManager */
-    protected $om;
+    protected \Doctrine\Persistence\ObjectManager $om;
 
     /** @var string */
     protected $failure;

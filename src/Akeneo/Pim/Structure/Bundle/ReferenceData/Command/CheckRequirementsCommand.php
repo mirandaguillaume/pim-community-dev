@@ -62,7 +62,7 @@ class CheckRequirementsCommand extends Command
     /**
      * @return CheckerInterface[]
      */
-    protected function getCheckers()
+    protected function getCheckers(): array
     {
         $checkers = [];
         $checkers[] = new ReferenceDataNameChecker();

@@ -15,10 +15,7 @@ use Oro\Bundle\PimDataGridBundle\Extension\Sorter\SorterInterface;
  */
 class InGroupSorter implements SorterInterface
 {
-    /**
-     * @var RequestParameters
-     */
-    protected $requestParams;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\RequestParameters $requestParams;
 
     public function __construct(RequestParameters $requestParams)
     {
@@ -28,7 +25,7 @@ class InGroupSorter implements SorterInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(DatasourceInterface $datasource, $field, $direction)
+    public function apply(DatasourceInterface $datasource, $field, $direction): void
     {
         $groupId = $this->requestParams->get('currentGroup', null);
         if (!$groupId) {

@@ -54,7 +54,7 @@ class CategoryType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['value']['treeId'] = $form->get('treeId')->getViewData();
         $view->vars['value']['categoryId'] = $form->get('categoryId')->getViewData();

@@ -50,7 +50,7 @@ class AttributeOption implements ArrayConverterInterface
      *     }
      * }
      */
-    public function convert(array $item, array $options = [])
+    public function convert(array $item, array $options = []): array
     {
         $this->fieldChecker->checkFieldsPresence($item, ['attribute', 'code']);
         $this->fieldChecker->checkFieldsFilling($item, ['attribute', 'code']);

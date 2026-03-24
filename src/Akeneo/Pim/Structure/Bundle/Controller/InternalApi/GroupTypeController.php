@@ -27,32 +27,23 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class GroupTypeController
 {
-    /** @var GroupTypeRepositoryInterface */
-    protected $groupTypeRepo;
+    protected \Akeneo\Pim\Structure\Component\Repository\GroupTypeRepositoryInterface $groupTypeRepo;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var RemoverInterface */
-    protected $remover;
+    protected \Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface $remover;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
-    /** @var GroupTypeFactory */
-    protected $groupTypeFactory;
+    protected \Akeneo\Pim\Structure\Component\Factory\GroupTypeFactory $groupTypeFactory;
 
-    /** @var NormalizerInterface */
-    protected $constraintViolationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $constraintViolationNormalizer;
 
     /**
      * @param GroupTypeFactory             $groupTypeFactory
@@ -84,7 +75,7 @@ class GroupTypeController
      *
      * @AclAncestor("pim_enrich_grouptype_index")
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $groupTypes = $this->groupTypeRepo->findAll();
 
@@ -102,7 +93,7 @@ class GroupTypeController
      *
      * @AclAncestor("pim_enrich_grouptype_get")
      */
-    public function getAction($identifier)
+    public function getAction($identifier): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $groupType = $this->getGroupTypeOr404($identifier);
 
@@ -117,7 +108,7 @@ class GroupTypeController
      * @return Response
      * @AclAncestor("pim_enrich_grouptype_edit")
      */
-    public function postAction(Request $request, $identifier)
+    public function postAction(Request $request, $identifier): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -164,7 +155,7 @@ class GroupTypeController
      *
      * @AclAncestor("pim_enrich_grouptype_remove")
      */
-    public function removeAction(Request $request, $code)
+    public function removeAction(Request $request, $code): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -192,7 +183,7 @@ class GroupTypeController
      *
      * @return GroupTypeInterface
      */
-    protected function getGroupTypeOr404($code)
+    protected function getGroupTypeOr404(string $code)
     {
         $groupType = $this->groupTypeRepo->findOneByIdentifier($code);
 
@@ -212,7 +203,7 @@ class GroupTypeController
      * @return Response
      * @AclAncestor("pim_enrich_grouptype_create")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');

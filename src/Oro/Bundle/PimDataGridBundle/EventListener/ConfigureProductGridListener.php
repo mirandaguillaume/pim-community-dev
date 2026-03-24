@@ -17,28 +17,15 @@ use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\SortersConfigura
  */
 class ConfigureProductGridListener
 {
-    /**
-     * @var ContextConfigurator
-     */
-    protected $contextConfigurator;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ContextConfigurator $contextConfigurator;
 
-    /**
-     * @var ColumnsConfigurator
-     */
-    protected $columnsConfigurator;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ColumnsConfigurator $columnsConfigurator;
 
-    /**
-     * @var ConfiguratorInterface
-     */
-    protected $filtersConfigurator;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\ConfiguratorInterface $filtersConfigurator;
 
-    /**
-     * @var SortersConfigurator
-     */
-    protected $sortersConfigurator;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\SortersConfigurator $sortersConfigurator;
 
-    /** @var ConfiguratorInterface */
-    protected $attributesConfigurator;
+    protected \Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\ConfiguratorInterface $attributesConfigurator;
 
     public function __construct(
         ContextConfigurator $contextConfigurator,
@@ -60,7 +47,7 @@ class ConfigureProductGridListener
      *
      * @throws \LogicException
      */
-    public function buildBefore(BuildBefore $event)
+    public function buildBefore(BuildBefore $event): void
     {
         $datagridConfig = $event->getConfig();
 

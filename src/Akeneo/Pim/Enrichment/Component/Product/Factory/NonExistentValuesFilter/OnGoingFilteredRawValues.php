@@ -44,7 +44,7 @@ final readonly class OnGoingFilteredRawValues
     ) {
     }
 
-    public static function fromNonFilteredValuesCollectionIndexedByType(array $nonFilteredValuesCollectionIndexedByType)
+    public static function fromNonFilteredValuesCollectionIndexedByType(array $nonFilteredValuesCollectionIndexedByType): self
     {
         return new self([], $nonFilteredValuesCollectionIndexedByType);
     }

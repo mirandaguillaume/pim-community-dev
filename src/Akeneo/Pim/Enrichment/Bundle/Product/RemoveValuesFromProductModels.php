@@ -32,7 +32,7 @@ class RemoveValuesFromProductModels
     {
         $paths = implode(
             ',',
-            array_map(fn ($attributeCode) => $this->connection->quote(sprintf('$."%s"', $attributeCode)), $attributeCodes)
+            array_map(fn (string $attributeCode): string => $this->connection->quote(sprintf('$."%s"', $attributeCode)), $attributeCodes)
         );
 
         $this->connection->executeQuery(
@@ -50,7 +50,7 @@ class RemoveValuesFromProductModels
         );
     }
 
-    private function dispatchProductModelSaveEvents($productModelIdentifiers): void
+    private function dispatchProductModelSaveEvents(array $productModelIdentifiers): void
     {
         $productModels = $this->productModelRepository->findBy(['code' => $productModelIdentifiers]);
 

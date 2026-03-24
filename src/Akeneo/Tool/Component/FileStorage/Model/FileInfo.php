@@ -69,7 +69,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -87,7 +87,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setOriginalFilename($originalFilename)
+    public function setOriginalFilename($originalFilename): static
     {
         $this->originalFilename = $originalFilename;
 
@@ -105,7 +105,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setMimeType($mimeType)
+    public function setMimeType($mimeType): static
     {
         $this->mimeType = $mimeType;
 
@@ -123,7 +123,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setSize($size)
+    public function setSize($size): static
     {
         $this->size = $size;
 
@@ -141,7 +141,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setExtension($extension)
+    public function setExtension($extension): static
     {
         $this->extension = $extension;
 
@@ -159,7 +159,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setHash($hash)
+    public function setHash($hash): static
     {
         $this->hash = $hash;
 
@@ -177,7 +177,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setStorage($storage)
+    public function setStorage($storage): static
     {
         $this->storage = $storage;
 
@@ -195,7 +195,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setKey($key)
+    public function setKey($key): static
     {
         $this->key = $key;
 
@@ -213,7 +213,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setUploadedFile(?UploadedFile $uploadedFile = null)
+    public function setUploadedFile(?UploadedFile $uploadedFile = null): static
     {
         $this->uploadedFile = $uploadedFile;
 
@@ -223,7 +223,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setRemoved($removed)
+    public function setRemoved($removed): static
     {
         $this->removed = $removed;
 

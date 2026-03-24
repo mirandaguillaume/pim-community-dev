@@ -15,14 +15,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class DateLocalizer implements LocalizerInterface
 {
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var DateFactory */
-    protected $factory;
+    protected \Akeneo\Tool\Component\Localization\Factory\DateFactory $factory;
 
-    /** @var array */
-    protected $attributeTypes;
+    protected array $attributeTypes;
 
     public function __construct(
         ValidatorInterface $validator,
@@ -87,7 +84,7 @@ class DateLocalizer implements LocalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function localize($date, array $options = [])
+    public function localize($date, array $options = []): null|string|false
     {
         if (null === $date || '' === $date) {
             return null;
@@ -104,7 +101,7 @@ class DateLocalizer implements LocalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($attributeType)
+    public function supports($attributeType): bool
     {
         return in_array($attributeType, $this->attributeTypes);
     }
@@ -112,7 +109,7 @@ class DateLocalizer implements LocalizerInterface
     /**
      * @return array
      */
-    protected function getOptions(array $options)
+    protected function getOptions(array $options): array
     {
         if (isset($options['locale']) || isset($options['date_format'])) {
             return $options;

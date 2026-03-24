@@ -26,7 +26,7 @@ class AclPermission
      * @param  string        $name
      * @return AclPermission
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -47,7 +47,7 @@ class AclPermission
      * @param  int           $accessLevel Can be any AccessLevel::*_LEVEL
      * @return AclPermission
      */
-    public function setAccessLevel($accessLevel)
+    public function setAccessLevel($accessLevel): static
     {
         $this->accessLevel = $accessLevel;
 

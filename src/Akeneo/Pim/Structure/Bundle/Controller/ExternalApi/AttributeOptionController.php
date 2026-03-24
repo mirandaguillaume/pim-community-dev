@@ -39,44 +39,31 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AttributeOptionController
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\ExternalApi\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var ApiResourceRepositoryInterface */
-    protected $attributeOptionsRepository;
+    protected \Akeneo\Tool\Component\Api\Repository\ApiResourceRepositoryInterface $attributeOptionsRepository;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var SimpleFactoryInterface */
-    protected $factory;
+    protected \Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface $factory;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var  ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var PaginatorInterface */
-    protected $paginator;
+    protected \Akeneo\Tool\Component\Api\Pagination\PaginatorInterface $paginator;
 
-    /** @var ParameterValidatorInterface */
-    protected $parameterValidator;
+    protected \Akeneo\Tool\Component\Api\Pagination\ParameterValidatorInterface $parameterValidator;
 
-    /** @var StreamResourceResponse */
-    protected $partialUpdateStreamResource;
+    protected \Akeneo\Tool\Bundle\ApiBundle\Stream\StreamResourceResponse $partialUpdateStreamResource;
 
-    /** @var array */
-    protected $apiConfiguration;
+    protected array $apiConfiguration;
 
-    /** @var array */
-    protected $supportedAttributeTypes;
+    protected array $supportedAttributeTypes;
 
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,
@@ -119,7 +106,7 @@ class AttributeOptionController
      * @return JsonResponse
      * @AclAncestor("pim_api_attribute_option_list")
      */
-    public function getAction(Request $request, $attributeCode, $code)
+    public function getAction(Request $request, string $attributeCode, string $code): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $attribute = $this->getAttribute($attributeCode);
         $this->isAttributeSupportingOptions($attribute);
@@ -148,7 +135,7 @@ class AttributeOptionController
      * @return JsonResponse
      * @AclAncestor("pim_api_attribute_option_list")
      */
-    public function listAction(Request $request, $attributeCode)
+    public function listAction(Request $request, $attributeCode): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $criteria = [];
         $attribute = $this->getAttribute($attributeCode);
@@ -232,7 +219,7 @@ class AttributeOptionController
      * @return Response
      * @AclAncestor("pim_api_attribute_option_edit")
      */
-    public function partialUpdateAction(Request $request, $attributeCode, $code)
+    public function partialUpdateAction(Request $request, string $attributeCode, string $code)
     {
         $attribute = $this->getAttribute($attributeCode);
 
@@ -270,7 +257,7 @@ class AttributeOptionController
 
         $this->apiAggregatorForAttributeOptionPostSave->activate();
 
-        $response = $this->partialUpdateStreamResource->streamResponse($resource, ['attributeCode' => $attributeCode], function () {
+        $response = $this->partialUpdateStreamResource->streamResponse($resource, ['attributeCode' => $attributeCode], function (): void {
             try {
                 $this->apiAggregatorForAttributeOptionPostSave->dispatchAllEvents();
             } catch (\Throwable $exception) {
@@ -293,7 +280,7 @@ class AttributeOptionController
      *
      * @return AttributeInterface
      */
-    protected function getAttribute($attributeCode)
+    protected function getAttribute(string $attributeCode)
     {
         $attribute = $this->attributeRepository->findOneByIdentifier($attributeCode);
         if (null === $attribute) {
@@ -350,7 +337,7 @@ class AttributeOptionController
      * @param string                   $anchor
      * @throws DocumentedHttpException
      */
-    protected function updateAttributeOption(AttributeOptionInterface $attributeOption, $data, $anchor)
+    protected function updateAttributeOption(AttributeOptionInterface $attributeOption, array $data, string $anchor)
     {
         try {
             $this->updater->update($attributeOption, $data);
@@ -385,7 +372,7 @@ class AttributeOptionController
      *
      * @return Response
      */
-    protected function getResponse(AttributeInterface $attribute, AttributeOptionInterface $attributeOption, $status)
+    protected function getResponse(AttributeInterface $attribute, AttributeOptionInterface $attributeOption, $status): \Symfony\Component\HttpFoundation\Response
     {
         $response = new Response(null, $status);
         $route = $this->router->generate(

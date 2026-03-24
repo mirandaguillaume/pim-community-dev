@@ -29,29 +29,21 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductAndProductModelProcessor extends AbstractProcessor
 {
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    protected \Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface $channelRepository;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var FillMissingValuesInterface */
-    protected $fillMissingProductModelValues;
+    protected \Akeneo\Pim\Enrichment\Component\Product\ValuesFiller\FillMissingValuesInterface $fillMissingProductModelValues;
 
-    /** @var FillMissingValuesInterface */
-    protected $fillMissingProductValues;
+    protected \Akeneo\Pim\Enrichment\Component\Product\ValuesFiller\FillMissingValuesInterface $fillMissingProductValues;
 
-    /** @var ObjectDetacherInterface */
-    protected $detacher;
+    protected \Akeneo\Tool\Component\StorageUtils\Detacher\ObjectDetacherInterface $detacher;
 
-    /** @var UserProviderInterface */
-    protected $userProvider;
+    protected \Symfony\Component\Security\Core\User\UserProviderInterface $userProvider;
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
     public function __construct(
         NormalizerInterface $normalizer,
@@ -130,14 +122,14 @@ class ProductAndProductModelProcessor extends AbstractProcessor
      *
      * @return array
      */
-    protected function filterProperties(array $product, array $selectedProperties)
+    protected function filterProperties(array $product, array $selectedProperties): array
     {
         $propertiesToExport = [];
         foreach ($product as $codeProperty => $property) {
             if ('values' === $codeProperty) {
                 $propertiesToExport['values'] = array_filter(
                     $property,
-                    fn ($attributeCode) => in_array($attributeCode, $selectedProperties),
+                    fn ($attributeCode): bool => in_array($attributeCode, $selectedProperties),
                     ARRAY_FILTER_USE_KEY
                 );
             } elseif (in_array($codeProperty, $selectedProperties) || 'identifier' === $codeProperty || 'uuid' === $codeProperty) {
@@ -156,7 +148,7 @@ class ProductAndProductModelProcessor extends AbstractProcessor
      *
      * @return bool
      */
-    protected function areAttributesToFilter(JobParameters $parameters)
+    protected function areAttributesToFilter(JobParameters $parameters): bool
     {
         return null !== $parameters->get('selected_properties');
     }
@@ -166,7 +158,7 @@ class ProductAndProductModelProcessor extends AbstractProcessor
      * @throws \InvalidArgumentException
      * @return array
      */
-    protected function getNormalizerContext(JobParameters $parameters)
+    protected function getNormalizerContext(JobParameters $parameters): array
     {
         if (!$parameters->has('scope')) {
             throw new \InvalidArgumentException('No channel found');

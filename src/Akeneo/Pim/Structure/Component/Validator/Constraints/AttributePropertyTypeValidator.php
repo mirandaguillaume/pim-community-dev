@@ -20,7 +20,7 @@ use Webmozart\Assert\Assert;
  */
 class AttributePropertyTypeValidator extends ConstraintValidator
 {
-    public function validate($attribute, Constraint $constraint)
+    public function validate($attribute, Constraint $constraint): void
     {
         Assert::isInstanceOf($constraint, AttributePropertyType::class);
         Assert::isInstanceOf($attribute, AttributeInterface::class);

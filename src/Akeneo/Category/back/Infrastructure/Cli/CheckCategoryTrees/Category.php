@@ -71,7 +71,7 @@ class Category
         return $this->lft;
     }
 
-    public function setLeft(int $left)
+    public function setLeft(int $left): void
     {
         $this->lft = $left;
     }
@@ -81,7 +81,7 @@ class Category
         return $this->rgt;
     }
 
-    public function setRight(int $right)
+    public function setRight(int $right): void
     {
         $this->rgt = $right;
     }
@@ -96,7 +96,7 @@ class Category
         return $this->isLinked;
     }
 
-    public function setLevel(int $level)
+    public function setLevel(int $level): void
     {
         $this->lvl = $level;
     }
@@ -106,7 +106,7 @@ class Category
         return $this->children;
     }
 
-    public function addChild(Category $child)
+    public function addChild(Category $child): void
     {
         $this->children[] = $child;
     }
@@ -133,7 +133,7 @@ class Category
 
         // make sure that children are sorted by the lft property
         // this will make the ordering basis for (lft,rgt) reordering in ::reorder()
-        usort($unlinkedChildren, fn (Category $c1, Category $c2) => $c1->getLeft() - $c2->getLeft());
+        usort($unlinkedChildren, fn (Category $c1, Category $c2): int => $c1->getLeft() - $c2->getLeft());
 
         /** @var Category $child */
         foreach ($unlinkedChildren as $child) {
@@ -196,7 +196,7 @@ class Category
                 $childrenDiffErrors = $this->children[$i]->diff($category->getChildAt($i));
 
                 $childrenDiffErrorsWithContext = array_map(
-                    fn ($childDiff) => "Child at index $i: $childDiff",
+                    fn ($childDiff): string => "Child at index $i: $childDiff",
                     $childrenDiffErrors,
                 );
 
@@ -226,7 +226,7 @@ class Category
         return $rows;
     }
 
-    public function doUpdate(Connection $connection)
+    public function doUpdate(Connection $connection): void
     {
         $connection->update(
             'pim_catalog_category',

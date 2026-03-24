@@ -34,7 +34,7 @@ class ReferenceDataFilterProvider implements FilterProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($element)
+    public function supports($element): bool
     {
         return $element instanceof AttributeInterface
             && in_array($element->getType(), array_keys($this->filters));

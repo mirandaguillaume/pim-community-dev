@@ -57,7 +57,7 @@ class ProductCommentController
      *
      * @return JsonResponse
      */
-    public function getAction($uuid)
+    public function getAction(string $uuid): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $product = $this->findProductOr404($uuid);
         $comments = $this->commentRepository->getCommentsByUuid(

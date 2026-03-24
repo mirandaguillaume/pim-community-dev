@@ -33,7 +33,7 @@ final readonly class SqlGetCompletenesses implements GetProductCompletenesses
 
     public function fromProductUuids(array $productUuids, ?string $channel = null, array $locales = []): array
     {
-        $uuidsAsBytes = \array_map(fn ($productUuid) => $productUuid->getBytes(), \array_values($productUuids));
+        $uuidsAsBytes = \array_map(fn (\Ramsey\Uuid\UuidInterface $productUuid): string => $productUuid->getBytes(), \array_values($productUuids));
 
         $sql
             = <<<SQL

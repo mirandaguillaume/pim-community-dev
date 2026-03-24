@@ -68,7 +68,7 @@ final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDa
             return null;
         }
 
-        $ids = array_map(fn ($resultRow) => $resultRow['id'], $result);
+        $ids = array_map(fn (array $resultRow): mixed => $resultRow['id'], $result);
 
         if (empty($ids)) {
             return null;

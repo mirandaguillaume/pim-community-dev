@@ -37,7 +37,7 @@ final readonly class ListUsersHandler implements ListUsersHandlerInterface
         );
 
         return array_map(
-            static fn (DomainUser $user) => new ServiceApiUser(
+            static fn (DomainUser $user): \Akeneo\UserManagement\ServiceApi\User\User => new ServiceApiUser(
                 $user->getId(),
                 $user->getEmail(),
                 $user->getUsername(),

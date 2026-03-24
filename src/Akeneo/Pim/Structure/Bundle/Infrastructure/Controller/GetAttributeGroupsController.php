@@ -23,7 +23,7 @@ final readonly class GetAttributeGroupsController
     ) {
     }
 
-    public function __invoke(): Response
+    public function __invoke(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$this->securityFacade->isGranted('pim_enrich_attributegroup_index')) {
             throw new AccessDeniedHttpException();

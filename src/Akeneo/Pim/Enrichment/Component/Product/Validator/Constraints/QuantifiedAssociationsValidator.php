@@ -34,7 +34,7 @@ class QuantifiedAssociationsValidator extends ConstraintValidator
     ) {
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$value instanceof QuantifiedAssociationCollection) {
             throw new UnexpectedTypeException($value, QuantifiedAssociationCollection::class);
@@ -159,7 +159,7 @@ class QuantifiedAssociationsValidator extends ConstraintValidator
     private function validateProductModelsExist(array $quantifiedLinks, string $propertyPath): void
     {
         $productModelCodes = array_map(
-            fn ($quantifiedLink) => $quantifiedLink['identifier'],
+            fn (array $quantifiedLink) => $quantifiedLink['identifier'],
             $quantifiedLinks
         );
 

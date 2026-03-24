@@ -35,38 +35,27 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class FamilyController
 {
-    /** @var ApiResourceRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Tool\Component\Api\Repository\ApiResourceRepositoryInterface $repository;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var  ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var SimpleFactoryInterface */
-    protected $factory;
+    protected \Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface $factory;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var PaginatorInterface */
-    protected $paginator;
+    protected \Akeneo\Tool\Component\Api\Pagination\PaginatorInterface $paginator;
 
-    /** @var ParameterValidatorInterface */
-    protected $parameterValidator;
+    protected \Akeneo\Tool\Component\Api\Pagination\ParameterValidatorInterface $parameterValidator;
 
-    /** @var StreamResourceResponse */
-    protected $partialUpdateStreamResource;
+    protected \Akeneo\Tool\Bundle\ApiBundle\Stream\StreamResourceResponse $partialUpdateStreamResource;
 
-    /** @var array */
-    protected $apiConfiguration;
+    protected array $apiConfiguration;
 
     public function __construct(
         ApiResourceRepositoryInterface $repository,
@@ -102,7 +91,7 @@ class FamilyController
      * @return JsonResponse
      * @AclAncestor("pim_api_family_list")
      */
-    public function getAction(Request $request, $code)
+    public function getAction(Request $request, string $code): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $family = $this->repository->findOneByIdentifier($code);
         if (null === $family) {
@@ -119,7 +108,7 @@ class FamilyController
      * @return JsonResponse
      * @AclAncestor("pim_api_family_list")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         try {
             $this->parameterValidator->validate($request->query->all());
@@ -263,7 +252,7 @@ class FamilyController
      *
      * @throws DocumentedHttpException
      */
-    protected function updateFamily(FamilyInterface $family, array $data, $anchor)
+    protected function updateFamily(FamilyInterface $family, array $data, string $anchor)
     {
         try {
             $this->updater->update($family, $data);
@@ -297,7 +286,7 @@ class FamilyController
      * @param string          $status
      * @return Response
      */
-    protected function getResponse(FamilyInterface $family, $status)
+    protected function getResponse(FamilyInterface $family, $status): \Symfony\Component\HttpFoundation\Response
     {
         $response = new Response(null, $status);
         $route = $this->router->generate(

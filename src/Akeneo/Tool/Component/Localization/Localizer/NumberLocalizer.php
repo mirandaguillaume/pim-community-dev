@@ -16,14 +16,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class NumberLocalizer implements LocalizerInterface
 {
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var NumberFactory */
-    protected $numberFactory;
+    protected \Akeneo\Tool\Component\Localization\Factory\NumberFactory $numberFactory;
 
-    /** @var array */
-    protected $attributeTypes;
+    protected array $attributeTypes;
 
     public function __construct(
         ValidatorInterface $validator,
@@ -117,7 +114,7 @@ class NumberLocalizer implements LocalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($attributeType)
+    public function supports($attributeType): bool
     {
         return in_array($attributeType, $this->attributeTypes);
     }
@@ -127,7 +124,7 @@ class NumberLocalizer implements LocalizerInterface
      *
      * @return array
      */
-    protected function getMatchesNumber($number)
+    protected function getMatchesNumber($number): array
     {
         preg_match('|\d+((?P<decimal>\D+)\d+)?|', $number, $matches);
 
@@ -137,7 +134,7 @@ class NumberLocalizer implements LocalizerInterface
     /**
      * @return array
      */
-    protected function getOptions(array $options)
+    protected function getOptions(array $options): array
     {
         if (isset($options['decimal_separator']) || isset($options['locale'])) {
             return $options;

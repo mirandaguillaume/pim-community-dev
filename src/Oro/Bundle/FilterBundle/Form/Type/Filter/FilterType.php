@@ -64,7 +64,7 @@ class FilterType extends AbstractType
     /**
      * @return array
      */
-    protected function createOperatorOptions(array $options)
+    protected function createOperatorOptions(array $options): array
     {
         $result = ['required' => false];
         if ($options['operator_choices']) {
@@ -78,7 +78,7 @@ class FilterType extends AbstractType
     /**
      * @return array
      */
-    protected function createFieldOptions(array $options)
+    protected function createFieldOptions(array $options): array
     {
         return array_merge(['required' => false], $options['field_options']);
     }
@@ -86,7 +86,7 @@ class FilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $children = $form->all();
         $view->vars['value']['type'] = $children['type']->getViewData();

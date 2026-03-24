@@ -20,7 +20,7 @@ class StandardUnitCodeShouldExistValidator extends ConstraintValidator
 {
     private const string PROPERTY_PATH = 'standard_unit_code';
 
-    public function validate($createMeasurementFamilyCommand, Constraint $constraint)
+    public function validate($createMeasurementFamilyCommand, Constraint $constraint): void
     {
         if (!$createMeasurementFamilyCommand instanceof CreateMeasurementFamilyCommand) {
             throw new \LogicException(
@@ -47,7 +47,7 @@ class StandardUnitCodeShouldExistValidator extends ConstraintValidator
             $createMeasurementFamilyCommand->units,
             [
                 new Callback(
-                    function (array $units, ExecutionContextInterface $context) use ($standardUnitCode, $measurementFamilyCode) {
+                    function (array $units, ExecutionContextInterface $context) use ($standardUnitCode, $measurementFamilyCode): void {
                         foreach ($units as $unit) {
                             if ($standardUnitCode === $unit['code']) {
                                 return;

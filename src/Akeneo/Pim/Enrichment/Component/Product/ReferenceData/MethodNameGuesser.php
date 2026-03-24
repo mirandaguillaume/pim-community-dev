@@ -31,7 +31,7 @@ class MethodNameGuesser
      *
      * @return string
      */
-    public static function guess($prefix, $dataName, $singularify = false)
+    public static function guess($prefix, string $dataName, $singularify = false): string
     {
         $name = $dataName;
 

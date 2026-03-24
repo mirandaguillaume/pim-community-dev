@@ -14,8 +14,7 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker;
  */
 class User implements ArrayConverterInterface
 {
-    /** @var FieldsRequirementChecker */
-    protected $fieldsChecker;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker $fieldsChecker;
 
     public function __construct(FieldsRequirementChecker $fieldsChecker)
     {
@@ -102,7 +101,7 @@ class User implements ArrayConverterInterface
         return $convertedItem;
     }
 
-    private function convertBoolean(string $data)
+    private function convertBoolean(string $data): bool|string
     {
         if ('1' === $data) {
             return true;

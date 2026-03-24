@@ -68,7 +68,7 @@ class Config
      *
      * @return Config
      */
-    public function setEntity($entity)
+    public function setEntity($entity): static
     {
         $this->scopedEntity = $entity;
 
@@ -92,7 +92,7 @@ class Config
      *
      * @return Config
      */
-    public function setRecordId($recordId)
+    public function setRecordId($recordId): static
     {
         $this->recordId = $recordId;
 
@@ -113,7 +113,7 @@ class Config
      * @param $values
      * @return $this
      */
-    public function setValues($values)
+    public function setValues($values): static
     {
         $this->values = $values;
 
@@ -123,7 +123,7 @@ class Config
     public function getOrCreateValue($section, $key)
     {
         $value = $this->getValues()->filter(
-            fn (ConfigValue $item) => $item->getName() == $key && $item->getSection() == $section
+            fn (ConfigValue $item): bool => $item->getName() == $key && $item->getSection() == $section
         );
 
         if ($value->first() === false) {

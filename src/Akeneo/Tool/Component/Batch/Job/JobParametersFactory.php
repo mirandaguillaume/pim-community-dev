@@ -14,8 +14,7 @@ use Akeneo\Tool\Component\Batch\Model\JobExecution;
  */
 class JobParametersFactory
 {
-    /** @var DefaultValuesProviderRegistry */
-    protected $defaultRegistry;
+    protected \Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderRegistry $defaultRegistry;
 
     /**
      * @param string                        $jobParametersClass

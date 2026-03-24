@@ -16,14 +16,11 @@ use Twig\TwigFilter;
  */
 class AttributeExtension extends AbstractExtension
 {
-    /** @var PresenterInterface */
-    protected $datePresenter;
+    protected \Akeneo\Tool\Component\Localization\Presenter\PresenterInterface $datePresenter;
 
-    /** @var PresenterInterface */
-    protected $datetimePresenter;
+    protected \Akeneo\Tool\Component\Localization\Presenter\PresenterInterface $datetimePresenter;
 
-    /** @var LocaleResolver */
-    protected $localeResolver;
+    protected \Akeneo\Platform\Bundle\UIBundle\Resolver\LocaleResolver $localeResolver;
 
     public function __construct(
         PresenterInterface $datePresenter,

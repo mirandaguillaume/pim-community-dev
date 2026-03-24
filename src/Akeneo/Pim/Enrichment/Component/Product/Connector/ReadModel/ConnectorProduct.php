@@ -239,7 +239,7 @@ final readonly class ConnectorProduct
      */
     public function buildLinkedData(array $optionLabels): ConnectorProduct
     {
-        $values = $this->values->map(function (ValueInterface $value) use ($optionLabels) {
+        $values = $this->values->map(function (ValueInterface $value) use ($optionLabels): \Akeneo\Pim\Enrichment\Component\Product\Value\OptionValueWithLinkedData|\Akeneo\Pim\Enrichment\Component\Product\Value\OptionsValueWithLinkedData|\Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface {
             $optionCodes = \array_keys($optionLabels[$value->getAttributeCode()] ?? []);
             if ($value instanceof OptionValue) {
                 $index = \array_search(\strtolower($value->getData()), \array_map('strtolower', $optionCodes), true);
@@ -326,7 +326,7 @@ final readonly class ConnectorProduct
         $attributeCodes = array_flip($attributeCodesToKeep);
         $localeCodes = array_flip($localeCodesToKeep);
 
-        $values = $this->values->filter(fn (ValueInterface $value) => isset($attributeCodes[$value->getAttributeCode()])
+        $values = $this->values->filter(fn (ValueInterface $value): bool => isset($attributeCodes[$value->getAttributeCode()])
             && (!$value->isLocalizable() || isset($localeCodes[$value->getLocaleCode()])));
 
         return new self(
@@ -371,9 +371,12 @@ final readonly class ConnectorProduct
         return !empty($associatedProductModels) ? array_unique(array_merge(...$associatedProductModels)) : [];
     }
 
-    public function associatedWithQuantityProductIdentifiers()
+    /**
+     * @return mixed[]
+     */
+    public function associatedWithQuantityProductIdentifiers(): array
     {
-        $associatedWithQuantityProducts = array_map(fn ($quantifiedAssociations) => array_column($quantifiedAssociations['products'], 'identifier'), array_values($this->quantifiedAssociations));
+        $associatedWithQuantityProducts = array_map(fn (array $quantifiedAssociations): array => array_column($quantifiedAssociations['products'], 'identifier'), array_values($this->quantifiedAssociations));
 
         if (empty($associatedWithQuantityProducts)) {
             return [];
@@ -382,9 +385,12 @@ final readonly class ConnectorProduct
         return array_values(array_unique(array_merge(...$associatedWithQuantityProducts)));
     }
 
-    public function associatedWithQuantityProductModelCodes()
+    /**
+     * @return mixed[]
+     */
+    public function associatedWithQuantityProductModelCodes(): array
     {
-        $associatedWithQuantityProductModels = array_map(fn ($quantifiedAssociations) => array_column($quantifiedAssociations['product_models'], 'identifier'), array_values($this->quantifiedAssociations));
+        $associatedWithQuantityProductModels = array_map(fn (array $quantifiedAssociations): array => array_column($quantifiedAssociations['product_models'], 'identifier'), array_values($this->quantifiedAssociations));
 
         if (empty($associatedWithQuantityProductModels)) {
             return [];
@@ -430,7 +436,7 @@ final readonly class ConnectorProduct
         foreach ($this->quantifiedAssociations as $associationType => $quantifiedAssociation) {
             $filteredProductModelQuantifiedAssociations = array_filter(
                 $quantifiedAssociation['product_models'],
-                fn ($quantifiedLink) => in_array($quantifiedLink['identifier'], $productModelCodesToFilter)
+                fn (array $quantifiedLink): bool => in_array($quantifiedLink['identifier'], $productModelCodesToFilter)
             );
 
             $filteredQuantifiedAssociations[$associationType]['products'] = $quantifiedAssociation['products'];
@@ -462,7 +468,7 @@ final readonly class ConnectorProduct
         foreach ($this->quantifiedAssociations as $associationType => $quantifiedAssociation) {
             $filteredProductQuantifiedAssociations = array_filter(
                 $quantifiedAssociation['products'],
-                fn ($quantifiedLink) => in_array($quantifiedLink['identifier'], $productIdentifiersToFilter)
+                fn (array $quantifiedLink): bool => in_array($quantifiedLink['identifier'], $productIdentifiersToFilter)
             );
 
             $filteredQuantifiedAssociations[$associationType]['products'] = array_values($filteredProductQuantifiedAssociations);

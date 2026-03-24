@@ -11,11 +11,9 @@ namespace Akeneo\Tool\Component\Batch\Item;
  */
 class InvalidItemException extends \Exception
 {
-    /** @var InvalidItemInterface */
-    protected $item;
+    protected \Akeneo\Tool\Component\Batch\Item\InvalidItemInterface $item;
 
-    /** @var array */
-    protected $messageParameters;
+    protected array $messageParameters;
 
     /**
      * Constructor

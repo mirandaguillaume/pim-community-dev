@@ -23,7 +23,7 @@ class GroupSubscriber
     /**
      * Pre delete a user group
      */
-    public function preDeleteGroup(GenericEvent $event)
+    public function preDeleteGroup(GenericEvent $event): void
     {
         $this->checkDefaultGroup($event);
     }
@@ -31,7 +31,7 @@ class GroupSubscriber
     /**
      * Pre update a user group
      */
-    public function preUpdateGroup(GenericEvent $event)
+    public function preUpdateGroup(GenericEvent $event): void
     {
         $this->checkDefaultGroup($event);
     }

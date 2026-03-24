@@ -18,8 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class AuthenticatedJobLauncher implements JobLauncherInterface
 {
-    /** @var JobLauncherInterface */
-    protected $jobLauncher;
+    protected \Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface $jobLauncher;
 
     public function __construct(JobLauncherInterface $jobLauncher)
     {

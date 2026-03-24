@@ -35,7 +35,7 @@ class FamilyVariantDatasource extends RepositoryDatasource
     {
         $familyVariants = $this->qb->getQuery()->getResult();
 
-        return array_map(fn ($familyVariant) => new ResultRecord(
+        return array_map(fn ($familyVariant): \Oro\Bundle\DataGridBundle\Datasource\ResultRecord => new ResultRecord(
             $this->normalizer->normalize(
                 $familyVariant,
                 'datagrid',

@@ -16,8 +16,9 @@ class SearchableRepository extends EntityRepository implements SearchableReposit
 {
     /**
      * {@inheritdoc}
+     * @return array{id: mixed, text: mixed}[]
      */
-    public function findBySearch($search = null, array $options = [])
+    public function findBySearch($search = null, array $options = []): array
     {
         if (method_exists($this, 'getAlias')) {
             $alias = $this->getAlias();

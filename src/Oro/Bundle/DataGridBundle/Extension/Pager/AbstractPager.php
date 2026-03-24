@@ -84,7 +84,7 @@ abstract class AbstractPager implements PagerInterface
      *
      * @param integer $page
      */
-    public function setPage($page)
+    public function setPage($page): void
     {
         $this->page = intval($page);
 
@@ -109,7 +109,7 @@ abstract class AbstractPager implements PagerInterface
      *
      * @param integer $max
      */
-    public function setMaxPerPage($max)
+    public function setMaxPerPage($max): void
     {
         if ($max > 0) {
             $this->maxPerPage = $max;

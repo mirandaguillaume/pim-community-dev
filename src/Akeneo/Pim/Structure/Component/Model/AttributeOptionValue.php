@@ -58,7 +58,7 @@ class AttributeOptionValue implements AttributeOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): static
     {
         $this->id = $id;
 
@@ -68,7 +68,7 @@ class AttributeOptionValue implements AttributeOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setOption(AttributeOptionInterface $option)
+    public function setOption(AttributeOptionInterface $option): static
     {
         $this->option = $option;
 
@@ -94,7 +94,7 @@ class AttributeOptionValue implements AttributeOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale($locale): static
     {
         $this->locale = $locale;
 
@@ -104,7 +104,7 @@ class AttributeOptionValue implements AttributeOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setValue($value)
+    public function setValue($value): static
     {
         $this->value = $value;
 
@@ -130,7 +130,7 @@ class AttributeOptionValue implements AttributeOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel($label): static
     {
         $this->value = (string) $label;
 

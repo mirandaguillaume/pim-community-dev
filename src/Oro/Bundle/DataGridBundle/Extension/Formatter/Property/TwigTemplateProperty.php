@@ -13,8 +13,7 @@ class TwigTemplateProperty extends AbstractProperty
     /** @var array */
     protected $excludeParams = [self::CONTEXT_KEY, self::TEMPLATE_KEY];
 
-    /** @var Environment */
-    protected $environment;
+    protected \Twig\Environment $environment;
 
     /**  @var array */
     protected $reservedKeys = ['record', 'value'];
@@ -27,7 +26,7 @@ class TwigTemplateProperty extends AbstractProperty
     /**
      * {@inheritdoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         $checkInvalidArgument = array_intersect(array_keys($this->getOr(self::CONTEXT_KEY, [])), $this->reservedKeys);
         if (count($checkInvalidArgument)) {
@@ -60,7 +59,7 @@ class TwigTemplateProperty extends AbstractProperty
     /**
      * Load twig template
      */
-    protected function getTemplate()
+    protected function getTemplate(): \Twig\Template
     {
         $templateName = $this->get(self::TEMPLATE_KEY);
 

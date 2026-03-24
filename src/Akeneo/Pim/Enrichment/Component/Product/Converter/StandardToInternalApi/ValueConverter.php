@@ -14,11 +14,9 @@ use Akeneo\Tool\Component\FileStorage\Repository\FileInfoRepositoryInterface;
  */
 class ValueConverter implements ConverterInterface
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var FileInfoRepositoryInterface */
-    protected $fileInfoRepository;
+    protected \Akeneo\Tool\Component\FileStorage\Repository\FileInfoRepositoryInterface $fileInfoRepository;
 
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,
@@ -53,7 +51,7 @@ class ValueConverter implements ConverterInterface
      *     }
      * }
      */
-    public function convert(array $productValues)
+    public function convert(array $productValues): array
     {
         $attributeTypes = $this->attributeRepository->getAttributeTypeByCodes(array_keys($productValues));
 

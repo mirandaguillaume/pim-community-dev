@@ -76,7 +76,7 @@ class MeasureConverter
      * @throws UnitNotFoundException
      * @throws UnknownOperatorException
      */
-    public function convertBaseToStandard($baseUnit, int|float|string $value)
+    public function convertBaseToStandard(string $baseUnit, int|float|string $value)
     {
         $unitInfo = $this->getUnitInfo($baseUnit);
         $conversionConfig = $unitInfo['convert'];
@@ -101,7 +101,7 @@ class MeasureConverter
      * @return string
      *@throws UnknownOperatorException
      */
-    protected function applyOperation(int|float|string $value, $operator, $operand)
+    protected function applyOperation(int|float|string $value, $operator, $operand): string
     {
         if (!is_numeric($value) || (is_string($value) && str_contains($value, ' '))) {
             return '0';
@@ -142,7 +142,7 @@ class MeasureConverter
      * @return string
      *
      */
-    public function convertStandardToResult($finalUnit, int|float|string $value)
+    public function convertStandardToResult(string $finalUnit, int|float|string $value)
     {
         $unitInfo = $this->getUnitInfo($finalUnit);
         $conversionConfig = $unitInfo['convert'];
@@ -168,7 +168,7 @@ class MeasureConverter
      * @return string
      * @throws UnknownOperatorException
      */
-    protected function applyReversedOperation(int|float|string $value, $operator, $operand)
+    protected function applyReversedOperation(int|float|string $value, $operator, $operand): string
     {
         $processedValue = (string) $value;
 

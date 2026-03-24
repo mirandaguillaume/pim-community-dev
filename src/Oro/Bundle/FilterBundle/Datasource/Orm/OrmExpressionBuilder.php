@@ -7,7 +7,7 @@ use Oro\Bundle\FilterBundle\Datasource\ExpressionBuilderInterface;
 
 class OrmExpressionBuilder implements ExpressionBuilderInterface
 {
-    protected $expr;
+    protected \Doctrine\ORM\Query\Expr $expr;
 
     public function __construct(Expr $expr)
     {
@@ -17,7 +17,7 @@ class OrmExpressionBuilder implements ExpressionBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function andX($_)
+    public function andX($_): mixed
     {
         return call_user_func_array([$this->expr, 'andX'], func_get_args());
     }
@@ -25,7 +25,7 @@ class OrmExpressionBuilder implements ExpressionBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function orX(...$_)
+    public function orX(...$_): mixed
     {
         return call_user_func_array([$this->expr, 'orX'], func_get_args());
     }
@@ -33,7 +33,7 @@ class OrmExpressionBuilder implements ExpressionBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function comparison($x, $operator, $y, $withParam = false)
+    public function comparison($x, $operator, $y, $withParam = false): \Doctrine\ORM\Query\Expr\Comparison
     {
         return new Expr\Comparison($x, $operator, $withParam ? ':' . $y : $y);
     }

@@ -36,7 +36,7 @@ class VersionDataCollector implements DataCollectorInterface
     /**
      * {@inheritdoc}
      */
-    public function collect()
+    public function collect(): array
     {
         $collectedData = [
             'pim_edition'      => $this->versionProvider->getEdition(),

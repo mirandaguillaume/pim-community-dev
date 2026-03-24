@@ -18,7 +18,7 @@ final class AkeneoDataQualityInsightsBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new CriteriaByFeatureRegistryPass());
         $container->addCompilerPass(new ProductKeyIndicatorsByFeatureRegistryPass());

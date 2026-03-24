@@ -19,10 +19,9 @@ use Doctrine\ORM\EntityManagerInterface;
 class UnitOfWorkAndRepositoriesClearer implements EntityManagerClearerInterface
 {
     /** @var CachedObjectRepositoryInterface[] */
-    protected $cachedRepositoriesToClear;
+    protected array $cachedRepositoriesToClear;
 
-    /** @var EntityManagerInterface */
-    protected $entityManager;
+    protected \Doctrine\ORM\EntityManagerInterface $entityManager;
 
     /**
      * @param CachedObjectRepositoryInterface[] $cachedRepositoriesToClear

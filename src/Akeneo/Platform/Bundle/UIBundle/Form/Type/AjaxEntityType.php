@@ -39,14 +39,11 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class AjaxEntityType extends AbstractType
 {
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var TransformerFactoryInterface */
-    protected $transformerFactory;
+    protected \Akeneo\Platform\Bundle\UIBundle\Form\Transformer\TransformerFactoryInterface $transformerFactory;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     public function __construct(
         RouterInterface $router,
@@ -127,7 +124,7 @@ class AjaxEntityType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         if ($options['multiple']) {
             $view->vars['attr']['data-multiple'] = 'multiple';

@@ -48,7 +48,7 @@ final class ValueCollection implements \IteratorAggregate, \Countable
     public static function fromDatabase(array $values): self
     {
         // We keep this filter to manage uncleaned data from previous code version
-        $values = array_filter($values, fn ($valueKey) => $valueKey !== 'attribute_codes', ARRAY_FILTER_USE_KEY);
+        $values = array_filter($values, fn ($valueKey): bool => $valueKey !== 'attribute_codes', ARRAY_FILTER_USE_KEY);
 
         $newValues = [];
         foreach ($values as $value) {
@@ -65,7 +65,7 @@ final class ValueCollection implements \IteratorAggregate, \Countable
     {
         $filteredValue = array_filter(
             $this->getValues(),
-            static fn (Value $value) => (string) $value->getCode() === $attributeCode
+            static fn (Value $value): bool => (string) $value->getCode() === $attributeCode
                 && (string) $value->getUuid() === $attributeUuid
                 && $value->getChannel()?->getValue() === $channel
                 && $value->getLocale()?->getValue() === $localeCode,
@@ -105,7 +105,7 @@ final class ValueCollection implements \IteratorAggregate, \Countable
 
     public function removeValue(Value $value): void
     {
-        $this->values = array_filter($this->values, static fn ($existingValue) => !(
+        $this->values = array_filter($this->values, static fn (\Akeneo\Category\Domain\ValueObject\Attribute\Value\Value $existingValue): bool => !(
             (string) $existingValue->getUuid() === (string) $value->getUuid()
             && (string) $existingValue->getChannel() === (string) $value->getChannel()
             && (string) $existingValue->getLocale() === (string) $value->getLocale()

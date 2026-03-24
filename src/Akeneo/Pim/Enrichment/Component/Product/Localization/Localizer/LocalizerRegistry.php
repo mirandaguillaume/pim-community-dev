@@ -17,7 +17,7 @@ class LocalizerRegistry implements LocalizerRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function register(LocalizerInterface $localizer)
+    public function register(LocalizerInterface $localizer): static
     {
         $this->localizers[] = $localizer;
 

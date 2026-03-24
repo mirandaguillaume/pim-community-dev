@@ -15,10 +15,8 @@ class JobDatagridProvider
 {
     /**
      * Connector registry.
-     *
-     * @var JobRegistry
      */
-    protected $registry;
+    protected \Akeneo\Tool\Component\Batch\Job\JobRegistry $registry;
 
     public function __construct(JobRegistry $registry)
     {
@@ -72,7 +70,7 @@ class JobDatagridProvider
      *
      * @return array
      */
-    protected function getJobChoices($type)
+    protected function getJobChoices($type): array
     {
         $choices = [];
         $jobs = $this->registry->allByType($type);
@@ -94,7 +92,7 @@ class JobDatagridProvider
      *
      * @return array
      */
-    protected function getConnectorChoices($type)
+    protected function getConnectorChoices($type): array
     {
         $connectors = $this->registry->getConnectors();
 

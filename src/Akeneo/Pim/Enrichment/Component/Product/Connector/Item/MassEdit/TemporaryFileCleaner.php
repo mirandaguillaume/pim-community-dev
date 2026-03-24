@@ -22,7 +22,7 @@ class TemporaryFileCleaner implements StepExecutionAwareInterface
     /**
      * @throws \InvalidArgumentException If 'actions' index is missing from $configuration
      */
-    public function execute()
+    public function execute(): void
     {
         $actions = $this->getConfiguredActions();
         foreach ($actions as $action) {
@@ -35,7 +35,7 @@ class TemporaryFileCleaner implements StepExecutionAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): static
     {
         $this->stepExecution = $stepExecution;
 

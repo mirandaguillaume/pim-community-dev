@@ -18,8 +18,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PrePurgeVersionEvent extends Event
 {
-    /** @var VersionInterface */
-    protected $version;
+    protected \Akeneo\Tool\Component\Versioning\Model\VersionInterface $version;
 
     public function __construct(VersionInterface $version)
     {

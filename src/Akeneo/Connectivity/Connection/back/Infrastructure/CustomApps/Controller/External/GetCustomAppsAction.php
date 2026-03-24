@@ -26,7 +26,7 @@ final readonly class GetCustomAppsAction
     ) {
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $user = $this->tokenStorage->getToken()?->getUser();
         if (!$user instanceof UserInterface) {

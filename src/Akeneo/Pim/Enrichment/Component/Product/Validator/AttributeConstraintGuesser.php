@@ -18,15 +18,16 @@ class AttributeConstraintGuesser implements ConstraintGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function supportAttribute(AttributeInterface $attribute)
+    public function supportAttribute(AttributeInterface $attribute): bool
     {
         return true;
     }
 
     /**
      * {@inheritdoc}
+     * @return list<(Symfony\Component\Validator\Constraints\Date | Symfony\Component\Validator\Constraints\DateTime | Symfony\Component\Validator\Constraints\NotBlank)>
      */
-    public function guessConstraints(AttributeInterface $attribute)
+    public function guessConstraints(AttributeInterface $attribute): array
     {
         $constraints = [];
 

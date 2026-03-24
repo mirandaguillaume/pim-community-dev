@@ -18,7 +18,7 @@ class FamilyAttributeRequirementUpdateGuesser implements UpdateGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function supportAction($action)
+    public function supportAction($action): bool
     {
         return $action === UpdateGuesserInterface::ACTION_UPDATE_ENTITY
             || $action === UpdateGuesserInterface::ACTION_DELETE;
@@ -26,8 +26,9 @@ class FamilyAttributeRequirementUpdateGuesser implements UpdateGuesserInterface
 
     /**
      * {@inheritdoc}
+     * @return list
      */
-    public function guessUpdates(EntityManager $em, $entity, $action)
+    public function guessUpdates(EntityManager $em, $entity, $action): array
     {
         $updatedEntities = [];
 

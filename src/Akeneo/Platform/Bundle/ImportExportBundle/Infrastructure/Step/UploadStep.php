@@ -27,7 +27,7 @@ final class UploadStep extends AbstractStep
     private const string STORAGE_KEY = 'storage';
 
     public function __construct(
-        $name,
+        string $name,
         EventDispatcherInterface $eventDispatcher,
         JobRepositoryInterface $jobRepository,
         private readonly TransferFilesToStorageHandler $transferFilesToStorageHandler,
@@ -36,7 +36,7 @@ final class UploadStep extends AbstractStep
         parent::__construct($name, $eventDispatcher, $jobRepository);
     }
 
-    protected function doExecute(StepExecution $stepExecution)
+    protected function doExecute(StepExecution $stepExecution): void
     {
         $jobExecution = $stepExecution->getJobExecution();
 
@@ -67,7 +67,7 @@ final class UploadStep extends AbstractStep
         $archiveDirectoryPath = $this->fileWriterArchiver->getArchiveDirectoryPath($jobExecution);
         $destinationDirname = dirname($this->getDestinationPath($jobExecution));
 
-        return array_map(static fn (string $filePath) => new FileToTransfer(
+        return array_map(static fn (string $filePath): \Akeneo\Platform\Bundle\ImportExportBundle\Application\TransferFilesToStorage\FileToTransfer => new FileToTransfer(
             $filePath,
             'archivist',
             $destinationDirname.substr($filePath, strlen($archiveDirectoryPath)),

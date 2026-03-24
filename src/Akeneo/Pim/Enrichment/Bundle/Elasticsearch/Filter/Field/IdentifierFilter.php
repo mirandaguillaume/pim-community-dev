@@ -40,7 +40,7 @@ class IdentifierFilter extends AbstractFieldFilter implements FieldFilterInterfa
     /**
      * {@inheritdoc}
      */
-    public function addFieldFilter($field, $operator, $value, $locale = null, $channel = null, $options = [])
+    public function addFieldFilter($field, $operator, $value, $locale = null, $channel = null, $options = []): static
     {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');

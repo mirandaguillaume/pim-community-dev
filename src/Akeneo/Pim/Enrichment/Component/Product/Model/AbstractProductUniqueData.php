@@ -20,19 +20,16 @@ abstract class AbstractProductUniqueData implements ProductUniqueDataInterface
     #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
-    /** @var ProductInterface */
     #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface::class, inversedBy: 'uniqueData')]
     #[ORM\JoinColumn(name: 'product_uuid', referencedColumnName: 'uuid', nullable: false, onDelete: 'CASCADE')]
-    protected $product;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface $product;
 
-    /** @var AttributeInterface */
     #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class)]
     #[ORM\JoinColumn(name: 'attribute_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    protected $attribute;
+    protected \Akeneo\Pim\Structure\Component\Model\AttributeInterface $attribute;
 
-    /** @var string */
     #[ORM\Column(name: 'raw_data', type: Types::STRING)]
-    protected $rawData;
+    protected string $rawData;
 
     public function __construct(ProductInterface $product, AttributeInterface $attribute, string $rawData)
     {

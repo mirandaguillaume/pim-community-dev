@@ -16,11 +16,9 @@ use Twig\TwigFunction;
  */
 class NotificationExtension extends AbstractExtension
 {
-    /** @var UserNotificationRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Platform\Bundle\NotificationBundle\Entity\Repository\UserNotificationRepositoryInterface $repository;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     /**
      * Constructor

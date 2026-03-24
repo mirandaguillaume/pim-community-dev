@@ -15,8 +15,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PreAdvisementVersionEvent extends Event
 {
-    /** @var PurgeableVersionList */
-    protected $version;
+    protected \Akeneo\Tool\Bundle\VersioningBundle\Purger\PurgeableVersionList $version;
 
     public function __construct(PurgeableVersionList $version)
     {

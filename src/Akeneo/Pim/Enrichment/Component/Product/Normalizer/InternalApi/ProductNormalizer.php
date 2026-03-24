@@ -114,7 +114,7 @@ class ProductNormalizer implements NormalizerInterface
      * @param string|null      $scopeCode
      * @return array
      */
-    protected function getLabels(ProductInterface $product, ?string $scopeCode = null)
+    protected function getLabels(ProductInterface $product, ?string $scopeCode = null): array
     {
         $labels = [];
 
@@ -128,7 +128,7 @@ class ProductNormalizer implements NormalizerInterface
     /**
      * @return array
      */
-    protected function getAssociationMeta(ProductInterface $product)
+    protected function getAssociationMeta(ProductInterface $product): array
     {
         $meta = [];
         $associations = $product->getAssociations();
@@ -181,7 +181,7 @@ class ProductNormalizer implements NormalizerInterface
     protected function getMetaForVariantProduct(
         ProductInterface $product,
         string $format,
-        $context = []
+        array $context = []
     ): array {
         $meta = [
             'variant_navigation'        => [],
@@ -221,8 +221,8 @@ class ProductNormalizer implements NormalizerInterface
 
     private function formatQuantifiedAssociations(array $quantifiedAssociations): array
     {
-        return array_map(static function (array $quantifiedAssociation) {
-            $quantifiedAssociation['products'] = array_map(static fn (array $productLink) => array_filter(
+        return array_map(static function (array $quantifiedAssociation): array {
+            $quantifiedAssociation['products'] = array_map(static fn (array $productLink): array => array_filter(
                 $productLink,
                 fn (string $key): bool => in_array($key, ['uuid', 'quantity']),
                 ARRAY_FILTER_USE_KEY

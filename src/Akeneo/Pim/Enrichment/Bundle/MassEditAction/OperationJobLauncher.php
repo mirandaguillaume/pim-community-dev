@@ -19,14 +19,11 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
  */
 class OperationJobLauncher
 {
-    /** @var JobLauncherInterface */
-    protected $jobLauncher;
+    protected \Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface $jobLauncher;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $jobInstanceRepo;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $jobInstanceRepo;
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage;
 
     public function __construct(
         JobLauncherInterface $jobLauncher,
@@ -44,7 +41,7 @@ class OperationJobLauncher
      *
      * @throws NotFoundResourceException
      */
-    public function launch(BatchableOperationInterface $operation)
+    public function launch(BatchableOperationInterface $operation): void
     {
         $jobInstanceCode = $operation->getJobInstanceCode();
         $jobInstance = $this->jobInstanceRepo->findOneByIdentifier($jobInstanceCode);

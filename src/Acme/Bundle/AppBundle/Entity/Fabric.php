@@ -38,7 +38,7 @@ class Fabric extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
@@ -48,7 +48,7 @@ class Fabric extends AbstractReferenceData implements ReferenceDataInterface
      *
      * @param int $year
      */
-    public function setAlternativeName($year)
+    public function setAlternativeName($year): void
     {
         $this->alternativeName = $year;
     }
@@ -66,7 +66,7 @@ class Fabric extends AbstractReferenceData implements ReferenceDataInterface
     /**
      * {@inheritdoc}
      */
-    public static function getLabelProperty()
+    public static function getLabelProperty(): string
     {
         return 'name';
     }

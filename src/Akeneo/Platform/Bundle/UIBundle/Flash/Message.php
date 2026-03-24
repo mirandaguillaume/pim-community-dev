@@ -11,8 +11,7 @@ namespace Akeneo\Platform\Bundle\UIBundle\Flash;
  */
 class Message
 {
-    /** @var array */
-    protected $parameters;
+    protected array $parameters;
 
     /**
      * @param string $template
@@ -27,7 +26,7 @@ class Message
      *
      * @param string $template
      */
-    public function setTemplate($template)
+    public function setTemplate($template): void
     {
         $this->template = $template;
     }
@@ -45,7 +44,7 @@ class Message
     /**
      * Set the parameters
      */
-    public function setParameters(array $parameters)
+    public function setParameters(array $parameters): void
     {
         $this->parameters = $parameters;
     }

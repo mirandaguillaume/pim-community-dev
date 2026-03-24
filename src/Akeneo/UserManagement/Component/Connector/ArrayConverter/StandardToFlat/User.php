@@ -17,7 +17,7 @@ class User extends AbstractSimpleArrayConverter implements ArrayConverterInterfa
     /**
      * {@inheritdoc}
      */
-    protected function convertProperty($property, $data, array $convertedItem, array $options)
+    protected function convertProperty($property, $data, array $convertedItem, array $options): array
     {
         $convertedItem[$property] = match ($property) {
             'enabled' => (true === $data) ? '1' : '0',

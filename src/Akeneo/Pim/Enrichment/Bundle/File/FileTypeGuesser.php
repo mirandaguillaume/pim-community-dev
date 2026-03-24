@@ -13,8 +13,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\File;
  */
 class FileTypeGuesser implements FileTypeGuesserInterface
 {
-    /** @var array */
-    protected $typesMapping;
+    protected array $typesMapping;
 
     /**
      * @param array $extraTypesMapping optional extra types

@@ -28,7 +28,7 @@ class Controller
      * @param string $_locale
      * @return Response
      */
-    public function indexAction(Request $request, $_locale)
+    public function indexAction(Request $request, $_locale): \Symfony\Component\HttpFoundation\Response
     {
         $domains = $this->options['domains'] ?? [];
         $debug = isset($this->options['debug']) ? (bool) $this->options['debug'] : false;
@@ -45,7 +45,7 @@ class Controller
      * @param bool $debug
      * @return string
      */
-    public function renderJsTranslationContent(array $domains, $locale, $debug = false)
+    public function renderJsTranslationContent(array $domains, $locale, $debug = false): string
     {
         $domainsTranslations = $this->translator->getTranslations($domains, $locale);
 
@@ -61,7 +61,7 @@ class Controller
         foreach ($domainsTranslations as $domain => $translations) {
             $result['messages'] += array_combine(
                 array_map(
-                    fn ($id) => sprintf('%s:%s', $domain, $id),
+                    fn (int|string $id): string => sprintf('%s:%s', $domain, $id),
                     array_keys($translations)
                 ),
                 array_values($translations)

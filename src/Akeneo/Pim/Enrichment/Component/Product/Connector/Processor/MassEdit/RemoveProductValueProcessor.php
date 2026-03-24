@@ -16,11 +16,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class RemoveProductValueProcessor extends AbstractProcessor
 {
-    /** @var PropertyRemoverInterface */
-    protected $propertyRemover;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\PropertyRemoverInterface $propertyRemover;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
     public function __construct(
         PropertyRemoverInterface $propertyRemover,
@@ -53,7 +51,7 @@ class RemoveProductValueProcessor extends AbstractProcessor
      *
      * @return bool
      */
-    protected function isProductValid(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product)
+    protected function isProductValid(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product): bool
     {
         $violations = $this->validator->validate($product);
         $this->addWarningMessage($violations, $product);

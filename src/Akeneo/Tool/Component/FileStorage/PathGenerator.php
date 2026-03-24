@@ -29,7 +29,7 @@ class PathGenerator implements PathGeneratorInterface
      *
      * @return array
      */
-    public function generate(\SplFileInfo $file)
+    public function generate(\SplFileInfo $file): array
     {
         $originalFileName = ($file instanceof UploadedFile) ? $file->getClientOriginalName() : $file->getFilename();
         $originalExtension = ($file instanceof UploadedFile) ? $file->getClientOriginalExtension() : $file->getExtension();
@@ -55,7 +55,7 @@ class PathGenerator implements PathGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generateUuid($fileName)
+    public function generateUuid($fileName): string
     {
         return sha1($fileName . microtime());
     }

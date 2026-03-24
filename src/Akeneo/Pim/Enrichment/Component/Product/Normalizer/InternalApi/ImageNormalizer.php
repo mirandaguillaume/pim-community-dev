@@ -13,8 +13,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  */
 class ImageNormalizer
 {
-    /** @var FileNormalizer */
-    protected $fileNormalizer;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Normalizer\InternalApi\FileNormalizer $fileNormalizer;
 
     public function __construct(FileNormalizer $fileNormalizer)
     {

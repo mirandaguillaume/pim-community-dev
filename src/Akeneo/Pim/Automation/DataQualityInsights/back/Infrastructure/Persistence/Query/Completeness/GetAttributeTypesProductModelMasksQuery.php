@@ -22,7 +22,7 @@ class GetAttributeTypesProductModelMasksQuery implements GetProductModelAttribut
         private readonly SqlPlatformHelperInterface $platformHelper,
         array $attributeTypes,
     ) {
-        $this->attributeTypes = array_map(fn ($code) => (string) $code, $attributeTypes);
+        $this->attributeTypes = array_map(fn ($code): string => (string) $code, $attributeTypes);
     }
 
     public function execute(ProductModelId $productModelId): ?RequiredAttributesMask
@@ -100,7 +100,7 @@ class GetAttributeTypesProductModelMasksQuery implements GetProductModelAttribut
             return null;
         }
 
-        $masksPerChannelAndLocale = array_map(fn (array $row) => new RequiredAttributesMaskForChannelAndLocale(
+        $masksPerChannelAndLocale = array_map(fn (array $row): \Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMaskForChannelAndLocale => new RequiredAttributesMaskForChannelAndLocale(
             $row['channel_code'],
             $row['locale_code'],
             json_decode((string) $row['mask'], true, 512, JSON_THROW_ON_ERROR)

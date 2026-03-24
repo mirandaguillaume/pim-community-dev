@@ -20,11 +20,9 @@ class ChannelNormalizer implements NormalizerInterface
     /** @var string[] */
     protected $supportedFormats = ['flat'];
 
-    /** @var NormalizerInterface */
-    protected $standardNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $standardNormalizer;
 
-    /** @var NormalizerInterface */
-    protected $translationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $translationNormalizer;
 
     public function __construct(
         NormalizerInterface $standardNormalizer,
@@ -75,7 +73,7 @@ class ChannelNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    protected function normalizeConversionUnits(array $conversionUnits)
+    protected function normalizeConversionUnits(array $conversionUnits): array
     {
         $flatArray = [];
 

@@ -34,7 +34,7 @@ class ProcessorDecorator
      *
      * @return array
      */
-    public function merge($source, $newData)
+    public function merge($source, array $newData): array
     {
         // prevent key isset and is_array checks
         $source = array_merge($this->getEmptyFinalArray(), $source);
@@ -62,7 +62,7 @@ class ProcessorDecorator
      *
      * @return array
      */
-    protected function getEmptyFinalArray()
+    protected function getEmptyFinalArray(): array
     {
         $result = [
             self::ROOT => array_fill_keys(
@@ -89,7 +89,7 @@ class ProcessorDecorator
      *
      * @return TreeBuilder
      */
-    protected function getConfigurationTree()
+    protected function getConfigurationTree(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
     {
         $tree = new TreeBuilder(self::ROOT);
 

@@ -18,11 +18,9 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class OffsetHalPaginator implements PaginatorInterface
 {
-    /** @var RouterInterface */
-    protected $router;
+    protected \Symfony\Component\Routing\RouterInterface $router;
 
-    /** @var OptionsResolver */
-    protected $resolver;
+    protected \Symfony\Component\OptionsResolver\OptionsResolver $resolver;
 
     public function __construct(RouterInterface $router)
     {
@@ -107,7 +105,7 @@ class OffsetHalPaginator implements PaginatorInterface
      * @param string $linkName
      * @return Link
      */
-    protected function createLink($routeName, array $parameters, $linkName)
+    protected function createLink(string $routeName, array $parameters, $linkName): \Akeneo\Tool\Component\Api\Hal\Link
     {
         $url = $this->router->generate($routeName, $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
 

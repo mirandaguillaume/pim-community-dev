@@ -26,32 +26,23 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ValuesController
 {
-    /** @var ProductBuilderInterface */
-    protected $productBuilder;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Builder\ProductBuilderInterface $productBuilder;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
-    /** @var ConverterInterface */
-    protected $productValueConverter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Converter\ConverterInterface $productValueConverter;
 
-    /** @var AttributeConverterInterface */
-    protected $localizedConverter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Localization\Localizer\AttributeConverterInterface $localizedConverter;
 
-    /** @var ObjectUpdaterInterface */
-    protected $productUpdater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $productUpdater;
 
-    /** @var ValidatorInterface */
-    protected $productValidator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $productValidator;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
-    /** @var NormalizerInterface */
-    protected $constraintViolationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $constraintViolationNormalizer;
 
-    /** @var FilterInterface */
-    protected $unchangedValuesFilter;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Comparator\Filter\FilterInterface $unchangedValuesFilter;
 
     public function __construct(
         ProductBuilderInterface $productBuilder,
@@ -81,7 +72,7 @@ class ValuesController
      *
      * @return Response
      */
-    public function validateAction(Request $request)
+    public function validateAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -125,7 +116,7 @@ class ValuesController
      *
      * @return ConstraintViolationListInterface
      */
-    protected function removeIdentifierViolations(ConstraintViolationListInterface $violations)
+    protected function removeIdentifierViolations(ConstraintViolationListInterface $violations): ConstraintViolationListInterface
     {
         $identifierPath = sprintf('values[%s-<all_channels>-<all_locales>]', $this->attributeRepository->getIdentifierCode());
         foreach ($violations as $offset => $violation) {

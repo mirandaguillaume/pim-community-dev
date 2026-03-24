@@ -14,8 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class OptionNormalizer implements NormalizerInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $attributeOptionRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $attributeOptionRepository;
 
     public function __construct(IdentifiableObjectRepositoryInterface $attributeOptionRepository)
     {

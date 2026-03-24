@@ -161,7 +161,7 @@ class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns i
         $this->cleanVersioningResourceUuid();
     }
 
-    private function dropTriggersAndProductIdColumns(string $table, array $tableProperties, $isZdd = true): void
+    private function dropTriggersAndProductIdColumns(string $table, array $tableProperties, bool $isZdd = true): void
     {
         if (!$this->tableExists($table)) {
             $this->log(\sprintf('The %s table does not exist, moving on to the next table', $table));
@@ -204,7 +204,7 @@ class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns i
     private function columnExists(string $table, string $columnName): bool
     {
         $tableColumnNames = array_map(
-            static fn (Column $column) => $column->getName(),
+            static fn (Column $column): string => $column->getName(),
             $this->connection->createSchemaManager()->listTableColumns($table)
         );
 

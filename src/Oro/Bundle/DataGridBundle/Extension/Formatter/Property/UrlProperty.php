@@ -22,7 +22,7 @@ class UrlProperty extends AbstractProperty
     /**
      * {@inheritdoc}
      */
-    public function getRawValue(ResultRecordInterface $record)
+    public function getRawValue(ResultRecordInterface $record): string
     {
         $route = $this->router->generate(
             $this->get(self::ROUTE_KEY),

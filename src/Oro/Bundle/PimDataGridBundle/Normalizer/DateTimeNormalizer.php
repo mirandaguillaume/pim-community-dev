@@ -15,14 +15,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class DateTimeNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $standardNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $standardNormalizer;
 
-    /** @var PresenterInterface */
-    protected $presenter;
+    protected \Akeneo\Tool\Component\Localization\Presenter\PresenterInterface $presenter;
 
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     public function __construct(
         NormalizerInterface $standardNormalizer,

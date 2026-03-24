@@ -17,11 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class DefaultImageProvider implements DefaultImageProviderInterface
 {
-    /** @var FilterManager */
-    protected $filterManager;
+    protected \Liip\ImagineBundle\Imagine\Filter\FilterManager $filterManager;
 
-    /** @var CacheManager */
-    protected $cacheManager;
+    protected \Liip\ImagineBundle\Imagine\Cache\CacheManager $cacheManager;
 
     /** @var array */
     protected $defaultImages;
@@ -65,7 +63,7 @@ class DefaultImageProvider implements DefaultImageProviderInterface
      *
      * @return Binary
      */
-    protected function getImageBinary($fileType)
+    protected function getImageBinary($fileType): \Liip\ImagineBundle\Model\Binary
     {
         if (isset($this->defaultImages[$fileType])) {
             $image = $this->defaultImages[$fileType];

@@ -9,8 +9,7 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
 class CategoryRepository extends NestedTreeRepository implements TranslatedLabelsProviderInterface
 {
-    /** @var UserContext */
-    protected $userContext;
+    protected \Akeneo\UserManagement\Bundle\Context\UserContext $userContext;
 
     /**
      * @param UserContext   $userContext
@@ -26,8 +25,9 @@ class CategoryRepository extends NestedTreeRepository implements TranslatedLabel
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function findTranslatedLabels(array $options = [])
+    public function findTranslatedLabels(array $options = []): array
     {
         $query = $this->childrenQueryBuilder(null, true, 'created', 'DESC')
             ->select('node.code')

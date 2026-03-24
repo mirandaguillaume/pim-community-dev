@@ -14,8 +14,7 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker;
  */
 class AttributeGroup implements ArrayConverterInterface
 {
-    /** @var FieldsRequirementChecker */
-    protected $fieldChecker;
+    protected \Akeneo\Tool\Component\Connector\ArrayConverter\FieldsRequirementChecker $fieldChecker;
 
     public function __construct(FieldsRequirementChecker $fieldChecker)
     {
@@ -65,7 +64,7 @@ class AttributeGroup implements ArrayConverterInterface
      *
      * @return array
      */
-    protected function convertField(array $convertedItem, $field, mixed $data)
+    protected function convertField(array $convertedItem, $field, mixed $data): array
     {
         if ('attributes' === $field) {
             $convertedItem[$field] = empty($data) ? [] : explode(',', (string) $data);

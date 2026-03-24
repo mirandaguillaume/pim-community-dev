@@ -13,8 +13,7 @@ use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
  */
 class MediaPathTransformer
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
@@ -40,7 +39,7 @@ class MediaPathTransformer
      *
      * @return array
      */
-    public function transform(array $attributeValues, $filePath)
+    public function transform(array $attributeValues, string $filePath): array
     {
         $mediaAttributes = $this->attributeRepository->findMediaAttributeCodes();
 

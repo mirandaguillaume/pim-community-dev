@@ -22,8 +22,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class UserApiProvider implements UserProviderInterface
 {
-    /** @var UserRepositoryInterface */
-    protected $userRepository;
+    protected \Akeneo\UserManagement\Component\Repository\UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
     {

@@ -174,7 +174,7 @@ class QuantifiedAssociationCollection
         return array_unique($result);
     }
 
-    public function clearQuantifiedAssociations()
+    public function clearQuantifiedAssociations(): \Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\QuantifiedAssociationCollection
     {
         $quantifiedAssociationsCleared = array_fill_keys(
             $this->getAssociationTypeCodes(),
@@ -246,7 +246,7 @@ class QuantifiedAssociationCollection
     public function normalizeWithMapping(
         UuidMapping $uuidMappedProductIdentifiers,
         IdMapping $mappedProductModelIdentifiers
-    ) {
+    ): array {
         $result = [];
 
         foreach ($this->quantifiedAssociations as $associationType => $associations) {
@@ -325,7 +325,7 @@ class QuantifiedAssociationCollection
             $filteredQuantifiedAssociations[$associationTypeCode]['product_models'] = $quantifiedAssociation['product_models'];
             $filteredQuantifiedAssociations[$associationTypeCode]['products'] = array_filter(
                 $quantifiedAssociation['products'],
-                fn (QuantifiedLink $quantifiedLink) => null === $quantifiedLink->identifier() || in_array($quantifiedLink->identifier(), $productIdentifiersToKeep)
+                fn (QuantifiedLink $quantifiedLink): bool => null === $quantifiedLink->identifier() || in_array($quantifiedLink->identifier(), $productIdentifiersToKeep)
             );
         }
 
@@ -337,7 +337,7 @@ class QuantifiedAssociationCollection
      *
      * @return QuantifiedAssociationCollection
      */
-    public function filterProductUuids(array $productUuidsToKeep)
+    public function filterProductUuids(array $productUuidsToKeep): self
     {
         $filteredQuantifiedAssociations = [];
         $productUuidsToKeepAsStr = array_map(
@@ -348,7 +348,7 @@ class QuantifiedAssociationCollection
             $filteredQuantifiedAssociations[$associationTypeCode]['product_models'] = $quantifiedAssociation['product_models'];
             $filteredQuantifiedAssociations[$associationTypeCode]['products'] = array_filter(
                 $quantifiedAssociation['products'],
-                fn (QuantifiedLink $quantifiedLink) => null === $quantifiedLink->uuid()
+                fn (QuantifiedLink $quantifiedLink): bool => null === $quantifiedLink->uuid()
                     || in_array($quantifiedLink->uuid()->toString(), $productUuidsToKeepAsStr)
             );
         }
@@ -363,7 +363,7 @@ class QuantifiedAssociationCollection
             $filteredQuantifiedAssociations[$associationTypeCode]['products'] = $quantifiedAssociation['products'];
             $filteredQuantifiedAssociations[$associationTypeCode]['product_models'] = array_filter(
                 $quantifiedAssociation['product_models'],
-                fn (QuantifiedLink $quantifiedLink) => in_array($quantifiedLink->identifier(), $productModelCodesToKeep)
+                fn (QuantifiedLink $quantifiedLink): bool => in_array($quantifiedLink->identifier(), $productModelCodesToKeep)
             );
         }
 
@@ -395,7 +395,7 @@ class QuantifiedAssociationCollection
         return $normalized === $otherNormalized;
     }
 
-    private function getAssociationTypeCodes()
+    private function getAssociationTypeCodes(): array
     {
         return array_keys($this->quantifiedAssociations);
     }

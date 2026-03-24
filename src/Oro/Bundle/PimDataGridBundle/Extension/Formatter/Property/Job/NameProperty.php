@@ -15,8 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class NameProperty extends FieldProperty
 {
-    /** @var JobRegistry */
-    protected $jobRegistry;
+    protected \Akeneo\Tool\Component\Batch\Job\JobRegistry $jobRegistry;
 
     /**
      * @param JobRegistry         $jobRegistry

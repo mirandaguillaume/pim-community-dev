@@ -19,7 +19,7 @@ class AkeneoBatchBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $mappings = [
             'Akeneo\Tool\Component\Batch\Model' => dirname(__DIR__, 2) . '/Component/Batch/Model',

@@ -13,8 +13,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Comparator\ComparatorInterface;
  */
 class BooleanComparator implements ComparatorInterface
 {
-    /** @var array */
-    protected $columns;
+    protected array $columns;
 
     public function __construct(array $columns)
     {
@@ -24,7 +23,7 @@ class BooleanComparator implements ComparatorInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($column)
+    public function supports($column): bool
     {
         return in_array($column, $this->columns);
     }

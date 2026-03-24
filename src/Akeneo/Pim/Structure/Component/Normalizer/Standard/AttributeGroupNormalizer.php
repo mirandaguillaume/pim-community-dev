@@ -13,11 +13,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class AttributeGroupNormalizer implements NormalizerInterface
 {
-    /** @var NormalizerInterface */
-    protected $translationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $translationNormalizer;
 
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface $attributeRepository;
 
     public function __construct(
         NormalizerInterface $translationNormalizer,

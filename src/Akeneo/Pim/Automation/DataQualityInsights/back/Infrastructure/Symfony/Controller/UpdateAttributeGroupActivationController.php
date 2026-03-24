@@ -23,7 +23,7 @@ final readonly class UpdateAttributeGroupActivationController
     ) {
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         if (!$this->securityFacade->isGranted('akeneo_data_quality_insights_activation_attribute_group_edit')) {
             throw new AccessDeniedException();

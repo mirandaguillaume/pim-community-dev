@@ -23,7 +23,7 @@ class IsVariantAxisWithoutAvailableLocalesValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof IsVariantAxisWithoutAvailableLocales) {
             throw new UnexpectedTypeException($constraint, IsVariantAxisWithoutAvailableLocales::class);

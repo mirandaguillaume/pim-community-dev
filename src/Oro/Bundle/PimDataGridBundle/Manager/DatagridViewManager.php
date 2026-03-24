@@ -17,11 +17,10 @@ use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
  */
 class DatagridViewManager
 {
-    /** @var EntityRepository */
-    protected $repository;
+    protected \Doctrine\ORM\EntityRepository $repository;
 
     /** @var DatagridManager */
-    protected $datagridManager;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\Manager $datagridManager;
 
     /**
      * Constructor
@@ -41,7 +40,7 @@ class DatagridViewManager
      *
      * @return DatagridView
      */
-    public function findPublic($alias)
+    public function findPublic($alias): array
     {
         return $this->repository->findBy(
             [
@@ -59,7 +58,7 @@ class DatagridViewManager
      *
      * @return array
      */
-    public function getColumnChoices($alias, $displayedColumns = false)
+    public function getColumnChoices($alias, $displayedColumns = false): array
     {
         $choices = [];
 

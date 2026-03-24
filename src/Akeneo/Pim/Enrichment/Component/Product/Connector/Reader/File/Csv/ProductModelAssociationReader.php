@@ -19,7 +19,7 @@ class ProductModelAssociationReader extends Reader
      * {@inheritdoc}
      */
     #[\Override]
-    protected function getArrayConverterOptions()
+    protected function getArrayConverterOptions(): array
     {
         $jobParameters = $this->stepExecution->getJobParameters();
 

@@ -28,7 +28,7 @@ class ProductQueryBuilderFromSizeOptionsResolver implements ProductQueryBuilderO
     /**
      * @return OptionsResolver
      */
-    protected function createOptionsResolver()
+    protected function createOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined(['locale', 'scope', 'limit', 'from', 'with_document_type_facet']);

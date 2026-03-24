@@ -17,8 +17,7 @@ class FQCNResolver
     /** @var array */
     protected $classNames = [];
 
-    /** @var ContainerInterface */
-    protected $container;
+    protected \Symfony\Component\DependencyInjection\ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
@@ -30,7 +29,7 @@ class FQCNResolver
      *
      * @param string $entityType
      */
-    public function getFQCN($entityType): ?string
+    public function getFQCN(string $entityType): ?string
     {
         try {
             $className = $this->container->getParameter(

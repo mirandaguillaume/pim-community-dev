@@ -18,11 +18,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MassActionController
 {
-    /** @var MassActionDispatcher */
-    protected $massActionDispatcher;
+    protected \Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionDispatcher $massActionDispatcher;
 
-    /** @var MassActionParametersParser */
-    protected $parameterParser;
+    protected \Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionParametersParser $parameterParser;
 
     /**
      * Constructor
@@ -40,7 +38,7 @@ class MassActionController
      *
      * @return Response
      */
-    public function massActionAction(Request $request)
+    public function massActionAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');

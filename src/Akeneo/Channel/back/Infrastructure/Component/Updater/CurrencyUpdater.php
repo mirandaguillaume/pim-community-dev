@@ -25,7 +25,7 @@ class CurrencyUpdater implements ObjectUpdaterInterface
      *     'enabled' => true,
      * ]
      */
-    public function update($currency, array $data, array $options = [])
+    public function update($currency, array $data, array $options = []): static
     {
         if (!$currency instanceof CurrencyInterface) {
             throw InvalidObjectException::objectExpected(

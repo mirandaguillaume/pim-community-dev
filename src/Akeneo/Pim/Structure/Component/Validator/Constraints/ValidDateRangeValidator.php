@@ -23,7 +23,7 @@ class ValidDateRangeValidator extends ConstraintValidator
      *
      * @throws \Exception
      */
-    public function validate($entity, Constraint $constraint)
+    public function validate($entity, Constraint $constraint): void
     {
         if (!$constraint instanceof ValidDateRange) {
             throw new UnexpectedTypeException($constraint, ValidDateRange::class);
@@ -59,7 +59,7 @@ class ValidDateRangeValidator extends ConstraintValidator
      *
      * @return bool
      */
-    protected function isDateValid(mixed $date)
+    protected function isDateValid(mixed $date): bool
     {
         if (!$date || $date instanceof \DateTime) {
             return true;

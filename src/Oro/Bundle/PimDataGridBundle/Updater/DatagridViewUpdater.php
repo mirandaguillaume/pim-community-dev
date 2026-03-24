@@ -17,8 +17,7 @@ use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
  */
 class DatagridViewUpdater implements ObjectUpdaterInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $userRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $userRepository;
 
     public function __construct(IdentifiableObjectRepositoryInterface $userRepository)
     {
@@ -28,7 +27,7 @@ class DatagridViewUpdater implements ObjectUpdaterInterface
     /**
      * {@inheritdoc}
      */
-    public function update($datagridView, array $data, array $options = [])
+    public function update($datagridView, array $data, array $options = []): static
     {
         if (!$datagridView instanceof DatagridView) {
             throw InvalidObjectException::objectExpected(

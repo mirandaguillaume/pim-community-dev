@@ -19,15 +19,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class EntityAclExtension extends AbstractAclExtension
 {
-    /**
-     * @var ObjectIdAccessor
-     */
-    protected $objectIdAccessor;
+    protected \Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdAccessor $objectIdAccessor;
 
-    /**
-     * @var EntityClassResolver
-     */
-    protected $entityClassResolver;
+    protected \Oro\Bundle\SecurityBundle\Acl\Extension\EntityClassResolver $entityClassResolver;
 
     /**
      * key = Permission
@@ -132,7 +126,7 @@ class EntityAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtensionKey()
+    public function getExtensionKey(): string
     {
         return 'entity';
     }
@@ -140,7 +134,7 @@ class EntityAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function validateMask($mask, $object, $permission = null)
+    public function validateMask($mask, $object, $permission = null): void
     {
         if (0 === $this->removeServiceBits($mask)) {
             // zero mask
@@ -202,8 +196,9 @@ class EntityAclExtension extends AbstractAclExtension
 
     /**
      * {@inheritdoc}
+     * @return object[]
      */
-    public function getAllMaskBuilders()
+    public function getAllMaskBuilders(): array
     {
         $result = [];
         foreach ($this->maskBuilderClassNames as $maskBuilderClassName) {
@@ -255,7 +250,7 @@ class EntityAclExtension extends AbstractAclExtension
      * {@inheritdoc}
      */
     #[\Override]
-    public function getServiceBits($mask)
+    public function getServiceBits($mask): int
     {
         return $mask & BaseEntityMaskBuilder::SERVICE_BITS;
     }
@@ -264,7 +259,7 @@ class EntityAclExtension extends AbstractAclExtension
      * {@inheritdoc}
      */
     #[\Override]
-    public function removeServiceBits($mask)
+    public function removeServiceBits($mask): int
     {
         return $mask & BaseEntityMaskBuilder::REMOVE_SERVICE_BITS;
     }
@@ -296,8 +291,9 @@ class EntityAclExtension extends AbstractAclExtension
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getPermissions($mask = null, $setOnly = false)
+    public function getPermissions($mask = null, $setOnly = false): array
     {
         if ($mask === null) {
             return array_keys($this->permissionToMaskBuilderIdentity);
@@ -346,7 +342,7 @@ class EntityAclExtension extends AbstractAclExtension
     /**
      * {@inheritdoc}
      */
-    public function getClasses()
+    public function getClasses(): array
     {
         return [];
     }
@@ -355,7 +351,7 @@ class EntityAclExtension extends AbstractAclExtension
      * {@inheritdoc}
      */
     #[\Override]
-    public function decideIsGranting($triggeredMask, $object, TokenInterface $securityToken)
+    public function decideIsGranting($triggeredMask, $object, TokenInterface $securityToken): bool
     {
         $accessLevel = $this->getAccessLevel($triggeredMask);
         if ($accessLevel === AccessLevel::SYSTEM_LEVEL) {
@@ -377,7 +373,7 @@ class EntityAclExtension extends AbstractAclExtension
      * @throws \InvalidArgumentException
      * @return ObjectIdentity
      */
-    protected function fromDescriptor($descriptor)
+    protected function fromDescriptor(string $descriptor): \Symfony\Component\Security\Acl\Domain\ObjectIdentity
     {
         $type = $id = null;
         $this->parseDescriptor($descriptor, $type, $id);
@@ -401,7 +397,7 @@ class EntityAclExtension extends AbstractAclExtension
      * @throws InvalidDomainObjectException
      * @return ObjectIdentity
      */
-    protected function fromDomainObject($domainObject)
+    protected function fromDomainObject($domainObject): \Symfony\Component\Security\Acl\Domain\ObjectIdentity
     {
         if (!is_object($domainObject)) {
             throw new InvalidDomainObjectException('$domainObject must be an object.');
@@ -424,7 +420,7 @@ class EntityAclExtension extends AbstractAclExtension
      * @param int $mask
      * @throws InvalidAclMaskException
      */
-    protected function validateMaskAccessLevel($permission, $mask, mixed $object)
+    protected function validateMaskAccessLevel(string $permission, $mask, mixed $object)
     {
         $identity = $this->permissionToMaskBuilderIdentity[$permission];
         if (0 !== ($mask & $this->getMaskBuilderConst($identity, 'GROUP_' . $permission))) {

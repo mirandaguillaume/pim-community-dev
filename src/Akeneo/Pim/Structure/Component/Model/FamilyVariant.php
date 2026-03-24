@@ -251,7 +251,7 @@ class FamilyVariant implements FamilyVariantInterface
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale($locale): static
     {
         $this->locale = $locale;
 
@@ -285,7 +285,7 @@ class FamilyVariant implements FamilyVariantInterface
     /**
      * {@inheritdoc}
      */
-    public function getTranslations()
+    public function getTranslations(): \Doctrine\Common\Collections\Collection
     {
         return $this->translations;
     }
@@ -293,7 +293,7 @@ class FamilyVariant implements FamilyVariantInterface
     /**
      * {@inheritdoc}
      */
-    public function addTranslation(TranslationInterface $translation)
+    public function addTranslation(TranslationInterface $translation): static
     {
         if (!$this->translations->contains($translation)) {
             $this->translations->add($translation);
@@ -305,7 +305,7 @@ class FamilyVariant implements FamilyVariantInterface
     /**
      * {@inheritdoc}
      */
-    public function removeTranslation(TranslationInterface $translation)
+    public function removeTranslation(TranslationInterface $translation): static
     {
         $this->translations->removeElement($translation);
 
@@ -315,7 +315,7 @@ class FamilyVariant implements FamilyVariantInterface
     /**
      * {@inheritdoc}
      */
-    public function getTranslationFQCN()
+    public function getTranslationFQCN(): string
     {
         return FamilyVariantTranslation::class;
     }

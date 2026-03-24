@@ -13,8 +13,7 @@ class InvalidDirectionException extends \LogicException
 {
     final public const int NOT_SUPPORTED_CODE = 300;
 
-    /** @var array */
-    protected $directions;
+    protected array $directions;
 
     /**
      * @param string          $className
@@ -43,7 +42,7 @@ class InvalidDirectionException extends \LogicException
      *
      * @return InvalidDirectionException
      */
-    public static function notSupported($direction, $className)
+    public static function notSupported(string $direction, $className): self
     {
         $message = 'Direction "%s" is not supported';
 

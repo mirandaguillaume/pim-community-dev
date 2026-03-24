@@ -28,7 +28,7 @@ class AjaxOptionController
      *
      * @return JsonResponse
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $choices = [];
         $search = $request->get('search');

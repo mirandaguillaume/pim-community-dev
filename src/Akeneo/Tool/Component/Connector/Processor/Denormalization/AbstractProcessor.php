@@ -26,8 +26,7 @@ abstract class AbstractProcessor implements StepExecutionAwareInterface
     /** @var StepExecution */
     protected $stepExecution;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $repository;
 
     /**
      * @param IdentifiableObjectRepositoryInterface $repository repository to search the object in
@@ -40,7 +39,7 @@ abstract class AbstractProcessor implements StepExecutionAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }

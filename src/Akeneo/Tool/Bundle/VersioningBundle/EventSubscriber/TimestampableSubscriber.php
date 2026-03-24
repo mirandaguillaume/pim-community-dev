@@ -20,15 +20,14 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 #[AsDoctrineListener(event: Events::prePersist)]
 class TimestampableSubscriber
 {
-    /** @var EntityManagerInterface */
-    protected $em;
+    protected \Doctrine\ORM\EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
 
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $version = $args->getObject();
 

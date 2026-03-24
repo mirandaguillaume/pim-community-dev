@@ -54,7 +54,7 @@ class CatalogContext
     /**
      * @return bool
      */
-    public function hasLocaleCode()
+    public function hasLocaleCode(): bool
     {
         return (isset($this->configuration['localeCode']) && $this->configuration['localeCode'] !== null);
     }
@@ -62,7 +62,7 @@ class CatalogContext
     /**
      * @return bool
      */
-    public function hasScopeCode()
+    public function hasScopeCode(): bool
     {
         return (isset($this->configuration['scopeCode']) && $this->configuration['scopeCode'] !== null);
     }
@@ -73,7 +73,7 @@ class CatalogContext
      *
      * @return CatalogContext
      */
-    public function setConfiguration($key, mixed $data)
+    public function setConfiguration($key, mixed $data): static
     {
         $this->configuration[$key] = $data;
 

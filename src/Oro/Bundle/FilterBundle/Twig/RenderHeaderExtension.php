@@ -48,7 +48,7 @@ class RenderHeaderExtension extends AbstractExtension
      * @param string $blockName
      * @param array $context
      */
-    protected function renderTemplateBlock(Environment $environment, $blockName, $context = []): string
+    protected function renderTemplateBlock(Environment $environment, $blockName, array $context = []): string
     {
         $template = $environment->loadTemplate(
             $environment->getTemplateClass($this->templateName),
@@ -63,7 +63,7 @@ class RenderHeaderExtension extends AbstractExtension
         return $this->renderTemplateBlock($environment, self::HEADER_JAVASCRIPT);
     }
 
-    public function renderHeaderStylesheet(Environment $environment)
+    public function renderHeaderStylesheet(Environment $environment): string
     {
         return $this->renderTemplateBlock($environment, self::HEADER_STYLESHEET);
     }

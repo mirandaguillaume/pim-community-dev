@@ -28,15 +28,9 @@ class ConfigureHistoryGridListener
      */
     protected $request;
 
-    /**
-     * @var RequestParameters
-     */
-    protected $requestParams;
+    protected \Oro\Bundle\DataGridBundle\Datagrid\RequestParameters $requestParams;
 
-    /**
-     * @var FQCNResolver
-     */
-    protected $FQCNResolver;
+    protected \Akeneo\Pim\Enrichment\Bundle\Resolver\FQCNResolver $FQCNResolver;
 
     public function __construct(RequestParameters $requestParams, FQCNResolver $FQCNResolver)
     {
@@ -44,7 +38,7 @@ class ConfigureHistoryGridListener
         $this->FQCNResolver = $FQCNResolver;
     }
 
-    public function onBuildBefore(BuildBefore $event)
+    public function onBuildBefore(BuildBefore $event): void
     {
         $config = $event->getConfig();
         $objectClassParameter = $this->getObjectClassParameter();

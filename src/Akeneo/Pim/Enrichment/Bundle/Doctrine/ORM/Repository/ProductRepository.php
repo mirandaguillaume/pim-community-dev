@@ -31,7 +31,7 @@ class ProductRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function getItemsFromIdentifiers(array $identifiers)
+    public function getItemsFromIdentifiers(array $identifiers): array
     {
         $uuidsAsBytes = $this->getEntityManager()->getConnection()->fetchFirstColumn(
             <<<SQL
@@ -50,7 +50,7 @@ class ProductRepository extends EntityRepository implements
             ]
         );
 
-        $uuids = array_map(fn (string $bytes) => Uuid::fromBytes($bytes), $uuidsAsBytes);
+        $uuids = array_map(fn (string $bytes): \Ramsey\Uuid\UuidInterface => Uuid::fromBytes($bytes), $uuidsAsBytes);
 
         return $this->findBy(['uuid' => $uuids]);
     }
@@ -81,7 +81,7 @@ class ProductRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['identifier'];
     }
@@ -105,8 +105,9 @@ class ProductRepository extends EntityRepository implements
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getAvailableAttributeIdsToExport(array $productIds)
+    public function getAvailableAttributeIdsToExport(array $productIds): array
     {
         $qb = $this->createQueryBuilder('p');
         $qb
@@ -172,7 +173,7 @@ class ProductRepository extends EntityRepository implements
     /**
      * {@inheritdoc}
      */
-    public function hasAttributeInFamily($productUuid, $attributeCode)
+    public function hasAttributeInFamily($productUuid, $attributeCode): bool
     {
         $queryBuilder = $this->createQueryBuilder('p')
             ->leftJoin('p.family', 'f')

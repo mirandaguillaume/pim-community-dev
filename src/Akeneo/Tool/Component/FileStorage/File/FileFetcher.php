@@ -20,7 +20,7 @@ class FileFetcher implements FileFetcherInterface
     /**
      * {@inheritdoc}
      */
-    public function fetch(FilesystemReader $filesystem, $fileKey, array $options = [])
+    public function fetch(FilesystemReader $filesystem, $fileKey, array $options = []): \SplFileInfo
     {
         if (!$filesystem->fileExists($fileKey)) {
             throw new \LogicException(sprintf('The file "%s" is not present on the filesystem.', $fileKey));

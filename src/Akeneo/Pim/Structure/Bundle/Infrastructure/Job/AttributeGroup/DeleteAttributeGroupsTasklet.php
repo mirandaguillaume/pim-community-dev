@@ -35,12 +35,12 @@ final class DeleteAttributeGroupsTasklet implements TaskletInterface, TrackableT
     ) {
     }
 
-    public function setStepExecution(StepExecution $stepExecution)
+    public function setStepExecution(StepExecution $stepExecution): void
     {
         $this->stepExecution = $stepExecution;
     }
 
-    public function execute()
+    public function execute(): void
     {
         if (null === $this->stepExecution) {
             throw new \InvalidArgumentException(sprintf('In order to execute "%s" you need to set a step execution.', DeleteAttributeGroupsTasklet::class));

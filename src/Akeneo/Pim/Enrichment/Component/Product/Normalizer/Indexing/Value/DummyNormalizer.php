@@ -28,7 +28,7 @@ class DummyNormalizer extends AbstractProductValueNormalizer implements Normaliz
     /**
      * {@inheritdoc}
      */
-    protected function getNormalizedData(ValueInterface $value)
+    protected function getNormalizedData(ValueInterface $value): null
     {
         return null;
     }

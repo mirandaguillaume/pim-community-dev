@@ -28,8 +28,9 @@ class FamilyRepository extends EntityRepository implements
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function findTranslatedLabels(array $options = [])
+    public function findTranslatedLabels(array $options = []): array
     {
         $query = $this->createQueryBuilder('f')
             ->select('f.id')
@@ -77,7 +78,7 @@ class FamilyRepository extends EntityRepository implements
      *
      * @param QueryBuilder|ProductQueryBuilderInterface $qb
      */
-    public function applyMassActionParameters($qb, $inset, array $values)
+    public function applyMassActionParameters($qb, $inset, array $values): void
     {
         if ($values) {
             $rootAlias = $qb->getRootAliases()[0];
@@ -101,7 +102,7 @@ class FamilyRepository extends EntityRepository implements
 
         $qb->setParameters(
             $qb->getParameters()->filter(
-                fn ($parameter) => $parameter->getName() !== 'entityIds'
+                fn ($parameter): bool => $parameter->getName() !== 'entityIds'
             )
         );
 

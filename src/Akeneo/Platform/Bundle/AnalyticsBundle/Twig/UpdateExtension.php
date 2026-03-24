@@ -16,8 +16,7 @@ use Twig\TwigFunction;
  */
 class UpdateExtension extends AbstractExtension
 {
-    /** @var ConfigManager */
-    protected $configManager;
+    protected \Oro\Bundle\ConfigBundle\Config\ConfigManager $configManager;
 
     /**
      * @param string $updateServerUrl

@@ -20,8 +20,7 @@ class GroupReader extends AbstractReader implements
     InitializableInterface,
     StepExecutionAwareInterface
 {
-    /** @var GroupRepositoryInterface */
-    protected $repository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface $repository;
 
     public function __construct(GroupRepositoryInterface $repository)
     {
@@ -31,7 +30,7 @@ class GroupReader extends AbstractReader implements
     /**
      * {@inheritdoc}
      */
-    protected function getResults()
+    protected function getResults(): \ArrayIterator
     {
         return new \ArrayIterator($this->repository->findAll());
     }

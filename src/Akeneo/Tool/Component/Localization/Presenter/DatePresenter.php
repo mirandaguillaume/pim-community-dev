@@ -13,11 +13,10 @@ use Akeneo\Tool\Component\Localization\Factory\DateFactory;
  */
 class DatePresenter implements PresenterInterface
 {
-    /** @var DateFactory */
-    protected $dateFactory;
+    protected \Akeneo\Tool\Component\Localization\Factory\DateFactory $dateFactory;
 
     /** @var string[] */
-    protected $attributeTypes;
+    protected array $attributeTypes;
 
     /**
      * @param string[]    $attributeTypes
@@ -57,7 +56,7 @@ class DatePresenter implements PresenterInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($attributeType)
+    public function supports($attributeType): bool
     {
         return in_array($attributeType, $this->attributeTypes);
     }
@@ -70,7 +69,7 @@ class DatePresenter implements PresenterInterface
      *
      * @return string
      */
-    protected function presentArray($values, $options)
+    protected function presentArray($values, array $options): string
     {
         $formattedValues = [];
         foreach ($values as $value) {

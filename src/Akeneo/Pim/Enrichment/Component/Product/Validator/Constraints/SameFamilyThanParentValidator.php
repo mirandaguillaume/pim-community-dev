@@ -23,7 +23,7 @@ class SameFamilyThanParentValidator extends ConstraintValidator
      *
      * @param ProductInterface $product
      */
-    public function validate($product, Constraint $constraint)
+    public function validate($product, Constraint $constraint): void
     {
         if (!$product instanceof ProductInterface) {
             throw new UnexpectedTypeException($constraint, ProductInterface::class);

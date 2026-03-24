@@ -39,7 +39,7 @@ class DisableFieldSubscriber implements EventSubscriberInterface
     /**
      * Disable the code field
      */
-    public function postSetData(FormEvent $event)
+    public function postSetData(FormEvent $event): void
     {
         $entity = $event->getData();
         $determinator = $this->determinator;
@@ -60,7 +60,7 @@ class DisableFieldSubscriber implements EventSubscriberInterface
      *
      * @return $config
      */
-    protected function prepareOptions(FormConfigInterface $config)
+    protected function prepareOptions(FormConfigInterface $config): array
     {
         $options = [
             'disabled'  => true,

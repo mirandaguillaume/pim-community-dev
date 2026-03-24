@@ -23,8 +23,7 @@ class ProductAndProductModelRowNormalizer implements NormalizerInterface, Normal
 {
     use NormalizerAwareTrait;
 
-    /** @var ImageNormalizer */
-    protected $imageNormalizer;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Normalizer\InternalApi\ImageNormalizer $imageNormalizer;
 
     public function __construct(ImageNormalizer $imageNormalizer)
     {

@@ -30,29 +30,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class FamilyVariantController
 {
-    /** @var FamilyVariantRepositoryInterface */
-    protected $familyVariantRepository;
+    protected \Akeneo\Pim\Structure\Component\Repository\FamilyVariantRepositoryInterface $familyVariantRepository;
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var SimpleFactoryInterface */
-    protected $familyVariantFactory;
+    protected \Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface $familyVariantFactory;
 
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface $updater;
 
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected \Symfony\Component\Validator\Validator\ValidatorInterface $validator;
 
-    /** @var NormalizerInterface */
-    protected $constraintViolationNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $constraintViolationNormalizer;
 
-    /** @var SaverInterface */
-    protected $saver;
+    protected \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface $saver;
 
-    /** @var SearchableRepositoryInterface */
-    protected $searchableRepository;
+    protected \Akeneo\Tool\Component\StorageUtils\Repository\SearchableRepositoryInterface $searchableRepository;
 
     public function __construct(
         FamilyVariantRepositoryInterface $familyVariantRepository,
@@ -158,7 +150,7 @@ class FamilyVariantController
      *
      * @AclAncestor("pim_enrich_family_variant_remove")
      */
-    public function removeAction(Request $request, string $familyVariantCode)
+    public function removeAction(Request $request, string $familyVariantCode): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(['message' => 'An error occurred.', 'global' => true], Response::HTTP_BAD_REQUEST);

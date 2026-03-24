@@ -23,28 +23,28 @@ class Acceptor
     /**
      * Ask extensions to process configuration
      */
-    public function processConfiguration()
+    public function processConfiguration(): void
     {
         foreach ($this->getExtensions() as $extension) {
             $extension->processConfigs($this->getConfig());
         }
     }
 
-    public function acceptDatasource(DatasourceInterface $datasource)
+    public function acceptDatasource(DatasourceInterface $datasource): void
     {
         foreach ($this->getExtensions() as $extension) {
             $extension->visitDatasource($this->getConfig(), $datasource);
         }
     }
 
-    public function acceptResult(ResultsIterableObject $result)
+    public function acceptResult(ResultsIterableObject $result): void
     {
         foreach ($this->getExtensions() as $extension) {
             $extension->visitResult($this->getConfig(), $result);
         }
     }
 
-    public function acceptMetadata(MetadataIterableObject $data)
+    public function acceptMetadata(MetadataIterableObject $data): void
     {
         foreach ($this->getExtensions() as $extension) {
             $extension->visitMetadata($this->getConfig(), $data);
@@ -57,14 +57,14 @@ class Acceptor
      *
      * @return $this
      */
-    public function addExtension(ExtensionVisitorInterface $extension)
+    public function addExtension(ExtensionVisitorInterface $extension): static
     {
         /**
          * ATTENTION: extension object should be cloned cause it can contain some state
          */
         $this->extensions[] = clone $extension;
 
-        $comparisonClosure = fn (ExtensionVisitorInterface $a, ExtensionVisitorInterface $b) => $b->getPriority() <=> $a->getPriority();
+        $comparisonClosure = fn (ExtensionVisitorInterface $a, ExtensionVisitorInterface $b): int => $b->getPriority() <=> $a->getPriority();
 
         // https://bugs.php.net/bug.php?id=50688
         @usort($this->extensions, $comparisonClosure);
@@ -88,7 +88,7 @@ class Acceptor
      *
      * @return mixed
      */
-    public function setConfig(DatagridConfiguration $config)
+    public function setConfig(DatagridConfiguration $config): DatagridConfiguration
     {
         $this->config = $config;
 

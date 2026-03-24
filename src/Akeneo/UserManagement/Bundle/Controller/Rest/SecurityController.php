@@ -15,11 +15,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class SecurityController
 {
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    protected \Oro\Bundle\SecurityBundle\SecurityFacade $securityFacade;
 
-    /** @var AclAnnotationProvider */
-    protected $aclProvider;
+    protected \Oro\Bundle\SecurityBundle\Metadata\AclAnnotationProvider $aclProvider;
 
     public function __construct(SecurityFacade $securityFacade, AclAnnotationProvider $aclProvider)
     {
@@ -30,7 +28,7 @@ class SecurityController
     /**
      * @return JsonResponse
      */
-    public function getAction()
+    public function getAction(): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $securityFacade = $this->securityFacade;
         $annotations = $this->aclProvider->getAnnotations();

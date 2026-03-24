@@ -17,7 +17,7 @@ class UserRepository extends EntityRepository implements UserRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['username'];
     }
@@ -25,7 +25,7 @@ class UserRepository extends EntityRepository implements UserRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($identifier)
+    public function findOneByIdentifier($identifier): mixed
     {
         $qb = $this->createQueryBuilder('u');
         $qb->where('u.username = :identifier OR u.email = :identifier')

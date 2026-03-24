@@ -48,7 +48,7 @@ class UserNotification implements UserNotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setNotification(NotificationInterface $notification)
+    public function setNotification(NotificationInterface $notification): static
     {
         $this->notification = $notification;
 
@@ -66,7 +66,7 @@ class UserNotification implements UserNotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setUser(UserInterface $user)
+    public function setUser(UserInterface $user): static
     {
         $this->user = $user;
 
@@ -84,7 +84,7 @@ class UserNotification implements UserNotificationInterface
     /**
      * {@inheritdoc}
      */
-    public function setViewed($viewed)
+    public function setViewed($viewed): static
     {
         $this->viewed = $viewed;
 

@@ -28,7 +28,7 @@ class DateNormalizer extends AbstractProductValueNormalizer implements Normalize
     /**
      * {@inheritdoc}
      */
-    protected function getNormalizedData(ValueInterface $value)
+    protected function getNormalizedData(ValueInterface $value): ?string
     {
         $date = $value->getData();
 

@@ -71,6 +71,6 @@ class LightEntityType extends AbstractType
                 'identifier'         => 'code',
             ])
             ->setNormalizer('choices', fn (Options $options, $value) => $options['repository']->findTranslatedLabels($options['repository_options']))
-            ->setAllowedValues('repository', fn ($repository) => $repository instanceof TranslatedLabelsProviderInterface);
+            ->setAllowedValues('repository', fn ($repository): bool => $repository instanceof TranslatedLabelsProviderInterface);
     }
 }

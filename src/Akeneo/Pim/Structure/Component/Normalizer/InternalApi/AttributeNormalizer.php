@@ -22,20 +22,15 @@ class AttributeNormalizer implements NormalizerInterface
     /** @var array $supportedFormats */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var NormalizerInterface */
-    protected $normalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer;
 
-    /** @var FieldProviderInterface */
-    protected $fieldProvider;
+    protected \Akeneo\Platform\Bundle\UIBundle\Provider\Field\FieldProviderInterface $fieldProvider;
 
-    /** @var EmptyValueProviderInterface */
-    protected $emptyValueProvider;
+    protected \Akeneo\Platform\Bundle\UIBundle\Provider\EmptyValue\EmptyValueProviderInterface $emptyValueProvider;
 
-    /** @var FilterProviderInterface */
-    protected $filterProvider;
+    protected \Akeneo\Platform\Bundle\UIBundle\Provider\Filter\FilterProviderInterface $filterProvider;
 
-    /** @var LocalizerInterface */
-    protected $numberLocalizer;
+    protected \Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface $numberLocalizer;
 
     public function __construct(
         NormalizerInterface $normalizer,

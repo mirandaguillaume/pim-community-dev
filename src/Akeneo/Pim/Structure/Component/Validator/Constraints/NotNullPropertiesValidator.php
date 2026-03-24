@@ -15,8 +15,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class NotNullPropertiesValidator extends ConstraintValidator
 {
-    /** @var array */
-    protected $supportedTypes;
+    protected array $supportedTypes;
 
     public function __construct(array $supportedTypes)
     {
@@ -26,7 +25,7 @@ class NotNullPropertiesValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($attribute, Constraint $constraint)
+    public function validate($attribute, Constraint $constraint): void
     {
         if (!$constraint instanceof NotNullProperties) {
             throw new UnexpectedTypeException($constraint, NotNullProperties::class);

@@ -58,8 +58,9 @@ class ChannelRepository extends EntityRepository implements ChannelRepositoryInt
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getChannelCodes()
+    public function getChannelCodes(): array
     {
         $qb = $this->createQueryBuilder('c');
         $qb->select('c.code')->orderBy('c.code');
@@ -77,7 +78,7 @@ class ChannelRepository extends EntityRepository implements ChannelRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getFullChannels()
+    public function getFullChannels(): mixed
     {
         return $this
             ->createQueryBuilder('ch')
@@ -92,7 +93,7 @@ class ChannelRepository extends EntityRepository implements ChannelRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getChannelCountUsingCurrency(CurrencyInterface $currency)
+    public function getChannelCountUsingCurrency(CurrencyInterface $currency): int
     {
         return (int) $this->createQueryBuilder('c')
                 ->select('count(c.id)')
@@ -106,7 +107,7 @@ class ChannelRepository extends EntityRepository implements ChannelRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findOneByIdentifier($code)
+    public function findOneByIdentifier($code): ?object
     {
         return $this->findOneBy(['code' => $code]);
     }
@@ -114,15 +115,16 @@ class ChannelRepository extends EntityRepository implements ChannelRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierProperties()
+    public function getIdentifierProperties(): array
     {
         return ['code'];
     }
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function getLabelsIndexedByCode($localeCode)
+    public function getLabelsIndexedByCode($localeCode): array
     {
         $qb = $this->createQueryBuilder('c');
         $qb->leftJoin('c.translations', 'tr', 'WITH', 'tr.locale = :userLocaleCode');

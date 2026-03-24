@@ -39,7 +39,7 @@ final class EvaluateAllProductsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addOption('bulk-size', null, InputOption::VALUE_REQUIRED, sprintf('Bulk size (%d by default)', self::DEFAULT_BULK_SIZE));
     }

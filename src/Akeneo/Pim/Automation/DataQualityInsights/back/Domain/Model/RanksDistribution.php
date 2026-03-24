@@ -12,8 +12,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rank;
  */
 final class RanksDistribution
 {
-    /** @var array */
-    private $ranksDistribution;
+    private array $ranksDistribution;
 
     private const array DEFAULT_DISTRIBUTION = [
         'rank_1' => 0,
@@ -41,7 +40,7 @@ final class RanksDistribution
     {
         $total = array_sum($this->ranksDistribution);
 
-        return array_map(fn ($distribution) => round($distribution / $total * 100, 2), $this->ranksDistribution);
+        return array_map(fn ($distribution): float => round($distribution / $total * 100, 2), $this->ranksDistribution);
     }
 
     public function getAverageRank(): ?Rank

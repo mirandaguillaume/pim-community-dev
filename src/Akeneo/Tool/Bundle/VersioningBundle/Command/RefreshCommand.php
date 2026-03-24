@@ -86,7 +86,7 @@ class RefreshCommand extends Command
         return Command::FAILURE;
     }
 
-    private function writeExceptions(OutputInterface $output, array $exceptions)
+    private function writeExceptions(OutputInterface $output, array $exceptions): void
     {
         foreach ($exceptions as $exception) {
             $output->write(

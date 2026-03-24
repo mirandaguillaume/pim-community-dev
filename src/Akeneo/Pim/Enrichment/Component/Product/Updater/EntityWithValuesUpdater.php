@@ -21,8 +21,7 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class EntityWithValuesUpdater implements ObjectUpdaterInterface
 {
-    /** @var PropertySetterInterface */
-    protected $propertySetter;
+    protected \Akeneo\Tool\Component\StorageUtils\Updater\PropertySetterInterface $propertySetter;
 
     public function __construct(PropertySetterInterface $propertySetter)
     {
@@ -32,7 +31,7 @@ class EntityWithValuesUpdater implements ObjectUpdaterInterface
     /**
      * {@inheritdoc}
      */
-    public function update($entityWithValues, array $values, array $options = [])
+    public function update($entityWithValues, array $values, array $options = []): static
     {
         if (!$entityWithValues instanceof EntityWithValuesInterface) {
             throw InvalidObjectException::objectExpected(

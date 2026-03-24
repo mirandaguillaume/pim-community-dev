@@ -51,7 +51,7 @@ class AttributeOptionController
      * @param int     $identifier
      * @return JsonResponse
      */
-    public function getAction(Request $request, $identifier)
+    public function getAction(Request $request, $identifier): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $query  = $request->query;
         $search = $query->get('search');
@@ -86,7 +86,7 @@ class AttributeOptionController
      *
      * @AclAncestor("pim_enrich_attribute_edit")
      */
-    public function indexAction($attributeId)
+    public function indexAction($attributeId): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $attribute = $this->findAttributeOr404($attributeId);
 
@@ -159,7 +159,7 @@ class AttributeOptionController
      *
      * @AclAncestor("pim_enrich_attribute_edit")
      */
-    public function deleteAction(Request $request, $attributeOptionId)
+    public function deleteAction(Request $request, $attributeOptionId): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -190,7 +190,7 @@ class AttributeOptionController
      * @return Response
      * @AclAncestor("pim_enrich_attribute_edit")
      */
-    public function updateSortingAction(Request $request, $attributeId)
+    public function updateSortingAction(Request $request, $attributeId): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -217,7 +217,7 @@ class AttributeOptionController
      *
      * @return JsonResponse
      */
-    protected function manageFormSubmission(AttributeOptionInterface $attributeOption, array $data = [])
+    protected function manageFormSubmission(AttributeOptionInterface $attributeOption, array $data = []): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $form = $this->formFactory->createNamed('option', AttributeOptionType::class, $attributeOption);
 
@@ -241,7 +241,7 @@ class AttributeOptionController
      *
      * @return array
      */
-    protected function getFormErrors($form)
+    protected function getFormErrors($form): array
     {
         $errors = [];
 

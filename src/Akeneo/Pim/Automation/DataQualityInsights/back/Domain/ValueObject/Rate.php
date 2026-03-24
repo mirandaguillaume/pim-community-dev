@@ -39,7 +39,7 @@ final class Rate implements \Stringable
         return (string) $this->toLetter();
     }
 
-    public function toLetter()
+    public function toLetter(): string
     {
         return Rank::fromRate($this)->toLetter();
     }

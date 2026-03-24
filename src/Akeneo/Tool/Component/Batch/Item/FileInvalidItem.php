@@ -12,8 +12,7 @@ namespace Akeneo\Tool\Component\Batch\Item;
  */
 class FileInvalidItem implements InvalidItemInterface
 {
-    /** @var array */
-    protected $invalidData;
+    protected array $invalidData;
 
     /**
      * @param int   $itemPosition

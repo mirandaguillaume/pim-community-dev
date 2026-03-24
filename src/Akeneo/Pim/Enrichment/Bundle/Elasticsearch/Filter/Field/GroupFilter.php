@@ -18,8 +18,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface;
  */
 class GroupFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    /** @var GroupRepositoryInterface */
-    protected $groupRepository;
+    protected \Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface $groupRepository;
 
     public function __construct(
         GroupRepositoryInterface $groupRepository,
@@ -41,7 +40,7 @@ class GroupFilter extends AbstractFieldFilter implements FieldFilterInterface
         $locale = null,
         $channel = null,
         $options = []
-    ) {
+    ): static {
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }

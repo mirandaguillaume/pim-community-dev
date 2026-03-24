@@ -46,7 +46,7 @@ class IndexMigration
         );
     }
 
-    public function markAsDone()
+    public function markAsDone(): void
     {
         $this->status = 'done';
     }

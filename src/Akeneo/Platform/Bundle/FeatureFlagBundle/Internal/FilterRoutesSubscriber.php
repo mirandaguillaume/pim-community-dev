@@ -26,7 +26,7 @@ class FilterRoutesSubscriber
     {
     }
 
-    public function filterRoutesFromDisabledFeatureFlags(ControllerEvent $event)
+    public function filterRoutesFromDisabledFeatureFlags(ControllerEvent $event): void
     {
         if (!$event->getRequest()->attributes->has(static::FEATURE_KEY)) {
             return;

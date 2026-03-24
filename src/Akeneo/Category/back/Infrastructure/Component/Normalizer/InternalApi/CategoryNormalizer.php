@@ -15,8 +15,7 @@ class CategoryNormalizer implements NormalizerInterface
     /** @var array */
     protected $supportedFormats = ['internal_api'];
 
-    /** @var NormalizerInterface */
-    protected $categoryNormalizer;
+    protected \Symfony\Component\Serializer\Normalizer\NormalizerInterface $categoryNormalizer;
 
     public function __construct(NormalizerInterface $categoryNormalizer)
     {

@@ -12,10 +12,7 @@ class ConfigManager
     final public const string SECTION_VIEW_SEPARATOR = '___';
     final public const string SECTION_MODEL_SEPARATOR = '.';
 
-    /**
-     * @var ObjectManager
-     */
-    protected $om;
+    protected \Doctrine\Persistence\ObjectManager $om;
 
     /**
      * @var array
@@ -71,7 +68,7 @@ class ConfigManager
      * Save settings with fallback to global scope (default)
      * and change storedSettings with the new settings
      */
-    public function save($newSettings)
+    public function save($newSettings): void
     {
         $entityName = $this->getScopedEntityName();
         $entityId   = $this->getScopeId();
@@ -104,7 +101,7 @@ class ConfigManager
      * @param $newSettings
      * @return array
      */
-    public function getChanged($newSettings)
+    public function getChanged($newSettings): array
     {
         // find new and updated
         $updated = [];
@@ -145,7 +142,7 @@ class ConfigManager
      * @param null $section
      * @return bool
      */
-    public function loadStoredSettings($entity, $entityId, $section = null)
+    public function loadStoredSettings($entity, $entityId, $section = null): bool
     {
         if (isset($this->storedSettings[$entity][$entityId])) {
             return false;
@@ -161,7 +158,7 @@ class ConfigManager
     /**
      * @return array
      */
-    public function getSettingsByForm(FormInterface $form)
+    public function getSettingsByForm(FormInterface $form): array
     {
         $settings = [];
 
@@ -184,7 +181,7 @@ class ConfigManager
     /**
      * @return null
      */
-    public function getScopedEntityName()
+    public function getScopedEntityName(): string
     {
         return 'app';
     }
@@ -192,7 +189,7 @@ class ConfigManager
     /**
      * @return int
      */
-    public function getScopeId()
+    public function getScopeId(): int
     {
         return 0;
     }
