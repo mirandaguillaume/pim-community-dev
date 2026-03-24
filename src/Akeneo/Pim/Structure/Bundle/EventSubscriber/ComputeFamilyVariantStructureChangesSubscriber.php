@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Structure\Bundle\EventSubscriber;
 
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\DBAL\Connection;
@@ -42,7 +43,8 @@ class ComputeFamilyVariantStructureChangesSubscriber
         private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
         private readonly Connection $connection,
         private readonly LoggerInterface $logger,
-        private readonly string $jobName
+        private readonly string $jobName,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -117,12 +119,14 @@ class ComputeFamilyVariantStructureChangesSubscriber
          * status 2 = STARTING
          * The check on the create_time is a security in case we have ghost job that are never started.
          */
+        $arrayExpr = $this->platformHelper->jsonExtract('raw_parameters', '$.family_variant_codes');
+        $memberCheck = $this->platformHelper->jsonContains($arrayExpr, ':familyVariantCode');
         $query = <<<SQL
             SELECT id
             FROM akeneo_batch_job_execution abje
             WHERE job_instance_id = :instanceId
                 AND status = 2
-                AND :familyVariantCode MEMBER OF (JSON_EXTRACT(raw_parameters, '$.family_variant_codes'))
+                AND {$memberCheck}
                 AND create_time > DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 DAY)
             ORDER BY id DESC
             LIMIT 1

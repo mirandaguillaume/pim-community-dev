@@ -6,6 +6,7 @@ namespace Akeneo\Platform\Installer\Infrastructure\Event\Subscriber;
 
 use Akeneo\Platform\Installer\Infrastructure\Command\ZddMigration;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Webmozart\Assert\Assert;
@@ -29,6 +30,7 @@ class MarkZddMigrationsAsMigratedSubscriber
      */
     public function __construct(
         private readonly Connection $connection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
         iterable $zddMigrations,
     ) {
         Assert::allIsInstanceOf($zddMigrations, ZddMigration::class);
@@ -38,11 +40,16 @@ class MarkZddMigrationsAsMigratedSubscriber
 
     public function markMigrations(): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['code'],
+            ['status = ' . $this->platformHelper->insertedValue('status'), 'start_time = NOW()']
+        );
+
         foreach ($this->zddMigrations as $zddMigration) {
             $this->connection->executeQuery(<<<SQL
-                    INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
+                    INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`)
                     VALUES (:code, :status, NOW(), :values)
-                    ON DUPLICATE KEY UPDATE status=VALUES(status), start_time=NOW();
+                    $upsert;
                 SQL, [
                 'code' => $this->getZddMigrationCode($zddMigration),
                 'status' => 'finished',

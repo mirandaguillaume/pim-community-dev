@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Platform\CommunicationChannel\Infrastructure\Persistence\Dbal\Repository;
 
 use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Repository\ViewedAnnouncementRepositoryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection as DbalConnection;
 
 /**
@@ -14,8 +15,10 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class DbalViewedAnnouncementRepository implements ViewedAnnouncementRepositoryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
+    public function __construct(
+        private readonly DbalConnection $dbalConnection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     /**
@@ -33,11 +36,15 @@ class DbalViewedAnnouncementRepository implements ViewedAnnouncementRepositoryIn
         }
 
         $valuesQuery = implode(',', $values);
+        $upsert = $this->platformHelper->upsertClause(
+            ['announcement_id', 'user_id'],
+            ['announcement_id = announcement_id']
+        );
         $insertQuery = <<<SQL
                 INSERT INTO akeneo_communication_channel_viewed_announcements
                     (announcement_id, user_id)
                 VALUES $valuesQuery
-                ON DUPLICATE KEY UPDATE announcement_id=announcement_id;
+                {$upsert};
             SQL;
 
 

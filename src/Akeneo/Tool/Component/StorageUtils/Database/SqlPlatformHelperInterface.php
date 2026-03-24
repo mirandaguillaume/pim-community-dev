@@ -100,4 +100,68 @@ interface SqlPlatformHelperInterface
      * @param string $else      The value when false
      */
     public function conditional(string $condition, string $then, string $else): string;
+
+    /**
+     * Extracts all JSON values matching a path, including wildcard paths.
+     * Returns a JSON array of all matches.
+     *
+     * Use this instead of jsonExtract() when the path contains wildcards
+     * (e.g. '$.*.*.*', '$.*.products[*].id').
+     *
+     * @param string $doc  The JSON column or expression
+     * @param string $path SQL/JSON path (e.g. '$.*.*.*')
+     */
+    public function jsonPathQuery(string $doc, string $path): string;
+
+    /**
+     * Returns the number of elements in a JSON array.
+     *
+     * Note: on PostgreSQL, only works for arrays (not objects).
+     * All current usages in this codebase pass array expressions.
+     */
+    public function jsonLength(string $expr): string;
+
+    /**
+     * Returns the type of a JSON value as an uppercase string.
+     *
+     * Returns: 'NULL', 'OBJECT', 'ARRAY', 'STRING', 'INTEGER', 'DOUBLE', 'BOOLEAN'
+     * PostgreSQL implementation normalizes to uppercase to match MySQL's output.
+     */
+    public function jsonType(string $expr): string;
+
+    /**
+     * Checks whether a JSON path returns any items (existence check).
+     * Supports wildcard paths.
+     *
+     * @param string $doc  The JSON column or expression
+     * @param string $path SQL/JSON path to check
+     */
+    public function jsonPathExists(string $doc, string $path): string;
+
+    /**
+     * Checks if a JSON array contains a specific value.
+     *
+     * @param string $arrayExpr The JSON array expression
+     * @param string $valueExpr The value to search for (e.g. ':param', 'column')
+     */
+    public function jsonContains(string $arrayExpr, string $valueExpr): string;
+
+    /**
+     * Generates the upsert clause to append after an INSERT ... VALUES statement.
+     *
+     * @param string[] $conflictColumns Columns forming the unique constraint
+     *                                  (MySQL ignores these; PG requires them for ON CONFLICT)
+     * @param string[] $updateExpressions Raw SQL assignments (e.g. 'col = :param', 'col = col + :val')
+     */
+    public function upsertClause(array $conflictColumns, array $updateExpressions): string;
+
+    /**
+     * References the value that was proposed for insertion (in ON DUPLICATE KEY context).
+     *
+     * Use inside upsertClause update expressions:
+     *   'completeness = ' . $helper->insertedValue('completeness')
+     *
+     * @param string $column The column name
+     */
+    public function insertedValue(string $column): string;
 }

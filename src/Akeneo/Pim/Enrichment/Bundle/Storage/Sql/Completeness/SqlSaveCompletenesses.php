@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Completeness;
 
 use Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompletenessWithMissingAttributeCodesCollection;
 use Akeneo\Pim\Enrichment\Component\Product\Query\SaveProductCompletenesses;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use Ramsey\Uuid\Uuid;
@@ -18,6 +19,7 @@ final readonly class SqlSaveCompletenesses implements SaveProductCompletenesses
 {
     public function __construct(
         private Connection $connection,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -35,11 +37,15 @@ final readonly class SqlSaveCompletenesses implements SaveProductCompletenesses
     public function saveAll(array $productCompletenessCollections): void
     {
         $params = \implode(', ', \array_fill(0, count($productCompletenessCollections), '(?, ?)'));
+        $upsert = $this->platformHelper->upsertClause(
+            ['product_uuid'],
+            ['completeness = ' . $this->platformHelper->insertedValue('completeness')]
+        );
         $query = \sprintf(
             <<<SQL
-                INSERT INTO pim_catalog_product_completeness (product_uuid, completeness) 
+                INSERT INTO pim_catalog_product_completeness (product_uuid, completeness)
                       VALUES %s
-                      ON DUPLICATE KEY UPDATE completeness = VALUES(completeness)
+                      {$upsert}
                 SQL,
             $params
         );

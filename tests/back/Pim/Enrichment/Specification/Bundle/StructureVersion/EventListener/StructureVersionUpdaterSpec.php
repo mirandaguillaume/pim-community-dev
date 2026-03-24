@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Specification\Akeneo\Pim\Enrichment\Bundle\StructureVersion\EventListener;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\Product;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
 use PhpSpec\ObjectBehavior;
@@ -13,10 +14,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class StructureVersionUpdaterSpec extends ObjectBehavior
 {
-    function let(ManagerRegistry $registry, Connection $connection)
+    function let(ManagerRegistry $registry, Connection $connection, SqlPlatformHelperInterface $platformHelper)
     {
         $registry->getConnection()->willReturn($connection);
-        $this->beConstructedWith($registry);
+        $platformHelper->upsertClause(Argument::cetera())->willReturn('');
+        $this->beConstructedWith($registry, $platformHelper);
     }
 
     function it_inserts_unitary_if_the_option_is_set_to_true(Connection $connection)

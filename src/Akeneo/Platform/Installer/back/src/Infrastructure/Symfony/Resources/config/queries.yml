@@ -6,6 +6,7 @@ services:
   Akeneo\Platform\Installer\Infrastructure\Query\UpdateMaintenanceMode:
     arguments:
       - '@database_connection'
+      - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
   Akeneo\Platform\Installer\Infrastructure\Query\IsMaintenanceModeEnabled:
     arguments:

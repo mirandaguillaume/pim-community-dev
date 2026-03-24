@@ -6,6 +6,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\ErrorManagement\Persiste
 
 use Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\Write\HourlyErrorCount;
 use Akeneo\Connectivity\Connection\Domain\ErrorManagement\Persistence\Repository\ErrorCountRepositoryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection as DbalConnection;
 use Doctrine\DBAL\Types\Types;
 
@@ -16,16 +17,23 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalErrorCountRepository implements ErrorCountRepositoryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
+    public function __construct(
+        private readonly DbalConnection $dbalConnection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function upsert(HourlyErrorCount $hourlyErrorCount): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['connection_code', 'error_datetime', 'error_type'],
+            ['error_count = error_count + :error_count']
+        );
+
         $upsertQuery = <<<SQL
             INSERT INTO akeneo_connectivity_connection_audit_error (connection_code, error_datetime, error_count, error_type)
             VALUES(:connection_code, :error_datetime, :error_count, :error_type)
-            ON DUPLICATE KEY UPDATE error_count = error_count + :error_count
+            $upsert
             SQL;
 
         $this->dbalConnection->executeStatement(

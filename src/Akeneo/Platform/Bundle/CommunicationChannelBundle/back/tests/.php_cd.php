@@ -24,6 +24,7 @@ $rules = [
             'Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents',
             'Akeneo\Platform\Bundle\PimVersionBundle\VersionProviderInterface',
             'Akeneo\UserManagement\Bundle\Context\UserContext',
+            'Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface',
             'Symfony\Component',
             'Doctrine\DBAL\Connection',
             'GuzzleHttp\Client'

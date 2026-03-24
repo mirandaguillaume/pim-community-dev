@@ -90,3 +90,4 @@ services:
     arguments:
       - '@database_connection'
       - '@Akeneo\Platform\Installer\Infrastructure\Persistence\Sql\GetResetEvents'
+      - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'

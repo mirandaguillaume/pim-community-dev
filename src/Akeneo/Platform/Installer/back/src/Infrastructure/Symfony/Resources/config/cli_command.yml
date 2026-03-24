@@ -52,6 +52,7 @@ services:
         arguments:
             - '@database_connection'
             - '@monolog.logger'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
             - !tagged_iterator { tag: 'akeneo.pim.zdd_migration' }
         tags:
             - { name: 'console.command' }

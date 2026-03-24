@@ -15,6 +15,7 @@ services:
         class: 'Akeneo\Platform\CommunicationChannel\Infrastructure\Persistence\Dbal\Repository\DbalViewedAnnouncementRepository'
         arguments:
             - '@database_connection'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'
 
     akeneo_communication_channel.query.dbal.find_viewed_announcement_ids:
         class: 'Akeneo\Platform\CommunicationChannel\Infrastructure\Persistence\Dbal\Query\DbalFindViewedAnnouncementIds'

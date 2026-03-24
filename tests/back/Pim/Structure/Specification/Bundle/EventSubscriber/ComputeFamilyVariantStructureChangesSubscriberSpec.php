@@ -8,6 +8,7 @@ use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\SimpleJobLauncher;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\DBAL\Connection;
@@ -27,15 +28,20 @@ class ComputeFamilyVariantStructureChangesSubscriberSpec extends ObjectBehavior
         SimpleJobLauncher $jobLauncher,
         JobInstanceRepository $jobInstanceRepository,
         Connection $connection,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        SqlPlatformHelperInterface $platformHelper
     ) {
+        $platformHelper->jsonExtract(Argument::cetera())->willReturn("JSON_EXTRACT(raw_parameters, '$.family_variant_codes')");
+        $platformHelper->jsonContains(Argument::cetera())->willReturn(":familyVariantCode MEMBER OF(JSON_EXTRACT(raw_parameters, '$.family_variant_codes'))");
+
         $this->beConstructedWith(
             $tokenStorage,
             $jobLauncher,
             $jobInstanceRepository,
             $connection,
             $logger,
-            'compute_family_variant_structure_changes'
+            'compute_family_variant_structure_changes',
+            $platformHelper
         );
     }
 

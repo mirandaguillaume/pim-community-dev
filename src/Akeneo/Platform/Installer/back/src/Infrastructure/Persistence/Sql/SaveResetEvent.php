@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Installer\Infrastructure\Persistence\Sql;
 
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -15,6 +16,7 @@ final readonly class SaveResetEvent
     public function __construct(
         private Connection $connection,
         private GetResetEvents $getResetEvents,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -28,10 +30,11 @@ final readonly class SaveResetEvent
             $newResetEvents,
         );
 
+        $upsert = $this->platformHelper->upsertClause(['code'], ['`values` = ' . $this->platformHelper->insertedValue('`values`')]);
         $this->connection->executeStatement(
             <<<SQL
-                REPLACE INTO `pim_configuration` (`code`, `values`)
-                VALUES ('reset_events', :reset_events);
+                INSERT INTO `pim_configuration` (`code`, `values`)
+                VALUES ('reset_events', :reset_events) {$upsert}
                 SQL,
             ['reset_events' => \json_encode($normalizedEvents, JSON_THROW_ON_ERROR)],
         );

@@ -7,6 +7,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence;
 use Akeneo\Connectivity\Connection\Domain\Apps\DTO\AsymmetricKeys;
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\SaveAsymmetricKeysQueryInterface;
 use Akeneo\Connectivity\Connection\Domain\ClockInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 
@@ -21,15 +22,20 @@ final readonly class SaveAsymmetricKeysQuery implements SaveAsymmetricKeysQueryI
     public function __construct(
         private Connection $connection,
         private ClockInterface $clock,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
     public function execute(AsymmetricKeys $asymmetricKeys): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['code'],
+            ['`values` = :asymmetricKeys']
+        );
         $query = <<<SQL
             INSERT INTO pim_configuration (`code`,`values`)
             VALUES (:code, :asymmetricKeys)
-            ON DUPLICATE KEY UPDATE `values`= :asymmetricKeys
+            {$upsert}
             SQL;
 
         $updatedAt = $this->clock->now()->format(\DateTimeInterface::ATOM);

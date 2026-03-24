@@ -6,6 +6,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Audit\Persistence;
 
 use Akeneo\Connectivity\Connection\Domain\Audit\Model\Write\HourlyEventCount;
 use Akeneo\Connectivity\Connection\Domain\Audit\Persistence\BulkInsertEventCountsQueryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection as DbalConnection;
 use Doctrine\DBAL\Types\Types;
 
@@ -15,8 +16,10 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalBulkInsertEventCountsQuery implements BulkInsertEventCountsQueryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
+    public function __construct(
+        private readonly DbalConnection $dbalConnection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function execute(array $hourlyEventCounts): void
@@ -28,10 +31,15 @@ class DbalBulkInsertEventCountsQuery implements BulkInsertEventCountsQueryInterf
 
     private function insert(HourlyEventCount $hourlyEventCount): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['connection_code', 'event_datetime', 'event_type'],
+            ['event_count = :event_count', 'updated = UTC_TIMESTAMP()']
+        );
+
         $insertQuery = <<<SQL
             INSERT INTO akeneo_connectivity_connection_audit_product (connection_code, event_datetime, event_count, event_type, updated)
             VALUES(:connection_code, :event_datetime, :event_count, :event_type, UTC_TIMESTAMP())
-            ON DUPLICATE KEY UPDATE event_count = :event_count, updated = UTC_TIMESTAMP()
+            $upsert
             SQL;
 
         $this->dbalConnection->executeStatement(

@@ -17,3 +17,4 @@ services:
         arguments:
             - '@database_connection'
             - '@Akeneo\Category\Domain\Query\GetCategoryInterface'
+            - '@Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface'

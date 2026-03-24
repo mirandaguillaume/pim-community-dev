@@ -7,6 +7,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Connections\WrongCredent
 use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Read\WrongCredentialsCombinations;
 use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Write\WrongCredentialsCombination;
 use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Persistence\Repository\WrongCredentialsCombinationRepositoryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -16,16 +17,23 @@ use Doctrine\DBAL\Connection;
  */
 class DbalWrongCredentialsCombinationRepository implements WrongCredentialsCombinationRepositoryInterface
 {
-    public function __construct(private readonly Connection $dbalConnection)
-    {
+    public function __construct(
+        private readonly Connection $dbalConnection,
+        private readonly SqlPlatformHelperInterface $platformHelper,
+    ) {
     }
 
     public function create(WrongCredentialsCombination $wrongCredentialsCombination): void
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['connection_code', 'username'],
+            ['authentication_date = NOW()']
+        );
+
         $insertSQL = <<<SQL
             INSERT INTO akeneo_connectivity_connection_wrong_credentials_combination
             VALUES (:connection_code, :username, NOW())
-            ON DUPLICATE KEY UPDATE authentication_date = NOW()
+            $upsert
             SQL;
 
         $this->dbalConnection->executeStatement($insertSQL, [

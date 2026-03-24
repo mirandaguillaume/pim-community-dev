@@ -79,4 +79,39 @@ final readonly class MySqlPlatformHelper implements SqlPlatformHelperInterface
     {
         return sprintf('IF(%s, %s, %s)', $condition, $then, $else);
     }
+
+    public function jsonPathQuery(string $doc, string $path): string
+    {
+        return sprintf("JSON_EXTRACT(%s, '%s')", $doc, $path);
+    }
+
+    public function jsonLength(string $expr): string
+    {
+        return sprintf('JSON_LENGTH(%s)', $expr);
+    }
+
+    public function jsonType(string $expr): string
+    {
+        return sprintf('JSON_TYPE(%s)', $expr);
+    }
+
+    public function jsonPathExists(string $doc, string $path): string
+    {
+        return sprintf("JSON_CONTAINS_PATH(%s, 'one', '%s')", $doc, $path);
+    }
+
+    public function jsonContains(string $arrayExpr, string $valueExpr): string
+    {
+        return sprintf('%s MEMBER OF(%s)', $valueExpr, $arrayExpr);
+    }
+
+    public function upsertClause(array $conflictColumns, array $updateExpressions): string
+    {
+        return 'ON DUPLICATE KEY UPDATE ' . implode(', ', $updateExpressions);
+    }
+
+    public function insertedValue(string $column): string
+    {
+        return sprintf('VALUES(%s)', $column);
+    }
 }

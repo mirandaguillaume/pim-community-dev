@@ -7,6 +7,7 @@ namespace Akeneo\Category\Infrastructure\Storage\Save\Query;
 use Akeneo\Category\Application\Storage\Save\Query\UpsertCategoryTranslations;
 use Akeneo\Category\Domain\Model\Enrichment\Category;
 use Akeneo\Category\Domain\Query\GetCategoryInterface;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 
@@ -22,6 +23,7 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
     public function __construct(
         private readonly Connection $connection,
         private readonly GetCategoryInterface $getCategory,
+        private readonly SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 
@@ -64,11 +66,15 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
 
     private function buildUpsertQuery(int $loopIndex): string
     {
+        $upsert = $this->platformHelper->upsertClause(
+            ['foreign_key', 'locale'],
+            ["label = :label$loopIndex"]
+        );
         return <<<SQL
                         INSERT INTO pim_catalog_category_translation (foreign_key, label, locale)
                         VALUES (:category_id, :label$loopIndex, :locale$loopIndex)
-                        ON DUPLICATE KEY UPDATE label = :label$loopIndex;
-                    
+                        {$upsert};
+
             SQL;
     }
 
