@@ -79,8 +79,6 @@ class FilterEntityWithValuesSubscriber
      * As it is a doctrine event, there is no way to pass a context (containing the attributes to filter).
      *
      * Therefore, this subscriber is stateful.
-     *
-     * @param FilterEntityWithValuesSubscriberConfiguration $configuration
      */
     public function configure(FilterEntityWithValuesSubscriberConfiguration $configuration): void
     {

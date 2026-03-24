@@ -31,8 +31,7 @@ class CountCategories implements CountQuery
                         FROM pim_catalog_category
             SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
-        $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);
 
-        return $volume;
+        return new CountVolume((int) $result['count'], self::VOLUME_NAME);
     }
 }

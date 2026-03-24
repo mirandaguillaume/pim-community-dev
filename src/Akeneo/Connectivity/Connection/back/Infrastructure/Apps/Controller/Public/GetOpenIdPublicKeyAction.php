@@ -21,7 +21,7 @@ final readonly class GetOpenIdPublicKeyAction
     {
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(): JsonResponse
     {
         try {
             $asymmetricKeys = $this->getAsymmetricKeysQuery->execute()->normalize();

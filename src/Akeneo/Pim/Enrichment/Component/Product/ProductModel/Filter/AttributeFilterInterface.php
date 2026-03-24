@@ -15,8 +15,6 @@ interface AttributeFilterInterface
      * Filters imported data from products, variant products and product models.
      * Only data corresponding to attributes contained by family and/or family variant are kept.
      *
-     *
-     * @return array
      */
     public function filter(array $item): array;
 }

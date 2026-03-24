@@ -54,7 +54,7 @@ class FamilyFieldSetter extends AbstractFieldSetter
             }
             $product->setFamily($family);
         } else {
-            $product->setFamily(null);
+            $product->setFamily();
         }
     }
 
@@ -83,8 +83,6 @@ class FamilyFieldSetter extends AbstractFieldSetter
      */
     protected function getFamily($familyCode)
     {
-        $family = $this->familyRepository->findOneByIdentifier($familyCode);
-
-        return $family;
+        return $this->familyRepository->findOneByIdentifier($familyCode);
     }
 }

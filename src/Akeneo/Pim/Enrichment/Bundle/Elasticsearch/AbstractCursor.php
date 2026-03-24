@@ -82,8 +82,6 @@ abstract class AbstractCursor implements CursorInterface
     /**
      * Get the next items (hydrated from doctrine repository).
      *
-     *
-     * @return array
      */
     protected function getNextItems(array $esQuery): array
     {
@@ -128,8 +126,6 @@ abstract class AbstractCursor implements CursorInterface
     /**
      * Returns the next identifier results.
      * The idea is keep the sort of the identifiers and to be able to know if it's a product or a product model.
-     *
-     * @return IdentifierResults
      */
     abstract protected function getNextIdentifiers(array $esQuery): IdentifierResults;
 }

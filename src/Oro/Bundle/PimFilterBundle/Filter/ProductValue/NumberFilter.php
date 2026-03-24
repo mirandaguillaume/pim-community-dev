@@ -25,10 +25,6 @@ class NumberFilter extends OroNumberFilter
 
     /**
      * Constructor
-     *
-     * @param FormFactoryInterface         $factory
-     * @param ProductFilterUtility         $util
-     * @param AttributeRepositoryInterface $attributeRepository
      */
     public function __construct(
         FormFactoryInterface $factory,

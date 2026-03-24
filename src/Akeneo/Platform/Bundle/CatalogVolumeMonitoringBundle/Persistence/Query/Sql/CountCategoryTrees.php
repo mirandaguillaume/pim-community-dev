@@ -32,8 +32,7 @@ class CountCategoryTrees implements CountQuery
                         WHERE lvl = 0;
             SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
-        $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);
 
-        return $volume;
+        return new CountVolume((int) $result['count'], self::VOLUME_NAME);
     }
 }

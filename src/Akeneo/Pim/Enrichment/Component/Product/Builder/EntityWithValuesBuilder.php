@@ -63,7 +63,7 @@ class EntityWithValuesBuilder implements EntityWithValuesBuilderInterface
         }
 
         if ($isFormerValueFilled && !$isNewValueFilled) {
-            return $this->removeValue($entityWithValues, $attribute, $localeCode, $channelCode, $data);
+            return $this->removeValue($entityWithValues, $attribute, $localeCode, $channelCode);
         }
 
         return null;
@@ -132,8 +132,7 @@ class EntityWithValuesBuilder implements EntityWithValuesBuilderInterface
         EntityWithValuesInterface $entityWithValues,
         Attribute $attribute,
         ?string $localeCode,
-        ?string $channelCode,
-        $data
+        ?string $channelCode
     ): ?ValueInterface {
         $formerValue = $entityWithValues->getValue($attribute->code(), $localeCode, $channelCode);
         $entityWithValues->removeValue($formerValue);

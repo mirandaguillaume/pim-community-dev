@@ -85,9 +85,7 @@ abstract class AbstractInvalidItemWriter extends AbstractFilesystemArchiver
                 $readItem = $this->trimTrailingValuesWithoutHeaders($readItem, $headersLength);
 
                 $invalidItem = array_combine($headers, $readItem);
-                if (false !== $invalidItem) {
-                    $itemsToWrite[] = $invalidItem;
-                }
+                $itemsToWrite[] = $invalidItem;
 
                 $invalidItemPositions->removeElement($currentItemPosition);
             }
@@ -179,8 +177,6 @@ abstract class AbstractInvalidItemWriter extends AbstractFilesystemArchiver
      * Get the input file iterator to iterate on all the items of the file.
      * The returned FileIteratorInterface instance should be position on the first item of the file.
      *
-     *
-     * @return FileIteratorInterface
      */
     abstract protected function getInputFileIterator(JobParameters $jobParameters): FileIteratorInterface;
 

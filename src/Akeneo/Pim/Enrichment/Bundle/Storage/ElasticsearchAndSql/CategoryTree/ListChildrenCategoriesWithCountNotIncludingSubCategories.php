@@ -57,9 +57,6 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
      * - it executes two requests(SQL +ES) to get children of A
      * - then, two requests to get children of B
      *
-     * @param array     $categoryIdsInPath
-     * @param string    $translationLocaleCode
-     * @param int|null  $categoryIdToFilterWith
      *
      * @return ChildCategory[]
      */
@@ -80,7 +77,7 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
             $childrenCategoriesToExpand = null !== $subchildCategoryId && $subchildCategoryId === (int) $category['child_id']
                 ? $this->getRecursivelyCategories($categoryIdsInPath, $translationLocaleCode, $categoryIdToFilterWith) : [];
 
-            $isUsedAsFilter = null !== $categoryIdToFilterWith ? (int) $category['child_id'] === $categoryIdToFilterWith : false;
+            $isUsedAsFilter = null !== $categoryIdToFilterWith && (int) $category['child_id'] === $categoryIdToFilterWith;
 
             $categories[] = new ChildCategory(
                 (int) $category['child_id'],
@@ -97,7 +94,6 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
     }
 
     /**
-     * @param int    $parentCategoryId
      * @param string $translationLocaleCode
      *
      * [
@@ -108,7 +104,6 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
      *         'label' => 'label'
      *     ]
      * ]
-     *
      * @throws Exception
      */
     private function fetchChildrenCategories(
@@ -230,8 +225,6 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
      * If category to expand is A and category to filter is D, it returns [A, B]
      *
      *
-     * @param int $fromCategoryId
-     * @param int $toCategoryId
      *
      * @return string[]
      *
@@ -261,8 +254,6 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
             ]
         )->fetchAllAssociative();
 
-        $ids = array_map(fn ($row) => (int) $row['id'], $rows);
-
-        return $ids;
+        return array_map(fn ($row) => (int) $row['id'], $rows);
     }
 }

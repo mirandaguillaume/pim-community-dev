@@ -13,8 +13,5 @@ use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
  */
 interface CountEntityWithFamilyVariantInterface
 {
-    /**
-     * @return int
-     */
     public function belongingToFamilyVariant(FamilyVariantInterface $familyVariant): int;
 }

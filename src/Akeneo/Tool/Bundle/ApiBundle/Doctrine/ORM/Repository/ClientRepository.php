@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityRepository;
 class ClientRepository extends EntityRepository
 {
     /**
-     * @param EntityManager $em
      * @param string        $class
      */
     public function __construct(EntityManager $em, $class)

@@ -17,7 +17,6 @@ interface UserNotificationRepositoryInterface extends ObjectRepository
     /**
      * Returns the number of user notifications the user hasn't viewed
      *
-     * @param UserInterface $user
      *
      * @return int
      */

@@ -69,8 +69,6 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
 
     /**
      * @param array $searchFilters {string: array{operator: string, value: mixed}[]}
-     *
-     * @return int
      */
     #[\Override]
     public function count(array $searchFilters = []): int

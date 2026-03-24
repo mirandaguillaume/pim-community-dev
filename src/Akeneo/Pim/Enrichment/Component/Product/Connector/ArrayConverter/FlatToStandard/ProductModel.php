@@ -20,7 +20,6 @@ class ProductModel implements ArrayConverterInterface
     private array $optionalAssocFields = [];
 
     /**
-     * @param FieldConverter             $fieldConverter
      * @param AttributeColumnsResolver   $attributeColumnsResolver ,
      */
     public function __construct(
@@ -45,9 +44,8 @@ class ProductModel implements ArrayConverterInterface
         $this->validateItem($filteredItem);
 
         $mergedFlatProductModel = $this->columnsMerger->merge($filteredItem, $options);
-        $convertedProductModel = $this->convertItem($mergedFlatProductModel);
 
-        return $convertedProductModel;
+        return $this->convertItem($mergedFlatProductModel);
     }
 
     protected function filterFields(array $mappedItem, bool $withAssociations): array

@@ -409,9 +409,7 @@ class JobExecution implements \Stringable
      */
     public function createStepExecution(mixed $stepName)
     {
-        $stepExecution = new StepExecution($stepName, $this);
-
-        return $stepExecution;
+        return new StepExecution($stepName, $this);
     }
 
     /**
@@ -572,7 +570,6 @@ class JobExecution implements \Stringable
 
     /**
      * To string
-     * @return string
      */
     public function __toString(): string
     {
@@ -628,9 +625,6 @@ class JobExecution implements \Stringable
         return $this->jobParameters;
     }
 
-    /**
-     * @return array|null
-     */
     public function getRawParameters(): array
     {
         return $this->rawParameters;

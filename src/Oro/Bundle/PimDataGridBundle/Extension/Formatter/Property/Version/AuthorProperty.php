@@ -22,10 +22,6 @@ class AuthorProperty extends FieldProperty
     /** @var string[] */
     protected $userCachedResults;
 
-    /**
-     * @param TranslatorInterface $translator
-     * @param UserManager         $userManager
-     */
     public function __construct(TranslatorInterface $translator, UserManager $userManager)
     {
         parent::__construct($translator);

@@ -22,14 +22,6 @@ class ProductModelController extends AbstractListCategoryController
     /** @var ProductModelRepositoryInterface */
     protected $productModelRepository;
 
-    /**
-     * @param ProductModelRepositoryInterface       $productModelRepository
-     * @param CategoryRepositoryInterface           $categoryRepository
-     * @param SecurityFacade                        $securityFacade
-     * @param string                                $categoryClass
-     * @param string                                $acl
-     * @param string                                $template
-     */
     public function __construct(
         ProductModelRepositoryInterface $productModelRepository,
         CategoryRepositoryInterface $categoryRepository,

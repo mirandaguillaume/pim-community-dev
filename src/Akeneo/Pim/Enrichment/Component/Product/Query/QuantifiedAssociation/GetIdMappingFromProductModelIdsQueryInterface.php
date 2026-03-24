@@ -17,8 +17,6 @@ interface GetIdMappingFromProductModelIdsQueryInterface
 {
     /**
      * @param int[] $productModelIds
-     *
-     * @return IdMapping
      */
     public function execute(array $productModelIds): IdMapping;
 }

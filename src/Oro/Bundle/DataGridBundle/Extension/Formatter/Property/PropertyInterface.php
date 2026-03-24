@@ -33,7 +33,6 @@ interface PropertyInterface
     /**
      * Initialize property for each cell
      *
-     * @param PropertyConfiguration $params
      *
      * @return $this
      */
@@ -42,7 +41,6 @@ interface PropertyInterface
     /**
      * Get field value from data
      *
-     * @param ResultRecordInterface $record
      *
      * @return mixed
      */

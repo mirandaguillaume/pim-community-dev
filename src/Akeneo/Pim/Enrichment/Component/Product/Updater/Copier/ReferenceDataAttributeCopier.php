@@ -16,12 +16,6 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
  */
 class ReferenceDataAttributeCopier extends AbstractAttributeCopier
 {
-    /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     * @param AttributeValidatorHelper         $attrValidatorHelper
-     * @param array                            $supportedFromTypes
-     * @param array                            $supportedToTypes
-     */
     public function __construct(
         EntityWithValuesBuilderInterface $entityWithValuesBuilder,
         AttributeValidatorHelper $attrValidatorHelper,

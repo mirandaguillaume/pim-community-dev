@@ -172,7 +172,7 @@ class ProductAndProductModelProcessor extends AbstractProcessor
             throw new \InvalidArgumentException('No channel found');
         }
 
-        $normalizerContext = [
+        return [
             'channels'     => [$parameters->get('scope')],
             'locales'      => $parameters->has('selected_locales')
                 ? $parameters->get('selected_locales')
@@ -182,8 +182,6 @@ class ProductAndProductModelProcessor extends AbstractProcessor
                 'pim.transform.product_value.structured.quick_export',
             ],
         ];
-
-        return $normalizerContext;
     }
 
     /**

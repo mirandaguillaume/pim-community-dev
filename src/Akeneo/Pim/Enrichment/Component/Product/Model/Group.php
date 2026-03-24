@@ -210,8 +210,6 @@ class Group implements GroupInterface, \Stringable
 
     /**
      * Returns the label of the group
-     *
-     * @return string
      */
     public function __toString(): string
     {

@@ -54,9 +54,7 @@ class OAuth2 extends BaseOAuth2
     }
 
     /**
-     * @param Request|null $request
      *
-     * @return Response
      *
      * @throws OAuth2ServerException
      */

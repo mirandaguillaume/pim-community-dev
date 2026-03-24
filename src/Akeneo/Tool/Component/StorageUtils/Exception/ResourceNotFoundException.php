@@ -14,7 +14,6 @@ class ResourceNotFoundException extends \RuntimeException
     /**
      * @param string          $objectClassName
      * @param int             $code
-     * @param \Exception|null $previous
      */
     public function __construct($objectClassName, $code = 0, ?\Exception $previous = null)
     {

@@ -43,9 +43,6 @@ class Tag implements TagInterface, \Stringable
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->getCode();

@@ -113,9 +113,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
             $values = $this->filter->filterCollection($values, $filterType, $context);
         }
 
-        $data = $this->normalizer->normalize($values, $format, $context);
-
-        return $data;
+        return $this->normalizer->normalize($values, $format, $context);
     }
 
     private function getParentCode(ProductModelInterface $productModel): ?string

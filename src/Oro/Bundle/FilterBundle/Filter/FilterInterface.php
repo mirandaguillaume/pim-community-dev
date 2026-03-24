@@ -11,7 +11,6 @@ interface FilterInterface
      * Initialize current filter by config
      *
      * @param string $name
-     * @param array  $params
      *
      * @return void
      */
@@ -41,9 +40,7 @@ interface FilterInterface
     /**
      * Applies a filter restrictions to a data source
      *
-     * @param FilterDatasourceAdapterInterface $ds
      * @param mixed        $data
-     *
      * @return bool true if a filter successfully applied; otherwise, false.
      */
     public function apply(FilterDatasourceAdapterInterface $ds, $data);

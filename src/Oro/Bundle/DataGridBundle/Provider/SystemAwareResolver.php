@@ -88,6 +88,7 @@ class SystemAwareResolver
 
         switch (true) {
             case preg_match(self::TWIG_TEMPLATE, $val, $match):
+            default:
                 break;
                 // static call class:method or class::const
             case preg_match(self::PARAMETER_REGEX, $val, $match):
@@ -120,8 +121,6 @@ class SystemAwareResolver
             case preg_match(self::SERVICE, $val, $match):
                 $service = $match[1];
                 $val = $this->container->get($service);
-                break;
-            default:
                 break;
         }
 

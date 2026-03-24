@@ -29,7 +29,7 @@ class UiLocaleProvider implements LocaleProviderInterface
         float $minPercentage,
         protected array $localeCodes
     ) {
-        $this->minPercentage = (float) $minPercentage;
+        $this->minPercentage = $minPercentage;
     }
 
     /**

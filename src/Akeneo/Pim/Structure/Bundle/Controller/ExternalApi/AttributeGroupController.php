@@ -144,9 +144,7 @@ class AttributeGroupController
 
         $this->saver->save($attributeGroup);
 
-        $response = $this->getResponse($attributeGroup, Response::HTTP_CREATED);
-
-        return $response;
+        return $this->getResponse($attributeGroup, Response::HTTP_CREATED);
     }
 
     /**
@@ -177,9 +175,8 @@ class AttributeGroupController
         $this->saver->save($attributeGroup);
 
         $status = $isCreation ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
-        $response = $this->getResponse($attributeGroup, $status);
 
-        return $response;
+        return $this->getResponse($attributeGroup, $status);
     }
 
     /**
@@ -192,9 +189,8 @@ class AttributeGroupController
     public function partialUpdateListAction(Request $request)
     {
         $resource = $request->getContent(true);
-        $response = $this->partialUpdateStreamResource->streamResponse($resource);
 
-        return $response;
+        return $this->partialUpdateStreamResource->streamResponse($resource);
     }
 
     /**

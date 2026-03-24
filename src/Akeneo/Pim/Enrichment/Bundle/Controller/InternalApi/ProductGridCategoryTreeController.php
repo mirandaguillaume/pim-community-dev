@@ -68,7 +68,6 @@ class ProductGridCategoryTreeController
      * If the category selected as filter is a direct child of the category to expand, the tree
      * is expanded until the category selected as filter is found among the children.
      *
-     * @param Request $request
      *
      * @throws AccessDeniedException
      */

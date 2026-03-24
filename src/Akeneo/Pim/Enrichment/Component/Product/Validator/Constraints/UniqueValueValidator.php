@@ -52,7 +52,6 @@ class UniqueValueValidator extends ConstraintValidator
      * The constraint guesser should be re-worked in a future version to avoid such behavior
      *
      * @param ValueInterface|null $value
-     * @param Constraint          $constraint
      *
      * @see \Akeneo\Pim\Enrichment\Component\Product\Validator\ConstraintGuesser\UniqueValueGuesser
      */
@@ -72,19 +71,19 @@ class UniqueValueValidator extends ConstraintValidator
             $root = $this->context->getRoot();
             // during the validation of variant groups, $root is not a product but a product value
             // we don't have to check if the value already exists in this case
-            $valueAlreadyExists = $root instanceof ProductInterface ? $this->alreadyExists(
+            $valueAlreadyExists = $root instanceof ProductInterface && $this->alreadyExists(
                 $value,
                 $root
-            ) : false;
-            $valueAlreadyProcessed = $root instanceof ProductInterface ? $this->hasAlreadyValidatedTheSameValue(
+            );
+            $valueAlreadyProcessed = $root instanceof ProductInterface && $this->hasAlreadyValidatedTheSameValue(
                 $value,
                 $root
-            ) : false;
+            );
 
             if ($valueAlreadyExists || $valueAlreadyProcessed) {
                 $valueData = $value->__toString();
                 $attributeCode = $value->getAttributeCode();
-                if (null !== $valueData && '' !== $valueData) {
+                if ('' !== $valueData) {
                     $this->context->buildViolation(
                         $constraint->message,
                         ['{{ value }}' => $valueData, '{{ attribute_code }}' => $attributeCode]

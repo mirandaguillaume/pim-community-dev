@@ -32,9 +32,7 @@ class ValueCollectionNormalizer implements NormalizerInterface
             $normalizedValues[] = $this->normalizer->normalize($value, $format, $context);
         }
 
-        $result = $normalizedValues === [] ? [] : array_replace_recursive(...$normalizedValues);
-
-        return $result;
+        return $normalizedValues === [] ? [] : array_replace_recursive(...$normalizedValues);
     }
 
     /**

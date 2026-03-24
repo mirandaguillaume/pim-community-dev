@@ -87,9 +87,7 @@ class AttributeController
         private readonly UserContext $userContext,
         LocalizerInterface $numberLocalizer,
         private readonly NormalizerInterface $lightAttributeNormalizer,
-        private readonly TranslatorInterface $translator,
-        private readonly AttributeIsAFamilyVariantAxis $attributeIsAFamilyVariantAxisQuery,
-        private readonly ObjectRepository $channelRepository
+        private readonly TranslatorInterface $translator
     ) {
         $this->attributeRepository = $attributeRepository;
         $this->normalizer = $normalizer;
@@ -110,7 +108,6 @@ class AttributeController
      * TODO This action is only accessible via a GET or POST query, because of too long query URI. To respect standards,
      * a refactor must be done.
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */

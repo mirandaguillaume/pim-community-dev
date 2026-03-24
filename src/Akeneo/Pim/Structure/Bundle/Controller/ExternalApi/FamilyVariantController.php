@@ -150,9 +150,7 @@ class FamilyVariantController
 
         $this->saver->save($familyVariant);
 
-        $response = $this->getResponse($familyVariant, Response::HTTP_CREATED);
-
-        return $response;
+        return $this->getResponse($familyVariant, Response::HTTP_CREATED);
     }
 
     /**
@@ -183,9 +181,8 @@ class FamilyVariantController
         $this->saver->save($familyVariant);
 
         $status = $isCreation ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
-        $response = $this->getResponse($familyVariant, $status);
 
-        return $response;
+        return $this->getResponse($familyVariant, $status);
     }
 
     /**
@@ -198,9 +195,8 @@ class FamilyVariantController
     public function partialUpdateListAction(Request $request, string $familyCode): Response
     {
         $resource = $request->getContent(true);
-        $response = $this->partialUpdateStreamResource->streamResponse($resource, ['familyCode' => $familyCode]);
 
-        return $response;
+        return $this->partialUpdateStreamResource->streamResponse($resource, ['familyCode' => $familyCode]);
     }
 
     /**

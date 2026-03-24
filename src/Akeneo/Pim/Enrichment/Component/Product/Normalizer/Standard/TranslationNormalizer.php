@@ -13,9 +13,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class TranslationNormalizer implements NormalizerInterface
 {
-    /**
-     * @param IdentifiableObjectRepositoryInterface|null $localeRepository
-     */
     public function __construct(private readonly ?IdentifiableObjectRepositoryInterface $localeRepository = null)
     {
     }

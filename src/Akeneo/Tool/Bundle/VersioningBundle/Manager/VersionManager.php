@@ -236,7 +236,6 @@ class VersionManager
     /**
      * Build a pending version
      *
-     * @param Version|null $previousVersion
      * @return Version
      */
     public function buildPendingVersion(Version $pending, ?Version $previousVersion = null)

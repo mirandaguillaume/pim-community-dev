@@ -18,7 +18,6 @@ interface PresenterRegistryInterface
     /**
      * Register a Presenter to the registry
      *
-     * @param PresenterInterface $presenter
      * @param string             $type
      */
     public function register(PresenterInterface $presenter, $type);

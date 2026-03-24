@@ -10,10 +10,9 @@ namespace Akeneo\Pim\Permission\Bundle\Enrichment\Storage\Sql\Category;
 final class GetGrantedCategoryCodes
 {
     /**
-     * @param array<int|string> $groupIds
      * @return string[]
      */
-    public function forGroupIds(array $groupIds): array
+    public function forGroupIds(): array
     {
         return [];
     }

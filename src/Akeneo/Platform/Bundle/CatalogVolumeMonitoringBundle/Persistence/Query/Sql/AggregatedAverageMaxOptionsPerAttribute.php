@@ -39,8 +39,6 @@ class AggregatedAverageMaxOptionsPerAttribute implements AverageMaxQuery
         $maxValue = isset($sqlResult['max']) ? (int) $sqlResult['max'] : 0;
         $averageValue = isset($sqlResult['average']) ? (int) $sqlResult['average'] : 0;
 
-        $volume = new AverageMaxVolumes($maxValue, $averageValue, self::VOLUME_NAME);
-
-        return $volume;
+        return new AverageMaxVolumes($maxValue, $averageValue, self::VOLUME_NAME);
     }
 }

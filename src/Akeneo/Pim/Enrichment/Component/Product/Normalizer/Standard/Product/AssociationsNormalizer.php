@@ -35,9 +35,8 @@ class AssociationsNormalizer implements NormalizerInterface
     {
         $ancestorProducts = $this->getAncestorProducts($associationAwareEntity);
         $withUuid = $context['with_association_uuids'] ?? true;
-        $data = $this->normalizeAssociations($ancestorProducts, $withUuid);
 
-        return $data;
+        return $this->normalizeAssociations($ancestorProducts, $withUuid);
     }
 
     /**

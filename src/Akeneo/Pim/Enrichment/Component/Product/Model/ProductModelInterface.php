@@ -27,8 +27,6 @@ interface ProductModelInterface extends
 {
     /**
      * Gets the ID of the product model.
-     *
-     * @return int|null
      */
     public function getId(): ?int;
 
@@ -41,43 +39,33 @@ interface ProductModelInterface extends
 
     /**
      * Sets the product model identifier.
-     *
-     * @param string $code
      */
     public function setCode(string $code): ProductModelInterface;
 
     /**
      * Gets the products of the product model.
-     *
-     * @return Collection
      */
     public function getProducts(): Collection;
 
     /**
      * Adds an product to the product model.
      *
-     * @param ProductInterface $product
      *
      * @throws \LogicException
      *
-     * @return ProductModelInterface
      */
     public function addProduct(ProductInterface $product): ProductModelInterface;
 
     /**
      * Removes an product from the product model.
      *
-     * @param ProductInterface $product
      *
-     * @return ProductModelInterface
      */
     public function removeProduct(ProductInterface $product): ProductModelInterface;
 
     /**
      * If a node is a tree root, it's the tree starting point and therefore
      * defines the tree itself.
-     *
-     * @return bool
      */
     public function isRoot(): bool;
 
@@ -85,54 +73,38 @@ interface ProductModelInterface extends
     /**
      * Adds a child product model to this product model.
      *
-     * @param ProductModelInterface $productModel
      *
-     * @return ProductModelInterface
      */
     public function addProductModel(ProductModelInterface $productModel): ProductModelInterface;
 
     /**
      * Removes a child product model from this product model.
      *
-     * @param ProductModelInterface $productModel
      *
-     * @return ProductModelInterface
      */
     public function removeProductModel(ProductModelInterface $productModel): ProductModelInterface;
 
     /**
      * Predicates to know if this product model has children product models.
-     *
-     * @return bool
      */
     public function hasProductModels(): bool;
 
     /**
      * Gets the children product model of this product model.
-     *
-     * @return Collection
      */
     public function getProductModels(): Collection;
 
-    /**
-     * @return bool
-     */
     public function isRootProductModel(): bool;
 
     /**
      * Get product model label
      *
-     * @param string|null $localeCode
-     * @param string|null $scopeCode
      *
-     * @return string
      */
     public function getLabel(?string $localeCode = null, ?string $scopeCode = null): string;
 
     /**
      * Get product model image
-     *
-     * @return ValueInterface|null
      */
     public function getImage(): ?ValueInterface;
 

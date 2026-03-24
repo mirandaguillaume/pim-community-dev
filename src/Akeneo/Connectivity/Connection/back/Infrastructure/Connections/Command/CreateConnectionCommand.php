@@ -71,8 +71,7 @@ class CreateConnectionCommand extends Command
                 'user-group',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'If you want the connection to be added to a user group.',
-                null
+                'If you want the connection to be added to a user group.'
             );
     }
 

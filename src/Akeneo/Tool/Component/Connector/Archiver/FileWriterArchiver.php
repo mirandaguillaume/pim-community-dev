@@ -36,8 +36,6 @@ class FileWriterArchiver extends AbstractFilesystemArchiver
 
     /**
      * Archive files used by job execution (input / output)
-     *
-     * @param StepExecution $stepExecution
      */
     public function archive(StepExecution $stepExecution): void
     {

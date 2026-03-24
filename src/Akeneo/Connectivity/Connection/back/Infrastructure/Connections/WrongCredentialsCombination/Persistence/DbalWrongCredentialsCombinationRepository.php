@@ -56,7 +56,7 @@ class DbalWrongCredentialsCombinationRepository implements WrongCredentialsCombi
             ['since' => $since->format('Y-m-d')]
         )->fetchAllAssociative();
 
-        if (null !== $results && $results !== []) {
+        if ($results !== []) {
             \array_walk($results, function (array &$combinations): void {
                 $combinations['users'] = \json_decode((string) $combinations['users'], true, 512, JSON_THROW_ON_ERROR);
             });

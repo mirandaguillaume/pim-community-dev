@@ -89,12 +89,7 @@ class FlatFileIterator implements FileIteratorInterface
 
             return null;
         }
-
-        if ($data instanceof Row) {
-            return $data->toArray();
-        }
-
-        return $data;
+        return $data->toArray();
     }
 
     /**

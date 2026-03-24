@@ -12,7 +12,6 @@ interface ExtensionVisitorInterface
     /**
      * Checks if extensions should be applied to grid
      *
-     * @param DatagridConfiguration $config
      *
      * @return bool
      */
@@ -22,7 +21,6 @@ interface ExtensionVisitorInterface
      * Process configuration object
      * Validation and passing default values goes here
      *
-     * @param DatagridConfiguration $config
      *
      * @return void
      */
@@ -31,8 +29,6 @@ interface ExtensionVisitorInterface
     /**
      * Apply changes provided by applied extensions on datasource
      *
-     * @param DatagridConfiguration $config
-     * @param DatasourceInterface   $datasource
      *
      * @return mixed
      */
@@ -41,8 +37,6 @@ interface ExtensionVisitorInterface
     /**
      * Apply changes provided by applied extensions on result data
      *
-     * @param DatagridConfiguration $config
-     * @param ResultsIterableObject         $result
      *
      * @return mixed
      */
@@ -51,8 +45,6 @@ interface ExtensionVisitorInterface
     /**
      * Apply changes provided by applied extensions on metadata
      *
-     * @param DatagridConfiguration $config
-     * @param MetadataIterableObject        $data
      *
      * @return mixed
      */

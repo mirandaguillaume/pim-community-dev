@@ -72,9 +72,7 @@ class AclGroupsExtension extends AbstractExtension
             }
         }
 
-        $config = $this->filterGroupsDisabledByFeatureFlag($config);
-
-        return $config;
+        return $this->filterGroupsDisabledByFeatureFlag($config);
     }
 
     /**
@@ -88,9 +86,8 @@ class AclGroupsExtension extends AbstractExtension
     protected function getSortedGroups($config)
     {
         $groups = $this->getGroups($config);
-        $groups = $this->sortGroups($groups);
 
-        return $groups;
+        return $this->sortGroups($groups);
     }
 
     /**

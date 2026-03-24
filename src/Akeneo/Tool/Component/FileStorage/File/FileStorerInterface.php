@@ -33,8 +33,6 @@ interface FileStorerInterface
      * @throws InvalidFile
      * @throws \Exception
      * @throws FileAlreadyExistsException
-     *
-     * @return FileInfoInterface
      */
     public function store(\SplFileInfo $rawFile, string $destFsAlias, bool $deleteRawFile = false): FileInfoInterface;
 }

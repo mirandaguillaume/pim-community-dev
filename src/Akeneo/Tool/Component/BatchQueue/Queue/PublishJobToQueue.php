@@ -97,8 +97,7 @@ class PublishJobToQueue implements PublishJobToQueueInterface
                 $violationMessages = array_reduce(
                     iterator_to_array($violations),
                     function (string $message, ConstraintViolationInterface $violation) {
-                        $message .= sprintf("\n  - %s", $violation->getMessage());
-                        return $message;
+                        return $message . sprintf("\n  - %s", $violation->getMessage());
                     },
                     '',
                 );

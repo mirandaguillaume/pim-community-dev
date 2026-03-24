@@ -29,7 +29,6 @@ class CurrencyValidator extends ConstraintValidator
      * Validate currency of a price
      *
      * @param mixed      $object
-     * @param Constraint $constraint
      */
     public function validate($object, Constraint $constraint): void
     {

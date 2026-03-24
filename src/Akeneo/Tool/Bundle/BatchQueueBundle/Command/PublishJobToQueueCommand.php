@@ -115,9 +115,8 @@ class PublishJobToQueueCommand extends Command
         $config = $input->getOption('config') ? $this->decodeConfiguration($input->getOption('config')) : [];
 
         $rawParameters = array_merge($rawParameters, $config);
-        $jobParameters = $this->jobParametersFactory->create($job, $rawParameters);
 
-        return $jobParameters;
+        return $this->jobParametersFactory->create($job, $rawParameters);
     }
 
     /**

@@ -16,7 +16,6 @@ use Oro\Bundle\PimDataGridBundle\Doctrine\ORM\Repository\DatagridRepositoryInter
 class ClientRepository extends EntityRepository implements DatagridRepositoryInterface
 {
     /**
-     * @param EntityManager $em
      * @param string        $class
      */
     public function __construct(EntityManager $em, $class)

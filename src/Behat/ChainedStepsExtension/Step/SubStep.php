@@ -29,7 +29,6 @@ abstract class SubStep extends StepNode
      *
      * @param string $type
      * @param string $text
-     * @param array  $arguments
      */
     public function __construct($text, array $arguments)
     {

@@ -10,7 +10,6 @@ interface QueryConverterInterface
      * Parses a YAML string to a QueryBuilder object.
      *
      * @param  string|array $value A YAML string or structured associative array
-     * @param  QueryBuilder $qb
      *
      * @return QueryBuilder
      */
@@ -19,7 +18,6 @@ interface QueryConverterInterface
     /**
      * Dumps a QueryBuilder object to YAML.
      *
-     * @param  QueryBuilder $input
      *
      * @return string       The YAML representation of the PHP value
      */

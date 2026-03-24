@@ -114,9 +114,7 @@ class ProductModelController
         $this->validateProductModel($productModel);
         $this->saver->save($productModel);
 
-        $response = $this->getResponse($productModel, Response::HTTP_CREATED);
-
-        return $response;
+        return $this->getResponse($productModel, Response::HTTP_CREATED);
     }
 
     /**
@@ -153,9 +151,8 @@ class ProductModelController
         $this->saver->save($productModel);
 
         $status = $isCreation ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
-        $response = $this->getResponse($productModel, $status);
 
-        return $response;
+        return $this->getResponse($productModel, $status);
     }
 
     /**
@@ -220,14 +217,14 @@ class ProductModelController
                 throw new UnprocessableEntityHttpException('Search query parameter should be valid JSON.');
             }
         }
-        $query->channelCode = $request->query->get('scope', null);
+        $query->channelCode = $request->query->get('scope');
         $query->limit = $request->query->get('limit', $this->apiConfiguration['pagination']['limit_by_default']);
         $query->paginationType = $request->query->get('pagination_type', PaginationTypes::OFFSET);
-        $query->searchLocaleCode = $request->query->get('search_locale', null);
+        $query->searchLocaleCode = $request->query->get('search_locale');
         $query->withCount = $request->query->get('with_count', 'false');
         $query->page = $request->query->get('page', 1);
-        $query->searchChannelCode = $request->query->get('search_scope', null);
-        $query->searchAfter = $request->query->get('search_after', null);
+        $query->searchChannelCode = $request->query->get('search_scope');
+        $query->searchAfter = $request->query->get('search_after');
         $query->userId = $user->getId();
         $query->withQualityScores = $request->query->getAlpha('with_quality_scores', 'false');
 
@@ -274,7 +271,8 @@ class ProductModelController
         $this->warmupQueryCache->fromRequest($request);
         $resource = $request->getContent(true);
         $this->apiAggregatorForProductModelPostSave->activate();
-        $response = $this->partialUpdateStreamResource->streamResponse($resource, [], function () {
+
+        return $this->partialUpdateStreamResource->streamResponse($resource, [], function () {
             try {
                 $this->apiAggregatorForProductModelPostSave->dispatchAllEvents();
             } catch (\Throwable $exception) {
@@ -284,8 +282,6 @@ class ProductModelController
             }
             $this->apiAggregatorForProductModelPostSave->deactivate();
         });
-
-        return $response;
     }
 
     protected function getNormalizerOptions(ListProductModelsQuery $query): array

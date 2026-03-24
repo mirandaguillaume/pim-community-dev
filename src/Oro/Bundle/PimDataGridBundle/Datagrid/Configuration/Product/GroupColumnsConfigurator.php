@@ -27,12 +27,6 @@ class GroupColumnsConfigurator extends ColumnsConfigurator
     /** @var RequestParameters */
     protected $requestParams;
 
-    /**
-     * @param ConfigurationRegistry    $registry
-     * @param RequestParameters        $requestParams
-     * @param GroupRepositoryInterface $groupRepository
-     * @param RequestStack             $requestStack
-     */
     public function __construct(
         ConfigurationRegistry $registry,
         RequestParameters $requestParams,
@@ -73,9 +67,7 @@ class GroupColumnsConfigurator extends ColumnsConfigurator
             $groupId = $this->requestParams->get('currentGroup', null);
         }
 
-        $group = $this->groupRepository->find($groupId);
-
-        return $group;
+        return $this->groupRepository->find($groupId);
     }
 
     /**

@@ -17,8 +17,6 @@ interface LocalizerRegistryInterface
 {
     /**
      * Register a localizer
-     *
-     * @param LocalizerInterface $localizer
      */
     public function register(LocalizerInterface $localizer);
 

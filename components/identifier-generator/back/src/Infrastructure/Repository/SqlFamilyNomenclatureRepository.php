@@ -184,7 +184,6 @@ SQL;
     }
 
     /**
-     * @return NomenclatureDefinition|null
      * @throws Exception
      */
     private function getNomenclatureDefinition(): ?NomenclatureDefinition

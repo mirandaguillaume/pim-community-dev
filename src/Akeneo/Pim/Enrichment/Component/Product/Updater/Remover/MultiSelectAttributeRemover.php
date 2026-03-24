@@ -21,8 +21,6 @@ class MultiSelectAttributeRemover extends AbstractAttributeRemover
     protected $entityWithValuesBuilder;
 
     /**
-     * @param AttributeValidatorHelper         $attrValidatorHelper
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
      * @param string[]                         $supportedTypes
      */
     public function __construct(
@@ -97,7 +95,7 @@ class MultiSelectAttributeRemover extends AbstractAttributeRemover
             );
         }
 
-        foreach ($data as $key => $value) {
+        foreach ($data as $value) {
             if (!is_string($value)) {
                 throw InvalidPropertyTypeException::validArrayStructureExpected(
                     $attribute->getCode(),

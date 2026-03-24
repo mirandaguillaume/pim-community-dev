@@ -19,7 +19,6 @@ class ValidDateRangeValidator extends ConstraintValidator
      * Validate the date range
      *
      * @param mixed      $entity
-     * @param Constraint $constraint
      *
      * @throws \Exception
      */

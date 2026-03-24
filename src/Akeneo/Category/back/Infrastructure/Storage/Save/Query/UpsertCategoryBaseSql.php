@@ -10,8 +10,8 @@ use Akeneo\Category\Domain\Model\Enrichment\Category;
 use Akeneo\Category\Domain\Query\GetCategoryInterface;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Types\Types;
 use Webmozart\Assert\Assert;
 
 /**
@@ -142,11 +142,9 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
             return null;
         }
 
-        $attributeValues = array_filter(
+        return array_filter(
             $valueCollection->normalize(),
             fn (array $attributeValue) => null !== $attributeValue['data'],
         );
-
-        return $attributeValues;
     }
 }

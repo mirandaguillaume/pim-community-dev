@@ -22,11 +22,6 @@ class PriceCollectionAttributeAdder extends AbstractAttributeAdder
     /** @var NormalizerInterface */
     protected $normalizer;
 
-    /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     * @param NormalizerInterface              $normalizer
-     * @param array                            $supportedTypes
-     */
     public function __construct(
         EntityWithValuesBuilderInterface $entityWithValuesBuilder,
         NormalizerInterface $normalizer,
@@ -100,8 +95,6 @@ class PriceCollectionAttributeAdder extends AbstractAttributeAdder
      * Validation will also be performed by the factory (array correctly
      * formatted, locale, scope...).
      *
-     * @param PriceCollectionInterface $previousPrices
-     * @param array                    $newPrices
      *
      * @return array
      */

@@ -389,7 +389,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     public function removeProduct(ProductInterface $product): ProductModelInterface
     {
         if (true === $this->products->removeElement($product)) {
-            $product->setParent(null);
+            $product->setParent();
         }
 
         return $this;
@@ -443,7 +443,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     public function removeProductModel(ProductModelInterface $children): ProductModelInterface
     {
         if (true === $this->productModels->removeElement($children)) {
-            $children->setParent(null);
+            $children->setParent();
         }
 
         return $this;
@@ -473,9 +473,6 @@ class ProductModel implements ProductModelInterface, \Stringable
         return $this->familyVariant;
     }
 
-    /**
-     * @param FamilyVariantInterface $familyVariant
-     */
     public function setFamilyVariant(FamilyVariantInterface $familyVariant): void
     {
         $formerFamilyVariantCode = $this->familyVariant instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface ? $this->familyVariant->getCode() : null;
@@ -708,12 +705,9 @@ class ProductModel implements ProductModelInterface, \Stringable
         }
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
-        return (string) $this->getLabel();
+        return $this->getLabel();
     }
 
     /**

@@ -79,12 +79,6 @@ parameters:
 			path: ../Application/Command/UpdateTemplateCommand/UpdateTemplateCommandHandler.php
 
 		-
-			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../Application/Converter/Checker/FieldsRequirementChecker.php
-
-		-
 			message: '#^Parameter \#2 \$categoryId of method Akeneo\\Category\\Domain\\UserIntent\\UserIntentFactoryRegistry\:\:fromStandardFormatField\(\) expects int, mixed given\.$#'
 			identifier: argument.type
 			count: 1

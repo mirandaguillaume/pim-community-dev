@@ -63,13 +63,11 @@ final readonly class GetProductQuantifiedAssociationsByProductUuids
 
         $uuidsAsBytes = array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
-        $rows = $this->connection->executeQuery(
+        return $this->connection->executeQuery(
             $query,
             ['productUuids' => $uuidsAsBytes],
             ['productUuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
-
-        return $rows;
     }
 
     private function hydrateQuantifiedAssociations($rows): array

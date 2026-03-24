@@ -32,20 +32,16 @@ interface EntityWithAssociationsInterface
     /**
      * Add a type of an association
      *
-     * @param AssociationInterface $association
      *
      * @throws \LogicException
      *
-     * @return EntityWithAssociationsInterface
      */
     public function addAssociation(AssociationInterface $association): EntityWithAssociationsInterface;
 
     /**
      * Remove a type of an association
      *
-     * @param AssociationInterface $association
      *
-     * @return EntityWithAssociationsInterface
      */
     public function removeAssociation(AssociationInterface $association): EntityWithAssociationsInterface;
 

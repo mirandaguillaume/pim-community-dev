@@ -43,7 +43,7 @@ class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, 
 
             return $this->symfonyTranslator->trans($id, $parameters, $domain, $locale);
         } catch (\Exception) {
-            return (string) $id . ': ' . (string) $number;
+            return $id . ': ' . $number;
         }
     }
 

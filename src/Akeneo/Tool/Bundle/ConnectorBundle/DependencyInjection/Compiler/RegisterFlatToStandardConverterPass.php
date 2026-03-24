@@ -51,7 +51,7 @@ class RegisterFlatToStandardConverterPass implements CompilerPassInterface
 
         ksort($services);
 
-        foreach ($services as $priority => $serviceIds) {
+        foreach ($services as $serviceIds) {
             foreach ($serviceIds as $serviceId) {
                 $registry->addMethodCall('register', [new Reference($serviceId)]);
             }

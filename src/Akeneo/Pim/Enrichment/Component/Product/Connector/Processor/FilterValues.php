@@ -52,8 +52,6 @@ final readonly class FilterValues
             $values = array_values($values);
         }
 
-        $standardFormatValues = array_filter($standardFormatValues, fn ($value): bool => [] !== $value);
-
-        return $standardFormatValues;
+        return array_filter($standardFormatValues, fn ($value): bool => [] !== $value);
     }
 }

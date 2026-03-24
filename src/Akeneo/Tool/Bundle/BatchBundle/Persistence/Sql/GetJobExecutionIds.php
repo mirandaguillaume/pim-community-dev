@@ -8,9 +8,9 @@ use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use DateTime;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\DBAL\ParameterType;
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 

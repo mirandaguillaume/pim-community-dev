@@ -57,8 +57,6 @@ class ProductNormalizer implements NormalizerInterface
      *
      * We index all attribute codes to be able to search products on attributes with operators like "is empty".
      * At the end, we sort to reindex attributes correctly (if index keys are not sorted correctly, ES will throw an exception)
-     *
-     * @param ProductInterface $product
      */
     private function getAttributeCodesOfAncestors(ProductInterface $product): array
     {
@@ -98,8 +96,6 @@ class ProductNormalizer implements NormalizerInterface
      *
      * We index all attribute codes to be able to search products on attributes with operators like "is empty".
      * At the end, we sort to reindex attributes correctly (if index keys are not sorted correctly, ES will throw an exception)
-     *
-     * @param ProductInterface $product
      */
     private function getAttributeCodesForOwnLevel(ProductInterface $product): array
     {

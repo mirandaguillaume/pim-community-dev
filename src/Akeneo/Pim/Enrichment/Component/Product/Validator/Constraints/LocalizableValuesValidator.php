@@ -22,7 +22,6 @@ final class LocalizableValuesValidator extends ConstraintValidator
 
     /**
      * @param object     $values
-     * @param Constraint $constraint
      */
     public function validate($values, Constraint $constraint)
     {

@@ -60,13 +60,11 @@ final readonly class GetProductModelQuantifiedAssociationsByProductModelCodes
             ;
             SQL;
 
-        $rows = $this->connection->executeQuery(
+        return $this->connection->executeQuery(
             $query,
             ['productModelCodes' => $productModelCodes],
             ['productModelCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
-
-        return $rows;
     }
 
     private function hydrateQuantifiedAssociations($rows): array

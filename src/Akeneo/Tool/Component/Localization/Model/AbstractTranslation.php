@@ -61,8 +61,6 @@ abstract class AbstractTranslation
     /**
      * Set foreignKey
      *
-     *
-     * @return AbstractTranslation
      */
     public function setForeignKey(mixed $foreignKey): self
     {

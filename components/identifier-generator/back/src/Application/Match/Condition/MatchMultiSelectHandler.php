@@ -29,8 +29,8 @@ final class MatchMultiSelectHandler implements MatchConditionHandler
         }
 
         return match ($condition->operator()) {
-            'IN' => null !== $value && [] !== \array_intersect((array) $value, (array) $condition->value()),
-            'NOT IN' => null !== $value && [] === \array_intersect((array) $value, (array) $condition->value()),
+            'IN' => null !== $value && [] !== \array_intersect($value, (array) $condition->value()),
+            'NOT IN' => null !== $value && [] === \array_intersect($value, (array) $condition->value()),
             'EMPTY' => null === $value,
             'NOT EMPTY' => null !== $value
         };

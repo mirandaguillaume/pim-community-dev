@@ -44,9 +44,8 @@ class GroupNormalizer implements NormalizerInterface
         $flatGroup = $standardGroup;
 
         unset($flatGroup['labels']);
-        $flatGroup += $this->translationNormalizer->normalize($standardGroup['labels'], 'flat', $context);
 
-        return $flatGroup;
+        return $flatGroup + $this->translationNormalizer->normalize($standardGroup['labels'], 'flat', $context);
     }
 
     /**

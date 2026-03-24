@@ -8,8 +8,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\Product;
 use Akeneo\Platform\Installer\Infrastructure\Command\ZddMigration;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Schema\Column;
 use Psr\Log\LoggerInterface;
 
 /**

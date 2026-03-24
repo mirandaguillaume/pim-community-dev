@@ -43,8 +43,7 @@ class LocaleController
     private function getActivated(bool $filterLocales): mixed
     {
         $locales = $this->localeRepository->getActivatedLocales();
-        $filteredLocales = $filterLocales ? $this->collectionFilter->filterCollection($locales, 'pim.internal_api.locale.view') : $locales;
 
-        return $filteredLocales;
+        return $filterLocales ? $this->collectionFilter->filterCollection($locales, 'pim.internal_api.locale.view') : $locales;
     }
 }

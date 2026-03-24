@@ -31,8 +31,6 @@ class FindNonExistingProductModelCodesQuery implements FindNonExistingProductMod
             ['product_model_codes' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
-        $nonExistingProductModelCodes = array_values(array_diff($productModelCodes, $results));
-
-        return $nonExistingProductModelCodes;
+        return array_values(array_diff($productModelCodes, $results));
     }
 }

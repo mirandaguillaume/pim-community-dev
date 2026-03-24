@@ -27,9 +27,7 @@ class ValueNormalizer implements NormalizerInterface
      */
     public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
-        $stdProductValue = $this->standardNormalizer->normalize($entity, 'standard', $context);
-
-        return $stdProductValue;
+        return $this->standardNormalizer->normalize($entity, 'standard', $context);
     }
 
     /**

@@ -72,7 +72,6 @@ class FilteredProductReader implements
      */
     public function read(): ?ProductInterface
     {
-        $product = null;
         $product = $this->getNextProduct();
 
         if ($product instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface) {
@@ -130,10 +129,6 @@ class FilteredProductReader implements
         return array_filter($filters, fn ($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
     }
 
-    /**
-     * @param ChannelInterface|null $channel
-     *
-     */
     private function getProductsCursor(array $filters, ?ChannelInterface $channel = null): CursorInterface
     {
         $filters[] = [

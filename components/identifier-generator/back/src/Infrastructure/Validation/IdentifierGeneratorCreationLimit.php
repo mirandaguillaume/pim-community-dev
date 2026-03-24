@@ -23,7 +23,7 @@ final class IdentifierGeneratorCreationLimit extends Constraint
         parent::__construct($options, $groups, $payload);
     }
 
-    public function getDefaultOption(): ?string
+    public function getDefaultOption(): string
     {
         return 'limit';
     }

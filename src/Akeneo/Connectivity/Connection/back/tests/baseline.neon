@@ -1344,12 +1344,6 @@ parameters:
 			path: ../Infrastructure/Connections/WrongCredentialsCombination/Persistence/DbalWrongCredentialsCombinationRepository.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between null and list\<array\<string, mixed\>\> will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: ../Infrastructure/Connections/WrongCredentialsCombination/Persistence/DbalWrongCredentialsCombinationRepository.php
-
-		-
 			message: '#^Cannot cast mixed to string\.$#'
 			identifier: cast.string
 			count: 3
@@ -1640,12 +1634,6 @@ parameters:
 		-
 			message: '#^Strict comparison using \!\=\= between false and string will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: ../Infrastructure/Service/RandomCodeGenerator.php
-
-		-
-			message: '#^Variable \$randomData might not be defined\.$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../Infrastructure/Service/RandomCodeGenerator.php
 

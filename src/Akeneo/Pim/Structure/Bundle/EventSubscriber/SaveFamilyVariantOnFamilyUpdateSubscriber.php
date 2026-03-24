@@ -76,8 +76,6 @@ class SaveFamilyVariantOnFamilyUpdateSubscriber
      *
      * The update of the product models and variant products should be done in a dedicated component such as an import
      * step.
-     *
-     * @param GenericEvent $event
      */
     public function onBulkSave(GenericEvent $event): void
     {

@@ -15,14 +15,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class TypeProperty extends FieldProperty
 {
     /**
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(TranslatorInterface $translator)
-    {
-        parent::__construct($translator);
-    }
-
-    /**
      * {@inheritdoc}
      */
     #[\Override]

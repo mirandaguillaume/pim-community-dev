@@ -29,7 +29,8 @@ final readonly class GetDescendentCategoryCodes
                         AND category.rgt < :parent_category_right
                         AND category.root = :parent_category_root;
             SQL;
-        $rows = $this->connection->executeQuery(
+
+        return $this->connection->executeQuery(
             $sql,
             [
                 'parent_category_left'  => $parentCategory->getLeft(),
@@ -37,7 +38,5 @@ final readonly class GetDescendentCategoryCodes
                 'parent_category_root'  => $parentCategory->getRoot(),
             ]
         )->fetchFirstColumn();
-
-        return $rows;
     }
 }

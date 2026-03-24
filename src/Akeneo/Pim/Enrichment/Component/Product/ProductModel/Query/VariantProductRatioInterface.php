@@ -15,8 +15,5 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
  */
 interface VariantProductRatioInterface
 {
-    /**
-     * @return CompleteVariantProducts
-     */
     public function findComplete(ProductModelInterface $productModel): CompleteVariantProducts;
 }

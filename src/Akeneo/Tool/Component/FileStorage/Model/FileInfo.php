@@ -238,9 +238,6 @@ class FileInfo implements FileInfoInterface, \Stringable
         return $this->removed;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->getOriginalFilename();

@@ -21,8 +21,6 @@ interface AttributeRemoverInterface extends RemoverInterface
      * @param AttributeInterface        $attribute        The attribute of the entity to modify
      * @param mixed                     $data             The data to remove
      * @param array                     $options          Options passed to the remover
-     *
-     * @return void
      */
     public function removeAttributeData(
         EntityWithValuesInterface $entityWithValues,

@@ -31,7 +31,7 @@ class Controller
     public function indexAction(Request $request, $_locale)
     {
         $domains = $this->options['domains'] ?? [];
-        $debug = isset($this->options['debug']) ? (bool) $this->options['debug'] : false;
+        $debug = isset($this->options['debug']) && (bool) $this->options['debug'];
 
         $content = $this->renderJsTranslationContent($domains, $_locale, $debug);
 

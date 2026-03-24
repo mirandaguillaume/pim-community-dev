@@ -26,9 +26,8 @@ class Manager implements ManagerInterface
         // prepare for work with current grid
         $this->requestParameters->setRootParameter($name);
         $config = $this->getConfigurationForGrid($name);
-        $datagrid = $this->datagridBuilder->build($config);
 
-        return $datagrid;
+        return $this->datagridBuilder->build($config);
     }
 
     /**

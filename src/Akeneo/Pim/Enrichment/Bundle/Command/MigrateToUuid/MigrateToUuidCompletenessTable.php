@@ -51,12 +51,11 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
     {
         return $this->getMissingForeignUuidCount(
             'pim_catalog_completeness',
-            'product_uuid',
-            'product_id'
+            'product_uuid'
         );
     }
 
-    private function getMissingForeignUuidCount(string $tableName, string $uuidColumnName, string $idColumnName): int
+    private function getMissingForeignUuidCount(string $tableName, string $uuidColumnName): int
     {
         if (!$this->tableExists($tableName)) {
             return 0;
@@ -72,7 +71,7 @@ final class MigrateToUuidCompletenessTable implements MigrateToUuidStep
             return true;
         }
 
-        if ($this->getMissingForeignUuidCount('pim_catalog_completeness', 'product_uuid', '') === 0) {
+        if ($this->getMissingForeignUuidCount('pim_catalog_completeness', 'product_uuid') === 0) {
             return true;
         }
 

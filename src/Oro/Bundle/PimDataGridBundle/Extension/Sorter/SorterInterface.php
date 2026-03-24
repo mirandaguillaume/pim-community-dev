@@ -16,7 +16,6 @@ interface SorterInterface
     /**
      * Apply a custom order by on the datasource
      *
-     * @param DatasourceInterface $datasource
      * @param string              $field
      * @param string              $direction
      */

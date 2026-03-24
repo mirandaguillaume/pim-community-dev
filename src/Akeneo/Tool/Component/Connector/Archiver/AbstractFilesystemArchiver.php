@@ -66,8 +66,6 @@ abstract class AbstractFilesystemArchiver implements ArchiverInterface
     /**
      * Get the relative archive path in the file system
      *
-     *
-     * @return string
      */
     protected function getRelativeArchivePath(JobExecution $jobExecution): string
     {

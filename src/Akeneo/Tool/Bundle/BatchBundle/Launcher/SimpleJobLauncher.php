@@ -102,8 +102,6 @@ class SimpleJobLauncher implements JobLauncherInterface
      * when executed from HTTP request that stop fast (race condition that makes
      * the process cloning fail when the parent process, i.e. HTTP request, stops
      * at the same time)
-     *
-     * @param string $cmd
      */
     protected function launchInBackground(string $cmd): void
     {

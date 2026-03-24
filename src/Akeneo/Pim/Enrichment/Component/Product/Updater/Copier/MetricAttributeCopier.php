@@ -20,13 +20,6 @@ class MetricAttributeCopier extends AbstractAttributeCopier
     /** @var NormalizerInterface */
     protected $normalizer;
 
-    /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     * @param AttributeValidatorHelper         $attrValidatorHelper
-     * @param NormalizerInterface              $normalizer
-     * @param array                            $supportedFromTypes
-     * @param array                            $supportedToTypes
-     */
     public function __construct(
         EntityWithValuesBuilderInterface $entityWithValuesBuilder,
         AttributeValidatorHelper $attrValidatorHelper,

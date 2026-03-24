@@ -184,8 +184,7 @@ class ValueNormalizer implements NormalizerInterface, NormalizerAwareInterface
                 return (int) ($sort !== 0 ?? $first->getCode() - $second->getCode());
             }
         );
-        $sortedCollection = new ArrayCollection($options);
 
-        return $sortedCollection;
+        return new ArrayCollection($options);
     }
 }

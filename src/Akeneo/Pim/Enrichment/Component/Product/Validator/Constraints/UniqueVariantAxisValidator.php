@@ -111,7 +111,6 @@ class UniqueVariantAxisValidator extends ConstraintValidator
      *
      * This means "$uniqueAxesCombinationSet" has to be stateful.
      *
-     * @param EntityWithFamilyVariantInterface                           $entity
      * @param AttributeInterface[] $axes
      */
     private function validateValueWasNotAlreadyValidated(EntityWithFamilyVariantInterface $entity, array $axes): void
@@ -151,7 +150,6 @@ class UniqueVariantAxisValidator extends ConstraintValidator
      *       This implies to remove "Akeneo\Pim\Enrichment\Component\Product\EntityWithFamilyVariant\EntityWithFamilyVariantAttributesProvider"
      *       and merge its code in the product, published product and product model.
      *
-     * @param WriteValueCollection $values
      * @param AttributeInterface[] $axes
      */
     private function getCombinationOfAxisValues(WriteValueCollection $values, array $axes): string

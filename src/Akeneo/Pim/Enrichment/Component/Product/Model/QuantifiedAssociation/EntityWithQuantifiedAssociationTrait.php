@@ -96,7 +96,7 @@ trait EntityWithQuantifiedAssociationTrait
         }
 
         $result = [];
-        foreach ($this->rawQuantifiedAssociations as $associationType => $associations) {
+        foreach ($this->rawQuantifiedAssociations as $associations) {
             foreach ($associations['products'] as $productAssociation) {
                 $result[] = $productAssociation['id'];
             }
@@ -115,7 +115,7 @@ trait EntityWithQuantifiedAssociationTrait
         }
 
         $result = [];
-        foreach ($this->rawQuantifiedAssociations as $associationType => $associations) {
+        foreach ($this->rawQuantifiedAssociations as $associations) {
             foreach ($associations['product_models'] as $productModelAssociation) {
                 $result[] = $productModelAssociation['id'];
             }

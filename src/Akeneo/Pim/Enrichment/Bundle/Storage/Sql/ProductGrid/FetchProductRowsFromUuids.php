@@ -13,9 +13,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductCompletenesses;
 use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -36,8 +36,6 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
     /**
      * @param array<string> $uuids
      * @param array<string> $attributeCodes
-     * @param string $channelCode
-     * @param string $localeCode
      *
      * @return ReadModel\Row[]
      */

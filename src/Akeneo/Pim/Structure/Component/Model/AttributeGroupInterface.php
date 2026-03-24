@@ -106,7 +106,6 @@ interface AttributeGroupInterface extends
     /**
      * Add attributes
      *
-     * @param AttributeInterface $attribute
      *
      * @return AttributeGroupInterface
      */
@@ -115,7 +114,6 @@ interface AttributeGroupInterface extends
     /**
      * Remove attributes
      *
-     * @param AttributeInterface $attribute
      *
      * @return AttributeGroupInterface
      */
@@ -131,7 +129,6 @@ interface AttributeGroupInterface extends
     /**
      * Check if the group has an attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return bool
      */

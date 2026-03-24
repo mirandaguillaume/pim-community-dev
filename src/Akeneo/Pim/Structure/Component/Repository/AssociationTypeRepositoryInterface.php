@@ -26,8 +26,6 @@ interface AssociationTypeRepositoryInterface extends IdentifiableObjectRepositor
 
     /**
      * Return the number of association types
-     *
-     * @return int
      */
     public function countAll(): int;
 }

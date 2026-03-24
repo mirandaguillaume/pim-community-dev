@@ -18,8 +18,6 @@ interface ValueDataConverter
     public function supportsAttributes(AttributeInterface $sourceAttribute, AttributeInterface $targetAttribute): bool;
 
     /**
-     * @param ValueInterface $sourceValue
-     * @param AttributeInterface $targetAttribute
      *
      * @return mixed data in the expected format for the target attribute's value factory
      */

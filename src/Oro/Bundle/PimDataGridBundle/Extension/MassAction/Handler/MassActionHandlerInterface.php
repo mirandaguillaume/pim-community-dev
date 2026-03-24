@@ -17,8 +17,6 @@ interface MassActionHandlerInterface
     /**
      * Handle mass action
      *
-     * @param DatagridInterface   $datagrid
-     * @param MassActionInterface $massAction
      *
      * @return mixed
      */

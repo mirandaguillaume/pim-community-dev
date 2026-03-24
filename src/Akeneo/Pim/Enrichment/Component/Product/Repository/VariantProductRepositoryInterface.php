@@ -22,8 +22,5 @@ interface VariantProductRepositoryInterface
      */
     public function findSiblingsProducts(ProductInterface $product): array;
 
-    /**
-     * @return null|ProductInterface
-     */
     public function findLastCreatedByParent(ProductModelInterface $parent): ?ProductInterface;
 }

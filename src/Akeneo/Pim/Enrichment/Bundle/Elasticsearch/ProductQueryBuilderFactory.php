@@ -96,7 +96,7 @@ class ProductQueryBuilderFactory implements ProductQueryBuilderFactoryInterface
 
     protected function createProductQueryBuilder(array $options): ProductQueryBuilderInterface
     {
-        $pqb = new $this->pqbClass(
+        return new $this->pqbClass(
             $this->attributeRepository,
             $this->filterRegistry,
             $this->sorterRegistry,
@@ -104,8 +104,6 @@ class ProductQueryBuilderFactory implements ProductQueryBuilderFactoryInterface
             $this->optionsResolver,
             $options
         );
-
-        return $pqb;
     }
 
     protected function resolveOptions(array $options): array

@@ -63,7 +63,7 @@ class CheckHeadersRequestSubscriber
                     return;
                 }
 
-                $accept = $request->headers->get('accept', null);
+                $accept = $request->headers->get('accept');
                 if (null !== $accept && $accept !== $bestAcceptType->getValue() && !preg_match('|\*\/\*|', $accept)) {
                     throw new NotAcceptableHttpException(
                         sprintf('"%s" in "Accept" header is not valid. Only "%s" is allowed.', $accept, $bestAcceptType->getValue())

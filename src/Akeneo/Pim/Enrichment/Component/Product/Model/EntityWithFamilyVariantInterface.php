@@ -16,9 +16,6 @@ interface EntityWithFamilyVariantInterface extends EntityWithFamilyInterface
 {
     public const ROOT_VARIATION_LEVEL = 0;
 
-    /**
-     * @return FamilyVariantInterface|null
-     */
     public function getFamilyVariant(): ?FamilyVariantInterface;
 
     public function setFamilyVariant(FamilyVariantInterface $familyVariant): void;
@@ -29,20 +26,12 @@ interface EntityWithFamilyVariantInterface extends EntityWithFamilyInterface
      * If it has 0 parent, it's on level 0.
      *
      * Which means the oldest is at level 0.
-     *
-     * @return int
      */
     public function getVariationLevel(): int;
 
-    /**
-     * @return ProductModelInterface|null
-     */
     public function getParent(): ?ProductModelInterface;
 
     public function setParent(?ProductModelInterface $parent = null): void;
 
-    /**
-     * @return WriteValueCollection
-     */
     public function getValuesForVariation(): WriteValueCollection;
 }

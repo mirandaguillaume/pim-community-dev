@@ -51,8 +51,8 @@ final readonly class SqlGetOptionsCountAndTranslationByAttribute implements GetO
         $rawResults = $this->connection->executeQuery(
             $query,
             [
-                'limit' => (int) $limit,
-                'offset' => (int) $offset,
+                'limit' => $limit,
+                'offset' => $offset,
                 'search' => \sprintf('%%%s%%', $search ?? ''),
                 'select_attribute_types' => [AttributeTypes::OPTION_SIMPLE_SELECT, AttributeTypes::OPTION_MULTI_SELECT],
                 'locale' => $localeCode,

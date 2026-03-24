@@ -78,7 +78,6 @@ class MassActionDispatcher
      *
      * If Inset is defined, it returns filter on entity ids, else it returns all applied filters on the grid
      *
-     * @param array $parameters
      *
      * @return array
      */
@@ -246,9 +245,8 @@ class MassActionDispatcher
     protected function getMassActionHandler(MassActionInterface $massAction)
     {
         $handlerAlias = $massAction->getOptions()->offsetGet('handler');
-        $handler = $this->handlerRegistry->getHandler($handlerAlias);
 
-        return $handler;
+        return $this->handlerRegistry->getHandler($handlerAlias);
     }
 
     /**

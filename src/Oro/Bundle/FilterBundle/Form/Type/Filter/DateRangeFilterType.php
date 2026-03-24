@@ -68,11 +68,6 @@ class DateRangeFilterType extends AbstractType
         );
     }
 
-    /**
-     * @param FormView      $view
-     * @param FormInterface $form
-     * @param array         $options
-     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['type_values'] = $options['type_values'];

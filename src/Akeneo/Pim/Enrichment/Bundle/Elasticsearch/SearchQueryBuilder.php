@@ -107,7 +107,6 @@ class SearchQueryBuilder
      * was (A = 1 || A = 2) && (B = 1 || B = 2)
      *
      *
-     * @param array $clause
      *
      * @return SearchQueryBuilder
      */

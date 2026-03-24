@@ -123,8 +123,6 @@ final readonly class LightEntityWithFamilyVariantNormalizer implements Normalize
      * it will return [4, "blue", "CENTIMETER", 10].
      *
      * It allows to sort on front-end to respect sort orders of attribute options.
-     *
-     * @param EntityWithFamilyVariantInterface $entity
      */
     private function getOrder(EntityWithFamilyVariantInterface $entity): array
     {

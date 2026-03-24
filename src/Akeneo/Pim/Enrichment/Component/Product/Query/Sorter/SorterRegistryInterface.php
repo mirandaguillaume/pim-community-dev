@@ -15,8 +15,6 @@ interface SorterRegistryInterface
 {
     /**
      * Register the sorter
-     *
-     * @param SorterInterface $sorter
      */
     public function register(SorterInterface $sorter);
 
@@ -32,7 +30,6 @@ interface SorterRegistryInterface
     /**
      * Get the attribute sorter
      *
-     * @param AttributeInterface $attribute
      *
      * @return SorterInterface|null
      */

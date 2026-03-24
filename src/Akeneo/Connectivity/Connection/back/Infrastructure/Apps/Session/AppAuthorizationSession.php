@@ -34,7 +34,6 @@ class AppAuthorizationSession implements AppAuthorizationSessionInterface
     /**
      * Retrieves an App authorization from the session given an App client id
      *
-     * @param string $clientId
      * @return AppAuthorization|null returns null if none found
      */
     public function getAppAuthorization(string $clientId): ?AppAuthorization

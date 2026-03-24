@@ -72,14 +72,14 @@ class ListProductsByUuidController
         $user = $this->tokenStorage->getToken()->getUser();
         Assert::isInstanceOf($user, UserInterface::class);
 
-        $query->channelCode = $request->query->get('scope', null);
+        $query->channelCode = $request->query->get('scope');
         $query->limit = $request->query->get('limit', $this->apiConfiguration['pagination']['limit_by_default']);
         $query->paginationType = $request->query->get('pagination_type', PaginationTypes::OFFSET);
-        $query->searchLocaleCode = $request->query->get('search_locale', null);
+        $query->searchLocaleCode = $request->query->get('search_locale');
         $query->withCount = $request->query->get('with_count', 'false');
         $query->page = $request->query->get('page', 1);
-        $query->searchChannelCode = $request->query->get('search_scope', null);
-        $query->searchAfter = $request->query->get('search_after', null);
+        $query->searchChannelCode = $request->query->get('search_scope');
+        $query->searchAfter = $request->query->get('search_after');
         $query->userId = $user->getId();
         $query->withAttributeOptions = $request->query->get('with_attribute_options', 'false');
         $query->withQualityScores = $request->query->getAlpha('with_quality_scores', 'false');

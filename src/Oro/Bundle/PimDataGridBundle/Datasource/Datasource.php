@@ -43,10 +43,6 @@ class Datasource implements DatasourceInterface, ParameterizableInterface
     /** @var array */
     protected $parameters = [];
 
-    /**
-     * @param ObjectManager     $om
-     * @param HydratorInterface $hydrator
-     */
     public function __construct(ObjectManager $om, HydratorInterface $hydrator)
     {
         $this->om = $om;

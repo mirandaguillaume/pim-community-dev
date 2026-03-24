@@ -27,7 +27,6 @@ class ProductSaver implements SaverInterface, BulkSaverInterface
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly ProductUniqueDataSynchronizer $uniqueDataSynchronizer,
         private readonly UpdateIdentifierPrefixesQuery $updateIdentifierPrefixesQuery,
-        private readonly UpdateIdentifierValuesQuery $updateIdentifierValues,
     ) {
     }
 

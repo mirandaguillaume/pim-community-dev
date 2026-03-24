@@ -26,9 +26,6 @@ interface GroupInterface
      */
     public function setName($name): void;
 
-    /**
-     * @return string
-     */
     public function getRoleLabelsAsString(): string;
 
     /**
@@ -42,8 +39,6 @@ interface GroupInterface
      * Get role by string
      *
      * @param  string $roleName Role name
-     *
-     * @return RoleInterface|null
      */
     public function getRole($roleName): ?RoleInterface;
 
@@ -51,15 +46,11 @@ interface GroupInterface
      * @param  Role|string $role
      *
      * @throws \InvalidArgumentException
-     *
-     * @return boolean
      */
     public function hasRole($role): bool;
 
     /**
      * Adds a Role to the Collection
-     *
-     * @param RoleInterface $role
      */
     public function addRole(RoleInterface $role): void;
 

@@ -85,7 +85,7 @@ final readonly class ValidateSearchLocale
     private function getLocaleCodesFromFilters(array $search): array
     {
         $localeCodes = [];
-        foreach ($search as $propertyCode => $filters) {
+        foreach ($search as $filters) {
             foreach ($filters as $filter) {
                 if (isset($filter['locale'])) {
                     $localeCodes[] = $filter['locale'];

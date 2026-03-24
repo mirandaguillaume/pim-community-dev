@@ -44,12 +44,12 @@ final readonly class RedirectToEditConnectedAppAction
 
     private function denyAccessUnlessGrantedToManage(ConnectedApp $app): void
     {
-        if (!$this->isGrantedToManage($app)) {
+        if (!$this->isGrantedToManage()) {
             throw new AccessDeniedHttpException();
         }
     }
 
-    private function isGrantedToManage(ConnectedApp $app): bool
+    private function isGrantedToManage(): bool
     {
         return $this->security->isGranted('akeneo_connectivity_connection_manage_apps');
     }

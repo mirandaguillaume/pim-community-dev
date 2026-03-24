@@ -24,8 +24,6 @@ interface GetChannelCodeWithLocaleCodesInterface
      *          "localeCodes": ["en_US", "de_DE"]
      *      }
      *  ]
-     *
-     * @return array
      */
     public function findAll(): array;
 }

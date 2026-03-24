@@ -103,8 +103,6 @@ class V20221214GiveNewCategoryAclToUserWithOldCategoryAclZddMigration implements
                 SELECT identifier
                 FROM acl_security_identities
             SQL);
-
-        return $data;
     }
 
     private function grantPermission(string $aclName): void

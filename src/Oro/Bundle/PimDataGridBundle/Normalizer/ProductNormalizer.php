@@ -159,9 +159,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
             $values = $this->filter->filterCollection($values, $filterType, $context);
         }
 
-        $data = $this->normalizer->normalize($values, $format, $context);
-
-        return $data;
+        return $this->normalizer->normalize($values, $format, $context);
     }
 
     private function getParentCode(EntityWithFamilyInterface $product): ?string

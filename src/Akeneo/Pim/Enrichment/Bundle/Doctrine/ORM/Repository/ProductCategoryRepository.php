@@ -16,7 +16,6 @@ use Doctrine\ORM\EntityManager;
 class ProductCategoryRepository extends AbstractItemCategoryRepository implements ProductCategoryRepositoryInterface
 {
     /**
-     * @param EntityManager $em
      * @param string        $entityName
      * @param string        $categoryClass
      */

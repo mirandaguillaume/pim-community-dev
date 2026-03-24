@@ -48,22 +48,24 @@ class IdFilter extends AbstractFieldFilter
 
         if (is_array($value)) {
             $value = array_map(
-                fn ($value) => (string) $this->prefix . $value,
+                fn ($value) => $this->prefix . $value,
                 $value
             );
         } else {
-            $value = [(string) $this->prefix . $value];
+            $value = [$this->prefix . $value];
         }
 
         $value = $this->addProductUuidsInValues($value);
 
         switch ($operator) {
             case Operators::EQUALS:
+            case Operators::IN_LIST:
                 $clause = [
                     'terms' => [
                         'id' => $value,
                     ],
                 ];
+
                 $this->searchQueryBuilder->addFilter($clause);
                 break;
             case Operators::NOT_EQUAL:
@@ -79,15 +81,6 @@ class IdFilter extends AbstractFieldFilter
                 ];
                 $this->searchQueryBuilder->addMustNot($mustNotClause);
                 $this->searchQueryBuilder->addFilter($filterClause);
-                break;
-            case Operators::IN_LIST:
-                $clause = [
-                    'terms' => [
-                        'id' => $value,
-                    ],
-                ];
-
-                $this->searchQueryBuilder->addFilter($clause);
                 break;
             case Operators::NOT_IN_LIST:
                 $clause = [

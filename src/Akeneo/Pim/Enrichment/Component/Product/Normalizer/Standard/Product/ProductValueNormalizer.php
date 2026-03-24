@@ -127,9 +127,6 @@ class ProductValueNormalizer implements NormalizerInterface
      *   15.500       => 15.5000
      *   15.50787600  => 15.507876
      *   15.000000    => 15.0000
-     *
-     * @param ValueInterface $value
-     * @param Attribute      $attribute
      */
     private function formatNumber(ValueInterface $value, Attribute $attribute): string|int
     {

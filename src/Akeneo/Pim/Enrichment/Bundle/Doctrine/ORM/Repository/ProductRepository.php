@@ -130,15 +130,13 @@ class ProductRepository extends EntityRepository implements
      */
     public function getProductsByGroup(GroupInterface $group, $maxResults)
     {
-        $products = $this
+        return $this
             ->createQueryBuilder('p')
             ->innerJoin('p.groups', 'g', 'WITH', 'g=:group')
             ->setParameter('group', $group)
             ->getQuery()
             ->setMaxResults($maxResults)
             ->getResult();
-
-        return $products;
     }
 
     /**
@@ -146,14 +144,12 @@ class ProductRepository extends EntityRepository implements
      */
     public function getProductCountByGroup(GroupInterface $group)
     {
-        $count = $this->createQueryBuilder('p')
+        return $this->createQueryBuilder('p')
             ->select('COUNT(p)')
             ->innerJoin('p.groups', 'g', 'WITH', 'g=:group')
             ->setParameter('group', $group)
             ->getQuery()
             ->getSingleScalarResult();
-
-        return $count;
     }
 
     /**

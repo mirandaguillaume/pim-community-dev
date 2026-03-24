@@ -73,7 +73,6 @@ class FilteredProductAndProductModelReader implements
      */
     public function read(): ?ProductInterface
     {
-        $product = null;
         $product = $this->getNextProduct();
 
         if ($product instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface) {

@@ -76,7 +76,6 @@ interface VersionInterface
     /**
      * Set snapshot
      *
-     * @param array $snapshot
      *
      * @return VersionInterface
      */
@@ -92,7 +91,6 @@ interface VersionInterface
     /**
      * Set changeset
      *
-     * @param array $changeset
      *
      * @return VersionInterface
      */

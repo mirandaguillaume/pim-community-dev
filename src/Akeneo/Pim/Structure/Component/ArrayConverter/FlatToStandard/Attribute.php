@@ -129,8 +129,6 @@ class Attribute implements ArrayConverterInterface
      * "2015/12/31"
      * "2015-45-31"
      * "not a date"
-     *
-     * @param mixed $date
      */
     protected function convertDate(mixed $date): ?string
     {

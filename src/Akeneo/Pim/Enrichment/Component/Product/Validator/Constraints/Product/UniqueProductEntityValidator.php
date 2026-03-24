@@ -86,10 +86,6 @@ class UniqueProductEntityValidator extends ConstraintValidator
     {
         $identifier = $this->attributeRepository->getIdentifier();
 
-        if (!$identifier instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface) {
-            return null;
-        }
-
         $identifierCode = $identifier->getCode();
 
         return $entity->getValues()->getByCodes($identifierCode);

@@ -13,16 +13,11 @@ interface ClearerRegistryInterface
 {
     /**
      * Register a clearer in the registry.
-     *
-     * @param ClearerInterface $clearer
      */
     public function register(ClearerInterface $clearer): void;
 
     /**
      * Get a clearer compatible with given property.
-     *
-     * @param string $property
-     * @return ClearerInterface|null
      */
     public function getClearer(string $property): ?ClearerInterface;
 }
