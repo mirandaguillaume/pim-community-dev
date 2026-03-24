@@ -66,3 +66,7 @@ seed/
 /tools/*
 !/tools/.gitkeep
 .claude/worktrees/
+ast-metrics-report.json
+ast-metrics-report.sarif
+metrics.txt
+var/ast-metrics/
