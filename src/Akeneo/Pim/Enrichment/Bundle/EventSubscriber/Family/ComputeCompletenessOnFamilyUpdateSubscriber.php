@@ -51,7 +51,6 @@ final class ComputeCompletenessOnFamilyUpdateSubscriber
      * - Attribute requirements of the family changed
      * - Attributes list of the family changed (to reindex empty values for the operator IS_EMPTY)
      *
-     * @param GenericEvent $event
      *
      * @throws Exception
      */

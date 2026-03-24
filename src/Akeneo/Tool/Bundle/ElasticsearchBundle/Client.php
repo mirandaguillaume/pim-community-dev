@@ -35,9 +35,9 @@ class Client
      * To learn more, please see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_configuration.html}
      */
     public function __construct(
-        private readonly ClientBuilder $builder,
+        ClientBuilder $builder,
         private readonly Loader $configurationLoader,
-        private readonly array $hosts,
+        array $hosts,
         private readonly string $indexName,
         private readonly string $idPrefix = '',
         private readonly int $maxChunkSize = 100_000_000,
@@ -52,7 +52,6 @@ class Client
 
     /**
      * @param string       $id
-     * @param Refresh|null $refresh
      *
      * @throws IndexationException
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_quickstart.html#_index_a_document}
@@ -84,7 +83,6 @@ class Client
 
     /**
      * @param iterable $documents
-     * @param Refresh|null $refresh
      *
      * @throws MissingIdentifierException
      * @throws IndexationException

@@ -49,9 +49,8 @@ class AdderRegistry implements AdderRegistryInterface
     public function getAdder($property)
     {
         $attribute = $this->getAttribute($property);
-        $adder = null !== $attribute ? $this->getAttributeAdder($attribute) : $this->getFieldAdder($property);
 
-        return $adder;
+        return null !== $attribute ? $this->getAttributeAdder($attribute) : $this->getFieldAdder($property);
     }
 
     /**

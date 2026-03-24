@@ -42,7 +42,7 @@ class ProductGridFilterController
         $options['page'] ??= 1;
         unset($options['catalogLocale']);
 
-        if ($request->get('identifiers', null) !== null) {
+        if ($request->get('identifiers') !== null) {
             $options['identifiers'] = array_unique(explode(',', (string) $request->get('identifiers')));
         }
 

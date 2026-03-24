@@ -70,9 +70,8 @@ class FilterType extends AbstractType
         if ($options['operator_choices']) {
             $result['choices'] = array_flip($options['operator_choices']);
         }
-        $result = array_merge($result, $options['operator_options']);
 
-        return $result;
+        return array_merge($result, $options['operator_options']);
     }
 
     /**

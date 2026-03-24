@@ -34,12 +34,6 @@ class ProductDatasource extends Datasource
     /** @var FilterEntityWithValuesSubscriber */
     protected $filterEntityWithValuesSubscriber;
 
-    /**
-     * @param ObjectManager                       $om
-     * @param ProductQueryBuilderFactoryInterface $factory
-     * @param NormalizerInterface                 $serializer
-     * @param FilterEntityWithValuesSubscriber    $filterEntityWithValuesSubscriber
-     */
     public function __construct(
         ObjectManager $om,
         ProductQueryBuilderFactoryInterface $factory,
@@ -141,12 +135,10 @@ class ProductDatasource extends Datasource
             'document_type'    => null,
         ];
 
-        $normalizedItem = array_merge(
+        return array_merge(
             $defaultNormalizedItem,
             $this->normalizer->normalize($item, 'datagrid', $context)
         );
-
-        return $normalizedItem;
     }
 
     /**

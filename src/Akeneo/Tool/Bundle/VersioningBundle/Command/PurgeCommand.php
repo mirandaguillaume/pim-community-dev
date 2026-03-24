@@ -49,8 +49,7 @@ class PurgeCommand extends Command
             ->addArgument(
                 'entity',
                 InputArgument::OPTIONAL,
-                'Fully qualified classname of the entity to purge. (beware of overridden or custom entities)',
-                null
+                'Fully qualified classname of the entity to purge. (beware of overridden or custom entities)'
             )
             ->addOption(
                 'more-than-days',

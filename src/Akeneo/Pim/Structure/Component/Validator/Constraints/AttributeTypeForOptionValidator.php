@@ -29,7 +29,6 @@ class AttributeTypeForOptionValidator extends ConstraintValidator
 
     /**
      * @param object                            $attributeOption
-     * @param AttributeTypeForOption|Constraint $constraint
      */
     public function validate($attributeOption, Constraint $constraint)
     {

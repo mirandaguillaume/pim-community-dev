@@ -34,7 +34,6 @@ class VersionBuilder
      *
      * @param object       $versionable
      * @param string       $author
-     * @param Version|null $previousVersion
      *
      * @return Version
      */
@@ -87,7 +86,6 @@ class VersionBuilder
     /**
      * Build a pending version
      *
-     * @param Version|null $previousVersion
      * @return Version
      */
     public function buildPendingVersion(Version $pending, ?Version $previousVersion = null)

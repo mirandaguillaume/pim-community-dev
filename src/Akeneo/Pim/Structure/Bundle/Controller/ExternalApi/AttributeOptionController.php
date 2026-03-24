@@ -218,9 +218,7 @@ class AttributeOptionController
 
         $this->saver->save($attributeOption);
 
-        $response = $this->getResponse($attribute, $attributeOption, Response::HTTP_CREATED);
-
-        return $response;
+        return $this->getResponse($attribute, $attributeOption, Response::HTTP_CREATED);
     }
 
     /**
@@ -255,9 +253,8 @@ class AttributeOptionController
         $this->saver->save($attributeOption);
 
         $status = $isCreation ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
-        $response = $this->getResponse($attribute, $attributeOption, $status);
 
-        return $response;
+        return $this->getResponse($attribute, $attributeOption, $status);
     }
 
     /**
@@ -270,7 +267,7 @@ class AttributeOptionController
 
         $this->apiAggregatorForAttributeOptionPostSave->activate();
 
-        $response = $this->partialUpdateStreamResource->streamResponse($resource, ['attributeCode' => $attributeCode], function () {
+        return $this->partialUpdateStreamResource->streamResponse($resource, ['attributeCode' => $attributeCode], function () {
             try {
                 $this->apiAggregatorForAttributeOptionPostSave->dispatchAllEvents();
             } catch (\Throwable $exception) {
@@ -280,8 +277,6 @@ class AttributeOptionController
             }
             $this->apiAggregatorForAttributeOptionPostSave->deactivate();
         });
-
-        return $response;
     }
 
     /**

@@ -515,8 +515,6 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
 
     /**
      * To string
-     *
-     * @return string
      */
     public function __toString(): string
     {

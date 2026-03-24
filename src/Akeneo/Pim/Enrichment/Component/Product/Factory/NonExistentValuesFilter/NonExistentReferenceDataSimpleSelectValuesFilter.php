@@ -82,8 +82,8 @@ class NonExistentReferenceDataSimpleSelectValuesFilter implements NonExistentVal
         foreach ($selectValues as $attributeCode => $valueCollection) {
             foreach ($valueCollection as $values) {
                 $referenceDataName = $values['properties']['reference_data_name'];
-                foreach ($values['values'] as $channel => $channelValues) {
-                    foreach ($channelValues as $locale => $value) {
+                foreach ($values['values'] as $channelValues) {
+                    foreach ($channelValues as $value) {
                         if (!\is_array($value)) {
                             $referenceDataCodes[$attributeCode][$referenceDataName][] = $value;
                         }

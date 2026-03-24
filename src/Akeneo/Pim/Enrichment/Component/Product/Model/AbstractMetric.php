@@ -77,7 +77,7 @@ abstract class AbstractMetric implements MetricInterface, \Stringable
             return $metric->getData() === $this->data;
         }
 
-        if (!\is_numeric($metric->getData()) || !\is_numeric($this->data)) {
+        if (!\is_numeric($this->data)) {
             return false;
         }
 

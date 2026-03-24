@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class LockedAccountException extends AuthenticationException
 {
     /** @var ?array */
-    protected $serialized = null;
+    protected $serialized;
 
     public function __construct(int $lockduration)
     {

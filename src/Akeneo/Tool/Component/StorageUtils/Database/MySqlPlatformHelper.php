@@ -37,9 +37,8 @@ final readonly class MySqlPlatformHelper implements SqlPlatformHelperInterface
         if (null !== $orderBy) {
             $sql .= sprintf(' ORDER BY %s', $orderBy);
         }
-        $sql .= sprintf(' SEPARATOR %s)', $separator);
 
-        return $sql;
+        return $sql . sprintf(' SEPARATOR %s)', $separator);
     }
 
     public function jsonArray(): string

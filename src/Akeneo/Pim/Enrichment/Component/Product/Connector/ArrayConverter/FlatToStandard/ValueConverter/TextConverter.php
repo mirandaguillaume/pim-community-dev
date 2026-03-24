@@ -14,10 +14,6 @@ use Akeneo\Tool\Component\Connector\Exception\BusinessArrayConversionException;
  */
 class TextConverter extends AbstractValueConverter
 {
-    /**
-     * @param FieldSplitter $fieldSplitter
-     * @param array         $supportedFieldType
-     */
     public function __construct(FieldSplitter $fieldSplitter, array $supportedFieldType)
     {
         parent::__construct($fieldSplitter);

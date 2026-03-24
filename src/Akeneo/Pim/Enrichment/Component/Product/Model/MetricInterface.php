@@ -50,7 +50,6 @@ interface MetricInterface
     /**
      * Checks if the metric is equal to another one.
      *
-     * @param MetricInterface $metric
      *
      * @return bool
      */

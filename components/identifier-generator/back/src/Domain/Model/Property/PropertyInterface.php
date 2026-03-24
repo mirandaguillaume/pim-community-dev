@@ -26,7 +26,6 @@ interface PropertyInterface
 
     /**
      * @param array<string, mixed> $fromNormalized
-     * @return self
      */
     public static function fromNormalized(array $fromNormalized): self;
 

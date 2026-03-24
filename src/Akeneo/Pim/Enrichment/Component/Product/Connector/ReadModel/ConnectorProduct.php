@@ -351,7 +351,7 @@ final readonly class ConnectorProduct
     public function associatedProductUuids(): array
     {
         $associatedProducts = [];
-        foreach ($this->associations as $associationType => $associations) {
+        foreach ($this->associations as $associations) {
             $associatedProducts[] = array_map(
                 fn (array $associatedProduct): string => $associatedProduct['uuid'],
                 $associations['products']

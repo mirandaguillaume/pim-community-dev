@@ -20,8 +20,6 @@ interface VersionProviderInterface
      *  - Serenity
      *  - Growth Edition
      *  - Free Trial Edition
-     *
-     * @return string
      */
     public function getEdition(): string;
 

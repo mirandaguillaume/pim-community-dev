@@ -28,9 +28,7 @@ class ProductValuesNormalizer implements NormalizerInterface
             $normalizedValues[] = $this->valueNormalizer->normalize($value, $format, $context);
         }
 
-        $result = $normalizedValues === [] ? [] : array_replace_recursive(...$normalizedValues);
-
-        return $result;
+        return $normalizedValues === [] ? [] : array_replace_recursive(...$normalizedValues);
     }
 
     /**

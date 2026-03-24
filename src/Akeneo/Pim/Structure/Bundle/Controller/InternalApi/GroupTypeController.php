@@ -54,9 +54,6 @@ class GroupTypeController
     /** @var NormalizerInterface */
     protected $constraintViolationNormalizer;
 
-    /**
-     * @param GroupTypeFactory             $groupTypeFactory
-     */
     public function __construct(
         GroupTypeRepositoryInterface $groupTypeRepo,
         NormalizerInterface $normalizer,

@@ -36,9 +36,8 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         $qb->setParameter('categoriesIds', $categoriesIds);
 
         $result = $qb->getQuery()->getResult();
-        $result = new ArrayCollection($result);
 
-        return $result;
+        return new ArrayCollection($result);
     }
 
     public function getCategoriesByCodes(array $categoriesCodes = [])
@@ -58,9 +57,8 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         $qb->setParameter('categoriesCodes', $categoriesCodes);
 
         $result = $qb->getQuery()->getResult();
-        $result = new ArrayCollection($result);
 
-        return $result;
+        return new ArrayCollection($result);
     }
 
     public function getTreeFromParents(array $parentsIds)
@@ -305,13 +303,12 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
     public function getGrantedTrees(array $grantedCategoryIds = [])
     {
         $qb = $this->getChildrenQueryBuilder(null, true, 'created', 'DESC');
-        $result = $qb
+
+        return $qb
             ->andWhere('node.id IN (:ids)')
             ->setParameter('ids', $grantedCategoryIds)
             ->getQuery()
             ->getResult();
-
-        return $result;
     }
 
     public function isAncestor(CategoryInterface $parentNode, CategoryInterface $childNode)

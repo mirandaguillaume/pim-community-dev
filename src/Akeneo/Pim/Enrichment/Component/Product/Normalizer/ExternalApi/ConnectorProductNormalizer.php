@@ -23,8 +23,7 @@ final readonly class ConnectorProductNormalizer
 {
     public function __construct(
         private ValuesNormalizer $valuesNormalizer,
-        private DateTimeNormalizer $dateTimeNormalizer,
-        private AttributeRepositoryInterface $attributeRepository
+        private DateTimeNormalizer $dateTimeNormalizer
     ) {
     }
 

@@ -127,9 +127,7 @@ class FormatterExtension extends AbstractExtension
      */
     protected function getPropertyObject(PropertyConfiguration $config)
     {
-        $property = $this->properties[$config->offsetGet(Configuration::TYPE_KEY)]->init($config);
-
-        return $property;
+        return $this->properties[$config->offsetGet(Configuration::TYPE_KEY)]->init($config);
     }
 
     /**

@@ -18,12 +18,7 @@ class SearchVersionAfterCursor implements CursorInterface
 {
     private ?\Generator $iterator = null;
 
-    /**
-     * @var int|null
-     */
-    private $count = null;
-
-    public function __construct(private readonly QueryBuilder $queryBuilder, private readonly EntityManager $entityManager, private readonly int $pageSize)
+    public function __construct(private readonly QueryBuilder $queryBuilder, private readonly int $pageSize)
     {
     }
 

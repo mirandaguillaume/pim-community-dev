@@ -87,9 +87,7 @@ class CategoryController
 
         $this->saver->save($category);
 
-        $response = $this->getResponse($category, Response::HTTP_CREATED);
-
-        return $response;
+        return $this->getResponse($category, Response::HTTP_CREATED);
     }
 
     /**
@@ -101,9 +99,8 @@ class CategoryController
     {
         $this->checkAclRights();
         $resource = $request->getContent(true);
-        $response = $this->partialUpdateStreamResource->streamResponse($resource);
 
-        return $response;
+        return $this->partialUpdateStreamResource->streamResponse($resource);
     }
 
     /**
@@ -139,9 +136,8 @@ class CategoryController
         }
 
         $status = $isCreation ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
-        $response = $this->getResponse($category, $status);
 
-        return $response;
+        return $this->getResponse($category, $status);
     }
 
     /**

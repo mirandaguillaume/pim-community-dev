@@ -92,7 +92,6 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
     /**
      * Run the specified job, handling all listener and repository calls, and
      * delegating the actual processing to {@link #doExecute(JobExecution)}.
-     * @param JobExecution $jobExecution
      *
      * @see Job#execute(JobExecution)
      *

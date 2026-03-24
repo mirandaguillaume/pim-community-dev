@@ -16,7 +16,6 @@ interface CheckerInterface
     /**
      * Checks the reference data configuration
      *
-     * @param ReferenceDataConfigurationInterface $configuration
      *
      * @return bool
      */

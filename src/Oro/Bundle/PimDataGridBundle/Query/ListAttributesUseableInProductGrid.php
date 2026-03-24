@@ -20,8 +20,6 @@ interface ListAttributesUseableInProductGrid
      * @param int    $page          Number of the page (start at 1)
      * @param string $searchOnLabel String to search in the attribute label
      * @param int    $userId        Context's user id
-     *
-     * @return array
      */
     public function fetch(string $locale, int $page, string $searchOnLabel, int $userId): array;
 }

@@ -45,8 +45,6 @@ final class RemoveNonExistingProductValuesSubscriber
 
     private function getOrCreateJobInstance(): JobInstance
     {
-        $jobInstance = $this->jobInstanceRepository->findOneByIdentifier($this->jobName);
-
-        return $jobInstance;
+        return $this->jobInstanceRepository->findOneByIdentifier($this->jobName);
     }
 }

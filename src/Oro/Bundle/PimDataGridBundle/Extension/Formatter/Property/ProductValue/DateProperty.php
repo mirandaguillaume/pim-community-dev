@@ -17,10 +17,6 @@ class DateProperty extends FieldProperty
     /** @var PresenterInterface */
     protected $presenter;
 
-    /**
-     * @param TranslatorInterface $translator
-     * @param PresenterInterface  $presenter
-     */
     public function __construct(TranslatorInterface $translator, PresenterInterface $presenter)
     {
         parent::__construct($translator);

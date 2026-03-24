@@ -23,7 +23,6 @@ class ProductDomainErrorNormalizer implements NormalizerInterface
     /**
      * @param DomainErrorInterface $object
      * @param string $format
-     * @param array $context
      */
     public function normalize($object, $format = null, array $context = []): array
     {

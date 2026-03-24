@@ -29,7 +29,7 @@ final readonly class ClassOrderingKeyResolver implements OrderingKeyResolverInte
     /**
      * {@inheritDoc}
      */
-    public function resolve(Envelope $envelope): ?string
+    public function resolve(Envelope $envelope): string
     {
         return $this->orderingKey;
     }

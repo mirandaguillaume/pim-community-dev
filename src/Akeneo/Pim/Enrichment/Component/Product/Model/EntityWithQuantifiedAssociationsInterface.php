@@ -95,8 +95,6 @@ interface EntityWithQuantifiedAssociationsInterface
 
     /**
      * Normalize the quantified associations
-     *
-     * @return array
      */
     public function normalizeQuantifiedAssociations(): array;
 

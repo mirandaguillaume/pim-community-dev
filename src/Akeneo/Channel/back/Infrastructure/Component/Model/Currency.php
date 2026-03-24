@@ -47,8 +47,6 @@ class Currency implements CurrencyInterface, \Stringable
 
     /**
      * To string
-     *
-     * @return string
      */
     public function __toString(): string
     {

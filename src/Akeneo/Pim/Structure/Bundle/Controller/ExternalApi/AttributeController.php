@@ -184,9 +184,7 @@ class AttributeController
 
         $this->saver->save($attribute);
 
-        $response = $this->getResponse($attribute, Response::HTTP_CREATED);
-
-        return $response;
+        return $this->getResponse($attribute, Response::HTTP_CREATED);
     }
 
     /**
@@ -201,7 +199,7 @@ class AttributeController
         $resource = $request->getContent(true);
         $this->apiAggregatorForAttributePostSave->activate();
 
-        $response = $this->partialUpdateStreamResource->streamResponse($resource, [], function () {
+        return $this->partialUpdateStreamResource->streamResponse($resource, [], function () {
             try {
                 $this->apiAggregatorForAttributePostSave->dispatchAllEvents();
             } catch (\Throwable $exception) {
@@ -211,8 +209,6 @@ class AttributeController
             }
             $this->apiAggregatorForAttributePostSave->deactivate();
         });
-
-        return $response;
     }
 
     /**
@@ -241,9 +237,8 @@ class AttributeController
         $this->saver->save($attribute);
 
         $status = $isCreation ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
-        $response = $this->getResponse($attribute, $status);
 
-        return $response;
+        return $this->getResponse($attribute, $status);
     }
 
     /**

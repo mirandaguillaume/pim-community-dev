@@ -73,9 +73,8 @@ class PriceFilterType extends AbstractType
         if ($options['currency_choices']) {
             $result['choices'] = $options['currency_choices'];
         }
-        $result = array_merge($result, $options['currency_options']);
 
-        return $result;
+        return array_merge($result, $options['currency_options']);
     }
 
     /**

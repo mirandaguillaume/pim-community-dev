@@ -204,12 +204,10 @@ class Group implements GroupInterface, \Stringable
 
     /**
      * Return the group name field
-     *
-     * @return string
      */
     public function __toString(): string
     {
-        return (string) $this->name;
+        return $this->name;
     }
 
     public function getType(): string

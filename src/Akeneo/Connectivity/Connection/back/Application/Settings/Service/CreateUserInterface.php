@@ -18,7 +18,6 @@ interface CreateUserInterface
      *
      * @param string[]|null $groups
      * @param string[]|null $roles
-     * @return User
      */
     public function execute(string $username, string $firstname, string $lastname, ?array $groups = null, ?array $roles = null): User;
 }

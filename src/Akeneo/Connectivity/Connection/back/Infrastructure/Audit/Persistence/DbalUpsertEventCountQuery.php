@@ -40,8 +40,8 @@ class DbalUpsertEventCountQuery implements UpsertEventCountQueryInterface
             [
                 'connection_code' => $hourlyEventCount->connectionCode(),
                 'event_datetime' => $hourlyEventCount->hourlyInterval()->fromDateTime(),
-                'event_count' => (int) $hourlyEventCount->eventCount(),
-                'event_type' => (string) $hourlyEventCount->eventType(),
+                'event_count' => $hourlyEventCount->eventCount(),
+                'event_type' => $hourlyEventCount->eventType(),
             ],
             [
                 'event_datetime' => Types::DATETIME_IMMUTABLE,

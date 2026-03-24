@@ -403,7 +403,7 @@ class UserContext
 
             $method = sprintf('get%s', ucfirst($optionName));
 
-            if (!$user instanceof \Akeneo\UserManagement\Component\Model\UserInterface || !is_object($user)) {
+            if (!is_object($user)) {
                 return null;
             }
 

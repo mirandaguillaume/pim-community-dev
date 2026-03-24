@@ -23,8 +23,7 @@ class ProductQuickExport implements ConstraintCollectionProviderInterface
 {
     public function __construct(
         private readonly ConstraintCollectionProviderInterface $simpleConstraint,
-        private readonly array $supportedJobNames,
-        private readonly string $filePathExtension
+        private readonly array $supportedJobNames
     ) {
     }
 
@@ -37,7 +36,7 @@ class ProductQuickExport implements ConstraintCollectionProviderInterface
         $constraintFields = $baseConstraint->fields;
         $constraintFields['filters'] = [];
         $constraintFields['selected_properties'] = null;
-        $constraintFields['selected_locales'] = new Optional(null);
+        $constraintFields['selected_locales'] = new Optional();
         $constraintFields['with_media'] = new Type('bool');
         $constraintFields['locale'] = new NotBlank(['groups' => 'Execution']);
         $constraintFields['scope'] = new NotBlank(['groups' => 'Execution']);

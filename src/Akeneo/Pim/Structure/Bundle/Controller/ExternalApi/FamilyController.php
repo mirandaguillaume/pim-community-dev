@@ -181,9 +181,7 @@ class FamilyController
 
         $this->saver->save($family);
 
-        $response = $this->getResponse($family, Response::HTTP_CREATED);
-
-        return $response;
+        return $this->getResponse($family, Response::HTTP_CREATED);
     }
 
     /**
@@ -196,9 +194,8 @@ class FamilyController
     public function partialUpdateListAction(Request $request)
     {
         $resource = $request->getContent(true);
-        $response = $this->partialUpdateStreamResource->streamResponse($resource);
 
-        return $response;
+        return $this->partialUpdateStreamResource->streamResponse($resource);
     }
 
     /**
@@ -229,9 +226,8 @@ class FamilyController
         $this->saver->save($family);
 
         $status = $isCreation ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
-        $response = $this->getResponse($family, $status);
 
-        return $response;
+        return $this->getResponse($family, $status);
     }
 
     /**

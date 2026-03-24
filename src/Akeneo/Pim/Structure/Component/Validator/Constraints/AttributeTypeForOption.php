@@ -17,7 +17,7 @@ class AttributeTypeForOption extends Constraint
     public $invalidAttributeMessage = 'Attribute "%attribute%" does not support options. Only attributes of type "%attribute_types%" support options';
 
     /** @var string */
-    public $propertyPath = null;
+    public $propertyPath;
 
     /**
      * {@inheritdoc}

@@ -292,8 +292,7 @@ class WriteValueCollection implements \Countable, \IteratorAggregate
     {
         $channelCode ??= '<all_channels>';
         $localeCode ??= '<all_locales>';
-        $key = sprintf('%s-%s-%s', $attributeCode, $channelCode, $localeCode);
 
-        return $key;
+        return sprintf('%s-%s-%s', $attributeCode, $channelCode, $localeCode);
     }
 }

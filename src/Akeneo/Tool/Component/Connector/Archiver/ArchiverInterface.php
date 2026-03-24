@@ -26,18 +26,14 @@ interface ArchiverInterface
     /**
      * Check if the job execution is supported
      *
-     * @param StepExecution $stepExecution
      *
-     * @return bool
      */
     public function supports(StepExecution $stepExecution): bool;
 
     /**
      * Get the archives of a job execution
      *
-     * @param JobExecution $jobExecution
      * @param bool $deep whether archives are listed recursively
-     *
      * @return string[]
      */
     public function getArchives(JobExecution $jobExecution, bool $deep = false): iterable;
@@ -45,8 +41,6 @@ interface ArchiverInterface
     /**
      * Get a specific archive of a job execution
      *
-     * @param JobExecution $jobExecution
-     * @param string       $key
      *
      * @return resource
      */
@@ -54,8 +48,6 @@ interface ArchiverInterface
 
     /**
      * Get the archiver name
-     *
-     * @return string
      */
     public function getName(): string;
 }

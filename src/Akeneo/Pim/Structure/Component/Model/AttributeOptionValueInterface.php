@@ -30,7 +30,6 @@ interface AttributeOptionValueInterface
     /**
      * Set option
      *
-     * @param AttributeOptionInterface $option
      *
      * @return AttributeOptionValueInterface
      */

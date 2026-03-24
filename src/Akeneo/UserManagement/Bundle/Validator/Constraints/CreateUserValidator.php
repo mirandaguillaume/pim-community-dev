@@ -19,7 +19,6 @@ class CreateUserValidator extends ConstraintValidator
 
     /**
      * @param UserInterface         $user
-     * @param Constraint|CreateUser $constraint
      */
     public function validate($user, Constraint $constraint)
     {

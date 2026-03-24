@@ -164,7 +164,7 @@ class QuantifiedAssociationCollection
     public function getQuantifiedAssociationsProductModelCodes(): array
     {
         $result = [];
-        foreach ($this->quantifiedAssociations as $associationType => $associations) {
+        foreach ($this->quantifiedAssociations as $associations) {
             /** @var QuantifiedLink $quantifiedLink */
             foreach ($associations[self::PRODUCT_MODELS_QUANTIFIED_LINKS_KEY] as $quantifiedLink) {
                 $result[] = $quantifiedLink->identifier();

@@ -104,7 +104,6 @@ class PagerExtension extends AbstractExtension
      * Get param or return specified default value
      *
      * @param string $paramName
-     * @param null   $default
      *
      * @return mixed
      */

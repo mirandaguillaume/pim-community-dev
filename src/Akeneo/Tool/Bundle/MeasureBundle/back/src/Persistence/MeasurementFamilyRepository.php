@@ -215,7 +215,7 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
         return $measurementFamiliesIndexByCodes;
     }
 
-    private function loadMeasurementFamily(MeasurementFamilyCode $measurementFamilyCode): ?MeasurementFamily
+    private function loadMeasurementFamily(MeasurementFamilyCode $measurementFamilyCode): \Akeneo\Tool\Bundle\MeasureBundle\Model\MeasurementFamily
     {
         $sql = <<<SQL
                 SELECT

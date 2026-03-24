@@ -10,11 +10,4 @@ namespace Akeneo\Tool\Bundle\ApiBundle\OAuth;
  */
 class OAuth2AuthenticateException extends OAuth2ServerException
 {
-    public function __construct(
-        int $httpCode,
-        string $errorType,
-        string $errorDescription = '',
-    ) {
-        parent::__construct($httpCode, $errorType, $errorDescription);
-    }
 }

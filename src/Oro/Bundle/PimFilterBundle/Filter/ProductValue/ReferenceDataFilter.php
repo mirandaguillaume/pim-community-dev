@@ -22,14 +22,6 @@ class ReferenceDataFilter extends ChoiceFilter
     /** @var ConfigurationRegistryInterface */
     protected $registry;
 
-    /**
-     * @param FormFactoryInterface                    $factory
-     * @param ProductFilterUtility                    $util
-     * @param UserContext                             $userContext
-     * @param AttributeRepositoryInterface            $attributeRepository
-     * @param ConfigurationRegistryInterface          $registry
-     * @param AttributeOptionRepositoryInterface      $attributeOptionRepository
-     */
     public function __construct(
         FormFactoryInterface $factory,
         ProductFilterUtility $util,

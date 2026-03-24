@@ -42,7 +42,6 @@ class ObjectIdHydrator implements HydratorInterface
      *
      * This way we retrieve object IDs, and the fields we order by.
      *
-     * @param mixed $qb
      *
      * @return mixed
      */

@@ -42,7 +42,7 @@ class ListChildrenCategoriesWithCountHandler
 
         $categoryIdSelectedAsFilter = null !== $categorySelectedAsFilter ? $categorySelectedAsFilter->getId() : null;
 
-        $categories = $query->countIncludingSubCategories()
+        return $query->countIncludingSubCategories()
             ? $this->listAndCountIncludingSubCategories->list(
                 $query->translationLocaleCode(),
                 $query->userId(),
@@ -55,7 +55,5 @@ class ListChildrenCategoriesWithCountHandler
                 $categoryToExpand->getId(),
                 $categoryIdSelectedAsFilter
             );
-
-        return $categories;
     }
 }

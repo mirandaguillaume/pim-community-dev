@@ -22,9 +22,6 @@ class ValidatorStep extends AbstractStep
 
     /**
      * @param string                   $name
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param JobRepositoryInterface   $jobRepository
-     * @param CharsetValidator         $charsetValidator
      */
     public function __construct(
         $name,

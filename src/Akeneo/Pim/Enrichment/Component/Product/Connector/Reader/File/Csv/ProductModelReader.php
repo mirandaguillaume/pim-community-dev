@@ -19,12 +19,6 @@ use Akeneo\Tool\Component\Connector\Reader\File\MediaPathTransformer;
  */
 class ProductModelReader extends Reader implements FileReaderInterface
 {
-    /**
-     * @param FileIteratorFactory     $fileIteratorFactory
-     * @param ArrayConverterInterface $converter
-     * @param MediaPathTransformer    $mediaPathTransformer
-     * @param array                   $options
-     */
     public function __construct(
         FileIteratorFactory $fileIteratorFactory,
         ArrayConverterInterface $converter,

@@ -40,9 +40,8 @@ class AttributeOptionNormalizer extends BaseNormalizer
 
         $attributeOption = $this->normalizeAttributeOption($object, $format, $context);
         unset($attributeOption['labels']);
-        $attributeOption += $this->normalizeLabels($object, $context);
 
-        return $attributeOption;
+        return $attributeOption + $this->normalizeLabels($object, $context);
     }
 
     private function normalizeAttributeOption($object, ?string $format, array $context): array

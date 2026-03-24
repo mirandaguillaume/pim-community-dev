@@ -171,8 +171,6 @@ class BatchStatus implements \Stringable
 
     /**
      * Return the string representation of the current status
-     *
-     * @return string
      */
     public function __toString(): string
     {

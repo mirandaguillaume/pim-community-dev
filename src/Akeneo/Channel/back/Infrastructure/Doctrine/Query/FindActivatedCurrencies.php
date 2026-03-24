@@ -28,9 +28,7 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
     /**
      * Method that returns a list of currencies codes activated for the given channel.
      *
-     * @param string $channelCode
      *
-     * @return array
      *
      * @throws DBALException
      */

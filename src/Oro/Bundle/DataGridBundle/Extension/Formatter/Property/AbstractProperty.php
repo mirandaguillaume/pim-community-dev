@@ -124,9 +124,8 @@ abstract class AbstractProperty implements PropertyInterface
 
         $metadata = $this->get()->toArray([], array_merge($this->excludeParams, $this->excludeParamsDefault));
         $metadata = $this->mapParams($metadata);
-        $metadata = array_merge($defaultMetadata, $this->guessAdditionalMetadata(), $metadata);
 
-        return $metadata;
+        return array_merge($defaultMetadata, $this->guessAdditionalMetadata(), $metadata);
     }
 
     /**
@@ -156,7 +155,6 @@ abstract class AbstractProperty implements PropertyInterface
      * Get param if exists or default value
      *
      * @param string $paramName
-     * @param null   $default
      *
      * @return mixed
      */
@@ -195,14 +193,12 @@ abstract class AbstractProperty implements PropertyInterface
     {
         $metadata = [];
 
-        $metadata = match ($this->getOr(self::FRONTEND_TYPE_KEY)) {
+        return match ($this->getOr(self::FRONTEND_TYPE_KEY)) {
             self::TYPE_INTEGER => ['style' => 'integer'],
             self::TYPE_DECIMAL => ['style' => 'decimal'],
             self::TYPE_PERCENT => ['style' => 'percent'],
             self::TYPE_BOOLEAN => ['width' => 10],
             default => $metadata,
         };
-
-        return $metadata;
     }
 }

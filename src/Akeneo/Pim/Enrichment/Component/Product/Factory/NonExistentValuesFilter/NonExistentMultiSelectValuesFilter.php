@@ -77,8 +77,8 @@ class NonExistentMultiSelectValuesFilter implements NonExistentValuesFilter
 
         foreach ($selectValues as $attributeCode => $valueCollection) {
             foreach ($valueCollection as $values) {
-                foreach ($values['values'] as $channel => $channelValues) {
-                    foreach ($channelValues as $locale => $value) {
+                foreach ($values['values'] as $channelValues) {
+                    foreach ($channelValues as $value) {
                         if (\is_array($value)) {
                             foreach ($value as $optionCode) {
                                 $optionCodes[$attributeCode][] = $optionCode;

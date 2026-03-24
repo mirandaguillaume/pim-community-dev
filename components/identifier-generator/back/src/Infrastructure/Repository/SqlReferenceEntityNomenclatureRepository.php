@@ -46,8 +46,6 @@ class SqlReferenceEntityNomenclatureRepository implements ReferenceEntityNomencl
     }
 
     /**
-     * @param string $attributeCode
-     * @return NomenclatureDefinition|null
      * @throws Exception
      */
     private function getNomenclatureDefinition(string $attributeCode): ?NomenclatureDefinition

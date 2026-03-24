@@ -23,7 +23,6 @@ interface ComparatorRegistryInterface
     /**
      * Add a comparator for attribute to the chain of comparators
      *
-     * @param ComparatorInterface $comparator
      * @param int                 $priority
      */
     public function addAttributeComparator(ComparatorInterface $comparator, $priority);
@@ -40,7 +39,6 @@ interface ComparatorRegistryInterface
     /**
      * Add a comparator for product's field to the chain of comparators
      *
-     * @param ComparatorInterface $comparator
      * @param int                 $priority
      */
     public function addFieldComparator(ComparatorInterface $comparator, $priority);

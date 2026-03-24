@@ -18,7 +18,7 @@ final class IsUserOwnerOfTheProduct extends Constraint
      * {@inheritDoc}
      */
     #[\Override]
-    public function getTargets(): string|array
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }

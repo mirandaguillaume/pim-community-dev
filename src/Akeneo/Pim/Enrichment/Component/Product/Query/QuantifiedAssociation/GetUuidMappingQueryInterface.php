@@ -18,16 +18,12 @@ interface GetUuidMappingQueryInterface
     /**
      * @param string[] $productIdentifiers
      * @param UuidInterface[] $productUuids
-     *
-     * @return UuidMapping
      */
     public function fromProductIdentifiers(array $productIdentifiers, array $productUuids): UuidMapping;
 
     /**
      * @param int[] $productIds
      * @param UuidInterface[] $productUuids
-     *
-     * @return UuidMapping
      */
     public function fromProductIds(array $productIds, array $productUuids): UuidMapping;
 }

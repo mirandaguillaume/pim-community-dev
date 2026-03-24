@@ -151,11 +151,9 @@ class UserManager implements UserProviderInterface
      * It is strongly discouraged to use this method manually as it bypasses
      * all ACL checks.
      *
-     * @param  SecurityUserInterface    $user
      * @throws UnsupportedUserException if a User Instance is given which is not managed by this UserManager
      *                                  (so another Manager could try managing it)
      * @throws UserNotFoundException if user could not be reloaded
-     * @return SecurityUserInterface
      */
     public function refreshUser(SecurityUserInterface $user): SecurityUserInterface
     {
@@ -163,12 +161,6 @@ class UserManager implements UserProviderInterface
 
         if (!$user instanceof $class) {
             throw new UnsupportedUserException('Account is not supported');
-        }
-
-        if (!$user instanceof SecurityUserInterface) {
-            throw new UnsupportedUserException(
-                sprintf('Expected an instance of Akeneo\UserManagement\Component\Model\UserInterface, but got "%s"', $user::class)
-            );
         }
 
         $refreshedUser = $this->findUserBy(['id' => $user->getId()]);

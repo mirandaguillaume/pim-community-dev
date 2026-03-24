@@ -16,7 +16,6 @@ interface CopierRegistryInterface
     /**
      * Register a copier
      *
-     * @param CopierInterface $copier
      *
      * @return CopierRegistryInterface
      */
@@ -41,8 +40,6 @@ interface CopierRegistryInterface
     public function getFieldCopier($fromField, $toField);
 
     /**
-     * @param AttributeInterface $fromAttribute
-     * @param AttributeInterface $toAttribute
      *
      * @return AttributeCopierInterface
      */

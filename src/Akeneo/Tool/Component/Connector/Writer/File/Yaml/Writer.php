@@ -33,7 +33,6 @@ class Writer extends AbstractFileWriter implements ItemWriterInterface, Flushabl
     protected array $state = [];
 
     /**
-     * @param ArrayConverterInterface $arrayConverter
      * @param string                  $header
      */
     public function __construct(

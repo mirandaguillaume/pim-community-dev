@@ -13,8 +13,6 @@ interface CountableRepositoryInterface
 {
     /**
      * Return the number of all entities
-     *
-     * @return int
      */
     public function countAll(): int;
 }

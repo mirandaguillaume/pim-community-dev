@@ -36,7 +36,6 @@ class FamilyVariant implements FamilyVariantInterface
     #[ORM\JoinColumn(name: 'family_id', referencedColumnName: 'id')]
     private ?\Akeneo\Pim\Structure\Component\Model\FamilyInterface $family = null;
 
-    /** @var Collection */
     #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface::class, cascade: ['persist', 'detach', 'remove'])]
     #[ORM\JoinTable(name: 'pim_catalog_family_variant_has_variant_attribute_sets')]
     #[ORM\JoinColumn(name: 'family_variant_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
@@ -45,7 +44,6 @@ class FamilyVariant implements FamilyVariantInterface
 
     private ?string $locale = null;
 
-    /** @var Collection */
     #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\FamilyVariantTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach'], orphanRemoval: true)]
     private \Doctrine\Common\Collections\Collection $translations;
 

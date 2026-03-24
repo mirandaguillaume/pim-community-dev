@@ -76,8 +76,6 @@ SQL;
     }
 
     /**
-     * @param string $attributeCode
-     * @return NomenclatureDefinition|null
      * @throws Exception
      */
     private function getNomenclatureDefinition(string $attributeCode): ?NomenclatureDefinition

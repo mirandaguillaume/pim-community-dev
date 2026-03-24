@@ -119,8 +119,6 @@ final class PriceCollectionValueFactory implements ValueFactory
      *         'currency' => 'USD',
      *     ],
      * ]
-     *
-     * @param array $arrayPrices
      */
     private function sortByCurrency(array $arrayPrices): array
     {

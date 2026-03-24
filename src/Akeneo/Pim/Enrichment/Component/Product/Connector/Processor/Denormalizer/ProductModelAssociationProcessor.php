@@ -48,13 +48,6 @@ class ProductModelAssociationProcessor extends AbstractProcessor implements
     /** @var bool */
     protected $enabledComparison = true;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param ObjectUpdaterInterface                $updater
-     * @param ValidatorInterface                    $validator
-     * @param FilterInterface                       $productAssocFilter
-     * @param ObjectDetacherInterface               $detacher
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
         ObjectUpdaterInterface $updater,

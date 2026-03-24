@@ -21,7 +21,6 @@ interface PathGeneratorInterface
      *      'path'      => '2/f/d/4/',
      *      'path_name' => '2/f/d/4/2fd4e1c67a2d28fced849ee1bb76e7391b93eb12_this_i_s_the___file.txt'
      *
-     * @param \SplFileInfo $file
      *
      * @return array
      */

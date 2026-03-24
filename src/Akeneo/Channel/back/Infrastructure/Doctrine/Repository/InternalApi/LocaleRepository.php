@@ -16,7 +16,6 @@ use Oro\Bundle\PimDataGridBundle\Doctrine\ORM\Repository\DatagridRepositoryInter
 class LocaleRepository extends EntityRepository implements DatagridRepositoryInterface
 {
     /**
-     * @param EntityManager $em
      * @param string        $class
      */
     public function __construct(EntityManager $em, $class)
@@ -29,8 +28,6 @@ class LocaleRepository extends EntityRepository implements DatagridRepositoryInt
      */
     public function createDatagridQueryBuilder()
     {
-        $qb = $this->createQueryBuilder('l');
-
-        return $qb;
+        return $this->createQueryBuilder('l');
     }
 }

@@ -54,9 +54,9 @@ class ProductPdfController
                 $product,
                 ProductPdfRenderer::PDF_FORMAT,
                 [
-                    'locale'        => $request->get('dataLocale', null),
+                    'locale'        => $request->get('dataLocale'),
                     'renderingDate' => $renderingDate,
-                    'scope'         => $request->get('dataScope', null),
+                    'scope'         => $request->get('dataScope'),
                 ]
             );
         } catch (RendererRequiredException $e) {

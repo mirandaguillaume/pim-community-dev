@@ -27,7 +27,6 @@ interface LocalizerInterface
      *
      * @param mixed  $data
      * @param string $attributeCode
-     * @param array  $options
      *
      * @return ConstraintViolationListInterface|null
      */
@@ -37,7 +36,6 @@ interface LocalizerInterface
      * Convert a localized value to the default format depending on options
      *
      * @param mixed $data
-     * @param array $options
      *
      * @return mixed
      */
@@ -47,7 +45,6 @@ interface LocalizerInterface
      * Convert a default value to a localized format depending on options
      *
      * @param mixed $data
-     * @param array $options
      *
      * @return mixed
      */

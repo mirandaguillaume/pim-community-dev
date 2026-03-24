@@ -14,7 +14,6 @@ interface ValueConverterRegistryInterface
     /**
      * Register a converter.
      *
-     * @param ValueConverterInterface $converter
      *
      * @return ValueConverterRegistry
      */

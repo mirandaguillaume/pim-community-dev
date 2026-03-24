@@ -45,16 +45,6 @@ class JobInstanceProcessor extends AbstractProcessor implements ItemProcessorInt
     /** @var JobRegistry */
     protected $jobRegistry;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param SimpleFactoryInterface                $factory
-     * @param ObjectUpdaterInterface                $updater
-     * @param ValidatorInterface                    $validator
-     * @param ObjectDetacherInterface               $objectDetacher
-     * @param JobParametersValidator                $jobParamsValidator
-     * @param JobParametersFactory                  $jobParamsFactory
-     * @param JobRegistry                           $jobRegistry
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
         SimpleFactoryInterface $factory,

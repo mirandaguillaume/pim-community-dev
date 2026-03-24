@@ -34,13 +34,6 @@ class ProductAndProductModelDatasource extends Datasource
     /** @var ValidatorInterface */
     protected $validator;
 
-    /**
-     * @param ObjectManager                         $om
-     * @param ProductQueryBuilderFactoryInterface   $factory
-     * @param NormalizerInterface                   $serializer
-     * @param ValidatorInterface                    $validator
-     * @param Query\FetchProductAndProductModelRows $fetchRows
-     */
     public function __construct(
         ObjectManager $om,
         ProductQueryBuilderFactoryInterface $factory,

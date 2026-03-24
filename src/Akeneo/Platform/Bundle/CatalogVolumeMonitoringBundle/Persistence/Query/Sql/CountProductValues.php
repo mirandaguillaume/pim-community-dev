@@ -38,8 +38,6 @@ class CountProductValues implements CountQuery
             SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
 
-        $volume = new CountVolume((int) $result['sum_product_values'], self::VOLUME_NAME);
-
-        return $volume;
+        return new CountVolume((int) $result['sum_product_values'], self::VOLUME_NAME);
     }
 }

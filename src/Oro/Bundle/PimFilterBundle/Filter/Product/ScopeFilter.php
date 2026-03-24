@@ -31,11 +31,6 @@ class ScopeFilter extends ChoiceFilter
 
     /**
      * Constructor
-     *
-     * @param FormFactoryInterface $factory
-     * @param FilterUtility        $util
-     * @param CatalogContext       $catalogContext
-     * @param UserContext          $userContext
      */
     public function __construct(
         FormFactoryInterface $factory,
@@ -84,7 +79,7 @@ class ScopeFilter extends ChoiceFilter
     {
         $metadata = parent::getMetadata();
 
-        $defaultScope = $this->userContext->getUserChannel();
+        $this->userContext->getUserChannel();
         $metadata['populateDefault'] = false;
         unset($metadata['placeholder']);
 

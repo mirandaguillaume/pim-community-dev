@@ -18,8 +18,5 @@ use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
  */
 interface EntityWithFamilyInterface extends EntityWithValuesInterface
 {
-    /**
-     * @return null|FamilyInterface
-     */
     public function getFamily(): ?FamilyInterface;
 }

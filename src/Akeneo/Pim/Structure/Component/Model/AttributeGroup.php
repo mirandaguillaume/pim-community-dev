@@ -200,7 +200,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     public function removeAttribute(AttributeInterface $attribute)
     {
         $this->attributes->removeElement($attribute);
-        $attribute->setGroup(null);
+        $attribute->setGroup();
 
         return $this;
     }

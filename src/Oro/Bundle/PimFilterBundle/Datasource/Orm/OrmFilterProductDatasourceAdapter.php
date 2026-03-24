@@ -25,8 +25,6 @@ class OrmFilterProductDatasourceAdapter extends OrmFilterDatasourceAdapter imple
 
     /**
      * Constructor
-     *
-     * @param DatasourceInterface $datasource
      */
     public function __construct(DatasourceInterface $datasource)
     {

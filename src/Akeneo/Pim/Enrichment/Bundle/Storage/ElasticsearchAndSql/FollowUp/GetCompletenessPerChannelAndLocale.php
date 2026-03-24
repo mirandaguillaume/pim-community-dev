@@ -235,8 +235,6 @@ class GetCompletenessPerChannelAndLocale implements GetCompletenessPerChannelAnd
                 $channelCompletenesses[$channelCompleteness->channel()] = $channelCompleteness;
             }
         }
-
-        $completenessWidget = new CompletenessWidget($channelCompletenesses);
-        return $completenessWidget;
+        return new CompletenessWidget($channelCompletenesses);
     }
 }

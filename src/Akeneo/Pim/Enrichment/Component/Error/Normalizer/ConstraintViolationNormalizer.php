@@ -29,7 +29,6 @@ class ConstraintViolationNormalizer extends ViolationNormalizer
     /**
      * @param ConstraintViolationInterface $object
      * @param string $format
-     * @param array $context
      */
     #[\Override]
     public function normalize($object, $format = null, array $context = []): array

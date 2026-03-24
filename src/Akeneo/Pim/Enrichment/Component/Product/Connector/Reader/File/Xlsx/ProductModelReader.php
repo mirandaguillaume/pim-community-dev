@@ -17,12 +17,6 @@ use Akeneo\Tool\Component\Connector\Reader\File\Xlsx\Reader;
  */
 class ProductModelReader extends Reader implements FileReaderInterface
 {
-    /**
-     * @param FileIteratorFactory     $fileIteratorFactory
-     * @param ArrayConverterInterface $converter
-     * @param array                   $options
-     * @param MediaPathTransformer    $mediaPathTransformer
-     */
     public function __construct(
         FileIteratorFactory $fileIteratorFactory,
         ArrayConverterInterface $converter,

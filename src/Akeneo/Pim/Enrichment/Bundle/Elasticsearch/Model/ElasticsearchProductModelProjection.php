@@ -56,7 +56,7 @@ final readonly class ElasticsearchProductModelProjection
     public function toArray(): array
     {
         $data = [
-            'id' => 'product_model_' . (string) $this->id,
+            'id' => 'product_model_' . $this->id,
             'identifier' => $this->code,
             'created' => $this->createdDate->format(self::INDEX_DATE_FORMAT),
             'updated' => $this->updatedDate->format(self::INDEX_DATE_FORMAT),
@@ -73,7 +73,7 @@ final readonly class ElasticsearchProductModelProjection
             'all_complete' => $this->allComplete,
             'all_incomplete' => $this->allIncomplete,
             'ancestors' => [
-                'ids' => null !== $this->parentId ? ['product_model_' . (string) $this->parentId] : [],
+                'ids' => null !== $this->parentId ? ['product_model_' . $this->parentId] : [],
                 'codes' => null !== $this->parentCode ? [$this->parentCode] : [],
                 'labels' => null !== $this->parentId ? $this->labels : [],
             ],

@@ -23,7 +23,7 @@ abstract class AbstractAttributeFilter implements AttributeFilterInterface
     protected const ATTRIBUTES_OF_ANCESTORS_ES_ID = 'attributes_of_ancestors';
 
     /** @var SearchQueryBuilder */
-    protected $searchQueryBuilder = null;
+    protected $searchQueryBuilder;
 
     /** @var ElasticsearchFilterValidator */
     protected $filterValidator;
@@ -106,10 +106,8 @@ abstract class AbstractAttributeFilter implements AttributeFilterInterface
      *
      * TODO: TIP-706 - All this logic should be done somewhere else
      *
-     * @param AttributeInterface $attribute
      * @param string|null        $locale
      * @param string|null        $channel
-     *
      * @return string
      */
     protected function getAttributePath(AttributeInterface $attribute, $locale, $channel)

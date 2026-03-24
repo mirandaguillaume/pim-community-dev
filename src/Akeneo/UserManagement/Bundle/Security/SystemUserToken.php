@@ -17,9 +17,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 final class SystemUserToken extends AbstractToken
 {
-    /**
-     * @param UserInterface $user
-     */
     public function __construct(UserInterface $user)
     {
         parent::__construct($user->getRoles());

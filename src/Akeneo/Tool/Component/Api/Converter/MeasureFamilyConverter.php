@@ -20,13 +20,11 @@ class MeasureFamilyConverter implements ArrayConverterInterface
      */
     public function convert(array $item, array $options = [])
     {
-        $convertedItem = [
+        return [
             'code'     => $item['family_code'],
             'standard' => $item['units']['standard'],
             'units'    => $this->convertUnits($item['units']),
         ];
-
-        return $convertedItem;
     }
 
     /**

@@ -41,15 +41,13 @@ class ReadValueCollectionFactory
     {
         $attributeCodes = [];
 
-        foreach ($rawValueCollections as $productIdentifier => $rawValues) {
+        foreach ($rawValueCollections as $rawValues) {
             foreach (\array_keys($rawValues) as $attributeCode) {
                 $attributeCodes[] = (string) $attributeCode;
             }
         }
 
-        $attributes = $this->getAttributeByCodes->forCodes(\array_unique($attributeCodes));
-
-        return $attributes;
+        return $this->getAttributeByCodes->forCodes(\array_unique($attributeCodes));
     }
 
     private function createValues(array $rawValueCollections, array $attributes): array

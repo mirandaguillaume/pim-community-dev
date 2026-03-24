@@ -34,13 +34,6 @@ class Processor extends AbstractProcessor implements ItemProcessorInterface, Ste
     /** @var ObjectDetacherInterface */
     protected $objectDetacher;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param SimpleFactoryInterface                $factory
-     * @param ObjectUpdaterInterface                $updater
-     * @param ValidatorInterface                    $validator
-     * @param ObjectDetacherInterface               $objectDetacher
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
         SimpleFactoryInterface $factory,

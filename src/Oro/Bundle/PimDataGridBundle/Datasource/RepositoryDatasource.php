@@ -29,10 +29,6 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /** @var array */
     protected $parameters = [];
 
-    /**
-     * @param DatagridRepositoryInterface $repository
-     * @param HydratorInterface           $hydrator
-     */
     public function __construct(DatagridRepositoryInterface $repository, HydratorInterface $hydrator)
     {
         $this->repository = $repository;

@@ -23,10 +23,6 @@ class FamilySorter extends BaseFieldSorter
     /** @var LocaleRepositoryInterface */
     protected $localeRepository;
 
-    /**
-     * @param LocaleRepositoryInterface $localeRepository
-     * @param array                     $supportedFields
-     */
     public function __construct(LocaleRepositoryInterface $localeRepository, array $supportedFields = [])
     {
         parent::__construct($supportedFields);

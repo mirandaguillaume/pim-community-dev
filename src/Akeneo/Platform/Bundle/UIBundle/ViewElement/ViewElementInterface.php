@@ -48,8 +48,6 @@ interface ViewElementInterface
     /**
      * Add a new visibility checker to the view element
      *
-     * @param VisibilityCheckerInterface $checker
-     * @param array                      $config
      *
      * @return ViewElementInterface
      */

@@ -81,9 +81,8 @@ class ColumnsMerger
 
         $resultRow = $this->mergeMetricData($resultRow, $collectedMetrics, $options);
         $resultRow = $this->mergePriceData($resultRow, $collectedPrices);
-        $resultRow = $this->mergeQuantifiedAssociationData($resultRow, $collectedQuantifiedAssociations);
 
-        return $resultRow;
+        return $this->mergeQuantifiedAssociationData($resultRow, $collectedQuantifiedAssociations);
     }
 
     /**

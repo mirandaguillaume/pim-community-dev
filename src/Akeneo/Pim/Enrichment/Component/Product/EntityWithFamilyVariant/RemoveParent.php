@@ -42,7 +42,7 @@ class RemoveParent implements RemoveParentInterface
 
         $parent = $product->getParent();
         $parent->removeProduct($product);
-        $product->setParent(null);
+        $product->setParent();
 
         foreach ($allCategories as $category) {
             $product->addCategory($category);

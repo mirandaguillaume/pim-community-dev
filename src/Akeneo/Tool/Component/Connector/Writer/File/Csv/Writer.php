@@ -26,7 +26,7 @@ class Writer extends AbstractFileWriter implements ItemWriterInterface, Initiali
     protected $arrayConverter;
 
     /** @var FlatItemBuffer */
-    protected $flatRowBuffer = null;
+    protected $flatRowBuffer;
 
     /** @var FlatItemBufferFlusher */
     protected $flusher;

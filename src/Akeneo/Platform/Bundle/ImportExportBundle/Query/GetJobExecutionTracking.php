@@ -63,7 +63,7 @@ class GetJobExecutionTracking
         $jobExecutionTracking->status = (string) $jobExecution->getStatus();
         $jobExecutionTracking->currentStep = count($jobExecution->getStepExecutions());
         $jobExecutionTracking->totalSteps = $job instanceof JobWithStepsInterface ? count($job->getSteps()) : 0;
-        $jobExecutionTracking->steps = $this->createStepExecutionsTrackingWithJob($job, $stepExecutions, $jobExecution->getCreateTime());
+        $jobExecutionTracking->steps = $this->createStepExecutionsTrackingWithJob($job, $stepExecutions);
 
         return $jobExecutionTracking;
     }
@@ -84,7 +84,7 @@ class GetJobExecutionTracking
         return $jobExecutionTracking;
     }
 
-    private function createStepExecutionsTrackingWithJob(JobInterface $job, Collection $stepExecutions, \DateTime $createdTime): array
+    private function createStepExecutionsTrackingWithJob(JobInterface $job, Collection $stepExecutions): array
     {
         if (!$job instanceof JobWithStepsInterface) {
             return [];

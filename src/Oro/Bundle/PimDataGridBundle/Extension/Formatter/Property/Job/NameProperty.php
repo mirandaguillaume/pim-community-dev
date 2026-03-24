@@ -18,10 +18,6 @@ class NameProperty extends FieldProperty
     /** @var JobRegistry */
     protected $jobRegistry;
 
-    /**
-     * @param JobRegistry         $jobRegistry
-     * @param TranslatorInterface $translator
-     */
     public function __construct(JobRegistry $jobRegistry, TranslatorInterface $translator)
     {
         $this->jobRegistry = $jobRegistry;
@@ -50,8 +46,6 @@ class NameProperty extends FieldProperty
      */
     protected function getAllJobs()
     {
-        $jobs = $this->jobRegistry->all();
-
-        return $jobs;
+        return $this->jobRegistry->all();
     }
 }

@@ -7,9 +7,9 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\DBAL\ParameterType;
 
 /**
  * SQL Query to get the properties and the values from a set of product model codes:

@@ -20,7 +20,6 @@ class File extends BaseFile
     /** @var array */
     public $allowedExtensions = [];
 
-    /** @var string */
     public string $extensionsMessage = 'The %type% file extension is not allowed for the %attribute% attribute. Allowed extensions are %extensions%.';
 
     /** @var string */

@@ -103,10 +103,7 @@ class EventsApiDebugLogger implements
     }
 
     /**
-     * @param string $connectionCode
      * @param array<WebhookEvent> $webhookEvents
-     * @param string $url
-     * @param int $statusCode
      * @param array<array<string>> $headers
      */
     public function logEventsApiRequestFailed(string $connectionCode, array $webhookEvents, string $url, int $statusCode, array $headers): void

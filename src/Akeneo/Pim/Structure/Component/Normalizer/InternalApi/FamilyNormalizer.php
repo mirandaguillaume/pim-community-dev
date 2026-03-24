@@ -198,8 +198,6 @@ class FamilyNormalizer implements NormalizerInterface
      */
     private function getAttributeAxisCodesForFamilyVariant(FamilyVariantInterface $familyVariant): array
     {
-        $attributesAxisCodes = array_map(fn ($attribute) => $attribute->getCode(), $familyVariant->getAxes()->toArray());
-
-        return $attributesAxisCodes;
+        return array_map(fn ($attribute) => $attribute->getCode(), $familyVariant->getAxes()->toArray());
     }
 }

@@ -28,9 +28,8 @@ class GroupSavingOptionsResolver implements SavingOptionsResolverInterface
                 'unitary'                 => true,
             ]
         );
-        $options = $resolver->resolve($options);
 
-        return $options;
+        return $resolver->resolve($options);
     }
 
     /**

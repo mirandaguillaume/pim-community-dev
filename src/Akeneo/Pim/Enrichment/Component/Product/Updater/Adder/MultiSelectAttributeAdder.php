@@ -18,10 +18,6 @@ use Webmozart\Assert\Assert;
  */
 class MultiSelectAttributeAdder extends AbstractAttributeAdder
 {
-    /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     * @param array                            $supportedTypes
-     */
     public function __construct(EntityWithValuesBuilderInterface $entityWithValuesBuilder, array $supportedTypes)
     {
         parent::__construct($entityWithValuesBuilder);

@@ -32,10 +32,8 @@ class VariantProductRepository implements VariantProductRepositoryInterface
             ->from(ProductInterface::class, 'vp')
             ->where('vp.parent = :parent')
             ->setParameter('parent', $product->getParent());
-
-        if (($uuid = $product->getUuid()) instanceof \Ramsey\Uuid\UuidInterface) {
-            $qb->andWhere('vp.uuid != :uuid')->setParameter('uuid', $uuid);
-        }
+        $uuid = $product->getUuid();
+        $qb->andWhere('vp.uuid != :uuid')->setParameter('uuid', $uuid);
 
         return $qb->getQuery()->getResult();
     }

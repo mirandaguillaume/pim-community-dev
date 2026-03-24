@@ -19,7 +19,6 @@ class ValidRegexValidator extends ConstraintValidator
      * Validate regex
      *
      * @param mixed      $value
-     * @param Constraint $constraint
      *
      * @throws \Exception
      */

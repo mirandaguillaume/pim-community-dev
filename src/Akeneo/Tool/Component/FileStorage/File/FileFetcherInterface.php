@@ -16,9 +16,7 @@ use League\Flysystem\FilesystemReader;
 interface FileFetcherInterface
 {
     /**
-     * @param FilesystemReader $filesystem
      * @param string              $fileKey
-     * @param array               $options
      *
      * @throws FileTransferException
      * @throws \LogicException

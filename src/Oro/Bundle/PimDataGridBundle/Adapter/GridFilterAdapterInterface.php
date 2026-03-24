@@ -12,8 +12,6 @@ namespace Oro\Bundle\PimDataGridBundle\Adapter;
 interface GridFilterAdapterInterface
 {
     /**
-     * @param array $parameters
-     *
      * @return array
      *
      * Converter is also eligible

@@ -15,8 +15,5 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
  */
 interface DefaultProperty
 {
-    /**
-     * @return UserInterface
-     */
     public function mutate(UserInterface $user): UserInterface;
 }

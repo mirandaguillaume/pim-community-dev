@@ -21,9 +21,7 @@ class ProcessorDecorator
      */
     public function process(array $data)
     {
-        $result = $this->getProcessor()->process($this->getConfigurationTree()->buildTree(), $data);
-
-        return $result;
+        return $this->getProcessor()->process($this->getConfigurationTree()->buildTree(), $data);
     }
 
     /**
@@ -64,14 +62,12 @@ class ProcessorDecorator
      */
     protected function getEmptyFinalArray()
     {
-        $result = [
+        return [
             self::ROOT => array_fill_keys(
                 [self::GROUPS_NODE, self::FIELDS_ROOT, self::TREE_ROOT],
                 []
             ),
         ];
-
-        return $result;
     }
 
     /**
@@ -110,7 +106,7 @@ class ProcessorDecorator
     {
         $builder = new TreeBuilder(self::GROUPS_NODE);
 
-        $node = $builder->getRootNode()
+        return $builder->getRootNode()
             ->prototype('array')
                 ->children()
                     ->scalarNode('title')->isRequired()->end()
@@ -119,8 +115,6 @@ class ProcessorDecorator
                     ->integerNode('priority')->end()
                 ->end()
             ->end();
-
-        return $node;
     }
 
     /**
@@ -130,7 +124,7 @@ class ProcessorDecorator
     {
         $builder = new TreeBuilder(self::FIELDS_ROOT);
 
-        $node = $builder->getRootNode()
+        return $builder->getRootNode()
             ->prototype('array')
                 ->children()
                     ->scalarNode('type')->isRequired()->end()
@@ -141,8 +135,6 @@ class ProcessorDecorator
                     ->integerNode('priority')->end()
                 ->end()
             ->end();
-
-        return $node;
     }
 
     /**
@@ -152,7 +144,7 @@ class ProcessorDecorator
     {
         $builder = new TreeBuilder(self::TREE_ROOT);
 
-        $node = $builder->getRootNode()
+        return $builder->getRootNode()
             ->prototype('array')
                 ->prototype('array')
                     ->children()
@@ -165,7 +157,5 @@ class ProcessorDecorator
                     ->end()
                 ->end()
             ->end();
-
-        return $node;
     }
 }

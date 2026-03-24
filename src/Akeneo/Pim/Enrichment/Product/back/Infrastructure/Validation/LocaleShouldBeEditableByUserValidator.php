@@ -33,7 +33,7 @@ final class LocaleShouldBeEditableByUserValidator extends ConstraintValidator
         $localeCode = $valueUserIntent->localeCode();
         $userId = $command->userId();
 
-        if (-1 === (int) $userId) {
+        if (-1 === $userId) {
             return;
         }
 

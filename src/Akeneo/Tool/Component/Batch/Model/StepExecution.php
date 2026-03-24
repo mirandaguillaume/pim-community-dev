@@ -42,7 +42,7 @@ class StepExecution implements \Stringable
 
     /** @var integer */
     #[ORM\Column(type: Types::INTEGER)]
-    private $status = null;
+    private $status;
 
     #[ORM\Column(name: 'read_count', type: Types::INTEGER)]
     private int $readCount = 0;
@@ -641,7 +641,6 @@ class StepExecution implements \Stringable
 
     /**
      * To string
-     * @return string
      */
     public function __toString(): string
     {

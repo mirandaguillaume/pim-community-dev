@@ -21,10 +21,6 @@ class InGroupSorter extends BaseFieldSorter implements FieldSorterInterface
     /** @var GroupRepositoryInterface */
     protected $groupRepository;
 
-    /**
-     * @param GroupRepositoryInterface $groupRepository
-     * @param array                    $supportedFields
-     */
     public function __construct(
         GroupRepositoryInterface $groupRepository,
         array $supportedFields = []

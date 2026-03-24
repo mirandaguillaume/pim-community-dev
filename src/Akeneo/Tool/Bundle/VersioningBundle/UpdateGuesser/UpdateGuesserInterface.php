@@ -34,10 +34,8 @@ interface UpdateGuesserInterface
     /**
      * Get updated entities
      *
-     * @param EntityManager $em
      * @param object        $entity
      * @param string        $action
-     *
      * @return array
      */
     public function guessUpdates(EntityManager $em, $entity, $action);

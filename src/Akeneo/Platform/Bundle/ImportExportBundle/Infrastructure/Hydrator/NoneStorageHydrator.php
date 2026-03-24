@@ -15,7 +15,7 @@ use Akeneo\Platform\Bundle\ImportExportBundle\Domain\StorageHydratorInterface;
 
 final class NoneStorageHydrator implements StorageHydratorInterface
 {
-    public function hydrate(array $normalizedStorage): StorageInterface|NoneStorage
+    public function hydrate(array $normalizedStorage): \Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model\NoneStorage
     {
         return new NoneStorage();
     }

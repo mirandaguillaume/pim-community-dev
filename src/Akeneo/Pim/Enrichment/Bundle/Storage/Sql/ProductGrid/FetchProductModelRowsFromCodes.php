@@ -12,9 +12,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\FetchProductModelRowsFromCodes
 use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
@@ -31,10 +31,6 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
     }
 
     /**
-     * @param array  $codes
-     * @param array  $attributeCodes
-     * @param string $channelCode
-     * @param string $localeCode
      *
      * @return ReadModel\Row[]
      */

@@ -42,7 +42,6 @@ interface AssociationInterface extends ReferableInterface
     /**
      * Add a product
      *
-     * @param ProductInterface $product
      *
      * @return AssociationInterface
      */
@@ -51,7 +50,6 @@ interface AssociationInterface extends ReferableInterface
     /**
      * Remove a product
      *
-     * @param ProductInterface $product
      *
      * @return AssociationInterface
      */
@@ -60,7 +58,6 @@ interface AssociationInterface extends ReferableInterface
     /**
      * Has a product
      *
-     * @param ProductInterface $product
      *
      * @return bool
      */
@@ -73,15 +70,11 @@ interface AssociationInterface extends ReferableInterface
 
     /**
      * Add a product model
-     *
-     * @param ProductModelInterface $productModel
      */
     public function addProductModel(ProductModelInterface $productModel): void;
 
     /**
      * Remove a product model
-     *
-     * @param ProductModelInterface $productModel
      */
     public function removeProductModel(ProductModelInterface $productModel): void;
 
@@ -111,7 +104,6 @@ interface AssociationInterface extends ReferableInterface
     /**
      * Set association type
      *
-     * @param AssociationTypeInterface $associationType
      *
      * @return AssociationInterface
      */
@@ -120,7 +112,6 @@ interface AssociationInterface extends ReferableInterface
     /**
      * Add a group
      *
-     * @param GroupInterface $group
      *
      * @return AssociationInterface
      */
@@ -136,7 +127,6 @@ interface AssociationInterface extends ReferableInterface
     /**
      * Remove a group
      *
-     * @param GroupInterface $group
      *
      * @return AssociationInterface
      */
@@ -152,7 +142,6 @@ interface AssociationInterface extends ReferableInterface
     /**
      * Set owner
      *
-     * @param EntityWithAssociationsInterface $owner
      *
      * @return AssociationInterface
      */

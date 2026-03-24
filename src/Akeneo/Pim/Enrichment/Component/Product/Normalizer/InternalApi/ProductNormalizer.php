@@ -111,7 +111,6 @@ class ProductNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param string|null      $scopeCode
      * @return array
      */
     protected function getLabels(ProductInterface $product, ?string $scopeCode = null)
@@ -151,18 +150,10 @@ class ProductNormalizer implements NormalizerInterface
      * It allows to not persist the missing attributes in database, which was time costly and maintenance costly
      * (error during concurrent insertion, EAV table format, etc). The performance benefit when saving a product
      * outweighs the cost when calculating the missing attributes here.
-     *
-     * @param ProductInterface $product
      */
     protected function getCompletenesses(ProductInterface $product): ProductCompletenessWithMissingAttributeCodesCollection
     {
-        $completenessCollection = $this->missingRequiredAttributesCalculator->fromEntityWithFamily($product);
-
-        if (!$completenessCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompletenessWithMissingAttributeCodesCollection) {
-            $completenessCollection = new ProductCompletenessWithMissingAttributeCodesCollection($product->getUuid(), []);
-        }
-
-        return $completenessCollection;
+        return $this->missingRequiredAttributesCalculator->fromEntityWithFamily($product);
     }
 
     /**
@@ -192,7 +183,7 @@ class ProductNormalizer implements NormalizerInterface
             'level'                     => null,
         ];
 
-        if (!$product instanceof ProductInterface || !$product->isVariant()) {
+        if (!$product->isVariant()) {
             return $meta;
         }
 

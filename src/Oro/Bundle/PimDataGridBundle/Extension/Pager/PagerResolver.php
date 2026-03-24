@@ -34,8 +34,6 @@ class PagerResolver implements PagerResolverInterface
      * @param string $datagridName
      *
      * @throws InvalidConfigurationException
-     *
-     * @return PagerInterface
      */
     public function getPager($datagridName): PagerInterface
     {

@@ -20,9 +20,8 @@ class ProductQueryBuilderSearchAfterOptionsResolver implements ProductQueryBuild
     public function resolve(array $options)
     {
         $resolver = $this->createOptionsResolver();
-        $options = $resolver->resolve($options);
 
-        return $options;
+        return $resolver->resolve($options);
     }
 
     /**

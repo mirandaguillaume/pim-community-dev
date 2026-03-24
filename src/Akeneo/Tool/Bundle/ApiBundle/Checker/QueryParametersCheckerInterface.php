@@ -17,8 +17,6 @@ interface QueryParametersCheckerInterface
      * Checks $localeCodes if they exist.
      * Throws an exception if one of them does not exist or, if there is a $channel, one of them does not belong to it.
      *
-     * @param array                 $localeCodes
-     * @param ChannelInterface|null $channel
      *
      * @throws UnprocessableEntityHttpException
      */
@@ -27,7 +25,6 @@ interface QueryParametersCheckerInterface
     /**
      * Checks $attributeCodes if they exist. Thrown an exception if one of them does not exist.
      *
-     * @param array $attributeCodes
      *
      * @throws UnprocessableEntityHttpException
      */
@@ -36,7 +33,6 @@ interface QueryParametersCheckerInterface
     /**
      * Checks $categories if they exist. Thrown an exception if one of them does not exist.
      *
-     * @param array $categories
      *
      * @throws UnprocessableEntityHttpException
      */
@@ -46,11 +42,9 @@ interface QueryParametersCheckerInterface
      * Prepares criterias from search parameters
      * It throws exceptions if search parameters are not correctly filled
      *
-     * @param string $searchString
      *
      * @throws UnprocessableEntityHttpException
      * @throws BadRequestHttpException
-     *
      * @return array
      */
     public function checkCriterionParameters(string $searchString);
@@ -58,8 +52,6 @@ interface QueryParametersCheckerInterface
     /**
      * Checks if the property is valid.
      *
-     * @param string $property
-     * @param string $operator
      *
      * @throws UnprocessableEntityHttpException
      */

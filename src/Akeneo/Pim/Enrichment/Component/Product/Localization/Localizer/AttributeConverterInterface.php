@@ -16,8 +16,6 @@ interface AttributeConverterInterface
     /**
      * Convert localized attributes to default format
      *
-     * @param array $items
-     * @param array $options
      *
      * @return array
      */
@@ -26,8 +24,6 @@ interface AttributeConverterInterface
     /**
      * Convert localized attributes to localized format
      *
-     * @param array $items
-     * @param array $options
      *
      * @return array
      */

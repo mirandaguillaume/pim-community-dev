@@ -67,8 +67,6 @@ class FromSizeIdentifierResultCursorFactory implements CursorFactoryInterface
         $resolver->setAllowedTypes('limit', 'int');
         $resolver->setAllowedTypes('from', 'int');
 
-        $options = $resolver->resolve($options);
-
-        return $options;
+        return $resolver->resolve($options);
     }
 }

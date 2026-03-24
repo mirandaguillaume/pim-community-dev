@@ -156,8 +156,6 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
      * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#_reserved_characters
      *
      * TODO: TIP-706 - This may move somewhere else
-     *
-     * @param string $value
      */
     protected function escapeValue(string $value): string
     {

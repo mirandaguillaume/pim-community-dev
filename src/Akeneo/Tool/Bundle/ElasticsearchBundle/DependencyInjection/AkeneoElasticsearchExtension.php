@@ -38,9 +38,6 @@ class AkeneoElasticsearchExtension extends Extension
      * `akeneo_elasticsearch.indexes`.
      *
      * Also registers those clients in the elasticsearch client registry `akeneo_elasticsearch.registry.clients`.
-     *
-     * @param array            $configs
-     * @param ContainerBuilder $container
      */
     private function registerEsClientsFromConfiguration(array $configs, ContainerBuilder $container): void
     {

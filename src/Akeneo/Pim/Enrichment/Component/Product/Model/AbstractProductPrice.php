@@ -11,7 +11,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Model;
  */
 abstract class AbstractProductPrice implements ProductPriceInterface, \Stringable
 {
-    /** @var null */
     protected $currency;
 
     /**

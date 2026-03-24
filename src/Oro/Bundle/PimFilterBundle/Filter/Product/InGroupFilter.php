@@ -27,11 +27,6 @@ class InGroupFilter extends BooleanFilter
 
     /**
      * Constructor
-     *
-     * @param FormFactoryInterface                $factory
-     * @param FilterUtility                       $util
-     * @param RequestParametersExtractorInterface $extractor
-     * @param ObjectCodeResolver                  $codeResolver
      */
     public function __construct(
         FormFactoryInterface $factory,

@@ -106,7 +106,7 @@ final readonly class ConnectorProductModel
     public function associatedProductIdentifiers(): array
     {
         $associatedProducts = [];
-        foreach ($this->associations as $associationType => $associations) {
+        foreach ($this->associations as $associations) {
             $associatedProducts[] = $associations['products'];
         }
 
@@ -116,7 +116,7 @@ final readonly class ConnectorProductModel
     public function associatedProductModelCodes(): array
     {
         $associatedProductModels = [];
-        foreach ($this->associations as $associationType => $associations) {
+        foreach ($this->associations as $associations) {
             $associatedProductModels[] = $associations['product_models'];
         }
 

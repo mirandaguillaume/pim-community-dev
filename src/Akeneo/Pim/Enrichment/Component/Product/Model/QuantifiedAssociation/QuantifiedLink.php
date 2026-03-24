@@ -30,7 +30,7 @@ class QuantifiedLink
     {
         Assert::stringNotEmpty($identifier);
 
-        return new self($quantity, $identifier, null);
+        return new self($quantity, $identifier);
     }
 
     public static function fromUuid(string $uuid, ?string $identifier, int $quantity)

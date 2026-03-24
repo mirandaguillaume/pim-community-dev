@@ -40,7 +40,7 @@ class OperationCountValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->maxMessage)
                 ->setParameter('%limit%', (string) $this->max)
                 ->setInvalidValue($value)
-                ->setPlural((int) $this->max)
+                ->setPlural($this->max)
                 ->addViolation();
 
             return;
@@ -50,7 +50,7 @@ class OperationCountValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->minMessage)
                 ->setParameter('%limit%', (string) $this->min)
                 ->setInvalidValue($value)
-                ->setPlural((int) $this->min)
+                ->setPlural($this->min)
                 ->addViolation();
         }
     }

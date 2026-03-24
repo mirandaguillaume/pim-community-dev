@@ -288,7 +288,7 @@ class ProductController
 
         if (null === $product) {
             throw new NotFoundHttpException(
-                sprintf('Product with uuid %s could not be found.', (string) $uuid)
+                sprintf('Product with uuid %s could not be found.', $uuid)
             );
         }
 

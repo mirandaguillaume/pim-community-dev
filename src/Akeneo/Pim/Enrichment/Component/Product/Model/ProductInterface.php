@@ -36,10 +36,8 @@ interface ProductInterface extends
     public function getUuid(): UuidInterface;
 
     /**
-     * @param string|null $identifierValue
      * @deprecated Will be removed use addValue instead.
      *
-     * @return self
      */
     public function setIdentifier(?string $identifierValue): self;
 
@@ -53,21 +51,16 @@ interface ProductInterface extends
     /**
      * Add a group
      *
-     * @param GroupInterface $group
      *
      * @return ProductInterface
      */
     public function addGroup(GroupInterface $group);
 
-    /**
-     * @param Collection $groups
-     */
     public function setGroups(Collection $groups): void;
 
     /**
      * Remove a group
      *
-     * @param GroupInterface $group
      *
      * @return ProductInterface
      */
@@ -97,8 +90,6 @@ interface ProductInterface extends
     public function isEnabled();
 
     /**
-     * @param AttributeInterface $attribute
-     *
      * @return bool
      */
     public function hasAttributeInFamily(AttributeInterface $attribute);
@@ -106,7 +97,6 @@ interface ProductInterface extends
     /**
      * Check if an attribute can be removed from the product
      *
-     * @param AttributeInterface $attribute
      *
      * @return bool
      */
@@ -115,7 +105,6 @@ interface ProductInterface extends
     /**
      * Check if an attribute can be edited from the product
      *
-     * @param AttributeInterface $attribute
      *
      * @return bool
      */
@@ -141,7 +130,6 @@ interface ProductInterface extends
     /**
      * Set family
      *
-     * @param ?FamilyInterface $family
      *
      * @return ProductInterface
      */
@@ -160,26 +148,16 @@ interface ProductInterface extends
     public function getUniqueData();
 
     /**
-     * @param ProductUniqueDataInterface $uniqueData
-     *
      * @return ProductInterface
      */
     public function addUniqueData(ProductUniqueDataInterface $uniqueData);
 
-    /**
-     * @param Collection $data
-     */
     public function setUniqueData(Collection $data): void;
 
-    /**
-     * @return bool
-     */
     public function isVariant(): bool;
 
     /**
      * Return the categories for a variation
-     *
-     * @return Collection
      */
     public function getCategoriesForVariation(): Collection;
 }

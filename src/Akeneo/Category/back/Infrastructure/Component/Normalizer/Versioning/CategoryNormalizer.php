@@ -42,9 +42,8 @@ class CategoryNormalizer implements NormalizerInterface
         $flatCategory = $standardCategory;
 
         unset($flatCategory['labels']);
-        $flatCategory += $this->translationNormalizer->normalize($standardCategory['labels'], 'flat', $context);
 
-        return $flatCategory;
+        return $flatCategory + $this->translationNormalizer->normalize($standardCategory['labels'], 'flat', $context);
     }
 
     public function supportsNormalization($data, $format = null): bool

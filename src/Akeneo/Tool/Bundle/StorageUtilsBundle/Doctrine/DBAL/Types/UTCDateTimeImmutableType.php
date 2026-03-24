@@ -59,9 +59,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
             );
         }
 
-        $converted = $converted->setTimezone($this->getDefaultTimeZone());
-
-        return $converted;
+        return $converted->setTimezone($this->getDefaultTimeZone());
     }
 
     private function getUtc(): \DateTimeZone

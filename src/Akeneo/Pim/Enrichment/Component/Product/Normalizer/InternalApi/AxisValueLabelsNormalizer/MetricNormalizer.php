@@ -21,12 +21,6 @@ class MetricNormalizer implements AxisValueLabelsNormalizer
     {
     }
 
-    /**
-     * @param ValueInterface $value
-     * @param string $locale
-     *
-     * @return string
-     */
     public function normalize(ValueInterface $value, string $locale): string
     {
         Assert::implementsInterface($value, MetricValueInterface::class);

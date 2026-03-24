@@ -18,14 +18,6 @@ class InvalidOptionsException extends InvalidPropertyException
 
     private readonly array $propertyValues;
 
-    /**
-     * @param string          $propertyName
-     * @param array           $propertyValues
-     * @param string          $className
-     * @param string          $message
-     * @param int             $code
-     * @param \Exception|null $previous
-     */
     public function __construct(
         string $propertyName,
         array $propertyValues,

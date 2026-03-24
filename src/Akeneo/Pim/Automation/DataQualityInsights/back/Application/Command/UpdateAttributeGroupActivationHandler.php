@@ -32,7 +32,7 @@ final readonly class UpdateAttributeGroupActivationHandler
         $attributeGroupCode = new AttributeGroupCode($command->attributeGroupCode);
         $attributeGroupActivation = $this->attributeGroupActivationRepository->getForAttributeGroupCode($attributeGroupCode);
 
-        $currentActivation = $attributeGroupActivation instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\AttributeGroupActivation ? $attributeGroupActivation->isActivated() : false;
+        $currentActivation = $attributeGroupActivation instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\AttributeGroupActivation && $attributeGroupActivation->isActivated();
         if ($currentActivation !== $command->isActivated) {
             $this->attributeGroupActivationRepository->save(
                 new AttributeGroupActivation($attributeGroupCode, $command->isActivated)

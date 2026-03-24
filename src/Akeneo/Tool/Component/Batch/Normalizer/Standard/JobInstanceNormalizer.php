@@ -21,7 +21,7 @@ class JobInstanceNormalizer implements NormalizerInterface
      */
     public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
-        $results = [
+        return [
             'code'          => $object->getCode(),
             'job_name'      => $object->getJobName(),
             'label'         => $object->getLabel(),
@@ -31,8 +31,6 @@ class JobInstanceNormalizer implements NormalizerInterface
             'automation'    => $object->getAutomation(),
             'scheduled'     => $object->isScheduled(),
         ];
-
-        return $results;
     }
 
     /**

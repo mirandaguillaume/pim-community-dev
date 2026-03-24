@@ -33,11 +33,6 @@ class CategoryFilter extends NumberFilter
     /** @var CategoryRepositoryInterface */
     protected $categoryRepo;
 
-    /**
-     * @param FormFactoryInterface        $factory
-     * @param FilterUtility               $util
-     * @param CategoryRepositoryInterface $categoryRepo
-     */
     public function __construct(
         FormFactoryInterface $factory,
         FilterUtility $util,
@@ -66,15 +61,8 @@ class CategoryFilter extends NumberFilter
         } else {
             return $this->applyFilterByCategory($ds, $data);
         }
-
-        return false;
     }
 
-    /**
-     * @param mixed $data
-     *
-     * @return array|bool
-     */
     #[\Override]
     public function parseData(mixed $data): array|bool
     {

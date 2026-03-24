@@ -40,8 +40,6 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
     /**
      * Inject attributes configurations in the product grid configuration
      *
-     *
-     * @return array
      */
     private function addAttributesConfig(DatagridConfiguration $configuration): void
     {

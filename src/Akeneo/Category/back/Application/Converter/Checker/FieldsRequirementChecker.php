@@ -57,18 +57,4 @@ class FieldsRequirementChecker implements RequirementChecker
             }
         }
     }
-
-    /**
-     * Check that if a category has a parent, the parent is not the category itself.
-     * (not used right now but will be useful in the future when dealing with a category's position in a tree).
-     * /!\ Do not forget to add test.
-     *
-     * @phpstan-ignore-next-line prevent phpstan verification due to not used function for now.
-     */
-    private function checkParentAutoReference(array $data): void
-    {
-        if ($data['code'] === $data['parent']) {
-            throw new StructureArrayConversionException(sprintf('The parent category of "%s" must be different from the category itself', $data['code']));
-        }
-    }
 }

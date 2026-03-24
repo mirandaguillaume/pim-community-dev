@@ -169,8 +169,6 @@ class LoggerSubscriber
     /**
      * Log the step execution when the step execution was errored
      *
-     *
-     * @return null
      */
     public function stepExecutionErrored(StepExecutionEvent $event)
     {

@@ -50,8 +50,6 @@ interface CommentInterface
     public function getResourceName();
 
     /**
-     * @param UserInterface $author
-     *
      * @return CommentInterface
      */
     public function setAuthor(UserInterface $author);
@@ -74,8 +72,6 @@ interface CommentInterface
     public function getBody();
 
     /**
-     * @param \DateTime $createdAt
-     *
      * @return CommentInterface
      */
     public function setCreatedAt(\DateTime $createdAt);
@@ -86,8 +82,6 @@ interface CommentInterface
     public function getCreatedAt();
 
     /**
-     * @param CommentInterface $parent
-     *
      * @return CommentInterface
      */
     public function setParent(CommentInterface $parent);
@@ -98,8 +92,6 @@ interface CommentInterface
     public function getParent();
 
     /**
-     * @param \DateTime $repliedAt
-     *
      * @return CommentInterface
      */
     public function setRepliedAt(\DateTime $repliedAt);
@@ -115,8 +107,6 @@ interface CommentInterface
     public function getChildren();
 
     /**
-     * @param ArrayCollection $children
-     *
      * @return CommentInterface
      */
     public function setChildren(ArrayCollection $children);

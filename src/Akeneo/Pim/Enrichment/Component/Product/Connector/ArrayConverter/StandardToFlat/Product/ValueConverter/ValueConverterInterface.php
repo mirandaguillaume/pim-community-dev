@@ -14,7 +14,6 @@ interface ValueConverterInterface
     /**
      * Does the converter supports the attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return bool
      */

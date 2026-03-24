@@ -55,8 +55,6 @@ class Locale implements LocaleInterface, VersionableInterface, \Stringable
 
     /**
      * To string
-     *
-     * @return string
      */
     public function __toString(): string
     {

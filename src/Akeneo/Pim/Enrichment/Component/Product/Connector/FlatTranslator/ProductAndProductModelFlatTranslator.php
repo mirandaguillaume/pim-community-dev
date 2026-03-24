@@ -20,9 +20,7 @@ class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
             $flatItemsByColumnName = $this->translateHeadersByColumnName($flatItemsByColumnName, $locale);
         }
 
-        $flatItems = $this->undoGroupFlatItemsByColumnName($flatItemsByColumnName);
-
-        return $flatItems;
+        return $this->undoGroupFlatItemsByColumnName($flatItemsByColumnName);
     }
 
     public function translateHeaders(array $columnCodes, string $locale): array

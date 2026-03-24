@@ -571,9 +571,6 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return (string) $this->getLabel();
@@ -804,8 +801,6 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     }
 
     /**
-     * @param ProductUniqueDataInterface $uniqueData
-     *
      * @return ProductInterface
      */
     public function addUniqueData(ProductUniqueDataInterface $uniqueData)
@@ -1019,10 +1014,6 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
         return null;
     }
 
-    /**
-     *
-     * @return WriteValueCollection
-     */
     private function getAllValues(
         EntityWithFamilyVariantInterface $entity,
         WriteValueCollection $valueCollection
@@ -1040,10 +1031,6 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
         return $this->getAllValues($parent, $valueCollection);
     }
 
-    /**
-     *
-     * @return Collection
-     */
     private function getAllCategories(
         EntityWithFamilyVariantInterface $entity,
         Collection $categoryCollection
@@ -1066,8 +1053,6 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     /**
      * Does the ancestry of the entity already has the $category?
      *
-     *
-     * @return bool
      */
     private function hasAncestryCategory(CategoryInterface $category): bool
     {

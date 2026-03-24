@@ -36,7 +36,7 @@ class LegacyMeasurementProvider
         );
 
         $result = [];
-        foreach ($measurementFamilies as $familyCode => $family) {
+        foreach ($measurementFamilies as $family) {
             $result = array_merge($result, $family);
         }
 

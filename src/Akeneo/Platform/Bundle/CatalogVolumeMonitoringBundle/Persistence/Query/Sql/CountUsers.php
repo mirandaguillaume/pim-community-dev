@@ -34,8 +34,7 @@ class CountUsers implements CountQuery
             SQL;
 
         $result = $this->connection->executeQuery($sql, ['type' => User::TYPE_USER])->fetchAssociative();
-        $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);
 
-        return $volume;
+        return new CountVolume((int) $result['count'], self::VOLUME_NAME);
     }
 }

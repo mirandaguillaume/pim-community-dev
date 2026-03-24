@@ -48,13 +48,12 @@ class AttributeGroupNormalizer implements NormalizerInterface
         $flatAttributeGroup['attributes'] = implode(self::ITEM_SEPARATOR, $standardAttributeGroup['attributes']);
 
         unset($flatAttributeGroup['labels']);
-        $flatAttributeGroup += $this->translationNormalizer->normalize(
+
+        return $flatAttributeGroup + $this->translationNormalizer->normalize(
             $standardAttributeGroup['labels'],
             'flat',
             $context
         );
-
-        return $flatAttributeGroup;
     }
 
     /**

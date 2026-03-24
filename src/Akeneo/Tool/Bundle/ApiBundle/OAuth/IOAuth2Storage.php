@@ -21,15 +21,11 @@ interface IOAuth2Storage
 
     /**
      * Look up the supplied oauth_token from storage.
-     *
-     * @return IOAuth2AccessToken|null
      */
     public function getAccessToken(string $oauthToken): ?IOAuth2AccessToken;
 
     /**
      * Store the supplied access token values to storage.
-     *
-     * @return IOAuth2AccessToken
      */
     public function createAccessToken(
         string $oauthToken,
@@ -59,8 +55,6 @@ interface IOAuth2Storage
 
     /**
      * Get a stored refresh token.
-     *
-     * @return IOAuth2RefreshToken|null
      */
     public function getRefreshToken(string $refreshToken): ?IOAuth2RefreshToken;
 

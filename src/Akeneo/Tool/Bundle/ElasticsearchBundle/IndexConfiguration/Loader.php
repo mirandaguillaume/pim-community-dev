@@ -90,11 +90,10 @@ class Loader
         $otherMappings = $additionalMappings;
         unset($otherMappings['properties']);
         unset($otherMappings['dynamic_templates']);
-        $originalMappings = array_replace_recursive(
+
+        return array_replace_recursive(
             $originalMappings,
             $otherMappings
         );
-
-        return $originalMappings;
     }
 }

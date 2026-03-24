@@ -17,7 +17,6 @@ interface ConstraintGuesserInterface
     /**
      * Tells whether or not the constraint guesser supports the given attribute type
      *
-     * @param AttributeInterface $attribute
      *
      * @return bool
      */
@@ -26,7 +25,6 @@ interface ConstraintGuesserInterface
     /**
      * Guess the constraints for the given attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return Constraint[]
      */

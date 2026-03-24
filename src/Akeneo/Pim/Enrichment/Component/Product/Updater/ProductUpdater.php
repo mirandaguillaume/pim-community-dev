@@ -243,12 +243,10 @@ class ProductUpdater implements ObjectUpdaterInterface
             return $associations;
         }
 
-        $associations = $this->parentAssociationsFilter->filterParentAssociations(
+        return $this->parentAssociationsFilter->filterParentAssociations(
             $associations,
             $parentAssociations
         );
-
-        return $associations;
     }
 
     protected function filterQuantifiedAssociationsFromAncestors(
@@ -306,8 +304,6 @@ class ProductUpdater implements ObjectUpdaterInterface
      * }
      *
      * This example does not work because the parent setter will set the family with the parent family.
-     *
-     * @param array $data
      */
     private function reorderParentProperty(array $data): array
     {

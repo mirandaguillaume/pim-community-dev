@@ -51,21 +51,17 @@ class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber
     private function getFamilyVariantsAttributeCodes(FamilyVariantInterface $familyVariant): array
     {
         $getAttributeCodeFunction = fn (AttributeInterface $attribute) => $attribute->getCode();
-        $familyVariantAttributesCodes = array_merge(
+
+        return array_merge(
             $familyVariant->getAttributes()->map($getAttributeCodeFunction)->toArray(),
             $familyVariant->getAxes()->map($getAttributeCodeFunction)->toArray()
         );
-
-        return $familyVariantAttributesCodes;
     }
 
     /**
      * Returns the attribute codes that exists in the family variant and that does not exist in the family.
      *
      * The returned attributes should be removed from the family variant attribute sets.
-     *
-     * @param array $familyAttributeCodes
-     * @param array $familyVariantsAttributeCodes
      */
     private function getExtraAttributesOfFamilyVariant(
         array $familyAttributeCodes,

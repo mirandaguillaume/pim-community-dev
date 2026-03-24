@@ -47,7 +47,6 @@ interface FamilyInterface extends
     /**
      * Add attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return FamilyInterface
      */
@@ -56,7 +55,6 @@ interface FamilyInterface extends
     /**
      * Remove attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return FamilyInterface
      */
@@ -77,8 +75,6 @@ interface FamilyInterface extends
     public function getAttributeCodes();
 
     /**
-     * @param AttributeInterface $attribute
-     *
      * @return bool
      */
     public function hasAttribute(AttributeInterface $attribute);
@@ -91,8 +87,6 @@ interface FamilyInterface extends
     public function hasAttributeCode($attributeCode);
 
     /**
-     * @param AttributeInterface $attributeAsLabel
-     *
      * @return FamilyInterface
      */
     public function setAttributeAsLabel(AttributeInterface $attributeAsLabel);
@@ -102,11 +96,6 @@ interface FamilyInterface extends
      */
     public function getAttributeAsLabel();
 
-    /**
-     * @param AttributeInterface|null $attributeAsImage
-     *
-     * @return FamilyInterface
-     */
     public function setAttributeAsImage(?AttributeInterface $attributeAsImage): FamilyInterface;
 
     /**
@@ -117,7 +106,6 @@ interface FamilyInterface extends
     /**
      * Add attribute requirement
      *
-     * @param AttributeRequirementInterface $requirement
      *
      * @return FamilyInterface
      */
@@ -126,7 +114,6 @@ interface FamilyInterface extends
     /**
      * Remove attribute requirement
      *
-     * @param AttributeRequirementInterface $requirement
      *
      * @return FamilyInterface
      */
@@ -174,7 +161,6 @@ interface FamilyInterface extends
     /**
      * Get attribute requirement key
      *
-     * @param AttributeRequirementInterface $requirement
      *
      * @return string
      */
@@ -185,14 +171,8 @@ interface FamilyInterface extends
      */
     public function getAttributeAsLabelChoices();
 
-    /**
-     * @return Collection
-     */
     public function getFamilyVariants(): Collection;
 
-    /**
-     * @param Collection $familyVariants
-     */
     public function setFamilyVariants(Collection $familyVariants): void;
 
     /**

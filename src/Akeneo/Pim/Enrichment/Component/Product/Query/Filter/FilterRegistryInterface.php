@@ -15,8 +15,6 @@ interface FilterRegistryInterface
 {
     /**
      * Register the filter
-     *
-     * @param FilterInterface $filter
      */
     public function register(FilterInterface $filter);
 
@@ -43,9 +41,7 @@ interface FilterRegistryInterface
     /**
      * Get the attribute filter
      *
-     * @param AttributeInterface $attribute
      * @param string             $operator  supported operator
-     *
      * @return AttributeFilterInterface|null
      */
     public function getAttributeFilter(AttributeInterface $attribute, $operator);

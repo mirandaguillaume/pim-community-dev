@@ -53,8 +53,6 @@ interface ChannelInterface extends ReferableInterface, VersionableInterface, Tra
     public function getCategory();
 
     /**
-     * @param CategoryInterface $category
-     *
      * @return ChannelInterface
      */
     public function setCategory(CategoryInterface $category);
@@ -64,28 +62,19 @@ interface ChannelInterface extends ReferableInterface, VersionableInterface, Tra
      */
     public function getCurrencies();
 
-    /**
-     * @param array $currencies
-     */
     public function setCurrencies(array $currencies);
 
     /**
-     * @param CurrencyInterface $currency
-     *
      * @return ChannelInterface
      */
     public function addCurrency(CurrencyInterface $currency);
 
     /**
-     * @param CurrencyInterface $currency
-     *
      * @return ChannelInterface
      */
     public function removeCurrency(CurrencyInterface $currency);
 
     /**
-     * @param CurrencyInterface $currency
-     *
      * @return boolean
      */
     public function hasCurrency(CurrencyInterface $currency);
@@ -95,35 +84,24 @@ interface ChannelInterface extends ReferableInterface, VersionableInterface, Tra
      */
     public function getLocales();
 
-    /**
-     * @param array $locales
-     */
     public function setLocales(array $locales);
 
     /**
-     * @param LocaleInterface $locale
-     *
      * @return ChannelInterface
      */
     public function addLocale(LocaleInterface $locale);
 
     /**
-     * @param LocaleInterface $locale
-     *
      * @return ChannelInterface
      */
     public function removeLocale(LocaleInterface $locale);
 
     /**
-     * @param LocaleInterface $locale
-     *
      * @return bool
      */
     public function hasLocale(LocaleInterface $locale);
 
     /**
-     * @param array $conversionUnits
-     *
      * @return ChannelInterface
      */
     public function setConversionUnits(array $conversionUnits);

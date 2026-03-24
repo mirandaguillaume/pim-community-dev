@@ -12,9 +12,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Completeness\MaskItemGenerator
 interface MaskItemGeneratorForAttributeType
 {
     /**
-     * @param string $attributeCode
-     * @param string $channelCode
-     * @param string $localeCode
      * @param mixed  $value
      *
      * @return string[]

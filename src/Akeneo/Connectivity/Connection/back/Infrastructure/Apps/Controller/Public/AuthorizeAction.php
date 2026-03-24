@@ -79,7 +79,7 @@ final readonly class AuthorizeAction
             $request->query->get('response_type', ''),
             $request->query->get('scope', ''),
             $app->getCallbackUrl(),
-            $request->query->get('state', null),
+            $request->query->get('state'),
         );
 
         try {

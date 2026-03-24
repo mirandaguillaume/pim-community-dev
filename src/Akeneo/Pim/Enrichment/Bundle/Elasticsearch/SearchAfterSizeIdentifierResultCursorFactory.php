@@ -69,8 +69,6 @@ class SearchAfterSizeIdentifierResultCursorFactory implements CursorFactoryInter
         $resolver->setAllowedTypes('search_after_unique_key', ['string', 'null']);
         $resolver->setAllowedTypes('limit', 'int');
 
-        $options = $resolver->resolve($options);
-
-        return $options;
+        return $resolver->resolve($options);
     }
 }

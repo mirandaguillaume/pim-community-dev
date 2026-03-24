@@ -134,9 +134,7 @@ class ChannelController
 
         $this->saver->save($channel);
 
-        $response = $this->getResponse($channel, Response::HTTP_CREATED);
-
-        return $response;
+        return $this->getResponse($channel, Response::HTTP_CREATED);
     }
 
     public function partialUpdateAction(Request $request, string $code): Response
@@ -170,9 +168,8 @@ class ChannelController
         $this->saver->save($channel);
 
         $status = $isCreation ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
-        $response = $this->getResponse($channel, $status);
 
-        return $response;
+        return $this->getResponse($channel, $status);
     }
 
     public function partialUpdateListAction(Request $request): Response
@@ -185,9 +182,8 @@ class ChannelController
         }
 
         $resource = $request->getContent(true);
-        $response = $this->partialUpdateStreamResource->streamResponse($resource);
 
-        return $response;
+        return $this->partialUpdateStreamResource->streamResponse($resource);
     }
 
     /**

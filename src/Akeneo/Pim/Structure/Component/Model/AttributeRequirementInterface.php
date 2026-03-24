@@ -16,7 +16,6 @@ interface AttributeRequirementInterface
     /**
      * Setter family
      *
-     * @param FamilyInterface $family
      *
      * @return AttributeRequirementInterface
      */
@@ -32,7 +31,6 @@ interface AttributeRequirementInterface
     /**
      * Set attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return AttributeRequirementInterface
      */
@@ -55,7 +53,6 @@ interface AttributeRequirementInterface
     /**
      * Setter channel
      *
-     * @param ChannelInterface $channel
      *
      * @return AttributeRequirementInterface
      */

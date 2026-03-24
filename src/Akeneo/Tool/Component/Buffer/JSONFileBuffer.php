@@ -19,7 +19,6 @@ class JSONFileBuffer implements BufferInterface
     /** @var string */
     protected $filePath;
 
-    /** @var \SplFileObject|null */
     protected ?\SplFileObject $file = null;
 
     /**

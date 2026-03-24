@@ -36,7 +36,6 @@ interface GetConnectorProductModels
 
     /**
      * @param string[] $productModelCodes
-     * @return ConnectorProductModelList
      */
     public function fromProductModelCodes(
         array $productModelCodes,

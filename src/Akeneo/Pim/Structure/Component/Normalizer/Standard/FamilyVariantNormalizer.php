@@ -57,8 +57,6 @@ class FamilyVariantNormalizer implements NormalizerInterface
      *         ],
      *     ],
      * ]
-     *
-     * @param Collection $variantAttributeSets
      */
     private function normalizeVariantAttributeSets(Collection $variantAttributeSets): array
     {

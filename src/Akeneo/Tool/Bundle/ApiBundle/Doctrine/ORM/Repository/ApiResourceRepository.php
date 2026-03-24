@@ -21,9 +21,7 @@ class ApiResourceRepository extends EntityRepository implements ApiResourceRepos
     protected $identifiableRepository;
 
     /**
-     * @param EntityManager                         $em
      * @param string                                $className
-     * @param IdentifiableObjectRepositoryInterface $identifiableRepository
      */
     public function __construct(
         EntityManager $em,

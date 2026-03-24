@@ -24,8 +24,6 @@ interface PageableRepositoryInterface
     /**
      * Return the count of resources filtered by $criteria
      *
-     *
-     * @return int
      */
     public function count(array $criteria = []): int;
 }

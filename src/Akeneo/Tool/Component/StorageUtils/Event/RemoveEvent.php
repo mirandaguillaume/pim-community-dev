@@ -16,7 +16,6 @@ class RemoveEvent extends GenericEvent
     /**
      * @param mixed $subject
      * @param mixed $subjectId
-     * @param array $arguments
      */
     public function __construct($subject, protected $subjectId, array $arguments = [])
     {

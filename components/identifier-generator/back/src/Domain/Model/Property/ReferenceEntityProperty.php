@@ -66,7 +66,7 @@ final readonly class ReferenceEntityProperty implements PropertyInterface
         return $referenceEntityProperty;
     }
 
-    public function getImplicitCondition(): ?ConditionInterface
+    public function getImplicitCondition(): \Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\ConditionInterface
     {
         return ReferenceEntity::fromNormalized([
             'type' => ReferenceEntity::type(),
