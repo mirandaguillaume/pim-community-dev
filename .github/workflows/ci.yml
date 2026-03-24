@@ -707,6 +707,36 @@ jobs:
       - name: Run PHPSpec unit tests
         run: castor test:unit-back
 
+      - name: Collect PHPSpec coverage (Xdebug)
+        continue-on-error: true
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            -e XDEBUG_MODE=coverage \
+            php php vendor/bin/phpspec run \
+              --format=dot \
+              --config=phpspec-coverage.yml
+
+      - name: Upload PHPSpec coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpspec-coverage
+          path: var/phpspec-coverage.xml
+          retention-days: 30
+
+      - name: Upload PHPSpec coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
+        with:
+          files: var/phpspec-coverage.xml
+          flags: backend,phpspec
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Upload PHPSpec results
         if: always()
         uses: actions/upload-artifact@v4
