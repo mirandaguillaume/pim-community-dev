@@ -1454,6 +1454,41 @@ jobs:
           key: test-timings-phpunit-${{ github.ref }}-${{ github.run_number }}
 
   # ===========================================================================
+  # RECTOR DRY-RUN: Prevent PHP feature regressions (non-blocking)
+  # ===========================================================================
+  rector-check:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-base-images: 'false'
+
+      - name: Run Rector dry-run (PHP 8.3 features)
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            php php -d memory_limit=4G vendor/bin/rector process \
+              --dry-run --config=rector-php83.php 2>&1 | tee var/rector-check.txt || true
+          if grep -q "files would have been changed" var/rector-check.txt; then
+            CHANGES=$(grep "files would have been changed" var/rector-check.txt | grep -oP '\d+')
+            echo "### Rector Check" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "**${CHANGES} files** need PHP 8.3 feature updates (\`#[\\Override]\`, typed constants)." >> "$GITHUB_STEP_SUMMARY"
+            echo "Run \`docker-compose run --rm php php vendor/bin/rector process --config=rector-php83.php\` to fix." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Rector Check" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "All PHP 8.3 features up to date." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
   # ===========================================================================
   # SAST: Semgrep static security analysis (non-blocking, informational)
   # ===========================================================================
