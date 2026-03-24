@@ -38,7 +38,7 @@ class VariantProductParentValidator extends ConstraintValidator
 
         $parent = $variantProduct->getParent();
 
-        if (null === $parent) {
+        if (!$parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             $this->context->buildViolation(VariantProductParent::NO_PARENT)->addViolation();
 
             return;

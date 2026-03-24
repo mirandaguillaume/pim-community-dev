@@ -136,7 +136,7 @@ class FamilyVariantUpdater implements ObjectUpdaterInterface
                         );
                     }
 
-                    if (!is_integer($attributeSetData['level'])) {
+                    if (!is_int($attributeSetData['level'])) {
                         throw InvalidPropertyTypeException::integerExpected(
                             sprintf('%s" in the property "%s', 'level', $field),
                             static::class,

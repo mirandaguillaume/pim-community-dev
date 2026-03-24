@@ -35,7 +35,7 @@ final readonly class GetProductIdsImpactedByAttributeGroupActivationQuery implem
     {
         $impactedFamilies = $this->retrieveFamiliesWithAttributeGroupActivationUpdatedSince($updatedSince);
 
-        if (empty($impactedFamilies)) {
+        if ($impactedFamilies === []) {
             return;
         }
 
@@ -59,7 +59,7 @@ final readonly class GetProductIdsImpactedByAttributeGroupActivationQuery implem
             }
         }
 
-        if (!empty($productUuids)) {
+        if ($productUuids !== []) {
             yield $this->idFactory->createCollection($productUuids);
         }
     }

@@ -65,11 +65,7 @@ class ProductValueMetadataFactory implements MetadataFactoryInterface
      */
     public function hasMetadataFor(mixed $value): bool
     {
-        if ($value instanceof ValueInterface) {
-            return true;
-        }
-
-        return false;
+        return $value instanceof ValueInterface;
     }
 
     /**

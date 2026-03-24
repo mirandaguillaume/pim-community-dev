@@ -54,21 +54,21 @@ final readonly class ConnectorProductWithUuidNormalizer
             'categories' => $connectorProduct->categoryCodes(),
             'groups' => $connectorProduct->groupCodes(),
             'parent' => $connectorProduct->parentProductModelCode(),
-            'values' => empty($values) ? (object) [] : $values,
+            'values' => $values === [] ? (object) [] : $values,
             'created' => $this->dateTimeNormalizer->normalize($connectorProduct->createdDate()),
             'updated' => $this->dateTimeNormalizer->normalize($connectorProduct->updatedDate()),
-            'associations' => empty($associations) ? (object) [] : $associations,
-            'quantified_associations' => empty($quantifiedAssociations) ? (object) [] : $quantifiedAssociations,
+            'associations' => $associations === [] ? (object) [] : $associations,
+            'quantified_associations' => $quantifiedAssociations === [] ? (object) [] : $quantifiedAssociations,
         ];
 
-        if ($qualityScores !== null) {
+        if ($qualityScores instanceof \Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Model\QualityScoreCollection) {
             $normalizedProduct['quality_scores'] = $this->normalizeQualityScores($qualityScores);
         }
-        if ($completenesses !== null) {
+        if ($completenesses instanceof \Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompletenessCollection) {
             $normalizedProduct['completenesses'] = $this->normalizeCompletenesses($completenesses);
         }
 
-        if (!empty($connectorProduct->metadata())) {
+        if ($connectorProduct->metadata() !== []) {
             $normalizedProduct['metadata'] = $connectorProduct->metadata();
         }
 

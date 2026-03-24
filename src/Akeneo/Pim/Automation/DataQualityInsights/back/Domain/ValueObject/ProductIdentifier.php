@@ -14,7 +14,7 @@ final class ProductIdentifier implements \Stringable
 
     public function __construct(string $identifier)
     {
-        if (empty($identifier)) {
+        if ($identifier === '' || $identifier === '0') {
             throw new \InvalidArgumentException('A product identifier cannot be empty');
         }
 

@@ -62,7 +62,7 @@ class AttributeOptionsExistValidator extends ConstraintValidator
                 }
             } elseif ($value instanceof OptionsValueInterface) {
                 $notExistingOptionCodes = array_diff(array_map('strtolower', $value->getData()), ($existingOptionCodes[$value->getAttributeCode()] ?? []));
-                if (!empty($notExistingOptionCodes)) {
+                if ($notExistingOptionCodes !== []) {
                     $this->context->buildViolation(
                         $constraint->messagePlural,
                         [

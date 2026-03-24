@@ -75,7 +75,7 @@ class QuantifiedAssociationsNormalizer implements NormalizerInterface
         $ancestors = [];
         $current = $entity;
 
-        while (null !== $parent = $current->getParent()) {
+        while (($parent = $current->getParent()) instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             $current = $parent;
             $ancestors[] = $current;
         }

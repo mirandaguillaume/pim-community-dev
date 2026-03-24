@@ -86,12 +86,12 @@ class OffsetHalPaginator implements PaginatorInterface
         ];
 
         $previousLink = $this->createPreviousLink($parameters['list_route_name'], $uriParameters);
-        if (null !== $previousLink) {
+        if ($previousLink instanceof \Akeneo\Tool\Component\Api\Hal\Link) {
             $links[] = $previousLink;
         }
 
         $nextLink = $this->createNextLink($parameters['list_route_name'], $uriParameters, $items);
-        if (null !== $nextLink) {
+        if ($nextLink instanceof \Akeneo\Tool\Component\Api\Hal\Link) {
             $links[] = $nextLink;
         }
 

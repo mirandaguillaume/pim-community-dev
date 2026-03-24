@@ -39,7 +39,7 @@ class ProductModelDescendantsAndAncestorsIndexer
      */
     public function indexFromProductModelCodes(array $productModelCodes): void
     {
-        if (empty($productModelCodes)) {
+        if ($productModelCodes === []) {
             return;
         }
 
@@ -55,7 +55,7 @@ class ProductModelDescendantsAndAncestorsIndexer
             $productModelCodes
         );
 
-        if (!empty($variantProductUuids)) {
+        if ($variantProductUuids !== []) {
             $this->productIndexer->indexFromProductUuids($variantProductUuids);
         }
     }
@@ -65,7 +65,7 @@ class ProductModelDescendantsAndAncestorsIndexer
      */
     public function removeFromProductModelIds(array $productModelIds): void
     {
-        if (empty($productModelIds)) {
+        if ($productModelIds === []) {
             return;
         }
 
@@ -74,7 +74,7 @@ class ProductModelDescendantsAndAncestorsIndexer
         $rootProductModelCodes = $this
             ->getAncestorAndDescendantProductModelCodes
             ->getOnlyAncestorsFromProductModelIds($productModelIds);
-        if (!empty($rootProductModelCodes)) {
+        if ($rootProductModelCodes !== []) {
             $this->productModelIndexer->indexFromProductModelCodes($rootProductModelCodes);
         }
     }

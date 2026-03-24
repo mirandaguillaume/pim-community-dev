@@ -44,7 +44,7 @@ final readonly class GetProductModelCodesNotSynchronisedBetweenEsAndMysql
                 ]
             )->fetchAllAssociative();
 
-            if (empty($rows)) {
+            if ($rows === []) {
                 return;
             }
 

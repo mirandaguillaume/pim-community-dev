@@ -54,7 +54,7 @@ final class StreamResourceResponse
     public function streamResponse($resource, array $uriParameters = [], ?callable $postResponseCallable = null)
     {
         $response = new StreamedResponse();
-        $response->headers->set('Content-Type', static::CONTENT_TYPE);
+        $response->headers->set('Content-Type', self::CONTENT_TYPE);
 
         $this->checkLineNumberInInput($resource);
 

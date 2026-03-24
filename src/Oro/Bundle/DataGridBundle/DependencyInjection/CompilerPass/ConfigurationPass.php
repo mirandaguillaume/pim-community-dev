@@ -66,7 +66,7 @@ class ConfigurationPass implements CompilerPassInterface
                 $priority = $attributes[0]['priority'] ?? 0;
                 $providers[$priority][] = new Reference($id);
             }
-            if (!empty($providers)) {
+            if ($providers !== []) {
                 // sort by priority and flatten
                 krsort($providers);
                 $providers = call_user_func_array('array_merge', $providers);
@@ -93,7 +93,7 @@ class ConfigurationPass implements CompilerPassInterface
             }
 
             $extensions = $container->findTaggedServiceIds(self::EXTENSION_TAG_NAME);
-            foreach ($extensions as $serviceId => $tags) {
+            foreach (array_keys($extensions) as $serviceId) {
                 $builderDef->addMethodCall('registerExtension', [new Reference($serviceId)]);
             }
         }

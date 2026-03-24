@@ -70,7 +70,7 @@ final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDa
 
         $ids = array_map(fn ($resultRow) => $resultRow['id'], $result);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             return null;
         }
 

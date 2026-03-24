@@ -43,7 +43,7 @@ class ConnectionContext implements ConnectionContextInterface
 
     public function getConnection(): ?Connection
     {
-        if (null !== $this->connection) {
+        if ($this->connection instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection) {
             return $this->connection;
         }
         if (null === $this->clientId) {
@@ -65,7 +65,7 @@ class ConnectionContext implements ConnectionContextInterface
             return $this->collectable;
         }
 
-        if (null === $this->getConnection()) {
+        if (!$this->getConnection() instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection) {
             throw new \LogicException('You must initialize client id and username before using this service.');
         }
 

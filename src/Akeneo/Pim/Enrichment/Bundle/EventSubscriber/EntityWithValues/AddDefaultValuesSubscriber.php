@@ -62,12 +62,12 @@ class AddDefaultValuesSubscriber
     private function getAttributesWithDefaultValues(EntityWithFamilyVariantInterface $entity): array
     {
         $attributes = new ArrayCollection();
-        if (null !== $entity->getFamilyVariant()) {
+        if ($entity->getFamilyVariant() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface) {
             $level = $entity->getVariationLevel();
             $attributes = 0 === $level
                 ? $entity->getFamilyVariant()->getCommonAttributes()
                 : $entity->getFamilyVariant()->getVariantAttributeSet($level)->getAttributes();
-        } elseif (null !== $entity->getFamily()) {
+        } elseif ($entity->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             $attributes = $entity->getFamily()->getAttributes();
         }
 

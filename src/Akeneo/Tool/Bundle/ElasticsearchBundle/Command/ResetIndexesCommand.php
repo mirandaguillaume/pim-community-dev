@@ -70,7 +70,7 @@ class ResetIndexesCommand extends Command
     private function userConfirmation(InputInterface $input, OutputInterface $output): bool
     {
         $esClients = $this->getFilteredEsClients($input);
-        if (empty($esClients)) {
+        if ($esClients === []) {
             $output->writeln('<info>There is not any index to reset. Maybe you provided an index to reset that does not exist.</info>');
         }
 
@@ -144,7 +144,7 @@ class ResetIndexesCommand extends Command
             }
         }
 
-        if (!empty($errorMessages)) {
+        if ($errorMessages !== []) {
             $output->writeln('<error>Something wrong happened to those indexes:</error>');
             $output->writeln(implode('\n', $errorMessages));
 

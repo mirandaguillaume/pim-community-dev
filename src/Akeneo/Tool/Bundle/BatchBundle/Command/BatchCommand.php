@@ -92,7 +92,7 @@ class BatchCommand extends Command
     {
         $noLog = $input->getOption('no-log');
 
-        if (!$noLog and $this->logger instanceof Logger) {
+        if (!$noLog && $this->logger instanceof Logger) {
             $this->logger->pushHandler(new ConsoleHandler($output));
         }
 
@@ -108,7 +108,7 @@ class BatchCommand extends Command
                 throw new \RuntimeException(
                     sprintf(
                         'Emails "%s" are invalid: %s',
-                        join(', ', $emails),
+                        implode(', ', $emails),
                         $this->getErrorMessages($errors),
                     )
                 );

@@ -31,7 +31,7 @@ class GetEvaluableProductValuesQuery implements GetEvaluableProductValuesQueryIn
         $productValuesCollection = new ProductValuesCollection();
         $attributes = $this->getEvaluableAttributesByProductQuery->execute($productId);
 
-        if (empty($attributes)) {
+        if ($attributes === []) {
             return $productValuesCollection;
         }
 
@@ -41,7 +41,7 @@ class GetEvaluableProductValuesQuery implements GetEvaluableProductValuesQueryIn
         /** @var Attribute $attribute */
         foreach ($attributes as $attribute) {
             $productValues = $this->buildProductValuesByChannelAndLocale($attribute, $channelsLocales, $rawValues);
-            if (null !== $productValues) {
+            if ($productValues instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\ProductValues) {
                 $productValuesCollection->add($productValues);
             }
         }

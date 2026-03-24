@@ -137,7 +137,7 @@ class SqlGetConnectorProducts implements Query\GetConnectorProducts
             $row = $rows[$productUuid->toString()];
 
             // if an unknown uuid is given, it will not have the uuid key
-            if (!\key_exists('uuid', $row)) {
+            if (!array_key_exists('uuid', $row)) {
                 continue;
             }
 

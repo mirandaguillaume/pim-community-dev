@@ -27,7 +27,7 @@ class SqlReferenceEntityNomenclatureRepository implements ReferenceEntityNomencl
     public function get(string $attributeCode): ?NomenclatureDefinition
     {
         $nomenclatureDefinition = $this->getNomenclatureDefinition($attributeCode);
-        if (null !== $nomenclatureDefinition) {
+        if ($nomenclatureDefinition instanceof \Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinition) {
             $values = $this->getNomenclatureValues($attributeCode);
             $nomenclatureDefinition = $nomenclatureDefinition->withValues($values);
         }
@@ -236,12 +236,13 @@ VALUES {{ values }}
 ON DUPLICATE KEY UPDATE value = VALUES(value)
 SQL;
         $valuesArray = [];
-        for ($i = 0; $i < \count($valuesToUpdateOrInsert); $i++) {
+        $counter = \count($valuesToUpdateOrInsert);
+        for ($i = 0; $i < $counter; $i++) {
             $valuesArray[] = \sprintf('(:recordIdentifier%d, :value%d)', $i, $i);
         }
         $statement = $this->connection->prepare(\strtr(
             $insertOrUpdateSql,
-            ['{{ values }}' => \join(',', $valuesArray)]
+            ['{{ values }}' => implode(',', $valuesArray)]
         ));
 
         foreach ($valuesToUpdateOrInsert as $i => $valueToUpdateOrInsert) {
@@ -256,7 +257,7 @@ SQL;
     {
         $attribute = $this->getAttributes->forCode($attributeCode);
 
-        if (null === $attribute) {
+        if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
             return '';
         }
 

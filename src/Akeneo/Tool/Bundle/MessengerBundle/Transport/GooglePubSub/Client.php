@@ -38,7 +38,7 @@ class Client
             throw new \InvalidArgumentException(sprintf('DSN "%s" is invalid.', $dsn));
         }
 
-        $resolver = static::buildOptionsResolver();
+        $resolver = self::buildOptionsResolver();
         $options = $resolver->resolve($options);
         $subscriptionOptions = isset($options['subscription_filter'])
             ? ['filter' => $options['subscription_filter']]
@@ -83,7 +83,7 @@ class Client
             $this->topic->create();
         }
 
-        if (null === $this->subscription) {
+        if (!$this->subscription instanceof \Google\Cloud\PubSub\Subscription) {
             return;
         }
 

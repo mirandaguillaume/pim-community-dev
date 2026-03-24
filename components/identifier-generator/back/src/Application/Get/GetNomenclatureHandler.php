@@ -43,7 +43,7 @@ final readonly class GetNomenclatureHandler
         } else {
             $attribute = $this->getAttributes->forCode($query->propertyCode());
 
-            if (null === $attribute) {
+            if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
                 throw UndefinedAttributeException::withAttributeCode($query->propertyCode());
             }
             $nomenclature = match ($attribute->type()) {

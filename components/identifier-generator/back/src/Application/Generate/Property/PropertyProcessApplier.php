@@ -60,7 +60,7 @@ final readonly class PropertyProcessApplier
                 } else {
                     $attribute = $this->getAttributes->forCode($nomenclatureProperty);
 
-                    if (null === $attribute) {
+                    if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
                         throw UndefinedAttributeException::withAttributeCode($code);
                     }
 
@@ -71,7 +71,7 @@ final readonly class PropertyProcessApplier
                     };
                 }
 
-                if (null === $nomenclature) {
+                if (!$nomenclature instanceof \Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinition) {
                     throw new UndefinedNomenclatureException(
                         \sprintf('%s%s', $prefix, $code),
                         $target,

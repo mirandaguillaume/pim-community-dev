@@ -19,7 +19,7 @@ class PubSubClientFactory
 
     public function __construct(string $keyFilePath)
     {
-        if (!empty($keyFilePath)) {
+        if ($keyFilePath !== '' && $keyFilePath !== '0') {
             $this->keyFilePath = $keyFilePath;
         }
     }
@@ -39,7 +39,7 @@ class PubSubClientFactory
 
     private function isEmulatorMode(): bool
     {
-        return !empty(getenv('PUBSUB_EMULATOR_HOST'))
+        return !(in_array(getenv('PUBSUB_EMULATOR_HOST'), ['', '0'], true) || getenv('PUBSUB_EMULATOR_HOST') === [] || getenv('PUBSUB_EMULATOR_HOST') === false)
             || !empty($_ENV['PUBSUB_EMULATOR_HOST'] ?? '');
     }
 }

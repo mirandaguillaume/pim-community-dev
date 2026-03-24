@@ -129,14 +129,14 @@ class AttributeOption implements AttributeOptionInterface, \Stringable
             return null;
         }
 
-        return ($this->attribute ? $this->attribute->getCode() : '') . '.' . $this->code;
+        return ($this->attribute instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface ? $this->attribute->getCode() : '') . '.' . $this->code;
     }
 
     public function getTranslation(): ?AttributeOptionValueInterface
     {
         $value = $this->getOptionValue();
 
-        if (!$value) {
+        if (!$value instanceof \Akeneo\Pim\Structure\Component\Model\AttributeOptionValueInterface) {
             $value = new AttributeOptionValue();
             $value->setLocale($this->locale);
             $this->addOptionValue($value);

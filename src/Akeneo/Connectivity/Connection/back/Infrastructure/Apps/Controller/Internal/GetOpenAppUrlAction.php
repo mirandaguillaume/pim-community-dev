@@ -45,12 +45,12 @@ final readonly class GetOpenAppUrlAction
         }
 
         $connectedApp = $this->findOneConnectedAppByConnectionCodeQuery->execute($connectionCode);
-        if (null === $connectedApp) {
+        if (!$connectedApp instanceof \Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp) {
             throw new NotFoundHttpException("Connected app with connection code $connectionCode does not exist.");
         }
 
         $app = $this->getAppQuery->execute($connectedApp->getId());
-        if (null === $app) {
+        if (!$app instanceof \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App) {
             throw new \LogicException("App not found with connected app id \"{$connectedApp->getId()}\"");
         }
 

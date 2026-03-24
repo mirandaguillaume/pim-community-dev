@@ -49,11 +49,7 @@ class SetterRegistry implements SetterRegistryInterface
     public function getSetter($property)
     {
         $attribute = $this->getAttribute($property);
-        if (null !== $attribute) {
-            $setter = $this->getAttributeSetter($attribute);
-        } else {
-            $setter = $this->getFieldSetter($property);
-        }
+        $setter = null !== $attribute ? $this->getAttributeSetter($attribute) : $this->getFieldSetter($property);
 
         return $setter;
     }

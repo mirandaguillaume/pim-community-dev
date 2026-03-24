@@ -44,12 +44,10 @@ class ValidDateRangeValidator extends ConstraintValidator
                 ->addViolation();
         }
 
-        if ($min instanceof \DateTime && $max instanceof \DateTime) {
-            if ($min->getTimestamp() >= $max->getTimestamp()) {
-                $this->context->buildViolation($constraint->message)
-                    ->atPath('dateMax')
-                    ->addViolation();
-            }
+        if ($min instanceof \DateTime && $max instanceof \DateTime && $min->getTimestamp() >= $max->getTimestamp()) {
+            $this->context->buildViolation($constraint->message)
+                ->atPath('dateMax')
+                ->addViolation();
         }
     }
 
@@ -61,10 +59,6 @@ class ValidDateRangeValidator extends ConstraintValidator
      */
     protected function isDateValid(mixed $date)
     {
-        if (!$date || $date instanceof \DateTime) {
-            return true;
-        }
-
-        return false;
+        return !$date || $date instanceof \DateTime;
     }
 }

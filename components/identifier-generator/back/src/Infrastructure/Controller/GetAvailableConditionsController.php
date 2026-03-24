@@ -97,7 +97,7 @@ final readonly class GetAvailableConditionsController
                 || \str_contains(
                     \strtolower(
                         $this->translator->trans(
-                            \sprintf('%s%s', static::FIELD_TRANSLATION_BASE, $field),
+                            \sprintf('%s%s', self::FIELD_TRANSLATION_BASE, $field),
                             [],
                             null,
                             $this->userContext->getCurrentLocaleCode()
@@ -123,7 +123,7 @@ final readonly class GetAvailableConditionsController
             fn(string $field): array => [
                 'id' => $field,
                 'text' => $this->translator->trans(
-                    \sprintf('%s%s', static::FIELD_TRANSLATION_BASE, $field),
+                    \sprintf('%s%s', self::FIELD_TRANSLATION_BASE, $field),
                     [],
                     null,
                     $this->userContext->getCurrentLocaleCode()
@@ -136,7 +136,7 @@ final readonly class GetAvailableConditionsController
             [
                 'id' => 'system',
                 'text' => $this->translator->trans(
-                    static::SYSTEM_GROUP_TRANSLATION_KEY,
+                    self::SYSTEM_GROUP_TRANSLATION_KEY,
                     [],
                     null,
                     $this->userContext->getCurrentLocaleCode()

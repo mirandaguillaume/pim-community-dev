@@ -35,7 +35,7 @@ abstract class ApiError implements ApiErrorInterface
             );
         }
 
-        if (null === $dateTime) {
+        if (!$dateTime instanceof \DateTimeImmutable) {
             $dateTime = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
         }
 

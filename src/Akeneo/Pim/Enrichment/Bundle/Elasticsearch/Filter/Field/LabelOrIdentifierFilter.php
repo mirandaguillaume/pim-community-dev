@@ -112,7 +112,7 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
     {
         FieldFilterHelper::checkString('label_or_identifier', $value, static::class);
 
-        if (!in_array($operator, [Operators::CONTAINS])) {
+        if ($operator != Operators::CONTAINS) {
             throw InvalidOperatorException::notSupported($operator, static::class);
         }
     }

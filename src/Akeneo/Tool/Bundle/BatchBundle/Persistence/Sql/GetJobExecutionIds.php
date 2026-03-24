@@ -61,7 +61,7 @@ final readonly class GetJobExecutionIds
 
 
         $conditions = [];
-        if (!empty($jobInstanceCodes)) {
+        if ($jobInstanceCodes !== []) {
             $conditions[] = 'job_instance_id IN (
                 SELECT ji.id
                 FROM akeneo_batch_job_instance ji
@@ -69,11 +69,11 @@ final readonly class GetJobExecutionIds
             )';
         }
 
-        if ($status !== null) {
+        if ($status instanceof \Akeneo\Tool\Component\Batch\Job\BatchStatus) {
             $conditions[] = 'status = :status_code';
         }
 
-        $query .= empty($conditions) ? '' : ' WHERE ' . implode(' AND ', $conditions);
+        $query .= $conditions === [] ? '' : ' WHERE ' . implode(' AND ', $conditions);
 
         return $this->connection->executeQuery(
             $query,
@@ -97,7 +97,7 @@ final readonly class GetJobExecutionIds
             SQL;
 
         $conditions = [];
-        if (!empty($jobInstanceCodes)) {
+        if ($jobInstanceCodes !== []) {
             $conditions[] = 'job_instance_id IN (
                 SELECT ji.id
                 FROM akeneo_batch_job_instance ji
@@ -105,11 +105,11 @@ final readonly class GetJobExecutionIds
             )';
         }
 
-        if ($status !== null) {
+        if ($status instanceof \Akeneo\Tool\Component\Batch\Job\BatchStatus) {
             $conditions[] = 'status IN (:status_code)';
         }
 
-        $query = sprintf($query, empty($conditions) ? '' : ' AND ' . implode(' AND ', $conditions));
+        $query = sprintf($query, $conditions === [] ? '' : ' AND ' . implode(' AND ', $conditions));
 
         return $this->connection->executeQuery(
             $query,

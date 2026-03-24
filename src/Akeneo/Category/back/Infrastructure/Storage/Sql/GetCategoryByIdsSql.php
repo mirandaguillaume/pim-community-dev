@@ -61,7 +61,7 @@ class GetCategoryByIdsSql implements GetCategoryByIds
             ['ids' => ArrayParameterType::INTEGER],
         )->fetchAllAssociative();
 
-        if (!$rows) {
+        if ($rows === []) {
             return [];
         }
 

@@ -35,7 +35,7 @@ class AddScoresToProductAndProductModelRows
         array                                     $rows,
         string                                    $type
     ): array {
-        if (empty($rows)) {
+        if ($rows === []) {
             return [];
         }
 

@@ -51,7 +51,7 @@ final readonly class ProductRemover implements RemoverInterface, BulkRemoverInte
      */
     public function removeAll(array $products, array $options = [])
     {
-        if (empty($products)) {
+        if ($products === []) {
             return;
         }
 

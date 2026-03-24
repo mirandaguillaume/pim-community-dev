@@ -1320,16 +1320,9 @@ class User implements UserInterface, EquatableInterface, \Stringable
             return false;
         }
 
-        if (self::class === static::class) {
-            if ($this->isAccountNonLocked() !== $user->isAccountNonLocked()) {
-                return false;
-            }
-        }
-
-        if ($this->isEnabled() !== $user->isEnabled()) {
+        if (self::class === static::class && $this->isAccountNonLocked() !== $user->isAccountNonLocked()) {
             return false;
         }
-
-        return true;
+        return $this->isEnabled() === $user->isEnabled();
     }
 }

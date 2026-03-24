@@ -50,11 +50,11 @@ final class ImageValue extends AbstractValue
         ?string $locale,
     ): self {
         return new self(
-            value: !empty($value) ? ImageDataValue::fromArray($value) : null,
+            value: $value === null || $value === [] ? null : ImageDataValue::fromArray($value),
             uuid: AttributeUuid::fromString($uuid),
             code: new AttributeCode($code),
-            channel: !empty($channel) ? new ChannelValue($channel) : null,
-            locale: !empty($locale) ? new LocaleValue($locale) : null,
+            channel: in_array($channel, [null, '', '0'], true) ? null : new ChannelValue($channel),
+            locale: in_array($locale, [null, '', '0'], true) ? null : new LocaleValue($locale),
         );
     }
 
@@ -75,11 +75,11 @@ final class ImageValue extends AbstractValue
         }
 
         return new self(
-            value: !empty($value['data']) ? ImageDataValue::fromArray($value['data']) : null,
+            value: empty($value['data']) ? null : ImageDataValue::fromArray($value['data']),
             uuid: AttributeUuid::fromString($identifiers[1]),
             code: new AttributeCode($identifiers[0]),
-            channel: !empty($value['channel']) ? new ChannelValue($value['channel']) : null,
-            locale: !empty($value['locale']) ? new LocaleValue($value['locale']) : null,
+            channel: empty($value['channel']) ? null : new ChannelValue($value['channel']),
+            locale: empty($value['locale']) ? null : new LocaleValue($value['locale']),
         );
     }
 

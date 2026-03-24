@@ -34,7 +34,7 @@ class ExternalUrlValidator extends ConstraintValidator
         private readonly IpMatcherInterface $ipMatcher,
         string $networkWhitelist = ''
     ) {
-        $this->networkWhitelist = empty($networkWhitelist) ? [] : \explode(',', $networkWhitelist);
+        $this->networkWhitelist = $networkWhitelist === '' || $networkWhitelist === '0' ? [] : \explode(',', $networkWhitelist);
     }
 
     public function validate($value, Constraint $constraint): void
@@ -44,7 +44,7 @@ class ExternalUrlValidator extends ConstraintValidator
         }
 
         $value = $this->valueToString($value);
-        if (empty($value)) {
+        if ($value === '' || $value === '0') {
             return;
         }
 

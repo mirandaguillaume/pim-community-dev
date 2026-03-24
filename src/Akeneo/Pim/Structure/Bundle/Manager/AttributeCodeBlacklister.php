@@ -16,7 +16,7 @@ final readonly class AttributeCodeBlacklister
 
     public function blacklist(array $attributeCodes): void
     {
-        if (empty($attributeCodes)) {
+        if ($attributeCodes === []) {
             return;
         }
 
@@ -42,7 +42,7 @@ final readonly class AttributeCodeBlacklister
 
     public function registerJob(array $attributeCodes, int $jobExecutionId): void
     {
-        if (empty($attributeCodes)) {
+        if ($attributeCodes === []) {
             return;
         }
 
@@ -67,7 +67,7 @@ final readonly class AttributeCodeBlacklister
 
     public function removeFromBlacklist(array $attributeCodes): void
     {
-        if (empty($attributeCodes)) {
+        if ($attributeCodes === []) {
             return;
         }
 

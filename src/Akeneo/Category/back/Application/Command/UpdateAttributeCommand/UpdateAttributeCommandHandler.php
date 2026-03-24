@@ -32,7 +32,7 @@ class UpdateAttributeCommandHandler
 
         $attributeUuid = AttributeUuid::fromString($command->attributeUuid);
         $attribute = $this->getAttribute->byUuid($attributeUuid);
-        if ($attribute === null) {
+        if (!$attribute instanceof \Akeneo\Category\Domain\Model\Attribute\Attribute) {
             throw new \InvalidArgumentException(sprintf('Attribute with uuid: %s does not exist', $command->attributeUuid));
         }
 

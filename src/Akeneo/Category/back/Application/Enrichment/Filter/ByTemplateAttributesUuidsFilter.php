@@ -22,7 +22,7 @@ class ByTemplateAttributesUuidsFilter
     public static function getEnrichedValuesToClean(ValueCollection $enrichedValues, array $templateAttributes): array
     {
         $valuesToRemove = [];
-        if (empty($templateAttributes)) {
+        if ($templateAttributes === []) {
             return [];
         }
         $templateAttributesUuidAndCodes = [];

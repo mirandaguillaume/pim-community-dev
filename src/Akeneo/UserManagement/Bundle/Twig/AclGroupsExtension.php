@@ -116,7 +116,7 @@ class AclGroupsExtension extends AbstractExtension
      */
     protected function sortGroups(array $groups)
     {
-        foreach ($groups as $permissionGroup => $group) {
+        foreach (array_keys($groups) as $permissionGroup) {
             usort(
                 $groups[$permissionGroup],
                 function ($first, $second) {

@@ -48,7 +48,7 @@ final readonly class ProductScoreRepository implements ProductScoreRepositoryInt
      */
     public function saveAll(array $productsScores): void
     {
-        if (empty($productsScores)) {
+        if ($productsScores === []) {
             return;
         }
 

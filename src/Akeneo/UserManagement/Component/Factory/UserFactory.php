@@ -71,19 +71,19 @@ class UserFactory implements SimpleFactoryInterface
     public function create()
     {
         $user = new $this->userClass();
-        if (null !== $uiLocale = $this->getDefaultUiLocale()) {
+        if (($uiLocale = $this->getDefaultUiLocale()) instanceof \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface) {
             $user->setUiLocale($uiLocale);
         }
-        if (null !== $catalogLocale = $this->getDefaultCatalogLocale()) {
+        if (($catalogLocale = $this->getDefaultCatalogLocale()) instanceof \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface) {
             $user->setCatalogLocale($catalogLocale);
         }
-        if (null !== $catalogScope = $this->getDefaultCatalogScope()) {
+        if (($catalogScope = $this->getDefaultCatalogScope()) instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface) {
             $user->setCatalogScope($catalogScope);
         }
-        if (null !== $categoryTree = $this->getDefaultCategoryTree()) {
+        if (($categoryTree = $this->getDefaultCategoryTree()) instanceof \Akeneo\Category\Infrastructure\Component\Classification\Model\CategoryInterface) {
             $user->setDefaultTree($categoryTree);
         }
-        if (null !== $group = $this->getDefaultGroup()) {
+        if (($group = $this->getDefaultGroup()) instanceof \Akeneo\UserManagement\Component\Model\Group) {
             $user->addGroup($group);
         }
         if (null !== $role = $this->roleRepository->findOneByIdentifier('ROLE_USER')) {

@@ -68,12 +68,12 @@ class ProductAssociationProcessor extends AbstractProcessor implements ItemProce
 
         if (isset($item['uuid'])) {
             $product = $this->findProductByUuid($item['uuid'], $item);
-            if (null === $product) {
+            if (!$product instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface) {
                 $this->skipItemWithMessage($item, sprintf('No product with uuid "%s" has been found', $item['uuid']));
             }
         } else {
             $product = $this->findProduct($item['identifier'], $item);
-            if (null === $product) {
+            if (!$product instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface) {
                 $this->skipItemWithMessage($item, sprintf('No product with identifier "%s" has been found', $item['identifier']));
             }
         }

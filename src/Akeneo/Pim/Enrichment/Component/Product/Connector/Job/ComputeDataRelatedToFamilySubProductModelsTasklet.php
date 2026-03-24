@@ -57,7 +57,7 @@ class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterf
     {
         $this->initialize();
         $familyCodes = $this->extractFamilyCodes();
-        if (empty($familyCodes)) {
+        if ($familyCodes === []) {
             return;
         }
 
@@ -116,7 +116,7 @@ class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterf
 
     private function saveProductsModel(array $productModels): void
     {
-        if (empty($productModels)) {
+        if ($productModels === []) {
             return;
         }
 

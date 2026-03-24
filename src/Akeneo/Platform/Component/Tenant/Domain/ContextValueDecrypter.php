@@ -37,17 +37,13 @@ final readonly class ContextValueDecrypter implements ContextValueDecrypterInter
             $data = \base64_decode($encodedData);
             $iv = \hex2bin($encodedIv);
         } catch (\Throwable $e) {
-            throw new TenantContextDecoderException(
-                sprintf('Unable to decode tenant values payload: %s', $e->getMessage())
-            );
+            throw new TenantContextDecoderException(sprintf('Unable to decode tenant values payload: %s', $e->getMessage()), $e->getCode(), $e);
         }
 
         try {
             $key = $this->decodeEncryptionKey();
         } catch (\Throwable $e) {
-            throw new TenantContextDecoderException(
-                sprintf('Unable to decode encryption key: %s', $e->getMessage())
-            );
+            throw new TenantContextDecoderException(sprintf('Unable to decode encryption key: %s', $e->getMessage()), $e->getCode(), $e);
         }
 
         try {
@@ -59,9 +55,7 @@ final readonly class ContextValueDecrypter implements ContextValueDecrypterInter
                 iv: $iv
             );
         } catch (\Throwable $e) {
-            throw new TenantContextDecoderException(
-                sprintf('Unable to decrypt tenant values: %s', $e->getMessage())
-            );
+            throw new TenantContextDecoderException(sprintf('Unable to decrypt tenant values: %s', $e->getMessage()), $e->getCode(), $e);
         }
 
         if (false === $decrypted) {

@@ -72,7 +72,7 @@ final class ProductQueryBuilderAdapter extends AbstractEntityWithValuesQueryBuil
         $this->addFilter('entity_type', Operators::EQUALS, ProductInterface::class);
 
         $query = $this->getQueryBuilder()->getQuery();
-        if ($searchAfterUuid) {
+        if ($searchAfterUuid instanceof \Ramsey\Uuid\UuidInterface) {
             $query['search_after'] = ['product_' . $searchAfterUuid->toString()];
         }
 

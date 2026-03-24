@@ -41,7 +41,7 @@ class PrepareEvaluationsCommand extends Command
                 $defaultFrom = new \DateTime(PrepareEvaluationsParameters::UPDATED_SINCE_DEFAULT_TIME);
 
                 $from = $defaultFrom;
-                if (null !== $lastJobExecution) {
+                if ($lastJobExecution instanceof \Akeneo\Tool\Component\Batch\Model\JobExecution) {
                     $from = max($lastJobExecution->getStartTime(), $defaultFrom);
                 }
 

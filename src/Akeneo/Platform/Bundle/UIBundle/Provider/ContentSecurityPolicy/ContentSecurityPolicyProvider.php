@@ -24,9 +24,9 @@ final readonly class ContentSecurityPolicyProvider
 
         $policiesAsString = [];
         foreach ($policies as $directive => $policy) {
-            $policiesAsString[] = $directive . ' ' . join(' ', array_unique($policy));
+            $policiesAsString[] = $directive . ' ' . implode(' ', array_unique($policy));
         }
 
-        return join('; ', $policiesAsString);
+        return implode('; ', $policiesAsString);
     }
 }

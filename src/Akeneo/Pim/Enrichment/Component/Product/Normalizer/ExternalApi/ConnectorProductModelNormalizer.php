@@ -35,19 +35,19 @@ final readonly class ConnectorProductModelNormalizer
             'family_variant' => $connectorProductModel->familyVariantCode(),
             'parent' => $connectorProductModel->parentCode(),
             'categories' => $connectorProductModel->categoryCodes(),
-            'values' => empty($values) ? (object) [] : $values,
+            'values' => $values === [] ? (object) [] : $values,
             'created' => $this->dateTimeNormalizer->normalize($connectorProductModel->createdDate()),
             'updated' => $this->dateTimeNormalizer->normalize($connectorProductModel->updatedDate()),
-            'associations' => empty($connectorProductModel->associations()) ? (object) [] : $connectorProductModel->associations(),
-            'quantified_associations' => empty($connectorProductModel->quantifiedAssociations()) ? (object) [] : $connectorProductModel->quantifiedAssociations(),
+            'associations' => $connectorProductModel->associations() === [] ? (object) [] : $connectorProductModel->associations(),
+            'quantified_associations' => $connectorProductModel->quantifiedAssociations() === [] ? (object) [] : $connectorProductModel->quantifiedAssociations(),
         ];
 
-        if (!empty($connectorProductModel->metadata())) {
+        if ($connectorProductModel->metadata() !== []) {
             $normalizedProductModel['metadata'] = $connectorProductModel->metadata();
         }
 
         $qualityScores = $connectorProductModel->qualityScores();
-        if ($qualityScores !== null) {
+        if ($qualityScores instanceof \Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Model\QualityScoreCollection) {
             $normalizedProductModel['quality_scores'] = $this->normalizeQualityScores($qualityScores);
         }
 

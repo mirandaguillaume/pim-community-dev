@@ -168,7 +168,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->setMaxResults($limit);
         ;
 
-        if (null !== $productModel) {
+        if ($productModel instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             $qb->andWhere('pm.id > :productModelId')
                 ->setParameter(':productModelId', $productModel->getId());
         }
@@ -221,7 +221,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->setMaxResults($limit)
         ;
 
-        if (! empty($search)) {
+        if (!in_array($search, [null, '', '0'], true)) {
             $qb->andWhere($qb->expr()->like('pm.code', '?1'))
                ->setParameter(1, '%' . $search . '%');
         }

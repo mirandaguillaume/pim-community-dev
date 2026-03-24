@@ -20,9 +20,9 @@ class IndexConfiguration
      */
     public function buildAggregated(): array
     {
-        $settings = !empty($this->settings) ? $this->settings : new \stdClass();
-        $mappings = !empty($this->mappings) ? $this->mappings : new \stdClass();
-        $aliases = !empty($this->aliases) ? $this->aliases : new \stdClass();
+        $settings = $this->settings === [] ? new \stdClass() : $this->settings;
+        $mappings = $this->mappings === [] ? new \stdClass() : $this->mappings;
+        $aliases = $this->aliases === [] ? new \stdClass() : $this->aliases;
 
         return [
             'settings' => $settings,

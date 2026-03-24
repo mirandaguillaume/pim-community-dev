@@ -118,11 +118,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      */
     protected function getFilteredValues(ProductInterface $product, array $context = []): \Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection|array
     {
-        if ($product->isVariant()) {
-            $values = $product->getValuesForVariation();
-        } else {
-            $values = $product->getValues();
-        }
+        $values = $product->isVariant() ? $product->getValuesForVariation() : $product->getValues();
 
         if (null === $this->filter) {
             return $values;
@@ -168,7 +164,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      */
     protected function normalizeFamily(?FamilyInterface $family = null): string
     {
-        return $family ? $family->getCode() : '';
+        return $family instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface ? $family->getCode() : '';
     }
 
     /**
@@ -198,7 +194,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      */
     protected function normalizeParent(?ProductModelInterface $parent = null): string
     {
-        return $parent ? $parent->getCode() : '';
+        return $parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface ? $parent->getCode() : '';
     }
 
     /**

@@ -107,7 +107,7 @@ final readonly class UpsertProductHandler
 
         foreach ($userIntents as $propertyPath => $userIntent) {
             $applier = $this->applierRegistry->getApplier($userIntent);
-            if (null !== $applier) {
+            if ($applier instanceof \Akeneo\Pim\Enrichment\Product\Application\Applier\UserIntentApplier) {
                 try {
                     $applier->apply($userIntent, $product, $command->userId());
                 } catch (PropertyException $e) {

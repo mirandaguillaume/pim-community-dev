@@ -216,7 +216,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
      */
     public function getLabel()
     {
-        $translated = $this->getTranslation() ? $this->getTranslation()->getLabel() : null;
+        $translated = $this->getTranslation() instanceof \Akeneo\Pim\Structure\Component\Model\AssociationTypeTranslationInterface ? $this->getTranslation()->getLabel() : null;
 
         return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }

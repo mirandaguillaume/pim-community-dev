@@ -180,6 +180,6 @@ class ProductAssociationFilter implements FilterInterface
 
     protected function getOriginalAssociation(array $originalAssociations, string $type, string $key): array
     {
-        return !isset($originalAssociations[$type][$key]) ? [] : $originalAssociations[$type][$key];
+        return isset($originalAssociations[$type][$key]) ? $originalAssociations[$type][$key] : [];
     }
 }

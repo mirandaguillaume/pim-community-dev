@@ -36,12 +36,12 @@ class ConsentAppAuthenticationHandler
         $appId = $command->getClientId();
 
         $appAuthorization = $this->appAuthorizationSession->getAppAuthorization($appId);
-        if (null === $appAuthorization) {
+        if (!$appAuthorization instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization) {
             throw new \LogicException('There is no active app authorization in session');
         }
 
         $appConfirmation = $this->getAppConfirmationQuery->execute($appId);
-        if (null === $appConfirmation) {
+        if (!$appConfirmation instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppConfirmation) {
             throw new \LogicException('The connected app should have been created');
         }
 

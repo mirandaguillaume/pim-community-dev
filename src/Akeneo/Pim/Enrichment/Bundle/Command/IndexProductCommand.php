@@ -94,7 +94,7 @@ class IndexProductCommand extends Command
             $requestedIdentifiers = $input->getArgument('identifiers');
             $existingUuids = $this->getProductExistingAmong->among($requestedIdentifiers);
             $nonExistingIdentifiers = array_diff($requestedIdentifiers, array_keys($existingUuids));
-            if (!empty($nonExistingIdentifiers)) {
+            if ($nonExistingIdentifiers !== []) {
                 $output->writeln(
                     sprintf(
                         '<error>Some products were not found for the given identifiers: %s</error>',

@@ -35,7 +35,7 @@ class CalculateProductModelCompleteness implements CalculateProductCompletenessI
         $productMask = $this->getProductMask($productModelId);
         $requiredAttributesMask = $this->getProductModelAttributesMaskQuery->execute($productModelId);
 
-        if (null === $productMask || null === $requiredAttributesMask) {
+        if (!$productMask instanceof \Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\CompletenessProductMask || !$requiredAttributesMask instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask) {
             return $result;
         }
 

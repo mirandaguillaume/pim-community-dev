@@ -24,7 +24,7 @@ class RegisterRendererPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $registryId = static::REGISTRY_ID;
+        $registryId = self::REGISTRY_ID;
 
         if (!$container->hasDefinition($registryId)) {
             return;
@@ -48,7 +48,7 @@ class RegisterRendererPass implements CompilerPassInterface
     protected function getServicesByPriority(ContainerBuilder $container)
     {
         $priorities = [];
-        foreach ($container->findTaggedServiceIds(static::RENDERER_TAG) as $serviceId => $tags) {
+        foreach ($container->findTaggedServiceIds(self::RENDERER_TAG) as $serviceId => $tags) {
             $priority = $tags[0]['priority'] ?? self::DEFAULT_PRIORITY;
             if (!isset($priorities[$priority])) {
                 $priorities[$priority] = [];

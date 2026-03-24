@@ -28,7 +28,7 @@ final class LRUCachedGetAttributes implements GetAttributes, CachedQueryInterfac
      */
     public function forCodes(array $attributeCodes): array
     {
-        if (empty($attributeCodes)) {
+        if ($attributeCodes === []) {
             return [];
         }
 

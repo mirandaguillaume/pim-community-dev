@@ -62,7 +62,7 @@ final readonly class AuthorizeAction
 
         $clientId = $request->query->get('client_id', '');
 
-        if ('' === $clientId || null === $app = $this->getAppQuery->execute($clientId)) {
+        if ('' === $clientId || !($app = $this->getAppQuery->execute($clientId)) instanceof \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App) {
             return new RedirectResponse(
                 '/#' . $this->router->generate('akeneo_connectivity_connection_connect_apps_authorize', [
                     'error' => 'akeneo_connectivity.connection.connect.apps.error.app_not_found',
@@ -93,7 +93,7 @@ final readonly class AuthorizeAction
         }
 
         $appAuthorization = $this->appAuthorizationSession->getAppAuthorization($clientId);
-        if (null === $appAuthorization) {
+        if (!$appAuthorization instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization) {
             throw new \LogicException('There is no active app authorization in session');
         }
 
@@ -103,16 +103,16 @@ final readonly class AuthorizeAction
         $originalScopes = $this->getConnectedAppScopesQuery->execute($clientId);
         $requestedScopes = $appAuthorization->getAuthorizationScopes()->getScopes();
 
-        $hasNewScopes = !empty($this->scopeListComparator->diff(
+        $hasNewScopes = $this->scopeListComparator->diff(
             $requestedScopes,
             $originalScopes
-        ));
+        ) !== [];
 
-        if (null === $appConfirmation) {
+        if (!$appConfirmation instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppConfirmation) {
             $this->denyAccessUnlessGrantedToManage();
         }
 
-        if ((null === $appConfirmation || $hasNewScopes) && $this->isGrantedToManage()) {
+        if ((!$appConfirmation instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppConfirmation || $hasNewScopes) && $this->isGrantedToManage()) {
             return new RedirectResponse(
                 '/#' . $this->router->generate('akeneo_connectivity_connection_connect_apps_authorize', [
                     'client_id' => $command->getClientId(),

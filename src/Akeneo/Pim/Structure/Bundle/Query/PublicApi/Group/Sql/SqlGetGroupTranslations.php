@@ -17,7 +17,7 @@ class SqlGetGroupTranslations implements GetGroupTranslations
 
     public function byGroupCodesAndLocale(array $groupCodes, string $locale): array
     {
-        if (empty($groupCodes)) {
+        if ($groupCodes === []) {
             return [];
         }
 

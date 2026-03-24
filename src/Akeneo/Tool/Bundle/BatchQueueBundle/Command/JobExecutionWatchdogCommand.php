@@ -229,7 +229,7 @@ final class JobExecutionWatchdogCommand extends Command
     private function writeProcessOutput(Process $process): void
     {
         $errors = $process->getIncrementalErrorOutput();
-        if ($errors) {
+        if ($errors !== '' && $errors !== '0') {
             $this->logger->error($errors);
         }
     }

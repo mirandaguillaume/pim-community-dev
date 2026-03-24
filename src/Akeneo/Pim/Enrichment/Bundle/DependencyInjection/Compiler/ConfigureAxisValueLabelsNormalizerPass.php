@@ -20,7 +20,7 @@ class ConfigureAxisValueLabelsNormalizerPass implements CompilerPassInterface
         $normalizer = $container->getDefinition('pim_enrich.normalizer.entity_with_family_variant');
 
         $taggedServices = $container->findTaggedServiceIds(self::SERVICE_TAG);
-        foreach ($taggedServices as $serviceId => $taggedService) {
+        foreach (array_keys($taggedServices) as $serviceId) {
             $normalizer->addArgument($container->getDefinition($serviceId));
         }
     }

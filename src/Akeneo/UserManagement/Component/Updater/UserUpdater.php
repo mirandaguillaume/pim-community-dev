@@ -367,7 +367,7 @@ class UserUpdater implements ObjectUpdaterInterface
     {
         $group = $this->groupRepository->findOneById($id);
 
-        if (null === $group) {
+        if (!$group instanceof \Akeneo\UserManagement\Component\Model\GroupInterface) {
             throw InvalidPropertyException::validEntityCodeExpected(
                 'group_id',
                 'id',

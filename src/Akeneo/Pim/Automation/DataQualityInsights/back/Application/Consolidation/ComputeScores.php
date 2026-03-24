@@ -30,7 +30,7 @@ class ComputeScores
         foreach ($this->getLocalesByChannelQuery->getChannelLocaleCollection() as $channelCode => $locales) {
             foreach ($locales as $localeCode) {
                 $score = $this->computeChannelLocaleScore($criteriaEvaluations, $channelCode, $localeCode);
-                if (null !== $score) {
+                if ($score instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate) {
                     $scores->addRate($channelCode, $localeCode, $score);
                 }
             }
@@ -54,7 +54,7 @@ class ComputeScores
             }
         }
 
-        if (empty($criteriaRates) || $totalCoefficient === 0) {
+        if ($criteriaRates === [] || $totalCoefficient === 0) {
             return null;
         }
 

@@ -55,7 +55,7 @@ final class EvaluateAllProductsCommand extends Command
         if ($input->isInteractive()) {
             $confirm = $io->confirm('Are you sure you want to proceed ?', false);
 
-            if ($confirm !== true) {
+            if (!$confirm) {
                 $io->text('Operation aborted. Nothing has been done.');
                 return Command::SUCCESS;
             }

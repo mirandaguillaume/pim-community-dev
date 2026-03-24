@@ -36,7 +36,7 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
      */
     public function forChannel(string $channelCode): array
     {
-        if (empty($this->activatedCurrenciesForChannels)) {
+        if ($this->activatedCurrenciesForChannels === []) {
             $this->activatedCurrenciesForChannels = $this->fetchActivatedCurrenciesForAllChannels();
         }
 
@@ -50,7 +50,7 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
      */
     public function forAllChannels(): array
     {
-        if (empty($this->activatedCurrenciesForChannels)) {
+        if ($this->activatedCurrenciesForChannels === []) {
             $this->activatedCurrenciesForChannels = $this->fetchActivatedCurrenciesForAllChannels();
         }
 
@@ -59,7 +59,7 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
 
     public function forAllChannelsIndexedByChannelCode(): array
     {
-        if (empty($this->activatedCurrenciesForChannels)) {
+        if ($this->activatedCurrenciesForChannels === []) {
             $this->activatedCurrenciesForChannels = $this->fetchActivatedCurrenciesForAllChannels();
         }
 

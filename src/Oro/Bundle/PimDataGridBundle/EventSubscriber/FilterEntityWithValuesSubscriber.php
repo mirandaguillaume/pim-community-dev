@@ -53,12 +53,12 @@ class FilterEntityWithValuesSubscriber
         }
 
         $attributeCodes = $this->configuration->attributeCodesToFilterEntityValues();
-        if ($entity instanceof EntityWithFamilyInterface && null !== $entity->getFamily()) {
+        if ($entity instanceof EntityWithFamilyInterface && $entity->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             $family = $entity->getFamily();
             if (null !== $family->getAttributeAsLabel()) {
                 $attributeCodes[] = $family->getAttributeAsLabel()->getCode();
             }
-            if (null !== $family->getAttributeAsImage()) {
+            if ($family->getAttributeAsImage() instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface) {
                 $attributeCodes[] = $family->getAttributeAsImage()->getCode();
             }
         }

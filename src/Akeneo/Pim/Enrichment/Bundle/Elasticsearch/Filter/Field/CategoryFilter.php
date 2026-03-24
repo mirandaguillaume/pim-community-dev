@@ -40,10 +40,8 @@ class CategoryFilter extends AbstractFieldFilter implements FieldFilterInterface
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }
 
-        if ($operator !== Operators::UNCLASSIFIED && $operator !== Operators::IS_NOT_EMPTY) {
-            if (!isset($options['type_checking']) || $options['type_checking']) {
-                $this->checkValue($field, $value);
-            }
+        if ($operator !== Operators::UNCLASSIFIED && $operator !== Operators::IS_NOT_EMPTY && (!isset($options['type_checking']) || $options['type_checking'])) {
+            $this->checkValue($field, $value);
         }
 
         switch ($operator) {

@@ -43,7 +43,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
      */
     public function __invoke(array $uuids, array $attributeCodes, string $channelCode, string $localeCode): array
     {
-        if (empty($uuids)) {
+        if ($uuids === []) {
             return [];
         }
 

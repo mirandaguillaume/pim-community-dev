@@ -19,7 +19,7 @@ class OrderingKeySolver
     public function __construct(iterable $resolvers)
     {
         Assert::allImplementsInterface(
-            !is_array($resolvers) ? iterator_to_array($resolvers) : $resolvers,
+            is_array($resolvers) ? $resolvers : iterator_to_array($resolvers),
             OrderingKeyResolverInterface::class
         );
 

@@ -70,7 +70,7 @@ final class IndexFamilyProductsAndProductModelsTasklet implements TaskletInterfa
         }
 
         $familyCodes = $this->getFamilyCodes();
-        if (empty($familyCodes)) {
+        if ($familyCodes === []) {
             return;
         }
 
@@ -118,7 +118,7 @@ final class IndexFamilyProductsAndProductModelsTasklet implements TaskletInterfa
     private function getFamilyCodes(): array
     {
         $familyCodes = [];
-        while (null !== $family = $this->readFamily()) {
+        while (($family = $this->readFamily()) instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             $familyCodes[] = $family->getCode();
         }
 

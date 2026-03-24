@@ -44,12 +44,12 @@ class ProductModel extends AbstractSimpleArrayConverter implements ArrayConverte
                 break;
             case 'values':
                 foreach ($data as $code => $attribute) {
-                    $convertedItem = $convertedItem + $this->valueConverter->convertAttribute($code, $attribute);
+                    $convertedItem += $this->valueConverter->convertAttribute($code, $attribute);
                 }
                 break;
             case 'quality_scores':
                 if (is_array($data)) {
-                    $convertedItem = $convertedItem + $this->qualityScoreConverter->convert($data);
+                    $convertedItem += $this->qualityScoreConverter->convert($data);
                 }
                 break;
             default:

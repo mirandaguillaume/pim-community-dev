@@ -77,7 +77,7 @@ class PurgeJobExecutionCommand extends Command
             $output->write(sprintf(' older than %d days', $days));
         }
 
-        if (null !== $status) {
+        if ($status instanceof \Akeneo\Tool\Component\Batch\Job\BatchStatus) {
             $output->write(sprintf(' with status %s', $status->__toString()));
         }
 

@@ -22,7 +22,7 @@ class NonExistentReferenceDataSimpleSelectValuesFilter implements NonExistentVal
     {
         $selectValues = $onGoingFilteredRawValues->notFilteredValuesOfTypes(AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT);
 
-        if (empty($selectValues)) {
+        if ($selectValues === []) {
             return $onGoingFilteredRawValues;
         }
 

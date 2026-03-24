@@ -269,7 +269,7 @@ class Product implements ArrayConverterInterface
         }
 
         if (count($messages) > 0) {
-            throw new StructureArrayConversionException(join(' ', $messages));
+            throw new StructureArrayConversionException(implode(' ', $messages));
         }
     }
 
@@ -294,7 +294,7 @@ class Product implements ArrayConverterInterface
      */
     protected function getOptionalAssociationFields(): array
     {
-        if (empty($this->optionalAssocFields)) {
+        if ($this->optionalAssocFields === []) {
             $this->optionalAssocFields = array_merge(
                 $this->assocColumnsResolver->resolveAssociationColumns(),
                 $this->assocColumnsResolver->resolveQuantifiedAssociationColumns()
@@ -329,7 +329,7 @@ class Product implements ArrayConverterInterface
                     $found = true;
                 }
             }
-            if ($found === true) {
+            if ($found) {
                 $result[] = $attributeCode;
             }
         }

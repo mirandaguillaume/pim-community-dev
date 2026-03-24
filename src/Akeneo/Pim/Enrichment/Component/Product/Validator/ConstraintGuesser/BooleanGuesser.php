@@ -21,12 +21,7 @@ class BooleanGuesser implements ConstraintGuesserInterface
      */
     public function supportAttribute(AttributeInterface $attribute)
     {
-        return in_array(
-            $attribute->getType(),
-            [
-                AttributeTypes::BOOLEAN,
-            ]
-        );
+        return $attribute->getType() == AttributeTypes::BOOLEAN;
     }
 
     /**

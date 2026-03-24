@@ -72,16 +72,14 @@ class SortersConfigurator implements ConfiguratorInterface
                 );
             }
 
-            if ($columnExists && $attributeTypeConf && $attributeTypeConf['column']) {
-                if (isset($attributeTypeConf['sorter'])) {
-                    $this->configuration->offsetSetByPath(
-                        sprintf('%s[%s]', OrmSorterConfiguration::COLUMNS_PATH, $attributeCode),
-                        [
-                            PropertyInterface::DATA_NAME_KEY => $attributeCode,
-                            'sorter'                         => $attributeTypeConf['sorter'],
-                        ]
-                    );
-                }
+            if ($columnExists && $attributeTypeConf && $attributeTypeConf['column'] && isset($attributeTypeConf['sorter'])) {
+                $this->configuration->offsetSetByPath(
+                    sprintf('%s[%s]', OrmSorterConfiguration::COLUMNS_PATH, $attributeCode),
+                    [
+                        PropertyInterface::DATA_NAME_KEY => $attributeCode,
+                        'sorter'                         => $attributeTypeConf['sorter'],
+                    ]
+                );
             }
         }
     }
@@ -93,7 +91,7 @@ class SortersConfigurator implements ConfiguratorInterface
     {
         $displayedColumns = $this->configuration->offsetGetByPath(sprintf('[%s]', FormatterConfiguration::COLUMNS_KEY));
         $columnsCodes = array_keys($displayedColumns);
-        $sorters = $this->configuration->offsetGetByPath(sprintf('%s', OrmSorterConfiguration::COLUMNS_PATH));
+        $sorters = $this->configuration->offsetGetByPath(OrmSorterConfiguration::COLUMNS_PATH);
 
         if (!empty($sorters)) {
             $sortersCodes = array_keys($sorters);
@@ -105,7 +103,7 @@ class SortersConfigurator implements ConfiguratorInterface
             }
 
             $this->configuration->offsetSetByPath(
-                sprintf('%s', OrmSorterConfiguration::COLUMNS_PATH),
+                OrmSorterConfiguration::COLUMNS_PATH,
                 $sorters
             );
         }

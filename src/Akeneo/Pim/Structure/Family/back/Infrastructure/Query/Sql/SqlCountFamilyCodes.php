@@ -25,7 +25,7 @@ class SqlCountFamilyCodes implements CountFamilyCodes
     {
         $searchLocaleCondition = null !== $query->search?->labelLocale ? 'AND translation.locale = :locale_code' : '';
         $includeCondition = null !== $query->includeCodes ? 'AND code IN (:include_codes)' : '';
-        $excludeCondition = !empty($query->excludeCodes) ? 'AND code NOT IN (:exclude_codes)' : '';
+        $excludeCondition = $query->excludeCodes === null || $query->excludeCodes === [] ? '' : 'AND code NOT IN (:exclude_codes)';
 
         $sql = <<<SQL
                 SELECT count(DISTINCT family.code)

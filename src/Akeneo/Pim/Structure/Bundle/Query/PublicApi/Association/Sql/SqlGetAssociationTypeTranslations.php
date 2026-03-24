@@ -17,7 +17,7 @@ class SqlGetAssociationTypeTranslations implements GetAssociationTypeTranslation
 
     public function byAssociationTypeCodeAndLocale(array $associationTypeCodes, string $locale): array
     {
-        if (empty($associationTypeCodes)) {
+        if ($associationTypeCodes === []) {
             return [];
         }
 

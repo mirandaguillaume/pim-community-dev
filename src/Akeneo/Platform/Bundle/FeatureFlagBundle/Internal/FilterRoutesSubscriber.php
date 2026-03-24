@@ -28,11 +28,11 @@ class FilterRoutesSubscriber
 
     public function filterRoutesFromDisabledFeatureFlags(ControllerEvent $event)
     {
-        if (!$event->getRequest()->attributes->has(static::FEATURE_KEY)) {
+        if (!$event->getRequest()->attributes->has(self::FEATURE_KEY)) {
             return;
         }
 
-        $feature = $event->getRequest()->attributes->get(static::FEATURE_KEY);
+        $feature = $event->getRequest()->attributes->get(self::FEATURE_KEY);
         if (!$this->featureFlags->isEnabled($feature)) {
             // Maybe we'll need to throw a 403 instead.
             // But the system could be enhanced with a key "_throw" for instance in the route configuration.

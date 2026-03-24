@@ -29,13 +29,13 @@ class RegisterFilterPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(static::REGISTRY_ID)) {
+        if (!$container->hasDefinition(self::REGISTRY_ID)) {
             return;
         }
 
-        $registryDefinition = $container->getDefinition(static::REGISTRY_ID);
+        $registryDefinition = $container->getDefinition(self::REGISTRY_ID);
 
-        foreach ($container->findTaggedServiceIds(static::COLLECTION_FILTER_TAG) as $serviceId => $attributes) {
+        foreach ($container->findTaggedServiceIds(self::COLLECTION_FILTER_TAG) as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 $registryDefinition->addMethodCall(
                     'addCollectionFilter',
@@ -47,7 +47,7 @@ class RegisterFilterPass implements CompilerPassInterface
             }
         }
 
-        foreach ($container->findTaggedServiceIds(static::OBJECT_FILTER_TAG) as $serviceId => $attributes) {
+        foreach ($container->findTaggedServiceIds(self::OBJECT_FILTER_TAG) as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 $registryDefinition->addMethodCall('addObjectFilter', [new Reference($serviceId), $attribute['type']]);
             }

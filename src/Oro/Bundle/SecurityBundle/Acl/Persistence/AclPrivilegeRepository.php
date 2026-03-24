@@ -143,7 +143,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
 
         $this->sortPrivileges($privileges);
 
-        if (null !== $this->eventDispatcher) {
+        if ($this->eventDispatcher instanceof \Symfony\Component\EventDispatcher\EventDispatcherInterface) {
             $event = new PrivilegesPostLoadEvent($privileges);
             $this->eventDispatcher->dispatch($event);
             $privileges = $event->getPrivileges();
@@ -339,15 +339,13 @@ class AclPrivilegeRepository implements EventDispatcherAware
                 // remove existing ACE because it provides the same permissions as the root ACE
                 $this->manager->deletePermission($sid, $oid, $existingMask);
             }
-        } else {
+        } elseif ($mask === $extension->adaptRootMask($rootMask, $oid)) {
             // both $mask and $rootMask were found
-            if ($mask === $extension->adaptRootMask($rootMask, $oid)) {
-                // remove existing ACE, if $mask provides the same permissions as $rootMask
-                $this->manager->deletePermission($sid, $oid, $existingMask);
-            } else {
-                // update existing ACE using $mask, if permissions provide by $mask and $rootMask are different
-                $this->manager->setPermission($sid, $oid, $mask);
-            }
+            // remove existing ACE, if $mask provides the same permissions as $rootMask
+            $this->manager->deletePermission($sid, $oid, $existingMask);
+        } else {
+            // update existing ACE using $mask, if permissions provide by $mask and $rootMask are different
+            $this->manager->setPermission($sid, $oid, $mask);
         }
 
         return $mask;
@@ -503,7 +501,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
     ) {
         $allowedPermissions = $extension->getAllowedPermissions($oid);
         $acl = $this->findAclByOid($acls, $oid);
-        if ($rootAcl !== null) {
+        if ($rootAcl instanceof \Symfony\Component\Security\Acl\Model\AclInterface) {
             $this->addAclPermissions($sid, null, $privilege, $allowedPermissions, $extension, $rootAcl, $acl);
         }
 
@@ -532,7 +530,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
         AclInterface $rootAcl,
         ?AclInterface $acl = null
     ) {
-        if ($acl !== null) {
+        if ($acl instanceof \Symfony\Component\Security\Acl\Model\AclInterface) {
             // check object ACEs
             $this->addAcesPermissions(
                 $privilege,
@@ -605,7 +603,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
         AclExtensionInterface $extension,
         $itIsRootAcl = false
     ) {
-        if (empty($aces)) {
+        if ($aces === []) {
             return;
         }
         foreach ($aces as $ace) {

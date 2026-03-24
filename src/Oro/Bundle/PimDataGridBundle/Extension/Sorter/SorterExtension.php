@@ -60,11 +60,7 @@ class SorterExtension extends AbstractExtension
         foreach ($sorters as $definition) {
             [$direction, $sorter] = $definition;
             $sortKey = $sorter['data_name'];
-            if (isset($sorter['sorter']) && $sorter['sorter'] !== null) {
-                $sorterAlias = $sorter['sorter'];
-            } else {
-                $sorterAlias = 'field';
-            }
+            $sorterAlias = isset($sorter['sorter']) && $sorter['sorter'] !== null ? $sorter['sorter'] : 'field';
             if (!isset($this->sorters[$sorterAlias])) {
                 throw new \LogicException(
                     sprintf(

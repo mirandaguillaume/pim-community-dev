@@ -129,7 +129,7 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
 
     protected function validateSearchFilters(array $searchFilters): void
     {
-        if (empty($searchFilters)) {
+        if ($searchFilters === []) {
             return;
         }
 
@@ -191,7 +191,7 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
                 $exceptionMessages[] = $violation->getMessage();
             }
         }
-        if (!empty($exceptionMessages)) {
+        if ($exceptionMessages !== []) {
             throw new \InvalidArgumentException(implode(' ', $exceptionMessages));
         }
     }

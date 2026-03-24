@@ -196,7 +196,7 @@ class ProductRepository extends EntityRepository implements
             ->setMaxResults($limit);
         ;
 
-        if (null !== $product) {
+        if ($product instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface) {
             $qb->where('p.uuid > :productUuid')
                 ->setParameter(':productUuid', $product->getUuid());
         }

@@ -57,7 +57,7 @@ class ProductValueNormalizer implements NormalizerInterface
     protected function getCollectionValue(ValueInterface $value, ?string $format = null, array $context = []): array
     {
         $attribute = $this->getAttributes->forCode($value->getAttributeCode());
-        if (null === $attribute) {
+        if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
             return [];
         }
 
@@ -85,7 +85,7 @@ class ProductValueNormalizer implements NormalizerInterface
 
         $attribute = $this->getAttributes->forCode($value->getAttributeCode());
 
-        if (null === $attribute) {
+        if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
             return [];
         }
 
@@ -140,19 +140,19 @@ class ProductValueNormalizer implements NormalizerInterface
         $data = $value->getData();
         $splitNumber = preg_split('/\./', (string) $data);
         if (!isset($splitNumber[1])) {
-            return number_format($data, static::DECIMAL_PRECISION, '.', '');
+            return number_format($data, self::DECIMAL_PRECISION, '.', '');
         }
         [$integer, $decimals] = $splitNumber;
 
-        if (strlen($decimals) <= static::DECIMAL_PRECISION) {
-            return number_format($data, static::DECIMAL_PRECISION, '.', '');
+        if (strlen($decimals) <= self::DECIMAL_PRECISION) {
+            return number_format($data, self::DECIMAL_PRECISION, '.', '');
         }
 
         return sprintf(
             '%s.%s%s',
             $integer,
-            substr($decimals, 0, static::DECIMAL_PRECISION),
-            rtrim(substr($decimals, static::DECIMAL_PRECISION), '0')
+            substr($decimals, 0, self::DECIMAL_PRECISION),
+            rtrim(substr($decimals, self::DECIMAL_PRECISION), '0')
         );
     }
 }

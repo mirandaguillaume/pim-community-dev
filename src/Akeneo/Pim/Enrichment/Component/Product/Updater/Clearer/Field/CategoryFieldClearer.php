@@ -22,7 +22,7 @@ final class CategoryFieldClearer implements ClearerInterface
      */
     public function supportsProperty(string $property): bool
     {
-        return static::SUPPORTED_FIELD === $property;
+        return self::SUPPORTED_FIELD === $property;
     }
 
     /**

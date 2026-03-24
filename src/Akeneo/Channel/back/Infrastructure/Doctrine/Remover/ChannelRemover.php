@@ -69,7 +69,7 @@ class ChannelRemover implements RemoverInterface
             ));
         }
 
-        if (true === $this->isChannelUsedInProductExportJob->execute($object->getCode())) {
+        if ($this->isChannelUsedInProductExportJob->execute($object->getCode())) {
             throw new \LogicException($this->translator->trans(
                 'pim_enrich.channel.flash.delete.linked_to_export_profile'
             ));

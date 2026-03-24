@@ -110,7 +110,7 @@ final class ReadValueCollection implements \Countable, \IteratorAggregate
      */
     public function isEmpty()
     {
-        return empty($this->values);
+        return $this->values === [];
     }
 
     /**

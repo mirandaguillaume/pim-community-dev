@@ -23,12 +23,12 @@ class RegisterDataCollectorPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(static::REGISTRY_ID)) {
+        if (!$container->hasDefinition(self::REGISTRY_ID)) {
             return;
         }
 
-        $registryDefinition = $container->getDefinition(static::REGISTRY_ID);
-        $services = $container->findTaggedServiceIds(static::COLLECTOR_TAG);
+        $registryDefinition = $container->getDefinition(self::REGISTRY_ID);
+        $services = $container->findTaggedServiceIds(self::COLLECTOR_TAG);
         foreach ($services as $serviceId => $tags) {
             foreach ($tags as $tag) {
                 $registryDefinition->addMethodCall(

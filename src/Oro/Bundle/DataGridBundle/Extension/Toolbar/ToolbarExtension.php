@@ -73,7 +73,7 @@ class ToolbarExtension extends AbstractExtension
             }
         );
 
-        if (empty($exist)) {
+        if ($exist === []) {
             throw new \LogicException(
                 sprintf('Default page size "%d" must present in size items array', $perPageDefault)
             );

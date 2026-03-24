@@ -27,7 +27,7 @@ class DateTimeProperty extends FieldProperty
     #[\Override]
     protected function convertValue($value)
     {
-        $result = !$value instanceof \DateTime ? $this->getBackendData($value) : $value;
+        $result = $value instanceof \DateTime ? $value : $this->getBackendData($value);
 
         return $this->presenter->present($result, ['locale' => $this->translator->getLocale()]);
     }

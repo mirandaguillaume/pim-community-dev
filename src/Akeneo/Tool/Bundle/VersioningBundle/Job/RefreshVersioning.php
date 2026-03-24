@@ -61,7 +61,7 @@ class RefreshVersioning implements TaskletInterface
                 $previousVersion = $previousVersions[$key] ?? null;
                 $version = $this->createVersion($pending, $previousVersion);
 
-                if ($version) {
+                if ($version instanceof \Akeneo\Tool\Component\Versioning\Model\Version) {
                     $previousVersions[$key] = $version;
                 }
             }

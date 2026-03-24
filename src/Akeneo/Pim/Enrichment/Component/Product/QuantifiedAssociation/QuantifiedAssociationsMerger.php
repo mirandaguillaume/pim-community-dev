@@ -22,7 +22,7 @@ class QuantifiedAssociationsMerger
 {
     public function normalizeAndMergeQuantifiedAssociationsFrom(array $entitiesWithQuantifiedAssociations): array
     {
-        if (empty($entitiesWithQuantifiedAssociations)) {
+        if ($entitiesWithQuantifiedAssociations === []) {
             return [];
         }
 

@@ -26,7 +26,7 @@ final readonly class AttributeClearer implements ClearerInterface
      */
     public function supportsProperty(string $property): bool
     {
-        return null !== $this->getAttributes->forCode($property);
+        return $this->getAttributes->forCode($property) instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute;
     }
 
     /**

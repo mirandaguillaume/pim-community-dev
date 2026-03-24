@@ -40,7 +40,7 @@ class JobExecutionManager
 
         $healthCheck = $jobExecution->getHealthCheckTime();
 
-        if (null === $healthCheck) {
+        if (!$healthCheck instanceof \DateTime) {
             return $jobExecution;
         }
 

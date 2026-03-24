@@ -108,7 +108,7 @@ final readonly class DashboardScoresProjectionRepository implements DashboardSco
             $pathsToRemove[] = sprintf('\'$."%s"."%s"\'', strval($purgeDate->getPeriod()), $purgeDate->getDate()->format());
         }
 
-        if (empty($pathsToRemove)) {
+        if ($pathsToRemove === []) {
             return;
         }
 

@@ -49,7 +49,7 @@ class WidgetController
     {
         $widget = $this->widgetRegistry->get($alias);
 
-        $data = null !== $widget ? $widget->getData() : null;
+        $data = $widget instanceof \Akeneo\Platform\Bundle\DashboardBundle\Widget\WidgetInterface ? $widget->getData() : null;
 
         return new JsonResponse($data);
     }

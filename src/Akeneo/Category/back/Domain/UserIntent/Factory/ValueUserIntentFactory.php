@@ -48,11 +48,11 @@ final readonly class ValueUserIntentFactory implements UserIntentFactory
         $attributeCollection = $this->getAttributeCollectionByAttributeValues($data);
 
         $userIntents = [];
-        if (!empty($data)) {
+        if ($data !== []) {
             foreach ($data as $value) {
                 $attributeType = $this->getAttributeType($attributeCollection, $value);
                 // /!\ No attribute type found for the value. Do nothing for now.
-                if (null === $attributeType) {
+                if (!$attributeType instanceof \Akeneo\Category\Domain\ValueObject\Attribute\AttributeType) {
                     continue;
                 }
 
@@ -73,7 +73,7 @@ final readonly class ValueUserIntentFactory implements UserIntentFactory
      */
     private function isDataStringEmpty(string $data): bool
     {
-        return empty(trim(strip_tags($data)));
+        return in_array(trim(strip_tags($data)), ['', '0'], true);
     }
 
     /**
@@ -81,7 +81,7 @@ final readonly class ValueUserIntentFactory implements UserIntentFactory
      */
     private function getAttributeCollectionByAttributeValues(array $attributes): AttributeCollection
     {
-        if (!$attributes) {
+        if ($attributes === []) {
             return AttributeCollection::fromArray([]);
         }
 

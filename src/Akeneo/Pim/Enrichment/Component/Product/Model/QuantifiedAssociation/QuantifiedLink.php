@@ -56,7 +56,7 @@ class QuantifiedLink
 
     public function normalize(): array
     {
-        if (null !== $this->uuid) {
+        if ($this->uuid instanceof \Ramsey\Uuid\UuidInterface) {
             return [
                 self::UUID_KEY => $this->uuid->toString(),
                 self::IDENTIFIER_KEY => $this->identifier,

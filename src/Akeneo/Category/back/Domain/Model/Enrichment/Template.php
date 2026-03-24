@@ -58,7 +58,7 @@ class Template
 
     public function update(?LabelCollection $labelCollection): void
     {
-        if ($labelCollection !== null) {
+        if ($labelCollection instanceof \Akeneo\Category\Domain\ValueObject\LabelCollection) {
             $this->labelCollection->merge($labelCollection);
         }
     }

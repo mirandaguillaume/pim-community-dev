@@ -25,7 +25,7 @@ class LRUCachedGetExistingAttributeOptions implements GetExistingAttributeOption
 
     public function fromOptionCodesByAttributeCode(array $optionCodesIndexedByAttributeCodes): array
     {
-        if (empty($optionCodesIndexedByAttributeCodes)) {
+        if ($optionCodesIndexedByAttributeCodes === []) {
             return [];
         }
 

@@ -27,7 +27,7 @@ final readonly class GetConnectedAppAuthenticationScopesAction
     public function __invoke(string $connectionCode): Response
     {
         $connectedApp = $this->findOneConnectedAppByConnectionCodeQuery->execute($connectionCode);
-        if (null === $connectedApp) {
+        if (!$connectedApp instanceof \Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp) {
             throw new NotFoundHttpException("Connected app with connection code $connectionCode does not exist.");
         }
 

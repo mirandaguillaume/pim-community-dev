@@ -97,7 +97,7 @@ class CheckCategoryTrees extends Command
                 }
             }
 
-            $corruptionStatus = count($corruptions) ? 'CORRUPTED' : 'SANE';
+            $corruptionStatus = count($corruptions) > 0 ? 'CORRUPTED' : 'SANE';
 
             $hasCorruptions |= $rootHasCorruptions;
 

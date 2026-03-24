@@ -50,7 +50,7 @@ class ProductModelPositionInTheVariantTreeValidator extends ConstraintValidator
             )->atPath('parent')->addViolation();
         }
 
-        if (1 === $numberOfLevel && null !== $productModel->getParent()) {
+        if (1 === $numberOfLevel && $productModel->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             $this->context->buildViolation(
                 ProductModelPositionInTheVariantTree::CANNOT_HAVE_PARENT,
                 [

@@ -46,7 +46,7 @@ class OAuthAuthenticator extends AbstractAuthenticator
         try {
             $accessToken = $this->oauthServer->verifyAccessToken($tokenString);
         } catch (OAuth2AuthenticateException $e) {
-            throw new CustomUserMessageAuthenticationException($e->getDescription());
+            throw new CustomUserMessageAuthenticationException($e->getDescription(), $e->getCode(), $e);
         }
 
         $user = $accessToken->getData();

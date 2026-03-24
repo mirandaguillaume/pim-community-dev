@@ -79,7 +79,7 @@ class FamilyRepository extends EntityRepository implements
      */
     public function applyMassActionParameters($qb, $inset, array $values)
     {
-        if ($values) {
+        if ($values !== []) {
             $rootAlias = $qb->getRootAliases()[0];
             $valueWhereCondition
                 = $inset

@@ -48,9 +48,9 @@ final readonly class UpdateNomenclatureController
         } catch (ViolationsException $exception) {
             return new JsonResponse($exception->normalize(), Response::HTTP_BAD_REQUEST);
         } catch (UndefinedAttributeException $e) {
-            throw new NotFoundHttpException($e->getMessage());
+            throw new NotFoundHttpException($e->getMessage(), $e);
         } catch (UnexpectedAttributeTypeException $e) {
-            throw new BadRequestHttpException($e->getMessage());
+            throw new BadRequestHttpException($e->getMessage(), $e);
         }
 
         return new JsonResponse();

@@ -64,7 +64,7 @@ final readonly class ConfirmAuthorizationAction
         }
 
         $app = $this->getAppQuery->execute($clientId);
-        if (null === $app) {
+        if (!$app instanceof \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App) {
             return new JsonResponse([
                 'errors' => [
                     [
@@ -81,14 +81,14 @@ final readonly class ConfirmAuthorizationAction
         try {
             $connectedApp = $this->findOneConnectedAppByIdQuery->execute($clientId);
 
-            if (null === $connectedApp) {
+            if (!$connectedApp instanceof \Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp) {
                 $this->createConnectedAppWithAuthorizationHandler->handle(new CreateConnectedAppWithAuthorizationCommand($clientId));
             } else {
                 $this->updateConnectedAppScopesWithAuthorizationHandler->handle(new UpdateConnectedAppScopesWithAuthorizationCommand($clientId));
             }
 
             $appAuthorization = $this->appAuthorizationSession->getAppAuthorization($clientId);
-            if (null === $appAuthorization) {
+            if (!$appAuthorization instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization) {
                 throw new \LogicException('There is no active app authorization in session');
             }
 
@@ -104,7 +104,7 @@ final readonly class ConfirmAuthorizationAction
         }
 
         $appConfirmation = $this->getAppConfirmationQuery->execute($clientId);
-        if (null === $appConfirmation) {
+        if (!$appConfirmation instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppConfirmation) {
             throw new \LogicException('The connected app should have been created');
         }
 

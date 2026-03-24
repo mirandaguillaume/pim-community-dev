@@ -32,7 +32,7 @@ class OnlyExpectedAttributesValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, OnlyExpectedAttributes::class);
         }
 
-        if (null === $entity->getFamilyVariant()) {
+        if (!$entity->getFamilyVariant() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface) {
             return;
         }
         $family = $entity->getFamilyVariant()->getFamily();

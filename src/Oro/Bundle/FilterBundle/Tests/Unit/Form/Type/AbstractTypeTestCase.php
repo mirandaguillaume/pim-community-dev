@@ -68,11 +68,11 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
     {
         $resolver = $this->createMockOptionsResolver();
 
-        if ($defaultOptions) {
+        if ($defaultOptions !== []) {
             $resolver->expects($this->once())->method('setDefaults')->with($defaultOptions)->willReturnSelf();
         }
 
-        if ($requiredOptions) {
+        if ($requiredOptions !== []) {
             $resolver->expects($this->once())->method('setRequired')->with($requiredOptions)->willReturnSelf();
         }
 

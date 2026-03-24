@@ -71,7 +71,7 @@ final class ValueCollection implements \IteratorAggregate, \Countable
                 && $value->getLocale()?->getValue() === $localeCode,
         );
 
-        return !empty($filteredValue) ? reset($filteredValue) : null;
+        return $filteredValue === [] ? null : reset($filteredValue);
     }
 
     /**

@@ -24,7 +24,7 @@ final readonly class SqlGetExistingAttributeOptionsWithValues implements GetExis
      */
     public function fromAttributeCodeAndOptionCodes(array $keys): array
     {
-        if (empty($keys)) {
+        if ($keys === []) {
             return [];
         }
 

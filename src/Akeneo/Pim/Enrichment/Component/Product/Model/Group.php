@@ -183,7 +183,7 @@ class Group implements GroupInterface, \Stringable
      */
     public function getLabel()
     {
-        $translated = $this->getTranslation() ? $this->getTranslation()->getLabel() : null;
+        $translated = $this->getTranslation() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\GroupTranslationInterface ? $this->getTranslation()->getLabel() : null;
 
         return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }

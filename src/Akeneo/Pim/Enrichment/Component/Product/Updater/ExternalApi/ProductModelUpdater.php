@@ -36,7 +36,7 @@ class ProductModelUpdater implements ObjectUpdaterInterface
             );
         }
 
-        if (null !== $productModel->getParent() && array_key_exists('parent', $data) && null === $data['parent']) {
+        if ($productModel->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface && array_key_exists('parent', $data) && null === $data['parent']) {
             throw ImmutablePropertyException::immutableProperty(
                 'parent',
                 'NULL',
@@ -61,7 +61,7 @@ class ProductModelUpdater implements ObjectUpdaterInterface
 
         $this->productModelUpdater->update($productModel, $data, $options);
 
-        if (true === $checkFamilyCode) {
+        if ($checkFamilyCode) {
             $this->validateFamilyCode($familyCode, $productModel);
         }
 
@@ -73,14 +73,12 @@ class ProductModelUpdater implements ObjectUpdaterInterface
      */
     private function validateFamilyCode($familyCode, ProductModelInterface $productModel): void
     {
-        if (null !== $productModel->getId()) {
-            if (!is_string($familyCode) || empty($familyCode) || $productModel->getFamily()->getCode() !== $familyCode) {
-                throw ImmutablePropertyException::immutableProperty(
-                    'family',
-                    is_scalar($familyCode) ? $familyCode : gettype($familyCode),
-                    ProductModelInterface::class
-                );
-            }
+        if (null !== $productModel->getId() && (!is_string($familyCode) || ($familyCode === '' || $familyCode === '0') || $productModel->getFamily()->getCode() !== $familyCode)) {
+            throw ImmutablePropertyException::immutableProperty(
+                'family',
+                is_scalar($familyCode) ? $familyCode : gettype($familyCode),
+                ProductModelInterface::class
+            );
         }
 
         if (null === $familyCode || '' === $familyCode) {
@@ -91,7 +89,7 @@ class ProductModelUpdater implements ObjectUpdaterInterface
             throw InvalidPropertyTypeException::stringExpected('family', ProductModelInterface::class, $familyCode);
         }
 
-        if (null !== $productModel->getFamilyVariant() && $familyCode !== $productModel->getFamily()->getCode()) {
+        if ($productModel->getFamilyVariant() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface && $familyCode !== $productModel->getFamily()->getCode()) {
             throw InvalidPropertyException::expected(
                 sprintf(
                     'The family "%s" does not match the family of the variant "%s".',

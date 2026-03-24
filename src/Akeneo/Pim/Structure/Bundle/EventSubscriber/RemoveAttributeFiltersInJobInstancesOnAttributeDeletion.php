@@ -45,7 +45,7 @@ class RemoveAttributeFiltersInJobInstancesOnAttributeDeletion
             }
         }
 
-        if (!empty($jobsToUpdate)) {
+        if ($jobsToUpdate !== []) {
             $this->bulkSaver->saveAll($jobsToUpdate);
         }
     }

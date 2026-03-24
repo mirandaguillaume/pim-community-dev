@@ -76,11 +76,11 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
     {
         $params = $this->params;
 
-        if (!empty($keys)) {
+        if ($keys !== []) {
             $params = array_intersect_key($params, array_flip($keys));
         }
 
-        if (!empty($excludeKeys)) {
+        if ($excludeKeys !== []) {
             $params = array_diff_key($params, array_flip($excludeKeys));
         }
 

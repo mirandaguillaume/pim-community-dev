@@ -48,7 +48,7 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
 
     public function saveAll(array $objects, array $options = [])
     {
-        if (empty($objects)) {
+        if ($objects === []) {
             return;
         }
 

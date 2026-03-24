@@ -22,7 +22,7 @@ final readonly class DefaultSqlGetRequiredAttributesMasks implements GetRequired
     public function __construct(
         private Connection $connection,
         private array $supportedTypes,
-        private readonly SqlPlatformHelperInterface $platformHelper,
+        private SqlPlatformHelperInterface $platformHelper,
     ) {
     }
 

@@ -17,7 +17,7 @@ class FindNonExistingProductModelCodesQuery implements FindNonExistingProductMod
 
     public function execute(array $productModelCodes): array
     {
-        if (empty($productModelCodes)) {
+        if ($productModelCodes === []) {
             return [];
         }
 

@@ -45,7 +45,7 @@ final class RoleWithPermissionsWriter implements ItemWriterInterface, StepExecut
 
     private function incrementCount(array $rolesWithPermissions): void
     {
-        if (null === $this->stepExecution) {
+        if (!$this->stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution) {
             return;
         }
         foreach ($rolesWithPermissions as $roleWithPermissions) {

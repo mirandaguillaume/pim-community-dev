@@ -45,7 +45,7 @@ class ListJobsCommand extends Command
                 't',
                 InputOption::VALUE_REQUIRED,
                 'The type of jobs to list (import|export|all)',
-                static::LIST_ALL
+                self::LIST_ALL
             );
     }
 
@@ -56,7 +56,7 @@ class ListJobsCommand extends Command
     {
         $criteria = [];
         $type = $input->getOption('type');
-        if (static::LIST_ALL !== $type) {
+        if (self::LIST_ALL !== $type) {
             $criteria['type'] = $type;
         }
         $jobs = $this->getJobManager()->getRepository(JobInstance::class)

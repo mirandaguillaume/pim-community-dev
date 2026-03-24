@@ -35,11 +35,7 @@ class TextConverter extends AbstractValueConverter
         if ($value instanceof \DateTimeInterface) {
             throw new BusinessArrayConversionException("Can not convert cell  {$code} with date format to attribute of type text", "pim_import_export.notification.export.warnings.xlsx_cell_date_to_text_conversion_error", [$code]);
         }
-        if ('' !== $value) {
-            $data = (string) $value;
-        } else {
-            $data = null;
-        }
+        $data = '' !== $value ? (string) $value : null;
 
         return [$code => [[
             'locale' => $attributeFieldInfo['locale_code'],

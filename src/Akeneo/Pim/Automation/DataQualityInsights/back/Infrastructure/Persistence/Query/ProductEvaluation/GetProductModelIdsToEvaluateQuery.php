@@ -52,7 +52,7 @@ final readonly class GetProductModelIdsToEvaluateQuery implements GetEntityIdsTo
             }
         }
 
-        if (!empty($productModelIds)) {
+        if ($productModelIds !== []) {
             yield $this->idFactory->createCollection($productModelIds);
         }
     }

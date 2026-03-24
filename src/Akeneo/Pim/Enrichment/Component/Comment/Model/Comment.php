@@ -19,8 +19,8 @@ use Ramsey\Uuid\UuidInterface;
 #[ORM\Entity()]
 #[ORM\Table(name: 'pim_comment_comment')]
 #[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
-#[ORM\Index(columns: ['resource_name', 'resource_id'], name: 'resource_name_resource_id_idx')]
-#[ORM\Index(columns: ['resource_name', 'resource_uuid'], name: 'resource_name_resource_uuid_idx')]
+#[ORM\Index(name: 'resource_name_resource_id_idx', columns: ['resource_name', 'resource_id'])]
+#[ORM\Index(name: 'resource_name_resource_uuid_idx', columns: ['resource_name', 'resource_uuid'])]
 class Comment implements CommentInterface
 {
     /** @var int */

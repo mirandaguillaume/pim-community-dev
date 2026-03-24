@@ -27,7 +27,7 @@ class ClientIdMustHaveOngoingAuthorizationValidator extends ConstraintValidator
 
         $appAuthorization = $this->session->getAppAuthorization((string) $value);
 
-        if (null === $appAuthorization) {
+        if (!$appAuthorization instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }

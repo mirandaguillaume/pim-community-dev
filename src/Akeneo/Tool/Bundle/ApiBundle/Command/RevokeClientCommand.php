@@ -47,7 +47,7 @@ class RevokeClientCommand extends Command
     {
         $client = $this->clientManager->findClientByPublicId($input->getArgument('client_id'));
 
-        if (null === $client) {
+        if (!$client instanceof \Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface) {
             $output->writeln('<error>No client found for this id.</error>');
 
             return -1;

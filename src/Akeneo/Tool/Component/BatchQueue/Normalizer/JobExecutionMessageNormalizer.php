@@ -37,7 +37,7 @@ final readonly class JobExecutionMessageNormalizer implements NormalizerInterfac
             'id' => $jobExecutionMessage->getId()->toString(),
             'job_execution_id' => $jobExecutionMessage->getJobExecutionId(),
             'created_time' => $jobExecutionMessage->getCreateTime()->format('c'),
-            'updated_time' => null !== $jobExecutionMessage->getUpdatedTime()
+            'updated_time' => $jobExecutionMessage->getUpdatedTime() instanceof \DateTime
                 ? $jobExecutionMessage->getUpdatedTime()->format('c')
                 : null,
             'options' => $jobExecutionMessage->getOptions(),

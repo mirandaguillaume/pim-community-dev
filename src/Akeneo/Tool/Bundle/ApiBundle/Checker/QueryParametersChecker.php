@@ -32,15 +32,15 @@ class QueryParametersChecker implements QueryParametersCheckerInterface
             }
         }
 
-        if (!empty($errors)) {
+        if ($errors !== []) {
             $plural = count($errors) > 1
                 ? 'Locales "%s" do not exist or are not activated.' : 'Locale "%s" does not exist or is not activated.';
             throw new UnprocessableEntityHttpException(sprintf($plural, implode(', ', $errors)));
         }
 
-        if (null !== $channel) {
+        if ($channel instanceof \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface) {
             $diff = array_diff($localeCodes, $channel->getLocaleCodes());
-            if ($diff) {
+            if ($diff !== []) {
                 $plural = sprintf(count($diff) > 1 ? 'Locales "%s" are' : 'Locale "%s" is', implode(', ', $diff));
                 throw new UnprocessableEntityHttpException(
                     sprintf('%s not activated for the scope "%s".', $plural, $channel->getCode())
@@ -62,7 +62,7 @@ class QueryParametersChecker implements QueryParametersCheckerInterface
             }
         }
 
-        if (!empty($errors)) {
+        if ($errors !== []) {
             $plural = count($errors) > 1 ? 'Attributes "%s" do not exist.' : 'Attribute "%s" does not exist.';
             throw new UnprocessableEntityHttpException(sprintf($plural, implode(', ', $errors)));
         }
@@ -99,7 +99,7 @@ class QueryParametersChecker implements QueryParametersCheckerInterface
             }
         }
 
-        if (!empty($errors)) {
+        if ($errors !== []) {
             $plural = count($errors) > 1 ? 'Categories "%s" do not exist.' : 'Category "%s" does not exist.';
             throw new UnprocessableEntityHttpException(sprintf($plural, implode(', ', $errors)));
         }

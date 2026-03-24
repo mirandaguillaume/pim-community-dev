@@ -27,7 +27,7 @@ class ProductQuantifiedAssociationPresenter implements PresenterInterface
     public function present($value, array $options = []): string
     {
         Assert::string($value);
-        if (empty($value)) {
+        if ($value === '' || $value === '0') {
             return $value;
         }
         $values = explode(',', $value);

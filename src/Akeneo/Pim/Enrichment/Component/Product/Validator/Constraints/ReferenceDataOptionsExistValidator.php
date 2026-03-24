@@ -66,7 +66,7 @@ class ReferenceDataOptionsExistValidator extends ConstraintValidator
                     array_map('strtolower', $value->getData()),
                     ($existingRefDataCodes[$value->getAttributeCode()] ?? [])
                 );
-                if (!empty($notExistingRefDataCodes)) {
+                if ($notExistingRefDataCodes !== []) {
                     $this->context->buildViolation(
                         $constraint->messagePlural,
                         [

@@ -45,17 +45,17 @@ class UniqueVariantAxisValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, UniqueVariantAxis::class);
         }
 
-        if (null === $entity->getFamilyVariant()) {
+        if (!$entity->getFamilyVariant() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface) {
             return;
         }
 
-        if (null === $entity->getParent()) {
+        if (!$entity->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return;
         }
 
         $axes = $this->axesProvider->getAxes($entity);
 
-        if (empty($axes)) {
+        if ($axes === []) {
             return;
         }
 
@@ -84,7 +84,7 @@ class UniqueVariantAxisValidator extends ConstraintValidator
 
         $siblingValues = $this->getValuesOfSiblings->for($entity, $axesAttributesCodesToFilter);
 
-        if (empty($siblingValues)) {
+        if ($siblingValues === []) {
             return;
         }
 

@@ -17,7 +17,7 @@ class SqlGetFamilyVariantTranslations implements GetFamilyVariantTranslations
 
     public function byFamilyVariantCodesAndLocale(array $familyVariantCodes, string $locale): array
     {
-        if (empty($familyVariantCodes)) {
+        if ($familyVariantCodes === []) {
             return [];
         }
 

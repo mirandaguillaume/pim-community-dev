@@ -87,19 +87,19 @@ class SystemAwareResolver
         }
 
         switch (true) {
-            case preg_match(static::TWIG_TEMPLATE, $val, $match):
+            case preg_match(self::TWIG_TEMPLATE, $val, $match):
                 break;
                 // static call class:method or class::const
-            case preg_match(static::PARAMETER_REGEX, $val, $match):
+            case preg_match(self::PARAMETER_REGEX, $val, $match):
                 $val = $this->container->getParameter($match[1]);
                 break;
                 // static call class:method or class::const
-            case preg_match(static::STATIC_METHOD_REGEX, $val, $match):
+            case preg_match(self::STATIC_METHOD_REGEX, $val, $match):
                 // with class as param
                 $class = $this->container->getParameter($match[1]);
                 // fall-through
                 // no break
-            case preg_match(static::STATIC_METHOD_CLEAN_REGEX, $val, $match):
+            case preg_match(self::STATIC_METHOD_CLEAN_REGEX, $val, $match):
                 // with class real name
                 $class ??= $match[1];
 
@@ -109,19 +109,15 @@ class SystemAwareResolver
                 }
                 if (defined("$class::$method")) {
                     $_val = constant("$class::$method");
-                    if (is_string($_val)) {
-                        $val = str_replace($match[0], $_val, (string) $val);
-                    } else {
-                        $val = $_val;
-                    }
+                    $val = is_string($_val) ? str_replace($match[0], $_val, (string) $val) : $_val;
                 }
                 break;
                 // service method call @service->method, @service->method(argument), @service->method(@other.service->method)
-            case preg_match(static::SERVICE_METHOD, $val, $match):
+            case preg_match(self::SERVICE_METHOD, $val, $match):
                 $val = $this->executeMethod($val, [$datagridName, $key, $this->parentNode]);
                 break;
                 // service pass @service
-            case preg_match(static::SERVICE, $val, $match):
+            case preg_match(self::SERVICE, $val, $match):
                 $service = $match[1];
                 $val = $this->container->get($service);
                 break;
@@ -139,21 +135,17 @@ class SystemAwareResolver
      */
     protected function executeMethod($expression, array $optionsArguments = [])
     {
-        preg_match(static::SERVICE_METHOD, $expression, $matches);
+        preg_match(self::SERVICE_METHOD, $expression, $matches);
         $service = $matches[1];
         $method = $matches[2];
         $arguments = [];
 
-        if (isset($matches[4]) && !empty($matches[4])) {
+        if (isset($matches[4]) && (isset($matches[4]) && ($matches[4] !== '' && $matches[4] !== '0'))) {
             $arguments = explode(',', $matches[4]);
 
             $newArguments = [];
             foreach ($arguments as $argument) {
-                if (str_starts_with(trim($argument), '@')) {
-                    $newArguments[] = $this->executeMethod($argument);
-                } else {
-                    $newArguments[] = $argument;
-                }
+                $newArguments[] = str_starts_with(trim($argument), '@') ? $this->executeMethod($argument) : $argument;
             }
 
             $arguments = array_merge($newArguments, $optionsArguments);

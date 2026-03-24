@@ -37,7 +37,7 @@ class NotEmptyFamilyValidator extends ConstraintValidator
             return;
         }
 
-        if (null === $product->getFamily()) {
+        if (!$product->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             $this->context->buildViolation($constraint->message, [
                 '%sku%' => $product->getIdentifier(),
             ])

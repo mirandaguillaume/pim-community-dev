@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 #[ORM\Entity(repositoryClass: \Akeneo\Tool\Bundle\FileStorageBundle\Doctrine\ORM\Repository\FileInfoRepository::class)]
 #[ORM\Table(name: 'akeneo_file_storage_file_info')]
-#[ORM\Index(columns: ['original_filename', 'hash', 'storage'], name: 'original_filename_hash_storage_idx')]
+#[ORM\Index(name: 'original_filename_hash_storage_idx', columns: ['original_filename', 'hash', 'storage'])]
 class FileInfo implements FileInfoInterface, \Stringable
 {
     /** @var int */

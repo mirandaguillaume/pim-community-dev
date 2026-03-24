@@ -29,11 +29,9 @@ class ValidRegexValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, ValidRegex::class);
         }
 
-        if ($value) {
-            if (false === @preg_match($value, '')) {
-                $this->context->buildViolation($constraint->message)
-                    ->addViolation();
-            }
+        if ($value && false === @preg_match($value, '')) {
+            $this->context->buildViolation($constraint->message)
+                ->addViolation();
         }
     }
 }

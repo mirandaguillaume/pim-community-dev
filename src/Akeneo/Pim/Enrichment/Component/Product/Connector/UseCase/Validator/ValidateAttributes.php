@@ -37,7 +37,7 @@ final readonly class ValidateAttributes
             }
         }
 
-        if (!empty($errors)) {
+        if ($errors !== []) {
             $plural = count($errors) > 1 ? 'Attributes "%s" do not exist.' : 'Attribute "%s" does not exist.';
             throw new InvalidQueryException(sprintf($plural, implode(', ', $errors)));
         }

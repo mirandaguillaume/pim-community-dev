@@ -35,7 +35,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
             'resourceName' => $resourceName,
             'pending' => false,
         ];
-        if (null !== $resourceUuid) {
+        if ($resourceUuid instanceof \Ramsey\Uuid\UuidInterface) {
             $params['resourceUuid'] = $resourceUuid;
         } else {
             $params['resourceId'] = $resourceId;
@@ -171,7 +171,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
      */
     public function findByIds(array $versionIds)
     {
-        if (empty($versionIds)) {
+        if ($versionIds === []) {
             throw new \InvalidArgumentException('Array must contain at least one version id');
         }
 
@@ -197,7 +197,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
     protected function getOneLogEntry($resourceName, ?string $resourceId, ?UuidInterface $resourceUuid, ?bool $pending, $sort): ?\Akeneo\Tool\Component\Versioning\Model\Version
     {
         $criteria = ['resourceName' => $resourceName];
-        if (null !== $resourceUuid) {
+        if ($resourceUuid instanceof \Ramsey\Uuid\UuidInterface) {
             $criteria['resourceUuid'] = $resourceUuid;
         } else {
             $criteria['resourceId'] = $resourceId;

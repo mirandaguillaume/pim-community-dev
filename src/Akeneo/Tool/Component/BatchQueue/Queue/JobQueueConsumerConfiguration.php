@@ -46,16 +46,16 @@ class JobQueueConsumerConfiguration implements \ArrayAccess
 
     public function setWhitelistedJobInstanceCodes(array $codes): self
     {
-        if (empty($codes)) {
+        if ($codes === []) {
             return $this;
         }
 
-        if (!empty($this->blacklistedJobInstanceCodes)) {
+        if ($this->blacklistedJobInstanceCodes !== []) {
             throw new \LogicException(
                 sprintf(
                     "Cannot set a job queue whitelist '{%s}' in consumer since a blacklist '{%s}' is already defined.",
-                    join(', ', $codes),
-                    join(', ', $this->blacklistedJobInstanceCodes)
+                    implode(', ', $codes),
+                    implode(', ', $this->blacklistedJobInstanceCodes)
                 )
             );
         }
@@ -67,16 +67,16 @@ class JobQueueConsumerConfiguration implements \ArrayAccess
 
     public function setBlacklistedJobInstanceCodes(array $codes): self
     {
-        if (empty($codes)) {
+        if ($codes === []) {
             return $this;
         }
 
-        if (!empty($this->whitelistedJobInstanceCodes)) {
+        if ($this->whitelistedJobInstanceCodes !== []) {
             throw new \LogicException(
                 sprintf(
                     "Cannot set a job queue blacklist '{%s}' in consumer since a whitelist '{%s}' is already defined.",
-                    join(', ', $codes),
-                    join(', ', $this->whitelistedJobInstanceCodes)
+                    implode(', ', $codes),
+                    implode(', ', $this->whitelistedJobInstanceCodes)
                 )
             );
         }
@@ -102,7 +102,7 @@ class JobQueueConsumerConfiguration implements \ArrayAccess
 
     public function offsetExists($offset): bool
     {
-        return true === array_key_exists($offset, array_flip($this->listSupportedSettings));
+        return array_key_exists($offset, array_flip($this->listSupportedSettings));
     }
 
     public function offsetGet($offset): array|int
@@ -116,7 +116,7 @@ class JobQueueConsumerConfiguration implements \ArrayAccess
                 sprintf(
                     "No such property '%s' in JobQueueConfiguration. Available properties are {%s}.",
                     $offset,
-                    join(', ', $this->listSupportedSettings)
+                    implode(', ', $this->listSupportedSettings)
                 )
             ),
         };

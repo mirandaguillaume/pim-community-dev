@@ -210,7 +210,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
 
     protected ?array $rawTableConfiguration = null;
 
-    #[ORM\Column(name: 'main_identifier', type: Types::BOOLEAN, options: ['default' => false], insertable: false, updatable: false)]
+    #[ORM\Column(name: 'main_identifier', type: Types::BOOLEAN, insertable: false, updatable: false, options: ['default' => false])]
     protected bool $mainIdentifier;
 
     public function __construct()
@@ -1029,7 +1029,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
      */
     public function getLabel()
     {
-        $translated = ($this->getTranslation()) ? $this->getTranslation()->getLabel() : null;
+        $translated = ($this->getTranslation() instanceof \Akeneo\Pim\Structure\Component\Model\AttributeTranslationInterface) ? $this->getTranslation()->getLabel() : null;
 
         return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }

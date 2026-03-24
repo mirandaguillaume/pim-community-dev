@@ -281,7 +281,7 @@ class EntityAclExtension extends AbstractAclExtension
         $identity = $this->getServiceBits($mask);
         if ($permission !== null) {
             $permissionMask = $this->getMaskBuilderConst($identity, 'GROUP_' . $permission);
-            $mask = $mask & $permissionMask;
+            $mask &= $permissionMask;
         }
 
         $result = AccessLevel::NONE_LEVEL;
@@ -314,10 +314,8 @@ class EntityAclExtension extends AbstractAclExtension
         } elseif (0 !== $this->removeServiceBits($mask)) {
             $identity = $this->getServiceBits($mask);
             foreach ($this->permissionToMaskBuilderIdentity as $permission => $id) {
-                if ($id === $identity) {
-                    if (0 !== ($mask & $this->getMaskBuilderConst($identity, 'GROUP_' . $permission))) {
-                        $result[] = $permission;
-                    }
+                if ($id === $identity && 0 !== ($mask & $this->getMaskBuilderConst($identity, 'GROUP_' . $permission))) {
+                    $result[] = $permission;
                 }
             }
         }
@@ -361,13 +359,8 @@ class EntityAclExtension extends AbstractAclExtension
         if ($accessLevel === AccessLevel::SYSTEM_LEVEL) {
             return true;
         }
-
         // check whether we check permissions for a domain object
-        if ($object === null || !is_object($object) || $object instanceof ObjectIdentityInterface) {
-            return true;
-        }
-
-        return true;
+        return $object === null || !is_object($object) || $object instanceof ObjectIdentityInterface;
     }
 
     /**

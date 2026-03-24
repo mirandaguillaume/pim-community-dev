@@ -84,7 +84,7 @@ class Cursor extends AbstractCursor implements CursorInterface, ResultAwareInter
 
         $esQuery['sort'] = $sort;
 
-        if (!empty($this->searchAfter)) {
+        if ($this->searchAfter !== []) {
             $esQuery['search_after'] = $this->searchAfter;
         }
 
@@ -109,7 +109,7 @@ class Cursor extends AbstractCursor implements CursorInterface, ResultAwareInter
      */
     public function getResult(): ResultInterface
     {
-        if (null === $this->result) {
+        if (!$this->result instanceof \Akeneo\Pim\Enrichment\Component\Product\Query\ResultInterface) {
             $this->getNextIdentifiers($this->esQuery);
         }
 

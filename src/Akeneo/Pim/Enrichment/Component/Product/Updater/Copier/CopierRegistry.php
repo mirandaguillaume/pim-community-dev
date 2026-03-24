@@ -50,7 +50,7 @@ class CopierRegistry implements CopierRegistryInterface
     {
         $fromAttribute = $this->getAttribute($fromProperty);
         $toAttribute = $this->getAttribute($toProperty);
-        if (null !== $fromAttribute && null !== $toAttribute) {
+        if ($fromAttribute instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface && $toAttribute instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface) {
             $copier = $this->getAttributeCopier($fromAttribute, $toAttribute);
         } else {
             $copier = $this->getFieldCopier($fromProperty, $toProperty);

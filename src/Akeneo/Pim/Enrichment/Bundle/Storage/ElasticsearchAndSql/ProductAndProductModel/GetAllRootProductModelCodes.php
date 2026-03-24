@@ -42,7 +42,7 @@ final readonly class GetAllRootProductModelCodes
                 ]
             )->fetchAllAssociative();
 
-            if (empty($rows)) {
+            if ($rows === []) {
                 return;
             }
 

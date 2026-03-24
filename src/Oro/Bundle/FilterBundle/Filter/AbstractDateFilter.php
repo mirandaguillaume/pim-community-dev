@@ -127,13 +127,8 @@ abstract class AbstractDateFilter extends AbstractFilter
         if (isset($data['value']['start']) && !$data['value']['start'] instanceof \DateTime) {
             return false;
         }
-
         // check end date
-        if (isset($data['value']['end']) && !$data['value']['end'] instanceof \DateTime) {
-            return false;
-        }
-
-        return true;
+        return !(isset($data['value']['end']) && !$data['value']['end'] instanceof \DateTime);
     }
 
     /**

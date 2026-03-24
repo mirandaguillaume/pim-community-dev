@@ -22,7 +22,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
 class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
     final public const string DATETIME_FORMAT = 'Y-m-d H:i:s';
-    final public const string RELATIVE_DATETIME_FORMAT = '/^(now|[+-][0-9]+\s?(minute|hour|day|week|month|year)s?)$/';
+    final public const string RELATIVE_DATETIME_FORMAT = '/^(now|[+-]\d+\s?(minute|hour|day|week|month|year)s?)$/';
 
     /** @var IdentifiableObjectRepositoryInterface */
     protected $jobInstanceRepository;
@@ -202,7 +202,7 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
                 FieldFilterHelper::checkDateTime(
                     $field,
                     $value,
-                    static::DATETIME_FORMAT,
+                    self::DATETIME_FORMAT,
                     'yyyy-mm-dd H:i:s',
                     static::class
                 );
@@ -227,7 +227,7 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
                     FieldFilterHelper::checkDateTime(
                         $field,
                         $singleValue,
-                        static::DATETIME_FORMAT,
+                        self::DATETIME_FORMAT,
                         'yyyy-mm-dd H:i:s',
                         static::class
                     );
@@ -265,13 +265,13 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
         $utcTimeZone = new \DateTimeZone('UTC');
 
         if (!$dateTime instanceof \DateTimeInterface) {
-            $dateTime = \DateTimeImmutable::createFromFormat(static::DATETIME_FORMAT, $dateTime, $utcTimeZone);
+            $dateTime = \DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $dateTime, $utcTimeZone);
 
             $lastErrors = false !== $dateTime ? $dateTime->getLastErrors() : false;
             if (false === $dateTime || (false !== $lastErrors && 0 < $lastErrors['warning_count'])) {
                 throw InvalidPropertyException::dateExpected(
                     $field,
-                    static::DATETIME_FORMAT,
+                    self::DATETIME_FORMAT,
                     static::class,
                     $value
                 );

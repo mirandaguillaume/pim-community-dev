@@ -194,7 +194,7 @@ class ProductCommentController
      */
     protected function getUser(): ?\Symfony\Component\Security\Core\User\UserInterface
     {
-        if (null === $token = $this->tokenStorage->getToken()) {
+        if (!($token = $this->tokenStorage->getToken()) instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface) {
             return null;
         }
 

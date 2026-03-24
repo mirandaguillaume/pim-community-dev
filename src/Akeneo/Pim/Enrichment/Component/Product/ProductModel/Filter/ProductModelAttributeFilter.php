@@ -35,7 +35,7 @@ class ProductModelAttributeFilter implements AttributeFilterInterface
     public function filter(array $standardProductModel): array
     {
         if (array_key_exists('values', $standardProductModel) && is_array($standardProductModel['values'])) {
-            foreach ($standardProductModel['values'] as $code => $value) {
+            foreach (array_keys($standardProductModel['values']) as $code) {
                 if (null === $this->attributeRepository->findOneByIdentifier($code)) {
                     throw UnknownPropertyException::unknownProperty($code);
                 }

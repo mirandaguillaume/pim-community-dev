@@ -40,7 +40,7 @@ class SimpleSelectTranslator implements FlatAttributeValueTranslatorInterface
                 continue;
             }
 
-            $optionKey = self::generateOptionKey($attributeCode, $value);
+            $optionKey = $this->generateOptionKey($attributeCode, $value);
             $attributeOptionTranslation = $attributeOptionTranslations[$optionKey][$locale] ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $value);
             $result[$valueIndex] = $attributeOptionTranslation;
         }
@@ -56,13 +56,13 @@ class SimpleSelectTranslator implements FlatAttributeValueTranslatorInterface
                 continue;
             }
 
-            $optionKeys[] = self::generateOptionKey($attributeCode, $optionCode);
+            $optionKeys[] = $this->generateOptionKey($attributeCode, $optionCode);
         }
 
         return array_values(array_unique($optionKeys));
     }
 
-    private static function generateOptionKey(string $attributeCode, string $optionCode): string
+    private function generateOptionKey(string $attributeCode, string $optionCode): string
     {
         return sprintf('%s.%s', strtolower($attributeCode), strtolower($optionCode));
     }

@@ -27,7 +27,7 @@ class ConnectionMustExistValidator extends ConstraintValidator
         }
 
         $connection = $this->repository->findOneByCode($value);
-        if (null === $connection) {
+        if (!$connection instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }

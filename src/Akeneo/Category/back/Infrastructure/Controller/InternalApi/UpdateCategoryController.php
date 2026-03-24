@@ -51,7 +51,7 @@ class UpdateCategoryController
         }
 
         $category = $this->getCategory->byId($id);
-        if ($category === null) {
+        if (!$category instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
             throw new NotFoundHttpException('Category not found');
         }
         $category = $this->findCategoryAdditionalPropertiesRegistry->forCategory($category);

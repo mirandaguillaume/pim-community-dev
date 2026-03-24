@@ -28,7 +28,7 @@ class ImageNormalizer
      */
     public function normalize(?ValueInterface $value, ?string $localeCode = null, ?string $channelCode = null): ?array
     {
-        if (null === $value || null === $value->getData()) {
+        if (!$value instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface || null === $value->getData()) {
             return null;
         }
 

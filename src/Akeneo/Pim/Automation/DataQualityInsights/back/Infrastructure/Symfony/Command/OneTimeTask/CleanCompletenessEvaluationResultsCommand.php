@@ -122,14 +122,14 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
                 ]
             )->fetchAllAssociative();
 
-            if (!empty($results)) {
+            if ($results !== []) {
                 $lastProductUuidAsBytes = Uuid::fromString(end($results)['product_uuid'])->getBytes();
                 yield array_map(function (array $resultRow) {
                     $resultRow['result'] = null !== $resultRow['result'] ? \json_decode((string) $resultRow['result'], true, 512, JSON_THROW_ON_ERROR) : [];
                     return $resultRow;
                 }, $results);
             }
-        } while (!empty($results));
+        } while ($results !== []);
     }
 
     private function getBulksOfProductModelCriterionResultsToClean(): \Generator
@@ -163,14 +163,14 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
                 ]
             )->fetchAllAssociative();
 
-            if (!empty($results)) {
+            if ($results !== []) {
                 $lastProductModelId = end($results)['product_id'];
                 yield array_map(function (array $resultRow) {
                     $resultRow['result'] = null !== $resultRow['result'] ? \json_decode((string) $resultRow['result'], true, 512, JSON_THROW_ON_ERROR) : [];
                     return $resultRow;
                 }, $results);
             }
-        } while (!empty($results));
+        } while ($results !== []);
     }
 
     private function cleanBulkOfCriterionResults(array $resultsBulk): array
@@ -204,7 +204,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
 
     private function saveBulkOfProductCleanedResults(array $cleanedResults): void
     {
-        if (empty($cleanedResults)) {
+        if ($cleanedResults === []) {
             return;
         }
 
@@ -228,7 +228,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
 
     private function saveBulkOfProductModelCleanedResults(array $cleanedResults): void
     {
-        if (empty($cleanedResults)) {
+        if ($cleanedResults === []) {
             return;
         }
 

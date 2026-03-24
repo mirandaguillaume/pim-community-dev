@@ -47,11 +47,11 @@ class FamilyVariantValidator extends ConstraintValidator
         }
 
         // handled by another constraint
-        if (null === $familyVariant->getFamily()) {
+        if (!$familyVariant->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             $validateAttributesSets = false;
         }
 
-        if (true === $validateAttributesSets) {
+        if ($validateAttributesSets) {
             $this->validateAxesAttributes($familyVariant);
             $this->validateAttributes($familyVariant);
             $this->validateNumberOfLevelAndAxis($familyVariant);
@@ -79,7 +79,7 @@ class FamilyVariantValidator extends ConstraintValidator
             }
 
             if ($attribute->isUnique()
-                && null !== $lastLevelAttributeSet
+                && $lastLevelAttributeSet instanceof \Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface
                 && !$lastLevelAttributeSet->hasAttribute($attribute)
             ) {
                 $this->context->buildViolation(FamilyVariant::UNIQUE_ATTRIBUTE_IN_LAST_LEVEL, [
@@ -126,7 +126,7 @@ class FamilyVariantValidator extends ConstraintValidator
 
             for ($level = 1; $level <= $familyVariant->getNumberOfLevel(); $level++) {
                 $variantAttributeSet = $familyVariant->getVariantAttributeSet($level);
-                if (null !== $variantAttributeSet
+                if ($variantAttributeSet instanceof \Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface
                     && !$variantAttributeSet->getAxes()->contains($axis)
                     && $variantAttributeSet->getAttributes()->contains($axis)
                 ) {
@@ -162,7 +162,7 @@ class FamilyVariantValidator extends ConstraintValidator
         while ($i !== $numberOfLevel) {
             $attributeSet = $familyVariant->getVariantAttributeSet($i + 1);
 
-            if (null === $attributeSet) {
+            if (!$attributeSet instanceof \Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface) {
                 $this->context
                     ->buildViolation(
                         FamilyVariant::LEVEL_DO_NOT_EXIST,

@@ -79,7 +79,7 @@ class ConstraintViolationNormalizer implements NormalizerInterface
             return $violation->getPropertyPath();
         }
 
-        if (null !== $constraint && isset($constraint->payload['standardPropertyName'])) {
+        if ($constraint instanceof \Symfony\Component\Validator\Constraint && isset($constraint->payload['standardPropertyName'])) {
             return $constraint->payload['standardPropertyName'];
         }
 
@@ -97,7 +97,7 @@ class ConstraintViolationNormalizer implements NormalizerInterface
 
     private function getInternalApiMessage(ConstraintViolation $violation): string
     {
-        if (!$violation->getConstraint()) {
+        if (!$violation->getConstraint() instanceof \Symfony\Component\Validator\Constraint) {
             return $violation->getMessage();
         }
 

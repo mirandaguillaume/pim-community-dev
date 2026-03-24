@@ -41,7 +41,7 @@ class AttributeTypeForOptionValidator extends ConstraintValidator
 
         if ($attributeOption instanceof AttributeOptionInterface) {
             $attribute = $attributeOption->getAttribute();
-            if (null !== $attribute && !in_array($attribute->getType(), $authorizedTypes)) {
+            if ($attribute instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface && !in_array($attribute->getType(), $authorizedTypes)) {
                 $this->addInvalidAttributeViolation($constraint, $attributeOption, $authorizedTypes);
             }
         }

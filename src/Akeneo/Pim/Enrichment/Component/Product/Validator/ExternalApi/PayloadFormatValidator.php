@@ -80,7 +80,7 @@ final class PayloadFormatValidator extends ConstraintValidator
     private function getValuesConstraints(array $values): array
     {
         $constraintsByAttribute = [];
-        foreach ($values as $attributeCode => $valuesForAttribute) {
+        foreach (array_keys($values) as $attributeCode) {
             $attributeType = $this->attributeTypeByCodes[$attributeCode] ?? null;
             $dataConstraints = [];
 

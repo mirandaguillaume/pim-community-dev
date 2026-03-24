@@ -19,14 +19,11 @@ class UserConfigManager extends ConfigManager
         $this->tokenStorage = $tokenStorage;
 
         // if we have a user - try to merge his scoped settings into global settings array
-        if ($token = $this->tokenStorage->getToken()) {
-            if (is_object($user = $token->getUser())) {
-                foreach ($user->getGroups() as $group) {
-                    $this->loadStoredSettings('group', $group->getId());
-                }
-
-                $this->loadStoredSettings('user', $user->getId());
+        if (($token = $this->tokenStorage->getToken()) instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface && is_object($user = $token->getUser())) {
+            foreach ($user->getGroups() as $group) {
+                $this->loadStoredSettings('group', $group->getId());
             }
+            $this->loadStoredSettings('user', $user->getId());
         }
     }
 

@@ -23,7 +23,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if ($value instanceof \DateTimeImmutable) {
-            $value = $value->setTimeZone(self::getUtc());
+            $value = $value->setTimeZone($this->getUtc());
         }
 
         return parent::convertToDatabaseValue($value, $platform);
@@ -39,7 +39,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
         $converted = \DateTimeImmutable::createFromFormat(
             $platform->getDateTimeFormatString(),
             $value,
-            self::getUtc()
+            $this->getUtc()
         );
 
         if (!$converted) {
@@ -47,7 +47,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
             $converted = \DateTimeImmutable::createFromFormat(
                 'Y-m-d H:i:s.u',
                 $value,
-                self::getUtc()
+                $this->getUtc()
             );
         }
 
@@ -59,17 +59,17 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
             );
         }
 
-        $converted = $converted->setTimezone(self::getDefaultTimeZone());
+        $converted = $converted->setTimezone($this->getDefaultTimeZone());
 
         return $converted;
     }
 
-    private static function getUtc(): \DateTimeZone
+    private function getUtc(): \DateTimeZone
     {
         return self::$utc ?: self::$utc = new \DateTimeZone('UTC');
     }
 
-    private static function getDefaultTimeZone(): \DateTimeZone
+    private function getDefaultTimeZone(): \DateTimeZone
     {
         return self::$defaultTimeZone ?: self::$defaultTimeZone = new \DateTimeZone(date_default_timezone_get());
     }

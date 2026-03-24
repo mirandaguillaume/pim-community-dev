@@ -46,7 +46,7 @@ class ObjectIdentityFactory
             $oidOrExtensionKey = strtolower($oidOrExtensionKey);
         }
 
-        return new ObjectIdentity($oidOrExtensionKey, static::ROOT_IDENTITY_TYPE);
+        return new ObjectIdentity($oidOrExtensionKey, self::ROOT_IDENTITY_TYPE);
     }
 
     /**

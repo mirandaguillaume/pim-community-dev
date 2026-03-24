@@ -66,7 +66,7 @@ class ImageAsLabel
     private function findFirstCreatedEntityWithFamilyVariantByParent(ProductModelInterface $productModel): \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|null
     {
         $productChild = $this->productRepository->findLastCreatedByParent($productModel);
-        if (null !== $productChild) {
+        if ($productChild instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface) {
             return $productChild;
         }
 

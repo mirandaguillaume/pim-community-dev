@@ -34,7 +34,7 @@ final readonly class GetProductScoresByUuidsQuery implements GetProductScoresByU
 
     public function byProductUuids(array $productUuids): array
     {
-        if (empty($productUuids)) {
+        if ($productUuids === []) {
             return [];
         }
 

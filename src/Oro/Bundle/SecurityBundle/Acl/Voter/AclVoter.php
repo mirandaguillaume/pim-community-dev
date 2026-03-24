@@ -61,9 +61,10 @@ class AclVoter extends BaseAclVoter implements PermissionGrantingStrategyContext
         } catch (InvalidDomainObjectException) {
             return self::ACCESS_ABSTAIN;
         }
+        $counter = count($attributes);
 
         // replace empty permissions with default ones
-        for ($i = 0; $i < count($attributes); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             if (empty($attributes[$i])) {
                 $attributes[$i] = $this->extension->getDefaultPermission();
             }

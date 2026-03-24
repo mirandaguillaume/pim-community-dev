@@ -79,7 +79,7 @@ final readonly class Attribute
 
     public function isLocaleSpecific(): bool
     {
-        return !empty($this->availableLocaleCodes);
+        return $this->availableLocaleCodes !== [];
     }
 
     public function availableLocaleCodes(): array

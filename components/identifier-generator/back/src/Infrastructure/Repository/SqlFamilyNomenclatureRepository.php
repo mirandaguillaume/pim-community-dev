@@ -26,7 +26,7 @@ class SqlFamilyNomenclatureRepository implements FamilyNomenclatureRepository
     public function get(): ?NomenclatureDefinition
     {
         $nomenclatureDefinition = $this->getNomenclatureDefinition();
-        if (null !== $nomenclatureDefinition) {
+        if ($nomenclatureDefinition instanceof \Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinition) {
             $values = $this->getNomenclatureValues();
             $nomenclatureDefinition = $nomenclatureDefinition->withValues($values);
         }
@@ -113,12 +113,13 @@ VALUES {{ values }}
 ON DUPLICATE KEY UPDATE value = VALUES(value)
 SQL;
         $valuesArray = [];
-        for ($i = 0; $i < \count($valuesToUpdateOrInsert); $i++) {
+        $counter = \count($valuesToUpdateOrInsert);
+        for ($i = 0; $i < $counter; $i++) {
             $valuesArray[] = \sprintf('(:familyId%d, :value%d)', $i, $i);
         }
         $statement = $this->connection->prepare(\strtr(
             $insertOrUpdateSql,
-            ['{{ values }}' => \join(',', $valuesArray)]
+            ['{{ values }}' => implode(',', $valuesArray)]
         ));
 
         foreach ($valuesToUpdateOrInsert as $i => $valueToUpdateOrInsert) {

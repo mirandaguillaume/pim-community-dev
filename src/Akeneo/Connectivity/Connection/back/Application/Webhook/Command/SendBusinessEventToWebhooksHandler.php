@@ -55,7 +55,7 @@ class SendBusinessEventToWebhooksHandler
                     $user->getUserIdentifier(),
                     $pimEventBulk
                 );
-                if (null === $filteredPimEventBulk) {
+                if (!$filteredPimEventBulk instanceof \Akeneo\Platform\Component\EventQueue\BulkEventInterface) {
                     continue;
                 }
 

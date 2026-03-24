@@ -31,7 +31,7 @@ final class LRUCachedGetRequiredAttributesMasks implements GetRequiredAttributes
      */
     public function fromFamilyCodes(array $familyCodes): array
     {
-        if (empty($familyCodes)) {
+        if ($familyCodes === []) {
             return [];
         }
 

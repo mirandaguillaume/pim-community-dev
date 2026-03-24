@@ -70,7 +70,7 @@ class IdentifierResults
 
     public function isEmpty(): bool
     {
-        return empty($this->identifierResults);
+        return $this->identifierResults === [];
     }
 
     /**

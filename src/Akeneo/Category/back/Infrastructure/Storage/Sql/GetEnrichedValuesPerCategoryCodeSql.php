@@ -40,7 +40,7 @@ final readonly class GetEnrichedValuesPerCategoryCodeSql implements GetEnrichedV
                     'offset' => ParameterType::INTEGER,
                 ],
             );
-            if (empty($data)) {
+            if ($data === []) {
                 return;
             }
             $results = [];

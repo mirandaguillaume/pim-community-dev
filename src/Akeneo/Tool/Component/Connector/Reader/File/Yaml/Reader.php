@@ -86,7 +86,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
 
         if ($data = $this->yaml->current()) {
             $this->yaml->next();
-            if (null !== $this->stepExecution) {
+            if ($this->stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution) {
                 $this->stepExecution->incrementSummaryInfo('item_position');
             }
 
@@ -107,7 +107,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
 
     private function initYaml(): bool
     {
-        if (null === $this->yaml) {
+        if (!$this->yaml instanceof \ArrayIterator) {
             $fileData = $this->getFileData();
             if (null === $fileData) {
                 return false;
@@ -197,7 +197,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
      */
     protected function skipItemFromConversionException(array $item, DataArrayConversionException $exception)
     {
-        if (null !== $this->stepExecution) {
+        if ($this->stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution) {
             $this->stepExecution->incrementSummaryInfo('skip');
         }
 
@@ -222,7 +222,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
 
     public function getState(): array
     {
-        return null !== $this->yaml ? ['position' => $this->yaml->key()] : [];
+        return $this->yaml instanceof \ArrayIterator ? ['position' => $this->yaml->key()] : [];
     }
 
     public function setState(array $state): void

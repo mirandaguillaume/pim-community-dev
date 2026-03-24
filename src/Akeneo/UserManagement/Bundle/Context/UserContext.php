@@ -85,19 +85,19 @@ class UserContext
 
         $locale = $this->getRequestLocale();
 
-        if (null === $locale) {
+        if (!$locale instanceof \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface) {
             $locale = $this->getSessionLocale();
         }
 
-        if (null === $locale) {
+        if (!$locale instanceof \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface) {
             $locale = $this->getUserLocale();
         }
 
-        if (null === $locale) {
+        if (!$locale instanceof \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface) {
             $locale = $this->getDefaultLocale();
         }
 
-        if (null === $locale) {
+        if (!$locale instanceof \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface) {
             $locale = current($this->getUserLocales());
             $locale = (false === $locale) ? null : $locale;
         }
@@ -118,7 +118,7 @@ class UserContext
 
     private function hasActiveSession(?Request $request): bool
     {
-        if (null === $request) {
+        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
             return false;
         }
 
@@ -221,7 +221,7 @@ class UserContext
      */
     public function getUserCategoryTree($relatedEntity): ?CategoryInterface
     {
-        if (static::USER_PRODUCT_CATEGORY_TYPE === $relatedEntity) {
+        if (self::USER_PRODUCT_CATEGORY_TYPE === $relatedEntity) {
             return $this->getUserProductCategoryTree();
         }
 
@@ -246,7 +246,7 @@ class UserContext
     public function getUserTimezone(): string
     {
         $user = $this->getUser();
-        if (null === $user) {
+        if (!$user instanceof \Akeneo\UserManagement\Component\Model\UserInterface) {
             throw new \RuntimeException('Impossible to load the current user from context.');
         }
 
@@ -268,7 +268,7 @@ class UserContext
      */
     public function getUiLocaleCode()
     {
-        if (null === $uiLocale = $this->getUiLocale()) {
+        if (!($uiLocale = $this->getUiLocale()) instanceof \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface) {
             throw new \LogicException('User has no locale');
         }
 
@@ -323,7 +323,7 @@ class UserContext
     protected function getRequestLocale(): ?\Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface
     {
         $request = $this->getCurrentRequest();
-        if (null !== $request) {
+        if ($request instanceof \Symfony\Component\HttpFoundation\Request) {
             $localeCode = $request->get(self::REQUEST_LOCALE_PARAM);
             if ($localeCode) {
                 $locale = $this->localeRepository->findOneByIdentifier($localeCode);
@@ -403,7 +403,7 @@ class UserContext
 
             $method = sprintf('get%s', ucfirst($optionName));
 
-            if (null === $user || !is_object($user)) {
+            if (!$user instanceof \Akeneo\UserManagement\Component\Model\UserInterface || !is_object($user)) {
                 return null;
             }
 

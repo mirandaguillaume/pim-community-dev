@@ -45,7 +45,7 @@ class V20221214GiveNewCategoryAclToUserWithOldCategoryAclZddMigration implements
 
         foreach ($roles as $role) {
             $roleWithPermissions = $this->roleWithPermissionsRepository->findOneByIdentifier($role);
-            if ($roleWithPermissions) {
+            if ($roleWithPermissions instanceof \Akeneo\UserManagement\Component\Connector\RoleWithPermissions) {
                 $this->grantedPermissions = $roleWithPermissions->permissions();
                 $this->currentRoleName = $role;
 

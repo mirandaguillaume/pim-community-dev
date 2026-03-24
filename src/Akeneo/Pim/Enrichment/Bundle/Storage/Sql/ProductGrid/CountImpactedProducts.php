@@ -130,7 +130,7 @@ class CountImpactedProducts
         $pqb = $this->productAndProductModelQueryBuilderFactory->create(['filters' => $filters]);
 
         $attributeCodesWithIsEmptyOperator = $this->getAttributeCodesWithIsEmptyOperator($pqb->getRawFilters());
-        if (!empty($attributeCodesWithIsEmptyOperator)) {
+        if ($attributeCodesWithIsEmptyOperator !== []) {
             $pqb->getQueryBuilder()->addFilter([
                 'bool' => [
                     'should' => [
@@ -192,11 +192,7 @@ class CountImpactedProducts
     private function removeIdFilter(array $filers): array
     {
         return array_filter($filers, function ($condition) {
-            if ('id' === $condition['field']) {
-                return false;
-            }
-
-            return true;
+            return 'id' !== $condition['field'];
         });
     }
 

@@ -114,7 +114,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
             }
 
             if ($batchCount >= $this->batchSize) {
-                if (!empty($itemsToWrite)) {
+                if ($itemsToWrite !== []) {
                     $this->write($itemsToWrite);
                     $itemsToWrite = [];
                 }
@@ -123,7 +123,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
                 $this->dispatchStepExecutionEvent(EventInterface::ITEM_STEP_AFTER_BATCH, $stepExecution);
                 $batchCount = 0;
 
-                if (null !== $this->jobStopper) {
+                if ($this->jobStopper instanceof \Akeneo\Tool\Component\Batch\Job\JobStopperInterface) {
                     if ($this->jobStopper->isPausing($stepExecution)) {
                         $this->pause($stepExecution);
                         break;
@@ -137,7 +137,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
             }
         }
 
-        if (!empty($itemsToWrite)) {
+        if ($itemsToWrite !== []) {
             $this->write($itemsToWrite);
         }
 
@@ -146,7 +146,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
             $this->dispatchStepExecutionEvent(EventInterface::ITEM_STEP_AFTER_BATCH, $stepExecution);
         }
 
-        if (null !== $this->jobStopper) {
+        if ($this->jobStopper instanceof \Akeneo\Tool\Component\Batch\Job\JobStopperInterface) {
             if ($this->jobStopper->isStopping($stepExecution)) {
                 $this->jobStopper->stop($stepExecution);
             }
@@ -276,7 +276,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
         try {
             return $this->reader->totalItems();
         } catch (\Exception) {
-            if ($this->logger) {
+            if ($this->logger instanceof \Psr\Log\LoggerInterface) {
                 $this->logger->critical('Impossible to get the total items to process from the reader.');
             }
         }

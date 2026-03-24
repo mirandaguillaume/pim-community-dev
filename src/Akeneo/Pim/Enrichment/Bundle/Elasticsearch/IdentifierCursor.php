@@ -59,7 +59,7 @@ final class IdentifierCursor implements CursorInterface, ResultAwareInterface
             $this->rewind();
         }
 
-        return !empty($this->items);
+        return $this->items !== null && $this->items !== [];
     }
 
     /**
@@ -117,7 +117,7 @@ final class IdentifierCursor implements CursorInterface, ResultAwareInterface
         $esQuery['sort'] = $sort;
         $esQuery['track_total_hits'] = true;
 
-        if (!empty($this->searchAfter)) {
+        if ($this->searchAfter !== []) {
             $esQuery['search_after'] = $this->searchAfter;
         }
 
@@ -142,7 +142,7 @@ final class IdentifierCursor implements CursorInterface, ResultAwareInterface
      */
     public function getResult(): ResultInterface
     {
-        if (null === $this->result) {
+        if (!$this->result instanceof \Akeneo\Pim\Enrichment\Component\Product\Query\ResultInterface) {
             $this->getNextIdentifiers($this->esQuery);
         }
 

@@ -21,7 +21,7 @@ final readonly class GetExistingAttributeOptionCodes implements GetExistingAttri
 
     public function fromOptionCodesByAttributeCode(array $optionCodesIndexedByAttributeCodes): array
     {
-        if (empty($optionCodesIndexedByAttributeCodes)) {
+        if ($optionCodesIndexedByAttributeCodes === []) {
             return [];
         }
 

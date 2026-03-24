@@ -89,7 +89,7 @@ class AclManager extends AbstractAclManager
      */
     public function isAclEnabled()
     {
-        return $this->aclProvider !== null;
+        return $this->aclProvider instanceof \Oro\Bundle\SecurityBundle\Acl\Dbal\MutableAclProvider;
     }
 
     /**
@@ -151,7 +151,7 @@ class AclManager extends AbstractAclManager
     public function getPrivilegeRepository()
     {
         $repository = new $this->privilegeRepositoryClass($this);
-        if ($repository instanceof EventDispatcherAware && null !== $this->eventDispatcher) {
+        if ($repository instanceof EventDispatcherAware && $this->eventDispatcher instanceof \Symfony\Component\EventDispatcher\EventDispatcherInterface) {
             $repository->setEventDispatcher($this->eventDispatcher);
         }
 
@@ -890,10 +890,8 @@ class AclManager extends AbstractAclManager
                             $result->attach($aclOid, $partialResult->offsetGet($aclOid));
                         }
                     }
-                } else {
-                    if ($result === null) {
-                        $result = new \SplObjectStorage();
-                    }
+                } elseif ($result === null) {
+                    $result = new \SplObjectStorage();
                 }
             }
         }
@@ -981,7 +979,7 @@ class AclManager extends AbstractAclManager
      */
     protected function validateAclEnabled()
     {
-        if ($this->aclProvider === null) {
+        if (!$this->aclProvider instanceof \Oro\Bundle\SecurityBundle\Acl\Dbal\MutableAclProvider) {
             throw new InvalidConfigurationException(
                 'Seems that ACL is not enabled. Please check "security/acl" parameter in "app/config/security.yml"'
             );

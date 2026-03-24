@@ -53,7 +53,7 @@ final class ApiAggregatorForAttributeOptionPostSaveEventSubscriber
 
     public function dispatchAllEvents(): void
     {
-        if (empty($this->eventsAttributesOptions)) {
+        if ($this->eventsAttributesOptions === []) {
             return;
         }
 

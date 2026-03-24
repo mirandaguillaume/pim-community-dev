@@ -393,7 +393,7 @@ class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDe
 
         // If all the levels are selected, replace by `null`
         $resolver->setNormalizer('levels', function ($options, $value) {
-            if (\is_array($value) && empty(\array_diff(EventsApiDebugLogLevels::ALL, $value))) {
+            if (\is_array($value) && \array_diff(EventsApiDebugLogLevels::ALL, $value) === []) {
                 return null;
             }
 

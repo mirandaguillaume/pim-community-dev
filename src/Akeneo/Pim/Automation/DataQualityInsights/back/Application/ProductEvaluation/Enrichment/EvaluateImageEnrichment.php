@@ -59,7 +59,7 @@ class EvaluateImageEnrichment implements EvaluateCriterionInterface
     ): void {
         $rate = $completenessResult->getRates()->getByChannelAndLocale($channelCode, $localeCode);
 
-        if (null === $rate) {
+        if (!$rate instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate) {
             $evaluationResult->addStatus($channelCode, $localeCode, CriterionEvaluationResultStatus::notApplicable());
             return;
         }

@@ -77,7 +77,7 @@ class ActionAclVoter extends Voter implements VoterInterface
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        $oid = new ObjectIdentity(static::OID_IDENTIFIER, $attribute);
+        $oid = new ObjectIdentity(self::OID_IDENTIFIER, $attribute);
 
         return VoterInterface::ACCESS_GRANTED === $this->baseAclVoter->vote($token, $oid, ['EXECUTE']);
     }

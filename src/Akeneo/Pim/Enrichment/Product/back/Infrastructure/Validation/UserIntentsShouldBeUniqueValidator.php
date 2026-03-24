@@ -43,14 +43,12 @@ final class UserIntentsShouldBeUniqueValidator extends ConstraintValidator
                 } else {
                     $existingPriceIntents[$intentLocale][$intentChannel][$currency][] = $intentAttributeCode;
                 }
+            } elseif (\in_array($intentAttributeCode, $existingIntents[$intentLocale][$intentChannel] ?? [])) {
+                $this->context
+                    ->buildViolation($constraint->message, ['{{ attributeCode }}' => $intentAttributeCode])
+                    ->addViolation();
             } else {
-                if (\in_array($intentAttributeCode, $existingIntents[$intentLocale][$intentChannel] ?? [])) {
-                    $this->context
-                        ->buildViolation($constraint->message, ['{{ attributeCode }}' => $intentAttributeCode])
-                        ->addViolation();
-                } else {
-                    $existingIntents[$intentLocale][$intentChannel][] = $intentAttributeCode;
-                }
+                $existingIntents[$intentLocale][$intentChannel][] = $intentAttributeCode;
             }
         }
     }

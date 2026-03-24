@@ -68,7 +68,7 @@ final class ProductUuidCollection implements ProductEntityIdCollection
 
     public function isEmpty(): bool
     {
-        return empty($this->productUuids);
+        return $this->productUuids === [];
     }
 
     public function toArrayString(): array

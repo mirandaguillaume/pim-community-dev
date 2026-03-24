@@ -42,7 +42,7 @@ final class DeleteAttributeGroupsTasklet implements TaskletInterface, TrackableT
 
     public function execute()
     {
-        if (null === $this->stepExecution) {
+        if (!$this->stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution) {
             throw new \InvalidArgumentException(sprintf('In order to execute "%s" you need to set a step execution.', DeleteAttributeGroupsTasklet::class));
         }
 

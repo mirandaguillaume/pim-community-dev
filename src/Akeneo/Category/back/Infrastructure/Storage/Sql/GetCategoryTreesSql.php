@@ -86,7 +86,7 @@ class GetCategoryTreesSql implements GetCategoryTreesInterface
             $sqlTypes,
         )->fetchAllAssociative();
 
-        if (empty($results)) {
+        if ($results === []) {
             return null;
         }
 

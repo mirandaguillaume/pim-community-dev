@@ -72,7 +72,7 @@ GROUP BY family.code, channel_code, locale_code;
             ['productModelId' => ParameterType::INTEGER]
         )->fetchAllAssociative();
 
-        if (empty($rows)) {
+        if ($rows === []) {
             return null;
         }
 

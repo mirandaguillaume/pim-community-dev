@@ -85,7 +85,7 @@ class EvaluatePendingCriteria
     {
         $applicabilityService = $this->applicabilityRegistry->get($criterionEvaluation->getCriterionCode());
 
-        if (null !== $applicabilityService) {
+        if ($applicabilityService instanceof \Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEvaluation\EvaluateCriterionApplicabilityInterface) {
             $criterionEvaluationApplicability = $applicabilityService->evaluateApplicability($productValues);
             $criterionEvaluation->applicabilityEvaluated($criterionEvaluationApplicability);
         }

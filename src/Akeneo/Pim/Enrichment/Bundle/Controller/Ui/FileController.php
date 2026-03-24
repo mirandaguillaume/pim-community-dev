@@ -215,11 +215,6 @@ class FileController
         if ($guessedMimeType !== $originalMimeType) {
             return false;
         }
-
-        if (!in_array($originalMimeType, $this->supportedImageTypes[$originalExtension], true)) {
-            return false;
-        }
-
-        return true;
+        return in_array($originalMimeType, $this->supportedImageTypes[$originalExtension], true);
     }
 }

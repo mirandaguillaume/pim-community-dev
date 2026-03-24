@@ -24,7 +24,7 @@ class CategoryVersionBuilder
 
     public function create(Category $category): CategoryVersion
     {
-        $categoryId = $category->getId() ? (string) $category->getId()->getValue() : null;
+        $categoryId = $category->getId() instanceof \Akeneo\Category\Domain\ValueObject\CategoryId ? (string) $category->getId()->getValue() : null;
 
         $categorySnapshot = $this->buildSnapshot($category);
 
@@ -41,12 +41,12 @@ class CategoryVersionBuilder
     {
         $snapshotParent = null;
 
-        if (!$category->isRoot() && null !== $category->getParentId()) {
+        if (!$category->isRoot() && $category->getParentId() instanceof \Akeneo\Category\Domain\ValueObject\CategoryId) {
             $parent = $this->getCategory->byId($category->getParentId()->getValue());
             $snapshotParent = (string) $parent->getCode();
         }
 
-        if (!$category->isRoot() && empty($snapshotParent) && null !== $category->getRootId()) {
+        if (!$category->isRoot() && in_array($snapshotParent, [null, '', '0'], true) && $category->getRootId() instanceof \Akeneo\Category\Domain\ValueObject\CategoryId) {
             $root = $this->getCategory->byId($category->getRootId()->getValue());
             $snapshotParent = (string) $root->getCode();
         }
@@ -58,7 +58,7 @@ class CategoryVersionBuilder
         }
 
         $snapshotPermissions = [];
-        if (null !== $category->getPermissions()) {
+        if ($category->getPermissions() instanceof \Akeneo\Category\Domain\ValueObject\PermissionCollection) {
             $snapshotPermissions['view_permission'] = $this->buildSnapshotPermission($category->getPermissions()->getViewUserGroups());
             $snapshotPermissions['edit_permission'] = $this->buildSnapshotPermission($category->getPermissions()->getEditUserGroups());
             $snapshotPermissions['own_permission'] = $this->buildSnapshotPermission($category->getPermissions()->getOwnUserGroups());

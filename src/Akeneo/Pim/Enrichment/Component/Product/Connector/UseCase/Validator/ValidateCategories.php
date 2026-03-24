@@ -46,7 +46,7 @@ final readonly class ValidateCategories
             }
         }
 
-        if (!empty($errors)) {
+        if ($errors !== []) {
             $plural = count($errors) > 1 ? 'Categories "%s" do not exist.' : 'Category "%s" does not exist.';
             throw new InvalidQueryException(sprintf($plural, implode(', ', $errors)));
         }

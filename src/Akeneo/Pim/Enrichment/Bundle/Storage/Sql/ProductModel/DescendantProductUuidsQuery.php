@@ -26,7 +26,7 @@ final readonly class DescendantProductUuidsQuery implements DescendantProductUui
      */
     public function fetchFromProductModelIds(array $productModelIds): array
     {
-        if (empty($productModelIds)) {
+        if ($productModelIds === []) {
             return [];
         }
 

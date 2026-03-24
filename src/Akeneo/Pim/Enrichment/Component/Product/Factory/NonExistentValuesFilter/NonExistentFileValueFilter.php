@@ -39,7 +39,7 @@ final readonly class NonExistentFileValueFilter implements NonExistentValuesFilt
     private function filterByType(OnGoingFilteredRawValues $onGoingFilteredRawValues, string $type): OnGoingFilteredRawValues
     {
         $fileAndImageValues = $onGoingFilteredRawValues->notFilteredValuesOfTypes($type);
-        if (empty($fileAndImageValues)) {
+        if ($fileAndImageValues === []) {
             return $onGoingFilteredRawValues;
         }
 

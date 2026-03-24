@@ -58,7 +58,7 @@ class VariantNavigationNormalizer implements NormalizerInterface
 
             $currentEntity = $currentEntity->getParent();
             $level++;
-        } while (null !== $currentEntity);
+        } while ($currentEntity instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface);
 
         $tree = array_reverse($reversedTree);
         $navigationData = array_replace_recursive($navigationData, $tree);

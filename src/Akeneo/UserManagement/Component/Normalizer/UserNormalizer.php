@@ -127,7 +127,7 @@ class UserNormalizer implements NormalizerInterface
         }
 
         $token = $this->tokenStorage->getToken();
-        $currentUser = $token ? $token->getUser() : null;
+        $currentUser = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
 
         if ($user->getId() && is_object($currentUser) && $currentUser->getId() == $user->getId()) {
             return 'pim-user-profile-form';

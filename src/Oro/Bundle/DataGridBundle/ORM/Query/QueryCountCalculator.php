@@ -88,11 +88,11 @@ class QueryCountCalculator
             }
         }
 
-        if (count($sqlParams) != count($types)) {
+        if (count($sqlParams) !== count($types)) {
             throw QueryException::parameterTypeMismatch();
         }
 
-        if ($sqlParams) {
+        if ($sqlParams !== []) {
             ksort($sqlParams);
             $sqlParams = array_values($sqlParams);
 

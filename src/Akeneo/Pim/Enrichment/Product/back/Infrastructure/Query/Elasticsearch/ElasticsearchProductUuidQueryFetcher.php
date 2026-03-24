@@ -73,7 +73,7 @@ final class ElasticsearchProductUuidQueryFetcher implements ProductUuidQueryFetc
         $esQuery['sort'] = $sort;
         $esQuery['track_total_hits'] = true;
 
-        if (!empty($this->searchAfter)) {
+        if ($this->searchAfter !== []) {
             $esQuery['search_after'] = $this->searchAfter;
         }
 

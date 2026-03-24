@@ -94,7 +94,7 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
             }
         }
 
-        if (empty($normalizedQuantifiedAssociations)) {
+        if ($normalizedQuantifiedAssociations === []) {
             return;
         }
 

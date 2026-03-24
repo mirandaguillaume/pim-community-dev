@@ -42,7 +42,7 @@ abstract class AbstractPreviewGenerator implements PreviewGeneratorInterface
 
     public function generate(string $data, Attribute $attribute, string $type): string
     {
-        if (empty($data)) {
+        if ($data === '' || $data === '0') {
             return $this->getDefaultImageUrl($type);
         }
 
@@ -103,7 +103,7 @@ abstract class AbstractPreviewGenerator implements PreviewGeneratorInterface
                 ],
             );
 
-            throw new CouldNotGeneratePreviewException($exception->getMessage());
+            throw new CouldNotGeneratePreviewException($exception->getMessage(), $exception->getCode(), $exception);
         } catch (\Exception $exception) {
             $this->logger->notice(
                 'Exception when trying to create a thumbnail',
@@ -125,7 +125,7 @@ abstract class AbstractPreviewGenerator implements PreviewGeneratorInterface
 
     public function remove(string $data, string $type): void
     {
-        if (empty($data)) {
+        if ($data === '' || $data === '0') {
             return;
         }
 

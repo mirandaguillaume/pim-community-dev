@@ -43,7 +43,7 @@ final readonly class GetConnectedAppMonitoringSettingsAction
 
         $connectedApp = $this->findOneConnectedAppByConnectionCodeQuery->execute($connectionCode);
 
-        if (null === $connectedApp) {
+        if (!$connectedApp instanceof \Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp) {
             throw new NotFoundHttpException("Connected app with connection code $connectionCode does not exist.");
         }
 
@@ -51,7 +51,7 @@ final readonly class GetConnectedAppMonitoringSettingsAction
 
         $connection = $this->findAConnectionHandler->handle(new FindAConnectionQuery($connectionCode));
 
-        if (null === $connection) {
+        if (!$connection instanceof \Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\ConnectionWithCredentials) {
             throw new NotFoundHttpException("Connection with connection code $connectionCode does not exist.");
         }
 

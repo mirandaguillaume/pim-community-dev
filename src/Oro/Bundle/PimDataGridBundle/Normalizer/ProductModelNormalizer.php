@@ -78,7 +78,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     private function getFamilyLabel(ProductModelInterface $productModel, string $locale): ?string
     {
         $family = $productModel->getFamilyVariant()->getFamily();
-        if (null === $family) {
+        if (!$family instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             return null;
         }
 
@@ -89,7 +89,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
 
     private function getLabel(string $familyCode, ?string $familyLabel): string
     {
-        return empty($familyLabel) ? sprintf('[%s]', $familyCode) : $familyLabel;
+        return in_array($familyLabel, [null, '', '0'], true) ? sprintf('[%s]', $familyCode) : $familyLabel;
     }
 
     /**
@@ -120,7 +120,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
 
     private function getParentCode(ProductModelInterface $productModel): ?string
     {
-        if (null !== $productModel->getParent()) {
+        if ($productModel->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return $productModel->getParent()->getCode();
         }
 

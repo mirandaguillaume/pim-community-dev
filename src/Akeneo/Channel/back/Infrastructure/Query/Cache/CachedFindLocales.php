@@ -46,6 +46,6 @@ final class CachedFindLocales implements FindLocales, CachedQueryInterface
 
     private function isLocaleCached(string $localeCode): bool
     {
-        return key_exists($localeCode, $this->indexedCache);
+        return array_key_exists($localeCode, $this->indexedCache);
     }
 }

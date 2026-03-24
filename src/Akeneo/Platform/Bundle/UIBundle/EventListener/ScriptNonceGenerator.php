@@ -36,13 +36,13 @@ class ScriptNonceGenerator
     {
         $request = $this->request->getCurrentRequest();
 
-        if (null === $request) {
+        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
             if ('cli' !== \PHP_SAPI) {
                 throw new \LogicException("Nonce generator failed, no session was found while not in CLI mode.");
             }
 
             return '';
-        } elseif (isset($request->cookies)) {
+        } elseif ($request->cookies !== null) {
             $bapId = $request->cookies->get('BAPID');
 
             return hash_hmac('ripemd160', $bapId, $this->kernelSecret);

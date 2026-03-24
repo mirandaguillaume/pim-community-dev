@@ -227,7 +227,7 @@ class DoctrineJobRepository implements JobRepositoryInterface
             $values = [...$values, $stepExecution->getId(), $warning->getReason(), serialize($warning->getReasonParameters()), serialize($warning->getItem())];
         }
 
-        $sql = sprintf($sql, join(', ', $valuePlaceholders));
+        $sql = sprintf($sql, implode(', ', $valuePlaceholders));
 
         $this->jobManager->getConnection()->executeQuery($sql, $values);
 

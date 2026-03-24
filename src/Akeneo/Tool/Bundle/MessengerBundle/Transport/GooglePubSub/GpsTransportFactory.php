@@ -26,7 +26,7 @@ final readonly class GpsTransportFactory implements TransportFactoryInterface
         $sender = new GpsSender($client->getTopic(), $serializer, $this->orderingKeySolver);
 
         $receiver = null;
-        if (null !== $subscription = $client->getSubscription()) {
+        if (($subscription = $client->getSubscription()) instanceof \Google\Cloud\PubSub\Subscription) {
             $receiver = new GpsReceiver($subscription, $serializer);
         }
 

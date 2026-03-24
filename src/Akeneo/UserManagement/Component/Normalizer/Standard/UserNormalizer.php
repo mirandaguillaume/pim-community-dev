@@ -29,7 +29,7 @@ class UserNormalizer implements NormalizerInterface
         /** @var UserInterface $user */
         Assert::isInstanceOf($user, UserInterface::class);
 
-        $normalizedAvatar = $user->getAvatar() ? [
+        $normalizedAvatar = $user->getAvatar() instanceof \Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface ? [
             'filePath' => $user->getAvatar()->getKey(),
             'originalFilename' => $user->getAvatar()->getOriginalFilename(),
         ] : null;

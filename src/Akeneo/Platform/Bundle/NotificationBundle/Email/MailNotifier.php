@@ -29,7 +29,7 @@ class MailNotifier implements MailNotifierInterface
         string $htmlBody,
         array $options = []
     ): void {
-        if (empty($recipients)) {
+        if ($recipients === []) {
             return;
         }
 

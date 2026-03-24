@@ -118,11 +118,7 @@ class PimUIExtension extends Extension
                 if (is_array($item) && isset($item['remove']) && $item['remove']) {
                     unset($placeholders[$placeholderName]['items'][$itemId]);
                 } else {
-                    if (!is_array($item) || !isset($item['order'])) {
-                        $order = 1;
-                    } else {
-                        $order = $item['order'];
-                    }
+                    $order = !is_array($item) || !isset($item['order']) ? 1 : $item['order'];
                     if (!isset($placeholders[$placeholderName])) {
                         $placeholders[$placeholderName] = ['items' => []];
                     }
@@ -148,7 +144,7 @@ class PimUIExtension extends Extension
      */
     protected function changeOrders(array $placeholders)
     {
-        foreach ($placeholders as $placeholderName => $placeholderData) {
+        foreach (array_keys($placeholders) as $placeholderName) {
             if (isset($placeholders[$placeholderName]['items'])) {
                 usort($placeholders[$placeholderName]['items'], $this->comparePlaceholderBlocks(...));
             }

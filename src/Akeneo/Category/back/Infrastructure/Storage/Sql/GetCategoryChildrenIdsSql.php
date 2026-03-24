@@ -52,7 +52,7 @@ final readonly class GetCategoryChildrenIdsSql implements GetCategoryChildrenIds
             ],
         )->fetchAllAssociative();
 
-        if (!$results) {
+        if ($results === []) {
             return [];
         }
 

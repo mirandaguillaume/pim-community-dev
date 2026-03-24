@@ -21,7 +21,7 @@ class GetAncestorAndDescendantProductModelCodes
 
     public function fromProductModelCodes(array $productModelCodes): array
     {
-        if (empty($productModelCodes)) {
+        if ($productModelCodes === []) {
             return [];
         }
 

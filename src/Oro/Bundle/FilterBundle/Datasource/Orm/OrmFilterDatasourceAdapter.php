@@ -51,12 +51,10 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
             } else {
                 $this->qb->orWhere($restriction);
             }
+        } elseif ($isComputed) {
+            $this->qb->andHaving($restriction);
         } else {
-            if ($isComputed) {
-                $this->qb->andHaving($restriction);
-            } else {
-                $this->qb->andWhere($restriction);
-            }
+            $this->qb->andWhere($restriction);
         }
     }
 

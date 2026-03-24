@@ -35,7 +35,7 @@ class ProductMassActionRepository implements ProductMassActionRepositoryInterfac
      */
     public function applyMassActionParameters($queryBuilder, $inset, array $values)
     {
-        if (!empty($values)) {
+        if ($values !== []) {
             $inset ? $this->includeProducts($queryBuilder, $values) : $this->excludeProducts($queryBuilder, $values);
         }
     }
@@ -66,7 +66,7 @@ class ProductMassActionRepository implements ProductMassActionRepositoryInterfac
 
         $productModelIds = array_values(array_filter($productIds, fn ($id) => str_starts_with((string) $id, 'product_model_')));
 
-        if (!empty($productModelIds)) {
+        if ($productModelIds !== []) {
             $queryBuilder->addFilter('ancestor.id', Operators::NOT_IN_LIST, $productModelIds);
         }
     }

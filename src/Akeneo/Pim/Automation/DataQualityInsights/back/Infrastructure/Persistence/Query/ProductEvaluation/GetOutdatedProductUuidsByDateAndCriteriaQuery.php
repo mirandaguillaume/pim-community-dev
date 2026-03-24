@@ -44,7 +44,7 @@ final readonly class GetOutdatedProductUuidsByDateAndCriteriaQuery implements Ge
         ];
 
         $criteriaSubQuery = '';
-        if (!empty($criteria)) {
+        if ($criteria !== []) {
             $criteriaSubQuery = 'AND pdq.criterion_code IN (:criterion_codes)';
             $queryParameters['criterion_codes'] = $criteria;
             $queryTypes['criterion_codes'] = ArrayParameterType::STRING;

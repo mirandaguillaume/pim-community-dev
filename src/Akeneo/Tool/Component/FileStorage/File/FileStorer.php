@@ -78,10 +78,10 @@ class FileStorer implements FileStorerInterface
         try {
             $this->saver->save($file);
         } catch (DuplicateObjectException $e) {
-            throw new FileAlreadyExistsException($e->getMessage());
+            throw new FileAlreadyExistsException($e->getMessage(), $e->getCode(), $e);
         }
 
-        if (true === $deleteRawFile) {
+        if ($deleteRawFile) {
             $this->deleteRawFile($localFile);
         }
 

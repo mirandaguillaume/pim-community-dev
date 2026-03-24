@@ -69,7 +69,7 @@ class ParentsAssociationsNormalizer implements NormalizerInterface
         $parent = $product->getParent();
         $parentAssociations = [];
 
-        if (null === $parent) {
+        if (!$parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return $parentAssociations;
         }
 

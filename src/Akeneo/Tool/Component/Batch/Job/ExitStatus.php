@@ -161,8 +161,8 @@ class ExitStatus implements \Stringable
             $description = $description->getTraceAsString();
         }
 
-        if (!empty($description) && $this->exitDescription != $description) {
-            if (!empty($this->exitDescription)) {
+        if (!in_array($description, [null, '', '0'], true) && $this->exitDescription !== $description) {
+            if ($this->exitDescription !== '' && $this->exitDescription !== '0') {
                 $this->exitDescription .= ';';
             }
             $this->exitDescription .= $description;

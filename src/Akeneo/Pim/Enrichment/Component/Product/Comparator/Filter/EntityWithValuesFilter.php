@@ -117,7 +117,7 @@ class EntityWithValuesFilter implements FilterInterface
             }
         }
 
-        return !empty($result) ? ['values' => $result] : null;
+        return $result === [] ? null : ['values' => $result];
     }
 
     /**
@@ -128,7 +128,7 @@ class EntityWithValuesFilter implements FilterInterface
     {
         $key = $this->buildKey($attribute, $code);
 
-        return !isset($originalValues['values'][$key]) ? [] : $originalValues['values'][$key];
+        return isset($originalValues['values'][$key]) ? $originalValues['values'][$key] : [];
     }
 
     /**
@@ -172,11 +172,7 @@ class EntityWithValuesFilter implements FilterInterface
     protected function mergeValueToResult(array $collection, array $value): array
     {
         foreach ($value as $code => $data) {
-            if (array_key_exists($code, $collection)) {
-                $collection[$code] = array_merge_recursive($collection[$code], $data);
-            } else {
-                $collection[$code] = $data;
-            }
+            $collection[$code] = array_key_exists($code, $collection) ? array_merge_recursive($collection[$code], $data) : $data;
         }
 
         return $collection;

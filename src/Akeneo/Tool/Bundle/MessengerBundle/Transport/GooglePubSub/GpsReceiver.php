@@ -87,7 +87,7 @@ final readonly class GpsReceiver implements ReceiverInterface
     private function getNativeMessage(Envelope $envelope): Message
     {
         /** @var NativeMessageStamp|null $nativeMessageStamp */
-        if (null === $nativeMessageStamp = $envelope->last(NativeMessageStamp::class)) {
+        if (!($nativeMessageStamp = $envelope->last(NativeMessageStamp::class)) instanceof \Symfony\Component\Messenger\Stamp\StampInterface) {
             throw new \LogicException('NativeMessageStamp should be present on the Envelope.');
         }
 

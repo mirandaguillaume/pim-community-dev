@@ -30,11 +30,7 @@ class PriceConverter extends AbstractValueConverter
      */
     public function convert(array $attributeFieldInfo, $value)
     {
-        if ('' !== $value) {
-            $data = $this->fieldSplitter->splitPrices($value);
-        } else {
-            $data = [];
-        }
+        $data = '' !== $value ? $this->fieldSplitter->splitPrices($value) : [];
 
         $data = array_map(fn ($priceValue) => $this->convertPrice($priceValue, $attributeFieldInfo['attribute']), $data);
 

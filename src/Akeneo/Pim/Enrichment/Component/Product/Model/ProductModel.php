@@ -212,7 +212,7 @@ class ProductModel implements ProductModelInterface, \Stringable
             return $result;
         }
 
-        if (null === $this->getParent()) {
+        if (!$this->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return null;
         }
 
@@ -400,7 +400,7 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function isRoot(): bool
     {
-        return (null === $this->getParent());
+        return (!$this->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface);
     }
 
     /**
@@ -408,8 +408,8 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function setParent(?ProductModelInterface $parent = null): void
     {
-        $formerParentCode = $this->parent ? $this->parent->getCode() : null;
-        $newParentCode = $parent ? $parent->getCode() : null;
+        $formerParentCode = $this->parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface ? $this->parent->getCode() : null;
+        $newParentCode = $parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface ? $parent->getCode() : null;
         if ($formerParentCode !== $newParentCode) {
             $this->dirty = true;
         }
@@ -478,7 +478,7 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function setFamilyVariant(FamilyVariantInterface $familyVariant): void
     {
-        $formerFamilyVariantCode = $this->familyVariant ? $this->familyVariant->getCode() : null;
+        $formerFamilyVariantCode = $this->familyVariant instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface ? $this->familyVariant->getCode() : null;
         $newFamilyVariantCode = $familyVariant ? $familyVariant->getCode() : null;
         if ($formerFamilyVariantCode !== $newFamilyVariantCode) {
             $this->dirty = true;
@@ -496,7 +496,7 @@ class ProductModel implements ProductModelInterface, \Stringable
 
         while (true) {
             $entity = $entity->getParent();
-            if (null === $entity) {
+            if (!$entity instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
                 return $level;
             }
 
@@ -511,7 +511,7 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function isRootProductModel(): bool
     {
-        return null === $this->parent;
+        return !$this->parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
     }
 
     /**
@@ -522,7 +522,7 @@ class ProductModel implements ProductModelInterface, \Stringable
         $code = (string) $this->getCode();
         $familyVariant = $this->familyVariant;
 
-        if (null === $familyVariant) {
+        if (!$familyVariant instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface) {
             return $code;
         }
 
@@ -536,7 +536,7 @@ class ProductModel implements ProductModelInterface, \Stringable
         $scopeCode = $attributeAsLabel->isScopable() ? $scopeCode : null;
         $value = $this->getValue($attributeAsLabel->getCode(), $localeCode, $scopeCode);
 
-        if (null === $value) {
+        if (!$value instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface) {
             return $code;
         }
 
@@ -556,7 +556,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $attributeAsImage = $this->familyVariant->getFamily()->getAttributeAsImage();
 
-        if (null === $attributeAsImage) {
+        if (!$attributeAsImage instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface) {
             return null;
         }
 
@@ -568,7 +568,7 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function getFamily(): ?FamilyInterface
     {
-        return null !== $this->getFamilyVariant() ? $this->getFamilyVariant()->getFamily() : null;
+        return $this->getFamilyVariant() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface ? $this->getFamilyVariant()->getFamily() : null;
     }
 
     /**
@@ -577,7 +577,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     public function addAssociation(AssociationInterface $newAssociation): EntityWithAssociationsInterface
     {
         $currentAssociation = $this->getSimilarAssociation($newAssociation);
-        if ($currentAssociation) {
+        if ($currentAssociation instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface) {
             throw new \LogicException(
                 sprintf(
                     'Can not add an association of type %s because the product already has one',
@@ -606,7 +606,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $similarAssociation = $this->getSimilarAssociation($association);
         if (
-            null !== $similarAssociation
+            $similarAssociation instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface
             && true === $this->associations->removeElement($similarAssociation)
             && (
                 $similarAssociation->getProducts()->count() > 0
@@ -644,7 +644,7 @@ class ProductModel implements ProductModelInterface, \Stringable
         array $productUuidsToKeep,
         array $productModelCodesToKeep
     ): void {
-        if (null === $this->quantifiedAssociationCollection) {
+        if (!$this->quantifiedAssociationCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\QuantifiedAssociationCollection) {
             return;
         }
 
@@ -663,7 +663,7 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function mergeQuantifiedAssociations(QuantifiedAssociationCollection $quantifiedAssociations): void
     {
-        if ($this->quantifiedAssociationCollection === null) {
+        if (!$this->quantifiedAssociationCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\QuantifiedAssociationCollection) {
             return;
         }
 
@@ -679,7 +679,7 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function patchQuantifiedAssociations(array $submittedQuantifiedAssociations): void
     {
-        if (null === $this->quantifiedAssociationCollection) {
+        if (!$this->quantifiedAssociationCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\QuantifiedAssociationCollection) {
             return;
         }
 
@@ -697,7 +697,7 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function clearQuantifiedAssociations(): void
     {
-        if (null === $this->quantifiedAssociationCollection) {
+        if (!$this->quantifiedAssociationCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\QuantifiedAssociationCollection) {
             return;
         }
 
@@ -728,7 +728,7 @@ class ProductModel implements ProductModelInterface, \Stringable
         $allAssociations = new ArrayCollection($clonedAssociations);
 
         $parent = $this->getParent();
-        while (null !== $parent) {
+        while ($parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             foreach ($parent->getAssociations() as $parentAssociation) {
                 $matchingAssociation = $allAssociations->filter(
                     static fn (AssociationInterface $clonedAsso): bool => $parentAssociation->getAssociationType()->getCode() === $clonedAsso->getAssociationType()->getCode()
@@ -784,13 +784,13 @@ class ProductModel implements ProductModelInterface, \Stringable
 
     public function hasAssociationForTypeCode(string $associationTypeCode): bool
     {
-        return null !== $this->getAssociationForTypeCode($associationTypeCode);
+        return $this->getAssociationForTypeCode($associationTypeCode) instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface;
     }
 
     public function addAssociatedProduct(ProductInterface $product, string $associationTypeCode): void
     {
         $association = $this->getAssociationForTypeCode($associationTypeCode);
-        if (null === $association) {
+        if (!$association instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface) {
             throw new \LogicException(
                 \sprintf('This product model has no association for the "%s" association type', $associationTypeCode)
             );
@@ -820,13 +820,13 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $association = $this->getAssociationForTypeCode($associationTypeCode);
 
-        return $association ? clone $association->getProducts() : null;
+        return $association instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface ? clone $association->getProducts() : null;
     }
 
     public function addAssociatedProductModel(ProductModelInterface $productModel, string $associationTypeCode): void
     {
         $association = $this->getAssociationForTypeCode($associationTypeCode);
-        if (null === $association) {
+        if (!$association instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface) {
             throw new \LogicException(
                 \sprintf('This product model has no association for the "%s" association type', $associationTypeCode)
             );
@@ -856,13 +856,13 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $association = $this->getAssociationForTypeCode($associationTypeCode);
 
-        return $association ? clone $association->getProductModels() : null;
+        return $association instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface ? clone $association->getProductModels() : null;
     }
 
     public function addAssociatedGroup(GroupInterface $group, string $associationTypeCode): void
     {
         $association = $this->getAssociationForTypeCode($associationTypeCode);
-        if (null === $association) {
+        if (!$association instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface) {
             throw new \LogicException(
                 \sprintf('This product model has no association for the "%s" association type', $associationTypeCode)
             );
@@ -892,7 +892,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $association = $this->getAssociationForTypeCode($associationTypeCode);
 
-        return $association ? clone $association->getGroups() : null;
+        return $association instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface ? clone $association->getGroups() : null;
     }
 
     protected function getAssociationForTypeCode($typeCode): ?AssociationInterface
@@ -924,7 +924,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     ) {
         $parent = $entity->getParent();
 
-        if (null === $parent) {
+        if (!$parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return $valueCollection;
         }
 
@@ -965,7 +965,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     ) {
         $parent = $entity->getParent();
 
-        if (null === $parent) {
+        if (!$parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return $categoryCollection;
         }
 
@@ -986,7 +986,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     private function hasAncestryCategory(CategoryInterface $category): bool
     {
         $parent = $this->getParent();
-        if (null === $parent) {
+        if (!$parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return false;
         }
 

@@ -18,6 +18,6 @@ final readonly class DataQualityInsightsFeature implements FeatureFlag
 
     public function isEnabled(?string $feature = null): bool
     {
-        return (true === $this->activationFlag);
+        return ($this->activationFlag);
     }
 }

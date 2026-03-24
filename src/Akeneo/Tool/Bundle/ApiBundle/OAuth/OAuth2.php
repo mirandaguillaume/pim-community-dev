@@ -58,7 +58,7 @@ class OAuth2
     {
         $token = $this->storage->getAccessToken($tokenParam);
 
-        if (null === $token) {
+        if (!$token instanceof \Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AccessToken) {
             throw new OAuth2AuthenticateException(
                 Response::HTTP_UNAUTHORIZED,
                 self::ERROR_INVALID_GRANT,
@@ -92,7 +92,7 @@ class OAuth2
      */
     public function grantAccessToken(?Request $request = null): Response
     {
-        if (null === $request) {
+        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
             throw new OAuth2ServerException(
                 Response::HTTP_BAD_REQUEST,
                 self::ERROR_INVALID_REQUEST,
@@ -108,7 +108,7 @@ class OAuth2
 
         $client = $this->storage->getClient($clientCredentials[0]);
 
-        if (null === $client || !$this->storage->checkClientCredentials($client, $clientCredentials[1])) {
+        if (!$client instanceof \Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface || !$this->storage->checkClientCredentials($client, $clientCredentials[1])) {
             throw new OAuth2ServerException(
                 Response::HTTP_BAD_REQUEST,
                 self::ERROR_INVALID_CLIENT,
@@ -295,7 +295,7 @@ class OAuth2
 
         $refreshToken = $this->storage->getRefreshToken($refreshTokenParam);
 
-        if (null === $refreshToken || $refreshToken->hasExpired()) {
+        if (!$refreshToken instanceof \Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2RefreshToken || $refreshToken->hasExpired()) {
             throw new OAuth2ServerException(
                 Response::HTTP_BAD_REQUEST,
                 self::ERROR_INVALID_GRANT,
@@ -359,7 +359,7 @@ class OAuth2
 
         $authCode = $this->storage->getAuthCode($code);
 
-        if (null === $authCode || $authCode->hasExpired()) {
+        if (!$authCode instanceof \Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AuthCode || $authCode->hasExpired()) {
             throw new OAuth2ServerException(
                 Response::HTTP_BAD_REQUEST,
                 self::ERROR_INVALID_GRANT,
@@ -407,6 +407,6 @@ class OAuth2
         $requiredScopes = explode(' ', $requiredScope);
         $availableScopes = explode(' ', $availableScope);
 
-        return empty(array_diff($requiredScopes, $availableScopes));
+        return array_diff($requiredScopes, $availableScopes) === [];
     }
 }

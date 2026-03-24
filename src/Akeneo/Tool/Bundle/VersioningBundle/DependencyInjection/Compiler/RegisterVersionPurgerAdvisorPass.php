@@ -36,7 +36,7 @@ class RegisterVersionPurgerAdvisorPass implements CompilerPassInterface
 
         foreach ($taggedServices as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = $tag['priority'] ?? static::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? self::DEFAULT_PRIORITY;
                 $services[$priority][] = $serviceId;
             }
         }

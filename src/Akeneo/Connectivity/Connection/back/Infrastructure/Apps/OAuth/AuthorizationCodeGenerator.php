@@ -65,7 +65,7 @@ class AuthorizationCodeGenerator implements AuthorizationCodeGeneratorInterface
     {
         $client = $this->clientManager->findClientBy(['id' => $fosClientId]);
 
-        if (null === $client) {
+        if (!$client instanceof \Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface) {
             throw new \InvalidArgumentException(\sprintf('FOS Client with id "%s" does not exist.', $fosClientId));
         }
 

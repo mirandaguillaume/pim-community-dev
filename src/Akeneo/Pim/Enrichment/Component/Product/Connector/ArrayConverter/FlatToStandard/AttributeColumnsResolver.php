@@ -25,7 +25,7 @@ class AttributeColumnsResolver
 
     public function resolveIdentifierField(): string
     {
-        if (empty($this->identifierField)) {
+        if ($this->identifierField === '' || $this->identifierField === '0') {
             $this->identifierField = $this->attributeRepository->getIdentifierCode();
         }
 
@@ -34,7 +34,7 @@ class AttributeColumnsResolver
 
     public function resolveAttributeColumns(): array
     {
-        if (empty($this->attributesFields)) {
+        if ($this->attributesFields === []) {
             // TODO: Put a Cursor to avoid a findAll on attributes (╯°□°)╯︵ ┻━┻
             $attributes = $this->attributeRepository->findAll();
             $currencyCodes = $this->findActivatedCurrenciesInterface->forAllChannels();

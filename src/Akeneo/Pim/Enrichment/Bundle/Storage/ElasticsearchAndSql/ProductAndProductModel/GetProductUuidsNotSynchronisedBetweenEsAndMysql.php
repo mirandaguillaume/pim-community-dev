@@ -45,7 +45,7 @@ final readonly class GetProductUuidsNotSynchronisedBetweenEsAndMysql
                 ]
             )->fetchAllAssociative();
 
-            if (empty($rows)) {
+            if ($rows === []) {
                 return;
             }
 

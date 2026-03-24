@@ -20,7 +20,7 @@ class SqlGetFirstVersionIdsByIdsQuery
 
     public function execute(array $versionIds): array
     {
-        if (empty($versionIds)) {
+        if ($versionIds === []) {
             return [];
         }
 

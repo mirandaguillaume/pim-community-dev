@@ -37,7 +37,7 @@ class ReferenceDataNameChecker implements CheckerInterface
      */
     public function getDescription()
     {
-        return sprintf('Reference data names must use only letters and be camel-cased.');
+        return 'Reference data names must use only letters and be camel-cased.';
     }
 
     /**

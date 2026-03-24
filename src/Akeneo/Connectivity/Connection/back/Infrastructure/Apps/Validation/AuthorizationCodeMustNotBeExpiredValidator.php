@@ -30,7 +30,7 @@ class AuthorizationCodeMustNotBeExpiredValidator extends ConstraintValidator
 
         $authCode = $this->storage->getAuthCode($value);
 
-        if ($authCode !== null && $authCode->hasExpired()) {
+        if ($authCode instanceof \Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AuthCode && $authCode->hasExpired()) {
             $this->context
                 ->buildViolation($constraint->message)
                 ->setCause($constraint->cause)

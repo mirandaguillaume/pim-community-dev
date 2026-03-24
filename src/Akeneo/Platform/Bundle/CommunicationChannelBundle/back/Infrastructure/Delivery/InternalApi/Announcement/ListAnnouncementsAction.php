@@ -26,7 +26,7 @@ class ListAnnouncementsAction
 
     public function __invoke(Request $request)
     {
-        if (null === $user = $this->userContext->getUser()) {
+        if (!($user = $this->userContext->getUser()) instanceof \Akeneo\UserManagement\Component\Model\UserInterface) {
             throw new NotFoundHttpException('Current user not found');
         }
 

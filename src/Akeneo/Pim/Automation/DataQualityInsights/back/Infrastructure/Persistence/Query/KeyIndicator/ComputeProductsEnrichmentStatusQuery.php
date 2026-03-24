@@ -72,8 +72,8 @@ final readonly class ComputeProductsEnrichmentStatusQuery implements ComputeProd
         string $channel,
         string $locale
     ): ?bool {
-        $nonRequiredAttributesEvaluation = null !== $nonRequiredAttributesEvaluationResult ? $nonRequiredAttributesEvaluationResult->getData() : [];
-        $requiredAttributesEvaluationData = null !== $requiredAttributesEvaluationResult ? $requiredAttributesEvaluationResult->getData() : [];
+        $nonRequiredAttributesEvaluation = $nonRequiredAttributesEvaluationResult instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\CriterionEvaluationResult ? $nonRequiredAttributesEvaluationResult->getData() : [];
+        $requiredAttributesEvaluationData = $requiredAttributesEvaluationResult instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read\CriterionEvaluationResult ? $requiredAttributesEvaluationResult->getData() : [];
 
         $totalNumberOfAttributes
             = ($nonRequiredAttributesEvaluation['total_number_of_attributes'][$channel][$locale] ?? 0)

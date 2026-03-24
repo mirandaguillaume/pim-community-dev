@@ -140,7 +140,7 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
 
     protected function validateSearchFilters(array $searchFilters): void
     {
-        if (empty($searchFilters)) {
+        if ($searchFilters === []) {
             return;
         }
 
@@ -219,7 +219,7 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
                 $exceptionMessages[] = $violation->getMessage();
             }
         }
-        if (!empty($exceptionMessages)) {
+        if ($exceptionMessages !== []) {
             throw new \InvalidArgumentException(implode(' ', $exceptionMessages));
         }
     }

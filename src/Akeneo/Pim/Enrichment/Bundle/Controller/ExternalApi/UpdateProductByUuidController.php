@@ -90,7 +90,7 @@ class UpdateProductByUuidController
         $product = $this->findProduct->withUuid($uuid);
 
         $isUpdate = true;
-        if (null === $product) {
+        if (!$product instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface) {
             $isUpdate = false;
             $product = $this->productBuilder->createProduct(uuid: $uuid);
         }
@@ -168,7 +168,7 @@ class UpdateProductByUuidController
         try {
             $dataFiltered = $this->emptyValuesFilter->filter($product, ['values' => $data['values']]);
 
-            if (!empty($dataFiltered)) {
+            if ($dataFiltered !== []) {
                 $data = array_replace($data, $dataFiltered);
             } else {
                 $data['values'] = [];

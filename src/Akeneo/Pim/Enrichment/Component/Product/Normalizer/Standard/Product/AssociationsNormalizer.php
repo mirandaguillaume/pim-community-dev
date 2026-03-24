@@ -56,7 +56,7 @@ class AssociationsNormalizer implements NormalizerInterface
     {
         $parent = $entityWithFamilyVariant->getParent();
 
-        if (null === $parent) {
+        if (!$parent instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return [$entityWithFamilyVariant];
         }
 

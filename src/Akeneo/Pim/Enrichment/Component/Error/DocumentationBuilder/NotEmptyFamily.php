@@ -19,13 +19,8 @@ class NotEmptyFamily implements DocumentationBuilderInterface
 {
     public function support($object): bool
     {
-        if (
-            $object instanceof ConstraintViolationInterface
-            && $object->getCode() === ConstraintNotEmptyFamily::NOT_EMPTY_FAMILY
-        ) {
-            return true;
-        }
-        return false;
+        return $object instanceof ConstraintViolationInterface
+        && $object->getCode() === ConstraintNotEmptyFamily::NOT_EMPTY_FAMILY;
     }
 
     public function buildDocumentation($object): DocumentationCollection

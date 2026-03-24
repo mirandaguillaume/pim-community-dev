@@ -35,7 +35,7 @@ class MissingRequiredAttributesCalculator implements MissingRequiredAttributesCa
             ? $entityWithFamily->getUuid()->toString()
             : (string) $entityWithFamily->getId();
 
-        if (null === $entityWithFamily->getFamily()) {
+        if (!$entityWithFamily->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             return new ProductCompletenessWithMissingAttributeCodesCollection($entityId, []);
         }
         $familyCode = $entityWithFamily->getFamily()->getCode();

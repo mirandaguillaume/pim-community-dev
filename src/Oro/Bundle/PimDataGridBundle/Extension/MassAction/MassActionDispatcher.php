@@ -109,11 +109,7 @@ class MassActionDispatcher
         }
 
         foreach ($filters as &$filter) {
-            if (isset($filter['context'])) {
-                $filter['context'] = array_merge($filter['context'], $contextParams);
-            } else {
-                $filter['context'] = $contextParams;
-            }
+            $filter['context'] = isset($filter['context']) ? array_merge($filter['context'], $contextParams) : $contextParams;
         }
 
         if ($actionName !== 'sequential_edit') {
@@ -147,7 +143,7 @@ class MassActionDispatcher
         if ($qb instanceof QueryBuilder) {
             $qbLocaleParameter = $qb->getParameter('localeCode');
             $dataLocale = $parameters['dataLocale'] ?? null;
-            if (null !== $qbLocaleParameter && null === $qbLocaleParameter->getValue() && null !== $dataLocale) {
+            if ($qbLocaleParameter instanceof \Doctrine\ORM\Query\Parameter && null === $qbLocaleParameter->getValue() && null !== $dataLocale) {
                 $qb->setParameter('localeCode', $dataLocale);
             }
         }

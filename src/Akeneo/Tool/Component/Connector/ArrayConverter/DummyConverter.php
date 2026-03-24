@@ -36,10 +36,10 @@ class DummyConverter implements ArrayConverterInterface
      */
     public function convert(array $item, array $options = [])
     {
-        if (!empty($this->fieldsPresence)) {
+        if ($this->fieldsPresence !== []) {
             $this->checker->checkFieldsPresence($item, $this->fieldsPresence);
         }
-        if (!empty($this->fieldsFilling)) {
+        if ($this->fieldsFilling !== []) {
             $this->checker->checkFieldsFilling($item, $this->fieldsFilling);
         }
 

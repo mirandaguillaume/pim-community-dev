@@ -57,13 +57,13 @@ class ProductNormalizer implements NormalizerInterface
         $oldestLog = $this->versionManager->getOldestLogEntry($product);
         $newestLog = $this->versionManager->getNewestLogEntry($product);
 
-        $created = null !== $oldestLog
+        $created = $oldestLog instanceof \Akeneo\Tool\Component\Versioning\Model\Version
             ? $this->versionNormalizer->normalize(
                 $oldestLog,
                 'internal_api',
                 ['timezone' => $this->userContext->getUserTimezone()]
             ) : null;
-        $updated = null !== $newestLog
+        $updated = $newestLog instanceof \Akeneo\Tool\Component\Versioning\Model\Version
             ? $this->versionNormalizer->normalize(
                 $newestLog,
                 'internal_api',
@@ -158,7 +158,7 @@ class ProductNormalizer implements NormalizerInterface
     {
         $completenessCollection = $this->missingRequiredAttributesCalculator->fromEntityWithFamily($product);
 
-        if (null === $completenessCollection) {
+        if (!$completenessCollection instanceof \Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompletenessWithMissingAttributeCodesCollection) {
             $completenessCollection = new ProductCompletenessWithMissingAttributeCodesCollection($product->getUuid(), []);
         }
 

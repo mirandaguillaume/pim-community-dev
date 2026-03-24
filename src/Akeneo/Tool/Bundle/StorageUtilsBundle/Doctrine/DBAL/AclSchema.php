@@ -22,7 +22,7 @@ final class AclSchema extends BaseSchema
     public function __construct(array $options, ?Connection $connection = null)
     {
         $schemaConfig = null;
-        if ($connection !== null) {
+        if ($connection instanceof \Doctrine\DBAL\Connection) {
             $schemaManager = $connection->createSchemaManager();
             $schemaConfig = $schemaManager->createSchemaConfig();
         }

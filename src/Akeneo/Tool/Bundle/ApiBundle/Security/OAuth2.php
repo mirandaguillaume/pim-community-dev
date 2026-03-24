@@ -69,11 +69,7 @@ class OAuth2 extends BaseOAuth2
             return $response;
         }
 
-        if ($request->getMethod() === 'POST') {
-            $inputData = $request->request->all();
-        } else {
-            $inputData = $request->query->all();
-        }
+        $inputData = $request->getMethod() === 'POST' ? $request->request->all() : $request->query->all();
 
         $clientCredentials = $this->getClientCredentials($request, $inputData);
 

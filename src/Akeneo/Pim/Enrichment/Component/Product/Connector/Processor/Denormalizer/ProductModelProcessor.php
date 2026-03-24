@@ -93,7 +93,7 @@ class ProductModelProcessor extends AbstractProcessor implements ItemProcessorIn
 
             $standardProductModel = $this->productModelFilter->filter($productModel, $standardProductModelToCompare);
 
-            if (empty($standardProductModel)) {
+            if ($standardProductModel === []) {
                 $this->objectDetacher->detach($productModel);
                 $this->stepExecution->incrementSummaryInfo('product_model_skipped_no_diff');
 

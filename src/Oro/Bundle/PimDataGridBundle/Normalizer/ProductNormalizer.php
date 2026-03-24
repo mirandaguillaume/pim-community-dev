@@ -84,7 +84,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     protected function getFamilyLabel(ProductInterface $product, $locale)
     {
         $family = $product->getFamily();
-        if (null === $family) {
+        if (!$family instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             return null;
         }
 
@@ -120,7 +120,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
         $locale = current($context['locales']);
         $completeness = $completenesses->getCompletenessForChannelAndLocale($channel, $locale);
 
-        return $completeness ? $completeness->ratio() : null;
+        return $completeness instanceof \Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompleteness ? $completeness->ratio() : null;
     }
 
     /**
@@ -166,7 +166,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
 
     private function getParentCode(EntityWithFamilyInterface $product): ?string
     {
-        if ($product instanceof ProductInterface && $product->isVariant() && null !== $product->getParent()) {
+        if ($product instanceof ProductInterface && $product->isVariant() && $product->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             return $product->getParent()->getCode();
         }
 

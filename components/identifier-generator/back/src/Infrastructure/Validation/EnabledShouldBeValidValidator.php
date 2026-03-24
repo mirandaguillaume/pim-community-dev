@@ -32,13 +32,11 @@ final class EnabledShouldBeValidValidator extends ConstraintValidator
             $this->context
                 ->buildViolation($constraint->valueKeyRequired)
                 ->addViolation();
-        } else {
-            if (!\is_bool($condition['value'])) {
-                $this->context
-                    ->buildViolation($constraint->booleanValue)
-                    ->atPath('value')
-                    ->addViolation();
-            }
+        } elseif (!\is_bool($condition['value'])) {
+            $this->context
+                ->buildViolation($constraint->booleanValue)
+                ->atPath('value')
+                ->addViolation();
         }
     }
 }

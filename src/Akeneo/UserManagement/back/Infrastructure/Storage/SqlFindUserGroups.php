@@ -58,7 +58,7 @@ class SqlFindUserGroups implements FindUserGroups
             $sqlLimitPart = sprintf('LIMIT %s', $limit);
         }
 
-        $sqlWherePart = empty($sqlWhereParts) ? '' : 'AND ' . implode(' AND ', $sqlWhereParts);
+        $sqlWherePart = $sqlWhereParts === [] ? '' : 'AND ' . implode(' AND ', $sqlWhereParts);
 
         return <<<SQL
                 SELECT

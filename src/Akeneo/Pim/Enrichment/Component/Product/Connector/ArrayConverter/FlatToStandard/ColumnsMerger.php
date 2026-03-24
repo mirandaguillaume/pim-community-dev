@@ -70,14 +70,12 @@ class ColumnsMerger
                 } else {
                     $resultRow[$fieldName] = $fieldValue;
                 }
+            } elseif (in_array($fieldName, $this->associationColumnResolver->resolveQuantifiedQuantityAssociationColumns())) {
+                $collectedQuantifiedAssociations = $this->collectQuantifiedQuantityAssociationData($collectedQuantifiedAssociations, $fieldName, $fieldValue);
+            } elseif (in_array($fieldName, $this->associationColumnResolver->resolveQuantifiedIdentifierAssociationColumns())) {
+                $collectedQuantifiedAssociations = $this->collectQuantifiedIdentifierAssociationData($collectedQuantifiedAssociations, $fieldName, $fieldValue);
             } else {
-                if (in_array($fieldName, $this->associationColumnResolver->resolveQuantifiedQuantityAssociationColumns())) {
-                    $collectedQuantifiedAssociations = $this->collectQuantifiedQuantityAssociationData($collectedQuantifiedAssociations, $fieldName, $fieldValue);
-                } elseif (in_array($fieldName, $this->associationColumnResolver->resolveQuantifiedIdentifierAssociationColumns())) {
-                    $collectedQuantifiedAssociations = $this->collectQuantifiedIdentifierAssociationData($collectedQuantifiedAssociations, $fieldName, $fieldValue);
-                } else {
-                    $resultRow[$fieldName] = $fieldValue;
-                }
+                $resultRow[$fieldName] = $fieldValue;
             }
         }
 
@@ -121,12 +119,10 @@ class ColumnsMerger
         }
         if ('unit' === $attributeInfos['metric_unit']) {
             $collectedMetrics[$cleanField]['unit'] = $fieldValue;
+        } elseif (is_string($fieldValue)) {
+            $collectedMetrics[$cleanField]['data'] = trim($fieldValue);
         } else {
-            if (is_string($fieldValue)) {
-                $collectedMetrics[$cleanField]['data'] = trim($fieldValue);
-            } else {
-                $collectedMetrics[$cleanField]['data'] = $fieldValue;
-            }
+            $collectedMetrics[$cleanField]['data'] = $fieldValue;
         }
 
         return $collectedMetrics;
@@ -228,11 +224,7 @@ class ColumnsMerger
         $values = explode(ProductAssociation::IDENTIFIER_SEPARATOR, (string) $fieldValue);
         $isUuids = \count(\array_filter($values, fn ($value) => !Uuid::isValid($value))) === 0;
 
-        if ($isUuids) {
-            $newQuantifiedAssociations = ['uuids' => $values];
-        } else {
-            $newQuantifiedAssociations = ['identifiers' => $values];
-        }
+        $newQuantifiedAssociations = $isUuids ? ['uuids' => $values] : ['identifiers' => $values];
         $collectedQuantifiedAssociations[$associationTypeCode][$productType] = array_merge(
             $collectedQuantifiedAssociations[$associationTypeCode][$productType] ?? [],
             $newQuantifiedAssociations

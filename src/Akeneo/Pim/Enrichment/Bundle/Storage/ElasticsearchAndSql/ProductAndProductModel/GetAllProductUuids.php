@@ -43,7 +43,7 @@ final readonly class GetAllProductUuids
                 ]
             );
 
-            if (empty($rows)) {
+            if ($rows === []) {
                 return;
             }
 

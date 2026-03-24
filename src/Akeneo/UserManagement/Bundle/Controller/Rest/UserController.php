@@ -69,9 +69,9 @@ final readonly class UserController
     public function getCurrentAction()
     {
         $token = $this->tokenStorage->getToken();
-        $user = null !== $token ? $token->getUser() : null;
+        $user = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
 
-        if (null === $user) {
+        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             throw new NotFoundHttpException('No logged in user found');
         }
 
@@ -85,7 +85,7 @@ final readonly class UserController
     public function getAction(int $identifier): JsonResponse
     {
         $token = $this->tokenStorage->getToken();
-        $currentUserIdentifier = null !== $token ? $token->getUser()->getId() : null;
+        $currentUserIdentifier = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser()->getId() : null;
 
         if (
             $currentUserIdentifier !== $identifier
@@ -125,22 +125,20 @@ final readonly class UserController
             unset($data['groups']);
         }
 
-        if (isset($data['roles'])) {
-            if ($this->editRolePermissionsUserQuery->isLastRoleWithEditRolePermissionsRoleForUser($data['roles'], $identifier)) {
-                $violation = new ConstraintViolation(
-                    message: $this->translator->trans('pim_user.user.fields_errors.roles.last_user_with_edit_role_permissions'),
-                    messageTemplate: null,
-                    parameters: [],
-                    root: null,
-                    propertyPath: 'roles',
-                    invalidValue: null,
-                );
-                $normalizedViolations[] = $this->constraintViolationNormalizer->normalize(
-                    $violation,
-                    'internal_api',
-                );
-                return new JsonResponse($normalizedViolations, Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
+        if (isset($data['roles']) && $this->editRolePermissionsUserQuery->isLastRoleWithEditRolePermissionsRoleForUser($data['roles'], $identifier)) {
+            $violation = new ConstraintViolation(
+                message: $this->translator->trans('pim_user.user.fields_errors.roles.last_user_with_edit_role_permissions'),
+                messageTemplate: null,
+                parameters: [],
+                root: null,
+                propertyPath: 'roles',
+                invalidValue: null,
+            );
+            $normalizedViolations[] = $this->constraintViolationNormalizer->normalize(
+                $violation,
+                'internal_api',
+            );
+            return new JsonResponse($normalizedViolations, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return $this->updateUser($identifier, $data);
@@ -164,8 +162,8 @@ final readonly class UserController
         }
 
         $token = $this->tokenStorage->getToken();
-        $currentUser = null !== $token ? $token->getUser() : null;
-        if (null === $currentUser || $currentUser->getId() !== $identifier) {
+        $currentUser = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
+        if (!$currentUser instanceof \Symfony\Component\Security\Core\User\UserInterface || $currentUser->getId() !== $identifier) {
             throw new AccessDeniedHttpException();
         }
 
@@ -287,8 +285,8 @@ final readonly class UserController
         $user = $this->getUserOr404($identifier);
 
         $token = $this->tokenStorage->getToken();
-        $currentUser = null !== $token ? $token->getUser() : null;
-        if ($currentUser !== null && $user->getId() === $currentUser->getId()) {
+        $currentUser = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
+        if ($currentUser instanceof \Symfony\Component\Security\Core\User\UserInterface && $user->getId() === $currentUser->getId()) {
             return new Response(null, Response::HTTP_FORBIDDEN);
         }
 
@@ -335,7 +333,7 @@ final readonly class UserController
             }
             return new JsonResponse($normalizedViolations, Response::HTTP_BAD_REQUEST);
         } catch (UserNotFoundException $userNotFoundException) {
-            throw new NotFoundHttpException($userNotFoundException->getMessage());
+            throw new NotFoundHttpException($userNotFoundException->getMessage(), $userNotFoundException);
         }
     }
 
@@ -354,11 +352,8 @@ final readonly class UserController
 
     private function additionalProperties($user): array
     {
-        $decimalSeparator = [];
-        $decimalSeparator['ui_locale_decimal_separator'] = $this->numberFactory
+        return ['ui_locale_decimal_separator' => $this->numberFactory
             ->create(['locale' => $user['user_default_locale']])
-            ->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
-
-        return $decimalSeparator;
+            ->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL)];
     }
 }

@@ -179,7 +179,7 @@ class QuantifiedAssociationsValidator extends ConstraintValidator
 
     private function validateAssociationQuantity($quantity, string $propertyPath): void
     {
-        if (!preg_match('/^[0-9]{1,10}$/', (string) $quantity)
+        if (!preg_match('/^\d{1,10}$/', (string) $quantity)
             || intval($quantity) < self::MIN_QUANTITY
             || intval($quantity) > self::MAX_QUANTITY) {
             $this->context->buildViolation(

@@ -25,7 +25,7 @@ class AclSidManager extends AbstractAclManager
      */
     public function isAclEnabled()
     {
-        return $this->aclProvider !== null;
+        return $this->aclProvider instanceof \Oro\Bundle\SecurityBundle\Acl\Dbal\MutableAclProvider;
     }
 
     /**

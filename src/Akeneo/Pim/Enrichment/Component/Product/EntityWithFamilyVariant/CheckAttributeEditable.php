@@ -24,7 +24,7 @@ class CheckAttributeEditable
     {
         $family = $entity->getFamily();
 
-        if (null === $family) {
+        if (!$family instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface) {
             return true;
         }
 

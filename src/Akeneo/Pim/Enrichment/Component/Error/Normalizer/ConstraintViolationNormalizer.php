@@ -41,7 +41,7 @@ class ConstraintViolationNormalizer extends ViolationNormalizer
         $data['message_template'] = $object->getMessageTemplate();
         $data['message_parameters'] = $object->getParameters();
 
-        if (null !== $documentation = $this->documentationBuilderRegistry->getDocumentation($object)) {
+        if (($documentation = $this->documentationBuilderRegistry->getDocumentation($object)) instanceof \Akeneo\Pim\Enrichment\Component\Error\Documentation\DocumentationCollection) {
             $data['documentation'] = $documentation->normalize();
         }
 
@@ -56,7 +56,7 @@ class ConstraintViolationNormalizer extends ViolationNormalizer
                 'uuid' => $product->getUuid()->toString(),
                 'identifier' => $product->getIdentifier(),
                 'label' => $product->getLabel(),
-                'family' => null !== $product->getFamily() ? $product->getFamily()->getCode() : null,
+                'family' => $product->getFamily() instanceof \Akeneo\Pim\Structure\Component\Model\FamilyInterface ? $product->getFamily()->getCode() : null,
             ];
         }
 

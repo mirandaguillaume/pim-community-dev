@@ -92,7 +92,7 @@ class SynchronousJobLauncher implements JobLauncherInterface
         $this->logger->info($process->getIncrementalOutput());
 
         $errors = $process->getIncrementalErrorOutput();
-        if ($errors) {
+        if ($errors !== '' && $errors !== '0') {
             $this->logger->error($errors);
         }
     }
@@ -101,7 +101,7 @@ class SynchronousJobLauncher implements JobLauncherInterface
     {
         $job = $this->jobRegistry->get($jobInstance->getJobName());
         $jobExecution = $this->jobRepository->createJobExecution($job, $jobInstance, new JobParameters($jobParameters));
-        if ($user) {
+        if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             $jobExecution->setUser($user->getUserIdentifier());
         }
 

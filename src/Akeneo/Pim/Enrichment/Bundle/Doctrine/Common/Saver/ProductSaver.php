@@ -81,7 +81,7 @@ class ProductSaver implements SaverInterface, BulkSaverInterface
             );
         }
 
-        if (empty($products)) {
+        if ($products === []) {
             return;
         }
 

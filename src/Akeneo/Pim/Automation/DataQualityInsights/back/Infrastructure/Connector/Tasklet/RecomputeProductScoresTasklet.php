@@ -46,7 +46,7 @@ final class RecomputeProductScoresTasklet implements TaskletInterface
 
             do {
                 $uuids = $this->getNextProductUuids($lastProductUuidAsBytes);
-                if (empty($uuids)) {
+                if ($uuids === []) {
                     return;
                 }
 
@@ -86,12 +86,7 @@ final class RecomputeProductScoresTasklet implements TaskletInterface
     {
         $actualTime = time();
         $timeSpentFromBegining = $actualTime - $startTime;
-
-        if ($timeSpentFromBegining >= self::TIMEBOX_IN_SECONDS_ALLOWED) {
-            return true;
-        }
-
-        return false;
+        return $timeSpentFromBegining >= self::TIMEBOX_IN_SECONDS_ALLOWED;
     }
 
     private function scheduleNextRecomputeProductsScoresJob($lastProductId): void

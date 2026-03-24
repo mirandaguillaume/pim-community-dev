@@ -22,11 +22,7 @@ class CompleteVariantProducts
      */
     public function values(): array
     {
-        $completenesses = [];
-        $completenesses['completenesses'] =  $this->parsedFlatCompletenesses();
-        $completenesses['total'] = $this->numberOfProducts();
-
-        return $completenesses;
+        return ['completenesses' => $this->parsedFlatCompletenesses(), 'total' => $this->numberOfProducts()];
     }
 
     /**
@@ -83,7 +79,7 @@ class CompleteVariantProducts
                 $completenesses[$channel][$locale] = 0;
             }
 
-            $completenesses[$channel][$locale] = $completenesses[$channel][$locale] + $completeness['complete'];
+            $completenesses[$channel][$locale] += $completeness['complete'];
         }
 
         return $completenesses;

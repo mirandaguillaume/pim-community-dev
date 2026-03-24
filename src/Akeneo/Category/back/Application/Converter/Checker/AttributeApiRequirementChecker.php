@@ -24,23 +24,23 @@ class AttributeApiRequirementChecker implements RequirementChecker
      */
     public function check(array $data): void
     {
-        if (empty($data)) {
+        if ($data === []) {
             return;
         }
 
-        self::assertAttributeValueArrayStructure($data);
+        $this->assertAttributeValueArrayStructure($data);
     }
 
     /**
      * @param array<string, AttributeValueApi> $attributeValues
      */
-    private static function assertAttributeValueArrayStructure(array $attributeValues): void
+    private function assertAttributeValueArrayStructure(array $attributeValues): void
     {
         foreach ($attributeValues as $key => $value) {
-            self::assertKeyExist($value, 'data');
-            self::assertKeyExist($value, 'channel');
-            self::assertKeyExist($value, 'locale');
-            self::assertKeyExist($value, 'attribute_code');
+            $this->assertKeyExist($value, 'data');
+            $this->assertKeyExist($value, 'channel');
+            $this->assertKeyExist($value, 'locale');
+            $this->assertKeyExist($value, 'attribute_code');
 
             try {
                 Assert::stringNotEmpty($key);
@@ -56,7 +56,7 @@ class AttributeApiRequirementChecker implements RequirementChecker
     /**
      * @param array<string, mixed> $haystack
      */
-    private static function assertKeyExist(array $haystack, string $key): void
+    private function assertKeyExist(array $haystack, string $key): void
     {
         try {
             Assert::keyExists($haystack, $key);

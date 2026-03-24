@@ -42,7 +42,7 @@ class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber
                 $familyVariantsAttributeCodes
             );
 
-            if (!empty($toRemoveAttributes)) {
+            if ($toRemoveAttributes !== []) {
                 $this->removeAttributeFromFamilyVariantsAttributeSet($familyVariant, $toRemoveAttributes);
             }
         }

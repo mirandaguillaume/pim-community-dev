@@ -55,7 +55,7 @@ class UserPreferencesListener
     {
         $manager = $args->getObjectManager();
 
-        if (!empty($this->deactivatedLocales)) {
+        if ($this->deactivatedLocales !== []) {
             $this->onLocalesDeactivated($manager);
         }
     }

@@ -23,7 +23,7 @@ final readonly class GetWebhookAction
             new GetAConnectionWebhookQuery($request->get('code', '')),
         );
 
-        if (null === $eventSubscriptionFormData) {
+        if (!$eventSubscriptionFormData instanceof \Akeneo\Connectivity\Connection\Domain\Webhook\Model\Read\EventSubscriptionFormData) {
             return new JsonResponse(null, Response::HTTP_NOT_FOUND);
         }
 

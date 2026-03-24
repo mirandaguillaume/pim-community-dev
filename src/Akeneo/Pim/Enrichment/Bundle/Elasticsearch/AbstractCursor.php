@@ -61,7 +61,7 @@ abstract class AbstractCursor implements CursorInterface
             $this->rewind();
         }
 
-        return !empty($this->items);
+        return $this->items !== null && $this->items !== [];
     }
 
     /**

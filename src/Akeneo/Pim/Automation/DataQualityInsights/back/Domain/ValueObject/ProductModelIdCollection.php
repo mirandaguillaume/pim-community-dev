@@ -58,7 +58,7 @@ final class ProductModelIdCollection implements ProductEntityIdCollection
 
     public function isEmpty(): bool
     {
-        return empty($this->productModelIds);
+        return $this->productModelIds === [];
     }
 
     public function toArrayString(): array

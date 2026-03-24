@@ -45,7 +45,7 @@ class ReorderTemplateAttributesController
         try {
             $this->commandBus->dispatch($command);
         } catch (TemplateNotFoundException $e) {
-            throw new NotFoundHttpException($e->getMessage());
+            throw new NotFoundHttpException($e->getMessage(), $e);
         }
 
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);

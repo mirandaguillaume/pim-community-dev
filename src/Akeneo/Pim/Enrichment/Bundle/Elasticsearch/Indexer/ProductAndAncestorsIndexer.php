@@ -32,7 +32,7 @@ class ProductAndAncestorsIndexer
     public function indexFromProductUuids(array $uuids, array $options = []): void
     {
         $ancestorProductModelCodes = $this->getAncestorProductModelCodes->fromProductUuids($uuids);
-        if (!empty($ancestorProductModelCodes)) {
+        if ($ancestorProductModelCodes !== []) {
             $this->productModelIndexer->indexFromProductModelCodes($ancestorProductModelCodes, $options);
         }
         $this->productIndexer->indexFromProductUuids($uuids, $options);

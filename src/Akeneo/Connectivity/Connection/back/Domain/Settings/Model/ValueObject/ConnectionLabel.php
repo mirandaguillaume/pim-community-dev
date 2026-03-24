@@ -17,7 +17,7 @@ class ConnectionLabel implements \Stringable
     {
         $label = \trim($label);
 
-        if (empty($label)) {
+        if ($label === '' || $label === '0') {
             throw new \InvalidArgumentException('akeneo_connectivity.connection.connection.constraint.label.required');
         }
         if (\mb_strlen($label) < 3) {

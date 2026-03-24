@@ -35,7 +35,7 @@ final readonly class TenantContext
 
     public function parseContextValues(): array
     {
-        if ($this->plainValues !== null && $this->secretValues !== null) {
+        if ($this->plainValues !== null && $this->secretValues instanceof \Akeneo\Platform\Component\Tenant\Domain\Values\EncryptedValues) {
             return array_merge(
                 $this->secretValues->decode($this->tenantContextDecoder),
                 $this->plainValues,

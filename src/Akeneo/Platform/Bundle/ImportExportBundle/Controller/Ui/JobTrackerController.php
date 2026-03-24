@@ -81,11 +81,11 @@ class JobTrackerController
         $zipArchiveName = $this->getZipArchiveName($jobExecution);
 
         $zip = new ZipStream(
+            comment: 'Generated zip archive',
+            defaultEnableZeroHeader: true,
+            sendHttpHeaders: false,
             outputName: $zipArchiveName,
             contentType: 'application/octet-stream',
-            defaultEnableZeroHeader: true,
-            comment: 'Generated zip archive',
-            sendHttpHeaders: false,
         );
 
         return new StreamedResponse(

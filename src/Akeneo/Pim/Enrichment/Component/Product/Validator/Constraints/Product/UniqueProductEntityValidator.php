@@ -47,7 +47,7 @@ class UniqueProductEntityValidator extends ConstraintValidator
          * the product may not be saved in the database.
          */
         $identifierValue = $this->getIdentifierValue($entity);
-        if (null === $identifierValue) {
+        if (!$identifierValue instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface) {
             return;
         }
 
@@ -86,7 +86,7 @@ class UniqueProductEntityValidator extends ConstraintValidator
     {
         $identifier = $this->attributeRepository->getIdentifier();
 
-        if (null === $identifier) {
+        if (!$identifier instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface) {
             return null;
         }
 

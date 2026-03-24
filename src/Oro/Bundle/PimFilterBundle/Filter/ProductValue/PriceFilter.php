@@ -36,7 +36,7 @@ class PriceFilter extends OroNumberFilter
     {
         $data = $this->parseData($data);
         if (!$data) {
-            return;
+            return null;
         }
 
         $operator = $this->getOperator($data['type']);

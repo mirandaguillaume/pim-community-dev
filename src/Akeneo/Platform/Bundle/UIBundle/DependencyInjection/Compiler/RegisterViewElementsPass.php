@@ -38,13 +38,13 @@ class RegisterViewElementsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(static::REGISTRY_ID)) {
+        if (!$container->hasDefinition(self::REGISTRY_ID)) {
             return;
         }
 
-        $registryDefinition = $container->getDefinition(static::REGISTRY_ID);
+        $registryDefinition = $container->getDefinition(self::REGISTRY_ID);
 
-        foreach ($container->findTaggedServiceIds(static::VIEW_ELEMENT_TAG) as $serviceId => $tags) {
+        foreach ($container->findTaggedServiceIds(self::VIEW_ELEMENT_TAG) as $serviceId => $tags) {
             foreach ($tags as $tag) {
                 $this->registerViewElement($registryDefinition, $serviceId, $tag);
             }
@@ -63,7 +63,7 @@ class RegisterViewElementsPass implements CompilerPassInterface
         if (!isset($tag['type'])) {
             throw new \LogicException(sprintf('No type provided for the "%s" view element', $serviceId));
         }
-        $position = $tag['position'] ?? static::DEFAULT_POSITION;
+        $position = $tag['position'] ?? self::DEFAULT_POSITION;
         $registryDefinition->addMethodCall(
             'add',
             [

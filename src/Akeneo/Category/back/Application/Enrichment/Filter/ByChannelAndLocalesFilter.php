@@ -25,7 +25,7 @@ class ByChannelAndLocalesFilter
         foreach ($enrichedValues as $enrichedValue) {
             /** @var Value $enrichedValue */
             $valueChannel = $enrichedValue->getChannel();
-            if (empty($localeCodes)) {
+            if ($localeCodes === []) {
                 // we do not clean non-scopable values
                 if ($valueChannel !== null && (string) $valueChannel === $channelCode) {
                     $valuesToRemove[] = $enrichedValue;

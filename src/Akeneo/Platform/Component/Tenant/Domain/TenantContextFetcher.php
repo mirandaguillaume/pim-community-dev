@@ -130,15 +130,7 @@ final readonly class TenantContextFetcher implements TenantContextFetcherInterfa
         if (!isset($tenantData['context']) || null === $tenantData['context']) {
             return false;
         }
-
-        if (
-            is_array($tenantData['context'])
-            && (!isset($tenantData['context']['plain_values']) || !isset($tenantData['context']['secret_values']))
-        ) {
-            return false;
-        }
-
-        return true;
+        return !(is_array($tenantData['context']) && (!isset($tenantData['context']['plain_values']) || !isset($tenantData['context']['secret_values'])));
     }
 
     private function isTenantReady(array $tenantData): bool

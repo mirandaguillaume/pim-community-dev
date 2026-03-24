@@ -39,7 +39,7 @@ class JobExecutionAuthenticator
         $jobParameters = $jobExecution->getJobParameters();
         $username = $jobExecution->getUser();
 
-        if (null === $username || null === $jobParameters || !$jobParameters->has('is_user_authenticated')) {
+        if (null === $username || !$jobParameters instanceof \Akeneo\Tool\Component\Batch\Job\JobParameters || !$jobParameters->has('is_user_authenticated')) {
             return;
         }
 

@@ -37,11 +37,7 @@ class FeatureFlagDatagridFilterListener
         }
 
         $filters['columns'] = array_filter($filters['columns'], function ($properties) {
-            if (isset($properties['feature_flag']) && !$this->featureFlags->isEnabled($properties['feature_flag'])) {
-                return false;
-            }
-
-            return true;
+            return !(isset($properties['feature_flag']) && !$this->featureFlags->isEnabled($properties['feature_flag']));
         });
         $datagridConfiguration->offsetUnset(Configuration::FILTERS_KEY);
         $datagridConfiguration->offsetAddToArray(Configuration::FILTERS_KEY, $filters);
@@ -56,11 +52,7 @@ class FeatureFlagDatagridFilterListener
         }
 
         $defaultColumns = array_filter($defaultColumns, function ($properties) {
-            if (isset($properties['feature_flag']) && !$this->featureFlags->isEnabled($properties['feature_flag'])) {
-                return false;
-            }
-
-            return true;
+            return !(isset($properties['feature_flag']) && !$this->featureFlags->isEnabled($properties['feature_flag']));
         });
 
         $datagridConfiguration->offsetUnset(FormatterConfiguration::COLUMNS_KEY);
@@ -76,11 +68,7 @@ class FeatureFlagDatagridFilterListener
         }
 
         $defaultSorters = array_filter($defaultSorters, function ($properties) {
-            if (isset($properties['feature_flag']) && !$this->featureFlags->isEnabled($properties['feature_flag'])) {
-                return false;
-            }
-
-            return true;
+            return !(isset($properties['feature_flag']) && !$this->featureFlags->isEnabled($properties['feature_flag']));
         });
 
         $datagridConfiguration->offsetUnset(SorterConfiguration::COLUMNS_PATH);

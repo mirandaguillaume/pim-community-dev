@@ -23,7 +23,7 @@ final readonly class SqlGetAttributes implements GetAttributes
 
     public function forCodes(array $attributeCodes): array
     {
-        if (empty($attributeCodes)) {
+        if ($attributeCodes === []) {
             return [];
         }
 

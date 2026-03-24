@@ -50,17 +50,17 @@ class CreateConnectedAppWithAuthorizationHandler
         $randomCode = $this->generateRandomCode(30, 'app_');
 
         $marketplaceApp = $this->getAppQuery->execute($appId);
-        if (null === $marketplaceApp) {
+        if (!$marketplaceApp instanceof \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App) {
             throw new \LogicException('App should exists when validating the authorization wizard');
         }
 
         $appAuthorization = $this->session->getAppAuthorization($appId);
-        if (null === $appAuthorization) {
+        if (!$appAuthorization instanceof \Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization) {
             throw new \LogicException('AppAuthorization should exists in the session for the given app');
         }
 
         $client = $this->clientProvider->findClientByAppId($appId);
-        if (null === $client) {
+        if (!$client instanceof \Akeneo\Tool\Bundle\ApiBundle\Entity\Client) {
             throw new \LogicException('OAuth client should exists for the given app');
         }
 

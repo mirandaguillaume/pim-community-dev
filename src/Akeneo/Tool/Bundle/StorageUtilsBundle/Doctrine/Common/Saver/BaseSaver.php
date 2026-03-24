@@ -44,7 +44,7 @@ class BaseSaver implements SaverInterface, BulkSaverInterface
             $this->objectManager->persist($object);
             $this->objectManager->flush();
         } catch (UniqueConstraintViolationException $e) {
-            throw new DuplicateObjectException($e->getMessage());
+            throw new DuplicateObjectException($e->getMessage(), $e->getCode(), $e);
         }
 
         $this->eventDispatcher->dispatch(new GenericEvent($object, $options), StorageEvents::POST_SAVE);
@@ -55,7 +55,7 @@ class BaseSaver implements SaverInterface, BulkSaverInterface
      */
     public function saveAll(array $objects, array $options = []): void
     {
-        if (empty($objects)) {
+        if ($objects === []) {
             return;
         }
 

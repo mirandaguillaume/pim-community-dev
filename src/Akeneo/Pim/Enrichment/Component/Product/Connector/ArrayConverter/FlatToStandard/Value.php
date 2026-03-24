@@ -176,16 +176,12 @@ class Value implements ArrayConverterInterface
      */
     protected function mergeValueToItem(array $item, array $value)
     {
-        if (empty($value)) {
+        if ($value === []) {
             return $item;
         }
 
         foreach ($value as $code => $data) {
-            if (array_key_exists($code, $item)) {
-                $item[$code] = array_merge_recursive($item[$code], $data);
-            } else {
-                $item[$code] = $data;
-            }
+            $item[$code] = array_key_exists($code, $item) ? array_merge_recursive($item[$code], $data) : $data;
         }
 
         return $item;

@@ -53,7 +53,7 @@ class ObjectCodeResolver
             }
 
             $code = $entity->getCode();
-            if (null !== $attribute) {
+            if ($attribute instanceof \Akeneo\Pim\Structure\Component\Model\AttributeInterface) {
                 $code = $attribute->getCode() . '.' . $code;
             }
 

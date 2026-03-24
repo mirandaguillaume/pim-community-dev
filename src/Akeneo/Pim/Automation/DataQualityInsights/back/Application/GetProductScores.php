@@ -38,7 +38,7 @@ final readonly class GetProductScores
             foreach ($locales as $localeCode) {
                 $score = $productScores->getByChannelAndLocale($channelCode, $localeCode);
                 $formattedProductScores[strval($channelCode)][strval($localeCode)]
-                    = $score !== null ? $score->toLetter() : null;
+                    = $score instanceof \Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate ? $score->toLetter() : null;
             }
         }
 

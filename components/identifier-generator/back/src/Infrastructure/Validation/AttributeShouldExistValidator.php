@@ -25,7 +25,7 @@ final class AttributeShouldExistValidator extends ConstraintValidator
         }
 
         $attribute = $this->getAttributes->forCode($target);
-        if (null === $attribute) {
+        if (!$attribute instanceof \Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute) {
             $this->context
                 ->buildViolation($constraint->message, ['{{code}}' => $target])
                 ->addViolation();

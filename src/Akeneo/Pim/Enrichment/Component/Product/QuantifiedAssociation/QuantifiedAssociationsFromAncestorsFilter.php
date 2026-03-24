@@ -36,13 +36,13 @@ class QuantifiedAssociationsFromAncestorsFilter
 
         $ancestors = $this->getAncestors($entity);
 
-        if (empty($ancestors)) {
+        if ($ancestors === []) {
             return $data;
         }
 
         $ancestorsQuantifiedAssociations = $this->quantifiedAssociationsMerger->normalizeAndMergeQuantifiedAssociationsFrom($ancestors);
 
-        if (empty($ancestorsQuantifiedAssociations)) {
+        if ($ancestorsQuantifiedAssociations === []) {
             return $data;
         }
 
@@ -81,7 +81,7 @@ class QuantifiedAssociationsFromAncestorsFilter
         $ancestors = [];
         $current = $entity;
 
-        while (null !== $parent = $current->getParent()) {
+        while (($parent = $current->getParent()) instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface) {
             $current = $parent;
             $ancestors[] = $current;
         }

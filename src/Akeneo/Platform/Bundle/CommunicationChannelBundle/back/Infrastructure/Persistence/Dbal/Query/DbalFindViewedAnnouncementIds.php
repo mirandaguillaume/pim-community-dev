@@ -38,7 +38,7 @@ class DbalFindViewedAnnouncementIds implements FindViewedAnnouncementIdsInterfac
         $results = $statement->fetchFirstColumn();
         $statement->free();
 
-        if (!$results) {
+        if ($results === []) {
             return [];
         }
 

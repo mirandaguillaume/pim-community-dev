@@ -76,7 +76,7 @@ class InternalApiCategory
             attributes: $category->getAttributes(),
             permissions: $category->getPermissions(),
             isRoot: $category->isRoot(),
-            root: ($root) ? InternalApiCategory::fromCategory($root, null) : null,
+            root: ($root instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) ? InternalApiCategory::fromCategory($root, null) : null,
         );
     }
 
@@ -92,12 +92,12 @@ class InternalApiCategory
             'template_uuid' => $this->templateUuid?->getValue(),
             'properties' => [
                 'code' => (string) $this->code,
-                'labels' => empty($this->labels->getTranslations()) ? (object) [] : $this->labels->normalize(),
+                'labels' => $this->labels->getTranslations() === [] ? (object) [] : $this->labels->normalize(),
             ],
             'attributes' => $this->attributes?->normalize(),
             'permissions' => $this->permissions?->normalize(),
             'isRoot' => $this->isRoot,
-            'root' => ($this->root) ? $this->root->normalize() : null,
+            'root' => ($this->root instanceof \Akeneo\Category\Application\Query\GetCategory\InternalApiCategory) ? $this->root->normalize() : null,
         ];
     }
 }

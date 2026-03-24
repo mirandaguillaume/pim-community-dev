@@ -348,7 +348,7 @@ class QuantifiedAssociationCollection
             $filteredQuantifiedAssociations[$associationTypeCode]['product_models'] = $quantifiedAssociation['product_models'];
             $filteredQuantifiedAssociations[$associationTypeCode]['products'] = array_filter(
                 $quantifiedAssociation['products'],
-                fn (QuantifiedLink $quantifiedLink) => null === $quantifiedLink->uuid()
+                fn (QuantifiedLink $quantifiedLink) => !$quantifiedLink->uuid() instanceof \Ramsey\Uuid\UuidInterface
                     || in_array($quantifiedLink->uuid()->toString(), $productUuidsToKeepAsStr)
             );
         }
@@ -387,7 +387,7 @@ class QuantifiedAssociationCollection
 
         $otherNormalized = $otherCollection->normalize();
         ksort($otherNormalized);
-        foreach ($otherNormalized as $associationType => $associations) {
+        foreach (array_keys($otherNormalized) as $associationType) {
             usort($otherNormalized[$associationType][self::PRODUCTS_QUANTIFIED_LINKS_KEY], $sortByIdentifiers);
             usort($otherNormalized[$associationType][self::PRODUCT_MODELS_QUANTIFIED_LINKS_KEY], $sortByIdentifiers);
         }

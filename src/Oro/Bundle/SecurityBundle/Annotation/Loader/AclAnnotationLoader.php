@@ -31,7 +31,7 @@ class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderI
      */
     public function load(AclAnnotationStorage $storage)
     {
-        if (!empty($this->subDirs)) {
+        if ($this->subDirs !== []) {
             $directories = [];
             foreach ($this->bundleDirectories as $bundleDir) {
                 foreach ($this->subDirs as $subDir) {

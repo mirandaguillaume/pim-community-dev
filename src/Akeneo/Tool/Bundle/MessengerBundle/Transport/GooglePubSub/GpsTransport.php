@@ -37,7 +37,7 @@ final readonly class GpsTransport implements TransportInterface, SetupableTransp
 
     public function get(): iterable
     {
-        if (null === $this->receiver) {
+        if (!$this->receiver instanceof \Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface) {
             throw new \LogicException('Subscription is not configured');
         }
 
@@ -46,7 +46,7 @@ final readonly class GpsTransport implements TransportInterface, SetupableTransp
 
     public function ack(Envelope $envelope): void
     {
-        if (null === $this->receiver) {
+        if (!$this->receiver instanceof \Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface) {
             throw new \LogicException('Subscription is not configured.');
         }
 
@@ -55,7 +55,7 @@ final readonly class GpsTransport implements TransportInterface, SetupableTransp
 
     public function modifyAckDeadline(Envelope $envelope): void
     {
-        if (null === $this->receiver) {
+        if (!$this->receiver instanceof \Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface) {
             throw new \LogicException('Subscription is not configured.');
         }
 
@@ -68,7 +68,7 @@ final readonly class GpsTransport implements TransportInterface, SetupableTransp
 
     public function reject(Envelope $envelope): void
     {
-        if (null === $this->receiver) {
+        if (!$this->receiver instanceof \Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface) {
             throw new \LogicException('Subscription is not configured.');
         }
 

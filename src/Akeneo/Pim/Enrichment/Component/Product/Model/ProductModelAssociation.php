@@ -22,7 +22,7 @@ class ProductModelAssociation extends AbstractAssociation implements ProductMode
     #[ORM\JoinColumn(name: 'association_type_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     protected $associationType;
 
-    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface::class, inversedBy: 'associations', cascade: ['detach'])]
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface::class, cascade: ['detach'], inversedBy: 'associations')]
     #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     protected $owner;
 

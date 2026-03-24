@@ -34,7 +34,7 @@ class JobExecutionNotifier
         $jobParameters = $jobExecution->getJobParameters();
 
         $usersToNotify = $this->getUsersToNotify($jobParameters);
-        if (empty($usersToNotify)) {
+        if ($usersToNotify === []) {
             return;
         }
 
@@ -51,7 +51,7 @@ class JobExecutionNotifier
      */
     private function getUsersToNotify(?JobParameters $jobParameters): array
     {
-        if (null === $jobParameters || !$jobParameters->has('users_to_notify')) {
+        if (!$jobParameters instanceof \Akeneo\Tool\Component\Batch\Job\JobParameters || !$jobParameters->has('users_to_notify')) {
             return [];
         }
 

@@ -267,7 +267,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
     protected function setGroup(AttributeInterface $attribute, $data)
     {
         $attributeGroup = $this->findAttributeGroup($data);
-        if (null === $attributeGroup) {
+        if (!$attributeGroup instanceof \Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface) {
             throw InvalidPropertyException::validEntityCodeExpected(
                 'group',
                 'code',
