@@ -575,6 +575,17 @@ jobs:
           path: coverage/
           retention-days: 30
 
+      - name: Upload Jest coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
+        with:
+          directory: coverage/
+          flags: frontend,shard-${{ matrix.shard }}
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
   # ===========================================================================
   # LINT-BACK: PHPStan + php-cs-fixer + static checks (needs MySQL)
   # ===========================================================================
@@ -767,6 +778,17 @@ jobs:
           name: phpunit-coverage
           path: var/tests/phpunit/coverage.xml
           retention-days: 30
+
+      - name: Upload PHPUnit coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
+        with:
+          files: var/tests/phpunit/coverage.xml
+          flags: backend,phpunit
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload PHPUnit Unit results
         if: always()
