@@ -1,7 +1,7 @@
 # Akeneo PIM Development Repository
 
 [![CI](https://github.com/mirandaguillaume/pim-community-dev/actions/workflows/ci.yml/badge.svg)](https://github.com/mirandaguillaume/pim-community-dev/actions/workflows/ci.yml)
-[![Code Metrics](https://img.shields.io/badge/AST--Metrics-monitored-blue?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0zIDNoMTh2MThIM3oiLz48cGF0aCBkPSJNMyAxN2w2LTYgNC00IDgtOCIvPjwvc3ZnPg==)](https://github.com/mirandaguillaume/pim-community-dev/actions/workflows/ci.yml)
+[![AST Metrics](https://img.shields.io/badge/AST%20Metrics-MI%2065%20·%20CC%201.45-blue?logo=github&logoColor=white)](https://halleck45.github.io/ast-metrics/)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%20max-brightgreen?logo=php)](https://phpstan.org/)
 [![PHP 8.4](https://img.shields.io/badge/PHP-8.4-purple?logo=php)](https://www.php.net/releases/8.4/en.php)
 [![Symfony 6.4](https://img.shields.io/badge/Symfony-6.4%20LTS-black?logo=symfony)](https://symfony.com/)
