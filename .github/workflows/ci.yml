@@ -44,29 +44,29 @@ defaults:
 #     │                                                                        │
 #   image ─────────────────────────────────────────────────────────────────────┐
 #     │                                                                        │
-#     ├──► prepare ──┬──► front-build [if frontend] ──┬──► playwright [if front]►│
+#     ├──► prepare ──┬──► build-front [if frontend] ──┬──► test-playwright [if front]►│
 #     │              │                                 │                       │
-#     │              ├──► front-lint [if frontend] ────────────────────────►│
-#     │              ├──► front-unit [if frontend] (2 shards) ───────────►│
+#     │              ├──► lint-front [if frontend] ────────────────────────►│
+#     │              ├──► test-front-unit [if frontend] (2 shards) ───────────►│
 #     │              │                                                         │
 #     │              ├──► lint-back [if backend] ───────────────────────►│
-#     │              ├──► deprecation-back [if backend] ──────────────────►│
+#     │              ├──► lint-deprecations [if backend] ──────────────────►│
 #     │              │                                                         │
-#     │              ├──► code-style-back [if backend] ───────────────────►│
+#     │              ├──► lint-code-style [if backend] ───────────────────►│
 #     │              │                                                         │
-#     │              ├──► phpspec [if backend] ────────────────────────────►│
+#     │              ├──► test-phpspec [if backend] ────────────────────────────►│
 #     │              │                                                         │
-#     │              ├──► acceptance-back [if backend] ───────────────────►│
+#     │              ├──► test-acceptance [if backend] ───────────────────►│
 #     │              │                                                         │
-#     │              ├──► data-migrations [if backend] ───────────────────►│
+#     │              ├──► infra-data-migrations [if backend] ───────────────────►│
 #     │              │                                                         │
-#     │              ├──► deptrac [if backend] (all configs, 1 job) ──────►│
+#     │              ├──► quality-deptrac [if backend] (all configs, 1 job) ──────►│
 #     │              │                                                         │
-#     │              ├──► phpunit (6 shards) ─────────────────────────────►│
+#     │              ├──► test-phpunit-integration (6 shards) ─────────────────────────────►│
 #     │              │                                                         │
-#     │              └──► behat-legacy (10 shards) ──────────────────────►│
+#     │              └──► test-behat (10 shards) ──────────────────────►│
 #     │                                                                        │
-#     └──► db-seed [if backend] ───────────────────────────────────────────────┤
+#     └──► infra-db-seed [if backend] ───────────────────────────────────────────────┤
 #                                                                              │
 #   ci-success accepts 'success' or 'skipped' (path-filtered jobs)    ────────┘
 # =============================================================================
@@ -316,7 +316,7 @@ jobs:
   # ===========================================================================
   # DB SEED: Create database dump for integration tests
   # ===========================================================================
-  db-seed:
+  infra-db-seed:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, image, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -365,14 +365,14 @@ jobs:
       - name: Upload DB seed artifact
         uses: actions/upload-artifact@v4
         with:
-          name: db-seed
+          name: infra-db-seed
           path: db-seed.sql
           retention-days: 1
 
   # ===========================================================================
   # FRONT-BUILD: Webpack build (produces artifacts for E2E tests)
   # ===========================================================================
-  front-build:
+  build-front:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -391,7 +391,7 @@ jobs:
         if: steps.front-cache.outputs.cache-hit == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: front-build
+          name: build-front
           path: front-build-cached
           retention-days: 1
 
@@ -459,14 +459,14 @@ jobs:
         if: steps.front-cache.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: front-build
+          name: build-front
           path: front-build-cached
           retention-days: 1
 
   # ===========================================================================
   # FRONT-LINT: ESLint + Prettier
   # ===========================================================================
-  front-lint:
+  lint-front:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -506,7 +506,7 @@ jobs:
   # ===========================================================================
   # FRONT-UNIT: Jest unit tests (sharded x2)
   # ===========================================================================
-  front-unit:
+  test-front-unit:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -626,7 +626,7 @@ jobs:
   # ===========================================================================
   # DEPRECATION-BACK: PHPStan deprecation analysis (parallel with lint-back)
   # ===========================================================================
-  deprecation-back:
+  lint-deprecations:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -656,7 +656,7 @@ jobs:
   # ===========================================================================
   # CODE-STYLE-BACK: Coupling detection + legacy translations (no MySQL)
   # ===========================================================================
-  code-style-back:
+  lint-code-style:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -682,7 +682,7 @@ jobs:
   # ===========================================================================
   # PHPSPEC: Unit tests (fast, no external dependencies)
   # ===========================================================================
-  phpspec:
+  test-phpspec:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -728,7 +728,7 @@ jobs:
   # ===========================================================================
   # PHPUNIT-UNIT: Unit + lightweight acceptance tests (no MySQL)
   # ===========================================================================
-  phpunit-unit:
+  test-phpunit-unit:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -774,7 +774,7 @@ jobs:
         continue-on-error: true
         with:
           files: var/tests/phpunit/coverage.xml
-          flags: backend,phpunit
+          flags: backend,test-phpunit-integration
           fail_ci_if_error: false
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -800,7 +800,7 @@ jobs:
   # ===========================================================================
   # ACCEPTANCE-BACK: Main Behat acceptance tests
   # ===========================================================================
-  acceptance-back:
+  test-acceptance:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -830,7 +830,7 @@ jobs:
   # ===========================================================================
   # DEPTRAC: Architecture coupling analysis (all configs in 1 job)
   # ===========================================================================
-  deptrac:
+  quality-deptrac:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, image, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -871,7 +871,7 @@ jobs:
   # ===========================================================================
   # DATA MIGRATIONS: Test database migrations
   # ===========================================================================
-  data-migrations:
+  infra-data-migrations:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -905,9 +905,9 @@ jobs:
   # ===========================================================================
   # PHPUNIT: Integration and E2E tests (sharded)
   # ===========================================================================
-  phpunit:
+  test-phpunit-integration:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare, db-seed, detect-changes]
+    needs: [prepare, infra-db-seed, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 90
     strategy:
@@ -924,7 +924,7 @@ jobs:
       - name: Download DB seed
         uses: actions/download-artifact@v4
         with:
-          name: db-seed
+          name: infra-db-seed
           path: seed
 
       - uses: ./.github/actions/install-castor
@@ -997,9 +997,9 @@ jobs:
   # ===========================================================================
   # BEHAT LEGACY: End-to-end legacy tests (sharded)
   # ===========================================================================
-  behat-legacy:
+  test-behat:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare, db-seed, front-build]
+    needs: [prepare, infra-db-seed, build-front]
     timeout-minutes: 120
     strategy:
       fail-fast: false
@@ -1016,14 +1016,14 @@ jobs:
       - name: Download DB seed
         uses: actions/download-artifact@v4
         with:
-          name: db-seed
+          name: infra-db-seed
           path: seed
 
       - name: Download front build artifact
         uses: actions/download-artifact@v4
         with:
-          name: front-build
-          path: front-build
+          name: build-front
+          path: build-front
 
       - name: Compute Behat suite
         run: |
@@ -1337,13 +1337,13 @@ jobs:
   # ===========================================================================
   # PLAYWRIGHT: Frontend E2E tests
   # ===========================================================================
-  playwright:
+  test-playwright:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare, front-build, detect-changes]
+    needs: [prepare, build-front, detect-changes]
     if: >-
       (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true') &&
       needs.prepare.result == 'success' &&
-      needs.front-build.result == 'success'
+      needs.build-front.result == 'success'
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -1356,8 +1356,8 @@ jobs:
       - name: Download front build artifact
         uses: actions/download-artifact@v4
         with:
-          name: front-build
-          path: front-build
+          name: build-front
+          path: build-front
 
       - name: Install node dependencies (if cache miss)
         run: |
@@ -1447,9 +1447,9 @@ jobs:
   # ===========================================================================
   # SAVE TIMINGS: Merge shard timing data into cache (master only)
   # ===========================================================================
-  save-timings:
+  infra-save-timings:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [phpunit, behat-legacy]
+    needs: [test-phpunit-integration, test-behat]
     if: always() && github.ref == 'refs/heads/master'
     timeout-minutes: 5
     steps:
@@ -1489,7 +1489,7 @@ jobs:
   # ===========================================================================
   # RECTOR DRY-RUN: Prevent PHP feature regressions (non-blocking)
   # ===========================================================================
-  rector-check:
+  quality-rector:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -1525,7 +1525,7 @@ jobs:
   # ===========================================================================
   # SAST: Semgrep static security analysis (non-blocking, informational)
   # ===========================================================================
-  sast:
+  quality-sast:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -1600,7 +1600,7 @@ jobs:
   # ===========================================================================
   # CODE METRICS: ASTMetrics analysis (non-blocking, informational)
   # ===========================================================================
-  code-metrics:
+  quality-metrics:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -1652,21 +1652,21 @@ jobs:
       - image
       - prepare
       - detect-changes
-      - front-build
-      - front-lint
-      - front-unit
+      - build-front
+      - lint-front
+      - test-front-unit
       - lint-back
-      - deprecation-back
-      - code-style-back
-      - phpspec
-      - phpunit-unit
-      - acceptance-back
-      - deptrac
-      - db-seed
-      - phpunit
-      - data-migrations
-      - behat-legacy
-      - playwright
+      - lint-deprecations
+      - lint-code-style
+      - test-phpspec
+      - test-phpunit-unit
+      - test-acceptance
+      - quality-deptrac
+      - infra-db-seed
+      - test-phpunit-integration
+      - infra-data-migrations
+      - test-behat
+      - test-playwright
     if: always()
     timeout-minutes: 5
     steps:
@@ -1680,21 +1680,21 @@ jobs:
           echo "=== Job results ==="
           echo "  image: ${{ needs.image.result }}"
           echo "  prepare: ${{ needs.prepare.result }}"
-          echo "  front-build: ${{ needs.front-build.result }}"
-          echo "  front-lint: ${{ needs.front-lint.result }}"
-          echo "  front-unit: ${{ needs.front-unit.result }}"
+          echo "  build-front: ${{ needs.build-front.result }}"
+          echo "  lint-front: ${{ needs.lint-front.result }}"
+          echo "  test-front-unit: ${{ needs.test-front-unit.result }}"
           echo "  lint-back: ${{ needs.lint-back.result }}"
-          echo "  deprecation-back: ${{ needs.deprecation-back.result }}"
-          echo "  code-style-back: ${{ needs.code-style-back.result }}"
-          echo "  phpspec: ${{ needs.phpspec.result }}"
-          echo "  phpunit-unit: ${{ needs.phpunit-unit.result }}"
-          echo "  acceptance-back: ${{ needs.acceptance-back.result }}"
-          echo "  deptrac: ${{ needs.deptrac.result }}"
-          echo "  db-seed: ${{ needs.db-seed.result }}"
-          echo "  phpunit: ${{ needs.phpunit.result }}"
-          echo "  data-migrations: ${{ needs.data-migrations.result }}"
-          echo "  behat-legacy: ${{ needs.behat-legacy.result }}"
-          echo "  playwright: ${{ needs.playwright.result }}"
+          echo "  lint-deprecations: ${{ needs.lint-deprecations.result }}"
+          echo "  lint-code-style: ${{ needs.lint-code-style.result }}"
+          echo "  test-phpspec: ${{ needs.test-phpspec.result }}"
+          echo "  test-phpunit-unit: ${{ needs.test-phpunit-unit.result }}"
+          echo "  test-acceptance: ${{ needs.test-acceptance.result }}"
+          echo "  quality-deptrac: ${{ needs.quality-deptrac.result }}"
+          echo "  infra-db-seed: ${{ needs.infra-db-seed.result }}"
+          echo "  test-phpunit-integration: ${{ needs.test-phpunit-integration.result }}"
+          echo "  infra-data-migrations: ${{ needs.infra-data-migrations.result }}"
+          echo "  test-behat: ${{ needs.test-behat.result }}"
+          echo "  test-playwright: ${{ needs.test-playwright.result }}"
 
           # Each job must be either 'success' or 'skipped' (path-filtered).
           # 'image' and 'prepare' are never path-filtered so must always succeed.
@@ -1704,21 +1704,21 @@ jobs:
           results=(
             "${{ needs.image.result }}"
             "${{ needs.prepare.result }}"
-            "${{ needs.front-build.result }}"
-            "${{ needs.front-lint.result }}"
-            "${{ needs.front-unit.result }}"
+            "${{ needs.build-front.result }}"
+            "${{ needs.lint-front.result }}"
+            "${{ needs.test-front-unit.result }}"
             "${{ needs.lint-back.result }}"
-            "${{ needs.deprecation-back.result }}"
-            "${{ needs.code-style-back.result }}"
-            "${{ needs.phpspec.result }}"
-            "${{ needs.phpunit-unit.result }}"
-            "${{ needs.acceptance-back.result }}"
-            "${{ needs.deptrac.result }}"
-            "${{ needs.db-seed.result }}"
-            "${{ needs.phpunit.result }}"
-            "${{ needs.data-migrations.result }}"
-            "${{ needs.behat-legacy.result }}"
-            "${{ needs.playwright.result }}"
+            "${{ needs.lint-deprecations.result }}"
+            "${{ needs.lint-code-style.result }}"
+            "${{ needs.test-phpspec.result }}"
+            "${{ needs.test-phpunit-unit.result }}"
+            "${{ needs.test-acceptance.result }}"
+            "${{ needs.quality-deptrac.result }}"
+            "${{ needs.infra-db-seed.result }}"
+            "${{ needs.test-phpunit-integration.result }}"
+            "${{ needs.infra-data-migrations.result }}"
+            "${{ needs.test-behat.result }}"
+            "${{ needs.test-playwright.result }}"
           )
 
           failed=false
