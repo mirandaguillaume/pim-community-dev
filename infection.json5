@@ -26,6 +26,9 @@
         }
     },
     "tmpDir": "/tmp/infection",
+    "testFramework": "phpunit",
+    "testFrameworkOptions": "--testsuite=PHPUnit_Unit_Test",
+    "initialTestsPhpOptions": "-d zend_extension=xdebug.so -d xdebug.mode=coverage",
     "phpUnit": {
         "configDir": ".",
         "customPath": "vendor/bin/phpunit"

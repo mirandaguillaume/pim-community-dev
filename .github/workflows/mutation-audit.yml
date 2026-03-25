@@ -84,60 +84,38 @@ jobs:
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
 
-          INFECTION_ARGS="--threads=${INPUT_THREADS}"
-          INFECTION_ARGS="${INFECTION_ARGS} --test-framework=phpunit"
-          INFECTION_ARGS="${INFECTION_ARGS} --test-framework-options='--testsuite=PHPUnit_Unit_Test'"
-          INFECTION_ARGS="${INFECTION_ARGS} --initial-tests-php-options='-d zend_extension=xdebug.so -d xdebug.mode=coverage'"
-          INFECTION_ARGS="${INFECTION_ARGS} --show-mutations"
-          INFECTION_ARGS="${INFECTION_ARGS} --no-interaction"
-
-          # Infection 0.32+ only mutates covered code by default.
-          # Use --with-uncovered to include non-covered code (slower).
+          FILTER="${INPUT_FILTER}"
+          UNCOVERED=""
           if [ "${INPUT_ONLY_COVERED}" != "true" ]; then
-            INFECTION_ARGS="${INFECTION_ARGS} --with-uncovered"
+            UNCOVERED="--with-uncovered"
+          fi
+          FILTER_ARG=""
+          if [ -n "${FILTER}" ]; then
+            FILTER_ARG="--filter=${FILTER}"
           fi
 
-          if [ -n "${INPUT_FILTER}" ]; then
-            INFECTION_ARGS="${INFECTION_ARGS} --filter=${INPUT_FILTER}"
-          fi
-
-          echo "Running: vendor/bin/infection ${INFECTION_ARGS}"
-
+          echo "=== Infection + PHPUnit ==="
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
-            php php vendor/bin/infection ${INFECTION_ARGS} || true
+            php php vendor/bin/infection \
+              --configuration=infection.json5 \
+              --threads="${INPUT_THREADS}" \
+              --show-mutations \
+              --no-interaction \
+              ${UNCOVERED} ${FILTER_ARG} || true
 
-      # PHPSpec mutation testing (separate run — Infection only supports one framework per run)
-      - name: Run Infection with PHPSpec
-        env:
-          INPUT_THREADS: ${{ inputs.php-threads }}
-          INPUT_FILTER: ${{ inputs.php-filter }}
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          mkdir -p var/infection-phpspec
-
-          INFECTION_ARGS="--test-framework=phpspec"
-          INFECTION_ARGS="${INFECTION_ARGS} --test-framework-options='--config=phpspec-coverage.yml'"
-          INFECTION_ARGS="${INFECTION_ARGS} --initial-tests-php-options='-d zend_extension=xdebug.so -d xdebug.mode=coverage'"
-          INFECTION_ARGS="${INFECTION_ARGS} --threads=${INPUT_THREADS}"
-          INFECTION_ARGS="${INFECTION_ARGS} --show-mutations"
-          INFECTION_ARGS="${INFECTION_ARGS} --no-interaction"
-          INFECTION_ARGS="${INFECTION_ARGS} --logger-html=var/infection-phpspec/infection.html"
-          INFECTION_ARGS="${INFECTION_ARGS} --logger-text=var/infection-phpspec/infection.log"
-          INFECTION_ARGS="${INFECTION_ARGS} --logger-summary-json=var/infection-phpspec/summary.json"
-
-          if [ -n "${INPUT_FILTER}" ]; then
-            INFECTION_ARGS="${INFECTION_ARGS} --filter=${INPUT_FILTER}"
-          fi
-
-          echo "Running: vendor/bin/infection ${INFECTION_ARGS}"
-
+          echo ""
+          echo "=== Infection + PHPSpec ==="
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
-            php php vendor/bin/infection ${INFECTION_ARGS} || true
+            php php vendor/bin/infection \
+              --configuration=infection-phpspec.json5 \
+              --threads="${INPUT_THREADS}" \
+              --show-mutations \
+              --no-interaction \
+              ${FILTER_ARG} || true
 
       - name: Infection summary
         if: always()
