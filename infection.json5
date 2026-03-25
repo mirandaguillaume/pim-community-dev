@@ -25,7 +25,7 @@
             "report": "master"
         }
     },
-    "tmpDir": "/tmp/infection",
+    "tmpDir": "var/infection/tmp",
     "testFramework": "phpunit",
     "testFrameworkOptions": "--testsuite=PHPUnit_Unit_Test",
     "phpUnit": {

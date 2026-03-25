@@ -23,7 +23,7 @@
         "html": "var/infection-phpspec/infection.html",
         "summary": "var/infection-phpspec/infection-summary.log"
     },
-    "tmpDir": "/tmp/infection-phpspec",
+    "tmpDir": "var/infection-phpspec/tmp",
     "mutators": {
         "@default": true
     }

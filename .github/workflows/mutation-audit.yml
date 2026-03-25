@@ -72,8 +72,9 @@ jobs:
 
       - name: Prepare directories
         run: |
-          mkdir -p var/infection var/infection-phpspec
-          sudo chmod -R a+rwX var/infection var/infection-phpspec
+          sudo rm -rf var/infection var/infection-phpspec
+          mkdir -p var/infection/tmp var/infection-phpspec/tmp
+          sudo chmod -R 777 var/infection var/infection-phpspec
 
       - name: Re-enable Xdebug in PHP container for coverage
         run: |
