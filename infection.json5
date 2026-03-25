@@ -22,7 +22,6 @@
         "html": "var/infection/infection.html",
         "summary": "var/infection/infection-summary.log",
         "stryker": {
-            "badge": "master",
             "report": "master"
         }
     },
