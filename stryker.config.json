@@ -5,8 +5,7 @@
     "configFile": "jest.stryker.config.js"
   },
   "coverageAnalysis": "perTest",
-  "checkers": ["typescript"],
-  "tsconfigFile": "tsconfig.json",
+  "checkers": [],
   "reporters": ["html", "json", "clear-text", "progress-append-only"],
   "htmlReporter": {
     "fileName": "var/stryker/mutation-report.html"
