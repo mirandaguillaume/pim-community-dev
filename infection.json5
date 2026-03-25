@@ -1,0 +1,36 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "timeout": 30,
+    "threads": "max",
+    "source": {
+        "directories": [
+            "src/Akeneo",
+            "components"
+        ],
+        "excludes": [
+            "*/Bundle/*/Tests",
+            "*/tests/*",
+            "*/Test/*",
+            "*/spec/*",
+            "*/Spec/*",
+            "*/Specification/*",
+            "src/Oro"
+        ]
+    },
+    "logs": {
+        "text": "var/infection/infection.log",
+        "html": "var/infection/infection.html",
+        "summary": "var/infection/infection-summary.log",
+        "stryker": {
+            "badge": "master",
+            "report": "master"
+        }
+    },
+    "phpUnit": {
+        "configDir": ".",
+        "customPath": "vendor/bin/phpunit"
+    },
+    "mutators": {
+        "@default": true
+    }
+}
