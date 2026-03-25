@@ -75,6 +75,14 @@ jobs:
           mkdir -p var/infection var/infection-phpspec
           sudo chmod -R a+rwX var/infection var/infection-phpspec
 
+      - name: Re-enable Xdebug in PHP container for coverage
+        run: |
+          # The CI Docker image removes Xdebug ini files for performance.
+          # Re-create the ini so Xdebug is globally available (needed by
+          # PHPSpec adapter which doesn't support initialTestsPhpOptions).
+          # Use PHP_INI_SCAN_DIR=:/path to APPEND a scan directory.
+          echo "zend_extension=xdebug.so" > xdebug-mutation.ini
+
       - name: Run Infection with PHPUnit
         env:
           INPUT_THREADS: ${{ inputs.php-threads }}
@@ -94,10 +102,13 @@ jobs:
             FILTER_ARG="--filter=${FILTER}"
           fi
 
+          # PHP_INI_SCAN_DIR=:/srv/pim appends the project dir to the ini scan path,
+          # picking up xdebug-mutation.ini we created above.
           echo "=== Infection + PHPUnit ==="
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
+            -e "PHP_INI_SCAN_DIR=:/srv/pim" \
             php php vendor/bin/infection \
               --configuration=infection.json5 \
               --threads="${INPUT_THREADS}" \
@@ -110,6 +121,7 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
+            -e "PHP_INI_SCAN_DIR=:/srv/pim" \
             php php vendor/bin/infection \
               --configuration=infection-phpspec.json5 \
               --threads="${INPUT_THREADS}" \

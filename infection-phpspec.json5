@@ -3,7 +3,6 @@
     "timeout": 30,
     "threads": "max",
     "testFramework": "phpspec",
-    "initialTestsPhpOptions": "-d zend_extension=xdebug.so -d xdebug.mode=coverage",
     "source": {
         "directories": [
             "src/Akeneo",
