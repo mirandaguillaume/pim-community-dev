@@ -80,7 +80,7 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e XDEBUG_MODE=coverage \
             -e APP_ENV=test_fake \
-            php php -d xdebug.mode=coverage vendor/bin/phpunit -c . \
+            php php -d zend_extension=xdebug.so -d xdebug.mode=coverage vendor/bin/phpunit -c . \
               --testsuite PHPUnit_Unit_Test \
               --coverage-xml var/infection/coverage-xml \
               --log-junit var/infection/junit.xml
@@ -113,7 +113,7 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
-            php php -d xdebug.mode=coverage vendor/bin/infection ${INFECTION_ARGS} || true
+            php php -d zend_extension=xdebug.so -d xdebug.mode=coverage vendor/bin/infection ${INFECTION_ARGS} || true
 
           # Always produce reports even if Infection exits non-zero (MSI below threshold)
 
