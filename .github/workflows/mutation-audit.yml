@@ -70,22 +70,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-base-images: 'false'
 
-      # Infection needs coverage data — generate it first with Xdebug
-      - name: Generate PHPUnit coverage for Infection
+      - name: Prepare directories
         run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          mkdir -p var/infection
-          sudo chmod -R a+rwX var/infection
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
-            -e XDEBUG_MODE=coverage \
-            -e APP_ENV=test_fake \
-            php php -d zend_extension=xdebug.so -d xdebug.mode=coverage vendor/bin/phpunit -c . \
-              --testsuite PHPUnit_Unit_Test \
-              --coverage-xml var/infection/coverage-xml \
-              --log-junit var/infection/junit.xml
+          mkdir -p var/infection var/infection-phpspec
+          sudo chmod -R a+rwX var/infection var/infection-phpspec
 
-      - name: Run Infection mutation testing
+      - name: Run Infection with PHPUnit
         env:
           INPUT_THREADS: ${{ inputs.php-threads }}
           INPUT_ONLY_COVERED: ${{ inputs.php-only-covered }}
@@ -95,8 +85,9 @@ jobs:
           HOST_GID=$(id -g)
 
           INFECTION_ARGS="--threads=${INPUT_THREADS}"
-          INFECTION_ARGS="${INFECTION_ARGS} --coverage=var/infection"
-          INFECTION_ARGS="${INFECTION_ARGS} --skip-initial-tests"
+          INFECTION_ARGS="${INFECTION_ARGS} --test-framework=phpunit"
+          INFECTION_ARGS="${INFECTION_ARGS} --test-framework-options='--testsuite=PHPUnit_Unit_Test'"
+          INFECTION_ARGS="${INFECTION_ARGS} --initial-tests-php-options='-d zend_extension=xdebug.so -d xdebug.mode=coverage'"
           INFECTION_ARGS="${INFECTION_ARGS} --show-mutations"
           INFECTION_ARGS="${INFECTION_ARGS} --no-interaction"
 
@@ -116,8 +107,6 @@ jobs:
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
             php php -d zend_extension=xdebug.so -d xdebug.mode=coverage vendor/bin/infection ${INFECTION_ARGS} || true
-
-          # Always produce reports even if Infection exits non-zero (MSI below threshold)
 
       # PHPSpec mutation testing (separate run — Infection only supports one framework per run)
       - name: Run Infection with PHPSpec
