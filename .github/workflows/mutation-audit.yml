@@ -106,7 +106,7 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
-            php php -d zend_extension=xdebug.so -d xdebug.mode=coverage vendor/bin/infection ${INFECTION_ARGS} || true
+            php php vendor/bin/infection ${INFECTION_ARGS} || true
 
       # PHPSpec mutation testing (separate run — Infection only supports one framework per run)
       - name: Run Infection with PHPSpec
@@ -120,6 +120,7 @@ jobs:
 
           INFECTION_ARGS="--test-framework=phpspec"
           INFECTION_ARGS="${INFECTION_ARGS} --test-framework-options='--config=phpspec-coverage.yml'"
+          INFECTION_ARGS="${INFECTION_ARGS} --initial-tests-php-options='-d zend_extension=xdebug.so -d xdebug.mode=coverage'"
           INFECTION_ARGS="${INFECTION_ARGS} --threads=${INPUT_THREADS}"
           INFECTION_ARGS="${INFECTION_ARGS} --show-mutations"
           INFECTION_ARGS="${INFECTION_ARGS} --no-interaction"
@@ -136,7 +137,7 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
-            php php -d zend_extension=xdebug.so -d xdebug.mode=coverage vendor/bin/infection ${INFECTION_ARGS} || true
+            php php vendor/bin/infection ${INFECTION_ARGS} || true
 
       - name: Infection summary
         if: always()
