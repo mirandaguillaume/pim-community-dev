@@ -110,7 +110,7 @@ jobs:
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
             -e "PHP_INI_SCAN_DIR=:/srv/pim" \
-            php php vendor/bin/infection \
+            php php -d memory_limit=-1 vendor/bin/infection \
               --configuration=infection.json5 \
               --threads="${INPUT_THREADS}" \
               --show-mutations \
@@ -123,7 +123,7 @@ jobs:
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
             -e "PHP_INI_SCAN_DIR=:/srv/pim" \
-            php php vendor/bin/infection \
+            php php -d memory_limit=-1 vendor/bin/infection \
               --configuration=infection-phpspec.json5 \
               --threads="${INPUT_THREADS}" \
               --show-mutations \
