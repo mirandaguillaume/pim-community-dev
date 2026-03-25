@@ -3,7 +3,6 @@
     "timeout": 30,
     "threads": "max",
     "testFramework": "phpspec",
-    "testFrameworkOptions": "--config=phpspec-coverage.yml",
     "initialTestsPhpOptions": "-d zend_extension=xdebug.so -d xdebug.mode=coverage",
     "source": {
         "directories": [

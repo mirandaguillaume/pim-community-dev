@@ -303,3 +303,16 @@ suites:
         spec_path: src/Akeneo/Platform/Installer/back/tests
         src_path: src/Akeneo/Platform/Installer/back/src
         spec_prefix: Specification
+
+extensions:
+    FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension:
+        format:
+            - clover
+            - text
+        output:
+            clover: var/phpspec-coverage.xml
+            text: var/phpspec-coverage.txt
+        blacklist:
+            - src/Akeneo/*/Bundle/*/Tests
+            - src/Akeneo/*/*/tests
+            - tests
