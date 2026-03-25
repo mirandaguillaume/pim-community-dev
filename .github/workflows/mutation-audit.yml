@@ -130,6 +130,7 @@ jobs:
           mkdir -p var/infection-phpspec
 
           INFECTION_ARGS="--test-framework=phpspec"
+          INFECTION_ARGS="${INFECTION_ARGS} --test-framework-options='--config=phpspec-coverage.yml'"
           INFECTION_ARGS="${INFECTION_ARGS} --threads=${INPUT_THREADS}"
           INFECTION_ARGS="${INFECTION_ARGS} --show-mutations"
           INFECTION_ARGS="${INFECTION_ARGS} --no-interaction"
