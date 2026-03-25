@@ -27,7 +27,7 @@ on:
         type: string
         default: ''
       php-only-covered:
-        description: 'Skip mutating files with 0% coverage (faster)'
+        description: 'Only mutate covered code (default). Uncheck to include uncovered files (slower).'
         required: false
         type: boolean
         default: true
@@ -100,8 +100,10 @@ jobs:
           INFECTION_ARGS="${INFECTION_ARGS} --show-mutations"
           INFECTION_ARGS="${INFECTION_ARGS} --no-interaction"
 
-          if [ "${INPUT_ONLY_COVERED}" = "true" ]; then
-            INFECTION_ARGS="${INFECTION_ARGS} --only-covered"
+          # Infection 0.32+ only mutates covered code by default.
+          # Use --with-uncovered to include non-covered code (slower).
+          if [ "${INPUT_ONLY_COVERED}" != "true" ]; then
+            INFECTION_ARGS="${INFECTION_ARGS} --with-uncovered"
           fi
 
           if [ -n "${INPUT_FILTER}" ]; then
