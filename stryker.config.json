@@ -1,12 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/core/schema/stryker-schema.json",
-  "testRunner": "jest",
-  "jest": {
-    "configFile": "tests/front/unit/jest/unit.jest.js"
+  "testRunner": "command",
+  "commandRunner": {
+    "command": "yarn packages:unit && jest --no-cache --config tests/front/unit/jest/unit.jest.js --forceExit --bail"
   },
   "checkers": ["typescript"],
   "tsconfigFile": "tsconfig.json",
-  "reporters": ["html", "json", "clear-text", "progress"],
+  "coverageAnalysis": "off",
+  "reporters": ["html", "json", "clear-text", "progress-append-only"],
   "htmlReporter": {
     "fileName": "var/stryker/mutation-report.html"
   },
@@ -36,6 +37,6 @@
     "low": 50,
     "break": 0
   },
-  "incremental": true,
-  "incrementalFile": "var/stryker/stryker-incremental.json"
+  "concurrency": 4,
+  "timeoutMS": 60000
 }
