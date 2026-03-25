@@ -21,6 +21,9 @@ on:
       - 'CHANGELOG*'
       - '.github/ISSUE_TEMPLATE/**'
       - '.github/dependabot.yml'
+  schedule:
+    # Nightly build: run full CI daily at 03:00 UTC to catch silent regressions
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 env:
@@ -59,6 +62,8 @@ defaults:
 #     │              ├──► test-acceptance [if backend] ───────────────────►│
 #     │              │                                                         │
 #     │              ├──► infra-data-migrations [if backend] ───────────────────►│
+#     │              ├──► infra-schema-validate [if backend] ──────────────────►│
+#     │              ├──► infra-job-declaration [if backend] ──────────────────►│
 #     │              │                                                         │
 #     │              ├──► quality-deptrac [if backend] (all configs, 1 job) ──────►│
 #     │              │                                                         │
@@ -1726,6 +1731,82 @@ jobs:
           path: var/infection/
           retention-days: 30
 
+  # ===========================================================================
+  # SCHEMA VALIDATE: Detect DB schema changes without corresponding migrations
+  # ===========================================================================
+  infra-schema-validate:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ./.github/actions/install-castor
+
+      - name: Start services and install database
+        run: |
+          APP_ENV=test castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator'
+          docker/wait_docker_up.sh
+          APP_ENV=test castor back:database
+
+      - name: Validate Doctrine schema (ORM mappings vs DB)
+        run: |
+          docker-compose run --rm -e APP_ENV=test php php bin/console doctrine:schema:validate --skip-sync 2>&1 || true
+
+      - name: Check for pending schema changes (missing migrations)
+        run: |
+          PENDING=$(docker-compose run --rm -e APP_ENV=test php php bin/console doctrine:schema:update --dump-sql 2>&1 || true)
+          if echo "$PENDING" | grep -qE '^(CREATE|ALTER|DROP|INSERT|UPDATE|DELETE)'; then
+            echo "::error::Database schema is out of sync — a migration is missing!"
+            echo ""
+            echo "The following SQL would be needed to sync the schema:"
+            echo "$PENDING"
+            echo ""
+            echo "### Schema Validation Failed" >> "$GITHUB_STEP_SUMMARY"
+            echo '```sql' >> "$GITHUB_STEP_SUMMARY"
+            echo "$PENDING" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          else
+            echo "Database schema is in sync. No missing migrations."
+          fi
+
+  # ===========================================================================
+  # JOB DECLARATION: Verify batch job declarations are consistent
+  # ===========================================================================
+  infra-job-declaration:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ./.github/actions/install-castor
+
+      - name: Start services and install database
+        run: |
+          APP_ENV=test castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator'
+          docker/wait_docker_up.sh
+          APP_ENV=test castor back:database
+
+      - name: Verify job declarations
+        run: |
+          echo "Listing registered batch jobs..."
+          docker-compose run --rm -e APP_ENV=test php php bin/console akeneo:batch:list-jobs 2>&1
+          echo ""
+          echo "Verifying Symfony container is valid..."
+          docker-compose run --rm -e APP_ENV=test php php bin/console lint:container 2>&1
+
   ci-success:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs:
@@ -1745,6 +1826,8 @@ jobs:
       - infra-db-seed
       - test-phpunit-integration
       - infra-data-migrations
+      - infra-schema-validate
+      - infra-job-declaration
       - test-behat
       - test-playwright
     if: always()
@@ -1773,6 +1856,8 @@ jobs:
           echo "  infra-db-seed: ${{ needs.infra-db-seed.result }}"
           echo "  test-phpunit-integration: ${{ needs.test-phpunit-integration.result }}"
           echo "  infra-data-migrations: ${{ needs.infra-data-migrations.result }}"
+          echo "  infra-schema-validate: ${{ needs.infra-schema-validate.result }}"
+          echo "  infra-job-declaration: ${{ needs.infra-job-declaration.result }}"
           echo "  test-behat: ${{ needs.test-behat.result }}"
           echo "  test-playwright: ${{ needs.test-playwright.result }}"
 
@@ -1797,6 +1882,8 @@ jobs:
             "${{ needs.infra-db-seed.result }}"
             "${{ needs.test-phpunit-integration.result }}"
             "${{ needs.infra-data-migrations.result }}"
+            "${{ needs.infra-schema-validate.result }}"
+            "${{ needs.infra-job-declaration.result }}"
             "${{ needs.test-behat.result }}"
             "${{ needs.test-playwright.result }}"
           )
