@@ -30,8 +30,6 @@ class DatasourceAdapterResolver implements DatasourceAdapterResolverInterface
      * @param string $datasourceType
      *
      * @throws InvalidConfigurationException
-     *
-     * @return string
      */
     public function getAdapterClass($datasourceType): string
     {

@@ -30,8 +30,6 @@ interface ProductModelRepositoryInterface extends
 
     /**
      * Return the number of existing root product models
-     *
-     * @return int
      */
     public function countRootProductModels(): int;
 
@@ -46,8 +44,6 @@ interface ProductModelRepositoryInterface extends
     /**
      * Returns the identifiers of the products belonging to a product model descendants subtree
      *
-     *
-     * @return array
      */
     public function findDescendantProductIdentifiers(ProductModelInterface $productModel): array;
 
@@ -62,8 +58,6 @@ interface ProductModelRepositoryInterface extends
     /**
      * Find variant products which are the direct children of the given $productModel
      *
-     *
-     * @return array
      */
     public function findChildrenProducts(ProductModelInterface $productModel): array;
 
@@ -77,19 +71,10 @@ interface ProductModelRepositoryInterface extends
      */
     public function searchRootProductModelsAfter(?ProductModelInterface $product, int $limit): array;
 
-    /**
-     * @return array
-     */
     public function findSubProductModels(FamilyVariantInterface $familyVariant): array;
 
-    /**
-     * @return array
-     */
     public function findRootProductModels(FamilyVariantInterface $familyVariant): array;
 
-    /**
-     * @return array
-     */
     public function findProductModelsForFamilyVariant(
         FamilyVariantInterface $familyVariant,
         ?string $search = null,
@@ -97,10 +82,6 @@ interface ProductModelRepositoryInterface extends
         int $page = 1
     ): array;
 
-    /**
-     *
-     * @return array
-     */
     public function searchLastLevelByCode(
         FamilyVariantInterface $familyVariant,
         string $search,

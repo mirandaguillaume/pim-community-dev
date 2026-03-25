@@ -50,12 +50,10 @@ final readonly class GetExistingAttributeOptionCodes implements GetExistingAttri
             $queryParams
         )->fetchAllAssociative();
 
-        $results =  array_reduce($rawResults, function (array $results, array  $item): array {
+        return array_reduce($rawResults, function (array $results, array  $item): array {
             $results[$item['attribute_code']] = json_decode((string) $item['option_codes'], true, 512, JSON_THROW_ON_ERROR);
 
             return $results;
         }, []);
-
-        return $results;
     }
 }

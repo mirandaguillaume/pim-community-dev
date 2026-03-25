@@ -110,12 +110,10 @@ class ProductModelUpdater implements ObjectUpdaterInterface
             return $associations;
         }
 
-        $associations = $this->parentAssociationsFilter->filterParentAssociations(
+        return $this->parentAssociationsFilter->filterParentAssociations(
             $associations,
             $parentAssociations
         );
-
-        return $associations;
     }
 
     protected function filterQuantifiedAssociationsFromAncestors(

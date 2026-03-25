@@ -30,7 +30,7 @@ class AssociationColumnsResolver
     protected $assocFieldsCache;
 
     /** @var array */
-    protected $associationTypesCache = null;
+    protected $associationTypesCache;
 
     /** @var array */
     protected $quantifiedAssocIdentifierFieldsCache;

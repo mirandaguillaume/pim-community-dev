@@ -37,9 +37,8 @@ final readonly class PostgreSqlPlatformHelper implements SqlPlatformHelperInterf
         if (null !== $orderBy) {
             $sql .= sprintf(' ORDER BY %s', $orderBy);
         }
-        $sql .= ')';
 
-        return $sql;
+        return $sql . ')';
     }
 
     public function jsonArray(): string

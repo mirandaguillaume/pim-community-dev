@@ -13,8 +13,8 @@ use Akeneo\Connectivity\Connection\Domain\ValueObject\DateTimePeriod;
 use Akeneo\Connectivity\Connection\Infrastructure\Audit\Persistence\Traits\PeriodEventCountTrait;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * @author Romain Monceau <romain@akeneo.com>
@@ -148,8 +148,6 @@ class DbalSelectPeriodEventCountPerConnectionQuery implements SelectPeriodEventC
 
     private function getFlowTypeForEventType(string $eventType): string
     {
-        $flowType = '';
-
         return match ($eventType) {
             EventTypes::PRODUCT_CREATED, EventTypes::PRODUCT_UPDATED => FlowType::DATA_SOURCE,
             EventTypes::PRODUCT_READ => FlowType::DATA_DESTINATION,

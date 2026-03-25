@@ -126,10 +126,6 @@ class ProductModelNormalizer implements NormalizerInterface
         return $data instanceof ProductModelInterface && in_array($format, $this->supportedFormat);
     }
 
-    /**
-     * @param string|null           $scopeCode
-     *
-     */
     private function getLabels(ProductModelInterface $productModel, ?string $scopeCode = null): array
     {
         $labels = [];

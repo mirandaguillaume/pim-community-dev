@@ -18,11 +18,9 @@ interface AttributeSetterInterface extends SetterInterface
     /**
      * Set attribute data
      *
-     * @param EntityWithValuesInterface $entityWithValues
      * @param AttributeInterface        $attribute The attribute of the product to modify
      * @param mixed                     $data      The data to set
      * @param array                     $options   Options passed to the setter
-     *
      * @throws PropertyException
      */
     public function setAttributeData(
@@ -35,7 +33,6 @@ interface AttributeSetterInterface extends SetterInterface
     /**
      * Supports the attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return bool
      */

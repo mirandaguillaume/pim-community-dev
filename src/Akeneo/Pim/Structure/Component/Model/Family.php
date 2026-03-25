@@ -93,8 +93,6 @@ class Family implements FamilyInterface, \Stringable
 
     /**
      * Returns the label of the family
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -484,7 +482,6 @@ class Family implements FamilyInterface, \Stringable
 
     /**
      * @param AttributeInterface[] $attributes
-     * @return void
      */
     public function updateAttributes(array $attributes = []): void
     {

@@ -707,6 +707,36 @@ jobs:
       - name: Run PHPSpec unit tests
         run: castor test:unit-back
 
+      - name: Collect PHPSpec coverage (Xdebug)
+        continue-on-error: true
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            -e XDEBUG_MODE=coverage \
+            php php vendor/bin/phpspec run \
+              --format=dot \
+              --config=phpspec-coverage.yml
+
+      - name: Upload PHPSpec coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpspec-coverage
+          path: var/phpspec-coverage.xml
+          retention-days: 30
+
+      - name: Upload PHPSpec coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
+        with:
+          files: var/phpspec-coverage.xml
+          flags: backend,phpspec
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Upload PHPSpec results
         if: always()
         uses: actions/upload-artifact@v4
@@ -752,9 +782,8 @@ jobs:
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
-            -e XDEBUG_MODE=coverage \
             -e APP_ENV=test_fake \
-            php php vendor/bin/phpunit -c . \
+            php php -d xdebug.mode=coverage vendor/bin/phpunit -c . \
               --testsuite PHPUnit_Unit_Test \
               --coverage-clover var/tests/phpunit/coverage.xml \
               --coverage-text \
@@ -1644,6 +1673,57 @@ jobs:
         with:
           name: ast-metrics-report
           path: var/ast-metrics/
+          retention-days: 30
+
+  # ===========================================================================
+  # MUTATION TESTING: Infection on PHPUnit unit tests (non-blocking, incremental)
+  # ===========================================================================
+  mutation-testing:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 20
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-base-images: 'false'
+
+      - name: Run Infection (incremental — changed files only)
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          mkdir -p var/infection
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            -e APP_ENV=test_fake \
+            php php -d xdebug.mode=coverage vendor/bin/infection \
+              --test-framework=phpunit \
+              --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
+              --initial-tests-php-options="-d xdebug.mode=coverage" \
+              --threads=4 \
+              --git-diff-filter=AM \
+              --git-diff-base=origin/master \
+              --min-msi=0 \
+              --only-covering-test-cases \
+              --logger-github \
+              --logger-html=var/infection/infection.html || true
+          echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "See artifacts for full HTML report." >> "$GITHUB_STEP_SUMMARY"
+        env:
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+
+      - name: Upload Infection report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: infection-report
+          path: var/infection/
           retention-days: 30
 
   ci-success:

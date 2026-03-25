@@ -180,9 +180,8 @@ final class StreamResourceResponse
         $parameters = array_merge(['_controller' => $this->controllerName], $uriParameters);
         $subRequest = new Request([], [], $parameters, [], [], [], $content);
         $subRequest->setRequestFormat('json');
-        $response = $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
 
-        return $response;
+        return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }
 
     /**

@@ -35,10 +35,6 @@ class FamilyAttributeUsedAsAxisValidator extends ConstraintValidator
             return;
         }
 
-        if (!$constraint instanceof FamilyAttributeUsedAsAxis) {
-            return;
-        }
-
         foreach ($family->getFamilyVariants() as $familyVariant) {
             $missingAttributesUsedAsAxis = $this->getMissingAttributeCodesUsedAsAxis($family, $familyVariant);
             if ($missingAttributesUsedAsAxis !== []) {

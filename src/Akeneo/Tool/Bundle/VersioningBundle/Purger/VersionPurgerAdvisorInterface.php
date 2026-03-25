@@ -14,7 +14,6 @@ interface VersionPurgerAdvisorInterface
     /**
      * Checks if the advisor supports the version
      *
-     * @param PurgeableVersionList $versionList
      *
      * @return bool
      */
@@ -23,9 +22,7 @@ interface VersionPurgerAdvisorInterface
     /**
      * Indicates the versions that needs to be purged
      *
-     * @param PurgeableVersionList $versionList
      *
-     * @return PurgeableVersionList
      */
     public function isPurgeable(PurgeableVersionList $versionList): PurgeableVersionList;
 }

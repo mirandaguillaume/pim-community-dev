@@ -52,9 +52,7 @@ class ArrayReader implements FileReaderInterface, InitializableInterface, Statef
     public function read()
     {
         if (count($this->remainingItems) > 0) {
-            $item = array_shift($this->remainingItems);
-
-            return $item;
+            return array_shift($this->remainingItems);
         }
 
         $items = $this->reader->read();

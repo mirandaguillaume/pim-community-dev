@@ -89,7 +89,7 @@ final readonly class SimpleSelectProperty implements PropertyInterface
         );
     }
 
-    public function getImplicitCondition(): ?ConditionInterface
+    public function getImplicitCondition(): \Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\ConditionInterface
     {
         return SimpleSelect::fromNormalized([
             'type' => SimpleSelect::type(),

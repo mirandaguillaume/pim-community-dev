@@ -23,9 +23,6 @@ class GroupsFilter extends AjaxChoiceFilter
     /**
      * Constructor
      *
-     * @param FormFactoryInterface $factory
-     * @param ProductFilterUtility $util
-     * @param UserContext          $userContext
      * @param string               $groupClass
      */
     public function __construct(

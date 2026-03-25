@@ -23,14 +23,12 @@ class VariantAttributeSet implements VariantAttributeSetInterface
     #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
-    /** @var Collection */
     #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class)]
     #[ORM\JoinTable(name: 'pim_catalog_variant_attribute_set_has_attributes')]
     #[ORM\JoinColumn(name: 'variant_attribute_set_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'attributes_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private \Doctrine\Common\Collections\Collection $attributes;
 
-    /** @var Collection */
     #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class)]
     #[ORM\JoinTable(name: 'pim_catalog_variant_attribute_set_has_axes')]
     #[ORM\JoinColumn(name: 'variant_attribute_set_id', referencedColumnName: 'id', onDelete: 'CASCADE')]

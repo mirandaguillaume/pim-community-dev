@@ -81,7 +81,7 @@ class GroupFieldSetter extends AbstractFieldSetter
             );
         }
 
-        foreach ($data as $key => $value) {
+        foreach ($data as $value) {
             if (!is_string($value)) {
                 throw InvalidPropertyTypeException::validArrayStructureExpected(
                     $field,

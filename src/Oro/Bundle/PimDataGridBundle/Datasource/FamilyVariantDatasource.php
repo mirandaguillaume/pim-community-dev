@@ -14,11 +14,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class FamilyVariantDatasource extends RepositoryDatasource
 {
-    /**
-     * @param DatagridRepositoryInterface $repository
-     * @param HydratorInterface           $hydrator
-     * @param NormalizerInterface         $normalizer
-     */
     public function __construct(
         DatagridRepositoryInterface $repository,
         HydratorInterface $hydrator,

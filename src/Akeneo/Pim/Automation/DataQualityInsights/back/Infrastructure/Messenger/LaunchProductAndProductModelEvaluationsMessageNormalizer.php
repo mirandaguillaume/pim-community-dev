@@ -24,7 +24,7 @@ final class LaunchProductAndProductModelEvaluationsMessageNormalizer implements 
         return $type === LaunchProductAndProductModelEvaluationsMessage::class;
     }
 
-    public function normalize($object, ?string $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
+    public function normalize($object, ?string $format = null, array $context = []): array
     {
         Assert::isInstanceOf($object, LaunchProductAndProductModelEvaluationsMessage::class);
 

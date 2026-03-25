@@ -25,9 +25,8 @@ class ListRootCategoriesWithCountNotIncludingSubCategories implements Query\List
     public function list(string $translationLocaleCode, int $userId, int $rootCategoryIdToExpand): array
     {
         $categoriesWithoutCount = $this->getRootCategories($translationLocaleCode);
-        $rootCategories = $this->countProductInCategories($categoriesWithoutCount, $rootCategoryIdToExpand);
 
-        return $rootCategories;
+        return $this->countProductInCategories($categoriesWithoutCount, $rootCategoryIdToExpand);
     }
 
     /**
@@ -57,14 +56,12 @@ class ListRootCategoriesWithCountNotIncludingSubCategories implements Query\List
                             label, root.code
             SQL;
 
-        $categories = $this->connection->executeQuery(
+        return $this->connection->executeQuery(
             $sql,
             [
                 'locale' => $translationLocaleCode,
             ]
         )->fetchAllAssociative();
-
-        return $categories;
     }
 
     /**

@@ -32,10 +32,9 @@ class OrmSorterExtension extends AbstractExtension
     public function isApplicable(DatagridConfiguration $config)
     {
         $columns = $config->offsetGetByPath(Configuration::COLUMNS_PATH);
-        $isApplicable = $config->offsetGetByPath(Builder::DATASOURCE_TYPE_PATH) === OrmDatasource::TYPE
-            && is_array($columns);
 
-        return $isApplicable;
+        return $config->offsetGetByPath(Builder::DATASOURCE_TYPE_PATH) === OrmDatasource::TYPE
+            && is_array($columns);
     }
 
     /**
@@ -55,7 +54,7 @@ class OrmSorterExtension extends AbstractExtension
     public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource)
     {
         $sorters = $this->getSortersToApply($config);
-        $multisort = $config->offsetGetByPath(Configuration::MULTISORT_PATH, false);
+        $config->offsetGetByPath(Configuration::MULTISORT_PATH, false);
         foreach ($sorters as $definition) {
             [$direction, $sorter] = $definition;
 

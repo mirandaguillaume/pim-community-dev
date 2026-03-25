@@ -94,9 +94,7 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
      */
     private function shouldFilterOnlyOnProducts(): bool
     {
-        $hasStatusFilter = $this->hasRawFilter('field', 'enabled');
-
-        return $hasStatusFilter;
+        return $this->hasRawFilter('field', 'enabled');
     }
 
     /**
@@ -154,14 +152,12 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
      */
     private function hasFilterOnCategoryWhichImplyAggregation(): bool
     {
-        $hasFilter = array_filter(
+        return array_filter(
             $this->getRawFilters(),
             fn (array $filter) => 'field' === $filter['type']
                 && 'categories' === $filter['field']
                 && (Operators::IN_LIST === $filter['operator'] || Operators::IN_CHILDREN_LIST === $filter['operator'])
         ) !== [];
-
-        return $hasFilter;
     }
 
     /**

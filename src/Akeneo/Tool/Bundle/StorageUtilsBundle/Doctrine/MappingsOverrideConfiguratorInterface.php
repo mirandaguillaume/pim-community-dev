@@ -25,9 +25,6 @@ interface MappingsOverrideConfiguratorInterface
      *      ['original' => 'Foo\Baz\Model', 'override' => 'Acme\Baz\Model'],
      *  ]
      *
-     * @param ClassMetadata $metadata
-     * @param mixed         $configuration
-     * @param array         $mappingOverrides
      *
      * @return ClassMetadata
      */

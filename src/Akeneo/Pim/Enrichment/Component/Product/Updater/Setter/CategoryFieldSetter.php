@@ -87,7 +87,7 @@ class CategoryFieldSetter extends AbstractFieldSetter
             );
         }
 
-        foreach ($data as $key => $value) {
+        foreach ($data as $value) {
             if (!is_string($value)) {
                 throw InvalidPropertyTypeException::validArrayStructureExpected(
                     $field,
@@ -106,8 +106,6 @@ class CategoryFieldSetter extends AbstractFieldSetter
      */
     protected function getCategory($categoryCode)
     {
-        $category = $this->categoryRepository->findOneByIdentifier($categoryCode);
-
-        return $category;
+        return $this->categoryRepository->findOneByIdentifier($categoryCode);
     }
 }

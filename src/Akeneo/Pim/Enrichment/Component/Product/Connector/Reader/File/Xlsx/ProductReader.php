@@ -23,12 +23,6 @@ class ProductReader extends Reader implements FileReaderInterface
     /** @var MediaPathTransformer */
     protected $mediaPathTransformer;
 
-    /**
-     * @param FileIteratorFactory     $fileIteratorFactory
-     * @param ArrayConverterInterface $converter
-     * @param array                   $options
-     * @param MediaPathTransformer    $mediaPathTransformer
-     */
     public function __construct(
         FileIteratorFactory $fileIteratorFactory,
         ArrayConverterInterface $converter,

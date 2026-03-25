@@ -60,8 +60,6 @@ class CommandLauncher
      *
      * @param string $command
      * @param string $logfile
-     *
-     * @return null
      */
     public function executeBackground($command, $logfile = null)
     {
@@ -94,8 +92,6 @@ class CommandLauncher
 
         exec($cmd, $output, $status);
 
-        $result = new CommandResult($output, $status);
-
-        return $result;
+        return new CommandResult($output, $status);
     }
 }

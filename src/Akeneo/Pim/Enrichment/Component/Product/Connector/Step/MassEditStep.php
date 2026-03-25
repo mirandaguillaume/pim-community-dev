@@ -22,9 +22,6 @@ class MassEditStep extends AbstractStep
 
     /**
      * @param string                   $name
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param JobRepositoryInterface   $jobRepository
-     * @param TemporaryFileCleaner     $cleaner
      */
     public function __construct(
         $name,

@@ -52,14 +52,12 @@ class ListAttributesUseableInProductGrid implements ListAttributesUseableInProdu
         $result = $stmt->executeQuery();
         $attributes = $result->fetchAllAssociative();
 
-        $attributes = array_map(function ($attribute) {
+        return array_map(function ($attribute) {
             $attribute['order'] = (int) $attribute['order'];
             $attribute['groupOrder'] = (int) $attribute['groupOrder'];
             unset($attribute['identifier_priority']);
 
             return $attribute;
         }, $attributes);
-
-        return $attributes;
     }
 }

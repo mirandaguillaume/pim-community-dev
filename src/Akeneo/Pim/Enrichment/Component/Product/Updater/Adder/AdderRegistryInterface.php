@@ -16,7 +16,6 @@ interface AdderRegistryInterface
     /**
      * Register a adder
      *
-     * @param AdderInterface $adder
      *
      * @return AdderRegistryInterface
      */
@@ -39,8 +38,6 @@ interface AdderRegistryInterface
     public function getFieldAdder($field);
 
     /**
-     * @param AttributeInterface $attribute
-     *
      * @return AttributeAdderInterface
      */
     public function getAttributeAdder(AttributeInterface $attribute);

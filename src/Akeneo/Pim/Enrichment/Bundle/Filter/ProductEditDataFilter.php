@@ -80,7 +80,7 @@ class ProductEditDataFilter implements CollectionFilterInterface
     {
         $isAllowed = true;
 
-        $isAllowed = match ($type) {
+        return match ($type) {
             'family' => $this->isAllowedToUpdateFamily($product),
             'groups' => false,
             'categories' => $this->isAllowedToClassify($product),
@@ -89,8 +89,6 @@ class ProductEditDataFilter implements CollectionFilterInterface
             'values' => $this->isAllowedToUpdateValues($product),
             default => $isAllowed,
         };
-
-        return $isAllowed;
     }
 
     /**

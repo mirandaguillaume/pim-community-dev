@@ -18,9 +18,7 @@ class ViolationHttpException extends UnprocessableEntityHttpException
     protected $violations;
 
     /**
-     * @param ConstraintViolationListInterface $violations
      * @param string                           $message
-     * @param \Exception|null                  $previous
      * @param int                              $code
      */
     public function __construct(

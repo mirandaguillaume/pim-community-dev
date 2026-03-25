@@ -41,7 +41,7 @@ final class QueryMessageBus implements MessageBusInterface
         }
 
         $result = $handler($message);
-        $stamps[] = new HandledStamp($result, (string) ((object) $handler)::class);
+        $stamps[] = new HandledStamp($result, ((object) $handler)::class);
 
         return Envelope::wrap($message, $stamps);
     }

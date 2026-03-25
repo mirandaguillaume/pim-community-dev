@@ -50,7 +50,7 @@ final class UsersQuery
         return $this->includeGroupIds;
     }
 
-    public function getLimit(): ?int
+    public function getLimit(): int
     {
         return $this->limit;
     }

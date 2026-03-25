@@ -39,13 +39,11 @@ class ViolationNormalizer implements NormalizerInterface
     {
         $errors = $this->normalizeViolations($exception->getViolations());
 
-        $data = [
+        return [
             'code'    => $exception->getStatusCode(),
             'message' => $exception->getMessage(),
             'errors'  => $errors,
         ];
-
-        return $data;
     }
 
     /**
@@ -94,8 +92,6 @@ class ViolationNormalizer implements NormalizerInterface
      * Here we keep only the first violation.
      *
      * TODO: TIP-722 - to revert once the identifier product value is dropped.
-     *
-     * @param ConstraintViolationInterface $violation
      */
     protected function normalizeViolation(ConstraintViolationInterface $violation): array
     {
@@ -184,9 +180,7 @@ class ViolationNormalizer implements NormalizerInterface
      *
      * TODO: TIP-722 To remove once the "identifier" product value is removed from the product value collection.
      *
-     * @param ConstraintViolationInterface $violation
      * @param string                       $productValueKey
-     *
      * @return array
      */
     protected function getProductValuesErrors(ConstraintViolationInterface $violation, $productValueKey)

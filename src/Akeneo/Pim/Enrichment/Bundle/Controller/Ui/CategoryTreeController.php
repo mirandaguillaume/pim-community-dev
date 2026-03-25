@@ -154,7 +154,6 @@ class CategoryTreeController extends AbstractController
      * If the node to select is not a direct child of the parent category, the tree
      * is expanded until the selected node is found amongs the children
      *
-     * @param Request $request
      *
      * @return Response
      * @throws AccessDeniedException

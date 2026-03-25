@@ -30,13 +30,6 @@ class ChoiceFilter extends AjaxChoiceFilter
     /** @var AttributeOptionRepositoryInterface */
     protected $attributeOptionRepository;
 
-    /**
-     * @param FormFactoryInterface               $factory
-     * @param ProductFilterUtility               $util
-     * @param UserContext                        $userContext
-     * @param AttributeRepositoryInterface       $attributeRepository
-     * @param AttributeOptionRepositoryInterface $attributeOptionRepository
-     */
     public function __construct(
         FormFactoryInterface $factory,
         ProductFilterUtility $util,

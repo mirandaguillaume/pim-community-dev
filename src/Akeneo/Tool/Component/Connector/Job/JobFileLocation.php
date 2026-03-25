@@ -19,8 +19,6 @@ final readonly class JobFileLocation
 {
     private const string REMOTE_SCHEMA = 'pim_remote://';
 
-    private const string LOCAL_TEMP_PREFIX = 'from_remote_';
-
     public function __construct(private string $path, private bool $remote)
     {
     }

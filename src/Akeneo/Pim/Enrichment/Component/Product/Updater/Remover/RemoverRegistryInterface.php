@@ -16,7 +16,6 @@ interface RemoverRegistryInterface
     /**
      * Register a remover
      *
-     * @param RemoverInterface $remover
      *
      * @return RemoverRegistryInterface
      */
@@ -43,7 +42,6 @@ interface RemoverRegistryInterface
     /**
      * Get the attribute remover
      *
-     * @param AttributeInterface $attribute
      *
      * @return AttributeRemoverInterface|null
      */

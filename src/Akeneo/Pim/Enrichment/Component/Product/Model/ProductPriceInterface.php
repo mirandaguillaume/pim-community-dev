@@ -33,7 +33,6 @@ interface ProductPriceInterface
     /**
      * Checks if the price is equal to another one.
      *
-     * @param ProductPriceInterface $price
      *
      * @return bool
      */

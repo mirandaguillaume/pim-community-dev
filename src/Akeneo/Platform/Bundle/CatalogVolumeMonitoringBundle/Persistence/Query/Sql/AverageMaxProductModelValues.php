@@ -40,8 +40,6 @@ class AverageMaxProductModelValues implements AverageMaxQuery
             SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
 
-        $volume = new AverageMaxVolumes((int) $result['max'], (int) $result['average'], self::VOLUME_NAME);
-
-        return $volume;
+        return new AverageMaxVolumes((int) $result['max'], (int) $result['average'], self::VOLUME_NAME);
     }
 }

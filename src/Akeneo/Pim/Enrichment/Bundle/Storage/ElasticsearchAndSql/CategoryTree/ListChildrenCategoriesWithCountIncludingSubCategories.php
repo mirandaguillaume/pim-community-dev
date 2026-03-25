@@ -56,9 +56,6 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
      * - it executes two requests(SQL +ES) to get children of A
      * - then, two requests to get children of B
      *
-     * @param array    $categoryIdsInPath
-     * @param string   $translationLocaleCode
-     * @param int|null $categoryIdToSelectedAsFilter
      *
      * @return ChildCategory[]
      */
@@ -80,7 +77,7 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
                 ? $this->getRecursivelyCategories($categoryIdsInPath, $translationLocaleCode, $categoryIdToSelectedAsFilter) : [];
 
             $isLeaf = (is_countable($category['children_codes']) ? count($category['children_codes']) : 0) === 0;
-            $isUsedAsFilter = null !== $categoryIdToSelectedAsFilter ? (int) $category['child_id'] === $categoryIdToSelectedAsFilter : false;
+            $isUsedAsFilter = null !== $categoryIdToSelectedAsFilter && (int) $category['child_id'] === $categoryIdToSelectedAsFilter;
 
             $categories[] = new ChildCategory(
                 (int) $category['child_id'],
@@ -97,7 +94,6 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
     }
 
     /**
-     * @param int    $parentCategoryId
      * @param string $translationLocaleCode
      *
      * [
@@ -241,8 +237,6 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
      * If category to expand is A and category to filter is D, it returns [A, B]
      *
      *
-     * @param int $fromCategoryId
-     * @param int $toCategoryId
      *
      * @return string[]
      */
@@ -270,8 +264,6 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
             ]
         )->fetchAllAssociative();
 
-        $ids = array_map(fn ($row) => (int) $row['id'], $rows);
-
-        return $ids;
+        return array_map(fn ($row) => (int) $row['id'], $rows);
     }
 }

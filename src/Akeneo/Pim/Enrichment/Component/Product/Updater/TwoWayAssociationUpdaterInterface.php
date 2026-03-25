@@ -15,8 +15,6 @@ interface TwoWayAssociationUpdaterInterface
      * TODO PHP8 type hint first argument with ProductInterface|ProductModelInterface union type
      *
      * @param ProductInterface|ProductModelInterface $owner
-     * @param string $associationTypeCode
-     * @param EntityWithAssociationsInterface $associatedEntity
      *
      * @throws \LogicException
      */
@@ -32,8 +30,6 @@ interface TwoWayAssociationUpdaterInterface
      * TODO PHP8 type hint first argument with ProductInterface|ProductModelInterface union type
      *
      * @param ProductInterface|ProductModelInterface $owner
-     * @param string $associationTypeCode
-     * @param EntityWithAssociationsInterface $associatedEntity
      *
      * @throws \LogicException
      */

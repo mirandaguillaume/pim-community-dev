@@ -51,9 +51,8 @@ class FamilyNormalizer implements NormalizerInterface
         $flatFamily += $this->normalizeRequirements($standardFamily['attribute_requirements']);
 
         unset($flatFamily['labels']);
-        $flatFamily += $this->translationNormalizer->normalize($standardFamily['labels'], 'flat', $context);
 
-        return $flatFamily;
+        return $flatFamily + $this->translationNormalizer->normalize($standardFamily['labels'], 'flat', $context);
     }
 
     /**

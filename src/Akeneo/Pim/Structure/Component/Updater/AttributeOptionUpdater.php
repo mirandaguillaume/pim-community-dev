@@ -78,7 +78,7 @@ class AttributeOptionUpdater implements ObjectUpdaterInterface
                 throw InvalidPropertyTypeException::arrayExpected($field, static::class, $data);
             }
 
-            foreach ($data as $localeCode => $label) {
+            foreach ($data as $label) {
                 if (null !== $label && !is_scalar($label)) {
                     throw InvalidPropertyTypeException::validArrayStructureExpected(
                         'labels',

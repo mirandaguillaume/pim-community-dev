@@ -185,9 +185,6 @@ class AddAttributeValueProcessor extends AbstractProcessor
      *          ]
      *      ]
      * ]
-     *
-     * @param EntityWithFamilyInterface $entity
-     * @param array                     $actions
      */
     private function extractValuesToUpdate(EntityWithFamilyInterface $entity, array $actions): array
     {

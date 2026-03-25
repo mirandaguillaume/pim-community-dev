@@ -72,8 +72,7 @@ class DuplicateValueChecker
     {
         $channelCode ??= '<all_channels>';
         $localeCode ??= '<all_locales>';
-        $key = sprintf('%s-%s', $channelCode, $localeCode);
 
-        return $key;
+        return sprintf('%s-%s', $channelCode, $localeCode);
     }
 }

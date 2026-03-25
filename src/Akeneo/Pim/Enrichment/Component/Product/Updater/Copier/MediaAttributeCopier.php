@@ -29,15 +29,6 @@ class MediaAttributeCopier extends AbstractAttributeCopier
     /** @var FilesystemProvider */
     protected $filesystemProvider;
 
-    /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     * @param AttributeValidatorHelper         $attrValidatorHelper
-     * @param FileFetcherInterface             $fileFetcher
-     * @param FileStorerInterface              $fileStorer
-     * @param FilesystemProvider               $filesystemProvider
-     * @param array                            $supportedFromTypes
-     * @param array                            $supportedToTypes
-     */
     public function __construct(
         EntityWithValuesBuilderInterface $entityWithValuesBuilder,
         AttributeValidatorHelper $attrValidatorHelper,

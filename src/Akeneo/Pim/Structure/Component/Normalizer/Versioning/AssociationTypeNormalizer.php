@@ -44,13 +44,12 @@ class AssociationTypeNormalizer implements NormalizerInterface
         $flatAssociationType = $standardAssociationType;
 
         unset($flatAssociationType['labels']);
-        $flatAssociationType += $this->translationNormalizer->normalize(
+
+        return $flatAssociationType + $this->translationNormalizer->normalize(
             $standardAssociationType['labels'],
             'flat',
             $context
         );
-
-        return $flatAssociationType;
     }
 
     /**

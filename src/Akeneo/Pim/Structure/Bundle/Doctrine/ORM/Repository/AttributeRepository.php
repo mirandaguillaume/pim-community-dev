@@ -283,10 +283,8 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->getArrayResult();
 
         $attributes = [];
-        if ($results !== []) {
-            foreach ($results as $attribute) {
-                $attributes[$attribute['code']] = $attribute['type'];
-            }
+        foreach ($results as $attribute) {
+            $attributes[$attribute['code']] = $attribute['type'];
         }
 
         return $attributes;

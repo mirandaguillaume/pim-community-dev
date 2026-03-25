@@ -16,7 +16,7 @@ final class SearchFilters extends Constraint
      * {@inheritDoc}
      */
     #[\Override]
-    public function getTargets(): string|array
+    public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }

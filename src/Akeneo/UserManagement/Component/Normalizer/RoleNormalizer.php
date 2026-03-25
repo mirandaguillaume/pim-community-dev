@@ -29,7 +29,7 @@ final class RoleNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($role, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
+    public function normalize($role, $format = null, array $context = []): array
     {
         Assert::isInstanceOf($role, RoleInterface::class);
 

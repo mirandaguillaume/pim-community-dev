@@ -52,13 +52,9 @@ class ProductPropertiesNormalizer implements NormalizerInterface
      */
     public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
-        if (!$this->normalizer instanceof NormalizerInterface) {
-            throw new \LogicException('Serializer must be a normalizer');
-        }
-
         $data = [];
 
-        $data[self::FIELD_ID] = 'product_' . (string) $product->getUuId()->toString();
+        $data[self::FIELD_ID] = 'product_' . $product->getUuId()->toString();
         $data[StandardPropertiesNormalizer::FIELD_IDENTIFIER] = $product->getIdentifier();
         $data[StandardPropertiesNormalizer::FIELD_CREATED] = $this->normalizer->normalize(
             $product->getCreated(),
@@ -168,13 +164,11 @@ class ProductPropertiesNormalizer implements NormalizerInterface
             $ancestorsLabels = $this->getAncestorsLabels($product);
         }
 
-        $ancestors = [
+        return [
             'ids' => $ancestorsIds,
             'codes' => $ancestorsCodes,
             'labels' => $ancestorsLabels,
         ];
-
-        return $ancestors;
     }
 
     private function getAncestorsIds(EntityWithFamilyVariantInterface $entityWithFamilyVariant): array

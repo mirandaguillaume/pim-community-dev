@@ -13,8 +13,6 @@ class AttributeGroupRepository extends EntityRepository implements TranslatedLab
     protected $userContext;
 
     /**
-     * @param UserContext   $userContext
-     * @param EntityManager $em
      * @param string        $class
      */
     public function __construct(UserContext $userContext, EntityManager $em, $class)

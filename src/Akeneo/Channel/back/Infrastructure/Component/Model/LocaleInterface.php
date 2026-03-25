@@ -59,22 +59,16 @@ interface LocaleInterface extends ReferableInterface
     public function getChannels();
 
     /**
-     * @param ChannelInterface $channel
-     *
      * @return bool
      */
     public function hasChannel(ChannelInterface $channel);
 
     /**
-     * @param ChannelInterface $channel
-     *
      * @return LocaleInterface
      */
     public function addChannel(ChannelInterface $channel);
 
     /**
-     * @param ChannelInterface $channel
-     *
      * @return LocaleInterface
      */
     public function removeChannel(ChannelInterface $channel);

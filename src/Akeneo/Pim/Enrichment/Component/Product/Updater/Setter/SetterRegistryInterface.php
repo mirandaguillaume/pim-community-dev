@@ -16,7 +16,6 @@ interface SetterRegistryInterface
     /**
      * Register a setter
      *
-     * @param SetterInterface $setter
      *
      * @return SetterRegistryInterface
      */
@@ -43,7 +42,6 @@ interface SetterRegistryInterface
     /**
      * Get the attribute setter
      *
-     * @param AttributeInterface $attribute
      *
      * @return AttributeSetterInterface|null
      */

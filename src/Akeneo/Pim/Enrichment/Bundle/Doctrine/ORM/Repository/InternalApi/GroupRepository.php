@@ -22,8 +22,6 @@ class GroupRepository extends EntityRepository implements
     protected $userContext;
 
     /**
-     * @param UserContext   $userContext
-     * @param EntityManager $em
      * @param string        $class
      */
     public function __construct(UserContext $userContext, EntityManager $em, $class)

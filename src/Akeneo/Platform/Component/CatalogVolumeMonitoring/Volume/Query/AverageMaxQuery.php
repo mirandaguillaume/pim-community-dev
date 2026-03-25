@@ -13,8 +13,5 @@ use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\ReadModel\AverageMa
  */
 interface AverageMaxQuery
 {
-    /**
-     * @return AverageMaxVolumes
-     */
     public function fetch(): AverageMaxVolumes;
 }

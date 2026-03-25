@@ -36,7 +36,7 @@ final class CategoriesShouldBeViewableValidator extends ConstraintValidator
         $command = $this->context->getRoot();
         Assert::isInstanceOf($command, UpsertProductCommand::class);
 
-        if (-1 === (int) $command->userId()) {
+        if (-1 === $command->userId()) {
             return;
         }
 

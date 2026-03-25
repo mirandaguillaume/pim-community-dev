@@ -796,11 +796,6 @@ class User implements UserInterface, EquatableInterface, \Stringable
      */
     public function setRolesCollection(Collection $collection)
     {
-        if (!$collection instanceof Collection) {
-            throw new \InvalidArgumentException(
-                '$collection must be an instance of Doctrine\Common\Collections\Collection'
-            );
-        }
         $this->roles = $collection;
 
         return $this;
@@ -908,12 +903,9 @@ class User implements UserInterface, EquatableInterface, \Stringable
         return base_convert(bin2hex(hash('sha256', uniqid(random_int(0, mt_getrandmax()), true), true)), 16, 36);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
-        return (string) $this->getUserIdentifier();
+        return $this->getUserIdentifier();
     }
 
     /**

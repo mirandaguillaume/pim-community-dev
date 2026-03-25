@@ -214,9 +214,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
      */
     protected function findAttributeGroup($code): ?\Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface
     {
-        $attributeGroup = $this->attrGroupRepo->findOneByIdentifier($code);
-
-        return $attributeGroup;
+        return $this->attrGroupRepo->findOneByIdentifier($code);
     }
 
     /**

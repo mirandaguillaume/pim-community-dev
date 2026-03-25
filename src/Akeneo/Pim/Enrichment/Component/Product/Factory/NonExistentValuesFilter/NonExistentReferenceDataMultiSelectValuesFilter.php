@@ -23,9 +23,7 @@ class NonExistentReferenceDataMultiSelectValuesFilter implements NonExistentValu
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
     {
-        $filteredReferenceData = $this->filterByType($onGoingFilteredRawValues, AttributeTypes::REFERENCE_DATA_MULTI_SELECT);
-
-        return $filteredReferenceData;
+        return $this->filterByType($onGoingFilteredRawValues, AttributeTypes::REFERENCE_DATA_MULTI_SELECT);
     }
 
     private function filterByType(OnGoingFilteredRawValues $onGoingFilteredRawValues, string $type): OnGoingFilteredRawValues
@@ -96,8 +94,8 @@ class NonExistentReferenceDataMultiSelectValuesFilter implements NonExistentValu
         foreach ($selectValues as $attributeCode => $valueCollection) {
             foreach ($valueCollection as $values) {
                 $referenceDataName = $values['properties']['reference_data_name'];
-                foreach ($values['values'] as $channel => $channelValues) {
-                    foreach ($channelValues as $locale => $values) {
+                foreach ($values['values'] as $channelValues) {
+                    foreach ($channelValues as $values) {
                         if (!\is_array($values)) {
                             throw InvalidPropertyTypeException::arrayExpected(
                                 $attributeCode,

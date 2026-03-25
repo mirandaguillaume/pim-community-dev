@@ -54,7 +54,7 @@ final readonly class FamilyProperty implements PropertyInterface
         return new self(Process::fromNormalized($normalizedProperty['process']));
     }
 
-    public function getImplicitCondition(): ?ConditionInterface
+    public function getImplicitCondition(): \Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\ConditionInterface
     {
         return Family::fromNormalized([
             'type' => Family::type(),

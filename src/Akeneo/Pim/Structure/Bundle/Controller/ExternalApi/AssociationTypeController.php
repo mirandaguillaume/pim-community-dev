@@ -179,9 +179,7 @@ class AssociationTypeController
 
         $this->saver->save($associationType);
 
-        $response = $this->getResponse($associationType, Response::HTTP_CREATED);
-
-        return $response;
+        return $this->getResponse($associationType, Response::HTTP_CREATED);
     }
 
     /**
@@ -212,9 +210,8 @@ class AssociationTypeController
         $this->saver->save($associationType);
 
         $status = $isCreation ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
-        $response = $this->getResponse($associationType, $status);
 
-        return $response;
+        return $this->getResponse($associationType, $status);
     }
 
     /**
@@ -227,9 +224,8 @@ class AssociationTypeController
     public function partialUpdateListAction(Request $request)
     {
         $resource = $request->getContent(true);
-        $response = $this->partialUpdateStreamResource->streamResponse($resource);
 
-        return $response;
+        return $this->partialUpdateStreamResource->streamResponse($resource);
     }
 
     /**

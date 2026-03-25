@@ -19,7 +19,6 @@ interface DatagridInterface
     /**
      * Set grid datasource
      *
-     * @param DatasourceInterface $source
      *
      * @return $this
      */
@@ -49,7 +48,6 @@ interface DatagridInterface
     /**
      * Setter for acceptor object
      *
-     * @param Acceptor $acceptor
      *
      * @return $this
      */

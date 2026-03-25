@@ -36,7 +36,6 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @param string          $className
      * @param string          $message
      * @param int             $code
-     * @param \Exception|null $previous
      */
     public function __construct(protected $className, $message = '', $code = 0, ?\Exception $previous = null)
     {

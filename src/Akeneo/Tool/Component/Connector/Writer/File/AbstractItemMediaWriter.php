@@ -153,9 +153,7 @@ abstract class AbstractItemMediaWriter implements
     /**
      * Get the file path in which to write the data
      *
-     * @param array $placeholders
      *
-     * @return string
      */
     public function getPath(array $placeholders = []): string
     {
@@ -200,16 +198,12 @@ abstract class AbstractItemMediaWriter implements
 
     /**
      * Get configuration for writer (type of export, delimiter, enclosure, etc)
-     *
-     * @return array
      */
     abstract protected function getWriterConfiguration(): array;
 
     /**
      * Return the identifier of the item (e.q sku or variant group code)
      *
-     *
-     * @return string
      */
     abstract protected function getItemIdentifier(array $item): string;
 
@@ -247,8 +241,6 @@ abstract class AbstractItemMediaWriter implements
      * }
      *
      * @param array $item standard format of an item
-     *
-     * @return array
      */
     final protected function resolveMediaPaths(array $item): array
     {
@@ -300,9 +292,6 @@ abstract class AbstractItemMediaWriter implements
         return $item;
     }
 
-    /**
-     * @return array
-     */
     protected function getConverterOptions(JobParameters $parameters): array
     {
         $options = [];
@@ -325,8 +314,6 @@ abstract class AbstractItemMediaWriter implements
     /**
      * Replace [^A-Za-z0-9\.] from a string by '_'
      *
-     *
-     * @return string
      */
     protected function sanitize(string $value): string
     {

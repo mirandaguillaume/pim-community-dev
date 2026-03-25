@@ -32,8 +32,7 @@ class CountUseableAsGridFilterAttributes implements CountQuery
                         WHERE useable_as_grid_filter = 1;
             SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
-        $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);
 
-        return $volume;
+        return new CountVolume((int) $result['count'], self::VOLUME_NAME);
     }
 }

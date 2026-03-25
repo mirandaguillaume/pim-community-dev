@@ -13,14 +13,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
  */
 interface ProductEntityIdFactoryInterface
 {
-    /**
-     * @return ProductEntityIdInterface
-     */
     public function create(string $id): ProductEntityIdInterface;
 
     /**
      * @param string[] $ids
-     * @return ProductEntityIdCollection
      */
     public function createCollection(array $ids): ProductEntityIdCollection;
 }

@@ -75,9 +75,8 @@ class EntityWithValuesFilter implements FilterInterface
         }
 
         $productFieldsFilter = $this->productFieldFilter->filter($entity, $fields);
-        $result = $this->mergeValueToResult($result, $productFieldsFilter);
 
-        return $result;
+        return $this->mergeValueToResult($result, $productFieldsFilter);
     }
 
     /**

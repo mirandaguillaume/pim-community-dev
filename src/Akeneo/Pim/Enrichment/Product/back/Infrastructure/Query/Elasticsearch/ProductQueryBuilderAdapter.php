@@ -42,7 +42,6 @@ final class ProductQueryBuilderAdapter extends AbstractEntityWithValuesQueryBuil
             /**
              * @param mixed $queryBuilder
              * @param array<string, mixed> $options
-             * @return CursorInterface
              */
             public function createCursor($queryBuilder, array $options = []): CursorInterface
             {

@@ -16,7 +16,6 @@ use Oro\Bundle\PimDataGridBundle\Doctrine\ORM\Repository\DatagridRepositoryInter
 class CurrencyRepository extends EntityRepository implements DatagridRepositoryInterface
 {
     /**
-     * @param EntityManager $em
      * @param string        $class
      */
     public function __construct(EntityManager $em, $class)
@@ -29,8 +28,6 @@ class CurrencyRepository extends EntityRepository implements DatagridRepositoryI
      */
     public function createDatagridQueryBuilder()
     {
-        $qb = $this->createQueryBuilder('c');
-
-        return $qb;
+        return $this->createQueryBuilder('c');
     }
 }

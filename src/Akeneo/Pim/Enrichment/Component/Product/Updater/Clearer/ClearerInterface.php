@@ -13,9 +13,6 @@ interface ClearerInterface
 {
     /**
      * Returns true if the clearer supports the given property.
-     *
-     * @param string $property
-     * @return bool
      */
     public function supportsProperty(string $property): bool;
 
@@ -23,8 +20,6 @@ interface ClearerInterface
      * Clears the property value of the entity.
      *
      * @param mixed $entity
-     * @param string $property
-     * @param array $options
      */
     public function clear($entity, string $property, array $options = []): void;
 }

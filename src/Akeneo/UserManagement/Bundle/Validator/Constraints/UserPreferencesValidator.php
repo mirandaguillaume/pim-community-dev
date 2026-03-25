@@ -19,7 +19,6 @@ class UserPreferencesValidator extends ConstraintValidator
      * Validate the user preferences
      *
      * @param UserInterface $user
-     * @param Constraint                              $constraint
      */
     public function validate($user, Constraint $constraint)
     {

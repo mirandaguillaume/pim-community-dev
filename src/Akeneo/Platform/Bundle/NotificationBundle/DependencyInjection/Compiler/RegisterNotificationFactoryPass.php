@@ -21,9 +21,6 @@ class RegisterNotificationFactoryPass implements CompilerPassInterface
 
     final public const string NOTIFICATION_FACTORY_TAG = 'pim_notification.factory.notification';
 
-    /**
-     * @param ContainerBuilder $container
-     */
     public function process(ContainerBuilder $container)
     {
         $this->registerFactories($container);

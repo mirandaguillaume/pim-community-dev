@@ -154,9 +154,7 @@ class AttributeColumnInfoExtractor
         $expectedSize = $isLocalizable ? $expectedSize + 1 : $expectedSize;
         $expectedSize = $isScopable ? $expectedSize + 1 : $expectedSize;
 
-        $expectedSize = $isMetric || $isPrice ? [$expectedSize, $expectedSize + 1] : [$expectedSize];
-
-        return $expectedSize;
+        return $isMetric || $isPrice ? [$expectedSize, $expectedSize + 1] : [$expectedSize];
     }
 
     /**

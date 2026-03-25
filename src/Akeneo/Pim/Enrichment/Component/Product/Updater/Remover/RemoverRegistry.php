@@ -49,9 +49,8 @@ class RemoverRegistry implements RemoverRegistryInterface
     public function getRemover($property)
     {
         $attribute = $this->getAttribute($property);
-        $remover = null !== $attribute ? $this->getAttributeRemover($attribute) : $this->getFieldRemover($property);
 
-        return $remover;
+        return null !== $attribute ? $this->getAttributeRemover($attribute) : $this->getFieldRemover($property);
     }
 
     /**

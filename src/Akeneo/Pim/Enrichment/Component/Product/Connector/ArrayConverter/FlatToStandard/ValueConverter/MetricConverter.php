@@ -13,10 +13,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStand
  */
 class MetricConverter extends AbstractValueConverter
 {
-    /**
-     * @param FieldSplitter $fieldSplitter
-     * @param array         $supportedFieldType
-     */
     public function __construct(FieldSplitter $fieldSplitter, array $supportedFieldType)
     {
         parent::__construct($fieldSplitter);

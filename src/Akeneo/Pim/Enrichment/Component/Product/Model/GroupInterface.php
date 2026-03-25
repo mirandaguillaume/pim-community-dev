@@ -47,7 +47,6 @@ interface GroupInterface extends
     /**
      * Set group type
      *
-     * @param GroupTypeInterface $type
      *
      * @return GroupInterface
      */

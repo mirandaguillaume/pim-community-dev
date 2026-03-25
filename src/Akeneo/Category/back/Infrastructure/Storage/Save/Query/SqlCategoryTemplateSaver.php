@@ -8,8 +8,8 @@ use Akeneo\Category\Application\Storage\Save\Saver\CategoryTemplateSaver;
 use Akeneo\Category\Domain\Model\Enrichment\Template;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)

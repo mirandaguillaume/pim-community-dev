@@ -13,8 +13,6 @@ use Webmozart\Assert\Assert;
 final readonly class ProductProjection
 {
     /**
-     * @param bool $enabled
-     * @param string|null $familyCode
      * @param array<string, mixed> $productValues
      * Example of $productValues: [
      *   'color-<all_channels>-<all_locales>' => 'red',

@@ -6,9 +6,9 @@ namespace Akeneo\Category\back\tests\EndToEnd\InternalApi;
 
 use Akeneo\Category\back\tests\EndToEnd\Helper\ControllerIntegrationTestCase;
 use Akeneo\Test\Integration\Configuration;
+use Doctrine\DBAL\ParameterType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\DBAL\ParameterType;
 
 class GetActivatedLocalesControllerEndToEnd extends ControllerIntegrationTestCase
 {

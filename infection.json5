@@ -1,33 +1,31 @@
 {
-    "$schema": "https://raw.githubusercontent.com/infection/infection/0.29.x/resources/schema.json",
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "timeout": 30,
+    "threads": "max",
     "source": {
         "directories": [
             "src/Akeneo",
             "components"
         ],
         "excludes": [
-            "**/Tests",
-            "**/tests",
-            "**/Test",
-            "**/test",
-            "**/spec",
-            "**/Spec",
-            "**/DataFixtures",
-            "**/Migrations",
-            // Legacy bundles with 0 tests — mutating them is noise
+            "*/Bundle/*/Tests",
+            "*/tests/*",
+            "*/Test/*",
+            "*/spec/*",
+            "*/Spec/*",
+            "*/Specification/*",
             "src/Oro"
         ]
     },
     "logs": {
         "text": "var/infection/infection.log",
         "html": "var/infection/infection.html",
-        "json": "var/infection/infection.json",
-        "summary": "var/infection/summary.log",
-        "perMutator": "var/infection/per-mutator.md"
+        "summary": "var/infection/infection-summary.log",
+        "stryker": {
+            "badge": "master",
+            "report": "master"
+        }
     },
-    "timeout": 30,
-    "testFramework": "phpunit",
-    "testFrameworkOptions": "--testsuite=PHPUnit_Unit_Test",
     "tmpDir": "/tmp/infection",
     "phpUnit": {
         "configDir": ".",
@@ -35,8 +33,5 @@
     },
     "mutators": {
         "@default": true
-    },
-    // Full audit mode: only mutate code that has at least 1 test covering it.
-    // Files with 0 coverage are skipped (we already know MSI=0 for those).
-    "onlyCovered": true
+    }
 }

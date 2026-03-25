@@ -21,7 +21,6 @@ interface AttributeAdderInterface extends AdderInterface
      * @param mixed                     $data      The data to add
      * @param array                     $options   Options passed to the adder
      *
-     * @return void
      * @internal param ProductInterface $product The product to update
      */
     public function addAttributeData(
@@ -34,7 +33,6 @@ interface AttributeAdderInterface extends AdderInterface
     /**
      * Supports the attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return bool
      */

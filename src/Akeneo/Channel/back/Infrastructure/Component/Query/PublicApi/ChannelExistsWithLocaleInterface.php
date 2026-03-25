@@ -16,9 +16,6 @@ interface ChannelExistsWithLocaleInterface
     /**
      * A locale is active when is bound to at least one channel.
      * And not active when bound to none channel.
-     *
-     * @param string $localeCode
-     * @return bool
      */
     public function isLocaleActive(string $localeCode): bool;
 

@@ -100,13 +100,6 @@ class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterf
         }
     }
 
-    private function countSubProductModels(array $familyCodes): int
-    {
-        $cursor = $this->getSubProductModelsForFamily($familyCodes);
-
-        return $cursor->count();
-    }
-
     private function isValid(EntityWithFamilyVariantInterface $entityWithFamilyVariant): bool
     {
         $violations = $this->validator->validate($entityWithFamilyVariant);

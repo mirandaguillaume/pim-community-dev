@@ -107,7 +107,6 @@ interface AttributeInterface extends
     /**
      * Add option
      *
-     * @param AttributeOptionInterface $option
      *
      * @return AttributeInterface
      */
@@ -128,7 +127,6 @@ interface AttributeInterface extends
     /**
      * Test if the attribute have the given locale specific available
      *
-     * @param LocaleInterface $locale
      *
      * @return bool
      */
@@ -287,7 +285,6 @@ interface AttributeInterface extends
     /**
      * Add available locale
      *
-     * @param LocaleInterface $availableLocale
      *
      * @return AttributeInterface
      */
@@ -310,7 +307,6 @@ interface AttributeInterface extends
     /**
      * Set families
      *
-     * @param ArrayCollection $families
      *
      * @return AttributeInterface
      */
@@ -335,7 +331,6 @@ interface AttributeInterface extends
     /**
      * Add family
      *
-     * @param FamilyInterface $family
      *
      * @return AttributeInterface
      */
@@ -457,7 +452,6 @@ interface AttributeInterface extends
     /**
      * Set properties
      *
-     * @param array $properties
      *
      * @return AttributeInterface
      */
@@ -509,7 +503,6 @@ interface AttributeInterface extends
     /**
      * Remove family
      *
-     * @param FamilyInterface $family
      *
      * @return AttributeInterface
      */
@@ -577,7 +570,6 @@ interface AttributeInterface extends
     /**
      * Remove option
      *
-     * @param AttributeOptionInterface $option
      *
      * @return AttributeInterface
      */
@@ -593,7 +585,6 @@ interface AttributeInterface extends
     /**
      * Remove available locale
      *
-     * @param LocaleInterface $availableLocale
      *
      * @return AttributeInterface
      */

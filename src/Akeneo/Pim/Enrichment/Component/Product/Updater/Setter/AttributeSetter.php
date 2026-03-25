@@ -17,7 +17,6 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 class AttributeSetter extends AbstractAttributeSetter
 {
     /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
      * @param string[]                         $supportedTypes
      */
     public function __construct(EntityWithValuesBuilderInterface $entityWithValuesBuilder, array $supportedTypes)

@@ -22,7 +22,7 @@ class LengthValidator extends BaseLengthValidator
 
             return;
         }
-        if (null === $value || ('' === $value && ($constraint->allowEmptyString ?? true))) {
+        if ('' === $value && ($constraint->allowEmptyString ?? true)) {
             parent::validate($value, $constraint);
 
             return;

@@ -48,14 +48,12 @@ final readonly class TransformRawValuesCollections
     {
         $attributeCodes = [];
 
-        foreach ($rawValueCollections as $productIdentifier => $rawValues) {
+        foreach ($rawValueCollections as $rawValues) {
             foreach (array_keys($rawValues) as $attributeCode) {
                 $attributeCodes[] = (string) $attributeCode;
             }
         }
 
-        $attributes = $this->getAttributes->forCodes(array_values(array_unique($attributeCodes)));
-
-        return $attributes;
+        return $this->getAttributes->forCodes(array_values(array_unique($attributeCodes)));
     }
 }

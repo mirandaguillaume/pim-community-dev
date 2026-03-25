@@ -182,7 +182,7 @@ class ContextConfigurator implements ConfiguratorInterface
     protected function addRepositoryParameters()
     {
         $path = $this->getSourcePath(self::REPOSITORY_PARAMETERS_KEY);
-        $repositoryParams = $this->configuration->offsetGetByPath($path, null);
+        $repositoryParams = $this->configuration->offsetGetByPath($path);
 
         if ($repositoryParams) {
             $params = [];

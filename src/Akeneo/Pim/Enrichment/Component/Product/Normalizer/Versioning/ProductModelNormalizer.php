@@ -55,9 +55,8 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
         $results[self::FIELD_PARENT] = $this->normalizeParent($object->getParent());
         $results = array_merge($results, $this->normalizeAssociations($object->getAssociations()));
         $results = array_merge($results, $this->quantifiedAssociationsNormalizer->normalize($object, $format, $context));
-        $results = array_replace($results, $this->normalizeValues($object, $format, $context));
 
-        return $results;
+        return array_replace($results, $this->normalizeValues($object, $format, $context));
     }
 
     /**

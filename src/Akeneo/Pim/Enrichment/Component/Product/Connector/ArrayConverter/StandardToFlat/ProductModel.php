@@ -82,9 +82,6 @@ class ProductModel extends AbstractSimpleArrayConverter implements ArrayConverte
      *     'X_SELL-groups'   => 'akeneo_tshirt,oro_tshirt',
      *     'X_SELL-products' => 'akn_ts,oro_tsh',
      * ]
-     *
-     * @param array $data
-     * @param array $convertedItem
      */
     protected function convertAssociations(array $data, array $convertedItem): array
     {

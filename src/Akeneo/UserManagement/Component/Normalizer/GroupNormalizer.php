@@ -21,7 +21,7 @@ final class GroupNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($group, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
+    public function normalize($group, $format = null, array $context = []): array
     {
         Assert::isInstanceOf($group, GroupInterface::class);
 

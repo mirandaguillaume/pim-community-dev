@@ -71,11 +71,6 @@ interface VersionRepositoryInterface
 
     /**
      * Find Version entities by a set of criteria
-     *
-     * @param array|null $orderBy
-     * @param int|null   $limit
-     * @param int|null   $offset
-     * @return array
      */
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array;
 
@@ -84,7 +79,6 @@ interface VersionRepositoryInterface
      *
      * Find all versions potentially purgeable for given options
      *
-     * @param array $options
      *
      * @return CursorInterface|\PDOStatement
      */

@@ -34,12 +34,6 @@ class IsAssociatedFilter extends BooleanFilter
 
     /**
      * Constructor
-     *
-     * @param FormFactoryInterface                $factory
-     * @param FilterUtility                       $util
-     * @param RequestParametersExtractorInterface $extractor
-     * @param AssociationTypeRepositoryInterface  $repo
-     * @param ProductRepositoryInterface          $productRepository
      */
     public function __construct(
         FormFactoryInterface $factory,
@@ -91,9 +85,7 @@ class IsAssociatedFilter extends BooleanFilter
             throw new \LogicException('The current association type must be configured');
         }
 
-        $associationType = $this->assocTypeRepository->findOneBy(['id' => $associationTypeId]);
-
-        return $associationType;
+        return $this->assocTypeRepository->findOneBy(['id' => $associationTypeId]);
     }
 
     /**
@@ -105,9 +97,8 @@ class IsAssociatedFilter extends BooleanFilter
         if (!$productId) {
             throw new \LogicException('The current product type must be configured');
         }
-        $product = $this->productRepository->find($productId);
 
-        return $product;
+        return $this->productRepository->find($productId);
     }
 
     /**

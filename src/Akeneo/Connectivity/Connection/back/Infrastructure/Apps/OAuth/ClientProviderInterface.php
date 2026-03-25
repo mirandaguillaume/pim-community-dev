@@ -15,8 +15,6 @@ interface ClientProviderInterface
 {
     /**
      * Provides client given App identifier, creates a new one if none found
-     * @param App $app
-     * @return Client
      */
     public function findOrCreateClient(App $app): Client;
 

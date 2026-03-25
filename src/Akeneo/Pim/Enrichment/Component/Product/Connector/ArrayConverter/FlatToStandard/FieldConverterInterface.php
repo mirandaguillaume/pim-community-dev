@@ -17,10 +17,8 @@ interface FieldConverterInterface
      *
      * For instance, the category value "cat1,cat2" should be transformed in an array ['cat1', 'cat2']
      *
-     * @param string $fieldName
      * @param mixed  $value
      *
-     * @return ConvertedField
      */
     public function convert(string $fieldName, $value): ConvertedField;
 }

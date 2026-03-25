@@ -21,7 +21,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 #[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'removeDeletedFamilyFromExportJobInstancesFilters')]
 class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriber
 {
-    /** @var ObjectRepository */
     private readonly ObjectRepository $jobInstanceRepository;
 
     public function __construct(EntityManagerInterface $em, private readonly BulkSaverInterface $bulkSaver)

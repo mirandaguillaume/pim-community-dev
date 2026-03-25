@@ -15,7 +15,7 @@ abstract class AbstractPager implements PagerInterface
     protected $nbResults = 0;
 
     // used by iterator interface
-    protected $results = null;
+    protected $results;
     protected $resultsCounter = 0;
 
     /**

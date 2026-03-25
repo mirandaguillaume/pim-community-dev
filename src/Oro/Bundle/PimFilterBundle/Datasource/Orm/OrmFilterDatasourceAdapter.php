@@ -19,8 +19,6 @@ class OrmFilterDatasourceAdapter extends OroOrmFilterDatasourceAdapter implement
 {
     /**
      * Constructor
-     *
-     * @param DatasourceInterface $datasource
      */
     public function __construct(DatasourceInterface $datasource)
     {
@@ -37,13 +35,11 @@ class OrmFilterDatasourceAdapter extends OroOrmFilterDatasourceAdapter implement
      */
     public function getFormatByComparisonType($comparisonType)
     {
-        $format = match ($comparisonType) {
+        return match ($comparisonType) {
             TextFilterType::TYPE_STARTS_WITH => '%s%%',
             TextFilterType::TYPE_ENDS_WITH => '%%%s',
             TextFilterType::TYPE_CONTAINS, TextFilterType::TYPE_NOT_CONTAINS => '%%%s%%',
             default => '%s',
         };
-
-        return $format;
     }
 }

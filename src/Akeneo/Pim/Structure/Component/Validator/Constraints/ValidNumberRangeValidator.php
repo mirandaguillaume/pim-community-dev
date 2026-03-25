@@ -19,7 +19,6 @@ class ValidNumberRangeValidator extends ConstraintValidator
      * Validate the range
      *
      * @param mixed      $entity
-     * @param Constraint $constraint
      *
      * @throws \Exception
      */

@@ -20,7 +20,6 @@ class InvalidDirectionException extends \LogicException
      * @param string          $className
      * @param string          $message
      * @param int             $code
-     * @param \Exception|null $previous
      */
     public function __construct(
         array $directions,

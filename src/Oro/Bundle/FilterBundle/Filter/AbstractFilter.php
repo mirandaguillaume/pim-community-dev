@@ -96,9 +96,8 @@ abstract class AbstractFilter implements FilterInterface
             array_flip($this->util->getExcludeParams())
         );
         $metadata = $this->mapParams($metadata);
-        $metadata = array_merge($defaultMetadata, $metadata);
 
-        return $metadata;
+        return array_merge($defaultMetadata, $metadata);
     }
 
     /**
@@ -163,7 +162,6 @@ abstract class AbstractFilter implements FilterInterface
      * Get param if exists or default value
      *
      * @param string $paramName
-     * @param null   $default
      *
      * @return mixed
      */

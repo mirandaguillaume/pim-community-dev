@@ -52,11 +52,10 @@ final readonly class ProductModelImagesFromCodes
     {
         $codesPerImageLevel = $this->codesPerImageLevel($codes);
 
-        $images = array_replace_recursive(
+        return array_replace_recursive(
             $this->getImagesFromCurrentOrParentProductModel(
                 $codesPerImageLevel['image_in_current_or_parent_product_model'],
-                $channelCode,
-                $localeCode
+                $channelCode
             ),
             $this->getImagesFromSubProductModel(
                 $codesPerImageLevel['image_in_sub_product_model'],
@@ -69,8 +68,6 @@ final readonly class ProductModelImagesFromCodes
                 $localeCode
             )
         );
-
-        return $images;
     }
 
     /**
@@ -80,7 +77,6 @@ final readonly class ProductModelImagesFromCodes
      * - in the sub product model if the product model is a root product model
      * - in the variant product model
      *
-     * @param array $codes
      *
      * @throws Exception
      * @return array
@@ -148,7 +144,7 @@ final readonly class ProductModelImagesFromCodes
         return $codesPerLevel;
     }
 
-    private function getImagesFromCurrentOrParentProductModel(array $codes, string $channelCode, string $localeCode): array
+    private function getImagesFromCurrentOrParentProductModel(array $codes, string $channelCode): array
     {
         $images = [];
         foreach ($codes as $code) {
@@ -211,12 +207,8 @@ final readonly class ProductModelImagesFromCodes
      * As we can't get easily the first row of each group when doing a group by,
      * it executes one request per product model.
      *
-     * @param array  $codes
-     * @param string $channelCode
-     * @param string $localeCode
      *
      * @throws Exception
-     * @return array
      */
     private function getImagesFromSubProductModel(array $codes, string $channelCode, string $localeCode): array
     {
@@ -294,12 +286,8 @@ final readonly class ProductModelImagesFromCodes
      * As we can't get easily the first row of each group when doing a group by,
      * it executes one request per product model.
      *
-     * @param array  $codes
-     * @param string $channelCode
-     * @param string $localeCode
      *
      * @throws Exception
-     * @return array
      */
     private function getImagesFromVariantProduct(array $codes, string $channelCode, string $localeCode): array
     {

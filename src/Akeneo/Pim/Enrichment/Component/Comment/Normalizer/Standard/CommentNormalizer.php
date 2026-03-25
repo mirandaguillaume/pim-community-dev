@@ -23,7 +23,7 @@ class CommentNormalizer implements NormalizerInterface, NormalizerAwareInterface
      */
     public function normalize($comment, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
-        $data = [
+        return [
             'id'           => $comment->getId(),
             'resourceName' => $comment->getResourceName(),
             'resourceId'   => $comment->getResourceId(),
@@ -34,8 +34,6 @@ class CommentNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'replied'      => $this->normalizer->normalize($comment->getRepliedAt(), 'standard', $context),
             'replies'      => $this->normalizeChildren($comment->getChildren()->toArray(), $context),
         ];
-
-        return $data;
     }
 
     /**

@@ -26,15 +26,13 @@ final readonly class GetCustomAppsAction
     ) {
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(): Response
     {
         $user = $this->tokenStorage->getToken()?->getUser();
         if (!$user instanceof UserInterface) {
             throw new BadRequestHttpException('Invalid user token.');
         }
-
         $customApps = $this->getCustomAppsQuery->execute($user->getId());
-
         return new JsonResponse($customApps, Response::HTTP_OK);
     }
 }

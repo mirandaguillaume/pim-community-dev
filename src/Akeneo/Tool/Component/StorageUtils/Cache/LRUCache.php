@@ -21,8 +21,6 @@ final class LRUCache
      */
     private array $data = [];
 
-    private readonly string $nullData;
-
     private readonly string $defaultValue;
 
     /**
@@ -35,7 +33,6 @@ final class LRUCache
         if ($size <= 0) {
             throw new \InvalidArgumentException("The size has to be a positive int");
         }
-        $this->nullData = sha1('NULL_DATA_ON_LRU_CACHE');
         $this->defaultValue = sha1('DEFAULT_CACHED_VALUE');
 
         $this->maximumSize = $size;
@@ -91,7 +88,7 @@ final class LRUCache
         }
 
         $resultFromQuery = $queryNotFoundKey($key);
-        $this->put((string) $key, $resultFromQuery);
+        $this->put($key, $resultFromQuery);
 
 
         return $resultFromQuery;

@@ -15,7 +15,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\FieldFilterInterface;
 abstract class AbstractFieldFilter implements FieldFilterInterface
 {
     /** @var SearchQueryBuilder */
-    protected $searchQueryBuilder = null;
+    protected $searchQueryBuilder;
 
     /** @var array */
     protected $supportedFields = [];

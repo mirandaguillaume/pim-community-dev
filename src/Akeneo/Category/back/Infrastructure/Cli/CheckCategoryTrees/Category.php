@@ -22,10 +22,6 @@ class Category
 
     private bool $isLinked;
 
-    private ?Category $parent;
-
-    private ?Category $root;
-
     private array $children;
 
     public function __construct(array $dbModel)
@@ -41,8 +37,6 @@ class Category
         $this->rgt = (int) $dbModel['rgt'];
 
         $this->isLinked = false;
-        $this->parent = null;
-        $this->root = null;
         $this->children = [];
     }
 
@@ -125,9 +119,6 @@ class Category
         if ($this->isLinked) {
             return;
         }
-
-        $this->parent = $pool->find($this->parentId);
-        $this->root = $pool->find($this->rootId);
 
         $unlinkedChildren = $pool->findForParent($this->id);
 

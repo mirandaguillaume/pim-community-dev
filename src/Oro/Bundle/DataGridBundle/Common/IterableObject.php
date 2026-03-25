@@ -115,7 +115,6 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      * Try to get property or return default value
      *
      * @param string $offset
-     * @param null   $default
      *
      * @return mixed
      */
@@ -128,7 +127,6 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      * Try to get property using PropertyAccessor
      *
      * @param string $path
-     * @param null   $default
      *
      * @return mixed
      */

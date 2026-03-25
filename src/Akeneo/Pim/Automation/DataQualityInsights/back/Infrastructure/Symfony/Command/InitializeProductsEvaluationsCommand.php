@@ -124,7 +124,6 @@ final class InitializeProductsEvaluationsCommand extends Command
         $progressBar->start();
 
         $criteria = array_map(fn ($criterionCode) => strval($criterionCode), $this->productModelCriteriaRegistry->getAllCriterionCodes());
-        $statusPending = CriterionEvaluationStatus::PENDING;
 
         $lastProductModelId = 0;
         while ($productModelIds = $this->getProductModelIdsFrom($lastProductModelId)) {

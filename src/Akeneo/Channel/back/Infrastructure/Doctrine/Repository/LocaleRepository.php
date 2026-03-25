@@ -125,12 +125,11 @@ class LocaleRepository extends EntityRepository implements LocaleRepositoryInter
     public function countAllActivated()
     {
         $countQb = $this->createQueryBuilder('l');
-        $count = $countQb
+
+        return $countQb
             ->select('COUNT(l.id)')
             ->where($countQb->expr()->eq('l.activated', true))
             ->getQuery()
             ->getSingleScalarResult();
-
-        return $count;
     }
 }

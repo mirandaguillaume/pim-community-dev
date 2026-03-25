@@ -64,7 +64,7 @@ class CategoryUpdater implements ObjectUpdaterInterface
                 throw InvalidPropertyTypeException::arrayExpected('labels', static::class, $data);
             }
 
-            foreach ($data as $localeCode => $label) {
+            foreach ($data as $label) {
                 if (null !== $label && !is_scalar($label)) {
                     throw InvalidPropertyTypeException::validArrayStructureExpected('labels', 'one of the labels is not a scalar', static::class, $data);
                 }
@@ -109,7 +109,7 @@ class CategoryUpdater implements ObjectUpdaterInterface
     protected function updateParent(CategoryInterface $category, $data)
     {
         if (null === $data || '' === $data) {
-            $category->setParent(null);
+            $category->setParent();
 
             return;
         }

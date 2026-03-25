@@ -14,7 +14,6 @@ interface ProductQueryBuilderOptionsResolverInterface
     /**
      * Resolve options for the product query builder
      *
-     * @param array $options
      *
      * @return array
      */

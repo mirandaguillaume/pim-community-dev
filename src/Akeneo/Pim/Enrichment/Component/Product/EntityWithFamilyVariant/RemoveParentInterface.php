@@ -16,8 +16,6 @@ use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 interface RemoveParentInterface
 {
     /**
-     * @param ProductInterface $product
-     *
      * @throws InvalidArgumentException
      */
     public function from(ProductInterface $product): void;

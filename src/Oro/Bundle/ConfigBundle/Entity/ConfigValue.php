@@ -139,9 +139,6 @@ class ConfigValue implements \Stringable
         return $this->section;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return (string) $this->getValue();

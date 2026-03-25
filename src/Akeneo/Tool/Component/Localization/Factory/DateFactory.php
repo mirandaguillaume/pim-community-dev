@@ -58,7 +58,7 @@ class DateFactory
             $options['date_format'] = $this->dateFormats[$options['locale']];
         }
 
-        $options = array_merge([
+        return array_merge([
             'locale'      => 'en',
             'datetype'    => static::TYPE_DATE,
             'timetype'    => static::TYPE_TIME,
@@ -66,7 +66,5 @@ class DateFactory
             'calendar'    => null,
             'date_format' => null,
         ], $options);
-
-        return $options;
     }
 }

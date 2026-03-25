@@ -15,7 +15,6 @@ class UnknownPropertyException extends PropertyException
      * @param string          $propertyName
      * @param string          $message
      * @param int             $code
-     * @param \Exception|null $previous
      */
     public function __construct($propertyName, $message = '', $code = 0, ?\Exception $previous = null)
     {
@@ -24,7 +23,6 @@ class UnknownPropertyException extends PropertyException
     }
 
     /**
-     * @param \Exception|null $previous
      * @return UnknownPropertyException
      */
     public static function unknownProperty(string $propertyName, ?\Exception $previous = null)

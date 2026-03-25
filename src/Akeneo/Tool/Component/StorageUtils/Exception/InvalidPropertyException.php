@@ -28,7 +28,6 @@ class InvalidPropertyException extends PropertyException
      * @param string          $className
      * @param string          $message
      * @param int             $code
-     * @param \Exception|null $previous
      */
     public function __construct(
         $propertyName,

@@ -46,9 +46,7 @@ final readonly class CriterionEvaluationResult
                     return [];
                 }
 
-                $attributes = array_keys(array_filter($attributes, fn ($rate) => $rate < 100));
-
-                return $attributes;
+                return array_keys(array_filter($attributes, fn ($rate) => $rate < 100));
             });
         }
 

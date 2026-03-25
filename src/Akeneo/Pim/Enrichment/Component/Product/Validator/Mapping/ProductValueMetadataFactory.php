@@ -55,9 +55,7 @@ class ProductValueMetadataFactory implements MetadataFactoryInterface
             throw new NoSuchMetadataException();
         }
 
-        $metadata = $this->createMetadata($value);
-
-        return $metadata;
+        return $this->createMetadata($value);
     }
 
     /**

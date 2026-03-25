@@ -99,8 +99,6 @@ class EditCommonAttributesProcessor extends AbstractProcessor
      *      ]
      * ]
      *
-     * @param ProductInterface $product
-     * @param array            $actions
      *
      * @throws \LogicException
      *

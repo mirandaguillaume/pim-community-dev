@@ -46,7 +46,7 @@ class UpdateMappingIndexCommand extends Command
                 'Elasticsearch indices name to reindex, separated by spaces'
             );
 
-        $this->addOption('all', 'a', InputOption::VALUE_NONE, "Use --all if you want to update all mappings of all indices", null);
+        $this->addOption('all', 'a', InputOption::VALUE_NONE, "Use --all if you want to update all mappings of all indices");
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int

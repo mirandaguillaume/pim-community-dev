@@ -25,8 +25,6 @@ class MediaAttributeSetter extends AbstractAttributeSetter
     protected $repository;
 
     /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     * @param FileInfoRepositoryInterface      $repository
      * @param string[]                         $supportedTypes
      */
     public function __construct(

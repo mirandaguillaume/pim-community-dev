@@ -71,10 +71,8 @@ class AddParent
             $attributeCodes[] = $attribute->getCode();
         }
 
-        $filteredValues = $product->getValues()->filter(
+        return $product->getValues()->filter(
             fn (ValueInterface $value) => in_array($value->getAttributeCode(), $attributeCodes)
         );
-
-        return $filteredValues;
     }
 }

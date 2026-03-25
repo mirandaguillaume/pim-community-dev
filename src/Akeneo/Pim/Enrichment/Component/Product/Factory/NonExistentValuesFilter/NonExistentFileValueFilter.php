@@ -25,15 +25,12 @@ final readonly class NonExistentFileValueFilter implements NonExistentValuesFilt
      * Also, this filter replaces the keys "file/key" by the corresponding FileInfoInterface entity.
      * This is done to improve the performance of the creation of the values later on in ImageValueFactory and FileValueFactory.
      * As we execute here only one request, this replacement avoids 1 + n requests in these factories.
-     *
-     * @return OnGoingFilteredRawValues
      */
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
     {
         $filteredFiles = $this->filterByType($onGoingFilteredRawValues, AttributeTypes::FILE);
-        $filteredImagesAndFiles = $this->filterByType($filteredFiles, AttributeTypes::IMAGE);
 
-        return $filteredImagesAndFiles;
+        return $this->filterByType($filteredFiles, AttributeTypes::IMAGE);
     }
 
     private function filterByType(OnGoingFilteredRawValues $onGoingFilteredRawValues, string $type): OnGoingFilteredRawValues
@@ -71,10 +68,10 @@ final readonly class NonExistentFileValueFilter implements NonExistentValuesFilt
     private function getFilesIndexedByKey(array $fileAndImageValues): array
     {
         $fileKeys = [];
-        foreach ($fileAndImageValues as $attributeCode => $valueCollection) {
+        foreach ($fileAndImageValues as $valueCollection) {
             foreach ($valueCollection as $values) {
-                foreach ($values['values'] as $channel => $channelValues) {
-                    foreach ($channelValues as $locale => $value) {
+                foreach ($values['values'] as $channelValues) {
+                    foreach ($channelValues as $value) {
                         if (!\is_array($value)) {
                             $fileKeys[] = $value;
                         }

@@ -324,9 +324,7 @@ class AssociatedProductDatasource extends ProductDatasource
         $factoryConfig['default_scope'] = $scope;
         $factoryConfig['filters'] = $this->pqb->getRawFilters();
 
-        $pqb = $this->factory->create($factoryConfig);
-
-        return $pqb;
+        return $this->factory->create($factoryConfig);
     }
 
     private function getAssociation(ProductInterface $sourceProduct, mixed $associationTypeId): ?AssociationInterface

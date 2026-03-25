@@ -42,7 +42,7 @@ class NotEmptyVariantAxesValidator extends ConstraintValidator
         // model that extends another sub product model. Else the validator thinks it's a variant product (as it will
         // be on the 3 level sub_product_model_2 -> sub_product_model_1 -> root_product_model) and will return the axes
         // on the 3 level.
-        if ($entity instanceof ProductModelInterface && $entity->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface && ($entity->getParent()->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface || 1 === (int) $entity->getParent()->getFamilyVariant()->getNumberOfLevel())) {
+        if ($entity instanceof ProductModelInterface && $entity->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface && ($entity->getParent()->getParent() instanceof \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface || 1 === $entity->getParent()->getFamilyVariant()->getNumberOfLevel())) {
             return;
         }
 

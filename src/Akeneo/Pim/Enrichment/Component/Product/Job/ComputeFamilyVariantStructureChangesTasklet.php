@@ -177,7 +177,7 @@ class ComputeFamilyVariantStructureChangesTasklet implements TaskletInterface
     private function validateProductModels(array $productModels): array
     {
         $validProductModels = [];
-        foreach ($productModels as $key => $productModel) {
+        foreach ($productModels as $productModel) {
             $violations = $this->validator->validate($productModel);
 
             if ($violations->count() !== 0) {
@@ -202,7 +202,7 @@ class ComputeFamilyVariantStructureChangesTasklet implements TaskletInterface
     private function validateProducts(array $products): array
     {
         $validProducts = [];
-        foreach ($products as $key => $product) {
+        foreach ($products as $product) {
             $violations = $this->validator->validate($product);
 
             if ($violations->count() !== 0) {

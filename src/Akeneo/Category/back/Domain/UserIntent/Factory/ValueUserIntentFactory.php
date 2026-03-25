@@ -48,20 +48,18 @@ final readonly class ValueUserIntentFactory implements UserIntentFactory
         $attributeCollection = $this->getAttributeCollectionByAttributeValues($data);
 
         $userIntents = [];
-        if ($data !== []) {
-            foreach ($data as $value) {
-                $attributeType = $this->getAttributeType($attributeCollection, $value);
-                // /!\ No attribute type found for the value. Do nothing for now.
-                if (!$attributeType instanceof \Akeneo\Category\Domain\ValueObject\Attribute\AttributeType) {
-                    continue;
-                }
-
-                if (is_string($value['data']) && $this->isDataStringEmpty($value['data'])) {
-                    $value['data'] = null;
-                }
-
-                $userIntents[] = $this->addValueUserIntent($attributeType, $value);
+        foreach ($data as $value) {
+            $attributeType = $this->getAttributeType($attributeCollection, $value);
+            // /!\ No attribute type found for the value. Do nothing for now.
+            if (!$attributeType instanceof \Akeneo\Category\Domain\ValueObject\Attribute\AttributeType) {
+                continue;
             }
+
+            if (is_string($value['data']) && $this->isDataStringEmpty($value['data'])) {
+                $value['data'] = null;
+            }
+
+            $userIntents[] = $this->addValueUserIntent($attributeType, $value);
         }
 
         return $userIntents;

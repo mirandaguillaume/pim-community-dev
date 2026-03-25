@@ -52,8 +52,6 @@ interface ProductRepositoryInterface extends ObjectRepository
 
     /**
      * Return the number of existing products
-     *
-     * @return int
      */
     public function countAll(): int;
 

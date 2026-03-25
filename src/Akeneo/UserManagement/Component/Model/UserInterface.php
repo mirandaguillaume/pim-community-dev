@@ -191,20 +191,12 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     public function setImage($image = null);
 
     /**
-     * @param  UploadedFile $imageFile
-     *
      * @return UserInterface
      */
     public function setImageFile(UploadedFile $imageFile);
 
-    /**
-     * @return FileInfoInterface|null
-     */
     public function getAvatar(): ?FileInfoInterface;
 
-    /**
-     * @param FileInfoInterface|null $avatar
-     */
     public function setAvatar(?FileInfoInterface $avatar = null): void;
 
     /**
@@ -266,8 +258,6 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     public function setLoginCount($count);
 
     /**
-     * @param \DateTime $createdAt
-     *
      * @return $this
      */
     public function setCreatedAt(\DateTime $createdAt);
@@ -313,7 +303,6 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     /**
      * Adds a Role to the Collection.
      *
-     * @param  Role $role
      *
      * @return UserInterface
      */
@@ -343,10 +332,8 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     /**
      * Directly set the Collection of Roles.
      *
-     * @param  Collection $collection
      *
      * @throws \InvalidArgumentException
-     *
      * @return UserInterface
      */
     public function setRolesCollection(Collection $collection);
@@ -371,15 +358,11 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     public function hasGroup($name);
 
     /**
-     * @param  GroupInterface $group
-     *
      * @return UserInterface
      */
     public function addGroup(GroupInterface $group);
 
     /**
-     * @param  GroupInterface $group
-     *
      * @return UserInterface
      */
     public function removeGroup(GroupInterface $group);
@@ -426,8 +409,6 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     public function getCatalogLocale();
 
     /**
-     * @param LocaleInterface $catalogLocale
-     *
      * @return UserInterface
      */
     public function setCatalogLocale(LocaleInterface $catalogLocale);
@@ -438,8 +419,6 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     public function getUiLocale();
 
     /**
-     * @param LocaleInterface $uiLocale
-     *
      * @return UserInterface
      */
     public function setUiLocale(LocaleInterface $uiLocale);
@@ -450,8 +429,6 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     public function getCatalogScope();
 
     /**
-     * @param ChannelInterface $catalogScope
-     *
      * @return UserInterface
      */
     public function setCatalogScope(ChannelInterface $catalogScope);
@@ -462,8 +439,6 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     public function getDefaultTree();
 
     /**
-     * @param array $productGridFilters
-     *
      * @return UserInterface
      */
     public function setProductGridFilters(array $productGridFilters = []);
@@ -474,8 +449,6 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
     public function getProductGridFilters();
 
     /**
-     * @param CategoryInterface $defaultTree
-     *
      * @return UserInterface
      */
     public function setDefaultTree(CategoryInterface $defaultTree);
@@ -513,41 +486,26 @@ interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUs
      */
     public function setDefaultGridView($alias, $defaultGridView);
 
-    /**
-     * @return null|string
-     */
     public function getPhone(): ?string;
 
     /**
      * @param string $phone
-     *
-     * @return UserInterface
      */
     public function setPhone(?string $phone): UserInterface;
 
     /**
      * Return the User timezone
-     *
-     * @return string
      */
     public function getTimezone(): string;
 
-    /**
-     * @param string $timezone
-     *
-     * @return UserInterface
-     */
     public function setTimezone(string $timezone): UserInterface;
 
     /**
-     * @param string $propertyName
      * @param mixed $propertyValue
      */
     public function addProperty(string $propertyName, $propertyValue): void;
 
     /**
-     * @param string $propertyName
-     *
      * @return mixed
      */
     public function getProperty(string $propertyName);

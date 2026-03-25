@@ -85,7 +85,6 @@ interface NotificationInterface
     /**
      * Set routeParams
      *
-     * @param array $routeParams
      *
      * @return NotificationInterface
      */
@@ -101,7 +100,6 @@ interface NotificationInterface
     /**
      * Set messageParams
      *
-     * @param array $messageParams
      *
      * @return NotificationInterface
      */
@@ -124,7 +122,6 @@ interface NotificationInterface
     /**
      * Set context
      *
-     * @param array $context
      *
      * @return NotificationInterface
      */

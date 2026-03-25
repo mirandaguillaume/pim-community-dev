@@ -19,7 +19,7 @@ class BaseEmptyValueProvider implements EmptyValueProviderInterface
      */
     public function getEmptyValue($attribute)
     {
-        $emptyValue = match ($attribute->getType()) {
+        return match ($attribute->getType()) {
             AttributeTypes::METRIC => [
                 'amount' => null,
                 'unit'   => $attribute->getDefaultMetricUnit(),
@@ -29,8 +29,6 @@ class BaseEmptyValueProvider implements EmptyValueProviderInterface
             AttributeTypes::BOOLEAN => false,
             default => null,
         };
-
-        return $emptyValue;
     }
 
     /**

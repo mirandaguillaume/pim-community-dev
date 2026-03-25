@@ -40,8 +40,7 @@ class JobParametersValidator
         $provider = $this->registry->get($job);
         $collection = $provider->getConstraintCollection();
         $parameters = $jobParameters->all();
-        $errors = $this->validator->validate($parameters, $collection, $groups);
 
-        return $errors;
+        return $this->validator->validate($parameters, $collection, $groups);
     }
 }

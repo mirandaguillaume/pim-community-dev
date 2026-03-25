@@ -31,9 +31,6 @@ final readonly class CountEntityWithFamilyVariant implements CountEntityWithFami
     }
 
     /**
-     * @param FamilyVariantInterface $familyVariant
-     *
-     * @return int
      * @throws Exception
      */
     private function countProductModels(FamilyVariantInterface $familyVariant): int
@@ -45,9 +42,6 @@ final readonly class CountEntityWithFamilyVariant implements CountEntityWithFami
     }
 
     /**
-     * @param FamilyVariantInterface $familyVariant
-     *
-     * @return int
      * @throws Exception
      */
     private function countVariantProducts(FamilyVariantInterface $familyVariant): int

@@ -26,7 +26,7 @@ class AttributeDataCollector implements DataCollectorInterface
 
     public function collect(): array
     {
-        $data = [
+        return [
             'nb_attributes' => $this->attributeCountQuery->fetch()->getVolume(),
             'nb_scopable_attributes' => $this->scopableAttributeCountQuery->fetch()->getVolume(),
             'nb_localizable_attributes' => $this->localizableAttributeCountQuery->fetch()->getVolume(),
@@ -37,7 +37,5 @@ class AttributeDataCollector implements DataCollectorInterface
             'avg_percentage_scopable_localizable_attributes_per_family' => $this->localizableAndScopableAttributePerFamilyAverageMaxQuery->fetch()->getAverageVolume(),
             'avg_number_attributes_per_family' => $this->attributePerFamilyAverageMaxQuery->fetch()->getAverageVolume(),
         ];
-
-        return $data;
     }
 }

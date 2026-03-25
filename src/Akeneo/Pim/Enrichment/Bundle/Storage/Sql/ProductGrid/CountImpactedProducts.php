@@ -54,9 +54,8 @@ class CountImpactedProducts
         $pmqb = $this->productAndProductModelQueryBuilderFactory->create(['filters' => $filters]);
         $pmqb->addFilter('entity_type', Operators::EQUALS, ProductInterface::class);
         $pmqb->addFilter('ancestor.id', Operators::IN_LIST, $productModelIds);
-        $count = $pmqb->execute()->count();
 
-        return $count;
+        return $pmqb->execute()->count();
     }
 
     /**
@@ -86,9 +85,7 @@ class CountImpactedProducts
         $pqb = $this->productAndProductModelQueryBuilderFactory->create(['filters' => $filters]);
         $pqb->addFilter('entity_type', Operators::EQUALS, ProductInterface::class);
 
-        $count = $pqb->execute()->count();
-
-        return $count;
+        return $pqb->execute()->count();
     }
 
     /**
@@ -175,7 +172,7 @@ class CountImpactedProducts
      */
     private function areSomeRowsUnselected(array $filters): bool
     {
-        foreach ($filters as $keyCondition => $condition) {
+        foreach ($filters as $condition) {
             if ('id' === $condition['field'] && Operators::NOT_IN_LIST === $condition['operator']) {
                 return true;
             }
@@ -204,9 +201,9 @@ class CountImpactedProducts
     private function extractProductModelIds(array $filters): array
     {
         $productModelIds = [];
-        foreach ($filters as $keyCondition => $condition) {
+        foreach ($filters as $condition) {
             if ('id' === $condition['field']) {
-                foreach ($condition['value'] as $keyValue => $id) {
+                foreach ($condition['value'] as $id) {
                     if (str_starts_with((string) $id, 'product_model_')) {
                         $productModelIds[] = $id;
                     }

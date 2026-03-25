@@ -25,9 +25,8 @@ class ListRootCategoriesWithCountIncludingSubCategories implements Query\ListRoo
     public function list(string $translationLocaleCode, int $userId, int $rootCategoryIdToExpand): array
     {
         $categoriesWithoutCount = $this->getRootCategories($translationLocaleCode);
-        $rootCategories = $this->countProductInCategories($categoriesWithoutCount, $rootCategoryIdToExpand);
 
-        return $rootCategories;
+        return $this->countProductInCategories($categoriesWithoutCount, $rootCategoryIdToExpand);
     }
 
     /**

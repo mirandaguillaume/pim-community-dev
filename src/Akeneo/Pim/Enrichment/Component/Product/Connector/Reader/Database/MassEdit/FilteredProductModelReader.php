@@ -127,10 +127,6 @@ class FilteredProductModelReader implements
         return array_filter($filters, fn ($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
     }
 
-    /**
-     * @param ChannelInterface|null $channel
-     *
-     */
     private function getProductModelsCursor(array $filters, ?ChannelInterface $channel = null): CursorInterface
     {
         $filters[] = [

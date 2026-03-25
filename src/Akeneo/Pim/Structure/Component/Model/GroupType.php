@@ -90,8 +90,6 @@ class GroupType implements GroupTypeInterface, \Stringable
 
     /**
      * Returns the code
-     *
-     * @return string
      */
     public function __toString(): string
     {

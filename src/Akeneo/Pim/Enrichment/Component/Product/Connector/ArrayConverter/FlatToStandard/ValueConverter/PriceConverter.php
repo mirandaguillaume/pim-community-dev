@@ -14,10 +14,6 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
  */
 class PriceConverter extends AbstractValueConverter
 {
-    /**
-     * @param FieldSplitter $fieldSplitter
-     * @param array         $supportedFieldType
-     */
     public function __construct(FieldSplitter $fieldSplitter, array $supportedFieldType)
     {
         parent::__construct($fieldSplitter);

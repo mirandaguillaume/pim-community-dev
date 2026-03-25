@@ -39,7 +39,7 @@ class UnitCountValidator extends ConstraintValidator
             $this->context->buildViolation(UnitCount::MAX_MESSAGE)
                 ->setParameter('%limit%', (string) $this->max)
                 ->setInvalidValue($value)
-                ->setPlural((int) $this->max)
+                ->setPlural($this->max)
                 ->addViolation();
         }
 

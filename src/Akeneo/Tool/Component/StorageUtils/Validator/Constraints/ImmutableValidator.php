@@ -35,7 +35,6 @@ class ImmutableValidator extends ConstraintValidator
      * Validate the property
      *
      * @param object     $entity
-     * @param Constraint $constraint
      */
     public function validate($entity, Constraint $constraint)
     {

@@ -15,8 +15,6 @@ class DocumentedHttpException extends UnprocessableEntityHttpException
 {
     /**
      * @param string          $href
-     * @param null            $message
-     * @param \Exception|null $previous
      * @param int             $code
      */
     public function __construct(protected $href, $message = null, ?\Exception $previous = null, $code = 0)

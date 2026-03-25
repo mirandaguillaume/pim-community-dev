@@ -142,7 +142,6 @@ class ConfigManager
     /**
      * @param $entity
      * @param $entityId
-     * @param null $section
      * @return bool
      */
     public function loadStoredSettings($entity, $entityId, $section = null)
@@ -181,9 +180,6 @@ class ConfigManager
         return $settings;
     }
 
-    /**
-     * @return null
-     */
     public function getScopedEntityName()
     {
         return 'app';

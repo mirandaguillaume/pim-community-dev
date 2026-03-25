@@ -20,8 +20,6 @@ class DataArrayConversionException extends ArrayConversionException
     /**
      * @param string                                $message
      * @param int                                   $code
-     * @param \Throwable|null                       $previous
-     * @param ConstraintViolationListInterface|null $violations
      */
     public function __construct(
         $message,

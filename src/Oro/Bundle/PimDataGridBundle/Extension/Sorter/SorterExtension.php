@@ -128,9 +128,7 @@ class SorterExtension extends AbstractExtension
      */
     protected function getSorters(DatagridConfiguration $config)
     {
-        $sorters = $config->offsetGetByPath(Configuration::COLUMNS_PATH);
-
-        return $sorters;
+        return $config->offsetGetByPath(Configuration::COLUMNS_PATH);
     }
 
     /**
