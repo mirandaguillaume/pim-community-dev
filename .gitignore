@@ -70,3 +70,4 @@ ast-metrics-report.json
 ast-metrics-report.sarif
 metrics.txt
 var/ast-metrics/
+.stryker-tmp/
