@@ -1085,10 +1085,10 @@ jobs:
       - name: Install front assets
         run: |
           mkdir -p public/css public/dist public/js var/build
-          cp -a front-build/public/css/. public/css/ 2>/dev/null || true
-          cp -a front-build/public/dist/. public/dist/ 2>/dev/null || true
-          cp -a front-build/public/js/. public/js/ 2>/dev/null || true
-          cp -a front-build/var/build/module-registry.js var/build/ 2>/dev/null || true
+          cp -a build-front/public/css/. public/css/ 2>/dev/null || true
+          cp -a build-front/public/dist/. public/dist/ 2>/dev/null || true
+          cp -a build-front/public/js/. public/js/ 2>/dev/null || true
+          cp -a build-front/var/build/module-registry.js var/build/ 2>/dev/null || true
           sudo chmod -R 777 public/
           docker-compose run --rm php php bin/console pim:installer:assets --symlink --env=behat
           sudo chown -R $(id -u):$(id -g) public/
@@ -1419,10 +1419,10 @@ jobs:
           docker-compose run --rm php php bin/console pim:product-model:index --all --env=prod
           # Restore front build artifacts FIRST (CSS, dist, JS, module-registry)
           mkdir -p public/css public/dist public/js var/build
-          cp -a front-build/public/css/. public/css/ 2>/dev/null || true
-          cp -a front-build/public/dist/. public/dist/ 2>/dev/null || true
-          cp -a front-build/public/js/. public/js/ 2>/dev/null || true
-          cp -a front-build/var/build/module-registry.js var/build/ 2>/dev/null || true
+          cp -a build-front/public/css/. public/css/ 2>/dev/null || true
+          cp -a build-front/public/dist/. public/dist/ 2>/dev/null || true
+          cp -a build-front/public/js/. public/js/ 2>/dev/null || true
+          cp -a build-front/var/build/module-registry.js var/build/ 2>/dev/null || true
           # Fix ownership so Docker container can write to public/ during assets install
           sudo chmod -R 777 public/
           # Install Symfony assets WITHOUT --clean (adds bundles + translations without wiping)
