@@ -119,33 +119,71 @@ jobs:
 
           # Always produce reports even if Infection exits non-zero (MSI below threshold)
 
+      # PHPSpec mutation testing (separate run — Infection only supports one framework per run)
+      - name: Run Infection with PHPSpec
+        env:
+          INPUT_THREADS: ${{ inputs.php-threads }}
+          INPUT_FILTER: ${{ inputs.php-filter }}
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          mkdir -p var/infection-phpspec
+
+          INFECTION_ARGS="--test-framework=phpspec"
+          INFECTION_ARGS="${INFECTION_ARGS} --threads=${INPUT_THREADS}"
+          INFECTION_ARGS="${INFECTION_ARGS} --show-mutations"
+          INFECTION_ARGS="${INFECTION_ARGS} --no-interaction"
+          INFECTION_ARGS="${INFECTION_ARGS} --logger-html=var/infection-phpspec/infection.html"
+          INFECTION_ARGS="${INFECTION_ARGS} --logger-text=var/infection-phpspec/infection.log"
+          INFECTION_ARGS="${INFECTION_ARGS} --logger-summary-json=var/infection-phpspec/summary.json"
+
+          if [ -n "${INPUT_FILTER}" ]; then
+            INFECTION_ARGS="${INFECTION_ARGS} --filter=${INPUT_FILTER}"
+          fi
+
+          echo "Running: vendor/bin/infection ${INFECTION_ARGS}"
+
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            -e APP_ENV=test_fake \
+            -e XDEBUG_MODE=coverage \
+            php php -d zend_extension=xdebug.so -d xdebug.mode=coverage vendor/bin/infection ${INFECTION_ARGS} || true
+
       - name: Infection summary
         if: always()
         run: |
-          echo "## Infection Mutation Testing Results" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Infection — PHPUnit" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          if [ -f var/infection/summary.log ]; then
+          if [ -f var/infection/infection-summary.log ]; then
             echo '```' >> "$GITHUB_STEP_SUMMARY"
-            cat var/infection/summary.log >> "$GITHUB_STEP_SUMMARY"
+            cat var/infection/infection-summary.log >> "$GITHUB_STEP_SUMMARY"
             echo '```' >> "$GITHUB_STEP_SUMMARY"
-          fi
-          if [ -f var/infection/per-mutator.md ]; then
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            echo "### Per-mutator breakdown" >> "$GITHUB_STEP_SUMMARY"
-            cat var/infection/per-mutator.md >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Upload Infection reports
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Infection — PHPSpec" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f var/infection-phpspec/summary.json ]; then
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            cat var/infection-phpspec/summary.json >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload Infection reports (PHPUnit)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: infection-reports
+          name: infection-phpunit-reports
           path: |
-            var/infection/infection.html
-            var/infection/infection.json
-            var/infection/infection.log
-            var/infection/summary.log
-            var/infection/per-mutator.md
+            var/infection/
+          retention-days: 30
+
+      - name: Upload Infection reports (PHPSpec)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: infection-phpspec-reports
+          path: |
+            var/infection-phpspec/
           retention-days: 30
 
   # ===========================================================================
