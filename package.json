@@ -51,7 +51,8 @@
     "packages:build": "yarn dsm:build && yarn shared:build && yarn structure:build && yarn measurement:build && yarn catalog-volume-monitoring:build && yarn category:build && yarn config:build && yarn process-tracker:build && yarn import-export:build && yarn catalogs:build && yarn identifier-generator:build",
     "analyze": "ANALYZE=true yarn generate-models && ANALYZE=true NODE_PATH=node_modules rspack --config rspack.config.js --env=prod",
     "test:e2e:open": "playwright test --ui",
-    "test:e2e:run": "playwright test"
+    "test:e2e:run": "playwright test",
+    "mutation-front": "stryker run"
   },
   "repository": {
     "type": "git",
@@ -129,7 +130,10 @@
     "typescript": "^5.7.0",
     "typescript-plugin-styled-components": "^3.0.0",
     "webpack-bundle-analyzer": "^4.10.0",
-    "yamljs": "0.3.0"
+    "yamljs": "0.3.0",
+    "@stryker-mutator/core": "^8.6",
+    "@stryker-mutator/jest-runner": "^8.6",
+    "@stryker-mutator/typescript-checker": "^8.6"
   },
   "dependencies": {
     "@types/react-query": "^1.2.9",

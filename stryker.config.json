@@ -1,0 +1,41 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/core/schema/stryker-schema.json",
+  "testRunner": "jest",
+  "jest": {
+    "configFile": "tests/front/unit/jest/unit.jest.js"
+  },
+  "checkers": ["typescript"],
+  "tsconfigFile": "tsconfig.json",
+  "reporters": ["html", "json", "clear-text", "progress"],
+  "htmlReporter": {
+    "fileName": "var/stryker/mutation-report.html"
+  },
+  "jsonReporter": {
+    "fileName": "var/stryker/mutation-report.json"
+  },
+  "mutate": [
+    "front-packages/shared/src/**/*.{ts,tsx}",
+    "front-packages/akeneo-design-system/src/**/*.{ts,tsx}",
+    "components/identifier-generator/front/src/**/*.{ts,tsx}",
+    "src/Akeneo/Category/front/src/**/*.{ts,tsx}",
+    "src/Akeneo/Connectivity/Connection/front/src/**/*.{ts,tsx}",
+    "src/Akeneo/Connectivity/Connection/workspaces/permission-form/src/**/*.{ts,tsx}",
+    "src/Akeneo/Tool/Bundle/MeasureBundle/front/src/**/*.{ts,tsx}",
+    "src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.{ts,tsx}",
+    "src/Akeneo/Platform/Job/front/process-tracker/src/**/*.{ts,tsx}",
+    "!**/*.spec.{ts,tsx}",
+    "!**/*.test.{ts,tsx}",
+    "!**/__tests__/**",
+    "!**/__mocks__/**",
+    "!**/test/**",
+    "!**/stories/**"
+  ],
+  "tempDirName": "/tmp/stryker-tmp",
+  "thresholds": {
+    "high": 80,
+    "low": 50,
+    "break": 0
+  },
+  "incremental": true,
+  "incrementalFile": "var/stryker/stryker-incremental.json"
+}

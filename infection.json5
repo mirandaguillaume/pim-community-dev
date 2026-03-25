@@ -26,6 +26,7 @@
             "report": "master"
         }
     },
+    "tmpDir": "/tmp/infection",
     "phpUnit": {
         "configDir": ".",
         "customPath": "vendor/bin/phpunit"
