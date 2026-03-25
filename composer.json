@@ -178,7 +178,7 @@
         "symfony/debug-bundle": "^6.4",
         "symfony/web-profiler-bundle": "^6.4",
         "vimeo/psalm": "^6.0.0",
-        "infection/infection": "^0.29"
+        "infection/infection": "^0.32.6"
     },
     "conflict": {
         "symfony/symfony": "*"
