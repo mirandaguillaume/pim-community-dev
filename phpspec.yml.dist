@@ -15,25 +15,11 @@ suites:
         spec_path: src/Akeneo/Category/back/tests
         spec_prefix: Specification
 
-    ## Channel context
+    ## Channel context (modern hexagonal + acceptance specs migrated to PHPUnit)
     LegacyChannel:
         namespace: Akeneo\Channel
         psr4_prefix: Akeneo\Channel
         spec_path: tests/back/Channel
-        src_path: src/Akeneo/Channel/back
-        spec_prefix: Specification
-
-    ChannelAcceptance:
-        namespace: Akeneo\Test\Channel\Acceptance
-        psr4_prefix: Akeneo\Test\Channel\Acceptance
-        spec_path: src/Akeneo/Channel/back/tests/Acceptance
-        src_path: src/Akeneo/Channel/back/tests/Acceptance
-        spec_prefix: Specification
-
-    Channel:
-        namespace: Akeneo\Channel
-        psr4_prefix: Akeneo\Channel
-        spec_path: src/Akeneo/Channel/back/tests
         src_path: src/Akeneo/Channel/back
         spec_prefix: Specification
 
@@ -104,12 +90,7 @@ suites:
         src_path: src/Akeneo/Pim/Automation/DataQualityInsights
         spec_prefix: Specification
 
-    IdentifierGenerator:
-        namespace: Akeneo\Pim\Automation\IdentifierGenerator
-        psr4_prefix: Akeneo\Pim\Automation\IdentifierGenerator
-        spec_path: components/identifier-generator/back/tests
-        src_path: components/identifier-generator/back/src
-        spec_prefix: Specification
+    ## IdentifierGenerator: migrated to PHPUnit (Phase 1)
 
     ## Akeneo Components
     Connector:
@@ -254,12 +235,7 @@ suites:
         spec_path: tests/back/UserManagement
         src_path: src/Akeneo/UserManagement
         spec_prefix: Specification
-    User:
-        namespace: Akeneo\UserManagement
-        psr4_prefix: Akeneo\UserManagement
-        spec_path: src/Akeneo/UserManagement/back/tests
-        src_path: src/Akeneo/UserManagement/back
-        spec_prefix: Specification
+    ## User (modern hexagonal): migrated to PHPUnit (Phase 1)
     ## Oro bundles
     OroFilterBundle:
         namespace: Oro\Bundle\FilterBundle

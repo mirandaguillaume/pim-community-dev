@@ -105,7 +105,10 @@
 
         <testsuite name="PHPUnit_Unit_Test">
             <directory suffix="Test.php">src/Akeneo/Category/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Acceptance</directory>
+            <directory suffix="Test.php">components/identifier-generator/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/UserManagement/back/tests/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Acceptance</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Acceptance</directory>
             <!-- Exclude misplaced integration tests (extend CategoryTestCase → need DB) -->
@@ -117,6 +120,10 @@
 
         <testsuite name="Category_EndToEnd_Test">
             <directory suffix="EndToEnd.php">src/Akeneo/Category/back/tests/EndToEnd</directory>
+        </testsuite>
+
+        <testsuite name="Channel_Unit_Test">
+            <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Unit</directory>
         </testsuite>
 
         <testsuite name="Channel_Integration_Test">
@@ -152,9 +159,17 @@
             <directory suffix="Test.php">src/Akeneo/Tool/Bundle/StorageUtilsBundle/tests/integration</directory>
         </testsuite>
 
+        <testsuite name="Identifier_Generator_Unit_Test">
+            <directory suffix="Test.php">components/identifier-generator/back/tests/Unit</directory>
+        </testsuite>
+
         <testsuite name="Identifier_Generator_PhpUnit">
             <directory suffix="EndToEnd.php">components/identifier-generator/back/tests/EndToEnd</directory>
             <directory suffix="Integration.php">components/identifier-generator/back/tests/Integration</directory>
+        </testsuite>
+
+        <testsuite name="UserManagement_Unit_Test">
+            <directory suffix="Test.php">src/Akeneo/UserManagement/back/tests/Unit</directory>
         </testsuite>
 
         <testsuite name="Job_Integration_Test">
