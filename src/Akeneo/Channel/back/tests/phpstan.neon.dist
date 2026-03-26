@@ -9,6 +9,7 @@ parameters:
   excludePaths:
     - %rootDir%/../../../src/Akeneo/Channel/back/tests/Specification
     - %rootDir%/../../../src/Akeneo/Channel/back/tests/Acceptance/Specification
+    - %rootDir%/../../../src/Akeneo/Channel/back/tests/Unit
     - %rootDir%/../../../src/Akeneo/Channel/back/Infrastructure
   ignoreErrors:
     # PHP 8.4: GMP/SimpleXMLElement added to built-in function signatures

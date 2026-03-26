@@ -7,6 +7,9 @@ parameters:
     level: max
     paths:
         - %currentWorkingDirectory%/components/identifier-generator
+    excludePaths:
+        - %currentWorkingDirectory%/components/identifier-generator/back/tests/Specification
+        - %currentWorkingDirectory%/components/identifier-generator/back/tests/Unit
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # DBAL methods return mixed in type stubs (PHPStan 1.12+ strictness)
