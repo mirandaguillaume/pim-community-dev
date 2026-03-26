@@ -47,11 +47,13 @@ class UnableToSetIdentifiersSubscriberTest extends TestCase
         );
         $this->sut->storeEvent(new UnableToSetIdentifierEvent(new UnableToSetIdentifierException(
             'AKN-2000',
-            'sku', new ErrorList([new Error('Error 1')])
+            'sku',
+            new ErrorList([new Error('Error 1')])
         )));
         $this->sut->storeEvent(new UnableToSetIdentifierEvent(new UnableToSetIdentifierException(
             'TOTO-2012',
-            'ean', new ErrorList([new Error('Error 2')])
+            'ean',
+            new ErrorList([new Error('Error 2')])
         )));
         $this->sut->writeWarnings($stepExecutionEvent);
     }

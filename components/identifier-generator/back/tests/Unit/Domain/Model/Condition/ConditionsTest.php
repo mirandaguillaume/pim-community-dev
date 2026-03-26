@@ -18,9 +18,7 @@ class ConditionsTest extends TestCase
 {
     private Conditions $sut;
 
-    protected function setUp(): void
-    {
-    }
+    protected function setUp(): void {}
 
     public function test_it_cannot_be_instantiated_with_something_else_than_a_condition(): void
     {
@@ -50,8 +48,8 @@ class ConditionsTest extends TestCase
     {
         $this->sut = Conditions::fromArray([new Enabled(true)]);
         $this->assertSame([
-                    ['type' => 'enabled', 'value' => true],
-                ], $this->sut->normalize());
+            ['type' => 'enabled', 'value' => true],
+        ], $this->sut->normalize());
     }
 
     public function test_it_should_return_conjunction(): void

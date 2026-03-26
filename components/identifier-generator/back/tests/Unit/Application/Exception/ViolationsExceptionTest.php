@@ -24,14 +24,14 @@ class ViolationsExceptionTest extends TestCase
     public function test_it_should_be_normalized(): void
     {
         $this->assertSame([
-                    [
-                        'path' => null,
-                        'message' => 'message1',
-                    ],
-                    [
-                        'path' => null,
-                        'message' => 'message2',
-                    ],
-                ], $this->sut->normalize());
+            [
+                'path' => null,
+                'message' => 'message1',
+            ],
+            [
+                'path' => null,
+                'message' => 'message2',
+            ],
+        ], $this->sut->normalize());
     }
 }

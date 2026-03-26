@@ -21,12 +21,12 @@ class ReferenceEntityPropertyTest extends TestCase
     protected function setUp(): void
     {
         $this->sut = ReferenceEntityProperty::fromNormalized([
-                'type' => 'reference_entity',
-                'attributeCode' => 'brand',
-                'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3],
-                'scope' => 'ecommerce',
-                'locale' => 'en_US',
-            ]);
+            'type' => 'reference_entity',
+            'attributeCode' => 'brand',
+            'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3],
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ]);
     }
 
     public function test_it_is_a_reference_entity_property(): void
@@ -49,49 +49,49 @@ class ReferenceEntityPropertyTest extends TestCase
     public function test_it_normalizes_itself(): void
     {
         $this->assertSame([
-                    'type' => 'reference_entity',
-                    'attributeCode' => 'brand',
-                    'process' => [
-                        'type' => 'truncate',
-                        'operator' => '=',
-                        'value' => 3
-                    ],
-                    'scope' => 'ecommerce',
-                    'locale' => 'en_US',
-                ], $this->sut->normalize());
+            'type' => 'reference_entity',
+            'attributeCode' => 'brand',
+            'process' => [
+                'type' => 'truncate',
+                'operator' => '=',
+                'value' => 3,
+            ],
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ], $this->sut->normalize());
     }
 
     public function test_it_normalizes_itself_with_scope_and_locale(): void
     {
         $this->sut = ReferenceEntityProperty::fromNormalized([
-                        'type' => 'reference_entity',
-                        'attributeCode' => 'brand',
-                        'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3],
-                        'scope' => 'ecommerce',
-                        'locale' => 'en_US'
-                    ]);
+            'type' => 'reference_entity',
+            'attributeCode' => 'brand',
+            'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3],
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ]);
         $this->assertSame([
-                    'type' => 'reference_entity',
-                    'attributeCode' => 'brand',
-                    'process' => [
-                        'type' => 'truncate',
-                        'operator' => '=',
-                        'value' => 3
-                    ],
-                    'scope' => 'ecommerce',
-                    'locale' => 'en_US'
-                ], $this->sut->normalize());
+            'type' => 'reference_entity',
+            'attributeCode' => 'brand',
+            'process' => [
+                'type' => 'truncate',
+                'operator' => '=',
+                'value' => 3,
+            ],
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ], $this->sut->normalize());
     }
 
     public function test_it_should_return_an_implicit_condition(): void
     {
         $this->assertEquals(ReferenceEntity::fromNormalized([
-                        'type' => 'reference_entity',
-                        'attributeCode' => 'brand',
-                        'operator' => 'NOT EMPTY',
-                        'scope' => 'ecommerce',
-                        'locale' => 'en_US',
-                    ]), $this->sut->getImplicitCondition());
+            'type' => 'reference_entity',
+            'attributeCode' => 'brand',
+            'operator' => 'NOT EMPTY',
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ]), $this->sut->getImplicitCondition());
     }
 
     public function test_it_normalizes_without_scope_and_locale(): void

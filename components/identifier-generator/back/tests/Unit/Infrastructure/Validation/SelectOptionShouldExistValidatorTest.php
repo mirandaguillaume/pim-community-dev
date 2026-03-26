@@ -39,8 +39,8 @@ class SelectOptionShouldExistValidatorTest extends TestCase
     public function test_it_can_only_validate_the_right_constraint(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->validate(['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => ['green', 'red']
-                    ], new NotBlank());
+        $this->sut->validate(['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => ['green', 'red'],
+        ], new NotBlank());
     }
 
     public function test_it_should_not_validate_something_else_than_an_array(): void
@@ -53,45 +53,45 @@ class SelectOptionShouldExistValidatorTest extends TestCase
     {
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate(
-                    ['type' => 'simple_select', 'operator' => 'IN', 'value' => ['green', 'red']],
-                    new SelectOptionShouldExist()
-                );
+            ['type' => 'simple_select', 'operator' => 'IN', 'value' => ['green', 'red']],
+            new SelectOptionShouldExist()
+        );
     }
 
     public function test_it_should_not_validate_if_value_is_missing(): void
     {
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate(
-                    ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN'],
-                    new SelectOptionShouldExist()
-                );
+            ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN'],
+            new SelectOptionShouldExist()
+        );
     }
 
     public function test_it_should_not_validate_if_value_is_not_an_array(): void
     {
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate(
-                    ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => 'green'],
-                    new SelectOptionShouldExist()
-                );
+            ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => 'green'],
+            new SelectOptionShouldExist()
+        );
     }
 
     public function test_it_should_not_validate_if_value_is_empty(): void
     {
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate(
-                    ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => []],
-                    new SelectOptionShouldExist()
-                );
+            ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => []],
+            new SelectOptionShouldExist()
+        );
     }
 
     public function test_it_should_not_validate_if_value_is_not_an_array_of_strings(): void
     {
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate(
-                    ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => ['green', 0]],
-                    new SelectOptionShouldExist()
-                );
+            ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => ['green', 0]],
+            new SelectOptionShouldExist()
+        );
     }
 
     public function test_it_should_add_violation_if_codes_do_not_exist(): void
@@ -99,23 +99,23 @@ class SelectOptionShouldExistValidatorTest extends TestCase
         $constraintViolationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
         $this->context->expects($this->once())->method('buildViolation')->with($this->anything(), [
-                    '{{ attributeCode }}' => 'color',
-                    '{{ optionCodes }}' => '"unknown1", "unknown2"',
-                ])->willReturn($constraintViolationBuilder);
+            '{{ attributeCode }}' => 'color',
+            '{{ optionCodes }}' => '"unknown1", "unknown2"',
+        ])->willReturn($constraintViolationBuilder);
         $constraintViolationBuilder->expects($this->once())->method('atPath')->with('[value]')->willReturn($constraintViolationBuilder);
         $constraintViolationBuilder->expects($this->once())->method('addViolation');
         $this->getExistingAttributeOptionsWithValues->expects($this->once())->method('fromAttributeCodeAndOptionCodes')->with([
-                    'color.green',
-                    'color.unknown1',
-                    'color.red',
-                    'color.unknown2',
-                ])->willReturn([
-                    'color.green' => ['en_US' => 'Green'],
-                    'color.red' => ['en_US' => 'Red'],
-                ]);
+            'color.green',
+            'color.unknown1',
+            'color.red',
+            'color.unknown2',
+        ])->willReturn([
+            'color.green' => ['en_US' => 'Green'],
+            'color.red' => ['en_US' => 'Red'],
+        ]);
         $this->sut->validate(
-                    ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => ['green', 'unknown1', 'red', 'unknown2']],
-                    new SelectOptionShouldExist()
-                );
+            ['type' => 'simple_select', 'attributeCode' => 'color', 'operator' => 'IN', 'value' => ['green', 'unknown1', 'red', 'unknown2']],
+            new SelectOptionShouldExist()
+        );
     }
 }

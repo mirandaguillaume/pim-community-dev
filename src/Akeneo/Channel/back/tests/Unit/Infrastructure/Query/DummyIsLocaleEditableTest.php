@@ -26,9 +26,9 @@ class DummyIsLocaleEditableTest extends TestCase
     public function test_it_returns_always_true(): void
     {
         foreach (['en_US', 'fr_FR', 'de_DE'] as $localeCode) {
-                    $this->assertSame(true, $this->sut->forUserId($localeCode, 1));
-                    $this->assertSame(true, $this->sut->forUserId($localeCode, 4_638_765_483));
-                    $this->assertSame(true, $this->sut->forUserId($localeCode, 0));
-                }
+            $this->assertSame(true, $this->sut->forUserId($localeCode, 1));
+            $this->assertSame(true, $this->sut->forUserId($localeCode, 4_638_765_483));
+            $this->assertSame(true, $this->sut->forUserId($localeCode, 0));
+        }
     }
 }

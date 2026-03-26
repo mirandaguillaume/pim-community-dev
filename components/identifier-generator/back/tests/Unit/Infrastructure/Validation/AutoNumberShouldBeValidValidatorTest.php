@@ -53,23 +53,25 @@ class AutoNumberShouldBeValidValidatorTest extends TestCase
     public function test_it_should_build_violation_when_auto_number_is_invalid(): void
     {
         $autoNumberWithoutField = [
-                    'type' => 'auto_number',
-                    'numberMin' => 2,
-                ];
-        $this->context->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.auto_number_fields_required',
-                    [
-                        '{{field}}' => 'numberMin, digitsMin',
-                    ]);
+            'type' => 'auto_number',
+            'numberMin' => 2,
+        ];
+        $this->context->expects($this->once())->method('buildViolation')->with(
+            'validation.identifier_generator.auto_number_fields_required',
+            [
+                '{{field}}' => 'numberMin, digitsMin',
+            ]
+        );
         $this->sut->validate($autoNumberWithoutField, new AutoNumberShouldBeValid());
     }
 
     public function test_it_should_build_violation_when_auto_number_is_valid(): void
     {
         $autoNumberValid = [
-                    'type' => 'auto_number',
-                    'numberMin' => 2,
-                    'digitsMin' => 2,
-                ];
+            'type' => 'auto_number',
+            'numberMin' => 2,
+            'digitsMin' => 2,
+        ];
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate($autoNumberValid, new AutoNumberShouldBeValid());
     }

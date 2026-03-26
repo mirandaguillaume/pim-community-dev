@@ -18,10 +18,10 @@ class ProcessTest extends TestCase
     protected function setUp(): void
     {
         $this->sut = Process::fromNormalized([
-                'type' => 'truncate',
-                'operator' => '=',
-                'value' => 3,
-            ],);
+            'type' => 'truncate',
+            'operator' => '=',
+            'value' => 3,
+        ], );
     }
 
     public function test_it_is_a_family_generation_process(): void
@@ -37,10 +37,10 @@ class ProcessTest extends TestCase
     public function test_it_normalize_a_process(): void
     {
         $this->assertSame([
-                    'type' => 'truncate',
-                    'operator' => '=',
-                    'value' => 3,
-                ], $this->sut->normalize());
+            'type' => 'truncate',
+            'operator' => '=',
+            'value' => 3,
+        ], $this->sut->normalize());
     }
 
     public function test_it_should_throw_an_exception_when_no_type(): void

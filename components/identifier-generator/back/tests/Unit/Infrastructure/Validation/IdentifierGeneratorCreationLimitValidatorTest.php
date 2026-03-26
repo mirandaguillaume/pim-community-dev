@@ -44,16 +44,20 @@ class IdentifierGeneratorCreationLimitValidatorTest extends TestCase
     public function test_it_should_build_violation_when_an_identifier_generator_already_exist(): void
     {
         $this->repository->expects($this->once())->method('count')->willReturn(1);
-        $this->context->expects($this->once())->method('buildViolation')->with('validation.create.identifier_limit_reached',
-                    ['{{limit}}' => 1]);
+        $this->context->expects($this->once())->method('buildViolation')->with(
+            'validation.create.identifier_limit_reached',
+            ['{{limit}}' => 1]
+        );
         $this->sut->validate('generatorCode', new IdentifierGeneratorCreationLimit());
     }
 
     public function test_it_should_build_violation_when_identifier_generator_limit_is_reached(): void
     {
         $this->repository->expects($this->once())->method('count')->willReturn(2);
-        $this->context->expects($this->once())->method('buildViolation')->with('validation.create.identifier_limit_reached',
-                    ['{{limit}}' => 2]);
+        $this->context->expects($this->once())->method('buildViolation')->with(
+            'validation.create.identifier_limit_reached',
+            ['{{limit}}' => 2]
+        );
         $this->sut->validate('generatorCode', new IdentifierGeneratorCreationLimit(['limit' => 2]));
     }
 

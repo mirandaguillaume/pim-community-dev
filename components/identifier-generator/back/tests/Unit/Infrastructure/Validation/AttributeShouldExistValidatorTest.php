@@ -45,25 +45,27 @@ class AttributeShouldExistValidatorTest extends TestCase
 
     public function test_it_should_build_violation_when_attribute_does_not_exist(): void
     {
-        $this->context->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.attribute_does_not_exist',
-                    ['{{code}}' => 'sku']);
+        $this->context->expects($this->once())->method('buildViolation')->with(
+            'validation.identifier_generator.attribute_does_not_exist',
+            ['{{code}}' => 'sku']
+        );
         $this->sut->validate('sku', new AttributeShouldExist());
     }
 
     public function test_it_should_be_valid_when_attribute_exist(): void
     {
         $this->getAttributes->expects($this->once())->method('forCode')->with('sku')->willReturn(new Attribute(
-                        'sku',
-                        AttributeTypes::IDENTIFIER,
-                        [],
-                        false,
-                        false,
-                        null,
-                        null,
-                        null,
-                        '',
-                        []
-                    ));
+            'sku',
+            AttributeTypes::IDENTIFIER,
+            [],
+            false,
+            false,
+            null,
+            null,
+            null,
+            '',
+            []
+        ));
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate('sku', new AttributeShouldExist());
     }

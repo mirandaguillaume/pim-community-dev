@@ -20,12 +20,12 @@ class SimpleSelectPropertyTest extends TestCase
     protected function setUp(): void
     {
         $this->sut = SimpleSelectProperty::fromNormalized([
-                'type' => 'simple_select',
-                'attributeCode' => 'color',
-                'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3],
-                'scope' => 'ecommerce',
-                'locale' => 'en_US',
-            ]);
+            'type' => 'simple_select',
+            'attributeCode' => 'color',
+            'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3],
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ]);
     }
 
     public function test_it_is_a_simple_select_property(): void
@@ -48,49 +48,49 @@ class SimpleSelectPropertyTest extends TestCase
     public function test_it_normalizes_itself(): void
     {
         $this->assertSame([
-                    'type' => 'simple_select',
-                    'attributeCode' => 'color',
-                    'process' => [
-                        'type' => 'truncate',
-                        'operator' => '=',
-                        'value' => 3
-                    ],
-                    'scope' => 'ecommerce',
-                    'locale' => 'en_US',
-                ], $this->sut->normalize());
+            'type' => 'simple_select',
+            'attributeCode' => 'color',
+            'process' => [
+                'type' => 'truncate',
+                'operator' => '=',
+                'value' => 3,
+            ],
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ], $this->sut->normalize());
     }
 
     public function test_it_normalizes_itself_with_scope_and_locale(): void
     {
         $this->sut = SimpleSelectProperty::fromNormalized([
-                        'type' => 'simple_select',
-                        'attributeCode' => 'color',
-                        'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3],
-                        'scope' => 'ecommerce',
-                        'locale' => 'en_US'
-                    ]);
+            'type' => 'simple_select',
+            'attributeCode' => 'color',
+            'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3],
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ]);
         $this->assertSame([
-                    'type' => 'simple_select',
-                    'attributeCode' => 'color',
-                    'process' => [
-                        'type' => 'truncate',
-                        'operator' => '=',
-                        'value' => 3
-                    ],
-                    'scope' => 'ecommerce',
-                    'locale' => 'en_US'
-                ], $this->sut->normalize());
+            'type' => 'simple_select',
+            'attributeCode' => 'color',
+            'process' => [
+                'type' => 'truncate',
+                'operator' => '=',
+                'value' => 3,
+            ],
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ], $this->sut->normalize());
     }
 
     public function test_it_should_return_an_implicit_condition(): void
     {
         $this->assertEquals(SimpleSelect::fromNormalized([
-                        'type' => 'simple_select',
-                        'attributeCode' => 'color',
-                        'operator' => 'NOT EMPTY',
-                        'scope' => 'ecommerce',
-                        'locale' => 'en_US',
-                    ]), $this->sut->getImplicitCondition());
+            'type' => 'simple_select',
+            'attributeCode' => 'color',
+            'operator' => 'NOT EMPTY',
+            'scope' => 'ecommerce',
+            'locale' => 'en_US',
+        ]), $this->sut->getImplicitCondition());
     }
 
     public function test_it_normalizes_without_scope_and_locale(): void

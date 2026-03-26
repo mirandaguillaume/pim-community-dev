@@ -40,18 +40,18 @@ class MatchIdentifierGeneratorHandlerTest extends TestCase
     public function test_it_should_match_all_conditions(): void
     {
         $trueQuery = new MatchIdentifierGeneratorQuery(
-                    $this->getIdentifierGenerator(),
-                    new ProductProjection(true, 'myfamily', [], [])
-                );
+            $this->getIdentifierGenerator(),
+            new ProductProjection(true, 'myfamily', [], [])
+        );
         $notEnabledQuery = new MatchIdentifierGeneratorQuery(
-                    $this->getIdentifierGenerator(),
-                    new ProductProjection(false, 'myfamily', [], [])
-                );
+            $this->getIdentifierGenerator(),
+            new ProductProjection(false, 'myfamily', [], [])
+        );
         // This command should return false because of the implicit condition from family structure
-                $noFamilyQuery = new MatchIdentifierGeneratorQuery(
-                    $this->getIdentifierGenerator(),
-                    new ProductProjection(true, null, [], [])
-                );
+        $noFamilyQuery = new MatchIdentifierGeneratorQuery(
+            $this->getIdentifierGenerator(),
+            new ProductProjection(true, null, [], [])
+        );
         $this->assertSame(true, $this->sut->__invoke($trueQuery));
         $this->assertSame(false, $this->sut->__invoke($notEnabledQuery));
         $this->assertSame(false, $this->sut->__invoke($noFamilyQuery));
@@ -59,25 +59,25 @@ class MatchIdentifierGeneratorHandlerTest extends TestCase
 
     private function getIdentifierGenerator(): IdentifierGenerator
     {
-            return new IdentifierGenerator(
-                IdentifierGeneratorId::fromString('2038e1c9-68ff-4833-b06f-01e42d206002'),
-                IdentifierGeneratorCode::fromString('my_generator'),
-                Conditions::fromArray([
-                    Enabled::fromBoolean(true),
+        return new IdentifierGenerator(
+            IdentifierGeneratorId::fromString('2038e1c9-68ff-4833-b06f-01e42d206002'),
+            IdentifierGeneratorCode::fromString('my_generator'),
+            Conditions::fromArray([
+                Enabled::fromBoolean(true),
+            ]),
+            Structure::fromArray([
+                FreeText::fromString('AKN'),
+                FamilyProperty::fromNormalized([
+                    'type' => FamilyProperty::type(),
+                    'process' => [
+                        'type' => 'no',
+                    ],
                 ]),
-                Structure::fromArray([
-                    FreeText::fromString('AKN'),
-                    FamilyProperty::fromNormalized([
-                        'type' => FamilyProperty::type(),
-                        'process' => [
-                            'type' => 'no',
-                        ]
-                    ]),
-                ]),
-                LabelCollection::fromNormalized(['fr' => 'Mon générateur']),
-                Target::fromString('sku'),
-                Delimiter::fromString('-'),
-                TextTransformation::fromString('no'),
-            );
-        }
+            ]),
+            LabelCollection::fromNormalized(['fr' => 'Mon générateur']),
+            Target::fromString('sku'),
+            Delimiter::fromString('-'),
+            TextTransformation::fromString('no'),
+        );
+    }
 }

@@ -13,8 +13,10 @@ class LocaleTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new Locale('fr_FR',
-            true);
+        $this->sut = new Locale(
+            'fr_FR',
+            true
+        );
     }
 
     public function test_it_has_getters(): void

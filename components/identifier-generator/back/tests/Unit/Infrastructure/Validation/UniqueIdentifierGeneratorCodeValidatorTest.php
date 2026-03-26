@@ -72,15 +72,15 @@ class UniqueIdentifierGeneratorCodeValidatorTest extends TestCase
 
         $constraint = new UniqueIdentifierGeneratorCode();
         $this->repository->expects($this->once())->method('get')->with('existing_code')->willReturn(new IdentifierGenerator(
-                        IdentifierGeneratorId::fromString('fdf0a55e-0337-4f2c-93f5-c2de84353ea2'),
-                        IdentifierGeneratorCode::fromString('existing_code'),
-                        Conditions::fromArray([new EmptyIdentifier('sku')]),
-                        Structure::fromArray([new AutoNumber(1, 4)]),
-                        LabelCollection::fromNormalized([]),
-                        Target::fromString('sku'),
-                        Delimiter::fromString('-'),
-                        TextTransformation::fromString(TextTransformation::NO)
-                    ));
+            IdentifierGeneratorId::fromString('fdf0a55e-0337-4f2c-93f5-c2de84353ea2'),
+            IdentifierGeneratorCode::fromString('existing_code'),
+            Conditions::fromArray([new EmptyIdentifier('sku')]),
+            Structure::fromArray([new AutoNumber(1, 4)]),
+            LabelCollection::fromNormalized([]),
+            Target::fromString('sku'),
+            Delimiter::fromString('-'),
+            TextTransformation::fromString(TextTransformation::NO)
+        ));
         $this->context->expects($this->once())->method('buildViolation')->with($constraint->message)->willReturn($violationsBuilder);
         $violationsBuilder->expects($this->once())->method('addViolation')->willReturn($violationsBuilder);
         $this->sut->validate('existing_code', $constraint);

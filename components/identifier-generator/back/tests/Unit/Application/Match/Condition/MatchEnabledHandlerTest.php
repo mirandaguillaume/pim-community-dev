@@ -27,19 +27,21 @@ class MatchEnabledHandlerTest extends TestCase
     public function test_it_should_throw_exception_when_invoked_with_something_else_than_enabled_condition(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->__invoke(new EmptyIdentifier('sku'),
-                        new ProductProjection(true, null, [], []),);
+        $this->sut->__invoke(
+            new EmptyIdentifier('sku'),
+            new ProductProjection(true, null, [], []),
+        );
     }
 
     public function test_it_matches_only_enabled_products(): void
     {
         $this->assertSame(true, $this->sut->__invoke(
-                    Enabled::fromBoolean(true),
-                    new ProductProjection(true, '', [], [])
-                ));
+            Enabled::fromBoolean(true),
+            new ProductProjection(true, '', [], [])
+        ));
         $this->assertSame(false, $this->sut->__invoke(
-                    Enabled::fromBoolean(true),
-                    new ProductProjection(false, '', [], [])
-                ));
+            Enabled::fromBoolean(true),
+            new ProductProjection(false, '', [], [])
+        ));
     }
 }

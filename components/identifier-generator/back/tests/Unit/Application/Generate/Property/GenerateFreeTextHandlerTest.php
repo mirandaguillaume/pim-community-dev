@@ -36,53 +36,55 @@ class GenerateFreeTextHandlerTest extends TestCase
     public function test_it_should_throw_exception_when_invoked_with_something_else_than_free_text(): void
     {
         $identifierGenerator = new IdentifierGenerator(
-                    IdentifierGeneratorId::fromString('d556e59e-d46c-465e-863d-f4a39d0b7485'),
-                    IdentifierGeneratorCode::fromString('my_generator'),
-                    Conditions::fromArray([]),
-                    Structure::fromArray([
-                        FreeText::fromNormalized([
-                            'type' => FreeText::type(),
-                            'string' => 'AKN-',
-                        ]),
-                    ]),
-                    LabelCollection::fromNormalized(['en_US' => 'MyGenerator']),
-                    Target::fromString('sku'),
-                    Delimiter::fromString(null),
-                    TextTransformation::fromString('no'),
-                );
+            IdentifierGeneratorId::fromString('d556e59e-d46c-465e-863d-f4a39d0b7485'),
+            IdentifierGeneratorCode::fromString('my_generator'),
+            Conditions::fromArray([]),
+            Structure::fromArray([
+                FreeText::fromNormalized([
+                    'type' => FreeText::type(),
+                    'string' => 'AKN-',
+                ]),
+            ]),
+            LabelCollection::fromNormalized(['en_US' => 'MyGenerator']),
+            Target::fromString('sku'),
+            Delimiter::fromString(null),
+            TextTransformation::fromString('no'),
+        );
         $autoNumber = AutoNumber::fromNormalized([
-                    'type' => AutoNumber::type(),
-                    'numberMin' => 0,
-                    'digitsMin' => 1,
-                ]);
+            'type' => AutoNumber::type(),
+            'numberMin' => 0,
+            'digitsMin' => 1,
+        ]);
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->__invoke($autoNumber,
-                        $identifierGenerator,
-                        new ProductProjection(true, null, [], []),
-                        'AKN-');
+        $this->sut->__invoke(
+            $autoNumber,
+            $identifierGenerator,
+            new ProductProjection(true, null, [], []),
+            'AKN-'
+        );
     }
 
     public function test_it_should_return_string(): void
     {
         $freeText = FreeText::fromNormalized([
-                    'type' => FreeText::type(),
-                    'string' => 'AKN-',
-                ]);
+            'type' => FreeText::type(),
+            'string' => 'AKN-',
+        ]);
         $identifierGenerator = new IdentifierGenerator(
-                    IdentifierGeneratorId::fromString('d556e59e-d46c-465e-863d-f4a39d0b7485'),
-                    IdentifierGeneratorCode::fromString('my_generator'),
-                    Conditions::fromArray([]),
-                    Structure::fromArray([$freeText]),
-                    LabelCollection::fromNormalized(['en_US' => 'MyGenerator']),
-                    Target::fromString('sku'),
-                    Delimiter::fromString(null),
-                    TextTransformation::fromString('no'),
-                );
+            IdentifierGeneratorId::fromString('d556e59e-d46c-465e-863d-f4a39d0b7485'),
+            IdentifierGeneratorCode::fromString('my_generator'),
+            Conditions::fromArray([]),
+            Structure::fromArray([$freeText]),
+            LabelCollection::fromNormalized(['en_US' => 'MyGenerator']),
+            Target::fromString('sku'),
+            Delimiter::fromString(null),
+            TextTransformation::fromString('no'),
+        );
         $this->assertSame('AKN-', $this->sut->__invoke(
-                    $freeText,
-                    $identifierGenerator,
-                    new ProductProjection(true, null, [], []),
-                    'AKN-'
-                ));
+            $freeText,
+            $identifierGenerator,
+            new ProductProjection(true, null, [], []),
+            'AKN-'
+        ));
     }
 }

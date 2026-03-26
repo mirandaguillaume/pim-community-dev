@@ -60,31 +60,31 @@ class ConditionsShouldNotContainMultipleConditionValidatorTest extends TestCase
     {
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $conditions = [
-                    ['type' => 'free_text', 'string' => 'abcdef'],
-                    ['type' => 'free_text', 'string' => 'ghijkl'],
-                ];
+            ['type' => 'free_text', 'string' => 'abcdef'],
+            ['type' => 'free_text', 'string' => 'ghijkl'],
+        ];
         $this->sut->validate($conditions, new ConditionsShouldNotContainMultipleCondition(['enabled', 'family']));
     }
 
     public function test_it_should_build_violation_when_conditions_contains_multiple_enabled(): void
     {
         $conditions = [
-                    ['type' => 'enabled', 'value' => true],
-                    ['type' => 'enabled', 'value' => false],
-                ];
+            ['type' => 'enabled', 'value' => true],
+            ['type' => 'enabled', 'value' => false],
+        ];
         $this->context->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.conditions_limit_reached', [
-                        '{{limit}}' => 1,
-                        '{{type}}' => 'enabled',
-                    ]);
+            '{{limit}}' => 1,
+            '{{type}}' => 'enabled',
+        ]);
         $this->sut->validate($conditions, new ConditionsShouldNotContainMultipleCondition(['enabled', 'family']));
     }
 
     public function test_it_should_be_valid_when_enabled_is_under_limit(): void
     {
         $conditions = [
-                    ['type' => 'family', 'IN' => ['shirts']],
-                    ['type' => 'enabled', 'numberMin' => 3, 'digitsMin' => 2],
-                ];
+            ['type' => 'family', 'IN' => ['shirts']],
+            ['type' => 'enabled', 'numberMin' => 3, 'digitsMin' => 2],
+        ];
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate($conditions, new ConditionsShouldNotContainMultipleCondition(['enabled', 'family']));
     }

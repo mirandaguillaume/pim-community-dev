@@ -61,44 +61,46 @@ class IdentifierGeneratorShouldExistValidatorTest extends TestCase
 
     public function test_it_should_build_violation_when_code_attribute_does_not_exist(): void
     {
-        $this->context->expects($this->once())->method('buildViolation')->with('validation.update.identifier_generator_code_not_found',
-                    ['{{code}}' => 'non_existing_generator']);
+        $this->context->expects($this->once())->method('buildViolation')->with(
+            'validation.update.identifier_generator_code_not_found',
+            ['{{code}}' => 'non_existing_generator']
+        );
         $this->identifierGeneratorRepository->expects($this->once())->method('get')->with('non_existing_generator')->willThrowException(new CouldNotFindIdentifierGeneratorException('non_existing_generator'));
         $updateGeneratorCommand = new UpdateGeneratorCommand(
-                    'non_existing_generator',
-                    [],
-                    [['type' => 'unknown', 'string' => 'abcdef']],
-                    ['fr' => 'Générateur'],
-                    'sku',
-                    '-',
-                    'no',
-                );
+            'non_existing_generator',
+            [],
+            [['type' => 'unknown', 'string' => 'abcdef']],
+            ['fr' => 'Générateur'],
+            'sku',
+            '-',
+            'no',
+        );
         $this->sut->validate($updateGeneratorCommand, new IdentifierGeneratorShouldExist());
     }
 
     public function test_it_should_be_valid_when_code_attribute_exist(): void
     {
         $identifierGenerator = new IdentifierGenerator(
-                    IdentifierGeneratorId::fromString('2038e1c9-68ff-4833-b06f-01e42d206002'),
-                    IdentifierGeneratorCode::fromString('mygenerator'),
-                    Conditions::fromArray([]),
-                    Structure::fromArray([FreeText::fromString('abc')]),
-                    LabelCollection::fromNormalized(['fr' => 'Générateur']),
-                    Target::fromString('sku'),
-                    Delimiter::fromString('-'),
-                    TextTransformation::fromString('no'),
-                );
+            IdentifierGeneratorId::fromString('2038e1c9-68ff-4833-b06f-01e42d206002'),
+            IdentifierGeneratorCode::fromString('mygenerator'),
+            Conditions::fromArray([]),
+            Structure::fromArray([FreeText::fromString('abc')]),
+            LabelCollection::fromNormalized(['fr' => 'Générateur']),
+            Target::fromString('sku'),
+            Delimiter::fromString('-'),
+            TextTransformation::fromString('no'),
+        );
         $this->identifierGeneratorRepository->expects($this->once())->method('get')->with('mygenerator')->willReturn($identifierGenerator);
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $updateGeneratorCommand = new UpdateGeneratorCommand(
-                    'mygenerator',
-                    [],
-                    [['type' => 'unknown', 'string' => 'abcdef']],
-                    ['fr' => 'Générateur'],
-                    'sku',
-                    '-',
-                    'no',
-                );
+            'mygenerator',
+            [],
+            [['type' => 'unknown', 'string' => 'abcdef']],
+            ['fr' => 'Générateur'],
+            'sku',
+            '-',
+            'no',
+        );
         $this->sut->validate($updateGeneratorCommand, new IdentifierGeneratorShouldExist());
     }
 }

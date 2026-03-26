@@ -16,9 +16,7 @@ class FamilyTest extends TestCase
 {
     private Family $sut;
 
-    protected function setUp(): void
-    {
-    }
+    protected function setUp(): void {}
 
     public function test_it_is_a_family(): void
     {
@@ -30,91 +28,91 @@ class FamilyTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         Family::fromNormalized([
-                    'type' => 'bad',
-                    'operator' => 'EMPTY',
-                ]);
+            'type' => 'bad',
+            'operator' => 'EMPTY',
+        ]);
     }
 
     public function test_it_should_throw_exception_if_no_operator_is_defined(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Family::fromNormalized([
-                    'type' => 'family',
-                    'value' => ['shirts'],
-                ]);
+            'type' => 'family',
+            'value' => ['shirts'],
+        ]);
     }
 
     public function test_it_should_throw_exception_if_operator_is_not_a_string(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Family::fromNormalized([
-                    'type' => 'family',
-                    'operator' => true,
-                ]);
+            'type' => 'family',
+            'operator' => true,
+        ]);
     }
 
     public function test_it_should_throw_exception_if_value_is_not_defined(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Family::fromNormalized([
-                    'type' => 'family',
-                    'operator' => 'IN',
-                ]);
+            'type' => 'family',
+            'operator' => 'IN',
+        ]);
     }
 
     public function test_it_should_throw_exception_if_value_is_not_an_array_of_strings(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Family::fromNormalized([
-                    'type' => 'family',
-                    'operator' => 'IN',
-                    'value' => [true],
-                ]);
+            'type' => 'family',
+            'operator' => 'IN',
+            'value' => [true],
+        ]);
     }
 
     public function test_it_should_throw_exception_if_value_is_empty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Family::fromNormalized([
-                    'type' => 'family',
-                    'operator' => 'IN',
-                    'value' => [],
-                ]);
+            'type' => 'family',
+            'operator' => 'IN',
+            'value' => [],
+        ]);
     }
 
     public function test_it_should_throw_exception_if_value_defined(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Family::fromNormalized([
-                    'type' => 'family',
-                    'operator' => 'EMPTY',
-                    'value' => ['shirts'],
-                ]);
+            'type' => 'family',
+            'operator' => 'EMPTY',
+            'value' => ['shirts'],
+        ]);
     }
 
     public function test_it_should_normalize_without_value(): void
     {
         $this->sut = Family::fromNormalized([
-                    'type' => 'family',
-                    'operator' => 'EMPTY'
-                ]);
+            'type' => 'family',
+            'operator' => 'EMPTY',
+        ]);
         $this->assertSame([
-                    'type' => 'family',
-                    'operator' => 'EMPTY',
-                ], $this->sut->normalize());
+            'type' => 'family',
+            'operator' => 'EMPTY',
+        ], $this->sut->normalize());
     }
 
     public function test_it_should_normalize_with_value(): void
     {
         $this->sut = Family::fromNormalized([
-                    'type' => 'family',
-                    'operator' => 'IN',
-                    'value' => ['shirts']
-                ]);
+            'type' => 'family',
+            'operator' => 'IN',
+            'value' => ['shirts'],
+        ]);
         $this->assertSame([
-                    'type' => 'family',
-                    'operator' => 'IN',
-                    'value' => ['shirts'],
-                ], $this->sut->normalize());
+            'type' => 'family',
+            'operator' => 'IN',
+            'value' => ['shirts'],
+        ], $this->sut->normalize());
     }
 }

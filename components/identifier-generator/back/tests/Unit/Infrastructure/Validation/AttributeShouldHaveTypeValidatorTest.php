@@ -46,36 +46,38 @@ class AttributeShouldHaveTypeValidatorTest extends TestCase
     public function test_it_should_build_violation_when_attribute_should_have_type(): void
     {
         $this->getAttributes->expects($this->once())->method('forCode')->with('sku')->willReturn(new Attribute(
-                        'sku',
-                        AttributeTypes::TEXT,
-                        [],
-                        false,
-                        false,
-                        null,
-                        null,
-                        null,
-                        '',
-                        []
-                    ));
-        $this->context->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.attribute_should_have_type',
-                    ['{{ code }}' => 'sku', '{{ type }}' => 'pim_catalog_text', '{{ expected }}' => 'pim_catalog_identifier']);
+            'sku',
+            AttributeTypes::TEXT,
+            [],
+            false,
+            false,
+            null,
+            null,
+            null,
+            '',
+            []
+        ));
+        $this->context->expects($this->once())->method('buildViolation')->with(
+            'validation.identifier_generator.attribute_should_have_type',
+            ['{{ code }}' => 'sku', '{{ type }}' => 'pim_catalog_text', '{{ expected }}' => 'pim_catalog_identifier']
+        );
         $this->sut->validate('sku', new AttributeShouldHaveType(['type' => 'pim_catalog_identifier']));
     }
 
     public function test_it_should_be_valid_when_target_attribute_is_an_identifier(): void
     {
         $this->getAttributes->expects($this->once())->method('forCode')->with('sku')->willReturn(new Attribute(
-                        'sku',
-                        AttributeTypes::IDENTIFIER,
-                        [],
-                        false,
-                        false,
-                        null,
-                        null,
-                        null,
-                        '',
-                        []
-                    ));
+            'sku',
+            AttributeTypes::IDENTIFIER,
+            [],
+            false,
+            false,
+            null,
+            null,
+            null,
+            '',
+            []
+        ));
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate('sku', new AttributeShouldHaveType(['type' => 'pim_catalog_identifier']));
     }

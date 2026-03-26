@@ -60,31 +60,31 @@ class StructureShouldNotContainMultipleAutoNumberValidatorTest extends TestCase
     {
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $structure = [
-                    ['type' => 'free_text', 'string' => 'abcdef'],
-                    ['type' => 'free_text', 'string' => 'ghijkl'],
-                ];
+            ['type' => 'free_text', 'string' => 'abcdef'],
+            ['type' => 'free_text', 'string' => 'ghijkl'],
+        ];
         $this->sut->validate($structure, new StructureShouldNotContainMultipleAutoNumber());
     }
 
     public function test_it_should_build_violation_when_structure_contains_multiple_auto_number(): void
     {
         $structure = [
-                    ['type' => 'free_text', 'string' => 'abcdef'],
-                    ['type' => 'auto_number', 'numberMin' => 3, 'digitsMin' => 2],
-                    ['type' => 'auto_number', 'numberMin' => 3, 'digitsMin' => 4],
-                ];
+            ['type' => 'free_text', 'string' => 'abcdef'],
+            ['type' => 'auto_number', 'numberMin' => 3, 'digitsMin' => 2],
+            ['type' => 'auto_number', 'numberMin' => 3, 'digitsMin' => 4],
+        ];
         $this->context->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.structure_auto_number_limit_reached', [
-                        '{{limit}}' => 1,
-                    ]);
+            '{{limit}}' => 1,
+        ]);
         $this->sut->validate($structure, new StructureShouldNotContainMultipleAutoNumber());
     }
 
     public function test_it_should_be_valid_when_auto_number_is_under_limit(): void
     {
         $structure = [
-                    ['type' => 'free_text', 'string' => 'abcdef'],
-                    ['type' => 'auto_number', 'numberMin' => 3, 'digitsMin' => 2],
-                ];
+            ['type' => 'free_text', 'string' => 'abcdef'],
+            ['type' => 'auto_number', 'numberMin' => 3, 'digitsMin' => 2],
+        ];
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate($structure, new StructureShouldNotContainMultipleAutoNumber());
     }

@@ -26,31 +26,31 @@ class CachedFindChannelsTest extends TestCase
     public function test_it_finds_all_channels_and_caches_them(): void
     {
         $this->findChannels->expects($this->once())->method('findAll')->willReturn([
-                        new Channel(
-                            'ecommerce',
-                            ['en_US', 'fr_FR'],
-                            LabelCollection::fromArray([
-                                'en_US' => 'Ecommerce',
-                            ]),
-                            ['USD'],
-                            ConversionUnitCollection::fromArray([
-                                'an_measurement_attribute' => 'GRAM',
-                                'another_measurement_attribute' => 'POUND',
-                            ]),
-                        ),
-                        new Channel(
-                            'mobile',
-                            ['en_US'],
-                            LabelCollection::fromArray([
-                                'en_US' => 'Mobile',
-                            ]),
-                            ['EUR'],
-                            ConversionUnitCollection::fromArray([
-                                'an_measurement_attribute' => 'GRAM',
-                                'another_measurement_attribute' => 'POUND',
-                            ]),
-                        ),
-                    ]);
+            new Channel(
+                'ecommerce',
+                ['en_US', 'fr_FR'],
+                LabelCollection::fromArray([
+                    'en_US' => 'Ecommerce',
+                ]),
+                ['USD'],
+                ConversionUnitCollection::fromArray([
+                    'an_measurement_attribute' => 'GRAM',
+                    'another_measurement_attribute' => 'POUND',
+                ]),
+            ),
+            new Channel(
+                'mobile',
+                ['en_US'],
+                LabelCollection::fromArray([
+                    'en_US' => 'Mobile',
+                ]),
+                ['EUR'],
+                ConversionUnitCollection::fromArray([
+                    'an_measurement_attribute' => 'GRAM',
+                    'another_measurement_attribute' => 'POUND',
+                ]),
+            ),
+        ]);
         $this->sut->findAll();
         $this->sut->findAll();
         $this->sut->findAll();

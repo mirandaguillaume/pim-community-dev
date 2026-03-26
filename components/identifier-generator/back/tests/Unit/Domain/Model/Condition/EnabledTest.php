@@ -28,42 +28,42 @@ class EnabledTest extends TestCase
     public function test_it_normalize_an_enabled(): void
     {
         $this->assertSame([
-                    'type' => 'enabled',
-                    'value' => true,
-                ], $this->sut->normalize());
+            'type' => 'enabled',
+            'value' => true,
+        ], $this->sut->normalize());
     }
 
     public function test_it_creates_from_normalized(): void
     {
         $this->assertEquals(Enabled::fromBoolean(false), $this->sut->fromNormalized([
-                    'type' => 'enabled',
-                    'value' => false,
-                ]));
+            'type' => 'enabled',
+            'value' => false,
+        ]));
     }
 
     public function test_it_throws_an_exception_when_type_is_bad(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Enabled::fromNormalized([
-                    'type' => 'bad',
-                    'value' => true,
-                ]);
+            'type' => 'bad',
+            'value' => true,
+        ]);
     }
 
     public function test_it_throws_an_exception_when_type_key_is_missing(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Enabled::fromNormalized([
-                    'value' => 'ABC',
-                ]);
+            'value' => 'ABC',
+        ]);
     }
 
     public function test_it_throws_an_exception_from_normalized_with_string(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Enabled::fromNormalized([
-                    'type' => 'enabled',
-                    'value' => 'abc',
-                ]);
+            'type' => 'enabled',
+            'value' => 'abc',
+        ]);
     }
 }

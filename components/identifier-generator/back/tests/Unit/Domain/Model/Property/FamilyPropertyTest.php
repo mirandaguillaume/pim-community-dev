@@ -20,9 +20,9 @@ class FamilyPropertyTest extends TestCase
     protected function setUp(): void
     {
         $this->sut = FamilyProperty::fromNormalized([
-                'type' => 'family',
-                'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3]
-            ]);
+            'type' => 'family',
+            'process' => ['type' => 'truncate', 'operator' => '=', 'value' => 3],
+        ]);
     }
 
     public function test_it_is_a_family_generation(): void
@@ -45,13 +45,13 @@ class FamilyPropertyTest extends TestCase
     public function test_it_normalize_a_family(): void
     {
         $this->assertSame([
-                    'type' => 'family',
-                    'process' => [
-                        'type' => 'truncate',
-                        'operator' => '=',
-                        'value' => 3
-                    ]
-                ], $this->sut->normalize());
+            'type' => 'family',
+            'process' => [
+                'type' => 'truncate',
+                'operator' => '=',
+                'value' => 3,
+            ],
+        ], $this->sut->normalize());
     }
 
     public function test_it_should_return_an_implicit_condition(): void

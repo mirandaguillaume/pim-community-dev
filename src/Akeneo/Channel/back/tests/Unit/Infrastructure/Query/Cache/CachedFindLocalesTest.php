@@ -32,9 +32,9 @@ class CachedFindLocalesTest extends TestCase
     public function test_it_finds_all_activated_locales_and_caches_them(): void
     {
         $this->findLocales->expects($this->once())->method('findAllActivated')->willReturn([
-                        new Locale('en_US', true),
-                        new Locale('fr_FR', true),
-                    ]);
+            new Locale('en_US', true),
+            new Locale('fr_FR', true),
+        ]);
         $this->sut->findAllActivated();
         $this->sut->findAllActivated();
         $this->sut->findAllActivated();

@@ -39,42 +39,42 @@ class FreeTextTest extends TestCase
     public function test_it_normalize_a_free_text(): void
     {
         $this->assertSame([
-                    'type' => 'free_text',
-                    'string' => 'ABC',
-                ], $this->sut->normalize());
+            'type' => 'free_text',
+            'string' => 'ABC',
+        ], $this->sut->normalize());
     }
 
     public function test_it_creates_from_normalized(): void
     {
         $this->assertEquals(FreeText::fromString('ABC'), $this->sut->fromNormalized([
-                    'type' => 'free_text',
-                    'string' => 'ABC',
-                ]));
+            'type' => 'free_text',
+            'string' => 'ABC',
+        ]));
     }
 
     public function test_it_throws_an_exception_when_type_is_bad(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         FreeText::fromNormalized([
-                    'type' => 'bad',
-                    'string' => 'ABC',
-                ]);
+            'type' => 'bad',
+            'string' => 'ABC',
+        ]);
     }
 
     public function test_it_throws_an_exception_when_type_key_is_missing(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         FreeText::fromNormalized([
-                    'string' => 'ABC',
-                ]);
+            'string' => 'ABC',
+        ]);
     }
 
     public function test_it_throws_an_exception_from_normalized_with_empty_string(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         FreeText::fromNormalized([
-                    'type' => 'free_text',
-                    'string' => '',
-                ]);
+            'type' => 'free_text',
+            'string' => '',
+        ]);
     }
 }

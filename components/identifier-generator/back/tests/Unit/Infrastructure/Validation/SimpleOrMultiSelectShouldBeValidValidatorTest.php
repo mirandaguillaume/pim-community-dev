@@ -49,8 +49,10 @@ class SimpleOrMultiSelectShouldBeValidValidatorTest extends TestCase
     public function test_it_can_only_validate_the_right_constraint(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->validate(['type' => 'simple_select', 'operator' => 'EMPTY', 'attributeCode' => 'color'],
-                        new NotBlank());
+        $this->sut->validate(
+            ['type' => 'simple_select', 'operator' => 'EMPTY', 'attributeCode' => 'color'],
+            new NotBlank()
+        );
     }
 
     public function test_it_should_not_validate_if_condition_is_not_an_array(): void

@@ -80,16 +80,18 @@ class CategoryCodesShouldExistValidatorTest extends TestCase
         $categoryCodes = ['shirts', 'unknown_category1', 'unknown_category2'];
         $shirtCategory = new Category(1, 'shirts');
         $this->categoryQuery->expects($this->once())->method('byCodes')->with($categoryCodes)->willReturn($this->arrayAsGenerator([$shirtCategory]));
-        $this->executionContext->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.categories_do_not_exist',
-                        ['{{ categoryCodes }}' => '"unknown_category1", "unknown_category2"'])->willReturn($constraintViolationBuilder);
+        $this->executionContext->expects($this->once())->method('buildViolation')->with(
+            'validation.identifier_generator.categories_do_not_exist',
+            ['{{ categoryCodes }}' => '"unknown_category1", "unknown_category2"']
+        )->willReturn($constraintViolationBuilder);
         $constraintViolationBuilder->expects($this->once())->method('addViolation');
         $this->sut->validate($categoryCodes, new CategoryCodesShouldExist());
     }
 
     private function arrayAsGenerator(array $array): \Generator
     {
-            foreach ($array as $item) {
-                yield $item;
-            }
+        foreach ($array as $item) {
+            yield $item;
         }
+    }
 }

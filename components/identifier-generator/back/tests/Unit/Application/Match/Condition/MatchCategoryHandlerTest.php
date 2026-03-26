@@ -64,7 +64,7 @@ class MatchCategoryHandlerTest extends TestCase
         $condition = Category::fromNormalized([
             'type' => 'category',
             'operator' => 'IN',
-            'value' => ['shoes']
+            'value' => ['shoes'],
         ]);
         $this->assertSame(false, $this->sut->__invoke($condition, new ProductProjection(true, null, [], [])));
         $this->assertSame(false, $this->sut->__invoke($condition, new ProductProjection(true, null, [], ['pants'])));
@@ -76,7 +76,7 @@ class MatchCategoryHandlerTest extends TestCase
         $condition = Category::fromNormalized([
             'type' => 'category',
             'operator' => 'NOT IN',
-            'value' => ['shoes']
+            'value' => ['shoes'],
         ]);
         $this->assertSame(true, $this->sut->__invoke($condition, new ProductProjection(true, null, [], [])));
         $this->assertSame(true, $this->sut->__invoke($condition, new ProductProjection(true, null, [], ['pants'])));
@@ -88,7 +88,7 @@ class MatchCategoryHandlerTest extends TestCase
         $condition = Category::fromNormalized([
             'type' => 'category',
             'operator' => 'IN CHILDREN',
-            'value' => ['shoes']
+            'value' => ['shoes'],
         ]);
         $this->categoriesHaveAtLeastOneChild->method('among')->willReturnCallback(
             function (array $parentCodes, array $productCategories): bool {
@@ -114,7 +114,7 @@ class MatchCategoryHandlerTest extends TestCase
         $condition = Category::fromNormalized([
             'type' => 'category',
             'operator' => 'NOT IN CHILDREN',
-            'value' => ['shoes']
+            'value' => ['shoes'],
         ]);
         $this->categoriesHaveAtLeastOneChild->method('among')->willReturnCallback(
             function (array $parentCodes, array $productCategories): bool {

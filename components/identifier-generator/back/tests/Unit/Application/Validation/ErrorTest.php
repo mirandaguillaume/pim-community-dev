@@ -13,16 +13,18 @@ class ErrorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new Error('a message',
+        $this->sut = new Error(
+            'a message',
             ['parameter1' => 'value1'],
-            'a path',);
+            'a path',
+        );
     }
 
     public function test_it_should_be_normalized(): void
     {
         $this->assertSame([
-                    'path' => 'a path',
-                    'message' => 'a message',
-                ], $this->sut->normalize());
+            'path' => 'a path',
+            'message' => 'a message',
+        ], $this->sut->normalize());
     }
 }

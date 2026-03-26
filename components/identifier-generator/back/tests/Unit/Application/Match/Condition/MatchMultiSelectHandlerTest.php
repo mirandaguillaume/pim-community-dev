@@ -27,66 +27,68 @@ class MatchMultiSelectHandlerTest extends TestCase
     public function test_it_should_throw_exception_when_invoked_with_something_else_than_multi_select_condition(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->__invoke(new EmptyIdentifier('sku'),
-                        new ProductProjection(true, null, [], []),);
+        $this->sut->__invoke(
+            new EmptyIdentifier('sku'),
+            new ProductProjection(true, null, [], []),
+        );
     }
 
     public function test_it_should_match_empty(): void
     {
         $condition = MultiSelect::fromNormalized([
-                    'type' => 'multi_select',
-                    'attributeCode' => 'color',
-                    'operator' => 'EMPTY',
-                ]);
+            'type' => 'multi_select',
+            'attributeCode' => 'color',
+            'operator' => 'EMPTY',
+        ]);
         $this->assertSame(true, $this->sut->__invoke($condition, new ProductProjection(true, null, [], [])));
         $this->assertSame(false, $this->sut->__invoke($condition, new ProductProjection(true, null, [
-                    'color-<all_channels>-<all_locales>' => 'red',
-                ], [])));
+            'color-<all_channels>-<all_locales>' => 'red',
+        ], [])));
     }
 
     public function test_it_should_match_not_empty(): void
     {
         $condition = MultiSelect::fromNormalized([
-                    'type' => 'multi_select',
-                    'attributeCode' => 'color',
-                    'operator' => 'NOT EMPTY',
-                ]);
+            'type' => 'multi_select',
+            'attributeCode' => 'color',
+            'operator' => 'NOT EMPTY',
+        ]);
         $this->assertSame(false, $this->sut->__invoke($condition, new ProductProjection(true, null, [], [])));
         $this->assertSame(true, $this->sut->__invoke($condition, new ProductProjection(true, null, [
-                    'color-<all_channels>-<all_locales>' => ['red'],
-                ], [])));
+            'color-<all_channels>-<all_locales>' => ['red'],
+        ], [])));
     }
 
     public function test_it_should_match_in_list(): void
     {
         $condition = MultiSelect::fromNormalized([
-                    'type' => 'multi_select',
-                    'attributeCode' => 'color',
-                    'operator' => 'IN',
-                    'value' => ['red', 'pink']
-                ]);
+            'type' => 'multi_select',
+            'attributeCode' => 'color',
+            'operator' => 'IN',
+            'value' => ['red', 'pink'],
+        ]);
         $this->assertSame(true, $this->sut->__invoke($condition, new ProductProjection(true, null, [
-                    'color-<all_channels>-<all_locales>' => ['red', 'blue'],
-                ], [])));
+            'color-<all_channels>-<all_locales>' => ['red', 'blue'],
+        ], [])));
         $this->assertSame(false, $this->sut->__invoke($condition, new ProductProjection(true, null, [
-                    'color-<all_channels>-<all_locales>' => ['blue', 'yellow'],
-                ], [])));
+            'color-<all_channels>-<all_locales>' => ['blue', 'yellow'],
+        ], [])));
     }
 
     public function test_it_should_match_not_in_list(): void
     {
         $condition = MultiSelect::fromNormalized([
-                    'type' => 'multi_select',
-                    'attributeCode' => 'color',
-                    'operator' => 'NOT IN',
-                    'value' => ['red', 'pink']
-                ]);
+            'type' => 'multi_select',
+            'attributeCode' => 'color',
+            'operator' => 'NOT IN',
+            'value' => ['red', 'pink'],
+        ]);
         $this->assertSame(false, $this->sut->__invoke($condition, new ProductProjection(true, null, [
-                    'color-<all_channels>-<all_locales>' => ['red'],
-                ], [])));
+            'color-<all_channels>-<all_locales>' => ['red'],
+        ], [])));
         $this->assertSame(true, $this->sut->__invoke($condition, new ProductProjection(true, null, [
-                    'color-<all_channels>-<all_locales>' => ['blue'],
-                ], [])));
+            'color-<all_channels>-<all_locales>' => ['blue'],
+        ], [])));
         $this->assertSame(false, $this->sut->__invoke($condition, new ProductProjection(true, null, [], [])));
     }
 }

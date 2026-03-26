@@ -54,8 +54,8 @@ class EnabledShouldBeValidValidatorTest extends TestCase
     public function test_it_should_build_violation_when_value_is_missing(): void
     {
         $enabledWithoutValue = [
-                    'type' => 'enabled',
-                ];
+            'type' => 'enabled',
+        ];
         $this->context->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.enabled_value_field_required');
         $this->sut->validate($enabledWithoutValue, new EnabledShouldBeValid());
     }
@@ -65,8 +65,8 @@ class EnabledShouldBeValidValidatorTest extends TestCase
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
         $enabledWithoutValue = [
-                    'type' => 'enabled', 'value' => 'bar',
-                ];
+            'type' => 'enabled', 'value' => 'bar',
+        ];
         $this->context->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.enabled_boolean_value')->willReturn($violationBuilder);
         $violationBuilder->expects($this->once())->method('atPath')->with('value')->willReturn($violationBuilder);
         $violationBuilder->expects($this->once())->method('addViolation');
@@ -76,9 +76,9 @@ class EnabledShouldBeValidValidatorTest extends TestCase
     public function test_it_should_not_build_violation_when_enabled_is_valid(): void
     {
         $validEnabled = [
-                    'type' => 'enabled',
-                    'value' => true,
-                ];
+            'type' => 'enabled',
+            'value' => true,
+        ];
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate($validEnabled, new EnabledShouldBeValid());
     }

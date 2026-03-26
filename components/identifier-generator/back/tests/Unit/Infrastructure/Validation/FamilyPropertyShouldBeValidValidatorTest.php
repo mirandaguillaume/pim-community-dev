@@ -61,8 +61,10 @@ class FamilyPropertyShouldBeValidValidatorTest extends TestCase
 
     public function test_it_should_build_violation_when_process_is_missing(): void
     {
-        $this->context->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.family_property_fields_required',
-                        ['{{ field }}' => 'process']);
+        $this->context->expects($this->once())->method('buildViolation')->with(
+            'validation.identifier_generator.family_property_fields_required',
+            ['{{ field }}' => 'process']
+        );
         $this->sut->validate(['type' => 'family'], new FamilyPropertyShouldBeValid());
     }
 

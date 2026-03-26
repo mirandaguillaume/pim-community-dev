@@ -174,13 +174,13 @@ class ChannelProcessorTest extends TestCase
 
     private function getValues(): array
     {
-            return [
-                'code'       => 'mycode',
-                'label'      => 'Ecommerce',
-                'locales'    => ['en_US', 'fr_FR'],
-                'currencies' => ['EUR', 'USD'],
-                'tree'       => 'master_catalog',
-                'color'      => 'orange',
-            ];
-        }
+        return [
+            'code'       => 'mycode',
+            'label'      => 'Ecommerce',
+            'locales'    => ['en_US', 'fr_FR'],
+            'currencies' => ['EUR', 'USD'],
+            'tree'       => 'master_catalog',
+            'color'      => 'orange',
+        ];
+    }
 }

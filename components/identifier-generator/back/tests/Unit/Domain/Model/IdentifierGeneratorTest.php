@@ -179,7 +179,7 @@ class IdentifierGeneratorTest extends TestCase
                 [
                     'type' => 'enabled',
                     'value' => true,
-                ]
+                ],
             ],
             'structure' => [
                 [

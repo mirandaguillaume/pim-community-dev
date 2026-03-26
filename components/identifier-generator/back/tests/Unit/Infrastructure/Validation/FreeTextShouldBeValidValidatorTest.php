@@ -53,8 +53,8 @@ class FreeTextShouldBeValidValidatorTest extends TestCase
     public function test_it_should_build_violation_when_free_text_is_invalid(): void
     {
         $freeTextWithoutString = [
-                    'type' => 'free_text',
-                ];
+            'type' => 'free_text',
+        ];
         $this->context->expects($this->once())->method('buildViolation')->with('validation.identifier_generator.free_text_string_field_required');
         $this->sut->validate($freeTextWithoutString, new FreeTextShouldBeValid());
     }
@@ -62,9 +62,9 @@ class FreeTextShouldBeValidValidatorTest extends TestCase
     public function test_it_should_not_build_violation_when_free_text_is_valid(): void
     {
         $freeTextWithoutString = [
-                    'type' => 'free_text',
-                    'string' => 'abcdef',
-                ];
+            'type' => 'free_text',
+            'string' => 'abcdef',
+        ];
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate($freeTextWithoutString, new FreeTextShouldBeValid());
     }

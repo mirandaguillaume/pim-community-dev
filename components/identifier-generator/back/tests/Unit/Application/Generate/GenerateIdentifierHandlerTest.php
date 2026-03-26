@@ -42,9 +42,9 @@ class GenerateIdentifierHandlerTest extends TestCase
     {
         $identifierGenerator = $this->getIdentifierGenerator(Delimiter::fromString(null));
         $generateIdentifierCommand = GenerateIdentifierCommand::fromIdentifierGenerator(
-                    $identifierGenerator,
-                    new ProductProjection(true, null, [], []),
-                );
+            $identifierGenerator,
+            new ProductProjection(true, null, [], []),
+        );
         $this->getNextIdentifierQuery->expects($this->once())->method('fromPrefix')->with($identifierGenerator, 'aKn-', 0)->willReturn(43);
         $this->assertSame('aKn-43', $this->sut->__invoke($generateIdentifierCommand));
     }
@@ -53,9 +53,9 @@ class GenerateIdentifierHandlerTest extends TestCase
     {
         $identifierGenerator = $this->getIdentifierGenerator(Delimiter::fromString('a'));
         $generateIdentifierCommand = GenerateIdentifierCommand::fromIdentifierGenerator(
-                    $identifierGenerator,
-                    new ProductProjection(true, null, [], []),
-                );
+            $identifierGenerator,
+            new ProductProjection(true, null, [], []),
+        );
         $this->getNextIdentifierQuery->expects($this->once())->method('fromPrefix')->with($identifierGenerator, 'aKn-a', 0)->willReturn(43);
         $this->assertSame('aKn-a43', $this->sut->__invoke($generateIdentifierCommand));
     }
@@ -64,9 +64,9 @@ class GenerateIdentifierHandlerTest extends TestCase
     {
         $identifierGenerator = $this->getIdentifierGenerator(Delimiter::fromString('x'), 'uppercase');
         $generateIdentifierCommand = GenerateIdentifierCommand::fromIdentifierGenerator(
-                    $identifierGenerator,
-                    new ProductProjection(true, null, [], []),
-                );
+            $identifierGenerator,
+            new ProductProjection(true, null, [], []),
+        );
         $this->getNextIdentifierQuery->expects($this->once())->method('fromPrefix')->with($identifierGenerator, 'AKN-X', 0)->willReturn(43);
         $this->assertSame('AKN-X43', $this->sut->__invoke($generateIdentifierCommand));
     }
@@ -74,35 +74,34 @@ class GenerateIdentifierHandlerTest extends TestCase
     private function getIdentifierGenerator(
         Delimiter $delimiter,
         string $textTransformation = 'no',
-    ): IdentifierGenerator
-    {
-            return new IdentifierGenerator(
-                IdentifierGeneratorId::fromString('d556e59e-d46c-465e-863d-f4a39d0b7485'),
-                IdentifierGeneratorCode::fromString('my_generator'),
-                Conditions::fromArray([]),
-                Structure::fromArray([
-                    FreeText::fromString('aKn-'),
-                    AutoNumber::fromNormalized([
-                        'type' => AutoNumber::type(),
-                        'numberMin' => 0,
-                        'digitsMin' => 1,
-                    ]),
+    ): IdentifierGenerator {
+        return new IdentifierGenerator(
+            IdentifierGeneratorId::fromString('d556e59e-d46c-465e-863d-f4a39d0b7485'),
+            IdentifierGeneratorCode::fromString('my_generator'),
+            Conditions::fromArray([]),
+            Structure::fromArray([
+                FreeText::fromString('aKn-'),
+                AutoNumber::fromNormalized([
+                    'type' => AutoNumber::type(),
+                    'numberMin' => 0,
+                    'digitsMin' => 1,
                 ]),
-                LabelCollection::fromNormalized(['en_US' => 'MyGenerator']),
-                Target::fromString('sku'),
-                $delimiter,
-                TextTransformation::fromString($textTransformation),
-            );
-            $generateIdentifierCommand = GenerateIdentifierCommand::fromIdentifierGenerator(
-                $identifierGenerator,
-                new ProductProjection(true, null, [], [])
-            );
-    
-            $getNextIdentifierQuery
-                ->fromPrefix($identifierGenerator, 'AKN-', 0)
-                ->shouldBeCalled()
-                ->willReturn(43);
-    
-            $this->__invoke($generateIdentifierCommand)->shouldReturn('AKN-43');
-        }
+            ]),
+            LabelCollection::fromNormalized(['en_US' => 'MyGenerator']),
+            Target::fromString('sku'),
+            $delimiter,
+            TextTransformation::fromString($textTransformation),
+        );
+        $generateIdentifierCommand = GenerateIdentifierCommand::fromIdentifierGenerator(
+            $identifierGenerator,
+            new ProductProjection(true, null, [], [])
+        );
+
+        $getNextIdentifierQuery
+            ->fromPrefix($identifierGenerator, 'AKN-', 0)
+            ->shouldBeCalled()
+            ->willReturn(43);
+
+        $this->__invoke($generateIdentifierCommand)->shouldReturn('AKN-43');
+    }
 }

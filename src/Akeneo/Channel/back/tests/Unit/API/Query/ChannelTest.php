@@ -15,11 +15,13 @@ class ChannelTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new Channel('mobile',
+        $this->sut = new Channel(
+            'mobile',
             ['fr_FR', 'uk_UA'],
             LabelCollection::fromArray(['fr_FR' => 'Mobile', 'uk_UA' => 'смартфон']),
             ['EUR', 'USD'],
-            ConversionUnitCollection::fromArray(['a_measurement_attribute' => 'GRAM', 'another_measurement_attribute' => 'POUND']));
+            ConversionUnitCollection::fromArray(['a_measurement_attribute' => 'GRAM', 'another_measurement_attribute' => 'POUND'])
+        );
     }
 
     public function test_it_has_getters(): void
