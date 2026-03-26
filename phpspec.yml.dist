@@ -15,25 +15,11 @@ suites:
         spec_path: src/Akeneo/Category/back/tests
         spec_prefix: Specification
 
-    ## Channel context
+    ## Channel context (modern hexagonal + acceptance specs migrated to PHPUnit)
     LegacyChannel:
         namespace: Akeneo\Channel
         psr4_prefix: Akeneo\Channel
         spec_path: tests/back/Channel
-        src_path: src/Akeneo/Channel/back
-        spec_prefix: Specification
-
-    ChannelAcceptance:
-        namespace: Akeneo\Test\Channel\Acceptance
-        psr4_prefix: Akeneo\Test\Channel\Acceptance
-        spec_path: src/Akeneo/Channel/back/tests/Acceptance
-        src_path: src/Akeneo/Channel/back/tests/Acceptance
-        spec_prefix: Specification
-
-    Channel:
-        namespace: Akeneo\Channel
-        psr4_prefix: Akeneo\Channel
-        spec_path: src/Akeneo/Channel/back/tests
         src_path: src/Akeneo/Channel/back
         spec_prefix: Specification
 

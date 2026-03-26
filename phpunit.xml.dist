@@ -91,6 +91,7 @@
 
         <testsuite name="PHPUnit_Unit_Test">
             <directory suffix="Test.php">src/Akeneo/Category/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Acceptance</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Acceptance</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Acceptance</directory>
@@ -103,6 +104,10 @@
 
         <testsuite name="Category_EndToEnd_Test">
             <directory suffix="EndToEnd.php">src/Akeneo/Category/back/tests/EndToEnd</directory>
+        </testsuite>
+
+        <testsuite name="Channel_Unit_Test">
+            <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Unit</directory>
         </testsuite>
 
         <testsuite name="Channel_Integration_Test">
