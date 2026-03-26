@@ -137,21 +137,44 @@ function computeOutputNamespace(string $inputNs, string $inputPath): string
     // Remove Specification\ prefix
     $ns = preg_replace('/^Specification\\\\/', '', $inputNs);
 
-    // Determine the bounded context from the namespace
-    // Pattern: Akeneo\{Context}\... → Akeneo\Test\{Context}\Unit\...
-    // Pattern: Akeneo\Test\{Context}\Acceptance\... → stays as is (just remove Specification prefix)
+    // Already under Test namespace (acceptance specs) — just strip Specification prefix
     if (preg_match('/^Akeneo\\\\Test\\\\/', $ns)) {
-        // Already under Test namespace (acceptance specs) — just strip Specification prefix
         return $ns;
     }
 
+    // Derive namespace from path + autoload-dev conventions
+    // Path examples:
+    //   components/identifier-generator/back/tests/Specification/Domain/... → Akeneo\Test\Pim\Automation\IdentifierGenerator\Unit\Domain\...
+    //   src/Akeneo/Channel/back/tests/Specification/Infrastructure/... → Akeneo\Test\Channel\Unit\Infrastructure\...
+
+    // Strategy: find the "Specification" segment in the path, replace with "Unit",
+    // and use the phpspec namespace prefix (minus Specification) + Unit + rest
+    if (preg_match('#/tests/Specification/(.*)$#', $inputPath, $pathMatch)) {
+        $restFromPath = str_replace('/', '\\', dirname($pathMatch[1]));
+        if ($restFromPath === '.') $restFromPath = '';
+
+        // The namespace before the "rest" is the phpspec namespace prefix
+        // e.g., Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\SimpleSelect
+        // → prefix is Akeneo\Pim\Automation\IdentifierGenerator, rest is Domain\Model\Condition
+        // We need: Akeneo\Test\Pim\Automation\IdentifierGenerator\Unit\Domain\Model\Condition
+
+        // Find where rest starts in the namespace
+        if (!empty($restFromPath) && ($pos = strpos($ns, $restFromPath)) !== false) {
+            $prefix = rtrim(substr($ns, 0, $pos), '\\');
+            // Insert Test after Akeneo and Unit before the rest
+            $prefix = preg_replace('/^Akeneo\\\\/', 'Akeneo\\Test\\', $prefix);
+            return "{$prefix}\\Unit\\{$restFromPath}";
+        }
+    }
+
+    // Simple case: Akeneo\{Context}\{rest} → Akeneo\Test\{Context}\Unit\{rest}
     if (preg_match('/^Akeneo\\\\(\w+)\\\\(.+)$/', $ns, $m)) {
         $context = $m[1];
         $rest = $m[2];
         return "Akeneo\\Test\\{$context}\\Unit\\{$rest}";
     }
 
-    // Fallback: just prepend Test and add Unit
+    // Fallback
     return "Akeneo\\Test\\Unit\\{$ns}";
 }
 
@@ -285,6 +308,9 @@ function extractLetMethod(string $content, array &$meta): void
         $meta['constructorArgs'] = trim($cm[2]);
 
         $body = preg_replace('/\s*\$this->beConstructedThrough\(.+?\)\s*;/s', '', $body);
+    } else {
+        // let() exists but no beConstructedWith/Through — no explicit construction
+        $meta['constructionMode'] = 'none';
     }
 
     $meta['letBodyExtra'] = trim($body);
@@ -613,25 +639,13 @@ function generateSetUp(array $meta): ?string
     $lines[] = '    protected function setUp(): void';
     $lines[] = '    {';
 
-    // Extra let() body (non-beConstructed code)
-    if (!empty($meta['letBodyExtra'])) {
-        $extraBody = $meta['letBodyExtra'];
-        foreach (explode("\n", $extraBody) as $line) {
-            $trimmed = trim($line);
-            if (!empty($trimmed)) {
-                $lines[] = "        {$trimmed}";
-            }
-        }
-        $lines[] = '';
-    }
-
-    // Create mocks
+    // 1. Create mocks FIRST
     foreach ($meta['letParams'] as $name => $fqcn) {
         $shortType = shortClassName($fqcn);
         $lines[] = "        \$this->{$name} = \$this->createMock({$shortType}::class);";
     }
 
-    // Construct SUT
+    // 2. Construct SUT
     $shortSubject = shortClassName($meta['subjectFqcn']);
     if ($meta['constructionMode'] === 'new') {
         $args = transformConstructorArgs($meta['constructorArgs'], $meta['letParams']);
@@ -640,14 +654,39 @@ function generateSetUp(array $meta): ?string
         $args = $meta['constructorArgs'];
         $method = $meta['constructionMethod'];
         $lines[] = "        \$this->sut = {$shortSubject}::{$method}({$args});";
-    } else {
-        // No-arg constructor
+    } elseif (!hasPerTestConstruction($meta)) {
         $lines[] = "        \$this->sut = new {$shortSubject}();";
+    }
+
+    // 3. Extra let() body AFTER mocks and SUT are created
+    // Process through the same transformation pipeline as test method bodies
+    if (!empty($meta['letBodyExtra'])) {
+        $allMocks = $meta['letParams']; // All mocks are from let() in setUp
+        $bodyResult = transformMethodBody($meta['letBodyExtra'], $allMocks, $meta, []);
+        foreach (explode("\n", $bodyResult['content']) as $line) {
+            $trimmed = trim($line);
+            if (!empty($trimmed)) {
+                $lines[] = "        {$trimmed}";
+            }
+        }
     }
 
     $lines[] = '    }';
 
     return implode("\n", $lines);
+}
+
+function hasPerTestConstruction(array $meta): bool
+{
+    // Check if test methods contain beConstructedThrough/beConstructedWith
+    // indicating a factory-pattern class where setUp shouldn't construct
+    foreach ($meta['testMethods'] as $method) {
+        if (str_contains($method['body'], 'beConstructedThrough') ||
+            str_contains($method['body'], 'beConstructedWith')) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function transformConstructorArgs(string $argsStr, array $letParams): string
@@ -657,6 +696,8 @@ function transformConstructorArgs(string $argsStr, array $letParams): string
     foreach ($letParams as $name => $fqcn) {
         $result = preg_replace('/\$' . preg_quote($name, '/') . '\b/', "\$this->{$name}", $result);
     }
+    // Remove Prophecy-specific calls
+    $result = str_replace('->getWrappedObject()', '', $result);
     return $result;
 }
 
@@ -717,6 +758,7 @@ function generateTestMethod(array $method, array $meta): array
 function transformMethodBody(string $body, array $allMocks, array $meta, array $localMocks): array
 {
     $todoCount = 0;
+    $meta['_pendingConstruction'] = '';
 
     // Split body into statements (handling multi-line)
     $statements = splitStatements($body);
@@ -731,7 +773,28 @@ function transformMethodBody(string $body, array $allMocks, array $meta, array $
 
         $result = transformStatement($stmt, $allMocks, $meta, $localMocks);
         $todoCount += $result['todoCount'];
+
+        // Handle pending construction: beConstructedThrough/With not followed by duringInstantiation
+        if ($result['content'] === '_PENDING_CONSTRUCTION_') {
+            // Don't emit yet — wait for potential duringInstantiation
+            continue;
+        }
+
+        // If there's a pending construction that wasn't consumed by duringInstantiation,
+        // emit it as a SUT assignment
+        if (!empty($meta['_pendingConstruction']) && $result['content'] !== '_PENDING_CONSTRUCTION_') {
+            $constructCall = $meta['_pendingConstruction'];
+            $meta['_pendingConstruction'] = '';
+            $transformed[] = "\$this->sut = {$constructCall}";
+        }
+
         $transformed[] = $result['content'];
+    }
+
+    // Emit any remaining pending construction
+    if (!empty($meta['_pendingConstruction'])) {
+        $constructCall = $meta['_pendingConstruction'];
+        $transformed[] = "\$this->sut = {$constructCall}";
     }
 
     return [
@@ -802,7 +865,7 @@ function splitStatements(string $body): array
     return $statements;
 }
 
-function transformStatement(string $stmt, array $allMocks, array $meta, array $localMocks): array
+function transformStatement(string $stmt, array $allMocks, array &$meta, array $localMocks): array
 {
     $todoCount = 0;
     $letParams = $meta['letParams'];
@@ -818,33 +881,95 @@ function transformStatement(string $stmt, array $allMocks, array $meta, array $l
     // ── $this->shouldHaveType(Class::class) ──
     if (preg_match('/^\$this->shouldHaveType\((.+?)\)\s*;$/', $stmt, $m)) {
         $class = $m[1];
+        if ($meta['constructionMode'] === 'none' && hasPerTestConstruction($meta)) {
+            $subjectClass = shortClassName($meta['subjectFqcn']) . '::class';
+            return ['content' => "\$this->assertTrue(is_a({$subjectClass}, {$class}, true));", 'todoCount' => 0];
+        }
         return ['content' => "\$this->assertInstanceOf({$class}, \$this->sut);", 'todoCount' => 0];
     }
 
     // ── $this->shouldImplement(Interface::class) ──
     if (preg_match('/^\$this->shouldImplement\((.+?)\)\s*;$/', $stmt, $m)) {
         $class = $m[1];
+        if ($meta['constructionMode'] === 'none' && hasPerTestConstruction($meta)) {
+            $subjectClass = shortClassName($meta['subjectFqcn']) . '::class';
+            return ['content' => "\$this->assertTrue(is_a({$subjectClass}, {$class}, true));", 'todoCount' => 0];
+        }
         return ['content' => "\$this->assertInstanceOf({$class}, \$this->sut);", 'todoCount' => 0];
     }
 
+    // ── $this->shouldThrow(Ex)->duringInstantiation() ──
+    if (preg_match('/^\$this\s*->\s*shouldThrow\((.+?)\)\s*->\s*duringInstantiation\(\)\s*;$/s', $stmt, $m)) {
+        $exception = trim($m[1]);
+        // The construction call was set up by beConstructedThrough/beConstructedWith earlier in the method
+        // We store it in $meta['_pendingConstruction'] during statement processing
+        if (!empty($meta['_pendingConstruction'])) {
+            $constructCall = $meta['_pendingConstruction'];
+            $meta['_pendingConstruction'] = '';
+            return ['content' => "\$this->expectException({$exception});\n{$constructCall}", 'todoCount' => 0];
+        }
+        // Fallback: use setUp construction
+        $shortSubject = shortClassName($meta['subjectFqcn']);
+        if ($meta['constructionMode'] === 'static') {
+            $args = $meta['constructorArgs'];
+            $method = $meta['constructionMethod'];
+            return ['content' => "\$this->expectException({$exception});\n{$shortSubject}::{$method}({$args});", 'todoCount' => 0];
+        }
+        return ['content' => "\$this->expectException({$exception});\nnew {$shortSubject}();", 'todoCount' => 0];
+    }
+
+    // ── $this->shouldNotThrow(Ex)->duringInstantiation() ──
+    if (preg_match('/^\$this\s*->\s*shouldNotThrow\((.+?)\)\s*->\s*duringInstantiation\(\)\s*;$/s', $stmt, $m)) {
+        if (!empty($meta['_pendingConstruction'])) {
+            $constructCall = $meta['_pendingConstruction'];
+            $meta['_pendingConstruction'] = '';
+            return ['content' => "{$constructCall}\n\$this->addToAssertionCount(1);", 'todoCount' => 0];
+        }
+        return ['content' => "\$this->addToAssertionCount(1);", 'todoCount' => 0];
+    }
+
+    // ── $this->beConstructedThrough('method', [args]) in test body ──
+    if (preg_match('/^\$this->beConstructedThrough\(\s*[\'"](\w+)[\'"]\s*,\s*\[(.+)\]\s*\)\s*;$/s', $stmt, $m)) {
+        $method = $m[1];
+        $args = trim($m[2]);
+        $args = transformMockVarRefs($args, $letParams, $localMocks);
+        $shortSubject = shortClassName($meta['subjectFqcn']);
+        // Store for potential duringInstantiation that follows
+        $meta['_pendingConstruction'] = "{$shortSubject}::{$method}({$args});";
+        // If no duringInstantiation follows, this becomes a SUT assignment
+        return ['content' => '_PENDING_CONSTRUCTION_', 'todoCount' => 0];
+    }
+
+    // ── $this->beConstructedWith(args) in test body ──
+    if (preg_match('/^\$this->beConstructedWith\((.+)\)\s*;$/s', $stmt, $m)) {
+        $args = trim($m[1]);
+        $args = transformMockVarRefs($args, $letParams, $localMocks);
+        $shortSubject = shortClassName($meta['subjectFqcn']);
+        $meta['_pendingConstruction'] = "new {$shortSubject}({$args});";
+        return ['content' => '_PENDING_CONSTRUCTION_', 'todoCount' => 0];
+    }
+
     // ── $this->shouldThrow(Ex)->during('method', [args]) ──
+    // Note: during() is always an instance call on $this->sut, regardless of constructionMode.
+    // Static construction mode only affects duringInstantiation(), not during().
     if (preg_match('/^\$this\s*->\s*shouldThrow\((.+?)\)\s*->\s*during\(\s*[\'"](\w+)[\'"]\s*,\s*\[(.+?)\]\s*\)\s*;$/s', $stmt, $m)) {
         $exception = trim($m[1]);
         $method = $m[2];
         $args = trim($m[3]);
-
-        // Transform args: replace mock var refs
         $args = transformMockVarRefs($args, $letParams, $localMocks);
 
-        // Determine if it's a static call (beConstructedThrough) or instance call
-        if ($meta['constructionMode'] === 'static' || $meta['constructionMode'] === 'none') {
-            // Check if the method is the factory method
-            $shortSubject = shortClassName($meta['subjectFqcn']);
-            $lines = "\$this->expectException({$exception});\n{$shortSubject}::{$method}({$args});";
-        } else {
-            $lines = "\$this->expectException({$exception});\n\$this->sut->{$method}({$args});";
-        }
+        $lines = "\$this->expectException({$exception});\n\$this->sut->{$method}({$args});";
         return ['content' => $lines, 'todoCount' => 0];
+    }
+
+    // ── $this->shouldBeAnInstanceOf(Class) ──
+    if (preg_match('/^\$this->shouldBeAnInstanceOf\((.+?)\)\s*;$/', $stmt, $m)) {
+        $class = $m[1];
+        if ($meta['constructionMode'] === 'none' && hasPerTestConstruction($meta)) {
+            $subjectClass = shortClassName($meta['subjectFqcn']) . '::class';
+            return ['content' => "\$this->assertTrue(is_a({$subjectClass}, {$class}, true));", 'todoCount' => 0];
+        }
+        return ['content' => "\$this->assertInstanceOf({$class}, \$this->sut);", 'todoCount' => 0];
     }
 
     // ── $this->method(args)->shouldReturn(val) / shouldBe / shouldBeLike / etc. ──
@@ -916,6 +1041,7 @@ function transformSutChain(string $stmt, array $allMocks, array $meta, array $lo
         'shouldReturn'          => 'assertSame',
         'shouldBe'              => 'assertSame',
         'shouldBeLike'          => 'assertEquals',
+        'shouldEqual'           => 'assertEquals',
         'shouldBeNull'          => 'assertNull',
         'shouldBeAnInstanceOf'  => 'assertInstanceOf',
         'shouldBeArray'         => 'assertIsArray',
@@ -983,7 +1109,7 @@ function extractBalancedContent(string $str, int $openParenPos): string
         } elseif ($str[$i] === ')') {
             $depth--;
             if ($depth === 0) {
-                return trim(substr($str, $start, $i - $start));
+                return rtrim(trim(substr($str, $start, $i - $start)), ',');
             }
         }
     }
@@ -1121,8 +1247,8 @@ function buildPhpUnitMockCall(string $varRef, array $chain, array $letParams, ar
         $result = "{$varRef}->method('{$method}')";
     }
 
-    // Add argument matcher if there are args
-    if ($args !== null && $args !== '') {
+    // Add argument matcher if there are args (skip for cetera/any-args)
+    if ($args !== null && $args !== '' && $args !== '__CETERA__' && !str_contains($args, '__CETERA__')) {
         $result .= "->with({$args})";
     }
 
@@ -1138,6 +1264,10 @@ function buildPhpUnitMockCall(string $varRef, array $chain, array $letParams, ar
         $result .= "->willThrowException({$throwVal})";
     }
 
+    // Clean up any remaining CETERA markers
+    $result = str_replace('->with(__CETERA__)', '', $result);
+    $result = str_replace('__CETERA__', '', $result);
+
     return $result . ';';
 }
 
@@ -1147,12 +1277,22 @@ function transformMockVarRefs(string $str, array $letParams, array $localMocks):
     foreach ($letParams as $name => $fqcn) {
         $str = preg_replace('/\$' . preg_quote($name, '/') . '\b/', "\$this->{$name}", $str);
     }
+
+    // Remove ->getWrappedObject() — PHPUnit mocks don't wrap, they ARE the object
+    $str = str_replace('->getWrappedObject()', '', $str);
+
+    // Transform Argument:: matchers everywhere
+    $str = transformArgumentMatchers($str);
+
     // Local mocks keep their $varName as-is
     return $str;
 }
 
 function transformArgumentMatchers(string $str): string
 {
+    // (string)Argument::any() or (int)Argument::any() → $this->anything() (remove cast)
+    $str = preg_replace('/\(\w+\)\s*Argument::any\(\)/', '$this->anything()', $str);
+
     // Argument::any() → $this->anything()
     $str = str_replace('Argument::any()', '$this->anything()', $str);
 
@@ -1162,8 +1302,17 @@ function transformArgumentMatchers(string $str): string
     // Argument::type(Foo::class) → $this->isInstanceOf(Foo::class)
     $str = preg_replace('/Argument::type\((\w+(?:::\w+)?)\)/', '$this->isInstanceOf($1)', $str);
 
-    // Argument::cetera() → mark as TODO
-    if (str_contains($str, 'Argument::')) {
+    // Argument::that(fn ...) → $this->callback(fn ...)
+    $str = preg_replace('/Argument::that\(/', '$this->callback(', $str);
+
+    // Argument::cetera() → match any args (remove the with() clause later, for now use marker)
+    $str = str_replace('Argument::cetera()', '__CETERA__', $str);
+
+    // Argument::exact(val) → val (identity check)
+    $str = preg_replace('/Argument::exact\((.+?)\)/', '$1', $str);
+
+    // Remaining Argument:: → TODO
+    if (str_contains($str, 'Argument::') && !str_contains($str, 'TODO')) {
         $str = "/* TODO: convert Argument matcher */ {$str}";
     }
 
