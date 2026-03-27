@@ -71,6 +71,7 @@ class CategoryShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->sut->validate($condition, new CategoryShouldBeValid());
@@ -87,6 +88,7 @@ class CategoryShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->sut->validate($condition, new CategoryShouldBeValid());
@@ -105,6 +107,7 @@ class CategoryShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());

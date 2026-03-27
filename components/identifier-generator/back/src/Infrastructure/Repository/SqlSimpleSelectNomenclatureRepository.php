@@ -9,7 +9,6 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinitio
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\SimpleSelectNomenclatureRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -233,7 +232,7 @@ class SqlSimpleSelectNomenclatureRepository implements SimpleSelectNomenclatureR
         }
         $statement = $this->connection->prepare(\strtr(
             $insertOrUpdateSql,
-            ['{{ values }}' => implode(',', $valuesArray)]
+            ['{{ values }}' => \implode(',', $valuesArray)]
         ));
 
         foreach ($valuesToUpdateOrInsert as $i => $valueToUpdateOrInsert) {

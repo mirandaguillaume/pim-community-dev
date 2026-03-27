@@ -7,7 +7,6 @@ namespace Akeneo\Test\Pim\Automation\IdentifierGenerator\Unit\Domain\Model\Condi
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\Conditions;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\Enabled;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\Family;
-use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\ProductProjection;
 use PHPUnit\Framework\TestCase;
 
 /**

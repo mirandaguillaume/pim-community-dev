@@ -50,6 +50,6 @@ final readonly class SqlGetNextIdentifierQuery implements GetNextIdentifierQuery
 
         $result = ((int) $result) + 1;
 
-        return max($numberMin, $result);
+        return \max($numberMin, $result);
     }
 }

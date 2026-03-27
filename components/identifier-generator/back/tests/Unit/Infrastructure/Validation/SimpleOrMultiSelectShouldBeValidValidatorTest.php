@@ -10,7 +10,6 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Validation\SimpleOr
 use Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Validation\SimpleOrMultiSelectShouldBeValidValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -75,6 +74,7 @@ class SimpleOrMultiSelectShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->sut->validate($condition, new SimpleOrMultiSelectShouldBeValid());
@@ -93,6 +93,7 @@ class SimpleOrMultiSelectShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->sut->validate($condition, new SimpleOrMultiSelectShouldBeValid());
@@ -113,6 +114,7 @@ class SimpleOrMultiSelectShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
@@ -136,6 +138,7 @@ class SimpleOrMultiSelectShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());

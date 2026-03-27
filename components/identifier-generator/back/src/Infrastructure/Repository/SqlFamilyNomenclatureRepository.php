@@ -10,7 +10,6 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Property\FamilyProper
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\FamilyNomenclatureRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -119,7 +118,7 @@ class SqlFamilyNomenclatureRepository implements FamilyNomenclatureRepository
         }
         $statement = $this->connection->prepare(\strtr(
             $insertOrUpdateSql,
-            ['{{ values }}' => implode(',', $valuesArray)]
+            ['{{ values }}' => \implode(',', $valuesArray)]
         ));
 
         foreach ($valuesToUpdateOrInsert as $i => $valueToUpdateOrInsert) {

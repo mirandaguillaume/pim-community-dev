@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Test\Pim\Automation\IdentifierGenerator\Unit\Domain\Model\Condition;
 
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\Category;
-use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\CategoryOperator;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\ConditionInterface;
-use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\ProductProjection;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,8 +20,8 @@ class CategoryTest extends TestCase
 
     public function test_it_is_a_category(): void
     {
-        $this->assertTrue(is_a(Category::class, ConditionInterface::class, true));
-        $this->assertTrue(is_a(Category::class, Category::class, true));
+        $this->assertTrue(\is_a(Category::class, ConditionInterface::class, true));
+        $this->assertTrue(\is_a(Category::class, Category::class, true));
     }
 
     public function test_it_cant_be_instanciated_if_type_is_not_category(): void

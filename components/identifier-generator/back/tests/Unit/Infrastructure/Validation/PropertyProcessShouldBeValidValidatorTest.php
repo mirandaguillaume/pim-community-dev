@@ -74,6 +74,7 @@ class PropertyProcessShouldBeValidValidatorTest extends TestCase
             ->with($process, $this->isInstanceOf(Collection::class))
             ->willReturnCallback(function ($value, $constraint) use (&$constraintArg) {
                 $constraintArg = $constraint;
+
                 return $this->contextualValidator;
             });
         $this->sut->validate($process, new PropertyProcessShouldBeValid());
@@ -93,6 +94,7 @@ class PropertyProcessShouldBeValidValidatorTest extends TestCase
             ->with($process, $this->isInstanceOf(Collection::class))
             ->willReturnCallback(function ($value, $constraint) use (&$constraintArg) {
                 $constraintArg = $constraint;
+
                 return $this->contextualValidator;
             });
         $this->sut->validate($process, new PropertyProcessShouldBeValid());
@@ -114,6 +116,7 @@ class PropertyProcessShouldBeValidValidatorTest extends TestCase
             ->with($process, $this->isInstanceOf(Collection::class))
             ->willReturnCallback(function ($value, $constraint) use (&$constraintArg) {
                 $constraintArg = $constraint;
+
                 return $this->contextualValidator;
             });
         $this->sut->validate($process, new PropertyProcessShouldBeValid());
