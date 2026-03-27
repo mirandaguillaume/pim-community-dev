@@ -92,8 +92,8 @@ final readonly class GetAvailablePropertiesController
 
         return \array_filter(
             $fields,
-            fn(string $field): bool =>
-                \str_contains(\strtolower($field), \strtolower($search))
+            fn(string $field): bool
+                => \str_contains(\strtolower($field), \strtolower($search))
                 || \str_contains(
                     \strtolower(
                         $this->translator->trans(

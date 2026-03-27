@@ -264,7 +264,7 @@ final class UpdateIdentifierGeneratorControllerEndToEnd extends ControllerEndToE
     private function getUuidFromCode(string $code): string
     {
         return $this->get('database_connection')->executeQuery(<<<SQL
-SELECT BIN_TO_UUID(uuid) AS uuid FROM pim_catalog_identifier_generator WHERE code=:code
-SQL, ['code' => $code])->fetchOne();
+            SELECT BIN_TO_UUID(uuid) AS uuid FROM pim_catalog_identifier_generator WHERE code=:code
+            SQL, ['code' => $code])->fetchOne();
     }
 }

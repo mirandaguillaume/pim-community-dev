@@ -26,10 +26,10 @@ final readonly class SqlGetNextIdentifierQuery implements GetNextIdentifierQuery
         int $numberMin,
     ): int {
         $sql = <<<SQL
-SELECT MAX(number) FROM pim_catalog_identifier_generator_prefixes p 
-INNER JOIN pim_catalog_attribute a ON a.id = p.attribute_id
-WHERE p.prefix = :prefix AND a.code = :code
-SQL;
+            SELECT MAX(number) FROM pim_catalog_identifier_generator_prefixes p 
+            INNER JOIN pim_catalog_attribute a ON a.id = p.attribute_id
+            WHERE p.prefix = :prefix AND a.code = :code
+            SQL;
 
         $result = $this->connection->executeQuery(
             $sql,
@@ -50,6 +50,6 @@ SQL;
 
         $result = ((int) $result) + 1;
 
-        return max($numberMin, $result);
+        return \max($numberMin, $result);
     }
 }

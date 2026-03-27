@@ -197,10 +197,10 @@ class SqlIdentifierGeneratorRepositoryIntegration extends TestCase
     private function getSortOrder(string $code): int
     {
         $sql = <<<SQL
-SELECT sort_order 
-FROM pim_catalog_identifier_generator
-WHERE code=:code
-SQL;
+            SELECT sort_order 
+            FROM pim_catalog_identifier_generator
+            WHERE code=:code
+            SQL;
 
         return \intval($this->connection->fetchOne($sql, ['code' => $code]));
     }

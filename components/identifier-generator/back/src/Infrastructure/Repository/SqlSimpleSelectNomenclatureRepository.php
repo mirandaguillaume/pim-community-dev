@@ -9,7 +9,6 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinitio
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\SimpleSelectNomenclatureRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -49,10 +48,10 @@ class SqlSimpleSelectNomenclatureRepository implements SimpleSelectNomenclatureR
     private function getOptionIdsFromAttributeCode(string $attributeCode): array
     {
         $sql = <<<SQL
-SELECT pim_catalog_attribute_option.id
-FROM pim_catalog_attribute_option
-WHERE attribute_id = (SELECT id FROM pim_catalog_attribute WHERE code=:attribute_code);
-SQL;
+            SELECT pim_catalog_attribute_option.id
+            FROM pim_catalog_attribute_option
+            WHERE attribute_id = (SELECT id FROM pim_catalog_attribute WHERE code=:attribute_code);
+            SQL;
 
         return \array_map('intval', $this->connection->fetchFirstColumn($sql, [
             'attribute_code' => $attributeCode,
@@ -81,10 +80,10 @@ SQL;
     private function getNomenclatureDefinition(string $attributeCode): ?NomenclatureDefinition
     {
         $sql = <<<SQL
-SELECT definition
-FROM pim_catalog_identifier_generator_nomenclature_definition
-WHERE property_code=:property_code
-SQL;
+            SELECT definition
+            FROM pim_catalog_identifier_generator_nomenclature_definition
+            WHERE property_code=:property_code
+            SQL;
         $definition = $this->connection->fetchOne($sql, [
             'property_code' => $attributeCode,
         ]);
@@ -107,11 +106,11 @@ SQL;
         $optionIds = $this->getOptionIdsFromAttributeCode($attributeCode);
 
         $sql = <<<SQL
-SELECT ao.code, value
-FROM pim_catalog_identifier_generator_simple_select_nomenclature n
-INNER JOIN pim_catalog_attribute_option ao ON ao.id = n.option_id
-WHERE option_id IN (:option_ids)
-SQL;
+            SELECT ao.code, value
+            FROM pim_catalog_identifier_generator_simple_select_nomenclature n
+            INNER JOIN pim_catalog_attribute_option ao ON ao.id = n.option_id
+            WHERE option_id IN (:option_ids)
+            SQL;
 
         $result = $this->connection->fetchAllKeyValue(
             $sql,
@@ -135,10 +134,10 @@ SQL;
     private function updateDefinition(string $attributeCode, NomenclatureDefinition $nomenclatureDefinition): void
     {
         $sql = <<<SQL
-INSERT INTO pim_catalog_identifier_generator_nomenclature_definition (property_code, definition)
-VALUES(:property_code, :definition)
-ON DUPLICATE KEY UPDATE definition = :definition
-SQL;
+            INSERT INTO pim_catalog_identifier_generator_nomenclature_definition (property_code, definition)
+            VALUES(:property_code, :definition)
+            ON DUPLICATE KEY UPDATE definition = :definition
+            SQL;
 
         Assert::notNull($nomenclatureDefinition->operator());
         Assert::notNull($nomenclatureDefinition->value());
@@ -159,10 +158,10 @@ SQL;
         $attributeOptionCodes = \array_keys($nomenclatureDefinition->values());
 
         $sql = <<<SQL
-SELECT code, id FROM pim_catalog_attribute_option
-WHERE code IN (:attributeOptionCodes)
-AND attribute_id = (SELECT id FROM pim_catalog_attribute WHERE code=:attributeCode)
-SQL;
+            SELECT code, id FROM pim_catalog_attribute_option
+            WHERE code IN (:attributeOptionCodes)
+            AND attribute_id = (SELECT id FROM pim_catalog_attribute WHERE code=:attributeCode)
+            SQL;
 
         $attributeOptionIds = $this->connection->fetchAllKeyValue(
             $sql,
@@ -206,9 +205,9 @@ SQL;
     private function deleteNomenclatureValues(array $attributeOptionIdsToDelete): void
     {
         $deleteSql = <<<SQL
-DELETE FROM pim_catalog_identifier_generator_simple_select_nomenclature 
-WHERE option_id IN (:option_ids);
-SQL;
+            DELETE FROM pim_catalog_identifier_generator_simple_select_nomenclature 
+            WHERE option_id IN (:option_ids);
+            SQL;
         $this->connection->executeStatement($deleteSql, [
             'option_ids' => $attributeOptionIdsToDelete,
         ], [
@@ -222,10 +221,10 @@ SQL;
     private function insertOrUpdateNomenclatureValues(array $valuesToUpdateOrInsert): void
     {
         $insertOrUpdateSql = <<<SQL
-INSERT INTO pim_catalog_identifier_generator_simple_select_nomenclature (option_id, value)
-VALUES {{ values }}
-ON DUPLICATE KEY UPDATE value = VALUES(value)
-SQL;
+            INSERT INTO pim_catalog_identifier_generator_simple_select_nomenclature (option_id, value)
+            VALUES {{ values }}
+            ON DUPLICATE KEY UPDATE value = VALUES(value)
+            SQL;
         $valuesArray = [];
         $counter = \count($valuesToUpdateOrInsert);
         for ($i = 0; $i < $counter; $i++) {
@@ -233,7 +232,7 @@ SQL;
         }
         $statement = $this->connection->prepare(\strtr(
             $insertOrUpdateSql,
-            ['{{ values }}' => implode(',', $valuesArray)]
+            ['{{ values }}' => \implode(',', $valuesArray)]
         ));
 
         foreach ($valuesToUpdateOrInsert as $i => $valueToUpdateOrInsert) {

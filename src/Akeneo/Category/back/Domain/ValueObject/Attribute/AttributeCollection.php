@@ -165,7 +165,7 @@ class AttributeCollection implements \Countable
         // ignoring the attributes that are not in the collection. Co-edition use case
         foreach ($orderedAttributeUuids as $attributeUuid) {
             $attribute = $this->getAttributeByUuid($attributeUuid);
-            if (!$attribute instanceof \Akeneo\Category\Domain\Model\Attribute\Attribute) {
+            if (!$attribute instanceof Attribute) {
                 continue;
             }
             $attribute->setOrder(AttributeOrder::fromInteger($order++));

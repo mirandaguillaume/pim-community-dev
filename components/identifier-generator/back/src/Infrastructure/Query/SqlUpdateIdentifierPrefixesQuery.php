@@ -38,8 +38,8 @@ final class SqlUpdateIdentifierPrefixesQuery implements UpdateIdentifierPrefixes
         $onlyProducts = \array_filter(
             $products,
             // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-            fn(ProductInterface $product): bool => $product::class !==
-                'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+            fn(ProductInterface $product): bool => $product::class
+                !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
         );
         if (\count($onlyProducts) > 0) {
             $this->deletePreviousPrefixes($onlyProducts);
@@ -82,8 +82,8 @@ final class SqlUpdateIdentifierPrefixesQuery implements UpdateIdentifierPrefixes
         $placeholders = \implode(',', \array_fill(0, \count($newPrefixes), '(?,?,?,?)'));
 
         $insertSql = <<<SQL
-INSERT INTO pim_catalog_identifier_generator_prefixes (`product_uuid`, `attribute_id`, `prefix`, `number`) VALUES {$placeholders}
-SQL;
+            INSERT INTO pim_catalog_identifier_generator_prefixes (`product_uuid`, `attribute_id`, `prefix`, `number`) VALUES {$placeholders}
+            SQL;
 
         $placeholderIndex = 1;
         $statement = $this->connection->prepare($insertSql);
@@ -103,8 +103,8 @@ SQL;
     private function deletePreviousPrefixes(array $products): void
     {
         $deleteSql = <<<SQL
-DELETE FROM pim_catalog_identifier_generator_prefixes WHERE product_uuid IN (:product_uuids)
-SQL;
+            DELETE FROM pim_catalog_identifier_generator_prefixes WHERE product_uuid IN (:product_uuids)
+            SQL;
 
         $productUuidsAsBytes = \array_map(
             fn(ProductInterface $product): string => $product->getUuid()->getBytes(),

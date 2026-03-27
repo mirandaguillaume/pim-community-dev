@@ -67,7 +67,7 @@ class CategoryExtension extends AbstractExtension
             $relatedEntity,
         );
 
-        if ($parent instanceof \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface) {
+        if ($parent instanceof CategoryInterface) {
             $result = $this->formatCategory(
                 $parent,
                 $selectedIds,
@@ -99,7 +99,7 @@ class CategoryExtension extends AbstractExtension
     ) {
         $result = $this->formatCategories($categories, [], $withProductCount, $includeSub, $relatedEntity);
 
-        if ($parent instanceof \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface) {
+        if ($parent instanceof CategoryInterface) {
             $result = $this->formatCategory($parent, [], $withProductCount, $includeSub, $result, $relatedEntity);
         }
 

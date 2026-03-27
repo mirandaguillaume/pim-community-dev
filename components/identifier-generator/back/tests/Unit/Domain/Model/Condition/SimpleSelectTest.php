@@ -20,8 +20,8 @@ class SimpleSelectTest extends TestCase
 
     public function test_it_is_a_simple_select(): void
     {
-        $this->assertTrue(is_a(SimpleSelect::class, ConditionInterface::class, true));
-        $this->assertTrue(is_a(SimpleSelect::class, SimpleSelect::class, true));
+        $this->assertTrue(\is_a(SimpleSelect::class, ConditionInterface::class, true));
+        $this->assertTrue(\is_a(SimpleSelect::class, SimpleSelect::class, true));
     }
 
     public function test_it_should_throw_exception_if_type_is_not_family(): void

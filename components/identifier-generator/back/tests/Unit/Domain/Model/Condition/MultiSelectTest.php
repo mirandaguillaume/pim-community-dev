@@ -6,7 +6,6 @@ namespace Akeneo\Test\Pim\Automation\IdentifierGenerator\Unit\Domain\Model\Condi
 
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\ConditionInterface;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\MultiSelect;
-use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\ProductProjection;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,8 +20,8 @@ class MultiSelectTest extends TestCase
 
     public function test_it_is_a_multi_select(): void
     {
-        $this->assertTrue(is_a(MultiSelect::class, ConditionInterface::class, true));
-        $this->assertTrue(is_a(MultiSelect::class, MultiSelect::class, true));
+        $this->assertTrue(\is_a(MultiSelect::class, ConditionInterface::class, true));
+        $this->assertTrue(\is_a(MultiSelect::class, MultiSelect::class, true));
     }
 
     public function test_it_cant_be_instanciated_with_invalid_type(): void

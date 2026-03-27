@@ -76,7 +76,7 @@ class InternalApiCategory
             attributes: $category->getAttributes(),
             permissions: $category->getPermissions(),
             isRoot: $category->isRoot(),
-            root: ($root instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) ? InternalApiCategory::fromCategory($root, null) : null,
+            root: ($root instanceof Category) ? InternalApiCategory::fromCategory($root, null) : null,
         );
     }
 
@@ -97,7 +97,7 @@ class InternalApiCategory
             'attributes' => $this->attributes?->normalize(),
             'permissions' => $this->permissions?->normalize(),
             'isRoot' => $this->isRoot,
-            'root' => ($this->root instanceof \Akeneo\Category\Application\Query\GetCategory\InternalApiCategory) ? $this->root->normalize() : null,
+            'root' => ($this->root instanceof InternalApiCategory) ? $this->root->normalize() : null,
         ];
     }
 }

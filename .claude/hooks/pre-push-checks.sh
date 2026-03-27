@@ -22,8 +22,8 @@ CHANGED_JS=$(git diff --name-only "$BASE"...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx
 if [ -n "$CHANGED_PHP" ]; then
     CS_FILES=$(echo "$CHANGED_PHP" | grep -v 'Spec\.php$' | grep -v 'Integration\.php$' || true)
     if [ -n "$CS_FILES" ] && command -v docker-compose >/dev/null 2>&1; then
-        CS_RESULT=$(docker-compose run --rm -T php php tools/php-cs-fixer fix \
-            --dry-run --config=.php-cs-fixer.dist.php --path-mode=intersection \
+        CS_RESULT=$(docker-compose run --rm -T php php vendor/bin/php-cs-fixer fix \
+            --dry-run --config=.php_cs.php --path-mode=intersection \
             $CS_FILES 2>&1 || true)
         if echo "$CS_RESULT" | grep -qE 'that can be fixed'; then
             CS_COUNT=$(echo "$CS_RESULT" | grep -oE '[0-9]+\)' | wc -l)

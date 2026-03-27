@@ -58,7 +58,7 @@ class CategoryVersionBuilder
         }
 
         $snapshotPermissions = [];
-        if ($category->getPermissions() instanceof \Akeneo\Category\Domain\ValueObject\PermissionCollection) {
+        if ($category->getPermissions() instanceof PermissionCollection) {
             $snapshotPermissions['view_permission'] = $this->buildSnapshotPermission($category->getPermissions()->getViewUserGroups());
             $snapshotPermissions['edit_permission'] = $this->buildSnapshotPermission($category->getPermissions()->getEditUserGroups());
             $snapshotPermissions['own_permission'] = $this->buildSnapshotPermission($category->getPermissions()->getOwnUserGroups());
@@ -67,7 +67,7 @@ class CategoryVersionBuilder
         $snapshot = [
             'code' => (string) $category->getCode(),
             'parent' => $snapshotParent,
-            'updated' => (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->format('c') ?? '',
+            'updated' => new \DateTimeImmutable('now', new \DateTimeZone('UTC'))->format('c') ?? '',
         ];
 
         return array_merge($snapshot, $snapshotLabels, $snapshotPermissions);

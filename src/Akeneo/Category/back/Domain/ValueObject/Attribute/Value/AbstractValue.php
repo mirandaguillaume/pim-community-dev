@@ -62,8 +62,8 @@ abstract class AbstractValue implements Value
         return sprintf(
             '%s%s%s',
             $this->getKey(),
-            !$this->channel instanceof \Akeneo\Category\Domain\ValueObject\Attribute\Value\ChannelValue ? '' : self::SEPARATOR.$this->channel,
-            !$this->locale instanceof \Akeneo\Category\Domain\ValueObject\Attribute\Value\LocaleValue ? '' : self::SEPARATOR.$this->locale,
+            !$this->channel instanceof ChannelValue ? '' : self::SEPARATOR.$this->channel,
+            !$this->locale instanceof LocaleValue ? '' : self::SEPARATOR.$this->locale,
         );
     }
 
@@ -74,8 +74,8 @@ abstract class AbstractValue implements Value
     {
         return [
             $this->getKeyWithChannelAndLocale() => [
-                'channel' => !$this->channel instanceof \Akeneo\Category\Domain\ValueObject\Attribute\Value\ChannelValue ? null : (string) $this->channel,
-                'locale' => !$this->locale instanceof \Akeneo\Category\Domain\ValueObject\Attribute\Value\LocaleValue ? null : (string) $this->locale,
+                'channel' => !$this->channel instanceof ChannelValue ? null : (string) $this->channel,
+                'locale' => !$this->locale instanceof LocaleValue ? null : (string) $this->locale,
                 'attribute_code' => $this->getKey(),
             ],
         ];

@@ -6,7 +6,6 @@ namespace Akeneo\Test\Channel\Acceptance\InMemory;
 
 use Akeneo\Channel\API\Query\IsLocaleEditable;
 use Akeneo\Test\Acceptance\User\InMemoryUserRepository;
-use Akeneo\Test\Channel\Acceptance\InMemory\InMemoryIsLocaleEditable;
 use Akeneo\UserManagement\Component\Model\Group;
 use Akeneo\UserManagement\Component\Model\User;
 use PHPUnit\Framework\TestCase;
@@ -39,13 +38,13 @@ class InMemoryIsLocaleEditableTest extends TestCase
         $this->sut = new InMemoryIsLocaleEditable($userRepository);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(InMemoryIsLocaleEditable::class, $this->sut);
         $this->assertInstanceOf(IsLocaleEditable::class, $this->sut);
     }
 
-    public function test_it_returns_all_activated_locale_codes(): void
+    public function testItReturnsAllActivatedLocaleCodes(): void
     {
         $this->sut->addEditableLocaleCodeForGroup('admin', 'en_US');
         $this->assertSame(false, $this->sut->forUserId('en_US', 1));

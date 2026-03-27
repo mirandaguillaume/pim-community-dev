@@ -22,7 +22,6 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\IdentifierGenera
 use Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Subscriber\SetIdentifiersSubscriber;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
-use Akeneo\Pim\Enrichment\Component\Product\Value\IdentifierValue;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -131,12 +130,13 @@ class SetIdentifiersSubscriberTest extends TestCase
 
         $this->validator->expects($this->exactly(2))->method('validate')->willReturnCallback(
             function () use ($product) {
-                $args = func_get_args();
+                $args = \func_get_args();
                 if ($args[0] === $product && $args[1] === null && ($args[2] ?? null) === ['identifiers']) {
                     return new ConstraintViolationList([
                         new ConstraintViolation('', '', [], '', '', ''),
                     ]);
                 }
+
                 return new ConstraintViolationList([]);
             }
         );
@@ -169,10 +169,11 @@ class SetIdentifiersSubscriberTest extends TestCase
 
         $this->validator->expects($this->exactly(2))->method('validate')->willReturnCallback(
             function () use ($product) {
-                $args = func_get_args();
+                $args = \func_get_args();
                 if ($args[0] === $product && $args[1] === null && ($args[2] ?? null) === ['identifiers']) {
                     return new ConstraintViolationList([]);
                 }
+
                 return new ConstraintViolationList([
                     new ConstraintViolation('', '', [], '', '', ''),
                 ]);

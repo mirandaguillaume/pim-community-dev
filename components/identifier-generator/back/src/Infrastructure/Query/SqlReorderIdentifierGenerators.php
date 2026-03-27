@@ -8,7 +8,6 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\IdentifierGeneratorCo
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Query\ReorderIdentifierGenerators;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -37,9 +36,9 @@ final readonly class SqlReorderIdentifierGenerators implements ReorderIdentifier
 
         $this->connection->executeStatement(
             <<<SQL
-            UPDATE pim_catalog_identifier_generator
-            SET sort_order = FIELD(code, :codes) - 1;
-            SQL,
+                UPDATE pim_catalog_identifier_generator
+                SET sort_order = FIELD(code, :codes) - 1;
+                SQL,
             ['codes' => $newCodes],
             ['codes' => ArrayParameterType::STRING]
         );

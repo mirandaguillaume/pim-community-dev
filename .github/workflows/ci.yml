@@ -26,6 +26,13 @@ on:
     - cron: '0 3 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+  actions: read
+  checks: write
+  pull-requests: read
+
 env:
   CACHE_VERSION: v2
   YARN_REGISTRY: https://registry.yarnpkg.com

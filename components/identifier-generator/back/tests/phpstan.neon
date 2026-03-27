@@ -8,7 +8,6 @@ parameters:
     paths:
         - %currentWorkingDirectory%/components/identifier-generator
     excludePaths:
-        - %currentWorkingDirectory%/components/identifier-generator/back/tests/Specification
         - %currentWorkingDirectory%/components/identifier-generator/back/tests/Unit
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:

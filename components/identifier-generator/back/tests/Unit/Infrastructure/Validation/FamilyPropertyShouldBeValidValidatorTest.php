@@ -26,7 +26,7 @@ class FamilyPropertyShouldBeValidValidatorTest extends TestCase
     {
         $this->globalValidator = $this->createMock(ValidatorInterface::class);
         $this->context = $this->createMock(ExecutionContext::class);
-        $this->sut = new FamilyPropertyShouldBeValidValidator($this->globalValidator);
+        $this->sut = new FamilyPropertyShouldBeValidValidator();
         $this->sut->initialize($this->context);
     }
 

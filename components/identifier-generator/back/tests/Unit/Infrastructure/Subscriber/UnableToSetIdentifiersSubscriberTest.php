@@ -35,7 +35,7 @@ class UnableToSetIdentifiersSubscriberTest extends TestCase
         $stepExecutionEvent->method('getStepExecution')->willReturn($stepExecution);
         $this->jobRepository->expects($this->once())->method('addWarnings')->with(
             $stepExecution,
-            $this->callback(function (array $warnings) use ($stepExecution): bool {
+            $this->callback(function (array $warnings): bool {
                 if (\count($warnings) !== 2) {
                     return false;
                 }

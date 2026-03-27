@@ -107,8 +107,8 @@ class V20221205153905FillIdentifierPrefixesZddMigrationIntegration extends TestC
     private function getIdentifierGeneratorPrefixes(): array
     {
         $query = <<<SQL
-            SELECT BIN_TO_UUID(product_uuid) as uuid, prefix, number FROM pim_catalog_identifier_generator_prefixes
-        SQL;
+                SELECT BIN_TO_UUID(product_uuid) as uuid, prefix, number FROM pim_catalog_identifier_generator_prefixes
+            SQL;
         $stmt = $this->getConnection()->executeQuery($query);
 
         return $stmt->fetchAllAssociative();
@@ -117,8 +117,8 @@ class V20221205153905FillIdentifierPrefixesZddMigrationIntegration extends TestC
     private function emptyPrefixTable(): void
     {
         $query = <<<SQL
-            DELETE FROM pim_catalog_identifier_generator_prefixes
-        SQL;
+                DELETE FROM pim_catalog_identifier_generator_prefixes
+            SQL;
         $this->getConnection()->executeQuery($query);
     }
 

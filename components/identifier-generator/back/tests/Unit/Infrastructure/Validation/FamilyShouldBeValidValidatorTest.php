@@ -72,6 +72,7 @@ class FamilyShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->sut->validate($condition, new FamilyShouldBeValid());
@@ -88,6 +89,7 @@ class FamilyShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->sut->validate($condition, new FamilyShouldBeValid());
@@ -106,6 +108,7 @@ class FamilyShouldBeValidValidatorTest extends TestCase
             ->with($condition, $this->anything())
             ->willReturnCallback(function ($value, $constraints) use (&$constraintArgs) {
                 $constraintArgs[] = $constraints;
+
                 return $this->contextualValidator;
             });
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());

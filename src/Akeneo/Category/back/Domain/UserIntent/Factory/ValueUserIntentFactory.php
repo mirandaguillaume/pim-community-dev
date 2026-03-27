@@ -51,7 +51,7 @@ final readonly class ValueUserIntentFactory implements UserIntentFactory
         foreach ($data as $value) {
             $attributeType = $this->getAttributeType($attributeCollection, $value);
             // /!\ No attribute type found for the value. Do nothing for now.
-            if (!$attributeType instanceof \Akeneo\Category\Domain\ValueObject\Attribute\AttributeType) {
+            if (!$attributeType instanceof AttributeType) {
                 continue;
             }
 

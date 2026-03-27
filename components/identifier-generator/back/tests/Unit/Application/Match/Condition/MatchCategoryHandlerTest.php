@@ -101,6 +101,7 @@ class MatchCategoryHandlerTest extends TestCase
                 if ($productCategories === ['pants']) {
                     return false;
                 }
+
                 return false;
             }
         );
@@ -127,6 +128,7 @@ class MatchCategoryHandlerTest extends TestCase
                 if ($productCategories === ['pants']) {
                     return false;
                 }
+
                 return false;
             }
         );

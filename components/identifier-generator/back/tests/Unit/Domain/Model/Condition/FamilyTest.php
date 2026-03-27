@@ -20,8 +20,8 @@ class FamilyTest extends TestCase
 
     public function test_it_is_a_family(): void
     {
-        $this->assertTrue(is_a(Family::class, ConditionInterface::class, true));
-        $this->assertTrue(is_a(Family::class, Family::class, true));
+        $this->assertTrue(\is_a(Family::class, ConditionInterface::class, true));
+        $this->assertTrue(\is_a(Family::class, Family::class, true));
     }
 
     public function test_it_should_throw_exception_if_type_is_not_family(): void

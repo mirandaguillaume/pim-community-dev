@@ -68,8 +68,9 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
     {
         $upsert = $this->platformHelper->upsertClause(
             ['foreign_key', 'locale'],
-            ["label = :label$loopIndex"]
+            ["label = :label$loopIndex"],
         );
+
         return <<<SQL
                         INSERT INTO pim_catalog_category_translation (foreign_key, label, locale)
                         VALUES (:category_id, :label$loopIndex, :locale$loopIndex)

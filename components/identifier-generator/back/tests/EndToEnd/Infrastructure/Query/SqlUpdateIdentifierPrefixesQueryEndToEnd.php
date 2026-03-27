@@ -74,11 +74,11 @@ class SqlUpdateIdentifierPrefixesQueryEndToEnd extends EndToEndTestCase
     private function getPrefixes(UuidInterface $productUuid, $identifierId): array
     {
         $sql = <<<SQL
-SELECT `prefix`, `number`
-FROM pim_catalog_identifier_generator_prefixes
-WHERE product_uuid=UUID_TO_BIN("%s")
-AND attribute_id=%d
-SQL;
+            SELECT `prefix`, `number`
+            FROM pim_catalog_identifier_generator_prefixes
+            WHERE product_uuid=UUID_TO_BIN("%s")
+            AND attribute_id=%d
+            SQL;
 
         return $this->getConnection()->fetchAllKeyValue(\sprintf($sql, $productUuid->toString(), $identifierId));
     }
@@ -86,10 +86,10 @@ SQL;
     private function getIdentifierId(): int
     {
         $sql = <<<SQL
-SELECT `id`
-FROM pim_catalog_attribute
-WHERE attribute_type='pim_catalog_identifier'
-SQL;
+            SELECT `id`
+            FROM pim_catalog_attribute
+            WHERE attribute_type='pim_catalog_identifier'
+            SQL;
 
         return \intval($this->getConnection()->fetchOne($sql));
     }

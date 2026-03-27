@@ -32,7 +32,7 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
 
     public function execute(Category $categoryModel): void
     {
-        if ($this->getCategory->byCode((string) $categoryModel->getCode()) instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
+        if ($this->getCategory->byCode((string) $categoryModel->getCode()) instanceof Category) {
             $this->updateEnrichedCategory($categoryModel);
         } else {
             $this->insertCategory($categoryModel);
@@ -138,7 +138,7 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
 
     private function normalizeValueCollection(?ValueCollection $valueCollection): ?array
     {
-        if (!$valueCollection instanceof \Akeneo\Category\Domain\ValueObject\ValueCollection) {
+        if (!$valueCollection instanceof ValueCollection) {
             return null;
         }
 

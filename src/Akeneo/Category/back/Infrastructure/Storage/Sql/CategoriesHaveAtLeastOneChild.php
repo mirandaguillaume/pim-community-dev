@@ -7,7 +7,6 @@ namespace Akeneo\Category\Infrastructure\Storage\Sql;
 use Akeneo\Category\ServiceApi\Query\CategoriesHaveAtLeastOneChild as BaseCategoriesHaveAtLeastOneChild;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 
 /**
  * @see https://en.wikipedia.org/wiki/Nested_set_model
