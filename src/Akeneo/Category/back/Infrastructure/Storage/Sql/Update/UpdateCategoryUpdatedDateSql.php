@@ -14,7 +14,9 @@ use Doctrine\DBAL\ParameterType;
  */
 class UpdateCategoryUpdatedDateSql implements UpdateCategoryUpdatedDate
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(string $categoryCode): void
     {

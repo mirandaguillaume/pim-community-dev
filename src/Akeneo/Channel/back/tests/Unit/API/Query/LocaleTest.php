@@ -19,7 +19,7 @@ class LocaleTest extends TestCase
         );
     }
 
-    public function test_it_has_getters(): void
+    public function testItHasGetters(): void
     {
         $this->assertSame('fr_FR', $this->sut->getCode());
         $this->assertSame(true, $this->sut->isActivated());

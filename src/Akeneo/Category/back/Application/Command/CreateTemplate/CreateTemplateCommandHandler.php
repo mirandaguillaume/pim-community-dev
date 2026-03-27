@@ -30,13 +30,14 @@ class CreateTemplateCommandHandler
         private readonly GetCategoryTemplateByCategoryTree $getCategoryTemplateByCategoryTree,
         private readonly CategoryTemplateSaver $categoryTemplateSaver,
         private readonly CategoryTreeTemplateSaver $categoryTreeTemplateSaver,
-    ) {}
+    ) {
+    }
 
     public function __invoke(CreateTemplateCommand $command): TemplateUuid
     {
         $categoryTreeId = $command->categoryTreeId;
         $categoryTree = $this->getCategory->byId($categoryTreeId->getValue());
-        if (!$categoryTree instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
+        if (!$categoryTree instanceof Category) {
             throw new CategoryTreeNotFoundException();
         }
 
@@ -73,9 +74,10 @@ class CreateTemplateCommandHandler
      */
     private function validateTemplateCreation(Category $categoryTree): bool
     {
-        if (($this->getCategoryTemplateByCategoryTree)($categoryTree->getId()) instanceof \Akeneo\Category\Domain\Model\Enrichment\Template) {
+        if (($this->getCategoryTemplateByCategoryTree)($categoryTree->getId()) instanceof Template) {
             return false;
         }
+
         return !$categoryTree->getParentId() instanceof \Akeneo\Category\Domain\ValueObject\CategoryId;
     }
 }

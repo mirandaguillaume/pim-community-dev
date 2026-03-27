@@ -30,7 +30,8 @@ abstract class AbstractPreviewGenerator implements PreviewGeneratorInterface
         protected DefaultImageProviderInterface $defaultImageProvider,
         protected LoggerInterface $logger,
         protected ?array $supportedMimeTypes = [],
-    ) {}
+    ) {
+    }
 
     abstract public function supports(string $data, Attribute $attribute, string $type): bool;
 

@@ -23,7 +23,8 @@ final readonly class DownloadCategoryMediaFileController
         private ApiResourceRepositoryInterface $mediaRepository,
         private FilesystemProvider $filesystemProvider,
         private FileFetcherInterface $fileFetcher,
-    ) {}
+    ) {
+    }
 
     public function __invoke(string $code)
     {

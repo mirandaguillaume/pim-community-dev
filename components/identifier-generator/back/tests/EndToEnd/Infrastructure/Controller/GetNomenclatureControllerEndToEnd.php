@@ -71,13 +71,13 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
         Assert::assertJsonStringEqualsJsonString(
             <<<JSON
-            {
-              "operator": null,
-              "value": null,
-              "generate_if_empty": null,
-              "values": {}
-            }
-            JSON,
+                {
+                  "operator": null,
+                  "value": null,
+                  "generate_if_empty": null,
+                  "values": {}
+                }
+                JSON,
             $response->getContent(),
         );
     }

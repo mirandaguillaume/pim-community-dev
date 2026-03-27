@@ -30,7 +30,8 @@ class TrackUsageOfLoadPredefinedAttributesController
         private readonly SecurityFacade $securityFacade,
         private readonly GetTemplate $getTemplate,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $templateUuid): JsonResponse
     {

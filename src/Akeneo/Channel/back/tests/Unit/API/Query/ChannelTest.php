@@ -24,7 +24,7 @@ class ChannelTest extends TestCase
         );
     }
 
-    public function test_it_has_getters(): void
+    public function testItHasGetters(): void
     {
         $this->assertSame('mobile', $this->sut->getCode());
         $this->assertSame(['fr_FR', 'uk_UA'], $this->sut->getLocaleCodes());
@@ -33,14 +33,14 @@ class ChannelTest extends TestCase
         $this->assertEquals(ConversionUnitCollection::fromArray(['a_measurement_attribute' => 'GRAM', 'another_measurement_attribute' => 'POUND']), $this->sut->getConversionUnits());
     }
 
-    public function test_it_tells_if_a_given_locale_is_active(): void
+    public function testItTellsIfAGivenLocaleIsActive(): void
     {
         $this->assertSame(true, $this->sut->isLocaleActive('fr_FR'));
         $this->assertSame(true, $this->sut->isLocaleActive('uk_UA'));
         $this->assertSame(false, $this->sut->isLocaleActive('en_US'));
     }
 
-    public function test_it_tells_if_a_given_currency_is_active(): void
+    public function testItTellsIfAGivenCurrencyIsActive(): void
     {
         $this->assertSame(true, $this->sut->isCurrencyActive('EUR'));
         $this->assertSame(true, $this->sut->isCurrencyActive('USD'));

@@ -23,7 +23,8 @@ class SqlCategoryTemplateAttributeSaver implements CategoryTemplateAttributeSave
     public function __construct(
         private readonly Connection $connection,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {}
+    ) {
+    }
 
     public function insert(TemplateUuid $templateUuid, AttributeCollection $attributeCollection): void
     {

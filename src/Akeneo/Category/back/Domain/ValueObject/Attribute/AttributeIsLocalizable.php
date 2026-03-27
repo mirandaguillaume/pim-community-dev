@@ -12,7 +12,8 @@ class AttributeIsLocalizable
 {
     private function __construct(
         private readonly bool $isLocalizable,
-    ) {}
+    ) {
+    }
 
     public static function fromBoolean(bool $isLocalizable): self
     {

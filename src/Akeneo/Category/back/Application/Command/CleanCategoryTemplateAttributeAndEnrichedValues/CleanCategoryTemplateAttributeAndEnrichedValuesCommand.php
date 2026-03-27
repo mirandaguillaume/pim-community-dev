@@ -13,5 +13,6 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesCommand
     public function __construct(
         public readonly string $templateUuid,
         public readonly string $attributeUuid,
-    ) {}
+    ) {
+    }
 }

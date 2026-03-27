@@ -23,7 +23,8 @@ class PurgeOrphanCategoryImageFilesTasklet implements TaskletInterface
     public function __construct(
         private readonly JobStopper $jobStopper,
         private readonly CommandBus $commandBus,
-    ) {}
+    ) {
+    }
 
     public function setStepExecution(StepExecution $stepExecution): void
     {
@@ -32,7 +33,7 @@ class PurgeOrphanCategoryImageFilesTasklet implements TaskletInterface
 
     public function execute(): void
     {
-        if (!$this->stepExecution instanceof \Akeneo\Tool\Component\Batch\Model\StepExecution) {
+        if (!$this->stepExecution instanceof StepExecution) {
             throw new \InvalidArgumentException(sprintf('In order to execute "%s" you need to set a step execution.', PurgeOrphanCategoryImageFilesTasklet::class));
         }
 

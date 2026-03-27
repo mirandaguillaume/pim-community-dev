@@ -12,7 +12,9 @@ use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
  */
 class TemplateDeactivatedEvent
 {
-    public function __construct(private readonly TemplateUuid $templateUuid) {}
+    public function __construct(private readonly TemplateUuid $templateUuid)
+    {
+    }
 
     public function getTemplateUuid(): TemplateUuid
     {

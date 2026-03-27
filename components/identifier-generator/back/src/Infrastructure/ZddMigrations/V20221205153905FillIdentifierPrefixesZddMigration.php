@@ -61,15 +61,15 @@ class V20221205153905FillIdentifierPrefixesZddMigration implements ZddMigration
         $lastProductUuid = '';
 
         $query = <<<SQL
-        SELECT BIN_TO_UUID(uuid) as uuid_string, raw_values
-        FROM pim_catalog_product product
-        WHERE NOT EXISTS(
-            SELECT * FROM pim_catalog_identifier_generator_prefixes WHERE product_uuid = product.uuid
-        )
-            AND uuid > :lastUuid
-        ORDER BY uuid
-        LIMIT 100
-SQL;
+                    SELECT BIN_TO_UUID(uuid) as uuid_string, raw_values
+                    FROM pim_catalog_product product
+                    WHERE NOT EXISTS(
+                        SELECT * FROM pim_catalog_identifier_generator_prefixes WHERE product_uuid = product.uuid
+                    )
+                        AND uuid > :lastUuid
+                    ORDER BY uuid
+                    LIMIT 100
+            SQL;
 
         while (true) {
             $rows = $this->connection->fetchAllKeyValue(

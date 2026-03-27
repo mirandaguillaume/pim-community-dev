@@ -25,7 +25,9 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 final readonly class ValueUserIntentFactory implements UserIntentFactory
 {
-    public function __construct(private GetAttribute $getAttribute) {}
+    public function __construct(private GetAttribute $getAttribute)
+    {
+    }
 
     public function getSupportedFieldNames(): array
     {
@@ -49,7 +51,7 @@ final readonly class ValueUserIntentFactory implements UserIntentFactory
         foreach ($data as $value) {
             $attributeType = $this->getAttributeType($attributeCollection, $value);
             // /!\ No attribute type found for the value. Do nothing for now.
-            if (!$attributeType instanceof \Akeneo\Category\Domain\ValueObject\Attribute\AttributeType) {
+            if (!$attributeType instanceof AttributeType) {
                 continue;
             }
 

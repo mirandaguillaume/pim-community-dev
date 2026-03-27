@@ -67,10 +67,10 @@ class SqlFamilyNomenclatureRepository implements FamilyNomenclatureRepository
     private function getExistingFamilyIdsFromFamilyCodes(array $familyCodes): array
     {
         $sql = <<<SQL
-SELECT code, id
-FROM pim_catalog_family f
-WHERE f.code IN (:family_codes)
-SQL;
+            SELECT code, id
+            FROM pim_catalog_family f
+            WHERE f.code IN (:family_codes)
+            SQL;
 
         $result = $this->connection->fetchAllKeyValue($sql, [
             'family_codes' => $familyCodes,
@@ -92,9 +92,9 @@ SQL;
     private function deleteNomenclatureValues(array $familyIdsToDelete): void
     {
         $deleteSql = <<<SQL
-DELETE FROM pim_catalog_identifier_generator_family_nomenclature 
-WHERE family_id IN (:family_ids);
-SQL;
+            DELETE FROM pim_catalog_identifier_generator_family_nomenclature 
+            WHERE family_id IN (:family_ids);
+            SQL;
         $this->connection->executeStatement($deleteSql, [
             'family_ids' => $familyIdsToDelete,
         ], [
@@ -108,10 +108,10 @@ SQL;
     private function insertOrUpdateNomenclatureValues(array $valuesToUpdateOrInsert): void
     {
         $insertOrUpdateSql = <<<SQL
-INSERT INTO pim_catalog_identifier_generator_family_nomenclature (family_id, value)
-VALUES {{ values }}
-ON DUPLICATE KEY UPDATE value = VALUES(value)
-SQL;
+            INSERT INTO pim_catalog_identifier_generator_family_nomenclature (family_id, value)
+            VALUES {{ values }}
+            ON DUPLICATE KEY UPDATE value = VALUES(value)
+            SQL;
         $valuesArray = [];
         $counter = \count($valuesToUpdateOrInsert);
         for ($i = 0; $i < $counter; $i++) {
@@ -133,10 +133,10 @@ SQL;
     private function updateDefinition(NomenclatureDefinition $nomenclatureDefinition): void
     {
         $sql = <<<SQL
-INSERT INTO pim_catalog_identifier_generator_nomenclature_definition (property_code, definition)
-VALUES(:property_code, :definition)
-ON DUPLICATE KEY UPDATE definition = :definition
-SQL;
+            INSERT INTO pim_catalog_identifier_generator_nomenclature_definition (property_code, definition)
+            VALUES(:property_code, :definition)
+            ON DUPLICATE KEY UPDATE definition = :definition
+            SQL;
 
         Assert::notNull($nomenclatureDefinition->operator());
         Assert::notNull($nomenclatureDefinition->value());
@@ -189,10 +189,10 @@ SQL;
     private function getNomenclatureDefinition(): ?NomenclatureDefinition
     {
         $sql = <<<SQL
-SELECT definition
-FROM pim_catalog_identifier_generator_nomenclature_definition
-WHERE property_code=:property_code
-SQL;
+            SELECT definition
+            FROM pim_catalog_identifier_generator_nomenclature_definition
+            WHERE property_code=:property_code
+            SQL;
         $definition = $this->connection->fetchOne($sql, [
             'property_code' => FamilyProperty::TYPE,
         ]);
@@ -213,10 +213,10 @@ SQL;
     private function getNomenclatureValues(): array
     {
         $sql = <<<SQL
-SELECT f.code, value
-FROM pim_catalog_identifier_generator_family_nomenclature n
-INNER JOIN pim_catalog_family f ON f.id = n.family_id
-SQL;
+            SELECT f.code, value
+            FROM pim_catalog_identifier_generator_family_nomenclature n
+            INNER JOIN pim_catalog_family f ON f.id = n.family_id
+            SQL;
 
         $result = $this->connection->fetchAllKeyValue($sql);
 

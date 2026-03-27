@@ -20,7 +20,9 @@ use Doctrine\DBAL\ParameterType;
  */
 class GetCategoryTemplateAttributeSql implements GetAttribute
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * @throws Exception
@@ -57,7 +59,7 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
             ],
         )->fetchAllAssociative();
 
-        return AttributeCollection::fromArray(array_map(static fn($results) => Attribute::fromDatabase($results), $results));
+        return AttributeCollection::fromArray(array_map(static fn ($results) => Attribute::fromDatabase($results), $results));
     }
 
     /**
@@ -100,7 +102,7 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
             ->executeQuery()
             ->fetchAllAssociative();
 
-        $attributes = array_map(static fn($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
+        $attributes = array_map(static fn ($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
 
         return AttributeCollection::fromArray($attributes);
     }

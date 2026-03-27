@@ -31,7 +31,8 @@ class CategorySaverProcessor implements SaveCategory
 
     public function __construct(
         private readonly CategorySaverRegistry $categorySaverRegistry,
-    ) {}
+    ) {
+    }
 
     /**
      * @param UserIntent[] $userIntents

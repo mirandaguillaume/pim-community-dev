@@ -27,11 +27,12 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
         private readonly Connection $connection,
         private readonly GetCategoryInterface $getCategory,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {}
+    ) {
+    }
 
     public function execute(Category $categoryModel): void
     {
-        if ($this->getCategory->byCode((string) $categoryModel->getCode()) instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
+        if ($this->getCategory->byCode((string) $categoryModel->getCode()) instanceof Category) {
             $this->updateEnrichedCategory($categoryModel);
         } else {
             $this->insertCategory($categoryModel);
@@ -137,13 +138,13 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
 
     private function normalizeValueCollection(?ValueCollection $valueCollection): ?array
     {
-        if (!$valueCollection instanceof \Akeneo\Category\Domain\ValueObject\ValueCollection) {
+        if (!$valueCollection instanceof ValueCollection) {
             return null;
         }
 
         return array_filter(
             $valueCollection->normalize(),
-            fn(array $attributeValue) => null !== $attributeValue['data'],
+            fn (array $attributeValue) => null !== $attributeValue['data'],
         );
     }
 }

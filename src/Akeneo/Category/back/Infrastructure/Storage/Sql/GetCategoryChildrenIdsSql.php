@@ -15,7 +15,9 @@ use Doctrine\DBAL\ParameterType;
  */
 final readonly class GetCategoryChildrenIdsSql implements GetCategoryChildrenIds
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * @return array<int>
@@ -54,6 +56,6 @@ final readonly class GetCategoryChildrenIdsSql implements GetCategoryChildrenIds
             return [];
         }
 
-        return array_map(fn($result) => (int) $result['id'], $results);
+        return array_map(fn ($result) => (int) $result['id'], $results);
     }
 }

@@ -181,9 +181,9 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
 
     public function getLabel(): string
     {
-        $translated = ($this->getTranslation() instanceof \Akeneo\Category\Infrastructure\Component\Model\CategoryTranslationInterface) ? $this->getTranslation()->getLabel() : null;
+        $translated = ($this->getTranslation() instanceof CategoryTranslationInterface) ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
+        return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
     }
 
     /**

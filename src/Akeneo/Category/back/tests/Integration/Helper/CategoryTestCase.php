@@ -400,35 +400,35 @@ class CategoryTestCase extends TestCase
 
         $this->get('database_connection')->executeQuery($query, [
             'value_collection' => json_encode([
-                'title' . AbstractValue::SEPARATOR . '87939c45-1d85-4134-9579-d594fff65030' . AbstractValue::SEPARATOR . $channel . AbstractValue::SEPARATOR . 'en_US' => [
+                'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030'.AbstractValue::SEPARATOR.$channel.AbstractValue::SEPARATOR.'en_US' => [
                     'data' => 'All the shoes you need!',
                     'type' => 'text',
                     'channel' => $channel,
                     'locale' => 'en_US',
-                    'attribute_code' => 'title' . AbstractValue::SEPARATOR . '87939c45-1d85-4134-9579-d594fff65030',
+                    'attribute_code' => 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030',
                 ],
-                'title' . AbstractValue::SEPARATOR . '87939c45-1d85-4134-9579-d594fff65030' . AbstractValue::SEPARATOR . $channel . AbstractValue::SEPARATOR . 'fr_FR' => [
+                'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030'.AbstractValue::SEPARATOR.$channel.AbstractValue::SEPARATOR.'fr_FR' => [
                     'data' => 'Les chaussures dont vous avez besoin !',
                     'type' => 'text',
                     'channel' => $channel,
                     'locale' => 'fr_FR',
-                    'attribute_code' => 'title' . AbstractValue::SEPARATOR . '87939c45-1d85-4134-9579-d594fff65030',
+                    'attribute_code' => 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030',
                 ],
-                'title' . AbstractValue::SEPARATOR . '87939c45-1d85-4134-9579-d594fff65030' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'de_DE' => [
+                'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'de_DE' => [
                     'data' => 'Alle Schuhe, die Sie brauchen!',
                     'type' => 'text',
                     'channel' => 'ecommerce',
                     'locale' => 'de_DE',
-                    'attribute_code' => 'title' . AbstractValue::SEPARATOR . '87939c45-1d85-4134-9579-d594fff65030',
+                    'attribute_code' => 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030',
                 ],
-                'description' . AbstractValue::SEPARATOR . '57665726-8a6e-4550-9bcf-06f81c0d1e24' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'fr_FR' => [
+                'description'.AbstractValue::SEPARATOR.'57665726-8a6e-4550-9bcf-06f81c0d1e24'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'fr_FR' => [
                     'data' => 'La description des chaussures dont vous avez besoin !',
                     'type' => 'text',
                     'channel' => 'ecommerce',
                     'locale' => 'fr_FR',
-                    'attribute_code' => 'description' . AbstractValue::SEPARATOR . '57665726-8a6e-4550-9bcf-06f81c0d1e24',
+                    'attribute_code' => 'description'.AbstractValue::SEPARATOR.'57665726-8a6e-4550-9bcf-06f81c0d1e24',
                 ],
-                'photo' . AbstractValue::SEPARATOR . '8587cda6-58c8-47fa-9278-033e1d8c735c' => [
+                'photo'.AbstractValue::SEPARATOR.'8587cda6-58c8-47fa-9278-033e1d8c735c' => [
                     'data' => [
                         'size' => 168107,
                         'extension' => 'jpg',
@@ -439,7 +439,7 @@ class CategoryTestCase extends TestCase
                     'type' => 'image',
                     'channel' => null,
                     'locale' => null,
-                    'attribute_code' => 'photo' . AbstractValue::SEPARATOR . '8587cda6-58c8-47fa-9278-033e1d8c735c',
+                    'attribute_code' => 'photo'.AbstractValue::SEPARATOR.'8587cda6-58c8-47fa-9278-033e1d8c735c',
                 ],
             ], JSON_THROW_ON_ERROR),
             'code' => $code,

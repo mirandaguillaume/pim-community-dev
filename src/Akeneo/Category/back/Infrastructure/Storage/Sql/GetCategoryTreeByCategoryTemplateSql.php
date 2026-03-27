@@ -18,7 +18,9 @@ use Doctrine\DBAL\ParameterType;
  */
 class GetCategoryTreeByCategoryTemplateSql implements GetCategoryTreeByCategoryTemplate
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * @return ?Category

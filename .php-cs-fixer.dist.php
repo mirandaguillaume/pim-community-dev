@@ -20,7 +20,7 @@ return (new Config())
             // 💡 additional files, eg bin entry file
             // ->append([__DIR__.'/bin-entry-file'])
             // 💡 folders to exclude, if any
-            ->exclude(['.claude', '.serena', '.grepai', '.idea', 'seed', 'node_modules'])
+            ->exclude(['.claude', '.serena', '.grepai', '.idea', '.worktrees', 'seed', 'node_modules', 'var', 'vendor', 'tests/enterprise', 'tests/legacy'])
             // 💡 path patterns to exclude, if any
             // ->notPath([/* ... */])
             // 💡 extra configs

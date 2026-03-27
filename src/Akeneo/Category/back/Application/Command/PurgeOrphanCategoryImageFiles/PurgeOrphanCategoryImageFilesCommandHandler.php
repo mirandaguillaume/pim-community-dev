@@ -20,7 +20,8 @@ class PurgeOrphanCategoryImageFilesCommandHandler
         private readonly FilesystemProvider $filesystemProvider,
         private readonly GetOrphanCategoryImageFilePaths $getOrphanCategoryImageFilePaths,
         private readonly DeleteCategoryImageFile $deleteCategoryImageFile,
-    ) {}
+    ) {
+    }
 
     /**
      * @return iterable<IteratorStatus>

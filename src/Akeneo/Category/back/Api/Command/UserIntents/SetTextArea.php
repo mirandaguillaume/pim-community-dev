@@ -16,7 +16,8 @@ final readonly class SetTextArea implements ValueUserIntent
         private ?string $channelCode,
         private ?string $localeCode,
         private ?string $value,
-    ) {}
+    ) {
+    }
 
     public function attributeUuid(): string
     {

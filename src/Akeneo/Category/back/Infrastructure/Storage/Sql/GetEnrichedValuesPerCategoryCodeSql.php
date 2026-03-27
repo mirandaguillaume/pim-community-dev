@@ -10,7 +10,9 @@ use Doctrine\DBAL\ParameterType;
 
 final readonly class GetEnrichedValuesPerCategoryCodeSql implements GetEnrichedValuesPerCategoryCode
 {
-    public function __construct(private Connection $dbalConnection) {}
+    public function __construct(private Connection $dbalConnection)
+    {
+    }
 
     /**
      * @throws Exception

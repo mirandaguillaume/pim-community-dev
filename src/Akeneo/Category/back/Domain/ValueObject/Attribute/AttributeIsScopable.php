@@ -12,7 +12,8 @@ class AttributeIsScopable
 {
     private function __construct(
         private readonly bool $isScopable,
-    ) {}
+    ) {
+    }
 
     public static function fromBoolean(bool $isScopable): self
     {

@@ -21,8 +21,8 @@ class DeactivatedTemplateAttributesInValueCollectionFilter
     public function __invoke(array $deactivatedAttributes, array $decodedRawValueCollection): array
     {
         foreach ($deactivatedAttributes as $deactivatedAttribute) {
-            $attributeCode = $deactivatedAttribute->code . AbstractValue::SEPARATOR . $deactivatedAttribute->uuid;
-            $decodedRawValueCollection = array_filter($decodedRawValueCollection, static fn($rawValue) => $rawValue['attribute_code'] !== $attributeCode);
+            $attributeCode = $deactivatedAttribute->code.AbstractValue::SEPARATOR.$deactivatedAttribute->uuid;
+            $decodedRawValueCollection = array_filter($decodedRawValueCollection, static fn ($rawValue) => $rawValue['attribute_code'] !== $attributeCode);
         }
 
         return $decodedRawValueCollection;

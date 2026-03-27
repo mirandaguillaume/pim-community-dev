@@ -117,9 +117,9 @@ sku: The sku attribute must not contain more than 255 characters. The submitted 
     private function importEmptyProduct(): void
     {
         $content = <<<CSV
-        uuid;sku
-        ;
-        CSV;
+            uuid;sku
+            ;
+            CSV;
 
         $this->getJobLauncher()->launchImport('csv_product_import', $content);
     }

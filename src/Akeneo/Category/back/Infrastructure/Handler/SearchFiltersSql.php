@@ -20,7 +20,8 @@ class SearchFiltersSql implements SearchFilters
     public function __construct(
         private readonly ExternalApiSearchFiltersValidator $searchFiltersValidator,
         private readonly GetCategoryInterface $getCategory,
-    ) {}
+    ) {
+    }
 
     public function build(array $searchFilters): ExternalApiSqlParameters
     {
@@ -86,7 +87,7 @@ class SearchFiltersSql implements SearchFilters
     private function addSqlAndIfNecessary(string $sqlWhere): string
     {
         if ($sqlWhere !== '' && $sqlWhere !== '0') {
-            return $sqlWhere . ' AND ';
+            return $sqlWhere.' AND ';
         }
 
         return $sqlWhere;

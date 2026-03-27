@@ -87,7 +87,7 @@ class ReorderTemplateAttributesControllerEndToEnd extends ControllerIntegrationT
         $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
         $reorderedAttributes = $this->getAttribute->byTemplateUuid($this->templateUuid);
         $reorderedAttributesUuid = array_map(
-            static fn($attribute) => $attribute->getUuid()->getValue(),
+            static fn ($attribute) => $attribute->getUuid()->getValue(),
             $reorderedAttributes->getAttributes(),
         );
 

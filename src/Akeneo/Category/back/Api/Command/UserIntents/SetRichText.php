@@ -16,7 +16,8 @@ class SetRichText implements ValueUserIntent
         private readonly ?string $channelCode,
         private readonly ?string $localeCode,
         private readonly ?string $value,
-    ) {}
+    ) {
+    }
 
     public function attributeUuid(): string
     {

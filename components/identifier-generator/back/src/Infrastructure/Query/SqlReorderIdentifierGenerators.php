@@ -37,9 +37,9 @@ final readonly class SqlReorderIdentifierGenerators implements ReorderIdentifier
 
         $this->connection->executeStatement(
             <<<SQL
-            UPDATE pim_catalog_identifier_generator
-            SET sort_order = FIELD(code, :codes) - 1;
-            SQL,
+                UPDATE pim_catalog_identifier_generator
+                SET sort_order = FIELD(code, :codes) - 1;
+                SQL,
             ['codes' => $newCodes],
             ['codes' => ArrayParameterType::STRING]
         );

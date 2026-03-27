@@ -18,7 +18,8 @@ class CleanCategoryTemplateAttributeEnrichedValuesProvider implements Constraint
 {
     public function __construct(
         private readonly string $jobName,
-    ) {}
+    ) {
+    }
 
     public function supports(JobInterface $job): bool
     {

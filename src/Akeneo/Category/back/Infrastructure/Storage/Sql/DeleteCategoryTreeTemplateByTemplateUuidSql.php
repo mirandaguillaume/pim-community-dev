@@ -15,7 +15,9 @@ use Doctrine\DBAL\ParameterType;
  */
 class DeleteCategoryTreeTemplateByTemplateUuidSql implements DeleteCategoryTreeTemplateByTemplateUuid
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function __invoke(TemplateUuid $templateUuid): void
     {

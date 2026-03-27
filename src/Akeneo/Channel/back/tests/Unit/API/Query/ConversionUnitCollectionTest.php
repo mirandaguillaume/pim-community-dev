@@ -17,25 +17,25 @@ class ConversionUnitCollectionTest extends TestCase
         $this->sut = ConversionUnitCollection::fromArray(['an_measurement_attribute' => 'GRAM', 'another_measurement_attribute' => 'POUND']);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(ConversionUnitCollection::class, $this->sut);
     }
 
-    public function test_it_throws_exception_when_trying_to_create_it_with_non_string_array(): void
+    public function testItThrowsExceptionWhenTryingToCreateItWithNonStringArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
         ConversionUnitCollection::fromArray(['an_attribute' => 1]);
     }
 
-    public function test_it_says_if_it_has_a_conversion_unit_or_not(): void
+    public function testItSaysIfItHasAConversionUnitOrNot(): void
     {
         $this->assertSame(true, $this->sut->hasConversionUnit('an_measurement_attribute'));
         $this->assertSame(true, $this->sut->hasConversionUnit('another_measurement_attribute'));
         $this->assertSame(false, $this->sut->hasConversionUnit('an_unknown_measurement_attribute'));
     }
 
-    public function test_it_returns_a_conversion_unit(): void
+    public function testItReturnsAConversionUnit(): void
     {
         $this->assertSame('GRAM', $this->sut->getConversionUnit('an_measurement_attribute'));
         $this->assertSame('POUND', $this->sut->getConversionUnit('another_measurement_attribute'));

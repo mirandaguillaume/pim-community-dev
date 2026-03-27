@@ -24,7 +24,8 @@ class CategoryTranslationsSaver implements CategorySaver
         private readonly UpsertCategoryTranslations $upsertCategoryTranslations,
         private readonly UpdateCategoryUpdatedDate $updateCategoryUpdatedDate,
         private readonly array $supportedUserIntents,
-    ) {}
+    ) {
+    }
 
     public function save(Category $categoryModel): void
     {

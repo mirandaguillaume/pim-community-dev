@@ -59,10 +59,10 @@ function appEnvRun(string $env, string $cmd): void
 function ensureDir(string $path): void
 {
     if (!is_dir($path)) {
-        mkdir($path, 0777, true);
+        mkdir($path, 0o777, true);
     }
     // chmod bypasses umask, ensuring Docker containers (different UID) can write
-    chmod($path, 0777);
+    chmod($path, 0o777);
 }
 
 function csFixer(string $config, bool $dryRun = true, string $path = ''): void

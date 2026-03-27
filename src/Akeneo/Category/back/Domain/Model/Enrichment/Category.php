@@ -30,7 +30,8 @@ class Category
         private ?ValueCollection $attributes = null,
         private readonly ?PermissionCollection $permissions = null,
         private readonly ?Position $position = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @param array{
@@ -129,7 +130,7 @@ class Category
     public function isRoot(): bool
     {
         // supposedly equivalent conditions, belt and braces
-        return !$this->parentId instanceof \Akeneo\Category\Domain\ValueObject\CategoryId || $this->rootId === $this->id;
+        return !$this->parentId instanceof CategoryId || $this->rootId === $this->id;
     }
 
     public function getAttributes(): ?ValueCollection
@@ -142,7 +143,7 @@ class Category
      */
     public function getAttributeCodes(): array
     {
-        if (!$this->attributes instanceof \Akeneo\Category\Domain\ValueObject\ValueCollection) {
+        if (!$this->attributes instanceof ValueCollection) {
             return [];
         }
 

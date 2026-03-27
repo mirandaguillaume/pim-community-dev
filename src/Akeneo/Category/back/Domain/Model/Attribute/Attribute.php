@@ -36,7 +36,8 @@ abstract class Attribute
         protected LabelCollection $labelCollection,
         protected TemplateUuid $templateUuid,
         protected AttributeAdditionalProperties $additionalProperties,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array{
@@ -139,7 +140,7 @@ abstract class Attribute
      */
     public function getIdentifier(): string
     {
-        return $this->getCode() . AbstractValue::SEPARATOR . $this->getUuid();
+        return $this->getCode().AbstractValue::SEPARATOR.$this->getUuid();
     }
 
     public function getAdditionalProperties(): AttributeAdditionalProperties

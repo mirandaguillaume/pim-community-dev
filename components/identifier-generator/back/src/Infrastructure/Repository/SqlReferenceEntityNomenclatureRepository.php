@@ -51,10 +51,10 @@ class SqlReferenceEntityNomenclatureRepository implements ReferenceEntityNomencl
     private function getNomenclatureDefinition(string $attributeCode): ?NomenclatureDefinition
     {
         $sql = <<<SQL
-SELECT definition
-FROM pim_catalog_identifier_generator_nomenclature_definition
-WHERE property_code=:property_code
-SQL;
+            SELECT definition
+            FROM pim_catalog_identifier_generator_nomenclature_definition
+            WHERE property_code=:property_code
+            SQL;
         $definition = $this->connection->fetchOne($sql, [
             'property_code' => $attributeCode,
         ]);
@@ -93,11 +93,11 @@ SQL;
         $recordIdentifiers = $this->getRecordIdentifiersFromAttributeCode($attributeCode);
 
         $sql = <<<SQL
-SELECT r.code, value
-FROM pim_catalog_identifier_generator_ref_entity_nomenclature n
-INNER JOIN akeneo_reference_entity_record r ON r.identifier = n.record_identifier
-WHERE identifier IN (:record_identifiers)
-SQL;
+            SELECT r.code, value
+            FROM pim_catalog_identifier_generator_ref_entity_nomenclature n
+            INNER JOIN akeneo_reference_entity_record r ON r.identifier = n.record_identifier
+            WHERE identifier IN (:record_identifiers)
+            SQL;
 
         $result = $this->connection->fetchAllKeyValue(
             $sql,
@@ -126,10 +126,10 @@ SQL;
         $refDataName = $this->getRefEntityCodeByAttributeCode($attributeCode);
 
         $sql = <<<SQL
-SELECT akeneo_reference_entity_record.identifier
-FROM akeneo_reference_entity_record
-WHERE reference_entity_identifier = :refDataName;
-SQL;
+            SELECT akeneo_reference_entity_record.identifier
+            FROM akeneo_reference_entity_record
+            WHERE reference_entity_identifier = :refDataName;
+            SQL;
 
         return \array_map('strval', $this->connection->fetchFirstColumn($sql, [
             'refDataName' => $refDataName,
@@ -139,10 +139,10 @@ SQL;
     private function updateDefinition(string $attributeCode, NomenclatureDefinition $nomenclatureDefinition): void
     {
         $sql = <<<SQL
-INSERT INTO pim_catalog_identifier_generator_nomenclature_definition (property_code, definition)
-VALUES(:property_code, :definition)
-ON DUPLICATE KEY UPDATE definition = :definition
-SQL;
+            INSERT INTO pim_catalog_identifier_generator_nomenclature_definition (property_code, definition)
+            VALUES(:property_code, :definition)
+            ON DUPLICATE KEY UPDATE definition = :definition
+            SQL;
 
         Assert::notNull($nomenclatureDefinition->operator());
         Assert::notNull($nomenclatureDefinition->value());
@@ -165,10 +165,10 @@ SQL;
         $refDataName = $this->getRefEntityCodeByAttributeCode($attributeCode);
 
         $sql = <<<SQL
-SELECT code, identifier FROM akeneo_reference_entity_record
-WHERE code IN (:recordCodes)
-AND reference_entity_identifier = :refDataName
-SQL;
+            SELECT code, identifier FROM akeneo_reference_entity_record
+            WHERE code IN (:recordCodes)
+            AND reference_entity_identifier = :refDataName
+            SQL;
 
         $recordIdentifiers = $this->connection->fetchAllKeyValue(
             $sql,
@@ -213,9 +213,9 @@ SQL;
     private function deleteNomenclatureValues(array $recordIdentifiersToDelete): void
     {
         $deleteSql = <<<SQL
-DELETE FROM pim_catalog_identifier_generator_ref_entity_nomenclature 
-WHERE record_identifier IN (:recordIdentifiers);
-SQL;
+            DELETE FROM pim_catalog_identifier_generator_ref_entity_nomenclature 
+            WHERE record_identifier IN (:recordIdentifiers);
+            SQL;
         $this->connection->executeStatement($deleteSql, [
             'recordIdentifiers' => $recordIdentifiersToDelete,
         ], [
@@ -229,10 +229,10 @@ SQL;
     private function insertOrUpdateNomenclatureValues(array $valuesToUpdateOrInsert): void
     {
         $insertOrUpdateSql = <<<SQL
-INSERT INTO pim_catalog_identifier_generator_ref_entity_nomenclature (record_identifier, value)
-VALUES {{ values }}
-ON DUPLICATE KEY UPDATE value = VALUES(value)
-SQL;
+            INSERT INTO pim_catalog_identifier_generator_ref_entity_nomenclature (record_identifier, value)
+            VALUES {{ values }}
+            ON DUPLICATE KEY UPDATE value = VALUES(value)
+            SQL;
         $valuesArray = [];
         $counter = \count($valuesToUpdateOrInsert);
         for ($i = 0; $i < $counter; $i++) {

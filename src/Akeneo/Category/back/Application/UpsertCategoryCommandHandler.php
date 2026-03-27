@@ -30,7 +30,8 @@ class UpsertCategoryCommandHandler
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly SaveCategory $saver,
         private readonly FindCategoryAdditionalPropertiesRegistry $findCategoryAdditionalPropertiesRegistry,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws \Exception
@@ -40,11 +41,11 @@ class UpsertCategoryCommandHandler
         $this->validateCommand($command);
 
         $category = $this->getCategory->byCode($command->categoryCode());
-        if ($category instanceof \Akeneo\Category\Domain\Model\Enrichment\Category) {
+        if ($category instanceof Category) {
             $category = $this->findCategoryAdditionalPropertiesRegistry->forCategory($category);
         }
 
-        $isCreation = !$category instanceof \Akeneo\Category\Domain\Model\Enrichment\Category;
+        $isCreation = !$category instanceof Category;
         if ($isCreation) {
             throw new \Exception('Command to create a category is in progress.');
         }
@@ -60,7 +61,7 @@ class UpsertCategoryCommandHandler
     {
         foreach ($command->userIntents() as $userIntent) {
             $applier = $this->applierRegistry->getApplier($userIntent);
-            if (!$applier instanceof \Akeneo\Category\Application\Applier\UserIntentApplier) {
+            if (!$applier instanceof Applier\UserIntentApplier) {
                 throw new \InvalidArgumentException(\sprintf('The "%s" intent cannot be handled.', $userIntent::class));
             }
 

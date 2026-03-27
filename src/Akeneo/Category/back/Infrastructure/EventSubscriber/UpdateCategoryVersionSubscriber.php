@@ -19,7 +19,8 @@ class UpdateCategoryVersionSubscriber
     public function __construct(
         private readonly VersionBuilder $versionBuilder,
         private readonly CategoryVersionBuilder $categoryVersionBuilder,
-    ) {}
+    ) {
+    }
 
     public function updateCategoryVersion(CategoryUpdatedEvent $event): void
     {

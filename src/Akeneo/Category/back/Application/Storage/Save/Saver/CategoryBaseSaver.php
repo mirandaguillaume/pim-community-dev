@@ -22,7 +22,8 @@ class CategoryBaseSaver implements CategorySaver
     public function __construct(
         private readonly UpsertCategoryBase $upsertCategoryBase,
         private readonly array $supportedUserIntents,
-    ) {}
+    ) {
+    }
 
     public function save(Category $categoryModel): void
     {

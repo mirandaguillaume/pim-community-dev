@@ -20,7 +20,8 @@ class SqlCategoryTreeTemplateSaver implements CategoryTreeTemplateSaver
     public function __construct(
         private readonly Connection $connection,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws Exception

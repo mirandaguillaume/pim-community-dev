@@ -19,7 +19,8 @@ class SqlCategoryTemplateSaver implements CategoryTemplateSaver
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws Exception

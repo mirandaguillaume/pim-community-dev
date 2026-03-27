@@ -53,20 +53,20 @@ class SqlIdentifierGeneratorRepository implements IdentifierGeneratorRepository
         ];
 
         $query = <<<SQL
-INSERT INTO pim_catalog_identifier_generator (uuid, code, target_id, options, labels, conditions, structure, sort_order)
-VALUES (
-    UUID_TO_BIN(:uuid),
-    :code,
-    (SELECT id FROM pim_catalog_attribute WHERE pim_catalog_attribute.code=:target),
-    JSON_OBJECT('delimiter', :delimiter, 'text_transformation', :text_transformation),
-    :labels,
-    :conditions,
-    :structure,
-    (SELECT COUNT(1) FROM (
-        SELECT * FROM pim_catalog_identifier_generator
-    ) AS pcig)
-);
-SQL;
+            INSERT INTO pim_catalog_identifier_generator (uuid, code, target_id, options, labels, conditions, structure, sort_order)
+            VALUES (
+                UUID_TO_BIN(:uuid),
+                :code,
+                (SELECT id FROM pim_catalog_attribute WHERE pim_catalog_attribute.code=:target),
+                JSON_OBJECT('delimiter', :delimiter, 'text_transformation', :text_transformation),
+                :labels,
+                :conditions,
+                :structure,
+                (SELECT COUNT(1) FROM (
+                    SELECT * FROM pim_catalog_identifier_generator
+                ) AS pcig)
+            );
+            SQL;
 
         try {
             $this->connection->executeStatement($query, $parameters);
@@ -88,14 +88,14 @@ SQL;
         ];
 
         $query = <<<SQL
-UPDATE pim_catalog_identifier_generator SET
-    target_id=(SELECT id FROM pim_catalog_attribute WHERE pim_catalog_attribute.code=:target),
-    options=JSON_OBJECT('delimiter', :delimiter, 'text_transformation', :text_transformation),
-    labels=:labels,
-    conditions=:conditions,
-    structure=:structure
-WHERE pim_catalog_identifier_generator.code=:code;
-SQL;
+            UPDATE pim_catalog_identifier_generator SET
+                target_id=(SELECT id FROM pim_catalog_attribute WHERE pim_catalog_attribute.code=:target),
+                options=JSON_OBJECT('delimiter', :delimiter, 'text_transformation', :text_transformation),
+                labels=:labels,
+                conditions=:conditions,
+                structure=:structure
+            WHERE pim_catalog_identifier_generator.code=:code;
+            SQL;
 
         try {
             $this->connection->executeStatement($query, $parameters);
@@ -110,18 +110,18 @@ SQL;
     public function get(string $identifierGeneratorCode): IdentifierGenerator
     {
         $sql = <<<SQL
-SELECT
-    BIN_TO_UUID(uuid) AS uuid,
-    pim_catalog_identifier_generator.code,
-    conditions,
-    structure,
-    labels,
-    options,
-    pim_catalog_attribute.code AS target
-FROM pim_catalog_identifier_generator
-INNER JOIN pim_catalog_attribute ON pim_catalog_identifier_generator.target_id=pim_catalog_attribute.id
-WHERE pim_catalog_identifier_generator.code=:code
-SQL;
+            SELECT
+                BIN_TO_UUID(uuid) AS uuid,
+                pim_catalog_identifier_generator.code,
+                conditions,
+                structure,
+                labels,
+                options,
+                pim_catalog_attribute.code AS target
+            FROM pim_catalog_identifier_generator
+            INNER JOIN pim_catalog_attribute ON pim_catalog_identifier_generator.target_id=pim_catalog_attribute.id
+            WHERE pim_catalog_identifier_generator.code=:code
+            SQL;
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('code', $identifierGeneratorCode, ParameterType::STRING);
@@ -144,18 +144,18 @@ SQL;
     public function getAll(): array
     {
         $sql = <<<SQL
-SELECT
-    BIN_TO_UUID(uuid) AS uuid,
-    pim_catalog_identifier_generator.code,
-    conditions,
-    structure,
-    labels,
-    options,
-    pim_catalog_attribute.code AS target
-FROM pim_catalog_identifier_generator
-INNER JOIN pim_catalog_attribute ON pim_catalog_identifier_generator.target_id=pim_catalog_attribute.id
-ORDER BY pim_catalog_identifier_generator.sort_order ASC
-SQL;
+            SELECT
+                BIN_TO_UUID(uuid) AS uuid,
+                pim_catalog_identifier_generator.code,
+                conditions,
+                structure,
+                labels,
+                options,
+                pim_catalog_attribute.code AS target
+            FROM pim_catalog_identifier_generator
+            INNER JOIN pim_catalog_attribute ON pim_catalog_identifier_generator.target_id=pim_catalog_attribute.id
+            ORDER BY pim_catalog_identifier_generator.sort_order ASC
+            SQL;
 
         $stmt = $this->connection->prepare($sql);
 
@@ -223,19 +223,19 @@ SQL;
         $this->get($identifierGeneratorCode);
 
         $sql = <<<SQL
-UPDATE pim_catalog_identifier_generator
-SET sort_order = sort_order - 1
-WHERE sort_order > (
-    SELECT pcig.sort_order
-    FROM (
-        SELECT * FROM pim_catalog_identifier_generator
-    ) AS pcig
-    WHERE pcig.code=:code
-);
-DELETE FROM pim_catalog_identifier_generator
-WHERE code=:code
-LIMIT 1;
-SQL;
+            UPDATE pim_catalog_identifier_generator
+            SET sort_order = sort_order - 1
+            WHERE sort_order > (
+                SELECT pcig.sort_order
+                FROM (
+                    SELECT * FROM pim_catalog_identifier_generator
+                ) AS pcig
+                WHERE pcig.code=:code
+            );
+            DELETE FROM pim_catalog_identifier_generator
+            WHERE code=:code
+            LIMIT 1;
+            SQL;
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('code', $identifierGeneratorCode, ParameterType::STRING);

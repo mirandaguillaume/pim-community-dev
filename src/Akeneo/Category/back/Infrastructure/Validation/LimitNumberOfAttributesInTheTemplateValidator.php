@@ -21,7 +21,8 @@ final class LimitNumberOfAttributesInTheTemplateValidator extends ConstraintVali
 
     public function __construct(
         private readonly GetAttribute $getAttribute,
-    ) {}
+    ) {
+    }
 
     /**
      * @param AddAttributeCommand $value

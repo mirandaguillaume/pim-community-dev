@@ -18,7 +18,9 @@ use Akeneo\Category\Domain\ValueObject\Version\CategoryVersion;
  */
 class CategoryVersionBuilder
 {
-    public function __construct(private readonly GetCategoryInterface $getCategory) {}
+    public function __construct(private readonly GetCategoryInterface $getCategory)
+    {
+    }
 
     public function create(Category $category): CategoryVersion
     {
@@ -56,7 +58,7 @@ class CategoryVersionBuilder
         }
 
         $snapshotPermissions = [];
-        if ($category->getPermissions() instanceof \Akeneo\Category\Domain\ValueObject\PermissionCollection) {
+        if ($category->getPermissions() instanceof PermissionCollection) {
             $snapshotPermissions['view_permission'] = $this->buildSnapshotPermission($category->getPermissions()->getViewUserGroups());
             $snapshotPermissions['edit_permission'] = $this->buildSnapshotPermission($category->getPermissions()->getEditUserGroups());
             $snapshotPermissions['own_permission'] = $this->buildSnapshotPermission($category->getPermissions()->getOwnUserGroups());

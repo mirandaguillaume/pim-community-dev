@@ -24,7 +24,8 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
         private readonly Connection $connection,
         private readonly GetCategoryInterface $getCategory,
         private readonly SqlPlatformHelperInterface $platformHelper,
-    ) {}
+    ) {
+    }
 
     public function execute(Category $categoryModel): void
     {
@@ -41,11 +42,11 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
             if (!$this->isIdenticalLabel($categoryModel, $localeCode, $label)) {
                 $queries .= $this->buildUpsertQuery($loopIndex);
 
-                $params['label' . $loopIndex] = $label;
-                $params['locale' . $loopIndex] = $localeCode;
+                $params['label'.$loopIndex] = $label;
+                $params['locale'.$loopIndex] = $localeCode;
 
-                $types['label' . $loopIndex] = ParameterType::STRING;
-                $types['locale' . $loopIndex] = ParameterType::STRING;
+                $types['label'.$loopIndex] = ParameterType::STRING;
+                $types['locale'.$loopIndex] = ParameterType::STRING;
 
                 ++$loopIndex;
             }
@@ -67,8 +68,9 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
     {
         $upsert = $this->platformHelper->upsertClause(
             ['foreign_key', 'locale'],
-            ["label = :label$loopIndex"]
+            ["label = :label$loopIndex"],
         );
+
         return <<<SQL
                         INSERT INTO pim_catalog_category_translation (foreign_key, label, locale)
                         VALUES (:category_id, :label$loopIndex, :locale$loopIndex)

@@ -8,7 +8,6 @@ use Akeneo\Category\Domain\Model\Enrichment\Category;
 use Akeneo\Category\Domain\Query\GetCategoryByIds;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
@@ -16,7 +15,9 @@ use Doctrine\DBAL\ParameterType;
  */
 class GetCategoryByIdsSql implements GetCategoryByIds
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function __invoke(array $categoryIds): array
     {
@@ -63,6 +64,6 @@ class GetCategoryByIdsSql implements GetCategoryByIds
             return [];
         }
 
-        return array_map(fn($category) => Category::fromDatabase($category), $rows);
+        return array_map(fn ($category) => Category::fromDatabase($category), $rows);
     }
 }
