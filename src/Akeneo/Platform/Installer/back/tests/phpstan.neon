@@ -8,6 +8,8 @@ parameters:
   reportUnmatchedIgnoredErrors: false
   paths:
     - %rootDir%/../../../src/Akeneo/Platform/Installer/back/src
+  excludePaths:
+    - %rootDir%/../../../src/Akeneo/Platform/Installer/back/tests/Unit
   ignoreErrors:
     # PHP 8.4: GMP/SimpleXMLElement added to built-in function signatures
     -
