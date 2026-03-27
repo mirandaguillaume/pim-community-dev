@@ -24,8 +24,7 @@ class CreateTemplateController
     public function __construct(
         private readonly SecurityFacade $securityFacade,
         private readonly CreateTemplateCommandHandler $createTemplateCommandHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, int $categoryTreeId): Response
     {

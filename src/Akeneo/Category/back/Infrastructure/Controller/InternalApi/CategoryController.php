@@ -22,8 +22,7 @@ class CategoryController
         protected NormalizerInterface $normalizer,
         protected CollectionFilterInterface $collectionFilter,
         protected GetCategoryChildrenIds $getCategoryChildrenIds,
-    ) {
-    }
+    ) {}
 
     /**
      * List root categories.

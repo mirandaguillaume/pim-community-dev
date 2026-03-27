@@ -18,9 +18,7 @@ use Doctrine\DBAL\ParameterType;
  */
 class GetDeactivatedCategoryTemplateAttributeSql implements GetDeactivatedAttribute
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * @param AttributeUuid[] $attributeUuids
@@ -62,7 +60,7 @@ class GetDeactivatedCategoryTemplateAttributeSql implements GetDeactivatedAttrib
             ->executeQuery()
             ->fetchAllAssociative();
 
-        $attributes = array_map(static fn ($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
+        $attributes = array_map(static fn($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
 
         return AttributeCollection::fromArray($attributes);
     }

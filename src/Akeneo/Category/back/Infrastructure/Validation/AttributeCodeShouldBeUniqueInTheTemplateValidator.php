@@ -19,8 +19,7 @@ final class AttributeCodeShouldBeUniqueInTheTemplateValidator extends Constraint
 {
     public function __construct(
         private readonly GetAttribute $getAttribute,
-    ) {
-    }
+    ) {}
 
     public function validate($value, Constraint $constraint): void
     {

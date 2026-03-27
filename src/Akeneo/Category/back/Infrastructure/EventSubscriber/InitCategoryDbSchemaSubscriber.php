@@ -12,9 +12,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 #[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'initDbSchema')]
 class InitCategoryDbSchemaSubscriber
 {
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     public function initDbSchema(InstallerEvent $event): void
     {

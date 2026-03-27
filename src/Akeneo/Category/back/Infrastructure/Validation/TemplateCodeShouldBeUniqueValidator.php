@@ -17,9 +17,7 @@ use Webmozart\Assert\Assert;
  */
 class TemplateCodeShouldBeUniqueValidator extends ConstraintValidator
 {
-    public function __construct(private readonly CheckTemplate $checkTemplate)
-    {
-    }
+    public function __construct(private readonly CheckTemplate $checkTemplate) {}
 
     public function validate($value, Constraint $constraint): void
     {

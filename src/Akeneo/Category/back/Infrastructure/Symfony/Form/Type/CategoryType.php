@@ -27,9 +27,7 @@ class CategoryType extends AbstractType
      * @param string $dataClass
      * @param string $translationDataClass
      */
-    public function __construct(protected $dataClass, protected $translationDataClass)
-    {
-    }
+    public function __construct(protected $dataClass, protected $translationDataClass) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

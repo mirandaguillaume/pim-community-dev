@@ -28,8 +28,7 @@ class ListCategoriesController
         private readonly GetCategoriesParametersBuilder $parametersBuilder,
         private readonly GetCategoriesInterface $getCategories,
         private readonly array $apiConfiguration,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): JsonResponse|Response
     {

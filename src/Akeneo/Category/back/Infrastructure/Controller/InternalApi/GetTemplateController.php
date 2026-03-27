@@ -25,8 +25,7 @@ class GetTemplateController
         private readonly SecurityFacade $securityFacade,
         private readonly GetTemplate $getTemplate,
         private readonly GetAttribute $getAttribute,
-    ) {
-    }
+    ) {}
 
     public function byTemplateUuid(Request $request, string $templateUuid): JsonResponse
     {

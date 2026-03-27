@@ -20,8 +20,7 @@ class DeactivateAttributeSql implements DeactivateAttribute
     public function __construct(
         private readonly Connection $connection,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {
-    }
+    ) {}
 
     public function execute(TemplateUuid $templateUuid, AttributeUuid $attributeUuid): void
     {

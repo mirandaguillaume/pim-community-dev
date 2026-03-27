@@ -183,7 +183,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     {
         $translated = ($this->getTranslation() instanceof \Akeneo\Category\Infrastructure\Component\Model\CategoryTranslationInterface) ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
+        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }
 
     /**

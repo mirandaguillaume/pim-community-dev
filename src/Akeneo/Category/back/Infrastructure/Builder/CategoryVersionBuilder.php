@@ -18,9 +18,7 @@ use Akeneo\Category\Domain\ValueObject\Version\CategoryVersion;
  */
 class CategoryVersionBuilder
 {
-    public function __construct(private readonly GetCategoryInterface $getCategory)
-    {
-    }
+    public function __construct(private readonly GetCategoryInterface $getCategory) {}
 
     public function create(Category $category): CategoryVersion
     {
@@ -67,7 +65,7 @@ class CategoryVersionBuilder
         $snapshot = [
             'code' => (string) $category->getCode(),
             'parent' => $snapshotParent,
-            'updated' => (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->format('c') ?? '',
+            'updated' => new \DateTimeImmutable('now', new \DateTimeZone('UTC'))->format('c') ?? '',
         ];
 
         return array_merge($snapshot, $snapshotLabels, $snapshotPermissions);

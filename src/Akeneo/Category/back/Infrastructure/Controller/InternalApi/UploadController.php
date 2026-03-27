@@ -24,8 +24,7 @@ class UploadController
         private readonly NormalizerInterface $normalizer,
         private readonly FileStorer $fileStorer,
         private readonly ?array $supportedMimeTypes = [],
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): RedirectResponse|JsonResponse|Response
     {

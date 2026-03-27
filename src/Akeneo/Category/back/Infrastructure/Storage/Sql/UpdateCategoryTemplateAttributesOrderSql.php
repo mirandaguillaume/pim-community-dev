@@ -18,8 +18,7 @@ class UpdateCategoryTemplateAttributesOrderSql implements UpdateCategoryTemplate
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Exception

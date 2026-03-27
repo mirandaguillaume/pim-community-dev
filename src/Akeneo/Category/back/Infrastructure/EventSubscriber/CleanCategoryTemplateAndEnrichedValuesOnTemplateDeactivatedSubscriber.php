@@ -18,8 +18,7 @@ class CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriber
         private readonly JobInstanceRepository $jobInstanceRepository,
         private readonly JobLauncherInterface $jobLauncher,
         private readonly TokenStorageInterface $tokenStorage,
-    ) {
-    }
+    ) {}
 
     public function cleanCategoryDataForTemplate(TemplateDeactivatedEvent $event): void
     {

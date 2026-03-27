@@ -16,8 +16,7 @@ class ExternalApiSearchFiltersValidator
 {
     public function __construct(
         private readonly ValidatorInterface $validator,
-    ) {
-    }
+    ) {}
 
     public function validate(array $searchFilters): void
     {

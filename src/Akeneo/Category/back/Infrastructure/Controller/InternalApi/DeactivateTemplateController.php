@@ -20,8 +20,7 @@ class DeactivateTemplateController
     public function __construct(
         private readonly SecurityFacade $securityFacade,
         private readonly CommandBus $commandBus,
-    ) {
-    }
+    ) {}
 
     public function __invoke(string $templateUuid): Response
     {

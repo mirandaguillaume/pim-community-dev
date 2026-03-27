@@ -22,8 +22,7 @@ final readonly class GetCategoryController
         private SecurityFacade $securityFacade,
         private GetCategoriesParametersBuilder $parametersBuilder,
         private GetCategoriesInterface $getCategories,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $code): JsonResponse|Response
     {

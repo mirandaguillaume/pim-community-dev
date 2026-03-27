@@ -41,8 +41,7 @@ class UpdateCategoryController
         private readonly CategoryEditUserIntentFilter $categoryUserIntentFilter,
         private readonly GetCategoryInterface $getCategory,
         private readonly FindCategoryAdditionalPropertiesRegistry $findCategoryAdditionalPropertiesRegistry,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, int $id): Response
     {
