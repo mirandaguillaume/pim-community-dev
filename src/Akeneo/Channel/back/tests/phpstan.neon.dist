@@ -7,8 +7,6 @@ parameters:
   paths:
     - %rootDir%/../../../src/Akeneo/Channel
   excludePaths:
-    - %rootDir%/../../../src/Akeneo/Channel/back/tests/Specification
-    - %rootDir%/../../../src/Akeneo/Channel/back/tests/Acceptance/Specification
     - %rootDir%/../../../src/Akeneo/Channel/back/tests/Unit
     - %rootDir%/../../../src/Akeneo/Channel/back/Infrastructure
   ignoreErrors:
