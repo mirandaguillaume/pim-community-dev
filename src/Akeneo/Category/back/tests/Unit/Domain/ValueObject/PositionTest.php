@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class PositionTest extends TestCase
 {
-    public function test_it_creates_a_valid_position(): void
+    public function testItCreatesAValidPosition(): void
     {
         $position = new Position(1, 2, 0);
 
@@ -18,37 +18,37 @@ class PositionTest extends TestCase
         $this->assertSame(0, $position->level);
     }
 
-    public function test_it_rejects_zero_left(): void
+    public function testItRejectsZeroLeft(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Position(0, 2, 0);
     }
 
-    public function test_it_rejects_negative_left(): void
+    public function testItRejectsNegativeLeft(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Position(-1, 2, 0);
     }
 
-    public function test_it_rejects_zero_right(): void
+    public function testItRejectsZeroRight(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Position(1, 0, 0);
     }
 
-    public function test_it_rejects_negative_right(): void
+    public function testItRejectsNegativeRight(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Position(1, -1, 0);
     }
 
-    public function test_it_accepts_zero_level(): void
+    public function testItAcceptsZeroLevel(): void
     {
         $position = new Position(1, 2, 0);
         $this->assertSame(0, $position->level);
     }
 
-    public function test_it_accepts_positive_level(): void
+    public function testItAcceptsPositiveLevel(): void
     {
         $position = new Position(1, 2, 3);
         $this->assertSame(3, $position->level);

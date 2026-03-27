@@ -19,13 +19,13 @@ class FieldsRequirementCheckerTest extends TestCase
         $this->sut = new FieldsRequirementChecker();
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(FieldsRequirementChecker::class, $this->sut);
         $this->assertInstanceOf(RequirementChecker::class, $this->sut);
     }
 
-    public function test_it_does_not_raise_exception_when_all_required_fields_are_present(): void
+    public function testItDoesNotRaiseExceptionWhenAllRequiredFieldsArePresent(): void
     {
         $data = [
             'code' => 'socks',
@@ -37,7 +37,7 @@ class FieldsRequirementCheckerTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_does_not_raise_exception_on_no_required_label(): void
+    public function testItDoesNotRaiseExceptionOnNoRequiredLabel(): void
     {
         $data = [
             'code' => 'socks',
@@ -47,7 +47,7 @@ class FieldsRequirementCheckerTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_should_raise_exception_when_a_required_field_is_not_present(): void
+    public function testItShouldRaiseExceptionWhenARequiredFieldIsNotPresent(): void
     {
         $data = [
             'labels' => [
@@ -58,7 +58,7 @@ class FieldsRequirementCheckerTest extends TestCase
         $this->sut->check($data);
     }
 
-    public function test_it_does_not_raise_exception_when_a_code_field_cannot_be_empty(): void
+    public function testItDoesNotRaiseExceptionWhenACodeFieldCannotBeEmpty(): void
     {
         $data = [
             'code' => 'socks',
@@ -68,7 +68,7 @@ class FieldsRequirementCheckerTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_should_raise_exception_when_code_field_is_empty(): void
+    public function testItShouldRaiseExceptionWhenCodeFieldIsEmpty(): void
     {
         $data = [
             'code' => '',
@@ -78,7 +78,7 @@ class FieldsRequirementCheckerTest extends TestCase
         $this->sut->check($data);
     }
 
-    public function test_it_should_raise_exception_when_a_required_field_is_null(): void
+    public function testItShouldRaiseExceptionWhenARequiredFieldIsNull(): void
     {
         $data = [
             'code' => null,
@@ -88,7 +88,7 @@ class FieldsRequirementCheckerTest extends TestCase
         $this->sut->check($data);
     }
 
-    public function test_it_does_not_raise_exception_when_a_parent_category_code_is_different_from_the_category_code(): void
+    public function testItDoesNotRaiseExceptionWhenAParentCategoryCodeIsDifferentFromTheCategoryCode(): void
     {
         $data = [
             'code' => 'socks',

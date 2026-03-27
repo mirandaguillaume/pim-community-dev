@@ -15,7 +15,6 @@ use Akeneo\Category\Domain\ValueObject\Code;
 use Akeneo\Category\Domain\ValueObject\LabelCollection;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,20 +30,20 @@ class SetTextApplierTest extends TestCase
         $this->sut = new SetTextApplier();
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(SetTextApplier::class, $this->sut);
         $this->assertInstanceOf(UserIntentApplier::class, $this->sut);
     }
 
-    public function test_it_applies_set_text_user_intent(): void
+    public function testItAppliesSetTextUserIntent(): void
     {
         $givenTextValue = TextValue::fromApplier(
             value: 'Meta shoes',
             uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
             code: 'seo_meta_description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $attributes = ValueCollection::fromArray([$givenTextValue]);
         $category = new Category(
@@ -52,14 +51,14 @@ class SetTextApplierTest extends TestCase
             code: new Code('code'),
             templateUuid: null,
             labels: LabelCollection::fromArray([]),
-            attributes: $attributes
+            attributes: $attributes,
         );
         $userIntent = new SetText(
             '69e251b3-b876-48b5-9c09-92f54bfb528d',
             'seo_meta_description',
             'ecommerce',
             'en_US',
-            'New Meta shoes'
+            'New Meta shoes',
         );
         $expectedAttributes = ValueCollection::fromArray([
             TextValue::fromApplier(
@@ -67,17 +66,17 @@ class SetTextApplierTest extends TestCase
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             ),
         ]);
         $this->sut->apply($userIntent, $category);
         Assert::assertEquals(
             $expectedAttributes,
-            $category->getAttributes()
+            $category->getAttributes(),
         );
     }
 
-    public function test_it_throws_exception_on_wrong_user_intent_applied(): void
+    public function testItThrowsExceptionOnWrongUserIntentApplied(): void
     {
         $userIntent = $this->createMock(SetImage::class);
         $category = $this->createMock(Category::class);

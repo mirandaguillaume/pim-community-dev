@@ -12,7 +12,9 @@ class AnnouncementItemTest extends TestCase
 {
     private AnnouncementItem $sut;
 
-    protected function setUp(): void {}
+    protected function setUp(): void
+    {
+    }
 
     public function test_it_normalizes_itself(): void
     {

@@ -27,12 +27,12 @@ class JobExecutionRowTest extends TestCase
         );
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(JobExecutionRow::class, $this->sut);
     }
 
-    public function test_it_normalizes_itself(): void
+    public function testItNormalizesItself(): void
     {
         $this->assertSame([
             'job_execution_id' => 1,
@@ -52,7 +52,7 @@ class JobExecutionRowTest extends TestCase
         ], $this->sut->normalize());
     }
 
-    public function test_it_normalizes_itself_with_null_value(): void
+    public function testItNormalizesItselfWithNullValue(): void
     {
         $this->sut = new JobExecutionRow(
             1,

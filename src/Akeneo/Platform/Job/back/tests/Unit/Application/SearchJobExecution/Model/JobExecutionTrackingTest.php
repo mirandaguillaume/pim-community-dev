@@ -38,12 +38,12 @@ class JobExecutionTrackingTest extends TestCase
         $this->sut = new JobExecutionTracking(2, 3, [$firstStepExecutionTracking, $secondStepExecutionTracking]);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(JobExecutionTracking::class, $this->sut);
     }
 
-    public function test_it_normalizes_itself(): void
+    public function testItNormalizesItself(): void
     {
         $this->assertSame([
             'current_step' => 2,
@@ -73,17 +73,17 @@ class JobExecutionTrackingTest extends TestCase
         ], $this->sut->normalize());
     }
 
-    public function test_it_returns_has_error(): void
+    public function testItReturnsHasError(): void
     {
         $this->assertSame(true, $this->sut->hasError());
     }
 
-    public function test_it_returns_warning_count(): void
+    public function testItReturnsWarningCount(): void
     {
         $this->assertSame(2, $this->sut->getWarningCount());
     }
 
-    public function test_it_can_be_constructed_only_with_a_list_of_step_execution_tracking(): void
+    public function testItCanBeConstructedOnlyWithAListOfStepExecutionTracking(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new JobExecutionTracking(1, 3, [1, 2, 3]);

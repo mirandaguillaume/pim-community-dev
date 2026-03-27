@@ -38,24 +38,24 @@ class CategoryTest extends TestCase
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             )]),
             PermissionCollection::fromArray(
                 [
-                    "view" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-                    "edit" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-                    "own" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-                ]
-            )
+                    'view' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+                    'edit' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+                    'own' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+                ],
+            ),
         );
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(Category::class, $this->sut);
     }
 
-    public function test_it_is_constructed_from_database_data(): void
+    public function testItIsConstructedFromDatabaseData(): void
     {
         $category = Category::fromDatabase([
             'id' => 1,
@@ -69,7 +69,7 @@ class CategoryTest extends TestCase
             'parent_id' => 1,
             'updated' => '2021-03-24 16:00:00',
             'value_collection' => '{}',
-            "permissions" => '{
+            'permissions' => '{
                         "view":{"1": "IT Support", "3": "Redactor", "7": "Manager"},
                         "edit":{"1": "IT Support", "3": "Redactor", "7": "Manager"},
                         "own":{"1": "IT Support", "3": "Redactor", "7": "Manager"}
@@ -78,19 +78,19 @@ class CategoryTest extends TestCase
         $this->assertSame(1, $category->getId()->getValue());
         $this->assertSame('my_category', $category->getCode()->__toString());
         $this->assertSame('02274dac-e99a-4e1d-8f9b-794d4c3ba330', $category->getTemplateUuid()->__toString());
-        $this->assertSame(["fr_FR" => "category_libelle"], $category->getLabels()->normalize());
+        $this->assertSame(['fr_FR' => 'category_libelle'], $category->getLabels()->normalize());
         $this->assertNull($category->getRootId());
         $this->assertSame(1, $category->getParentId()->getValue());
         $this->assertSame('2021-03-24 16:00:00', $category->getUpdated()->format('Y-m-d H:i:s'));
         $this->assertSame([], $category->getAttributes()->normalize());
         $this->assertSame([
-            "view" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-            "edit" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-            "own" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
+            'view' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+            'edit' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+            'own' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
         ], $category->getPermissions()->normalize());
     }
 
-    public function test_it_is_constructed_from_category_with_permissions(): void
+    public function testItIsConstructedFromCategoryWithPermissions(): void
     {
         $category = Category::fromDatabase([
             'id' => 1,
@@ -104,39 +104,39 @@ class CategoryTest extends TestCase
             'parent_id' => 1,
             'updated' => '2021-03-24 16:00:00',
             'value_collection' => '{}',
-            "permissions" => null,
+            'permissions' => null,
         ]);
         $this->assertNull($category->getPermissions()->normalize());
         $category = Category::fromCategoryWithPermissions(
             $category,
             [
-                "view" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-                "edit" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-                "own" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-            ]
+                'view' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+                'edit' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+                'own' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+            ],
         );
         $this->assertSame(1, $category->getId()->getValue());
         $this->assertSame('my_category', $category->getCode()->__toString());
         $this->assertSame('02274dac-e99a-4e1d-8f9b-794d4c3ba330', $category->getTemplateUuid()->__toString());
-        $this->assertSame(["fr_FR" => "category_libelle"], $category->getLabels()->normalize());
+        $this->assertSame(['fr_FR' => 'category_libelle'], $category->getLabels()->normalize());
         $this->assertNull($category->getRootId());
         $this->assertSame(1, $category->getParentId()->getValue());
         $this->assertSame('2021-03-24 16:00:00', $category->getUpdated()->format('Y-m-d H:i:s'));
         $this->assertSame([], $category->getAttributes()->normalize());
         $this->assertSame([
-            "view" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-            "edit" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
-            "own" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
+            'view' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+            'edit' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
+            'own' => [1 => 'IT Support', 3 => 'Redactor', 7 => 'Manager'],
         ], $category->getPermissions()->normalize());
     }
 
-    public function test_it_is_set_with_null_label(): void
+    public function testItIsSetWithNullLabel(): void
     {
         $this->sut->setLabel('en_US', null);
         $this->assertNull($this->sut->getLabels()->getTranslation('en_US'));
     }
 
-    public function test_from_database_with_empty_translations(): void
+    public function testFromDatabaseWithEmptyTranslations(): void
     {
         $category = Category::fromDatabase([
             'id' => 1,
@@ -155,7 +155,7 @@ class CategoryTest extends TestCase
         $this->assertSame([], $category->getLabels()->normalize());
     }
 
-    public function test_from_database_with_null_permissions(): void
+    public function testFromDatabaseWithNullPermissions(): void
     {
         $category = Category::fromDatabase([
             'id' => 1,
@@ -174,7 +174,7 @@ class CategoryTest extends TestCase
         $this->assertNull($category->getPermissions()->normalize());
     }
 
-    public function test_from_database_with_empty_string_permissions(): void
+    public function testFromDatabaseWithEmptyStringPermissions(): void
     {
         $category = Category::fromDatabase([
             'id' => 1,
@@ -194,7 +194,7 @@ class CategoryTest extends TestCase
         $this->assertNull($category->getPermissions()->normalize());
     }
 
-    public function test_from_database_without_permissions_key(): void
+    public function testFromDatabaseWithoutPermissionsKey(): void
     {
         // If permissions key is not set at all
         $category = Category::fromDatabase([
@@ -213,7 +213,7 @@ class CategoryTest extends TestCase
         $this->assertNull($category->getPermissions()->normalize());
     }
 
-    public function test_from_database_with_value_collection(): void
+    public function testFromDatabaseWithValueCollection(): void
     {
         $category = Category::fromDatabase([
             'id' => 1,
@@ -233,7 +233,7 @@ class CategoryTest extends TestCase
         $this->assertSame([], $category->getAttributes()->normalize());
     }
 
-    public function test_from_database_with_null_value_collection(): void
+    public function testFromDatabaseWithNullValueCollection(): void
     {
         $category = Category::fromDatabase([
             'id' => 1,
@@ -252,7 +252,7 @@ class CategoryTest extends TestCase
         $this->assertNull($category->getAttributes());
     }
 
-    public function test_from_database_position_values(): void
+    public function testFromDatabasePositionValues(): void
     {
         $category = Category::fromDatabase([
             'id' => 1,

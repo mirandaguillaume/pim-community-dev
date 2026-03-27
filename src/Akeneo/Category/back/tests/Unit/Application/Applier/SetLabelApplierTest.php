@@ -23,20 +23,20 @@ class SetLabelApplierTest extends TestCase
         $this->sut = new SetLabelApplier();
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(SetLabelApplier::class, $this->sut);
         $this->assertInstanceOf(UserIntentApplier::class, $this->sut);
     }
 
-    public function test_it_applies_set_label_user_intent(): void
+    public function testItAppliesSetLabelUserIntent(): void
     {
         $category = new Category(
             id: new CategoryId(1),
             code: new Code('my_category'),
             templateUuid: null,
             labels: LabelCollection::fromArray([]),
-            parentId: null
+            parentId: null,
         );
         $setLabelEN = new SetLabel('en_US', 'The label');
         $setLabelFR = new SetLabel('fr_FR', 'Le label');

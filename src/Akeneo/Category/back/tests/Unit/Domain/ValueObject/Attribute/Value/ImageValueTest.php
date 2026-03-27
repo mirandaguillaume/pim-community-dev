@@ -17,9 +17,11 @@ class ImageValueTest extends TestCase
 {
     private ImageValue $sut;
 
-    protected function setUp(): void {}
+    protected function setUp(): void
+    {
+    }
 
-    public function test_it_creates_text_value_from_applier(): void
+    public function testItCreatesTextValueFromApplier(): void
     {
         $givenImageDataValue = [
             'size' => 12,
@@ -48,7 +50,7 @@ class ImageValueTest extends TestCase
         $this->assertSame('logo', $this->sut->getValue()->getOriginalFilename());
     }
 
-    public function test_it_creates_image_value_with_null_data(): void
+    public function testItCreatesImageValueWithNullData(): void
     {
         $this->sut = ImageValue::fromApplier(
             null,
@@ -61,7 +63,7 @@ class ImageValueTest extends TestCase
         $this->assertNull($this->sut->getValue());
     }
 
-    public function test_it_creates_image_value_with_empty_array_data(): void
+    public function testItCreatesImageValueWithEmptyArrayData(): void
     {
         $this->sut = ImageValue::fromApplier(
             [],
@@ -74,7 +76,7 @@ class ImageValueTest extends TestCase
         $this->assertNull($this->sut->getValue());
     }
 
-    public function test_it_creates_text_value_from_array(): void
+    public function testItCreatesTextValueFromArray(): void
     {
         $givenImageDataValue = [
             'size' => 12,
@@ -100,7 +102,7 @@ class ImageValueTest extends TestCase
         $this->assertSame(12, $this->sut->getValue()->getSize());
     }
 
-    public function test_from_array_with_null_data(): void
+    public function testFromArrayWithNullData(): void
     {
         $givenArray = [
             'data' => null,
@@ -113,7 +115,7 @@ class ImageValueTest extends TestCase
         $this->assertNull($this->sut->getValue());
     }
 
-    public function test_from_array_with_empty_channel(): void
+    public function testFromArrayWithEmptyChannel(): void
     {
         $givenArray = [
             'data' => ['size' => 1, 'extension' => 'jpg', 'file_path' => '/a.jpg', 'mime_type' => 'image/jpeg', 'original_filename' => 'a'],
@@ -126,7 +128,7 @@ class ImageValueTest extends TestCase
         $this->assertNull($this->sut->getChannel());
     }
 
-    public function test_from_array_with_empty_locale(): void
+    public function testFromArrayWithEmptyLocale(): void
     {
         $givenArray = [
             'data' => ['size' => 1, 'extension' => 'jpg', 'file_path' => '/a.jpg', 'mime_type' => 'image/jpeg', 'original_filename' => 'a'],
@@ -139,7 +141,7 @@ class ImageValueTest extends TestCase
         $this->assertNull($this->sut->getLocale());
     }
 
-    public function test_it_throws_invalid_argument_exception_from_array(): void
+    public function testItThrowsInvalidArgumentExceptionFromArray(): void
     {
         $givenImageDataValue = [
             'size' => 12,
@@ -156,11 +158,11 @@ class ImageValueTest extends TestCase
             'attribute_code' => '',
         ];
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Cannot find code and uuid.");
+        $this->expectExceptionMessage('Cannot find code and uuid.');
         ImageValue::fromArray($givenArray);
     }
 
-    public function test_it_throws_invalid_argument_exception_from_array_single_segment(): void
+    public function testItThrowsInvalidArgumentExceptionFromArraySingleSegment(): void
     {
         $givenArray = [
             'data' => ['size' => 1, 'extension' => 'jpg', 'file_path' => '/a.jpg', 'mime_type' => 'image/jpeg', 'original_filename' => 'a'],
@@ -170,11 +172,11 @@ class ImageValueTest extends TestCase
             'attribute_code' => 'no_separator_here',
         ];
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Cannot find code and uuid.");
+        $this->expectExceptionMessage('Cannot find code and uuid.');
         ImageValue::fromArray($givenArray);
     }
 
-    public function test_it_normalizes(): void
+    public function testItNormalizes(): void
     {
         $givenImageDataValue = [
             'size' => 12,
@@ -190,12 +192,12 @@ class ImageValueTest extends TestCase
             'ecommerce',
             'en_US',
         );
-        $key = 'hero_banner' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'hero_banner'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s%s',
             $key,
-            AbstractValue::SEPARATOR . "ecommerce",
-            AbstractValue::SEPARATOR . "en_US",
+            AbstractValue::SEPARATOR.'ecommerce',
+            AbstractValue::SEPARATOR.'en_US',
         );
 
         $normalized = $this->sut->normalize();
@@ -207,7 +209,7 @@ class ImageValueTest extends TestCase
         $this->assertSame($key, $normalized[$localeChannelKey]['attribute_code']);
     }
 
-    public function test_it_normalizes_with_null_value(): void
+    public function testItNormalizesWithNullValue(): void
     {
         $this->sut = ImageValue::fromApplier(
             null,
@@ -217,19 +219,19 @@ class ImageValueTest extends TestCase
             'en_US',
         );
         $normalized = $this->sut->normalize();
-        $key = 'hero_banner' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'hero_banner'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s%s',
             $key,
-            AbstractValue::SEPARATOR . "ecommerce",
-            AbstractValue::SEPARATOR . "en_US",
+            AbstractValue::SEPARATOR.'ecommerce',
+            AbstractValue::SEPARATOR.'en_US',
         );
         $this->assertArrayHasKey($localeChannelKey, $normalized);
         $this->assertNull($normalized[$localeChannelKey]['data']);
         $this->assertSame('image', $normalized[$localeChannelKey]['type']);
     }
 
-    public function test_it_normalizes_with_no_locale(): void
+    public function testItNormalizesWithNoLocale(): void
     {
         $givenImageDataValue = [
             'size' => 12,
@@ -245,11 +247,11 @@ class ImageValueTest extends TestCase
             'ecommerce',
             null,
         );
-        $key = 'hero_banner' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'hero_banner'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s',
             $key,
-            AbstractValue::SEPARATOR . "ecommerce"
+            AbstractValue::SEPARATOR.'ecommerce',
         );
 
         $normalized = $this->sut->normalize();
@@ -261,7 +263,7 @@ class ImageValueTest extends TestCase
         $this->assertSame($key, $normalized[$localeChannelKey]['attribute_code']);
     }
 
-    public function test_it_normalizes_with_no_channel(): void
+    public function testItNormalizesWithNoChannel(): void
     {
         $givenImageDataValue = [
             'size' => 12,
@@ -277,11 +279,11 @@ class ImageValueTest extends TestCase
             null,
             'en_US',
         );
-        $key = 'hero_banner' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'hero_banner'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s',
             $key,
-            AbstractValue::SEPARATOR . "en_US",
+            AbstractValue::SEPARATOR.'en_US',
         );
 
         $normalized = $this->sut->normalize();
@@ -293,7 +295,7 @@ class ImageValueTest extends TestCase
         $this->assertSame($key, $normalized[$localeChannelKey]['attribute_code']);
     }
 
-    public function test_it_normalizes_with_no_channel_and_no_locale(): void
+    public function testItNormalizesWithNoChannelAndNoLocale(): void
     {
         $givenImageDataValue = [
             'size' => 12,
@@ -309,7 +311,7 @@ class ImageValueTest extends TestCase
             null,
             null,
         );
-        $key = 'hero_banner' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'hero_banner'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
 
         $normalized = $this->sut->normalize();
         $this->assertArrayHasKey($key, $normalized);
@@ -319,7 +321,7 @@ class ImageValueTest extends TestCase
         $this->assertNull($normalized[$key]['locale']);
     }
 
-    public function test_get_key_returns_code_separator_uuid(): void
+    public function testGetKeyReturnsCodeSeparatorUuid(): void
     {
         $this->sut = ImageValue::fromApplier(
             ['size' => 1, 'extension' => 'jpg', 'file_path' => '/a.jpg', 'mime_type' => 'image/jpeg', 'original_filename' => 'a'],
@@ -331,7 +333,7 @@ class ImageValueTest extends TestCase
         $this->assertSame('hero_banner|02274dac-e99a-4e1d-8f9b-794d4c3ba330', $this->sut->getKey());
     }
 
-    public function test_get_uuid_returns_attribute_uuid(): void
+    public function testGetUuidReturnsAttributeUuid(): void
     {
         $this->sut = ImageValue::fromApplier(
             ['size' => 1, 'extension' => 'jpg', 'file_path' => '/a.jpg', 'mime_type' => 'image/jpeg', 'original_filename' => 'a'],
@@ -343,7 +345,7 @@ class ImageValueTest extends TestCase
         $this->assertSame('02274dac-e99a-4e1d-8f9b-794d4c3ba330', (string) $this->sut->getUuid());
     }
 
-    public function test_get_code_returns_attribute_code(): void
+    public function testGetCodeReturnsAttributeCode(): void
     {
         $this->sut = ImageValue::fromApplier(
             ['size' => 1, 'extension' => 'jpg', 'file_path' => '/a.jpg', 'mime_type' => 'image/jpeg', 'original_filename' => 'a'],
@@ -355,7 +357,7 @@ class ImageValueTest extends TestCase
         $this->assertSame('hero_banner', (string) $this->sut->getCode());
     }
 
-    public function test_from_applier_with_empty_channel(): void
+    public function testFromApplierWithEmptyChannel(): void
     {
         $this->sut = ImageValue::fromApplier(
             ['size' => 1, 'extension' => 'jpg', 'file_path' => '/a.jpg', 'mime_type' => 'image/jpeg', 'original_filename' => 'a'],
@@ -367,7 +369,7 @@ class ImageValueTest extends TestCase
         $this->assertNull($this->sut->getChannel());
     }
 
-    public function test_from_applier_with_empty_locale(): void
+    public function testFromApplierWithEmptyLocale(): void
     {
         $this->sut = ImageValue::fromApplier(
             ['size' => 1, 'extension' => 'jpg', 'file_path' => '/a.jpg', 'mime_type' => 'image/jpeg', 'original_filename' => 'a'],

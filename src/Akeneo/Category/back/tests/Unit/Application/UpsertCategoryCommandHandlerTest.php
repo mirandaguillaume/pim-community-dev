@@ -6,12 +6,10 @@ namespace Akeneo\Test\Category\Unit\Application;
 
 use Akeneo\Category\Api\Command\UpsertCategoryCommand;
 use Akeneo\Category\Api\Command\UserIntents\SetLabel;
-use Akeneo\Category\Api\Command\UserIntents\UserIntent;
 use Akeneo\Category\Application\Applier\UserIntentApplier;
 use Akeneo\Category\Application\Applier\UserIntentApplierRegistry;
 use Akeneo\Category\Application\Storage\Save\CategorySaverProcessor;
 use Akeneo\Category\Application\UpsertCategoryCommandHandler;
-use Akeneo\Category\Domain\Event\CategoryUpdatedEvent;
 use Akeneo\Category\Domain\Exception\ViolationsException;
 use Akeneo\Category\Domain\Model\Enrichment\Category;
 use Akeneo\Category\Domain\Query\GetCategoryInterface;
@@ -19,8 +17,6 @@ use Akeneo\Category\Domain\ValueObject\CategoryId;
 use Akeneo\Category\Domain\ValueObject\Code;
 use Akeneo\Category\Domain\ValueObject\LabelCollection;
 use Akeneo\Category\Infrastructure\Registry\FindCategoryAdditionalPropertiesRegistry;
-use Exception;
-use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -56,27 +52,27 @@ class UpsertCategoryCommandHandlerTest extends TestCase
             $this->applierRegistry,
             $this->eventDispatcher,
             $this->saver,
-            $this->findCategoryAdditionalPropertiesRegistry
+            $this->findCategoryAdditionalPropertiesRegistry,
         );
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(UpsertCategoryCommandHandler::class, $this->sut);
     }
 
-    public function test_it_creates_and_saves_a_category(): void
+    public function testItCreatesAndSavesACategory(): void
     {
         $command = new UpsertCategoryCommand('code');
         $this->validator->expects($this->once())->method('validate')->with($command)->willReturn(new ConstraintViolationList());
         $this->getCategory->expects($this->once())->method('byCode')->with('code')->willReturn(null);
         $this->findCategoryAdditionalPropertiesRegistry->expects($this->never())->method('forCategory');
         $this->saver->expects($this->never())->method('save');
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->sut->__invoke($command);
     }
 
-    public function test_it_throws_an_exception_when_command_is_not_valid(): void
+    public function testItThrowsAnExceptionWhenCommandIsNotValid(): void
     {
         $command = new UpsertCategoryCommand('');
         $violations = new ConstraintViolationList([
@@ -92,7 +88,7 @@ class UpsertCategoryCommandHandlerTest extends TestCase
         $this->sut->__invoke($command);
     }
 
-    public function test_it_throws_an_exception_when_updater_throws_an_exception(): void
+    public function testItThrowsAnExceptionWhenUpdaterThrowsAnException(): void
     {
         $userIntentApplier = $this->createMock(UserIntentApplier::class);
 
@@ -103,13 +99,13 @@ class UpsertCategoryCommandHandlerTest extends TestCase
             code: new Code('code'),
             templateUuid: null,
             labels: LabelCollection::fromArray([]),
-            parentId: null
+            parentId: null,
         );
         $this->validator->expects($this->once())->method('validate')->with($command)->willReturn(new ConstraintViolationList());
         $this->getCategory->expects($this->once())->method('byCode')->with('code')->willReturn($category);
         $this->findCategoryAdditionalPropertiesRegistry->expects($this->once())->method('forCategory')->with($category)->willReturn($category);
         $this->applierRegistry->method('getApplier')->with($setLabelUserIntent)->willReturn($userIntentApplier);
-        $userIntentApplier->method('apply')->with($setLabelUserIntent, $category)->willThrowException(new InvalidArgumentException());
+        $userIntentApplier->method('apply')->with($setLabelUserIntent, $category)->willThrowException(new \InvalidArgumentException());
         $this->saver->expects($this->never())->method('save');
         $this->eventDispatcher->expects($this->never())->method('dispatch');
         $this->expectException(ViolationsException::class);

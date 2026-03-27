@@ -14,15 +14,17 @@ class JobExecutionTableTest extends TestCase
 {
     private JobExecutionTable $sut;
 
-    protected function setUp(): void {}
-
-    public function test_it_is_initializable(): void
+    protected function setUp(): void
     {
-        $this->sut = new JobExecutionTable([], 5, 10);
+    }
+
+    public function testItIsInitializable(): void
+    {
+        $this->sut = new JobExecutionTable([], 5);
         $this->assertTrue(is_a(JobExecutionTable::class, JobExecutionTable::class, true));
     }
 
-    public function test_it_normalizes_itself(): void
+    public function testItNormalizesItself(): void
     {
         $this->sut = new JobExecutionTable(
             [
@@ -62,7 +64,7 @@ class JobExecutionTableTest extends TestCase
         ], $this->sut->normalize());
     }
 
-    public function test_it_can_be_constructed_only_with_a_list_of_job_execution_row(): void
+    public function testItCanBeConstructedOnlyWithAListOfJobExecutionRow(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new JobExecutionTable([1], 5);

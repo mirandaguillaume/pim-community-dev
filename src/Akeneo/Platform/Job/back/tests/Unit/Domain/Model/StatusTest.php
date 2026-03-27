@@ -16,23 +16,25 @@ class StatusTest extends TestCase
 {
     private Status $sut;
 
-    protected function setUp(): void {}
+    protected function setUp(): void
+    {
+    }
 
-    public function test_it_is_constructable_with_status(): void
+    public function testItIsConstructableWithStatus(): void
     {
         $this->sut = Status::fromStatus(3);
         $this->assertSame(3, $this->sut->getStatus());
         $this->assertSame('IN_PROGRESS', $this->sut->getLabel());
     }
 
-    public function test_it_is_constructable_with_label(): void
+    public function testItIsConstructableWithLabel(): void
     {
         $this->sut = Status::fromLabel('IN_PROGRESS');
         $this->assertSame(3, $this->sut->getStatus());
         $this->assertSame('IN_PROGRESS', $this->sut->getLabel());
     }
 
-    public function test_it_throws_exception_when_trying_to_construct_it_with_invalid_status(): void
+    public function testItThrowsExceptionWhenTryingToConstructItWithInvalidStatus(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Status::fromStatus(0);
@@ -40,7 +42,7 @@ class StatusTest extends TestCase
         Status::fromStatus(26);
     }
 
-    public function test_it_throws_exception_when_trying_to_construct_it_with_invalid_label(): void
+    public function testItThrowsExceptionWhenTryingToConstructItWithInvalidLabel(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Status::fromLabel('invalid');

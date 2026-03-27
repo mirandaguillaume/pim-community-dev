@@ -23,8 +23,8 @@ use Akeneo\Category\Infrastructure\Validation\LimitNumberOfAttributesInTheTempla
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
@@ -46,19 +46,19 @@ class LimitNumberOfAttributesInTheTemplateValidatorTest extends TestCase
         $this->sut->initialize($this->context);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(LimitNumberOfAttributesInTheTemplateValidator::class, $this->sut);
         $this->assertInstanceOf(ConstraintValidatorInterface::class, $this->sut);
     }
 
-    public function test_it_throws_an_exception_with_a_wrong_constraint(): void
+    public function testItThrowsAnExceptionWithAWrongConstraint(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->validate(1, new Type([]));
     }
 
-    public function test_it_throws_an_exception_when_the_limit_of_attributes_in_the_template_is_reached(): void
+    public function testItThrowsAnExceptionWhenTheLimitOfAttributesInTheTemplateIsReached(): void
     {
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
@@ -68,12 +68,12 @@ class LimitNumberOfAttributesInTheTemplateValidatorTest extends TestCase
         $violationBuilder->method('setCode')->with('attributes_limit_reached')->willReturn($violationBuilder);
         $violationBuilder->expects($this->once())->method('addViolation');
         $attributeCollection = AttributeCollection::fromArray([]);
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 50; ++$i) {
             $attributeCollection->addAttribute(
                 Attribute::fromType(
                     type: new AttributeType(AttributeType::TEXT),
                     uuid: AttributeUuid::fromUuid(Uuid::uuid4()),
-                    code: new AttributeCode('attribute_code' . $i),
+                    code: new AttributeCode('attribute_code'.$i),
                     order: AttributeOrder::fromInteger($i),
                     isRequired: AttributeIsRequired::fromBoolean(false),
                     isScopable: AttributeIsScopable::fromBoolean(true),
@@ -81,7 +81,7 @@ class LimitNumberOfAttributesInTheTemplateValidatorTest extends TestCase
                     labelCollection: LabelCollection::fromArray(['en_US' => 'SEO meta description']),
                     templateUuid: TemplateUuid::fromString('02274dac-e99a-4e1d-8f9b-794d4c3ba330'),
                     additionalProperties: AttributeAdditionalProperties::fromArray([]),
-                )
+                ),
             );
         }
         $this->getAttribute->expects($this->once())->method('byTemplateUuid')->with($templateUuid)->willReturn($attributeCollection);

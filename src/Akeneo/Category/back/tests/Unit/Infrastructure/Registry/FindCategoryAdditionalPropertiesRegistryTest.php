@@ -26,12 +26,12 @@ class FindCategoryAdditionalPropertiesRegistryTest extends TestCase
         ]);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(FindCategoryAdditionalPropertiesRegistry::class, $this->sut);
     }
 
-    public function test_it_executes_only_supported_finder_for_category(): void
+    public function testItExecutesOnlySupportedFinderForCategory(): void
     {
         $category = $this->createMock(Category::class);
 
@@ -42,7 +42,7 @@ class FindCategoryAdditionalPropertiesRegistryTest extends TestCase
         $this->sut->forCategory($category);
     }
 
-    public function test_it_executes_only_supported_finder_for_categories(): void
+    public function testItExecutesOnlySupportedFinderForCategories(): void
     {
         $category = $this->createMock(Category::class);
 

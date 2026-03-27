@@ -21,43 +21,43 @@ class ImageDataValueTest extends TestCase
         'original_filename' => 'test.png',
     ];
 
-    public function test_it_creates_from_valid_array(): void
+    public function testItCreatesFromValidArray(): void
     {
         $value = ImageDataValue::fromArray(self::VALID_DATA);
         $this->assertInstanceOf(ImageDataValue::class, $value);
     }
 
-    public function test_it_returns_size(): void
+    public function testItReturnsSize(): void
     {
         $value = ImageDataValue::fromArray(self::VALID_DATA);
         $this->assertSame(1024, $value->getSize());
     }
 
-    public function test_it_returns_extension(): void
+    public function testItReturnsExtension(): void
     {
         $value = ImageDataValue::fromArray(self::VALID_DATA);
         $this->assertSame('png', $value->getExtension());
     }
 
-    public function test_it_returns_file_path(): void
+    public function testItReturnsFilePath(): void
     {
         $value = ImageDataValue::fromArray(self::VALID_DATA);
         $this->assertSame('/images/test.png', $value->getFilePath());
     }
 
-    public function test_it_returns_mime_type(): void
+    public function testItReturnsMimeType(): void
     {
         $value = ImageDataValue::fromArray(self::VALID_DATA);
         $this->assertSame('image/png', $value->getMimeType());
     }
 
-    public function test_it_returns_original_filename(): void
+    public function testItReturnsOriginalFilename(): void
     {
         $value = ImageDataValue::fromArray(self::VALID_DATA);
         $this->assertSame('test.png', $value->getOriginalFilename());
     }
 
-    public function test_it_normalizes(): void
+    public function testItNormalizes(): void
     {
         $value = ImageDataValue::fromArray(self::VALID_DATA);
         $normalized = $value->normalize();
@@ -69,7 +69,7 @@ class ImageDataValueTest extends TestCase
         $this->assertSame('test.png', $normalized['original_filename']);
     }
 
-    public function test_normalize_returns_all_keys(): void
+    public function testNormalizeReturnsAllKeys(): void
     {
         $value = ImageDataValue::fromArray(self::VALID_DATA);
         $normalized = $value->normalize();
@@ -81,7 +81,7 @@ class ImageDataValueTest extends TestCase
         $this->assertCount(5, $normalized);
     }
 
-    public function test_it_throws_when_missing_size(): void
+    public function testItThrowsWhenMissingSize(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -89,7 +89,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_it_throws_when_size_is_not_integer(): void
+    public function testItThrowsWhenSizeIsNotInteger(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -97,7 +97,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_it_throws_when_missing_extension(): void
+    public function testItThrowsWhenMissingExtension(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -105,7 +105,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_it_throws_when_extension_is_empty(): void
+    public function testItThrowsWhenExtensionIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -113,7 +113,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_it_throws_when_missing_file_path(): void
+    public function testItThrowsWhenMissingFilePath(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -121,7 +121,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_it_throws_when_file_path_is_empty(): void
+    public function testItThrowsWhenFilePathIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -129,7 +129,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_it_throws_when_missing_mime_type(): void
+    public function testItThrowsWhenMissingMimeType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -137,7 +137,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_it_throws_when_mime_type_is_empty(): void
+    public function testItThrowsWhenMimeTypeIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -145,7 +145,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_it_throws_when_missing_original_filename(): void
+    public function testItThrowsWhenMissingOriginalFilename(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -153,7 +153,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_it_throws_when_original_filename_is_empty(): void
+    public function testItThrowsWhenOriginalFilenameIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $data = self::VALID_DATA;
@@ -161,7 +161,7 @@ class ImageDataValueTest extends TestCase
         ImageDataValue::fromArray($data);
     }
 
-    public function test_normalize_round_trips(): void
+    public function testNormalizeRoundTrips(): void
     {
         $value = ImageDataValue::fromArray(self::VALID_DATA);
         $normalized = $value->normalize();
@@ -173,7 +173,7 @@ class ImageDataValueTest extends TestCase
         $this->assertSame($value->getOriginalFilename(), $value2->getOriginalFilename());
     }
 
-    public function test_it_preserves_different_values(): void
+    public function testItPreservesDifferentValues(): void
     {
         $data = [
             'size' => 999,

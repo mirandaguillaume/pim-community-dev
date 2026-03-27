@@ -6,7 +6,6 @@ namespace Akeneo\Test\Category\Unit\Infrastructure\Component\Model;
 
 use Akeneo\Category\Infrastructure\Component\Model\Category;
 use Akeneo\Category\Infrastructure\Component\Model\CategoryTranslation;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,12 +21,12 @@ class CategoryTest extends TestCase
         $this->sut = new Category();
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(Category::class, $this->sut);
     }
 
-    public function test_it_gets_a_translation_even_if_the_locale_case_is_wrong(): void
+    public function testItGetsATranslationEvenIfTheLocaleCaseIsWrong(): void
     {
         $translationEn = $this->createMock(CategoryTranslation::class);
 

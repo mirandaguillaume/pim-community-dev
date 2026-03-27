@@ -18,12 +18,12 @@ class LabelUserIntentFactoryTest extends TestCase
         $this->sut = new LabelUserIntentFactory();
     }
 
-    public function test_it_manage_only_expected_field_names(): void
+    public function testItManageOnlyExpectedFieldNames(): void
     {
         $this->assertSame(['labels'], $this->sut->getSupportedFieldNames());
     }
 
-    public function test_it_creates_a_list_of_label_user_intents_based_on_labels_list(): void
+    public function testItCreatesAListOfLabelUserIntentsBasedOnLabelsList(): void
     {
         $this->assertEquals([
             new SetLabel('en_US', 'sausages'),
@@ -34,22 +34,22 @@ class LabelUserIntentFactoryTest extends TestCase
             [
                 'en_US' => 'sausages',
                 'fr_FR' => 'saucisses',
-            ]
+            ],
         ));
     }
 
-    public function test_it_does_create_label_user_intent_with_null(): void
+    public function testItDoesCreateLabelUserIntentWithNull(): void
     {
         $this->assertEquals([
             new SetLabel('en_US', null),
         ], $this->sut->create(
             'labels',
             1,
-            ['en_US' => null]
+            ['en_US' => null],
         ));
     }
 
-    public function test_it_throws_an_exception_when_data_has_wrong_format(): void
+    public function testItThrowsAnExceptionWhenDataHasWrongFormat(): void
     {
         $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->create('labels', 1, null);

@@ -9,13 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 class CodeTest extends TestCase
 {
-    public function test_it_creates_a_valid_code(): void
+    public function testItCreatesAValidCode(): void
     {
         $code = new Code('my_code');
         $this->assertSame('my_code', (string) $code);
     }
 
-    public function test_it_rejects_empty_string(): void
+    public function testItRejectsEmptyString(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Code('');

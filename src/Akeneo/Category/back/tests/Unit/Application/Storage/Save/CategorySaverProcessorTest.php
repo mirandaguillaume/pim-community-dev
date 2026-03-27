@@ -7,7 +7,6 @@ namespace Akeneo\Test\Category\Unit\Application\Storage\Save;
 use Akeneo\Category\Api\Command\UserIntents\SetLabel;
 use Akeneo\Category\Application\Storage\Save\CategorySaverProcessor;
 use Akeneo\Category\Application\Storage\Save\CategorySaverRegistry;
-use Akeneo\Category\Application\Storage\Save\Saver\CategorySaver;
 use Akeneo\Category\Application\Storage\Save\Saver\CategoryTranslationsSaver;
 use Akeneo\Category\Domain\Model\Enrichment\Category;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -28,7 +27,7 @@ class CategorySaverProcessorTest extends TestCase
         $this->sut = new CategorySaverProcessor($this->categorySaverRegistry);
     }
 
-    public function test_it_uses_the_correct_savers_based_on_user_intent_list(): void
+    public function testItUsesTheCorrectSaversBasedOnUserIntentList(): void
     {
         $categoryTranslationsSaver = $this->createMock(CategoryTranslationsSaver::class);
         $categoryModel = $this->createMock(Category::class);
@@ -39,7 +38,7 @@ class CategorySaverProcessorTest extends TestCase
         $this->sut->save($categoryModel, [$setLabelUserIntent]);
     }
 
-    public function test_it_throws_an_exception_when_the_saver_class_was_not_added_into_the_savers_list(): void
+    public function testItThrowsAnExceptionWhenTheSaverClassWasNotAddedIntoTheSaversList(): void
     {
         $categoryModel = $this->createMock(Category::class);
 

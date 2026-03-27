@@ -25,13 +25,13 @@ class CleanCategoriesEnrichedValuesTaskletTest extends TestCase
         $this->sut = new CleanCategoriesEnrichedValuesTasklet($this->commandBus);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(TaskletInterface::class, $this->sut);
         $this->assertInstanceOf(CleanCategoriesEnrichedValuesTasklet::class, $this->sut);
     }
 
-    public function test_it_dispatches_a_command_message_to_clean_category_enriched_values_by_channel_or_locale(): void
+    public function testItDispatchesACommandMessageToCleanCategoryEnrichedValuesByChannelOrLocale(): void
     {
         $stepExecution = $this->createMock(StepExecution::class);
 
@@ -41,7 +41,7 @@ class CleanCategoriesEnrichedValuesTaskletTest extends TestCase
         ]);
         $command = new CleanCategoryEnrichedValuesByChannelOrLocaleCommand(
             'ecommerce',
-            ['en_US', 'fr_FR']
+            ['en_US', 'fr_FR'],
         );
         $envelope = new Envelope($command);
         $stepExecution->method('getJobParameters')->willReturn($jobParameters);

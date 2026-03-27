@@ -25,12 +25,12 @@ class CategoryExtensionTest extends TestCase
         $this->sut = new CategoryExtension($this->registry, $productsLimitForRemoval);
     }
 
-    public function test_it_is_a_twig_extension(): void
+    public function testItIsATwigExtension(): void
     {
         $this->assertInstanceOf(AbstractExtension::class, $this->sut);
     }
 
-    public function test_it_registers_category_functions(): void
+    public function testItRegistersCategoryFunctions(): void
     {
         $functions = $this->sut->getFunctions();
         $this->assertCount(5, $functions);
@@ -41,7 +41,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame('get_products_limit_for_removal', $functions[4]->getName());
     }
 
-    public function test_it_formats_a_list_of_categories_with_product_count(): void
+    public function testItFormatsAListOfCategoriesWithProductCount(): void
     {
         $categoryItemsCounter = $this->createMock(CategoryItemsCounterInterface::class);
         $root = $this->createMock(Category::class);
@@ -61,7 +61,7 @@ class CategoryExtensionTest extends TestCase
         $category1->expects($this->atLeastOnce())->method('hasChildren')->willReturn(false);
         $category1->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
         $category1Array = [
-            'item'       => $category1,
+            'item' => $category1,
             '__children' => [],
         ];
         $category2->expects($this->atLeastOnce())->method('getId')->willReturn(3);
@@ -70,24 +70,24 @@ class CategoryExtensionTest extends TestCase
         $category2->expects($this->atLeastOnce())->method('hasChildren')->willReturn(false);
         $category2->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
         $category2Array = [
-            'item'       => $category2,
+            'item' => $category2,
             '__children' => [],
         ];
         $expected = [
-            'attr'     => ['id' => 'node_1', 'data-code' => 'root'],
-            'data'     => 'Root (5)',
-            'state'    => 'closed jstree-root',
+            'attr' => ['id' => 'node_1', 'data-code' => 'root'],
+            'data' => 'Root (5)',
+            'state' => 'closed jstree-root',
             'children' => [
                 [
-                    'attr'     => ['id' => 'node_2', 'data-code' => 'selected_category'],
-                    'data'     => 'Selected category (5)',
-                    'state'    => 'leaf toselect jstree-checked',
+                    'attr' => ['id' => 'node_2', 'data-code' => 'selected_category'],
+                    'data' => 'Selected category (5)',
+                    'state' => 'leaf toselect jstree-checked',
                     'children' => [],
                 ],
                 [
-                    'attr'     => ['id' => 'node_3', 'data-code' => 'some_category'],
-                    'data'     => 'Some category (5)',
-                    'state'    => 'leaf',
+                    'attr' => ['id' => 'node_3', 'data-code' => 'some_category'],
+                    'data' => 'Some category (5)',
+                    'state' => 'leaf',
                     'children' => [],
                 ],
             ],
@@ -109,7 +109,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertStringContainsString('leaf', $actual['children'][1]['state']);
     }
 
-    public function test_it_formats_a_list_of_categories_without_product_count(): void
+    public function testItFormatsAListOfCategoriesWithoutProductCount(): void
     {
         $root = $this->createMock(Category::class);
         $category1 = $this->createMock(Category::class);
@@ -126,7 +126,7 @@ class CategoryExtensionTest extends TestCase
         $category1->expects($this->atLeastOnce())->method('hasChildren')->willReturn(false);
         $category1->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
         $category1Array = [
-            'item'       => $category1,
+            'item' => $category1,
             '__children' => [],
         ];
         $category2->expects($this->atLeastOnce())->method('getId')->willReturn(3);
@@ -135,7 +135,7 @@ class CategoryExtensionTest extends TestCase
         $category2->expects($this->atLeastOnce())->method('hasChildren')->willReturn(false);
         $category2->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
         $category2Array = [
-            'item'       => $category2,
+            'item' => $category2,
             '__children' => [],
         ];
         $actual = $this->sut->childrenTreeResponse([$category1Array, $category2Array], $category1, $root);
@@ -158,7 +158,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame('node_3', $actual['children'][1]['attr']['id']);
     }
 
-    public function test_it_lists_categories_and_their_children_with_product_count(): void
+    public function testItListsCategoriesAndTheirChildrenWithProductCount(): void
     {
         $categoryItemsCounter = $this->createMock(CategoryItemsCounterInterface::class);
         $category0 = $this->createMock(Category::class);
@@ -198,7 +198,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame('sub_category2', $actual['children'][1]['attr']['data-code']);
     }
 
-    public function test_it_lists_categories_and_their_children_without_product_count(): void
+    public function testItListsCategoriesAndTheirChildrenWithoutProductCount(): void
     {
         $category0 = $this->createMock(Category::class);
         $category1 = $this->createMock(Category::class);
@@ -229,7 +229,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame('selected_category', $actual['attr']['data-code']);
     }
 
-    public function test_children_response_without_parent(): void
+    public function testChildrenResponseWithoutParent(): void
     {
         $category1 = $this->createMock(Category::class);
         $category1->expects($this->atLeastOnce())->method('getId')->willReturn(2);
@@ -247,7 +247,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame('leaf', $actual[0]['state']);
     }
 
-    public function test_children_tree_response_without_parent(): void
+    public function testChildrenTreeResponseWithoutParent(): void
     {
         $category1 = $this->createMock(Category::class);
         $selectedCategory = $this->createMock(Category::class);
@@ -259,7 +259,7 @@ class CategoryExtensionTest extends TestCase
         $category1->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
 
         $category1Array = [
-            'item'       => $category1,
+            'item' => $category1,
             '__children' => [],
         ];
         $actual = $this->sut->childrenTreeResponse([$category1Array], $selectedCategory, null);
@@ -270,7 +270,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertStringContainsString('toselect', $actual[0]['state']);
     }
 
-    public function test_it_lists_and_format_categories(): void
+    public function testItListsAndFormatCategories(): void
     {
         $category0 = $this->createMock(Category::class);
         $category1 = $this->createMock(Category::class);
@@ -282,7 +282,7 @@ class CategoryExtensionTest extends TestCase
         $category1->expects($this->atLeastOnce())->method('hasChildren')->willReturn(false);
         $category1->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
         $category1Array = [
-            'item'       => $category1,
+            'item' => $category1,
             '__children' => [],
         ];
         $category2->expects($this->atLeastOnce())->method('getId')->willReturn(3);
@@ -291,7 +291,7 @@ class CategoryExtensionTest extends TestCase
         $category2->expects($this->atLeastOnce())->method('hasChildren')->willReturn(false);
         $category2->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
         $category2Array = [
-            'item'       => $category2,
+            'item' => $category2,
             '__children' => [],
         ];
         $category0->expects($this->atLeastOnce())->method('getId')->willReturn(1);
@@ -300,7 +300,7 @@ class CategoryExtensionTest extends TestCase
         $category0->expects($this->atLeastOnce())->method('hasChildren')->willReturn(true);
         $category0->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
         $category0Array = [
-            'item'       => $category0,
+            'item' => $category0,
             '__children' => [$category1Array, $category2Array],
         ];
 
@@ -320,7 +320,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame(0, $actual[0]['children'][1]['selectedChildrenCount']);
     }
 
-    public function test_list_categories_response_with_selected_categories(): void
+    public function testListCategoriesResponseWithSelectedCategories(): void
     {
         $selectedCat = $this->createMock(Category::class);
         $selectedCat->method('getId')->willReturn(2);
@@ -332,7 +332,7 @@ class CategoryExtensionTest extends TestCase
         $category1->expects($this->atLeastOnce())->method('hasChildren')->willReturn(false);
         $category1->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
         $category1Array = [
-            'item'       => $category1,
+            'item' => $category1,
             '__children' => [],
         ];
         $parentCat = $this->createMock(Category::class);
@@ -342,7 +342,7 @@ class CategoryExtensionTest extends TestCase
         $parentCat->expects($this->atLeastOnce())->method('hasChildren')->willReturn(true);
         $parentCat->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
         $parentArray = [
-            'item'       => $parentCat,
+            'item' => $parentCat,
             '__children' => [$category1Array],
         ];
 
@@ -354,7 +354,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame(1, $actual[0]['selectedChildrenCount']);
     }
 
-    public function test_it_checks_if_a_category_exceeds_the_products_limit_for_removal(): void
+    public function testItChecksIfACategoryExceedsTheProductsLimitForRemoval(): void
     {
         $categoryItemsCounter = $this->createMock(CategoryItemsCounterInterface::class);
         $category = $this->createMock(Category::class);
@@ -364,7 +364,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame(true, $this->sut->exceedsProductsLimitForRemoval($category, true));
     }
 
-    public function test_it_does_not_exceed_products_limit_when_at_limit(): void
+    public function testItDoesNotExceedProductsLimitWhenAtLimit(): void
     {
         $categoryItemsCounter = $this->createMock(CategoryItemsCounterInterface::class);
         $category = $this->createMock(Category::class);
@@ -374,7 +374,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame(false, $this->sut->exceedsProductsLimitForRemoval($category, true));
     }
 
-    public function test_it_does_not_exceed_when_below_limit(): void
+    public function testItDoesNotExceedWhenBelowLimit(): void
     {
         $categoryItemsCounter = $this->createMock(CategoryItemsCounterInterface::class);
         $category = $this->createMock(Category::class);
@@ -384,7 +384,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame(false, $this->sut->exceedsProductsLimitForRemoval($category, false));
     }
 
-    public function test_exceeds_limit_returns_false_when_limit_is_null(): void
+    public function testExceedsLimitReturnsFalseWhenLimitIsNull(): void
     {
         $sut = new CategoryExtension($this->registry, null);
         $category = $this->createMock(Category::class);
@@ -393,18 +393,18 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame(false, $sut->exceedsProductsLimitForRemoval($category, true));
     }
 
-    public function test_it_gives_the_products_limit_for_removal(): void
+    public function testItGivesTheProductsLimitForRemoval(): void
     {
         $this->assertSame(10, $this->sut->getProductsLimitForRemoval());
     }
 
-    public function test_products_limit_for_removal_is_null_when_not_set(): void
+    public function testProductsLimitForRemovalIsNullWhenNotSet(): void
     {
         $sut = new CategoryExtension($this->registry, null);
         $this->assertNull($sut->getProductsLimitForRemoval());
     }
 
-    public function test_children_response_with_include_sub(): void
+    public function testChildrenResponseWithIncludeSub(): void
     {
         $categoryItemsCounter = $this->createMock(CategoryItemsCounterInterface::class);
         $parent = $this->createMock(Category::class);
@@ -430,7 +430,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame('Child (7)', $actual['children'][0]['data']);
     }
 
-    public function test_category_state_for_root_category(): void
+    public function testCategoryStateForRootCategory(): void
     {
         $root = $this->createMock(Category::class);
         $root->expects($this->atLeastOnce())->method('getId')->willReturn(1);
@@ -444,7 +444,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertStringContainsString('closed', $actual['state']);
     }
 
-    public function test_category_state_for_leaf_category(): void
+    public function testCategoryStateForLeafCategory(): void
     {
         $leaf = $this->createMock(Category::class);
         $leaf->expects($this->atLeastOnce())->method('getId')->willReturn(1);
@@ -459,7 +459,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertStringNotContainsString('closed', $actual['state']);
     }
 
-    public function test_category_with_children_has_open_state(): void
+    public function testCategoryWithChildrenHasOpenState(): void
     {
         $parent = $this->createMock(Category::class);
         $child = $this->createMock(Category::class);
@@ -483,13 +483,13 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame('open', $actual[0]['state']);
     }
 
-    public function test_empty_categories_list(): void
+    public function testEmptyCategoriesList(): void
     {
         $actual = $this->sut->listCategoriesResponse([], new ArrayCollection());
         $this->assertSame([], $actual);
     }
 
-    public function test_children_response_with_empty_children_list(): void
+    public function testChildrenResponseWithEmptyChildrenList(): void
     {
         $parent = $this->createMock(Category::class);
         $parent->expects($this->atLeastOnce())->method('getId')->willReturn(1);
@@ -503,7 +503,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame('leaf', $actual['state']);
     }
 
-    public function test_get_extension_throws_on_null_counter(): void
+    public function testGetExtensionThrowsOnNullCounter(): void
     {
         $category = $this->createMock(Category::class);
         $this->registry->expects($this->once())->method('get')->with('nonexistent')->willReturn(null);
@@ -513,7 +513,7 @@ class CategoryExtensionTest extends TestCase
         $this->sut->exceedsProductsLimitForRemoval($category, true, 'nonexistent');
     }
 
-    public function test_children_tree_response_with_nested_children(): void
+    public function testChildrenTreeResponseWithNestedChildren(): void
     {
         $selectedCategory = $this->createMock(Category::class);
         $selectedCategory->method('getId')->willReturn(3);
@@ -533,7 +533,7 @@ class CategoryExtensionTest extends TestCase
         $child->expects($this->atLeastOnce())->method('isRoot')->willReturn(false);
 
         $childArray = [
-            'item'       => $child,
+            'item' => $child,
             '__children' => [
                 ['item' => $grandchild, '__children' => []],
             ],
@@ -550,7 +550,7 @@ class CategoryExtensionTest extends TestCase
      * The mutations flip `false` to `true` in default params.
      * By explicitly passing false and asserting the absence of count, we verify the default matters.
      */
-    public function test_children_response_explicit_false_include_sub_no_product_count(): void
+    public function testChildrenResponseExplicitFalseIncludeSubNoProductCount(): void
     {
         $parent = $this->createMock(Category::class);
         $parent->expects($this->atLeastOnce())->method('getId')->willReturn(1);
@@ -565,7 +565,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertStringNotContainsString('(', $actual['data']);
     }
 
-    public function test_children_response_with_product_count_and_include_sub_true(): void
+    public function testChildrenResponseWithProductCountAndIncludeSubTrue(): void
     {
         $categoryItemsCounter = $this->createMock(CategoryItemsCounterInterface::class);
         $parent = $this->createMock(Category::class);
@@ -592,7 +592,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertStringContainsString('(3)', $actual['children'][0]['data']);
     }
 
-    public function test_list_categories_accumulates_selected_children_count_from_multiple_checked(): void
+    public function testListCategoriesAccumulatesSelectedChildrenCountFromMultipleChecked(): void
     {
         $selectedCat1 = $this->createMock(Category::class);
         $selectedCat1->method('getId')->willReturn(2);
@@ -636,7 +636,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertStringContainsString('jstree-checked', $actual[0]['children'][1]['state']);
     }
 
-    public function test_list_categories_nested_selected_children_count_accumulates(): void
+    public function testListCategoriesNestedSelectedChildrenCountAccumulates(): void
     {
         $selectedCat = $this->createMock(Category::class);
         $selectedCat->method('getId')->willReturn(3);
@@ -681,7 +681,7 @@ class CategoryExtensionTest extends TestCase
         $this->assertSame(1, $actual[0]['selectedChildrenCount']);
     }
 
-    public function test_children_tree_response_with_custom_related_entity(): void
+    public function testChildrenTreeResponseWithCustomRelatedEntity(): void
     {
         $categoryItemsCounter = $this->createMock(CategoryItemsCounterInterface::class);
         $parent = $this->createMock(Category::class);
@@ -713,13 +713,13 @@ class CategoryExtensionTest extends TestCase
             $parent,
             true,     // withProductCount
             false,    // includeSub
-            'product_model' // relatedEntity
+            'product_model', // relatedEntity
         );
         $this->assertStringContainsString('(42)', $actual['data']);
         $this->assertStringContainsString('(42)', $actual['children'][0]['data']);
     }
 
-    public function test_define_category_state_from_array_with_non_countable_children(): void
+    public function testDefineCategoryStateFromArrayWithNonCountableChildren(): void
     {
         // Test the is_countable fallback branch (children = null is not countable)
         // We test by ensuring when __children is empty array, hasChild=false -> state=leaf
@@ -735,14 +735,14 @@ class CategoryExtensionTest extends TestCase
             $leaf,
             null,
             false,
-            false
+            false,
         );
         // With empty __children array, state should be leaf (not open)
         $this->assertStringContainsString('leaf', $actual[0]['state']);
         $this->assertStringNotContainsString('open', $actual[0]['state']);
     }
 
-    public function test_children_response_with_product_model_entity(): void
+    public function testChildrenResponseWithProductModelEntity(): void
     {
         $categoryItemsCounter = $this->createMock(CategoryItemsCounterInterface::class);
         $parent = $this->createMock(Category::class);

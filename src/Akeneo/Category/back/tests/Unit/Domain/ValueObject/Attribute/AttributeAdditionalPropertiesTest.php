@@ -9,50 +9,50 @@ use PHPUnit\Framework\TestCase;
 
 class AttributeAdditionalPropertiesTest extends TestCase
 {
-    public function test_it_creates_from_empty_array(): void
+    public function testItCreatesFromEmptyArray(): void
     {
         $props = AttributeAdditionalProperties::fromArray([]);
         $this->assertSame([], $props->normalize());
     }
 
-    public function test_it_creates_from_valid_array(): void
+    public function testItCreatesFromValidArray(): void
     {
         $props = AttributeAdditionalProperties::fromArray(['key1' => 'value1', 'key2' => 'value2']);
         $this->assertSame(['key1' => 'value1', 'key2' => 'value2'], $props->normalize());
     }
 
-    public function test_it_rejects_non_string_values(): void
+    public function testItRejectsNonStringValues(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         AttributeAdditionalProperties::fromArray(['key' => 123]);
     }
 
-    public function test_it_rejects_empty_string_keys(): void
+    public function testItRejectsEmptyStringKeys(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         AttributeAdditionalProperties::fromArray(['' => 'value']);
     }
 
-    public function test_it_gets_additional_property(): void
+    public function testItGetsAdditionalProperty(): void
     {
         $props = AttributeAdditionalProperties::fromArray(['foo' => 'bar']);
         $this->assertSame('bar', $props->getAdditionalProperty('foo'));
     }
 
-    public function test_it_returns_null_for_missing_property(): void
+    public function testItReturnsNullForMissingProperty(): void
     {
         $props = AttributeAdditionalProperties::fromArray([]);
         $this->assertNull($props->getAdditionalProperty('missing'));
     }
 
-    public function test_it_sets_additional_property(): void
+    public function testItSetsAdditionalProperty(): void
     {
         $props = AttributeAdditionalProperties::fromArray([]);
         $props->setAdditionalProperty('new_key', 'new_value');
         $this->assertSame('new_value', $props->getAdditionalProperty('new_key'));
     }
 
-    public function test_has_additional_property(): void
+    public function testHasAdditionalProperty(): void
     {
         $props = AttributeAdditionalProperties::fromArray(['exists' => 'yes']);
         $this->assertTrue($props->hasAdditionalProperty('exists'));

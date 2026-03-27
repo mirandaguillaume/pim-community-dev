@@ -16,16 +16,16 @@ class CategoryTest extends TestCase
         $this->sut = new Category();
     }
 
-    public function test_it_converts_from_standard_to_flat_format(): void
+    public function testItConvertsFromStandardToFlatFormat(): void
     {
         $expected = [
-            'code'        => 'armors',
-            'parent'      => '',
+            'code' => 'armors',
+            'parent' => '',
             'label-fr_FR' => 'Armures',
             'label-en_US' => 'Armors',
         ];
         $item = [
-            'code'   => 'armors',
+            'code' => 'armors',
             'parent' => null,
             'labels' => [
                 'fr_FR' => 'Armures',

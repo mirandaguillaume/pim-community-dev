@@ -33,17 +33,17 @@ class CategorySaverTest extends TestCase
         $this->sut = new CategorySaver($this->objectManager, $this->eventDispatcher, $this->lockFactory);
     }
 
-    public function test_it_is_a_saver(): void
+    public function testItIsASaver(): void
     {
         $this->assertInstanceOf(SaverInterface::class, $this->sut);
     }
 
-    public function test_it_is_a_bulk_saver(): void
+    public function testItIsABulkSaver(): void
     {
         $this->assertInstanceOf(BulkSaverInterface::class, $this->sut);
     }
 
-    public function test_it_saves_a_new_category(): void
+    public function testItSavesANewCategory(): void
     {
         $lock = $this->createMock(LockInterface::class);
         $category = $this->createMock(CategoryInterface::class);
@@ -61,8 +61,9 @@ class CategorySaverTest extends TestCase
                 $this->assertTrue($event->getArgument('unitary'));
                 $this->assertTrue($event->getArgument('is_new'));
                 $this->assertContains($eventName, [StorageEvents::PRE_SAVE, StorageEvents::POST_SAVE]);
+
                 return $event;
-            }
+            },
         );
         $this->objectManager->expects($this->once())->method('persist')->with($category);
         $this->objectManager->expects($this->once())->method('flush');
@@ -72,7 +73,7 @@ class CategorySaverTest extends TestCase
         $this->assertSame([StorageEvents::PRE_SAVE, StorageEvents::POST_SAVE], $dispatchedEvents);
     }
 
-    public function test_it_saves_an_existing_category(): void
+    public function testItSavesAnExistingCategory(): void
     {
         $lock = $this->createMock(LockInterface::class);
         $category = $this->createMock(CategoryInterface::class);
@@ -87,8 +88,9 @@ class CategorySaverTest extends TestCase
                 $this->assertInstanceOf(CategoryInterface::class, $event->getSubject());
                 $this->assertTrue($event->getArgument('unitary'));
                 $this->assertFalse($event->getArgument('is_new'));
+
                 return $event;
-            }
+            },
         );
         $this->objectManager->expects($this->once())->method('persist')->with($category);
         $this->objectManager->expects($this->once())->method('flush');
@@ -96,7 +98,7 @@ class CategorySaverTest extends TestCase
         $this->sut->save($category);
     }
 
-    public function test_it_throws_if_the_lock_cannot_be_acquired(): void
+    public function testItThrowsIfTheLockCannotBeAcquired(): void
     {
         $lock = $this->createMock(LockInterface::class);
         $category = $this->createMock(CategoryInterface::class);
@@ -112,13 +114,13 @@ class CategorySaverTest extends TestCase
         $this->sut->save($category);
     }
 
-    public function test_it_throws_on_non_category_object(): void
+    public function testItThrowsOnNonCategoryObject(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->save(new \stdClass());
     }
 
-    public function test_lock_releases_even_on_exception(): void
+    public function testLockReleasesEvenOnException(): void
     {
         $lock = $this->createMock(LockInterface::class);
         $category = $this->createMock(CategoryInterface::class);
@@ -136,7 +138,7 @@ class CategorySaverTest extends TestCase
         $this->sut->save($category);
     }
 
-    public function test_save_all_with_empty_array(): void
+    public function testSaveAllWithEmptyArray(): void
     {
         $this->objectManager->expects($this->never())->method('persist');
         $this->objectManager->expects($this->never())->method('flush');
@@ -144,7 +146,7 @@ class CategorySaverTest extends TestCase
         $this->sut->saveAll([]);
     }
 
-    public function test_save_all_dispatches_events_in_correct_order(): void
+    public function testSaveAllDispatchesEventsInCorrectOrder(): void
     {
         $category1 = $this->createMock(CategoryInterface::class);
         $category2 = $this->createMock(CategoryInterface::class);
@@ -155,8 +157,9 @@ class CategorySaverTest extends TestCase
         $this->eventDispatcher->expects($this->exactly(6))->method('dispatch')->willReturnCallback(
             function (GenericEvent $event, string $eventName) use (&$dispatchedEvents) {
                 $dispatchedEvents[] = $eventName;
+
                 return $event;
-            }
+            },
         );
         $this->objectManager->expects($this->exactly(2))->method('persist');
         $this->objectManager->expects($this->once())->method('flush');
@@ -173,7 +176,7 @@ class CategorySaverTest extends TestCase
         ], $dispatchedEvents);
     }
 
-    public function test_save_all_sets_unitary_to_false(): void
+    public function testSaveAllSetsUnitaryToFalse(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $category->method('getId')->willReturn(null);
@@ -183,8 +186,9 @@ class CategorySaverTest extends TestCase
                 if (in_array($eventName, [StorageEvents::PRE_SAVE, StorageEvents::POST_SAVE])) {
                     $this->assertFalse($event->getArgument('unitary'));
                 }
+
                 return $event;
-            }
+            },
         );
         $this->objectManager->expects($this->once())->method('persist');
         $this->objectManager->expects($this->once())->method('flush');
@@ -192,7 +196,7 @@ class CategorySaverTest extends TestCase
         $this->sut->saveAll([$category]);
     }
 
-    public function test_save_all_tracks_is_new_per_object(): void
+    public function testSaveAllTracksIsNewPerObject(): void
     {
         $newCategory = $this->createMock(CategoryInterface::class);
         $existingCategory = $this->createMock(CategoryInterface::class);
@@ -205,8 +209,9 @@ class CategorySaverTest extends TestCase
                 if (in_array($eventName, [StorageEvents::PRE_SAVE, StorageEvents::POST_SAVE])) {
                     $isNewValues[] = $event->getArgument('is_new');
                 }
+
                 return $event;
-            }
+            },
         );
         $this->objectManager->expects($this->exactly(2))->method('persist');
         $this->objectManager->expects($this->once())->method('flush');
@@ -216,7 +221,7 @@ class CategorySaverTest extends TestCase
         $this->assertSame([true, false, true, false], $isNewValues);
     }
 
-    public function test_lock_uses_correct_root_id(): void
+    public function testLockUsesCorrectRootId(): void
     {
         $lock = $this->createMock(LockInterface::class);
         $category = $this->createMock(CategoryInterface::class);

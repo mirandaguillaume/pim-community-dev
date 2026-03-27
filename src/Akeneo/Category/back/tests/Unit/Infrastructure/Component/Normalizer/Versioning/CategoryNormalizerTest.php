@@ -24,17 +24,17 @@ class CategoryNormalizerTest extends TestCase
         $this->sut = new CategoryNormalizer($this->categoryNormalizerStandard, $this->translationNormalizer);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(CategoryNormalizer::class, $this->sut);
     }
 
-    public function test_it_is_a_normalizer(): void
+    public function testItIsANormalizer(): void
     {
         $this->assertInstanceOf(NormalizerInterface::class, $this->sut);
     }
 
-    public function test_it_supports_category_normalization_into_flat(): void
+    public function testItSupportsCategoryNormalizationIntoFlat(): void
     {
         $clothes = $this->createMock(CategoryInterface::class);
 
@@ -44,7 +44,7 @@ class CategoryNormalizerTest extends TestCase
         $this->assertSame(false, $this->sut->supportsNormalization($clothes, 'xml'));
     }
 
-    public function test_it_normalizes_category(): void
+    public function testItNormalizesCategory(): void
     {
         $clothes = $this->createMock(CategoryInterface::class);
 
@@ -54,15 +54,15 @@ class CategoryNormalizerTest extends TestCase
         ]);
         $this->categoryNormalizerStandard->method('supportsNormalization')->with($clothes, 'standard')->willReturn(true);
         $this->categoryNormalizerStandard->method('normalize')->with($clothes, 'standard', [])->willReturn([
-            'code'   => 'clothes',
+            'code' => 'clothes',
             'parent' => 'Master catalog',
             'labels' => [
                 'en_US' => 'My category',
             ],
         ]);
         $this->assertSame([
-            'code'        => 'clothes',
-            'parent'      => 'Master catalog',
+            'code' => 'clothes',
+            'parent' => 'Master catalog',
             'label-en_US' => 'My category',
         ], $this->sut->normalize($clothes));
     }

@@ -20,25 +20,25 @@ class CategoryTest extends TestCase
         $this->sut = new Category($this->fieldChecker);
     }
 
-    public function test_it_converts(): void
+    public function testItConverts(): void
     {
         $fields = [
-            'code'        => 'mycode',
-            'parent'      => 'master',
+            'code' => 'mycode',
+            'parent' => 'master',
             'label-fr_FR' => 'Ma superbe catégorie',
             'label-en_US' => 'My awesome category',
         ];
         $this->assertSame([
-            'labels'   => [
+            'labels' => [
                 'fr_FR' => 'Ma superbe catégorie',
                 'en_US' => 'My awesome category',
             ],
-            'code'     => 'mycode',
-            'parent'   => 'master',
+            'code' => 'mycode',
+            'parent' => 'master',
         ], $this->sut->convert($fields));
     }
 
-    public function test_it_throws_an_exception_if_required_fields_are_not_in_array(): void
+    public function testItThrowsAnExceptionIfRequiredFieldsAreNotInArray(): void
     {
         $item = ['not_a_code' => ''];
         $this->fieldChecker->method('checkFieldsPresence')->with($item, ['code'])->willThrowException(new \LogicException('Field "code" is expected, provided fields are "not_a_code"'));
@@ -46,7 +46,7 @@ class CategoryTest extends TestCase
         $this->sut->convert($item);
     }
 
-    public function test_it_throws_an_exception_if_required_field_code_is_empty(): void
+    public function testItThrowsAnExceptionIfRequiredFieldCodeIsEmpty(): void
     {
         $item = ['parent' => 'master', 'code' => ''];
         $this->fieldChecker->method('checkFieldsPresence')->with($item, ['code'])->willThrowException(new \LogicException('Field "code" must be filled'));
@@ -54,7 +54,7 @@ class CategoryTest extends TestCase
         $this->sut->convert($item);
     }
 
-    public function test_it_throws_an_exception_if_required_fields_are_empty(): void
+    public function testItThrowsAnExceptionIfRequiredFieldsAreEmpty(): void
     {
         $item = ['code' => ''];
         $this->fieldChecker->method('checkFieldsPresence')->with($item, ['code'])->willThrowException(new \LogicException('Field "code" must be filled'));

@@ -25,17 +25,17 @@ class CategoryNormalizerTest extends TestCase
         $this->sut = new CategoryNormalizer($this->translationNormalizer, $this->dateTimeNormalizer);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(CategoryNormalizer::class, $this->sut);
     }
 
-    public function test_it_is_a_normalizer(): void
+    public function testItIsANormalizer(): void
     {
         $this->assertInstanceOf(NormalizerInterface::class, $this->sut);
     }
 
-    public function test_it_supports_standard_normalization(): void
+    public function testItSupportsStandardNormalization(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -45,7 +45,7 @@ class CategoryNormalizerTest extends TestCase
         $this->assertSame(false, $this->sut->supportsNormalization($category, 'json'));
     }
 
-    public function test_it_normalizes_category(): void
+    public function testItNormalizesCategory(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -63,7 +63,7 @@ class CategoryNormalizerTest extends TestCase
         ], $this->sut->normalize($category));
     }
 
-    public function test_it_normalizes_category_with_parent(): void
+    public function testItNormalizesCategoryWithParent(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $parent = $this->createMock(CategoryInterface::class);

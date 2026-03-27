@@ -26,13 +26,13 @@ class PositionResolverTest extends TestCase
         $this->sut = new PositionResolver($this->getDirectChildrenCategoryCodes);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(PositionResolverInterface::class, $this->sut);
         $this->assertInstanceOf(PositionResolver::class, $this->sut);
     }
 
-    public function test_it_gets_position_when_category_has_no_parent(): void
+    public function testItGetsPositionWhenCategoryHasNoParent(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -40,7 +40,7 @@ class PositionResolverTest extends TestCase
         $this->assertSame(1, $this->sut->getPosition($category));
     }
 
-    public function test_it_gets_position(): void
+    public function testItGetsPosition(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $categoryParent = $this->createMock(CategoryInterface::class);

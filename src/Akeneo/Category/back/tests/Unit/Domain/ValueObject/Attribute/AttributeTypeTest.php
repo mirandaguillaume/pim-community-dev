@@ -9,37 +9,37 @@ use PHPUnit\Framework\TestCase;
 
 class AttributeTypeTest extends TestCase
 {
-    public function test_it_creates_text_type(): void
+    public function testItCreatesTextType(): void
     {
         $type = new AttributeType(AttributeType::TEXT);
         $this->assertSame('text', (string) $type);
     }
 
-    public function test_it_creates_textarea_type(): void
+    public function testItCreatesTextareaType(): void
     {
         $type = new AttributeType(AttributeType::TEXTAREA);
         $this->assertSame('textarea', (string) $type);
     }
 
-    public function test_it_creates_rich_text_type(): void
+    public function testItCreatesRichTextType(): void
     {
         $type = new AttributeType(AttributeType::RICH_TEXT);
         $this->assertSame('richtext', (string) $type);
     }
 
-    public function test_it_creates_image_type(): void
+    public function testItCreatesImageType(): void
     {
         $type = new AttributeType(AttributeType::IMAGE);
         $this->assertSame('image', (string) $type);
     }
 
-    public function test_it_rejects_invalid_type(): void
+    public function testItRejectsInvalidType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new AttributeType('invalid');
     }
 
-    public function test_it_rejects_empty_type(): void
+    public function testItRejectsEmptyType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new AttributeType('');

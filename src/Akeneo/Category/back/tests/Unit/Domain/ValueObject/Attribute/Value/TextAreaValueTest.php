@@ -17,12 +17,14 @@ class TextAreaValueTest extends TestCase
 {
     private TextAreaValue $sut;
 
-    protected function setUp(): void {}
+    protected function setUp(): void
+    {
+    }
 
-    public function test_it_creates_text_value_from_applier(): void
+    public function testItCreatesTextValueFromApplier(): void
     {
         $this->sut = TextAreaValue::fromApplier(
-            "Meta <p>shoes</p>",
+            'Meta <p>shoes</p>',
             '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
             'seo_meta_description',
             'ecommerce',
@@ -33,10 +35,10 @@ class TextAreaValueTest extends TestCase
         $this->assertTrue(is_a(TextAreaValue::class, Value::class, true));
     }
 
-    public function test_it_creates_text_value_from_array(): void
+    public function testItCreatesTextValueFromArray(): void
     {
         $givenArray = [
-            'data' => "Meta <p>shoes</p>",
+            'data' => 'Meta <p>shoes</p>',
             'type' => 'textarea',
             'channel' => 'ecommerce',
             'locale' => 'en_US',
@@ -48,39 +50,39 @@ class TextAreaValueTest extends TestCase
         $this->assertTrue(is_a(TextAreaValue::class, Value::class, true));
     }
 
-    public function test_it_throws_invalid_argument_exception_from_array(): void
+    public function testItThrowsInvalidArgumentExceptionFromArray(): void
     {
         $givenArray = [
-            'data' => "Meta <p>shoes</p>",
+            'data' => 'Meta <p>shoes</p>',
             'type' => 'textarea',
             'channel' => 'ecommerce',
             'locale' => 'en_US',
             'attribute_code' => '',
         ];
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Cannot find code and uuid.");
+        $this->expectExceptionMessage('Cannot find code and uuid.');
         TextAreaValue::fromArray($givenArray);
     }
 
-    public function test_it_normalizes(): void
+    public function testItNormalizes(): void
     {
         $this->sut = TextAreaValue::fromApplier(
-            "Meta <p>shoes</p>",
+            'Meta <p>shoes</p>',
             '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
             'seo_meta_description',
             'ecommerce',
             'en_US',
         );
-        $key = 'seo_meta_description' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'seo_meta_description'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s%s',
             $key,
-            AbstractValue::SEPARATOR . "ecommerce",
-            AbstractValue::SEPARATOR . "en_US",
+            AbstractValue::SEPARATOR.'ecommerce',
+            AbstractValue::SEPARATOR.'en_US',
         );
         $expectedValue = [
             $localeChannelKey => [
-                'data' => "Meta <p>shoes</p>",
+                'data' => 'Meta <p>shoes</p>',
                 'type' => 'textarea',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
@@ -90,9 +92,9 @@ class TextAreaValueTest extends TestCase
         $this->assertEquals($expectedValue, $this->sut->normalize());
     }
 
-    public function test_it_normalizes_with_no_locale(): void
+    public function testItNormalizesWithNoLocale(): void
     {
-        $textareaValue = "Meta <p>shoes</p>";
+        $textareaValue = 'Meta <p>shoes</p>';
         $this->sut = TextAreaValue::fromApplier(
             $textareaValue,
             '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
@@ -100,15 +102,15 @@ class TextAreaValueTest extends TestCase
             'ecommerce',
             null,
         );
-        $key = 'seo_meta_description' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'seo_meta_description'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s',
             $key,
-            AbstractValue::SEPARATOR . "ecommerce"
+            AbstractValue::SEPARATOR.'ecommerce',
         );
         $expectedValue = [
             $localeChannelKey => [
-                'data' => "Meta <p>shoes</p>",
+                'data' => 'Meta <p>shoes</p>',
                 'type' => 'textarea',
                 'channel' => 'ecommerce',
                 'locale' => null,
@@ -118,9 +120,9 @@ class TextAreaValueTest extends TestCase
         $this->assertEquals($expectedValue, $this->sut->normalize());
     }
 
-    public function test_it_normalizes_with_no_channel(): void
+    public function testItNormalizesWithNoChannel(): void
     {
-        $textareaValue = "Meta <p>shoes</p>";
+        $textareaValue = 'Meta <p>shoes</p>';
         $this->sut = TextAreaValue::fromApplier(
             $textareaValue,
             '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
@@ -128,15 +130,15 @@ class TextAreaValueTest extends TestCase
             null,
             'en_US',
         );
-        $key = 'seo_meta_description' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'seo_meta_description'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s',
             $key,
-            AbstractValue::SEPARATOR . "en_US",
+            AbstractValue::SEPARATOR.'en_US',
         );
         $expectedValue = [
             $localeChannelKey => [
-                'data' => "Meta <p>shoes</p>",
+                'data' => 'Meta <p>shoes</p>',
                 'type' => 'textarea',
                 'channel' => null,
                 'locale' => 'en_US',
@@ -146,7 +148,7 @@ class TextAreaValueTest extends TestCase
         $this->assertEquals($expectedValue, $this->sut->normalize());
     }
 
-    public function test_it_normalizes_with_no_value(): void
+    public function testItNormalizesWithNoValue(): void
     {
         $this->sut = TextAreaValue::fromApplier(
             null,
@@ -155,11 +157,11 @@ class TextAreaValueTest extends TestCase
             null,
             'en_US',
         );
-        $key = 'seo_meta_description' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'seo_meta_description'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s',
             $key,
-            AbstractValue::SEPARATOR . "en_US",
+            AbstractValue::SEPARATOR.'en_US',
         );
         $expectedValue = [
             $localeChannelKey => [

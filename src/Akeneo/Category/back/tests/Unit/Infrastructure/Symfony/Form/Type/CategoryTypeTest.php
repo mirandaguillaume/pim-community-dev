@@ -26,60 +26,61 @@ class CategoryTypeTest extends TestCase
         $this->builder = $this->createMock(FormBuilderInterface::class);
         $this->sut = new CategoryType(
             Category::class,
-            CategoryTranslation::class
+            CategoryTranslation::class,
         );
         $this->builder->method('add')->willReturn($this->builder);
         $this->builder->method('addEventSubscriber')->with($this->anything())->willReturn($this->builder);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(CategoryType::class, $this->sut);
     }
 
-    public function test_it_is_a_form_type(): void
+    public function testItIsAFormType(): void
     {
         $this->assertInstanceOf(AbstractType::class, $this->sut);
     }
 
-    public function test_it_has_a_block_prefix(): void
+    public function testItHasABlockPrefix(): void
     {
         $this->assertSame('pim_category', $this->sut->getBlockPrefix());
     }
 
-    public function test_it_builds_the_category_form(): void
+    public function testItBuildsTheCategoryForm(): void
     {
         $addedFields = [];
         $this->builder->expects($this->atLeast(2))->method('add')->willReturnCallback(
             function (string $name) use (&$addedFields) {
                 $addedFields[] = $name;
+
                 return $this->builder;
-            }
+            },
         );
         $this->sut->buildForm($this->builder, []);
         $this->assertContains('code', $addedFields);
         $this->assertContains('label', $addedFields);
     }
 
-    public function test_it_adds_a_disable_field_subscriber(): void
+    public function testItAddsADisableFieldSubscriber(): void
     {
         $this->builder->expects($this->atLeastOnce())->method('addEventSubscriber')->with($this->callback(
-            fn($subscriber) => $subscriber instanceof DisableFieldSubscriber || $subscriber instanceof EventSubscriberInterface
+            fn ($subscriber) => $subscriber instanceof DisableFieldSubscriber || $subscriber instanceof EventSubscriberInterface,
         ))->willReturn($this->builder);
         $this->sut->buildForm($this->builder, []);
     }
 
-    public function test_it_sets_default_options(): void
+    public function testItSetsDefaultOptions(): void
     {
         $resolver = $this->createMock(OptionsResolver::class);
 
         $resolver->expects($this->once())->method('setDefaults')->with([
-            'data_class'  => Category::class,
+            'data_class' => Category::class,
         ])->willReturn($resolver);
         $this->sut->configureOptions($resolver);
     }
 
-    public function test_it_adds_registered_event_subscribers(): void
+    public function testItAddsRegisteredEventSubscribers(): void
     {
         $subscriber = $this->createMock(EventSubscriberInterface::class);
 
@@ -88,7 +89,7 @@ class CategoryTypeTest extends TestCase
         $this->sut->buildForm($this->builder, []);
     }
 
-    public function test_it_adds_each_subscriber_from_iteration(): void
+    public function testItAddsEachSubscriberFromIteration(): void
     {
         $sub1 = $this->createMock(EventSubscriberInterface::class);
         $sub2 = $this->createMock(EventSubscriberInterface::class);
@@ -101,6 +102,7 @@ class CategoryTypeTest extends TestCase
             ->method('addEventSubscriber')
             ->willReturnCallback(function ($subscriber) use (&$addedSubscribers) {
                 $addedSubscribers[] = $subscriber;
+
                 return $this->builder;
             });
 
@@ -113,14 +115,15 @@ class CategoryTypeTest extends TestCase
         $this->assertSame($sub2, $addedSubscribers[2]);
     }
 
-    public function test_build_form_adds_label_field_with_translatable_type(): void
+    public function testBuildFormAddsLabelFieldWithTranslatableType(): void
     {
         $addCalls = [];
         $this->builder->expects($this->atLeast(2))->method('add')->willReturnCallback(
             function (string $name, ?string $type = null, array $options = []) use (&$addCalls) {
                 $addCalls[] = ['name' => $name, 'type' => $type, 'options' => $options];
+
                 return $this->builder;
-            }
+            },
         );
         $this->sut->buildForm($this->builder, []);
 
@@ -144,7 +147,7 @@ class CategoryTypeTest extends TestCase
         $this->assertSame('translations', $labelCall['options']['property_path']);
     }
 
-    public function test_build_form_with_no_subscribers(): void
+    public function testBuildFormWithNoSubscribers(): void
     {
         // Create fresh instance with no subscribers
         $sut = new CategoryType(Category::class, CategoryTranslation::class);
@@ -153,6 +156,7 @@ class CategoryTypeTest extends TestCase
             ->method('addEventSubscriber')
             ->willReturnCallback(function ($subscriber) use (&$addedSubscribers) {
                 $addedSubscribers[] = $subscriber;
+
                 return $this->builder;
             });
         $sut->buildForm($this->builder, []);

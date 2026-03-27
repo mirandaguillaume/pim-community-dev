@@ -16,52 +16,52 @@ class CategoryTest extends TestCase
         $this->sut = new Category($this->getMasterCategory());
     }
 
-    public function test_it_creates_category_with_correct_id(): void
+    public function testItCreatesCategoryWithCorrectId(): void
     {
         $this->assertSame(1, $this->sut->getId());
     }
 
-    public function test_it_creates_category_with_correct_code(): void
+    public function testItCreatesCategoryWithCorrectCode(): void
     {
         $this->assertSame('master', $this->sut->getCode());
     }
 
-    public function test_it_creates_category_with_null_parent_id(): void
+    public function testItCreatesCategoryWithNullParentId(): void
     {
         $this->assertNull($this->sut->getParentId());
     }
 
-    public function test_it_creates_category_with_correct_root_id(): void
+    public function testItCreatesCategoryWithCorrectRootId(): void
     {
         $this->assertSame(1, $this->sut->getRootId());
     }
 
-    public function test_it_creates_category_with_correct_level(): void
+    public function testItCreatesCategoryWithCorrectLevel(): void
     {
         $this->assertSame(0, $this->sut->getLevel());
     }
 
-    public function test_it_creates_category_with_correct_left(): void
+    public function testItCreatesCategoryWithCorrectLeft(): void
     {
         $this->assertSame(1, $this->sut->getLeft());
     }
 
-    public function test_it_creates_category_with_correct_right(): void
+    public function testItCreatesCategoryWithCorrectRight(): void
     {
         $this->assertSame(8, $this->sut->getRight());
     }
 
-    public function test_it_is_not_linked_by_default(): void
+    public function testItIsNotLinkedByDefault(): void
     {
         $this->assertFalse($this->sut->isLinked());
     }
 
-    public function test_it_has_no_children_by_default(): void
+    public function testItHasNoChildrenByDefault(): void
     {
         $this->assertSame([], $this->sut->getChildren());
     }
 
-    public function test_it_adds_a_child(): void
+    public function testItAddsAChild(): void
     {
         $child = new Category([
             'id' => 2, 'parent_id' => 1, 'root' => 1,
@@ -72,7 +72,7 @@ class CategoryTest extends TestCase
         $this->assertSame($child, $this->sut->getChildren()[0]);
     }
 
-    public function test_get_child_at_returns_child(): void
+    public function testGetChildAtReturnsChild(): void
     {
         $child = new Category([
             'id' => 2, 'parent_id' => 1, 'root' => 1,
@@ -82,31 +82,31 @@ class CategoryTest extends TestCase
         $this->assertSame($child, $this->sut->getChildAt(0));
     }
 
-    public function test_get_child_at_returns_null_for_invalid_index(): void
+    public function testGetChildAtReturnsNullForInvalidIndex(): void
     {
         $this->assertNull($this->sut->getChildAt(0));
         $this->assertNull($this->sut->getChildAt(99));
     }
 
-    public function test_set_left(): void
+    public function testSetLeft(): void
     {
         $this->sut->setLeft(10);
         $this->assertSame(10, $this->sut->getLeft());
     }
 
-    public function test_set_right(): void
+    public function testSetRight(): void
     {
         $this->sut->setRight(20);
         $this->assertSame(20, $this->sut->getRight());
     }
 
-    public function test_set_level(): void
+    public function testSetLevel(): void
     {
         $this->sut->setLevel(3);
         $this->assertSame(3, $this->sut->getLevel());
     }
 
-    public function test_it_creates_category_with_integer_parent_id(): void
+    public function testItCreatesCategoryWithIntegerParentId(): void
     {
         $cat = new Category([
             'id' => 5, 'parent_id' => 2, 'root' => 1,
@@ -115,7 +115,7 @@ class CategoryTest extends TestCase
         $this->assertSame(2, $cat->getParentId());
     }
 
-    public function test_it_creates_category_with_null_root(): void
+    public function testItCreatesCategoryWithNullRoot(): void
     {
         $cat = new Category([
             'id' => 5, 'parent_id' => null, 'root' => null,
@@ -124,7 +124,7 @@ class CategoryTest extends TestCase
         $this->assertNull($cat->getRootId());
     }
 
-    public function test_it_reorders_the_category_tree(): void
+    public function testItReordersTheCategoryTree(): void
     {
         $this->sut->addChild($this->getDisorderedCategories()['child1']);
         $this->sut->addChild($this->getDisorderedCategories()['child2']);
@@ -161,7 +161,7 @@ class CategoryTest extends TestCase
         $this->assertEquals($expectedCategory, $reordered);
     }
 
-    public function test_reorder_preserves_category_id_and_code(): void
+    public function testReorderPreservesCategoryIdAndCode(): void
     {
         $this->sut->addChild($this->getDisorderedCategories()['child1']);
         $reordered = $this->sut->reorder();
@@ -172,7 +172,7 @@ class CategoryTest extends TestCase
         $this->assertSame('child1', $reordered->getChildAt(0)->getCode());
     }
 
-    public function test_reorder_with_no_children(): void
+    public function testReorderWithNoChildren(): void
     {
         $reordered = $this->sut->reorder();
         $this->assertSame(1, $reordered->getLeft());
@@ -181,7 +181,7 @@ class CategoryTest extends TestCase
         $this->assertCount(0, $reordered->getChildren());
     }
 
-    public function test_reorder_does_not_mutate_original(): void
+    public function testReorderDoesNotMutateOriginal(): void
     {
         $child = $this->getDisorderedCategories()['child1'];
         $this->sut->addChild($child);
@@ -195,7 +195,7 @@ class CategoryTest extends TestCase
         $this->assertSame($originalRight, $this->sut->getRight());
     }
 
-    public function test_diff_returns_empty_for_identical_categories(): void
+    public function testDiffReturnsEmptyForIdenticalCategories(): void
     {
         $cat1 = new Category([
             'id' => 1, 'parent_id' => null, 'root' => 1,
@@ -208,7 +208,7 @@ class CategoryTest extends TestCase
         $this->assertSame([], $cat1->diff($cat2));
     }
 
-    public function test_diff_detects_level_mismatch(): void
+    public function testDiffDetectsLevelMismatch(): void
     {
         $cat1 = new Category([
             'id' => 1, 'parent_id' => null, 'root' => 1,
@@ -225,7 +225,7 @@ class CategoryTest extends TestCase
         $this->assertStringContainsString('expected:1', $diffs[0]);
     }
 
-    public function test_diff_detects_left_mismatch(): void
+    public function testDiffDetectsLeftMismatch(): void
     {
         $cat1 = new Category([
             'id' => 1, 'parent_id' => null, 'root' => 1,
@@ -242,7 +242,7 @@ class CategoryTest extends TestCase
         $this->assertStringContainsString('expected:5', $diffs[0]);
     }
 
-    public function test_diff_detects_right_mismatch(): void
+    public function testDiffDetectsRightMismatch(): void
     {
         $cat1 = new Category([
             'id' => 1, 'parent_id' => null, 'root' => 1,
@@ -259,7 +259,7 @@ class CategoryTest extends TestCase
         $this->assertStringContainsString('expected:10', $diffs[0]);
     }
 
-    public function test_diff_detects_children_count_mismatch(): void
+    public function testDiffDetectsChildrenCountMismatch(): void
     {
         $parent1 = new Category([
             'id' => 1, 'parent_id' => null, 'root' => 1,
@@ -288,7 +288,7 @@ class CategoryTest extends TestCase
         $this->assertTrue($foundChildrenMismatch);
     }
 
-    public function test_diff_includes_child_context_prefix(): void
+    public function testDiffIncludesChildContextPrefix(): void
     {
         $parent1 = new Category([
             'id' => 1, 'parent_id' => null, 'root' => 1,
@@ -314,7 +314,7 @@ class CategoryTest extends TestCase
         $this->assertStringContainsString('Right mismatch', $diffs[0]);
     }
 
-    public function test_it_displays_diff_between_categories(): void
+    public function testItDisplaysDiffBetweenCategories(): void
     {
         $this->sut->addChild($this->getDisorderedCategories()['child1']);
         $this->sut->addChild($this->getDisorderedCategories()['child2']);
@@ -326,21 +326,21 @@ class CategoryTest extends TestCase
         $expectedCategory->addChild($this->getCategories()['child3']);
         $diffs = $this->sut->diff($expectedCategory);
         $this->assertCount(5, $diffs);
-        $this->assertSame("id=1 code=master : Children count mismatch (has:4, expected:3)", $diffs[0]);
-        $this->assertSame("Child at index 0: id=2 code=child1 : Left mismatch (has:3, expected:2)", $diffs[1]);
-        $this->assertSame("Child at index 0: id=2 code=child1 : Right mismatch (has:2, expected:3)", $diffs[2]);
-        $this->assertSame("Child at index 1: id=3 code=child2 : Right mismatch (has:7, expected:5)", $diffs[3]);
-        $this->assertSame("Child at index 2: id=4 code=child3 : Level mismatch (has:2, expected:1)", $diffs[4]);
+        $this->assertSame('id=1 code=master : Children count mismatch (has:4, expected:3)', $diffs[0]);
+        $this->assertSame('Child at index 0: id=2 code=child1 : Left mismatch (has:3, expected:2)', $diffs[1]);
+        $this->assertSame('Child at index 0: id=2 code=child1 : Right mismatch (has:2, expected:3)', $diffs[2]);
+        $this->assertSame('Child at index 1: id=3 code=child2 : Right mismatch (has:7, expected:5)', $diffs[3]);
+        $this->assertSame('Child at index 2: id=4 code=child3 : Level mismatch (has:2, expected:1)', $diffs[4]);
     }
 
-    public function test_dump_nodes_single_level(): void
+    public function testDumpNodesSingleLevel(): void
     {
         $rows = $this->sut->dumpNodes(0, 0);
         $this->assertCount(1, $rows);
         $this->assertStringContainsString('(1,master,lvl=0,lft=1,rgt=8)', $rows[0]);
     }
 
-    public function test_dump_nodes_with_children(): void
+    public function testDumpNodesWithChildren(): void
     {
         $child = new Category([
             'id' => 2, 'parent_id' => 1, 'root' => 1,
@@ -355,7 +355,7 @@ class CategoryTest extends TestCase
         $this->assertStringStartsWith("\t", $rows[1]);
     }
 
-    public function test_dump_nodes_respects_max_level(): void
+    public function testDumpNodesRespectsMaxLevel(): void
     {
         $child = new Category([
             'id' => 2, 'parent_id' => 1, 'root' => 1,
@@ -378,7 +378,7 @@ class CategoryTest extends TestCase
         $this->assertStringContainsString('child1', $rows[1]);
     }
 
-    public function test_parent_id_is_cast_to_int(): void
+    public function testParentIdIsCastToInt(): void
     {
         // When parent_id comes as a string from DB, it must be cast to int
         $cat = new Category([
@@ -389,7 +389,7 @@ class CategoryTest extends TestCase
         $this->assertIsInt($cat->getParentId());
     }
 
-    public function test_root_id_is_cast_to_int(): void
+    public function testRootIdIsCastToInt(): void
     {
         $cat = new Category([
             'id' => 5, 'parent_id' => null, 'root' => '10',
@@ -399,7 +399,7 @@ class CategoryTest extends TestCase
         $this->assertIsInt($cat->getRootId());
     }
 
-    public function test_lvl_lft_rgt_are_cast_to_int(): void
+    public function testLvlLftRgtAreCastToInt(): void
     {
         $cat = new Category([
             'id' => 5, 'parent_id' => null, 'root' => null,
@@ -413,7 +413,7 @@ class CategoryTest extends TestCase
         $this->assertIsInt($cat->getRight());
     }
 
-    public function test_dump_nodes_default_level_produces_no_indentation_at_root(): void
+    public function testDumpNodesDefaultLevelProducesNoIndentationAtRoot(): void
     {
         // Default level=0 means no tabs for root
         $rows = $this->sut->dumpNodes();
@@ -422,7 +422,7 @@ class CategoryTest extends TestCase
         $this->assertStringStartsWith('(', $rows[0]);
     }
 
-    public function test_dump_nodes_with_level_1_produces_one_tab(): void
+    public function testDumpNodesWithLevel1ProducesOneTab(): void
     {
         $rows = $this->sut->dumpNodes(1, 0);
         $this->assertCount(1, $rows);
@@ -430,14 +430,14 @@ class CategoryTest extends TestCase
         $this->assertStringStartsWith("\t(", $rows[0]);
     }
 
-    public function test_dump_nodes_with_level_2_produces_two_tabs(): void
+    public function testDumpNodesWithLevel2ProducesTwoTabs(): void
     {
         $rows = $this->sut->dumpNodes(2, 0);
         $this->assertCount(1, $rows);
         $this->assertStringStartsWith("\t\t(", $rows[0]);
     }
 
-    public function test_dump_nodes_with_children_increments_level_by_one(): void
+    public function testDumpNodesWithChildrenIncrementsLevelByOne(): void
     {
         $child = new Category([
             'id' => 2, 'parent_id' => 1, 'root' => 1,
@@ -452,7 +452,7 @@ class CategoryTest extends TestCase
         $this->assertStringStartsWith("\t(", $rows[1]); // level 1: one tab
     }
 
-    public function test_diff_with_multiple_children_iterates_all(): void
+    public function testDiffWithMultipleChildrenIteratesAll(): void
     {
         // Build tree with 2 children, both with differences
         $cat1 = new Category([

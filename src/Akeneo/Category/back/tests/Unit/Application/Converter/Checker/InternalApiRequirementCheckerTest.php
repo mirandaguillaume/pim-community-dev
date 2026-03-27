@@ -29,13 +29,13 @@ class InternalApiRequirementCheckerTest extends TestCase
         $this->sut = new InternalApiRequirementChecker($this->fieldsChecker, $this->attributeChecker);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(InternalApiRequirementChecker::class, $this->sut);
         $this->assertInstanceOf(RequirementChecker::class, $this->sut);
     }
 
-    public function test_it_should_throw_an_exception_when_key_properties_is_missing(): void
+    public function testItShouldThrowAnExceptionWhenKeyPropertiesIsMissing(): void
     {
         $data = [
             'attributes' => [],
@@ -44,7 +44,7 @@ class InternalApiRequirementCheckerTest extends TestCase
         $this->sut->check($data);
     }
 
-    public function test_it_should_throw_an_exception_when_key_attributes_is_missing(): void
+    public function testItShouldThrowAnExceptionWhenKeyAttributesIsMissing(): void
     {
         $data = [
             'properties' => [],
@@ -53,7 +53,7 @@ class InternalApiRequirementCheckerTest extends TestCase
         $this->sut->check($data);
     }
 
-    public function test_it_should_call_all_checker(): void
+    public function testItShouldCallAllChecker(): void
     {
         $data = [
             'properties' => [],

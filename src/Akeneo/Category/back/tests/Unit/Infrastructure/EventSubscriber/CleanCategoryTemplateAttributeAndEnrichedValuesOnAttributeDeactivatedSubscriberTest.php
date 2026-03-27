@@ -36,12 +36,12 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubsc
         );
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubscriber::class, $this->sut);
     }
 
-    public function test_it_puts_in_queue_the_job_cleaning_category_after_attribute_deactivation(): void
+    public function testItPutsInQueueTheJobCleaningCategoryAfterAttributeDeactivation(): void
     {
         $event = $this->createMock(AttributeDeactivatedEvent::class);
         $templateUuid = $this->createMock(TemplateUuid::class);
@@ -65,7 +65,7 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubsc
             [
                 'template_uuid' => $templateUuidValue,
                 'attribute_uuid' => $attributeUuidValue,
-            ]
+            ],
         );
         $this->sut->cleanCategoryDataForAttribute($event);
     }

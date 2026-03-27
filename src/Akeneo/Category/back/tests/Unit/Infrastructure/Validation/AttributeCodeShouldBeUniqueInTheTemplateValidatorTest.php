@@ -22,8 +22,8 @@ use Akeneo\Category\Infrastructure\Validation\AttributeCodeShouldBeUniqueInTheTe
 use Akeneo\Category\Infrastructure\Validation\AttributeCodeShouldBeUniqueInTheTemplateValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
@@ -45,19 +45,19 @@ class AttributeCodeShouldBeUniqueInTheTemplateValidatorTest extends TestCase
         $this->sut->initialize($this->context);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(AttributeCodeShouldBeUniqueInTheTemplateValidator::class, $this->sut);
         $this->assertInstanceOf(ConstraintValidatorInterface::class, $this->sut);
     }
 
-    public function test_it_throws_an_exception_with_a_wrong_constraint(): void
+    public function testItThrowsAnExceptionWithAWrongConstraint(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->validate(1, new Type([]));
     }
 
-    public function test_it_does_nothing_when_there_is_no_attribute_in_the_template(): void
+    public function testItDoesNothingWhenThereIsNoAttributeInTheTemplate(): void
     {
         /** @var TemplateUuid $templateUuid */
         $templateUuid = $this->getData()['templateUuid'];
@@ -75,7 +75,7 @@ class AttributeCodeShouldBeUniqueInTheTemplateValidatorTest extends TestCase
         $this->sut->validate('other_attribute_code', new AttributeCodeShouldBeUniqueInTheTemplate());
     }
 
-    public function test_it_does_nothing_when_the_attribute_code_is_unique_in_the_template(): void
+    public function testItDoesNothingWhenTheAttributeCodeIsUniqueInTheTemplate(): void
     {
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
@@ -95,7 +95,7 @@ class AttributeCodeShouldBeUniqueInTheTemplateValidatorTest extends TestCase
         $this->sut->validate('other_attribute_code', new AttributeCodeShouldBeUniqueInTheTemplate());
     }
 
-    public function test_it_throws_an_exception_when_the_attribute_code_is_not_unique_in_the_template(): void
+    public function testItThrowsAnExceptionWhenTheAttributeCodeIsNotUniqueInTheTemplate(): void
     {
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 

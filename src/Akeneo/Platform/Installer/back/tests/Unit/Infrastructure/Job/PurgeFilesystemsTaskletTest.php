@@ -47,7 +47,7 @@ class PurgeFilesystemsTaskletTest extends TestCase
         $this->filesystemPurger->expects($this->exactly(2))->method('purge')->willReturnCallback(
             function (FilesystemOperator $fs) use (&$purged) {
                 $purged[] = $fs;
-            }
+            },
         );
         $this->sut->execute();
         $this->assertContains($this->filesystem1, $purged);
@@ -62,7 +62,7 @@ class PurgeFilesystemsTaskletTest extends TestCase
         $this->filesystemPurger->expects($this->once())->method('purge')->willReturnCallback(
             function (FilesystemOperator $fs) use (&$purged) {
                 $purged[] = $fs;
-            }
+            },
         );
         $this->jobStopper->expects($this->once())->method('pause');
         $this->sut->execute();
@@ -78,7 +78,7 @@ class PurgeFilesystemsTaskletTest extends TestCase
         $this->filesystemPurger->expects($this->once())->method('purge')->willReturnCallback(
             function (FilesystemOperator $fs) use (&$purged) {
                 $purged[] = $fs;
-            }
+            },
         );
         $this->sut->execute();
         $this->assertNotContains($this->filesystem1, $purged);

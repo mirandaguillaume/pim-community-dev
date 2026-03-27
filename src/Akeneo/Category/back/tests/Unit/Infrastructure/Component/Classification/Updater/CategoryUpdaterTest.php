@@ -6,7 +6,6 @@ namespace Akeneo\Test\Category\Unit\Infrastructure\Component\Classification\Upda
 
 use Akeneo\Category\Infrastructure\Component\Classification\Model\CategoryInterface;
 use Akeneo\Category\Infrastructure\Component\Classification\Updater\CategoryUpdater;
-use Akeneo\Category\Infrastructure\Component\Model\CategoryTranslation;
 use Akeneo\Channel\Infrastructure\Component\Query\PublicApi\IsCategoryTreeLinkedToChannel;
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidObjectException;
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyException;
@@ -33,27 +32,27 @@ class CategoryUpdaterTest extends TestCase
         $this->sut = new CategoryUpdater(
             $this->categoryRepository,
             $this->isCategoryTreeLinkedToUser,
-            $this->isCategoryTreeLinkedToChannel
+            $this->isCategoryTreeLinkedToChannel,
         );
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(CategoryUpdater::class, $this->sut);
     }
 
-    public function test_it_is_a_updater(): void
+    public function testItIsAUpdater(): void
     {
         $this->assertInstanceOf(ObjectUpdaterInterface::class, $this->sut);
     }
 
-    public function test_it_throws_an_exception_when_trying_to_update_anything_else_than_a_category(): void
+    public function testItThrowsAnExceptionWhenTryingToUpdateAnythingElseThanACategory(): void
     {
         $this->expectException(InvalidObjectException::class);
         $this->sut->update(new \stdClass(), []);
     }
 
-    public function test_it_updates_a_not_translatable_category(): void
+    public function testItUpdatesANotTranslatableCategory(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $categoryMaster = $this->createMock(CategoryInterface::class);
@@ -63,14 +62,14 @@ class CategoryUpdaterTest extends TestCase
         $category->expects($this->once())->method('setParent')->with($categoryMaster);
         $category->method('getId')->willReturn(null);
         $values = [
-            'code'         => 'mycode',
-            'parent'       => 'master',
+            'code' => 'mycode',
+            'parent' => 'master',
         ];
         $result = $this->sut->update($category, $values, []);
         $this->assertInstanceOf(CategoryUpdater::class, $result);
     }
 
-    public function test_it_updates_a_null_parent_category(): void
+    public function testItUpdatesANullParentCategory(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -78,14 +77,14 @@ class CategoryUpdaterTest extends TestCase
         $category->expects($this->once())->method('setParent')->with(null);
         $this->categoryRepository->expects($this->never())->method('findOneByIdentifier');
         $values = [
-            'code'   => 'mycode',
+            'code' => 'mycode',
             'parent' => null,
         ];
         $result = $this->sut->update($category, $values, []);
         $this->assertInstanceOf(CategoryUpdater::class, $result);
     }
 
-    public function test_it_updates_an_empty_parent_category(): void
+    public function testItUpdatesAnEmptyParentCategory(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -97,7 +96,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_throws_an_exception_when_trying_to_update_a_non_existent_field(): void
+    public function testItThrowsAnExceptionWhenTryingToUpdateANonExistentField(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -108,7 +107,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_throws_an_exception_when_trying_to_update_an_unknown_parent_category(): void
+    public function testItThrowsAnExceptionWhenTryingToUpdateAnUnknownParentCategory(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -120,7 +119,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_throws_an_exception_when_moving_a_root_category_still_linked_to_a_user(): void
+    public function testItThrowsAnExceptionWhenMovingARootCategoryStillLinkedToAUser(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $categoryMaster = $this->createMock(CategoryInterface::class);
@@ -137,7 +136,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_throws_an_exception_when_moving_a_root_category_still_linked_to_a_channel(): void
+    public function testItThrowsAnExceptionWhenMovingARootCategoryStillLinkedToAChannel(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $categoryMaster = $this->createMock(CategoryInterface::class);
@@ -154,7 +153,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_moves_a_root_category_not_linked_to_user_or_channel(): void
+    public function testItMovesARootCategoryNotLinkedToUserOrChannel(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $categoryMaster = $this->createMock(CategoryInterface::class);
@@ -171,7 +170,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_does_not_check_links_for_non_root_category(): void
+    public function testItDoesNotCheckLinksForNonRootCategory(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $categoryMaster = $this->createMock(CategoryInterface::class);
@@ -188,7 +187,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_does_not_check_links_for_new_category(): void
+    public function testItDoesNotCheckLinksForNewCategory(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $categoryMaster = $this->createMock(CategoryInterface::class);
@@ -204,7 +203,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_throws_an_exception_when_code_is_not_a_scalar(): void
+    public function testItThrowsAnExceptionWhenCodeIsNotAScalar(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -215,7 +214,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_throws_an_exception_when_parent_is_not_a_scalar(): void
+    public function testItThrowsAnExceptionWhenParentIsNotAScalar(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -226,7 +225,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_throws_an_exception_when_labels_is_not_an_array(): void
+    public function testItThrowsAnExceptionWhenLabelsIsNotAnArray(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -237,7 +236,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_throws_an_exception_when_one_of_the_labels_in_label_property_is_not_a_scalar(): void
+    public function testItThrowsAnExceptionWhenOneOfTheLabelsInLabelPropertyIsNotAScalar(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -251,7 +250,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_it_throws_an_exception_when_a_property_is_unknown(): void
+    public function testItThrowsAnExceptionWhenAPropertyIsUnknown(): void
     {
         $category = $this->createMock(CategoryInterface::class);
 
@@ -262,7 +261,7 @@ class CategoryUpdaterTest extends TestCase
         $this->sut->update($category, $values, []);
     }
 
-    public function test_update_returns_self(): void
+    public function testUpdateReturnsSelf(): void
     {
         $category = $this->createMock(CategoryInterface::class);
         $result = $this->sut->update($category, []);

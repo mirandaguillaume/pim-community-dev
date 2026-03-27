@@ -21,7 +21,7 @@ class ByChannelAndLocalesFilterTest extends TestCase
         $this->sut = new ByChannelAndLocalesFilter();
     }
 
-    public function test_it_returns_the_list_of_enriched_values_to_clean_while_cleaning_channel(): void
+    public function testItReturnsTheListOfEnrichedValuesToCleanWhileCleaningChannel(): void
     {
         $valuesToFilter = ValueCollection::fromDatabase($this->getEnrichedValues());
         $this->assertSame([
@@ -29,24 +29,24 @@ class ByChannelAndLocalesFilterTest extends TestCase
                 'long_description',
                 'c91e6a4e-733b-4d77-aefc-129edbf03233',
                 'mobile',
-                'fr_FR'
+                'fr_FR',
             ),
             $valuesToFilter->getValue(
                 'long_description',
                 'c91e6a4e-733b-4d77-aefc-129edbf03233',
                 'mobile',
-                'en_US'
+                'en_US',
             ),
         ], $this->sut->getEnrichedValuesToClean($valuesToFilter, 'mobile', []));
     }
 
-    public function test_it_does_nothing_when_deleted_channel_code_is_null(): void
+    public function testItDoesNothingWhenDeletedChannelCodeIsNull(): void
     {
         $valuesToFilter = ValueCollection::fromDatabase($this->getEnrichedValues());
         $this->assertSame([], $this->sut->getEnrichedValuesToClean($valuesToFilter, '', []));
     }
 
-    public function test_it_returns_the_list_of_enriched_values_to_clean_while_cleaning_locales(): void
+    public function testItReturnsTheListOfEnrichedValuesToCleanWhileCleaningLocales(): void
     {
         $valuesToFilter = ValueCollection::fromDatabase($this->getEnrichedValues());
         $this->assertSame([
@@ -54,12 +54,12 @@ class ByChannelAndLocalesFilterTest extends TestCase
                 'long_description',
                 'c91e6a4e-733b-4d77-aefc-129edbf03233',
                 'mobile',
-                'fr_FR'
+                'fr_FR',
             ),
         ], $this->sut->getEnrichedValuesToClean($valuesToFilter, 'mobile', ['en_US']));
     }
 
-    public function test_it_returns_an_empty_list_of_enriched_values_to_clean_when_no_values_has_to_be_cleaned(): void
+    public function testItReturnsAnEmptyListOfEnrichedValuesToCleanWhenNoValuesHasToBeCleaned(): void
     {
         $valuesToFilter = ValueCollection::fromDatabase($this->getEnrichedValues());
         $this->assertSame([], $this->sut->getEnrichedValuesToClean($valuesToFilter, 'unknown_channel', []));
@@ -108,7 +108,7 @@ class ByChannelAndLocalesFilterTest extends TestCase
                 }',
             true,
             512,
-            JSON_THROW_ON_ERROR
+            JSON_THROW_ON_ERROR,
         );
     }
 }

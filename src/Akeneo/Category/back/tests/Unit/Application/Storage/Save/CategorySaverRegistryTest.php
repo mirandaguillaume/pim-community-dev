@@ -12,7 +12,6 @@ use Akeneo\Category\Api\Command\UserIntents\SetTextArea;
 use Akeneo\Category\Application\Storage\Save\CategorySaverRegistry;
 use Akeneo\Category\Application\Storage\Save\Saver\CategoryBaseSaver;
 use Akeneo\Category\Application\Storage\Save\Saver\CategoryTranslationsSaver;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CategorySaverRegistryTest extends TestCase
 {
-    public function test_it_returns_the_saver_related_to_a_user_intent(): void
+    public function testItReturnsTheSaverRelatedToAUserIntent(): void
     {
         $baseSaver = $this->createMock(CategoryBaseSaver::class);
         $translationsSaver = $this->createMock(CategoryTranslationsSaver::class);
@@ -45,7 +44,7 @@ class CategorySaverRegistryTest extends TestCase
         $this->assertSame($translationsSaver, $sut->fromUserIntent(SetLabel::class));
     }
 
-    public function test_it_should_throw_an_exception_when_the_same_user_intent_has_more_than_one_related_saver(): void
+    public function testItShouldThrowAnExceptionWhenTheSameUserIntentHasMoreThanOneRelatedSaver(): void
     {
         $baseSaver = $this->createMock(CategoryBaseSaver::class);
         $translationsSaver = $this->createMock(CategoryTranslationsSaver::class);
@@ -61,7 +60,7 @@ class CategorySaverRegistryTest extends TestCase
         new CategorySaverRegistry([$baseSaver, $translationsSaver]);
     }
 
-    public function test_it_should_throw_an_exception_when_the_user_intent_has_no_related_saver(): void
+    public function testItShouldThrowAnExceptionWhenTheUserIntentHasNoRelatedSaver(): void
     {
         $translationsSaver = $this->createMock(CategoryTranslationsSaver::class);
         $translationsSaver->method('getSupportedUserIntents')->willReturn([SetLabel::class]);

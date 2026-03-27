@@ -24,8 +24,8 @@ use Akeneo\Category\Infrastructure\Validation\ValueUserIntentsShouldHaveAnActiva
 use Akeneo\Category\Infrastructure\Validation\ValueUserIntentsShouldHaveAnActivatedTemplateValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
@@ -49,19 +49,19 @@ class ValueUserIntentsShouldHaveAnActivatedTemplateValidatorTest extends TestCas
         $this->sut->initialize($this->context);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(ValueUserIntentsShouldHaveAnActivatedTemplateValidator::class, $this->sut);
         $this->assertInstanceOf(ConstraintValidatorInterface::class, $this->sut);
     }
 
-    public function test_it_throws_an_exception_with_a_wrong_constraint(): void
+    public function testItThrowsAnExceptionWithAWrongConstraint(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->validate(1, new Type([]));
     }
 
-    public function test_it_does_nothing_when_the_attribute_value_does_not_include_value_user_intent(): void
+    public function testItDoesNothingWhenTheAttributeValueDoesNotIncludeValueUserIntent(): void
     {
         $this->context->expects($this->never())->method('buildViolation');
         $this->getAttribute->expects($this->never())->method('byUuids');
@@ -69,7 +69,7 @@ class ValueUserIntentsShouldHaveAnActivatedTemplateValidatorTest extends TestCas
         $this->sut->validate([new SetLabel('en_US', 'The label')], new ValueUserIntentsShouldHaveAnActivatedTemplate());
     }
 
-    public function test_it_does_nothing_when_the_attribute_value_is_linked_to_an_activated_template(): void
+    public function testItDoesNothingWhenTheAttributeValueIsLinkedToAnActivatedTemplate(): void
     {
         /** @var ValueUserIntent $textAreaSEOMetaDescriptionValue */
         $textAreaSEOMetaDescriptionValue = $this->getValueUserIntents()[0];
@@ -86,7 +86,7 @@ class ValueUserIntentsShouldHaveAnActivatedTemplateValidatorTest extends TestCas
         ], new ValueUserIntentsShouldHaveAnActivatedTemplate());
     }
 
-    public function test_it_throws_an_exception_when_the_attribute_value_is_linked_to_a_deactivated_template(): void
+    public function testItThrowsAnExceptionWhenTheAttributeValueIsLinkedToADeactivatedTemplate(): void
     {
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
@@ -116,14 +116,14 @@ class ValueUserIntentsShouldHaveAnActivatedTemplateValidatorTest extends TestCas
                 'seo_meta_description',
                 'ecommerce',
                 'en_US',
-                'SEO meta description'
+                'SEO meta description',
             ),
             new SetTextArea(
                 '1efc3af6-e89c-4281-9bd5-b827d9397cf7',
                 'seo_keywords',
                 'ecommerce',
                 'en_US',
-                'SEO keywords'
+                'SEO keywords',
             ),
         ];
     }

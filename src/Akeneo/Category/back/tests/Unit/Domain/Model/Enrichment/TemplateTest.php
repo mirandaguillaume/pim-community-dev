@@ -49,7 +49,7 @@ class TemplateTest extends TestCase
                     AttributeIsLocalizable::fromBoolean(true),
                     LabelCollection::fromArray(['fr_FR' => 'attribute_text_libelle']),
                     $templateUuid,
-                    AttributeAdditionalProperties::fromArray([])
+                    AttributeAdditionalProperties::fromArray([]),
                 ),
                 AttributeTextArea::create(
                     AttributeUuid::fromString('69e251b3-b876-48b5-9c09-92f54bfb528d'),
@@ -60,7 +60,7 @@ class TemplateTest extends TestCase
                     AttributeIsLocalizable::fromBoolean(true),
                     LabelCollection::fromArray(['fr_FR' => 'attribute_textarea_libelle']),
                     $templateUuid,
-                    AttributeAdditionalProperties::fromArray([])
+                    AttributeAdditionalProperties::fromArray([]),
                 ),
                 AttributeRichText::create(
                     AttributeUuid::fromString('840fcd1a-f66b-4f0c-9bbd-596629732950'),
@@ -71,7 +71,7 @@ class TemplateTest extends TestCase
                     AttributeIsLocalizable::fromBoolean(true),
                     LabelCollection::fromArray(['fr_FR' => 'attribute_richtext_libelle']),
                     $templateUuid,
-                    AttributeAdditionalProperties::fromArray([])
+                    AttributeAdditionalProperties::fromArray([]),
                 ),
                 AttributeImage::create(
                     AttributeUuid::fromString('8dda490c-0fd1-4485-bdc5-342929783d9a'),
@@ -82,13 +82,13 @@ class TemplateTest extends TestCase
                     AttributeIsLocalizable::fromBoolean(true),
                     LabelCollection::fromArray(['fr_FR' => 'attribute_image_libelle']),
                     $templateUuid,
-                    AttributeAdditionalProperties::fromArray([])
+                    AttributeAdditionalProperties::fromArray([]),
                 ),
-            ])
+            ]),
         );
     }
 
-    public function test_it_normalizes_template(): void
+    public function testItNormalizesTemplate(): void
     {
         $expectedTemplateUuid = '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $expectedNormalizedTemplate = [
@@ -150,7 +150,7 @@ class TemplateTest extends TestCase
         $this->assertSame($expectedNormalizedTemplate, $this->sut->normalize());
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(Template::class, $this->sut);
     }

@@ -6,7 +6,6 @@ parameters:
   paths:
     - %rootDir%/../../../src/Akeneo/Platform/Job
   excludePaths:
-    - %rootDir%/../../../src/Akeneo/Platform/Job/back/tests/Specification
     - %rootDir%/../../../src/Akeneo/Platform/Job/back/tests/Unit
   reportUnmatchedIgnoredErrors: false
   ignoreErrors:

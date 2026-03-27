@@ -8,7 +8,6 @@ use Akeneo\Category\Domain\Model\Enrichment\Category;
 use Akeneo\Category\Infrastructure\EventSubscriber\CleanCategoryDataAfterChannelChangeSubscriber;
 use Akeneo\Channel\Infrastructure\Component\Model\Channel;
 use Akeneo\Channel\Infrastructure\Component\Model\Locale;
-use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
@@ -39,12 +38,12 @@ class CleanCategoryDataAfterChannelChangeSubscriberTest extends TestCase
         );
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(CleanCategoryDataAfterChannelChangeSubscriber::class, $this->sut);
     }
 
-    public function test_it_puts_in_queue_the_job_cleaning_category_after_channel_removal(): void
+    public function testItPutsInQueueTheJobCleaningCategoryAfterChannelRemoval(): void
     {
         $event = $this->createMock(GenericEvent::class);
         $channel = $this->createMock(Channel::class);
@@ -64,12 +63,12 @@ class CleanCategoryDataAfterChannelChangeSubscriberTest extends TestCase
             [
                 'channel_code' => 'deleted_channel_code',
                 'locales_codes' => [],
-            ]
+            ],
         );
         $this->sut->cleanCategoryDataForChannelLocale($event);
     }
 
-    public function test_it_puts_in_queue_the_job_cleaning_category_after_channel_update(): void
+    public function testItPutsInQueueTheJobCleaningCategoryAfterChannelUpdate(): void
     {
         $event = $this->createMock(GenericEvent::class);
         $channel = $this->createMock(Channel::class);
@@ -93,12 +92,12 @@ class CleanCategoryDataAfterChannelChangeSubscriberTest extends TestCase
             [
                 'channel_code' => 'deleted_channel_code',
                 'locales_codes' => ['en_US'],
-            ]
+            ],
         );
         $this->sut->cleanCategoryDataForChannelLocale($event);
     }
 
-    public function test_it_does_not_puts_in_queue_the_job_cleaning_category_if_subject_is_not_a_channel(): void
+    public function testItDoesNotPutsInQueueTheJobCleaningCategoryIfSubjectIsNotAChannel(): void
     {
         $event = $this->createMock(GenericEvent::class);
         $eventSubject = $this->createMock(Category::class);
@@ -107,7 +106,7 @@ class CleanCategoryDataAfterChannelChangeSubscriberTest extends TestCase
         $this->jobInstanceRepository->expects($this->never())->method('findOneByIdentifier')->with('clean_categories_enriched_values');
     }
 
-    public function test_it_does_not_puts_in_queue_the_job_cleaning_category_if_feature_flag_is_deactivated(): void
+    public function testItDoesNotPutsInQueueTheJobCleaningCategoryIfFeatureFlagIsDeactivated(): void
     {
         $event = $this->createMock(GenericEvent::class);
         $eventSubject = $this->createMock(Channel::class);

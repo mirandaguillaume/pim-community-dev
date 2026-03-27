@@ -9,13 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 class PermissionCollectionTest extends TestCase
 {
-    public function test_it_creates_from_null(): void
+    public function testItCreatesFromNull(): void
     {
         $collection = PermissionCollection::fromArray(null);
         $this->assertNull($collection->normalize());
     }
 
-    public function test_it_creates_from_valid_permissions(): void
+    public function testItCreatesFromValidPermissions(): void
     {
         $perms = [
             'view' => [['id' => 1, 'label' => 'All']],
@@ -26,7 +26,7 @@ class PermissionCollectionTest extends TestCase
         $this->assertSame($perms, $collection->normalize());
     }
 
-    public function test_it_rejects_missing_view_key(): void
+    public function testItRejectsMissingViewKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         PermissionCollection::fromArray([
@@ -35,7 +35,7 @@ class PermissionCollectionTest extends TestCase
         ]);
     }
 
-    public function test_it_rejects_missing_edit_key(): void
+    public function testItRejectsMissingEditKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         PermissionCollection::fromArray([
@@ -44,7 +44,7 @@ class PermissionCollectionTest extends TestCase
         ]);
     }
 
-    public function test_it_rejects_missing_own_key(): void
+    public function testItRejectsMissingOwnKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         PermissionCollection::fromArray([
@@ -53,7 +53,7 @@ class PermissionCollectionTest extends TestCase
         ]);
     }
 
-    public function test_it_rejects_non_array_view_value(): void
+    public function testItRejectsNonArrayViewValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         PermissionCollection::fromArray([
@@ -63,7 +63,7 @@ class PermissionCollectionTest extends TestCase
         ]);
     }
 
-    public function test_it_rejects_non_array_edit_value(): void
+    public function testItRejectsNonArrayEditValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         PermissionCollection::fromArray([
@@ -73,7 +73,7 @@ class PermissionCollectionTest extends TestCase
         ]);
     }
 
-    public function test_it_rejects_non_array_own_value(): void
+    public function testItRejectsNonArrayOwnValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         PermissionCollection::fromArray([
@@ -83,7 +83,7 @@ class PermissionCollectionTest extends TestCase
         ]);
     }
 
-    public function test_get_view_user_groups(): void
+    public function testGetViewUserGroups(): void
     {
         $perms = [
             'view' => [['id' => 1, 'label' => 'All']],
@@ -94,7 +94,7 @@ class PermissionCollectionTest extends TestCase
         $this->assertSame([['id' => 1, 'label' => 'All']], $collection->getViewUserGroups());
     }
 
-    public function test_get_edit_user_groups(): void
+    public function testGetEditUserGroups(): void
     {
         $perms = [
             'view' => [],
@@ -105,7 +105,7 @@ class PermissionCollectionTest extends TestCase
         $this->assertSame([['id' => 2, 'label' => 'Editors']], $collection->getEditUserGroups());
     }
 
-    public function test_get_own_user_groups(): void
+    public function testGetOwnUserGroups(): void
     {
         $perms = [
             'view' => [],

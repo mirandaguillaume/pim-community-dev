@@ -6,12 +6,11 @@ namespace Akeneo\Test\Category\Unit\Domain\UserIntent;
 
 use Akeneo\Category\Domain\UserIntent\Factory\UserIntentFactory;
 use Akeneo\Category\Domain\UserIntent\UserIntentFactoryRegistry;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class UserIntentFactoryRegistryTest extends TestCase
 {
-    public function test_it_creates_a_user_intent_from_standard_format(): void
+    public function testItCreatesAUserIntentFromStandardFormat(): void
     {
         $userIntentFactory = $this->createMock(UserIntentFactory::class);
         $userIntentFactory->method('getSupportedFieldNames')->willReturn(['field']);
@@ -20,7 +19,7 @@ class UserIntentFactoryRegistryTest extends TestCase
         $sut->fromStandardFormatField('field', 1, ['key' => 'value', 'ignored_field' => 'another_value']);
     }
 
-    public function test_it_throws_an_exception_when_no_factory_is_found(): void
+    public function testItThrowsAnExceptionWhenNoFactoryIsFound(): void
     {
         $userIntentFactory = $this->createMock(UserIntentFactory::class);
         $userIntentFactory->method('getSupportedFieldNames')->willReturn(['field']);

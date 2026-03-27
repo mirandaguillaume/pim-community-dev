@@ -29,13 +29,13 @@ class CleanCategoriesTemplateEnrichedValuesTaskletTest extends TestCase
         $this->sut = new CleanCategoriesTemplateEnrichedValuesTasklet($this->commandBus);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(TaskletInterface::class, $this->sut);
         $this->assertInstanceOf(CleanCategoriesTemplateEnrichedValuesTasklet::class, $this->sut);
     }
 
-    public function test_it_dispatches_a_command_message_to_clean_category_enriched_values_by_template_uuid(): void
+    public function testItDispatchesACommandMessageToCleanCategoryEnrichedValuesByTemplateUuid(): void
     {
         $stepExecution = $this->createMock(StepExecution::class);
 
@@ -43,7 +43,7 @@ class CleanCategoriesTemplateEnrichedValuesTaskletTest extends TestCase
             'template_uuid' => '2115af0f-f0b0-435e-aa86-9880eaad677e',
         ]);
         $command = new CleanCategoryTemplateAndEnrichedValuesCommand(
-            '2115af0f-f0b0-435e-aa86-9880eaad677e'
+            '2115af0f-f0b0-435e-aa86-9880eaad677e',
         );
         $envelope = new Envelope($command);
         $stepExecution->expects($this->once())->method('getJobParameters')->willReturn($jobParameters);

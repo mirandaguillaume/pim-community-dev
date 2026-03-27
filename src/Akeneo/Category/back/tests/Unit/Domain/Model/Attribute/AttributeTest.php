@@ -39,35 +39,35 @@ class AttributeTest extends TestCase
         );
     }
 
-    public function test_it_creates_rich_text_attribute(): void
+    public function testItCreatesRichTextAttribute(): void
     {
         $attr = $this->createAttribute(AttributeType::RICH_TEXT);
         $this->assertInstanceOf(AttributeRichText::class, $attr);
         $this->assertSame('richtext', (string) $attr->getType());
     }
 
-    public function test_it_creates_text_attribute(): void
+    public function testItCreatesTextAttribute(): void
     {
         $attr = $this->createAttribute(AttributeType::TEXT);
         $this->assertInstanceOf(AttributeText::class, $attr);
         $this->assertSame('text', (string) $attr->getType());
     }
 
-    public function test_it_creates_image_attribute(): void
+    public function testItCreatesImageAttribute(): void
     {
         $attr = $this->createAttribute(AttributeType::IMAGE);
         $this->assertInstanceOf(AttributeImage::class, $attr);
         $this->assertSame('image', (string) $attr->getType());
     }
 
-    public function test_it_creates_textarea_attribute(): void
+    public function testItCreatesTextareaAttribute(): void
     {
         $attr = $this->createAttribute(AttributeType::TEXTAREA);
         $this->assertInstanceOf(AttributeTextArea::class, $attr);
         $this->assertSame('textarea', (string) $attr->getType());
     }
 
-    public function test_it_normalizes_text_attribute(): void
+    public function testItNormalizesTextAttribute(): void
     {
         $attr = $this->createAttribute(AttributeType::TEXT);
         $normalized = $attr->normalize();
@@ -84,7 +84,7 @@ class AttributeTest extends TestCase
         $this->assertArrayHasKey('additional_properties', $normalized);
     }
 
-    public function test_it_normalizes_image_attribute(): void
+    public function testItNormalizesImageAttribute(): void
     {
         $attr = $this->createAttribute(AttributeType::IMAGE);
         $normalized = $attr->normalize();
@@ -92,33 +92,33 @@ class AttributeTest extends TestCase
         $this->assertSame('test_attr', $normalized['code']);
     }
 
-    public function test_it_normalizes_rich_text_attribute(): void
+    public function testItNormalizesRichTextAttribute(): void
     {
         $attr = $this->createAttribute(AttributeType::RICH_TEXT);
         $normalized = $attr->normalize();
         $this->assertSame('richtext', $normalized['type']);
     }
 
-    public function test_it_normalizes_textarea_attribute(): void
+    public function testItNormalizesTextareaAttribute(): void
     {
         $attr = $this->createAttribute(AttributeType::TEXTAREA);
         $normalized = $attr->normalize();
         $this->assertSame('textarea', $normalized['type']);
     }
 
-    public function test_get_uuid_returns_correct_value(): void
+    public function testGetUuidReturnsCorrectValue(): void
     {
         $attr = $this->createAttribute(AttributeType::TEXT);
         $this->assertSame('e30177ee-d8e8-46a4-9491-ea6c3579e727', (string) $attr->getUuid());
     }
 
-    public function test_get_code_returns_correct_value(): void
+    public function testGetCodeReturnsCorrectValue(): void
     {
         $attr = $this->createAttribute(AttributeType::TEXT);
         $this->assertSame('test_attr', (string) $attr->getCode());
     }
 
-    public function test_get_order_returns_correct_value(): void
+    public function testGetOrderReturnsCorrectValue(): void
     {
         $attr = $this->createAttribute(AttributeType::TEXT);
         $this->assertSame(1, $attr->getOrder()->intValue());

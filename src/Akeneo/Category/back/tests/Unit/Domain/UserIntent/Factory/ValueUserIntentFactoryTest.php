@@ -44,39 +44,39 @@ class ValueUserIntentFactoryTest extends TestCase
         $this->sut = new ValueUserIntentFactory($this->getAttribute);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(ValueUserIntentFactory::class, $this->sut);
         $this->assertInstanceOf(UserIntentFactory::class, $this->sut);
     }
 
-    public function test_it_manage_only_expected_field_names(): void
+    public function testItManageOnlyExpectedFieldNames(): void
     {
         $this->assertSame(['values'], $this->sut->getSupportedFieldNames());
     }
 
-    public function test_it_creates_a_list_of_value_intent_based_on_values_field(): void
+    public function testItCreatesAListOfValueIntentBasedOnValuesField(): void
     {
         $data = [
-            'seo_meta_description' . AbstractValue::SEPARATOR . '69e251b3-b876-48b5-9c09-92f54bfb528d' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
+            'seo_meta_description'.AbstractValue::SEPARATOR.'69e251b3-b876-48b5-9c09-92f54bfb528d'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
                 'data' => 'Meta shoes',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'seo_meta_description' . AbstractValue::SEPARATOR . '69e251b3-b876-48b5-9c09-92f54bfb528d',
+                'attribute_code' => 'seo_meta_description'.AbstractValue::SEPARATOR.'69e251b3-b876-48b5-9c09-92f54bfb528d',
             ],
-            'description' . AbstractValue::SEPARATOR . '840fcd1a-f66b-4f0c-9bbd-596629732950' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
+            'description'.AbstractValue::SEPARATOR.'840fcd1a-f66b-4f0c-9bbd-596629732950'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
                 'data' => 'Description',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'description' . AbstractValue::SEPARATOR . '840fcd1a-f66b-4f0c-9bbd-596629732950',
+                'attribute_code' => 'description'.AbstractValue::SEPARATOR.'840fcd1a-f66b-4f0c-9bbd-596629732950',
             ],
-            'color' . AbstractValue::SEPARATOR . '38439aaf-66a2-4b24-854e-29d7a467c7af' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
+            'color'.AbstractValue::SEPARATOR.'38439aaf-66a2-4b24-854e-29d7a467c7af'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
                 'data' => 'red',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'color' . AbstractValue::SEPARATOR . '38439aaf-66a2-4b24-854e-29d7a467c7af',
+                'attribute_code' => 'color'.AbstractValue::SEPARATOR.'38439aaf-66a2-4b24-854e-29d7a467c7af',
             ],
-            'banner' . AbstractValue::SEPARATOR . 'e0326684-0dff-44be-8283-9262deb9e4bc' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
+            'banner'.AbstractValue::SEPARATOR.'e0326684-0dff-44be-8283-9262deb9e4bc'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
                 'data' => [
                     'size' => 168107,
                     'extension' => 'jpg',
@@ -86,7 +86,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 ],
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'banner' . AbstractValue::SEPARATOR . 'e0326684-0dff-44be-8283-9262deb9e4bc',
+                'attribute_code' => 'banner'.AbstractValue::SEPARATOR.'e0326684-0dff-44be-8283-9262deb9e4bc',
             ],
         ];
         $templateUuid = TemplateUuid::fromString('02274dac-e99a-4e1d-8f9b-794d4c3ba330');
@@ -100,7 +100,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 AttributeIsLocalizable::fromBoolean(true),
                 LabelCollection::fromArray(['en_US' => 'SEO Meta Description']),
                 $templateUuid,
-                AttributeAdditionalProperties::fromArray([])
+                AttributeAdditionalProperties::fromArray([]),
             ),
             AttributeRichText::create(
                 AttributeUuid::fromString('840fcd1a-f66b-4f0c-9bbd-596629732950'),
@@ -111,7 +111,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 AttributeIsLocalizable::fromBoolean(true),
                 LabelCollection::fromArray(['en_US' => 'Description']),
                 $templateUuid,
-                AttributeAdditionalProperties::fromArray([])
+                AttributeAdditionalProperties::fromArray([]),
             ),
             AttributeText::create(
                 AttributeUuid::fromString('38439aaf-66a2-4b24-854e-29d7a467c7af'),
@@ -122,7 +122,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 AttributeIsLocalizable::fromBoolean(true),
                 LabelCollection::fromArray(['en_US' => 'red']),
                 $templateUuid,
-                AttributeAdditionalProperties::fromArray([])
+                AttributeAdditionalProperties::fromArray([]),
             ),
             AttributeImage::create(
                 AttributeUuid::fromString('e0326684-0dff-44be-8283-9262deb9e4bc'),
@@ -133,7 +133,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 AttributeIsLocalizable::fromBoolean(true),
                 LabelCollection::fromArray(['en_US' => '3/7/7/e/377e7c2bad87efd2e71eb725006a9067918d5791_banner.jpg']),
                 $templateUuid,
-                AttributeAdditionalProperties::fromArray([])
+                AttributeAdditionalProperties::fromArray([]),
             ),
         ]);
         $uuids = [
@@ -149,21 +149,21 @@ class ValueUserIntentFactoryTest extends TestCase
                 'seo_meta_description',
                 'ecommerce',
                 'en_US',
-                'Meta shoes'
+                'Meta shoes',
             ),
             new SetRichText(
                 '840fcd1a-f66b-4f0c-9bbd-596629732950',
                 'description',
                 'ecommerce',
                 'en_US',
-                'Description'
+                'Description',
             ),
             new SetText(
                 '38439aaf-66a2-4b24-854e-29d7a467c7af',
                 'color',
                 'ecommerce',
                 'en_US',
-                'red'
+                'red',
             ),
             new SetImage(
                 'e0326684-0dff-44be-8283-9262deb9e4bc',
@@ -176,30 +176,30 @@ class ValueUserIntentFactoryTest extends TestCase
                     'file_path' => '8/8/3/d/883d041fc9f22ce42fee07d96c05b0b7ec7e66de_shoes.jpg',
                     'mime_type' => 'image/jpeg',
                     'original_filename' => 'shoes.jpg',
-                ]
+                ],
             ),
         ];
         $this->assertEquals($expectedUseIntents, $this->sut->create(
             'values',
             1,
-            $data
+            $data,
         ));
     }
 
-    public function test_it_does_not_add_value_user_intent_when_corresponding_attribute_type_no_found(): void
+    public function testItDoesNotAddValueUserIntentWhenCorrespondingAttributeTypeNoFound(): void
     {
         $data = [
-            'seo_meta_description' . AbstractValue::SEPARATOR . '69e251b3-b876-48b5-9c09-92f54bfb528d' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
+            'seo_meta_description'.AbstractValue::SEPARATOR.'69e251b3-b876-48b5-9c09-92f54bfb528d'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
                 'data' => 'Meta shoes',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'seo_meta_description' . AbstractValue::SEPARATOR . '69e251b3-b876-48b5-9c09-92f54bfb528d',
+                'attribute_code' => 'seo_meta_description'.AbstractValue::SEPARATOR.'69e251b3-b876-48b5-9c09-92f54bfb528d',
             ],
-            'description' . AbstractValue::SEPARATOR . '840fcd1a-f66b-4f0c-9bbd-596629732950' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
+            'description'.AbstractValue::SEPARATOR.'840fcd1a-f66b-4f0c-9bbd-596629732950'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
                 'data' => 'Description',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'description' . AbstractValue::SEPARATOR . '840fcd1a-f66b-4f0c-9bbd-596629732950',
+                'attribute_code' => 'description'.AbstractValue::SEPARATOR.'840fcd1a-f66b-4f0c-9bbd-596629732950',
             ],
         ];
         $templateUuid = TemplateUuid::fromString('02274dac-e99a-4e1d-8f9b-794d4c3ba330');
@@ -213,7 +213,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 AttributeIsLocalizable::fromBoolean(true),
                 LabelCollection::fromArray(['en_US' => 'SEO Meta Description']),
                 $templateUuid,
-                AttributeAdditionalProperties::fromArray([])
+                AttributeAdditionalProperties::fromArray([]),
             ),
         ]);
         $uuids = [
@@ -224,32 +224,32 @@ class ValueUserIntentFactoryTest extends TestCase
         $this->assertCount(1, $this->sut->create('values', 1, $data));
     }
 
-    public function test_it_add_value_user_intent_when_the_text_field_data_is_empty(): void
+    public function testItAddValueUserIntentWhenTheTextFieldDataIsEmpty(): void
     {
         $data = [
-            'seo_meta_description' . AbstractValue::SEPARATOR . '69e251b3-b876-48b5-9c09-92f54bfb528d' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
-                'data' => "",
+            'seo_meta_description'.AbstractValue::SEPARATOR.'69e251b3-b876-48b5-9c09-92f54bfb528d'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
+                'data' => '',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'seo_meta_description' . AbstractValue::SEPARATOR . '69e251b3-b876-48b5-9c09-92f54bfb528d',
+                'attribute_code' => 'seo_meta_description'.AbstractValue::SEPARATOR.'69e251b3-b876-48b5-9c09-92f54bfb528d',
             ],
-            'description' . AbstractValue::SEPARATOR . '840fcd1a-f66b-4f0c-9bbd-596629732950' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
+            'description'.AbstractValue::SEPARATOR.'840fcd1a-f66b-4f0c-9bbd-596629732950'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
                 'data' => "<p></p>\n",
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'description' . AbstractValue::SEPARATOR . '840fcd1a-f66b-4f0c-9bbd-596629732950',
+                'attribute_code' => 'description'.AbstractValue::SEPARATOR.'840fcd1a-f66b-4f0c-9bbd-596629732950',
             ],
-            'color' . AbstractValue::SEPARATOR . '38439aaf-66a2-4b24-854e-29d7a467c7af' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
-                'data' => "red",
+            'color'.AbstractValue::SEPARATOR.'38439aaf-66a2-4b24-854e-29d7a467c7af'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
+                'data' => 'red',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'color' . AbstractValue::SEPARATOR . '38439aaf-66a2-4b24-854e-29d7a467c7af',
+                'attribute_code' => 'color'.AbstractValue::SEPARATOR.'38439aaf-66a2-4b24-854e-29d7a467c7af',
             ],
-            'banner' . AbstractValue::SEPARATOR . 'e0326684-0dff-44be-8283-9262deb9e4bc' . AbstractValue::SEPARATOR . 'ecommerce' . AbstractValue::SEPARATOR . 'en_US' => [
+            'banner'.AbstractValue::SEPARATOR.'e0326684-0dff-44be-8283-9262deb9e4bc'.AbstractValue::SEPARATOR.'ecommerce'.AbstractValue::SEPARATOR.'en_US' => [
                 'data' => null,
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'banner' . AbstractValue::SEPARATOR . 'e0326684-0dff-44be-8283-9262deb9e4bc',
+                'attribute_code' => 'banner'.AbstractValue::SEPARATOR.'e0326684-0dff-44be-8283-9262deb9e4bc',
             ],
         ];
         $templateUuid = TemplateUuid::fromString('02274dac-e99a-4e1d-8f9b-794d4c3ba330');
@@ -263,7 +263,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 AttributeIsLocalizable::fromBoolean(true),
                 LabelCollection::fromArray(['en_US' => 'SEO Meta Description']),
                 $templateUuid,
-                AttributeAdditionalProperties::fromArray([])
+                AttributeAdditionalProperties::fromArray([]),
             ),
             AttributeRichText::create(
                 AttributeUuid::fromString('840fcd1a-f66b-4f0c-9bbd-596629732950'),
@@ -274,7 +274,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 AttributeIsLocalizable::fromBoolean(true),
                 LabelCollection::fromArray(['en_US' => 'Description']),
                 $templateUuid,
-                AttributeAdditionalProperties::fromArray([])
+                AttributeAdditionalProperties::fromArray([]),
             ),
             AttributeText::create(
                 AttributeUuid::fromString('38439aaf-66a2-4b24-854e-29d7a467c7af'),
@@ -285,7 +285,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 AttributeIsLocalizable::fromBoolean(true),
                 LabelCollection::fromArray(['en_US' => 'red']),
                 $templateUuid,
-                AttributeAdditionalProperties::fromArray([])
+                AttributeAdditionalProperties::fromArray([]),
             ),
             AttributeImage::create(
                 AttributeUuid::fromString('e0326684-0dff-44be-8283-9262deb9e4bc'),
@@ -296,7 +296,7 @@ class ValueUserIntentFactoryTest extends TestCase
                 AttributeIsLocalizable::fromBoolean(true),
                 LabelCollection::fromArray(['en_US' => '3/7/7/e/377e7c2bad87efd2e71eb725006a9067918d5791_banner.jpg']),
                 $templateUuid,
-                AttributeAdditionalProperties::fromArray([])
+                AttributeAdditionalProperties::fromArray([]),
             ),
         ]);
         $uuids = [
@@ -312,34 +312,34 @@ class ValueUserIntentFactoryTest extends TestCase
                 'seo_meta_description',
                 'ecommerce',
                 'en_US',
-                null
+                null,
             ),
             new SetRichText(
                 '840fcd1a-f66b-4f0c-9bbd-596629732950',
                 'description',
                 'ecommerce',
                 'en_US',
-                null
+                null,
             ),
             new SetText(
                 '38439aaf-66a2-4b24-854e-29d7a467c7af',
                 'color',
                 'ecommerce',
                 'en_US',
-                'red'
+                'red',
             ),
             new SetImage(
                 'e0326684-0dff-44be-8283-9262deb9e4bc',
                 'banner',
                 'ecommerce',
                 'en_US',
-                null
+                null,
             ),
         ];
         $this->assertEquals($expectedUseIntents, $this->sut->create(
             'values',
             1,
-            $data
+            $data,
         ));
     }
 }

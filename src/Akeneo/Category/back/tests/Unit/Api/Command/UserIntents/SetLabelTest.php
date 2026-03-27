@@ -21,29 +21,29 @@ class SetLabelTest extends TestCase
         $this->sut = new SetLabel('en_US', 'The label');
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(SetLabel::class, $this->sut);
         $this->assertInstanceOf(UserIntent::class, $this->sut);
     }
 
-    public function test_it_returns_the_locale_code(): void
+    public function testItReturnsTheLocaleCode(): void
     {
         $this->assertSame('en_US', $this->sut->localeCode());
     }
 
-    public function test_it_returns_the_label_value(): void
+    public function testItReturnsTheLabelValue(): void
     {
         $this->assertSame('The label', $this->sut->label());
     }
 
-    public function test_it_can_set_label_null(): void
+    public function testItCanSetLabelNull(): void
     {
         $this->sut = new SetLabel('en_US', null);
         $this->assertNull($this->sut->label());
     }
 
-    public function test_it_set_label_to_null_when_empty(): void
+    public function testItSetLabelToNullWhenEmpty(): void
     {
         $this->sut = new SetLabel('en_US', '');
         $this->assertNull($this->sut->label());

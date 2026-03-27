@@ -13,7 +13,6 @@ use Akeneo\Category\Domain\ValueObject\Position;
 use Akeneo\Category\Infrastructure\Handler\SearchFiltersSql;
 use Akeneo\Category\Infrastructure\Validation\ExternalApiSearchFiltersValidator;
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -38,7 +37,7 @@ class SearchFiltersSqlTest extends TestCase
         );
     }
 
-    public function test_it_generates_correct_sqlWhere_for_parent_filter(): void
+    public function testItGeneratesCorrectSqlWhereForParentFilter(): void
     {
         $value = '3';
         $searchFilters = [
@@ -77,9 +76,9 @@ class SearchFiltersSqlTest extends TestCase
         $this->assertEquals($expected, $this->sut->build($searchFilters));
     }
 
-    public function test_it_generates_correct_sqlWhere_for_root_filter_set_to_true(): void
+    public function testItGeneratesCorrectSqlWhereForRootFilterSetToTrue(): void
     {
-        $value =  true;
+        $value = true;
         $searchFilters = [
             'is_root' => [
                 [
@@ -98,9 +97,9 @@ class SearchFiltersSqlTest extends TestCase
         $this->assertEquals($expected, $this->sut->build($searchFilters));
     }
 
-    public function test_it_generates_correct_sqlWhere_for_root_filter_set_to_false(): void
+    public function testItGeneratesCorrectSqlWhereForRootFilterSetToFalse(): void
     {
-        $value =  false;
+        $value = false;
         $searchFilters = [
             'is_root' => [
                 [
@@ -119,10 +118,10 @@ class SearchFiltersSqlTest extends TestCase
         $this->assertEquals($expected, $this->sut->build($searchFilters));
     }
 
-    public function test_it_generates_correct_sqlWhere_for_parent_and_is_root_filters(): void
+    public function testItGeneratesCorrectSqlWhereForParentAndIsRootFilters(): void
     {
         $parentValue = '3';
-        $isRootValue =  true;
+        $isRootValue = true;
         $searchFilters = [
             'parent' => [
                 [
@@ -165,7 +164,7 @@ class SearchFiltersSqlTest extends TestCase
         $this->assertEquals($expected, $this->sut->build($searchFilters));
     }
 
-    public function test_it_generates_correct_sqlWhere_for_category_codes_filter(): void
+    public function testItGeneratesCorrectSqlWhereForCategoryCodesFilter(): void
     {
         $values = ['master', 'category1'];
         $searchFilters = [
@@ -193,7 +192,7 @@ class SearchFiltersSqlTest extends TestCase
         $this->assertEquals($expected, $this->sut->build($searchFilters));
     }
 
-    public function test_it_generates_correct_sqlWhere_for_greater_than_date_filter(): void
+    public function testItGeneratesCorrectSqlWhereForGreaterThanDateFilter(): void
     {
         $value = '2019-06-09T12:00:00+00:00';
         $searchFilters = [
@@ -220,7 +219,7 @@ class SearchFiltersSqlTest extends TestCase
         $this->assertEquals($expected, $this->sut->build($searchFilters));
     }
 
-    public function test_it_throws_exception_on_bad_operator(): void
+    public function testItThrowsExceptionOnBadOperator(): void
     {
         $value = '2019-06-09T12:00:00+00:00';
         $searchFilters = [

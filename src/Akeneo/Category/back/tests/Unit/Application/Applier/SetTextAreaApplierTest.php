@@ -14,7 +14,6 @@ use Akeneo\Category\Domain\ValueObject\Code;
 use Akeneo\Category\Domain\ValueObject\LabelCollection;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,19 +29,19 @@ class SetTextAreaApplierTest extends TestCase
         $this->sut = new SetTextAreaApplier();
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(SetTextAreaApplier::class, $this->sut);
     }
 
-    public function test_it_updates_category_value_collection(): void
+    public function testItUpdatesCategoryValueCollection(): void
     {
         $givenTextAreaValue = TextAreaValue::fromApplier(
-            value: "Meta" . PHP_EOL . " shoes",
+            value: 'Meta'.PHP_EOL.' shoes',
             uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
             code: 'seo_meta_description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $attributes = ValueCollection::fromArray([$givenTextAreaValue]);
         $category = new Category(
@@ -50,32 +49,32 @@ class SetTextAreaApplierTest extends TestCase
             code: new Code('code'),
             templateUuid: null,
             labels: LabelCollection::fromArray([]),
-            attributes: $attributes
+            attributes: $attributes,
         );
         $userIntent = new SetTextArea(
             '69e251b3-b876-48b5-9c09-92f54bfb528d',
             'seo_meta_description',
             'ecommerce',
             'en_US',
-            "New Meta" . PHP_EOL . " shoes"
+            'New Meta'.PHP_EOL.' shoes',
         );
         $expectedAttributes = ValueCollection::fromArray([
             TextAreaValue::fromApplier(
-                value: "New Meta" . PHP_EOL . " shoes",
+                value: 'New Meta'.PHP_EOL.' shoes',
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             ),
         ]);
         $this->sut->apply($userIntent, $category);
         Assert::assertEquals(
             $expectedAttributes,
-            $category->getAttributes()
+            $category->getAttributes(),
         );
     }
 
-    public function test_it_throws_exception_on_wrong_user_intent_applied(): void
+    public function testItThrowsExceptionOnWrongUserIntentApplied(): void
     {
         $userIntent = $this->createMock(SetText::class);
         $category = $this->createMock(Category::class);

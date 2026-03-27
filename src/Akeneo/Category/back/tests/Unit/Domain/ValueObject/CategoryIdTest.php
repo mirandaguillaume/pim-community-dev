@@ -9,25 +9,25 @@ use PHPUnit\Framework\TestCase;
 
 class CategoryIdTest extends TestCase
 {
-    public function test_it_creates_a_valid_category_id(): void
+    public function testItCreatesAValidCategoryId(): void
     {
         $id = new CategoryId(42);
         $this->assertSame(42, $id->getValue());
     }
 
-    public function test_it_rejects_zero(): void
+    public function testItRejectsZero(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new CategoryId(0);
     }
 
-    public function test_it_rejects_negative(): void
+    public function testItRejectsNegative(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new CategoryId(-1);
     }
 
-    public function test_it_accepts_one(): void
+    public function testItAcceptsOne(): void
     {
         $id = new CategoryId(1);
         $this->assertSame(1, $id->getValue());

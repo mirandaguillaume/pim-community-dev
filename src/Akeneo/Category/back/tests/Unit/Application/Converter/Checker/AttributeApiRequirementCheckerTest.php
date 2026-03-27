@@ -23,169 +23,169 @@ class AttributeApiRequirementCheckerTest extends TestCase
         $this->sut = new AttributeApiRequirementChecker();
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(AttributeApiRequirementChecker::class, $this->sut);
         $this->assertInstanceOf(RequirementChecker::class, $this->sut);
     }
 
-    public function test_it_should_throw_an_exception_when_locale_composite_key_is_missing(): void
+    public function testItShouldThrowAnExceptionWhenLocaleCompositeKeyIsMissing(): void
     {
-        $compositeKey = "title" . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030";
+        $compositeKey = 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030';
         $this->expectException(StructureArrayConversionException::class);
         $this->sut->check(
             [
                 [
-                    "data" => "",
-                    "channel" => "ecommerce",
-                    "locale" => "fr_FR",
-                    "attribute_code" => $compositeKey,
+                    'data' => '',
+                    'channel' => 'ecommerce',
+                    'locale' => 'fr_FR',
+                    'attribute_code' => $compositeKey,
                 ],
-            ]
+            ],
         );
     }
 
-    public function test_it_should_throw_an_exception_when_locale_composite_key_is_empty(): void
+    public function testItShouldThrowAnExceptionWhenLocaleCompositeKeyIsEmpty(): void
     {
-        $compositeKey = "title" . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030";
-        $localeCompositeKey = "";
+        $compositeKey = 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030';
+        $localeCompositeKey = '';
         $this->expectException(StructureArrayConversionException::class);
         $this->sut->check(
             [
                 $localeCompositeKey => [
-                    "data" => "",
-                    "channel" => "ecommerce",
-                    "locale" => "fr_FR",
-                    "attribute_code" => $compositeKey,
+                    'data' => '',
+                    'channel' => 'ecommerce',
+                    'locale' => 'fr_FR',
+                    'attribute_code' => $compositeKey,
                 ],
-            ]
+            ],
         );
     }
 
-    public function test_it_should_throw_an_exception_when_attribute_key_data_is_missing(): void
+    public function testItShouldThrowAnExceptionWhenAttributeKeyDataIsMissing(): void
     {
-        $compositeKey = "title" . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030";
-        $localeCompositeKey = $compositeKey . AbstractValue::SEPARATOR . 'fr_FR';
+        $compositeKey = 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030';
+        $localeCompositeKey = $compositeKey.AbstractValue::SEPARATOR.'fr_FR';
         $this->expectException(StructureArrayConversionException::class);
         $this->sut->check(
             [
                 $localeCompositeKey => [
-                    "channel" => "ecommerce",
-                    "locale" => "fr_FR",
-                    "attribute_code" => $compositeKey,
+                    'channel' => 'ecommerce',
+                    'locale' => 'fr_FR',
+                    'attribute_code' => $compositeKey,
                 ],
-            ]
+            ],
         );
     }
 
-    public function test_it_should_not_throw_an_exception_when_attribute_key_data_is_empty(): void
+    public function testItShouldNotThrowAnExceptionWhenAttributeKeyDataIsEmpty(): void
     {
-        $compositeKey = "title" . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030";
-        $localeCompositeKey = $compositeKey . AbstractValue::SEPARATOR . 'fr_FR';
+        $compositeKey = 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030';
+        $localeCompositeKey = $compositeKey.AbstractValue::SEPARATOR.'fr_FR';
         $this->sut->check(
             [
                 $localeCompositeKey => [
-                    "data" => "",
-                    "channel" => "ecommerce",
-                    "locale" => "fr_FR",
-                    "attribute_code" => $compositeKey,
+                    'data' => '',
+                    'channel' => 'ecommerce',
+                    'locale' => 'fr_FR',
+                    'attribute_code' => $compositeKey,
                 ],
-            ]
+            ],
         );
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_should_throw_an_exception_when_attribute_key_channel_is_missing(): void
+    public function testItShouldThrowAnExceptionWhenAttributeKeyChannelIsMissing(): void
     {
-        $compositeKey = "title" . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030";
-        $localeCompositeKey = $compositeKey . AbstractValue::SEPARATOR . 'ecommerce';
+        $compositeKey = 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030';
+        $localeCompositeKey = $compositeKey.AbstractValue::SEPARATOR.'ecommerce';
         $this->expectException(StructureArrayConversionException::class);
         $this->sut->check(
             [
                 $localeCompositeKey => [
-                    "data" => "Shoes",
-                    "attribute_code" => $compositeKey,
+                    'data' => 'Shoes',
+                    'attribute_code' => $compositeKey,
                 ],
-            ]
+            ],
         );
     }
 
-    public function test_it_should_throw_an_exception_when_attribute_key_channel_is_empty(): void
+    public function testItShouldThrowAnExceptionWhenAttributeKeyChannelIsEmpty(): void
     {
-        $compositeKey = "title" . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030";
-        $localeCompositeKey = $compositeKey . AbstractValue::SEPARATOR . 'ecommerce';
+        $compositeKey = 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030';
+        $localeCompositeKey = $compositeKey.AbstractValue::SEPARATOR.'ecommerce';
         $this->expectException(StructureArrayConversionException::class);
         $this->sut->check(
             [
                 $localeCompositeKey => [
-                    "data" => "Shoes",
-                    "channel" => "",
-                    "attribute_code" => $compositeKey,
+                    'data' => 'Shoes',
+                    'channel' => '',
+                    'attribute_code' => $compositeKey,
                 ],
-            ]
+            ],
         );
     }
 
-    public function test_it_should_throw_an_exception_when_attribute_key_locale_is_missing(): void
+    public function testItShouldThrowAnExceptionWhenAttributeKeyLocaleIsMissing(): void
     {
-        $compositeKey = "title" . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030";
-        $localeCompositeKey = $compositeKey . AbstractValue::SEPARATOR . 'fr_FR';
+        $compositeKey = 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030';
+        $localeCompositeKey = $compositeKey.AbstractValue::SEPARATOR.'fr_FR';
         $this->expectException(StructureArrayConversionException::class);
         $this->sut->check(
             [
                 $localeCompositeKey => [
-                    "data" => "Shoes",
-                    "attribute_code" => $compositeKey,
+                    'data' => 'Shoes',
+                    'attribute_code' => $compositeKey,
                 ],
-            ]
+            ],
         );
     }
 
-    public function test_it_should_throw_an_exception_when_attribute_key_locale_is_empty(): void
+    public function testItShouldThrowAnExceptionWhenAttributeKeyLocaleIsEmpty(): void
     {
-        $compositeKey = "title" . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030";
-        $localeCompositeKey = $compositeKey . AbstractValue::SEPARATOR . 'fr_FR';
+        $compositeKey = 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030';
+        $localeCompositeKey = $compositeKey.AbstractValue::SEPARATOR.'fr_FR';
         $this->expectException(StructureArrayConversionException::class);
         $this->sut->check(
             [
                 $localeCompositeKey => [
-                    "data" => "Shoes",
-                    "locale" => "",
-                    "attribute_code" => $compositeKey,
+                    'data' => 'Shoes',
+                    'locale' => '',
+                    'attribute_code' => $compositeKey,
                 ],
-            ]
+            ],
         );
     }
 
-    public function test_it_should_throw_an_exception_when_attribute_code_key_is_missing(): void
+    public function testItShouldThrowAnExceptionWhenAttributeCodeKeyIsMissing(): void
     {
-        $compositeKey = "title" . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030";
-        $localeCompositeKey = $compositeKey . AbstractValue::SEPARATOR . 'fr_FR';
+        $compositeKey = 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030';
+        $localeCompositeKey = $compositeKey.AbstractValue::SEPARATOR.'fr_FR';
         $this->expectException(StructureArrayConversionException::class);
         $this->sut->check(
             [
                 $localeCompositeKey => [
-                    "data" => "Shoes",
-                    "locale" => "fr_FR",
+                    'data' => 'Shoes',
+                    'locale' => 'fr_FR',
                 ],
-            ]
+            ],
         );
     }
 
-    public function test_it_should_throw_an_exception_when_attribute_code_key_is_empty(): void
+    public function testItShouldThrowAnExceptionWhenAttributeCodeKeyIsEmpty(): void
     {
-        $localeCompositeKey = "title"
-                    . AbstractValue::SEPARATOR . "87939c45-1d85-4134-9579-d594fff65030"
-                    . AbstractValue::SEPARATOR . 'fr_FR';
+        $localeCompositeKey = 'title'
+                    .AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030'
+                    .AbstractValue::SEPARATOR.'fr_FR';
         $this->expectException(StructureArrayConversionException::class);
         $this->sut->check(
             [
                 $localeCompositeKey => [
-                    "data" => "Shoes",
-                    "locale" => "fr_FR",
-                    "attribute_code" => "",
+                    'data' => 'Shoes',
+                    'locale' => 'fr_FR',
+                    'attribute_code' => '',
                 ],
-            ]
+            ],
         );
     }
 }

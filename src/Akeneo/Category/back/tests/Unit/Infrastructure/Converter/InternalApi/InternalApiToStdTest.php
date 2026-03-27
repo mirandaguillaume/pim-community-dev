@@ -25,13 +25,13 @@ class InternalApiToStdTest extends TestCase
         $this->sut = new InternalApiToStd($this->checker);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(InternalApiToStd::class, $this->sut);
         $this->assertInstanceOf(ConverterInterface::class, $this->sut);
     }
 
-    public function test_it_converts(): void
+    public function testItConverts(): void
     {
         $data = [
             'id' => 1,
@@ -44,9 +44,9 @@ class InternalApiToStdTest extends TestCase
             ],
             'attributes' => [
                 'title_87939c45-1d85-4134-9579-d594fff65030_fr_FR' => [
-                    "data" => "Les chaussures dont vous avez besoin !",
-                    "locale" => "fr_FR",
-                    "attribute_code" => "title_87939c45-1d85-4134-9579-d594fff65030",
+                    'data' => 'Les chaussures dont vous avez besoin !',
+                    'locale' => 'fr_FR',
+                    'attribute_code' => 'title_87939c45-1d85-4134-9579-d594fff65030',
                 ],
             ],
         ];
@@ -59,9 +59,9 @@ class InternalApiToStdTest extends TestCase
             ],
             'values' => [
                 'title_87939c45-1d85-4134-9579-d594fff65030_fr_FR' => [
-                    'data' => "Les chaussures dont vous avez besoin !",
-                    'locale' => "fr_FR",
-                    'attribute_code' => "title_87939c45-1d85-4134-9579-d594fff65030",
+                    'data' => 'Les chaussures dont vous avez besoin !',
+                    'locale' => 'fr_FR',
+                    'attribute_code' => 'title_87939c45-1d85-4134-9579-d594fff65030',
                 ],
             ],
         ];

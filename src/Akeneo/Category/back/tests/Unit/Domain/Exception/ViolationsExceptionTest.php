@@ -37,7 +37,7 @@ class ViolationsExceptionTest extends TestCase
         ], $exception->normalize());
     }
 
-    public function test_message_contains_violation_text_when_constraint_violation_list(): void
+    public function testMessageContainsViolationTextWhenConstraintViolationList(): void
     {
         $violationList = new ConstraintViolationList([
             new ConstraintViolation('Something went wrong', null, [], null, 'field', null),
@@ -49,7 +49,7 @@ class ViolationsExceptionTest extends TestCase
         $this->assertStringContainsString('Something went wrong', $exception->getMessage());
     }
 
-    public function test_message_is_not_empty(): void
+    public function testMessageIsNotEmpty(): void
     {
         $violationList = new ConstraintViolationList([
             new ConstraintViolation('Error message', null, [], null, '', null),

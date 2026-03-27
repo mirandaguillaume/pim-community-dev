@@ -7,7 +7,6 @@ namespace Akeneo\Test\Category\Unit\Domain\ValueObject;
 use Akeneo\Category\Domain\Model\Attribute\AttributeText;
 use Akeneo\Category\Domain\ValueObject\Attribute\Value\TextValue;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,9 +17,11 @@ class ValueCollectionTest extends TestCase
 {
     private ValueCollection $sut;
 
-    protected function setUp(): void {}
+    protected function setUp(): void
+    {
+    }
 
-    public function test_it_gets_value(): void
+    public function testItGetsValue(): void
     {
         $givenValues = [
             TextValue::fromApplier(
@@ -28,7 +29,7 @@ class ValueCollectionTest extends TestCase
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             ),
         ];
         $this->sut = ValueCollection::fromArray($givenValues);
@@ -38,7 +39,7 @@ class ValueCollectionTest extends TestCase
             uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
             code: 'seo_meta_description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $this->assertEquals($expectedValue, $this->sut->getValue(
             attributeCode: 'seo_meta_description',
@@ -48,7 +49,7 @@ class ValueCollectionTest extends TestCase
         ));
     }
 
-    public function test_it_returns_null_when_value_not_found(): void
+    public function testItReturnsNullWhenValueNotFound(): void
     {
         $givenValues = [
             TextValue::fromApplier(
@@ -56,7 +57,7 @@ class ValueCollectionTest extends TestCase
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             ),
         ];
         $this->sut = ValueCollection::fromArray($givenValues);
@@ -69,7 +70,7 @@ class ValueCollectionTest extends TestCase
         ));
     }
 
-    public function test_it_creates_value_on_empty_value_collection_when_setting_value(): void
+    public function testItCreatesValueOnEmptyValueCollectionWhenSettingValue(): void
     {
         $this->sut = ValueCollection::fromArray([]);
         $this->assertTrue(is_a(ValueCollection::class, ValueCollection::class, true));
@@ -79,7 +80,7 @@ class ValueCollectionTest extends TestCase
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             ),
         ]);
         $setValue = TextValue::fromApplier(
@@ -87,12 +88,12 @@ class ValueCollectionTest extends TestCase
             uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
             code: 'seo_meta_description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $this->assertEquals($expectedData, $this->sut->setValue($setValue));
     }
 
-    public function test_it_adds_value_when_setting_value(): void
+    public function testItAddsValueWhenSettingValue(): void
     {
         $givenValues = [
             TextValue::fromApplier(
@@ -100,7 +101,7 @@ class ValueCollectionTest extends TestCase
                 uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
                 code: 'description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             ),
         ];
         $this->sut = ValueCollection::fromArray($givenValues);
@@ -112,16 +113,16 @@ class ValueCollectionTest extends TestCase
                     uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
                     code: 'description',
                     channel: 'ecommerce',
-                    locale: 'en_US'
+                    locale: 'en_US',
                 ),
                 TextValue::fromApplier(
                     value: 'Meta shoes',
                     uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                     code: 'seo_meta_description',
                     channel: 'ecommerce',
-                    locale: 'en_US'
+                    locale: 'en_US',
                 ),
-            ]
+            ],
         );
         $this->assertEquals($expectedValues, $this->sut->setValue(
             TextValue::fromApplier(
@@ -129,26 +130,26 @@ class ValueCollectionTest extends TestCase
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
-                locale: 'en_US'
-            )
+                locale: 'en_US',
+            ),
         ));
     }
 
-    public function test_it_could_not_have_duplicate_attribute_codes_when_setting_value(): void
+    public function testItCouldNotHaveDuplicateAttributeCodesWhenSettingValue(): void
     {
         $givenValue = TextValue::fromApplier(
             value: 'My description',
             uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
             code: 'description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $this->sut = ValueCollection::fromArray([$givenValue]);
         $this->assertTrue(is_a(ValueCollection::class, ValueCollection::class, true));
         $this->assertCount(1, $this->sut->setValue($givenValue));
     }
 
-    public function test_it_updates_values_on_duplicate_key_when_setting_value(): void
+    public function testItUpdatesValuesOnDuplicateKeyWhenSettingValue(): void
     {
         $newValue = 'New Description Value';
         $givenValue = TextValue::fromApplier(
@@ -156,7 +157,7 @@ class ValueCollectionTest extends TestCase
             uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
             code: 'description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $this->sut = ValueCollection::fromArray([$givenValue]);
         $this->assertTrue(is_a(ValueCollection::class, ValueCollection::class, true));
@@ -166,7 +167,7 @@ class ValueCollectionTest extends TestCase
                 uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
                 code: 'description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             ),
         ]);
         $this->assertEquals($expectedValues, $this->sut->setValue(
@@ -175,26 +176,26 @@ class ValueCollectionTest extends TestCase
                 uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
                 code: 'description',
                 channel: 'ecommerce',
-                locale: 'en_US'
-            )
+                locale: 'en_US',
+            ),
         ));
     }
 
-    public function test_it_normalizes(): void
+    public function testItNormalizes(): void
     {
         $givenDescriptionValue = TextValue::fromApplier(
             value: 'Nice shoes',
             uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
             code: 'description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $givenSeoDescriptionValue = TextValue::fromApplier(
             value: 'Meta shoes',
             uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
             code: 'seo_meta_description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $this->sut = ValueCollection::fromArray([$givenDescriptionValue, $givenSeoDescriptionValue]);
         $normalizedValueCollection = [
@@ -212,26 +213,25 @@ class ValueCollectionTest extends TestCase
                 'locale' => 'en_US',
                 'attribute_code' => 'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d',
             ],
-
         ];
         $this->assertEquals($normalizedValueCollection, $this->sut->normalize());
     }
 
-    public function test_it_gets_all_values(): void
+    public function testItGetsAllValues(): void
     {
         $givenDescriptionValue = TextValue::fromApplier(
             value: 'Nice shoes',
             uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
             code: 'description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $givenSeoDescriptionValue = TextValue::fromApplier(
             value: 'Meta shoes',
             uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
             code: 'seo_meta_description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $this->sut = ValueCollection::fromArray([$givenDescriptionValue, $givenSeoDescriptionValue]);
         $expectedValues = [
@@ -241,7 +241,7 @@ class ValueCollectionTest extends TestCase
         $this->assertEquals($expectedValues, $this->sut->getValues());
     }
 
-    public function test_it_throws_invalid_argument_exception_when_creating_value_with_wrong_format(): void
+    public function testItThrowsInvalidArgumentExceptionWhenCreatingValueWithWrongFormat(): void
     {
         $givenValue = $this->createMock(AttributeText::class);
 
@@ -249,7 +249,7 @@ class ValueCollectionTest extends TestCase
         ValueCollection::fromArray([$givenValue]);
     }
 
-    public function test_it_throws_invalid_argument_exception_when_creating_value_with_duplicate_value(): void
+    public function testItThrowsInvalidArgumentExceptionWhenCreatingValueWithDuplicateValue(): void
     {
         $givenDuplicateValues = [
             TextValue::fromApplier(
@@ -257,22 +257,22 @@ class ValueCollectionTest extends TestCase
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             ),
             TextValue::fromApplier(
                 value: 'other description',
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
-                locale: 'en_US'
+                locale: 'en_US',
             ),
         ];
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Duplicate value for seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d|ecommerce|en_US");
+        $this->expectExceptionMessage('Duplicate value for seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d|ecommerce|en_US');
         ValueCollection::fromArray($givenDuplicateValues);
     }
 
-    public function test_it_creates_value_collection_from_database(): void
+    public function testItCreatesValueCollectionFromDatabase(): void
     {
         $givenDatabaseValues = [
             'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d|ecommerce|en_us' => [
@@ -288,7 +288,7 @@ class ValueCollectionTest extends TestCase
             uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
             code: 'seo_meta_description',
             channel: 'ecommerce',
-            locale: 'en_US'
+            locale: 'en_US',
         );
         $this->sut = ValueCollection::fromDatabase($givenDatabaseValues);
         $this->assertTrue(is_a(ValueCollection::class, ValueCollection::class, true));

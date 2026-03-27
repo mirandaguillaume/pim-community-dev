@@ -47,7 +47,7 @@ class CategoryRepositoryTest extends TestCase
         $treeListener->method('getStrategy')->willReturn($strategy);
         $configuration = [
             'parent' => 'parent',
-            'left'   => 'left',
+            'left' => 'left',
         ];
         $treeListener->method('getConfiguration')->willReturn($configuration);
         $eventManager->method('getAllListeners')->willReturn([[$treeListener]]);
@@ -55,17 +55,17 @@ class CategoryRepositoryTest extends TestCase
         $this->sut = new CategoryRepository($this->em, $this->classMetadata);
     }
 
-    public function test_it_is_a_nested_repository(): void
+    public function testItIsANestedRepository(): void
     {
         $this->assertInstanceOf(NestedTreeRepository::class, $this->sut);
     }
 
-    public function test_it_is_a_category_repository(): void
+    public function testItIsACategoryRepository(): void
     {
         $this->assertInstanceOf(CategoryRepositoryInterface::class, $this->sut);
     }
 
-    public function test_it_is_an_identifiable_object_repository(): void
+    public function testItIsAnIdentifiableObjectRepository(): void
     {
         $this->assertInstanceOf(IdentifiableObjectRepositoryInterface::class, $this->sut);
     }

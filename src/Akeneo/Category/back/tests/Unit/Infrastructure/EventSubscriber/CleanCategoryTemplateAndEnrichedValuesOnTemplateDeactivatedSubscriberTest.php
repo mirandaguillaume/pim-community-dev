@@ -35,12 +35,12 @@ class CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriberTest 
         );
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriber::class, $this->sut);
     }
 
-    public function test_it_puts_in_queue_the_job_cleaning_category_after_template_deactivation(): void
+    public function testItPutsInQueueTheJobCleaningCategoryAfterTemplateDeactivation(): void
     {
         $event = $this->createMock(TemplateDeactivatedEvent::class);
         $templateUuid = $this->createMock(TemplateUuid::class);
@@ -58,7 +58,7 @@ class CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriberTest 
             $user,
             [
                 'template_uuid' => '63b7b051-48bb-4084-a427-20ee32933a8c',
-            ]
+            ],
         );
         $this->sut->cleanCategoryDataForTemplate($event);
     }

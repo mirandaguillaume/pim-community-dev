@@ -155,7 +155,6 @@ suites:
         spec_path: src/Akeneo/Tool/Bundle/StorageUtilsBundle
         src_path: src/Akeneo/Tool/Bundle/StorageUtilsBundle
     ## Job: migrated to PHPUnit (Phase 2)
-        spec_prefix: Specification
     FileStorageBundle:
         namespace: Akeneo\Tool\Bundle\FileStorageBundle
         psr4_prefix: Akeneo\Tool\Bundle\FileStorageBundle

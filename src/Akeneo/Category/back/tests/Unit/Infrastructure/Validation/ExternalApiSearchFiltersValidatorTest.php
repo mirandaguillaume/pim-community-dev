@@ -26,7 +26,7 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut = new ExternalApiSearchFiltersValidator($this->validator);
     }
 
-    public function test_it_validate_empty_array(): void
+    public function testItValidateEmptyArray(): void
     {
         $searchFilters = [];
         $this->validator->expects($this->never())->method('validate');
@@ -34,19 +34,19 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_validates_code_filters(): void
+    public function testItValidatesCodeFilters(): void
     {
         $searchFilters = [
-            "code" => [
+            'code' => [
                 [
-                    "operator" => "IN",
-                    "value" => ["master"],
+                    'operator' => 'IN',
+                    'value' => ['master'],
                 ],
             ],
-            "is_root" => [
+            'is_root' => [
                 [
-                    "operator" => "=",
-                    "value" => true,
+                    'operator' => '=',
+                    'value' => true,
                 ],
             ],
         ];
@@ -55,19 +55,19 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_validates_parent_filters(): void
+    public function testItValidatesParentFilters(): void
     {
         $searchFilters = [
-            "parent" => [
+            'parent' => [
                 [
-                    "operator" => "=",
-                    "value" => "master",
+                    'operator' => '=',
+                    'value' => 'master',
                 ],
             ],
-            "is_root" => [
+            'is_root' => [
                 [
-                    "operator" => "=",
-                    "value" => true,
+                    'operator' => '=',
+                    'value' => true,
                 ],
             ],
         ];
@@ -76,19 +76,19 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_validates_updated_filters(): void
+    public function testItValidatesUpdatedFilters(): void
     {
         $searchFilters = [
-            "is_root" => [
+            'is_root' => [
                 [
-                    "operator" => "=",
-                    "value" => true,
+                    'operator' => '=',
+                    'value' => true,
                 ],
             ],
-            "updated" => [
+            'updated' => [
                 [
-                    "operator" => ">",
-                    "value" => '2019-06-09T12:00:00+00:00',
+                    'operator' => '>',
+                    'value' => '2019-06-09T12:00:00+00:00',
                 ],
             ],
         ];
@@ -97,13 +97,13 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_validates_single_code_filter(): void
+    public function testItValidatesSingleCodeFilter(): void
     {
         $searchFilters = [
-            "code" => [
+            'code' => [
                 [
-                    "operator" => "IN",
-                    "value" => ["cat1", "cat2"],
+                    'operator' => 'IN',
+                    'value' => ['cat1', 'cat2'],
                 ],
             ],
         ];
@@ -112,13 +112,13 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_throws_exception_on_wrong_filter(): void
+    public function testItThrowsExceptionOnWrongFilter(): void
     {
         $searchFilters = [
-            "test" => [
+            'test' => [
                 [
-                    "operator" => "IN",
-                    "value" => ["master"],
+                    'operator' => 'IN',
+                    'value' => ['master'],
                 ],
             ],
         ];
@@ -128,13 +128,13 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_throws_exception_with_available_filters_in_message(): void
+    public function testItThrowsExceptionWithAvailableFiltersInMessage(): void
     {
         $searchFilters = [
-            "foobar" => [
+            'foobar' => [
                 [
-                    "operator" => "=",
-                    "value" => "x",
+                    'operator' => '=',
+                    'value' => 'x',
                 ],
             ],
         ];
@@ -143,15 +143,15 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_throws_exception_on_validation_filter(): void
+    public function testItThrowsExceptionOnValidationFilter(): void
     {
         $violation = $this->createMock(ConstraintViolationInterface::class);
 
         $searchFilters = [
-            "code" => [
+            'code' => [
                 [
-                    "operator" => "IN",
-                    "value" => ["master"],
+                    'operator' => 'IN',
+                    'value' => ['master'],
                 ],
             ],
         ];
@@ -165,7 +165,7 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_concatenates_multiple_violation_messages(): void
+    public function testItConcatenatesMultipleViolationMessages(): void
     {
         $violation1 = $this->createMock(ConstraintViolationInterface::class);
         $violation2 = $this->createMock(ConstraintViolationInterface::class);
@@ -174,10 +174,10 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $violation2->expects($this->once())->method('getMessage')->willReturn('second error');
 
         $searchFilters = [
-            "code" => [
+            'code' => [
                 [
-                    "operator" => "IN",
-                    "value" => ["master"],
+                    'operator' => 'IN',
+                    'value' => ['master'],
                 ],
             ],
         ];
@@ -189,29 +189,29 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_validates_all_four_filter_types_together(): void
+    public function testItValidatesAllFourFilterTypesTogether(): void
     {
         $searchFilters = [
-            "code" => [["operator" => "IN", "value" => ["master"]]],
-            "parent" => [["operator" => "=", "value" => "root"]],
-            "is_root" => [["operator" => "=", "value" => false]],
-            "updated" => [["operator" => ">", "value" => "2020-01-01T00:00:00+00:00"]],
+            'code' => [['operator' => 'IN', 'value' => ['master']]],
+            'parent' => [['operator' => '=', 'value' => 'root']],
+            'is_root' => [['operator' => '=', 'value' => false]],
+            'updated' => [['operator' => '>', 'value' => '2020-01-01T00:00:00+00:00']],
         ];
         $this->validator->expects($this->exactly(4))->method('validate')->willReturn(new ConstraintViolationList());
         $this->sut->validate($searchFilters);
         $this->addToAssertionCount(1);
     }
 
-    public function test_it_rejects_wrong_operator_for_code(): void
+    public function testItRejectsWrongOperatorForCode(): void
     {
         $violation = $this->createMock(ConstraintViolationInterface::class);
         $violation->expects($this->once())->method('getMessage')->willReturn('wrong operator');
 
         $searchFilters = [
-            "code" => [
+            'code' => [
                 [
-                    "operator" => "=",
-                    "value" => ["master"],
+                    'operator' => '=',
+                    'value' => ['master'],
                 ],
             ],
         ];
@@ -223,16 +223,16 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_rejects_non_array_value_for_code(): void
+    public function testItRejectsNonArrayValueForCode(): void
     {
         $violation = $this->createMock(ConstraintViolationInterface::class);
         $violation->expects($this->once())->method('getMessage')->willReturn('must send an array');
 
         $searchFilters = [
-            "code" => [
+            'code' => [
                 [
-                    "operator" => "IN",
-                    "value" => "not_an_array",
+                    'operator' => 'IN',
+                    'value' => 'not_an_array',
                 ],
             ],
         ];
@@ -244,16 +244,16 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_rejects_wrong_operator_for_parent(): void
+    public function testItRejectsWrongOperatorForParent(): void
     {
         $violation = $this->createMock(ConstraintViolationInterface::class);
         $violation->expects($this->once())->method('getMessage')->willReturn('must use "=" operator');
 
         $searchFilters = [
-            "parent" => [
+            'parent' => [
                 [
-                    "operator" => "IN",
-                    "value" => "master",
+                    'operator' => 'IN',
+                    'value' => 'master',
                 ],
             ],
         ];
@@ -265,16 +265,16 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_rejects_non_string_value_for_parent(): void
+    public function testItRejectsNonStringValueForParent(): void
     {
         $violation = $this->createMock(ConstraintViolationInterface::class);
         $violation->expects($this->once())->method('getMessage')->willReturn('must send a parent code');
 
         $searchFilters = [
-            "parent" => [
+            'parent' => [
                 [
-                    "operator" => "=",
-                    "value" => 123,
+                    'operator' => '=',
+                    'value' => 123,
                 ],
             ],
         ];
@@ -286,16 +286,16 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_rejects_wrong_operator_for_is_root(): void
+    public function testItRejectsWrongOperatorForIsRoot(): void
     {
         $violation = $this->createMock(ConstraintViolationInterface::class);
         $violation->expects($this->once())->method('getMessage')->willReturn('must use "=" operator');
 
         $searchFilters = [
-            "is_root" => [
+            'is_root' => [
                 [
-                    "operator" => "!=",
-                    "value" => true,
+                    'operator' => '!=',
+                    'value' => true,
                 ],
             ],
         ];
@@ -306,16 +306,16 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_rejects_non_bool_value_for_is_root(): void
+    public function testItRejectsNonBoolValueForIsRoot(): void
     {
         $violation = $this->createMock(ConstraintViolationInterface::class);
         $violation->expects($this->once())->method('getMessage')->willReturn('must send a bool');
 
         $searchFilters = [
-            "is_root" => [
+            'is_root' => [
                 [
-                    "operator" => "=",
-                    "value" => "true",
+                    'operator' => '=',
+                    'value' => 'true',
                 ],
             ],
         ];
@@ -326,16 +326,16 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_rejects_wrong_operator_for_updated(): void
+    public function testItRejectsWrongOperatorForUpdated(): void
     {
         $violation = $this->createMock(ConstraintViolationInterface::class);
         $violation->expects($this->once())->method('getMessage')->willReturn('require the ">" operator');
 
         $searchFilters = [
-            "updated" => [
+            'updated' => [
                 [
-                    "operator" => "=",
-                    "value" => "2020-01-01T00:00:00+00:00",
+                    'operator' => '=',
+                    'value' => '2020-01-01T00:00:00+00:00',
                 ],
             ],
         ];
@@ -346,16 +346,16 @@ class ExternalApiSearchFiltersValidatorTest extends TestCase
         $this->sut->validate($searchFilters);
     }
 
-    public function test_it_rejects_invalid_datetime_for_updated(): void
+    public function testItRejectsInvalidDatetimeForUpdated(): void
     {
         $violation = $this->createMock(ConstraintViolationInterface::class);
         $violation->expects($this->once())->method('getMessage')->willReturn('not in a valid ISO 8601');
 
         $searchFilters = [
-            "updated" => [
+            'updated' => [
                 [
-                    "operator" => ">",
-                    "value" => "not-a-date",
+                    'operator' => '>',
+                    'value' => 'not-a-date',
                 ],
             ],
         ];

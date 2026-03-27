@@ -26,12 +26,12 @@ class StepExecutionTrackingTest extends TestCase
         );
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(StepExecutionTracking::class, $this->sut);
     }
 
-    public function test_it_normalizes_itself(): void
+    public function testItNormalizesItself(): void
     {
         $this->assertSame([
             'id' => 1,
@@ -45,17 +45,17 @@ class StepExecutionTrackingTest extends TestCase
         ], $this->sut->normalize());
     }
 
-    public function test_it_returns_id(): void
+    public function testItReturnsId(): void
     {
         $this->assertSame(1, $this->sut->getId());
     }
 
-    public function test_it_returns_has_error(): void
+    public function testItReturnsHasError(): void
     {
         $this->assertSame(false, $this->sut->hasError());
     }
 
-    public function test_it_returns_warning_count(): void
+    public function testItReturnsWarningCount(): void
     {
         $this->assertSame(0, $this->sut->getWarningCount());
     }

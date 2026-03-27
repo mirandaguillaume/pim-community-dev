@@ -27,32 +27,34 @@ class AttributeCollectionTest extends TestCase
 {
     private AttributeCollection $sut;
 
-    protected function setUp(): void {}
+    protected function setUp(): void
+    {
+    }
 
-    public function test_it_retrieves_an_attribute_from_identifier(): void
+    public function testItRetrievesAnAttributeFromIdentifier(): void
     {
         $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(1);
         $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(2);
         $mainImageAttribute = $this->createMainImageImageAttribute(3);
-        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute], );
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute]);
         $this->assertSame($mainImageAttribute, $this->sut->getAttributeByIdentifier('main_image|d049da25-5f74-43ba-b261-65ee2c9dc9f4'));
     }
 
-    public function test_it_retrieves_an_attribute_from_code(): void
+    public function testItRetrievesAnAttributeFromCode(): void
     {
         $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(1);
         $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(2);
         $mainImageAttribute = $this->createMainImageImageAttribute(3);
-        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute], );
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute]);
         $this->assertSame($shortDescriptionAttribute, $this->sut->getAttributeByCode('short_description'));
     }
 
-    public function test_it_adds_a_new_attribute_to_its_attributes_list(): void
+    public function testItAddsANewAttributeToItsAttributesList(): void
     {
         $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(1);
         $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(2);
         $mainImageAttribute = $this->createMainImageImageAttribute(3);
-        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute], );
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute]);
         $newAttribute = AttributeTextArea::create(
             AttributeUuid::fromString('f54102b9-a801-4d97-ae51-916450972c07'),
             new AttributeCode('new_attribute'),
@@ -60,23 +62,23 @@ class AttributeCollectionTest extends TestCase
             AttributeIsRequired::fromBoolean(true),
             AttributeIsScopable::fromBoolean(true),
             AttributeIsLocalizable::fromBoolean(true),
-            LabelCollection::fromArray(["en_US" => "New attribute"]),
+            LabelCollection::fromArray(['en_US' => 'New attribute']),
             TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
-            AttributeAdditionalProperties::fromArray([])
+            AttributeAdditionalProperties::fromArray([]),
         );
         $this->sut->addAttribute($newAttribute);
         $this->assertSame($newAttribute, $this->sut->getAttributeByCode('new_attribute'));
     }
 
-    public function test_it_counts_its_number_of_attributes(): void
+    public function testItCountsItsNumberOfAttributes(): void
     {
         $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(2);
         $mainImageAttribute = $this->createMainImageImageAttribute(3);
-        $this->sut = AttributeCollection::fromArray([$longDescriptionAttribute, $mainImageAttribute], );
+        $this->sut = AttributeCollection::fromArray([$longDescriptionAttribute, $mainImageAttribute]);
         $this->assertSame(2, $this->sut->count());
     }
 
-    public function test_it_reindexes_its_attributes(): void
+    public function testItReindexesItsAttributes(): void
     {
         $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(30);
         $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(50);
@@ -88,11 +90,11 @@ class AttributeCollectionTest extends TestCase
             AttributeIsRequired::fromBoolean(true),
             AttributeIsScopable::fromBoolean(false),
             AttributeIsLocalizable::fromBoolean(false),
-            LabelCollection::fromArray(["en_US" => "Duplicated order"]),
+            LabelCollection::fromArray(['en_US' => 'Duplicated order']),
             TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
-            AttributeAdditionalProperties::fromArray([])
+            AttributeAdditionalProperties::fromArray([]),
         );
-        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $attributeWithDuplicatedOrderIndex, $mainImageAttribute], );
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $attributeWithDuplicatedOrderIndex, $mainImageAttribute]);
         $reindexedAttributeCollection = $this->sut->rebuildWithIndexedAttributes();
         $this->assertSame(1, $reindexedAttributeCollection->getAttributeByCode('main_image')->getOrder()->intValue());
         $this->assertSame(2, $reindexedAttributeCollection->getAttributeByCode('short_description')->getOrder()->intValue());
@@ -100,24 +102,24 @@ class AttributeCollectionTest extends TestCase
         $this->assertSame(4, $reindexedAttributeCollection->getAttributeByCode('long_description')->getOrder()->intValue());
     }
 
-    public function test_it_returns_the_potential_order_value_of_the_next_added_attribute(): void
+    public function testItReturnsThePotentialOrderValueOfTheNextAddedAttribute(): void
     {
         $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(1);
         $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(27);
         $mainImageAttribute = $this->createMainImageImageAttribute(50);
-        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute], );
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute]);
         $this->assertSame(3, $this->sut->count());
         $this->assertSame(51, $this->sut->calculateNextOrder());
     }
 
-    public function test_calculate_next_order_with_empty_collection(): void
+    public function testCalculateNextOrderWithEmptyCollection(): void
     {
         $this->sut = AttributeCollection::fromArray([]);
         // With no attributes, the reduce returns initial value 1, so next order = 1 + 1 = 2
         $this->assertSame(2, $this->sut->calculateNextOrder());
     }
 
-    public function test_calculate_next_order_with_single_attribute(): void
+    public function testCalculateNextOrderWithSingleAttribute(): void
     {
         $attr = $this->createShortDescriptionTextAttribute(5);
         $this->sut = AttributeCollection::fromArray([$attr]);
@@ -125,7 +127,7 @@ class AttributeCollectionTest extends TestCase
         $this->assertSame(6, $this->sut->calculateNextOrder());
     }
 
-    public function test_calculate_next_order_is_one_plus_max(): void
+    public function testCalculateNextOrderIsOnePlusMax(): void
     {
         $attr1 = $this->createShortDescriptionTextAttribute(3);
         $attr2 = $this->createLongDescriptionTextAttribute(10);
@@ -134,13 +136,13 @@ class AttributeCollectionTest extends TestCase
         $this->assertSame(11, $this->sut->calculateNextOrder());
     }
 
-    public function test_it_rejects_non_attribute_in_constructor(): void
+    public function testItRejectsNonAttributeInConstructor(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         AttributeCollection::fromArray(['not_an_attribute']);
     }
 
-    public function test_normalize_returns_array_of_normalized_attributes(): void
+    public function testNormalizeReturnsArrayOfNormalizedAttributes(): void
     {
         $attr = $this->createShortDescriptionTextAttribute(1);
         $this->sut = AttributeCollection::fromArray([$attr]);
@@ -152,7 +154,7 @@ class AttributeCollectionTest extends TestCase
         $this->assertSame('short_description', $normalized[0]['code']);
     }
 
-    public function test_get_attributes_returns_array(): void
+    public function testGetAttributesReturnsArray(): void
     {
         $attr = $this->createShortDescriptionTextAttribute(1);
         $this->sut = AttributeCollection::fromArray([$attr]);
@@ -169,9 +171,9 @@ class AttributeCollectionTest extends TestCase
             AttributeIsRequired::fromBoolean(false),
             AttributeIsScopable::fromBoolean(false),
             AttributeIsLocalizable::fromBoolean(false),
-            LabelCollection::fromArray(["en_US" => "Short description"]),
+            LabelCollection::fromArray(['en_US' => 'Short description']),
             TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
-            AttributeAdditionalProperties::fromArray([])
+            AttributeAdditionalProperties::fromArray([]),
         );
     }
 
@@ -184,9 +186,9 @@ class AttributeCollectionTest extends TestCase
             AttributeIsRequired::fromBoolean(true),
             AttributeIsScopable::fromBoolean(true),
             AttributeIsLocalizable::fromBoolean(false),
-            LabelCollection::fromArray(['en_US' => "Long description"]),
+            LabelCollection::fromArray(['en_US' => 'Long description']),
             TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
-            AttributeAdditionalProperties::fromArray([])
+            AttributeAdditionalProperties::fromArray([]),
         );
     }
 
@@ -199,9 +201,9 @@ class AttributeCollectionTest extends TestCase
             AttributeIsRequired::fromBoolean(true),
             AttributeIsScopable::fromBoolean(false),
             AttributeIsLocalizable::fromBoolean(false),
-            LabelCollection::fromArray(['en_US' => "Illustration"]),
+            LabelCollection::fromArray(['en_US' => 'Illustration']),
             TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
-            AttributeAdditionalProperties::fromArray([])
+            AttributeAdditionalProperties::fromArray([]),
         );
     }
 }

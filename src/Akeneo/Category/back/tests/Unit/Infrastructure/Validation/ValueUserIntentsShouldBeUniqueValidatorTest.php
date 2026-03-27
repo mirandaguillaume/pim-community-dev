@@ -10,8 +10,8 @@ use Akeneo\Category\Infrastructure\Validation\ValueUserIntentsShouldBeUnique;
 use Akeneo\Category\Infrastructure\Validation\ValueUserIntentsShouldBeUniqueValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
@@ -31,31 +31,31 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         $this->sut->initialize($this->context);
     }
 
-    public function test_it_is_initializable(): void
+    public function testItIsInitializable(): void
     {
         $this->assertInstanceOf(ValueUserIntentsShouldBeUniqueValidator::class, $this->sut);
         $this->assertInstanceOf(ConstraintValidatorInterface::class, $this->sut);
     }
 
-    public function test_it_throws_an_exception_with_a_wrong_constraint(): void
+    public function testItThrowsAnExceptionWithAWrongConstraint(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->validate(1, new Type([]));
     }
 
-    public function test_it_throws_an_exception_when_value_is_not_array(): void
+    public function testItThrowsAnExceptionWhenValueIsNotArray(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->validate('not_an_array', new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_it_does_nothing_with_empty_array(): void
+    public function testItDoesNothingWithEmptyArray(): void
     {
         $this->context->expects($this->never())->method('buildViolation');
         $this->sut->validate([], new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_it_does_nothing_when_the_value_intents_are_distinct(): void
+    public function testItDoesNothingWhenTheValueIntentsAreDistinct(): void
     {
         $this->context->expects($this->never())->method('buildViolation');
         $this->sut->validate([
@@ -66,7 +66,7 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         ], new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_it_does_nothing_when_only_set_labels(): void
+    public function testItDoesNothingWhenOnlySetLabels(): void
     {
         // SetLabel is not a subclass of ValueUserIntent, so no duplication check
         $this->context->expects($this->never())->method('buildViolation');
@@ -76,7 +76,7 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         ], new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_it_does_nothing_when_same_attribute_different_channel(): void
+    public function testItDoesNothingWhenSameAttributeDifferentChannel(): void
     {
         $this->context->expects($this->never())->method('buildViolation');
         $this->sut->validate([
@@ -85,7 +85,7 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         ], new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_it_does_nothing_when_same_attribute_different_locale(): void
+    public function testItDoesNothingWhenSameAttributeDifferentLocale(): void
     {
         $this->context->expects($this->never())->method('buildViolation');
         $this->sut->validate([
@@ -94,7 +94,7 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         ], new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_it_throws_an_exception_when_the_value_intents_are_not_distinct(): void
+    public function testItThrowsAnExceptionWhenTheValueIntentsAreNotDistinct(): void
     {
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
@@ -110,7 +110,7 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         ], new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_it_builds_violation_with_correct_attribute_code(): void
+    public function testItBuildsViolationWithCorrectAttributeCode(): void
     {
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
         $constraint = new ValueUserIntentsShouldBeUnique();
@@ -126,13 +126,13 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         ], $constraint);
     }
 
-    public function test_it_throws_when_value_contains_non_user_intent(): void
+    public function testItThrowsWhenValueContainsNonUserIntent(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->validate(['not_a_user_intent'], new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_duplicate_detection_distinguishes_by_attribute_uuid(): void
+    public function testDuplicateDetectionDistinguishesByAttributeUuid(): void
     {
         // Two intents with same code but DIFFERENT uuid should NOT be duplicates
         $this->context->expects($this->never())->method('buildViolation');
@@ -142,7 +142,7 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         ], new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_duplicate_detection_uses_separator_in_identifier(): void
+    public function testDuplicateDetectionUsesSeparatorInIdentifier(): void
     {
         // Two intents with same code+uuid but same channel+locale should trigger violation
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
@@ -159,7 +159,7 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         ], $constraint);
     }
 
-    public function test_intents_with_null_channel_are_ignored_for_uniqueness(): void
+    public function testIntentsWithNullChannelAreIgnoredForUniqueness(): void
     {
         // SetTextArea with null channel should be filtered out (not checked for uniqueness)
         $this->context->expects($this->never())->method('buildViolation');
@@ -169,7 +169,7 @@ class ValueUserIntentsShouldBeUniqueValidatorTest extends TestCase
         ], new ValueUserIntentsShouldBeUnique());
     }
 
-    public function test_intents_with_null_locale_are_ignored_for_uniqueness(): void
+    public function testIntentsWithNullLocaleAreIgnoredForUniqueness(): void
     {
         // SetTextArea with null locale should be filtered out
         $this->context->expects($this->never())->method('buildViolation');

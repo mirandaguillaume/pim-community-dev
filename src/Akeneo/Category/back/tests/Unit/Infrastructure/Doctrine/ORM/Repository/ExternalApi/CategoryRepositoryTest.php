@@ -35,14 +35,14 @@ class CategoryRepositoryTest extends TestCase
         $this->sut = new CategoryRepository($this->entityManager, 'category', $this->categoryRepository, $this->validator);
     }
 
-    public function test_it_delegates_get_identifier_properties(): void
+    public function testItDelegatesGetIdentifierProperties(): void
     {
         $this->categoryRepository->expects($this->once())->method('getIdentifierProperties')->willReturn(['code']);
         $result = $this->sut->getIdentifierProperties();
         $this->assertSame(['code'], $result);
     }
 
-    public function test_it_delegates_find_one_by_identifier(): void
+    public function testItDelegatesFindOneByIdentifier(): void
     {
         $expectedCategory = new \stdClass();
         $this->categoryRepository->expects($this->once())->method('findOneByIdentifier')->with('master')->willReturn($expectedCategory);
@@ -50,14 +50,14 @@ class CategoryRepositoryTest extends TestCase
         $this->assertSame($expectedCategory, $result);
     }
 
-    public function test_it_delegates_find_one_by_identifier_returns_null(): void
+    public function testItDelegatesFindOneByIdentifierReturnsNull(): void
     {
         $this->categoryRepository->expects($this->once())->method('findOneByIdentifier')->with('nonexistent')->willReturn(null);
         $result = $this->sut->findOneByIdentifier('nonexistent');
         $this->assertNull($result);
     }
 
-    public function test_it_fails_on_filter_validation_with_wrong_operator_for_updated(): void
+    public function testItFailsOnFilterValidationWithWrongOperatorForUpdated(): void
     {
         $queryBuilder = $this->createMock(QueryBuilder::class);
 
@@ -74,7 +74,7 @@ class CategoryRepositoryTest extends TestCase
         );
     }
 
-    public function test_it_fails_on_filter_validation_with_wrong_date_format_for_updated(): void
+    public function testItFailsOnFilterValidationWithWrongDateFormatForUpdated(): void
     {
         $queryBuilder = $this->createMock(QueryBuilder::class);
 
@@ -93,7 +93,7 @@ class CategoryRepositoryTest extends TestCase
         );
     }
 
-    public function test_it_fails_on_unavailable_search_filter(): void
+    public function testItFailsOnUnavailableSearchFilter(): void
     {
         $queryBuilder = $this->createMock(QueryBuilder::class);
         $queryBuilder->method('select')->willReturn($queryBuilder);
@@ -110,7 +110,7 @@ class CategoryRepositoryTest extends TestCase
         );
     }
 
-    public function test_it_validates_empty_search_filters_do_not_call_validator(): void
+    public function testItValidatesEmptySearchFiltersDoNotCallValidator(): void
     {
         // Verify that empty search filters bypass the validator entirely
         // (the validateSearchFilters method returns early on empty array)

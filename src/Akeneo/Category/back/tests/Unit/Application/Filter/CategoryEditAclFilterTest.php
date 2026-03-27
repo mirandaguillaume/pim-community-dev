@@ -20,7 +20,7 @@ class CategoryEditAclFilterTest extends TestCase
         $this->sut = new CategoryEditAclFilter($this->securityFacade);
     }
 
-    public function test_it_filters_attributes_data_when_not_granted(): void
+    public function testItFiltersAttributesDataWhenNotGranted(): void
     {
         $this->securityFacade->method('isGranted')->with('pim_enrich_product_category_edit_attributes')->willReturn(false);
         $this->assertSame([
@@ -31,7 +31,7 @@ class CategoryEditAclFilterTest extends TestCase
         ], $this->sut->filterCollection($this->getData()));
     }
 
-    public function test_it_does_not_filters_attributes_data_when_granted(): void
+    public function testItDoesNotFiltersAttributesDataWhenGranted(): void
     {
         $data = $this->getData();
         $this->securityFacade->method('isGranted')->with('pim_enrich_product_category_edit_attributes')->willReturn(true);
