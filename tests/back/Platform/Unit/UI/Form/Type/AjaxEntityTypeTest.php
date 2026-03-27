@@ -33,8 +33,8 @@ class AjaxEntityTypeTest extends TestCase
         'collection_id'         => 'collection_id',
         'transformer_options'   => [
             'option1' => 'value1',
-            'option2' => 'option2'
-        ]
+            'option2' => 'option2',
+        ],
     ];
 
     protected $transformerOptions = [
@@ -43,7 +43,7 @@ class AjaxEntityTypeTest extends TestCase
         'locale'                => 'locale',
         'collection_id'         => 'collection_id',
         'option1'               => 'value1',
-        'option2'               => 'option2'
+        'option2'               => 'option2',
     ];
 
     /**
@@ -112,8 +112,8 @@ class AjaxEntityTypeTest extends TestCase
             'with_locale'   => [
                 ['locale' => 'other_locale'],
                 [
-                    'url' => 'pim_ui_ajaxentity_list?&class=class&dataLocale=other_locale&collectionId=&isCreatable='
-                ]
+                    'url' => 'pim_ui_ajaxentity_list?&class=class&dataLocale=other_locale&collectionId=&isCreatable=',
+                ],
             ],
             'with_url'      => [['url' => 'url']],
             'with_params'   => [
@@ -126,9 +126,9 @@ class AjaxEntityTypeTest extends TestCase
                     'minimum_input_length'  => 5,
                 ],
                 [
-                    'url' => 'route?&param1=val1&class=class&dataLocale=locale&collectionId=collection_id&isCreatable='
-                ]
-            ]
+                    'url' => 'route?&param1=val1&class=class&dataLocale=locale&collectionId=collection_id&isCreatable=',
+                ],
+            ],
         ];
     }
 
@@ -149,9 +149,9 @@ class AjaxEntityTypeTest extends TestCase
             'minimum_input_length'  => 0,
             'error_bubbling'        => false,
             'locale'                => 'locale',
-            'url'                   =>
-                'pim_ui_ajaxentity_list?&class=class&dataLocale=locale&collectionId=&isCreatable='
-            ];
+            'url'
+                => 'pim_ui_ajaxentity_list?&class=class&dataLocale=locale&collectionId=&isCreatable=',
+        ];
         $resolver = new OptionsResolver();
         $this->type->configureOptions($resolver);
         $this->assertEquals($expected, $resolver->resolve($options));

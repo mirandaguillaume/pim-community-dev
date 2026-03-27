@@ -95,6 +95,10 @@
             <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Acceptance</directory>
             <directory suffix="Test.php">components/identifier-generator/back/tests/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/UserManagement/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/tests/Unit</directory>
+            <directory suffix="Test.php">tests/back/Platform/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Acceptance</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Acceptance</directory>
             <!-- Exclude misplaced integration tests (extend CategoryTestCase → need DB) -->
@@ -106,6 +110,13 @@
 
         <testsuite name="Category_EndToEnd_Test">
             <directory suffix="EndToEnd.php">src/Akeneo/Category/back/tests/EndToEnd</directory>
+        </testsuite>
+
+        <testsuite name="Platform_Unit_Test">
+            <directory suffix="Test.php">tests/back/Platform/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/tests/Unit</directory>
         </testsuite>
 
         <testsuite name="Channel_Unit_Test">

@@ -8,6 +8,7 @@ parameters:
     - %rootDir%/../../../src/Akeneo/Category
   excludePaths:
     - %rootDir%/../../../src/Akeneo/Category/back/tests/Specification
+    - %rootDir%/../../../src/Akeneo/Category/back/tests/Unit
     - %rootDir%/../../../src/Akeneo/Category/back/Infrastructure
   ignoreErrors:
     # PHP 8.4: GMP/SimpleXMLElement added to built-in function signatures

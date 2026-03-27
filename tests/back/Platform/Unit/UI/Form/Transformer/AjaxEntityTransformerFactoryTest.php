@@ -22,7 +22,7 @@ class AjaxEntityTransformerFactoryTest extends TestCase
         $doctrine = $this->createMock(ManagerRegistry::class);
         $transformerClass = AjaxEntityTransformer::class;
         $options = [
-            'class' => 'class'
+            'class' => 'class',
         ];
         $doctrine->expects($this->once())
             ->method('getRepository')

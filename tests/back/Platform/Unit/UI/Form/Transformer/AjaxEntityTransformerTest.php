@@ -62,7 +62,7 @@ class AjaxEntityTransformerTest extends TestCase
         $options = [
             'collection_id' => 'collection_id',
             'multiple'      => $multiple,
-            'locale'        => 'locale'
+            'locale'        => 'locale',
         ];
 
         return new AjaxEntityTransformer($this->repository, $options);
@@ -134,9 +134,9 @@ class AjaxEntityTransformerTest extends TestCase
                 [
                     ['id' => 1, 'text' => '_1_'],
                     ['id' => 2, 'text' => '_2_'],
-                    ['id' => 3, 'text' => '_3_']
+                    ['id' => 3, 'text' => '_3_'],
                 ],
-                true
+                true,
             ],
         ];
     }
