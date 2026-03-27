@@ -7,7 +7,6 @@ parameters:
   paths:
     - %rootDir%/../../../src/Akeneo/Category
   excludePaths:
-    - %rootDir%/../../../src/Akeneo/Category/back/tests/Specification
     - %rootDir%/../../../src/Akeneo/Category/back/tests/Unit
     - %rootDir%/../../../src/Akeneo/Category/back/Infrastructure
   ignoreErrors:
