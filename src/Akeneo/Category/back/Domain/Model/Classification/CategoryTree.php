@@ -19,8 +19,7 @@ class CategoryTree
         private readonly Code $code,
         private readonly ?LabelCollection $labels = null,
         private readonly ?CategoryTreeTemplate $categoryTreeTemplate = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array{
@@ -64,7 +63,7 @@ class CategoryTree
         $label = $this->labels?->getTranslation($localeCode);
 
         if (!$label) {
-            return '['.$this->code.']';
+            return '[' . $this->code . ']';
         }
 
         return $label;

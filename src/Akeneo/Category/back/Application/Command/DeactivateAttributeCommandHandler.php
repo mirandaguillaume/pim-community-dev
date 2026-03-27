@@ -19,8 +19,7 @@ class DeactivateAttributeCommandHandler
     public function __construct(
         private readonly DeactivateAttribute $deactivateAttribute,
         private readonly EventDispatcherInterface $eventDispatcher,
-    ) {
-    }
+    ) {}
 
     public function __invoke(DeactivateAttributeCommand $command): void
     {

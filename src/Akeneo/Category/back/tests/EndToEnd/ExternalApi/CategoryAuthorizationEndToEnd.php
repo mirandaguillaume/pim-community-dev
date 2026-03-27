@@ -194,7 +194,7 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
             {"code": "a_category"}
             JSON;
 
-        ob_start(fn () => '');
+        ob_start(fn() => '');
         $client->request('PATCH', '/api/rest/v1/categories', [], [], [], $data);
         ob_end_flush();
 
@@ -210,7 +210,7 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
         $data = <<<JSON
             {"code": "a_category"}
             JSON;
-        ob_start(fn () => '');
+        ob_start(fn() => '');
         $client->request('PATCH', '/api/rest/v1/categories', [], [], [], $data);
         ob_end_flush();
 

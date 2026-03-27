@@ -26,8 +26,7 @@ class ExternalApiCategory
         private readonly ?string $parentCode = null,
         private readonly ?array $labels = null,
         private readonly ?int $position = null,
-    ) {
-    }
+    ) {}
 
     public function getCode(): string
     {

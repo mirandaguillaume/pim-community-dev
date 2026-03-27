@@ -152,12 +152,12 @@ class LoadAttributeSetControllerEndToEnd extends ControllerIntegrationTestCase
         AttributeCollection $actualAttributeCollection,
     ): void {
         $expectedCodes = array_map(
-            fn (Attribute $attribute) => $attribute->getCode(),
+            fn(Attribute $attribute) => $attribute->getCode(),
             $expectedAttributeCollection->getAttributes(),
         );
 
         $actualCodes = array_map(
-            fn (Attribute $attribute) => $attribute->getCode(),
+            fn(Attribute $attribute) => $attribute->getCode(),
             $actualAttributeCollection->getAttributes(),
         );
 

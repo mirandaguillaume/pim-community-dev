@@ -61,8 +61,7 @@ class InternalApiCategory
         private readonly ?PermissionCollection $permissions = null,
         private readonly bool $isRoot = false,
         private readonly ?InternalApiCategory $root = null,
-    ) {
-    }
+    ) {}
 
     public static function fromCategory(Category $category, ?Category $root): self
     {

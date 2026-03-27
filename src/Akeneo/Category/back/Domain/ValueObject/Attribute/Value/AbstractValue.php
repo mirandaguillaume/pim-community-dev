@@ -25,8 +25,7 @@ abstract class AbstractValue implements Value
         protected AttributeCode $code,
         protected ?ChannelValue $channel,
         protected ?LocaleValue $locale,
-    ) {
-    }
+    ) {}
 
     public function getUuid(): AttributeUuid
     {
@@ -51,7 +50,7 @@ abstract class AbstractValue implements Value
     public function getKey(): string
     {
         return sprintf(
-            '%s'.self::SEPARATOR.'%s',
+            '%s' . self::SEPARATOR . '%s',
             $this->code,
             $this->uuid,
         );
@@ -62,8 +61,8 @@ abstract class AbstractValue implements Value
         return sprintf(
             '%s%s%s',
             $this->getKey(),
-            !$this->channel instanceof \Akeneo\Category\Domain\ValueObject\Attribute\Value\ChannelValue ? '' : self::SEPARATOR.$this->channel,
-            !$this->locale instanceof \Akeneo\Category\Domain\ValueObject\Attribute\Value\LocaleValue ? '' : self::SEPARATOR.$this->locale,
+            !$this->channel instanceof \Akeneo\Category\Domain\ValueObject\Attribute\Value\ChannelValue ? '' : self::SEPARATOR . $this->channel,
+            !$this->locale instanceof \Akeneo\Category\Domain\ValueObject\Attribute\Value\LocaleValue ? '' : self::SEPARATOR . $this->locale,
         );
     }
 

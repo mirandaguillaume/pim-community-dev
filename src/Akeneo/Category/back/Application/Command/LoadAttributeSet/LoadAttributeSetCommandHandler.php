@@ -21,8 +21,7 @@ final readonly class LoadAttributeSetCommandHandler
         private GetAttribute $getAttribute,
         private AttributeSetFactory $attributeSetFactory,
         private CategoryTemplateAttributeSaver $categoryTemplateAttributeSaver,
-    ) {
-    }
+    ) {}
 
     public function __invoke(LoadAttributeSetCommand $command): void
     {

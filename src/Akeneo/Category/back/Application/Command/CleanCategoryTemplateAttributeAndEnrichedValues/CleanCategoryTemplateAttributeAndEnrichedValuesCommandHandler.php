@@ -24,8 +24,7 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesCommandHandler
         private readonly CategoryAttributeValuesCleaner $categoryDataCleaner,
         private readonly GetDeactivatedAttribute $getDeactivatedCategoryTemplateAttributes,
         private readonly DeleteTemplateAttribute $deleteTemplateAttribute,
-    ) {
-    }
+    ) {}
 
     public function __invoke(CleanCategoryTemplateAttributeAndEnrichedValuesCommand $command): void
     {

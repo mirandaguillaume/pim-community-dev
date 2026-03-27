@@ -13,6 +13,5 @@ final readonly class DeactivatedTemplateAttributeIdentifier
     public function __construct(
         public string $uuid,
         public string $code,
-    ) {
-    }
+    ) {}
 }

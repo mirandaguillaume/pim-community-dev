@@ -22,8 +22,7 @@ class Category
         private readonly ?int $parent = null,
         private readonly ?array $attributes = null,
         private readonly ?array $permissions = null,
-    ) {
-    }
+    ) {}
 
     public function getId(): int
     {

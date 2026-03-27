@@ -21,8 +21,7 @@ final readonly class DeleteCategoryCommandHandler
         private RemoverInterface $remover,
         private GetCategoryTreeTemplates $getCategoryTreeTemplates,
         private DeleteCategoryTreeTemplateByTemplateUuid $deleteCategoryTreeTemplateByTemplateUuid,
-    ) {
-    }
+    ) {}
 
     public function __invoke(DeleteCategoryCommand $command): void
     {

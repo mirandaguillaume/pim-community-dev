@@ -26,8 +26,7 @@ class InternalApiRequirementChecker implements RequirementChecker
     public function __construct(
         private readonly RequirementChecker $fieldsChecker,
         private readonly RequirementChecker $attributeChecker,
-    ) {
-    }
+    ) {}
 
     /**
      * @param InternalApi $data
