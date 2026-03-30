@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\Write;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\ErrorManagement\Model\Write;
 
 use Akeneo\Connectivity\Connection\Domain\ErrorManagement\ErrorTypes;
 use Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\Write\ApiErrorCollection;
@@ -22,18 +22,21 @@ class ApiErrorCollectionTest extends TestCase
 
     protected function setUp(): void
     {
+        $this->sut = new ApiErrorCollection();
     }
 
     public function test_it_is_instantiated_with_valid_error_types(): void
     {
-        $this->sut->getSorted()->shouldMatchErrorTypes();
+        $sorted = $this->sut->getSorted();
+        $this->assertArrayHasKey(ErrorTypes::BUSINESS, $sorted);
+        $this->assertArrayHasKey(ErrorTypes::TECHNICAL, $sorted);
     }
 
     public function test_it_can_be_constructed_with_initial_errors(): void
     {
         $businessError = new BusinessError('{"message": "error"}');
         $this->sut = new ApiErrorCollection([$businessError]);
-        $this->sut->count(ErrorTypes::BUSINESS)->shouldBeEqualTo(1);
+        $this->assertSame(1, $this->sut->count(ErrorTypes::BUSINESS));
     }
 
     public function test_it_adds_new_errors(): void
@@ -42,15 +45,15 @@ class ApiErrorCollectionTest extends TestCase
         $businessErrorB = new BusinessError('{"message": "error"}');
         $technicalErrorA = new TechnicalError('{"message": "error"}');
         $technicalErrorB = new TechnicalError('{"message": "error"}');
-        $this->sut->count()->shouldBeEqualTo(0);
+        $this->assertSame(0, $this->sut->count());
         $this->sut->add($businessErrorA);
-        $this->sut->count()->shouldBeEqualTo(1);
+        $this->assertSame(1, $this->sut->count());
         $this->sut->add($businessErrorB);
-        $this->sut->count()->shouldBeEqualTo(2);
+        $this->assertSame(2, $this->sut->count());
         $this->sut->add($technicalErrorA);
-        $this->sut->count()->shouldBeEqualTo(3);
+        $this->assertSame(3, $this->sut->count());
         $this->sut->add($technicalErrorB);
-        $this->sut->count()->shouldBeEqualTo(4);
+        $this->assertSame(4, $this->sut->count());
     }
 
     public function test_it_adds_and_sorts_new_errors(): void
@@ -59,20 +62,20 @@ class ApiErrorCollectionTest extends TestCase
         $businessErrorB = new BusinessError('{"message": "error"}');
         $technicalErrorA = new TechnicalError('{"message": "error"}');
         $technicalErrorB = new TechnicalError('{"message": "error"}');
-        $this->sut->count(ErrorTypes::BUSINESS)->shouldBeEqualTo(0);
-        $this->sut->count(ErrorTypes::TECHNICAL)->shouldBeEqualTo(0);
+        $this->assertSame(0, $this->sut->count(ErrorTypes::BUSINESS));
+        $this->assertSame(0, $this->sut->count(ErrorTypes::TECHNICAL));
         $this->sut->add($businessErrorA);
-        $this->sut->count(ErrorTypes::BUSINESS)->shouldBeEqualTo(1);
-        $this->sut->count(ErrorTypes::TECHNICAL)->shouldBeEqualTo(0);
+        $this->assertSame(1, $this->sut->count(ErrorTypes::BUSINESS));
+        $this->assertSame(0, $this->sut->count(ErrorTypes::TECHNICAL));
         $this->sut->add($businessErrorB);
-        $this->sut->count(ErrorTypes::BUSINESS)->shouldBeEqualTo(2);
-        $this->sut->count(ErrorTypes::TECHNICAL)->shouldBeEqualTo(0);
+        $this->assertSame(2, $this->sut->count(ErrorTypes::BUSINESS));
+        $this->assertSame(0, $this->sut->count(ErrorTypes::TECHNICAL));
         $this->sut->add($technicalErrorA);
-        $this->sut->count(ErrorTypes::BUSINESS)->shouldBeEqualTo(2);
-        $this->sut->count(ErrorTypes::TECHNICAL)->shouldBeEqualTo(1);
+        $this->assertSame(2, $this->sut->count(ErrorTypes::BUSINESS));
+        $this->assertSame(1, $this->sut->count(ErrorTypes::TECHNICAL));
         $this->sut->add($technicalErrorB);
-        $this->sut->count(ErrorTypes::BUSINESS)->shouldBeEqualTo(2);
-        $this->sut->count(ErrorTypes::TECHNICAL)->shouldBeEqualTo(2);
+        $this->assertSame(2, $this->sut->count(ErrorTypes::BUSINESS));
+        $this->assertSame(2, $this->sut->count(ErrorTypes::TECHNICAL));
     }
 
     public function test_it_provides_api_errors_by_type(): void
@@ -101,12 +104,11 @@ class ApiErrorCollectionTest extends TestCase
 
     public function test_it_accepts_only_api_errors_as_initial_parameters(): void
     {
-        $this->expectException(new \InvalidArgumentException(
-            \sprintf(
-                'Class "%s" accepts only "%s" in the collection.',
-                ApiErrorCollection::class,
-                ApiErrorInterface::class
-            )
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'Class "%s" accepts only "%s" in the collection.',
+            ApiErrorCollection::class,
+            ApiErrorInterface::class
         ));
         new ApiErrorCollection([new \DateTime()]);
     }
@@ -122,6 +124,4 @@ class ApiErrorCollectionTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->count('any_type');
     }
-
-    // TODO: Custom matchers from getMatchers() need manual conversion
 }

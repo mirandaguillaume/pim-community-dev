@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Audit\Model\Read;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Audit\Model\Read;
 
 use Akeneo\Connectivity\Connection\Domain\Audit\Model\Read\ErrorCount;
 use Akeneo\Connectivity\Connection\Domain\Audit\Model\Read\ErrorCountPerConnection;

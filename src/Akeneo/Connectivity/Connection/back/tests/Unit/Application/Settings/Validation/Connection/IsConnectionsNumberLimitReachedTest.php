@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Settings\Validation\Connection;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Settings\Validation\Connection;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Validation\Connection\IsConnectionsNumberLimitReached;
 use PHPUnit\Framework\TestCase;
@@ -38,6 +38,6 @@ class IsConnectionsNumberLimitReachedTest extends TestCase
 
     public function test_it_has_a_message(): void
     {
-        $this->sut->message->shouldBeString();
+        $this->assertIsString($this->sut->message);
     }
 }

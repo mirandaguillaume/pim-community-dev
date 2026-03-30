@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\Write;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\ErrorManagement\Model\Write;
 
 use Akeneo\Connectivity\Connection\Domain\ErrorManagement\ErrorTypes;
 use Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\ValueObject\ErrorType;
@@ -21,8 +21,8 @@ class TechnicalErrorTest extends TestCase
     public function test_it_is_a_technical_error(): void
     {
         $this->sut = new TechnicalError($this->getWellStructuredContent());
-        $this->assertTrue(is_a(TechnicalError::class, TechnicalError::class, true));
-        $this->assertTrue(is_a(TechnicalError::class, ApiErrorInterface::class, true));
+        $this->assertTrue(\is_a(TechnicalError::class, TechnicalError::class, true));
+        $this->assertTrue(\is_a(TechnicalError::class, ApiErrorInterface::class, true));
     }
 
     public function test_it_provides_a_content(): void
@@ -39,9 +39,11 @@ class TechnicalErrorTest extends TestCase
 
     public function test_it_must_have_a_content(): void
     {
-        $this->expectException(new \InvalidArgumentException(
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage(
             'The API error must have a content, but you provided en empty json.'
-        ));
+        );
         new TechnicalError('{}');
     }
 
@@ -51,7 +53,7 @@ class TechnicalErrorTest extends TestCase
         $dateTime = new \DateTimeImmutable('2020-01-01T00:00:00', new \DateTimeZone('UTC'));
         $this->sut = new TechnicalError($content, $dateTime);
         $expected = [
-                    'id' => $this->id(),
+                    'id' => $this->sut->id(),
                     'content' => \json_decode($content, true, 512, JSON_THROW_ON_ERROR),
                     'error_datetime' => '2020-01-01T00:00:00+00:00',
                 ];
@@ -61,9 +63,9 @@ class TechnicalErrorTest extends TestCase
     public function test_it_provides_an_error_type(): void
     {
         $this->sut = new TechnicalError($this->getWellStructuredContent());
-        $type = $this->type();
-        $type->shouldBeAnInstanceOf(ErrorType::class);
-        $type->__toString()->shouldReturn(ErrorTypes::TECHNICAL);
+        $type = $this->sut->type();
+        $this->assertInstanceOf(ErrorType::class, $type);
+        $this->assertSame(ErrorTypes::TECHNICAL, (string) $type);
     }
 
     private function getWellStructuredContent(): string

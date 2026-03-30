@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\Write;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\ErrorManagement\Model\Write;
 
 use Akeneo\Connectivity\Connection\Domain\ErrorManagement\ErrorTypes;
 use Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\ValueObject\ErrorType;
@@ -34,9 +34,9 @@ class HourlyErrorCountTest extends TestCase
 
     public function test_it_returns_the_connection_code(): void
     {
-        $connectionCode = $this->connectionCode();
-        $connectionCode->shouldBeAnInstanceOf(ConnectionCode::class);
-        $connectionCode->__toString()->shouldReturn('magento');
+        $connectionCode = $this->sut->connectionCode();
+        $this->assertInstanceOf(ConnectionCode::class, $connectionCode);
+        $this->assertSame('magento', (string) $connectionCode);
     }
 
     public function test_it_returns_the_hourly_interval(): void
@@ -60,9 +60,9 @@ class HourlyErrorCountTest extends TestCase
 
     public function test_it_returns_the_error_type(): void
     {
-        $errorType = $this->errorType();
-        $errorType->shouldBeAnInstanceOf(ErrorType::class);
-        $errorType->__toString()->shouldReturn('business');
+        $errorType = $this->sut->errorType();
+        $this->assertInstanceOf(ErrorType::class, $errorType);
+        $this->assertSame('business', (string) $errorType);
     }
 
     public function test_it_validates_that_the_count_is_positive(): void
@@ -70,7 +70,9 @@ class HourlyErrorCountTest extends TestCase
         $hourlyInterval = HourlyInterval::createFromDateTime(
             new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC'))
         );
-        $this->expectException(new \InvalidArgumentException('The error count must be positive. Negative number "-5" given.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('The error count must be positive. Negative number "-5" given.');
         new HourlyErrorCount('erp', $hourlyInterval, -5, ErrorTypes::BUSINESS);
     }
 
@@ -79,7 +81,9 @@ class HourlyErrorCountTest extends TestCase
         $hourlyInterval = HourlyInterval::createFromDateTime(
             new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC'))
         );
-        $this->expectException(new \InvalidArgumentException('The given error type "Error" is unknown.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('The given error type "Error" is unknown.');
         new HourlyErrorCount('erp', $hourlyInterval, 12, 'Error');
     }
 }

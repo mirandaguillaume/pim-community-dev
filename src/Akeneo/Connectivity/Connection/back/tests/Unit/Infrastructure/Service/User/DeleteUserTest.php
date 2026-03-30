@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Service\User;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Service\User;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Service\DeleteUserInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\UserId;
@@ -53,7 +53,9 @@ class DeleteUserTest extends TestCase
         $userId = new UserId(1);
         $this->repository->method('find')->with($userId->id())->willReturn(null);
         $this->remover->expects($this->never())->method('remove')->with($this->anything());
-        $this->expectException(new \InvalidArgumentException('User with id "1" does not exist.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('User with id "1" does not exist.');
         $this->sut->execute($userId);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Webhook\EventNormalizer;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Webhook\EventNormalizer;
 
 use Akeneo\Connectivity\Connection\Domain\Webhook\EventNormalizer\ProductEventNormalizer;
 use Akeneo\Pim\Enrichment\Component\Product\Message\ProductCreated;

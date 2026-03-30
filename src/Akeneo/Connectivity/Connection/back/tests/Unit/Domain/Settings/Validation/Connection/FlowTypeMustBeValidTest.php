@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Settings\Validation\Connection;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Settings\Validation\Connection;
 
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\FlowType;
 use Akeneo\Connectivity\Connection\Domain\Settings\Validation\Connection\FlowTypeMustBeValid;

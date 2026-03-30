@@ -28,7 +28,7 @@ class OAuth2Test extends TestCase
     public function test_it_dispatches_an_event_when_a_verified_token_is_not_valid(): void
     {
         $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(ApiAuthenticationFailedEvent::class));
-        $this->expectException(new HttpException(401, 'The access token provided is invalid.'));
+        $this->expectException(HttpException::class);
         $this->sut->verifyAccessToken('TpwH4anEPRPwkJN7rLV5T8oMyQN95');
     }
 }

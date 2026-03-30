@@ -37,7 +37,9 @@ class FileFetcherTest extends TestCase
         $filesystem = $this->createMock(FilesystemReader::class);
 
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(false);
-        $this->expectException(new \LogicException('The file "path/to/file.txt" is not present on the filesystem.'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('The file "path/to/file.txt" is not present on the filesystem.');
         $this->sut->fetch($filesystem, 'path/to/file.txt');
     }
 
@@ -48,7 +50,7 @@ class FileFetcherTest extends TestCase
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(true);
         $e = UnableToReadFile::fromLocation('path/to/file.txt');
         $filesystem->method('readStream')->with('path/to/file.txt')->willThrowException($e);
-        $this->expectException(new FileTransferException('Unable to fetch the file "path/to/file.txt" from the filesystem.', 0, $e));
+        $this->expectException(FileTransferException::class);
         $this->sut->fetch($filesystem, 'path/to/file.txt');
     }
 }

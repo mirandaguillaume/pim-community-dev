@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Service\User;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Service\User;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Service\RegenerateUserPasswordInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\UserId;
@@ -62,7 +62,9 @@ class RegenerateUserPasswordTest extends TestCase
         $this->userManager->method('findUserBy')->with(['id' => $userId->id()])->willReturn(null);
         $this->userManager->expects($this->never())->method('updateUser')->with($this->anything());
         $this->dbalConnection->expects($this->never())->method('executeStatement')->with($this->anything());
-        $this->expectException(new \InvalidArgumentException('User with id "1" not found.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('User with id "1" not found.');
         $this->sut->execute($userId);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Webhook\MessageHandler;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Webhook\MessageHandler;
 
 use Akeneo\Connectivity\Connection\Infrastructure\Webhook\MessageHandler\BusinessEventHandler;
 use Akeneo\Platform\Component\EventQueue\BulkEvent;

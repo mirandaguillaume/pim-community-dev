@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\OAuth;
 
 use Akeneo\Connectivity\Connection\Application\Apps\Service\CreateAccessTokenInterface;
 use Akeneo\Connectivity\Connection\Application\RandomCodeGeneratorInterface;
@@ -186,7 +186,9 @@ class CreateAccessTokenTest extends TestCase
     public function test_it_processes_only_valid_client(): void
     {
         $this->clientProvider->method('findClientByAppId')->with('client_id_1234')->willReturn(null);
-        $this->expectException(new \InvalidArgumentException('No client found with the given client id.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('No client found with the given client id.');
         $this->sut->create('client_id_1234', 'auth_code_1234');
     }
 
@@ -196,7 +198,9 @@ class CreateAccessTokenTest extends TestCase
 
         $this->clientProvider->method('findClientByAppId')->with('client_id_1234')->willReturn($client);
         $this->storage->method('getAuthCode')->with('auth_code_1234')->willReturn(null);
-        $this->expectException(new \InvalidArgumentException('Unknown authorization code.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Unknown authorization code.');
         $this->sut->create('client_id_1234', 'auth_code_1234');
     }
 

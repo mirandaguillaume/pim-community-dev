@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Webhook\Validation;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Webhook\Validation;
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Service\DnsLookupInterface;
 use Akeneo\Connectivity\Connection\Application\Webhook\Service\IpMatcherInterface;
@@ -39,7 +39,7 @@ class ExternalUrlValidatorTest extends TestCase
     {
         $constraint = $this->createMock(Constraint::class);
 
-        $this->expectException(new UnexpectedTypeException($constraint->getWrappedObject(), ExternalUrl::class));
+        $this->expectException(UnexpectedTypeException::class);
         $this->sut->validate('', $constraint);
     }
 

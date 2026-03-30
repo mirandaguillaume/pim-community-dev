@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Settings\Client\Fos;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Service\CreateClientInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\Client;
@@ -41,10 +41,10 @@ class CreateClientTest extends TestCase
         $fosClient->method('getId')->willReturn(1);
         $fosClient->method('getPublicId')->willReturn('1_myclientid');
         $fosClient->method('getSecret')->willReturn('my_client_secret');
-        $clientVO = $this->execute('new_app');
-        $clientVO->shouldBeAnInstanceOf(Client::class);
-        $clientVO->id()->shouldReturn(1);
-        $clientVO->clientId()->shouldReturn('1_myclientid');
-        $clientVO->secret()->shouldReturn('my_client_secret');
+        $clientVO = $this->sut->execute('new_app');
+        $this->assertInstanceOf(Client::class, $clientVO);
+        $this->assertSame(1, $clientVO->id());
+        $this->assertSame('1_myclientid', $clientVO->clientId());
+        $this->assertSame('my_client_secret', $clientVO->secret());
     }
 }

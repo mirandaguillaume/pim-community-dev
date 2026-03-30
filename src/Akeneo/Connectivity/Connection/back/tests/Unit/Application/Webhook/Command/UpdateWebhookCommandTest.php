@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Webhook\Command;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Webhook\Command;
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Command\UpdateWebhookCommand;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class UpdateWebhookCommandTest extends TestCase
     public function test_it_is_an_update_webhook_command(): void
     {
         $this->sut = new UpdateWebhookCommand('magento', false);
-        $this->assertTrue(is_a(UpdateWebhookCommand::class, UpdateWebhookCommand::class, true));
+        $this->assertTrue(\is_a(UpdateWebhookCommand::class, UpdateWebhookCommand::class, true));
     }
 
     public function test_it_provides_a_code(): void

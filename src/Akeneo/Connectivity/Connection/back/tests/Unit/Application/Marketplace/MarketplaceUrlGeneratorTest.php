@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Marketplace;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Marketplace;
 
 use Akeneo\Connectivity\Connection\Application\Marketplace\MarketplaceUrlGenerator;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\GetUserProfileQueryInterface;
@@ -71,7 +71,9 @@ class MarketplaceUrlGeneratorTest extends TestCase
 
     public function test_it_throws_an_exception_if_the_market_place_url_is_not_an_url(): void
     {
-        $this->expectException(new \InvalidArgumentException('$marketplaceUrl must be a valid URL.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('$marketplaceUrl must be a valid URL.');
         new MarketplaceUrlGenerator('coucou', $this->versionProvider, 'http://my-akeneo.test', $this->getUserProfileQuery);
     }
 }

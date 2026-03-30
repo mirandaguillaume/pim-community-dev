@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Public;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Controller\Public;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\FindOneConnectedAppByIdQueryInterface;
@@ -47,7 +47,7 @@ class RedirectToEditConnectedAppActionTest extends TestCase
     {
         $badId = '00000000-0000-0000-0000-000000000000';
         $this->findOneConnectedAppByIdQuery->method('execute')->with($badId)->willReturn(null);
-        $this->expectException(new NotFoundHttpException());
+        $this->expectException(NotFoundHttpException::class);
         $this->sut->__invoke($badId);
     }
 
@@ -70,7 +70,7 @@ class RedirectToEditConnectedAppActionTest extends TestCase
         ));
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
-        $this->expectException(new AccessDeniedHttpException());
+        $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($appId);
     }
 
@@ -93,7 +93,7 @@ class RedirectToEditConnectedAppActionTest extends TestCase
         ));
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
-        $this->expectException(new AccessDeniedHttpException());
+        $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($appId);
     }
 

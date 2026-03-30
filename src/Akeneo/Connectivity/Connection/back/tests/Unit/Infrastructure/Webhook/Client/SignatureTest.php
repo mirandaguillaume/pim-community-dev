@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Webhook\Client;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Webhook\Client;
 
 use Akeneo\Connectivity\Connection\Infrastructure\Webhook\Client\Signature;
 use PHPUnit\Framework\TestCase;

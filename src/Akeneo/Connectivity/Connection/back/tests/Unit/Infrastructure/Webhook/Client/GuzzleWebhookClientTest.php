@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Webhook\Client;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Webhook\Client;
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Service\EventsApiRequestLoggerInterface;
 use Akeneo\Connectivity\Connection\Application\Webhook\Service\Logger\SendApiEventRequestLogger;
@@ -140,7 +140,7 @@ class GuzzleWebhookClientTest extends TestCase
             $userAgent .= ' ' . \getenv('PFID');
         }
         Assert::assertSame($userAgent, $request->getHeader(RequestHeaders::HEADER_REQUEST_USERAGENT)[0]);
-        $this->eventDispatcher->expects($this->exactly(1))->method('dispatch')->with(/* TODO: convert Argument matcher */ Argument::allOf(
+        $this->eventDispatcher->expects($this->exactly(1))->method('dispatch')->with($this->logicalAnd(
             $this->isInstanceOf(EventsApiRequestSucceededEvent::class),
             $this->callback(function (EventsApiRequestSucceededEvent $event) use ($Request1pimEvent): bool {
                 if ('ecommerce' !== $event->getConnectionCode() || $Request1pimEvent !== $event->getEvents()[0]) {
@@ -167,7 +167,7 @@ class GuzzleWebhookClientTest extends TestCase
         $timestamp = (int) $request->getHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)[0];
         $signature = Signature::createSignature('a_secret', $timestamp, $body);
         Assert::assertEquals($signature, $request->getHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)[0]);
-        $this->eventDispatcher->expects($this->exactly(1))->method('dispatch')->with(/* TODO: convert Argument matcher */ Argument::allOf(
+        $this->eventDispatcher->expects($this->exactly(1))->method('dispatch')->with($this->logicalAnd(
             $this->isInstanceOf(EventsApiRequestSucceededEvent::class),
             $this->callback(function (EventsApiRequestSucceededEvent $event) use ($Request2pimEvent): bool {
                 if ('erp' !== $event->getConnectionCode() || $Request2pimEvent !== $event->getEvents()[0]) {
@@ -224,17 +224,16 @@ class GuzzleWebhookClientTest extends TestCase
                         ),
                     ]
         );
-        $this->sut->bulkSend([$request1]);
-        Assert::assertCount(1, $container);
-        // Request 1
-        $this->eventsApiRequestLogger->logEventsApiRequestFailed(
+        $this->eventsApiRequestLogger->expects($this->once())->method('logEventsApiRequestFailed')->with(
             'ecommerce',
             $request1->apiEvents(),
             'http://localhost/webhook1',
             500,
             $this->anything()
-        )->shouldBeCalled();
+        );
         $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(EventsApiRequestFailedEvent::class));
+        $this->sut->bulkSend([$request1]);
+        Assert::assertCount(1, $container);
     }
 
     public function test_it_does_not_send_webhook_request_because_of_timeout(): void

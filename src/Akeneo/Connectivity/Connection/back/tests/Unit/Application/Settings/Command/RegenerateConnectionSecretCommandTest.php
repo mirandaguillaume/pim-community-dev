@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Settings\Command;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Settings\Command;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Command\RegenerateConnectionSecretCommand;
 use PHPUnit\Framework\TestCase;

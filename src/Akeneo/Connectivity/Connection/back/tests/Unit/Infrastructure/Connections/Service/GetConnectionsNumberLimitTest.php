@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Connections\Service;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Connections\Service;
 
+use Akeneo\Connectivity\Connection\Infrastructure\Connections\Service\GetConnectionsNumberLimit;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Connections\Service\GetConnectionsNumberLimit;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)

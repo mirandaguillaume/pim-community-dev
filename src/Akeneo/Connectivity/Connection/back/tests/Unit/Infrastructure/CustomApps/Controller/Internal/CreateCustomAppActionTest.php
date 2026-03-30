@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\CustomApps\Controller\Internal;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\CustomApps\Controller\Internal;
 
 use Akeneo\Connectivity\Connection\Application\CustomApps\Command\CreateCustomAppCommand;
 use Akeneo\Connectivity\Connection\Application\CustomApps\Command\CreateCustomAppCommandHandler;
@@ -88,7 +88,7 @@ class CreateCustomAppActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->activateFeatureFlag->method('isEnabled')->willReturn(false);
-        $this->expectException(new NotFoundHttpException());
+        $this->expectException(NotFoundHttpException::class);
         $this->sut->__invoke($request);
     }
 
@@ -108,7 +108,7 @@ class CreateCustomAppActionTest extends TestCase
         $this->activateFeatureFlag->method('isEnabled')->willReturn(true);
         $request->method('isXmlHttpRequest')->willReturn(true);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(false);
-        $this->expectException(new AccessDeniedHttpException());
+        $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($request);
     }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Settings\Command;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Settings\Command;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Command\CreateConnectionCommand;
 use Akeneo\Connectivity\Connection\Application\Settings\Command\CreateConnectionHandler;
@@ -88,9 +88,9 @@ class CreateConnectionHandlerTest extends TestCase
             'default'
         );
         $this->findAConnectionHandler->expects($this->once())->method('handle')->with($this->isInstanceOf(FindAConnectionQuery::class))->willReturn($connection);
-        $connectionWithPassword = $this->handle($command);
-        $connectionWithPassword->shouldBeAnInstanceOf(ConnectionWithCredentials::class);
-        $connectionWithPassword->password()->shouldReturn('my_client_pwd');
+        $connectionWithPassword = $this->sut->handle($command);
+        $this->assertInstanceOf(ConnectionWithCredentials::class, $connectionWithPassword);
+        $this->assertSame('my_client_pwd', $connectionWithPassword->password());
     }
 
     public function test_it_throws_a_constraint_exception_when_something_is_invalid(): void

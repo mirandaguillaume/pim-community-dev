@@ -61,7 +61,9 @@ class JobParametersTest extends TestCase
     public function test_it_throws_undefined_job_parameter_exception_when_accessing_undefined_parameter(): void
     {
         $this->sut = new JobParameters(['filePath' => '/tmp/myfile.csv', 'enclosure' => '"']);
-        $this->expectException(new UndefinedJobParameterException('Parameter "undefinedKey" is undefined'));
+        $this->expectException(UndefinedJobParameterException::class);
+
+        $this->expectExceptionMessage('Parameter "undefinedKey" is undefined');
         $this->sut->get('undefinedKey');
     }
 }

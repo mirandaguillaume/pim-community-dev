@@ -26,7 +26,7 @@ class RandomCodeGenerator implements RandomCodeGeneratorInterface
             }
         }
         // Last resort: mt_rand
-        if (in_array($randomData, ['', '0', false], true)) { // Get 108 bytes of (pseudo-random, insecure) data
+        if (\in_array($randomData, ['', '0', false], true)) { // Get 108 bytes of (pseudo-random, insecure) data
             $randomData = \random_int(0, \mt_getrandmax())
                 . \random_int(0, \mt_getrandmax())
                 . \random_int(0, \mt_getrandmax())

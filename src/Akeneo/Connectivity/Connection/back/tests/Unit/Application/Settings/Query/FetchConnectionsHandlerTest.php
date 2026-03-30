@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Settings\Query;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Settings\Query;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Query\FetchConnectionsHandler;
 use Akeneo\Connectivity\Connection\Application\Settings\Query\FetchConnectionsQuery;

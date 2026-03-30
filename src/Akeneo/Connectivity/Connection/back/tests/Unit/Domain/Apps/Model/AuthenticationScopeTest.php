@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Apps\Model;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Apps\Model;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\AuthenticationScope;
 use PHPUnit\Framework\TestCase;
@@ -27,8 +27,9 @@ class AuthenticationScopeTest extends TestCase
 
     public function test_it_returns_all_the_scopes(): void
     {
-        $this::getAllScopes()->shouldReturn(
-            [AuthenticationScope::SCOPE_OPENID, AuthenticationScope::SCOPE_PROFILE, AuthenticationScope::SCOPE_EMAIL]
+        $this->assertSame(
+            [AuthenticationScope::SCOPE_OPENID, AuthenticationScope::SCOPE_PROFILE, AuthenticationScope::SCOPE_EMAIL],
+            AuthenticationScope::getAllScopes()
         );
     }
 }

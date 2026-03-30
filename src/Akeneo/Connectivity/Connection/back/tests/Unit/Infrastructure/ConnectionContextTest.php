@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure;
 
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\FlowType;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection;
@@ -109,13 +109,13 @@ class ConnectionContextTest extends TestCase
 
     public function test_it_throws_an_exception_during_is_collectable(): void
     {
-        $this->sut->shouldThrow(\LogicException::class)
-                    ->during('isCollectable');
+        $this->expectException(\LogicException::class);
+        $this->sut->isCollectable();
     }
 
     public function test_it_throws_an_exception_during_are_credantials_valid_combination_(): void
     {
-        $this->sut->shouldThrow(\LogicException::class)
-                    ->during('areCredentialsValidCombination');
+        $this->expectException(\LogicException::class);
+        $this->sut->areCredentialsValidCombination();
     }
 }

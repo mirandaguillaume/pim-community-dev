@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Controller\Internal;
 
 use Akeneo\Connectivity\Connection\Application\Marketplace\AppUrlGenerator;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\GetAppQueryInterface;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App;
 use Akeneo\Connectivity\Connection\Domain\Settings\Persistence\Query\IsConnectionsNumberLimitReachedQueryInterface;
+use Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal\GetAppActivateUrlAction;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Platform\Bundle\FrameworkBundle\Service\PimUrl;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal\GetAppActivateUrlAction;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -57,7 +57,7 @@ class GetAppActivateUrlActionTest extends TestCase
 
         $request->method('isXmlHttpRequest')->willReturn(true);
         $this->marketplaceActivateFeatureFlag->method('isEnabled')->willReturn(false);
-        $this->expectException(new NotFoundHttpException());
+        $this->expectException(NotFoundHttpException::class);
         $this->sut->__invoke($request, 'foo');
     }
 
@@ -69,7 +69,9 @@ class GetAppActivateUrlActionTest extends TestCase
         $this->marketplaceActivateFeatureFlag->method('isEnabled')->willReturn(true);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(true);
         $this->isConnectionsNumberLimitReachedQuery->method('execute')->willReturn(true);
-        $this->expectException(new BadRequestHttpException('App and connections limit reached'));
+        $this->expectException(BadRequestHttpException::class);
+
+        $this->expectExceptionMessage('App and connections limit reached');
         $this->sut->__invoke($request, 'foo');
     }
 
@@ -82,7 +84,9 @@ class GetAppActivateUrlActionTest extends TestCase
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(true);
         $this->isConnectionsNumberLimitReachedQuery->method('execute')->willReturn(false);
         $this->getAppQuery->method('execute')->with('foo')->willReturn(null);
-        $this->expectException(new NotFoundHttpException('Invalid app identifier'));
+        $this->expectException(NotFoundHttpException::class);
+
+        $this->expectExceptionMessage('Invalid app identifier');
         $this->sut->__invoke($request, 'foo');
     }
 

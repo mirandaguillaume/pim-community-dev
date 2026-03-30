@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Controller\Internal;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Command\UpdateConnectionHandler;
 use Akeneo\Connectivity\Connection\Application\Settings\Query\FindAConnectionHandler;
@@ -12,11 +12,11 @@ use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\FindOneConnectedAppBy
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\Repository\ConnectedAppRepositoryInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\ConnectionWithCredentials;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ConnectionType;
+use Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal\UpdateConnectedAppMonitoringSettingsAction;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal\UpdateConnectedAppMonitoringSettingsAction;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,7 +54,7 @@ class UpdateConnectedAppMonitoringSettingsActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->featureFlag->method('isEnabled')->willReturn(false);
-        $this->expectException(new NotFoundHttpException());
+        $this->expectException(NotFoundHttpException::class);
         $this->sut->__invoke($request, 'foo');
     }
 
@@ -74,7 +74,9 @@ class UpdateConnectedAppMonitoringSettingsActionTest extends TestCase
         $this->featureFlag->method('isEnabled')->willReturn(true);
         $request->method('isXmlHttpRequest')->willReturn(true);
         $this->findOneConnectedAppByConnectionCodeQuery->method('execute')->with('foo')->willReturn(null);
-        $this->expectException(new NotFoundHttpException('Connected app with connection code foo does not exist.'));
+        $this->expectException(NotFoundHttpException::class);
+
+        $this->expectExceptionMessage('Connected app with connection code foo does not exist.');
         $this->sut->__invoke($request, 'foo');
     }
 
@@ -96,7 +98,7 @@ class UpdateConnectedAppMonitoringSettingsActionTest extends TestCase
         );
         $this->findOneConnectedAppByConnectionCodeQuery->method('execute')->with('foo')->willReturn($connectedApp);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
-        $this->expectException(new AccessDeniedHttpException());
+        $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($request, 'foo');
     }
 
@@ -119,7 +121,9 @@ class UpdateConnectedAppMonitoringSettingsActionTest extends TestCase
         $this->findOneConnectedAppByConnectionCodeQuery->method('execute')->with('foo')->willReturn($connectedApp);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(true);
         $this->findAConnectionHandler->method('handle')->with(new FindAConnectionQuery('foo'))->willReturn(null);
-        $this->expectException(new NotFoundHttpException('Connection with connection code foo does not exist.'));
+        $this->expectException(NotFoundHttpException::class);
+
+        $this->expectExceptionMessage('Connection with connection code foo does not exist.');
         $this->sut->__invoke($request, 'foo');
     }
 

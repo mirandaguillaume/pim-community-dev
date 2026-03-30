@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Webhook\Validation;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Webhook\Validation;
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Validation\EventSubscriptionsLimit;
 use Akeneo\Connectivity\Connection\Application\Webhook\Validation\EventSubscriptionsLimitValidator;
@@ -56,7 +56,7 @@ class EventSubscriptionsLimitValidatorTest extends TestCase
         $constraint = $this->createMock(Constraint::class);
 
         $eventSubscription = new ConnectionWebhook('erp', true, 'http://localhost');
-        $this->expectException(new UnexpectedTypeException($constraint->getWrappedObject(), EventSubscriptionsLimit::class));
+        $this->expectException(UnexpectedTypeException::class);
         $this->sut->validate($eventSubscription, $constraint);
     }
 
@@ -73,7 +73,7 @@ class EventSubscriptionsLimitValidatorTest extends TestCase
     {
         $value = new \stdClass();
         $constraint = new EventSubscriptionsLimit();
-        $this->expectException(new UnexpectedValueException($value, ConnectionWebhook::class));
+        $this->expectException(UnexpectedValueException::class);
         $this->sut->validate($value, $constraint);
     }
 

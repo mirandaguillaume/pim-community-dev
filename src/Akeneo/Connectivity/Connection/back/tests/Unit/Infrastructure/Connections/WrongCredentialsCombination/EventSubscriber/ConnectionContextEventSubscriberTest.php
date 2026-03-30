@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Connections\WrongCredentialsCombination\EventSubscriber;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Connections\WrongCredentialsCombination\EventSubscriber;
 
 use Akeneo\Connectivity\Connection\Infrastructure\ConnectionContext;
+use Akeneo\Connectivity\Connection\Infrastructure\Connections\WrongCredentialsCombination\EventSubscriber\ConnectionContextEventSubscriber;
 use Akeneo\Tool\Component\Api\Event\ApiAuthenticationEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Connections\WrongCredentialsCombination\EventSubscriber\ConnectionContextEventSubscriber;
 
 /**
  * @author Pierre Jolly <pierre.jolly@akeneo.com>

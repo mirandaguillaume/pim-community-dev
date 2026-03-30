@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Webhook\EventSubscribers;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Webhook\EventSubscribers;
 
 use Akeneo\Connectivity\Connection\Domain\Webhook\Persistence\Query\UpdateEventsApiRequestCountQueryInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\Webhook\EventSubscribers\EventsApiRequestsLimitIncrementSubscriber;
@@ -37,7 +37,7 @@ class EventsApiRequestsLimitIncrementSubscriberTest extends TestCase
 
     public function test_it_saves_request_count(): void
     {
-        $this->eventsApiRequestCountQuery->expects($this->once())->method('execute')->with(/* TODO: convert Argument matcher */ Argument::type(\DateTimeImmutable::class), 1);
+        $this->eventsApiRequestCountQuery->expects($this->once())->method('execute')->with($this->isInstanceOf(\DateTimeImmutable::class), 1);
         $this->sut->incrementRequestCount();
         $this->sut->saveRequestCount();
     }

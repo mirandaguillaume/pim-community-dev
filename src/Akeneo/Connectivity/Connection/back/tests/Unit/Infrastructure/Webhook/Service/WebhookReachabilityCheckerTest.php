@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Webhook\Service;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Webhook\Service;
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Service\UrlReachabilityCheckerInterface;
 use Akeneo\Connectivity\Connection\Domain\Webhook\DTO\UrlReachabilityStatus;
 use Akeneo\Connectivity\Connection\Infrastructure\Webhook\RequestHeaders;
+use Akeneo\Connectivity\Connection\Infrastructure\Webhook\Service\WebhookReachabilityChecker;
 use Akeneo\Platform\Bundle\PimVersionBundle\VersionProviderInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -17,7 +18,6 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Webhook\Service\WebhookReachabilityChecker;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -57,10 +57,10 @@ class WebhookReachabilityCheckerTest extends TestCase
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_USERAGENT)
-                    && $this::POST === $object->getMethod()
+                    && 'POST' === $object->getMethod()
                     && $validUrl === (string) $object->getUri()), ['allow_redirects' => false])->willReturn(new Response(200, [], null, '1.1', 'OK'));
         $this->validator->method('validate')->with($validUrl, $this->anything())->willReturn(new ConstraintViolationList());
-        $resultUrlReachabilityStatus = $this->check($validUrl, $secret);
+        $resultUrlReachabilityStatus = $this->sut->check($validUrl, $secret);
         Assert::assertEquals(
             $resultUrlReachabilityStatus,
             new UrlReachabilityStatus(true, "200 OK")
@@ -79,7 +79,7 @@ class WebhookReachabilityCheckerTest extends TestCase
             $notValidUrl,
             $this->anything()
         )->willReturn($violationList);
-        $resultUrlReachabilityStatus = $this->check($notValidUrl, $secret);
+        $resultUrlReachabilityStatus = $this->sut->check($notValidUrl, $secret);
         Assert::assertEquals(
             $resultUrlReachabilityStatus,
             new UrlReachabilityStatus(false, $notValidUrl)
@@ -98,7 +98,7 @@ class WebhookReachabilityCheckerTest extends TestCase
             $emptyUrl,
             $this->anything()
         )->willReturn($violationList);
-        $resultUrlReachabilityStatus = $this->check($emptyUrl, $secret);
+        $resultUrlReachabilityStatus = $this->sut->check($emptyUrl, $secret);
         Assert::assertEquals(
             $resultUrlReachabilityStatus,
             new UrlReachabilityStatus(false, $emptyUrl)
@@ -115,10 +115,10 @@ class WebhookReachabilityCheckerTest extends TestCase
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_USERAGENT)
-                    && $this::POST === $object->getMethod()
+                    && 'POST' === $object->getMethod()
                     && $validUrl === (string) $object->getUri()), ['allow_redirects' => false])->willReturn(new Response(301, [], null, '1.1', 'Moved Permanently'));
         $this->validator->method('validate')->with($validUrl, $this->anything())->willReturn(new ConstraintViolationList());
-        $resultUrlReachabilityStatus = $this->check($validUrl, $secret);
+        $resultUrlReachabilityStatus = $this->sut->check($validUrl, $secret);
         Assert::assertEquals(
             $resultUrlReachabilityStatus,
             new UrlReachabilityStatus(false, '301 Server response contains a redirection. This is not allowed.')
@@ -130,7 +130,7 @@ class WebhookReachabilityCheckerTest extends TestCase
         $this->versionProvider->method('getVersion')->willReturn('v20210526040645');
         $validUrl = 'http://172.17.0.1:8000/webhook';
         $secret = '1234';
-        $request = new Request($this::POST, $validUrl, []);
+        $request = new Request('POST', $validUrl, []);
         $response = new Response(451, [], null, '1.1', 'Unavailable For Legal Reasons');
         $requestException = new RequestException('RequestException message', $request, $response);
         $this->client->method('send')->with($this->callback(fn ($object): bool => $object instanceof Request
@@ -138,10 +138,10 @@ class WebhookReachabilityCheckerTest extends TestCase
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_USERAGENT)
-                    && $this::POST === $object->getMethod()
+                    && 'POST' === $object->getMethod()
                     && $validUrl === (string) $object->getUri()), ['allow_redirects' => false])->willThrowException($requestException);
         $this->validator->method('validate')->with($validUrl, $this->anything())->willReturn(new ConstraintViolationList());
-        $resultUrlReachabilityStatus = $this->check($validUrl, $secret);
+        $resultUrlReachabilityStatus = $this->sut->check($validUrl, $secret);
         Assert::assertEquals(
             $resultUrlReachabilityStatus,
             new UrlReachabilityStatus(false, "451 Unavailable For Legal Reasons")
@@ -153,17 +153,17 @@ class WebhookReachabilityCheckerTest extends TestCase
         $this->versionProvider->method('getVersion')->willReturn('v20210526040645');
         $validUrl = 'http://172.17.0.1:8000/webhook';
         $secret = '1234';
-        $request = new Request($this::POST, $validUrl, []);
+        $request = new Request('POST', $validUrl, []);
         $connectException = new ConnectException('ConnectException message', $request);
         $this->client->method('send')->with($this->callback(fn ($object): bool => $object instanceof Request
                     && $object->hasHeader('Content-Type')
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_USERAGENT)
-                    && $this::POST === $object->getMethod()
+                    && 'POST' === $object->getMethod()
                     && $validUrl === (string) $object->getUri()), ['allow_redirects' => false])->willThrowException($connectException);
         $this->validator->method('validate')->with($validUrl, $this->anything())->willReturn(new ConstraintViolationList());
-        $resultUrlReachabilityStatus = $this->check($validUrl, $secret);
+        $resultUrlReachabilityStatus = $this->sut->check($validUrl, $secret);
         Assert::assertEquals(
             $resultUrlReachabilityStatus,
             new UrlReachabilityStatus(false, "Failed to connect to server")
@@ -181,10 +181,10 @@ class WebhookReachabilityCheckerTest extends TestCase
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)
                     && $object->hasHeader(RequestHeaders::HEADER_REQUEST_USERAGENT)
-                    && $this::POST === $object->getMethod()
+                    && 'POST' === $object->getMethod()
                     && $validUrl === (string) $object->getUri()), ['allow_redirects' => false])->willThrowException($transferException);
         $this->validator->method('validate')->with($validUrl, $this->anything())->willReturn(new ConstraintViolationList());
-        $resultUrlReachabilityStatus = $this->check($validUrl, $secret);
+        $resultUrlReachabilityStatus = $this->sut->check($validUrl, $secret);
         Assert::assertEquals(
             $resultUrlReachabilityStatus,
             new UrlReachabilityStatus(false, "Failed to connect to server")

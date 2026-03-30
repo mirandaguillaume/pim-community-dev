@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\OAuth;
 
 use Akeneo\Connectivity\Connection\Application\RandomCodeGeneratorInterface;
 use Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppConfirmation;
 use Akeneo\Connectivity\Connection\Domain\ClockInterface;
+use Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth\AuthorizationCodeGenerator;
 use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2GrantCode;
 use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface;
 use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
@@ -14,7 +15,6 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth\AuthorizationCodeGenerator;
 
 class AuthorizationCodeGeneratorTest extends TestCase
 {

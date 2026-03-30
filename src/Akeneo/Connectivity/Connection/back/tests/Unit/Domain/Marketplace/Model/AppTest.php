@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Marketplace\Model;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Marketplace\Model;
 
 use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App;
 use PHPUnit\Framework\TestCase;
@@ -183,7 +183,9 @@ class AppTest extends TestCase
 
     public function test_it_can_not_have_a_connected_and_a_pending_status_together(): void
     {
-        $this->expectException(new \DomainException('An App can not be both connected and pending.'));
+        $this->expectException(\DomainException::class);
+
+        $this->expectExceptionMessage('An App can not be both connected and pending.');
         App::fromWebMarketplaceValues([
                         'id' => 'ce8cf07f-321e-4dd2-a52f-30ac00881ba7',
                         'name' => 'Shopify App',

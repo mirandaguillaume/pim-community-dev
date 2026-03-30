@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Settings\Validation\Connection;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Settings\Validation\Connection;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Validation\Connection\ImageMustExist;
 use PHPUnit\Framework\TestCase;

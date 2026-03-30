@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Marketplace\Model;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Marketplace\Model;
 
 use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\Extension;
 use PHPUnit\Framework\TestCase;

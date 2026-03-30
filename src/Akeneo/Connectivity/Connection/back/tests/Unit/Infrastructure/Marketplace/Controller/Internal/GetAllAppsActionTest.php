@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Marketplace\Controller\Internal;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Marketplace\Controller\Internal;
 
 use Akeneo\Connectivity\Connection\Application\Marketplace\AppUrlGenerator;
 use Akeneo\Connectivity\Connection\Application\Marketplace\MarketplaceAnalyticsGenerator;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\DTO\GetAllAppsResult;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\GetAllAppsQueryInterface;
+use Akeneo\Connectivity\Connection\Infrastructure\Marketplace\Controller\Internal\GetAllAppsAction;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Platform\Bundle\FrameworkBundle\Service\PimUrl;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
@@ -15,7 +16,6 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Marketplace\Controller\Internal\GetAllAppsAction;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -52,7 +52,7 @@ class GetAllAppsActionTest extends TestCase
         $this->activateFeatureFlag->method('isEnabled')->willReturn(true);
         $request->method('isXmlHttpRequest')->willReturn(true);
         $this->getAllAppsQuery->method('execute')->willThrowException(new \Exception('error message', Response::HTTP_BAD_REQUEST));
-        $result = $this->__invoke($request);
+        $result = $this->sut->__invoke($request);
         Assert::assertEquals(Response::HTTP_OK, $result->getStatusCode());
         Assert::assertEquals(
             \json_encode(GetAllAppsResult::create(0, [])->normalize(), JSON_THROW_ON_ERROR),

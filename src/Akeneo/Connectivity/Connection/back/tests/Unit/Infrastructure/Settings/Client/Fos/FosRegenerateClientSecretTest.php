@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Settings\Client\Fos;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Service\RegenerateClientSecretInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ClientId;
@@ -62,7 +62,9 @@ class FosRegenerateClientSecretTest extends TestCase
         $this->clientManager->method('findClientBy')->with(['id' => $clientId->id()])->willReturn(null);
         $this->clientManager->expects($this->never())->method('updateClient')->with($this->anything());
         $this->dbalConnection->expects($this->never())->method('executeStatement')->with($this->anything());
-        $this->expectException(new \InvalidArgumentException('Client with id "123" not found.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Client with id "123" not found.');
         $this->sut->execute($clientId);
     }
 }

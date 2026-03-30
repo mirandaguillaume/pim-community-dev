@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\CustomApps\Command;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\CustomApps\Command;
 
 use Akeneo\Connectivity\Connection\Application\CustomApps\Command\CreateCustomAppCommand;
 use Akeneo\Connectivity\Connection\Application\CustomApps\Command\CreateCustomAppCommandHandler;

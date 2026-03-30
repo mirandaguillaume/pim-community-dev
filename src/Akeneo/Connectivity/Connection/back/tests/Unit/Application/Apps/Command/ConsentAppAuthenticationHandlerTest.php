@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Apps\Command;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Apps\Command;
 
 use Akeneo\Connectivity\Connection\Application\Apps\AppAuthorizationSessionInterface;
 use Akeneo\Connectivity\Connection\Application\Apps\Command\ConsentAppAuthenticationCommand;
@@ -102,7 +102,7 @@ class ConsentAppAuthenticationHandlerTest extends TestCase
         $constraintViolationList->method('count')->willReturn(1);
         $constraintViolationList->method('get')->with(0)->willReturn($constraintViolation);
         $this->validator->method('validate')->with($consentAppAuthenticationCommand)->willReturn($constraintViolationList);
-        $this->expectException(new InvalidAppAuthenticationException($constraintViolationList->getWrappedObject()));
+        $this->expectException(InvalidAppAuthenticationException::class);
         $this->sut->handle($consentAppAuthenticationCommand);
     }
 
@@ -116,7 +116,9 @@ class ConsentAppAuthenticationHandlerTest extends TestCase
         $constraintViolationList->method('count')->willReturn(0);
         $this->appAuthorizationSession->method('getAppAuthorization')->with($consentAppAuthenticationCommand->getClientId())->willReturn(null);
         $this->validator->method('validate')->with($consentAppAuthenticationCommand)->willReturn($constraintViolationList);
-        $this->expectException(new \LogicException('There is no active app authorization in session'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('There is no active app authorization in session');
         $this->sut->handle($consentAppAuthenticationCommand);
     }
 
@@ -138,7 +140,9 @@ class ConsentAppAuthenticationHandlerTest extends TestCase
         $this->appAuthorizationSession->method('getAppAuthorization')->with($consentAppAuthenticationCommand->getClientId())->willReturn($appAuthorization);
         $this->getAppConfirmationQuery->method('execute')->with($consentAppAuthenticationCommand->getClientId())->willReturn(null);
         $this->validator->method('validate')->with($consentAppAuthenticationCommand)->willReturn($constraintViolationList);
-        $this->expectException(new \LogicException('The connected app should have been created'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('The connected app should have been created');
         $this->sut->handle($consentAppAuthenticationCommand);
     }
 }

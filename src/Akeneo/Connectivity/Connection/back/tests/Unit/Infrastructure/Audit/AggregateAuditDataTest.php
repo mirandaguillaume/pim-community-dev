@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Audit;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Audit;
 
 use Akeneo\Connectivity\Connection\Domain\Audit\Model\Read;
 use Akeneo\Connectivity\Connection\Infrastructure\Audit\AggregateAuditData;
@@ -53,7 +53,7 @@ class AggregateAuditDataTest extends TestCase
                     ),
                 ];
         $dateTimeZone = new \DateTimeZone('UTC');
-        $this::normalize($periodEventCounts, $dateTimeZone)->shouldReturn([
+        $this->assertSame([
                     '<all>' => [
                         'previous_week' => [
                             '2020-01-01' => 10,
@@ -73,7 +73,7 @@ class AggregateAuditDataTest extends TestCase
                         ],
                         'current_week_total' => 100,
                     ],
-                ]);
+                ], AggregateAuditData::normalize($periodEventCounts, $dateTimeZone));
     }
 
     public function test_it_normalizes_period_event_counts_with_the_user_timezone(): void
@@ -106,7 +106,7 @@ class AggregateAuditDataTest extends TestCase
         $dateTimeZone = new \DateTimeZone('Asia/Tokyo');
         // UTC+09:00 no Daylight saving time
 
-        $this::normalize($periodEventCounts, $dateTimeZone)->shouldReturn([
+        $this->assertSame([
             '<all>' => [
                 'previous_week' => [
                     '2020-01-01' => 10,
@@ -117,6 +117,6 @@ class AggregateAuditDataTest extends TestCase
                 ],
                 'current_week_total' => 11100,
             ],
-        ]);
+        ], AggregateAuditData::normalize($periodEventCounts, $dateTimeZone));
     }
 }

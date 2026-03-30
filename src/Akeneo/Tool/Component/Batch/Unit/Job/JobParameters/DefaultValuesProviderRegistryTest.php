@@ -35,9 +35,9 @@ class DefaultValuesProviderRegistryTest extends TestCase
         $job = $this->createMock(JobInterface::class);
 
         $job->method('getName')->willReturn('myname');
-        $this->expectException(new NonExistingServiceException(
-            'No default values provider has been defined for the Job "myname"'
-        ));
+        $this->expectException(NonExistingServiceException::class);
+
+        $this->expectExceptionMessage('No default values provider has been defined for the Job "myname"');
         $this->sut->get($job);
     }
 }

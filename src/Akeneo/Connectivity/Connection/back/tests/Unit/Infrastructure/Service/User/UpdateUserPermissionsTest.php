@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Service\User;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Service\User;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Service\UpdateUserPermissionsInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\UserId;
@@ -69,7 +69,9 @@ class UpdateUserPermissionsTest extends TestCase
         $this->userManager->method('findUserBy')->with(['id' => $userId->id()])->willReturn(null);
         $this->userUpdater->expects($this->never())->method('update');
         $this->userManager->expects($this->never())->method('updateUser')->with($this->anything());
-        $this->expectException(new \InvalidArgumentException('User with id "1234" not found.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('User with id "1234" not found.');
         $this->sut->execute($userId, $roleId, $groupId);
     }
 
@@ -83,7 +85,9 @@ class UpdateUserPermissionsTest extends TestCase
         $this->roleRepository->method('find')->with($roleId)->willReturn(null);
         $this->userUpdater->expects($this->never())->method('update');
         $this->userManager->expects($this->never())->method('updateUser')->with($this->anything());
-        $this->expectException(new \InvalidArgumentException('Role with id "321" not found.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Role with id "321" not found.');
         $this->sut->execute($userId, $roleId, $groupId);
     }
 
@@ -99,7 +103,9 @@ class UpdateUserPermissionsTest extends TestCase
         $this->groupRepository->method('find')->with($groupId)->willReturn(null);
         $this->userUpdater->expects($this->never())->method('update');
         $this->userManager->expects($this->never())->method('updateUser')->with($this->anything());
-        $this->expectException(new \InvalidArgumentException('Group with id "456" not found.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Group with id "456" not found.');
         $this->sut->execute($userId, $roleId, $groupId);
     }
 }

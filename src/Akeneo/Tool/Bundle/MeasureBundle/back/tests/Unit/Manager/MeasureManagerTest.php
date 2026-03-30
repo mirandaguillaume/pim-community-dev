@@ -56,9 +56,13 @@ class MeasureManagerTest extends TestCase
 
     public function test_it_throws_an_exception_when_try_to_get_symbols_of_unknown_family(): void
     {
-        $this->expectException(new MeasurementFamilyNotFoundException('Undefined measure family "foo"'));
+        $this->expectException(MeasurementFamilyNotFoundException::class);
+
+        $this->expectExceptionMessage('Undefined measure family "foo"');
         $this->sut->getUnitSymbolsForFamily('foo');
-        $this->expectException(new MeasurementFamilyNotFoundException('Undefined measure family "foo"'));
+        $this->expectException(MeasurementFamilyNotFoundException::class);
+
+        $this->expectExceptionMessage('Undefined measure family "foo"');
         $this->sut->getUnitCodesForFamily('foo');
     }
 

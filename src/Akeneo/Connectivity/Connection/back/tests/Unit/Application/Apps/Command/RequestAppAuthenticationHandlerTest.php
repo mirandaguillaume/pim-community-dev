@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Apps\Command;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Apps\Command;
 
 use Akeneo\Connectivity\Connection\Application\Apps\Command\RequestAppAuthenticationCommand;
 use Akeneo\Connectivity\Connection\Application\Apps\Command\RequestAppAuthenticationHandler;
@@ -59,7 +59,9 @@ class RequestAppAuthenticationHandlerTest extends TestCase
         $constraintViolationList->method('count')->willReturn(1);
         $constraintViolationList->method('get')->with(0)->willReturn($constraintViolation);
         $constraintViolation->method('getMessage')->willReturn('a_validation_error');
-        $this->expectException(new \InvalidArgumentException('a_validation_error'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('a_validation_error');
         $this->sut->handle($command);
     }
 

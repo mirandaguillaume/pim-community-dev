@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Security;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Security;
 
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Security\ConnectedPimUserProvider;
 use Akeneo\UserManagement\Component\Model\UserInterface;
@@ -46,6 +46,7 @@ class ConnectedPimUserProviderTest extends TestCase
     public function test_it_throws_an_exception_if_user_is_not_connected(): void
     {
         $this->tokenStorage->method('getToken')->willReturn(null);
-        $this->sut->shouldThrow(\LogicException::class)->during('getCurrentUserId');
+        $this->expectException(\LogicException::class);
+        $this->sut->getCurrentUserId();
     }
 }

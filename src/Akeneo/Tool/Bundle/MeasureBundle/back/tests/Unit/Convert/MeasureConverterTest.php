@@ -57,7 +57,7 @@ class MeasureConverterTest extends TestCase
 
     public function test_it_throws_an_exception_if_an_unknown_family_is_set(): void
     {
-        $this->expectException(new MeasurementFamilyNotFoundException());
+        $this->expectException(MeasurementFamilyNotFoundException::class);
         $this->sut->setFamily('foo');
     }
 
@@ -125,13 +125,13 @@ class MeasureConverterTest extends TestCase
     public function test_it_throws_an_exception_if_the_unit_measure_does_not_exist(): void
     {
         $this->sut->setFamily('Weight');
-        $this->expectException(new UnitNotFoundException(
-            'Could not find metric unit "foo" in family "Weight"'
-        ));
+        $this->expectException(UnitNotFoundException::class);
+
+        $this->expectExceptionMessage('Could not find metric unit "foo" in family "Weight"');
         $this->sut->convertBaseToStandard('foo', $this->anything());
-        $this->expectException(new UnitNotFoundException(
-            'Could not find metric unit "foo" in family "Weight"'
-        ));
+        $this->expectException(UnitNotFoundException::class);
+
+        $this->expectExceptionMessage('Could not find metric unit "foo" in family "Weight"');
         $this->sut->convertStandardToResult('foo', $this->anything());
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\CustomApps\Controller\External;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\CustomApps\Controller\External;
 
 use Akeneo\Connectivity\Connection\Application\Apps\Command\DeleteAppCommand;
 use Akeneo\Connectivity\Connection\Application\Apps\Command\DeleteAppHandler;
@@ -52,7 +52,7 @@ class DeleteCustomAppActionTest extends TestCase
     public function test_it_throws_an_access_denied_exception_when_connection_cannot_manage_custom_apps(): void
     {
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(false);
-        $this->expectException(new AccessDeniedHttpException());
+        $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke('test_client_id');
     }
 
@@ -60,7 +60,9 @@ class DeleteCustomAppActionTest extends TestCase
     {
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(true);
         $this->getCustomAppQuery->method('execute')->with('test_client_id')->willReturn(null);
-        $this->expectException(new NotFoundHttpException('Test app with test_client_id client_id was not found.'));
+        $this->expectException(NotFoundHttpException::class);
+
+        $this->expectExceptionMessage('Test app with test_client_id client_id was not found.');
         $this->sut->__invoke('test_client_id');
     }
 

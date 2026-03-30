@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Audit\Query;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Audit\Query;
 
 use Akeneo\Connectivity\Connection\Application\Audit\Query\GetPeriodErrorCountPerConnectionQuery;
 use Akeneo\Connectivity\Connection\Domain\ValueObject\DateTimePeriod;

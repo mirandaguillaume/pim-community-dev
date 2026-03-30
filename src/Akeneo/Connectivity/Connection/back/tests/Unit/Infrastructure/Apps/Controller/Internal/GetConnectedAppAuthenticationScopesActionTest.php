@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Controller\Internal;
 
 use Akeneo\Connectivity\Connection\Application\Apps\ConnectedPimUserProviderInterface;
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\FindOneConnectedAppByConnectionCodeQueryInterface;
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\GetUserConsentedAuthenticationScopesQueryInterface;
+use Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal\GetConnectedAppAuthenticationScopesAction;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal\GetConnectedAppAuthenticationScopesAction;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -71,7 +71,9 @@ class GetConnectedAppAuthenticationScopesActionTest extends TestCase
     public function test_it_throws_a_not_found_exception_on_non_connected_app_connection_code(): void
     {
         $this->findOneConnectedAppByConnectionCodeQuery->method('execute')->with('foo')->willReturn(null);
-        $this->expectException(new NotFoundHttpException('Connected app with connection code foo does not exist.'));
+        $this->expectException(NotFoundHttpException::class);
+
+        $this->expectExceptionMessage('Connected app with connection code foo does not exist.');
         $this->sut->__invoke('foo');
     }
 }

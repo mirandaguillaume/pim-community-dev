@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Security;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Security;
 
 use Akeneo\Connectivity\Connection\Application\Apps\Security\FindCurrentAppIdInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Security\FindCurrentAppId;

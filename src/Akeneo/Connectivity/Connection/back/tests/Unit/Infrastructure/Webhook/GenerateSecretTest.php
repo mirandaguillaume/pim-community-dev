@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Webhook;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Webhook;
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Service\GenerateSecretInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\Webhook\GenerateSecret;
@@ -25,7 +25,7 @@ class GenerateSecretTest extends TestCase
 
     public function test_it_generates_a_secret(): void
     {
-        $secret = $this->generate();
-        $secret->shouldBeString();
+        $secret = $this->sut->generate();
+        $this->assertIsString($secret);
     }
 }

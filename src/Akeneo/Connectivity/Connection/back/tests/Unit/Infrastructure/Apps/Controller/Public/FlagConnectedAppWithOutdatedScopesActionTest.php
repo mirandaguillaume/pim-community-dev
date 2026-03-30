@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Public;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Controller\Public;
 
 use Akeneo\Connectivity\Connection\Application\Apps\Command\FlagAppContainingOutdatedScopesCommand;
 use Akeneo\Connectivity\Connection\Application\Apps\Command\FlagAppContainingOutdatedScopesHandler;
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\FindOneConnectedAppByUserIdentifierQueryInterface;
+use Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Public\FlagConnectedAppWithOutdatedScopesAction;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Public\FlagConnectedAppWithOutdatedScopesAction;
 use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +44,9 @@ class FlagConnectedAppWithOutdatedScopesActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->tokenStorage->method('getToken')->willReturn(null);
-        $this->expectException(new AccessDeniedHttpException('Not an authenticated App'));
+        $this->expectException(AccessDeniedHttpException::class);
+
+        $this->expectExceptionMessage('Not an authenticated App');
         $this->sut->__invoke($request);
     }
 
@@ -55,7 +57,9 @@ class FlagConnectedAppWithOutdatedScopesActionTest extends TestCase
 
         $token->method('getUser')->willReturn(null);
         $this->tokenStorage->method('getToken')->willReturn($token);
-        $this->expectException(new AccessDeniedHttpException('Not an authenticated App'));
+        $this->expectException(AccessDeniedHttpException::class);
+
+        $this->expectExceptionMessage('Not an authenticated App');
         $this->sut->__invoke($request);
     }
 
@@ -67,7 +71,7 @@ class FlagConnectedAppWithOutdatedScopesActionTest extends TestCase
 
         $token->method('getUser')->willReturn($nonAkeneoUser);
         $this->tokenStorage->method('getToken')->willReturn($token);
-        $this->expectException(new \LogicException());
+        $this->expectException(\LogicException::class);
         $this->sut->__invoke($request);
     }
 
@@ -81,7 +85,9 @@ class FlagConnectedAppWithOutdatedScopesActionTest extends TestCase
         $token->method('getUser')->willReturn($user);
         $this->tokenStorage->method('getToken')->willReturn($token);
         $this->findOneConnectedAppByUserIdentifierQuery->method('execute')->with('userIdentifier')->willReturn(null);
-        $this->expectException(new AccessDeniedHttpException('Not an authenticated App'));
+        $this->expectException(AccessDeniedHttpException::class);
+
+        $this->expectExceptionMessage('Not an authenticated App');
         $this->sut->__invoke($request);
     }
 

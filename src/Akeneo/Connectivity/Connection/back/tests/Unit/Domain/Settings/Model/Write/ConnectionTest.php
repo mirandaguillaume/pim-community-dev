@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Settings\Model\Write;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Settings\Model\Write;
 
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ClientId;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ConnectionCode;
@@ -69,8 +69,8 @@ class ConnectionTest extends TestCase
 
     public function test_it_returns_the_auditable(): void
     {
-        $this->sut->auditable()->shouldBeBoolean();
-        $this->assertSame(true, $this->sut->auditable());
+        $this->assertIsBool($this->sut->auditable());
+        $this->assertTrue($this->sut->auditable());
     }
 
     public function test_it_provides_the_image(): void

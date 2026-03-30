@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Marketplace\Controller\Internal;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Marketplace\Controller\Internal;
 
 use Akeneo\Connectivity\Connection\Application\Marketplace\MarketplaceAnalyticsGenerator;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\DTO\GetAllExtensionsResult;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\GetAllExtensionsQueryInterface;
+use Akeneo\Connectivity\Connection\Infrastructure\Marketplace\Controller\Internal\GetAllExtensionsAction;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Marketplace\Controller\Internal\GetAllExtensionsAction;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -44,7 +44,7 @@ class GetAllExtensionsActionTest extends TestCase
 
         $request->method('isXmlHttpRequest')->willReturn(true);
         $this->getAllExtensionsQuery->method('execute')->willThrowException(new \Exception('error message', Response::HTTP_BAD_REQUEST));
-        $result = $this->__invoke($request);
+        $result = $this->sut->__invoke($request);
         Assert::assertEquals(Response::HTTP_OK, $result->getStatusCode());
         Assert::assertEquals(
             \json_encode(GetAllExtensionsResult::create(0, [])->normalize(), JSON_THROW_ON_ERROR),

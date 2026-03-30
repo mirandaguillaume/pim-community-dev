@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Webhook\Model\Write;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Webhook\Model\Write;
 
 use Akeneo\Connectivity\Connection\Domain\ValueObject\Url;
 use Akeneo\Connectivity\Connection\Domain\Webhook\Model\Write\ConnectionWebhook;
@@ -19,7 +19,7 @@ class ConnectionWebhookTest extends TestCase
     public function test_it_is_a_connection_webhook_write_model(): void
     {
         $this->sut = new ConnectionWebhook('magento', false);
-        $this->assertTrue(is_a(ConnectionWebhook::class, ConnectionWebhook::class, true));
+        $this->assertTrue(\is_a(ConnectionWebhook::class, ConnectionWebhook::class, true));
     }
 
     public function test_it_provides_a_code(): void
@@ -37,9 +37,9 @@ class ConnectionWebhookTest extends TestCase
     public function test_it_provides_a_url(): void
     {
         $this->sut = new ConnectionWebhook('magento', true, 'http://any-url.com');
-        $url = $this->url();
-        $url->shouldBeAnInstanceOf(Url::class);
-        $url->__toString()->shouldReturn('http://any-url.com');
+        $url = $this->sut->url();
+        $this->assertInstanceOf(Url::class, $url);
+        $this->assertSame('http://any-url.com', (string) $url);
     }
 
     public function test_it_has_no_url_if_an_empty_one_is_provided(): void

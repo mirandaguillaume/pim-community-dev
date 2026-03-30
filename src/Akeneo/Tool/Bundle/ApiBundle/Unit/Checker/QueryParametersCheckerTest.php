@@ -54,7 +54,9 @@ class QueryParametersCheckerTest extends TestCase
         $enUsLocale->method('isActivated')->willReturn(true);
         $this->localeRepository->method('findOneByIdentifier')->with('de_DE')->willReturn(null);
         $this->localeRepository->method('findOneByIdentifier')->with('en_US')->willReturn($enUsLocale);
-        $this->expectException(new UnprocessableEntityHttpException('Locale "de_DE" does not exist or is not activated.'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Locale "de_DE" does not exist or is not activated.');
         $this->sut->checkLocalesParameters($localeCodes, null);
     }
 
@@ -66,7 +68,9 @@ class QueryParametersCheckerTest extends TestCase
         $enUsLocale->method('isActivated')->willReturn(false);
         $this->localeRepository->method('findOneByIdentifier')->with('de_DE')->willReturn(null);
         $this->localeRepository->method('findOneByIdentifier')->with('en_US')->willReturn($enUsLocale);
-        $this->expectException(new UnprocessableEntityHttpException('Locales "de_DE, en_US" do not exist or are not activated.'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Locales "de_DE, en_US" do not exist or are not activated.');
         $this->sut->checkLocalesParameters($localeCodes, null);
     }
 
@@ -75,7 +79,9 @@ class QueryParametersCheckerTest extends TestCase
         $localeCodes = ['de_DE', 'en_US'];
         $this->localeRepository->method('findOneByIdentifier')->with('de_DE')->willReturn(null);
         $this->localeRepository->method('findOneByIdentifier')->with('en_US')->willReturn(null);
-        $this->expectException(new UnprocessableEntityHttpException('Locales "de_DE, en_US" do not exist or are not activated.'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Locales "de_DE, en_US" do not exist or are not activated.');
         $this->sut->checkLocalesParameters($localeCodes, null);
     }
 
@@ -103,7 +109,9 @@ class QueryParametersCheckerTest extends TestCase
         $attribute2->method('getGroup')->willReturn($attributeGroup2);
         $this->attributeRepository->method('findOneByIdentifier')->with('attribute_1')->willReturn($attribute1);
         $this->attributeRepository->method('findOneByIdentifier')->with('attribute_2')->willReturn(null);
-        $this->expectException(new UnprocessableEntityHttpException('Attribute "attribute_2" does not exist.'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Attribute "attribute_2" does not exist.');
         $this->sut->checkAttributesParameters($attributeCodes);
     }
 
@@ -119,7 +127,9 @@ class QueryParametersCheckerTest extends TestCase
         $attribute2->method('getGroup')->willReturn($attributeGroup2);
         $this->attributeRepository->method('findOneByIdentifier')->with('attribute_1')->willReturn(null);
         $this->attributeRepository->method('findOneByIdentifier')->with('attribute_2')->willReturn(null);
-        $this->expectException(new UnprocessableEntityHttpException('Attributes "attribute_1, attribute_2" do not exist.'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Attributes "attribute_1, attribute_2" do not exist.');
         $this->sut->checkAttributesParameters($attributeCodes);
     }
 
@@ -149,7 +159,9 @@ class QueryParametersCheckerTest extends TestCase
         $category2->method('getCode')->willReturn('category_2');
         $this->categoryRepository->method('findOneByIdentifier')->with('category_1')->willReturn($category1);
         $this->categoryRepository->method('findOneByIdentifier')->with('category_2')->willReturn(null);
-        $this->expectException(new UnprocessableEntityHttpException('Category "category_2" does not exist.'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Category "category_2" does not exist.');
         $this->sut->checkCategoriesParameters($categories);
     }
 
@@ -163,7 +175,9 @@ class QueryParametersCheckerTest extends TestCase
         $category2->method('getCode')->willReturn('category_2');
         $this->categoryRepository->method('findOneByIdentifier')->with('category_1')->willReturn(null);
         $this->categoryRepository->method('findOneByIdentifier')->with('category_2')->willReturn(null);
-        $this->expectException(new UnprocessableEntityHttpException('Categories "category_1, category_2" do not exist.'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Categories "category_1, category_2" do not exist.');
         $this->sut->checkCategoriesParameters($categories);
     }
 
@@ -183,25 +197,33 @@ class QueryParametersCheckerTest extends TestCase
 
     public function test_it_should_throw_an_exception_if_json_is_null(): void
     {
-        $this->expectException(new BadRequestHttpException('Search query parameter should be valid JSON.'));
+        $this->expectException(BadRequestHttpException::class);
+
+        $this->expectExceptionMessage('Search query parameter should be valid JSON.');
         $this->sut->checkCriterionParameters('');
     }
 
     public function test_it_should_throw_an_exception_if_it_is_not_correctly_structured(): void
     {
-        $this->expectException(new UnprocessableEntityHttpException('Structure of filter "categories" should respect this structure: {"categories":[{"operator": "my_operator", "value": "my_value"}]}'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Structure of filter "categories" should respect this structure: {"categories":[{"operator": "my_operator", "value": "my_value"}]}');
         $this->sut->checkCriterionParameters('{"categories":[]}');
     }
 
     public function test_it_should_throw_an_exception_if_operator_is_missing(): void
     {
-        $this->expectException(new UnprocessableEntityHttpException('Operator is missing for the property "categories".'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Operator is missing for the property "categories".');
         $this->sut->checkCriterionParameters('{"categories":[{"value": "my_value"}]}');
     }
 
     public function test_it_should_throw_an_exception_if_property_is_not_a_product_filter_or_an_attribute(): void
     {
-        $this->expectException(new UnprocessableEntityHttpException('Filter on property "wrong_attribute" is not supported or does not support operator "my_operator"'));
+        $this->expectException(UnprocessableEntityHttpException::class);
+
+        $this->expectExceptionMessage('Filter on property "wrong_attribute" is not supported or does not support operator "my_operator"');
         $this->sut->checkPropertyParameters('wrong_attribute', 'my_operator');
     }
 }

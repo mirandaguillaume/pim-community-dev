@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\ErrorManagement\Persistence;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\ErrorManagement\Persistence;
 
 use Akeneo\Connectivity\Connection\Infrastructure\ErrorManagement\Persistence\PurgeConnectionErrorsQuery;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;

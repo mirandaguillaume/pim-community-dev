@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Controller\Internal;
 
 use Akeneo\Connectivity\Connection\Application\Apps\AppAuthorizationSessionInterface;
 use Akeneo\Connectivity\Connection\Application\Apps\Command\ConsentAppAuthenticationCommand;
@@ -87,7 +87,7 @@ class ConfirmAuthenticationActionTest extends TestCase
 
         $clientId = 'a_client_id';
         $this->marketplaceActivateFeatureFlag->method('isEnabled')->willReturn(false);
-        $this->expectException(new NotFoundHttpException());
+        $this->expectException(NotFoundHttpException::class);
         $this->sut->__invoke($request, $clientId);
     }
 
@@ -109,7 +109,7 @@ class ConfirmAuthenticationActionTest extends TestCase
         $request->method('isXmlHttpRequest')->willReturn(true);
         $clientId = 'a_client_id';
         $this->getAppQuery->method('execute')->with($clientId)->willReturn(null);
-        $result = $this->__invoke($request, $clientId);
+        $result = $this->sut->__invoke($request, $clientId);
         Assert::assertEquals(Response::HTTP_NOT_FOUND, $result->getStatusCode());
         Assert::assertEquals(
             \json_encode([
@@ -179,7 +179,7 @@ class ConfirmAuthenticationActionTest extends TestCase
         $this->consentAppAuthenticationHandler->method('handle')->with(new ConsentAppAuthenticationCommand($clientId, $connectedPimUserId))->willThrowException(new InvalidAppAuthenticationException($constraintViolationList));
         $this->logger->expects($this->once())->method('warning')->with('App activation failed with validation error "a_violated_constraint_message"');
         $this->violationListNormalizer->method('normalize')->with($this->anything())->willReturn($normalizedConstraintViolationList);
-        $result = $this->__invoke($request, $clientId);
+        $result = $this->sut->__invoke($request, $clientId);
         Assert::assertEquals(Response::HTTP_BAD_REQUEST, $result->getStatusCode());
         Assert::assertEquals(
             \json_encode([
@@ -211,7 +211,9 @@ class ConfirmAuthenticationActionTest extends TestCase
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
         $this->connectedPimUserProvider->method('getCurrentUserId')->willReturn($connectedPimUserId);
         $this->consentAppAuthenticationHandler->method('handle')->with(new ConsentAppAuthenticationCommand($clientId, $connectedPimUserId))->willThrowException(new \LogicException('a_logic_exception_message'));
-        $this->expectException(new \LogicException('a_logic_exception_message'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('a_logic_exception_message');
         $this->sut->__invoke($request, $clientId);
     }
 
@@ -238,7 +240,9 @@ class ConfirmAuthenticationActionTest extends TestCase
         $this->connectedPimUserProvider->method('getCurrentUserId')->willReturn($connectedPimUserId);
         $this->consentAppAuthenticationHandler->expects($this->once())->method('handle')->with(new ConsentAppAuthenticationCommand($clientId, $connectedPimUserId));
         $this->appAuthorizationSession->method('getAppAuthorization')->with($clientId)->willReturn(null);
-        $this->expectException(new \LogicException('There is no active app authorization in session'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('There is no active app authorization in session');
         $this->sut->__invoke($request, $clientId);
     }
 
@@ -272,7 +276,9 @@ class ConfirmAuthenticationActionTest extends TestCase
                     'state' => 'a_state',
                 ]));
         $this->getAppConfirmationQuery->method('execute')->with($clientId)->willReturn(null);
-        $this->expectException(new \LogicException('The connected app should have been created'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('The connected app should have been created');
         $this->sut->__invoke($request, $clientId);
     }
 }

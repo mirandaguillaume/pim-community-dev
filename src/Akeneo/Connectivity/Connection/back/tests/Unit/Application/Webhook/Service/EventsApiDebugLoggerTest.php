@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Webhook\Service;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Webhook\Service;
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Service\ApiEventBuildErrorLoggerInterface;
 use Akeneo\Connectivity\Connection\Application\Webhook\Service\EventsApiDebugLogger;
@@ -47,7 +47,6 @@ class EventsApiDebugLoggerTest extends TestCase
             $this->eventsApiDebugRepository,
             new FakeClock(new \DateTimeImmutable('2021-01-01T00:00:00+00:00')),
             [],
-            1
         );
         $this->assertInstanceOf(EventSubscriptionSkippedOwnEventLoggerInterface::class, $this->sut);
         $this->eventsApiDebugRepository->expects($this->once())->method('persist')->with($this->callback(function ($actual): bool {
@@ -91,7 +90,6 @@ class EventsApiDebugLoggerTest extends TestCase
             $this->eventsApiDebugRepository,
             new FakeClock(new \DateTimeImmutable('2021-01-01T00:00:00+00:00')),
             [],
-            1
         );
         $this->assertInstanceOf(EventSubscriptionSkippedOwnEventLoggerInterface::class, $this->sut);
         $this->eventsApiDebugRepository->expects($this->once())->method('persist')->with($this->callback(function ($actual): bool {
@@ -124,7 +122,6 @@ class EventsApiDebugLoggerTest extends TestCase
             $this->eventsApiDebugRepository,
             new FakeClock(new \DateTimeImmutable('2021-01-01T00:00:00+00:00')),
             [],
-            1
         );
         $this->assertInstanceOf(LimitOfEventsApiRequestsReachedLoggerInterface::class, $this->sut);
         $this->eventsApiDebugRepository->expects($this->once())->method('persist')->with($this->callback(function ($actual): bool {
@@ -149,7 +146,6 @@ class EventsApiDebugLoggerTest extends TestCase
             $this->eventsApiDebugRepository,
             new FakeClock(new \DateTimeImmutable('2021-01-01T00:00:00+00:00')),
             [],
-            1
         );
         $this->assertInstanceOf(ApiEventBuildErrorLoggerInterface::class, $this->sut);
         $this->eventsApiDebugRepository->expects($this->once())->method('persist')->with($this->callback(function ($actual): bool {

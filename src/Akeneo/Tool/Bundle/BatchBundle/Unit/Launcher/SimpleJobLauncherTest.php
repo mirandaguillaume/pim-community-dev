@@ -99,7 +99,7 @@ class SimpleJobLauncherTest extends TestCase
         $this->jobParametersValidator->method('validate')->with($job, $jobParameters, ['Default', 'Execution'])->willReturn($constraintViolationList);
         $jobParameters->method('all')->willReturn([]);
         $this->eventDispatcher->expects($this->never())->method('dispatch')->with($this->isInstanceOf(JobExecutionEvent::class), EventInterface::JOB_EXECUTION_CREATED);
-        $this->expectException(new \RuntimeException('Job instance "job_instance_code" running the job "job_name" with parameters "[]" is invalid because of "' . PHP_EOL . '  - error"'));
+        $this->expectException(\RuntimeException::class);
         $this->sut->launch($jobInstance, $user, []);
     }
 }

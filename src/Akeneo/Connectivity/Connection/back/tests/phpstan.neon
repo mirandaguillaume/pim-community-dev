@@ -8,6 +8,11 @@ parameters:
         - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back
     excludePaths:
         - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back/tests/PhpStan
+        # Exclude converted PHPUnit tests (Phase 3) — still contain PHPSpec remnants
+        - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back/tests/Unit/Application
+        - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back/tests/Unit/Domain
+        - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back/tests/Unit/Infrastructure
+        - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back/tests/Unit/ServiceApi
     ignoreErrors:
         # PHP 8.4: stricter built-in function signatures (only triggered on CI)
         -

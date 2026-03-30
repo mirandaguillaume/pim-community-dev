@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\CustomApps\Controller\External;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\CustomApps\Controller\External;
 
 use Akeneo\Connectivity\Connection\Domain\CustomApps\Persistence\GetCustomAppsQueryInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\CustomApps\Controller\External\GetCustomAppsAction;
@@ -42,7 +42,9 @@ class GetCustomAppsActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->tokenStorage->method('getToken')->willReturn(null);
-        $this->expectException(new BadRequestHttpException('Invalid user token.'));
+        $this->expectException(BadRequestHttpException::class);
+
+        $this->expectExceptionMessage('Invalid user token.');
         $this->sut->__invoke($request);
     }
 }

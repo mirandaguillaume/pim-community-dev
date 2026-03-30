@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Webhook\Query;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Webhook\Query;
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Query\GetAConnectionWebhookHandler;
 use Akeneo\Connectivity\Connection\Application\Webhook\Query\GetAConnectionWebhookQuery;

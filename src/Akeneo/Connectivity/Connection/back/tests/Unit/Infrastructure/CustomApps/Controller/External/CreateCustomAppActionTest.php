@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\CustomApps\Controller\External;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\CustomApps\Controller\External;
 
 use Akeneo\Connectivity\Connection\Application\CustomApps\Command\CreateCustomAppCommand;
 use Akeneo\Connectivity\Connection\Application\CustomApps\Command\CreateCustomAppCommandHandler;
@@ -67,7 +67,7 @@ class CreateCustomAppActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(false);
-        $this->expectException(new AccessDeniedHttpException());
+        $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($request);
     }
 
@@ -77,7 +77,9 @@ class CreateCustomAppActionTest extends TestCase
 
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(true);
         $this->tokenStorage->method('getToken')->willReturn(null);
-        $this->expectException(new BadRequestHttpException('Invalid user token.'));
+        $this->expectException(BadRequestHttpException::class);
+
+        $this->expectExceptionMessage('Invalid user token.');
         $this->sut->__invoke($request);
     }
 
@@ -90,7 +92,9 @@ class CreateCustomAppActionTest extends TestCase
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(true);
         $token->method('getUser')->willReturn($user);
         $this->tokenStorage->method('getToken')->willReturn($token);
-        $this->expectException(new BadRequestHttpException('Invalid user token.'));
+        $this->expectException(BadRequestHttpException::class);
+
+        $this->expectExceptionMessage('Invalid user token.');
         $this->sut->__invoke($request);
     }
 
@@ -177,8 +181,10 @@ class CreateCustomAppActionTest extends TestCase
         $request->method('get')->with('name', '')->willReturn('CustomApp');
         $request->method('get')->with('activate_url', '')->willReturn('http://callback-url.test');
         $request->method('get')->with('callback_url', '')->willReturn('http://activate-url.test');
-        $this->sut->__invoke($request)->shouldBeAValidCreateCustomAppResponse('app_secret');
+        $response = $this->sut->__invoke($request);
+        $this->assertInstanceOf(\Symfony\Component\HttpFoundation\JsonResponse::class, $response);
+        $content = \json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('client_id', $content);
+        $this->assertSame('app_secret', $content['client_secret'] ?? null);
     }
-
-    // TODO: Custom matchers from getMatchers() need manual conversion
 }

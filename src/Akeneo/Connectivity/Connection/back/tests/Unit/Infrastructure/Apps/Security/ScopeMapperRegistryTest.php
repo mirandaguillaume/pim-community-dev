@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Security;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Security;
 
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Security\ScopeMapperInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Security\ScopeMapperRegistry;
@@ -31,12 +31,11 @@ class ScopeMapperRegistryTest extends TestCase
 
     public function test_it_accepts_only_scope_mapper_interface(): void
     {
-        $this->expectException(new \InvalidArgumentException(
-            \sprintf(
-                '%s must implement %s',
-                ScopeMapperRegistry::class,
-                ScopeMapperInterface::class
-            )
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(\sprintf(
+            '%s must implement %s',
+            ScopeMapperRegistry::class,
+            ScopeMapperInterface::class
         ));
         $this->sut->__construct([new \stdClass()]);
     }
@@ -166,13 +165,17 @@ class ScopeMapperRegistryTest extends TestCase
 
     public function test_it_leads_to_an_error_to_ask_for_acl_of_an_unknown_scope(): void
     {
-        $this->expectException(new \LogicException('The scope "product_unknown_scope" does not exist.'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('The scope "product_unknown_scope" does not exist.');
         $this->sut->getAcls(['product_unknown_scope']);
     }
 
     public function test_it_leads_to_an_error_to_ask_for_message_of_an_unknown_scope(): void
     {
-        $this->expectException(new \LogicException('The scope "product_unknown_scope" does not exist.'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('The scope "product_unknown_scope" does not exist.');
         $this->sut->getMessages(['product_unknown_scope']);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Webhook\EventSubscribers;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Webhook\EventSubscribers;
 
 use Akeneo\Connectivity\Connection\Domain\Webhook\Persistence\Repository\EventsApiDebugRepositoryInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\Webhook\EventSubscribers\EventsApiLoggingSubscriber;

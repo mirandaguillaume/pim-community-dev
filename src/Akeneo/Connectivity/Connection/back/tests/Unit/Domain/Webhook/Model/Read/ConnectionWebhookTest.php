@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Webhook\Model\Read;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Webhook\Model\Read;
 
 use Akeneo\Connectivity\Connection\Domain\Webhook\Model\Read\ConnectionWebhook;
 use PHPUnit\Framework\TestCase;

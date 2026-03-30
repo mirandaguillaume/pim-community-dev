@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Settings\Client\Fos;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Service\DeleteClientInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ClientId;
@@ -48,7 +48,9 @@ class DeleteClientTest extends TestCase
         $clientId = new ClientId(1);
         $this->clientManager->method('findClientBy')->with(['id' => $clientId->id()])->willReturn(null);
         $this->clientManager->expects($this->never())->method('deleteClient')->with($this->anything());
-        $this->expectException(new \InvalidArgumentException('Client with id "1" not found.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Client with id "1" not found.');
         $this->sut->execute($clientId);
     }
 }

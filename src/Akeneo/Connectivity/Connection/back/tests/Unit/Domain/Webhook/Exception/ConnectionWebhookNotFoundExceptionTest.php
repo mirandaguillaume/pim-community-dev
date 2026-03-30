@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Webhook\Exception;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Webhook\Exception;
 
 use Akeneo\Connectivity\Connection\Domain\Webhook\Exception\ConnectionWebhookNotFoundException;
 use PHPUnit\Framework\TestCase;

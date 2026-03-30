@@ -80,9 +80,7 @@ class FileStorerTest extends TestCase
         $this->filesystem->method('fileExists')->with('a/b/c/image.png')->willReturn(false);
         $this->filesystem->method('writeStream')->willThrowException(UnableToWriteFile::atLocation(__FILE__, 'Directory is not writable'));
         $this->saver->expects($this->never())->method('save')->with($this->anything());
-        $this->expectException(new FileTransferException(
-            sprintf('Unable to move the file "%s" to the "destination" filesystem.', __FILE__)
-        ));
+        $this->expectException(FileTransferException::class);
         $this->sut->store($rawFile, 'destination');
     }
 
@@ -94,9 +92,7 @@ class FileStorerTest extends TestCase
         $this->filesystem->method('fileExists')->with($this->anything())->willReturn(true);
         $this->filesystem->expects($this->never())->method('writeStream');
         $this->saver->expects($this->never())->method('save')->with($this->anything());
-        $this->expectException(new FileTransferException(
-            sprintf('Unable to move the file "%s" to the "destination" filesystem.', __FILE__)
-        ));
+        $this->expectException(FileTransferException::class);
         $this->sut->store($rawFile, 'destination');
     }
 

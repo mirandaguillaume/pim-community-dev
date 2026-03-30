@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\DTO\AsymmetricKeys;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\AsymmetricKeysGenerator;

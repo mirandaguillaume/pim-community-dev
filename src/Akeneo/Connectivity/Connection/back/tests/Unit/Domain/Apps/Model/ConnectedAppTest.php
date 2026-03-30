@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Apps\Model;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Apps\Model;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
 use PHPUnit\Framework\TestCase;
@@ -175,7 +175,7 @@ class ConnectedAppTest extends TestCase
 
     public function test_it_updates_description_properties(): void
     {
-        $updated = $this->withUpdatedDescription(
+        $updated = $this->sut->withUpdatedDescription(
             'New Name',
             'http://example.com/new-logo.png',
             'New Author',
@@ -183,7 +183,7 @@ class ConnectedAppTest extends TestCase
             true,
             'Akeneo Premium Partner',
         );
-        $updated->normalize()->shouldBe([
+        $this->assertSame([
                     'id' => '4028c158-d620-4903-9859-958b66a059e2',
                     'name' => 'New Name',
                     'scopes' => ['Scope1', 'Scope2'],
@@ -198,7 +198,7 @@ class ConnectedAppTest extends TestCase
                     'is_custom_app' => true,
                     'is_pending' => false,
                     'has_outdated_scopes' => true,
-                ]);
+                ], $updated->normalize());
     }
 
     public function test_it_has_not_outdated_scopes_by_default(): void

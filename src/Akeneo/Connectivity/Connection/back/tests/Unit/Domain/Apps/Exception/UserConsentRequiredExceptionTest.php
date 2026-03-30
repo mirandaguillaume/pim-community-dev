@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Apps\Exception;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Apps\Exception;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\Exception\UserConsentRequiredException;
 use PHPUnit\Framework\TestCase;

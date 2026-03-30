@@ -50,7 +50,9 @@ class ContentTypeNegotiatorTest extends TestCase
         $this->requestMatcher1->method('matches')->with($request)->willReturn(false);
         $this->requestMatcher2->method('matches')->with($request)->willReturn(false);
         $this->requestMatcher3->method('matches')->with($request)->willReturn(true);
-        $this->expectException(new StopFormatListenerException('Stopped content type negotiator'));
+        $this->expectException(StopFormatListenerException::class);
+
+        $this->expectExceptionMessage('Stopped content type negotiator');
         $this->sut->getContentTypes($request);
     }
 }

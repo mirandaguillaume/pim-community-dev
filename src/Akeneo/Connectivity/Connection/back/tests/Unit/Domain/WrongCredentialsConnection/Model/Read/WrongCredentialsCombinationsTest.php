@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Read;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\WrongCredentialsConnection\Model\Read;
 
 use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Read\WrongCredentialsCombinations;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class WrongCredentialsCombinationsTest extends TestCase
     public function test_it_is_a_wrong_credentials_combinations(): void
     {
         $this->sut = new WrongCredentialsCombinations([]);
-        $this->assertTrue(is_a(WrongCredentialsCombinations::class, WrongCredentialsCombinations::class, true));
+        $this->assertTrue(\is_a(WrongCredentialsCombinations::class, WrongCredentialsCombinations::class, true));
     }
 
     public function test_it_normalizes_an_empty_collection(): void

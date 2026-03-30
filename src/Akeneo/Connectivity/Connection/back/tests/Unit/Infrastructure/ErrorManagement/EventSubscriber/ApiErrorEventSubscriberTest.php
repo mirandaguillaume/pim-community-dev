@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\ErrorManagement\EventSubscriber;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\ErrorManagement\EventSubscriber;
 
 use Akeneo\Connectivity\Connection\Application\ErrorManagement\Service\CollectApiError;
 use Akeneo\Connectivity\Connection\Infrastructure\ErrorManagement\EventSubscriber\ApiErrorEventSubscriber;

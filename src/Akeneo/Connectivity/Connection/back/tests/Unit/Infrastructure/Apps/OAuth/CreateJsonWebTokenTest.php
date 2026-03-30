@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\OAuth;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\DTO\AsymmetricKeys;
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\AuthenticationScope;
@@ -55,7 +55,7 @@ class CreateJsonWebTokenTest extends TestCase
 
     public function test_it_creates_jwt_token(): void
     {
-        $token = $this->create(
+        $token = $this->sut->create(
             $this->clientId,
             $this->ppid,
             ScopeList::fromScopes([AuthenticationScope::SCOPE_OPENID]),
@@ -68,7 +68,7 @@ class CreateJsonWebTokenTest extends TestCase
 
     public function test_it_creates_jwt_token_with_scope_profile(): void
     {
-        $token = $this->create(
+        $token = $this->sut->create(
             $this->clientId,
             $this->ppid,
             ScopeList::fromScopes([AuthenticationScope::SCOPE_OPENID, AuthenticationScope::SCOPE_PROFILE]),
@@ -81,7 +81,7 @@ class CreateJsonWebTokenTest extends TestCase
 
     public function test_it_creates_jwt_token_with_scope_email(): void
     {
-        $token = $this->create(
+        $token = $this->sut->create(
             $this->clientId,
             $this->ppid,
             ScopeList::fromScopes([AuthenticationScope::SCOPE_OPENID, AuthenticationScope::SCOPE_EMAIL]),

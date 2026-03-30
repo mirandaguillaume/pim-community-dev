@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Controller\Internal;
 
 use Akeneo\Connectivity\Connection\Application\Apps\AppAuthorizationSessionInterface;
 use Akeneo\Connectivity\Connection\Application\Apps\Command\ConsentAppAuthenticationCommand;
@@ -103,7 +103,7 @@ class ConfirmAuthorizationActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->marketplaceActivateFeatureFlag->method('isEnabled')->willReturn(false);
-        $this->expectException(new NotFoundHttpException());
+        $this->expectException(NotFoundHttpException::class);
         $this->sut->__invoke($request, 'foo');
     }
 
@@ -124,7 +124,7 @@ class ConfirmAuthorizationActionTest extends TestCase
         $request->method('isXmlHttpRequest')->willReturn(true);
         $clientId = 'a_client_id';
         $this->getAppQuery->method('execute')->with($clientId)->willReturn(null);
-        $result = $this->__invoke($request, $clientId);
+        $result = $this->sut->__invoke($request, $clientId);
         Assert::assertEquals(Response::HTTP_NOT_FOUND, $result->getStatusCode());
         Assert::assertEquals(
             \json_encode([
@@ -205,7 +205,7 @@ class ConfirmAuthorizationActionTest extends TestCase
         $this->getAppConfirmationQuery->method('execute')->with($clientId)->willReturn($appConfirmation);
         $this->logger->expects($this->once())->method('warning')->with($this->anything());
         $this->violationListNormalizer->method('normalize')->with($this->anything())->willReturn($normalizedConstraintViolationList);
-        $result = $this->__invoke($request, $clientId);
+        $result = $this->sut->__invoke($request, $clientId);
         Assert::assertEquals(Response::HTTP_BAD_REQUEST, $result->getStatusCode());
         Assert::assertEquals(
             \json_encode([
@@ -260,7 +260,7 @@ class ConfirmAuthorizationActionTest extends TestCase
         $this->getAppConfirmationQuery->method('execute')->with($clientId)->willReturn($appConfirmation);
         $this->logger->expects($this->once())->method('warning')->with($this->anything());
         $this->violationListNormalizer->method('normalize')->with($this->anything())->willReturn($normalizedConstraintViolationList);
-        $result = $this->__invoke($request, $clientId);
+        $result = $this->sut->__invoke($request, $clientId);
         Assert::assertEquals(Response::HTTP_BAD_REQUEST, $result->getStatusCode());
         Assert::assertEquals(
             \json_encode([
@@ -300,7 +300,9 @@ class ConfirmAuthorizationActionTest extends TestCase
         $this->consentAppAuthenticationHandler->method('handle')->with(new ConsentAppAuthenticationCommand($clientId, $connectedPimUserId))->willThrowException(new InvalidAppAuthenticationException($constraintViolationList));
         $this->appAuthorizationSession->method('getAppAuthorization')->with($clientId)->willReturn(null);
         $this->getAppConfirmationQuery->method('execute')->with($clientId)->willReturn($appConfirmation);
-        $this->expectException(new \LogicException('There is no active app authorization in session'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('There is no active app authorization in session');
         $this->sut->__invoke($request, $clientId);
     }
 

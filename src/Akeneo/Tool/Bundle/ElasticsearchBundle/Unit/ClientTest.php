@@ -482,7 +482,9 @@ class ClientTest extends TestCase
                     ['name' => 'a name'],
                     ['identifier' => 'bar', 'name' => 'a name'],
                 ];
-        $this->expectException(new MissingIdentifierException('Missing "identifier" key in document'));
+        $this->expectException(MissingIdentifierException::class);
+
+        $this->expectExceptionMessage('Missing "identifier" key in document');
         $this->sut->bulkIndexes($documents, 'identifier', Refresh::waitFor());
     }
 }

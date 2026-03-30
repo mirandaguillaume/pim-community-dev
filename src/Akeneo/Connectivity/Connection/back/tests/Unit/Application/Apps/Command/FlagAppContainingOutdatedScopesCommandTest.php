@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Apps\Command;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Apps\Command;
 
 use Akeneo\Connectivity\Connection\Application\Apps\Command\FlagAppContainingOutdatedScopesCommand;
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
@@ -14,12 +14,12 @@ use PHPUnit\Framework\TestCase;
  */
 class FlagAppContainingOutdatedScopesCommandTest extends TestCase
 {
+    private ConnectedApp $connectedApp;
     private FlagAppContainingOutdatedScopesCommand $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new FlagAppContainingOutdatedScopesCommand($this->connectedApp, 'requested scopes');
-        $this->sut->connectedApp = new ConnectedApp(
+        $this->connectedApp = new ConnectedApp(
             'a_connected_app_id',
             'a_connected_app_name',
             ['a_scope'],
@@ -33,6 +33,7 @@ class FlagAppContainingOutdatedScopesCommandTest extends TestCase
             null,
             true,
         );
+        $this->sut = new FlagAppContainingOutdatedScopesCommand($this->connectedApp, 'requested scopes');
     }
 
     public function test_it_is_instantiable(): void

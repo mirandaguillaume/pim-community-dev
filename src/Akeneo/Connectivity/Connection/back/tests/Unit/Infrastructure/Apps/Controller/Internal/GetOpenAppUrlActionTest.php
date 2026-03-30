@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Controller\Internal;
 
 use Akeneo\Connectivity\Connection\Application\Marketplace\AppUrlGenerator;
 use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
@@ -10,12 +10,12 @@ use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\FindOneConnectedAppBy
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\SaveConnectedAppOutdatedScopesFlagQueryInterface;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\GetAppQueryInterface;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App;
+use Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal\GetOpenAppUrlAction;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Platform\Bundle\FrameworkBundle\Service\PimUrl;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Controller\Internal\GetOpenAppUrlAction;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,14 +103,18 @@ class GetOpenAppUrlActionTest extends TestCase
     public function test_it_throws_a_not_found_exception_when_a_non_connection_code_is_provided(): void
     {
         $this->findOneConnectedAppByConnectionCodeQuery->method('execute')->with('non_app_connection_code')->willReturn(null);
-        $this->expectException(new NotFoundHttpException('Connected app with connection code non_app_connection_code does not exist.'));
+        $this->expectException(NotFoundHttpException::class);
+
+        $this->expectExceptionMessage('Connected app with connection code non_app_connection_code does not exist.');
         $this->sut->__invoke($this->request, 'non_app_connection_code');
     }
 
     public function test_it_expects_the_connected_app_to_have_its_app_store_counterpart(): void
     {
         $this->getAppQuery->method('execute')->with('connected_app_id')->willReturn(null);
-        $this->expectException(new \LogicException('App not found with connected app id "connected_app_id"'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('App not found with connected app id "connected_app_id"');
         $this->sut->__invoke($this->request, 'connection_code');
     }
 

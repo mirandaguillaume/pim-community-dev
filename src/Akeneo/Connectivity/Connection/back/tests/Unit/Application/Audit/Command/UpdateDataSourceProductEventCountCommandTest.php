@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Audit\Command;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Audit\Command;
 
 use Akeneo\Connectivity\Connection\Application\Audit\Command\UpdateDataSourceProductEventCountCommand;
 use Akeneo\Connectivity\Connection\Domain\ValueObject\HourlyInterval;

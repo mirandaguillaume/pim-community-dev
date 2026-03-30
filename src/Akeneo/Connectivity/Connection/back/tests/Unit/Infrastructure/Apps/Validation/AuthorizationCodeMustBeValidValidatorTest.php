@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\Validation;
 
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation\AuthorizationCodeMustBeValid;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation\AuthorizationCodeMustBeValidValidator;
@@ -62,7 +62,9 @@ class AuthorizationCodeMustBeValidValidatorTest extends TestCase
 
     public function test_it_processes_only_string(): void
     {
-        $this->expectException(new \InvalidArgumentException('The value to validate must be a string'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('The value to validate must be a string');
         $this->sut->validate(12345, new AuthorizationCodeMustBeValid());
     }
 

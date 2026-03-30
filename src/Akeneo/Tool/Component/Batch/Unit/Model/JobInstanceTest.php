@@ -40,14 +40,18 @@ class JobInstanceTest extends TestCase
     public function test_it_throws_logic_exception_when_changes_job_name(): void
     {
         $this->sut = new JobInstance('connector', 'type', 'old_job_name');
-        $this->expectException(new \LogicException('Job name already set in JobInstance'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('Job name already set in JobInstance');
         $this->sut->setJobName('new_job_name');
     }
 
     public function test_it_throws_logic_exception_when_changes_connector(): void
     {
         $this->sut = new JobInstance('oldconnector', 'type', 'job_name');
-        $this->expectException(new \LogicException('Connector already set in JobInstance'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('Connector already set in JobInstance');
         $this->sut->setConnector('newconnector');
     }
 }

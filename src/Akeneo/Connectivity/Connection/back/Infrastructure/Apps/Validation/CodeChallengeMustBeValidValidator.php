@@ -58,9 +58,9 @@ class CodeChallengeMustBeValidValidator extends ConstraintValidator
 
     private function isAccessTokenRequestEmpty(AccessTokenRequest $value): bool
     {
-        return in_array($value->getClientId(), ['', '0'], true)
-            || in_array($value->getCodeIdentifier(), ['', '0'], true)
-            || in_array($value->getCodeChallenge(), ['', '0'], true);
+        return \in_array($value->getClientId(), ['', '0'], true)
+            || \in_array($value->getCodeIdentifier(), ['', '0'], true)
+            || \in_array($value->getCodeChallenge(), ['', '0'], true);
     }
 
     private function isCodeChallengeValid(AccessTokenRequest $value): bool

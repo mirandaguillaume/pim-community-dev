@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Apps\DTO;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Apps\DTO;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization;
 use Akeneo\Connectivity\Connection\Domain\Apps\ValueObject\ScopeList;
@@ -22,7 +22,7 @@ class AppAuthorizationTest extends TestCase
 
     public function test_it_is_an_app_authorization(): void
     {
-        $this->assertTrue(is_a(AppAuthorization::class, AppAuthorization::class, true));
+        $this->assertTrue(\is_a(AppAuthorization::class, AppAuthorization::class, true));
     }
 
     public function test_it_creates_from_request(): void
@@ -34,7 +34,7 @@ class AppAuthorizationTest extends TestCase
             'a_redirect_uri',
             'a_state',
         );
-        $this->assertTrue(is_a(AppAuthorization::class, AppAuthorization::class, true));
+        $this->assertTrue(\is_a(AppAuthorization::class, AppAuthorization::class, true));
     }
 
     public function test_it_creates_from_normalized(): void
@@ -46,7 +46,7 @@ class AppAuthorizationTest extends TestCase
                             'redirect_uri' => 'a_redirect_uri',
                             'state' => 'a_state',
                         ], );
-        $this->assertTrue(is_a(AppAuthorization::class, AppAuthorization::class, true));
+        $this->assertTrue(\is_a(AppAuthorization::class, AppAuthorization::class, true));
     }
 
     public function test_it_normalizes_app_authorization(): void

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\ValueObject;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\ValueObject;
 
 use Akeneo\Connectivity\Connection\Domain\ValueObject\DateTimePeriod;
 use PHPUnit\Framework\TestCase;

@@ -44,7 +44,9 @@ class StreamedFileFetcherTest extends TestCase
         $filesystem = $this->createMock(FilesystemReader::class);
 
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(false);
-        $this->expectException(new FileNotFoundException('path/to/file.txt'));
+        $this->expectException(FileNotFoundException::class);
+
+        $this->expectExceptionMessage('path/to/file.txt');
         $this->sut->fetch($filesystem, 'path/to/file.txt', []);
     }
 
@@ -55,7 +57,9 @@ class StreamedFileFetcherTest extends TestCase
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(true);
         $e = UnableToReadFile::fromLocation('path/to/file.txt');
         $filesystem->method('readStream')->with('path/to/file.txt')->willThrowException($e);
-        $this->expectException(new FileTransferException('Unable to fetch the file "path/to/file.txt" from the filesystem.'));
+        $this->expectException(FileTransferException::class);
+
+        $this->expectExceptionMessage('Unable to fetch the file "path/to/file.txt" from the filesystem.');
         $this->sut->fetch($filesystem, 'path/to/file.txt', []);
     }
 }

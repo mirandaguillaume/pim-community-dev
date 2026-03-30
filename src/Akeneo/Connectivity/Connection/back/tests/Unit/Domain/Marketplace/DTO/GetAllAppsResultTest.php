@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Marketplace\DTO;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Marketplace\DTO;
 
 use Akeneo\Connectivity\Connection\Domain\Marketplace\DTO\GetAllAppsResult;
 use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App;

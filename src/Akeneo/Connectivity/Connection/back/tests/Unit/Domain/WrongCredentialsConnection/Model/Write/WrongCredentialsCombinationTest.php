@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Write;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\WrongCredentialsConnection\Model\Write;
 
 use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Write\WrongCredentialsCombination;
 use PHPUnit\Framework\TestCase;

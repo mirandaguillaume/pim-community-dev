@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Settings\Model\ValueObject;
 
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\UserId;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class UserIdTest extends TestCase
     public function test_it_is_a_user_id(): void
     {
         $this->sut = new UserId(42);
-        $this->assertTrue(is_a(UserId::class, UserId::class, true));
+        $this->assertTrue(\is_a(UserId::class, UserId::class, true));
     }
 
     public function test_it_provides_a_user_id(): void
@@ -29,7 +29,9 @@ class UserIdTest extends TestCase
 
     public function test_it_validates_itself(): void
     {
-        $this->expectException(new \InvalidArgumentException('User id must be positive.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('User id must be positive.');
         $this->sut->__construct(-2);
     }
 }

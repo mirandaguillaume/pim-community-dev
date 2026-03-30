@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Domain\Webhook\DTO;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Domain\Webhook\DTO;
 
 use Akeneo\Connectivity\Connection\Domain\Webhook\DTO\UrlReachabilityStatus;
 use PHPUnit\Framework\TestCase;

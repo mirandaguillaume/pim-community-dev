@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\User;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Infrastructure\Apps\User;
 
 use Akeneo\Connectivity\Connection\Application\User\CreateUserGroupInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\User\CreateUserGroup;
@@ -72,7 +72,9 @@ class CreateUserGroupTest extends TestCase
         $violations = new ConstraintViolationList([$violation1, $violation2]);
         $this->validator->method('validate')->with($group)->willReturn($violations);
         $this->userGroupSaver->expects($this->never())->method('save')->with($group);
-        $this->expectException(new \LogicException('The user group creation failed :\na_path: an_error\na_path2: an_error2'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('The user group creation failed :\na_path: an_error\na_path2: an_error2');
         $this->sut->execute('NEW GROUP NAME');
     }
 }

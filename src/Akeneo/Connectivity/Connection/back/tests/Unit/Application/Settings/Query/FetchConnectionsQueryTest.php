@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Settings\Query;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Settings\Query;
 
 use Akeneo\Connectivity\Connection\Application\Settings\Query\FetchConnectionsQuery;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ConnectionType;
@@ -23,7 +23,7 @@ class FetchConnectionsQueryTest extends TestCase
     public function test_it_is_initializable(): void
     {
         $this->sut = new FetchConnectionsQuery([]);
-        $this->assertTrue(is_a(FetchConnectionsQuery::class, FetchConnectionsQuery::class, true));
+        $this->assertTrue(\is_a(FetchConnectionsQuery::class, FetchConnectionsQuery::class, true));
     }
 
     public function test_it_returns_types(): void

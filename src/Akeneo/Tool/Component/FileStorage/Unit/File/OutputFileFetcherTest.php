@@ -63,13 +63,20 @@ class OutputFileFetcherTest extends TestCase
     {
         $filesystem = $this->createMock(FilesystemReader::class);
 
-        $this->expectException(new \LogicException('Options "filePath" has to be filled'));
+        $this->expectException(\LogicException::class);
+
+
+        $this->expectExceptionMessage('Options "filePath" has to be filled');
         $this->sut->fetch($filesystem, 'path/to/file.txt');
-        $this->expectException(new \LogicException('Options "filePath" has to be filled'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('Options "filePath" has to be filled');
         $this->sut->fetch($filesystem, 'path/to/file.txt', [
                     'filePath' => '',
                 ]);
-        $this->expectException(new \LogicException('Options "filePath" has to be filled'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('Options "filePath" has to be filled');
         $this->sut->fetch($filesystem, 'path/to/file.txt', [
                     'filePath' => null,
                 ]);
@@ -80,7 +87,9 @@ class OutputFileFetcherTest extends TestCase
         $filesystem = $this->createMock(FilesystemReader::class);
 
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(false);
-        $this->expectException(new \LogicException('The file "path/to/file.txt" is not present on the filesystem.'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('The file "path/to/file.txt" is not present on the filesystem.');
         $this->sut->fetch($filesystem, 'path/to/file.txt', [
                     'filePath' => 'locale/path/filename.txt',
                 ]);
@@ -92,7 +101,9 @@ class OutputFileFetcherTest extends TestCase
 
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(true);
         $filesystem->method('readStream')->with('path/to/file.txt')->willThrowException(UnableToReadFile::fromLocation('path/to/file.txt', 'Directory is not readable'));
-        $this->expectException(new FileTransferException('Unable to fetch the file "path/to/file.txt" from the filesystem.'));
+        $this->expectException(FileTransferException::class);
+
+        $this->expectExceptionMessage('Unable to fetch the file "path/to/file.txt" from the filesystem.');
         $this->sut->fetch($filesystem, 'path/to/file.txt', [
                     'filePath' => 'locale/path/filename.txt',
                 ]);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Connectivity\Connection\Application\Webhook\Command;
+namespace Akeneo\Connectivity\Connection\Tests\Unit\Application\Webhook\Command;
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Command\CheckWebhookReachabilityCommand;
 use Akeneo\Connectivity\Connection\Application\Webhook\Command\CheckWebhookReachabilityHandler;
@@ -38,7 +38,7 @@ class CheckWebhookReachabilityHandlerTest extends TestCase
         $command = new CheckWebhookReachabilityCommand('http://172.17.0.1:8000/webhook', '1234');
         $expectedUrlReachabilityStatus = new UrlReachabilityStatus(true, "200: OK");
         $this->reachabilityChecker->method('check')->with($command->webhookUrl(), $command->secret())->willReturn($expectedUrlReachabilityStatus);
-        $handleResult = $this->handle($command);
+        $handleResult = $this->sut->handle($command);
         Assert::assertEquals($expectedUrlReachabilityStatus, $handleResult);
     }
 }
