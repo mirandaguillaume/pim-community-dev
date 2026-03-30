@@ -96,7 +96,9 @@ jobs:
       ci: ${{ steps.filter.outputs.ci }}
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
-        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
+        run: |
+          sudo rm -rf var/cache var/logs 2>/dev/null || true
+          sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: filter
