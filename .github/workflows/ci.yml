@@ -1689,12 +1689,14 @@ jobs:
 
   # ===========================================================================
   # MUTATION TESTING: Infection on PHPUnit unit tests (incremental, enforced MSI)
+  # Runs on source changes (mutate changed files) AND test-only changes
+  # (mutate source covered by changed tests). MSI >= 80% required.
   # ===========================================================================
   mutation-testing:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -1705,22 +1707,48 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-base-images: 'false'
 
-      - name: Detect changed source files (exclude tests)
-        id: changed
+      - name: Classify changes (source vs test-only)
+        id: classify
         run: |
           CHANGED_SRC=$(git diff --name-only origin/master...HEAD -- '*.php' \
             | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
             | grep -v 'Spec\.php$' | grep -v 'Test\.php$' || true)
-          if [ -z "$CHANGED_SRC" ]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "No source files changed — skipping mutation testing"
+          CHANGED_TESTS=$(git diff --name-only origin/master...HEAD -- '*.php' \
+            | grep -E '/tests/Unit/|/Test/Unit/' | grep 'Test\.php$' || true)
+
+          if [ -n "$CHANGED_SRC" ]; then
+            echo "mode=source-diff" >> "$GITHUB_OUTPUT"
+            echo "Mode: source-diff ($(echo "$CHANGED_SRC" | wc -l) source files changed)"
+          elif [ -n "$CHANGED_TESTS" ]; then
+            echo "mode=test-coverage" >> "$GITHUB_OUTPUT"
+            # Map test paths to source directories
+            SOURCE_DIRS=""
+            for test in $CHANGED_TESTS; do
+              # components/identifier-generator/back/tests/Unit/... → components/identifier-generator/back/src
+              if echo "$test" | grep -q "^components/"; then
+                dir=$(echo "$test" | sed 's|/back/tests/Unit/.*|/back/src|')
+                SOURCE_DIRS="$SOURCE_DIRS $dir"
+              # src/Akeneo/Category/back/tests/Unit/... → src/Akeneo/Category/back
+              elif echo "$test" | grep -q "^src/Akeneo/.*/back/tests/Unit"; then
+                dir=$(echo "$test" | sed 's|/back/tests/Unit/.*|/back|')
+                SOURCE_DIRS="$SOURCE_DIRS $dir"
+              # tests/back/Platform/Unit/... → src/Akeneo/Platform
+              elif echo "$test" | grep -q "^tests/back/"; then
+                context=$(echo "$test" | sed 's|tests/back/\([^/]*\)/.*|\1|')
+                SOURCE_DIRS="$SOURCE_DIRS src/Akeneo/$context"
+              fi
+            done
+            # Deduplicate
+            SOURCE_DIRS=$(echo "$SOURCE_DIRS" | tr ' ' '\n' | sort -u | tr '\n' ',' | sed 's/,$//')
+            echo "source_dirs=$SOURCE_DIRS" >> "$GITHUB_OUTPUT"
+            echo "Source dirs to mutate: $SOURCE_DIRS"
           else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-            echo "Source files changed: $(echo "$CHANGED_SRC" | wc -l)"
+            echo "mode=skip" >> "$GITHUB_OUTPUT"
+            echo "No source or test files changed — skipping"
           fi
 
-      - name: Run Infection (incremental — changed source files only)
-        if: steps.changed.outputs.skip != 'true'
+      - name: Run Infection (source diff mode)
+        if: steps.classify.outputs.mode == 'source-diff'
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
@@ -1740,20 +1768,63 @@ jobs:
               --logger-github \
               --logger-html=var/infection/infection.html \
               --ignore-msi-with-no-mutations
-          echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "MSI threshold: 80%. See artifacts for full HTML report." >> "$GITHUB_STEP_SUMMARY"
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
-      - name: Skip notice
-        if: steps.changed.outputs.skip == 'true'
+      - name: Run Infection (test-coverage mode — mutate source covered by changed tests)
+        if: steps.classify.outputs.mode == 'test-coverage'
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          mkdir -p var/infection
+
+          # Generate dynamic Infection config from detected source dirs
+          IFS=',' read -ra DIRS <<< "$SOURCE_DIRS"
+          DIR_JSON=$(printf ',"%s"' "${DIRS[@]}")
+          DIR_JSON="[${DIR_JSON:1}]"
+          cat > var/infection/infection-dynamic.json <<INFEOF
+          {
+            "source": { "directories": $DIR_JSON, "excludes": ["tests", "Test", "spec"] },
+            "phpUnit": { "configDir": ".", "customPath": "vendor/bin/phpunit" },
+            "logs": { "text": "var/infection/infection.log", "html": "var/infection/infection.html" },
+            "tmpDir": "var/infection/tmp",
+            "timeout": 30
+          }
+          INFEOF
+
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            -e APP_ENV=test_fake \
+            php php -d xdebug.mode=coverage vendor/bin/infection \
+              --configuration=var/infection/infection-dynamic.json \
+              --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
+              --initial-tests-php-options="-d xdebug.mode=coverage" \
+              --threads=4 \
+              --min-msi=80 \
+              --min-covered-msi=80 \
+              --only-covering-test-cases \
+              --logger-github \
+              --ignore-msi-with-no-mutations
+        env:
+          SOURCE_DIRS: ${{ steps.classify.outputs.source_dirs }}
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+
+      - name: Write summary
+        if: always() && steps.classify.outputs.mode != 'skip'
         run: |
           echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
-          echo "Skipped: no source files changed (only tests/specs modified)." >> "$GITHUB_STEP_SUMMARY"
+          echo "Mode: **${{ steps.classify.outputs.mode }}** | MSI threshold: 80%" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.classify.outputs.mode }}" = "test-coverage" ]; then
+            echo "Source dirs: \`${{ steps.classify.outputs.source_dirs }}\`" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Skip notice
+        if: steps.classify.outputs.mode == 'skip'
+        run: |
+          echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Skipped: no PHP source or unit test files changed." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Infection report
-        if: always() && steps.changed.outputs.skip != 'true'
+        if: always() && steps.classify.outputs.mode != 'skip'
         uses: actions/upload-artifact@v4
         with:
           name: infection-report
