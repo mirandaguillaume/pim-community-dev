@@ -52,7 +52,7 @@ class CreateJobInstanceHandlerTest extends AcceptanceTestCase
         $this->assertSame('csv_product_import', $jobInstance->getJobName());
         $this->assertSame('test_job', $jobInstance->getCode());
         $this->assertSame('test_job', $jobInstance->getLabel());
-        $this->assertIsArray($jobInstance->getRawParameters());
+        $this->assertNotEmpty($jobInstance->getRawParameters());
     }
 
     /**
