@@ -7,7 +7,9 @@ namespace Akeneo\Platform\Installer\Test\Acceptance\UseCases\ResetInstance;
 use Akeneo\Platform\Installer\Application\ResetInstance\ResetInstanceCommand;
 use Akeneo\Platform\Installer\Application\ResetInstance\ResetInstanceHandler;
 use Akeneo\Platform\Installer\Test\Acceptance\FakeServices\FakeDatabasePurger;
+use Akeneo\Platform\Installer\Test\Acceptance\FakeServices\FakeFilesystemsPurger;
 use Akeneo\Platform\Installer\Test\Acceptance\FakeServices\FakeFixturesInstaller;
+use Akeneo\Platform\Installer\Test\Acceptance\FakeServices\FakeUserConfigurationResetter;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -50,6 +52,16 @@ class ResetInstanceTest extends KernelTestCase
         $this->assertTrue(
             $this->getFixtureInstaller()->isInstalledWithoutUsersUserGroupsAndUserRoles(),
         );
+
+        $this->assertTrue(
+            $this->getUserConfigurationResetter()->wasExecuted(),
+            'User configuration resetter should have been executed',
+        );
+
+        $this->assertTrue(
+            $this->getFilesystemsPurger()->wasExecuted(),
+            'Filesystems purger should have been executed',
+        );
     }
 
     private function assertTablesHaveBeenPurged(array $tableNames): void
@@ -75,5 +87,15 @@ class ResetInstanceTest extends KernelTestCase
     private function getHandler(): ResetInstanceHandler
     {
         return self::getContainer()->get(ResetInstanceHandler::class);
+    }
+
+    private function getUserConfigurationResetter(): FakeUserConfigurationResetter
+    {
+        return self::getContainer()->get(\Akeneo\Platform\Installer\Infrastructure\UserConfigurationResetter\UserConfigurationResetter::class);
+    }
+
+    private function getFilesystemsPurger(): FakeFilesystemsPurger
+    {
+        return self::getContainer()->get(\Akeneo\Platform\Installer\Infrastructure\FilesystemsPurger\FilesystemsPurger::class);
     }
 }

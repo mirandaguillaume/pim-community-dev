@@ -46,7 +46,13 @@ class CreateJobInstanceHandlerTest extends AcceptanceTestCase
         );
         $this->handler->handle($command);
 
-        $this->assertInstanceOf(JobInstance::class, $this->saver->get('test_job'));
+        $jobInstance = $this->saver->get('test_job');
+        $this->assertInstanceOf(JobInstance::class, $jobInstance);
+        $this->assertSame('Akeneo CSV Connector', $jobInstance->getConnector());
+        $this->assertSame('csv_product_import', $jobInstance->getJobName());
+        $this->assertSame('test_job', $jobInstance->getCode());
+        $this->assertSame('test_job', $jobInstance->getLabel());
+        $this->assertNotEmpty($jobInstance->getRawParameters());
     }
 
     /**

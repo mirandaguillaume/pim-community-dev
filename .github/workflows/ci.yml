@@ -96,7 +96,9 @@ jobs:
       ci: ${{ steps.filter.outputs.ci }}
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
-        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
+        run: |
+          sudo rm -rf var/cache var/logs 2>/dev/null || true
+          sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: filter
@@ -1688,14 +1690,15 @@ jobs:
           retention-days: 30
 
   # ===========================================================================
-  # MUTATION TESTING: Infection on PHPUnit unit tests (non-blocking, incremental)
+  # MUTATION TESTING: Infection on PHPUnit unit tests (incremental, enforced MSI)
+  # Runs on source changes (mutate changed files) AND test-only changes
+  # (mutate source covered by changed tests). MSI >= 80% required.
   # ===========================================================================
   mutation-testing:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 20
-    continue-on-error: true
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -1706,32 +1709,118 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-base-images: 'false'
 
-      - name: Run Infection (incremental — changed files only)
+      - name: Classify changes (source vs test-only)
+        id: classify
+        run: |
+          CHANGED_SRC=$(git diff --name-only origin/master...HEAD -- '*.php' \
+            | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
+            | grep -v 'Spec\.php$' | grep -v 'Test\.php$' || true)
+          CHANGED_TESTS=$(git diff --name-only origin/master...HEAD -- '*.php' \
+            | grep -E '/tests/Unit/|/Test/Unit/' | grep 'Test\.php$' || true)
+
+          if [ -n "$CHANGED_SRC" ]; then
+            echo "mode=source-diff" >> "$GITHUB_OUTPUT"
+            echo "Mode: source-diff ($(echo "$CHANGED_SRC" | wc -l) source files changed)"
+          elif [ -n "$CHANGED_TESTS" ]; then
+            echo "mode=test-coverage" >> "$GITHUB_OUTPUT"
+            # Map test paths to source directories
+            SOURCE_DIRS=""
+            for test in $CHANGED_TESTS; do
+              # components/identifier-generator/back/tests/Unit/... → components/identifier-generator/back/src
+              if echo "$test" | grep -q "^components/"; then
+                dir=$(echo "$test" | sed 's|/back/tests/Unit/.*|/back/src|')
+                SOURCE_DIRS="$SOURCE_DIRS $dir"
+              # src/Akeneo/Category/back/tests/Unit/... → src/Akeneo/Category/back
+              elif echo "$test" | grep -q "^src/Akeneo/.*/back/tests/Unit"; then
+                dir=$(echo "$test" | sed 's|/back/tests/Unit/.*|/back|')
+                SOURCE_DIRS="$SOURCE_DIRS $dir"
+              # tests/back/Platform/Unit/... → src/Akeneo/Platform
+              elif echo "$test" | grep -q "^tests/back/"; then
+                context=$(echo "$test" | sed 's|tests/back/\([^/]*\)/.*|\1|')
+                SOURCE_DIRS="$SOURCE_DIRS src/Akeneo/$context"
+              fi
+            done
+            # Deduplicate and clean (remove empty entries)
+            SOURCE_DIRS=$(echo "$SOURCE_DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u | paste -sd, -)
+            echo "source_dirs=$SOURCE_DIRS" >> "$GITHUB_OUTPUT"
+            echo "Source dirs to mutate: $SOURCE_DIRS"
+          else
+            echo "mode=skip" >> "$GITHUB_OUTPUT"
+            echo "No source or test files changed — skipping"
+          fi
+
+      - name: Run Infection (source diff mode)
+        if: steps.classify.outputs.mode == 'source-diff'
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           mkdir -p var/infection
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
-            php php -d xdebug.mode=coverage vendor/bin/infection \
+            php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
               --test-framework=phpunit \
               --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
-              --initial-tests-php-options="-d xdebug.mode=coverage" \
+              --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage" \
               --threads=4 \
               --git-diff-filter=AM \
               --git-diff-base=origin/master \
-              --min-msi=0 \
+              --min-msi=80 \
+              --min-covered-msi=80 \
               --only-covering-test-cases \
               --logger-github \
-              --logger-html=var/infection/infection.html || true
-          echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "See artifacts for full HTML report." >> "$GITHUB_STEP_SUMMARY"
+              --logger-html=var/infection/infection.html \
+              --ignore-msi-with-no-mutations
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
+      - name: Run Infection (test-coverage mode — mutate source covered by changed tests)
+        if: steps.classify.outputs.mode == 'test-coverage'
+        env:
+          SOURCE_DIRS: ${{ steps.classify.outputs.source_dirs }}
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          mkdir -p var/infection/tmp
+
+          # Build JSON array from comma-separated dirs
+          DIR_JSON=$(echo "$SOURCE_DIRS" | tr ',' '\n' | grep -v '^$' | sed 's/.*/"&"/' | paste -sd, -)
+          echo "Generated source dirs JSON: [$DIR_JSON]"
+
+          # Write Infection config at project root (Infection resolves paths relative to config location)
+          echo "{\"source\":{\"directories\":[$DIR_JSON],\"excludes\":[\"tests\",\"Test\",\"spec\"]},\"phpUnit\":{\"configDir\":\".\"},\"logs\":{\"text\":\"var/infection/infection.log\",\"html\":\"var/infection/infection.html\"},\"tmpDir\":\"var/infection/tmp\",\"timeout\":30}" > infection-dynamic.json
+          echo "Config: $(cat infection-dynamic.json)"
+
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            -e APP_ENV=test_fake \
+            php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
+              --configuration=infection-dynamic.json \
+              --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
+              --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage" \
+              --threads=4 \
+              --min-msi=80 \
+              --min-covered-msi=80 \
+              --only-covering-test-cases \
+              --logger-github \
+              --ignore-msi-with-no-mutations
+
+      - name: Write summary
+        if: always() && steps.classify.outputs.mode != 'skip'
+        run: |
+          echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Mode: **${{ steps.classify.outputs.mode }}** | MSI threshold: 80%" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.classify.outputs.mode }}" = "test-coverage" ]; then
+            echo "Source dirs: \`${{ steps.classify.outputs.source_dirs }}\`" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Skip notice
+        if: steps.classify.outputs.mode == 'skip'
+        run: |
+          echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Skipped: no PHP source or unit test files changed." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload Infection report
-        if: always()
+        if: always() && steps.classify.outputs.mode != 'skip'
         uses: actions/upload-artifact@v4
         with:
           name: infection-report
@@ -1837,6 +1926,7 @@ jobs:
       - infra-job-declaration
       - test-behat
       - test-playwright
+      - mutation-testing
     if: always()
     timeout-minutes: 5
     steps:
@@ -1867,6 +1957,7 @@ jobs:
           echo "  infra-job-declaration: ${{ needs.infra-job-declaration.result }}"
           echo "  test-behat: ${{ needs.test-behat.result }}"
           echo "  test-playwright: ${{ needs.test-playwright.result }}"
+          echo "  mutation-testing: ${{ needs.mutation-testing.result }}"
 
           # Each job must be either 'success' or 'skipped' (path-filtered).
           # 'image' and 'prepare' are never path-filtered so must always succeed.
@@ -1893,6 +1984,7 @@ jobs:
             "${{ needs.infra-job-declaration.result }}"
             "${{ needs.test-behat.result }}"
             "${{ needs.test-playwright.result }}"
+            "${{ needs.mutation-testing.result }}"
           )
 
           failed=false

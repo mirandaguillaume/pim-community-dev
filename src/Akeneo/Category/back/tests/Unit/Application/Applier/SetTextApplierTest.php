@@ -1,0 +1,117 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Akeneo\Test\Category\Unit\Application\Applier;
+
+use Akeneo\Category\Api\Command\UserIntents\SetImage;
+use Akeneo\Category\Api\Command\UserIntents\SetText;
+use Akeneo\Category\Application\Applier\SetTextApplier;
+use Akeneo\Category\Application\Applier\UserIntentApplier;
+use Akeneo\Category\Domain\Model\Enrichment\Category;
+use Akeneo\Category\Domain\ValueObject\Attribute\Value\TextValue;
+use Akeneo\Category\Domain\ValueObject\CategoryId;
+use Akeneo\Category\Domain\ValueObject\Code;
+use Akeneo\Category\Domain\ValueObject\LabelCollection;
+use Akeneo\Category\Domain\ValueObject\ValueCollection;
+use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class SetTextApplierTest extends TestCase
+{
+    private SetTextApplier $sut;
+
+    protected function setUp(): void
+    {
+        $this->sut = new SetTextApplier();
+    }
+
+    public function testItIsInitializable(): void
+    {
+        $this->assertInstanceOf(SetTextApplier::class, $this->sut);
+        $this->assertInstanceOf(UserIntentApplier::class, $this->sut);
+    }
+
+    public function testItAppliesSetTextUserIntent(): void
+    {
+        $givenTextValue = TextValue::fromApplier(
+            value: 'Meta shoes',
+            uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+            code: 'seo_meta_description',
+            channel: 'ecommerce',
+            locale: 'en_US',
+        );
+        $attributes = ValueCollection::fromArray([$givenTextValue]);
+        $category = new Category(
+            id: new CategoryId(1),
+            code: new Code('code'),
+            templateUuid: null,
+            labels: LabelCollection::fromArray([]),
+            attributes: $attributes,
+        );
+        $userIntent = new SetText(
+            '69e251b3-b876-48b5-9c09-92f54bfb528d',
+            'seo_meta_description',
+            'ecommerce',
+            'en_US',
+            'New Meta shoes',
+        );
+        $expectedAttributes = ValueCollection::fromArray([
+            TextValue::fromApplier(
+                value: 'New Meta shoes',
+                uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+                code: 'seo_meta_description',
+                channel: 'ecommerce',
+                locale: 'en_US',
+            ),
+        ]);
+        $this->sut->apply($userIntent, $category);
+        Assert::assertEquals(
+            $expectedAttributes,
+            $category->getAttributes(),
+        );
+    }
+
+    public function testItAppliesSetTextUserIntentWhenAttributesAreNull(): void
+    {
+        $category = new Category(
+            id: new CategoryId(1),
+            code: new Code('code'),
+            templateUuid: null,
+            labels: LabelCollection::fromArray([]),
+            attributes: null,
+        );
+        $userIntent = new SetText(
+            '69e251b3-b876-48b5-9c09-92f54bfb528d',
+            'seo_meta_description',
+            'ecommerce',
+            'en_US',
+            'New Meta shoes',
+        );
+        $expectedAttributes = ValueCollection::fromArray([
+            TextValue::fromApplier(
+                value: 'New Meta shoes',
+                uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+                code: 'seo_meta_description',
+                channel: 'ecommerce',
+                locale: 'en_US',
+            ),
+        ]);
+        $this->sut->apply($userIntent, $category);
+        $this->assertNotNull($category->getAttributes());
+        Assert::assertEquals($expectedAttributes, $category->getAttributes());
+    }
+
+    public function testItThrowsExceptionOnWrongUserIntentApplied(): void
+    {
+        $userIntent = $this->createMock(SetImage::class);
+        $category = $this->createMock(Category::class);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->sut->apply($userIntent, $category);
+    }
+}

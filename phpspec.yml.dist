@@ -1,19 +1,6 @@
 ## Rename this file in phpspec.yml to customize the phpspec configuration
 suites:
-    ## Category context
-    LegacyCategory:
-        namespace: Akeneo\Test\Category\Acceptance
-        psr4_prefix: Akeneo\Test\Category\Acceptance
-        spec_path: tests/back/Category/Acceptance
-        src_path: tests/back/Category/Acceptance
-        spec_prefix: Specification
-
-    Category:
-        namespace: Akeneo\Category
-        psr4_prefix: Akeneo\Category
-        src_path: src/Akeneo/Category/back
-        spec_path: src/Akeneo/Category/back/tests
-        spec_prefix: Specification
+    ## Category context: migrated to PHPUnit (Phase 2)
 
     ## Channel context (modern hexagonal + acceptance specs migrated to PHPUnit)
     LegacyChannel:
@@ -61,20 +48,7 @@ suites:
         spec_prefix: Specification
 
 
-    ## Platform context
-    Platform:
-        namespace: Akeneo\Platform
-        psr4_prefix: Akeneo\Platform
-        spec_path: tests/back/Platform
-        src_path: src/Akeneo/Platform
-        spec_prefix: Specification
-
-    ## Communication Channel context
-    CommunicationChannel:
-        namespace: Akeneo\Platform\CommunicationChannel
-        psr4_prefix: Akeneo\Platform\CommunicationChannel
-        spec_path: src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/tests/Unit
-        src_path: src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back
+    ## Platform + CommunicationChannel: migrated to PHPUnit (Phase 2)
 
     ## Apps context
     Apps:
@@ -180,12 +154,7 @@ suites:
         psr4_prefix: Akeneo\Tool\Bundle\StorageUtilsBundle
         spec_path: src/Akeneo/Tool/Bundle/StorageUtilsBundle
         src_path: src/Akeneo/Tool/Bundle/StorageUtilsBundle
-    Job:
-        namespace: Akeneo\Platform\Job
-        psr4_prefix: Akeneo\Platform\Job
-        spec_path: src/Akeneo/Platform/Job/back/tests
-        src_path: src/Akeneo/Platform/Job/back
-        spec_prefix: Specification
+    ## Job: migrated to PHPUnit (Phase 2)
     FileStorageBundle:
         namespace: Akeneo\Tool\Bundle\FileStorageBundle
         psr4_prefix: Akeneo\Tool\Bundle\FileStorageBundle
@@ -273,9 +242,4 @@ suites:
         spec_path: src/Oro/Bundle/PimFilterBundle
         src_path: src/Oro/Bundle/PimFilterBundle
 
-    Installer:
-        namespace: Akeneo\Platform\Installer
-        psr4_prefix: Akeneo\Platform\Installer
-        spec_path: src/Akeneo/Platform/Installer/back/tests
-        src_path: src/Akeneo/Platform/Installer/back/src
-        spec_prefix: Specification
+    ## Installer: migrated to PHPUnit (Phase 2)

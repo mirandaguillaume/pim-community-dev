@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Category\back\tests\Unit\Domain\ValueObject\Attribute;
+namespace Akeneo\Test\Category\Unit\Domain\ValueObject\Attribute;
 
-use Akeneo\Category\back\tests\Integration\Helper\CategoryTestCase;
 use Akeneo\Category\Domain\Model\Attribute\AttributeImage;
-use Akeneo\Category\Domain\Model\Attribute\AttributeRichText;
 use Akeneo\Category\Domain\Model\Attribute\AttributeText;
+use Akeneo\Category\Domain\Model\Attribute\AttributeTextArea;
 use Akeneo\Category\Domain\ValueObject\Attribute\AttributeAdditionalProperties;
 use Akeneo\Category\Domain\ValueObject\Attribute\AttributeCode;
 use Akeneo\Category\Domain\ValueObject\Attribute\AttributeCollection;
@@ -18,90 +17,193 @@ use Akeneo\Category\Domain\ValueObject\Attribute\AttributeOrder;
 use Akeneo\Category\Domain\ValueObject\Attribute\AttributeUuid;
 use Akeneo\Category\Domain\ValueObject\LabelCollection;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
+ * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class AttributeCollectionTest extends CategoryTestCase
+class AttributeCollectionTest extends TestCase
 {
-    public function testReorder(): void
+    private AttributeCollection $sut;
+
+    protected function setUp(): void
     {
-        // Given
-        $attributeCollection = $this->givenAttributeCollection();
-
-        $orderedUuids = [
-            '69e251b3-b876-48b5-9c09-92f54bfb528d',
-            '8dda490c-0fd1-4485-bdc5-342929783d9a',
-            '840fcd1a-f66b-4f0c-9bbd-596629732950',
-            'unknown-uuid',
-        ];
-
-        // When
-        $attributeCollection->reorder($orderedUuids);
-
-        // Then
-        $this->assertEquals(3, $attributeCollection->getAttributeByUuid('840fcd1a-f66b-4f0c-9bbd-596629732950')->getOrder()->intValue());
-        $this->assertEquals(2, $attributeCollection->getAttributeByUuid('8dda490c-0fd1-4485-bdc5-342929783d9a')->getOrder()->intValue());
-        $this->assertEquals(4, $attributeCollection->getAttributeByUuid('4873080d-32a3-42a7-ae5c-1be518e40f3d')->getOrder()->intValue());
-        $this->assertEquals(1, $attributeCollection->getAttributeByUuid('69e251b3-b876-48b5-9c09-92f54bfb528d')->getOrder()->intValue());
     }
 
-    private function givenAttributeCollection(): AttributeCollection
+    public function testItRetrievesAnAttributeFromIdentifier(): void
     {
-        $templateUuid = TemplateUuid::fromString('804c35bd-4353-438b-9455-6e7b5e9c24f2');
-        $attributeUuids = [
-            '840fcd1a-f66b-4f0c-9bbd-596629732950',
-            '8dda490c-0fd1-4485-bdc5-342929783d9a',
-            '4873080d-32a3-42a7-ae5c-1be518e40f3d',
-            '69e251b3-b876-48b5-9c09-92f54bfb528d',
-        ];
+        $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(1);
+        $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(2);
+        $mainImageAttribute = $this->createMainImageImageAttribute(3);
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute]);
+        $this->assertSame($mainImageAttribute, $this->sut->getAttributeByIdentifier('main_image|d049da25-5f74-43ba-b261-65ee2c9dc9f4'));
+    }
 
-        return AttributeCollection::fromArray([
-            AttributeRichText::create(
-                AttributeUuid::fromString($attributeUuids[0]),
-                new AttributeCode('long_description'),
-                AttributeOrder::fromInteger(1),
-                AttributeIsRequired::fromBoolean(false),
-                AttributeIsScopable::fromBoolean(true),
-                AttributeIsLocalizable::fromBoolean(true),
-                LabelCollection::fromArray(['en_US' => 'Long description']),
-                $templateUuid,
-                AttributeAdditionalProperties::fromArray([]),
-            ),
-            AttributeRichText::create(
-                AttributeUuid::fromString($attributeUuids[1]),
-                new AttributeCode('short_description'),
-                AttributeOrder::fromInteger(2),
-                AttributeIsRequired::fromBoolean(false),
-                AttributeIsScopable::fromBoolean(true),
-                AttributeIsLocalizable::fromBoolean(true),
-                LabelCollection::fromArray(['en_US' => 'Short description']),
-                $templateUuid,
-                AttributeAdditionalProperties::fromArray([]),
-            ),
-            AttributeText::create(
-                AttributeUuid::fromString($attributeUuids[2]),
-                new AttributeCode('url_slug'),
-                AttributeOrder::fromInteger(3),
-                AttributeIsRequired::fromBoolean(false),
-                AttributeIsScopable::fromBoolean(true),
-                AttributeIsLocalizable::fromBoolean(true),
-                LabelCollection::fromArray(['en_US' => 'URL slug']),
-                $templateUuid,
-                AttributeAdditionalProperties::fromArray([]),
-            ),
-            AttributeImage::create(
-                AttributeUuid::fromString($attributeUuids[3]),
-                new AttributeCode('image_1'),
-                AttributeOrder::fromInteger(4),
-                AttributeIsRequired::fromBoolean(false),
-                AttributeIsScopable::fromBoolean(true),
-                AttributeIsLocalizable::fromBoolean(true),
-                LabelCollection::fromArray(['en_US' => 'Image 1']),
-                $templateUuid,
-                AttributeAdditionalProperties::fromArray([]),
-            ),
-        ]);
+    public function testItRetrievesAnAttributeFromCode(): void
+    {
+        $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(1);
+        $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(2);
+        $mainImageAttribute = $this->createMainImageImageAttribute(3);
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute]);
+        $this->assertSame($shortDescriptionAttribute, $this->sut->getAttributeByCode('short_description'));
+    }
+
+    public function testItAddsANewAttributeToItsAttributesList(): void
+    {
+        $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(1);
+        $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(2);
+        $mainImageAttribute = $this->createMainImageImageAttribute(3);
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute]);
+        $newAttribute = AttributeTextArea::create(
+            AttributeUuid::fromString('f54102b9-a801-4d97-ae51-916450972c07'),
+            new AttributeCode('new_attribute'),
+            AttributeOrder::fromInteger(9),
+            AttributeIsRequired::fromBoolean(true),
+            AttributeIsScopable::fromBoolean(true),
+            AttributeIsLocalizable::fromBoolean(true),
+            LabelCollection::fromArray(['en_US' => 'New attribute']),
+            TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
+            AttributeAdditionalProperties::fromArray([]),
+        );
+        $this->sut->addAttribute($newAttribute);
+        $this->assertSame($newAttribute, $this->sut->getAttributeByCode('new_attribute'));
+    }
+
+    public function testItCountsItsNumberOfAttributes(): void
+    {
+        $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(2);
+        $mainImageAttribute = $this->createMainImageImageAttribute(3);
+        $this->sut = AttributeCollection::fromArray([$longDescriptionAttribute, $mainImageAttribute]);
+        $this->assertSame(2, $this->sut->count());
+    }
+
+    public function testItReindexesItsAttributes(): void
+    {
+        $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(30);
+        $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(50);
+        $mainImageAttribute = $this->createMainImageImageAttribute(20);
+        $attributeWithDuplicatedOrderIndex = AttributeText::create(
+            AttributeUuid::fromString('d15245be-7d71-40e0-9638-d9f1b2bb3f5f'),
+            new AttributeCode('duplicated_order'),
+            AttributeOrder::fromInteger(30),
+            AttributeIsRequired::fromBoolean(true),
+            AttributeIsScopable::fromBoolean(false),
+            AttributeIsLocalizable::fromBoolean(false),
+            LabelCollection::fromArray(['en_US' => 'Duplicated order']),
+            TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
+            AttributeAdditionalProperties::fromArray([]),
+        );
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $attributeWithDuplicatedOrderIndex, $mainImageAttribute]);
+        $reindexedAttributeCollection = $this->sut->rebuildWithIndexedAttributes();
+        $this->assertSame(1, $reindexedAttributeCollection->getAttributeByCode('main_image')->getOrder()->intValue());
+        $this->assertSame(2, $reindexedAttributeCollection->getAttributeByCode('short_description')->getOrder()->intValue());
+        $this->assertSame(3, $reindexedAttributeCollection->getAttributeByCode('duplicated_order')->getOrder()->intValue());
+        $this->assertSame(4, $reindexedAttributeCollection->getAttributeByCode('long_description')->getOrder()->intValue());
+    }
+
+    public function testItReturnsThePotentialOrderValueOfTheNextAddedAttribute(): void
+    {
+        $shortDescriptionAttribute = $this->createShortDescriptionTextAttribute(1);
+        $longDescriptionAttribute = $this->createLongDescriptionTextAttribute(27);
+        $mainImageAttribute = $this->createMainImageImageAttribute(50);
+        $this->sut = AttributeCollection::fromArray([$shortDescriptionAttribute, $longDescriptionAttribute, $mainImageAttribute]);
+        $this->assertSame(3, $this->sut->count());
+        $this->assertSame(51, $this->sut->calculateNextOrder());
+    }
+
+    public function testCalculateNextOrderWithEmptyCollection(): void
+    {
+        $this->sut = AttributeCollection::fromArray([]);
+        // With no attributes, the reduce returns initial value 1, so next order = 1 + 1 = 2
+        $this->assertSame(2, $this->sut->calculateNextOrder());
+    }
+
+    public function testCalculateNextOrderWithSingleAttribute(): void
+    {
+        $attr = $this->createShortDescriptionTextAttribute(5);
+        $this->sut = AttributeCollection::fromArray([$attr]);
+        // max(5, 1) = 5, so next = 1 + 5 = 6
+        $this->assertSame(6, $this->sut->calculateNextOrder());
+    }
+
+    public function testCalculateNextOrderIsOnePlusMax(): void
+    {
+        $attr1 = $this->createShortDescriptionTextAttribute(3);
+        $attr2 = $this->createLongDescriptionTextAttribute(10);
+        $this->sut = AttributeCollection::fromArray([$attr1, $attr2]);
+        // max(3, 10) = 10, so next = 1 + 10 = 11
+        $this->assertSame(11, $this->sut->calculateNextOrder());
+    }
+
+    public function testItRejectsNonAttributeInConstructor(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        AttributeCollection::fromArray(['not_an_attribute']);
+    }
+
+    public function testNormalizeReturnsArrayOfNormalizedAttributes(): void
+    {
+        $attr = $this->createShortDescriptionTextAttribute(1);
+        $this->sut = AttributeCollection::fromArray([$attr]);
+        $normalized = $this->sut->normalize();
+        $this->assertIsArray($normalized);
+        $this->assertCount(1, $normalized);
+        $this->assertArrayHasKey('uuid', $normalized[0]);
+        $this->assertArrayHasKey('code', $normalized[0]);
+        $this->assertSame('short_description', $normalized[0]['code']);
+    }
+
+    public function testGetAttributesReturnsArray(): void
+    {
+        $attr = $this->createShortDescriptionTextAttribute(1);
+        $this->sut = AttributeCollection::fromArray([$attr]);
+        $this->assertCount(1, $this->sut->getAttributes());
+        $this->assertSame($attr, $this->sut->getAttributes()[0]);
+    }
+
+    private function createShortDescriptionTextAttribute(int $order): AttributeText
+    {
+        return AttributeText::create(
+            AttributeUuid::fromString('e30177ee-d8e8-46a4-9491-ea6c3579e727'),
+            new AttributeCode('short_description'),
+            AttributeOrder::fromInteger($order),
+            AttributeIsRequired::fromBoolean(false),
+            AttributeIsScopable::fromBoolean(false),
+            AttributeIsLocalizable::fromBoolean(false),
+            LabelCollection::fromArray(['en_US' => 'Short description']),
+            TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
+            AttributeAdditionalProperties::fromArray([]),
+        );
+    }
+
+    private function createLongDescriptionTextAttribute(int $order): AttributeText
+    {
+        return AttributeText::create(
+            AttributeUuid::fromString('82afa0d1-cf51-48e0-a8d3-34444ddc1c09'),
+            new AttributeCode('long_description'),
+            AttributeOrder::fromInteger($order),
+            AttributeIsRequired::fromBoolean(true),
+            AttributeIsScopable::fromBoolean(true),
+            AttributeIsLocalizable::fromBoolean(false),
+            LabelCollection::fromArray(['en_US' => 'Long description']),
+            TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
+            AttributeAdditionalProperties::fromArray([]),
+        );
+    }
+
+    private function createMainImageImageAttribute(int $order): AttributeImage
+    {
+        return AttributeImage::create(
+            AttributeUuid::fromString('d049da25-5f74-43ba-b261-65ee2c9dc9f4'),
+            new AttributeCode('main_image'),
+            AttributeOrder::fromInteger($order),
+            AttributeIsRequired::fromBoolean(true),
+            AttributeIsScopable::fromBoolean(false),
+            AttributeIsLocalizable::fromBoolean(false),
+            LabelCollection::fromArray(['en_US' => 'Illustration']),
+            TemplateUuid::fromString('b60bb301-33e3-43ef-8a2c-a95361b607c2'),
+            AttributeAdditionalProperties::fromArray([]),
+        );
     }
 }

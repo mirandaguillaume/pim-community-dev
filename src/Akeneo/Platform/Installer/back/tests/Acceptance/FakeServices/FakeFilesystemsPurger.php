@@ -17,7 +17,15 @@ use Akeneo\Platform\Installer\Domain\Service\FilesystemsPurgerInterface;
 
 class FakeFilesystemsPurger implements FilesystemsPurgerInterface
 {
+    private bool $executed = false;
+
     public function execute(): void
     {
+        $this->executed = true;
+    }
+
+    public function wasExecuted(): bool
+    {
+        return $this->executed;
     }
 }

@@ -67,11 +67,16 @@ class UpdateAttributeCommandHandlerTest extends TestCase
         $categoryTemplateAttributeSaver
             ->expects($this->once())
             ->method('update')
-            ->with($attribute);
+            ->with($this->callback(function (Attribute $attr) {
+                return (string) $attr->getType() === AttributeType::RICH_TEXT;
+            }));
 
         $handler = new UpdateAttributeCommandHandler($validator, $getAttribute, $categoryTemplateAttributeSaver);
 
         $handler($command);
+
+        // Verify the attribute was actually updated
+        $this->assertSame(AttributeType::RICH_TEXT, (string) $attribute->getType());
     }
 
     public function testItAddsLabels(): void
@@ -117,7 +122,12 @@ class UpdateAttributeCommandHandlerTest extends TestCase
         $categoryTemplateAttributeSaver
             ->expects($this->once())
             ->method('update')
-            ->with($attribute);
+            ->with($this->callback(function (Attribute $attr) {
+                $normalized = $attr->normalize();
+
+                return $normalized['labels']['fr_FR'] === 'Impression'
+                    && $normalized['labels']['en_US'] === 'Print';
+            }));
 
         $handler = new UpdateAttributeCommandHandler($validator, $getAttribute, $categoryTemplateAttributeSaver);
 
