@@ -1688,14 +1688,13 @@ jobs:
           retention-days: 30
 
   # ===========================================================================
-  # MUTATION TESTING: Infection on PHPUnit unit tests (non-blocking, incremental)
+  # MUTATION TESTING: Infection on PHPUnit unit tests (incremental, enforced MSI)
   # ===========================================================================
   mutation-testing:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
         with:
@@ -1706,7 +1705,22 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-base-images: 'false'
 
-      - name: Run Infection (incremental — changed files only)
+      - name: Detect changed source files (exclude tests)
+        id: changed
+        run: |
+          CHANGED_SRC=$(git diff --name-only origin/master...HEAD -- '*.php' \
+            | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
+            | grep -v 'Spec\.php$' | grep -v 'Test\.php$' || true)
+          if [ -z "$CHANGED_SRC" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "No source files changed — skipping mutation testing"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "Source files changed: $(echo "$CHANGED_SRC" | wc -l)"
+          fi
+
+      - name: Run Infection (incremental — changed source files only)
+        if: steps.changed.outputs.skip != 'true'
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
@@ -1720,18 +1734,26 @@ jobs:
               --threads=4 \
               --git-diff-filter=AM \
               --git-diff-base=origin/master \
-              --min-msi=0 \
+              --min-msi=80 \
+              --min-covered-msi=80 \
               --only-covering-test-cases \
               --logger-github \
-              --logger-html=var/infection/infection.html || true
+              --logger-html=var/infection/infection.html \
+              --ignore-msi-with-no-mutations
           echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "See artifacts for full HTML report." >> "$GITHUB_STEP_SUMMARY"
+          echo "MSI threshold: 80%. See artifacts for full HTML report." >> "$GITHUB_STEP_SUMMARY"
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
+      - name: Skip notice
+        if: steps.changed.outputs.skip == 'true'
+        run: |
+          echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Skipped: no source files changed (only tests/specs modified)." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload Infection report
-        if: always()
+        if: always() && steps.changed.outputs.skip != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: infection-report
@@ -1837,6 +1859,7 @@ jobs:
       - infra-job-declaration
       - test-behat
       - test-playwright
+      - mutation-testing
     if: always()
     timeout-minutes: 5
     steps:
@@ -1867,6 +1890,7 @@ jobs:
           echo "  infra-job-declaration: ${{ needs.infra-job-declaration.result }}"
           echo "  test-behat: ${{ needs.test-behat.result }}"
           echo "  test-playwright: ${{ needs.test-playwright.result }}"
+          echo "  mutation-testing: ${{ needs.mutation-testing.result }}"
 
           # Each job must be either 'success' or 'skipped' (path-filtered).
           # 'image' and 'prepare' are never path-filtered so must always succeed.
@@ -1893,6 +1917,7 @@ jobs:
             "${{ needs.infra-job-declaration.result }}"
             "${{ needs.test-behat.result }}"
             "${{ needs.test-playwright.result }}"
+            "${{ needs.mutation-testing.result }}"
           )
 
           failed=false
