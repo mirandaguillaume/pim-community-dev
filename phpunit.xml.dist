@@ -101,6 +101,41 @@
             <directory suffix="Test.php">tests/back/Platform/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Acceptance</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Acceptance</directory>
+            <!-- Phase 3: Connectivity + Tool -->
+            <directory suffix="Test.php">src/Akeneo/Connectivity/Connection/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/Analytics/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/Api/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/Batch/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/BatchQueue/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/Buffer/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/Connector/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/Console/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/FileStorage/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/Localization/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/StorageUtils/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Component/Versioning/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/ApiBundle/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/BatchBundle/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/BatchQueueBundle/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/ConnectorBundle/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/ElasticsearchBundle/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/FileStorageBundle/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/MeasureBundle/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/MessengerBundle/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/StorageUtilsBundle/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/VersioningBundle/Unit</directory>
+            <!-- Phase 4: Pim + Oro + remaining -->
+            <directory suffix="Test.php">tests/back/Pim/Unit</directory>
+            <directory suffix="Test.php">tests/back/UserManagement/Unit</directory>
+            <directory suffix="Test.php">tests/back/Channel/Unit</directory>
+            <directory suffix="Test.php">tests/back/Acceptance/Unit</directory>
+            <directory suffix="Test.php">tests/back/Common/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Pim/Enrichment/Product/back/Test/Unit</directory>
+            <directory suffix="Test.php">src/Oro/Bundle/DataGridBundle/Unit</directory>
+            <directory suffix="Test.php">src/Oro/Bundle/FilterBundle/Unit</directory>
+            <directory suffix="Test.php">src/Oro/Bundle/PimDataGridBundle/Unit</directory>
+            <directory suffix="Test.php">src/Oro/Bundle/PimFilterBundle/Unit</directory>
             <!-- Exclude misplaced integration tests (extend CategoryTestCase → need DB) -->
             <exclude>src/Akeneo/Category/back/tests/Unit/Domain/ValueObject/Attribute/AttributeCollectionTest.php</exclude>
             <exclude>src/Akeneo/Category/back/tests/Unit/Domain/Query/DeactivatedTemplateAttributes</exclude>
