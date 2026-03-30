@@ -107,6 +107,15 @@ parameters:
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/MessengerBundle/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/StorageUtilsBundle/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/VersioningBundle/Unit
+        # Exclude converted PHPUnit tests (Phase 4) — still contain PHPSpec remnants
+        - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Specification
+        - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Product/back/Test/Specification
+        - %currentWorkingDirectory%/src/Oro/Bundle/DataGridBundle/spec
+        - %currentWorkingDirectory%/src/Oro/Bundle/FilterBundle/spec
+        - %currentWorkingDirectory%/src/Oro/Bundle/PimDataGridBundle/spec
+        - %currentWorkingDirectory%/src/Oro/Bundle/PimDataGridBundle/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/PimFilterBundle/spec
         - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Bundle/Resources/fonts/dompdf_font_family_cache.php
         # Class to remove (validate that they are not used anymore RAB-1161)
         - %currentWorkingDirectory%/src/Akeneo/Platform/Bundle/UIBundle/Twig/Node/PlaceholderNode.php

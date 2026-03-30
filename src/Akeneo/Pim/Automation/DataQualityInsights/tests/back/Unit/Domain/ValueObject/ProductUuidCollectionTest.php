@@ -83,7 +83,7 @@ class ProductUuidCollectionTest extends TestCase
                     ProductUuid::fromString(('b492b9f5-9a8f-495a-8cd7-912c69c31902')),
                 ];
         $this->sut = ProductUuidCollection::fromProductUuids($uuids);
-        $this->assertIsArray(, $this->sut->toArray());
+        $this->assertIsArray($this->sut->toArray());
         $this->assertEquals($uuids, $this->sut->toArray());
     }
 
@@ -102,7 +102,7 @@ class ProductUuidCollectionTest extends TestCase
                     'b492b9f5-9a8f-495a-8cd7-912c69c31902',
                 ];
         $this->sut = ProductUuidCollection::fromProductUuids($uuids);
-        -$this->toArrayString()->shouldBeArray();
+        $this->assertIsArray($this->sut->toArrayString());
         $this->assertEquals($uuidsExpected, $this->sut->toArrayString());
     }
 
@@ -113,6 +113,6 @@ class ProductUuidCollectionTest extends TestCase
                     'fef37e64-a963-47a9-b087-2cc67968f0a2',
                 ];
         $this->sut = ProductUuidCollection::fromStrings($ids);
-        $this->assertCount(2, $this);
+        $this->assertCount(2, $this->sut);
     }
 }
