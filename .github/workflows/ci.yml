@@ -1713,6 +1713,7 @@ jobs:
         id: classify
         run: |
           CHANGED_SRC=$(git diff --name-only origin/master...HEAD -- '*.php' \
+            | grep -E '^src/|^components/' \
             | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
             | grep -v 'Spec\.php$' | grep -v 'Test\.php$' || true)
           CHANGED_TESTS=$(git diff --name-only origin/master...HEAD -- '*.php' \
