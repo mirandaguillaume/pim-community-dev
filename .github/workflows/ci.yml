@@ -1757,10 +1757,10 @@ jobs:
           mkdir -p var/infection
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
-            php php -d xdebug.mode=coverage vendor/bin/infection \
+            php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
               --test-framework=phpunit \
               --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
-              --initial-tests-php-options="-d xdebug.mode=coverage" \
+              --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage" \
               --threads=4 \
               --git-diff-filter=AM \
               --git-diff-base=origin/master \
@@ -1793,10 +1793,10 @@ jobs:
 
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
-            php php -d xdebug.mode=coverage vendor/bin/infection \
+            php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
               --configuration=infection-dynamic.json \
               --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
-              --initial-tests-php-options="-d xdebug.mode=coverage" \
+              --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage" \
               --threads=4 \
               --min-msi=80 \
               --min-covered-msi=80 \
