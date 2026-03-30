@@ -1717,7 +1717,8 @@ jobs:
             | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
             | grep -v 'Spec\.php$' | grep -v 'Test\.php$' || true)
           CHANGED_TESTS=$(git diff --name-only origin/master...HEAD -- '*.php' \
-            | grep -E '/tests/Unit/|/Test/Unit/' | grep 'Test\.php$' || true)
+            | grep 'Test\.php$' \
+            | grep -E '/tests/|/Test/|/spec/|/Unit/' || true)
 
           if [ -n "$CHANGED_SRC" ]; then
             echo "mode=source-diff" >> "$GITHUB_OUTPUT"
@@ -1727,15 +1728,18 @@ jobs:
             # Map test paths to source directories
             SOURCE_DIRS=""
             for test in $CHANGED_TESTS; do
-              # components/identifier-generator/back/tests/Unit/... → components/identifier-generator/back/src
               if echo "$test" | grep -q "^components/"; then
-                dir=$(echo "$test" | sed 's|/back/tests/Unit/.*|/back/src|')
+                dir=$(echo "$test" | sed 's|/back/tests/.*|/back/src|')
                 SOURCE_DIRS="$SOURCE_DIRS $dir"
-              # src/Akeneo/Category/back/tests/Unit/... → src/Akeneo/Category/back
-              elif echo "$test" | grep -q "^src/Akeneo/.*/back/tests/Unit"; then
-                dir=$(echo "$test" | sed 's|/back/tests/Unit/.*|/back|')
+              elif echo "$test" | grep -q "^src/Oro/"; then
+                dir=$(echo "$test" | sed 's|/\(spec\|Unit\)/.*||')
                 SOURCE_DIRS="$SOURCE_DIRS $dir"
-              # tests/back/Platform/Unit/... → src/Akeneo/Platform
+              elif echo "$test" | grep -q "^src/Akeneo/.*/back/tests/"; then
+                dir=$(echo "$test" | sed 's|/back/tests/.*|/back|')
+                SOURCE_DIRS="$SOURCE_DIRS $dir"
+              elif echo "$test" | grep -q "^src/Akeneo/.*/tests/back/"; then
+                dir=$(echo "$test" | sed 's|/tests/back/.*||')
+                SOURCE_DIRS="$SOURCE_DIRS $dir"
               elif echo "$test" | grep -q "^tests/back/"; then
                 context=$(echo "$test" | sed 's|tests/back/\([^/]*\)/.*|\1|')
                 SOURCE_DIRS="$SOURCE_DIRS src/Akeneo/$context"
