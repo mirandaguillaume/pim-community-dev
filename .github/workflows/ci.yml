@@ -1738,8 +1738,8 @@ jobs:
                 SOURCE_DIRS="$SOURCE_DIRS src/Akeneo/$context"
               fi
             done
-            # Deduplicate
-            SOURCE_DIRS=$(echo "$SOURCE_DIRS" | tr ' ' '\n' | sort -u | tr '\n' ',' | sed 's/,$//')
+            # Deduplicate and clean (remove empty entries)
+            SOURCE_DIRS=$(echo "$SOURCE_DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u | paste -sd, -)
             echo "source_dirs=$SOURCE_DIRS" >> "$GITHUB_OUTPUT"
             echo "Source dirs to mutate: $SOURCE_DIRS"
           else
@@ -1773,24 +1773,24 @@ jobs:
 
       - name: Run Infection (test-coverage mode — mutate source covered by changed tests)
         if: steps.classify.outputs.mode == 'test-coverage'
+        env:
+          SOURCE_DIRS: ${{ steps.classify.outputs.source_dirs }}
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          mkdir -p var/infection
+          mkdir -p var/infection/tmp
 
-          # Generate dynamic Infection config from detected source dirs
-          IFS=',' read -ra DIRS <<< "$SOURCE_DIRS"
-          DIR_JSON=$(printf ',"%s"' "${DIRS[@]}")
-          DIR_JSON="[${DIR_JSON:1}]"
-          cat > var/infection/infection-dynamic.json <<INFEOF
-          {
-            "source": { "directories": $DIR_JSON, "excludes": ["tests", "Test", "spec"] },
-            "phpUnit": { "configDir": ".", "customPath": "vendor/bin/phpunit" },
-            "logs": { "text": "var/infection/infection.log", "html": "var/infection/infection.html" },
-            "tmpDir": "var/infection/tmp",
-            "timeout": 30
-          }
-          INFEOF
+          # Build JSON array from comma-separated dirs
+          DIR_JSON=$(echo "$SOURCE_DIRS" | tr ',' '\n' | grep -v '^$' | sed 's/.*/"&"/' | paste -sd, -)
+          echo "Generated source dirs JSON: [$DIR_JSON]"
+
+          # Write Infection config
+          cat > var/infection/infection-dynamic.json <<EOF
+          {"source":{"directories":[$DIR_JSON],"excludes":["tests","Test","spec"]},"phpUnit":{"configDir":".","customPath":"vendor/bin/phpunit"},"logs":{"text":"var/infection/infection.log","html":"var/infection/infection.html"},"tmpDir":"var/infection/tmp","timeout":30}
+          EOF
+
+          echo "Config: $(cat var/infection/infection-dynamic.json)"
 
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
@@ -1804,9 +1804,6 @@ jobs:
               --only-covering-test-cases \
               --logger-github \
               --ignore-msi-with-no-mutations
-        env:
-          SOURCE_DIRS: ${{ steps.classify.outputs.source_dirs }}
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
       - name: Write summary
         if: always() && steps.classify.outputs.mode != 'skip'
