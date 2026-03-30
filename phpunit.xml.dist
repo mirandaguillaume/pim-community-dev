@@ -125,7 +125,8 @@
             <directory suffix="Test.php">src/Akeneo/Tool/Bundle/StorageUtilsBundle/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Tool/Bundle/VersioningBundle/Unit</directory>
             <!-- Phase 4: Pim + Oro + remaining -->
-            <directory suffix="Test.php">tests/back/Pim/Unit</directory>
+            <directory suffix="Test.php">tests/back/Pim/Structure/Unit</directory>
+            <directory suffix="Test.php">tests/back/Pim/Enrichment/Unit</directory>
             <directory suffix="Test.php">tests/back/UserManagement/Unit</directory>
             <directory suffix="Test.php">tests/back/Channel/Unit</directory>
             <directory suffix="Test.php">tests/back/Acceptance/Unit</directory>
