@@ -2,10 +2,10 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Normalizer\Product;
 
-use Oro\Bundle\PimDataGridBundle\Normalizer\Product\FileNormalizer;
-use Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface;
-use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Enrichment\Component\Product\Value\MediaValueInterface;
+use Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface;
+use Oro\Bundle\PimDataGridBundle\Normalizer\Product\FileNormalizer;
+use PhpSpec\ObjectBehavior;
 
 class FileNormalizerSpec extends ObjectBehavior
 {

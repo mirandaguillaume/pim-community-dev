@@ -2,12 +2,12 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Datasource;
 
-use Oro\Bundle\PimDataGridBundle\Datasource\DatasourceInterface;
+use Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
-use PhpSpec\ObjectBehavior;
+use Oro\Bundle\PimDataGridBundle\Datasource\DatasourceInterface;
 use Oro\Bundle\PimDataGridBundle\Datasource\ResultRecord\HydratorInterface;
-use Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface;
+use PhpSpec\ObjectBehavior;
 
 class DatasourceSpec extends ObjectBehavior
 {

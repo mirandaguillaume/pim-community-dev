@@ -2,10 +2,10 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property\Version;
 
-use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
-use PhpSpec\ObjectBehavior;
 use Akeneo\UserManagement\Bundle\Manager\UserManager;
 use Akeneo\UserManagement\Component\Model\User;
+use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

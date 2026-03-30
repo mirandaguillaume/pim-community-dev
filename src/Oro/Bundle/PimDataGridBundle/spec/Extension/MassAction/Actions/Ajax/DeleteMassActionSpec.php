@@ -4,8 +4,8 @@ namespace spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Ajax;
 
 use Oro\Bundle\DataGridBundle\Extension\Action\ActionConfiguration;
 use Oro\Bundle\DataGridBundle\Extension\MassAction\Actions\MassActionInterface;
-use PhpSpec\ObjectBehavior;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Ajax\DeleteMassAction;
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class DeleteMassActionSpec extends ObjectBehavior

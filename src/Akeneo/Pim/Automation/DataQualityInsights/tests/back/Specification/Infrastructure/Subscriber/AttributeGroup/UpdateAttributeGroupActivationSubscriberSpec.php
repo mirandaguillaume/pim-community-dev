@@ -93,7 +93,7 @@ final class UpdateAttributeGroupActivationSubscriberSpec extends ObjectBehavior
         $dataQualityInsightsFeature->isEnabled()->willReturn(true);
         $getAttributeGroupActivationQuery->byCode(new AttributeGroupCode('marketing'))->willReturn(null);
 
-        $attributeGroupActivationRepository->save(Argument::that(fn(AttributeGroupActivation $attributeGroupActivation) => 'marketing' === strval($attributeGroupActivation->getAttributeGroupCode())
+        $attributeGroupActivationRepository->save(Argument::that(fn (AttributeGroupActivation $attributeGroupActivation) => 'marketing' === strval($attributeGroupActivation->getAttributeGroupCode())
             && true === $attributeGroupActivation->isActivated()))->shouldBeCalled();
 
         $this->createAttributeGroupActivation($event);

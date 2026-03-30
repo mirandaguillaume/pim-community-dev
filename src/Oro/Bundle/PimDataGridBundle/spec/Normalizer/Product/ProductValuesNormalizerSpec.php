@@ -2,16 +2,16 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Normalizer\Product;
 
-use Oro\Bundle\PimDataGridBundle\Normalizer\Product\ProductValuesNormalizer;
-use Akeneo\Tool\Component\Localization\Presenter\PresenterInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use PhpSpec\ObjectBehavior;
-use Akeneo\Pim\Structure\Component\Model\Attribute;
-use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Akeneo\Pim\Enrichment\Component\Product\Localization\Presenter\PresenterRegistryInterface;
-use Akeneo\Pim\Enrichment\Component\Product\Value\ScalarValue;
-use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
+use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
+use Akeneo\Pim\Enrichment\Component\Product\Value\ScalarValue;
+use Akeneo\Pim\Structure\Component\Model\Attribute;
+use Akeneo\Tool\Component\Localization\Presenter\PresenterInterface;
+use Akeneo\UserManagement\Bundle\Context\UserContext;
+use Doctrine\Common\Collections\ArrayCollection;
+use Oro\Bundle\PimDataGridBundle\Normalizer\Product\ProductValuesNormalizer;
+use PhpSpec\ObjectBehavior;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ProductValuesNormalizerSpec extends ObjectBehavior

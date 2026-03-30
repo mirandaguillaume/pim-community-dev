@@ -2,12 +2,12 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product;
 
-use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\ConfiguratorInterface;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\FilterBundle\Grid\Extension\Configuration as FilterConfiguration;
-use PhpSpec\ObjectBehavior;
+use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\ConfiguratorInterface;
 use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ConfigurationRegistry;
 use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ContextConfigurator;
+use PhpSpec\ObjectBehavior;
 
 class FiltersConfiguratorSpec extends ObjectBehavior
 {

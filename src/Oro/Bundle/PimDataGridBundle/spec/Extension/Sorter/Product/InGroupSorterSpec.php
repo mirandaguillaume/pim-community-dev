@@ -2,11 +2,11 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Extension\Sorter\Product;
 
-use Oro\Bundle\PimDataGridBundle\Extension\Sorter\SorterInterface;
-use Oro\Bundle\DataGridBundle\Datagrid\RequestParameters;
-use PhpSpec\ObjectBehavior;
-use Oro\Bundle\PimDataGridBundle\Datasource\ProductDatasource;
 use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
+use Oro\Bundle\DataGridBundle\Datagrid\RequestParameters;
+use Oro\Bundle\PimDataGridBundle\Datasource\ProductDatasource;
+use Oro\Bundle\PimDataGridBundle\Extension\Sorter\SorterInterface;
+use PhpSpec\ObjectBehavior;
 
 class InGroupSorterSpec extends ObjectBehavior
 {

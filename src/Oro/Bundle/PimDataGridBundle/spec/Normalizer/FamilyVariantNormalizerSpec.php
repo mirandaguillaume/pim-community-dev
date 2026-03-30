@@ -2,11 +2,11 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Normalizer;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use PhpSpec\ObjectBehavior;
-use Oro\Bundle\PimDataGridBundle\Normalizer\FamilyVariantNormalizer;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Oro\Bundle\PimDataGridBundle\Normalizer\FamilyVariantNormalizer;
+use PhpSpec\ObjectBehavior;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class FamilyVariantNormalizerSpec extends ObjectBehavior

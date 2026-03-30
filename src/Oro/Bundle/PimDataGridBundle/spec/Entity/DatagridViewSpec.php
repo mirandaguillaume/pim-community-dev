@@ -2,8 +2,8 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Entity;
 
-use PhpSpec\ObjectBehavior;
 use Akeneo\UserManagement\Component\Model\User;
+use PhpSpec\ObjectBehavior;
 
 class DatagridViewSpec extends ObjectBehavior
 {

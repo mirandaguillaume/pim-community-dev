@@ -5,10 +5,10 @@ namespace spec\Oro\Bundle\PimDataGridBundle\Updater;
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidObjectException;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
-use PhpSpec\ObjectBehavior;
+use Akeneo\UserManagement\Component\Model\UserInterface;
 use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
 use Oro\Bundle\PimDataGridBundle\Updater\DatagridViewUpdater;
-use Akeneo\UserManagement\Component\Model\UserInterface;
+use PhpSpec\ObjectBehavior;
 
 class DatagridViewUpdaterSpec extends ObjectBehavior
 {

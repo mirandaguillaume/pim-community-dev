@@ -2,10 +2,10 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Normalizer;
 
-use Oro\Bundle\PimDataGridBundle\Normalizer\DateTimeNormalizer;
 use Akeneo\Tool\Component\Localization\Presenter\PresenterInterface;
-use PhpSpec\ObjectBehavior;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
+use Oro\Bundle\PimDataGridBundle\Normalizer\DateTimeNormalizer;
+use PhpSpec\ObjectBehavior;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class DateTimeNormalizerSpec extends ObjectBehavior

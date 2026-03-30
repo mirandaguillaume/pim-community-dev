@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Akeneo\Test\Pim\Unit\Enrichment\Component\Product\Webhook\Exception;
+
+use Akeneo\Pim\Enrichment\Component\Product\Webhook\Exception\NotGrantedCategoryException;
+use Akeneo\Platform\Component\Webhook\EventBuildingExceptionInterface;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @author    Thomas Galvaing <thomas.galvaing@akeneo.com>
+ * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class NotGrantedCategoryExceptionTest extends TestCase
+{
+    private NotGrantedCategoryException $sut;
+
+    protected function setUp(): void
+    {
+        $this->sut = new NotGrantedCategoryException();
+    }
+
+}

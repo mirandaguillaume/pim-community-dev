@@ -53,7 +53,7 @@ class PurgeOutdatedDataSpec extends ObjectBehavior
 
     private function formatPurgeDatesForComparison(DashboardPurgeDateCollection $purgeDates): array
     {
-        return array_map(fn(DashboardPurgeDate $purgeDate) => [
+        return array_map(fn (DashboardPurgeDate $purgeDate) => [
             'period' => strval($purgeDate->getPeriod()),
             'date' => $purgeDate->getDate()->format('Y-m-d'),
         ], iterator_to_array($purgeDates));

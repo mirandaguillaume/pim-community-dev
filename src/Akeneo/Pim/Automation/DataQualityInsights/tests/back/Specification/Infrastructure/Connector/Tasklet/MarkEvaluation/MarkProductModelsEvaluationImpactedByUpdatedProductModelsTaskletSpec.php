@@ -46,7 +46,7 @@ class MarkProductModelsEvaluationImpactedByUpdatedProductModelsTaskletSpec exten
         ];
 
         $getUpdatedProductModelIdsQuery
-            ->since(Argument::that(fn(\DateTimeImmutable $updatedSince) => $updatedSince->format('Y-m-d H:i:s') === '2023-02-07 14:23:56'), 2)
+            ->since(Argument::that(fn (\DateTimeImmutable $updatedSince) => $updatedSince->format('Y-m-d H:i:s') === '2023-02-07 14:23:56'), 2)
             ->willReturn(new \ArrayIterator($productModelIds));
 
         $createCriteriaEvaluations->createAll($productModelIds[0])->shouldBeCalledOnce();

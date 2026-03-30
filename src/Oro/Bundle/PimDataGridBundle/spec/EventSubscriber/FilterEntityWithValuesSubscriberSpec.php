@@ -2,14 +2,14 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\EventSubscriber;
 
-use Doctrine\Persistence\Event\LifecycleEventArgs;
-use PhpSpec\ObjectBehavior;
-use Oro\Bundle\PimDataGridBundle\EventSubscriber\FilterEntityWithValuesSubscriber;
-use Oro\Bundle\PimDataGridBundle\EventSubscriber\FilterEntityWithValuesSubscriberConfiguration;
-use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithFamilyInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithValuesInterface;
+use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Oro\Bundle\PimDataGridBundle\EventSubscriber\FilterEntityWithValuesSubscriber;
+use Oro\Bundle\PimDataGridBundle\EventSubscriber\FilterEntityWithValuesSubscriberConfiguration;
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class FilterEntityWithValuesSubscriberSpec extends ObjectBehavior

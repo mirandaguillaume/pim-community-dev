@@ -2,9 +2,9 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Adapter;
 
-use PhpSpec\ObjectBehavior;
-use Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionDispatcher;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
+use Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionDispatcher;
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class OroToPimGridFilterAdapterSpec extends ObjectBehavior

@@ -2,16 +2,16 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler;
 
-use Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionResponseInterface;
-use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Event\MassActionEvent;
+use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductMassActionRepositoryInterface;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Extension\Action\ActionConfiguration;
-use PhpSpec\ObjectBehavior;
+use Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionResponseInterface;
 use Oro\Bundle\PimDataGridBundle\Datasource\DatasourceInterface;
 use Oro\Bundle\PimDataGridBundle\Datasource\ResultRecord\HydratorInterface;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Ajax\DeleteMassAction;
+use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Event\MassActionEvent;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Event\MassActionEvents;
-use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductMassActionRepositoryInterface;
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;

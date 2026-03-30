@@ -2,8 +2,8 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Export;
 
-use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Export\ExportMassActionInterface;
 use Oro\Bundle\DataGridBundle\Extension\Action\ActionConfiguration;
+use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Export\ExportMassActionInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace spec\Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property;
 
 use Akeneo\Tool\Component\Localization\Presenter\PresenterInterface;
+use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecord;
 use Oro\Bundle\DataGridBundle\Extension\Formatter\Property\PropertyConfiguration;
 use PhpSpec\ObjectBehavior;
-use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DateTimeWithUserTimezonePropertySpec extends ObjectBehavior

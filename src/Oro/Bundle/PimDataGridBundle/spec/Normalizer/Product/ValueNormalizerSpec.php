@@ -2,10 +2,10 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Normalizer\Product;
 
-use Oro\Bundle\PimDataGridBundle\Normalizer\Product\ValueNormalizer;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
+use Oro\Bundle\PimDataGridBundle\Normalizer\Product\ValueNormalizer;
+use PhpSpec\ObjectBehavior;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ValueNormalizerSpec extends ObjectBehavior
 {

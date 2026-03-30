@@ -2,8 +2,8 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Extension\Pager;
 
-use Oro\Bundle\PimDataGridBundle\Extension\Pager\PagerResolver;
 use Oro\Bundle\DataGridBundle\Extension\Pager\PagerInterface;
+use Oro\Bundle\PimDataGridBundle\Extension\Pager\PagerResolver;
 use PhpSpec\ObjectBehavior;
 
 class PagerResolverSpec extends ObjectBehavior

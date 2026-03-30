@@ -2,9 +2,9 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Normalizer\InternalApi;
 
-use PhpSpec\ObjectBehavior;
-use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
 use Akeneo\UserManagement\Component\Model\UserInterface;
+use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
+use PhpSpec\ObjectBehavior;
 
 class DatagridViewNormalizerSpec extends ObjectBehavior
 {

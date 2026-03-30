@@ -2,14 +2,14 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product;
 
-use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\ConfiguratorInterface;
-use Doctrine\Persistence\ObjectManager;
-use Oro\Bundle\DataGridBundle\Datagrid\RequestParameters;
-use PhpSpec\ObjectBehavior;
-use Akeneo\UserManagement\Bundle\Context\UserContext;
-use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterface;
+use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
+use Akeneo\UserManagement\Bundle\Context\UserContext;
+use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\DataGridBundle\Datagrid\RequestParameters;
+use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\ConfiguratorInterface;
+use PhpSpec\ObjectBehavior;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ContextConfiguratorSpec extends ObjectBehavior

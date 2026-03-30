@@ -2,10 +2,10 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\DataTransformer;
 
-use PhpSpec\ObjectBehavior;
+use Akeneo\UserManagement\Component\Model\UserInterface;
 use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
 use Oro\Bundle\PimDataGridBundle\Repository\DatagridViewRepositoryInterface;
-use Akeneo\UserManagement\Component\Model\UserInterface;
+use PhpSpec\ObjectBehavior;
 
 class DefaultViewDataTransformerSpec extends ObjectBehavior
 {

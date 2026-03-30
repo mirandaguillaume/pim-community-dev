@@ -9,8 +9,8 @@ use Oro\Bundle\DataGridBundle\Datagrid\RequestParameters;
 use Oro\Bundle\DataGridBundle\Datasource\DatasourceInterface;
 use Oro\Bundle\DataGridBundle\Event\BuildAfter;
 use Oro\Bundle\DataGridBundle\Extension\Acceptor;
-use PhpSpec\ObjectBehavior;
 use Oro\Bundle\PimDataGridBundle\Datasource\Datasource;
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class AddLocaleCodeToGridListenerSpec extends ObjectBehavior

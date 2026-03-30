@@ -2,12 +2,12 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Extension\Sorter\Product;
 
+use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
+use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
+use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
+use Oro\Bundle\PimDataGridBundle\Datasource\ProductDatasource;
 use Oro\Bundle\PimDataGridBundle\Extension\Sorter\SorterInterface;
 use PhpSpec\ObjectBehavior;
-use Oro\Bundle\PimDataGridBundle\Datasource\ProductDatasource;
-use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
-use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
-use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 
 class ValueSorterSpec extends ObjectBehavior
 {

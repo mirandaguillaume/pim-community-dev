@@ -2,12 +2,12 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Normalizer\Product;
 
-use Oro\Bundle\PimDataGridBundle\Normalizer\Product\OptionNormalizer;
-use PhpSpec\ObjectBehavior;
+use Akeneo\Pim\Enrichment\Component\Product\Value\OptionValueInterface;
 use Akeneo\Pim\Structure\Component\Model\AttributeOptionInterface;
 use Akeneo\Pim\Structure\Component\Model\AttributeOptionValueInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
-use Akeneo\Pim\Enrichment\Component\Product\Value\OptionValueInterface;
+use Oro\Bundle\PimDataGridBundle\Normalizer\Product\OptionNormalizer;
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class OptionNormalizerSpec extends ObjectBehavior

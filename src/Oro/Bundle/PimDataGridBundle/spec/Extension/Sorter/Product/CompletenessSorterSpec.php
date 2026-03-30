@@ -2,10 +2,10 @@
 
 namespace spec\Oro\Bundle\PimDataGridBundle\Extension\Sorter\Product;
 
+use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
+use Oro\Bundle\PimDataGridBundle\Datasource\ProductDatasource;
 use Oro\Bundle\PimDataGridBundle\Extension\Sorter\SorterInterface;
 use PhpSpec\ObjectBehavior;
-use Oro\Bundle\PimDataGridBundle\Datasource\ProductDatasource;
-use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
 
 class CompletenessSorterSpec extends ObjectBehavior
 {
