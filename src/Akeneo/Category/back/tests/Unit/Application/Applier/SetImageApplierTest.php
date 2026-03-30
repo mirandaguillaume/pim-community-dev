@@ -94,6 +94,48 @@ class SetImageApplierTest extends TestCase
         );
     }
 
+    public function testItAppliesSetImageUserIntentWhenAttributesAreNull(): void
+    {
+        $category = new Category(
+            id: new CategoryId(1),
+            code: new Code('code'),
+            templateUuid: null,
+            labels: LabelCollection::fromArray([]),
+            attributes: null,
+        );
+        $userIntent = new SetImage(
+            attributeUuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+            attributeCode: 'hero_banner',
+            channelCode: 'ecommerce',
+            localeCode: 'en_US',
+            value: [
+                'size' => 168107,
+                'extension' => 'jpg',
+                'file_path' => '8/8/3/d/883d041fc9f22ce42fee07d96c05b0b7ec7e66de_shoes.jpg',
+                'mime_type' => 'image/jpeg',
+                'original_filename' => 'shoes.jpg',
+            ],
+        );
+        $expectedAttributes = ValueCollection::fromArray([
+            ImageValue::fromApplier(
+                value: [
+                    'size' => 168107,
+                    'extension' => 'jpg',
+                    'file_path' => '8/8/3/d/883d041fc9f22ce42fee07d96c05b0b7ec7e66de_shoes.jpg',
+                    'mime_type' => 'image/jpeg',
+                    'original_filename' => 'shoes.jpg',
+                ],
+                uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+                code: 'hero_banner',
+                channel: 'ecommerce',
+                locale: 'en_US',
+            ),
+        ]);
+        $this->sut->apply($userIntent, $category);
+        $this->assertNotNull($category->getAttributes());
+        Assert::assertEquals($expectedAttributes, $category->getAttributes());
+    }
+
     public function testItThrowsExceptionOnWrongUserIntentApplied(): void
     {
         $userIntent = $this->createMock(SetText::class);

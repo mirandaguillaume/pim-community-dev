@@ -24,6 +24,9 @@ class DeactivateTemplateCommandHandlerTest extends TestCase
             ->expects($this->once())
             ->method('execute')
             ->with('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
+        $eventDispatcherInterface
+            ->expects($this->once())
+            ->method('dispatch');
 
         $handler = new DeactivateTemplateCommandHandler($deactivateTemplate, $eventDispatcherInterface);
         $command = DeactivateTemplateCommand::create('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');

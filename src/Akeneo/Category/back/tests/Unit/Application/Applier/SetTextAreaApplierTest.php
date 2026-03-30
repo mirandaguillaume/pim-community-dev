@@ -74,6 +74,36 @@ class SetTextAreaApplierTest extends TestCase
         );
     }
 
+    public function testItAppliesSetTextAreaUserIntentWhenAttributesAreNull(): void
+    {
+        $category = new Category(
+            id: new CategoryId(1),
+            code: new Code('code'),
+            templateUuid: null,
+            labels: LabelCollection::fromArray([]),
+            attributes: null,
+        );
+        $userIntent = new SetTextArea(
+            '69e251b3-b876-48b5-9c09-92f54bfb528d',
+            'seo_meta_description',
+            'ecommerce',
+            'en_US',
+            'New Meta'.PHP_EOL.' shoes',
+        );
+        $expectedAttributes = ValueCollection::fromArray([
+            TextAreaValue::fromApplier(
+                value: 'New Meta'.PHP_EOL.' shoes',
+                uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+                code: 'seo_meta_description',
+                channel: 'ecommerce',
+                locale: 'en_US',
+            ),
+        ]);
+        $this->sut->apply($userIntent, $category);
+        $this->assertNotNull($category->getAttributes());
+        Assert::assertEquals($expectedAttributes, $category->getAttributes());
+    }
+
     public function testItThrowsExceptionOnWrongUserIntentApplied(): void
     {
         $userIntent = $this->createMock(SetText::class);

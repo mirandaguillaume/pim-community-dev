@@ -120,6 +120,7 @@ class AttributeApiRequirementCheckerTest extends TestCase
                 $localeCompositeKey => [
                     'data' => 'Shoes',
                     'channel' => '',
+                    'locale' => 'fr_FR',
                     'attribute_code' => $compositeKey,
                 ],
             ],
@@ -135,6 +136,7 @@ class AttributeApiRequirementCheckerTest extends TestCase
             [
                 $localeCompositeKey => [
                     'data' => 'Shoes',
+                    'channel' => 'ecommerce',
                     'attribute_code' => $compositeKey,
                 ],
             ],
@@ -150,6 +152,7 @@ class AttributeApiRequirementCheckerTest extends TestCase
             [
                 $localeCompositeKey => [
                     'data' => 'Shoes',
+                    'channel' => 'ecommerce',
                     'locale' => '',
                     'attribute_code' => $compositeKey,
                 ],
@@ -166,6 +169,7 @@ class AttributeApiRequirementCheckerTest extends TestCase
             [
                 $localeCompositeKey => [
                     'data' => 'Shoes',
+                    'channel' => 'ecommerce',
                     'locale' => 'fr_FR',
                 ],
             ],
@@ -182,6 +186,7 @@ class AttributeApiRequirementCheckerTest extends TestCase
             [
                 $localeCompositeKey => [
                     'data' => 'Shoes',
+                    'channel' => 'ecommerce',
                     'locale' => 'fr_FR',
                     'attribute_code' => '',
                 ],

@@ -267,4 +267,5 @@ class CategoryUpdaterTest extends TestCase
         $result = $this->sut->update($category, []);
         $this->assertSame($this->sut, $result);
     }
+
 }

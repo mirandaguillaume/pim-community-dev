@@ -28,6 +28,9 @@ class DeactivateAttributeCommandHandlerTest extends TestCase
             ->expects($this->once())
             ->method('execute')
             ->with($templateUuid, $attributeUuid);
+        $eventDispatcherInterface
+            ->expects($this->once())
+            ->method('dispatch');
 
         $handler = new DeactivateAttributeCommandHandler($deactivateAttribute, $eventDispatcherInterface);
         $command = DeactivateAttributeCommand::create($templateUuid->getValue(), $attributeUuid->getValue());

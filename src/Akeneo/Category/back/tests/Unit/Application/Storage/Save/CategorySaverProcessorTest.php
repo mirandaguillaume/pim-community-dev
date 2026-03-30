@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Test\Category\Unit\Application\Storage\Save;
 
 use Akeneo\Category\Api\Command\UserIntents\SetLabel;
+use Akeneo\Category\Api\Command\UserIntents\SetText;
 use Akeneo\Category\Application\Storage\Save\CategorySaverProcessor;
 use Akeneo\Category\Application\Storage\Save\CategorySaverRegistry;
+use Akeneo\Category\Application\Storage\Save\Saver\CategoryBaseSaver;
 use Akeneo\Category\Application\Storage\Save\Saver\CategoryTranslationsSaver;
 use Akeneo\Category\Domain\Model\Enrichment\Category;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -35,6 +37,17 @@ class CategorySaverProcessorTest extends TestCase
         $setLabelUserIntent = new SetLabel('en_US', 'socks');
         $this->categorySaverRegistry->method('fromUserIntent')->with($setLabelUserIntent::class)->willReturn($categoryTranslationsSaver);
         $categoryTranslationsSaver->expects($this->once())->method('save')->with($categoryModel);
+        $this->sut->save($categoryModel, [$setLabelUserIntent]);
+    }
+
+    public function testItUsesTheCategoryBaseSaverWhenReturned(): void
+    {
+        $categoryBaseSaver = $this->createMock(CategoryBaseSaver::class);
+        $categoryModel = $this->createMock(Category::class);
+
+        $setLabelUserIntent = new SetLabel('en_US', 'socks');
+        $this->categorySaverRegistry->method('fromUserIntent')->with($setLabelUserIntent::class)->willReturn($categoryBaseSaver);
+        $categoryBaseSaver->expects($this->once())->method('save')->with($categoryModel);
         $this->sut->save($categoryModel, [$setLabelUserIntent]);
     }
 

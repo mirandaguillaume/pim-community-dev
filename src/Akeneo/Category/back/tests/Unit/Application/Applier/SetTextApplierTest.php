@@ -76,6 +76,36 @@ class SetTextApplierTest extends TestCase
         );
     }
 
+    public function testItAppliesSetTextUserIntentWhenAttributesAreNull(): void
+    {
+        $category = new Category(
+            id: new CategoryId(1),
+            code: new Code('code'),
+            templateUuid: null,
+            labels: LabelCollection::fromArray([]),
+            attributes: null,
+        );
+        $userIntent = new SetText(
+            '69e251b3-b876-48b5-9c09-92f54bfb528d',
+            'seo_meta_description',
+            'ecommerce',
+            'en_US',
+            'New Meta shoes',
+        );
+        $expectedAttributes = ValueCollection::fromArray([
+            TextValue::fromApplier(
+                value: 'New Meta shoes',
+                uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+                code: 'seo_meta_description',
+                channel: 'ecommerce',
+                locale: 'en_US',
+            ),
+        ]);
+        $this->sut->apply($userIntent, $category);
+        $this->assertNotNull($category->getAttributes());
+        Assert::assertEquals($expectedAttributes, $category->getAttributes());
+    }
+
     public function testItThrowsExceptionOnWrongUserIntentApplied(): void
     {
         $userIntent = $this->createMock(SetImage::class);

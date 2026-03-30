@@ -61,4 +61,35 @@ class CategoryTest extends TestCase
         $this->expectException(\LogicException::class);
         $this->sut->convert($item);
     }
+
+    public function testCheckFieldsFillingIsCalled(): void
+    {
+        $item = ['code' => 'mycode'];
+        $this->fieldChecker->expects($this->once())->method('checkFieldsPresence')->with($item, ['code']);
+        $this->fieldChecker->expects($this->once())->method('checkFieldsFilling')->with($item, ['code']);
+        $this->sut->convert($item);
+    }
+
+    public function testEmptyCodeFieldIsExcludedFromResult(): void
+    {
+        $item = ['code' => '', 'label-en_US' => 'Hello'];
+        $result = $this->sut->convert($item);
+        $this->assertArrayNotHasKey('code', $result);
+        $this->assertSame(['en_US' => 'Hello'], $result['labels']);
+    }
+
+    public function testEmptyParentFieldIsExcludedFromResult(): void
+    {
+        $item = ['code' => 'mycode', 'parent' => ''];
+        $result = $this->sut->convert($item);
+        $this->assertArrayNotHasKey('parent', $result);
+        $this->assertSame('mycode', $result['code']);
+    }
+
+    public function testCodeFieldIsCastToString(): void
+    {
+        $item = ['code' => 123];
+        $result = $this->sut->convert($item);
+        $this->assertSame('123', $result['code']);
+    }
 }

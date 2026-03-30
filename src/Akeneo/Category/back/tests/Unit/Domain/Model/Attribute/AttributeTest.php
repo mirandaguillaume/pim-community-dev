@@ -123,4 +123,42 @@ class AttributeTest extends TestCase
         $attr = $this->createAttribute(AttributeType::TEXT);
         $this->assertSame(1, $attr->getOrder()->intValue());
     }
+
+    public function testUpdateChangesTextareaToRichText(): void
+    {
+        $attr = $this->createAttribute(AttributeType::TEXTAREA);
+        $attr->update(true, null);
+        $this->assertSame('richtext', (string) $attr->getType());
+    }
+
+    public function testUpdateChangesRichTextToTextarea(): void
+    {
+        $attr = $this->createAttribute(AttributeType::RICH_TEXT);
+        $attr->update(false, null);
+        $this->assertSame('textarea', (string) $attr->getType());
+    }
+
+    public function testUpdateDoesNotChangeTypeWhenNull(): void
+    {
+        $attr = $this->createAttribute(AttributeType::TEXT);
+        $attr->update(null, null);
+        $this->assertSame('text', (string) $attr->getType());
+    }
+
+    public function testUpdateMergesLabels(): void
+    {
+        $attr = $this->createAttribute(AttributeType::TEXT);
+        $attr->update(null, ['fr_FR' => 'Test FR']);
+        $normalized = $attr->normalize();
+        $this->assertSame('Test FR', $normalized['labels']['fr_FR']);
+        // Original label should still be present
+        $this->assertSame('Test', $normalized['labels']['en_US']);
+    }
+
+    public function testUpdateRejectsInvalidTypeForRichTextAreaToggle(): void
+    {
+        $attr = $this->createAttribute(AttributeType::TEXT);
+        $this->expectException(\InvalidArgumentException::class);
+        $attr->update(true, null);
+    }
 }

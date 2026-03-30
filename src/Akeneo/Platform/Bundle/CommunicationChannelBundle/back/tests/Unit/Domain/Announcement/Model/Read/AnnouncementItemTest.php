@@ -120,4 +120,42 @@ class AnnouncementItemTest extends TestCase
         );
         $this->assertSame(false, $this->sut->shouldBeNotified(['id_2']));
     }
+
+    public function test_it_should_be_notified_when_end_date_is_today(): void
+    {
+        $yesterday = new \DateTimeImmutable('yesterday');
+        $today = new \DateTimeImmutable('today');
+        $this->sut = new AnnouncementItem(
+            'id',
+            'Title',
+            'Description',
+            '/images/announcements/new-connection-monitoring-page.png',
+            'Connection monitoring page',
+            'http://link.com#easily-monitor-errors-on-your-connections',
+            $yesterday,
+            $today,
+            ['updates']
+        );
+        $this->assertSame(true, $this->sut->shouldBeNotified([]));
+    }
+
+    public function test_it_normalizes_dates_without_time(): void
+    {
+        $startDate = new \DateTimeImmutable('2020-10-01 15:30:00');
+        $endDate = new \DateTimeImmutable('2020-10-06 08:15:00');
+        $this->sut = new AnnouncementItem(
+            'id',
+            'Title',
+            'Description',
+            '/images/img.png',
+            'Alt text',
+            'http://link.com',
+            $startDate,
+            $endDate,
+            ['updates']
+        );
+        $normalized = $this->sut->toArray();
+        // Verify the date is formatted without time
+        $this->assertSame('October, 1st 2020', $normalized['startDate']);
+    }
 }

@@ -306,4 +306,88 @@ class ValueCollectionTest extends TestCase
             'en_US',
         ));
     }
+
+    public function testFromDatabaseFiltersOutLegacyAttributeCodesKey(): void
+    {
+        $givenDatabaseValues = [
+            'attribute_codes' => ['some_legacy_data'],
+            'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d|ecommerce|en_us' => [
+                'data' => 'Meta shoes',
+                'type' => 'text',
+                'channel' => 'ecommerce',
+                'locale' => 'en_US',
+                'attribute_code' => 'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d',
+            ],
+        ];
+        $this->sut = ValueCollection::fromDatabase($givenDatabaseValues);
+        $this->assertCount(1, $this->sut->getValues());
+    }
+
+    public function testGetValueRequiresBothCodeAndUuidMatch(): void
+    {
+        $givenValues = [
+            TextValue::fromApplier(
+                value: 'Meta shoes',
+                uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+                code: 'seo_meta_description',
+                channel: 'ecommerce',
+                locale: 'en_US',
+            ),
+        ];
+        $this->sut = ValueCollection::fromArray($givenValues);
+
+        // Correct code but wrong uuid -> should not match
+        $this->assertNull($this->sut->getValue(
+            attributeCode: 'seo_meta_description',
+            attributeUuid: '00000000-0000-0000-0000-000000000000',
+            channel: 'ecommerce',
+            localeCode: 'en_US',
+        ));
+
+        // Correct uuid but wrong code -> should not match
+        $this->assertNull($this->sut->getValue(
+            attributeCode: 'wrong_code',
+            attributeUuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+            channel: 'ecommerce',
+            localeCode: 'en_US',
+        ));
+    }
+
+    public function testSetValueBreaksAfterFirstMatch(): void
+    {
+        // Create a collection with two items, then update the first.
+        // After setValue, we should still have exactly 2 values.
+        $value1 = TextValue::fromApplier(
+            value: 'Description',
+            uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
+            code: 'description',
+            channel: 'ecommerce',
+            locale: 'en_US',
+        );
+        $value2 = TextValue::fromApplier(
+            value: 'Meta',
+            uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
+            code: 'seo_meta_description',
+            channel: 'ecommerce',
+            locale: 'en_US',
+        );
+        $this->sut = ValueCollection::fromArray([$value1, $value2]);
+        $updatedValue = TextValue::fromApplier(
+            value: 'Updated Description',
+            uuid: '840fcd1a-f66b-4f0c-9bbd-596629732950',
+            code: 'description',
+            channel: 'ecommerce',
+            locale: 'en_US',
+        );
+        $this->sut->setValue($updatedValue);
+        // Should still have exactly 2 values, not 3
+        $this->assertCount(2, $this->sut->getValues());
+        // And the first value should be the updated one
+        $this->assertEquals($updatedValue, $this->sut->getValue(
+            'description',
+            '840fcd1a-f66b-4f0c-9bbd-596629732950',
+            'ecommerce',
+            'en_US',
+        ));
+    }
 }

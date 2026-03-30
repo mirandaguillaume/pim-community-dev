@@ -105,10 +105,15 @@ class UpsertCategoryCommandHandlerTest extends TestCase
         $this->getCategory->expects($this->once())->method('byCode')->with('code')->willReturn($category);
         $this->findCategoryAdditionalPropertiesRegistry->expects($this->once())->method('forCategory')->with($category)->willReturn($category);
         $this->applierRegistry->method('getApplier')->with($setLabelUserIntent)->willReturn($userIntentApplier);
-        $userIntentApplier->method('apply')->with($setLabelUserIntent, $category)->willThrowException(new \InvalidArgumentException());
+        $userIntentApplier->method('apply')->with($setLabelUserIntent, $category)->willThrowException(new \InvalidArgumentException('Something went wrong'));
         $this->saver->expects($this->never())->method('save');
         $this->eventDispatcher->expects($this->never())->method('dispatch');
-        $this->expectException(ViolationsException::class);
-        $this->sut->__invoke($command);
+        try {
+            $this->sut->__invoke($command);
+            $this->fail('Expected ViolationsException was not thrown');
+        } catch (ViolationsException $e) {
+            $this->assertCount(1, $e->violations());
+            $this->assertSame('Something went wrong', $e->violations()->get(0)->getMessage());
+        }
     }
 }

@@ -69,4 +69,26 @@ class LabelCollectionTest extends TestCase
         $labels = LabelCollection::fromArray(['en_US' => 'Hello', 'fr_FR' => 'Bonjour']);
         $this->assertSame(['en_US' => 'Hello', 'fr_FR' => 'Bonjour'], $labels->normalize());
     }
+
+    public function testMergeAddsNewLabels(): void
+    {
+        $labels = LabelCollection::fromArray(['en_US' => 'Hello']);
+        $labels->merge(LabelCollection::fromArray(['fr_FR' => 'Bonjour']));
+        $this->assertSame('Bonjour', $labels->getTranslation('fr_FR'));
+        $this->assertSame('Hello', $labels->getTranslation('en_US'));
+    }
+
+    public function testMergeOverridesExistingLabels(): void
+    {
+        $labels = LabelCollection::fromArray(['en_US' => 'Hello']);
+        $labels->merge(LabelCollection::fromArray(['en_US' => 'Hi']));
+        $this->assertSame('Hi', $labels->getTranslation('en_US'));
+    }
+
+    public function testMergeWithEmptyCollectionDoesNothing(): void
+    {
+        $labels = LabelCollection::fromArray(['en_US' => 'Hello']);
+        $labels->merge(LabelCollection::fromArray([]));
+        $this->assertSame(['en_US' => 'Hello'], $labels->normalize());
+    }
 }
