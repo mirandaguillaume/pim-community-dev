@@ -117,14 +117,18 @@ function computeOutputPath(string $inputPath): string
     // /tests/Specification/ → /tests/Unit/
     $output = preg_replace('#/tests/Specification/#', '/tests/Unit/', $output);
 
+    // /tests/spec/ → /tests/Unit/ (MeasureBundle pattern)
+    $output = preg_replace('#/tests/spec/#', '/tests/Unit/', $output);
+
     // /Acceptance/Specification/ → /Acceptance/ (nested acceptance specs)
     $output = preg_replace('#/Acceptance/Specification/#', '/Acceptance/', $output);
 
     // For legacy paths: tests/back/Context/Specification/ → tests/back/Context/Unit/
     $output = preg_replace('#(tests/back/\w+)/Specification/#', '$1/Unit/', $output);
 
-    // Also handle: tests/back/Acceptance/spec/ → tests/back/Acceptance/Unit/
-    $output = preg_replace('#/Acceptance/spec/#', '/Acceptance/Unit/', $output);
+    // /spec/ → /Unit/ for Tool Component/Bundle specs and Connectivity (tests/Unit/spec/)
+    // Replace ALL occurrences of /spec/ with /Unit/ in the output path
+    $output = str_replace('/spec/', '/Unit/', $output);
 
     // FooSpec.php → FooTest.php
     $output = preg_replace('/Spec\.php$/', 'Test.php', $output);
