@@ -1655,9 +1655,21 @@ jobs:
               DIRS="$DIRS src/Akeneo/$ctx"
             fi
           done
-          # From changed source files: add their dirs
+          # From changed source files: map to component/bundle level dirs
           for src in $CHANGED_SRC; do
-            DIRS="$DIRS $(echo "$src" | sed 's|/[^/]*$||')"
+            if echo "$src" | grep -q "^src/Oro/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|^\(src/Oro/Bundle/[^/]*\)/.*|\1|')"
+            elif echo "$src" | grep -q "^src/Akeneo/.*/back/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|/back/.*|/back|')"
+            elif echo "$src" | grep -q "^src/Akeneo/Tool/Component/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|^\(src/Akeneo/Tool/Component/[^/]*\)/.*|\1|')"
+            elif echo "$src" | grep -q "^src/Akeneo/Tool/Bundle/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|^\(src/Akeneo/Tool/Bundle/[^/]*\)/.*|\1|')"
+            elif echo "$src" | grep -q "^components/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|^\(components/[^/]*/back\)/.*|\1|')"
+            else
+              DIRS="$DIRS $(echo "$src" | sed 's|/[^/]*$||')"
+            fi
           done
           # Deduplicate
           DIRS=$(echo "$DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u)
