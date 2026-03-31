@@ -81,16 +81,39 @@ parameters:
     excludePaths:
         # Converted PHPUnit tests — use deprecated APIs intentionally
         - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit
-        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/*/Unit
-        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/*/Unit
-        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/*/back/tests/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Analytics/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Api/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Batch/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/BatchQueue/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Buffer/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Connector/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Console/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/FileStorage/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Localization/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/StorageUtils/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Versioning/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/ApiBundle/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/BatchBundle/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/BatchQueueBundle/Unit
+        #- %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/ClassificationBundle/Unit  # not yet created
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/ConnectorBundle/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/ElasticsearchBundle/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/FileStorageBundle/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/MeasureBundle/back/tests/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/MessengerBundle/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/StorageUtilsBundle/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/VersioningBundle/Unit
         - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Unit
         - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Specification
         - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Product/back/Test/Unit
-        - %currentWorkingDirectory%/src/Oro/Bundle/*/Unit
-        - %currentWorkingDirectory%/src/Oro/Bundle/*/Tests/Unit
-        - %currentWorkingDirectory%/tests/back/*/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/DataGridBundle/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/FilterBundle/Tests/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/PimDataGridBundle/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/PimFilterBundle/Unit
         - %currentWorkingDirectory%/tests/back/Pim
+        - %currentWorkingDirectory%/tests/back/UserManagement/Unit
+        - %currentWorkingDirectory%/tests/back/Channel/Unit
+        - %currentWorkingDirectory%/tests/back/Acceptance/Unit
         - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Bundle/Resources/fonts/dompdf_font_family_cache.php
         # Class to remove (validate that they are not used anymore RAB-1161)
         - %currentWorkingDirectory%/src/Akeneo/Platform/Bundle/UIBundle/Twig/Node/PlaceholderNode.php
