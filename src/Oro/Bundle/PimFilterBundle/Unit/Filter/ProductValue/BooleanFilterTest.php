@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter\ProductValue;
 
 use Oro\Bundle\FilterBundle\Datasource\FilterDatasourceAdapterInterface;
-use Oro\Bundle\FilterBundle\Filter\BooleanFilter;
+use Oro\Bundle\FilterBundle\Filter\BooleanFilter as OroBooleanFilter;
 use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
+use Oro\Bundle\PimFilterBundle\Filter\ProductValue\BooleanFilter;
 use Oro\Bundle\PimFilterBundle\Form\Type\Filter\BooleanFilterType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +33,7 @@ class BooleanFilterTest extends TestCase
 
     public function test_it_is_an_oro_boolean_filter(): void
     {
-        $this->assertInstanceOf(BooleanFilter::class, $this->sut);
+        $this->assertInstanceOf(OroBooleanFilter::class, $this->sut);
     }
 
     public function test_it_initializes_filter_with_name(): void

@@ -16,34 +16,28 @@ use PHPUnit\Framework\TestCase;
  */
 class CriteriaApplicabilityRegistryTest extends TestCase
 {
-    private CriteriaApplicabilityRegistry $sut;
-
-    protected function setUp(): void
-    {
-    }
-
     public function test_it_returns_no_criterion_codes_if_no_services_are_injected(): void
     {
-        $this->sut = new CriteriaApplicabilityRegistry([]);
-        $this->assertSame([], $this->sut->getCriterionCodes());
+        $sut = new CriteriaApplicabilityRegistry([]);
+        $this->assertSame([], $sut->getCriterionCodes());
     }
 
     public function test_it_returns_null_if_an_applicability_service_does_not_exist(): void
     {
         $evaluateCriterionApplicability = $this->createMock(EvaluateCriterionApplicabilityInterface::class);
-
-        $this->sut = new CriteriaApplicabilityRegistry([$evaluateCriterionApplicability]);
         $evaluateCriterionApplicability->method('getCode')->willReturn(new CriterionCode('my_code'));
-        $this->assertNull($this->sut->get(new CriterionCode('unknown_code')));
+
+        $sut = new CriteriaApplicabilityRegistry([$evaluateCriterionApplicability]);
+        $this->assertNull($sut->get(new CriterionCode('unknown_code')));
     }
 
     public function test_it_filters_non_accepted_services(): void
     {
         $evaluateCriterionApplicability = $this->createMock(EvaluateCriterionApplicabilityInterface::class);
-
-        $this->sut = new CriteriaApplicabilityRegistry([$evaluateCriterionApplicability, new \stdClass()]);
         $evaluateCriterionApplicability->method('getCode')->willReturn(new CriterionCode('my_code'));
-        $this->assertEquals([new CriterionCode('my_code')], $this->sut->getCriterionCodes());
-        $this->assertSame($evaluateCriterionApplicability, $this->sut->get(new CriterionCode('my_code')));
+
+        $sut = new CriteriaApplicabilityRegistry([$evaluateCriterionApplicability, new \stdClass()]);
+        $this->assertEquals([new CriterionCode('my_code')], $sut->getCriterionCodes());
+        $this->assertSame($evaluateCriterionApplicability, $sut->get(new CriterionCode('my_code')));
     }
 }

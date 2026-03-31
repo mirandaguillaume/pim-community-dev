@@ -22,20 +22,20 @@ class TransformCommonCriterionResultDataIdsTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new TransformCommonCriterionResultDataIds($transformChannelLocaleDataIds, $attributes);
         $attributes = new InMemoryAttributes([
-        'name' => 12,
-        'description' => 34,
+            'name' => 12,
+            'description' => 34,
         ]);
         $channels = new InMemoryChannels([
-        'ecommerce' => 1,
-        'mobile' => 2,
+            'ecommerce' => 1,
+            'mobile' => 2,
         ]);
         $locales = new InMemoryLocales([
-        'en_US' => 58,
-        'fr_FR' => 90,
+            'en_US' => 58,
+            'fr_FR' => 90,
         ]);
         $transformChannelLocaleDataIds = new TransformChannelLocaleDataIds($channels, $locales);
+        $this->sut = new TransformCommonCriterionResultDataIds($transformChannelLocaleDataIds, $attributes);
     }
 
     public function test_it_transforms_common_criterion_result_data_from_ids_to_codes(): void

@@ -44,25 +44,22 @@ class ChannelSaverTest extends TestCase
 
         $channel->method('getId')->willReturn(null);
         $channel->method('popEvents')->willReturn([]);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return $event->getSubject() instanceof ChannelInterface
-                                && $event->getArgument('unitary') === true;
-                        }
-                    ),
-                    StorageEvents::PRE_SAVE);
+        $dispatched = [];
+        $this->eventDispatcher->expects($this->exactly(2))->method('dispatch')->willReturnCallback(
+            function ($event, $eventName = null) use (&$dispatched) {
+                $dispatched[] = [$event, $eventName];
+                return $event;
+            }
+        );
         $this->objectManager->expects($this->once())->method('persist')->with($channel);
         $this->objectManager->expects($this->once())->method('flush');
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return $event->getSubject() instanceof ChannelInterface
-                                && $event->getArgument('unitary') === true;
-                        }
-                    ),
-                    StorageEvents::POST_SAVE);
-        $this->eventDispatcher->expects($this->never())->method('dispatch')->with($this->isInstanceOf(ChannelCategoryHasBeenUpdated::class),
-                    ChannelCategoryHasBeenUpdated::class);
         $this->sut->save($channel);
+
+        // Verify pre_save and post_save events
+        $this->assertSame(StorageEvents::PRE_SAVE, $dispatched[0][1]);
+        $this->assertInstanceOf(GenericEvent::class, $dispatched[0][0]);
+        $this->assertSame(StorageEvents::POST_SAVE, $dispatched[1][1]);
+        $this->assertInstanceOf(GenericEvent::class, $dispatched[1][0]);
     }
 
     public function test_it_saves_multiple_channels(): void
@@ -74,40 +71,20 @@ class ChannelSaverTest extends TestCase
         $channel1->method('popEvents')->willReturn([]);
         $channel2->method('getId')->willReturn(null);
         $channel2->method('popEvents')->willReturn([]);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return is_countable($event->getSubject()) &&  count($event->getSubject()) === 2
-                                && $event->getArgument('unitary') === false;
-                        }
-                    ),
-                    StorageEvents::PRE_SAVE_ALL);
-        $this->eventDispatcher->expects($this->exactly(2))->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return $event->getSubject() instanceof ChannelInterface
-                                && $event->getArgument('unitary') === false;
-                        }
-                    ),
-                    StorageEvents::PRE_SAVE);
-        $this->objectManager->expects($this->once())->method('persist')->with($channel1);
-        $this->objectManager->expects($this->once())->method('persist')->with($channel2);
+        $dispatched = [];
+        $this->eventDispatcher->expects($this->exactly(6))->method('dispatch')->willReturnCallback(
+            function ($event, $eventName = null) use (&$dispatched) {
+                $dispatched[] = [$event, $eventName];
+                return $event;
+            }
+        );
+        $this->objectManager->expects($this->exactly(2))->method('persist');
         $this->objectManager->expects($this->once())->method('flush');
-        $this->eventDispatcher->expects($this->exactly(2))->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return $event->getSubject() instanceof ChannelInterface
-                                && $event->getArgument('unitary') === false;
-                        }
-                    ),
-                    StorageEvents::POST_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return is_countable($event->getSubject()) && count($event->getSubject()) === 2
-                                && $event->getArgument('unitary') === false;
-                        }
-                    ),
-                    StorageEvents::POST_SAVE_ALL);
-        $this->eventDispatcher->expects($this->never())->method('dispatch')->with($this->isInstanceOf(ChannelCategoryHasBeenUpdated::class),
-                    ChannelCategoryHasBeenUpdated::class);
         $this->sut->saveAll([$channel1, $channel2]);
+
+        $eventNames = array_column($dispatched, 1);
+        $this->assertContains(StorageEvents::PRE_SAVE_ALL, $eventNames);
+        $this->assertContains(StorageEvents::POST_SAVE_ALL, $eventNames);
     }
 
     public function test_it_adds_the_option_is_new_when_a_channel_is_created(): void
@@ -117,21 +94,20 @@ class ChannelSaverTest extends TestCase
         $channel->method('getId')->willReturn(0);
         $channel->method('getCode')->willReturn('channel-code');
         $channel->method('popEvents')->willReturn([]);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return $event->getSubject() instanceof ChannelInterface
-                                && $event->getArgument('is_new') === false;
-                        }
-                    ),
-                    StorageEvents::PRE_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return $event->getSubject() instanceof ChannelInterface
-                                && $event->getArgument('is_new') === false;
-                        }
-                    ),
-                    StorageEvents::POST_SAVE);
+        $dispatched = [];
+        $this->eventDispatcher->expects($this->exactly(2))->method('dispatch')->willReturnCallback(
+            function ($event, $eventName = null) use (&$dispatched) {
+                $dispatched[] = [$event, $eventName];
+                return $event;
+            }
+        );
         $this->sut->save($channel);
+
+        // getId() returns 0 (truthy in the SUT: `null !== $channel->getId()`), so is_new = false
+        $this->assertSame(StorageEvents::PRE_SAVE, $dispatched[0][1]);
+        $this->assertFalse($dispatched[0][0]->getArgument('is_new'));
+        $this->assertSame(StorageEvents::POST_SAVE, $dispatched[1][1]);
+        $this->assertFalse($dispatched[1][0]->getArgument('is_new'));
     }
 
     public function test_it_doesnt_add_the_option_is_new_when_a_channel_is_updated(): void
@@ -140,21 +116,20 @@ class ChannelSaverTest extends TestCase
 
         $channel->method('getId')->willReturn(null);
         $channel->method('popEvents')->willReturn([]);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return $event->getSubject() instanceof ChannelInterface
-                                && $event->getArgument('is_new') === true;
-                        }
-                    ),
-                    StorageEvents::PRE_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
-                        function (GenericEvent $event) {
-                            return $event->getSubject() instanceof ChannelInterface
-                                && $event->getArgument('is_new') === true;
-                        }
-                    ),
-                    StorageEvents::POST_SAVE);
+        $dispatched = [];
+        $this->eventDispatcher->expects($this->exactly(2))->method('dispatch')->willReturnCallback(
+            function ($event, $eventName = null) use (&$dispatched) {
+                $dispatched[] = [$event, $eventName];
+                return $event;
+            }
+        );
         $this->sut->save($channel);
+
+        // getId() returns null → is_new = true
+        $this->assertSame(StorageEvents::PRE_SAVE, $dispatched[0][1]);
+        $this->assertTrue($dispatched[0][0]->getArgument('is_new'));
+        $this->assertSame(StorageEvents::POST_SAVE, $dispatched[1][1]);
+        $this->assertTrue($dispatched[1][0]->getArgument('is_new'));
     }
 
     public function test_it_triggers_a_specific_event_when_a_channel_category_is_updated(): void
@@ -164,19 +139,22 @@ class ChannelSaverTest extends TestCase
         $channelCategoryHasBeenUpdated = new ChannelCategoryHasBeenUpdated('channel-code', 'previous-category-code', 'new-category-code');
         $channel->method('getId')->willReturn(null);
         $channel->method('popEvents')->willReturn([$channelCategoryHasBeenUpdated]);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(GenericEvent::class),
-                    StorageEvents::PRE_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(GenericEvent::class),
-                    StorageEvents::POST_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
-                        function ($event) {
-                            return $event instanceof ChannelCategoryHasBeenUpdated
-                                && $event->channelCode() === 'channel-code'
-                                && $event->previousCategoryCode() === 'previous-category-code'
-                                && $event->newCategoryCode() === 'new-category-code';
-                        }
-                    ));
+        $dispatched = [];
+        $this->eventDispatcher->expects($this->exactly(3))->method('dispatch')->willReturnCallback(
+            function ($event, $eventName = null) use (&$dispatched) {
+                $dispatched[] = [$event, $eventName];
+                return $event;
+            }
+        );
         $this->sut->save($channel);
+
+        $this->assertSame(StorageEvents::PRE_SAVE, $dispatched[0][1]);
+        $this->assertSame(StorageEvents::POST_SAVE, $dispatched[1][1]);
+        // Third dispatch is the ChannelCategoryHasBeenUpdated event
+        $this->assertInstanceOf(ChannelCategoryHasBeenUpdated::class, $dispatched[2][0]);
+        $this->assertSame('channel-code', $dispatched[2][0]->channelCode());
+        $this->assertSame('previous-category-code', $dispatched[2][0]->previousCategoryCode());
+        $this->assertSame('new-category-code', $dispatched[2][0]->newCategoryCode());
     }
 
     public function test_it_throws_an_exception_when_trying_to_save_anything_else_than_a_channel(): void

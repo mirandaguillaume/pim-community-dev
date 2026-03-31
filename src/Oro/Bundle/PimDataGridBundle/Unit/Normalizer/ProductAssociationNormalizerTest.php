@@ -20,16 +20,20 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
+interface SerializerNormalizerInterface extends SerializerInterface, NormalizerInterface
+{
+}
+
 class ProductAssociationNormalizerTest extends TestCase
 {
-    private SerializerInterface|MockObject $serializer;
+    private SerializerNormalizerInterface|MockObject $serializer;
     private ImageNormalizer|MockObject $imageNormalizer;
     private GetProductCompletenesses|MockObject $getProductCompletenesses;
     private ProductAssociationNormalizer $sut;
 
     protected function setUp(): void
     {
-        $this->serializer = $this->createMock(SerializerInterface::class);
+        $this->serializer = $this->createMock(SerializerNormalizerInterface::class);
         $this->imageNormalizer = $this->createMock(ImageNormalizer::class);
         $this->getProductCompletenesses = $this->createMock(GetProductCompletenesses::class);
         $this->sut = new ProductAssociationNormalizer($this->imageNormalizer, $this->getProductCompletenesses);
@@ -84,10 +88,14 @@ class ProductAssociationNormalizerTest extends TestCase
         $product->method('isEnabled')->willReturn(true);
         $created = new \DateTime('2017-01-01T01:03:34+01:00');
         $product->method('getCreated')->willReturn($created);
-        $this->serializer->method('normalize')->with($created, 'datagrid', $context)->willReturn('2017-01-01T01:03:34+01:00');
+        $this->serializer->method('normalize')->willReturnCallback(function ($object) {
+            if ($object instanceof \DateTime) {
+                return $object->format('Y-m-d\TH:i:sP');
+            }
+            return null;
+        });
         $updated = new \DateTime('2017-01-01T01:04:34+01:00');
         $product->method('getUpdated')->willReturn($updated);
-        $this->serializer->method('normalize')->with($updated, 'datagrid', $context)->willReturn('2017-01-01T01:04:34+01:00');
         $product->method('getLabel')->with('en_US', 'ecommerce')->willReturn('Purple tshirt');
         $this->getProductCompletenesses->method('fromProductUuid')->with(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'))->willReturn(new ProductCompletenessCollection(
             Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'),
@@ -145,10 +153,14 @@ class ProductAssociationNormalizerTest extends TestCase
         $product->method('isEnabled')->willReturn(true);
         $created = new \DateTime('2017-01-01T01:03:34+01:00');
         $product->method('getCreated')->willReturn($created);
-        $this->serializer->method('normalize')->with($created, 'datagrid', $context)->willReturn('2017-01-01T01:03:34+01:00');
+        $this->serializer->method('normalize')->willReturnCallback(function ($object) {
+            if ($object instanceof \DateTime) {
+                return $object->format('Y-m-d\TH:i:sP');
+            }
+            return null;
+        });
         $updated = new \DateTime('2017-01-01T01:04:34+01:00');
         $product->method('getUpdated')->willReturn($updated);
-        $this->serializer->method('normalize')->with($updated, 'datagrid', $context)->willReturn('2017-01-01T01:04:34+01:00');
         $product->method('getLabel')->with('en_US', 'ecommerce')->willReturn('Purple tshirt');
         $this->getProductCompletenesses->method('fromProductUuid')->with(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'))->willReturn(new ProductCompletenessCollection(
             Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'),

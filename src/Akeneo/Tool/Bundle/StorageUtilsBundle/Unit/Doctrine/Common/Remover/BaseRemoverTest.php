@@ -12,6 +12,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+interface ModelToRemove
+{
+    public function getId(): int;
+}
+
 class BaseRemoverTest extends TestCase
 {
     private ObjectManager|MockObject $objectManager;
@@ -27,7 +32,7 @@ class BaseRemoverTest extends TestCase
             $this->eventDispatcher,
             ModelToRemove::class
         );
-        $this->eventDispatcher->method('dispatch')->with($this->anything(), $this->isType('string'))->willReturn($this->isType('object'));
+        $this->eventDispatcher->method('dispatch')->willReturnArgument(0);
     }
 
     public function test_it_is_a_remover(): void

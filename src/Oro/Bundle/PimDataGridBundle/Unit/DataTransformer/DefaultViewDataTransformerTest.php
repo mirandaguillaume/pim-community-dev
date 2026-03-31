@@ -28,8 +28,10 @@ class DefaultViewDataTransformerTest extends TestCase
         $productView = $this->createMock(DatagridView::class);
 
         $this->datagridViewRepo->method('getDatagridViewAliasesByUser')->with($julia)->willReturn(['product-grid', 'category']);
-        $julia->method('getDefaultGridView')->with('product-grid')->willReturn($productView);
-        $julia->method('getDefaultGridView')->with('category')->willReturn(null);
+        $julia->method('getDefaultGridView')->willReturnMap([
+            ['product-grid', $productView],
+            ['category', null],
+        ]);
         $this->assertSame($julia, $this->sut->transform($julia));
     }
 }

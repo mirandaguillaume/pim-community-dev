@@ -54,10 +54,14 @@ class FiltersConfiguratorTest extends TestCase
                     ],
                 ];
         $attributesConf = [ContextConfigurator::USEABLE_ATTRIBUTES_KEY => $attributes];
-        $configuration->method('offsetGet')->with(ContextConfigurator::SOURCE_KEY)->willReturn($attributesConf);
-        $configuration->method('offsetGet')->with(FilterConfiguration::FILTERS_KEY)->willReturn([]);
-        $this->registry->method('getConfiguration')->with('pim_catalog_identifier')->willReturn(['filter' => ['identifier_config']]);
-        $this->registry->method('getConfiguration')->with('pim_catalog_text')->willReturn(['filter' => ['text_config']]);
+        $configuration->method('offsetGet')->willReturnMap([
+            [ContextConfigurator::SOURCE_KEY, $attributesConf],
+            [FilterConfiguration::FILTERS_KEY, []],
+        ]);
+        $this->registry->method('getConfiguration')->willReturnMap([
+            ['pim_catalog_identifier', ['filter' => ['identifier_config']]],
+            ['pim_catalog_text', ['filter' => ['text_config']]],
+        ]);
         $expectedConf = [
                     'sku' => [
                         0            => 'identifier_config',
@@ -109,9 +113,13 @@ class FiltersConfiguratorTest extends TestCase
                     ],
                 ];
         $attributesConf = [ContextConfigurator::USEABLE_ATTRIBUTES_KEY => $attributes];
-        $configuration->method('offsetGet')->with(ContextConfigurator::SOURCE_KEY)->willReturn($attributesConf);
-        $this->registry->method('getConfiguration')->with('pim_catalog_identifier')->willReturn(['filter' => ['identifier_config']]);
-        $this->registry->method('getConfiguration')->with('pim_catalog_text')->willReturn([]);
+        $configuration->method('offsetGet')->willReturnMap([
+            [ContextConfigurator::SOURCE_KEY, $attributesConf],
+        ]);
+        $this->registry->method('getConfiguration')->willReturnMap([
+            ['pim_catalog_identifier', ['filter' => ['identifier_config']]],
+            ['pim_catalog_text', []],
+        ]);
         $this->expectException(\LogicException::class);
         $this->sut->configure($configuration);
     }

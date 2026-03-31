@@ -35,7 +35,7 @@ class VersionBuilderTest extends TestCase
         $uuid = Uuid::fromString('114c9108-444d-408a-ab43-195068166d2c');
         $product->method('getUuid')->willReturn($uuid);
         $this->normalizer->method('normalize')->with($product, 'flat', [])->willReturn(['bar' => 'baz']);
-        $this->versionFactory->method('create')->with(/* TODO: convert Argument matcher */ Argument::Any(), null, $uuid, 'foo', null)->willReturn($version);
+        $this->versionFactory->method('create')->with($this->anything(), null, $uuid, 'foo', null)->willReturn($version);
         $version->method('setVersion')->with(1)->willReturn($version);
         $version->method('setSnapshot')->with(['bar' => 'baz'])->willReturn($version);
         $version->method('setChangeset')->with(['bar' => ['old' => '', 'new' => 'baz']])->willReturn($version);
@@ -49,15 +49,15 @@ class VersionBuilderTest extends TestCase
 
         $uuid = Uuid::fromString('114c9108-444d-408a-ab43-195068166d2c');
         $product->method('getUuid')->willReturn($uuid);
-        $this->versionFactory->method('create')->with(/* TODO: convert Argument matcher */ Argument::Any(), null, $uuid, 'baz', null)->willReturn($pending);
+        $this->versionFactory->method('create')->with($this->anything(), null, $uuid, 'baz', null)->willReturn($pending);
         $pending->method('getChangeset')->willReturn($pending);
         $pending->method('setChangeset')->with([])->willReturn($pending);
         $pending->method('getAuthor')->willReturn('baz');
         $pending->method('isPending')->willReturn(true);
-        $version = $this->createPendingVersion($product, 'baz', []);
-        $version->shouldBeAnInstanceOf(Version::class);
-        $version->getAuthor()->shouldReturn('baz');
-        $version->isPending()->shouldReturn(true);
+        $version = $this->sut->createPendingVersion($product, 'baz', []);
+        $this->assertInstanceOf(Version::class, $version);
+        $this->assertSame('baz', $version->getAuthor());
+        $this->assertTrue($version->isPending());
     }
 
     public function test_it_builds_pending_versions(): void

@@ -29,9 +29,9 @@ class SqlPlatformHelperFactoryTest extends TestCase
         $connection = $this->createMock(Connection::class);
 
         $connection->method('getDatabasePlatform')->willReturn(new MySQLPlatform());
-        $result = $this->create($connection);
-        $result->shouldBeAnInstanceOf(SqlPlatformHelperInterface::class);
-        $result->shouldBeAnInstanceOf(MySqlPlatformHelper::class);
+        $result = $this->sut->create($connection);
+        $this->assertInstanceOf(SqlPlatformHelperInterface::class, $result);
+        $this->assertInstanceOf(MySqlPlatformHelper::class, $result);
     }
 
     public function test_it_creates_postgresql_helper(): void
@@ -39,9 +39,9 @@ class SqlPlatformHelperFactoryTest extends TestCase
         $connection = $this->createMock(Connection::class);
 
         $connection->method('getDatabasePlatform')->willReturn(new PostgreSQLPlatform());
-        $result = $this->create($connection);
-        $result->shouldBeAnInstanceOf(SqlPlatformHelperInterface::class);
-        $result->shouldBeAnInstanceOf(PostgreSqlPlatformHelper::class);
+        $result = $this->sut->create($connection);
+        $this->assertInstanceOf(SqlPlatformHelperInterface::class, $result);
+        $this->assertInstanceOf(PostgreSqlPlatformHelper::class, $result);
     }
 
     public function test_it_throws_on_unsupported_platform(): void

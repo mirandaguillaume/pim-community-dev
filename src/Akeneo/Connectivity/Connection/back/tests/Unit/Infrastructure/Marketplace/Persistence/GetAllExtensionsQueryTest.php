@@ -17,6 +17,8 @@ use PHPUnit\Framework\TestCase;
  */
 class GetAllExtensionsQueryTest extends TestCase
 {
+    private const PAGINATION = 10;
+
     private WebMarketplaceApiInterface|MockObject $webMarketplaceApi;
     private GetAllExtensionsQuery $sut;
 

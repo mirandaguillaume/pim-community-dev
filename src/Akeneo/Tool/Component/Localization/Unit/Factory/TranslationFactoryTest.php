@@ -34,18 +34,18 @@ class TranslationFactoryTest extends TestCase
             'Pim\Bundle\TranslationBundle\Tests\Entity\Item',
             'bar'
         );
-        $this->sut->createTranslation('en_US')
-                    ->shouldReturnAnInstanceOf(AttributeGroupTranslation::class);
-        $this->assertSame('en_US', $this->sut->createTranslation('en_US')->getLocale());
+        $translation = $this->sut->createTranslation('en_US');
+        $this->assertInstanceOf(AttributeGroupTranslation::class, $translation);
+        $this->assertSame('en_US', $translation->getLocale());
     }
 
     public function test_it_throws_an_exception_when_an_invalid_translation_class_is_provided(): void
     {
-        $this->sut = new TranslationFactory(
+        $this->expectException(\InvalidArgumentException::class);
+        new TranslationFactory(
             LocaleInterface::class,
             'Pim\Bundle\TranslationBundle\Tests\Entity\Item',
             'bar'
         );
-        $this->sut->shouldThrow('\InvalidArgumentException');
     }
 }

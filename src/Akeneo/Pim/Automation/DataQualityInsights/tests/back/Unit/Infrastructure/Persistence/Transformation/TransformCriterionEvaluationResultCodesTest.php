@@ -26,11 +26,17 @@ class TransformCriterionEvaluationResultCodesTest extends TestCase
         $this->channels = $this->createMock(ChannelsInterface::class);
         $this->locales = $this->createMock(LocalesInterface::class);
         $this->sut = new TransformCriterionEvaluationResultCodes($this->attributes, $this->channels, $this->locales);
-        $this->attributes->method('getIdsByCodes')->with(['name', 'description'])->willReturn(['name' => 12, 'description' => 34]);
-        $this->attributes->method('getIdsByCodes')->with(['description'])->willReturn(['description' => 34]);
-        $this->channels->method('getIdByCode')->with('ecommerce')->willReturn(1);
-        $this->locales->method('getIdByCode')->with('en_US')->willReturn(58);
-        $this->locales->method('getIdByCode')->with('fr_FR')->willReturn(90);
+        $attributeMap = ['name' => 12, 'description' => 34];
+        $this->attributes->method('getIdsByCodes')
+            ->willReturnCallback(function (array $codes) use ($attributeMap) {
+                return array_intersect_key($attributeMap, array_flip($codes));
+            });
+        $channelMap = ['ecommerce' => 1];
+        $this->channels->method('getIdByCode')
+            ->willReturnCallback(fn (string $code) => $channelMap[$code] ?? null);
+        $localeMap = ['en_US' => 58, 'fr_FR' => 90];
+        $this->locales->method('getIdByCode')
+            ->willReturnCallback(fn (string $code) => $localeMap[$code] ?? null);
     }
 
     public function test_it_transforms_a_criterion_evaluation_result_from_codes_to_ids(): void
@@ -155,7 +161,6 @@ class TransformCriterionEvaluationResultCodesTest extends TestCase
 
     public function test_it_removes_unknown_channels(): void
     {
-        $this->channels->method('getIdByCode')->with('foo')->willReturn(null);
         $criterionEvaluationResultCodes = [
                     'data' => [
                         'attributes_with_rates' => [
@@ -214,7 +219,6 @@ class TransformCriterionEvaluationResultCodesTest extends TestCase
 
     public function test_it_removes_unknown_locales(): void
     {
-        $this->locales->method('getIdByCode')->with('fo_FO')->willReturn(null);
         $criterionEvaluationResultCodes = [
                     'data' => [
                         'attributes_with_rates' => [

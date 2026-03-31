@@ -48,10 +48,8 @@ class ViolationNormalizerTest extends TestCase
     public function test_it_normalizes_an_exception_with_error_on_product_identifier_when_blank(): void
     {
         $exception = $this->createMock(ViolationHttpException::class);
-        $constraintViolations = $this->createMock(ConstraintViolationList::class);
         $violation = $this->createMock(ConstraintViolation::class);
         $product = $this->createMock(EntityWithValuesInterface::class);
-        $iterator = $this->createMock(ArrayIterator::class);
         $values = $this->createMock(WriteValueCollection::class);
         $identifier = $this->createMock(ValueInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -67,20 +65,12 @@ class ViolationNormalizerTest extends TestCase
         $violation->method('getMessage')->willReturn('Not Blank');
         $violation->method('getPropertyPath')->willReturn('values[sku].text');
         $violation->method('getMessageTemplate')->willReturn('');
-        $constraintViolations->method('getIterator')->willReturn($iterator);
-        $iterator->expects($this->once())->method('rewind');
-        $valueCount = 1;
-        // TODO: manual conversion needed — complex .will() callback
-        // $iterator->valid()->will(
-        //             function () use (&$valueCount) {
-        //                 return $valueCount-- > 0;
-        //             }
-        //         );
-        $iterator->method('current')->willReturn($violation);
-        $iterator->expects($this->once())->method('next');
+        $violation->method('getConstraint')->willReturn($constraint);
+
+        $constraintViolations = new ConstraintViolationList([$violation]);
         $exception->method('getViolations')->willReturn($constraintViolations);
         $exception->method('getStatusCode')->willReturn(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $violation->method('getConstraint')->willReturn($constraint);
+
         $this->assertSame([
                     'code'    => Response::HTTP_UNPROCESSABLE_ENTITY,
                     'message' => '',
@@ -93,10 +83,8 @@ class ViolationNormalizerTest extends TestCase
     public function test_it_normalizes_an_exception_with_error_on_product_identifier_when_too_long(): void
     {
         $exception = $this->createMock(ViolationHttpException::class);
-        $constraintViolations = $this->createMock(ConstraintViolationList::class);
         $violationProductValue = $this->createMock(ConstraintViolation::class);
         $product = $this->createMock(EntityWithValuesInterface::class);
-        $iterator = $this->createMock(ArrayIterator::class);
         $productValues = $this->createMock(WriteValueCollection::class);
         $sku = $this->createMock(ValueInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -116,20 +104,11 @@ class ViolationNormalizerTest extends TestCase
         $violationProductValue->method('getPropertyPath')->willReturn('values[sku].text');
         $violationProductValue->method('getConstraint')->willReturn($lengthConstraint);
         $violationProductValue->method('getMessageTemplate')->willReturn('This value is too long. It should have {{ limit }} character or less.|This value is too long. It should have {{ limit }} characters or less.');
-        $constraintViolations->method('getIterator')->willReturn($iterator);
-        $iterator->expects($this->once())->method('rewind');
-        $valueCount = 1;
-        // TODO: manual conversion needed — complex .will() callback
-        // $iterator->valid()->will(
-        //             function () use (&$valueCount) {
-        //                 return $valueCount-- > 0;
-        //             }
-        //         );
-        $iterator->method('current')->willReturn($violationProductValue);
-        $iterator->expects($this->once())->method('next');
+
+        $constraintViolations = new ConstraintViolationList([$violationProductValue]);
         $exception->method('getViolations')->willReturn($constraintViolations);
         $exception->method('getStatusCode')->willReturn(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $violationProductValue->method('getConstraint')->willReturn($lengthConstraint);
+
         $this->assertSame([
                     'code'    => Response::HTTP_UNPROCESSABLE_ENTITY,
                     'message' => '',
@@ -145,11 +124,9 @@ class ViolationNormalizerTest extends TestCase
     public function test_it_normalizes_an_exception_with_error_on_product_identifier_when_regexp(): void
     {
         $exception = $this->createMock(ViolationHttpException::class);
-        $constraintViolations = $this->createMock(ConstraintViolationList::class);
         $violationIdentifier = $this->createMock(ConstraintViolation::class);
         $violationProductValue = $this->createMock(ConstraintViolation::class);
         $product = $this->createMock(EntityWithValuesInterface::class);
-        $iterator = $this->createMock(ArrayIterator::class);
         $productValues = $this->createMock(WriteValueCollection::class);
         $sku = $this->createMock(ValueInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -174,20 +151,11 @@ class ViolationNormalizerTest extends TestCase
         $violationProductValue->method('getPropertyPath')->willReturn('values[sku].text');
         $violationProductValue->method('getConstraint')->willReturn($regexpConstraint);
         $violationProductValue->method('getMessageTemplate')->willReturn('This value is not valid.');
-        $constraintViolations->method('getIterator')->willReturn($iterator);
-        $iterator->expects($this->once())->method('rewind');
-        $valueCount = 2;
-        // TODO: manual conversion needed — complex .will() callback
-        // $iterator->valid()->will(
-        //             function () use (&$valueCount) {
-        //                 return $valueCount-- > 0;
-        //             }
-        //         );
-        $iterator->method('current')->willReturn($violationIdentifier, $violationProductValue);
-        $iterator->expects($this->once())->method('next');
+
+        $constraintViolations = new ConstraintViolationList([$violationIdentifier, $violationProductValue]);
         $exception->method('getViolations')->willReturn($constraintViolations);
         $exception->method('getStatusCode')->willReturn(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $violationIdentifier->method('getConstraint')->willReturn($regexpConstraint);
+
         $this->assertSame([
                     'code'    => Response::HTTP_UNPROCESSABLE_ENTITY,
                     'message' => '',
@@ -203,10 +171,8 @@ class ViolationNormalizerTest extends TestCase
     public function test_it_normalizes_an_exception_with_error_on_attribute_localizable_and_scopable(): void
     {
         $exception = $this->createMock(ViolationHttpException::class);
-        $constraintViolations = $this->createMock(ConstraintViolationList::class);
         $violation = $this->createMock(ConstraintViolation::class);
         $product = $this->createMock(EntityWithValuesInterface::class);
-        $iterator = $this->createMock(ArrayIterator::class);
         $productValues = $this->createMock(WriteValueCollection::class);
         $description = $this->createMock(ValueInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -224,20 +190,12 @@ class ViolationNormalizerTest extends TestCase
         $violation->method('getMessage')->willReturn('Not Blank');
         $violation->method('getPropertyPath')->willReturn('values[description-en_US-ecommerce].textarea');
         $violation->method('getMessageTemplate')->willReturn('');
-        $constraintViolations->method('getIterator')->willReturn($iterator);
-        $iterator->expects($this->once())->method('rewind');
-        $valueCount = 1;
-        // TODO: manual conversion needed — complex .will() callback
-        // $iterator->valid()->will(
-        //             function () use (&$valueCount) {
-        //                 return $valueCount-- > 0;
-        //             }
-        //         );
-        $iterator->method('current')->willReturn($violation);
-        $iterator->expects($this->once())->method('next');
+        $violation->method('getConstraint')->willReturn($constraint);
+
+        $constraintViolations = new ConstraintViolationList([$violation]);
         $exception->method('getViolations')->willReturn($constraintViolations);
         $exception->method('getStatusCode')->willReturn(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $violation->method('getConstraint')->willReturn($constraint);
+
         $this->assertSame([
                     'code'    => Response::HTTP_UNPROCESSABLE_ENTITY,
                     'message' => '',
@@ -256,9 +214,7 @@ class ViolationNormalizerTest extends TestCase
     public function test_it_normalizes_an_exception_using_constraint_constraint_payload_instead_of_property_path(): void
     {
         $exception = $this->createMock(ViolationHttpException::class);
-        $constraintViolations = $this->createMock(ConstraintViolationList::class);
         $violation = $this->createMock(ConstraintViolation::class);
-        $iterator = $this->createMock(ArrayIterator::class);
         $attribute = $this->createMock(AttributeInterface::class);
         $constraint = $this->createMock(Constraint::class);
 
@@ -266,21 +222,13 @@ class ViolationNormalizerTest extends TestCase
         $violation->method('getMessage')->willReturn('The locale "ab_CD" does not exist.');
         $violation->method('getPropertyPath')->willReturn('translations[0].locale');
         $violation->method('getMessageTemplate')->willReturn('');
-        $constraintViolations->method('getIterator')->willReturn($iterator);
-        $iterator->expects($this->once())->method('rewind');
-        $valueCount = 1;
-        // TODO: manual conversion needed — complex .will() callback
-        // $iterator->valid()->will(
-        //             function () use (&$valueCount) {
-        //                 return $valueCount-- > 0;
-        //             }
-        //         );
-        $iterator->method('current')->willReturn($violation);
-        $iterator->expects($this->once())->method('next');
-        $exception->method('getViolations')->willReturn($constraintViolations);
-        $exception->method('getStatusCode')->willReturn(Response::HTTP_UNPROCESSABLE_ENTITY);
         $violation->method('getConstraint')->willReturn($constraint);
         $constraint->payload = ['standardPropertyName' => 'labels'];
+
+        $constraintViolations = new ConstraintViolationList([$violation]);
+        $exception->method('getViolations')->willReturn($constraintViolations);
+        $exception->method('getStatusCode')->willReturn(Response::HTTP_UNPROCESSABLE_ENTITY);
+
         $this->assertSame([
                     'code'    => Response::HTTP_UNPROCESSABLE_ENTITY,
                     'message' => '',

@@ -94,7 +94,7 @@ class FamilyRequirementsValidatorTest extends TestCase
         $this->channelRepository->method('getChannelCodes')->willReturn(['ecommerce', 'mobile', 'print']);
         $this->context->expects($this->once())->method('buildViolation')->with($this->anything(), $this->anything())->willReturn($violation);
         $violation->method('atPath')->with($this->anything())->willReturn($violation);
-        $violation->expects($this->once())->method('addViolation')->with($this->anything());
+        $violation->expects($this->once())->method('addViolation');
         $this->sut->validate($family, $this->minimumRequirements);
     }
 

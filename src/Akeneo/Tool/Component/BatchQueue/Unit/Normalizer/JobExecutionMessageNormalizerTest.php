@@ -53,13 +53,13 @@ class JobExecutionMessageNormalizerTest extends TestCase
             1,
             ['option1' => 'value1']
         );
-        $normalized = $this->normalize($jobMessenger);
-        $normalized->shouldBeArray();
-        $normalized['id']->shouldBeString();
-        $normalized['job_execution_id']->shouldBe(1);
-        $normalized['created_time']->shouldNotBeNull();
-        $normalized['updated_time']->shouldBeNull();
-        $normalized['options']->shouldBe(['option1' => 'value1']);
+        $normalized = $this->sut->normalize($jobMessenger);
+        $this->assertIsArray($normalized);
+        $this->assertIsString($normalized['id']);
+        $this->assertSame(1, $normalized['job_execution_id']);
+        $this->assertNotNull($normalized['created_time']);
+        $this->assertNull($normalized['updated_time']);
+        $this->assertSame(['option1' => 'value1'], $normalized['options']);
     }
 
     public function test_it_normalizes_a_full_job_message(): void
@@ -71,13 +71,13 @@ class JobExecutionMessageNormalizerTest extends TestCase
                     'updated_time' => '2020-02-01',
                     'options' => ['option1' => 'value1'],
                 ]);
-        $normalized = $this->normalize($jobMessenger);
-        $normalized->shouldBeArray();
-        $normalized['id']->shouldBeLike(Uuid::fromString('215ee791-1c40-4c60-82fb-cb017d6bcb90'));
-        $normalized['job_execution_id']->shouldBe(2);
-        $normalized['created_time']->shouldBe((new \DateTime('2020-01-01'))->format('c'));
-        $normalized['updated_time']->shouldBe((new \DateTime('2020-02-01'))->format('c'));
-        $normalized['options']->shouldBe(['option1' => 'value1']);
+        $normalized = $this->sut->normalize($jobMessenger);
+        $this->assertIsArray($normalized);
+        $this->assertSame('215ee791-1c40-4c60-82fb-cb017d6bcb90', $normalized['id']);
+        $this->assertSame(2, $normalized['job_execution_id']);
+        $this->assertSame((new \DateTime('2020-01-01'))->format('c'), $normalized['created_time']);
+        $this->assertSame((new \DateTime('2020-02-01'))->format('c'), $normalized['updated_time']);
+        $this->assertSame(['option1' => 'value1'], $normalized['options']);
     }
 
     public function test_it_supports_job_messenger_denormalization_only(): void

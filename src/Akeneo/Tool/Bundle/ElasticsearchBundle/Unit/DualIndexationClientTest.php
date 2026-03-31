@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class DualIndexationClientTest extends TestCase
 {
-    private Client|MockObject $nativeClient;
+    private NativeClient|MockObject $nativeClient;
     private ClientBuilder|MockObject $clientBuilder;
     private Loader|MockObject $indexConfigurationLoader;
     private Client|MockObject $dualClient;
@@ -24,7 +24,7 @@ class DualIndexationClientTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->nativeClient = $this->createMock(Client::class);
+        $this->nativeClient = $this->createMock(NativeClient::class);
         $this->clientBuilder = $this->createMock(ClientBuilder::class);
         $this->indexConfigurationLoader = $this->createMock(Loader::class);
         $this->dualClient = $this->createMock(Client::class);

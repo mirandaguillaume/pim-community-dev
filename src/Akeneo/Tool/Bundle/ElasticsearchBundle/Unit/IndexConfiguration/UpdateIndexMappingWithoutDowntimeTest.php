@@ -13,6 +13,11 @@ use PHPUnit\Framework\TestCase;
 
 class UpdateIndexMappingWithoutDowntimeTest extends TestCase
 {
+    private const INDEX_NAME_TO_MIGRATE = 'index_name_to_migrate';
+    private const INDEX_ALIAS_TO_MIGRATE = 'index_alias_to_migrate';
+    private const MIGRATED_INDEX_NAME = 'migrated_index_name';
+    private const TEMPORARY_INDEX_ALIAS = 'temporary_index_alias';
+
     private ClockInterface|MockObject $clock;
     private ClientMigrationInterface|MockObject $clientMigration;
     private IndexConfiguration|MockObject $indexConfiguration;
@@ -463,7 +468,7 @@ class UpdateIndexMappingWithoutDowntimeTest extends TestCase
             self::INDEX_NAME_TO_MIGRATE,
             self::TEMPORARY_INDEX_ALIAS,
             self::MIGRATED_INDEX_NAME
-        )->willThrowException(\InvalidArgumentException::class);
+        )->willThrowException(new \InvalidArgumentException());
         $this->clientMigration->expects($this->never())->method('removeIndex')->with(self::INDEX_NAME_TO_MIGRATE);
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->execute(

@@ -31,7 +31,7 @@ class GenerateAsymmetricKeysHandlerTest extends TestCase
 
     public function test_it_is_instantiable(): void
     {
-        $this->sut->beAnInstanceOf(GenerateAsymmetricKeysHandler::class);
+        $this->assertInstanceOf(GenerateAsymmetricKeysHandler::class, $this->sut);
     }
 
     public function test_it_generates_asymemtric_keys(): void

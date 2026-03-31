@@ -35,18 +35,14 @@ class OffsetHalPaginatorTest extends TestCase
 
     public function test_it_paginates_in_hal_format_without_count(): void
     {
-        // links
-        $this->router
-            ->generate('attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 3, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=3');
-        $this->router->method('generate')->with('attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=1');
-        $this->router->method('generate')->with('attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 2, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=2');
-        $this->router->method('generate')->with('attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 4, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=4');
-        // embedded
-        $this->router
-            ->generate('attribute_option_item_route', ['attributeCode' => 'a_multi_select', 'code' => 'optionA'], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options/optionA');
-        $this->router->method('generate')->with('attribute_option_item_route', ['attributeCode' => 'a_multi_select', 'code' => 'optionB'], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options/optionB');
+        $this->router->method('generate')->willReturnMap([
+            ['attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 3, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=3'],
+            ['attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=1'],
+            ['attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 2, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=2'],
+            ['attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 4, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=4'],
+            ['attribute_option_item_route', ['attributeCode' => 'a_multi_select', 'code' => 'optionA'], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options/optionA'],
+            ['attribute_option_item_route', ['attributeCode' => 'a_multi_select', 'code' => 'optionB'], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options/optionB'],
+        ]);
         $standardItems = [
                     ['code'   => 'optionA'],
                     ['code'   => 'optionB'],
@@ -100,18 +96,14 @@ class OffsetHalPaginatorTest extends TestCase
 
     public function test_it_paginates_in_hal_format_with_count(): void
     {
-        // links
-        $this->router
-            ->generate('attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 3, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=3');
-        $this->router->method('generate')->with('attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=1');
-        $this->router->method('generate')->with('attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 2, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=2');
-        $this->router->method('generate')->with('attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 4, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=4');
-        // embedded
-        $this->router
-            ->generate('attribute_option_item_route', ['attributeCode' => 'a_multi_select', 'code' => 'optionA'], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options/optionA');
-        $this->router->method('generate')->with('attribute_option_item_route', ['attributeCode' => 'a_multi_select', 'code' => 'optionB'], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options/optionB');
+        $this->router->method('generate')->willReturnMap([
+            ['attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 3, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=3'],
+            ['attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=1'],
+            ['attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 2, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=2'],
+            ['attribute_option_list_route', ['attributeCode' => 'a_multi_select', 'page' => 4, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?limit=2&page=4'],
+            ['attribute_option_item_route', ['attributeCode' => 'a_multi_select', 'code' => 'optionA'], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options/optionA'],
+            ['attribute_option_item_route', ['attributeCode' => 'a_multi_select', 'code' => 'optionB'], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/attributes/a_multi_select/options/optionB'],
+        ]);
         $standardItems = [
                     ['code'   => 'optionA'],
                     ['code'   => 'optionB'],
@@ -166,16 +158,12 @@ class OffsetHalPaginatorTest extends TestCase
 
     public function test_it_paginates_without_previous_link_when_first_page(): void
     {
-        // links
-        $this->router
-            ->generate('category_list_route', ['page' => 2, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/categories/?limit=2&page=2');
-        $this->router->method('generate')->with('category_list_route', ['page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/categories/?limit=2&page=1');
-        // embedded
-        $this->router
-            ->generate('category_item_route', ['code' => 'master'], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/categories/master');
-        $this->router->method('generate')->with('category_item_route', ['code' => 'sales'], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/categories/sales');
+        $this->router->method('generate')->willReturnMap([
+            ['category_list_route', ['page' => 2, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/?limit=2&page=2'],
+            ['category_list_route', ['page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/?limit=2&page=1'],
+            ['category_item_route', ['code' => 'master'], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/master'],
+            ['category_item_route', ['code' => 'sales'], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/sales'],
+        ]);
         $standardItems = [
                     [
                         'code'   => 'master',
@@ -233,17 +221,13 @@ class OffsetHalPaginatorTest extends TestCase
 
     public function test_it_paginates_without_next_link_when_last_page(): void
     {
-        // links
-        $this->router
-            ->generate('category_list_route', ['page' => 1, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/categories/?limit=100&page=1');
-        $this->router->method('generate')->with('category_list_route', ['page' => 10, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/categories/?limit=100&page=10');
-        $this->router->method('generate')->with('category_list_route', ['page' => 9, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/categories/?limit=100&page=9');
-        // embedded
-        $this->router
-            ->generate('category_item_route', ['code' => 'master'], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/categories/master');
-        $this->router->method('generate')->with('category_item_route', ['code' => 'sales'], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/categories/sales');
+        $this->router->method('generate')->willReturnMap([
+            ['category_list_route', ['page' => 1, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/?limit=100&page=1'],
+            ['category_list_route', ['page' => 10, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/?limit=100&page=10'],
+            ['category_list_route', ['page' => 9, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/?limit=100&page=9'],
+            ['category_item_route', ['code' => 'master'], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/master'],
+            ['category_item_route', ['code' => 'sales'], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/sales'],
+        ]);
         $standardItems = [
                     [
                         'code'   => 'master',
@@ -301,12 +285,11 @@ class OffsetHalPaginatorTest extends TestCase
 
     public function test_it_paginates_with_previous_and_without_next_link_when_nonexistent_page(): void
     {
-        // links
-        $this->router
-            ->generate('category_list_route', ['page' => 11, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/categories/?limit=100&page=11');
-        $this->router->method('generate')->with('category_list_route', ['page' => 1, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/categories/?limit=100&page=1');
-        $this->router->method('generate')->with('category_list_route', ['page' => 10, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://akeneo.com/api/rest/v1/categories/?limit=100&page=10');
+        $this->router->method('generate')->willReturnMap([
+            ['category_list_route', ['page' => 11, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/?limit=100&page=11'],
+            ['category_list_route', ['page' => 1, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/?limit=100&page=1'],
+            ['category_list_route', ['page' => 10, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/?limit=100&page=10'],
+        ]);
         $expectedItems = [
                     '_links'       => [
                         'self'     => [
@@ -334,10 +317,9 @@ class OffsetHalPaginatorTest extends TestCase
 
     public function test_it_paginates_with_one_page_when_total_items_equals_zero(): void
     {
-        // links
-        $this->router
-            ->generate('category_list_route', ['page' => 1, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL)
-            ->willReturn('http://akeneo.com/api/rest/v1/categories/?limit=100&page=1');
+        $this->router->method('generate')->willReturnMap([
+            ['category_list_route', ['page' => 1, 'limit' => 100], UrlGeneratorInterface::ABSOLUTE_URL, 'http://akeneo.com/api/rest/v1/categories/?limit=100&page=1'],
+        ]);
         $expectedItems = [
                     '_links'       => [
                         'self'  => [

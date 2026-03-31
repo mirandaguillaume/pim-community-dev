@@ -27,7 +27,7 @@ class InvalidAppAuthenticationExceptionTest extends TestCase
 
     public function test_it_is_initializable(): void
     {
-        $this->sut->beAnInstanceOf(InvalidAppAuthenticationException::class);
+        $this->assertInstanceOf(InvalidAppAuthenticationException::class, $this->sut);
     }
 
     public function test_it_returns_constraint_violation_list(): void

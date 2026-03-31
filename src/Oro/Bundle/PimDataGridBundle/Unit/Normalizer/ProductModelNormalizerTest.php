@@ -98,7 +98,9 @@ class ProductModelNormalizerTest extends TestCase
         $familyEN->method('getLabel')->willReturn('Tshirt');
         $productModel->method('getCode')->willReturn('purple_tshirt');
         $productModel->method('getValues')->willReturn($values);
-        $this->normalizer->method('normalize')->with($values, 'datagrid', $context)->willReturn([
+        $this->normalizer->method('normalize')->willReturnCallback(function ($object) {
+            if ($object instanceof WriteValueCollection) {
+                return [
                     'text' => [
                         [
                             'locale' => null,
@@ -106,13 +108,17 @@ class ProductModelNormalizerTest extends TestCase
                             'data'   => 'my text',
                         ],
                     ],
-                ]);
+                ];
+            }
+            if ($object instanceof \DateTime) {
+                return $object->format('Y-m-d\TH:i:sP');
+            }
+            return null;
+        });
         $created = new \DateTime('2017-01-01T01:03:34+01:00');
         $productModel->method('getCreated')->willReturn($created);
-        $this->normalizer->method('normalize')->with($created, 'datagrid', $context)->willReturn('2017-01-01T01:03:34+01:00');
         $updated = new \DateTime('2017-01-01T01:04:34+01:00');
         $productModel->method('getUpdated')->willReturn($updated);
-        $this->normalizer->method('normalize')->with($updated, 'datagrid', $context)->willReturn('2017-01-01T01:04:34+01:00');
         $productModel->method('getLabel')->with('en_US', 'ecommerce')->willReturn('Purple tshirt');
         $this->imageAsLabel->method('value')->with($productModel)->willReturn($image);
         $this->imageNormalizer->method('normalize')->with($image, 'en_US', 'ecommerce')->willReturn([
@@ -190,7 +196,9 @@ class ProductModelNormalizerTest extends TestCase
         $familyEN->method('getLabel')->willReturn(null);
         $productModel->method('getCode')->willReturn('purple_tshirt');
         $productModel->method('getValues')->willReturn($values);
-        $this->normalizer->method('normalize')->with($values, 'datagrid', $context)->willReturn([
+        $this->normalizer->method('normalize')->willReturnCallback(function ($object) {
+            if ($object instanceof WriteValueCollection) {
+                return [
                     'text' => [
                         [
                             'locale' => null,
@@ -198,13 +206,17 @@ class ProductModelNormalizerTest extends TestCase
                             'data'   => 'my text',
                         ],
                     ],
-                ]);
+                ];
+            }
+            if ($object instanceof \DateTime) {
+                return $object->format('Y-m-d\TH:i:sP');
+            }
+            return null;
+        });
         $created = new \DateTime('2017-01-01T01:03:34+01:00');
         $productModel->method('getCreated')->willReturn($created);
-        $this->normalizer->method('normalize')->with($created, 'datagrid', $context)->willReturn('2017-01-01T01:03:34+01:00');
         $updated = new \DateTime('2017-01-01T01:04:34+01:00');
         $productModel->method('getUpdated')->willReturn($updated);
-        $this->normalizer->method('normalize')->with($updated, 'datagrid', $context)->willReturn('2017-01-01T01:04:34+01:00');
         $productModel->method('getLabel')->with('en_US', 'ecommerce')->willReturn('Purple tshirt');
         $this->imageAsLabel->method('value')->with($productModel)->willReturn($image);
         $this->imageNormalizer->method('normalize')->with($image, 'en_US', 'ecommerce')->willReturn([
@@ -284,7 +296,9 @@ class ProductModelNormalizerTest extends TestCase
         $familyEN->method('getLabel')->willReturn(null);
         $productModel->method('getCode')->willReturn('purple_tshirt');
         $productModel->method('getValues')->willReturn($values);
-        $this->normalizer->method('normalize')->with($values, 'datagrid', $context)->willReturn([
+        $this->normalizer->method('normalize')->willReturnCallback(function ($object) {
+            if ($object instanceof WriteValueCollection) {
+                return [
                     'text' => [
                         [
                             'locale' => null,
@@ -292,13 +306,17 @@ class ProductModelNormalizerTest extends TestCase
                             'data'   => 'my text',
                         ],
                     ],
-                ]);
+                ];
+            }
+            if ($object instanceof \DateTime) {
+                return $object->format('Y-m-d\TH:i:sP');
+            }
+            return null;
+        });
         $created = new \DateTime('2017-01-01T01:03:34+01:00');
         $productModel->method('getCreated')->willReturn($created);
-        $this->normalizer->method('normalize')->with($created, 'datagrid', $context)->willReturn('2017-01-01T01:03:34+01:00');
         $updated = new \DateTime('2017-01-01T01:04:34+01:00');
         $productModel->method('getUpdated')->willReturn($updated);
-        $this->normalizer->method('normalize')->with($updated, 'datagrid', $context)->willReturn('2017-01-01T01:04:34+01:00');
         $productModel->method('getLabel')->with('en_US', 'ecommerce')->willReturn('Purple tshirt');
         $this->imageAsLabel->method('value')->with($productModel)->willReturn($image);
         $this->imageNormalizer->method('normalize')->with($image, 'en_US', 'ecommerce')->willReturn([

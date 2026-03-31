@@ -30,10 +30,10 @@ class ValueUserIntentFactoryRegistryTest extends TestCase
         $this->valueUserIntentFactory1 = $this->createMock(ValueUserIntentFactory::class);
         $this->valueUserIntentFactory2 = $this->createMock(ValueUserIntentFactory::class);
         $this->valueUserIntentFactory3 = $this->createMock(ValueUserIntentFactory::class);
-        $this->sut = new ValueUserIntentFactoryRegistry($this->getAttributeTypes, [$this->valueUserIntentFactory1, $this->valueUserIntentFactory2, $this->valueUserIntentFactory3]);
         $this->valueUserIntentFactory1->method('getSupportedAttributeTypes')->willReturn(['pim_catalog_text']);
         $this->valueUserIntentFactory2->method('getSupportedAttributeTypes')->willReturn(['pim_catalog_identifier']);
         $this->valueUserIntentFactory3->method('getSupportedAttributeTypes')->willReturn(['pim_catalog_textarea']);
+        $this->sut = new ValueUserIntentFactoryRegistry($this->getAttributeTypes, [$this->valueUserIntentFactory1, $this->valueUserIntentFactory2, $this->valueUserIntentFactory3]);
         $this->assertInstanceOf(UserIntentFactory::class, $this->sut);
     }
 
@@ -44,9 +44,6 @@ class ValueUserIntentFactoryRegistryTest extends TestCase
         $valueUserIntent3 = $this->createMock(ValueUserIntent::class);
         $valueUserIntent4 = $this->createMock(ValueUserIntent::class);
 
-        $this->valueUserIntentFactory1->method('getSupportedAttributeTypes')->willReturn(['pim_catalog_text']);
-        $this->valueUserIntentFactory2->method('getSupportedAttributeTypes')->willReturn(['pim_catalog_identifier']);
-        $this->valueUserIntentFactory3->method('getSupportedAttributeTypes')->willReturn(['pim_catalog_textarea']);
         $this->getAttributeTypes->expects($this->once())->method('fromAttributeCodes')->with(['a_text', 'sku', 'A_TExtAreA', '1234'])->willReturn([
                         'a_text' => 'pim_catalog_text',
                         'sku' => 'pim_catalog_identifier',
@@ -55,8 +52,16 @@ class ValueUserIntentFactoryRegistryTest extends TestCase
                     ]);
         $this->valueUserIntentFactory1->expects($this->once())->method('create')->with('pim_catalog_text', 'a_text', ['data' => 'bonjour', 'locale' => null, 'scope' => null])->willReturn($valueUserIntent1);
         $this->valueUserIntentFactory2->expects($this->once())->method('create')->with('pim_catalog_identifier', 'sku', ['data' => 'my_sku'])->willReturn($valueUserIntent2);
-        $this->valueUserIntentFactory3->expects($this->once())->method('create')->with('pim_catalog_textarea', 'A_TExtAreA', ['data' => '<p>bonjour</p>', 'locale' => null, 'scope' => null])->willReturn($valueUserIntent3);
-        $this->valueUserIntentFactory3->expects($this->once())->method('create')->with('pim_catalog_textarea', '1234', ['data' => 'some content', 'locale' => null, 'scope' => null])->willReturn($valueUserIntent4);
+        $this->valueUserIntentFactory3->expects($this->exactly(2))->method('create')
+            ->willReturnCallback(function (string $type, string $code, array $data) use ($valueUserIntent3, $valueUserIntent4) {
+                if ($code === 'A_TExtAreA') {
+                    return $valueUserIntent3;
+                }
+                if ($code === '1234') {
+                    return $valueUserIntent4;
+                }
+                return null;
+            });
         $this->assertSame([$valueUserIntent1, $valueUserIntent2, $valueUserIntent3, $valueUserIntent4], $this->sut->create('values', [
                     'a_text' => [['data' => 'bonjour', 'locale' => null, 'scope' => null]],
                     'sku' => [['data' => 'my_sku']],

@@ -108,7 +108,6 @@ class ShouldStayOwnerOfTheProductValidatorTest extends TestCase
         $this->getProductUuids->expects($this->once())->method('fromIdentifier')->with('my_sku')->willReturn($uuid);
         $this->getCategoryCodes->expects($this->once())->method('fromProductUuids')->with([$uuid])->willReturn([$uuid->toString() => ['categoryA', 'categoryB']]);
         $this->getOwnedCategories->expects($this->once())->method('forUserId')->with(['categoryA', 'categoryB'], 10)->willReturn(['categoryA', 'categoryB']);
-        $this->getOwnedCategories->expects($this->never())->method('forUserId');
         $this->getNonViewableCategoryCodes->expects($this->never())->method('fromProductUuids')->with($this->anything());
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate(new SetCategories(['categoryA', 'categoryC']), new ShouldStayOwnerOfTheProduct());
@@ -124,8 +123,16 @@ class ShouldStayOwnerOfTheProductValidatorTest extends TestCase
         ));
         $this->getProductUuids->expects($this->once())->method('fromUuid')->with($uuid)->willReturn($uuid);
         $this->getCategoryCodes->expects($this->once())->method('fromProductUuids')->with([$uuid])->willReturn([$uuid->toString() => ['categoryA']]);
-        $this->getOwnedCategories->expects($this->once())->method('forUserId')->with(['categoryA'], 10)->willReturn(['categoryA']);
-        $this->getOwnedCategories->expects($this->once())->method('forUserId')->with(['categoryC'], 10)->willReturn(['categoryC']);
+        $this->getOwnedCategories->expects($this->exactly(2))->method('forUserId')
+            ->willReturnCallback(function (array $categories, int $userId) {
+                if ($categories === ['categoryA'] && $userId === 10) {
+                    return ['categoryA'];
+                }
+                if ($categories === ['categoryC'] && $userId === 10) {
+                    return ['categoryC'];
+                }
+                return [];
+            });
         $this->getNonViewableCategoryCodes->expects($this->never())->method('fromProductUuids')->with($this->anything());
         $this->context->expects($this->never())->method('buildViolation')->with($this->anything());
         $this->sut->validate(new SetCategories(['categoryC']), new ShouldStayOwnerOfTheProduct());
@@ -160,8 +167,16 @@ class ShouldStayOwnerOfTheProductValidatorTest extends TestCase
         ));
         $this->getProductUuids->expects($this->once())->method('fromUuid')->with($uuid)->willReturn($uuid);
         $this->getCategoryCodes->expects($this->once())->method('fromProductUuids')->with([$uuid])->willReturn(['categoryA', 'categoryB']);
-        $this->getOwnedCategories->method('forUserId')->with(['categoryA', 'categoryB'], 10)->willReturn(['categoryA']);
-        $this->getOwnedCategories->expects($this->once())->method('forUserId')->with(['categoryB', 'categoryC'], 10)->willReturn([]);
+        $this->getOwnedCategories->expects($this->exactly(2))->method('forUserId')
+            ->willReturnCallback(function (array $categories, int $userId) {
+                if ($categories === ['categoryA', 'categoryB'] && $userId === 10) {
+                    return ['categoryA'];
+                }
+                if ($categories === ['categoryB', 'categoryC'] && $userId === 10) {
+                    return [];
+                }
+                return [];
+            });
         $this->context->expects($this->once())->method('buildViolation')->with($constraint->message)->willReturn($violationBuilder);
         $violationBuilder->method('setCode')->with((string) ViolationCode::PERMISSION)->willReturn($violationBuilder);
         $violationBuilder->expects($this->once())->method('addViolation');
@@ -181,8 +196,16 @@ class ShouldStayOwnerOfTheProductValidatorTest extends TestCase
         ));
         $this->getProductUuids->expects($this->once())->method('fromUuid')->with($uuid)->willReturn($uuid);
         $this->getCategoryCodes->method('fromProductUuids')->with([$uuid])->willReturn([$uuid->toString() => ['categoryA', 'categoryB', 'categoryC']]);
-        $this->getOwnedCategories->method('forUserId')->with(['categoryA', 'categoryB', 'categoryC'], 10)->willReturn(['categoryB']);
-        $this->getOwnedCategories->method('forUserId')->with(['categoryA', 'categoryC'], 10)->willReturn([]);
+        $this->getOwnedCategories->method('forUserId')
+            ->willReturnCallback(function (array $categories, int $userId) {
+                if ($categories === ['categoryA', 'categoryB', 'categoryC'] && $userId === 10) {
+                    return ['categoryB'];
+                }
+                if ($categories === ['categoryA', 'categoryC'] && $userId === 10) {
+                    return [];
+                }
+                return [];
+            });
         $this->context->expects($this->once())->method('buildViolation')->with($constraint->message)->willReturn($violationBuilder);
         $violationBuilder->method('setCode')->with((string) ViolationCode::PERMISSION)->willReturn($violationBuilder);
         $violationBuilder->expects($this->once())->method('addViolation');

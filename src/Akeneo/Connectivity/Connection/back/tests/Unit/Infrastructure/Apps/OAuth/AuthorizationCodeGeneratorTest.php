@@ -43,7 +43,7 @@ class AuthorizationCodeGeneratorTest extends TestCase
 
     public function test_it_generates_an_authorization_code(): void
     {
-        $now = $this->createMock(DateTimeImmutable::class);
+        $now = $this->createMock(\DateTimeImmutable::class);
         $client = $this->createMock(ClientInterface::class);
         $pimUser = $this->createMock(UserInterface::class);
 

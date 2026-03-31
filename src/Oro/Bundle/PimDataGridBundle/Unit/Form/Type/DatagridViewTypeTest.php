@@ -37,10 +37,21 @@ class DatagridViewTypeTest extends TestCase
     {
         $builder = $this->createMock(FormBuilderInterface::class);
 
-        $builder->method('add')->with('label', TextType::class, ['required' => true])->willReturn($builder);
-        $builder->method('add')->with('order', HiddenType::class)->willReturn($builder);
-        $builder->expects($this->once())->method('add')->with('filters', HiddenType::class)->willReturn($builder);
+        $addedFields = [];
+        $builder->expects($this->exactly(3))->method('add')->willReturnCallback(
+            function (string $name, string $type, array $options = []) use ($builder, &$addedFields) {
+                $addedFields[] = [$name, $type];
+                return $builder;
+            }
+        );
         $this->sut->buildForm($builder, []);
+
+        $this->assertSame('label', $addedFields[0][0]);
+        $this->assertSame(TextType::class, $addedFields[0][1]);
+        $this->assertSame('order', $addedFields[1][0]);
+        $this->assertSame(HiddenType::class, $addedFields[1][1]);
+        $this->assertSame('filters', $addedFields[2][0]);
+        $this->assertSame(HiddenType::class, $addedFields[2][1]);
     }
 
     public function test_it_does_not_map_the_fields_to_the_entity_by_default(): void

@@ -45,9 +45,7 @@ class MetricGuesserTest extends TestCase
         $attribute->method('getCode')->willReturn('');
         $constraints = $this->sut->guessConstraints($attribute);
         $this->assertCount(2, $constraints);
-        $constraint = $constraints[0];
-        $constraint->shouldBeAnInstanceOf(ValidMetric::class);
-        $constraint = $constraints[1];
-        $constraint->shouldBeAnInstanceOf(IsNumeric::class);
+        $this->assertInstanceOf(ValidMetric::class, $constraints[0]);
+        $this->assertInstanceOf(IsNumeric::class, $constraints[1]);
     }
 }

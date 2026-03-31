@@ -29,8 +29,6 @@ class JsonSerializerTest extends TestCase
         $this->normalizer = $this->createMock(NormalizerInterface::class);
         $this->denormalizer = $this->createMock(DenormalizerInterface::class);
         $this->sut = new JsonSerializer([$this->normalizer, $this->denormalizer]);
-        $this->normalizer->method('getSupportedTypes')->with($this->anything())->willReturn(['*' => false]);
-        $this->denormalizer->method('getSupportedTypes')->with($this->anything())->willReturn(['*' => false]);
     }
 
     public function test_it_is_initializable(): void

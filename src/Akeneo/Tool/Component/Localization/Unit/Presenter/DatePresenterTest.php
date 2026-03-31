@@ -28,7 +28,7 @@ class DatePresenterTest extends TestCase
 
     public function test_it_presents_an_english_date(): void
     {
-        $dateFormatter = $this->createMock(IntlDateFormatter::class);
+        $dateFormatter = $this->createMock(\IntlDateFormatter::class);
 
         $date = '2015-01-31';
         $datetime = new \DateTime('2015-01-31');
@@ -40,7 +40,7 @@ class DatePresenterTest extends TestCase
 
     public function test_it_presents_a_french_date(): void
     {
-        $dateFormatter = $this->createMock(IntlDateFormatter::class);
+        $dateFormatter = $this->createMock(\IntlDateFormatter::class);
 
         $date = '2015-01-31';
         $datetime = new \DateTime('2015-01-31');

@@ -14,14 +14,23 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class OutputFileFetcherTest extends TestCase
 {
+    private string $directory;
     private OutputFileFetcher $sut;
 
     protected function setUp(): void
     {
         $this->sut = new OutputFileFetcher();
-        $this->sut->directory = sys_get_temp_dir() . '/spec/';
-        $this->sut->filesystem = new Filesystem();
-        $this->sut->filesystem->mkdir($this->directory);
+        $this->directory = sys_get_temp_dir() . '/spec_output_file_fetcher/';
+        $fs = new Filesystem();
+        $fs->mkdir($this->directory);
+    }
+
+    protected function tearDown(): void
+    {
+        $fs = new Filesystem();
+        if (is_dir($this->directory)) {
+            $fs->remove($this->directory);
+        }
     }
 
     public function test_it_fetches_a_file(): void
@@ -34,13 +43,9 @@ class OutputFileFetcherTest extends TestCase
                     'filename' => 'filename.txt',
                 ];
         $filesystem->method('fileExists')->with($virtualFilesystemPath)->willReturn(true);
-        $filesystem->expects($this->once())->method('readStream')->with($virtualFilesystemPath);
+        $filesystem->method('readStream')->with($virtualFilesystemPath)->willReturn(fopen('php://temp', 'r'));
         $this->assertInstanceOf(\SplFileInfo::class, $this->sut->fetch($filesystem, $virtualFilesystemPath, $localFilesystemPath));
-        if (!file_exists($localFilesystemPath['filePath'] . $localFilesystemPath['filename'])) {
-            throw new FailedPredictionException(
-                sprintf('File "%s" should have been created', $localFilesystemPath['filename'])
-            );
-        }
+        $this->assertFileExists($localFilesystemPath['filePath'] . $localFilesystemPath['filename']);
     }
 
     public function test_it_fetches_a_file_with_the_same_filename(): void
@@ -52,33 +57,28 @@ class OutputFileFetcherTest extends TestCase
                     'filePath' => $this->directory . 'locale/path/',
                 ];
         $filesystem->method('fileExists')->with($virtualFilesystemPath)->willReturn(true);
-        $filesystem->expects($this->once())->method('readStream')->with($virtualFilesystemPath);
-        $this->assertInstanceOf('\SplFileInfo', $this->sut->fetch($filesystem, $virtualFilesystemPath, $localFilesystemPath));
-        if (!file_exists($localFilesystemPath['filePath'] . 'file.txt')) {
-            throw new FailedPredictionException('File file.txt" should have been created');
-        }
+        $filesystem->method('readStream')->with($virtualFilesystemPath)->willReturn(fopen('php://temp', 'r'));
+        $this->assertInstanceOf(\SplFileInfo::class, $this->sut->fetch($filesystem, $virtualFilesystemPath, $localFilesystemPath));
+        $this->assertFileExists($localFilesystemPath['filePath'] . 'file.txt');
     }
 
-    public function test_it_throws_an_exception_if_options_directory_or_filename_are_not_filled(): void
+    public function test_it_throws_an_exception_if_options_filePath_is_not_filled(): void
     {
         $filesystem = $this->createMock(FilesystemReader::class);
 
-        $this->expectException(\LogicException::class);
-
-
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Options "filePath" has to be filled');
         $this->sut->fetch($filesystem, 'path/to/file.txt');
-        $this->expectException(\LogicException::class);
+    }
 
+    public function test_it_throws_an_exception_if_options_filePath_is_empty(): void
+    {
+        $filesystem = $this->createMock(FilesystemReader::class);
+
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Options "filePath" has to be filled');
         $this->sut->fetch($filesystem, 'path/to/file.txt', [
                     'filePath' => '',
-                ]);
-        $this->expectException(\LogicException::class);
-
-        $this->expectExceptionMessage('Options "filePath" has to be filled');
-        $this->sut->fetch($filesystem, 'path/to/file.txt', [
-                    'filePath' => null,
                 ]);
     }
 
@@ -88,7 +88,6 @@ class OutputFileFetcherTest extends TestCase
 
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(false);
         $this->expectException(\LogicException::class);
-
         $this->expectExceptionMessage('The file "path/to/file.txt" is not present on the filesystem.');
         $this->sut->fetch($filesystem, 'path/to/file.txt', [
                     'filePath' => 'locale/path/filename.txt',
@@ -102,7 +101,6 @@ class OutputFileFetcherTest extends TestCase
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(true);
         $filesystem->method('readStream')->with('path/to/file.txt')->willThrowException(UnableToReadFile::fromLocation('path/to/file.txt', 'Directory is not readable'));
         $this->expectException(FileTransferException::class);
-
         $this->expectExceptionMessage('Unable to fetch the file "path/to/file.txt" from the filesystem.');
         $this->sut->fetch($filesystem, 'path/to/file.txt', [
                     'filePath' => 'locale/path/filename.txt',

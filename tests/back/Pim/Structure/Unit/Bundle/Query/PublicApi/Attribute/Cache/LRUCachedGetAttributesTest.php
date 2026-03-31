@@ -27,7 +27,9 @@ class LRUCachedGetAttributesTest extends TestCase
         $aText = new Attribute('a_text', AttributeTypes::TEXT, [], false, false, null, null, false, 'text', []);
         $aTextarea = new Attribute('a_textarea', AttributeTypes::TEXTAREA, [], false, false, null, null, false, 'textarea', []);
         $aBoolean = new Attribute('a_boolean', AttributeTypes::BOOLEAN, [], false, false, null, null, false, 'boolean', []);
-        $this->getAttributes->method('forCodes')->with(['a_text', 'a_textarea', 'a_boolean'])->willReturn(['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean]);
+        $this->getAttributes->method('forCodes')
+            ->with(['a_text', 'a_textarea', 'a_boolean'])
+            ->willReturn(['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean]);
         $this->assertSame(['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean], $this->sut->forCodes(['a_text', 'a_textarea', 'a_boolean']));
     }
 
@@ -36,11 +38,26 @@ class LRUCachedGetAttributesTest extends TestCase
         $aText = new Attribute('a_text', AttributeTypes::TEXT, [], false, false, null, null, false, 'text', []);
         $aTextarea = new Attribute('a_textarea', AttributeTypes::TEXTAREA, [], false, false, null, null, false, 'textarea', []);
         $aBoolean = new Attribute('a_boolean', AttributeTypes::BOOLEAN, [], false, false, null, null, false, 'boolean', []);
-        $this->getAttributes->method('forCodes')->with(['a_text', 'a_textarea', 'a_boolean', 'michel'])->willReturn(['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean, 'michel' => null]);
-        $this->getAttributes->method('forCodes')->with(['a_text', 'a_textarea', 'a_boolean', 'michel']);
-        $this->getAttributes->method('forCodes')->with([])->willReturn([]);
-        $this->assertSame(['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean, 'michel' => null], $this->sut->forCodes(['a_text', 'a_textarea', 'a_boolean', 'michel']));
-        $this->assertSame(['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean, 'michel' => null], $this->sut->forCodes(['a_text', 'a_textarea', 'a_boolean', 'michel']));
+
+        $this->getAttributes->method('forCodes')
+            ->willReturnCallback(function (array $codes) use ($aText, $aTextarea, $aBoolean) {
+                if ($codes === ['a_text', 'a_textarea', 'a_boolean', 'michel']) {
+                    return ['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean, 'michel' => null];
+                }
+                if ($codes === []) {
+                    return [];
+                }
+                return [];
+            });
+
+        $this->assertSame(
+            ['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean, 'michel' => null],
+            $this->sut->forCodes(['a_text', 'a_textarea', 'a_boolean', 'michel'])
+        );
+        $this->assertSame(
+            ['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean, 'michel' => null],
+            $this->sut->forCodes(['a_text', 'a_textarea', 'a_boolean', 'michel'])
+        );
     }
 
     public function test_it_mixes_the_call_between_the_cache_and_the_non_cached(): void
@@ -48,28 +65,47 @@ class LRUCachedGetAttributesTest extends TestCase
         $aText = new Attribute('a_text', AttributeTypes::TEXT, [], false, false, null, null, false, 'text', []);
         $aTextarea = new Attribute('a_textarea', AttributeTypes::TEXTAREA, [], false, false, null, null, false, 'textarea', []);
         $aBoolean = new Attribute('a_boolean', AttributeTypes::BOOLEAN, [], false, false, null, null, false, 'boolean', []);
-        $this->getAttributes->method('forCodes')->with(['a_text', 'a_textarea', 'a_boolean'])->willReturn(['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean]);
-        $this->getAttributes->method('forCodes')->with(['michel'])->willReturn(['michel' => null]);
-        $this->assertSame(['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean], $this->sut->forCodes(['a_text', 'a_textarea', 'a_boolean']));
-        $this->assertSame(['michel' => null, 'a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean], $this->sut->forCodes(['a_text', 'a_textarea', 'a_boolean', 'michel']));
+
+        $this->getAttributes->method('forCodes')
+            ->willReturnCallback(function (array $codes) use ($aText, $aTextarea, $aBoolean) {
+                if ($codes === ['a_text', 'a_textarea', 'a_boolean']) {
+                    return ['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean];
+                }
+                if ($codes === ['michel']) {
+                    return ['michel' => null];
+                }
+                return [];
+            });
+
+        $this->assertSame(
+            ['a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean],
+            $this->sut->forCodes(['a_text', 'a_textarea', 'a_boolean'])
+        );
+        $this->assertSame(
+            ['michel' => null, 'a_text' => $aText, 'a_textarea' => $aTextarea, 'a_boolean' => $aBoolean],
+            $this->sut->forCodes(['a_text', 'a_textarea', 'a_boolean', 'michel'])
+        );
     }
 
     public function test_it_can_get_more_than_the_cache_size(): void
     {
         $attributes = [];
         for ($i = 0; $i < 1500; $i++) {
-                    $attributeCode = "an_attribute_$i";
-                    $attributes[$attributeCode] = new Attribute($attributeCode, AttributeTypes::TEXT, [], false, false, null, null, false, 'text', []);
-                }
-        $this->getAttributes->method('forCodes')->with(array_keys($attributes))->willReturn(array_values($attributes));
+            $attributeCode = "an_attribute_$i";
+            $attributes[$attributeCode] = new Attribute($attributeCode, AttributeTypes::TEXT, [], false, false, null, null, false, 'text', []);
+        }
+        $this->getAttributes->method('forCodes')
+            ->with(array_keys($attributes))
+            ->willReturn(array_values($attributes));
         $this->assertSame(array_values($attributes), $this->sut->forCodes(array_keys($attributes)));
     }
 
     public function test_it_clears_the_cache(): void
     {
         $aText = new Attribute('a_text', AttributeTypes::TEXT, [], false, false, null, null, false, 'text', []);
-        $this->getAttributes->method('forCodes')->with(['a_text'])->willReturn(['a_text' => $aText]);
-        $this->getAttributes->expects($this->exactly(2))->method('forCodes')->with(['a_text']);
+        $this->getAttributes->expects($this->exactly(2))->method('forCodes')
+            ->with(['a_text'])
+            ->willReturn(['a_text' => $aText]);
         $this->assertSame(['a_text' => $aText], $this->sut->forCodes(['a_text']));
         $this->sut->clearCache();
         $this->assertSame(['a_text' => $aText], $this->sut->forCodes(['a_text']));

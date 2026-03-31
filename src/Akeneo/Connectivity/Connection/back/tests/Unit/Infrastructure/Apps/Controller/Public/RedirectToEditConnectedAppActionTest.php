@@ -40,7 +40,7 @@ class RedirectToEditConnectedAppActionTest extends TestCase
 
     public function test_it_is_a_redirect_to_connected_app_editing_action(): void
     {
-        $this->sut->beAnInstanceOf(RedirectToEditConnectedAppAction::class);
+        $this->assertInstanceOf(RedirectToEditConnectedAppAction::class, $this->sut);
     }
 
     public function test_it_throws_not_found_exception_when_connected_app_is_not_found(): void

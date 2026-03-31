@@ -34,7 +34,7 @@ class CachedQueriesClearerTest extends TestCase
     public function test_it_throws_an_exception_when_query_is_not_a_cached_query(): void
     {
         $cachedQuery1 = $this->createMock(CachedQueryInterface::class);
-        $LRUCache = $this->createMock(stdClass::class);
+        $LRUCache = $this->createMock(\stdClass::class);
 
         $this->expectException(\InvalidArgumentException::class);
         new CachedQueriesClearer([$cachedQuery1, $LRUCache]);

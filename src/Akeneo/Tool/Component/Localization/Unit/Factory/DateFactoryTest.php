@@ -19,7 +19,7 @@ class DateFactoryTest extends TestCase
 
     public function test_it_returns_intl_formatter(): void
     {
-        $this->sut->create([])->shouldReturnAnInstanceOf(\IntlDateFormatter::class);
+        $this->assertInstanceOf(\IntlDateFormatter::class, $this->sut->create([]));
     }
 
     public function test_it_creates_a_date_with_intl_format(): void
@@ -36,8 +36,6 @@ class DateFactoryTest extends TestCase
 
     public function test_it_replaces_2_digit_years_by_4_digit_when_the_format_is_not_specified(): void
     {
-        $formatter = $this->createMock(IntlDateFormatter::class);
-
         $options = ['locale' => 'en_AU'];
         $this->assertSame('d/M/yy', $this->sut->create($options, false)->getPattern());
         $this->assertSame('d/M/yyyy', $this->sut->create($options, true)->getPattern());

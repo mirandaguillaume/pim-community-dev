@@ -82,8 +82,6 @@ class ProductModelCreatedAndUpdatedEventDataBuilderTest extends TestCase
 
     public function test_it_builds_a_bulk_event_of_product_created_and_updated_event(): void
     {
-        $getConnectorProductModelsQuery = $this->createMock(GetConnectorProductModels::class);
-
         $context = new Context('ecommerce_0000', 10);
         $jeanEvent = new ProductModelCreated(Author::fromNameAndType('julia', Author::TYPE_UI), [
                     'code' => 'jean',
@@ -96,7 +94,7 @@ class ProductModelCreatedAndUpdatedEventDataBuilderTest extends TestCase
                     $this->buildConnectorProductModel(1, 'jean'),
                     $this->buildConnectorProductModel(2, 'shoes'),
                 ]);
-        $getConnectorProductModelsQuery->method('fromProductModelCodes')->with(['jean', 'shoes'], 10, null, null, null)->willReturn($productModelList);
+        $this->getConnectorProductModels->method('fromProductModelCodes')->with(['jean', 'shoes'], 10, null, null, null)->willReturn($productModelList);
         $expectedCollection = new EventDataCollection();
         $expectedCollection->setEventData($jeanEvent, [
                     'resource' => [
@@ -132,11 +130,9 @@ class ProductModelCreatedAndUpdatedEventDataBuilderTest extends TestCase
 
     public function test_it_builds_a_bulk_event_of_product_created_and_updated_event_if_a_product_as_been_removed(): void
     {
-        $getConnectorProductModelsQuery = $this->createMock(GetConnectorProductModels::class);
-
         $context = new Context('ecommerce_0000', 10);
         $productList = new ConnectorProductModelList(1, [$this->buildConnectorProductModel(1, 'jean')]);
-        $getConnectorProductModelsQuery->method('fromProductModelCodes')->with(['jean', 'shoes'], 10, null, null, null)->willReturn($productList);
+        $this->getConnectorProductModels->method('fromProductModelCodes')->with(['jean', 'shoes'], 10, null, null, null)->willReturn($productList);
         $jeanEvent = new ProductModelCreated(Author::fromNameAndType('julia', Author::TYPE_UI), [
                     'code' => 'jean',
                 ]);

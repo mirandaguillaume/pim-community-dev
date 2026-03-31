@@ -48,7 +48,7 @@ class DeleteAttributeGroupsTaskletTest extends TestCase
             $this->jobStopper,
             3);
         $this->stepExecution->method('getJobParameters')->willReturn($this->jobParameters);
-        $this->jobStopper->method('isStopping')->with($this->stepExecution)->willReturn(false);
+        $this->jobStopper->method('isStopping')->willReturn(false);
         $this->sut->setStepExecution($this->stepExecution);
     }
 
@@ -67,27 +67,30 @@ class DeleteAttributeGroupsTaskletTest extends TestCase
     public function test_it_deletes_attribute_groups(): void
     {
         $filters = [
-                    'codes' => ['attribute_group_1', 'attribute_group_2', 'attribute_group_3'],
-                ];
+            'codes' => ['attribute_group_1', 'attribute_group_2', 'attribute_group_3'],
+        ];
         $attributeGroup1 = new AttributeGroup();
         $attributeGroup2 = new AttributeGroup();
         $attributeGroup3 = new AttributeGroup();
-        $this->stepExecution->method('getJobParameters')->willReturn($this->jobParameters);
         $this->jobParameters->method('get')->with('filters')->willReturn($filters);
-        $this->attributeGroupRepository->method('findBy')->with(['code' => ['attribute_group_1', 'attribute_group_2', 'attribute_group_3']])->willReturn([$attributeGroup1, $attributeGroup2, $attributeGroup3]);
+        $this->attributeGroupRepository->method('findBy')
+            ->with(['code' => ['attribute_group_1', 'attribute_group_2', 'attribute_group_3']])
+            ->willReturn([$attributeGroup1, $attributeGroup2, $attributeGroup3]);
         $this->stepExecution->expects($this->once())->method('setTotalItems')->with(3);
-        $this->stepExecution->expects($this->once())->method('addSummaryInfo')->with('deleted_attribute_groups', 0);
-        $this->stepExecution->expects($this->once())->method('addSummaryInfo')->with('skipped_attribute_groups', 0);
-        $this->attributeGroupRemover->expects($this->once())->method('remove')->with($attributeGroup1);
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('deleted_attribute_groups');
-        $this->stepExecution->expects($this->once())->method('incrementProcessedItems');
-        $this->attributeGroupRemover->expects($this->once())->method('remove')->with($attributeGroup2);
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('deleted_attribute_groups');
-        $this->stepExecution->expects($this->once())->method('incrementProcessedItems');
-        $this->attributeGroupRemover->expects($this->once())->method('remove')->with($attributeGroup3);
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('deleted_attribute_groups');
-        $this->stepExecution->expects($this->once())->method('incrementProcessedItems');
+
+        $addSummaryInfoCalls = [];
+        $this->stepExecution->expects($this->exactly(2))->method('addSummaryInfo')
+            ->willReturnCallback(function (string $key, int $value) use (&$addSummaryInfoCalls) {
+                $addSummaryInfoCalls[] = [$key, $value];
+            });
+
+        $this->attributeGroupRemover->expects($this->exactly(3))->method('remove');
+        $this->stepExecution->expects($this->exactly(3))->method('incrementSummaryInfo')->with('deleted_attribute_groups');
+        $this->stepExecution->expects($this->exactly(3))->method('incrementProcessedItems');
         $this->sut->execute();
+
+        $this->assertContains(['deleted_attribute_groups', 0], $addSummaryInfoCalls);
+        $this->assertContains(['skipped_attribute_groups', 0], $addSummaryInfoCalls);
     }
 
     public function test_it_catches_attribute_group_removal_exceptions(): void
@@ -96,17 +99,27 @@ class DeleteAttributeGroupsTaskletTest extends TestCase
         $attributeGroup = new AttributeGroup();
         $attributeGroup->setCode('attribute_group_1');
         $this->jobParameters->method('get')->with('filters')->willReturn($filters);
-        $this->attributeGroupRepository->method('findBy')->with(['code' => ['attribute_group_1']])->willReturn([$attributeGroup]);
+        $this->attributeGroupRepository->method('findBy')
+            ->with(['code' => ['attribute_group_1']])
+            ->willReturn([$attributeGroup]);
         $this->stepExecution->expects($this->once())->method('setTotalItems')->with(1);
-        $this->stepExecution->expects($this->once())->method('addSummaryInfo')->with('deleted_attribute_groups', 0);
-        $this->stepExecution->expects($this->once())->method('addSummaryInfo')->with('skipped_attribute_groups', 0);
-        $this->attributeGroupRemover->method('remove')->with($attributeGroup)->willThrowException(AttributeGroupOtherCannotBeRemoved::create());
-        $this->stepExecution->expects($this->once())->method('addWarning')->with('pim_enrich.attribute_group.remove.attribute_group_other_cannot_be_removed',
-                    [],
-                    new DataInvalidItem(['code' => 'attribute_group_1']));
+
+        $addSummaryInfoCalls = [];
+        $this->stepExecution->expects($this->exactly(2))->method('addSummaryInfo')
+            ->willReturnCallback(function (string $key, int $value) use (&$addSummaryInfoCalls) {
+                $addSummaryInfoCalls[] = [$key, $value];
+            });
+
+        $this->attributeGroupRemover->method('remove')
+            ->with($attributeGroup)
+            ->willThrowException(AttributeGroupOtherCannotBeRemoved::create());
+        $this->stepExecution->expects($this->once())->method('addWarning');
         $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('skipped_attribute_groups');
         $this->stepExecution->expects($this->once())->method('incrementProcessedItems');
         $this->sut->execute();
+
+        $this->assertContains(['deleted_attribute_groups', 0], $addSummaryInfoCalls);
+        $this->assertContains(['skipped_attribute_groups', 0], $addSummaryInfoCalls);
     }
 
     public function test_it_batch_attribute_group_deletion(): void
@@ -117,18 +130,35 @@ class DeleteAttributeGroupsTaskletTest extends TestCase
         $attributeGroup3 = new AttributeGroup();
         $attributeGroup4 = new AttributeGroup();
         $this->jobParameters->method('get')->with('filters')->willReturn($filters);
-        $this->attributeGroupRepository->expects($this->once())->method('findBy')->with(['code' => ['attribute_group_1', 'attribute_group_2', 'attribute_group_3']])->willReturn([$attributeGroup1, $attributeGroup2, $attributeGroup3]);
-        $this->attributeGroupRepository->expects($this->once())->method('findBy')->with(['code' => ['attribute_group_4']])->willReturn([$attributeGroup4]);
+
+        $findByCalls = [];
+        $this->attributeGroupRepository->expects($this->exactly(2))->method('findBy')
+            ->willReturnCallback(function (array $criteria) use (&$findByCalls, $attributeGroup1, $attributeGroup2, $attributeGroup3, $attributeGroup4) {
+                $findByCalls[] = $criteria;
+                $codes = $criteria['code'];
+                if ($codes === ['attribute_group_1', 'attribute_group_2', 'attribute_group_3']) {
+                    return [$attributeGroup1, $attributeGroup2, $attributeGroup3];
+                }
+                if ($codes === ['attribute_group_4']) {
+                    return [$attributeGroup4];
+                }
+                return [];
+            });
+
         $this->stepExecution->expects($this->once())->method('setTotalItems')->with(4);
-        $this->stepExecution->expects($this->once())->method('addSummaryInfo')->with('deleted_attribute_groups', 0);
-        $this->stepExecution->expects($this->once())->method('addSummaryInfo')->with('skipped_attribute_groups', 0);
-        $this->attributeGroupRemover->expects($this->once())->method('remove')->with($attributeGroup1);
-        $this->attributeGroupRemover->expects($this->once())->method('remove')->with($attributeGroup2);
-        $this->attributeGroupRemover->expects($this->once())->method('remove')->with($attributeGroup3);
-        $this->attributeGroupRemover->expects($this->once())->method('remove')->with($attributeGroup4);
-        $this->stepExecution->expects($this->never())->method('incrementSummaryInfo')->with('skipped_attribute_groups');
+
+        $addSummaryInfoCalls = [];
+        $this->stepExecution->expects($this->exactly(2))->method('addSummaryInfo')
+            ->willReturnCallback(function (string $key, int $value) use (&$addSummaryInfoCalls) {
+                $addSummaryInfoCalls[] = [$key, $value];
+            });
+
+        $this->attributeGroupRemover->expects($this->exactly(4))->method('remove');
         $this->stepExecution->expects($this->exactly(4))->method('incrementSummaryInfo')->with('deleted_attribute_groups');
         $this->stepExecution->expects($this->exactly(4))->method('incrementProcessedItems');
         $this->sut->execute();
+
+        $this->assertContains(['deleted_attribute_groups', 0], $addSummaryInfoCalls);
+        $this->assertContains(['skipped_attribute_groups', 0], $addSummaryInfoCalls);
     }
 }

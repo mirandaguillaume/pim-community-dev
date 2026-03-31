@@ -30,8 +30,10 @@ class AuthorPropertyTest extends TestCase
         $record = $this->createMock(ResultRecordInterface::class);
         $user = $this->createMock(User::class);
 
-        $record->method('getValue')->with('author')->willReturn('julia');
-        $record->method('getValue')->with('context')->willReturn(null);
+        $record->method('getValue')->willReturnMap([
+            ['author', 'julia'],
+            ['context', null],
+        ]);
         $this->userManager->expects($this->once())->method('findUserByUsername')->with($this->anything())->willReturn($user);
         $user->method('getFirstName')->willReturn('Julia');
         $user->method('getLastName')->willReturn('Doe');
@@ -43,8 +45,10 @@ class AuthorPropertyTest extends TestCase
     {
         $record = $this->createMock(ResultRecordInterface::class);
 
-        $record->method('getValue')->with('author')->willReturn('julia');
-        $record->method('getValue')->with('context')->willReturn(null);
+        $record->method('getValue')->willReturnMap([
+            ['author', 'julia'],
+            ['context', null],
+        ]);
         $this->userManager->expects($this->once())->method('findUserByUsername')->with($this->anything())->willReturn(null);
         $this->translator->method('trans')->with('pim_user.user.removed_user')->willReturn('Removed user');
         $this->assertSame(' - Removed user', $this->sut->getValue($record));
@@ -55,8 +59,10 @@ class AuthorPropertyTest extends TestCase
         $record = $this->createMock(ResultRecordInterface::class);
         $user = $this->createMock(User::class);
 
-        $record->method('getValue')->with('author')->willReturn('julia');
-        $record->method('getValue')->with('context')->willReturn('my context');
+        $record->method('getValue')->willReturnMap([
+            ['author', 'julia'],
+            ['context', 'my context'],
+        ]);
         $this->userManager->expects($this->once())->method('findUserByUsername')->with($this->anything())->willReturn($user);
         $user->method('getFirstName')->willReturn('Julia');
         $user->method('getLastName')->willReturn('Doe');

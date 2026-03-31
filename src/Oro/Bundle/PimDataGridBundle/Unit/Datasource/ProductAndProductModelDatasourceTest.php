@@ -113,12 +113,7 @@ class ProductAndProductModelDatasourceTest extends TestCase
             'fr_FR'
         ))->willReturn(new Rows([$row], 1, 1, 0));
         $this->sut->process($datagrid, $config);
-        $this->rowNormalizer->method('normalize')->with($row, 'datagrid', [
-                    'locales'       => ['fr_FR'],
-                    'channels'      => ['ecommerce'],
-                    'data_locale'   => 'fr_FR',
-                    'data_channel' => 'ecommerce',
-                ])->willReturn([
+        $this->rowNormalizer->method('normalize')->willReturn([
                     'identifier'   => 'identifier',
                     'family'       => 'family label',
                     'groups'       => 'group_1,group_2',
@@ -137,16 +132,16 @@ class ProductAndProductModelDatasourceTest extends TestCase
                     'complete_variant_product' => [],
                     'parent' => 'parent_code',
                 ]);
-        $results = $this->getResults();
-        $results->shouldBeArray();
-        $results->shouldHaveCount(4);
-        $results->shouldHaveKey('data');
-        $results->shouldHaveKeyWithValue('totalRecords', 1);
-        $results->shouldHaveKeyWithValue('totalProducts', 1);
-        $results->shouldHaveKeyWithValue('totalProductModels', 0);
-        $results['data']->shouldBeArray();
-        $results['data']->shouldHaveCount(1);
-        $results['data']->shouldBeAnArrayOfInstanceOf(ResultRecord::class);
+        $results = $this->sut->getResults();
+        $this->assertIsArray($results);
+        $this->assertCount(4, $results);
+        $this->assertArrayHasKey('data', $results);
+        $this->assertSame(1, $results['totalRecords']);
+        $this->assertSame(1, $results['totalProducts']);
+        $this->assertSame(0, $results['totalProductModels']);
+        $this->assertIsArray($results['data']);
+        $this->assertCount(1, $results['data']);
+        $this->assertInstanceOf(ResultRecord::class, $results['data'][0]);
     }
 
     public function test_it_does_not_fetch_rows_when_query_parameters_are_invalid(): void
@@ -189,13 +184,7 @@ class ProductAndProductModelDatasourceTest extends TestCase
         $violations = new ConstraintViolationList([$constraint]);
         $constraint->method('__toString')->willReturn('error');
         $this->validator->method('validate')->with($this->isInstanceOf(Query\FetchProductAndProductModelRowsParameters::class))->willReturn($violations);
-        $this->sut->shouldThrow(
-            \LogicException::class
-        )->during(
-            'getResults',
-            []
-        );
+        $this->expectException(\LogicException::class);
+        $this->sut->getResults();
     }
-
-    // TODO: Custom matchers from getMatchers() need manual conversion
 }

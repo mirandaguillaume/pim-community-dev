@@ -30,7 +30,7 @@ class TimestampableSubscriberTest extends TestCase
     public function test_it_does_not_apply_on_non_version_object(): void
     {
         $args = $this->createMock(LifecycleEventArgs::class);
-        $object = $this->createMock(stdClass::class);
+        $object = $this->createMock(\stdClass::class);
 
         $args->method('getObject')->willReturn($object);
         $args->expects($this->never())->method('getObjectManager');

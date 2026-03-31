@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Pim\Unit\Structure\Bundle\Infrastructure\Job\AttributeGroup;
 
-use Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Saver\AttributeSaver;
 use Akeneo\Pim\Structure\Bundle\Infrastructure\Job\AttributeGroup\MoveChildAttributesTasklet;
 use Akeneo\Pim\Structure\Component\Exception\UserFacingError;
 use Akeneo\Pim\Structure\Component\Model\Attribute;
@@ -52,7 +51,7 @@ class MoveChildAttributesTaskletTest extends TestCase
             $this->jobStopper,
             3);
         $this->stepExecution->method('getJobParameters')->willReturn($this->jobParameters);
-        $this->jobStopper->method('isStopping')->with($this->stepExecution)->willReturn(false);
+        $this->jobStopper->method('isStopping')->willReturn(false);
         $this->sut->setStepExecution($this->stepExecution);
     }
 
@@ -71,36 +70,57 @@ class MoveChildAttributesTaskletTest extends TestCase
     public function test_it_move_attributes(): void
     {
         $filters = [
-                    'codes' => ['attribute_group_1', 'attribute_group_2'],
-                ];
+            'codes' => ['attribute_group_1', 'attribute_group_2'],
+        ];
         $replacementAttributeGroupCode = 'attribute_group_3';
-        $this->stepExecution->method('getJobParameters')->willReturn($this->jobParameters);
-        $this->jobParameters->method('get')->with('filters')->willReturn($filters);
-        $this->jobParameters->method('get')->with('replacement_attribute_group_code')->willReturn($replacementAttributeGroupCode);
+
+        $this->jobParameters->method('get')
+            ->willReturnCallback(function (string $key) use ($filters, $replacementAttributeGroupCode) {
+                return match ($key) {
+                    'filters' => $filters,
+                    'replacement_attribute_group_code' => $replacementAttributeGroupCode,
+                };
+            });
+
         $attribute1 = new Attribute();
         $attribute1->setCode('attribute_1');
         $attribute2 = new Attribute();
         $attribute2->setCode('attribute_2');
         $attribute3 = new Attribute();
         $attribute3->setCode('attribute_3');
-        $this->attributeRepository->method('getAttributesByGroups')->with(['attribute_group_1', 'attribute_group_2'], 3, null)->willReturn([$attribute1, $attribute2, $attribute3]);
-        $this->attributeRepository->method('getAttributesByGroups')->with(['attribute_group_1', 'attribute_group_2'], 3, 'attribute_3')->willReturn(null);
+
+        $getAttributesCalls = 0;
+        $this->attributeRepository->method('getAttributesByGroups')
+            ->willReturnCallback(function () use (&$getAttributesCalls, $attribute1, $attribute2, $attribute3) {
+                $getAttributesCalls++;
+                if ($getAttributesCalls === 1) {
+                    return [$attribute1, $attribute2, $attribute3];
+                }
+                return [];
+            });
+
         $this->stepExecution->expects($this->once())->method('addSummaryInfo')->with('moved_attributes', 0);
+
+        $isFirstCall = true;
+        $this->attributeUpdater->expects($this->exactly(3))->method('update')
+            ->willReturnCallback(function ($attribute, $data) use (&$isFirstCall) {
+                $this->assertSame(['group' => 'attribute_group_3'], $data);
+                if ($isFirstCall) {
+                    $isFirstCall = false;
+                    throw new class ('an_error', []) extends UserFacingError {
+                        public function __construct(private readonly string $key, private readonly array $params) {
+                            parent::__construct($key);
+                        }
+                        public function translationKey(): string { return $this->key; }
+                        public function translationParameters(): array { return $this->params; }
+                    };
+                }
+            });
+
         $this->stepExecution->expects($this->exactly(3))->method('incrementProcessedItems');
         $this->stepExecution->expects($this->exactly(2))->method('incrementSummaryInfo')->with('moved_attributes');
-        $this->stepExecution->expects($this->once())->method('addWarning')->with('an_error', [], $this->isInstanceOf(DataInvalidItem::class));
-        $isFirstCall = true;
-        // TODO: manual conversion needed — complex .will() callback
-        // $attributeUpdater
-        //             ->update(Argument::type(Attribute::class), ['group' => 'attribute_group_3'])
-        //             ->will(function () use (&$isFirstCall) {
-        //                 if ($isFirstCall) {
-        //                     $isFirstCall = false;
-        //                     throw new UserFacingError('an_error', []);
-        //                 }
-        //             })
-        //             ->shouldBeCalledTimes(3);
-        $this->attributeSaver->expects($this->once())->method('saveAll')->with($this->isType('array'));
+        $this->stepExecution->expects($this->once())->method('addWarning');
+        $this->attributeSaver->expects($this->once())->method('saveAll');
         $this->sut->execute();
     }
 }

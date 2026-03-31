@@ -8,25 +8,29 @@ use Akeneo\Pim\Enrichment\Component\Product\Localization\Presenter\PresenterRegi
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
 use Akeneo\Pim\Enrichment\Component\Product\Value\ScalarValue;
-use Akeneo\Pim\Structure\Component\Model\Attribute;
 use Akeneo\Tool\Component\Localization\Presenter\PresenterInterface;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\PimDataGridBundle\Normalizer\Product\ProductValuesNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface as SymfonyNormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+
+interface TestSerializerNormalizerInterface extends SerializerInterface, SymfonyNormalizerInterface
+{
+}
 
 class ProductValuesNormalizerTest extends TestCase
 {
-    private SerializerInterface|MockObject $serializer;
+    private TestSerializerNormalizerInterface|MockObject $serializer;
     private PresenterRegistryInterface|MockObject $presenterRegistry;
     private UserContext|MockObject $userContext;
     private ProductValuesNormalizer $sut;
 
     protected function setUp(): void
     {
-        $this->serializer = $this->createMock(SerializerInterface::class);
+        $this->serializer = $this->createMock(TestSerializerNormalizerInterface::class);
         $this->presenterRegistry = $this->createMock(PresenterRegistryInterface::class);
         $this->userContext = $this->createMock(UserContext::class);
         $this->sut = new ProductValuesNormalizer($this->presenterRegistry, $this->userContext);
@@ -46,10 +50,7 @@ class ProductValuesNormalizerTest extends TestCase
 
     public function test_it_supports_datagrid_format_and_collection_values(): void
     {
-        $attribute = new Attribute();
-        $attribute->setCode('attribute');
-        $attribute->setBackendType('text');
-        $realValue = ScalarValue::value($attribute, null);
+        $realValue = ScalarValue::value('attribute', null);
         $valuesCollection = new WriteValueCollection([$realValue]);
         $valuesArray = [$realValue];
         $emptyValuesCollection = new WriteValueCollection();
@@ -70,25 +71,34 @@ class ProductValuesNormalizerTest extends TestCase
         $textValue = $this->createMock(ValueInterface::class);
         $priceValue = $this->createMock(ValueInterface::class);
         $values = $this->createMock(WriteValueCollection::class);
-        $valuesIterator = $this->createMock(ArrayIterator::class);
+        $valuesIterator = $this->createMock(\ArrayIterator::class);
         $pricePresenter = $this->createMock(PresenterInterface::class);
 
         $values->method('getIterator')->willReturn($valuesIterator);
         $valuesIterator->expects($this->once())->method('rewind');
         $valuesIterator->method('valid')->willReturn(true, true, false);
         $valuesIterator->method('current')->willReturn($textValue, $priceValue);
-        $valuesIterator->expects($this->once())->method('next');
+        $valuesIterator->expects($this->exactly(2))->method('next');
         $textValue->method('getAttributeCode')->willReturn('text');
         $priceValue->method('getAttributeCode')->willReturn('price');
-        $this->serializer->expects($this->once())->method('normalize')->with($textValue, 'datagrid', [])->willReturn(['locale' => null, 'scope' => null, 'data' => 'foo']);
         $prices = [
                     ['amount' => '12.50', 'currency' => 'USD'],
                     ['amount' => '15.00', 'currency' => 'EUR'],
                 ];
-        $this->serializer->expects($this->once())->method('normalize')->with($priceValue, 'datagrid', [])->willReturn(['locale' => 'en_US', 'scope' => 'ecommerce', 'data' => $prices]);
+        $this->serializer->method('normalize')->willReturnCallback(function ($object) use ($textValue, $priceValue, $prices) {
+            if ($object === $textValue) {
+                return ['locale' => null, 'scope' => null, 'data' => 'foo'];
+            }
+            if ($object === $priceValue) {
+                return ['locale' => 'en_US', 'scope' => 'ecommerce', 'data' => $prices];
+            }
+            return null;
+        });
         $this->userContext->method('getUiLocaleCode')->willReturn('en_US');
-        $this->presenterRegistry->method('getPresenterByAttributeCode')->with('text')->willReturn(null);
-        $this->presenterRegistry->method('getPresenterByAttributeCode')->with('price')->willReturn($pricePresenter);
+        $this->presenterRegistry->method('getPresenterByAttributeCode')->willReturnMap([
+            ['text', null],
+            ['price', $pricePresenter],
+        ]);
         $pricePresenter->method('present')->with($prices, ['locale' => 'en_US', 'attribute' => 'price'])->willReturn('$15.00, $12.50');
         $this->assertSame([
                             'text' => [

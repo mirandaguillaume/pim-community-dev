@@ -46,14 +46,14 @@ class DatagridViewUpdaterTest extends TestCase
         $datagridView = $this->createMock(DatagridView::class);
         $user = $this->createMock(UserInterface::class);
 
-        $this->userRepository->method('findOneByIdentifier')->with('julia');
+        $this->userRepository->method('findOneByIdentifier')->with('julia')->willReturn($user);
         $datagridView->expects($this->once())->method('setLabel')->with('My view');
         $datagridView->expects($this->once())->method('setOwner')->with($user);
         $datagridView->expects($this->once())->method('setType')->with(DatagridView::TYPE_PUBLIC);
         $datagridView->expects($this->once())->method('setDatagridAlias')->with('product-grid');
         $datagridView->expects($this->once())->method('setColumns')->with(['name', 'price']);
         $datagridView->expects($this->once())->method('setFilters')->with('my filter as string');
-        $this->assertSame($this, $this->sut->update($datagridView, [
+        $this->assertSame($this->sut, $this->sut->update($datagridView, [
                     'owner' => 'julia',
                     'type' => DatagridView::TYPE_PUBLIC,
                     'datagrid_alias' => 'product-grid',

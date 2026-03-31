@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 class GetAConnectionWebhookHandlerTest extends TestCase
 {
+    private const ACTIVE_EVENT_SUBSCRIPTIONS_LIMIT = 3;
+
     private GetAConnectionWebhookQueryInterface|MockObject $getAConnectionWebhookQuery;
     private CountActiveEventSubscriptionsQueryInterface|MockObject $countActiveEventSubscriptionsQuery;
     private GetAConnectionWebhookHandler $sut;

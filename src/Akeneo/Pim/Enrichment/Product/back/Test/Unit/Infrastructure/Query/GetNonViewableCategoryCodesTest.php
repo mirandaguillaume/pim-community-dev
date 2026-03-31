@@ -41,10 +41,10 @@ class GetNonViewableCategoryCodesTest extends TestCase
                         $productUuid2->toString() => ['categoryA', 'categoryD', 'categoryE'],
                     ]);
         $this->getViewableCategories->method('forUserId')->with(['categoryA', 'categoryB', 'categoryC', 'categoryD', 'categoryE'], 10)->willReturn(['categoryA', 'categoryB', 'categoryC', 'categoryD']);
-        $this->sut->fromProductUuids([$productUuid1, $productUuid2, $productUuid3], 10)
-                    ->shouldreturn([
-                        $productUuid1->toString() => [],
-                        $productUuid2->toString() => ['categoryE'],
-                    ]);
+        $result = $this->sut->fromProductUuids([$productUuid1, $productUuid2, $productUuid3], 10);
+        $this->assertSame([
+            $productUuid1->toString() => [],
+            $productUuid2->toString() => ['categoryE'],
+        ], $result);
     }
 }

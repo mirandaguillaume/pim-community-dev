@@ -207,11 +207,11 @@ class AssociationUserIntentCollectionApplierTest extends TestCase
                     new ReplaceAssociatedProducts('X_SELL', ['quux', 'quuz', 'corge']),
                 ]);
         // product is updated with new values and non viewable product identifiers
-        $this->productUpdater->update($product, ['associations' => [
+        $this->productUpdater->expects($this->once())->method('update')->with($product, ['associations' => [
             'X_SELL' => [
                 'products' => ['non_viewable_product', 'quux', 'quuz', 'corge'],
             ],
-        ]])->shouldBeCalledOnce();
+        ]]);
         $this->getViewableProducts->expects($this->once())->method('fromProductIdentifiers')->with(['baz', 'non_viewable_product'], 42)->willReturn(['baz']);
         $this->sut->apply($collection, $product, 42);
     }
@@ -231,11 +231,11 @@ class AssociationUserIntentCollectionApplierTest extends TestCase
                     new ReplaceAssociatedProductUuids('X_SELL', [$newAssociatedProductUuid1, $newAssociatedProductUuid2, $newAssociatedProductUuid3]),
                 ]);
         // product is updated with new values and non viewable product identifiers
-        $this->productUpdater->update($product, ['associations' => [
+        $this->productUpdater->expects($this->once())->method('update')->with($product, ['associations' => [
             'X_SELL' => [
                 'product_uuids' => [$nonViewableProduct->getUuid()->toString(), $newAssociatedProductUuid1, $newAssociatedProductUuid2, $newAssociatedProductUuid3],
             ],
-        ]])->shouldBeCalledOnce();
+        ]]);
         $uuids = [$viewableProduct->getUuid()->toString(), $nonViewableProduct->getUuid()->toString()];
         \sort($uuids);
         $uuids = array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $uuids);

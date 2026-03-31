@@ -90,7 +90,7 @@ class AuthorizeActionTest extends TestCase
 
     public function test_it_is_an_authorize_action(): void
     {
-        $this->sut->beAnInstanceOf(AuthorizeAction::class);
+        $this->assertInstanceOf(AuthorizeAction::class, $this->sut);
     }
 
     public function test_it_throws_not_found_exception_with_feature_flag_disabled(): void
@@ -157,7 +157,7 @@ class AuthorizeActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $clientId = 'valid_client_id';
-        $this->sut->setUpBeforeScopes(
+        $this->setUpBeforeScopes(
             $clientId,
             $this->marketplaceActivateFeatureFlag,
             $this->router,
@@ -197,7 +197,7 @@ class AuthorizeActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $clientId = 'valid_client_id';
-        $this->sut->setUpBeforeScopes(
+        $this->setUpBeforeScopes(
             $clientId,
             $this->marketplaceActivateFeatureFlag,
             $this->router,

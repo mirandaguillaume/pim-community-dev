@@ -4,14 +4,23 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter\ProductValue;
 
-use Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\AttributeOptionRepository;
-use Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\AttributeRepository;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
+use Akeneo\Pim\Structure\Component\Repository\AttributeOptionRepositoryInterface;
+use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Doctrine\Common\Collections\Collection;
 use Oro\Bundle\FilterBundle\Datasource\FilterDatasourceAdapterInterface;
-use Oro\Bundle\FilterBundle\Filter\ChoiceFilter;
+use Oro\Bundle\FilterBundle\Filter\ChoiceFilter as OroChoiceFilter;
 use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
+use Oro\Bundle\PimFilterBundle\Filter\ProductValue\ChoiceFilter;
+
+/**
+ * Testable interface that adds the Doctrine magic method findOneByCode.
+ */
+interface TestableAttributeRepositoryInterface extends AttributeRepositoryInterface
+{
+    public function findOneByCode(string $code): ?object;
+}
 use Oro\Bundle\PimFilterBundle\Form\Type\Filter\AjaxChoiceFilterType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -23,8 +32,8 @@ class ChoiceFilterTest extends TestCase
     private FormFactoryInterface|MockObject $factory;
     private ProductFilterUtility|MockObject $utility;
     private UserContext|MockObject $userContext;
-    private CustomAttributeRepository|MockObject $attributeRepository;
-    private CustomAttributeOptionRepository|MockObject $attributeOptionRepository;
+    private AttributeRepositoryInterface|MockObject $attributeRepository;
+    private AttributeOptionRepositoryInterface|MockObject $attributeOptionRepository;
     private ChoiceFilter $sut;
 
     protected function setUp(): void
@@ -32,8 +41,8 @@ class ChoiceFilterTest extends TestCase
         $this->factory = $this->createMock(FormFactoryInterface::class);
         $this->utility = $this->createMock(ProductFilterUtility::class);
         $this->userContext = $this->createMock(UserContext::class);
-        $this->attributeRepository = $this->createMock(CustomAttributeRepository::class);
-        $this->attributeOptionRepository = $this->createMock(CustomAttributeOptionRepository::class);
+        $this->attributeRepository = $this->createMock(TestableAttributeRepositoryInterface::class);
+        $this->attributeOptionRepository = $this->createMock(AttributeOptionRepositoryInterface::class);
         $this->sut = new ChoiceFilter($this->factory, $this->utility, $this->userContext, $this->attributeRepository, $this->attributeOptionRepository);
         $this->sut->init(
             'foo',
@@ -45,7 +54,7 @@ class ChoiceFilterTest extends TestCase
 
     public function test_it_is_an_oro_choice_filter(): void
     {
-        $this->assertInstanceOf(ChoiceFilter::class, $this->sut);
+        $this->assertInstanceOf(OroChoiceFilter::class, $this->sut);
     }
 
     public function test_it_initializes_filter_with_name(): void

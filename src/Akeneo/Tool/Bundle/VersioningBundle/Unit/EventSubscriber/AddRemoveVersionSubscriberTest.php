@@ -59,7 +59,7 @@ class AddRemoveVersionSubscriberTest extends TestCase
         $this->versionRepository->method('getNewestLogEntry')->with($this->anything(), 12, null)->willReturn($previousVersion);
         $previousVersion->method('getVersion')->willReturn(11);
         $previousVersion->method('getSnapshot')->willReturn(['foo' => 'bar']);
-        $this->versionFactory->method('create')->with(/* TODO: convert Argument matcher */ Argument::Any(), 12, null, 'admin', 'Deleted')->willReturn($removeVersion);
+        $this->versionFactory->method('create')->with($this->anything(), 12, null, 'admin', 'Deleted')->willReturn($removeVersion);
         $removeVersion->method('setVersion')->with(12)->willReturn($removeVersion);
         $removeVersion->method('setSnapshot')->with(['foo' => 'bar'])->willReturn($removeVersion);
         $removeVersion->method('setChangeset')->with([])->willReturn($removeVersion);

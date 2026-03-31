@@ -27,7 +27,7 @@ class FosRegenerateClientSecretTest extends TestCase
     protected function setUp(): void
     {
         $this->clientManager = $this->createMock(ClientManagerInterface::class);
-        $this->dbalConnection = $this->createMock(Connection::class);
+        $this->dbalConnection = $this->createMock(DbalConnection::class);
         $this->sut = new FosRegenerateClientSecret($this->clientManager, $this->dbalConnection);
     }
 

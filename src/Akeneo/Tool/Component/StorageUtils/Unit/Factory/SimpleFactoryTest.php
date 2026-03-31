@@ -9,6 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 class SimpleFactoryTest extends TestCase
 {
+    private const MY_CLASS = \stdClass::class;
+
     private SimpleFactory $sut;
 
     protected function setUp(): void
@@ -18,6 +20,6 @@ class SimpleFactoryTest extends TestCase
 
     public function test_it_creates_an_object(): void
     {
-        $this->sut->create()->shouldReturnAnInstanceOf(self::MY_CLASS);
+        $this->assertInstanceOf(self::MY_CLASS, $this->sut->create());
     }
 }

@@ -35,17 +35,19 @@ class EditMassActionHandlerTest extends TestCase
         $massAction = $this->createMock(EditMassAction::class);
 
         $objectIds = ['foo', 'bar', 'baz'];
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with(
-            $this->isInstanceOf(MassActionEvent::class),
-            MassActionEvents::MASS_EDIT_PRE_HANDLER
-        );
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with(
-            $this->isInstanceOf(MassActionEvent::class),
-            MassActionEvents::MASS_EDIT_POST_HANDLER
+        $dispatched = [];
+        $this->eventDispatcher->expects($this->exactly(2))->method('dispatch')->willReturnCallback(
+            function ($event, $eventName) use (&$dispatched) {
+                $dispatched[] = $eventName;
+                return $event;
+            }
         );
         $datagrid->method('getDatasource')->willReturn($datasource);
         $datasource->expects($this->once())->method('setHydrator')->with($this->hydrator);
         $datasource->method('getResults')->willReturn($objectIds);
-        $this->assertSame($objectIds, $this->sut->handle($datagrid, $massAction));
+        $result = $this->sut->handle($datagrid, $massAction);
+        $this->assertSame($objectIds, $result);
+        $this->assertSame(MassActionEvents::MASS_EDIT_PRE_HANDLER, $dispatched[0]);
+        $this->assertSame(MassActionEvents::MASS_EDIT_POST_HANDLER, $dispatched[1]);
     }
 }

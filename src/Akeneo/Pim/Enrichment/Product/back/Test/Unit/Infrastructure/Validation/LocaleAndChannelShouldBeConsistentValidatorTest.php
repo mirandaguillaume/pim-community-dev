@@ -30,13 +30,12 @@ class LocaleAndChannelShouldBeConsistentValidatorTest extends TestCase
         $this->channelExistsWithLocale = $this->createMock(ChannelExistsWithLocaleInterface::class);
         $this->context = $this->createMock(ExecutionContextInterface::class);
         $this->sut = new LocaleAndChannelShouldBeConsistentValidator($this->getAttributes, $this->channelExistsWithLocale);
-        $this->channelExistsWithLocale->method('doesChannelExist')->with('ecommerce')->willReturn(true);
-        $this->channelExistsWithLocale->method('doesChannelExist')->with('mobile')->willReturn(false);
-        $this->channelExistsWithLocale->method('isLocaleActive')->with('en_US')->willReturn(true);
-        $this->channelExistsWithLocale->method('isLocaleActive')->with('fr_FR')->willReturn(true);
-        $this->channelExistsWithLocale->method('isLocaleActive')->with('es_ES')->willReturn(false);
-        $this->channelExistsWithLocale->method('isLocaleBoundToChannel')->with('en_US', 'ecommerce')->willReturn(true);
-        $this->channelExistsWithLocale->method('isLocaleBoundToChannel')->with('fr_FR', 'ecommerce')->willReturn(false);
+        $this->channelExistsWithLocale->method('doesChannelExist')
+            ->willReturnCallback(fn (string $channel) => $channel === 'ecommerce');
+        $this->channelExistsWithLocale->method('isLocaleActive')
+            ->willReturnCallback(fn (string $locale) => in_array($locale, ['en_US', 'fr_FR']));
+        $this->channelExistsWithLocale->method('isLocaleBoundToChannel')
+            ->willReturnCallback(fn (string $locale, string $channel) => $locale === 'en_US' && $channel === 'ecommerce');
         $this->sut->initialize($this->context);
     }
 

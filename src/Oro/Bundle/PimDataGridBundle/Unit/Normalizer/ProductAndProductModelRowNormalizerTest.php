@@ -89,7 +89,9 @@ class ProductAndProductModelRowNormalizerTest extends TestCase
                     'data_locale'  => 'en_US',
                     'data_channel' => null,
                 ];
-        $this->normalizer->method('normalize')->with($values, 'datagrid', $context)->willReturn([
+        $this->normalizer->method('normalize')->willReturnCallback(function ($object, $format, $ctx) use ($values, $context) {
+            if ($object instanceof WriteValueCollection) {
+                return [
                     'scalar_attribute' => [
                         [
                             'locale' => null,
@@ -97,9 +99,13 @@ class ProductAndProductModelRowNormalizerTest extends TestCase
                             'data'   => 'data',
                         ],
                     ],
-                ]);
-        $this->normalizer->method('normalize')->with($row->created(), 'datagrid', $context)->willReturn('2018-05-23T15:55:50+01:00');
-        $this->normalizer->method('normalize')->with($row->updated(), 'datagrid', $context)->willReturn('2018-05-23T15:55:50+01:00');
+                ];
+            }
+            if ($object instanceof \DateTime) {
+                return '2018-05-23T15:55:50+01:00';
+            }
+            return null;
+        });
         $this->imageNormalizer->method('normalize')->with($row->image(), 'en_US', null)->willReturn([
                     'filePath'         => '/p/i/m/4/all.png',
                     'originalFileName' => 'all.png',

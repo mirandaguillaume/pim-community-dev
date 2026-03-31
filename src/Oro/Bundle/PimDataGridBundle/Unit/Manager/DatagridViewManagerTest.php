@@ -13,13 +13,13 @@ use PHPUnit\Framework\TestCase;
 class DatagridViewManagerTest extends TestCase
 {
     private EntityRepository|MockObject $repository;
-    private Manager|MockObject $manager;
+    private DatagridManager|MockObject $manager;
     private DatagridViewManager $sut;
 
     protected function setUp(): void
     {
         $this->repository = $this->createMock(EntityRepository::class);
-        $this->manager = $this->createMock(Manager::class);
+        $this->manager = $this->createMock(DatagridManager::class);
         $this->sut = new DatagridViewManager($this->repository, $this->manager);
     }
 

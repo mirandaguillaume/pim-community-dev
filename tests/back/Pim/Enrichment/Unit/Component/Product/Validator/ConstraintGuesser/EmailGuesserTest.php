@@ -50,8 +50,8 @@ class EmailGuesserTest extends TestCase
         $constraints = $this->sut->guessConstraints($attribute);
         $this->assertCount(1, $constraints);
         $firstConstraint = $constraints[0];
-        $firstConstraint->shouldBeAnInstanceOf(Email::class);
-        $firstConstraint->attributeCode->shouldReturn('code');
+        $this->assertInstanceOf(Email::class, $firstConstraint);
+        $this->assertSame('code', $firstConstraint->attributeCode);
     }
 
     public function test_it_does_not_guess_email(): void
@@ -60,6 +60,6 @@ class EmailGuesserTest extends TestCase
 
         $attribute->expects($this->once())->method('getValidationRule')->willReturn('not_email');
         $constraints = $this->sut->guessConstraints($attribute);
-        $constraints->shouldReturn([]);
+        $this->assertSame([], $constraints);
     }
 }

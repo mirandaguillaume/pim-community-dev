@@ -42,11 +42,10 @@ class DeleteMassActionHandlerTest extends TestCase
         $this->options = $this->createMock(ActionConfiguration::class);
         $this->massActionRepo = $this->createMock(ProductMassActionRepositoryInterface::class);
         $this->sut = new DeleteMassActionHandler($this->hydrator, $this->translator, $this->eventDispatcher);
-        $this->translator->method('trans')->with('qux')->willReturn('qux');
+        $this->translator->method('trans')->willReturnArgument(0);
         $this->datagrid->method('getDatasource')->willReturn($this->datasource);
         $this->datasource->expects($this->once())->method('setHydrator')->with($this->hydrator);
         $this->datasource->method('getMassActionRepository')->willReturn($this->massActionRepo);
-        // prepare mass action response
         $this->massAction->method('getOptions')->willReturn($this->options);
         $this->options->method('offsetGetByPath')->willReturn('qux');
     }
@@ -57,7 +56,10 @@ class DeleteMassActionHandlerTest extends TestCase
         $countRemoved = count($objectIds);
         $this->datasource->method('getResults')->willReturn($objectIds);
         $this->massActionRepo->method('deleteFromIds')->with($objectIds)->willReturn($countRemoved);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->anything(), $this->anything());
+        $this->eventDispatcher->expects($this->exactly(2))->method('dispatch')->with(
+            $this->isInstanceOf(MassActionEvent::class),
+            $this->anything()
+        );
         $this->sut->handle($this->datagrid, $this->massAction);
     }
 
@@ -67,15 +69,16 @@ class DeleteMassActionHandlerTest extends TestCase
         $countRemoved = count($objectIds);
         $this->datasource->method('getResults')->willReturn($objectIds);
         $this->massActionRepo->method('deleteFromIds')->with($objectIds)->willReturn($countRemoved);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with(
-            $this->isInstanceOf(MassActionEvent::class),
-            MassActionEvents::MASS_DELETE_PRE_HANDLER
-        );
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with(
-            $this->isInstanceOf(MassActionEvent::class),
-            MassActionEvents::MASS_DELETE_POST_HANDLER
+        $dispatched = [];
+        $this->eventDispatcher->expects($this->exactly(2))->method('dispatch')->willReturnCallback(
+            function ($event, $eventName) use (&$dispatched) {
+                $dispatched[] = $eventName;
+                return $event;
+            }
         );
         $this->sut->handle($this->datagrid, $this->massAction);
+        $this->assertSame(MassActionEvents::MASS_DELETE_PRE_HANDLER, $dispatched[0]);
+        $this->assertSame(MassActionEvents::MASS_DELETE_POST_HANDLER, $dispatched[1]);
     }
 
     public function test_it_returns_successful_response(): void
@@ -84,7 +87,10 @@ class DeleteMassActionHandlerTest extends TestCase
         $countRemoved = count($objectIds);
         $this->datasource->method('getResults')->willReturn($objectIds);
         $this->massActionRepo->method('deleteFromIds')->with($objectIds)->willReturn($countRemoved);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->anything(), $this->anything());
+        $this->eventDispatcher->expects($this->exactly(2))->method('dispatch')->with(
+            $this->isInstanceOf(MassActionEvent::class),
+            $this->anything()
+        );
         $result = $this->sut->handle($this->datagrid, $this->massAction);
         $this->assertInstanceOf(MassActionResponseInterface::class, $result);
     }
@@ -94,16 +100,12 @@ class DeleteMassActionHandlerTest extends TestCase
         $objectIds = ['foo', 'bar', 'baz'];
         $errorMessage = 'Error';
         $e = new \Exception($errorMessage);
-        $this->translator->expects($this->once())->method('trans')->with($e->getMessage());
         $this->datasource->method('getResults')->willReturn($objectIds);
         $this->massActionRepo->method('deleteFromIds')->with($objectIds)->willThrowException($e);
+        // Only the pre_handler event should be dispatched (exception interrupts before post_handler)
         $this->eventDispatcher->expects($this->once())->method('dispatch')->with(
             $this->isInstanceOf(MassActionEvent::class),
             MassActionEvents::MASS_DELETE_PRE_HANDLER
-        );
-        $this->eventDispatcher->expects($this->never())->method('dispatch')->with(
-            $this->isInstanceOf(MassActionEvent::class),
-            MassActionEvents::MASS_DELETE_POST_HANDLER
         );
         $result = $this->sut->handle($this->datagrid, $this->massAction);
         $this->assertInstanceOf(MassActionResponseInterface::class, $result);

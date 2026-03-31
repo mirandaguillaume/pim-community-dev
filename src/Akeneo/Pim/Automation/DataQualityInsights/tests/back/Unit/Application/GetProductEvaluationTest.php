@@ -134,7 +134,7 @@ class GetProductEvaluationTest extends TestCase
         $this->assertEquals($expectedEvaluation, $this->sut->get($productUuid));
     }
 
-    private function generateCriterionEvaluation(ProductUuid $productId, string $code, string $status, ChannelLocaleRateCollection $resultRates, CriterionEvaluationResultStatusCollection $resultStatusCollection, array $resultData)
+    private function generateCriterionEvaluation(ProductEntityIdInterface $productId, string $code, string $status, ChannelLocaleRateCollection $resultRates, CriterionEvaluationResultStatusCollection $resultStatusCollection, array $resultData)
     {
         return new CriterionEvaluation(
             new CriterionCode($code),

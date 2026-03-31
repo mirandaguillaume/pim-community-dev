@@ -42,7 +42,7 @@ class LocaleSpecificAttributeUpdateGuesserTest extends TestCase
     public function test_it_guesses_attribute_locale_updates(): void
     {
         $attribute = new Attribute();
-        $em = new MyEntityManager();
+        $em = $this->createMock(EntityManager::class);
         $collection = new PersistentCollection($em, new ClassMetadata('Pim\Bundle\CatalogBundle\Entity\Attribute'), new ArrayCollection());
         $mapping = OneToManyAssociationMapping::fromMappingArray([
                     'fieldName' => 'availableLocales',

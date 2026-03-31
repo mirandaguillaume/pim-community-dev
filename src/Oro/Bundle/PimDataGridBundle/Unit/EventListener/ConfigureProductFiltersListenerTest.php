@@ -61,16 +61,24 @@ class ConfigureProductFiltersListenerTest extends TestCase
                     'scope'  => [],
                     'locale' => [],
                 ]]);
-        $config->expects($this->once())->method('offsetSetByPath')->with('[filters][columns][foo][enabled]', true);
-        $config->expects($this->once())->method('offsetSetByPath')->with('[filters][columns][baz][enabled]', false);
-        $config->expects($this->never())->method('offsetSetByPath')->with('[filters][columns][bar][enabled]', $this->anything());
-        $config->expects($this->never())->method('offsetSetByPath')->with('[filters][columns][scope][enabled]', $this->anything());
-        $config->expects($this->never())->method('offsetSetByPath')->with('[filters][columns][locale][enabled]', $this->anything());
+        // Track the calls to offsetSetByPath
+        $setCalls = [];
+        $config->expects($this->exactly(2))->method('offsetSetByPath')->willReturnCallback(
+            function (string $path, $value) use (&$setCalls) {
+                $setCalls[] = [$path, $value];
+            }
+        );
         $user->method('getProductGridFilters')->willReturn(['foo', 'bar']);
         $this->context->method('getUser')->willReturn($user);
         $acceptor->method('getConfig')->willReturn($config);
         $datagrid->method('getAcceptor')->willReturn($acceptor);
         $event->method('getDatagrid')->willReturn($datagrid);
         $this->sut->onBuildAfter($event);
+
+        // foo should be enabled, baz should not, scope/locale should be skipped
+        $this->assertSame('[filters][columns][foo][enabled]', $setCalls[0][0]);
+        $this->assertTrue($setCalls[0][1]);
+        $this->assertSame('[filters][columns][baz][enabled]', $setCalls[1][0]);
+        $this->assertFalse($setCalls[1][1]);
     }
 }

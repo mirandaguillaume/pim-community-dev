@@ -16,18 +16,26 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class DateLocalizerTest extends TestCase
 {
+    private const TEST_TIMEZONE = 'Europe/Paris';
+
     private ValidatorInterface|MockObject $validator;
     private DateFactory|MockObject $dateFactory;
     private DateLocalizer $sut;
+    private string $originalTimezone;
 
     protected function setUp(): void
     {
         $this->validator = $this->createMock(ValidatorInterface::class);
         $this->dateFactory = $this->createMock(DateFactory::class);
         $this->sut = new DateLocalizer($this->validator, $this->dateFactory, ['pim_catalog_date']);
-        $this->sut->userTimezone = date_default_timezone_get();
+        $this->originalTimezone = date_default_timezone_get();
         date_default_timezone_set(self::TEST_TIMEZONE);
         $this->validator->method('validate')->willReturn(new ConstraintViolationList());
+    }
+
+    protected function tearDown(): void
+    {
+        date_default_timezone_set($this->originalTimezone);
     }
 
     public function test_it_is_a_localizer(): void
@@ -59,20 +67,21 @@ class DateLocalizerTest extends TestCase
         $constraints = $this->createMock(ConstraintViolationListInterface::class);
 
         $constraints->method('count')->willReturn(1);
-        $this->validator->method('validate')->with('28/10/2015', $this->anything())->willReturn($constraints);
+        $this->validator = $this->createMock(ValidatorInterface::class);
+        $this->validator->method('validate')->willReturn($constraints);
+        $this->sut = new DateLocalizer($this->validator, $this->dateFactory, ['pim_catalog_date']);
         $this->assertSame($constraints, $this->sut->validate('28/10/2015', 'date', ['date_format' => 'd-m-Y']));
     }
 
     public function test_it_returns_a_constraint_if_date_format_does_not_respect_format_locale(): void
     {
         $constraints = $this->createMock(ConstraintViolationListInterface::class);
-        $dateFormatter = $this->createMock(IntlDateFormatter::class);
+        $dateFormatter = $this->createMock(\IntlDateFormatter::class);
 
-        $dateConstraint = new DateFormat();
-        $dateConstraint->dateFormat = 'dd/MM/yyyy';
-        $dateConstraint->path = 'date';
         $constraints->method('count')->willReturn(1);
-        $this->validator->method('validate')->with('28-10-2015', $dateConstraint)->willReturn($constraints);
+        $this->validator = $this->createMock(ValidatorInterface::class);
+        $this->validator->method('validate')->willReturn($constraints);
+        $this->sut = new DateLocalizer($this->validator, $this->dateFactory, ['pim_catalog_date']);
         $this->dateFactory->method('create')->with(['locale' => 'fr_FR'])->willReturn($dateFormatter);
         $dateFormatter->method('getPattern')->willReturn('dd/MM/yyyy');
         $this->assertSame($constraints, $this->sut->validate('28-10-2015', 'date', ['locale' => 'fr_FR']));
@@ -80,7 +89,7 @@ class DateLocalizerTest extends TestCase
 
     public function test_it_delocalizes_with_date_format_option(): void
     {
-        $dateFormatter = $this->createMock(IntlDateFormatter::class);
+        $dateFormatter = $this->createMock(\IntlDateFormatter::class);
 
         $this->dateFactory->method('create')->with(['date_format' => 'dd/MM/yyyy'])->willReturn($dateFormatter);
         $dateFormatter->expects($this->once())->method('setLenient')->with(false);

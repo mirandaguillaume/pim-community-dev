@@ -96,7 +96,7 @@ class WebMarketplaceApiTest extends TestCase
                         'limit' => 10,
                     ],
                 ])->willReturn($response);
-        $extensions = ($this->getExtensions());
+        $extensions = ($this->sut->getExtensions());
         Assert::assertEquals($expectedResponse, $extensions);
     }
 
@@ -211,14 +211,14 @@ class WebMarketplaceApiTest extends TestCase
                         'limit' => 10,
                     ],
                 ])->willReturn($response);
-        $apps = ($this->getApps());
+        $apps = ($this->sut->getApps());
         Assert::assertEquals($expectedResponse, $apps);
     }
 
     public function test_it_returns_fake_apps(): void
     {
         $this->fakeAppsFeatureFlag->method('isEnabled')->willReturn(true);
-        $extensions = ($this->getApps());
+        $extensions = ($this->sut->getApps());
         Assert::assertEquals([
                     'total' => 2,
                     'offset' => 0,

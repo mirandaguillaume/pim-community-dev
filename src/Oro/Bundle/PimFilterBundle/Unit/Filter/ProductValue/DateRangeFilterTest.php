@@ -48,8 +48,8 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->assertSame([
@@ -69,7 +69,7 @@ class DateRangeFilterTest extends TestCase
     {
         $start = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
         $this->assertSame([
                     'date_start' => '1987-05-14',
@@ -87,7 +87,7 @@ class DateRangeFilterTest extends TestCase
     {
         $end = $this->createMock(\DateTime::class);
 
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->assertSame([
                     'date_start' => null,
@@ -106,9 +106,9 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->assertSame([
                     'date_start' => '1987-05-14',
@@ -128,9 +128,9 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->assertSame([
                     'date_start' => '1987-05-14',
@@ -150,9 +150,9 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->assertSame([
                     'date_start' => '1987-05-14',
@@ -172,9 +172,9 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->assertSame([
                     'date_start' => null,
@@ -194,9 +194,9 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->assertSame([
                     'date_start' => '1987-05-14',
@@ -265,8 +265,8 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'data_name_key', 'BETWEEN', ['1987-05-14', '2014-01-23']);
@@ -288,8 +288,8 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->utility->expects($this->once())->method('applyFilter')->with(
@@ -316,8 +316,8 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'data_name_key', '<', '2014-01-23');
@@ -339,8 +339,8 @@ class DateRangeFilterTest extends TestCase
         $start = $this->createMock(\DateTime::class);
         $end = $this->createMock(\DateTime::class);
 
-        $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
-        $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
+        $start->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
+        $end->expects($this->once())->method('setTimezone')->with($this->callback(fn (\DateTimeZone $tz) => $tz->getName() === 'UTC'));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'data_name_key', '>', '1987-05-14');

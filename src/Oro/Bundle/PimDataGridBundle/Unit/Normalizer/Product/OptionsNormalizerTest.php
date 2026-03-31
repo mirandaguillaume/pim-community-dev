@@ -53,8 +53,10 @@ class OptionsNormalizerTest extends TestCase
 
         $value->method('getAttributeCode')->willReturn('color');
         $value->method('getData')->willReturn(['blue', 'red']);
-        $this->attributeOptionRepository->method('findOneByIdentifier')->with('color.blue')->willReturn($colorBlue);
-        $this->attributeOptionRepository->method('findOneByIdentifier')->with('color.red')->willReturn($colorRed);
+        $this->attributeOptionRepository->method('findOneByIdentifier')->willReturnMap([
+            ['color.blue', $colorBlue],
+            ['color.red', $colorRed],
+        ]);
         $colorRed->method('getTranslation')->with('fr_FR')->willReturn($optionValueRed);
         $colorRed->method('getCode')->willReturn('red');
         $colorBlue->method('getTranslation')->with('fr_FR')->willReturn($optionValueBlue);

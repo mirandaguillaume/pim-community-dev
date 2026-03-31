@@ -61,7 +61,7 @@ class ProductTest extends TestCase
         $association->method('getProducts')->willReturn(new ArrayCollection([]));
         $association->method('getProductModels')->willReturn(new ArrayCollection([]));
         $association->method('getGroups')->willReturn(new ArrayCollection([]));
-        $association->method('setOwner')->with($this)->willReturn($association);
+        $association->method('setOwner')->with($this->sut)->willReturn($association);
         $this->sut->addAssociation($association);
         $association->expects($this->once())->method('addProduct')->with($product);
         $this->sut->addAssociatedProduct($product, 'x_sell');
@@ -106,7 +106,7 @@ class ProductTest extends TestCase
         $association->method('getProducts')->willReturn(new ArrayCollection([$product]));
         $association->method('getProductModels')->willReturn(new ArrayCollection([]));
         $association->method('getGroups')->willReturn(new ArrayCollection([]));
-        $association->method('setOwner')->with($this)->willReturn($association);
+        $association->method('setOwner')->with($this->sut)->willReturn($association);
         $this->sut->addAssociation($association);
         $association->expects($this->once())->method('removeProduct')->with($product);
         $this->sut->removeAssociatedProduct($product, 'x_sell');
@@ -166,7 +166,7 @@ class ProductTest extends TestCase
         $association->method('getProducts')->willReturn(new ArrayCollection([]));
         $association->method('getProductModels')->willReturn(new ArrayCollection([]));
         $association->method('getGroups')->willReturn(new ArrayCollection([]));
-        $association->method('setOwner')->with($this)->willReturn($association);
+        $association->method('setOwner')->with($this->sut)->willReturn($association);
         $this->sut->addAssociation($association);
         $association->expects($this->once())->method('addProductModel')->with($productModel);
         $this->sut->addAssociatedProductModel($productModel, 'x_sell');
@@ -210,7 +210,7 @@ class ProductTest extends TestCase
         $association->method('getProducts')->willReturn(new ArrayCollection([]));
         $association->method('getProductModels')->willReturn(new ArrayCollection([$productModel]));
         $association->method('getGroups')->willReturn(new ArrayCollection([]));
-        $association->method('setOwner')->with($this)->willReturn($association);
+        $association->method('setOwner')->with($this->sut)->willReturn($association);
         $this->sut->addAssociation($association);
         $association->expects($this->once())->method('removeProductModel')->with($productModel);
         $this->sut->removeAssociatedProductModel($productModel, 'x_sell');
@@ -269,7 +269,7 @@ class ProductTest extends TestCase
         $association->method('getProducts')->willReturn(new ArrayCollection([]));
         $association->method('getProductModels')->willReturn(new ArrayCollection([]));
         $association->method('getGroups')->willReturn(new ArrayCollection([]));
-        $association->method('setOwner')->with($this)->willReturn($association);
+        $association->method('setOwner')->with($this->sut)->willReturn($association);
         $this->sut->addAssociation($association);
         $association->expects($this->once())->method('addGroup')->with($group);
         $this->sut->addAssociatedGroup($group, 'x_sell');
@@ -313,7 +313,7 @@ class ProductTest extends TestCase
         $association->method('getProducts')->willReturn(new ArrayCollection([]));
         $association->method('getProductModels')->willReturn(new ArrayCollection([]));
         $association->method('getGroups')->willReturn(new ArrayCollection([$group]));
-        $association->method('setOwner')->with($this)->willReturn($association);
+        $association->method('setOwner')->with($this->sut)->willReturn($association);
         $this->sut->addAssociation($association);
         $association->expects($this->once())->method('removeGroup')->with($group);
         $this->sut->removeAssociatedGroup($group, 'x_sell');

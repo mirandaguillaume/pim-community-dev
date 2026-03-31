@@ -24,9 +24,9 @@ class UserIntentFactoryRegistryTest extends TestCase
     {
         $this->userIntentFactory1 = $this->createMock(UserIntentFactory::class);
         $this->userIntentFactory2 = $this->createMock(UserIntentFactory::class);
-        $this->sut = new UserIntentFactoryRegistry([$this->userIntentFactory1, $this->userIntentFactory2], ['identifier']);
         $this->userIntentFactory1->method('getSupportedFieldNames')->willReturn(['family']);
         $this->userIntentFactory2->method('getSupportedFieldNames')->willReturn(['categories']);
+        $this->sut = new UserIntentFactoryRegistry([$this->userIntentFactory1, $this->userIntentFactory2], ['identifier']);
     }
 
     public function test_it_returns_a_user_intent(): void

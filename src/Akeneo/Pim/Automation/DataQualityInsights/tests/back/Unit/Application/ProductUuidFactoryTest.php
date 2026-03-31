@@ -21,7 +21,7 @@ class ProductUuidFactoryTest extends TestCase
 
     public function test_it_creates_a_product_uuid(): void
     {
-        $this->assertEquals(ProductUuid::fromString(('df470d52-7723-4890-85a0-e79be625e2ed')), $this->sut->create(Uuid::fromString('df470d52-7723-4890-85a0-e79be625e2ed')));
+        $this->assertEquals(ProductUuid::fromString('df470d52-7723-4890-85a0-e79be625e2ed'), $this->sut->create('df470d52-7723-4890-85a0-e79be625e2ed'));
     }
 
     public function test_it_creates_a_collection_of_product_uuids(): void

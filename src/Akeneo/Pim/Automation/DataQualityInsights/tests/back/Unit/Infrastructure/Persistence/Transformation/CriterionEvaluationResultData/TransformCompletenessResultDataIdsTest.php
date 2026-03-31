@@ -21,15 +21,15 @@ class TransformCompletenessResultDataIdsTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new TransformCompletenessResultDataIds(new TransformChannelLocaleDataIds($channels, $locales));
         $channels = new InMemoryChannels([
-        'ecommerce' => 1,
-        'mobile' => 2,
+            'ecommerce' => 1,
+            'mobile' => 2,
         ]);
         $locales = new InMemoryLocales([
-        'en_US' => 58,
-        'fr_FR' => 90,
+            'en_US' => 58,
+            'fr_FR' => 90,
         ]);
+        $this->sut = new TransformCompletenessResultDataIds(new TransformChannelLocaleDataIds($channels, $locales));
     }
 
     public function test_it_transforms_a_completeness_criterion_result_from_ids_to_codes(): void

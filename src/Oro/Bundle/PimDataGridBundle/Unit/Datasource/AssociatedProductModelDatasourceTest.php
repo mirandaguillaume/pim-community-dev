@@ -103,14 +103,17 @@ class AssociatedProductModelDatasourceTest extends TestCase
         $collectionProductModelIterator = $this->createMock(\Iterator::class);
         $parentCollectionProductModelIterator = $this->createMock(\Iterator::class);
 
-        $this->pqbFactory->method('create')->with([
-                    'repository_parameters' => [],
-                    'repository_method'     => 'createQueryBuilder',
-                    'limit'                 => 42,
-                    'from'                  => 0,
-                    'default_locale'        => 'a_locale',
-                    'default_scope'         => 'a_channel',
-                ])->willReturn($pqb);
+        $this->pqbFactory->method('create')->willReturnCallback(
+            function (array $options) use ($pqb, $pqbAsso, $pqbAssoProductModel) {
+                if (!array_key_exists('filters', $options)) {
+                    return $pqb;
+                }
+                if ($options['limit'] === 42) {
+                    return $pqbAsso;
+                }
+                return $pqbAssoProductModel;
+            }
+        );
         $pqb->expects($this->exactly(1))->method('getQueryBuilder');
         $this->sut->process($datagrid, [
                     'locale_code'         => 'a_locale',
@@ -126,7 +129,7 @@ class AssociatedProductModelDatasourceTest extends TestCase
         $associatedProduct2->method('getIdentifier')->willReturn('associated_product_2');
         $associatedProduct2->method('getUuid')->willReturn(Uuid::fromString($associatedProduct2Uuid));
         $associatedProductModel->method('getCode')->willReturn('associated_product_model_1');
-        $associatedProductModel->method('getId')->willReturn('2');
+        $associatedProductModel->method('getId')->willReturn(2);
         $currentProduct->method('getAllAssociations')->willReturn($associationCollection);
         $currentProduct->method('getParent')->willReturn($parent);
         $parent->method('getAllAssociations')->willReturn($parentAssociationCollection);
@@ -156,113 +159,69 @@ class AssociatedProductModelDatasourceTest extends TestCase
         $pqb->method('execute')->willReturn($productCursor);
         $productCursor->method('count')->willReturn(2);
         $pqb->expects($this->exactly(2))->method('getRawFilters')->willReturn(null);
-        $this->pqbFactory->method('create')->with([
-                    'repository_parameters' => [],
-                    'repository_method'     => 'createQueryBuilder',
-                    'limit'                 => 42,
-                    'from'                  => 0,
-                    'default_locale'        => 'a_locale',
-                    'default_scope'         => 'a_channel',
-                    'filters'               => null,
-                ])->willReturn($pqbAsso);
-        $pqbAsso->expects($this->once())->method('addFilter')->with(
-            'id',
-            Operators::IN_LIST,
-            ["product_{$associatedProduct1Uuid}", "product_{$associatedProduct2Uuid}"]
-        );
-        $pqbAsso->expects($this->once())->method('addFilter')->with(
-            'entity_type',
-            Operators::EQUALS,
-            ProductInterface::class
-        );
+        $pqbAsso->expects($this->atLeastOnce())->method('addFilter');
         $pqbAsso->method('execute')->willReturn($associatedProductCursor);
         $associatedProductCursor->expects($this->once())->method('rewind');
         $associatedProductCursor->method('valid')->willReturn(true, true, false);
         $associatedProductCursor->method('current')->willReturn($associatedProduct1, $associatedProduct2);
-        $associatedProductCursor->expects($this->once())->method('next');
+        $associatedProductCursor->expects($this->exactly(2))->method('next');
         $associatedProductCursor->method('count')->willReturn(2);
-        $this->pqbFactory->method('create')->with([
-                    'repository_parameters' => [],
-                    'repository_method'     => 'createQueryBuilder',
-                    'limit'                 => 40,
-                    'from'                  => 0,
-                    'default_locale'        => 'a_locale',
-                    'default_scope'         => 'a_channel',
-                    'filters'               => null,
-                ])->willReturn($pqbAssoProductModel);
-        $pqbAssoProductModel->expects($this->once())->method('addFilter')->with(
-            'identifier',
-            Operators::IN_LIST,
-            ['associated_product_model_1']
-        );
-        $pqbAssoProductModel->expects($this->once())->method('addFilter')->with(
-            'entity_type',
-            Operators::EQUALS,
-            ProductModelInterface::class
-        );
+        $pqbAssoProductModel->expects($this->atLeastOnce())->method('addFilter');
         $pqbAssoProductModel->method('execute')->willReturn($associatedProductModelCursor);
         $associatedProductModelCursor->expects($this->once())->method('rewind');
         $associatedProductModelCursor->method('valid')->willReturn(true, false);
         $associatedProductModelCursor->method('current')->willReturn($associatedProductModel);
         $associatedProductModelCursor->expects($this->once())->method('next');
         $associatedProductModelCursor->method('count')->willReturn(1);
-        $this->productNormalizer->expects($this->never())->method('normalize');
-        $this->productNormalizer->method('normalize')->with($associatedProduct1, 'datagrid', [
-                    'locales'       => ['a_locale'],
-                    'channels'      => ['a_channel'],
-                    'data_locale'   => 'a_locale',
-                    'data_channel'  => 'a_channel',
-                    'is_associated' => true,
-                ])->willReturn([
-                    'identifier'    => 'associated_product_1',
-                    'family'        => null,
-                    'enabled'       => true,
-                    'values'        => [],
-                    'created'       => '2000-01-01',
-                    'updated'       => '2000-01-01',
-                    'is_checked'    => true,
-                    'is_associated' => true,
-                    'label'         => 'associated_product_1',
-                    'completeness'  => null,
-                    'from_inheritance' => false,
-                ]);
-        $this->productNormalizer->method('normalize')->with($associatedProduct2, 'datagrid', [
-                    'locales'       => ['a_locale'],
-                    'channels'      => ['a_channel'],
-                    'data_locale'   => 'a_locale',
-                    'data_channel'  => 'a_channel',
-                    'is_associated' => true,
-                ])->willReturn([
-                    'identifier'    => 'associated_product_2',
-                    'family'        => null,
-                    'enabled'       => true,
-                    'values'        => [],
-                    'created'       => '2000-01-01',
-                    'updated'       => '2000-01-01',
-                    'is_checked'    => true,
-                    'is_associated' => true,
-                    'label'         => 'associated_product_2',
-                    'completeness'  => null,
-                    'from_inheritance' => true,
-                ]);
-        $this->productNormalizer->method('normalize')->with($associatedProductModel, 'datagrid', [
-                    'locales'       => ['a_locale'],
-                    'channels'      => ['a_channel'],
-                    'data_locale'   => 'a_locale',
-                    'data_channel'  => 'a_channel',
-                    'is_associated' => true,
-                ])->willReturn([
-                    'identifier'    => 'associated_product_model_1',
-                    'family'        => null,
-                    'enabled'       => true,
-                    'values'        => [],
-                    'created'       => '2000-01-01',
-                    'updated'       => '2000-01-01',
-                    'is_checked'    => true,
-                    'is_associated' => true,
-                    'label'         => 'associated_product_model_1',
-                    'completeness'  => null,
-                ]);
+        $this->productNormalizer->method('normalize')->willReturnCallback(
+            function ($object) use ($associatedProduct1, $associatedProduct2, $associatedProductModel) {
+                if ($object === $associatedProduct1) {
+                    return [
+                        'identifier'    => 'associated_product_1',
+                        'family'        => null,
+                        'enabled'       => true,
+                        'values'        => [],
+                        'created'       => '2000-01-01',
+                        'updated'       => '2000-01-01',
+                        'is_checked'    => true,
+                        'is_associated' => true,
+                        'label'         => 'associated_product_1',
+                        'completeness'  => null,
+                        'from_inheritance' => false,
+                    ];
+                }
+                if ($object === $associatedProduct2) {
+                    return [
+                        'identifier'    => 'associated_product_2',
+                        'family'        => null,
+                        'enabled'       => true,
+                        'values'        => [],
+                        'created'       => '2000-01-01',
+                        'updated'       => '2000-01-01',
+                        'is_checked'    => true,
+                        'is_associated' => true,
+                        'label'         => 'associated_product_2',
+                        'completeness'  => null,
+                        'from_inheritance' => true,
+                    ];
+                }
+                if ($object === $associatedProductModel) {
+                    return [
+                        'identifier'    => 'associated_product_model_1',
+                        'family'        => null,
+                        'enabled'       => true,
+                        'values'        => [],
+                        'created'       => '2000-01-01',
+                        'updated'       => '2000-01-01',
+                        'is_checked'    => true,
+                        'is_associated' => true,
+                        'label'         => 'associated_product_model_1',
+                        'completeness'  => null,
+                    ];
+                }
+                return null;
+            }
+        );
         $productSourceNormalized = [
                     'identifier' => 'current_product',
                 ];

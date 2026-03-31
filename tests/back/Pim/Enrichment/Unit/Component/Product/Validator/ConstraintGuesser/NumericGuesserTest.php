@@ -46,7 +46,6 @@ class NumericGuesserTest extends TestCase
         $attribute->method('getCode')->willReturn('');
         $constraints = $this->sut->guessConstraints($attribute);
         $this->assertCount(1, $constraints);
-        $constraint = $constraints[0];
-        $constraint->shouldBeAnInstanceOf(IsNumeric::class);
+        $this->assertInstanceOf(IsNumeric::class, $constraints[0]);
     }
 }

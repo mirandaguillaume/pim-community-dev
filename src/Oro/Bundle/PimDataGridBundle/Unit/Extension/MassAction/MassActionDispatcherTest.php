@@ -176,28 +176,27 @@ class MassActionDispatcherTest extends TestCase
         $massActionExtension = $this->createMock(MassActionExtension::class);
         $massActionInterface = $this->createMock(MassActionInterface::class);
         $massActionRepository = $this->createMock(ProductMassActionRepositoryInterface::class);
+        // Create a separate dispatcher with a grid that uses a non-ProductDatasource
+        $plainDatasource = $this->createMock(DatasourceInterface::class);
+        $grid = $this->createMock(DatagridInterface::class);
+        $acceptor = $this->createMock(Acceptor::class);
+        $acceptedDatasource = $this->createMock(DatasourceInterface::class);
+        $queryBuilder = $this->createMock(QueryBuilder::class);
+        $grid->method('getAcceptor')->willReturn($acceptor);
+        $grid->method('getAcceptedDatasource')->willReturn($acceptedDatasource);
+        $grid->method('getDatasource')->willReturn($plainDatasource);
+        $acceptedDatasource->method('getQueryBuilder')->willReturn($queryBuilder);
+        $plainDatasource->method('getMassActionRepository')->willReturn($massActionRepository);
+
+        $manager = $this->createMock(ManagerInterface::class);
+        $manager->method('getDatagrid')->with('grid')->willReturn($grid);
+        $sut = new MassActionDispatcher($this->handlerRegistry, $manager, $this->requestParams, $this->parametersParser, ['product-grid']);
 
         $massActionName = 'mass_edit_action';
-        $request = new Request([
-                    'inset'      => 'inset',
-                    'values'     => [1],
-                    'gridName'   => 'grid',
-                    'massAction' => $massActionInterface,
-                    'actionName' => $massActionName,
-                ]);
-        $this->parametersParser->method('parse')->with($request)->willReturn([
-                    'inset'      => 'inset',
-                    'values'     => [1],
-                    'gridName'   => 'grid',
-                    'massAction' => $massActionInterface,
-                    'actionName' => $massActionName,
-                ]);
-        $this->datasource->method('getMassActionRepository')->willReturn($massActionRepository);
-        $massActionExtension->method('getMassAction')->with($massActionName, $this->grid)->willReturn($massActionInterface);
-        $this->acceptor->method('getExtensions')->willReturn([$massActionExtension]);
+        $massActionExtension->method('getMassAction')->with($massActionName, $grid)->willReturn($massActionInterface);
+        $acceptor->method('getExtensions')->willReturn([$massActionExtension]);
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('getRawFilters is only implemented for ProductDatasource and ProductAndProductModelDatasource');
-        $this->sut->getRawFilters([
+        $sut->getRawFilters([
                         'inset'      => 'inset',
                         'values'     => [1],
                         'gridName'   => 'grid',

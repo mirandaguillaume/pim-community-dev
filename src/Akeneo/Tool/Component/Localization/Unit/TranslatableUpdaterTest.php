@@ -10,6 +10,11 @@ use Akeneo\Tool\Component\Localization\TranslatableUpdater;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+interface LabelTranslationInterface extends TranslationInterface
+{
+    public function setLabel(string $label): void;
+}
+
 class TranslatableUpdaterTest extends TestCase
 {
     private TranslatableUpdater $sut;

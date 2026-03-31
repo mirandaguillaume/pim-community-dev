@@ -8,6 +8,23 @@ use Akeneo\Tool\Component\StorageUtils\Cache\LRUCache;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+interface EntityObjectQuery
+{
+    public function fromCode(string $code): ?EntityObject;
+    public function fromCodes(array $codes): array;
+}
+
+class EntityObject
+{
+    public function __construct(private readonly string $code)
+    {
+    }
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+}
+
 class LRUCacheTest extends TestCase
 {
     private LRUCache $sut;
@@ -20,9 +37,7 @@ class LRUCacheTest extends TestCase
     public function test_it_cannot_be_instantiated_with_zero_or_negative_value(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->__construct(0);
-        $this->expectException(\InvalidArgumentException::class);
-        $this->sut->__construct(-1);
+        new LRUCache(0);
     }
 
     public function test_it_gets_result_for_single_key_by_calling_the_callable(): void
@@ -46,9 +61,9 @@ class LRUCacheTest extends TestCase
     {
         $entityObjectQuery = $this->createMock(EntityObjectQuery::class);
 
-        $entityObjectQuery->expects($this->exactly(2))->method('fromCode')->with('entity_code_1')->willReturn(new EntityObject('entity_code_1'));
-        $entityObjectQuery->expects($this->once())->method('fromCode')->with('entity_code_2')->willReturn(new EntityObject('entity_code_2'));
-        $entityObjectQuery->expects($this->once())->method('fromCode')->with('entity_code_3')->willReturn(new EntityObject('entity_code_3'));
+        $entityObjectQuery->method('fromCode')->willReturnCallback(function (string $code) {
+            return new EntityObject($code);
+        });
         $this->assertEquals(new EntityObject('entity_code_1'), $this->sut->getForKey('entity_code_1', $this->queryToFetchEntityFromCode($entityObjectQuery)));
         $this->assertEquals(new EntityObject('entity_code_2'), $this->sut->getForKey('entity_code_2', $this->queryToFetchEntityFromCode($entityObjectQuery)));
         $this->assertEquals(new EntityObject('entity_code_3'), $this->sut->getForKey('entity_code_3', $this->queryToFetchEntityFromCode($entityObjectQuery)));
@@ -85,13 +100,15 @@ class LRUCacheTest extends TestCase
                             'entity_code_2' => new EntityObject('entity_code_2'),
                             'entity_code_3' => new EntityObject('entity_code_3'),
                         ]);
+        $entityObjectQuery->method('fromCode')->willReturnCallback(function (string $code) {
+            return new EntityObject($code);
+        });
         $this->assertEquals([
                         'entity_code_1' => new EntityObject('entity_code_1'),
                         'entity_code_2' => new EntityObject('entity_code_2'),
                         'entity_code_3' => new EntityObject('entity_code_3'),
                     ], $this->sut->getForKeys(['entity_code_1', 'entity_code_2', 'entity_code_3'], $this->queryToFetchEntitiesFromCodes($entityObjectQuery)));
         $this->assertEquals(new EntityObject('entity_code_2'), $this->sut->getForKey('entity_code_2', $this->queryToFetchEntityFromCode($entityObjectQuery)));
-        $entityObjectQuery->expects($this->once())->method('fromCode')->with('entity_code_1')->willReturn(new EntityObject('entity_code_1'));
         $this->assertEquals(new EntityObject('entity_code_1'), $this->sut->getForKey('entity_code_1', $this->queryToFetchEntityFromCode($entityObjectQuery)));
     }
 

@@ -27,7 +27,7 @@ class RegenerateUserPasswordTest extends TestCase
     protected function setUp(): void
     {
         $this->userManager = $this->createMock(UserManager::class);
-        $this->dbalConnection = $this->createMock(Connection::class);
+        $this->dbalConnection = $this->createMock(DbalConnection::class);
         $this->sut = new RegenerateUserPassword($this->userManager, $this->dbalConnection);
     }
 

@@ -19,14 +19,14 @@ use PHPUnit\Framework\TestCase;
 
 class ClientTest extends TestCase
 {
-    private Client|MockObject $client;
+    private NativeClient|MockObject $client;
     private ClientBuilder|MockObject $clientBuilder;
     private Loader|MockObject $indexConfigurationLoader;
     private Client $sut;
 
     protected function setUp(): void
     {
-        $this->client = $this->createMock(Client::class);
+        $this->client = $this->createMock(NativeClient::class);
         $this->clientBuilder = $this->createMock(ClientBuilder::class);
         $this->indexConfigurationLoader = $this->createMock(Loader::class);
         $this->sut = new Client($this->clientBuilder, $this->indexConfigurationLoader, ['localhost:9200'], 'an_index_name');
@@ -52,7 +52,7 @@ class ClientTest extends TestCase
 
     public function test_it_triggers_an_exception_during_the_indexation_of_a_document(): void
     {
-        $this->client->method('index')->with($this->anything())->willThrowException(\Exception::class);
+        $this->client->method('index')->with($this->anything())->willThrowException(new \Exception());
         $this->expectException(IndexationException::class);
         $this->sut->index('identifier', ['a key' => 'a value'], Refresh::waitFor());
     }
@@ -402,7 +402,7 @@ class ClientTest extends TestCase
                         ['identifier' => 'value3', 'name' => 'name3'],
                     ],
                     'refresh' => 'wait_for',
-                ])->willThrowException(BadRequest400Exception::class);
+                ])->willThrowException(new BadRequest400Exception());
         $this->client->expects($this->exactly(1))->method('bulk')->with([
                     'body' => [
                         ['index' => ['_index' => 'an_index_name', '_id' => 'value1']],
@@ -450,7 +450,7 @@ class ClientTest extends TestCase
 
     public function test_it_throws_an_exception_during_the_indexation_of_several_documents(): void
     {
-        $this->client->method('bulk')->with($this->anything())->willThrowException(\Exception::class);
+        $this->client->method('bulk')->with($this->anything())->willThrowException(new \Exception());
         $documents = [
                     ['identifier' => 'foo', 'name' => 'a name'],
                     ['identifier' => 'bar', 'name' => 'a name'],

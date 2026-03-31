@@ -30,9 +30,9 @@ class MeasurementFamilyValidatorTest extends TestCase
                     'units' => true,
                     'standard_unit_code' => [],
                 ];
-        $errors = $this->validate($measurement);
-        $errors->shouldBeArray();
-        $errors->shouldHaveCount(4);
+        $errors = $this->sut->validate($measurement);
+        $this->assertIsArray($errors);
+        $this->assertCount(4, $errors);
     }
 
     public function test_it_returns_an_empty_array_if_all_the_measurement_family_properties_are_valid(): void

@@ -108,8 +108,8 @@ class GpsReceiverTest extends TestCase
                     'maxMessages' => 1,
                     'returnImmediately' => true,
                 ])->willThrowException(new GoogleException("test error"));
-        $this->sut->shouldThrow(TransportException::class)
-                    ->during('get');
+        $this->expectException(TransportException::class);
+        iterator_to_array($this->sut->get());
     }
 
     public function test_it_throws_a_transport_exception_if_an_error_is_raised_while_acknowledging_a_message(): void

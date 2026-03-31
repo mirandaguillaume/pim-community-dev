@@ -50,11 +50,13 @@ class IsAssociatedFilterTest extends TestCase
         $productAssociatedOne = $this->createMock(ProductInterface::class);
         $productAssociatedTwo = $this->createMock(ProductInterface::class);
 
-        $this->extractor->method('getDatagridParameter')->with('_parameters', [])->willReturn([]);
-        $this->extractor->method('getDatagridParameter')->with('associationType')->willReturn(1);
+        $this->extractor->method('getDatagridParameter')->willReturnMap([
+            ['_parameters', [], []],
+            ['associationType', null, 1],
+            ['product', null, 11],
+        ]);
         $assocType->method('getCode')->willReturn('XSELL');
         $this->assocRepository->method('findOneBy')->with($this->anything())->willReturn($assocType);
-        $this->extractor->method('getDatagridParameter')->with('product')->willReturn(11);
         $this->productRepository->method('find')->with(11)->willReturn($productOwner);
         $productOwner->method('getAssociatedProducts')->with('XSELL')->willReturn(new ArrayCollection([$productAssociatedOne, $productAssociatedTwo]));
         $productAssociatedOne->method('getId')->willReturn(12);
