@@ -82,9 +82,12 @@ class ComputeScoresTest extends TestCase
                         new CriterionEvaluationResult($criterionResultC, new CriterionEvaluationResultStatusCollection(), [])
                     ))
         ;
-        $this->criteriaEvaluationRegistry->method('getCriterionCoefficient')->with($criterionA)->willReturn(2);
-        $this->criteriaEvaluationRegistry->method('getCriterionCoefficient')->with($criterionB)->willReturn(1);
-        $this->criteriaEvaluationRegistry->method('getCriterionCoefficient')->with($criterionC)->willReturn(1);
+        $this->criteriaEvaluationRegistry->method('getCriterionCoefficient')->willReturnCallback(fn (CriterionCode $code) => match ((string) $code) {
+            'criterion_A' => 2,
+            'criterion_B' => 1,
+            'criterion_C' => 1,
+            default => 1,
+        });
         $this->assertEquals((new ChannelLocaleRateCollection())->addRate($channelMobile, $localeEn, new Rate(93))->addRate($channelMobile, $localeFr, new Rate(87))->addRate($channelPrint, $localeEn, new Rate(72)), $this->sut->fromCriteriaEvaluations($criteriaEvaluations));
     }
 }

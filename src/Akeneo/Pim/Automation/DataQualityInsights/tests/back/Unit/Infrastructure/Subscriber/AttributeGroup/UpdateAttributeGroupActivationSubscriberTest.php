@@ -103,7 +103,7 @@ class UpdateAttributeGroupActivationSubscriberTest extends TestCase
         $this->getAttributeGroupActivationQuery->method('byCode')->with(new AttributeGroupCode('marketing'))->willReturn(null);
         $this->attributeGroupActivationRepository->method('save')->with($this->anything())->willThrowException(new \Exception('failed'));
         $this->attributeGroupActivationRepository->method('remove')->with($this->anything())->willThrowException(new \Exception('failed'));
-        $this->logger->expects($this->once())->method('error');
+        $this->logger->expects($this->exactly(2))->method('error');
         $this->sut->createAttributeGroupActivation($event);
         $this->sut->removeAttributeGroupActivation($event);
     }

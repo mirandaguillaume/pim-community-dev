@@ -34,9 +34,8 @@ class NonExistentChannelLocaleValuesFilterTest extends TestCase
         $this->getCaseSensitiveChannelCode = $this->createMock(GetCaseSensitiveChannelCodeInterface::class);
         $this->getAttributes = $this->createMock(GetAttributes::class);
         $this->sut = new NonExistentChannelLocaleValuesFilter($this->channelsLocales, $this->getCaseSensitiveLocaleCode, $this->getCaseSensitiveChannelCode, $this->getAttributes);
-        $this->getCaseSensitiveLocaleCode->method('forLocaleCode')->with('en_US')->willReturn('en_US');
-        $this->getCaseSensitiveLocaleCode->method('forLocaleCode')->with('fr_FR')->willReturn('fr_FR');
-        $this->getCaseSensitiveChannelCode->method('forChannelCode')->with('ecommerce')->willReturn('ecommerce');
+        $this->getCaseSensitiveLocaleCode->method('forLocaleCode')->willReturnCallback(fn (string $code) => $code);
+        $this->getCaseSensitiveChannelCode->method('forChannelCode')->willReturnCallback(fn (string $code) => $code);
     }
 
     public function test_it_filters_values_of_non_existing_channels(): void
@@ -88,13 +87,14 @@ class NonExistentChannelLocaleValuesFilterTest extends TestCase
                         ]
                     ]
                 ]);
-        $this->channelsLocales->method('doesChannelExist')->with('ecommerce')->willReturn(true);
-        $this->channelsLocales->method('doesChannelExist')->with('foo')->willReturn(false);
-        $this->channelsLocales->method('isLocaleBoundToChannel')->with('en_US', 'ecommerce')->willReturn(true);
+        $this->channelsLocales->method('doesChannelExist')->willReturnCallback(fn (string $channel) => match ($channel) {
+            'ecommerce' => true,
+            'foo' => false,
+            default => false,
+        });
+        $this->channelsLocales->method('isLocaleBoundToChannel')->willReturn(true);
         $attributes = $this->getAttributes();
-        $this->getAttributes->method('forCode')->with('a_select')->willReturn($attributes['a_select']);
-        $this->getAttributes->method('forCode')->with('another_select')->willReturn($attributes['another_select']);
-        $this->getAttributes->method('forCode')->with('a_description')->willReturn($attributes['a_description']);
+        $this->getAttributes->method('forCode')->willReturnCallback(fn (string $code) => $attributes[$code] ?? null);
         $filteredRawValues = $this->sut->filter($ongoingFilteredRawValues)->filteredRawValuesCollectionIndexedByType();
         $this->assertEquals([
                     AttributeTypes::OPTION_SIMPLE_SELECT => [
@@ -184,17 +184,21 @@ class NonExistentChannelLocaleValuesFilterTest extends TestCase
                         ],
                     ],
                 ]);
-        $this->channelsLocales->method('doesChannelExist')->with('ecommerce')->willReturn(true);
-        $this->channelsLocales->method('isLocaleBoundToChannel')->with('en_US', 'ecommerce')->willReturn(true);
-        $this->channelsLocales->method('isLocaleBoundToChannel')->with('en_CA', 'ecommerce')->willReturn(false);
-        $this->channelsLocales->method('isLocaleBoundToChannel')->with('fr_FR', 'ecommerce')->willReturn(false);
-        $this->channelsLocales->method('isLocaleActive')->with('en_US')->willReturn(true);
-        $this->channelsLocales->method('isLocaleActive')->with('en_CA')->willReturn(false);
-        $this->channelsLocales->method('isLocaleActive')->with('fr_FR')->willReturn(true);
+        $this->channelsLocales->method('doesChannelExist')->willReturn(true);
+        $this->channelsLocales->method('isLocaleBoundToChannel')->willReturnCallback(fn (string $locale, string $channel) => match ("$locale|$channel") {
+            'en_US|ecommerce' => true,
+            'en_CA|ecommerce' => false,
+            'fr_FR|ecommerce' => false,
+            default => false,
+        });
+        $this->channelsLocales->method('isLocaleActive')->willReturnCallback(fn (string $locale) => match ($locale) {
+            'en_US' => true,
+            'en_CA' => false,
+            'fr_FR' => true,
+            default => false,
+        });
         $attributes = $this->getAttributes();
-        $this->getAttributes->method('forCode')->with('a_select')->willReturn($attributes['a_select']);
-        $this->getAttributes->method('forCode')->with('another_select')->willReturn($attributes['another_select']);
-        $this->getAttributes->method('forCode')->with('a_description')->willReturn($attributes['a_description']);
+        $this->getAttributes->method('forCode')->willReturnCallback(fn (string $code) => $attributes[$code] ?? null);
         $filteredRawValues = $this->sut->filter($ongoingFilteredRawValues)->filteredRawValuesCollectionIndexedByType();
         $this->assertEquals([
                     AttributeTypes::OPTION_SIMPLE_SELECT => [

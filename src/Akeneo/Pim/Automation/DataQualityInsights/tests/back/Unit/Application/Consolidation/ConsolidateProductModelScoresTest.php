@@ -57,14 +57,19 @@ class ConsolidateProductModelScoresTest extends TestCase
         $this->clock->method('getCurrentTime')->willReturn(new \DateTimeImmutable());
         $scores1 = (new ChannelLocaleRateCollection())->addRate($channelMobile, $localeEn, new Rate(93));
         $productModelId1Evaluations = $this->givenACriterionEvaluationCollection($productModelId1);
-        $this->filterCriteriaEvaluationsForPartialScore->method('__invoke')->with($productModelId1Evaluations)->willReturn($productModelId1Evaluations);
-        $this->getCriteriaEvaluationsQuery->method('execute')->with($productModelId1)->willReturn($productModelId1Evaluations);
-        $this->computeScores->method('fromCriteriaEvaluations')->with($productModelId1Evaluations)->willReturn($scores1);
         $scores2 = (new ChannelLocaleRateCollection())->addRate($channelMobile, $localeEn, new Rate(65));
         $productModelId2Evaluations = $this->givenACriterionEvaluationCollection($productModelId2);
-        $this->filterCriteriaEvaluationsForPartialScore->method('__invoke')->with($productModelId2Evaluations)->willReturn($productModelId2Evaluations);
-        $this->getCriteriaEvaluationsQuery->method('execute')->with($productModelId2)->willReturn($productModelId2Evaluations);
-        $this->computeScores->method('fromCriteriaEvaluations')->with($productModelId2Evaluations)->willReturn($scores2);
+        $this->filterCriteriaEvaluationsForPartialScore->method('__invoke')->willReturnArgument(0);
+        $this->getCriteriaEvaluationsQuery->method('execute')->willReturnCallback(fn (ProductEntityIdInterface $id) => match ((string) $id) {
+            '42' => $productModelId1Evaluations,
+            '56' => $productModelId2Evaluations,
+            default => new Read\CriterionEvaluationCollection(),
+        });
+        $this->computeScores->method('fromCriteriaEvaluations')->willReturnCallback(fn (Read\CriterionEvaluationCollection $evals) => match (true) {
+            $evals === $productModelId1Evaluations => $scores1,
+            $evals === $productModelId2Evaluations => $scores2,
+            default => new ChannelLocaleRateCollection(),
+        });
         $this->productModelScoreRepository->expects($this->once())->method('saveAll')->with($this->callback(fn (array $productModelScores) => 2 === count($productModelScores)
                     && $productModelScores[0] instanceof Write\ProductScores && (string) $productModelId1 === (string) $productModelScores[0]->getEntityId() && $scores1 === $productModelScores[0]->getScores()
                     && $productModelScores[1] instanceof Write\ProductScores && (string) $productModelId2 === (string) $productModelScores[1]->getEntityId() && $scores2 === $productModelScores[1]->getScores()));

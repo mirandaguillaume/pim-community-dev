@@ -48,7 +48,7 @@ class OperationJobLauncherTest extends TestCase
                 ]);
         $this->tokenStorage->method('getToken')->willReturn($token);
         $token->method('getUser')->willReturn($user);
-        $this->jobLauncher->method('launch')->with($jobInstance,
+        $this->jobLauncher->expects($this->once())->method('launch')->with($jobInstance,
                     $user,
                     [
                         'foo'  => 'bar',

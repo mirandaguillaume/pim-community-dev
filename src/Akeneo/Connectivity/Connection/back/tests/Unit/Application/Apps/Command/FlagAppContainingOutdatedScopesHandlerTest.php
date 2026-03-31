@@ -30,30 +30,32 @@ class FlagAppContainingOutdatedScopesHandlerTest extends TestCase
         $this->scopeMapperRegistry = $this->createMock(ScopeMapperRegistryInterface::class);
         $this->saveConnectedAppOutdatedScopesFlagQuery = $this->createMock(SaveConnectedAppOutdatedScopesFlagQueryInterface::class);
         $this->authorizationRequestNotifier = $this->createMock(AuthorizationRequestNotifierInterface::class);
+
+        $this->scopeMapperRegistry->method('getAllScopes')->willReturn([
+            'read_scope_a',
+            'write_scope_a',
+            'read_scope_b',
+            'write_scope_b',
+            'read_scope_c',
+            'read_scope_d',
+        ]);
+        $this->scopeMapperRegistry->method('getExhaustiveScopes')->willReturnCallback(function (array $scopes) {
+            sort($scopes);
+            $key = implode(',', $scopes);
+            return match ($key) {
+                'read_scope_a,write_scope_b' => ['read_scope_a', 'read_scope_b', 'write_scope_b'],
+                'read_scope_d' => ['read_scope_d'],
+                'read_scope_b,read_scope_d' => ['read_scope_b', 'read_scope_d'],
+                default => $scopes,
+            };
+        });
+
         $this->sut = new FlagAppContainingOutdatedScopesHandler(
             $this->scopeMapperRegistry,
             $this->saveConnectedAppOutdatedScopesFlagQuery,
             $this->authorizationRequestNotifier,
             new ScopeListComparator($this->scopeMapperRegistry),
         );
-        $this->scopeMapperRegistry->method('getAllScopes')->willReturn([
-        'read_scope_a',
-        'write_scope_a',
-        'read_scope_b',
-        'write_scope_b',
-        'read_scope_c',
-        'read_scope_d',
-        ]);
-        $this->scopeMapperRegistry->method('getExhaustiveScopes')->with(['read_scope_a', 'write_scope_b'])->willReturn([
-        'read_scope_a',
-        'read_scope_b',
-        'write_scope_b',
-        ]);
-        $this->scopeMapperRegistry->method('getExhaustiveScopes')->with(['read_scope_d'])->willReturn(['read_scope_d']);
-        $this->scopeMapperRegistry->method('getExhaustiveScopes')->with(['read_scope_b', 'read_scope_d'])->willReturn([
-        'read_scope_b',
-        'read_scope_d',
-        ]);
     }
 
     public function test_it_is_a_flag_app_containing_outdated_scopes_handler(): void
@@ -73,12 +75,12 @@ class FlagAppContainingOutdatedScopesHandlerTest extends TestCase
             'a_group',
             'an_username',
         );
+        $this->saveConnectedAppOutdatedScopesFlagQuery->expects($this->once())->method('execute')->with('a_connected_app_id', true);
+        $this->authorizationRequestNotifier->expects($this->once())->method('notify')->with($connectedApp);
         $this->sut->handle(new FlagAppContainingOutdatedScopesCommand(
             $connectedApp,
             'read_scope_a openid_scope_a random noise write_scope_b'
         ));
-        $this->saveConnectedAppOutdatedScopesFlagQuery->method('execute')->with('a_connected_app_id', true);
-        $this->authorizationRequestNotifier->method('notify')->with($connectedApp);
     }
 
     public function test_it_does_not_flag_the_connected_app_on_less_scopes(): void
@@ -93,12 +95,12 @@ class FlagAppContainingOutdatedScopesHandlerTest extends TestCase
             'a_group',
             'an_username',
         );
+        $this->saveConnectedAppOutdatedScopesFlagQuery->expects($this->never())->method('execute');
+        $this->authorizationRequestNotifier->expects($this->never())->method('notify');
         $this->sut->handle(new FlagAppContainingOutdatedScopesCommand(
             $connectedApp,
             'openid_scope_a random noise read_scope_d'
         ));
-        $this->saveConnectedAppOutdatedScopesFlagQuery->method('execute')->with('a_connected_app_id', true);
-        $this->authorizationRequestNotifier->method('notify')->with($connectedApp);
     }
 
     public function test_it_does_not_flag_the_connected_app_on_same_scopes(): void
@@ -113,11 +115,11 @@ class FlagAppContainingOutdatedScopesHandlerTest extends TestCase
             'a_group',
             'an_username',
         );
+        $this->saveConnectedAppOutdatedScopesFlagQuery->expects($this->never())->method('execute');
+        $this->authorizationRequestNotifier->expects($this->never())->method('notify');
         $this->sut->handle(new FlagAppContainingOutdatedScopesCommand(
             $connectedApp,
             'read_scope_b openid_scope_a random noise read_scope_d'
         ));
-        $this->saveConnectedAppOutdatedScopesFlagQuery->method('execute')->with('a_connected_app_id', true);
-        $this->authorizationRequestNotifier->method('notify')->with($connectedApp);
     }
 }

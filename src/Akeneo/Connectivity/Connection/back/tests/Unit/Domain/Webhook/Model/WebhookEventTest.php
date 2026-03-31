@@ -24,6 +24,11 @@ class WebhookEventTest extends TestCase
     protected function setUp(): void
     {
         $this->user = $this->createMock(UserInterface::class);
+        $this->user->method('getUserIdentifier')->willReturn('julia');
+        $this->user->method('getFirstName')->willReturn('Julia');
+        $this->user->method('getLastName')->willReturn('Doe');
+        $this->user->method('isApiUser')->willReturn(false);
+        $author = Author::fromUser($this->user);
         $this->sut = new WebhookEvent(
             'product.created',
             '21f7f779-f094-4305-8ee4-65fdddd5a418',
@@ -33,11 +38,6 @@ class WebhookEventTest extends TestCase
             ['data'],
             $this->createEvent($author, ['data'])
         );
-        $this->user->method('getUserIdentifier')->willReturn('julia');
-        $this->user->method('getFirstName')->willReturn('Julia');
-        $this->user->method('getLastName')->willReturn('Doe');
-        $this->user->method('isApiUser')->willReturn(false);
-        $author = Author::fromUser($this->user);
     }
 
     public function test_it_is_initializable(): void

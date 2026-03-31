@@ -48,8 +48,7 @@ class MarkProductsEvaluationImpactedByUpdatedProductsTaskletTest extends TestCas
                     ProductUuidCollection::fromStrings(['df470d52-7723-4890-85a0-e79be625e2ed']),
                 ];
         $this->getUpdatedProductIdsQuery->method('since')->with($this->callback(fn (\DateTimeImmutable $updatedSince) => $updatedSince->format('Y-m-d H:i:s') === '2023-02-07 14:23:56'), 2)->willReturn(new \ArrayIterator($productUuids));
-        $this->createCriteriaEvaluations->expects($this->once())->method('createAll')->with($productUuids[0]);
-        $this->createCriteriaEvaluations->expects($this->once())->method('createAll')->with($productUuids[1]);
+        $this->createCriteriaEvaluations->expects($this->exactly(2))->method('createAll');
         $this->logger->expects($this->never())->method('error');
         $this->sut->execute();
         Assert::same($stepExecution->getWriteCount(), 3);

@@ -18,17 +18,19 @@ class DateTimeRangeFilterTypeTest extends AbstractTypeTestCase
     {
         $translator = $this->createMockTranslator();
 
+        $this->type = new DateTimeRangeFilterType();
+
         $types = [
             new FilterType($translator),
             new DateRangeType(),
             new DateTimeRangeType(),
             new DateRangeFilterType($translator),
+            $this->type,
         ];
 
         $this->formExtensions[] = new CustomFormExtension($types);
 
         parent::setUp();
-        $this->type = new DateTimeRangeFilterType();
     }
 
     /**

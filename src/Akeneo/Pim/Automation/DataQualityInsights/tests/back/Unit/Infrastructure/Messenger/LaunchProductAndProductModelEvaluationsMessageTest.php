@@ -68,7 +68,7 @@ class LaunchProductAndProductModelEvaluationsMessageTest extends TestCase
                     'product_model_ids' => ['42', '123'],
                     'criteria' => ['consistency_spelling'],
                 ]);
-        Assert::eq(new LaunchProductAndProductModelEvaluationsMessage(
+        $this->assertEquals(new LaunchProductAndProductModelEvaluationsMessage(
             $datetime,
             ProductUuidCollection::fromStrings(['df470d52-7723-4890-85a0-e79be625e2ed', 'fd470d52-7723-4890-85a0-e79be625e2de']),
             ProductModelIdCollection::fromStrings(['42', '123']),

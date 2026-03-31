@@ -95,7 +95,7 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
         array $viewData,
         array $customOptions = []
     ) {
-        $form = $this->factory->create($this->getTestFormType(), null, $customOptions);
+        $form = $this->factory->create($this->getTestFormType()::class, null, $customOptions);
 
         $form->submit($bindData);
 

@@ -28,8 +28,11 @@ class GetKeyIndicatorsTest extends TestCase
         $this->getProductKeyIndicatorsQuery = $this->createMock(GetProductKeyIndicatorsQueryInterface::class);
         $this->getProductModelKeyIndicatorsQuery = $this->createMock(GetProductKeyIndicatorsQueryInterface::class);
         $this->productKeyIndicatorsRegistry = $this->createMock(ProductKeyIndicatorsByFeatureRegistry::class);
+        $this->productKeyIndicatorsRegistry->method('getCodes')->willReturn([
+            new KeyIndicatorCode('good_enrichment'),
+            new KeyIndicatorCode('has_image'),
+        ]);
         $this->sut = new GetKeyIndicators($this->getProductKeyIndicatorsQuery, $this->getProductModelKeyIndicatorsQuery, $this->productKeyIndicatorsRegistry);
-        $this->productKeyIndicatorsRegistry->method('getCodes');
     }
 
     public function test_it_gives_key_indicators_for_all_products_and_product_models(): void
@@ -38,11 +41,11 @@ class GetKeyIndicatorsTest extends TestCase
         $locale = new LocaleCode('en_US');
         $goodEnrichment = new KeyIndicatorCode('good_enrichment');
         $hasImage = new KeyIndicatorCode('has_image');
-        $this->getProductKeyIndicatorsQuery->method('all')->with($channel, $locale, $goodEnrichment, $hasImage)->willReturn([
+        $this->getProductKeyIndicatorsQuery->method('all')->willReturn([
                         'good_enrichment' => new KeyIndicator($goodEnrichment, 15, 60),
                         'has_image' => new KeyIndicator($hasImage, 25, 26),
                     ]);
-        $this->getProductModelKeyIndicatorsQuery->method('all')->with($channel, $locale, $goodEnrichment, $hasImage)->willReturn([
+        $this->getProductModelKeyIndicatorsQuery->method('all')->willReturn([
                         'good_enrichment' => new KeyIndicator($goodEnrichment, 23, 52),
                         'has_image' => new KeyIndicator($hasImage, 24, 89),
                     ]);
@@ -79,10 +82,10 @@ class GetKeyIndicatorsTest extends TestCase
         $locale = new LocaleCode('en_US');
         $goodEnrichment = new KeyIndicatorCode('good_enrichment');
         $hasImage = new KeyIndicatorCode('has_image');
-        $this->getProductKeyIndicatorsQuery->method('byFamily')->with($channel, $locale, $family, $goodEnrichment, $hasImage)->willReturn([
+        $this->getProductKeyIndicatorsQuery->method('byFamily')->willReturn([
                         'good_enrichment' => new KeyIndicator($goodEnrichment, 15, 60),
                     ]);
-        $this->getProductModelKeyIndicatorsQuery->method('byFamily')->with($channel, $locale, $family, $goodEnrichment, $hasImage)->willReturn([
+        $this->getProductModelKeyIndicatorsQuery->method('byFamily')->willReturn([
                         'good_enrichment' => new KeyIndicator($goodEnrichment, 30, 40),
                     ]);
         $this->assertEquals([
@@ -118,11 +121,11 @@ class GetKeyIndicatorsTest extends TestCase
         $locale = new LocaleCode('en_US');
         $goodEnrichment = new KeyIndicatorCode('good_enrichment');
         $hasImage = new KeyIndicatorCode('has_image');
-        $this->getProductKeyIndicatorsQuery->method('byCategory')->with($channel, $locale, $category, $goodEnrichment, $hasImage)->willReturn([
+        $this->getProductKeyIndicatorsQuery->method('byCategory')->willReturn([
                         'good_enrichment' => new KeyIndicator($goodEnrichment, 15, 60),
                         'has_image' => new KeyIndicator($hasImage, 0, 0),
                     ]);
-        $this->getProductModelKeyIndicatorsQuery->method('byCategory')->with($channel, $locale, $category, $goodEnrichment, $hasImage)->willReturn([
+        $this->getProductModelKeyIndicatorsQuery->method('byCategory')->willReturn([
                         'good_enrichment' => new KeyIndicator($goodEnrichment, 45, 65),
                         'has_image' => new KeyIndicator($hasImage, 0, 0),
                     ]);

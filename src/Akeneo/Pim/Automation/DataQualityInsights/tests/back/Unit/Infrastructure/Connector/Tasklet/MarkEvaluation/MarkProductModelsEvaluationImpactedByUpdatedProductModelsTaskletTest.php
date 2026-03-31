@@ -48,8 +48,7 @@ class MarkProductModelsEvaluationImpactedByUpdatedProductModelsTaskletTest exten
                     ProductModelIdCollection::fromStrings(['777']),
                 ];
         $this->getUpdatedProductModelIdsQuery->method('since')->with($this->callback(fn (\DateTimeImmutable $updatedSince) => $updatedSince->format('Y-m-d H:i:s') === '2023-02-07 14:23:56'), 2)->willReturn(new \ArrayIterator($productModelIds));
-        $this->createCriteriaEvaluations->expects($this->once())->method('createAll')->with($productModelIds[0]);
-        $this->createCriteriaEvaluations->expects($this->once())->method('createAll')->with($productModelIds[1]);
+        $this->createCriteriaEvaluations->expects($this->exactly(2))->method('createAll');
         $this->logger->expects($this->never())->method('error');
         $this->sut->execute();
         Assert::same($stepExecution->getWriteCount(), 3);

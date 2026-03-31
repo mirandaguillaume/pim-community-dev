@@ -230,10 +230,13 @@ class UpsertProductHandlerTest extends TestCase
         $token->method('getUser')->willReturn($user);
         $user->method('getId')->willReturn(1);
         $this->productRepository->expects($this->once())->method('findOneByIdentifier')->with('identifier1')->willReturn($product);
-        $this->applierRegistry->expects($this->once())->method('getApplier')->with($userIntent)->willReturn($applier);
-        $this->applierRegistry->expects($this->once())->method('getApplier')->with($setTextUserIntent)->willReturn($applier2);
-        $applier->expects($this->once())->method('apply')->with($userIntent, $product, 1);
-        $applier2->expects($this->once())->method('apply')->with($setTextUserIntent, $product, 1);
+        $this->applierRegistry->expects($this->exactly(2))->method('getApplier')->willReturnCallback(fn ($intent) => match (true) {
+            $intent instanceof SetEnabled => $applier,
+            $intent instanceof SetTextValue => $applier2,
+            default => null,
+        });
+        $applier->expects($this->once())->method('apply');
+        $applier2->expects($this->once())->method('apply');
         $this->productValidator->expects($this->once())->method('validate')->with($product)->willReturn(new ConstraintViolationList());
         $this->productSaver->expects($this->once())->method('save')->with($product);
         $event = new ProductWasUpdated($product->getUuid(), \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2022-02-12 10:05:24'));

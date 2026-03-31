@@ -85,8 +85,7 @@ class AssociationUserIntentCollectionApplierTest extends TestCase
 
         $associatedProduct = new Product();
         $associatedProduct->addValue(IdentifierValue::value('sku', true, 'baz'));
-        $product->expects($this->once())->method('getAssociatedProducts')->with('X_SELL')->willReturn(new ArrayCollection([$associatedProduct]));
-        $product->expects($this->once())->method('getAssociatedProducts')->with('UPSELL')->willReturn(new ArrayCollection([$associatedProduct]));
+        $product->method('getAssociatedProducts')->willReturn(new ArrayCollection([$associatedProduct]));
         $collection = new AssociationUserIntentCollection([
                     new AssociateProducts('X_SELL', ['foo', 'bar']),
                     new AssociateProducts('UPSELL', ['foo', 'bar']),

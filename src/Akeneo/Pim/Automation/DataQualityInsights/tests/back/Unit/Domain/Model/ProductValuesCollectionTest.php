@@ -41,7 +41,7 @@ class ProductValuesCollectionTest extends TestCase
         $this->sut->add($textValues2);
         $this->sut->add($textareaValues);
         $allTextValues = iterator_to_array($this->sut->getTextValues());
-        Assert::eq($allTextValues, [$textValues1, $textValues2]);
+        $this->assertEquals($allTextValues, [$textValues1, $textValues2]);
     }
 
     public function test_it_returns_the_product_values_for_attributes_of_type_textarea(): void
@@ -56,7 +56,7 @@ class ProductValuesCollectionTest extends TestCase
         $this->sut->add($textareaValues2);
         $this->sut->add($textValues);
         $allTextValues = iterator_to_array($this->sut->getTextareaValues());
-        Assert::eq($allTextValues, [$textareaValues1, $textareaValues2]);
+        $this->assertEquals($allTextValues, [$textareaValues1, $textareaValues2]);
     }
 
     public function test_it_returns_the_product_values_for_localizable_attributes_of_type_text(): void
@@ -74,7 +74,7 @@ class ProductValuesCollectionTest extends TestCase
         $this->sut->add($notLocalizableTextValues);
         $this->sut->add($textareaValues);
         $allTextValues = iterator_to_array($this->sut->getLocalizableTextValues());
-        Assert::eq($allTextValues, [$localizableTextValues1, $localizableTextValues2]);
+        $this->assertEquals($allTextValues, [$localizableTextValues1, $localizableTextValues2]);
     }
 
     public function test_it_returns_the_product_values_for_localizable_attributes_of_type_textarea(): void
@@ -92,7 +92,7 @@ class ProductValuesCollectionTest extends TestCase
         $this->sut->add($notLocalizableTextareaValues);
         $this->sut->add($textValues);
         $allTextValues = iterator_to_array($this->sut->getLocalizableTextareaValues());
-        Assert::eq($allTextValues, [$localizableTextareaValues1, $localizableTextareaValues2]);
+        $this->assertEquals($allTextValues, [$localizableTextareaValues1, $localizableTextareaValues2]);
     }
 
     private function givenALocalizableAttributeOfTypeText(string $code): Attribute

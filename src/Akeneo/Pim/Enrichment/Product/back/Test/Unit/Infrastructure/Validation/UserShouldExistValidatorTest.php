@@ -27,8 +27,10 @@ class UserShouldExistValidatorTest extends TestCase
         $this->userRepository = $this->createMock(UserRepositoryInterface::class);
         $this->context = $this->createMock(ExecutionContext::class);
         $this->sut = new UserShouldExistValidator($this->userRepository);
-        $this->userRepository->method('findOneBy')->with(['id' => 1])->willReturn(new User());
-        $this->userRepository->method('findOneBy')->with(['id' => 2])->willReturn(null);
+        $this->userRepository->method('findOneBy')->willReturnCallback(fn (array $criteria) => match ($criteria['id'] ?? null) {
+            1 => new User(),
+            default => null,
+        });
         $this->sut->initialize($this->context);
     }
 

@@ -7,7 +7,7 @@ use Oro\Bundle\FilterBundle\Form\Type\Filter\EntityFilterType;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\FilterType;
 use Oro\Bundle\FilterBundle\Tests\Unit\Fixtures\CustomFormExtension;
 use Oro\Bundle\FilterBundle\Tests\Unit\Form\Type\AbstractTypeTestCase;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType as DoctrineEntityType;
 
 class EntityFilterTypeTest extends AbstractTypeTestCase
 {
@@ -19,17 +19,18 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
 
         $registry = $this->createMock(\Doctrine\Persistence\ManagerRegistry::class);
 
+        $this->type = new EntityFilterType($translator);
+
         $types = [
             new FilterType($translator),
             new ChoiceFilterType($translator),
-            new EntityType($registry),
+            new DoctrineEntityType($registry),
+            $this->type,
         ];
 
         $this->formExtensions[] = new CustomFormExtension($types);
 
         parent::setUp();
-
-        $this->type = new EntityFilterType($translator);
     }
 
     /**
@@ -47,7 +48,7 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
 
     public function testGetParent()
     {
-        $this->assertEquals(ChoiceFilterType::NAME, $this->type->getParent());
+        $this->assertEquals(ChoiceFilterType::class, $this->type->getParent());
     }
 
     /**
@@ -58,7 +59,7 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
         return [
             [
                 'defaultOptions' => [
-                    'field_type'    => 'entity',
+                    'field_type'    => DoctrineEntityType::class,
                     'field_options' => [],
                     'translatable'  => false,
                 ],
@@ -77,6 +78,7 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
         array $customOptions = []
     ) {
         // bind method should be tested in functional test
+        $this->expectNotToPerformAssertions();
     }
 
     /**

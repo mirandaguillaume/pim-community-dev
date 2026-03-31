@@ -19,9 +19,12 @@ class ScopeMapperRegistryTest extends TestCase
     {
         $this->productScopes = $this->createMock(ScopeMapperInterface::class);
         $this->catalogStructureScopes = $this->createMock(ScopeMapperInterface::class);
-        $this->sut = new ScopeMapperRegistry([$this->productScopes, $this->catalogStructureScopes]);
+
+        // Configure mocks BEFORE passing to constructor (constructor calls getScopes())
         $this->productScopes->method('getScopes')->willReturn(['read_products', 'write_products']);
         $this->catalogStructureScopes->method('getScopes')->willReturn(['read_catalog_structure', 'write_catalog_structure']);
+
+        $this->sut = new ScopeMapperRegistry([$this->productScopes, $this->catalogStructureScopes]);
     }
 
     public function test_it_is_a_scope_mapper_registry(): void
@@ -37,7 +40,7 @@ class ScopeMapperRegistryTest extends TestCase
             ScopeMapperRegistry::class,
             ScopeMapperInterface::class
         ));
-        $this->sut->__construct([new \stdClass()]);
+        new ScopeMapperRegistry([new \stdClass()]);
     }
 
     public function test_it_forbids_to_support_a_scope_more_than_once(): void
@@ -62,8 +65,7 @@ class ScopeMapperRegistryTest extends TestCase
             {
                 return [];
             }
-        }
-        ;
+        };
         $anotherScopeMapper = new class implements ScopeMapperInterface {
             public function getScopes(): array
             {
@@ -84,10 +86,9 @@ class ScopeMapperRegistryTest extends TestCase
             {
                 return [];
             }
-        }
-        ;
+        };
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->__construct([$anyScopeMapper, $anotherScopeMapper]);
+        new ScopeMapperRegistry([$anyScopeMapper, $anotherScopeMapper]);
     }
 
     public function test_it_provides_all_scopes(): void
@@ -102,20 +103,28 @@ class ScopeMapperRegistryTest extends TestCase
 
     public function test_it_provides_filtered_messages_by_removing_lower_hierarchy_scopes(): void
     {
-        $this->productScopes->method('getLowerHierarchyScopes')->with('read_products')->willReturn([]);
-        $this->productScopes->method('getLowerHierarchyScopes')->with('write_products')->willReturn(['read_products']);
-        $this->catalogStructureScopes->method('getLowerHierarchyScopes')->with('read_catalog_structure')->willReturn([]);
-        $this->catalogStructureScopes->method('getLowerHierarchyScopes')->with('write_catalog_structure')->willReturn(['read_catalog_structure']);
-        $this->productScopes->method('getMessage')->with('write_products')->willReturn([
-                    'icon' => 'write_products_icon',
-                    'type' => 'write',
-                    'entities' => 'products',
-                ]);
-        $this->catalogStructureScopes->method('getMessage')->with('write_catalog_structure')->willReturn([
-                    'icon' => 'write_catalog_structure_icon',
-                    'type' => 'write',
-                    'entities' => 'catalog_structure',
-                ]);
+        $this->productScopes->method('getLowerHierarchyScopes')->willReturnMap([
+            ['read_products', []],
+            ['write_products', ['read_products']],
+        ]);
+        $this->catalogStructureScopes->method('getLowerHierarchyScopes')->willReturnMap([
+            ['read_catalog_structure', []],
+            ['write_catalog_structure', ['read_catalog_structure']],
+        ]);
+        $this->productScopes->method('getMessage')->willReturnMap([
+            ['write_products', [
+                'icon' => 'write_products_icon',
+                'type' => 'write',
+                'entities' => 'products',
+            ]],
+        ]);
+        $this->catalogStructureScopes->method('getMessage')->willReturnMap([
+            ['write_catalog_structure', [
+                'icon' => 'write_catalog_structure_icon',
+                'type' => 'write',
+                'entities' => 'catalog_structure',
+            ]],
+        ]);
         $this->assertSame([
                         [
                             'icon' => 'write_catalog_structure_icon',
@@ -132,23 +141,31 @@ class ScopeMapperRegistryTest extends TestCase
 
     public function test_it_provides_complete_acls_by_adding_lower_hierarchy_acls_if_missing(): void
     {
-        $this->productScopes->method('getLowerHierarchyScopes')->with('read_products')->willReturn([]);
-        $this->productScopes->method('getLowerHierarchyScopes')->with('write_products')->willReturn(['read_products']);
-        $this->catalogStructureScopes->method('getLowerHierarchyScopes')->with('write_catalog_structure')->willReturn(['read_catalog_structure']);
-        $this->productScopes->method('getAcls')->with('read_products')->willReturn(['pim_api_product_list']);
-        $this->productScopes->method('getAcls')->with('write_products')->willReturn(['pim_api_product_edit']);
-        $this->catalogStructureScopes->method('getAcls')->with('read_catalog_structure')->willReturn([
-                    'pim_api_attribute_list',
-                    'pim_api_attribute_group_list',
-                    'pim_api_family_list',
-                    'pim_api_family_variant_list',
-                ]);
-        $this->catalogStructureScopes->method('getAcls')->with('write_catalog_structure')->willReturn([
-                    'pim_api_attribute_edit',
-                    'pim_api_attribute_group_edit',
-                    'pim_api_family_edit',
-                    'pim_api_family_variant_edit',
-                ]);
+        $this->productScopes->method('getLowerHierarchyScopes')->willReturnMap([
+            ['read_products', []],
+            ['write_products', ['read_products']],
+        ]);
+        $this->catalogStructureScopes->method('getLowerHierarchyScopes')->willReturnMap([
+            ['write_catalog_structure', ['read_catalog_structure']],
+        ]);
+        $this->productScopes->method('getAcls')->willReturnMap([
+            ['read_products', ['pim_api_product_list']],
+            ['write_products', ['pim_api_product_edit']],
+        ]);
+        $this->catalogStructureScopes->method('getAcls')->willReturnMap([
+            ['read_catalog_structure', [
+                'pim_api_attribute_list',
+                'pim_api_attribute_group_list',
+                'pim_api_family_list',
+                'pim_api_family_variant_list',
+            ]],
+            ['write_catalog_structure', [
+                'pim_api_attribute_edit',
+                'pim_api_attribute_group_edit',
+                'pim_api_family_edit',
+                'pim_api_family_variant_edit',
+            ]],
+        ]);
         $this->assertSame([
                         'pim_api_product_list',
                         'pim_api_attribute_edit',
@@ -166,7 +183,6 @@ class ScopeMapperRegistryTest extends TestCase
     public function test_it_leads_to_an_error_to_ask_for_acl_of_an_unknown_scope(): void
     {
         $this->expectException(\LogicException::class);
-
         $this->expectExceptionMessage('The scope "product_unknown_scope" does not exist.');
         $this->sut->getAcls(['product_unknown_scope']);
     }
@@ -174,7 +190,6 @@ class ScopeMapperRegistryTest extends TestCase
     public function test_it_leads_to_an_error_to_ask_for_message_of_an_unknown_scope(): void
     {
         $this->expectException(\LogicException::class);
-
         $this->expectExceptionMessage('The scope "product_unknown_scope" does not exist.');
         $this->sut->getMessages(['product_unknown_scope']);
     }

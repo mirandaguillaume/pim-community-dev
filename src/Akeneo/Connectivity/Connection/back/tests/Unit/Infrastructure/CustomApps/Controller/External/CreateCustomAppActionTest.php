@@ -113,10 +113,12 @@ class CreateCustomAppActionTest extends TestCase
                             new ConstraintViolation('Not url', '', [], '', 'callbackUrl', 'it is not a url'),
                             new ConstraintViolation('Not url', '', [], '', 'activateUrl', 'it is not a url'),
                         ]));
-        $this->translator->method('trans');
-        $request->method('get')->with('name', '')->willReturn('Too long');
-        $request->method('get')->with('activate_url', '')->willReturn(420);
-        $request->method('get')->with('callback_url', '')->willReturn('Not url');
+        $this->translator->method('trans')->willReturnArgument(0);
+        $request->method('get')->willReturnMap([
+            ['name', '', 'Too long'],
+            ['activate_url', '', 420],
+            ['callback_url', '', 'Not url'],
+        ]);
         $this->assertEquals(new JsonResponse(
             [
                         'errors' => [
@@ -151,9 +153,11 @@ class CreateCustomAppActionTest extends TestCase
         $this->validator->method('validate')->with($this->isInstanceOf(CreateCustomAppCommand::class))->willReturn(new ConstraintViolationList());
         $this->createCustomAppCommandHandler->expects($this->once())->method('handle')->with($this->isInstanceOf(CreateCustomAppCommand::class));
         $this->getCustomAppSecretQuery->method('execute')->with($this->isType('string'))->willReturn(null);
-        $request->method('get')->with('name', '')->willReturn('CustomApp');
-        $request->method('get')->with('activate_url', '')->willReturn('http://callback-url.test');
-        $request->method('get')->with('callback_url', '')->willReturn('http://activate-url.test');
+        $request->method('get')->willReturnMap([
+            ['name', '', 'CustomApp'],
+            ['activate_url', '', 'http://callback-url.test'],
+            ['callback_url', '', 'http://activate-url.test'],
+        ]);
         $this->assertEquals(new JsonResponse(
             [
                         'errors' => [
@@ -178,9 +182,11 @@ class CreateCustomAppActionTest extends TestCase
         $this->validator->method('validate')->with($this->isInstanceOf(CreateCustomAppCommand::class))->willReturn(new ConstraintViolationList());
         $this->createCustomAppCommandHandler->expects($this->once())->method('handle')->with($this->isInstanceOf(CreateCustomAppCommand::class));
         $this->getCustomAppSecretQuery->method('execute')->with($this->isType('string'))->willReturn('app_secret');
-        $request->method('get')->with('name', '')->willReturn('CustomApp');
-        $request->method('get')->with('activate_url', '')->willReturn('http://callback-url.test');
-        $request->method('get')->with('callback_url', '')->willReturn('http://activate-url.test');
+        $request->method('get')->willReturnMap([
+            ['name', '', 'CustomApp'],
+            ['activate_url', '', 'http://callback-url.test'],
+            ['callback_url', '', 'http://activate-url.test'],
+        ]);
         $response = $this->sut->__invoke($request);
         $this->assertInstanceOf(\Symfony\Component\HttpFoundation\JsonResponse::class, $response);
         $content = \json_decode($response->getContent(), true);

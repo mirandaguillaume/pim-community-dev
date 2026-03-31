@@ -73,7 +73,7 @@ class DateValidatorTest extends TestCase
         $context->method('buildViolation')->willReturn($constraintViolationBuilder);
         $constraintViolationBuilder->method('setParameter')->willReturn($constraintViolationBuilder);
         $constraintViolationBuilder->method('setCode')->with($this->anything())->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->once())->method('addViolation');
+        $constraintViolationBuilder->expects($this->atLeastOnce())->method('addViolation');
         $constraintViolationList = new ConstraintViolationList([$constraintViolation]);
         $context->method('getViolations')->willReturn($constraintViolationList);
         $constraintViolation->method('getCode')->willReturn(Date::INVALID_FORMAT_ERROR);

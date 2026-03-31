@@ -27,16 +27,21 @@ class NumericGuesserTest extends TestCase
 
     public function test_it_enforces_attribute_type(): void
     {
-        $attribute = $this->createMock(AttributeInterface::class);
+        $metricAttribute = $this->createMock(AttributeInterface::class);
+        $metricAttribute->method('getType')->willReturn('pim_catalog_metric');
+        $this->assertSame(true, $this->sut->supportAttribute($metricAttribute));
 
-        $attribute->method('getType')->willReturn('pim_catalog_metric');
-        $this->assertSame(true, $this->sut->supportAttribute($attribute));
-        $attribute->method('getType')->willReturn('pim_catalog_number');
-        $this->assertSame(true, $this->sut->supportAttribute($attribute));
-        $attribute->method('getType')->willReturn('pim_catalog_text');
-        $this->assertSame(false, $this->sut->supportAttribute($attribute));
-        $attribute->method('getType')->willReturn('foo');
-        $this->assertSame(false, $this->sut->supportAttribute($attribute));
+        $numberAttribute = $this->createMock(AttributeInterface::class);
+        $numberAttribute->method('getType')->willReturn('pim_catalog_number');
+        $this->assertSame(true, $this->sut->supportAttribute($numberAttribute));
+
+        $textAttribute = $this->createMock(AttributeInterface::class);
+        $textAttribute->method('getType')->willReturn('pim_catalog_text');
+        $this->assertSame(false, $this->sut->supportAttribute($textAttribute));
+
+        $fooAttribute = $this->createMock(AttributeInterface::class);
+        $fooAttribute->method('getType')->willReturn('foo');
+        $this->assertSame(false, $this->sut->supportAttribute($fooAttribute));
     }
 
     public function test_it_always_guess(): void

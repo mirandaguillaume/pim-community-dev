@@ -91,13 +91,13 @@ class NonExistentReferenceDataSimpleSelectValuesFilterTest extends TestCase
                         ]
                     ]
                 );
-        $this->getExistingReferenceDataCodes->method('fromReferenceDataNameAndCodes')->with('some_reference_data',
-                    [
-                        'option_toto',
-                        'OPTION_WITH_OTHER_CASE',
-                        'non_existent_option',
-                    ])->willReturn(['option_toto', 'Option_With_Other_Case']);
-        $this->getExistingReferenceDataCodes->method('fromReferenceDataNameAndCodes')->with('another_reference_data', ['option_tata'])->willReturn([]);
+        $this->getExistingReferenceDataCodes->method('fromReferenceDataNameAndCodes')->willReturnCallback(function (string $name, array $codes) {
+            return match ($name) {
+                'some_reference_data' => ['option_toto', 'Option_With_Other_Case'],
+                'another_reference_data' => [],
+                default => [],
+            };
+        });
         /** @var OnGoingFilteredRawValues $filteredCollection */
                 $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
         $this->assertEquals(

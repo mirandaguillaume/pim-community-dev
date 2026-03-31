@@ -166,7 +166,7 @@ class ShouldStayOwnerOfTheProductValidatorTest extends TestCase
             userIntents: []
         ));
         $this->getProductUuids->expects($this->once())->method('fromUuid')->with($uuid)->willReturn($uuid);
-        $this->getCategoryCodes->expects($this->once())->method('fromProductUuids')->with([$uuid])->willReturn(['categoryA', 'categoryB']);
+        $this->getCategoryCodes->expects($this->once())->method('fromProductUuids')->with([$uuid])->willReturn([$uuid->toString() => ['categoryA', 'categoryB']]);
         $this->getOwnedCategories->expects($this->exactly(2))->method('forUserId')
             ->willReturnCallback(function (array $categories, int $userId) {
                 if ($categories === ['categoryA', 'categoryB'] && $userId === 10) {

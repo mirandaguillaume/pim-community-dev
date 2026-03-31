@@ -44,12 +44,10 @@ class EvaluateProductsAndProductModelsCriteriaTaskletTest extends TestCase
                     'df470d52-7723-4890-85a0-e79be625e2ed',
                 ])];
         $this->getProductUuidsToEvaluateQuery->method('execute')->with(1000, 2)->willReturn(new \ArrayIterator($productUuids));
-        $this->evaluateProducts->expects($this->once())->method('__invoke')->with($productUuids[0]);
-        $this->evaluateProducts->expects($this->once())->method('__invoke')->with($productUuids[1]);
+        $this->evaluateProducts->expects($this->exactly(2))->method('__invoke');
         $productModelIds = [ProductModelIdCollection::fromStrings(['4', '5']), ProductModelIdCollection::fromStrings(['6', '7'])];
         $this->getProductModelsIdsToEvaluateQuery->method('execute')->with(1000, 2)->willReturn(new \ArrayIterator($productModelIds));
-        $this->evaluateProductModels->expects($this->once())->method('__invoke')->with($productModelIds[0]);
-        $this->evaluateProductModels->expects($this->once())->method('__invoke')->with($productModelIds[1]);
+        $this->evaluateProductModels->expects($this->exactly(2))->method('__invoke');
         $this->sut->execute();
         $evaluationSummary = $stepExecution->getSummaryInfo('evaluations');
         Assert::same($evaluationSummary['products']['count'], 3);

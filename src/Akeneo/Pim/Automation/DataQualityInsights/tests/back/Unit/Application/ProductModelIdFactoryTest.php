@@ -27,9 +27,10 @@ class ProductModelIdFactoryTest extends TestCase
     public function test_it_creates_a_collection_of_product_model_id(): void
     {
         $collection = $this->sut->createCollection(['1234', '4321']);
-        Assert::allIsInstanceOf($collection, ProductModelId::class);
-        Assert::same((string) $collection->toArray()[0], '1234');
-        Assert::same((string) $collection->toArray()[1], '4321');
+        $items = $collection->toArray();
+        $this->assertContainsOnlyInstancesOf(ProductModelId::class, $items);
+        $this->assertSame('1234', (string) $items[0]);
+        $this->assertSame('4321', (string) $items[1]);
     }
 
     public function test_it_throws_exception_when_invalid_id(): void

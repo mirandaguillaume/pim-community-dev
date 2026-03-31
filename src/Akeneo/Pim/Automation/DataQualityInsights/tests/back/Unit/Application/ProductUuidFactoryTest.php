@@ -30,9 +30,10 @@ class ProductUuidFactoryTest extends TestCase
                     'df470d52-7723-4890-85a0-e79be625e2ed',
                     '6d125b99-d971-41d9-a264-b020cd486aee',
                 ]);
-        Assert::allIsInstanceOf($collection, ProductUuid::class);
-        Assert::same((string) $collection->toArray()[0], 'df470d52-7723-4890-85a0-e79be625e2ed');
-        Assert::same((string) $collection->toArray()[1], '6d125b99-d971-41d9-a264-b020cd486aee');
+        $items = $collection->toArray();
+        $this->assertContainsOnlyInstancesOf(ProductUuid::class, $items);
+        $this->assertSame('df470d52-7723-4890-85a0-e79be625e2ed', (string) $items[0]);
+        $this->assertSame('6d125b99-d971-41d9-a264-b020cd486aee', (string) $items[1]);
     }
 
     public function test_it_throws_exception_when_invalid_uuid(): void

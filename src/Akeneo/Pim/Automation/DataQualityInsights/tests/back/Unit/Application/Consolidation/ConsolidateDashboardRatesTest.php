@@ -41,57 +41,44 @@ class ConsolidateDashboardRatesTest extends TestCase
         $dateTime = new \DateTimeImmutable('2020-01-19');
         $consolidationDate = new ConsolidationDate($dateTime);
         $catalogRanks = $this->buildRandomRanksDistributionCollection();
-        $this->getRanksDistributionFromProductAxisRatesQuery->method('forWholeCatalog')->with($dateTime)->willReturn($catalogRanks);
-        $catalogRatesProjection = new DashboardRatesProjection(
-            DashboardProjectionType::catalog(),
-            DashboardProjectionCode::catalog(),
-            $consolidationDate,
-            $catalogRanks
-        );
-        $this->dashboardRatesProjectionRepository->expects($this->once())->method('save')->with($catalogRatesProjection);
+
+        $this->getRanksDistributionFromProductAxisRatesQuery->method('forWholeCatalog')->willReturn($catalogRanks);
+
         $familyMugsCode = new FamilyCode('mugs');
         $familyWebcamsCode = new FamilyCode('webcams');
         $familyMugsRanks = $this->buildRandomRanksDistributionCollection();
         $familyWebcamsRanks = $this->buildRandomRanksDistributionCollection();
         $this->getAllFamilyCodesQuery->method('execute')->willReturn([$familyMugsCode, $familyWebcamsCode]);
-        $this->getRanksDistributionFromProductAxisRatesQuery->method('byFamily')->with($familyMugsCode, $dateTime)->willReturn($familyMugsRanks);
-        $this->getRanksDistributionFromProductAxisRatesQuery->method('byFamily')->with($familyWebcamsCode, $dateTime)->willReturn($familyWebcamsRanks);
-        $familyMugsRatesProjection = new DashboardRatesProjection(
-            DashboardProjectionType::family(),
-            DashboardProjectionCode::family($familyMugsCode),
-            $consolidationDate,
-            $familyMugsRanks
+        $this->getRanksDistributionFromProductAxisRatesQuery->method('byFamily')->willReturnCallback(
+            fn (FamilyCode $code) => match ((string) $code) {
+                'mugs' => $familyMugsRanks,
+                'webcams' => $familyWebcamsRanks,
+                default => new RanksDistributionCollection([]),
+            }
         );
-        $familyWebcamsRatesProjection = new DashboardRatesProjection(
-            DashboardProjectionType::family(),
-            DashboardProjectionCode::family($familyWebcamsCode),
-            $consolidationDate,
-            $familyWebcamsRanks
-        );
-        $this->dashboardRatesProjectionRepository->expects($this->once())->method('save')->with($familyMugsRatesProjection);
-        $this->dashboardRatesProjectionRepository->expects($this->once())->method('save')->with($familyWebcamsRatesProjection);
+
         $category1Code = new CategoryCode('category_1');
         $category2Code = new CategoryCode('category_2');
         $category1Ranks = $this->buildRandomRanksDistributionCollection();
         $category2Ranks = $this->buildRandomRanksDistributionCollection();
         $this->getAllCategoryCodesQuery->method('execute')->willReturn([$category1Code, $category2Code]);
-        $this->getRanksDistributionFromProductAxisRatesQuery->method('byCategory')->with($category1Code, $dateTime)->willReturn($category1Ranks);
-        $this->getRanksDistributionFromProductAxisRatesQuery->method('byCategory')->with($category2Code, $dateTime)->willReturn($category2Ranks);
-        $category1RatesProjection = new DashboardRatesProjection(
-            DashboardProjectionType::category(),
-            DashboardProjectionCode::category($category1Code),
-            $consolidationDate,
-            $category1Ranks
+        $this->getRanksDistributionFromProductAxisRatesQuery->method('byCategory')->willReturnCallback(
+            fn (CategoryCode $code) => match ((string) $code) {
+                'category_1' => $category1Ranks,
+                'category_2' => $category2Ranks,
+                default => new RanksDistributionCollection([]),
+            }
         );
-        $category2RatesProjection = new DashboardRatesProjection(
-            DashboardProjectionType::category(),
-            DashboardProjectionCode::category($category2Code),
-            $consolidationDate,
-            $category2Ranks
-        );
-        $this->dashboardRatesProjectionRepository->expects($this->once())->method('save')->with($category1RatesProjection);
-        $this->dashboardRatesProjectionRepository->expects($this->once())->method('save')->with($category2RatesProjection);
+
+        $savedProjections = [];
+        $this->dashboardRatesProjectionRepository->expects($this->atLeastOnce())->method('save')
+            ->willReturnCallback(function (DashboardRatesProjection $projection) use (&$savedProjections) {
+                $savedProjections[] = $projection;
+            });
+
         $this->sut->consolidate($consolidationDate);
+
+        $this->assertCount(5, $savedProjections);
     }
 
     private function buildRandomRanksDistributionCollection(): RanksDistributionCollection

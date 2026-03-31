@@ -32,8 +32,10 @@ class TranslationNormalizerTest extends TestCase
 
         $localeEn = $this->createMock(LocaleInterface::class);
         $localeEn->method('isActivated')->willReturn(true);
+        $localeEn->method('getCode')->willReturn('en_US');
         $localeFr = $this->createMock(LocaleInterface::class);
         $localeFr->method('isActivated')->willReturn(true);
+        $localeFr->method('getCode')->willReturn('fr_FR');
         $this->localeRepository->method('findOneByIdentifier')->willReturnMap([
             ['en_US', $localeEn],
             ['FR_FR', $localeFr],
@@ -63,8 +65,10 @@ class TranslationNormalizerTest extends TestCase
 
         $localeEn = $this->createMock(LocaleInterface::class);
         $localeEn->method('isActivated')->willReturn(true);
+        $localeEn->method('getCode')->willReturn('en_US');
         $localeFr = $this->createMock(LocaleInterface::class);
         $localeFr->method('isActivated')->willReturn(true);
+        $localeFr->method('getCode')->willReturn('fr_FR');
         $this->localeRepository->method('findOneByIdentifier')->willReturnMap([
             ['en_US', $localeEn],
             ['fr_FR', $localeFr],

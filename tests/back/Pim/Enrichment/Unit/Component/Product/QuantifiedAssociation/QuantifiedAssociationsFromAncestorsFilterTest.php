@@ -28,7 +28,6 @@ class QuantifiedAssociationsFromAncestorsFilterTest extends TestCase
 
     public function test_it_remove_quantified_associations_on_products_belonging_to_an_ancestor(): void
     {
-        $quantifiedAssociationsMerger = $this->createMock(QuantifiedAssociationsMerger::class);
         $product_model = $this->createMock(ProductModelInterface::class);
         $variant_level_1 = $this->createMock(ProductModelInterface::class);
         $variant_level_2 = $this->createMock(ProductInterface::class);
@@ -36,21 +35,8 @@ class QuantifiedAssociationsFromAncestorsFilterTest extends TestCase
         $product_model->method('getParent')->willReturn(null);
         $variant_level_1->method('getParent')->willReturn($product_model);
         $variant_level_2->method('getParent')->willReturn($variant_level_1);
-        $product_model->method('normalizeQuantifiedAssociations')->willReturn([
-                        'PACK' => [
-                            'products' => [
-                                ['identifier' => 'product_A', 'quantity' => 2],
-                            ],
-                        ],
-                    ]);
-        $variant_level_1->method('normalizeQuantifiedAssociations')->willReturn([
-                        'PACK' => [
-                            'products' => [
-                                ['identifier' => 'product_B', 'quantity' => 3],
-                            ],
-                        ],
-                    ]);
-        $quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')->with([
+
+        $this->quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')->with([
                         $product_model,
                         $variant_level_1,
                     ])->willReturn([
@@ -83,7 +69,6 @@ class QuantifiedAssociationsFromAncestorsFilterTest extends TestCase
 
     public function test_it_remove_quantified_associations_on_product_models_belonging_to_an_ancestor(): void
     {
-        $quantifiedAssociationsMerger = $this->createMock(QuantifiedAssociationsMerger::class);
         $product_model = $this->createMock(ProductModelInterface::class);
         $variant_level_1 = $this->createMock(ProductModelInterface::class);
         $variant_level_2 = $this->createMock(ProductInterface::class);
@@ -91,21 +76,8 @@ class QuantifiedAssociationsFromAncestorsFilterTest extends TestCase
         $product_model->method('getParent')->willReturn(null);
         $variant_level_1->method('getParent')->willReturn($product_model);
         $variant_level_2->method('getParent')->willReturn($variant_level_1);
-        $product_model->method('normalizeQuantifiedAssociations')->willReturn([
-                        'PACK' => [
-                            'product_models' => [
-                                ['identifier' => 'productmodel_A', 'quantity' => 2],
-                            ],
-                        ],
-                    ]);
-        $variant_level_1->method('normalizeQuantifiedAssociations')->willReturn([
-                        'PACK' => [
-                            'product_models' => [
-                                ['identifier' => 'productmodel_B', 'quantity' => 3],
-                            ],
-                        ],
-                    ]);
-        $quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')->with([
+
+        $this->quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')->with([
                         $product_model,
                         $variant_level_1,
                     ])->willReturn([
@@ -138,20 +110,13 @@ class QuantifiedAssociationsFromAncestorsFilterTest extends TestCase
 
     public function test_it_preserve_quantified_associations_on_products_when_quantity_has_been_overwritten(): void
     {
-        $quantifiedAssociationsMerger = $this->createMock(QuantifiedAssociationsMerger::class);
         $product_model = $this->createMock(ProductModelInterface::class);
         $variant_level_1 = $this->createMock(ProductModelInterface::class);
 
         $product_model->method('getParent')->willReturn(null);
         $variant_level_1->method('getParent')->willReturn($product_model);
-        $product_model->method('normalizeQuantifiedAssociations')->willReturn([
-                        'PACK' => [
-                            'products' => [
-                                ['identifier' => 'product_A', 'quantity' => 2],
-                            ],
-                        ],
-                    ]);
-        $quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')->with([
+
+        $this->quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')->with([
                         $product_model,
                     ])->willReturn([
                         'PACK' => [
@@ -180,20 +145,13 @@ class QuantifiedAssociationsFromAncestorsFilterTest extends TestCase
 
     public function test_it_preserve_quantified_associations_on_product_models_when_quantity_has_been_overwritten(): void
     {
-        $quantifiedAssociationsMerger = $this->createMock(QuantifiedAssociationsMerger::class);
         $product_model = $this->createMock(ProductModelInterface::class);
         $variant_level_1 = $this->createMock(ProductModelInterface::class);
 
         $product_model->method('getParent')->willReturn(null);
         $variant_level_1->method('getParent')->willReturn($product_model);
-        $product_model->method('normalizeQuantifiedAssociations')->willReturn([
-                        'PACK' => [
-                            'product_models' => [
-                                ['identifier' => 'productmodel_A', 'quantity' => 2],
-                            ],
-                        ],
-                    ]);
-        $quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')->with([
+
+        $this->quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')->with([
                         $product_model,
                     ])->willReturn([
                         'PACK' => [

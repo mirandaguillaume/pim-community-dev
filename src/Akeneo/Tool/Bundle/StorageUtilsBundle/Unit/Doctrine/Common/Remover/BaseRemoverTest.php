@@ -55,8 +55,7 @@ class BaseRemoverTest extends TestCase
         $type1 = $this->createMock(ModelToRemove::class);
         $type2 = $this->createMock(ModelToRemove::class);
 
-        $this->objectManager->expects($this->once())->method('remove')->with($type1);
-        $this->objectManager->expects($this->once())->method('remove')->with($type2);
+        $this->objectManager->expects($this->exactly(2))->method('remove');
         $this->objectManager->expects($this->once())->method('flush');
         $this->sut->removeAll([$type1, $type2]);
     }

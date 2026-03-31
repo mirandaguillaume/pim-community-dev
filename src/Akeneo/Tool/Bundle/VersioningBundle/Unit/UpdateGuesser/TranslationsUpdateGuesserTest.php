@@ -14,7 +14,9 @@ use Doctrine\ORM\UnitOfWork;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-interface TranslatableEntity extends TranslatableInterface, VersionableInterface {}
+interface TranslatableEntity extends TranslatableInterface, VersionableInterface
+{
+}
 
 class TranslationsUpdateGuesserTest extends TestCase
 {

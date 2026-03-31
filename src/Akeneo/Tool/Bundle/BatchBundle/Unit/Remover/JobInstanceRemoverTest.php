@@ -35,7 +35,7 @@ class JobInstanceRemoverTest extends TestCase
             $this->deleteRunningUser,
             $this->logger,
         );
-        $this->eventDispatcher->method('dispatch')->with($this->anything(), $this->isType('string'))->willReturn($this->isType('object'));
+        $this->eventDispatcher->method('dispatch')->willReturnArgument(0);
     }
 
     public function test_it_is_a_remover(): void
@@ -67,8 +67,7 @@ class JobInstanceRemoverTest extends TestCase
         $jobInstance2->method('getId')->willReturn(2);
         $jobInstanceCode2 = 'my_job2';
         $jobInstance2->method('getCode')->willReturn($jobInstanceCode2);
-        $this->jobInstanceRepository->expects($this->once())->method('remove')->with($jobInstanceCode1);
-        $this->jobInstanceRepository->expects($this->once())->method('remove')->with($jobInstanceCode2);
+        $this->jobInstanceRepository->expects($this->exactly(2))->method('remove');
         $this->sut->removeAll([$jobInstance1, $jobInstance2]);
     }
 

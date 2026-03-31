@@ -11,7 +11,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Normalizer\Standard\Product\Quantifi
 use Akeneo\Pim\Enrichment\Component\Product\QuantifiedAssociation\QuantifiedAssociationsMerger;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class QuantifiedAssociationsNormalizerTest extends TestCase
 {
@@ -27,6 +26,13 @@ class QuantifiedAssociationsNormalizerTest extends TestCase
     public function test_it_normalizes_a_product_without_its_parents_associations(): void
     {
         $variant_level_2 = $this->createMock(ProductInterface::class);
+        $variant_level_2->method('normalizeQuantifiedAssociations')->willReturn([
+            'PACK' => [
+                'products' => [
+                    ['identifier' => 'C', 'quantity' => 3],
+                ],
+            ],
+        ]);
 
         $this->assertSame([
                         'PACK' => [
@@ -40,6 +46,20 @@ class QuantifiedAssociationsNormalizerTest extends TestCase
     public function test_it_normalizes_a_product_with_only_its_parents_associations(): void
     {
         $variant_level_2 = $this->createMock(ProductInterface::class);
+        $parentModel = $this->createMock(ProductModelInterface::class);
+        $variant_level_2->method('getParent')->willReturn($parentModel);
+        $parentModel->method('getParent')->willReturn(null);
+
+        $this->quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')
+            ->with([$parentModel])
+            ->willReturn([
+                'PACK' => [
+                    'products' => [
+                        ['identifier' => 'A', 'quantity' => 1],
+                        ['identifier' => 'B', 'quantity' => 2],
+                    ],
+                ],
+            ]);
 
         $this->assertSame([
                         'PACK' => [
@@ -54,6 +74,21 @@ class QuantifiedAssociationsNormalizerTest extends TestCase
     public function test_it_normalizes_a_product_with_its_parents_associations(): void
     {
         $variant_level_2 = $this->createMock(ProductInterface::class);
+        $parentModel = $this->createMock(ProductModelInterface::class);
+        $variant_level_2->method('getParent')->willReturn($parentModel);
+        $parentModel->method('getParent')->willReturn(null);
+
+        $this->quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')
+            ->with([$parentModel, $variant_level_2])
+            ->willReturn([
+                'PACK' => [
+                    'products' => [
+                        ['identifier' => 'A', 'quantity' => 1],
+                        ['identifier' => 'B', 'quantity' => 2],
+                        ['identifier' => 'C', 'quantity' => 3],
+                    ],
+                ],
+            ]);
 
         $this->assertSame([
                         'PACK' => [
@@ -89,6 +124,21 @@ class QuantifiedAssociationsNormalizerTest extends TestCase
     public function test_it_normalizes_a_product_variant_and_merge_the_parents_associations_by_default(): void
     {
         $variant_level_2 = $this->createMock(ProductInterface::class);
+        $parentModel = $this->createMock(ProductModelInterface::class);
+        $variant_level_2->method('getParent')->willReturn($parentModel);
+        $parentModel->method('getParent')->willReturn(null);
+
+        $this->quantifiedAssociationsMerger->method('normalizeAndMergeQuantifiedAssociationsFrom')
+            ->with([$parentModel, $variant_level_2])
+            ->willReturn([
+                'PACK' => [
+                    'products' => [
+                        ['identifier' => 'A', 'quantity' => 1],
+                        ['identifier' => 'B', 'quantity' => 2],
+                        ['identifier' => 'C', 'quantity' => 3],
+                    ],
+                ],
+            ]);
 
         $this->assertSame([
                         'PACK' => [

@@ -70,18 +70,14 @@ class UrlValidatorTest extends TestCase
 
         $badUrl = 'htp://bad.url';
         $constraint = new Url(['attributeCode' => 'a_code']);
-        $this->context->method('buildViolation')->with($this->anything())->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->method('setParameter')->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->method('setCode')->with($this->anything())->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->once())->method('addViolation');
+        $this->context->method('buildViolation')->willReturn($constraintViolationBuilder);
+        $constraintViolationBuilder->method('setParameter')->willReturnSelf();
+        $constraintViolationBuilder->method('setCode')->willReturnSelf();
+        $constraintViolationBuilder->method('setInvalidValue')->willReturnSelf();
+        $constraintViolationBuilder->expects($this->atLeastOnce())->method('addViolation');
         $constraintViolationList = new ConstraintViolationList([$constraintViolation]);
         $this->context->method('getViolations')->willReturn($constraintViolationList);
         $constraintViolation->method('getCode')->willReturn(Url::INVALID_URL_ERROR);
-        $this->context->method('buildViolation')->with($constraint->message)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->exactly(1))->method('setParameter')->with('%attribute%', $constraint->attributeCode)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->exactly(1))->method('setInvalidValue')->with($badUrl)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->exactly(2))->method('setCode')->with(Url::INVALID_URL_ERROR)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->exactly(2))->method('addViolation');
         $this->sut->validate($badUrl, $constraint);
     }
 

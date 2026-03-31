@@ -21,7 +21,7 @@ class GetAllExtensionsResultTest extends TestCase
     protected function setUp(): void
     {
         $this->extension = $this->createMock(Extension::class);
-        $this->sut = GetAllExtensionsResult::create(12, [$extension]);
+        $this->sut = GetAllExtensionsResult::create(12, [$this->extension]);
     }
 
     public function test_it_is_initializable(): void

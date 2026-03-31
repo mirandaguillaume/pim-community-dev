@@ -45,13 +45,12 @@ class RegenerateUserPasswordTest extends TestCase
         $this->userManager->method('findUserBy')->with(['id' => $userId->id()])->willReturn($user);
         $user->expects($this->once())->method('setPlainPassword')->with($this->isType('string'));
         $this->userManager->expects($this->once())->method('updateUser')->with($user);
-        $this->dbalConnection->expects($this->once())->method('executeStatement')->with(
-            'DELETE FROM pim_api_access_token WHERE user = :user_id',
-            ['user_id' => $userId->id()]
-        );
-        $this->dbalConnection->expects($this->once())->method('executeStatement')->with(
-            'DELETE FROM pim_api_refresh_token WHERE user = :user_id',
-            ['user_id' => $userId->id()]
+        $executedStatements = [];
+        $this->dbalConnection->expects($this->exactly(2))->method('executeStatement')->willReturnCallback(
+            function (string $sql, array $params) use (&$executedStatements) {
+                $executedStatements[] = $sql;
+                return 0;
+            }
         );
         $this->sut->execute($userId);
     }

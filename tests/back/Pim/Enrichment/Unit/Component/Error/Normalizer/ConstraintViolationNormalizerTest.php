@@ -32,7 +32,6 @@ class ConstraintViolationNormalizerTest extends TestCase
         $this->attributeRepository = $this->createMock(IdentifiableObjectRepositoryInterface::class);
         $this->documentationBuilderRegistry = $this->createMock(DocumentationBuilderRegistry::class);
         $this->sut = new ConstraintViolationNormalizer($this->attributeRepository, $this->documentationBuilderRegistry);
-        $this->documentationBuilderRegistry->method('getDocumentation')->with($this->anything())->willReturn(null);
     }
 
     public function test_it_is_initializable(): void
@@ -60,7 +59,7 @@ class ConstraintViolationNormalizerTest extends TestCase
                     'values',
                     ''
                 );
-        $this->documentationBuilderRegistry->method('getDocumentation')->with($constraintViolation)->willReturn(new DocumentationCollection([]));
+        $this->documentationBuilderRegistry->method('getDocumentation')->willReturn(new DocumentationCollection([]));
         $this->assertSame([
                         'property' => 'values',
                         'message' => 'Property "clothing_size" expects a valid code. The option "z" does not exist',

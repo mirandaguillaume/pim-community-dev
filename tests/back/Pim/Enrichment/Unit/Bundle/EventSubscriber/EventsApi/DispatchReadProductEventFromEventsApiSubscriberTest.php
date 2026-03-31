@@ -44,7 +44,7 @@ class DispatchReadProductEventFromEventsApiSubscriberTest extends TestCase
 
         $eventsApiRequestSucceeded->method('getEvents')->willReturn([$productCreatedEvent, $productUpdatedEvent, $productRemovedEvent]);
         $eventsApiRequestSucceeded->method('getConnectionCode')->willReturn('code');
-        $this->eventDispatcher->method('dispatch')->with($this->callback(
+        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->callback(
                     function (ReadProductsEvent $event) {
                         return 3 === $event->getCount()
                             && 'code' === $event->getConnectionCode();

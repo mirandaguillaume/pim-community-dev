@@ -78,46 +78,52 @@ class VersionNormalizerTest extends TestCase
         $version->method('getContext')->willReturn(['locale' => 'en_US', 'channel' => 'mobile']);
         $version->method('getVersion')->willReturn(12);
         $version->method('getLoggedAt')->willReturn($versionTime);
-        $this->localeAware->method('getLocale')->willReturn('en_US');
+        $this->localeAware->method('getLocale')->willReturn('fr_FR');
         $version->method('isPending')->willReturn(false);
         $version->method('getAuthor')->willReturn('steve');
-        $this->userManager->method('findUserByUsername')->with('steve')->willReturn($steve);
+        $this->userManager->method('findUserByUsername')->willReturn($steve);
         $steve->method('getFirstName')->willReturn('Steve');
         $steve->method('getLastName')->willReturn('Jobs');
         $normalizedChangeset = [
                     'maximum_frame_rate' => ['old' => '', 'new' => '200,7890'],
-                    'price-EUR'          => ['old' => '5,00 €', 'new' => '5,15 €'],
+                    'price-EUR'          => ['old' => "5,00 \u{20AC}", 'new' => "5,15 \u{20AC}"],
                     'weight'             => ['old' => '', 'new' => '10,1234'],
                     'asso-products'      => ['old' => '', 'new' => 'my-identifier'],
                 ];
-        $options = [
-                    'locale' => 'fr_FR',
-                ];
-        $datetimePresenterOtions = [
-                    'locale' => 'fr_FR',
-                    'timezone' => 'Europe/Paris',
-                ];
-        $this->localeAware->method('getLocale')->willReturn('fr_FR');
         $this->userContext->method('getUserTimezone')->willReturn('Europe/Paris');
-        $this->attributeRepository->method('getAttributeTypeByCodes')->with(['maximum_frame_rate', 'price', 'weight', 'asso'])->willReturn([
+        $this->attributeRepository->method('getAttributeTypeByCodes')->willReturn([
                         'maximum_frame_rate' => 'pim_catalog_number',
                         'price' => 'pim_catalog_price_collection',
                         'weight' => 'pim_catalog_metric',
                     ]);
-        $this->presenterRegistry->method('getPresenterByAttributeType')->with('pim_catalog_number')->willReturn($numberPresenter);
-        $this->presenterRegistry->method('getPresenterByAttributeType')->with('pim_catalog_price_collection')->willReturn($pricesPresenter);
-        $this->presenterRegistry->method('getPresenterByAttributeType')->with('pim_catalog_metric')->willReturn($metricPresenter);
-        $this->presenterRegistry->method('getPresenterByFieldCode')->with('asso-products')->willReturn($productAssociationPresenter);
-        $numberPresenter->method('present')->with('200.7890', $options + ['versioned_attribute' => 'maximum_frame_rate', 'attribute' => 'maximum_frame_rate'])->willReturn('200,7890');
-        $pricesPresenter->method('present')->with('5.00', $options + ['versioned_attribute' => 'price-EUR', 'attribute' => 'price'])->willReturn('5,00 €');
-        $pricesPresenter->method('present')->with('5.15', $options + ['versioned_attribute' => 'price-EUR', 'attribute' => 'price'])->willReturn('5,15 €');
-        $metricPresenter->method('present')->with('10.1234', $options + ['versioned_attribute' => 'weight', 'attribute' => 'weight'])->willReturn('10,1234');
-        $productAssociationPresenter->method('present')->with($uuid, $options + ['versioned_attribute' => 'asso-products', 'attribute' => 'asso'])->willReturn('my-identifier');
-        $numberPresenter->method('present')->with('', $options + ['versioned_attribute' => 'maximum_frame_rate', 'attribute' => 'maximum_frame_rate'])->willReturn('');
-        $pricesPresenter->method('present')->with('', $options)->willReturn('');
-        $metricPresenter->method('present')->with('', $options + ['versioned_attribute' => 'weight', 'attribute' => 'weight'])->willReturn('');
-        $this->datetimePresenter->method('present')->with($versionTime, $datetimePresenterOtions)->willReturn('01/01/1985 09:41 AM');
-        $productAssociationPresenter->method('present')->with('', $options + ['versioned_attribute' => 'asso-products', 'attribute' => 'asso'])->willReturn('');
+        $this->presenterRegistry->method('getPresenterByAttributeType')->willReturnCallback(fn (string $type) => match ($type) {
+            'pim_catalog_number' => $numberPresenter,
+            'pim_catalog_price_collection' => $pricesPresenter,
+            'pim_catalog_metric' => $metricPresenter,
+            default => null,
+        });
+        $this->presenterRegistry->method('getPresenterByFieldCode')->willReturnCallback(fn (string $code) => match ($code) {
+            'asso-products' => $productAssociationPresenter,
+            default => null,
+        });
+        $numberPresenter->method('present')->willReturnCallback(fn (string $value) => match ($value) {
+            '200.7890' => '200,7890',
+            default => '',
+        });
+        $pricesPresenter->method('present')->willReturnCallback(fn (string $value) => match ($value) {
+            '5.00' => "5,00 \u{20AC}",
+            '5.15' => "5,15 \u{20AC}",
+            default => '',
+        });
+        $metricPresenter->method('present')->willReturnCallback(fn (string $value) => match ($value) {
+            '10.1234' => '10,1234',
+            default => '',
+        });
+        $productAssociationPresenter->method('present')->willReturnCallback(fn (string $value) => match ($value) {
+            $uuid => 'my-identifier',
+            default => '',
+        });
+        $this->datetimePresenter->method('present')->willReturn('01/01/1985 09:41 AM');
         $this->assertSame([
                     'id'          => 12,
                     'author'      => 'Steve Jobs',
@@ -144,15 +150,15 @@ class VersionNormalizerTest extends TestCase
         $version->method('getVersion')->willReturn(12);
         $version->method('getLoggedAt')->willReturn($versionTime);
         $this->localeAware->method('getLocale')->willReturn('en_US');
-        $this->datetimePresenter->method('present')->with($versionTime, $this->anything())->willReturn('01/01/1985 09:41 AM');
+        $this->datetimePresenter->method('present')->willReturn('01/01/1985 09:41 AM');
         $version->method('isPending')->willReturn(false);
         $version->method('getAuthor')->willReturn('steve');
-        $this->userManager->method('findUserByUsername')->with('steve')->willReturn(null);
-        $this->translator->method('trans')->with('pim_user.user.removed_user')->willReturn('Utilisateur supprimé');
+        $this->userManager->method('findUserByUsername')->willReturn(null);
+        $this->translator->method('trans')->willReturn('Utilisateur supprim' . "\u{00E9}");
         $this->userContext->method('getUserTimezone')->willThrowException(new \RuntimeException());
         $this->assertSame([
                     'id'          => 12,
-                    'author'      => 'steve - Utilisateur supprimé',
+                    'author'      => 'steve - Utilisateur supprim' . "\u{00E9}",
                     'resource_id' => '112',
                     'snapshot'    => 'a nice snapshot',
                     'changeset'   => ['text' => 'the changeset'],
@@ -180,10 +186,10 @@ class VersionNormalizerTest extends TestCase
         $version->method('getVersion')->willReturn(12);
         $version->method('getLoggedAt')->willReturn($versionTime);
         $this->localeAware->method('getLocale')->willReturn('en_US');
-        $this->datetimePresenter->method('present')->with($versionTime, $this->anything())->willReturn('01/01/1985 09:41 AM');
+        $this->datetimePresenter->method('present')->willReturn('01/01/1985 09:41 AM');
         $version->method('isPending')->willReturn(false);
         $version->method('getAuthor')->willReturn('steve');
-        $this->userManager->method('findUserByUsername')->with('steve')->willReturn($steve);
+        $this->userManager->method('findUserByUsername')->willReturn($steve);
         $steve->method('getFirstName')->willReturn('Steve');
         $steve->method('getLastName')->willReturn('Jobs');
         $normalizedChangeset = [

@@ -66,8 +66,7 @@ class NonExistentPriceCollectionValueFilterTest extends TestCase
                         ]
                     ]
                 );
-        $this->findActivatedCurrencies->method('forChannel')->with('ecommerce')->willReturn(['EUR']);
-        $this->findActivatedCurrencies->method('forChannel')->with('tablet')->willReturn(['EUR']);
+        $this->findActivatedCurrencies->method('forChannel')->willReturn(['EUR']);
         /** @var OnGoingFilteredRawValues $filteredCollection */
                 $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
         $this->assertEquals(

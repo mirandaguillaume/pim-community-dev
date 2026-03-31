@@ -19,9 +19,9 @@ class ErrorCountPerConnectionTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new ErrorCountPerConnection([$errorCount1, $errorCount2]);
         $errorCount1 = new ErrorCount('erp', 5);
         $errorCount2 = new ErrorCount('ecommerce', 8);
+        $this->sut = new ErrorCountPerConnection([$errorCount1, $errorCount2]);
     }
 
     public function test_it_is_initializable(): void

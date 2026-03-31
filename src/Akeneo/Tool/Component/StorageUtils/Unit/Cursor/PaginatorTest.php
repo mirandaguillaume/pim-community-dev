@@ -12,7 +12,9 @@ use PHPUnit\Framework\TestCase;
 
 class Entity
 {
-    public function __construct(private readonly int $id) {}
+    public function __construct(private readonly int $id)
+    {
+    }
 }
 
 class PaginatorTest extends TestCase

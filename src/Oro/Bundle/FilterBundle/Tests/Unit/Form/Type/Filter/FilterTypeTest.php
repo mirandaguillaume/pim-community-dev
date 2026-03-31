@@ -3,7 +3,10 @@
 namespace Oro\Bundle\FilterBundle\Tests\Unit\Form\Type\Filter;
 
 use Oro\Bundle\FilterBundle\Form\Type\Filter\FilterType;
+use Oro\Bundle\FilterBundle\Tests\Unit\Fixtures\CustomFormExtension;
 use Oro\Bundle\FilterBundle\Tests\Unit\Form\Type\AbstractTypeTestCase;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class FilterTypeTest extends AbstractTypeTestCase
 {
@@ -14,9 +17,11 @@ class FilterTypeTest extends AbstractTypeTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         $translator = $this->createMockTranslator();
         $this->type = new FilterType($translator);
+        $this->formExtensions[] = new CustomFormExtension([$this->type]);
+
+        parent::setUp();
     }
 
     /**
@@ -40,10 +45,10 @@ class FilterTypeTest extends AbstractTypeTestCase
         return [
             [
                 'defaultOptions' => [
-                    'field_type'       => 'text',
+                    'field_type'       => TextType::class,
                     'field_options'    => [],
                     'operator_choices' => [],
-                    'operator_type'    => 'choice',
+                    'operator_type'    => ChoiceType::class,
                     'operator_options' => [],
                     'show_filter'      => false,
                 ],

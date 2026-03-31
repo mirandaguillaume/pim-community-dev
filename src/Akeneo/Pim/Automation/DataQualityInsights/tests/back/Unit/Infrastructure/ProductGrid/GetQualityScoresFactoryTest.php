@@ -43,8 +43,7 @@ class GetQualityScoresFactoryTest extends TestCase
                 ]);
         $scores = $this->givenProductScores();
         $this->getProductScoresQuery->method('byProductUuidCollection')->with($productUuids)->willReturn($scores);
-        $this->getScoresByCriteria->method('__invoke')->with($scores['0932dfd0-5f9a-49fb-ad31-a990339406a2'])->willReturn($scores['0932dfd0-5f9a-49fb-ad31-a990339406a2']->allCriteria());
-        $this->getScoresByCriteria->method('__invoke')->with($scores['3370280b-6c76-4720-aac1-ae3f9613d555'])->willReturn($scores['3370280b-6c76-4720-aac1-ae3f9613d555']->allCriteria());
+        $this->getScoresByCriteria->method('__invoke')->willReturnCallback(fn (Read\Scores $s) => $s->allCriteria());
         $this->assertSame([
                     '0932dfd0-5f9a-49fb-ad31-a990339406a2' => $scores['0932dfd0-5f9a-49fb-ad31-a990339406a2']->allCriteria(),
                     '3370280b-6c76-4720-aac1-ae3f9613d555' => $scores['3370280b-6c76-4720-aac1-ae3f9613d555']->allCriteria(),
@@ -56,8 +55,7 @@ class GetQualityScoresFactoryTest extends TestCase
         $productModelIds = ProductModelIdCollection::fromStrings(['42', '56']);
         $scores = $this->givenProductModelScores();
         $this->getProductModelScoresQuery->method('byProductModelIdCollection')->with($productModelIds)->willReturn($scores);
-        $this->getScoresByCriteria->method('__invoke')->with($scores[42])->willReturn($scores[42]->allCriteria());
-        $this->getScoresByCriteria->method('__invoke')->with($scores[56])->willReturn($scores[56]->allCriteria());
+        $this->getScoresByCriteria->method('__invoke')->willReturnCallback(fn (Read\Scores $s) => $s->allCriteria());
         $this->assertSame([
                     42 => $scores[42]->allCriteria(),
                     56 => $scores[56]->allCriteria(),

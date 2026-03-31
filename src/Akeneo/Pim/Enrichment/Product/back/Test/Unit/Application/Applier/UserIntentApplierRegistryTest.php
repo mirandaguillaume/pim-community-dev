@@ -22,9 +22,9 @@ class UserIntentApplierRegistryTest extends TestCase
     {
         $this->setEnabledApplier = $this->createMock(UserIntentApplier::class);
         $this->setNumberValueApplier = $this->createMock(UserIntentApplier::class);
-        $this->sut = new UserIntentApplierRegistry([$this->setEnabledApplier, $this->setNumberValueApplier]);
         $this->setEnabledApplier->method('getSupportedUserIntents')->willReturn([SetEnabled::class]);
         $this->setNumberValueApplier->method('getSupportedUserIntents')->willReturn([SetNumberValue::class]);
+        $this->sut = new UserIntentApplierRegistry([$this->setEnabledApplier, $this->setNumberValueApplier]);
     }
 
     public function test_it_returns_the_applier_of_a_user_intent(): void

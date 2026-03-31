@@ -96,8 +96,13 @@ class NonExistentReferenceDataMultiSelectValuesFilterTest extends TestCase
                     'des',
                     'fRaises'
                 ];
-        $this->getExistingReferenceDataCodes->method('fromReferenceDataNameAndCodes')->with('some_reference_data', $referenceDataCodes)->willReturn(['Michel', 'Fraises']);
-        $this->getExistingReferenceDataCodes->method('fromReferenceDataNameAndCodes')->with('another_reference_data', ['des', 'damme', 'Claude', 'fRaiseS'])->willReturn(['Claude', 'Damme']);
+        $this->getExistingReferenceDataCodes->method('fromReferenceDataNameAndCodes')->willReturnCallback(function (string $name, array $codes) {
+            return match ($name) {
+                'some_reference_data' => ['Michel', 'Fraises'],
+                'another_reference_data' => ['Claude', 'Damme'],
+                default => [],
+            };
+        });
         /** @var OnGoingFilteredRawValues $filteredCollection */
                 $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
         $this->assertEquals(

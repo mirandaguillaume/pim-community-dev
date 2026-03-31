@@ -77,8 +77,16 @@ class NonExistentFileValueFilterTest extends TestCase
         $fileB->method('getKey')->willReturn('fileB');
         $imageA->method('getKey')->willReturn('imageA');
         $imageB->method('getKey')->willReturn('imageB');
-        $this->fileInfoRepository->method('findBy')->with(['key' => ['fileA', 'fileB', 'unexistingFile']])->willReturn([$fileA, $fileB]);
-        $this->fileInfoRepository->method('findBy')->with(['key' => ['imageA', 'imageB', 'unexistingImage']])->willReturn([$imageA, $imageB]);
+        $this->fileInfoRepository->method('findBy')->willReturnCallback(function (array $criteria) use ($fileA, $fileB, $imageA, $imageB) {
+            $keys = $criteria['key'] ?? [];
+            sort($keys);
+            $key = implode(',', $keys);
+            return match ($key) {
+                'fileA,fileB,unexistingFile' => [$fileA, $fileB],
+                'imageA,imageB,unexistingImage' => [$imageA, $imageB],
+                default => [],
+            };
+        });
         /** @var OnGoingFilteredRawValues $filteredCollection */
                 $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
         $this->assertEquals([

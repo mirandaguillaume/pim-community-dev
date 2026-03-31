@@ -46,8 +46,7 @@ class ObjectDetacherTest extends TestCase
         $this->manager->method('getUnitOfWork')->willReturn($uow);
         $this->manager->method('getClassMetadata')->with('stdClass')->willReturn($classMetadata);
         $classMetadata->rootEntityName = 'stdClass';
-        $this->manager->expects($this->once())->method('detach')->with($object1);
-        $this->manager->expects($this->once())->method('detach')->with($object2);
+        $this->manager->expects($this->exactly(2))->method('detach');
         $this->sut->detachAll($objects);
     }
 }

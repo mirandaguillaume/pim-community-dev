@@ -73,9 +73,13 @@ class GetProductsWithCompletenessesTest extends TestCase
                         Uuid::fromString('fdf6f091-3f75-418f-98af-8c19db8b0000')
                     ], 'ecommerce', ['fr_FR', 'en_US'])->willReturn($completenessesList);
         $productListWithCompleteness = $this->sut->fromConnectorProductList($connectorProductList, 'ecommerce', ['fr_FR', 'en_US']);
-        foreach ($productListWithCompleteness as $productWithCompleteness) {
-                    $productWithCompleteness->completeness()->shouldReturn($completenessesList[$productWithCompleteness->id()]);
-                }
+        $this->assertCount(3, $productListWithCompleteness->connectorProducts());
+        foreach ($productListWithCompleteness->connectorProducts() as $productWithCompleteness) {
+            $this->assertSame(
+                $completenessesList[$productWithCompleteness->uuid()->toString()],
+                $productWithCompleteness->completenesses()
+            );
+        }
     }
 
     private function getConnectorProduct(UuidInterface $uuid, bool $withFamily = true): ConnectorProduct

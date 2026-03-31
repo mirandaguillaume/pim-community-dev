@@ -29,7 +29,6 @@ class ProductDomainErrorNormalizerTest extends TestCase
     {
         $this->documentationBuilderRegistry = $this->createMock(DocumentationBuilderRegistry::class);
         $this->sut = new ProductDomainErrorNormalizer($this->documentationBuilderRegistry);
-        $this->documentationBuilderRegistry->method('getDocumentation')->with($this->anything())->willReturn(null);
     }
 
     public function test_it_is_initializable(): void
@@ -104,7 +103,7 @@ class ProductDomainErrorNormalizerTest extends TestCase
                 {
                 }
         ;
-        $this->documentationBuilderRegistry->method('getDocumentation')->with($error)->willReturn(new DocumentationCollection([]));
+        $this->documentationBuilderRegistry->method('getDocumentation')->willReturn(new DocumentationCollection([]));
         $this->assertSame([
                     'type' => 'domain_error',
                     'message' => 'Some error message',

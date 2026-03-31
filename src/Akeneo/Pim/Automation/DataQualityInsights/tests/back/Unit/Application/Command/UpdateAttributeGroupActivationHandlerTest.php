@@ -91,8 +91,9 @@ class UpdateAttributeGroupActivationHandlerTest extends TestCase
 
     public function test_it_does_not_dispatches_message_if_the_ucs_event_feature_is_disabled(): void
     {
-        $this->dqiUcsEventFeatureFlag->method('isEnabled')->willReturn(false);
-        $this->sut = new UpdateAttributeGroupActivationHandler($this->attributeGroupActivationRepository, $this->messageBus, $this->clock, $this->dqiUcsEventFeatureFlag);
+        $disabledFeatureFlag = $this->createMock(FeatureFlag::class);
+        $disabledFeatureFlag->method('isEnabled')->willReturn(false);
+        $this->sut = new UpdateAttributeGroupActivationHandler($this->attributeGroupActivationRepository, $this->messageBus, $this->clock, $disabledFeatureFlag);
         $command = new UpdateAttributeGroupActivationCommand('code', true);
         $attributeGroupCode = new AttributeGroupCode('code');
         $this->attributeGroupActivationRepository->expects($this->once())->method('getForAttributeGroupCode')->with($attributeGroupCode)->willReturn(null);

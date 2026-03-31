@@ -41,7 +41,7 @@ class ChannelLocaleRateCollectionTest extends TestCase
                     ],
                 ];
         $rates = \iterator_to_array($this->sut);
-        Assert::eq($expectedRates, $rates);
+        $this->assertEquals($expectedRates, $rates);
     }
 
     public function test_it_can_be_constructed_from_an_array_of_normalized_rates(): void
@@ -74,7 +74,7 @@ class ChannelLocaleRateCollectionTest extends TestCase
                     ],
                 ];
         $rates = \iterator_to_array($this->sut);
-        Assert::eq($expectedRates, $rates);
+        $this->assertEquals($expectedRates, $rates);
     }
 
     public function test_it_throws_an_exception_if_it_is_constructed_from_malformed_normalized_rates(): void

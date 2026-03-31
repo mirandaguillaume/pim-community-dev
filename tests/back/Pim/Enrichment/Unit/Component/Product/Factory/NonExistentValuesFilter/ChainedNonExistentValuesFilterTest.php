@@ -38,10 +38,18 @@ class ChainedNonExistentValuesFilterTest extends TestCase
         $description = new Attribute('description', AttributeTypes::TEXTAREA, [], true, true, null, null, false, 'textarea', []);
         $name = new Attribute('name', AttributeTypes::TEXT, [], true, true, null, null, false, 'text', []);
         $color = new Attribute('color', AttributeTypes::OPTION_SIMPLE_SELECT, [], false, false, null, null, false, 'option', []);
-        $this->getAttributes->method('forCodes')->with(['attribute_that_does_not_exists'])->willReturn(['unknown_attribute' => null]);
-        $this->getAttributes->method('forCodes')->with(['color'])->willReturn(['color' => $color]);
-        $this->getAttributes->method('forCodes')->with(['description'])->willReturn(['description' => $description]);
-        $this->getAttributes->method('forCodes')->with(['description', 'name'])->willReturn(['description' => $description, 'name' => $name]);
+        $this->getAttributes->method('forCodes')->willReturnCallback(function (array $codes) use ($description, $name, $color) {
+            sort($codes);
+            $key = implode(',', $codes);
+            return match ($key) {
+                'attribute_that_does_not_exists' => ['unknown_attribute' => null],
+                'color' => ['color' => $color],
+                'description' => ['description' => $description],
+                'description,name' => ['description' => $description, 'name' => $name],
+                'name' => ['name' => $name],
+                default => [],
+            };
+        });
     }
 
     public function test_it_is_initializable(): void

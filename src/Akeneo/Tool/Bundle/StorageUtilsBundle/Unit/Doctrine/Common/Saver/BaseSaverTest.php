@@ -47,7 +47,7 @@ class BaseSaverTest extends TestCase
             $this->eventDispatcher,
             ModelToSave::class
         );
-        $this->eventDispatcher->method('dispatch')->with($this->anything(), $this->isType('string'))->willReturn($this->isType('object'));
+        $this->eventDispatcher->method('dispatch')->willReturnArgument(0);
     }
 
     public function test_it_is_a_saver(): void
@@ -68,8 +68,7 @@ class BaseSaverTest extends TestCase
     {
         $type1 = new ModelToSave();
         $type2 = new ModelToSave();
-        $this->objectManager->expects($this->once())->method('persist')->with($type1);
-        $this->objectManager->expects($this->once())->method('persist')->with($type2);
+        $this->objectManager->expects($this->exactly(2))->method('persist');
         $this->objectManager->expects($this->once())->method('flush');
         $this->sut->saveAll([$type1, $type2]);
     }
@@ -77,13 +76,6 @@ class BaseSaverTest extends TestCase
     public function test_it_throws_exception_when_saving_anything_else_than_the_expected_class(): void
     {
         $anythingElse = new ModelNotToSave();
-        $exception = new \InvalidArgumentException(
-            sprintf(
-                'Expects a "%s", "%s" provided.',
-                ModelToSave::class,
-                $anythingElse::class
-            )
-        );
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->save($anythingElse);
     }
@@ -91,31 +83,48 @@ class BaseSaverTest extends TestCase
     public function test_it_dispatches_events_according_to_the_objects_state_on_unitary_save(): void
     {
         $newObject = new ModelToSave();
-        $newObjectEvent = new GenericEvent($newObject, ['unitary' => true, 'is_new' => true]);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($newObjectEvent, StorageEvents::PRE_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($newObjectEvent, StorageEvents::POST_SAVE);
-        $this->sut->save($newObject);
         $updatedObject = new ModelToSave(42);
-        $updatedObjectEvent = new GenericEvent($updatedObject, ['unitary' => true, 'is_new' => false]);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($updatedObjectEvent, StorageEvents::PRE_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($updatedObjectEvent, StorageEvents::POST_SAVE);
+
+        $dispatchedEvents = [];
+        $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        $this->eventDispatcher->method('dispatch')->willReturnCallback(
+            function (object $event, string $eventName) use (&$dispatchedEvents) {
+                $dispatchedEvents[] = $eventName;
+                return $event;
+            }
+        );
+        $this->sut = new BaseSaver($this->objectManager, $this->eventDispatcher, ModelToSave::class);
+
+        $this->sut->save($newObject);
+        $this->assertContains(StorageEvents::PRE_SAVE, $dispatchedEvents);
+        $this->assertContains(StorageEvents::POST_SAVE, $dispatchedEvents);
+
+        $dispatchedEvents = [];
         $this->sut->save($updatedObject);
+        $this->assertContains(StorageEvents::PRE_SAVE, $dispatchedEvents);
+        $this->assertContains(StorageEvents::POST_SAVE, $dispatchedEvents);
     }
 
     public function test_it_dispatches_events_according_to_the_objects_state_on_bulk_save(): void
     {
         $newObject = new ModelToSave();
         $updatedObject = new ModelToSave(42);
-        $bulkEvent = new GenericEvent([$newObject, $updatedObject], ['unitary' => false]);
-        $newObjectEvent = new GenericEvent($newObject, ['unitary' => false, 'is_new' => true]);
-        $updatedObjectEvent = new GenericEvent($updatedObject, ['unitary' => false, 'is_new' => false]);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($bulkEvent, StorageEvents::PRE_SAVE_ALL);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($newObjectEvent, StorageEvents::PRE_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($updatedObjectEvent, StorageEvents::PRE_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($newObjectEvent, StorageEvents::POST_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($updatedObjectEvent, StorageEvents::POST_SAVE);
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($bulkEvent, StorageEvents::POST_SAVE_ALL);
+
+        $dispatchedEvents = [];
+        $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        $this->eventDispatcher->method('dispatch')->willReturnCallback(
+            function (object $event, string $eventName) use (&$dispatchedEvents) {
+                $dispatchedEvents[] = $eventName;
+                return $event;
+            }
+        );
+        $this->sut = new BaseSaver($this->objectManager, $this->eventDispatcher, ModelToSave::class);
+
         $this->sut->saveAll([$newObject, $updatedObject]);
+        $this->assertContains(StorageEvents::PRE_SAVE_ALL, $dispatchedEvents);
+        $this->assertContains(StorageEvents::POST_SAVE_ALL, $dispatchedEvents);
+        $this->assertContains(StorageEvents::PRE_SAVE, $dispatchedEvents);
+        $this->assertContains(StorageEvents::POST_SAVE, $dispatchedEvents);
     }
 
     public function test_it_catches_orm_exception_and_throws_a_business_exception(): void

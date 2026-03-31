@@ -21,7 +21,7 @@ class GetAllAppsResultTest extends TestCase
     protected function setUp(): void
     {
         $this->app = $this->createMock(App::class);
-        $this->sut = GetAllAppsResult::create(12, [$app]);
+        $this->sut = GetAllAppsResult::create(12, [$this->app]);
     }
 
     public function test_it_is_initializable(): void

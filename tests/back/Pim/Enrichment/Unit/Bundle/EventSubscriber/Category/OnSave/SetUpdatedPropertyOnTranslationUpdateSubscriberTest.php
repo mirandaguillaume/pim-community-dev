@@ -27,6 +27,7 @@ class SetUpdatedPropertyOnTranslationUpdateSubscriberTest extends TestCase
 
     public function test_it_only_handles_category_translation(): void
     {
+        $this->expectNotToPerformAssertions();
         $objectManager = $this->createMock(ObjectManager::class);
 
         $this->sut->preUpdate(new LifecycleEventArgs(new \stdClass(), $objectManager));

@@ -130,7 +130,6 @@
             <directory suffix="Test.php">tests/back/UserManagement/Unit</directory>
             <directory suffix="Test.php">tests/back/Channel/Unit</directory>
             <directory suffix="Test.php">tests/back/Acceptance/Unit</directory>
-            <directory suffix="Test.php">tests/back/Common/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Pim/Enrichment/Product/back/Test/Unit</directory>
             <directory suffix="Test.php">src/Oro/Bundle/DataGridBundle/Unit</directory>

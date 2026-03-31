@@ -68,8 +68,10 @@ class RedirectToEditConnectedAppActionTest extends TestCase
             null,
             true,
         ));
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
+        // Source only calls isGranted('manage_apps')
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, false],
+        ]);
         $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($appId);
     }
@@ -91,8 +93,9 @@ class RedirectToEditConnectedAppActionTest extends TestCase
             null,
             false,
         ));
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, false],
+        ]);
         $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($appId);
     }
@@ -114,8 +117,9 @@ class RedirectToEditConnectedAppActionTest extends TestCase
             null,
             false,
         ));
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(true);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, true],
+        ]);
         $this->router->method('generate')->with('akeneo_connectivity_connection_connect_connected_apps_edit', [
                         'connectionCode' => 'random_connection_code',
                     ])->willReturn('/connect/connected-apps/random_connection_code');

@@ -21,15 +21,17 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
     {
         $translator = $this->createMockTranslator();
 
+        $this->type = new BooleanFilterType($translator);
+
         $types = [
             new FilterType($translator),
             new ChoiceFilterType($translator),
+            $this->type,
         ];
 
         $this->formExtensions[] = new CustomFormExtension($types);
 
         parent::setUp();
-        $this->type = new BooleanFilterType($translator);
     }
 
     /**

@@ -40,25 +40,23 @@ class UpdateConnectedAppRoleWithScopesTest extends TestCase
             $this->scopeMapperRegistry,
             $this->roleWithPermissionsSaver,
         );
-        $this->getConnectedAppRoleIdentifierQuery->method('execute')->with('connected_app_id')->willReturn('ROLE_CONNECTED_APP');
-        $this->roleRepository->method('findOneByIdentifier')->with('ROLE_CONNECTED_APP')->willReturn($this->role);
-        $this->scopeMapperRegistry->method('getAcls')->with(['scopeA', 'scopeB', 'scopeC'])->willReturn([
-        'some_acl_1',
-        'some_acl_2',
-        'some_acl_3',
-        ]);
-        $this->scopeMapperRegistry->method('getAcls')->with(['scopeA', 'scopeB', 'scopeC', 'scopeD'])->willReturn([
-        'some_acl_1',
-        'some_acl_2',
-        'some_acl_3',
-        'some_acl_4',
-        ]);
     }
 
     public function test_it_updates_connected_app_role_with_new_acl_given_scopes(): void
     {
+        $this->getConnectedAppRoleIdentifierQuery->method('execute')->with('connected_app_id')->willReturn('ROLE_CONNECTED_APP');
+        $this->roleRepository->method('findOneByIdentifier')->with('ROLE_CONNECTED_APP')->willReturn($this->role);
         $this->scopeMapperRegistry->method('getAllScopes')->willReturn(['scopeA', 'scopeB', 'scopeC', 'scopeD']);
-        $this->sut->execute('connected_app_id', ['scopeA', 'scopeB', 'scopeC']);
+        $this->scopeMapperRegistry->method('getAcls')->willReturnCallback(function (array $scopes) {
+            if ($scopes === ['scopeA', 'scopeB', 'scopeC', 'scopeD']) {
+                return ['some_acl_1', 'some_acl_2', 'some_acl_3', 'some_acl_4'];
+            }
+            if ($scopes === ['scopeA', 'scopeB', 'scopeC']) {
+                return ['some_acl_1', 'some_acl_2', 'some_acl_3'];
+            }
+            return [];
+        });
+
         $roleWithPermissions = RoleWithPermissions::createFromRoleAndPermissions($this->role, [
                     'action:pim_api_overall_access' => true,
                     'action:some_acl_1' => true,
@@ -66,7 +64,8 @@ class UpdateConnectedAppRoleWithScopesTest extends TestCase
                     'action:some_acl_3' => true,
                     'action:some_acl_4' => false,
                 ]);
-        $this->roleWithPermissionsSaver->method('saveAll')->with([$roleWithPermissions]);
+        $this->roleWithPermissionsSaver->expects($this->once())->method('saveAll')->with([$roleWithPermissions]);
+        $this->sut->execute('connected_app_id', ['scopeA', 'scopeB', 'scopeC']);
     }
 
     public function test_it_throws_an_exception_when_no_role_identifier_is_found(): void
@@ -78,6 +77,7 @@ class UpdateConnectedAppRoleWithScopesTest extends TestCase
 
     public function test_it_throws_an_exception_when_no_role_entity_is_found(): void
     {
+        $this->getConnectedAppRoleIdentifierQuery->method('execute')->with('connected_app_id')->willReturn('ROLE_CONNECTED_APP');
         $this->roleRepository->method('findOneByIdentifier')->with('ROLE_CONNECTED_APP')->willReturn(null);
         $this->expectException(\LogicException::class);
         $this->sut->execute('connected_app_id', ['scopeA', 'scopeB', 'scopeC']);
