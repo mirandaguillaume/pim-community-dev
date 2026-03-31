@@ -93,6 +93,6 @@ class DateValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::DATE, [], $isLocalizable, $isScopable, null, null, false, 'date', [], $value);
+            return new Attribute('an_attribute', AttributeTypes::DATE, [], $isLocalizable, $isScopable, null, null, false, 'date', []);
         }
 }
