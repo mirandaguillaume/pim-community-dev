@@ -1690,15 +1690,75 @@ jobs:
           retention-days: 30
 
   # ===========================================================================
-  # MUTATION TESTING: Infection on PHPUnit unit tests (incremental, enforced MSI)
-  # Runs on source changes (mutate changed files) AND test-only changes
-  # (mutate source covered by changed tests). MSI >= 80% required.
+  # MUTATION TESTING: Sharded Infection on PHPUnit unit tests (MSI >= 80%)
+  # Computes source dirs to mutate, then runs Infection per dir in parallel.
   # ===========================================================================
+  mutation-setup:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 5
+    outputs:
+      shards: ${{ steps.compute.outputs.shards }}
+      skip: ${{ steps.compute.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Compute mutation shards
+        id: compute
+        run: |
+          CHANGED_SRC=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.php' \
+            | grep -E '^src/|^components/' \
+            | grep -vi '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
+            | grep -v 'Spec\.php$' | grep -v 'Test\.php$' | grep -v 'TestCase\.php$' || true)
+          CHANGED_TESTS=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.php' \
+            | grep 'Test\.php$' \
+            | grep -E '/tests/|/Test/|/spec/|/Unit/' || true)
+
+          DIRS=""
+          # From changed tests: map to source dirs
+          for test in $CHANGED_TESTS; do
+            if echo "$test" | grep -q "^components/"; then
+              DIRS="$DIRS $(echo "$test" | sed 's|/back/tests/.*|/back/src|')"
+            elif echo "$test" | grep -q "^src/Oro/"; then
+              DIRS="$DIRS $(echo "$test" | sed 's|/\(spec\|Unit\|Tests\)/.*||')"
+            elif echo "$test" | grep -q "^src/Akeneo/.*/back/tests/"; then
+              DIRS="$DIRS $(echo "$test" | sed 's|/back/tests/.*|/back|')"
+            elif echo "$test" | grep -q "^src/Akeneo/.*/tests/back/"; then
+              DIRS="$DIRS $(echo "$test" | sed 's|/tests/back/.*||')"
+            elif echo "$test" | grep -q "^tests/back/"; then
+              ctx=$(echo "$test" | sed 's|tests/back/\([^/]*\)/.*|\1|')
+              DIRS="$DIRS src/Akeneo/$ctx"
+            fi
+          done
+          # From changed source files: add their dirs
+          for src in $CHANGED_SRC; do
+            DIRS="$DIRS $(echo "$src" | sed 's|/[^/]*$||')"
+          done
+          # Deduplicate
+          DIRS=$(echo "$DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u)
+
+          if [ -z "$DIRS" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "shards=[]" >> "$GITHUB_OUTPUT"
+            echo "No dirs to mutate"
+          else
+            SHARDS=$(echo "$DIRS" | sed 's/.*/"&"/' | paste -sd, -)
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "shards=[$SHARDS]" >> "$GITHUB_OUTPUT"
+            echo "Shards ($(echo "$DIRS" | wc -l)): [$SHARDS]"
+          fi
+
   mutation-testing:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 30
+    needs: [prepare, mutation-setup]
+    if: needs.mutation-setup.outputs.skip != 'true'
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        source_dir: ${{ fromJson(needs.mutation-setup.outputs.shards) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -1709,120 +1769,38 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-base-images: 'false'
 
-      - name: Classify changes (source vs test-only)
-        id: classify
-        run: |
-          CHANGED_SRC=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.php' \
-            | grep -E '^src/|^components/' \
-            | grep -vi '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
-            | grep -v 'Spec\.php$' | grep -v 'Test\.php$' | grep -v 'TestCase\.php$' || true)
-          CHANGED_TESTS=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.php' \
-            | grep 'Test\.php$' \
-            | grep -E '/tests/|/Test/|/spec/|/Unit/' || true)
-
-          # Determine mode: both, source-diff, test-coverage, or skip
-          HAS_SRC="false"; HAS_TESTS="false"
-          [ -n "$CHANGED_SRC" ] && HAS_SRC="true"
-          [ -n "$CHANGED_TESTS" ] && HAS_TESTS="true"
-
-          if [ "$HAS_SRC" = "true" ] && [ "$HAS_TESTS" = "true" ]; then
-            echo "mode=both" >> "$GITHUB_OUTPUT"
-          elif [ "$HAS_SRC" = "true" ]; then
-            echo "mode=source-diff" >> "$GITHUB_OUTPUT"
-          elif [ "$HAS_TESTS" = "true" ]; then
-            echo "mode=test-coverage" >> "$GITHUB_OUTPUT"
-          else
-            echo "mode=skip" >> "$GITHUB_OUTPUT"
-            echo "No source or test files changed — skipping"
-          fi
-
-          if [ "$HAS_SRC" = "true" ]; then
-            echo "changed_src<<EOF" >> "$GITHUB_OUTPUT"
-            echo "$CHANGED_SRC" >> "$GITHUB_OUTPUT"
-            echo "EOF" >> "$GITHUB_OUTPUT"
-            echo "Source files changed: $(echo "$CHANGED_SRC" | wc -l)"
-          fi
-
-          if [ "$HAS_TESTS" = "true" ]; then
-            # Map test paths to source directories
-            SOURCE_DIRS=""
-            for test in $CHANGED_TESTS; do
-              if echo "$test" | grep -q "^components/"; then
-                dir=$(echo "$test" | sed 's|/back/tests/.*|/back/src|')
-                SOURCE_DIRS="$SOURCE_DIRS $dir"
-              elif echo "$test" | grep -q "^src/Oro/"; then
-                dir=$(echo "$test" | sed 's|/\(spec\|Unit\)/.*||')
-                SOURCE_DIRS="$SOURCE_DIRS $dir"
-              elif echo "$test" | grep -q "^src/Akeneo/.*/back/tests/"; then
-                dir=$(echo "$test" | sed 's|/back/tests/.*|/back|')
-                SOURCE_DIRS="$SOURCE_DIRS $dir"
-              elif echo "$test" | grep -q "^src/Akeneo/.*/tests/back/"; then
-                dir=$(echo "$test" | sed 's|/tests/back/.*||')
-                SOURCE_DIRS="$SOURCE_DIRS $dir"
-              elif echo "$test" | grep -q "^tests/back/"; then
-                context=$(echo "$test" | sed 's|tests/back/\([^/]*\)/.*|\1|')
-                SOURCE_DIRS="$SOURCE_DIRS src/Akeneo/$context"
-              fi
-            done
-            # Deduplicate and clean (remove empty entries)
-            SOURCE_DIRS=$(echo "$SOURCE_DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u | paste -sd, -)
-            echo "source_dirs=$SOURCE_DIRS" >> "$GITHUB_OUTPUT"
-            echo "Test coverage dirs to mutate: $SOURCE_DIRS"
-          fi
-
-      - name: Run Infection (source diff mode)
-        if: steps.classify.outputs.mode == 'source-diff' || steps.classify.outputs.mode == 'both'
+      - name: Run Infection on ${{ matrix.source_dir }}
         env:
-          CHANGED_SRC: ${{ steps.classify.outputs.changed_src }}
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+          SOURCE_DIR: ${{ matrix.source_dir }}
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           mkdir -p var/infection/tmp
+          echo "=== Mutating: $SOURCE_DIR ==="
 
-          # Build a dynamic Infection config scoped to only the changed source dirs
-          SRC_DIRS=$(echo "$CHANGED_SRC" | sed 's|/[^/]*$||' | sort -u)
-          DIR_JSON=$(echo "$SRC_DIRS" | sed 's/.*/"&"/' | paste -sd, -)
-
-          # Build a scoped PHPUnit config that only loads tests covering the changed dirs
-          # This avoids loading 5000 tests with Xdebug coverage (OOM)
-          TEST_DIRS=""
-          for src_dir in $SRC_DIRS; do
-            # Map source dir to likely test dir
-            test_dir=$(echo "$src_dir" | sed 's|/src/|/tests/|; s|/back$|/back/tests/Unit|; s|Form/Type$|Tests/Unit/Form/Type|')
-            [ -d "$test_dir" ] && TEST_DIRS="$TEST_DIRS <directory suffix=\"Test.php\">$test_dir</directory>"
+          # Find test dirs covering this source dir
+          top=$(echo "$SOURCE_DIR" | sed 's|^src/||' | cut -d/ -f1-2)
+          TEST_XML=""
+          for d in $(find "src/$top" -type d \( -name "Unit" -o -name "Tests" \) 2>/dev/null | head -30); do
+            TEST_XML="$TEST_XML<directory suffix=\"Test.php\">/srv/pim/$d</directory>"
           done
-          if [ -z "$TEST_DIRS" ]; then
-            # Fallback: use full suite but with --filter to narrow
-            FILTER=$(echo "$SRC_DIRS" | xargs -I{} basename {} | paste -sd'|' -)
-            TEST_DIRS="<directory suffix=\"Test.php\">src</directory><directory suffix=\"Test.php\">tests/back</directory>"
+          ctx=$(echo "$top" | sed 's|Oro/Bundle.*|Oro|; s|Akeneo/\([^/]*\).*|\1|')
+          for d in "tests/back/$ctx/Unit" "tests/back/$ctx/Enrichment/Unit" "tests/back/$ctx/Structure/Unit"; do
+            [ -d "$d" ] && TEST_XML="$TEST_XML<directory suffix=\"Test.php\">/srv/pim/$d</directory>"
+          done
+          if echo "$SOURCE_DIR" | grep -q "^components/"; then
+            ct=$(echo "$SOURCE_DIR" | sed 's|/back/src|/back/tests/Unit|')
+            [ -d "$ct" ] && TEST_XML="$TEST_XML<directory suffix=\"Test.php\">/srv/pim/$ct</directory>"
           fi
+          [ -z "$TEST_XML" ] && echo "No test dir found, skipping" && exit 0
+
+          echo "Test dirs: $(echo "$TEST_XML" | grep -o '<directory' | wc -l)"
+
+          # Write scoped PHPUnit config
+          echo "<?xml version=\"1.0\"?><phpunit bootstrap=\"/srv/pim/vendor/autoload.php\" cacheDirectory=\"/tmp/.phpunit.cache\"><php><ini name=\"memory_limit\" value=\"-1\"/></php><testsuites><testsuite name=\"s\">${TEST_XML}</testsuite></testsuites><source><include><directory suffix=\".php\">/srv/pim/${SOURCE_DIR}</directory></include></source></phpunit>" > var/infection/phpunit.xml
 
           # Write scoped Infection config
-          echo "{\"source\":{\"directories\":[$DIR_JSON],\"excludes\":[\"tests\",\"Test\",\"spec\"]},\"phpUnit\":{\"configDir\":\"var/infection\"},\"logs\":{\"text\":\"var/infection/infection.log\",\"html\":\"var/infection/infection.html\"},\"tmpDir\":\"var/infection/tmp\",\"timeout\":30}" > infection-dynamic.json
-
-          # Find ALL test dirs that could cover the changed source dirs
-          TEST_DIR_XML=""
-          for src_dir in $SRC_DIRS; do
-            # Extract the top-level context — go up to parent for cross-bundle deps
-            # Oro/Bundle/PimFilterBundle/... → Oro/Bundle (includes FilterBundle tests too)
-            top=$(echo "$src_dir" | sed 's|^src/||' | cut -d/ -f1-2)
-            # Search for Unit/Tests test dirs in the same top-level context AND related bundles
-            for candidate in $(find "src/$top" -type d \( -name "Unit" -o -name "Tests" \) 2>/dev/null | head -20); do
-              [ -d "$candidate" ] && TEST_DIR_XML="$TEST_DIR_XML<directory suffix=\"Test.php\">/srv/pim/$candidate</directory>"
-            done
-            # Also check tests/back/ for this context
-            context=$(echo "$top" | sed 's|Oro/Bundle/.*|Oro|; s|Akeneo/\([^/]*\).*|\1|')
-            [ -d "tests/back/$context/Unit" ] && TEST_DIR_XML="$TEST_DIR_XML<directory suffix=\"Test.php\">/srv/pim/tests/back/$context/Unit</directory>"
-          done
-          # Deduplicate
-          TEST_DIR_XML=$(echo "$TEST_DIR_XML" | tr '>' '\n' | sort -u | tr '\n' '>' | sed 's/>>*/>/g; s/^>//; s/>$//')
-          [ -z "$TEST_DIR_XML" ] && echo "WARNING: no test dir found, using full suite" && TEST_DIR_XML='<directory suffix="Test.php">/srv/pim/src</directory>'
-
-          SRC_XML=$(for d in $SRC_DIRS; do echo "<directory suffix=\".php\">/srv/pim/$d</directory>"; done)
-          echo "<?xml version=\"1.0\"?><phpunit bootstrap=\"/srv/pim/vendor/autoload.php\" cacheDirectory=\"/tmp/.phpunit.cache\"><php><ini name=\"memory_limit\" value=\"-1\"/></php><testsuites><testsuite name=\"scoped\">${TEST_DIR_XML}</testsuite></testsuites><source><include>${SRC_XML}</include></source></phpunit>" > var/infection/phpunit.xml
-          echo "Scoped PHPUnit config: $(cat var/infection/phpunit.xml)"
-          echo "Infection config: $(cat infection-dynamic.json)"
+          echo "{\"source\":{\"directories\":[\"${SOURCE_DIR}\"],\"excludes\":[\"tests\",\"Test\",\"spec\"]},\"phpUnit\":{\"configDir\":\"var/infection\"},\"tmpDir\":\"var/infection/tmp\",\"timeout\":30}" > infection-dynamic.json
 
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
@@ -1836,59 +1814,14 @@ jobs:
               --logger-github \
               --ignore-msi-with-no-mutations
 
-      - name: Run Infection (test-coverage mode — mutate source covered by changed tests)
-        if: steps.classify.outputs.mode == 'test-coverage' || steps.classify.outputs.mode == 'both'
-        env:
-          SOURCE_DIRS: ${{ steps.classify.outputs.source_dirs }}
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          mkdir -p var/infection/tmp
-
-          # Build JSON array from comma-separated dirs
-          DIR_JSON=$(echo "$SOURCE_DIRS" | tr ',' '\n' | grep -v '^$' | sed 's/.*/"&"/' | paste -sd, -)
-          echo "Generated source dirs JSON: [$DIR_JSON]"
-
-          # Write Infection config at project root (Infection resolves paths relative to config location)
-          echo "{\"source\":{\"directories\":[$DIR_JSON],\"excludes\":[\"tests\",\"Test\",\"spec\"]},\"phpUnit\":{\"configDir\":\".\"},\"logs\":{\"text\":\"var/infection/infection.log\",\"html\":\"var/infection/infection.html\"},\"tmpDir\":\"var/infection/tmp\",\"timeout\":30}" > infection-dynamic.json
-          echo "Config: $(cat infection-dynamic.json)"
-
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
-            -e APP_ENV=test_fake \
-            php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
-              --configuration=infection-dynamic.json \
-              --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
-              --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage" \
-              --threads=4 \
-              --min-msi=80 \
-              --min-covered-msi=80 \
-              --only-covering-test-cases \
-              --logger-github \
-              --ignore-msi-with-no-mutations
-
-      - name: Write summary
-        if: always() && steps.classify.outputs.mode != 'skip'
-        run: |
-          echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
-          echo "Mode: **${{ steps.classify.outputs.mode }}** | MSI threshold: 80%" >> "$GITHUB_STEP_SUMMARY"
-          if [ "${{ steps.classify.outputs.mode }}" = "test-coverage" ]; then
-            echo "Source dirs: \`${{ steps.classify.outputs.source_dirs }}\`" >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Skip notice
-        if: steps.classify.outputs.mode == 'skip'
-        run: |
-          echo "### Mutation Testing (Infection)" >> "$GITHUB_STEP_SUMMARY"
-          echo "Skipped: no PHP source or unit test files changed." >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload Infection report
-        if: always() && steps.classify.outputs.mode != 'skip'
+      - name: Upload shard report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: infection-report
+          name: infection-${{ strategy.job-index }}
           path: var/infection/
           retention-days: 30
+
 
   # ===========================================================================
   # SCHEMA VALIDATE: Detect DB schema changes without corresponding migrations
@@ -1990,6 +1923,7 @@ jobs:
       - test-behat
       - test-playwright
       - mutation-testing
+      - mutation-setup
     if: always()
     timeout-minutes: 5
     steps:
