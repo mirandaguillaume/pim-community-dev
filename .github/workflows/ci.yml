@@ -1712,11 +1712,11 @@ jobs:
       - name: Classify changes (source vs test-only)
         id: classify
         run: |
-          CHANGED_SRC=$(git diff --name-only origin/master...HEAD -- '*.php' \
+          CHANGED_SRC=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.php' \
             | grep -E '^src/|^components/' \
             | grep -vi '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
             | grep -v 'Spec\.php$' | grep -v 'Test\.php$' | grep -v 'TestCase\.php$' || true)
-          CHANGED_TESTS=$(git diff --name-only origin/master...HEAD -- '*.php' \
+          CHANGED_TESTS=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.php' \
             | grep 'Test\.php$' \
             | grep -E '/tests/|/Test/|/spec/|/Unit/' || true)
 
