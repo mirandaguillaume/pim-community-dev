@@ -7,7 +7,6 @@ namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Normalizer\InternalApi;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
 use Oro\Bundle\PimDataGridBundle\Normalizer\InternalApi\DatagridViewNormalizer;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class DatagridViewNormalizerTest extends TestCase
@@ -54,6 +53,7 @@ class DatagridViewNormalizerTest extends TestCase
         $view->method('getColumns')->willReturn(['sku', 'name', 'brand']);
         $view->method('getFilters')->willReturn('i=1&p=10&s%5Bupdated%5D=1&f%5Bfamily%5D%5Bvalue%5D%5B%5D=mugs');
         $view->method('getOrder')->willReturn('sku,name,brand');
+        $result = $this->sut->normalize($view, 'standard');
         $this->assertSame([
                     'id'             => 42,
                     'owner_id'       => 666,
@@ -62,6 +62,14 @@ class DatagridViewNormalizerTest extends TestCase
                     'datagrid_alias' => 'product-grid',
                     'columns'        => ['sku', 'name', 'brand'],
                     'filters'        => 'i=1&p=10&s%5Bupdated%5D=1&f%5Bfamily%5D%5Bvalue%5D%5B%5D=mugs',
-                ], $this->sut->normalize($view, 'standard'));
+                ], $result);
+        // Verify types explicitly
+        $this->assertIsInt($result['id']);
+        $this->assertIsInt($result['owner_id']);
+        $this->assertIsString($result['label']);
+        $this->assertIsString($result['type']);
+        $this->assertIsString($result['datagrid_alias']);
+        $this->assertIsArray($result['columns']);
+        $this->assertIsString($result['filters']);
     }
 }

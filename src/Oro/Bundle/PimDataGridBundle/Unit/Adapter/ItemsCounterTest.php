@@ -45,6 +45,13 @@ class ItemsCounterTest extends TestCase
                 ]));
     }
 
+    public function test_it_returns_zero_when_value_is_not_countable(): void
+    {
+        $this->assertSame(0, $this->sut->count('family-grid', [
+            ['value' => 'not_an_array'],
+        ]));
+    }
+
     public function test_it_raises_an_exception_when_unable_to_count_the_number_of_items(): void
     {
         $this->expectException(\Exception::class);

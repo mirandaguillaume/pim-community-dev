@@ -49,6 +49,74 @@ class OroToPimGridFilterAdapterTest extends TestCase
                 ], $this->sut->adapt(['gridName' => 'product-grid']));
     }
 
+    public function test_it_returns_filters_on_attribute_grid_with_inset(): void
+    {
+        $parameters = [
+            'gridName' => 'attribute-grid',
+            'inset'    => true,
+            'values'   => ['attr1', 'attr2'],
+        ];
+        $result = $this->sut->adapt($parameters);
+        $this->assertSame([
+            'search' => null,
+            'options' => [
+                'identifiers' => ['attr1', 'attr2'],
+            ],
+        ], $result);
+    }
+
+    public function test_it_returns_filters_on_attribute_grid_without_inset(): void
+    {
+        $parameters = [
+            'gridName' => 'attribute-grid',
+            'inset'    => false,
+            'values'   => ['attr1'],
+            'filters'  => [
+                'label' => ['value' => 'my_search'],
+                'code'  => 'code_val',
+                'type'  => ['value' => ['text', '']],
+                'group' => ['value' => ['general']],
+                'scopable' => ['value' => '1'],
+                'localizable' => ['value' => '2'],
+                'family' => ['value' => ['shirts']],
+                'smart' => ['value' => null],
+                'quality' => ['value' => 'A'],
+            ],
+        ];
+        $result = $this->sut->adapt($parameters);
+        $this->assertSame('my_search', $result['search']);
+        $this->assertSame(['attr1'], $result['options']['excluded_identifiers']);
+        $this->assertSame(['text'], $result['options']['types']);
+        $this->assertSame(['general'], $result['options']['attribute_groups']);
+        $this->assertTrue($result['options']['scopable']);
+        $this->assertFalse($result['options']['localizable']);
+        $this->assertSame(['shirts'], $result['options']['families']);
+        $this->assertNull($result['options']['smart']);
+        $this->assertSame('A', $result['options']['quality']);
+    }
+
+    public function test_it_adapts_default_grid_with_inset_false(): void
+    {
+        $family1 = $this->createMock(FamilyInterface::class);
+
+        $parameters = [
+            'gridName' => 'family-grid',
+            'inset'    => false,
+            'filters'  => ['myfilter' => 'value'],
+        ];
+
+        // inset is false, so filters should NOT be cleared
+        $this->massActionDispatcher->method('dispatch')->with($parameters)->willReturn([$family1]);
+        $family1->method('getId')->willReturn(45);
+
+        $result = $this->sut->adapt($parameters);
+        $this->assertSame([[
+            'field'    => 'id',
+            'operator' => 'IN',
+            'value'    => [45],
+        ]], $result);
+    }
+
     public function test_it_returns_filters_on_family_grid(): void
     {
         $family1 = $this->createMock(FamilyInterface::class);

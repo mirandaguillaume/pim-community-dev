@@ -71,4 +71,31 @@ class OptionsNormalizerTest extends TestCase
                 ];
         $this->assertSame($data, $this->sut->normalize($value, 'datagrid', ['data_locale' => 'fr_FR']));
     }
+
+    public function test_it_sorts_labels_alphabetically(): void
+    {
+        $value = $this->createMock(OptionsValueInterface::class);
+        $optionZ = $this->createMock(AttributeOptionInterface::class);
+        $optionA = $this->createMock(AttributeOptionInterface::class);
+        $translationZ = $this->createMock(AttributeOptionValueInterface::class);
+        $translationA = $this->createMock(AttributeOptionValueInterface::class);
+
+        // Data order is z, a - but sort should produce a, z
+        $value->method('getAttributeCode')->willReturn('size');
+        $value->method('getData')->willReturn(['z_large', 'a_small']);
+        $this->attributeOptionRepository->method('findOneByIdentifier')->willReturnMap([
+            ['size.z_large', $optionZ],
+            ['size.a_small', $optionA],
+        ]);
+        $optionZ->method('getTranslation')->with('en_US')->willReturn($translationZ);
+        $translationZ->method('getValue')->willReturn('Zebra');
+        $optionA->method('getTranslation')->with('en_US')->willReturn($translationA);
+        $translationA->method('getValue')->willReturn('Alpha');
+        $value->method('getLocaleCode')->willReturn(null);
+        $value->method('getScopeCode')->willReturn(null);
+
+        $result = $this->sut->normalize($value, 'datagrid', ['data_locale' => 'en_US']);
+        // After sort: Alpha comes before Zebra
+        $this->assertSame('Alpha, Zebra', $result['data']);
+    }
 }

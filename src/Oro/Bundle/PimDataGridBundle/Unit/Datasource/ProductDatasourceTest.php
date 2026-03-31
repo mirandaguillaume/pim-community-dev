@@ -58,7 +58,8 @@ class ProductDatasourceTest extends TestCase
         $product1 = $this->createMock(ProductInterface::class);
         $productCursor = $this->createMock(CursorInterface::class);
 
-        $product1->method('getUuid')->willReturn(Uuid::uuid4());
+        $fixedUuid = Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5');
+        $product1->method('getUuid')->willReturn($fixedUuid);
         $config = [
                     'displayed_attribute_ids' => [1, 2],
                     'attributes_configuration' => [
@@ -130,5 +131,75 @@ class ProductDatasourceTest extends TestCase
         $this->assertCount(2, $results);
         $this->assertArrayHasKey('data', $results);
         $this->assertSame(1, $results['totalRecords']);
+
+        // Verify the record content has correct defaults merged with normalizer output
+        $this->assertCount(1, $results['data']);
+        $record = $results['data'][0];
+        $this->assertInstanceOf(ResultRecord::class, $record);
+        $this->assertSame('54162e35-ff81-48f1-96d5-5febd3f00fd5', $record->getValue('id'));
+        $this->assertSame('fr_FR', $record->getValue('dataLocale'));
+        $this->assertSame('product_1', $record->getValue('identifier'));
+        $this->assertTrue($record->getValue('enabled'));
+        $this->assertSame('foo', $record->getValue('label'));
+    }
+
+    public function test_it_gets_products_with_from_parameter(): void
+    {
+        $datagrid = $this->createMock(Datagrid::class);
+        $pqb = $this->createMock(ProductQueryBuilderInterface::class);
+        $productCursor = $this->createMock(CursorInterface::class);
+
+        $config = [
+            'displayed_attribute_ids' => [],
+            'attributes_configuration' => [],
+            'locale_code' => 'en_US',
+            'scope_code' => 'ecommerce',
+            'association_type_id' => null,
+            'current_group_id' => null,
+            'from' => 5,
+            PagerExtension::PER_PAGE_PARAM => 10,
+        ];
+
+        $this->pqbFactory->method('create')->with([
+            'repository_parameters' => [],
+            'repository_method'     => 'createQueryBuilder',
+            'limit'                 => 10,
+            'from'                  => 5,
+            'default_locale'        => 'en_US',
+            'default_scope'         => 'ecommerce',
+        ])->willReturn($pqb);
+        $pqb->method('getQueryBuilder');
+        $pqb->method('execute')->willReturn($productCursor);
+        $productCursor->method('count')->willReturn(0);
+        $productCursor->method('rewind');
+        $productCursor->method('valid')->willReturn(false);
+
+        $this->subscriber->expects($this->once())->method('configure');
+
+        $this->sut->process($datagrid, $config);
+        $results = $this->sut->getResults();
+
+        $this->assertSame(0, $results['totalRecords']);
+        $this->assertSame([], $results['data']);
+    }
+
+    public function test_getProductQueryBuilder_returns_pqb(): void
+    {
+        $datagrid = $this->createMock(Datagrid::class);
+        $pqb = $this->createMock(ProductQueryBuilderInterface::class);
+
+        $config = [
+            'displayed_attribute_ids' => [],
+            'attributes_configuration' => [],
+            'locale_code' => 'en_US',
+            'scope_code' => 'ecommerce',
+            PagerExtension::PER_PAGE_PARAM => 10,
+        ];
+
+        $this->pqbFactory->method('create')->willReturn($pqb);
+        $pqb->method('getQueryBuilder');
+
+        $this->sut->process($datagrid, $config);
+        $this->assertSame($pqb, $this->sut->getProductQueryBuilder());
     }
 }

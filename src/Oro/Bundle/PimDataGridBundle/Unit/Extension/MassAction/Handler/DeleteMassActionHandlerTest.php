@@ -93,6 +93,9 @@ class DeleteMassActionHandlerTest extends TestCase
         );
         $result = $this->sut->handle($this->datagrid, $this->massAction);
         $this->assertInstanceOf(MassActionResponseInterface::class, $result);
+        $this->assertTrue($result->isSuccessful());
+        $this->assertSame('qux', $result->getMessage());
+        $this->assertSame(['count' => 3], $result->getOptions());
     }
 
     public function test_it_returns_failed_message_if_an_exception_occurs(): void
@@ -109,5 +112,7 @@ class DeleteMassActionHandlerTest extends TestCase
         );
         $result = $this->sut->handle($this->datagrid, $this->massAction);
         $this->assertInstanceOf(MassActionResponseInterface::class, $result);
+        $this->assertFalse($result->isSuccessful());
+        $this->assertSame('Error', $result->getMessage());
     }
 }

@@ -30,7 +30,8 @@ class RequestParametersExtractorTest extends TestCase
 
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
         $this->requestParams->expects($this->once())->method('get')->with('dataLocale', null)->willReturn('en_US');
-        $this->sut->getParameter('dataLocale');
+        $result = $this->sut->getParameter('dataLocale');
+        $this->assertSame('en_US', $result);
     }
 
     public function test_it_extracts_the_parameter_from_the_symfony_request(): void
@@ -40,7 +41,8 @@ class RequestParametersExtractorTest extends TestCase
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
         $this->requestParams->expects($this->once())->method('get')->with('dataLocale', null);
         $request->expects($this->once())->method('get')->with('dataLocale', null)->willReturn('en_US');
-        $this->sut->getParameter('dataLocale');
+        $result = $this->sut->getParameter('dataLocale');
+        $this->assertSame('en_US', $result);
     }
 
     public function test_it_trows_a_logic_exception_when_the_parameter_is_not_present(): void

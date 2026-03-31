@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Normalizer;
 
+use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
+use Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\PimDataGridBundle\Normalizer\FamilyVariantNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -64,5 +66,29 @@ class FamilyVariantNormalizerTest extends TestCase
                     'level_1'           => '',
                     'level_2'           => '',
                 ], $this->sut->normalize($familyVariant, 'datagrid'));
+    }
+
+    public function test_it_normalizes_variant_attribute_set_axes(): void
+    {
+        $familyVariant = $this->createMock(FamilyVariantInterface::class);
+        $shoe = $this->createMock(FamilyInterface::class);
+        $attrSet1 = $this->createMock(VariantAttributeSetInterface::class);
+        $axis1 = $this->createMock(AttributeInterface::class);
+
+        $this->translationNormalizer->method('normalize')->willReturn(['en_US' => 'Size']);
+        $familyVariant->method('getId')->willReturn(12);
+        $familyVariant->method('getCode')->willReturn('shoes_by_size');
+        $familyVariant->method('getFamily')->willReturn($shoe);
+        $shoe->method('getCode')->willReturn('shoe');
+
+        $attrSet1->method('getLevel')->willReturn(1);
+        $attrSet1->method('getAxes')->willReturn(new ArrayCollection([$axis1]));
+        $axis1->method('getLabel')->willReturn('Size');
+
+        $familyVariant->method('getVariantAttributeSets')->willReturn(new ArrayCollection([$attrSet1]));
+
+        $result = $this->sut->normalize($familyVariant, 'datagrid');
+        $this->assertSame('Size', $result['level_1']);
+        $this->assertSame('', $result['level_2']);
     }
 }

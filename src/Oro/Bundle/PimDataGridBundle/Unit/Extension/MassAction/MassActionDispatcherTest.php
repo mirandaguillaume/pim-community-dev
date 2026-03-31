@@ -357,4 +357,117 @@ class MassActionDispatcherTest extends TestCase
                     'actionName' => $massActionName,
                 ]));
     }
+
+    public function test_getRawFilters_with_inset_true_returns_id_filter(): void
+    {
+        $massActionExtension = $this->createMock(MassActionExtension::class);
+        $massActionInterface = $this->createMock(MassActionInterface::class);
+        $massActionRepository = $this->createMock(ProductMassActionRepositoryInterface::class);
+        $productQueryBuilder = $this->createMock(ProductQueryBuilderInterface::class);
+
+        $this->datasource->method('getMassActionRepository')->willReturn($massActionRepository);
+        $massActionExtension->method('getMassAction')->willReturn($massActionInterface);
+        $this->acceptor->method('getExtensions')->willReturn([$massActionExtension]);
+        $this->datasource->method('getProductQueryBuilder')->willReturn($productQueryBuilder);
+        $this->datasource->method('getParameters')->willReturn([
+            'dataLocale' => 'en_US',
+            'scopeCode' => 'ecommerce',
+        ]);
+
+        $result = $this->sut->getRawFilters([
+            'inset'      => true,
+            'values'     => ['id1', 'id2'],
+            'gridName'   => 'grid',
+            'actionName' => 'mass_edit_action',
+        ]);
+
+        $this->assertCount(1, $result);
+        $this->assertSame('id', $result[0]['field']);
+        $this->assertSame('IN', $result[0]['operator']);
+        $this->assertSame(['id1', 'id2'], $result[0]['value']);
+        $this->assertArrayHasKey('context', $result[0]);
+        $this->assertSame('en_US', $result[0]['context']['locale']);
+        $this->assertSame('ecommerce', $result[0]['context']['scope']);
+    }
+
+    public function test_getRawFilters_with_datasource_params_merges_context(): void
+    {
+        $massActionExtension = $this->createMock(MassActionExtension::class);
+        $massActionInterface = $this->createMock(MassActionInterface::class);
+        $massActionRepository = $this->createMock(ProductMassActionRepositoryInterface::class);
+        $productQueryBuilder = $this->createMock(ProductQueryBuilderInterface::class);
+
+        $this->datasource->method('getMassActionRepository')->willReturn($massActionRepository);
+        $massActionExtension->method('getMassAction')->willReturn($massActionInterface);
+        $this->acceptor->method('getExtensions')->willReturn([$massActionExtension]);
+        $this->datasource->method('getProductQueryBuilder')->willReturn($productQueryBuilder);
+        $productQueryBuilder->method('getRawFilters')->willReturn([
+            [
+                'field' => 'category',
+                'operator' => 'IN',
+                'value' => ['cat1'],
+                'context' => ['existing_key' => 'existing_value'],
+            ],
+        ]);
+        $this->datasource->method('getParameters')->willReturn([
+            'dataLocale' => 'fr_FR',
+            'scopeCode' => 'mobile',
+        ]);
+
+        $result = $this->sut->getRawFilters([
+            'inset'      => '',
+            'values'     => [1],
+            'gridName'   => 'grid',
+            'actionName' => 'mass_edit_action',
+        ]);
+
+        $this->assertCount(1, $result);
+        $this->assertSame('category', $result[0]['field']);
+        // Context should be merged: existing_key preserved + locale + scope added
+        $this->assertSame('existing_value', $result[0]['context']['existing_key']);
+        $this->assertSame('fr_FR', $result[0]['context']['locale']);
+        $this->assertSame('mobile', $result[0]['context']['scope']);
+    }
+
+    public function test_getMassActionByNames(): void
+    {
+        $massActionExtension = $this->createMock(MassActionExtension::class);
+        $massActionInterface = $this->createMock(MassActionInterface::class);
+
+        $this->acceptor->method('getExtensions')->willReturn([$massActionExtension]);
+        $massActionExtension->method('getMassAction')->with('my_action', $this->grid)->willReturn($massActionInterface);
+
+        $result = $this->sut->getMassActionByNames('my_action', 'grid');
+        $this->assertSame($massActionInterface, $result);
+    }
+
+    public function test_it_sets_request_params_filter_root(): void
+    {
+        $massActionExtension = $this->createMock(MassActionExtension::class);
+        $massActionInterface = $this->createMock(MassActionInterface::class);
+        $massActionRepository = $this->createMock(ProductMassActionRepositoryInterface::class);
+        $massActionHandler = $this->createMock(MassActionHandlerInterface::class);
+
+        $this->datasource->method('getMassActionRepository')->willReturn($massActionRepository);
+        $massActionExtension->method('getMassAction')->willReturn($massActionInterface);
+        $this->acceptor->method('getExtensions')->willReturn([$massActionExtension]);
+        $alias = 'handler_alias';
+        $options = new \Doctrine\Common\Collections\ArrayCollection();
+        $options->offsetSet('handler', $alias);
+        $massActionInterface->method('getOptions')->willReturn($options);
+        $this->handlerRegistry->method('getHandler')->with($alias)->willReturn($massActionHandler);
+        $massActionHandler->method('handle')->willReturn($massActionHandler);
+
+        // Verify requestParams->set is called with the filters
+        $this->requestParams->expects($this->once())->method('set')
+            ->with('_filter', ['myFilter' => 'value']);
+
+        $this->sut->dispatch([
+            'inset'      => true,
+            'values'     => [1],
+            'filters'    => ['myFilter' => 'value'],
+            'gridName'   => 'grid',
+            'actionName' => 'mass_edit_action',
+        ]);
+    }
 }
