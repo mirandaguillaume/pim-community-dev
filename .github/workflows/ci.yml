@@ -1722,13 +1722,26 @@ jobs:
             if echo "$test" | grep -q "^components/"; then
               DIRS="$DIRS $(echo "$test" | sed 's|/back/tests/.*|/back/src|')"
             elif echo "$test" | grep -q "^src/Oro/"; then
-              DIRS="$DIRS $(echo "$test" | sed 's|^\(src/Oro/Bundle/[^/]*\)/.*|\1|')"
+              # Map Oro tests to specific source subdir (strip Unit/ or Tests/Unit/ prefix)
+              subdir=""
+              if echo "$test" | grep -q "/Tests/Unit/"; then
+                subdir=$(echo "$test" | sed -n 's|^\(src/Oro/Bundle/[^/]*/\)Tests/Unit/\(.*\)/[^/]*$|\1\2|p')
+              elif echo "$test" | grep -q "/Unit/"; then
+                subdir=$(echo "$test" | sed -n 's|^\(src/Oro/Bundle/[^/]*/\)Unit/\(.*\)/[^/]*$|\1\2|p')
+              fi
+              if [ -n "$subdir" ] && [ -d "$subdir" ]; then
+                DIRS="$DIRS $subdir"
+              else
+                DIRS="$DIRS $(echo "$test" | sed 's|^\(src/Oro/Bundle/[^/]*\)/.*|\1|')"
+              fi
             elif echo "$test" | grep -q "^src/Akeneo/.*/back/tests/"; then
               DIRS="$DIRS $(echo "$test" | sed 's|/back/tests/.*|/back|')"
             elif echo "$test" | grep -q "^src/Akeneo/.*/tests/back/"; then
               DIRS="$DIRS $(echo "$test" | sed 's|/tests/back/.*||')"
             elif echo "$test" | grep -q "^tests/back/"; then
               ctx=$(echo "$test" | sed 's|tests/back/\([^/]*\)/.*|\1|')
+              # Skip test infrastructure dirs (not production code)
+              case "$ctx" in Acceptance|Common) continue ;; esac
               DIRS="$DIRS src/Akeneo/$ctx"
             fi
           done
