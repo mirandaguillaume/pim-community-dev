@@ -1759,10 +1759,13 @@ jobs:
 
       - name: Run Infection (source diff mode)
         if: steps.classify.outputs.mode == 'source-diff'
+        env:
+          CHANGED_SRC: ${{ steps.classify.outputs.changed_src }}
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          mkdir -p var/infection
+          mkdir -p var/infection/tmp
 
           # Build a dynamic config scoped to only the changed source dirs
           SRC_DIRS=$(echo "$CHANGED_SRC" | sed 's|/[^/]*$||' | sort -u)
@@ -1782,9 +1785,6 @@ jobs:
               --only-covering-test-cases \
               --logger-github \
               --ignore-msi-with-no-mutations
-        env:
-          CHANGED_SRC: ${{ steps.classify.outputs.changed_src }}
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
       - name: Run Infection (test-coverage mode — mutate source covered by changed tests)
         if: steps.classify.outputs.mode == 'test-coverage'
