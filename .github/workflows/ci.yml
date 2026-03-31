@@ -1722,6 +1722,9 @@ jobs:
 
           if [ -n "$CHANGED_SRC" ]; then
             echo "mode=source-diff" >> "$GITHUB_OUTPUT"
+            echo "changed_src<<EOF" >> "$GITHUB_OUTPUT"
+            echo "$CHANGED_SRC" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
             echo "Mode: source-diff ($(echo "$CHANGED_SRC" | wc -l) source files changed)"
           elif [ -n "$CHANGED_TESTS" ]; then
             echo "mode=test-coverage" >> "$GITHUB_OUTPUT"
@@ -1760,21 +1763,27 @@ jobs:
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           mkdir -p var/infection
+
+          # Build a dynamic config scoped to only the changed source dirs
+          SRC_DIRS=$(echo "$CHANGED_SRC" | sed 's|/[^/]*$||' | sort -u)
+          DIR_JSON=$(echo "$SRC_DIRS" | sed 's/.*/"&"/' | paste -sd, -)
+          echo "{\"source\":{\"directories\":[$DIR_JSON],\"excludes\":[\"tests\",\"Test\",\"spec\"]},\"phpUnit\":{\"configDir\":\".\"},\"logs\":{\"text\":\"var/infection/infection.log\",\"html\":\"var/infection/infection.html\"},\"tmpDir\":\"var/infection/tmp\",\"timeout\":30}" > infection-dynamic.json
+          echo "Infection config: $(cat infection-dynamic.json)"
+
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
-              --test-framework=phpunit \
+              --configuration=infection-dynamic.json \
               --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
               --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1" \
               --threads=4 \
-              --git-diff-filter=AM \
-              --git-diff-base=origin/master \
               --min-msi=80 \
               --min-covered-msi=80 \
               --only-covering-test-cases \
               --logger-github \
-              --logger-html=var/infection/infection.html \
               --ignore-msi-with-no-mutations
+        env:
+          CHANGED_SRC: ${{ steps.classify.outputs.changed_src }}
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
