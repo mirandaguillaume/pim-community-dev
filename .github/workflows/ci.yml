@@ -1720,14 +1720,30 @@ jobs:
             | grep 'Test\.php$' \
             | grep -E '/tests/|/Test/|/spec/|/Unit/' || true)
 
-          if [ -n "$CHANGED_SRC" ]; then
+          # Determine mode: both, source-diff, test-coverage, or skip
+          HAS_SRC="false"; HAS_TESTS="false"
+          [ -n "$CHANGED_SRC" ] && HAS_SRC="true"
+          [ -n "$CHANGED_TESTS" ] && HAS_TESTS="true"
+
+          if [ "$HAS_SRC" = "true" ] && [ "$HAS_TESTS" = "true" ]; then
+            echo "mode=both" >> "$GITHUB_OUTPUT"
+          elif [ "$HAS_SRC" = "true" ]; then
             echo "mode=source-diff" >> "$GITHUB_OUTPUT"
+          elif [ "$HAS_TESTS" = "true" ]; then
+            echo "mode=test-coverage" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=skip" >> "$GITHUB_OUTPUT"
+            echo "No source or test files changed — skipping"
+          fi
+
+          if [ "$HAS_SRC" = "true" ]; then
             echo "changed_src<<EOF" >> "$GITHUB_OUTPUT"
             echo "$CHANGED_SRC" >> "$GITHUB_OUTPUT"
             echo "EOF" >> "$GITHUB_OUTPUT"
-            echo "Mode: source-diff ($(echo "$CHANGED_SRC" | wc -l) source files changed)"
-          elif [ -n "$CHANGED_TESTS" ]; then
-            echo "mode=test-coverage" >> "$GITHUB_OUTPUT"
+            echo "Source files changed: $(echo "$CHANGED_SRC" | wc -l)"
+          fi
+
+          if [ "$HAS_TESTS" = "true" ]; then
             # Map test paths to source directories
             SOURCE_DIRS=""
             for test in $CHANGED_TESTS; do
@@ -1751,14 +1767,11 @@ jobs:
             # Deduplicate and clean (remove empty entries)
             SOURCE_DIRS=$(echo "$SOURCE_DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u | paste -sd, -)
             echo "source_dirs=$SOURCE_DIRS" >> "$GITHUB_OUTPUT"
-            echo "Source dirs to mutate: $SOURCE_DIRS"
-          else
-            echo "mode=skip" >> "$GITHUB_OUTPUT"
-            echo "No source or test files changed — skipping"
+            echo "Test coverage dirs to mutate: $SOURCE_DIRS"
           fi
 
       - name: Run Infection (source diff mode)
-        if: steps.classify.outputs.mode == 'source-diff'
+        if: steps.classify.outputs.mode == 'source-diff' || steps.classify.outputs.mode == 'both'
         env:
           CHANGED_SRC: ${{ steps.classify.outputs.changed_src }}
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
@@ -1788,27 +1801,26 @@ jobs:
           # Write scoped Infection config
           echo "{\"source\":{\"directories\":[$DIR_JSON],\"excludes\":[\"tests\",\"Test\",\"spec\"]},\"phpUnit\":{\"configDir\":\"var/infection\"},\"logs\":{\"text\":\"var/infection/infection.log\",\"html\":\"var/infection/infection.html\"},\"tmpDir\":\"var/infection/tmp\",\"timeout\":30}" > infection-dynamic.json
 
-          # Write a scoped PHPUnit config that only loads tests for changed source dirs
-          # This avoids loading 5000 tests with Xdebug coverage (causes OOM/SIGTERM)
+          # Find ALL test dirs that could cover the changed source dirs
           TEST_DIR_XML=""
           for src_dir in $SRC_DIRS; do
-            for candidate in \
-              "$(echo "$src_dir" | sed 's|/Form/Type.*|/Tests/Unit|')" \
-              "$(echo "$src_dir" | sed 's|/back$|/back/tests/Unit|')" \
-              "$(echo "$src_dir" | sed 's|^src/|tests/back/|; s|/Component/.*|/Unit|; s|/Bundle/.*|/Unit|')"
-            do
-              [ -d "$candidate" ] && TEST_DIR_XML="$TEST_DIR_XML<directory suffix=\"Test.php\">$candidate</directory>" && break
+            # Extract the top-level context — go up to parent for cross-bundle deps
+            # Oro/Bundle/PimFilterBundle/... → Oro/Bundle (includes FilterBundle tests too)
+            top=$(echo "$src_dir" | sed 's|^src/||' | cut -d/ -f1-2)
+            # Search for Unit/Tests test dirs in the same top-level context AND related bundles
+            for candidate in $(find "src/$top" -type d \( -name "Unit" -o -name "Tests" \) 2>/dev/null | head -20); do
+              [ -d "$candidate" ] && TEST_DIR_XML="$TEST_DIR_XML<directory suffix=\"Test.php\">/srv/pim/$candidate</directory>"
             done
+            # Also check tests/back/ for this context
+            context=$(echo "$top" | sed 's|Oro/Bundle/.*|Oro|; s|Akeneo/\([^/]*\).*|\1|')
+            [ -d "tests/back/$context/Unit" ] && TEST_DIR_XML="$TEST_DIR_XML<directory suffix=\"Test.php\">/srv/pim/tests/back/$context/Unit</directory>"
           done
-          [ -z "$TEST_DIR_XML" ] && TEST_DIR_XML='<directory suffix="Test.php">src</directory>'
+          # Deduplicate
+          TEST_DIR_XML=$(echo "$TEST_DIR_XML" | tr '>' '\n' | sort -u | tr '\n' '>' | sed 's/>>*/>/g; s/^>//; s/>$//')
+          [ -z "$TEST_DIR_XML" ] && echo "WARNING: no test dir found, using full suite" && TEST_DIR_XML='<directory suffix="Test.php">/srv/pim/src</directory>'
 
-          cat > var/infection/phpunit.xml <<XMLEOF
-          <?xml version="1.0"?>
-          <phpunit bootstrap="/srv/pim/vendor/autoload.php" cacheDirectory="/tmp/.phpunit.cache">
-            <php><ini name="memory_limit" value="-1"/></php>
-            <testsuites><testsuite name="scoped">$TEST_DIR_XML</testsuite></testsuites>
-          </phpunit>
-          XMLEOF
+          SRC_XML=$(for d in $SRC_DIRS; do echo "<directory suffix=\".php\">/srv/pim/$d</directory>"; done)
+          echo "<?xml version=\"1.0\"?><phpunit bootstrap=\"/srv/pim/vendor/autoload.php\" cacheDirectory=\"/tmp/.phpunit.cache\"><php><ini name=\"memory_limit\" value=\"-1\"/></php><testsuites><testsuite name=\"scoped\">${TEST_DIR_XML}</testsuite></testsuites><source><include>${SRC_XML}</include></source></phpunit>" > var/infection/phpunit.xml
           echo "Scoped PHPUnit config: $(cat var/infection/phpunit.xml)"
           echo "Infection config: $(cat infection-dynamic.json)"
 
@@ -1825,7 +1837,7 @@ jobs:
               --ignore-msi-with-no-mutations
 
       - name: Run Infection (test-coverage mode — mutate source covered by changed tests)
-        if: steps.classify.outputs.mode == 'test-coverage'
+        if: steps.classify.outputs.mode == 'test-coverage' || steps.classify.outputs.mode == 'both'
         env:
           SOURCE_DIRS: ${{ steps.classify.outputs.source_dirs }}
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
