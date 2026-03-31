@@ -121,6 +121,6 @@ class NumberValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::NUMBER, [], $isLocalizable, $isScopable, null, null, false, 'decimal', [], $value);
+            return new Attribute('an_attribute', AttributeTypes::NUMBER, [], $isLocalizable, $isScopable, null, null, false, 'decimal', []);
         }
 }

@@ -101,6 +101,6 @@ class ImageValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::IMAGE, [], $isLocalizable, $isScopable, null, null, false, 'file', [], $value);
+            return new Attribute('an_attribute', AttributeTypes::IMAGE, [], $isLocalizable, $isScopable, null, null, false, 'file', []);
         }
 }

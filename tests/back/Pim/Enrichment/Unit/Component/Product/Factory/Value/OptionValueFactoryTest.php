@@ -81,6 +81,6 @@ class OptionValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::OPTION_SIMPLE_SELECT, [], $isLocalizable, $isScopable, null, null, false, 'option', [], $value);
+            return new Attribute('an_attribute', AttributeTypes::OPTION_SIMPLE_SELECT, [], $isLocalizable, $isScopable, null, null, false, 'option', []);
         }
 }

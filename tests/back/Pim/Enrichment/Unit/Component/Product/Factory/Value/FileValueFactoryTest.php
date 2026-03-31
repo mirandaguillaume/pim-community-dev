@@ -102,6 +102,6 @@ class FileValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::FILE, [], $isLocalizable, $isScopable, null, null, false, 'file', [], $value);
+            return new Attribute('an_attribute', AttributeTypes::FILE, [], $isLocalizable, $isScopable, null, null, false, 'file', []);
         }
 }

@@ -83,6 +83,6 @@ class TextValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::TEXT, [], $isLocalizable, $isScopable, null, null, false, 'text', [], $value);
+            return new Attribute('an_attribute', AttributeTypes::TEXT, [], $isLocalizable, $isScopable, null, null, false, 'text', []);
         }
 }

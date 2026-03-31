@@ -90,6 +90,6 @@ class PriceCollectionValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::PRICE_COLLECTION, [], $isLocalizable, $isScopable, null, null, false, 'prices', [], $value);
+            return new Attribute('an_attribute', AttributeTypes::PRICE_COLLECTION, [], $isLocalizable, $isScopable, null, null, false, 'prices', []);
         }
 }

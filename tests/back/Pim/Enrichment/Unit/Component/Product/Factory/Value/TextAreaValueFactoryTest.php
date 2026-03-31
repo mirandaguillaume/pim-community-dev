@@ -83,6 +83,6 @@ class TextAreaValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::TEXTAREA, [], $isLocalizable, $isScopable, null, null, false, 'textarea', [], $value);
+            return new Attribute('an_attribute', AttributeTypes::TEXTAREA, [], $isLocalizable, $isScopable, null, null, false, 'textarea', []);
         }
 }
