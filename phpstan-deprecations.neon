@@ -79,6 +79,14 @@ parameters:
         - '#Class PHP_CodeSniffer\\Standards\\Generic\\Sniffs\\Formatting\\SpaceAfterNotSniff not found.#'
         - '#Class PHP_CodeSniffer\\Standards\\Generic\\Sniffs\\Files\\LineLengthSniff not found.#'
     excludePaths:
+        # Converted PHPUnit tests — use deprecated APIs intentionally
+        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Component/*/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/*/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Product/back/Test/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/*/Unit
+        - %currentWorkingDirectory%/tests/back/*/Unit
         - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Bundle/Resources/fonts/dompdf_font_family_cache.php
         # Class to remove (validate that they are not used anymore RAB-1161)
         - %currentWorkingDirectory%/src/Akeneo/Platform/Bundle/UIBundle/Twig/Node/PlaceholderNode.php
