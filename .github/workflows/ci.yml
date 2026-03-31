@@ -1722,7 +1722,7 @@ jobs:
             if echo "$test" | grep -q "^components/"; then
               DIRS="$DIRS $(echo "$test" | sed 's|/back/tests/.*|/back/src|')"
             elif echo "$test" | grep -q "^src/Oro/"; then
-              DIRS="$DIRS $(echo "$test" | sed 's|/\(spec\|Unit\|Tests\)/.*||')"
+              DIRS="$DIRS $(echo "$test" | sed 's|^\(src/Oro/Bundle/[^/]*\)/.*|\1|')"
             elif echo "$test" | grep -q "^src/Akeneo/.*/back/tests/"; then
               DIRS="$DIRS $(echo "$test" | sed 's|/back/tests/.*|/back|')"
             elif echo "$test" | grep -q "^src/Akeneo/.*/tests/back/"; then
