@@ -1714,8 +1714,8 @@ jobs:
         run: |
           CHANGED_SRC=$(git diff --name-only origin/master...HEAD -- '*.php' \
             | grep -E '^src/|^components/' \
-            | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
-            | grep -v 'Spec\.php$' | grep -v 'Test\.php$' || true)
+            | grep -vi '/tests/' | grep -v '/Test/' | grep -v '/spec/' \
+            | grep -v 'Spec\.php$' | grep -v 'Test\.php$' | grep -v 'TestCase\.php$' || true)
           CHANGED_TESTS=$(git diff --name-only origin/master...HEAD -- '*.php' \
             | grep 'Test\.php$' \
             | grep -E '/tests/|/Test/|/spec/|/Unit/' || true)
@@ -1765,7 +1765,7 @@ jobs:
             php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
               --test-framework=phpunit \
               --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
-              --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage" \
+              --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1" \
               --threads=4 \
               --git-diff-filter=AM \
               --git-diff-base=origin/master \
