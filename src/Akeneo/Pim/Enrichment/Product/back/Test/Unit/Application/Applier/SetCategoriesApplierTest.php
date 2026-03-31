@@ -23,7 +23,7 @@ class SetCategoriesApplierTest extends TestCase
     {
         $this->productUpdater = $this->createMock(ObjectUpdaterInterface::class);
         $this->getNonViewableCategoryCodes = $this->createMock(GetNonViewableCategoryCodes::class);
-        $this->sut = new SetCategoriesApplier($this->productUpdater, $this->getNonViewableCategoryCodes);
+        $this->sut = new SetCategoriesApplier($this->productUpdater);
     }
 
     public function test_it_is_an_user_intent_applier(): void

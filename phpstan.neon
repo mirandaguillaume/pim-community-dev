@@ -18,5 +18,6 @@ parameters:
     excludePaths:
         analyseAndScan:
             - src/Akeneo/Pim/Automation/DataQualityInsights/tests
+            - src/Akeneo/Pim/Enrichment/Product/back/Test/Unit
             - src/Akeneo/Pim/Enrichment/Bundle/Resources/fonts
             - src/Akeneo/Pim/Platform/Job (?)
