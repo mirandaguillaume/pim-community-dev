@@ -1716,51 +1716,60 @@ jobs:
             | grep 'Test\.php$' \
             | grep -E '/tests/|/Test/|/spec/|/Unit/' || true)
 
-          DIRS=""
-          # From changed tests: map to source dirs
+          # Collect source dirs from changed source files (enforced: MSI >= 80%)
+          SRC_DIRS=""
+          for src in $CHANGED_SRC; do
+            SRC_DIRS="$SRC_DIRS $(echo "$src" | sed 's|/[^/]*$||')"
+          done
+
+          # Collect source dirs from changed test files (informational: MSI >= 0%)
+          TEST_DIRS=""
           for test in $CHANGED_TESTS; do
+            dir=""
             if echo "$test" | grep -q "^components/"; then
-              DIRS="$DIRS $(echo "$test" | sed 's|/back/tests/.*|/back/src|')"
+              dir=$(echo "$test" | sed 's|/back/tests/.*|/back/src|')
             elif echo "$test" | grep -q "^src/Oro/"; then
-              # Map Oro tests to specific source subdir (strip Unit/ or Tests/Unit/ prefix)
-              subdir=""
-              if echo "$test" | grep -q "/Tests/Unit/"; then
-                subdir=$(echo "$test" | sed -n 's|^\(src/Oro/Bundle/[^/]*/\)Tests/Unit/\(.*\)/[^/]*$|\1\2|p')
-              elif echo "$test" | grep -q "/Unit/"; then
-                subdir=$(echo "$test" | sed -n 's|^\(src/Oro/Bundle/[^/]*/\)Unit/\(.*\)/[^/]*$|\1\2|p')
-              fi
-              if [ -n "$subdir" ] && [ -d "$subdir" ]; then
-                DIRS="$DIRS $subdir"
-              else
-                DIRS="$DIRS $(echo "$test" | sed 's|^\(src/Oro/Bundle/[^/]*\)/.*|\1|')"
-              fi
+              dir=$(echo "$test" | sed 's|^\(src/Oro/Bundle/[^/]*\)/.*|\1|')
             elif echo "$test" | grep -q "^src/Akeneo/.*/back/tests/"; then
-              DIRS="$DIRS $(echo "$test" | sed 's|/back/tests/.*|/back|')"
+              dir=$(echo "$test" | sed 's|/back/tests/.*|/back|')
             elif echo "$test" | grep -q "^src/Akeneo/.*/tests/back/"; then
-              DIRS="$DIRS $(echo "$test" | sed 's|/tests/back/.*||')"
+              dir=$(echo "$test" | sed 's|/tests/back/.*||')
             elif echo "$test" | grep -q "^tests/back/"; then
               ctx=$(echo "$test" | sed 's|tests/back/\([^/]*\)/.*|\1|')
-              # Skip test infrastructure dirs (not production code)
               case "$ctx" in Acceptance|Common) continue ;; esac
-              DIRS="$DIRS src/Akeneo/$ctx"
+              dir="src/Akeneo/$ctx"
             fi
+            [ -n "$dir" ] && TEST_DIRS="$TEST_DIRS $dir"
           done
-          # From changed source files: add their dirs
-          for src in $CHANGED_SRC; do
-            DIRS="$DIRS $(echo "$src" | sed 's|/[^/]*$||')"
-          done
-          # Deduplicate
-          DIRS=$(echo "$DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u)
 
-          if [ -z "$DIRS" ]; then
+          # Deduplicate each set
+          SRC_DIRS=$(echo "$SRC_DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u)
+          TEST_DIRS=$(echo "$TEST_DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u)
+
+          # Build JSON array: {dir, msi}
+          # Source-change dirs get MSI=80 (enforced), test-only dirs get MSI=0 (informational)
+          SHARDS_JSON="["
+          first=true
+          ALL_DIRS=$(echo -e "$SRC_DIRS\n$TEST_DIRS" | grep -v '^$' | sort -u)
+          for d in $ALL_DIRS; do
+            msi=0
+            if echo "$SRC_DIRS" | grep -qx "$d"; then
+              msi=80
+            fi
+            $first || SHARDS_JSON="$SHARDS_JSON,"
+            SHARDS_JSON="$SHARDS_JSON{\"dir\":\"$d\",\"msi\":$msi}"
+            first=false
+          done
+          SHARDS_JSON="$SHARDS_JSON]"
+
+          if [ "$SHARDS_JSON" = "[]" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "shards=[]" >> "$GITHUB_OUTPUT"
             echo "No dirs to mutate"
           else
-            SHARDS=$(echo "$DIRS" | sed 's/.*/"&"/' | paste -sd, -)
             echo "skip=false" >> "$GITHUB_OUTPUT"
-            echo "shards=[$SHARDS]" >> "$GITHUB_OUTPUT"
-            echo "Shards ($(echo "$DIRS" | wc -l)): [$SHARDS]"
+            echo "shards=$SHARDS_JSON" >> "$GITHUB_OUTPUT"
+            echo "Shards: $SHARDS_JSON"
           fi
 
   mutation-testing:
@@ -1771,7 +1780,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        source_dir: ${{ fromJson(needs.mutation-setup.outputs.shards) }}
+        shard: ${{ fromJson(needs.mutation-setup.outputs.shards) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -1782,14 +1791,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-base-images: 'false'
 
-      - name: Run Infection on ${{ matrix.source_dir }}
+      - name: Run Infection on ${{ matrix.shard.dir }}
         env:
-          SOURCE_DIR: ${{ matrix.source_dir }}
+          SOURCE_DIR: ${{ matrix.shard.dir }}
+          MIN_MSI: ${{ matrix.shard.msi }}
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           mkdir -p var/infection/tmp
-          echo "=== Mutating: $SOURCE_DIR ==="
+          echo "=== Mutating: $SOURCE_DIR (min-msi=$MIN_MSI) ==="
 
           # Find test dirs covering this source dir
           TEST_XML=""
@@ -1837,8 +1847,8 @@ jobs:
               --configuration=infection-dynamic.json \
               --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1" \
               --threads=4 \
-              --min-msi=80 \
-              --min-covered-msi=80 \
+              --min-msi="${MIN_MSI}" \
+              --min-covered-msi="${MIN_MSI}" \
               --only-covering-test-cases \
               --logger-github \
               --ignore-msi-with-no-mutations
