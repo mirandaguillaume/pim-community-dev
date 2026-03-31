@@ -34,10 +34,10 @@ function couplingBack(): void
     );
 }
 
-#[AsTask(namespace: 'import-export', name: 'unit-back', description: 'Run PHPSpec for import/export')]
+#[AsTask(namespace: 'import-export', name: 'unit-back', description: 'Run PHPUnit unit tests for import/export')]
 function unitBack(): void
 {
-    \phpRun('vendor/bin/phpspec run tests/back/Platform/Specification/Bundle/ImportExportBundle');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/back/Platform/Unit/Bundle/ImportExportBundle');
 }
 
 #[AsTask(namespace: 'import-export', name: 'integration-back', description: 'Run integration tests for import/export')]

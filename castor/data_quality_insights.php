@@ -26,10 +26,10 @@ function phpstanTask(): void
     \phpstan('src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/phpstan.neon.dist');
 }
 
-#[AsTask(namespace: 'data-quality-insights', name: 'unit-back', description: 'Run PHPSpec for DQI')]
+#[AsTask(namespace: 'data-quality-insights', name: 'unit-back', description: 'Run PHPUnit unit tests for DQI')]
 function unitBack(): void
 {
-    \phpRun('vendor/bin/phpspec run src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Specification');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Unit');
 }
 
 #[AsTask(namespace: 'data-quality-insights', name: 'lint-back', description: 'Run cs-fixer for DQI')]

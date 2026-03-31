@@ -1,25 +1,13 @@
 # @deprecated Those target are deprecated we keep them because the public api of the makefile is not quite stable
 
 # Please
-# - add a new target `bounded-context-unit-back` in `make-file/bounded-context.mk`
-# - add it as `unit-back` dependency
-# - make sure `unit-back` does not run your tests
-#
-# Example:
-# .PHONY: unit-back
-# unit-back: var/tests/phpspec bounded-context-unit-back
-.PHONY: phpspec
-phpspec:
-	${PHP_RUN} vendor/bin/phpspec run ${F}
-
-# Please
 # - add a new target `bounded-context-acceptance-back` in `make-file/bounded-context.mk`
 # - add it as `acceptance-back` dependency
 # - make sure `acceptance-back` does not run your tests
 #
 # Example:
-# .PHONY: unit-back
-# acceptance-back: var/tests/phpspec bounded-context-acceptance-back
+# .PHONY: acceptance-back
+# acceptance-back: bounded-context-acceptance-back
 .PHONY: acceptance
 acceptance:
 	${PHP_RUN} vendor/bin/behat -p acceptance ${F}
@@ -30,8 +18,8 @@ acceptance:
 # - make sure `integration-back` does not run your tests
 #
 # Example:
-# .PHONY: unit-back
-# integration-back: var/tests/phpspec bounded-context-integration-back
+# .PHONY: integration-back
+# integration-back: bounded-context-integration-back
 .PHONY: phpunit
 phpunit:
 	APP_ENV=test ${PHP_RUN} vendor/bin/phpunit -c phpunit.xml.dist ${F}

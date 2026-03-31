@@ -49,18 +49,14 @@ function lintBackFix(): void
     \csFixer('src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php', dryRun: false);
 }
 
-#[AsTask(namespace: 'connectivity-connection', name: 'unit-back', description: 'Run PHPSpec for connectivity')]
+#[AsTask(namespace: 'connectivity-connection', name: 'unit-back', description: 'Run PHPUnit unit tests for connectivity')]
 function unitBack(): void
 {
-    if (\isCI()) {
-        run('docker-compose run -T --rm php php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml');
-        run('.github/scripts/find_non_executed_phpspec.sh');
-    }
-    \phpRun('vendor/bin/phpspec run src/Akeneo/Connectivity/Connection/back/tests/Unit/spec/');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Connectivity/Connection/back/tests/Unit');
     // Scope Mapper unit tests
-    \phpRun('vendor/bin/phpspec run tests/back/Pim/Structure/Specification/Component/Security/');
-    \phpRun('vendor/bin/phpspec run tests/back/Pim/Enrichment/Specification/Component/Security/');
-    \phpRun('vendor/bin/phpspec run tests/back/Channel/Specification/Infrastructure/Component/Security/');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/back/Pim/Structure/Unit/Component/Security/');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/back/Pim/Enrichment/Unit/Component/Security/');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/back/Channel/Unit/Infrastructure/Component/Security/');
 }
 
 #[AsTask(namespace: 'connectivity-connection', name: 'critical-e2e', description: 'Run critical behat e2e tests for connectivity')]
@@ -152,9 +148,12 @@ function coverage(
     string $options = '',
 ): void {
     // Backend unit tests with coverage
-    run('XDEBUG_MODE=coverage docker-compose run --rm php php vendor/bin/phpspec run'
-        . ' -c src/Akeneo/Connectivity/Connection/back/tests/phpspec.yml.dist'
-        . ' src/Akeneo/Connectivity/Connection/back/tests/Unit/spec/');
+    run('XDEBUG_MODE=coverage docker-compose run --rm php php vendor/bin/phpunit'
+        . ' --no-configuration --bootstrap vendor/autoload.php'
+        . ' --coverage-clover coverage/Connectivity/Back/Unit/coverage.cov'
+        . ' --coverage-php coverage/Connectivity/Back/Unit/coverage.php'
+        . ' --coverage-html coverage/Connectivity/Back/Unit/'
+        . ' src/Akeneo/Connectivity/Connection/back/tests/Unit');
 
     // Backend integration tests with coverage
     run('XDEBUG_MODE=coverage APP_ENV=test docker-compose run --rm php php vendor/bin/phpunit'

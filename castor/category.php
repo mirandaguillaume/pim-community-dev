@@ -53,12 +53,12 @@ function couplingBack(): void
     \couplingDetector('src/Akeneo/Category/back/tests/.php_cd.php', 'src/Akeneo/Category/back');
 }
 
-#[AsTask(namespace: 'category', name: 'unit-back', description: 'Run PHPSpec + PHPUnit unit tests for category')]
+#[AsTask(namespace: 'category', name: 'unit-back', description: 'Run PHPUnit unit tests for category')]
 function unitBack(
     #[AsArgument(description: 'Extra PHPUnit options')]
     string $options = '',
 ): void {
-    \phpRun('vendor/bin/phpspec run src/Akeneo/Category/back/tests/Specification');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Category/back/tests/Unit');
     \appEnvRun('test', 'vendor/bin/phpunit -c src/Akeneo/Category/back/tests --testsuite Category_Unit_Test ' . $options);
 }
 

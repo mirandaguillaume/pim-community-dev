@@ -25,7 +25,6 @@ use Akeneo\Tool\Bundle\MeasureBundle\Model\Operation;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\Unit;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\UnitCode;
 use PHPUnit\Framework\Assert;
-use Prophecy\Argument;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 /**

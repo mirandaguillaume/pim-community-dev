@@ -29,11 +29,11 @@ function couplingBack(): void
     \couplingDetector('src/Akeneo/Channel/back/tests/.php_cd.php', 'src/Akeneo/Channel/back');
 }
 
-#[AsTask(namespace: 'channel', name: 'unit-back', description: 'Run PHPSpec for channel')]
+#[AsTask(namespace: 'channel', name: 'unit-back', description: 'Run PHPUnit unit tests for channel')]
 function unitBack(): void
 {
-    \phpRun('vendor/bin/phpspec run src/Akeneo/Channel/back/tests/Specification');
-    \phpRun('vendor/bin/phpspec run src/Akeneo/Channel/back/tests/Acceptance/Specification');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Channel/back/tests/Unit');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Channel/back/tests/Acceptance/Unit');
 }
 
 #[AsTask(namespace: 'channel', name: 'integration-back', description: 'Run integration tests for channel')]

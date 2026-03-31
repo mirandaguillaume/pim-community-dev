@@ -64,8 +64,6 @@ defaults:
 #     │              │                                                         │
 #     │              ├──► lint-code-style [if backend] ───────────────────►│
 #     │              │                                                         │
-#     │              ├──► test-phpspec [if backend] ────────────────────────────►│
-#     │              │                                                         │
 #     │              ├──► test-acceptance [if backend] ───────────────────►│
 #     │              │                                                         │
 #     │              ├──► infra-data-migrations [if backend] ───────────────────►│
@@ -113,7 +111,6 @@ jobs:
               - 'composer.json'
               - 'composer.lock'
               - 'phpstan*.neon'
-              - 'phpspec.yml*'
               - 'phpunit.xml*'
               - '.php_cs*'
               - '.php-cs-fixer*'
@@ -692,82 +689,6 @@ jobs:
 
       - name: Audit PHP dependencies for known vulnerabilities
         run: docker-compose run --rm php composer audit --locked --no-interaction --abandoned=report
-
-  # ===========================================================================
-  # PHPSPEC: Unit tests (fast, no external dependencies)
-  # ===========================================================================
-  test-phpspec:
-    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-pim-job
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          pull-base-images: 'false'
-
-      - name: Restore PHPSpec cache
-        uses: actions/cache@v4
-        with:
-          path: .phpspec-cache
-          key: phpspec-${{ runner.os }}-${{ hashFiles('phpspec.yml*', 'composer.lock') }}
-          restore-keys: phpspec-${{ runner.os }}-
-
-      - uses: ./.github/actions/install-castor
-
-      - name: Run PHPSpec unit tests
-        run: castor test:unit-back
-
-      - name: Collect PHPSpec coverage (Xdebug)
-        continue-on-error: true
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
-            -e XDEBUG_MODE=coverage \
-            php php vendor/bin/phpspec run \
-              --format=dot \
-              --config=phpspec-coverage.yml
-
-      - name: Upload PHPSpec coverage
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: phpspec-coverage
-          path: var/phpspec-coverage.xml
-          retention-days: 30
-
-      - name: Upload PHPSpec coverage to Codecov
-        if: always()
-        uses: codecov/codecov-action@v4
-        continue-on-error: true
-        with:
-          files: var/phpspec-coverage.xml
-          flags: backend,phpspec
-          fail_ci_if_error: false
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Upload PHPSpec results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: phpspec-results
-          path: var/tests/phpspec
-          retention-days: 3
-
-      - name: Publish PHPSpec results
-        if: always()
-        uses: dorny/test-reporter@v1
-        continue-on-error: true
-        with:
-          name: PHPSpec Results
-          path: var/tests/phpspec/*.xml
-          reporter: java-junit
-          fail-on-error: false
 
   # ===========================================================================
   # PHPUNIT-UNIT: Unit + lightweight acceptance tests (no MySQL)
@@ -1734,9 +1655,21 @@ jobs:
               DIRS="$DIRS src/Akeneo/$ctx"
             fi
           done
-          # From changed source files: add their dirs
+          # From changed source files: map to component/bundle level dirs
           for src in $CHANGED_SRC; do
-            DIRS="$DIRS $(echo "$src" | sed 's|/[^/]*$||')"
+            if echo "$src" | grep -q "^src/Oro/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|^\(src/Oro/Bundle/[^/]*\)/.*|\1|')"
+            elif echo "$src" | grep -q "^src/Akeneo/.*/back/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|/back/.*|/back|')"
+            elif echo "$src" | grep -q "^src/Akeneo/Tool/Component/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|^\(src/Akeneo/Tool/Component/[^/]*\)/.*|\1|')"
+            elif echo "$src" | grep -q "^src/Akeneo/Tool/Bundle/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|^\(src/Akeneo/Tool/Bundle/[^/]*\)/.*|\1|')"
+            elif echo "$src" | grep -q "^components/"; then
+              DIRS="$DIRS $(echo "$src" | sed 's|^\(components/[^/]*/back\)/.*|\1|')"
+            else
+              DIRS="$DIRS $(echo "$src" | sed 's|/[^/]*$||')"
+            fi
           done
           # Deduplicate
           DIRS=$(echo "$DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u)
@@ -1938,7 +1871,6 @@ jobs:
       - lint-back
       - lint-deprecations
       - lint-code-style
-      - test-phpspec
       - test-phpunit-unit
       - test-acceptance
       - quality-deptrac
@@ -1970,7 +1902,6 @@ jobs:
           echo "  lint-back: ${{ needs.lint-back.result }}"
           echo "  lint-deprecations: ${{ needs.lint-deprecations.result }}"
           echo "  lint-code-style: ${{ needs.lint-code-style.result }}"
-          echo "  test-phpspec: ${{ needs.test-phpspec.result }}"
           echo "  test-phpunit-unit: ${{ needs.test-phpunit-unit.result }}"
           echo "  test-acceptance: ${{ needs.test-acceptance.result }}"
           echo "  quality-deptrac: ${{ needs.quality-deptrac.result }}"
@@ -1997,7 +1928,6 @@ jobs:
             "${{ needs.lint-back.result }}"
             "${{ needs.lint-deprecations.result }}"
             "${{ needs.lint-code-style.result }}"
-            "${{ needs.test-phpspec.result }}"
             "${{ needs.test-phpunit-unit.result }}"
             "${{ needs.test-acceptance.result }}"
             "${{ needs.quality-deptrac.result }}"

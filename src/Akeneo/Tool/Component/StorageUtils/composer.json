@@ -16,7 +16,6 @@
         "symfony/event-dispatcher": "^2.3"
     },
     "require-dev": {
-        "phpspec/phpspec": "3.0.0"
     },
     "config": {
         "bin-dir": "bin"

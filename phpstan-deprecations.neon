@@ -79,13 +79,8 @@ parameters:
         - '#Class PHP_CodeSniffer\\Standards\\Generic\\Sniffs\\Formatting\\SpaceAfterNotSniff not found.#'
         - '#Class PHP_CodeSniffer\\Standards\\Generic\\Sniffs\\Files\\LineLengthSniff not found.#'
     excludePaths:
-        - %currentWorkingDirectory%/*Spec.php
-        # Exclude converted PHPUnit tests (Phase 3) — still contain PHPSpec remnants
-        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit/Application
-        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit/Domain
-        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit/Infrastructure
-        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit/ServiceApi
-        # Exclude converted PHPUnit tests for Tool components/bundles (Phase 3)
+        # Converted PHPUnit tests — use deprecated APIs intentionally
+        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Analytics/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Api/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Component/Batch/Unit
@@ -100,6 +95,7 @@ parameters:
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/ApiBundle/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/BatchBundle/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/BatchQueueBundle/Unit
+        #- %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/ClassificationBundle/Unit  # not yet created
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/ConnectorBundle/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/ElasticsearchBundle/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/FileStorageBundle/Unit
@@ -107,14 +103,13 @@ parameters:
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/MessengerBundle/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/StorageUtilsBundle/Unit
         - %currentWorkingDirectory%/src/Akeneo/Tool/Bundle/VersioningBundle/Unit
-        # Exclude converted PHPUnit tests (Phase 4) — still contain PHPSpec remnants
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Specification
         - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Unit
-        - %currentWorkingDirectory%/src/Oro/Bundle/PimDataGridBundle/Unit
-        - %currentWorkingDirectory%/src/Oro/Bundle/DataGridBundle/Unit
-        - %currentWorkingDirectory%/src/Oro/Bundle/FilterBundle/Unit
-        - %currentWorkingDirectory%/src/Oro/Bundle/PimFilterBundle/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Specification
         - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Product/back/Test/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/DataGridBundle/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/FilterBundle/Tests/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/PimDataGridBundle/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/PimFilterBundle/Unit
         - %currentWorkingDirectory%/tests/back/Pim
         - %currentWorkingDirectory%/tests/back/UserManagement/Unit
         - %currentWorkingDirectory%/tests/back/Channel/Unit

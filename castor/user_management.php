@@ -22,11 +22,11 @@ function lintFixBack(): void
     \csFixer('src/Akeneo/UserManagement/back/tests/.php_cs.php', dryRun: false);
 }
 
-#[AsTask(namespace: 'user-management', name: 'unit-back', description: 'Run PHPSpec for user management')]
+#[AsTask(namespace: 'user-management', name: 'unit-back', description: 'Run PHPUnit unit tests for user management')]
 function unitBack(): void
 {
-    \phpRun('vendor/bin/phpspec run tests/back/UserManagement/Specification');
-    \phpRun('vendor/bin/phpspec run src/Akeneo/UserManagement/back/tests/Specification');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/back/UserManagement/Unit');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/UserManagement/back/tests/Unit');
 }
 
 #[AsTask(namespace: 'user-management', name: 'coupling-back', description: 'Run coupling detector for user management')]

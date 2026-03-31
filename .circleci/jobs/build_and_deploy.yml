@@ -123,7 +123,7 @@ jobs:
                   command: yq delete --inplace docker-compose.yml services.mysql.ports
             -   run:
                     name: Setup missing directories
-                    command: mkdir -p var/tests/phpspec var/tests/csfixer var/logs var/tests/screenshots ~/.composer
+                    command: mkdir -p var/tests/csfixer var/logs var/tests/screenshots ~/.composer
             - persist_to_workspace:
                   root: ~/
                   paths:
@@ -182,7 +182,7 @@ jobs:
                             #    docker save -o php-pim-image.tar akeneo/pim-php-dev:8.1
             - run:
                   name: Setup tests results folder and log folder
-                  command: mkdir -p var/tests/phpspec var/tests/csfixer var/logs var/tests/screenshots ~/.cache/yarn ~/.cache/Cypress ~/.composer
+                  command: mkdir -p var/tests/csfixer var/logs var/tests/screenshots ~/.cache/yarn ~/.cache/Cypress ~/.composer
             - run:
                   name: Creating cache key for JS and PHP dependencies
                   command: |

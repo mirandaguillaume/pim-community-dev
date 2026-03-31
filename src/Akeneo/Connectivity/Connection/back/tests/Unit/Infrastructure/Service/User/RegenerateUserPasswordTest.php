@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 class RegenerateUserPasswordTest extends TestCase
 {
     private UserManager|MockObject $userManager;
-    private Connection|MockObject $dbalConnection;
+    private DbalConnection|MockObject $dbalConnection;
     private RegenerateUserPassword $sut;
 
     protected function setUp(): void

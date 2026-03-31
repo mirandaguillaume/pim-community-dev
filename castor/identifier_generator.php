@@ -33,10 +33,10 @@ function unitFront(
     \yarnRun('workspace @akeneo-pim-community/identifier-generator test:unit:run --ci --coverage ' . $options);
 }
 
-#[AsTask(namespace: 'identifier-generator', name: 'unit-back', description: 'Run PHPSpec for identifier generator')]
+#[AsTask(namespace: 'identifier-generator', name: 'unit-back', description: 'Run PHPUnit unit tests for identifier generator')]
 function unitBack(): void
 {
-    \phpRun('vendor/bin/phpspec run ' . PATH . '/back/tests/Specification');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php ' . PATH . '/back/tests/Unit');
 }
 
 #[AsTask(namespace: 'identifier-generator', name: 'fix-lint-back', description: 'Fix code style for identifier generator')]

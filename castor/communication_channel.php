@@ -27,10 +27,10 @@ function couplingBack(): void
     );
 }
 
-#[AsTask(namespace: 'communication-channel', name: 'unit-back', description: 'Run PHPSpec for communication channel')]
+#[AsTask(namespace: 'communication-channel', name: 'unit-back', description: 'Run PHPUnit unit tests for communication channel')]
 function unitBack(): void
 {
-    \phpRun('vendor/bin/phpspec run src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/tests/Unit/spec/');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/tests/Unit');
 }
 
 #[AsTask(namespace: 'communication-channel', name: 'integration-back', description: 'Run integration tests for communication channel')]

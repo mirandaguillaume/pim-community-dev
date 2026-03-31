@@ -62,6 +62,31 @@ class DateLocalizerTest extends TestCase
         $this->assertNull($this->sut->validate(new \DateTime(), 'date', ['date_format' => 'Y-m-d']));
     }
 
+    public function test_validate_returns_null_for_datetime_without_calling_validator(): void
+    {
+        // Rebuild with strict validator that would fail if called
+        $strictValidator = $this->createMock(ValidatorInterface::class);
+        $strictValidator->expects($this->never())->method('validate');
+        $sut = new DateLocalizer($strictValidator, $this->dateFactory, ['pim_catalog_date']);
+        $this->assertNull($sut->validate(new \DateTime(), 'date', ['date_format' => 'Y-m-d']));
+    }
+
+    public function test_validate_returns_null_for_null_without_calling_validator(): void
+    {
+        $strictValidator = $this->createMock(ValidatorInterface::class);
+        $strictValidator->expects($this->never())->method('validate');
+        $sut = new DateLocalizer($strictValidator, $this->dateFactory, ['pim_catalog_date']);
+        $this->assertNull($sut->validate(null, 'date', ['date_format' => 'Y-m-d']));
+    }
+
+    public function test_validate_returns_null_for_empty_string_without_calling_validator(): void
+    {
+        $strictValidator = $this->createMock(ValidatorInterface::class);
+        $strictValidator->expects($this->never())->method('validate');
+        $sut = new DateLocalizer($strictValidator, $this->dateFactory, ['pim_catalog_date']);
+        $this->assertNull($sut->validate('', 'date', ['date_format' => 'Y-m-d']));
+    }
+
     public function test_it_returns_a_constraint_if_the_format_is_not_valid(): void
     {
         $constraints = $this->createMock(ConstraintViolationListInterface::class);

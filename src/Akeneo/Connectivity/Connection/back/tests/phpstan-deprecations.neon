@@ -3,9 +3,4 @@ includes:
 parameters:
     reportUnmatchedIgnoredErrors: false
     excludePaths:
-        - %currentWorkingDirectory%/*Spec.php
-        # Exclude converted PHPUnit tests (Phase 3) — still contain PHPSpec remnants
-        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit/Application
-        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit/Domain
-        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit/Infrastructure
-        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit/ServiceApi
+        - %currentWorkingDirectory%/src/Akeneo/Connectivity/Connection/back/tests/Unit

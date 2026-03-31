@@ -133,6 +133,6 @@ runs:
       if: inputs.create-var-dirs == 'true'
       shell: bash
       run: |
-        mkdir -p var/tests/phpspec var/tests/phpunit var/tests/behat var/tests/screenshots \
+        mkdir -p var/tests/phpunit var/tests/behat var/tests/screenshots \
                  var/cache/prod var/cache/test var/logs
         sudo chmod -R a+rwX var

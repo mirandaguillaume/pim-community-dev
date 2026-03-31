@@ -12,14 +12,6 @@ use Castor\Attribute\AsTask;
 
 use function Castor\run;
 
-#[AsTask(namespace: 'dev', name: 'phpspec', description: '@deprecated Use bounded-context-unit-back instead')]
-function phpspec(
-    #[AsArgument(description: 'Spec file or filter')]
-    string $options = '',
-): void {
-    \phpRun('vendor/bin/phpspec run ' . $options);
-}
-
 #[AsTask(namespace: 'dev', name: 'acceptance', description: '@deprecated Use bounded-context-acceptance-back instead')]
 function acceptance(
     #[AsArgument(description: 'Behat options')]

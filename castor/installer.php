@@ -38,10 +38,10 @@ function couplingBack(): void
     );
 }
 
-#[AsTask(namespace: 'installer', name: 'unit-back', description: 'Run PHPSpec for installer')]
+#[AsTask(namespace: 'installer', name: 'unit-back', description: 'Run PHPUnit unit tests for installer')]
 function unitBack(): void
 {
-    \phpRun('vendor/bin/phpspec run -vvv src/Akeneo/Platform/Installer/back/tests/Specification');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Platform/Installer/back/tests/Unit');
 }
 
 #[AsTask(namespace: 'installer', name: 'integration-back', description: 'Run integration tests for installer')]

@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 class FosRegenerateClientSecretTest extends TestCase
 {
     private ClientManagerInterface|MockObject $clientManager;
-    private Connection|MockObject $dbalConnection;
+    private DbalConnection|MockObject $dbalConnection;
     private FosRegenerateClientSecret $sut;
 
     protected function setUp(): void

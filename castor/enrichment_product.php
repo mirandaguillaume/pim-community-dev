@@ -22,12 +22,12 @@ function staticBack(): void
     \phpstan('src/Akeneo/Pim/Enrichment/Product/back/Test/phpstan.neon');
 }
 
-#[AsTask(namespace: 'enrichment-product', name: 'unit-back', description: 'Run PHPSpec for enrichment product')]
+#[AsTask(namespace: 'enrichment-product', name: 'unit-back', description: 'Run PHPUnit unit tests for enrichment product')]
 function unitBack(
-    #[AsArgument(description: 'Extra phpspec options')]
+    #[AsArgument(description: 'Extra PHPUnit options')]
     string $options = '',
 ): void {
-    \phpRun('vendor/bin/phpspec run --config=src/Akeneo/Pim/Enrichment/Product/back/Test/phpspec.yml ' . $options);
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Pim/Enrichment/Product/back/Test/Unit ' . $options);
 }
 
 #[AsTask(namespace: 'enrichment-product', name: 'lint-back', description: 'Run cs-fixer for enrichment product')]

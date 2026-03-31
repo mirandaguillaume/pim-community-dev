@@ -36,10 +36,10 @@ function couplingBack(): void
     );
 }
 
-#[AsTask(namespace: 'job', name: 'unit-back', description: 'Run PHPSpec for job')]
+#[AsTask(namespace: 'job', name: 'unit-back', description: 'Run PHPUnit unit tests for job')]
 function unitBack(): void
 {
-    \phpRun('vendor/bin/phpspec run src/Akeneo/Platform/Job/back/tests/Specification');
+    \phpRun('vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Platform/Job/back/tests/Unit');
 }
 
 #[AsTask(namespace: 'job', name: 'integration-back', description: 'Run integration tests for job')]

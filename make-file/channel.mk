@@ -14,9 +14,9 @@ channel-coupling-back: #Doc: launch coupling detector for channel bounded contex
 	$(PHP_RUN) vendor/bin/php-coupling-detector list-unused-requirements --config-file=src/Akeneo/Channel/back/tests/.php_cd.php src/Akeneo/Channel/back
 
 .PHONY: channel-unit-back
-channel-unit-back: #Doc: launch PHPSpec for channel bounded context
-	$(PHP_RUN) vendor/bin/phpspec run src/Akeneo/Channel/back/tests/Specification
-	$(PHP_RUN) vendor/bin/phpspec run src/Akeneo/Channel/back/tests/Acceptance/Specification
+channel-unit-back: #Doc: launch PHPUnit unit tests for channel bounded context
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Channel/back/tests/Unit
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Channel/back/tests/Acceptance/Unit
 
 .PHONY: channel-integration-back
 channel-integration-back: #Doc: launch PHPUnit integration tests for channel bounded context

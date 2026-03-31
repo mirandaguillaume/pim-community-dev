@@ -4,7 +4,6 @@ namespace Akeneo\Tool\Component\Localization\Localizer;
 
 use Akeneo\Tool\Component\Localization\Factory\NumberFactory;
 use Akeneo\Tool\Component\Localization\Validator\Constraints\NumberFormat;
-use Prophecy\Exception\Doubler\InterfaceNotFoundException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**

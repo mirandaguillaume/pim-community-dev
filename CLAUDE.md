@@ -10,19 +10,18 @@ Two architecture patterns coexist: modern hexagonal (`back/Application|Domain|In
 
 - PHP runs in Docker: `docker-compose run --rm php php <command>`
 - PHPStan levels vary per context — check each `phpstan.neon`
-- `*Spec.php` and `*Integration.php` excluded from php-cs-fixer
+- `*Integration.php` excluded from php-cs-fixer
 
 ## Commands
 
 ```bash
 # CI checks (must pass before push)
 PIM_CONTEXT=test make lint-back          # PHPStan + php-cs-fixer
-PIM_CONTEXT=test make unit-back          # PHPSpec
+PIM_CONTEXT=test make unit-back          # PHPUnit
 PIM_CONTEXT=test make coupling-back      # Architecture coupling
 PIM_CONTEXT=test make acceptance-back    # Behat acceptance
 
 # Single test
-docker-compose run --rm php php vendor/bin/phpspec run src/path/to/Spec.php
 APP_ENV=test docker-compose run --rm php php vendor/bin/phpunit -c . --filter TestClassName
 make end-to-end-legacy O=path/to/feature.feature:23
 
