@@ -14,8 +14,8 @@ import-export-coupling-back: #Doc: launch coupling detector for ImportExport bou
 	$(PHP_RUN) vendor/bin/php-coupling-detector list-unused-requirements --config-file=src/Akeneo/Platform/Bundle/ImportExportBundle/Test/.php_cd.php src/Akeneo/Platform/Bundle/ImportExportBundle
 
 .PHONY: import-export-unit-back
-import-export-unit-back: #Doc: launch PHPSpec for ImportExport bounded context
-	$(PHP_RUN) vendor/bin/phpspec run tests/back/Platform/Specification/Bundle/ImportExportBundle
+import-export-unit-back: #Doc: launch PHPUnit unit tests for ImportExport bounded context
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/back/Platform/Unit/Bundle/ImportExportBundle
 
 .PHONY: import-export-integration-back
 import-export-integration-back: #Doc: launch PHPUnit integration tests for ImportExport bounded context

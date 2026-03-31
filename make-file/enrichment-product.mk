@@ -10,7 +10,7 @@ enrichment-product-static-back:
 
 .PHONY: enrichment-product-unit-back
 enrichment-product-unit-back:
-	$(PHP_RUN) vendor/bin/phpspec run --config=src/Akeneo/Pim/Enrichment/Product/back/Test/phpspec.yml $(O)
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Pim/Enrichment/Product/back/Test/Unit $(O)
 
 .PHONY: enrichment-product-lint-back
 enrichment-product-lint-back:

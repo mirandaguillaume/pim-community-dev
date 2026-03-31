@@ -16,7 +16,7 @@ identifier-generator-unit-front: yarn-policies
 
 .PHONY: identifier-generator-unit-back
 identifier-generator-unit-back:
-	$(PHP_RUN) vendor/bin/phpspec run $(IDENTIFIER_GENERATOR_PATH)/back/tests/Specification
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php $(IDENTIFIER_GENERATOR_PATH)/back/tests/Unit
 
 .PHONY: identifier-generator-fix-lint-back
 identifier-generator-fix-lint-back:

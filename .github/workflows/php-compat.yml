@@ -7,7 +7,6 @@ on:
       - 'composer.json'
       - 'composer.lock'
       - 'phpunit.xml*'
-      - 'phpspec.yml*'
   push:
     branches:
       - master
@@ -191,7 +190,7 @@ jobs:
 
       - name: Prepare permissions
         run: |
-          mkdir -p var/cache var/logs var/tests/phpspec vendor ~/.composer
+          mkdir -p var/cache var/logs vendor ~/.composer
           sudo chmod -R a+rwX var vendor ~/.composer .
 
       - name: Install dependencies
@@ -200,27 +199,9 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" php /usr/local/bin/composer install --no-interaction --prefer-dist
 
-      - name: Run PHPSpec (PHP ${{ matrix.php-version }})
+      - name: Run PHPUnit unit tests (PHP ${{ matrix.php-version }})
         run: |
-          PIM_CONTEXT=test make unit-back
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: phpspec-results-php${{ matrix.php-version }}
-          path: var/tests/phpspec
-          retention-days: 3
-
-      - name: Publish test results
-        if: always()
-        uses: dorny/test-reporter@v1
-        continue-on-error: true
-        with:
-          name: PHPSpec Results (PHP ${{ matrix.php-version }})
-          path: var/tests/phpspec/*.xml
-          reporter: java-junit
-          fail-on-error: false
+          docker-compose run --rm php php vendor/bin/phpunit --testsuite=unit --no-progress
 
   # Summary job
   php-compat-success:

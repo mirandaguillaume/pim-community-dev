@@ -18,8 +18,8 @@ installer-coupling-back: #Doc: launch coupling detector for installer
 	$(PHP_RUN) vendor/bin/php-coupling-detector list-unused-requirements --config-file=src/Akeneo/Platform/Installer/back/tests/.php_cd.php src/Akeneo/Platform/Installer/back/src
 
 .PHONY: installer-unit-back
-installer-unit-back: #Doc: launch PHPSpec for installer
-	$(PHP_RUN) vendor/bin/phpspec run -vvv src/Akeneo/Platform/Installer/back/tests/Specification
+installer-unit-back: #Doc: launch PHPUnit unit tests for installer
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Platform/Installer/back/tests/Unit
 
 .PHONY: installer-integration-back
 installer-integration-back: #Doc: launch PHPUnit integration tests for installer

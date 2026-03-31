@@ -2,7 +2,7 @@
 # Hook: PreToolUse on Bash (git commit)
 # Consolidated pre-commit checks — runs only the checks relevant to staged file types.
 # Replaces: warn-large-diff, no-debug-statements, cs-fixer-staged, phpstan-staged,
-#           phpspec-staged, eslint-staged, jest-staged
+#           eslint-staged, jest-staged
 
 set -euo pipefail
 
@@ -76,24 +76,6 @@ if [ -n "$STAGED_PHP" ]; then
         fi
     fi
 
-    # PHPSpec (find related specs for staged source files)
-    SPEC_SRC=$(echo "$STAGED_PHP" | grep -v 'Spec\.php$' | grep -v 'Integration\.php$' \
-        | grep -v 'EndToEnd\.php$' | grep -v '/tests/' | grep -v '/Test/' || true)
-    if [ -n "$SPEC_SRC" ]; then
-        SPECS=""
-        for src in $SPEC_SRC; do
-            BASENAME=$(basename "$src" .php)
-            SPEC=$(find . -path "*/spec/*" -name "${BASENAME}Spec.php" 2>/dev/null | head -1 || true)
-            [ -n "$SPEC" ] && SPECS="$SPECS $SPEC"
-        done
-        if [ -n "$SPECS" ]; then
-            SPEC_RESULT=$(docker-compose run --rm -T php php vendor/bin/phpspec run $SPECS --no-interaction 2>&1 || true)
-            if echo "$SPEC_RESULT" | grep -qE 'failed|broken'; then
-                SPEC_FAILURES=$(echo "$SPEC_RESULT" | grep -cE 'failed|broken' || echo "?")
-                WARNINGS="$WARNINGS\n- PHPSPEC: $SPEC_FAILURES spec(s) failed"
-            fi
-        fi
-    fi
 fi
 
 # ── 4. JS checks (only if JS/JSX files staged) ──

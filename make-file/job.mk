@@ -16,8 +16,8 @@ job-coupling-back: #Doc: launch coupling detector for job bounded context
 	$(PHP_RUN) vendor/bin/php-coupling-detector list-unused-requirements --config-file=src/Akeneo/Platform/Job/back/tests/.php_cd.php src/Akeneo/Platform/Job/back
 
 .PHONY: job-unit-back
-job-unit-back: #Doc: launch PHPSpec for job bounded context
-	$(PHP_RUN) vendor/bin/phpspec run src/Akeneo/Platform/Job/back/tests/Specification
+job-unit-back: #Doc: launch PHPUnit unit tests for job bounded context
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Platform/Job/back/tests/Unit
 
 .PHONY: job-integration-back
 job-integration-back: #Doc: launch PHPUnit integration tests for job bounded context

@@ -17,7 +17,7 @@
 #
 # How to define targets with a specfic configuration for the CI?
 # ==============================================================
-# For instance phpspec does not support multiple formats that means you can run the same command on the CI and locally.
+# For instance PHPUnit does not support multiple formats that means you can run the same command on the CI and locally.
 # If you need to do that you can use an environment variable named CI which is a "boolean" (don't forget, env vars are strings).
 # If its value equals 1 run the command configured for the CI otherwise configure it to run it locally.
 #
@@ -36,13 +36,13 @@
 #
 # Example:
 # --------
-# bounded-context-unit-back: var/tests/phpspec
-#	 ${PHP_RUN} vendor/bin/phpspec run $(O)
+# bounded-context-unit-back:
+#	 ${PHP_RUN} vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php $(O)
 #
-# Run a spec
+# Run a test
 # ----------
 #
-# make bounded-context-unit-back O=my/spec.php
+# make bounded-context-unit-back O=my/test.php
 #
 # How to run them on the CI?
 # ==========================
@@ -82,15 +82,11 @@ connectivity-connection-lint-back_fix:
 	$(PHP_RUN) tools/php-cs-fixer fix --config=src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php
 
 connectivity-connection-unit-back:
-ifeq ($(CI),true)
-	$(DOCKER_COMPOSE) run -T --rm php php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
-	.github/scripts/find_non_executed_phpspec.sh
-endif
-	$(PHP_RUN) vendor/bin/phpspec run src/Akeneo/Connectivity/Connection/back/tests/Unit/spec/
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Connectivity/Connection/back/tests/Unit
 	# Scope Mapper unit tests
-	$(PHP_RUN) vendor/bin/phpspec run tests/back/Pim/Structure/Specification/Component/Security/
-	$(PHP_RUN) vendor/bin/phpspec run tests/back/Pim/Enrichment/Specification/Component/Security/
-	$(PHP_RUN) vendor/bin/phpspec run tests/back/Channel/Specification/Infrastructure/Component/Security/
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/back/Pim/Structure/Unit/Component/Security/
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/back/Pim/Enrichment/Unit/Component/Security/
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/back/Channel/Unit/Infrastructure/Component/Security/
 
 connectivity-connection-critical-e2e: var/tests/behat/connectivity/connection
 	APP_ENV=behat $(PHP_RUN) vendor/bin/behat --config behat.yml -p legacy -s connectivity src/Akeneo/Connectivity/Connection/tests/features/activate_an_app.feature
@@ -148,9 +144,11 @@ connectivity-connection-lint-front_fix:
 # Analysis tools
 connectivity-connection-coverage:
 	# run the backend application unit tests on scope connectivity
-	XDEBUG_MODE=coverage $(PHP_RUN) vendor/bin/phpspec run \
-    		-c src/Akeneo/Connectivity/Connection/back/tests/phpspec.yml.dist \
-    		src/Akeneo/Connectivity/Connection/back/tests/Unit/spec/
+	XDEBUG_MODE=coverage $(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php \
+    		--coverage-clover coverage/Connectivity/Back/Unit/coverage.cov \
+    		--coverage-php coverage/Connectivity/Back/Unit/coverage.php \
+    		--coverage-html coverage/Connectivity/Back/Unit/ \
+    		src/Akeneo/Connectivity/Connection/back/tests/Unit
 	# run the backend application integration tests on scope connectivity
 	XDEBUG_MODE=coverage APP_ENV=test ${PHP_RUN} vendor/bin/phpunit \
 		-c src/Akeneo/Connectivity/Connection/back/tests/ \

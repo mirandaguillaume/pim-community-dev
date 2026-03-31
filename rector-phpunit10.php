@@ -26,10 +26,6 @@ return static function (RectorConfig $rectorConfig): void {
         '*/var/*',
         '*/vendor/*',
         '*/node_modules/*',
-        // PHPSpec files use a different testing framework
-        '*/spec/*',
-        '*/Spec/*',
-        '*/Specification/*',
     ]);
 
     $rectorConfig->sets([

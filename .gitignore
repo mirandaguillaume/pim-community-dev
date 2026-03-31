@@ -21,9 +21,7 @@ vendor
 bin/symfony_requirements
 composer.phar
 /cov
-/phpspec.yml
 uploads_test/
-.phpspec/*.tpl
 .phpunit.cache
 /node_modules
 npm-debug.log

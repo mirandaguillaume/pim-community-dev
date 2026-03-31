@@ -30,8 +30,8 @@ category-coupling-back: #Doc: launch coupling detector for category bounded cont
 	$(PHP_RUN) vendor/bin/php-coupling-detector list-unused-requirements --config-file=src/Akeneo/Category/back/tests/.php_cd.php src/Akeneo/Category/back
 
 .PHONY: category-unit-back
-category-unit-back: #Doc: launch PHPSpec for category bounded context
-	$(PHP_RUN) vendor/bin/phpspec run src/Akeneo/Category/back/tests/Specification
+category-unit-back: #Doc: launch PHPUnit unit tests for category bounded context
+	$(PHP_RUN) vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php src/Akeneo/Category/back/tests/Unit
 	APP_ENV=test $(PHP_RUN) vendor/bin/phpunit -c src/Akeneo/Category/back/tests --testsuite Category_Unit_Test $(F)
 
 .PHONY: category-unit-front

@@ -108,17 +108,11 @@ function lintFront(): void
     \connectivity\lintFront();
 }
 
-#[AsTask(namespace: 'test', name: 'unit-back', description: 'Run all PHPSpec unit tests')]
+#[AsTask(namespace: 'test', name: 'unit-back', description: 'Run all PHPUnit unit tests')]
 function unitBack(): void
 {
-    \ensureDir('var/tests/phpspec');
-
-    if (\isCI()) {
-        run('docker-compose run -T --rm php php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml');
-        run('.github/scripts/find_non_executed_phpspec.sh');
-    } else {
-        \phpRun('vendor/bin/phpspec run');
-    }
+    \ensureDir('var/tests/phpunit');
+    \phpRun('vendor/bin/phpunit -c phpunit.xml.dist --testsuite PHPUnit_Unit_Test');
 }
 
 #[AsTask(namespace: 'test', name: 'phpunit-unit', description: 'Run PHPUnit unit + acceptance tests (no MySQL)')]

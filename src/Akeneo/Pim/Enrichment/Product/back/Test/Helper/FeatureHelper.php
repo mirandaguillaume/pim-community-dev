@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Pim\Enrichment\Product\Helper;
 
-use PhpSpec\Exception\Example\SkippingException;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -13,25 +12,6 @@ use PHPUnit\Framework\Assert;
  */
 final class FeatureHelper
 {
-    /**
-     * @throws SkippingException
-     */
-    public static function skipSpecTestWhenPermissionFeatureIsNotActivated(): void
-    {
-        if (!self::isPermissionFeatureAvailable()) {
-            throw new SkippingException('Permission feature is not available in this scope');
-        }
-    }
-
-    /**
-     * @throws SkippingException
-     */
-    public static function skipSpecTestWhenReferenceEntityFeatureIsNotActivated(): void
-    {
-        if (!self::isReferenceEntityFeatureActivated()) {
-            throw new SkippingException('Reference entity feature is not available in this scope');
-        }
-    }
 
     public static function skipIntegrationTestWhenPermissionFeatureIsNotAvailable(): void
     {

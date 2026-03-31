@@ -13,7 +13,6 @@ return (new PhpCsFixer\Config())
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->name('*.php')
-            ->notName('*Spec.php')
             ->notName('*Integration.php')
             ->in(__DIR__ . '/tests/legacy/features')
             ->in(__DIR__ . '/tests/features')

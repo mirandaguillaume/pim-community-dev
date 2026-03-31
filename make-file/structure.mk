@@ -17,7 +17,7 @@
 #
 # How to define targets with a specfic configuration for the CI?
 # ==============================================================
-# For instance phpspec does not support multiple formats that means you can run the same command on the CI and locally.
+# For instance PHPUnit does not support multiple formats that means you can run the same command on the CI and locally.
 # If you need to do that you can use an environment variable named CI which is a "boolean" (don't forget, env vars are strings).
 # If its value equals 1 run the command configured for the CI otherwise configure it to run it locally.
 #
@@ -36,13 +36,13 @@
 #
 # Example:
 # --------
-# bounded-context-unit-back: var/tests/phpspec
-#	 ${PHP_RUN} vendor/bin/phpspec run $(O)
+# bounded-context-unit-back:
+#	 ${PHP_RUN} vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php $(O)
 #
-# Run a spec
+# Run a test
 # ----------
 #
-# make bounded-context-unit-back O=my/spec.php
+# make bounded-context-unit-back O=my/test.php
 #
 # How to run them on the CI?
 # ==========================

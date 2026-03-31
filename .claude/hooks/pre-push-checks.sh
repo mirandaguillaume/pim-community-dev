@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash (git push)
 # Lightweight pre-push — lint ONLY changed files.
-# Heavy checks (phpspec, phpunit, coupling, tsc, jest) run in CI.
+# Heavy checks (phpunit, coupling, tsc, jest) run in CI.
 
 set -euo pipefail
 
@@ -42,27 +42,6 @@ if [ -n "$CHANGED_PHP" ]; then
         if echo "$STAN_RESULT" | grep -qE ':\d+:'; then
             STAN_COUNT=$(echo "$STAN_RESULT" | grep -cE ':\d+:' || echo "?")
             ERRORS="$ERRORS\n- PHPSTAN: $STAN_COUNT error(s) in changed files"
-        fi
-    fi
-fi
-
-# ── PHP: PHPSpec for changed files only (Docker, ~3-5s) ──
-if [ -n "$CHANGED_PHP" ]; then
-    SPEC_SRC=$(echo "$CHANGED_PHP" | grep -v 'Spec\.php$' | grep -v 'Test\.php$' \
-        | grep -v '/tests/' | grep -v '/Test/' | grep -v '/spec/' || true)
-    if [ -n "$SPEC_SRC" ] && command -v docker-compose >/dev/null 2>&1; then
-        SPECS=""
-        for src in $SPEC_SRC; do
-            BASENAME=$(basename "$src" .php)
-            SPEC=$(find . -path "*/spec/*" -name "${BASENAME}Spec.php" -print -quit 2>/dev/null || true)
-            [ -n "$SPEC" ] && SPECS="$SPECS $SPEC"
-        done
-        if [ -n "$SPECS" ]; then
-            SPEC_RESULT=$(docker-compose run --rm -T php php vendor/bin/phpspec run $SPECS --no-interaction 2>&1 || true)
-            if echo "$SPEC_RESULT" | grep -qE 'failed|broken'; then
-                SPEC_FAILURES=$(echo "$SPEC_RESULT" | grep -E '^[0-9]+ examples' | tail -1 || echo "failures")
-                ERRORS="$ERRORS\n- PHPSPEC: $SPEC_FAILURES"
-            fi
         fi
     fi
 fi

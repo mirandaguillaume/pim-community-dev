@@ -3,7 +3,7 @@
 # Usage: ./scripts/quick-check.sh [--all]
 #
 # Default: runs fast checks only (< 30s)
-# --all: also runs phpspec and deprecation checks (slower)
+# --all: also runs deprecation checks (slower)
 
 set -euo pipefail
 
@@ -69,13 +69,10 @@ if [ "${1:-}" = "--all" ]; then
     echo "=== Extended Checks ==="
     echo ""
 
-    # 6. PHPSpec
-    check "PHPSpec unit tests" docker-compose run --rm php php vendor/bin/phpspec run --no-interaction
-
-    # 7. Deprecation analysis
+    # 6. Deprecation analysis
     check "PHPStan deprecations" docker-compose run --rm php php -d memory_limit=2G vendor/bin/phpstan analyse -c phpstan-deprecations.neon --level 1
 
-    # 8. Static checks (container lint)
+    # 7. Static checks (container lint)
     check "Static checks" make static-back
 fi
 
