@@ -9,6 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 class MeasurementFamilyCodeTest extends TestCase
 {
+    private const MEASUREMENT_FAMILY_CODE = 'Length';
+
     private MeasurementFamilyCode $sut;
 
     protected function setUp(): void

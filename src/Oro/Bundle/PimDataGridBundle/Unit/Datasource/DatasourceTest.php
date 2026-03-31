@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Datasource;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Datasource;
 
 use Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
+use Oro\Bundle\PimDataGridBundle\Datasource\Datasource;
 use Oro\Bundle\PimDataGridBundle\Datasource\DatasourceInterface;
 use Oro\Bundle\PimDataGridBundle\Datasource\ResultRecord\HydratorInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Datasource\Datasource;
 
 class DatasourceTest extends TestCase
 {
@@ -42,7 +42,7 @@ class DatasourceTest extends TestCase
                 ];
         $this->manager->method('getRepository')->with('Group')->willReturn($repository);
         $repository->expects($this->once())->method('createAssociationDatagridQueryBuilder')->with([]);
-        $grid->expects($this->once())->method('setDatasource')->with($this);
+        $grid->expects($this->once())->method('setDatasource')->with($this->sut);
         $this->sut->process($grid, $config);
     }
 
@@ -58,7 +58,7 @@ class DatasourceTest extends TestCase
                 ];
         $this->manager->method('getRepository')->with('Group')->willReturn($repository);
         $repository->expects($this->once())->method('createAssociationDatagridQueryBuilder')->with(['locale' => 'fr_FR']);
-        $grid->expects($this->once())->method('setDatasource')->with($this);
+        $grid->expects($this->once())->method('setDatasource')->with($this->sut);
         $this->sut->process($grid, $config);
     }
 
@@ -69,11 +69,8 @@ class DatasourceTest extends TestCase
         $config = [
                     'repository_method' => 'createAssociationDatagridQueryBuilder',
                 ];
-        $this->sut->shouldThrow(
-            new \Exception(
-                '"Oro\Bundle\PimDataGridBundle\Datasource\Datasource" expects to be configured with "entity"'
-            )
-        )
-                    ->duringProcess($grid, $config);
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('"Oro\Bundle\PimDataGridBundle\Datasource\Datasource" expects to be configured with "entity"');
+        $this->sut->process($grid, $config);
     }
 }

@@ -149,7 +149,7 @@ class VersionNormalizerTest extends TestCase
         $version->method('getAuthor')->willReturn('steve');
         $this->userManager->method('findUserByUsername')->with('steve')->willReturn(null);
         $this->translator->method('trans')->with('pim_user.user.removed_user')->willReturn('Utilisateur supprimé');
-        $this->userContext->method('getUserTimezone')->willThrowException(\RuntimeException::class);
+        $this->userContext->method('getUserTimezone')->willThrowException(new \RuntimeException());
         $this->assertSame([
                     'id'          => 12,
                     'author'      => 'steve - Utilisateur supprimé',
@@ -189,7 +189,7 @@ class VersionNormalizerTest extends TestCase
         $normalizedChangeset = [
                     '123' => ['old' => '', 'new' => '556'],
                 ];
-        $this->userContext->method('getUserTimezone')->willThrowException(\RuntimeException::class);
+        $this->userContext->method('getUserTimezone')->willThrowException(new \RuntimeException());
         $this->assertSame([
                     'id'          => 12,
                     'author'      => 'Steve Jobs',

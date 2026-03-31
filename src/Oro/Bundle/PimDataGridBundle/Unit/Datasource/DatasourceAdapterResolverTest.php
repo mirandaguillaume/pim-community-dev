@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Datasource;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Datasource;
 
 use Oro\Bundle\PimDataGridBundle\Datasource\DatasourceAdapterResolver;
 use PHPUnit\Framework\TestCase;

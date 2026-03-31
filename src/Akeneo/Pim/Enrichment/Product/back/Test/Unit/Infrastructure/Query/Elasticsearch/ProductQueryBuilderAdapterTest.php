@@ -39,6 +39,8 @@ class ProductQueryBuilderAdapterTest extends TestCase
         $this->optionResolver = $this->createMock(ProductQueryBuilderOptionsResolverInterface::class);
         $this->featureFlags = $this->createMock(FeatureFlags::class);
         $this->userRepository = $this->createMock(UserRepositoryInterface::class);
+        $this->optionResolver->method('resolve')->with(['locale' => null, 'scope'  => null])->willReturn(['locale' => null, 'scope'  => null]);
+        $this->featureFlags->method('isEnabled')->with('permission')->willReturn(false);
         $this->sut = new ProductQueryBuilderAdapter(
             $this->attributeRepository,
             $this->filterRegistry,
@@ -48,8 +50,6 @@ class ProductQueryBuilderAdapterTest extends TestCase
             $this->userRepository,
             null
         );
-        $this->optionResolver->method('resolve')->with(['locale' => null, 'scope'  => null])->willReturn(['locale' => null, 'scope'  => null]);
-        $this->featureFlags->method('isEnabled')->with('permission')->willReturn(false);
     }
 
     public function test_it_is_initializable(): void
@@ -85,28 +85,38 @@ class ProductQueryBuilderAdapterTest extends TestCase
 
     public function test_it_adds_permission_filters_and_builds_the_query(): void
     {
+        if (!class_exists(GetGrantedCategoryCodes::class)) {
+            $this->markTestSkipped('Permission feature is not available.');
+        }
+
         $fieldFilter1 = $this->createMock(FieldFilterInterface::class);
         $fieldFilter2 = $this->createMock(FieldFilterInterface::class);
         $user = $this->createMock(UserInterface::class);
+        $getGrantedCategoryCodes = $this->createMock(GetGrantedCategoryCodes::class);
 
-        FeatureHelper::skipSpecTestWhenPermissionFeatureIsNotActivated();
-        $getGrantedCategoryCodes->beADoubleOf(GetGrantedCategoryCodes::class);
-        $this->sut = new ProductQueryBuilderAdapter(
+        $optionResolver = $this->createMock(ProductQueryBuilderOptionsResolverInterface::class);
+        $optionResolver->method('resolve')->with(['locale' => null, 'scope'  => null])->willReturn(['locale' => null, 'scope'  => null]);
+
+        $featureFlags = $this->createMock(FeatureFlags::class);
+        $featureFlags->method('isEnabled')->with('permission')->willReturn(true);
+
+        $sut = new ProductQueryBuilderAdapter(
             $this->attributeRepository,
             $this->filterRegistry,
             $this->sorterRegistry,
-            $this->optionResolver,
-            $this->featureFlags,
+            $optionResolver,
+            $featureFlags,
             $this->userRepository,
             $getGrantedCategoryCodes
         );
-        $this->optionResolver->method('resolve')->with(['locale' => null, 'scope'  => null])->willReturn(['locale' => null, 'scope'  => null]);
-        $this->featureFlags->method('isEnabled')->with('permission')->willReturn(true);
+
         $this->userRepository->method('findOneBy')->with(['id' => 1])->willReturn($user);
         $user->method('getGroupsIds')->willReturn([100, 200, 300]);
-        $getGrantedCategoryCodes->forGroupIds([100, 200, 300])->willReturn(['print', 'suppliers']);
-        $this->filterRegistry->expects($this->once())->method('getFieldFilter')->with('entity_type', Operators::EQUALS)->willReturn($fieldFilter1);
-        $this->filterRegistry->expects($this->once())->method('getFieldFilter')->with('categories', Operators::IN_LIST_OR_UNCLASSIFIED)->willReturn($fieldFilter2);
-        $this->assertSame(['_source' => ['id', 'identifier', 'document_type']], $this->sut->buildQuery(1));
+        $getGrantedCategoryCodes->method('forGroupIds')->with([100, 200, 300])->willReturn(['print', 'suppliers']);
+        $this->filterRegistry->method('getFieldFilter')->willReturnMap([
+            ['entity_type', Operators::EQUALS, $fieldFilter1],
+            ['categories', Operators::IN_LIST_OR_UNCLASSIFIED, $fieldFilter2],
+        ]);
+        $this->assertSame(['_source' => ['id', 'identifier', 'document_type']], $sut->buildQuery(1));
     }
 }

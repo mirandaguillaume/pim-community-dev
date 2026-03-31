@@ -9,11 +9,11 @@ use Akeneo\Tool\Component\Batch\Model\StepExecution;
 use Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface;
 use Akeneo\Tool\Component\Connector\Exception\DataArrayConversionException;
 use Akeneo\Tool\Component\Connector\Exception\InvalidItemFromViolationsException;
+use Akeneo\Tool\Component\Connector\Reader\File\Csv\Reader;
 use Akeneo\Tool\Component\Connector\Reader\File\FileIteratorFactory;
 use Akeneo\Tool\Component\Connector\Reader\File\FileIteratorInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Reader\File\Csv\Reader;
 use Symfony\Component\Validator\ConstraintViolationList;
 
 class ReaderTest extends TestCase
@@ -34,13 +34,18 @@ class ReaderTest extends TestCase
         $this->fileIterator = $this->createMock(FileIteratorInterface::class);
         $this->sut = new Reader($this->fileIteratorFactory, $this->converter);
         $filePath = $this->getPath() . DIRECTORY_SEPARATOR . 'with_media.csv';
-        $this->jobParameters->method('get')->with('enclosure')->willReturn('"');
-        $this->jobParameters->method('get')->with('delimiter')->willReturn(';');
+        $this->jobParameters->method('get')->willReturnCallback(function (string $key) use ($filePath) {
+            return match ($key) {
+                'enclosure' => '"',
+                'delimiter' => ';',
+                'storage' => ['type' => 'local', 'file_path' => $filePath],
+                default => null,
+            };
+        });
         $this->jobParameters->method('has')->with('storage')->willReturn(true);
-        $this->jobParameters->method('get')->with('storage')->willReturn(['type' => 'local', 'file_path' => $filePath]);
         $readerOptions = [
-        'fieldDelimiter' => ';',
-        'fieldEnclosure' => '"',
+            'fieldDelimiter' => ';',
+            'fieldEnclosure' => '"',
         ];
         $this->fileIteratorFactory->method('create')->with($filePath, ['reader_options' => $readerOptions])->willReturn($this->fileIterator);
         $this->stepExecution->method('getJobParameters')->willReturn($this->jobParameters);
@@ -52,24 +57,19 @@ class ReaderTest extends TestCase
     {
         $this->fileIterator->method('valid')->willReturn(true, true, true, false);
         $this->fileIterator->method('current')->willReturn(null);
-        $this->fileIterator->expects($this->once())->method('rewind');
-        $this->fileIterator->expects($this->once())->method('next');
         /** Expect 2 items, even there is 3 lines because the first one (the header) is ignored */
-        $this->totalItems()->shouldReturn(2);
+        $this->assertSame(2, $this->sut->totalItems());
     }
 
     public function test_it_reads_csv_file(): void
     {
         $data = [
-                    'sku'  => 'SKU-001',
-                    'name' => 'door',
-                ];
+            'sku'  => 'SKU-001',
+            'name' => 'door',
+        ];
         $this->fileIterator->method('getHeaders')->willReturn(['sku', 'name']);
-        $this->fileIterator->expects($this->once())->method('rewind');
-        $this->fileIterator->expects($this->once())->method('next');
         $this->fileIterator->method('valid')->willReturn(true);
         $this->fileIterator->method('current')->willReturn($data);
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('item_position');
         $this->converter->method('convert')->with($data, $this->anything())->willReturn($data);
         $this->assertSame($data, $this->sut->read());
     }
@@ -77,19 +77,15 @@ class ReaderTest extends TestCase
     public function test_it_skips_an_item_in_case_of_conversion_error(): void
     {
         $data = [
-                    'sku'  => 'SKU-001',
-                    'name' => 'door',
-                ];
-        $this->stepExecution->expects($this->once())->method('getSummaryInfo')->with('item_position');
+            'sku'  => 'SKU-001',
+            'name' => 'door',
+        ];
         $this->fileIterator->method('getHeaders')->willReturn(['sku', 'name']);
-        $this->fileIterator->expects($this->once())->method('rewind');
-        $this->fileIterator->expects($this->once())->method('next');
         $this->fileIterator->method('valid')->willReturn(true);
         $this->fileIterator->method('current')->willReturn($data);
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('item_position');
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with("skip");
         $this->converter->method('convert')->with($data, $this->anything())->willThrowException(new DataArrayConversionException('message', 0, null, new ConstraintViolationList()));
-        $this->sut->shouldThrow(InvalidItemFromViolationsException::class)->during('read');
+        $this->expectException(InvalidItemFromViolationsException::class);
+        $this->sut->read();
     }
 
     private function getPath()

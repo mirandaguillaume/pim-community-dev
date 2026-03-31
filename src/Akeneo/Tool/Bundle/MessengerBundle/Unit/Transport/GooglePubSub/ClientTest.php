@@ -19,6 +19,9 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
  */
 class ClientTest extends TestCase
 {
+    private const PROJECT_ID = 'test-project';
+    private const TOPIC_NAME = 'test-topic';
+    private const SUBSCRIPTION_NAME = 'test-subscription';
     private PubSubClientFactory|MockObject $pubSubClientFactory;
     private PubSubClient|MockObject $pubSubClient;
     private Topic|MockObject $topic;

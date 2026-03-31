@@ -15,7 +15,6 @@ class DefaultMaskItemGeneratorTest extends TestCase
     protected function setUp(): void
     {
         $this->sut = new DefaultMaskItemGenerator();
-        $this->sut->beConstructedWith();
     }
 
     public function test_it_is_a_mask_item_generator(): void

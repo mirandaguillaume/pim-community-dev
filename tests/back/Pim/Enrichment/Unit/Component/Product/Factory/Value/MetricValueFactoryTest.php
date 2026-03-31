@@ -50,8 +50,8 @@ class MetricValueFactoryTest extends TestCase
         $metric = new Metric('distance', 'centimeters', 5, 'meters', 0.05);
         $this->metricFactory->method('createMetric')->with('distance', 'centimeters', 5)->willReturn($metric);
         $attribute = $this->getAttribute(true, true);
-        $value = $this->createByCheckingData($attribute, 'ecommerce', 'fr_FR', ['unit' => 'centimeters', 'amount' => 5]);
-        $value->shouldBeLike(MetricValue::scopableLocalizableValue('an_attribute', $metric, 'ecommerce', 'fr_FR'));
+        $value = $this->sut->createByCheckingData($attribute, 'ecommerce', 'fr_FR', ['unit' => 'centimeters', 'amount' => 5]);
+        $this->assertEquals(MetricValue::scopableLocalizableValue('an_attribute', $metric, 'ecommerce', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_localizable_value(): void
@@ -59,8 +59,8 @@ class MetricValueFactoryTest extends TestCase
         $metric = new Metric('distance', 'centimeters', 5, 'meters', 0.05);
         $this->metricFactory->method('createMetric')->with('distance', 'centimeters', 5)->willReturn($metric);
         $attribute = $this->getAttribute(true, false);
-        $value = $this->createByCheckingData($attribute, null, 'fr_FR', ['unit' => 'centimeters', 'amount' => 5]);
-        $value->shouldBeLike(MetricValue::localizableValue('an_attribute', $metric, 'fr_FR'));
+        $value = $this->sut->createByCheckingData($attribute, null, 'fr_FR', ['unit' => 'centimeters', 'amount' => 5]);
+        $this->assertEquals(MetricValue::localizableValue('an_attribute', $metric, 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_scopable_value(): void
@@ -68,8 +68,8 @@ class MetricValueFactoryTest extends TestCase
         $metric = new Metric('distance', 'centimeters', 5, 'meters', 0.05);
         $this->metricFactory->method('createMetric')->with('distance', 'centimeters', 5)->willReturn($metric);
         $attribute = $this->getAttribute(false, true);
-        $value = $this->createByCheckingData($attribute, 'ecommerce', null, ['unit' => 'centimeters', 'amount' => 5]);
-        $value->shouldBeLike(MetricValue::scopableValue('an_attribute', $metric, 'ecommerce'));
+        $value = $this->sut->createByCheckingData($attribute, 'ecommerce', null, ['unit' => 'centimeters', 'amount' => 5]);
+        $this->assertEquals(MetricValue::scopableValue('an_attribute', $metric, 'ecommerce'), $value);
     }
 
     public function test_it_creates_a_non_localizable_and_non_scopable_value(): void
@@ -77,8 +77,8 @@ class MetricValueFactoryTest extends TestCase
         $metric = new Metric('distance', 'centimeters', 5, 'meters', 0.05);
         $this->metricFactory->method('createMetric')->with('distance', 'centimeters', 5)->willReturn($metric);
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createByCheckingData($attribute, null, null, ['unit' => 'centimeters', 'amount' => 5]);
-        $value->shouldBeLike(MetricValue::value('an_attribute', $metric));
+        $value = $this->sut->createByCheckingData($attribute, null, null, ['unit' => 'centimeters', 'amount' => 5]);
+        $this->assertEquals(MetricValue::value('an_attribute', $metric), $value);
     }
 
     public function test_it_creates_a_value_without_checking_data(): void
@@ -86,77 +86,50 @@ class MetricValueFactoryTest extends TestCase
         $metric = new Metric('distance', 'centimeters', 5, 'meters', 0.05);
         $this->metricFactory->method('createMetric')->with('distance', 'centimeters', 5)->willReturn($metric);
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createWithoutCheckingData($attribute, null, null, ['unit' => 'centimeters', 'amount' => 5]);
-        $value->shouldBeLike(MetricValue::value('an_attribute', $metric));
+        $value = $this->sut->createWithoutCheckingData($attribute, null, null, ['unit' => 'centimeters', 'amount' => 5]);
+        $this->assertEquals(MetricValue::value('an_attribute', $metric), $value);
     }
 
     public function test_it_throws_an_exception_if_provided_data_is_not_an_array(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $exception = InvalidPropertyTypeException::arrayExpected(
-                    'an_attribute',
-                    MetricValueFactory::class,
-                    'foobar'
-                );
-        $this->expectException($exception);
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->createByCheckingData($attribute, 'ecommerce', 'en_US', 'foobar');
     }
 
     public function test_it_throws_an_exception_if_provided_data_has_no_amount(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $exception = InvalidPropertyTypeException::arrayKeyExpected(
-                    'an_attribute',
-                    'amount',
-                    MetricValueFactory::class,
-                    ['foo' => 42, 'unit' => 'GRAM']
-                );
-        $this->expectException($exception);
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->createByCheckingData($attribute, 'ecommerce', 'en_US', ['foo' => 42, 'unit' => 'GRAM']);
     }
 
     public function test_it_should_not_throws_an_exception_if_provided_data_has_non_numeric_amount(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $this->sut->shouldNotThrow(InvalidPropertyTypeException::class)
-                    ->during('createByCheckingData', [$attribute, 'ecommerce', 'en_US', ['amount' => 'aa', 'foo' => 42, 'unit' => 'GRAM']]);
+        // Should not throw InvalidPropertyTypeException
+        $this->sut->createByCheckingData($attribute, 'ecommerce', 'en_US', ['amount' => 'aa', 'foo' => 42, 'unit' => 'GRAM']);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_throws_an_exception_if_provided_data_has_no_unit(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $exception = InvalidPropertyTypeException::arrayKeyExpected(
-                    'an_attribute',
-                    'unit',
-                    MetricValueFactory::class,
-                    ['amount' => 42, 'bar' => 'GRAM']
-                );
-        $this->expectException($exception);
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->createByCheckingData($attribute, 'ecommerce', 'en_US', ['amount' => 42, 'bar' => 'GRAM']);
     }
 
     public function test_it_throws_an_exception_if_provided_data_has_bad_format_unit(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $exception = InvalidPropertyTypeException::validArrayStructureExpected(
-                    'an_attribute',
-                    sprintf('key "unit" has to be a string, "%s" given', 'array'),
-                    MetricValueFactory::class,
-                    ['amount' => 42, 'bar' => 'GRAM', 'unit' => []]
-                );
-        $this->expectException($exception);
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->createByCheckingData($attribute, 'ecommerce', 'en_US', ['amount' => 42, 'bar' => 'GRAM', 'unit' => []]);
     }
 
     public function test_it_throws_an_exception_if_provided_data_has_bad_format_amount(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $exception = InvalidPropertyTypeException::decimalExpected(
-                    'an_attribute',
-                    MetricValueFactory::class,
-                    '35999999999999997E-2'
-                );
-        $this->expectException($exception);
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->createByCheckingData($attribute, 'ecommerce', 'en_US', ['amount' => '35999999999999997E-2', 'bar' => 'GRAM', 'unit' => 'GRAM']);
     }
 

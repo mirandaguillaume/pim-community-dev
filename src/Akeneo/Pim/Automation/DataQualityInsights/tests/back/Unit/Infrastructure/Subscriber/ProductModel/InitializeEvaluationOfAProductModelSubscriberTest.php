@@ -85,7 +85,7 @@ class InitializeEvaluationOfAProductModelSubscriberTest extends TestCase
         $productModel->method('getId')->willReturn($productModelId);
         $this->idFactory->method('createCollection')->with([(string) $productModelId])->willReturn($productModelIdCollection);
         $this->dataQualityInsightsFeature->method('isEnabled')->willReturn(true);
-        $this->createCriteriaEvaluations->method('createAll')->with($productModelIdCollection)->willThrowException(\Exception::class);
+        $this->createCriteriaEvaluations->method('createAll')->with($productModelIdCollection)->willThrowException(new \Exception('test'));
         $this->logger->expects($this->once())->method('error')->with('Unable to create product model criteria evaluation', $this->anything());
         $this->sut->onPostSave(new GenericEvent($productModel, ['unitary' => true]));
     }

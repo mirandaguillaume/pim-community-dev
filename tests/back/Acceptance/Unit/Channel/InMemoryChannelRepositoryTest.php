@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\Channel;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\Channel;
 
 use Akeneo\Channel\Infrastructure\Component\Model\Channel;
 use Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface;
 use Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface;
+use Akeneo\Test\Acceptance\Channel\InMemoryChannelRepository;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Test\Acceptance\Channel\InMemoryChannelRepository;
 
 class InMemoryChannelRepositoryTest extends TestCase
 {

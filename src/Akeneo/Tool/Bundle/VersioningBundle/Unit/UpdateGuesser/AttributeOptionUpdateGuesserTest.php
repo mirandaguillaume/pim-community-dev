@@ -7,11 +7,11 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesse
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\AttributeOptionInterface;
 use Akeneo\Pim\Structure\Component\Model\AttributeOptionValueInterface;
+use Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesser\AttributeOptionUpdateGuesser;
 use Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesser\UpdateGuesserInterface;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesser\AttributeOptionUpdateGuesser;
 
 class AttributeOptionUpdateGuesserTest extends TestCase
 {

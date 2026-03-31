@@ -14,6 +14,7 @@ class IsNumericTest extends TestCase
 
     protected function setUp(): void
     {
+        $this->sut = new IsNumeric();
     }
 
     public function test_it_is_initializable(): void

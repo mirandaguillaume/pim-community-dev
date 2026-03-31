@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\BatchQueue\Normalizer;
 
 use Akeneo\Tool\Component\BatchQueue\Factory\JobExecutionMessageFactory;
+use Akeneo\Tool\Component\BatchQueue\Normalizer\JobExecutionMessageNormalizer;
 use Akeneo\Tool\Component\BatchQueue\Queue\DataMaintenanceJobExecutionMessage;
 use Akeneo\Tool\Component\BatchQueue\Queue\ExportJobExecutionMessage;
 use Akeneo\Tool\Component\BatchQueue\Queue\ImportJobExecutionMessage;
@@ -13,7 +14,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use spec\Akeneo\Tool\Component\BatchQueue\Normalizer\JobExecutionMessageNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 

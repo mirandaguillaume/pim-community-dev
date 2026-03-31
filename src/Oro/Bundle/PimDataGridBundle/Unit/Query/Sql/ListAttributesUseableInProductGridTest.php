@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Query\Sql;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Query\Sql;
 
 use Doctrine\DBAL\Connection;
 use Oro\Bundle\PimDataGridBundle\Query\ListAttributesQuery;
-use Oro\Bundle\PimDataGridBundle\Query\ListAttributesUseableInProductGrid;
+use Oro\Bundle\PimDataGridBundle\Query\Sql\ListAttributesUseableInProductGrid;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

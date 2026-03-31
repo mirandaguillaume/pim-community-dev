@@ -33,16 +33,35 @@ class UniqueValueGuesserTest extends TestCase
 
     public function test_it_enforces_attribute_type(): void
     {
-        $attribute = $this->createMock(AttributeInterface::class);
+        $dataProvider = [
+            'boolean'    => [AttributeTypes::BACKEND_TYPE_BOOLEAN, false],
+            'collection' => [AttributeTypes::BACKEND_TYPE_COLLECTION, false],
+            'date'       => [AttributeTypes::BACKEND_TYPE_DATE, true],
+            'datetime'   => [AttributeTypes::BACKEND_TYPE_DATETIME, true],
+            'decimal'    => [AttributeTypes::BACKEND_TYPE_DECIMAL, true],
+            'entity'     => [AttributeTypes::BACKEND_TYPE_ENTITY, false],
+            'media'      => [AttributeTypes::BACKEND_TYPE_MEDIA, false],
+            'metric'     => [AttributeTypes::BACKEND_TYPE_METRIC, false],
+            'option'     => [AttributeTypes::BACKEND_TYPE_OPTION, false],
+            'options'    => [AttributeTypes::BACKEND_TYPE_OPTIONS, false],
+            'price'      => [AttributeTypes::BACKEND_TYPE_PRICE, false],
+            'textarea'   => [AttributeTypes::BACKEND_TYPE_TEXTAREA, false],
+            'text'       => [AttributeTypes::BACKEND_TYPE_TEXT, true],
+        ];
 
-        foreach ($this->sut->dataProviderForSupportedAttributes() as $attributeType => $attributeTypeTest) {
-                    $attributeBackendType = $attributeTypeTest[0];
-                    $expectedResult = $attributeTypeTest[1];
-                    $attribute->getBackendType()->willReturn($attributeBackendType);
-                    $attribute->getType()->willReturn('pim_catalog_' . $attributeType);
-                    $attribute->isMainIdentifier()->willReturn(false);
-                    $this->assertSame($expectedResult, $this->sut->supportAttribute($attribute));
-                }
+        foreach ($dataProvider as $attributeType => $attributeTypeTest) {
+            $attributeBackendType = $attributeTypeTest[0];
+            $expectedResult = $attributeTypeTest[1];
+            $attribute = $this->createMock(AttributeInterface::class);
+            $attribute->method('getBackendType')->willReturn($attributeBackendType);
+            $attribute->method('getType')->willReturn('pim_catalog_' . $attributeType);
+            $attribute->method('isMainIdentifier')->willReturn(false);
+            $this->assertSame(
+                $expectedResult,
+                $this->sut->supportAttribute($attribute),
+                sprintf('Failed for attribute type "%s"', $attributeType)
+            );
+        }
     }
 
     public function test_it_does_not_guess_constraints_for_the_main_identifier_attribute(): void
@@ -86,23 +105,4 @@ class UniqueValueGuesserTest extends TestCase
         $attribute->method('isMainIdentifier')->willReturn(false);
         $this->assertEquals([new UniqueValue(['message' => 'pim_catalog.constraint.unique_identifier_value'])], $this->sut->guessConstraints($attribute));
     }
-
-    private function dataProviderForSupportedAttributes()
-    {
-            return [
-                'boolean'    => [AttributeTypes::BACKEND_TYPE_BOOLEAN, false],
-                'collection' => [AttributeTypes::BACKEND_TYPE_COLLECTION, false],
-                'date'       => [AttributeTypes::BACKEND_TYPE_DATE, true],
-                'datetime'   => [AttributeTypes::BACKEND_TYPE_DATETIME, true],
-                'decimal'    => [AttributeTypes::BACKEND_TYPE_DECIMAL, true],
-                'entity'     => [AttributeTypes::BACKEND_TYPE_ENTITY, false],
-                'media'      => [AttributeTypes::BACKEND_TYPE_MEDIA, false],
-                'metric'     => [AttributeTypes::BACKEND_TYPE_METRIC, false],
-                'option'     => [AttributeTypes::BACKEND_TYPE_OPTION, false],
-                'options'    => [AttributeTypes::BACKEND_TYPE_OPTIONS, false],
-                'price'      => [AttributeTypes::BACKEND_TYPE_PRICE, false],
-                'textarea'   => [AttributeTypes::BACKEND_TYPE_TEXTAREA, false],
-                'text'       => [AttributeTypes::BACKEND_TYPE_TEXT, true],
-            ];
-        }
 }

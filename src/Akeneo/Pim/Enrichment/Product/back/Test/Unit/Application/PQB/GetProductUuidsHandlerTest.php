@@ -31,7 +31,6 @@ class GetProductUuidsHandlerTest extends TestCase
         $this->channelRepository = $this->createMock(IdentifiableObjectRepositoryInterface::class);
         $this->productUuidQueryFetcher = $this->createMock(ProductUuidQueryFetcher::class);
         $this->validator = $this->createMock(ValidatorInterface::class);
-        $this->sut = new GetProductUuidsHandler($pqb, $applyProductSearchQueryParametersToPQB, $this->productUuidQueryFetcher, $this->validator);
         $pqb = new class implements ProductQueryBuilderInterface, LegacyProductQueryBuilderInterface {
             public function buildQuery(?int $userId, ?UuidInterface $searchAfterUuid = null): array
             {
@@ -55,11 +54,11 @@ class GetProductUuidsHandlerTest extends TestCase
             public function execute()
             {
             }
-        }
-        ;
+        };
         $applyProductSearchQueryParametersToPQB = new ApplyProductSearchQueryParametersToPQB(
             $this->channelRepository
         );
+        $this->sut = new GetProductUuidsHandler($pqb, $applyProductSearchQueryParametersToPQB, $this->productUuidQueryFetcher, $this->validator);
     }
 
     public function test_it_is_initializable(): void
@@ -75,7 +74,8 @@ class GetProductUuidsHandlerTest extends TestCase
         $constraintViolationList->method('count')->willReturn(0);
         $this->validator->method('validate')->with($query)->willReturn($constraintViolationList);
         $this->productUuidQueryFetcher->expects($this->once())->method('initialize')->with(['the query']);
-        $this->sut->__invoke($query)->shouldHaveType(ProductUuidCursor::class);
+        $result = ($this->sut)($query);
+        $this->assertInstanceOf(ProductUuidCursor::class, $result);
     }
 
     public function test_it_throws_an_exception_when_query_is_not_valid(): void
@@ -87,6 +87,6 @@ class GetProductUuidsHandlerTest extends TestCase
         $constraintViolationList->method('__toString')->willReturn('message');
         $this->validator->method('validate')->with($query)->willReturn($constraintViolationList);
         $this->expectException(ViolationsException::class);
-        $this->sut->__invoke($query);
+        ($this->sut)($query);
     }
 }

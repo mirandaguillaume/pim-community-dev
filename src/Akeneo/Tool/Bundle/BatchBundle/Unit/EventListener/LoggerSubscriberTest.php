@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\EventListener;
 
+use Akeneo\Tool\Bundle\BatchBundle\EventListener\LoggerSubscriber;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use spec\Akeneo\Tool\Bundle\BatchBundle\EventListener\LoggerSubscriber;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoggerSubscriberTest extends TestCase

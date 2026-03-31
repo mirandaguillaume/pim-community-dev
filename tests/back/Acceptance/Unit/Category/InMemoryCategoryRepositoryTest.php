@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\Category;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\Category;
 
 use Akeneo\Category\Infrastructure\Component\Classification\Repository\CategoryRepositoryInterface;
 use Akeneo\Category\Infrastructure\Component\Model\Category;

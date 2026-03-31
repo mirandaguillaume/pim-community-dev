@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Datasource;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Datasource;
 
 use Akeneo\Pim\Enrichment\Component\Product\Grid\Query;
 use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row;
@@ -30,7 +30,7 @@ class ProductAndProductModelDatasourceTest extends TestCase
     private ProductQueryBuilderFactoryInterface|MockObject $pqbFactory;
     private NormalizerInterface|MockObject $rowNormalizer;
     private ValidatorInterface|MockObject $validator;
-    private FetchProductAndProductModelRows|MockObject $query;
+    private Query\FetchProductAndProductModelRows|MockObject $query;
     private ProductAndProductModelDatasource $sut;
 
     protected function setUp(): void
@@ -39,7 +39,7 @@ class ProductAndProductModelDatasourceTest extends TestCase
         $this->pqbFactory = $this->createMock(ProductQueryBuilderFactoryInterface::class);
         $this->rowNormalizer = $this->createMock(NormalizerInterface::class);
         $this->validator = $this->createMock(ValidatorInterface::class);
-        $this->query = $this->createMock(FetchProductAndProductModelRows::class);
+        $this->query = $this->createMock(Query\FetchProductAndProductModelRows::class);
         $this->sut = new ProductAndProductModelDatasource($this->objectManager, $this->pqbFactory, $this->rowNormalizer, $this->validator, $this->query);
         $this->sut->setParameters(['dataLocale' => 'fr_FR', 'scopeCode' => 'ecommerce']);
     }
@@ -61,7 +61,7 @@ class ProductAndProductModelDatasourceTest extends TestCase
         $pqb = $this->createMock(ProductQueryBuilderInterface::class);
 
         $violations = new ConstraintViolationList();
-        $this->validator->method('validate')->with(/* TODO: convert Argument matcher */ Argument::type(Query\FetchProductAndProductModelRowsParameters::class))->willReturn($violations);
+        $this->validator->method('validate')->with($this->isInstanceOf(Query\FetchProductAndProductModelRowsParameters::class))->willReturn($violations);
         $config = [
                     'displayed_attribute_ids' => [1, 2],
                     'attributes_configuration' => [
@@ -188,7 +188,7 @@ class ProductAndProductModelDatasourceTest extends TestCase
         $this->sut->process($datagrid, $config);
         $violations = new ConstraintViolationList([$constraint]);
         $constraint->method('__toString')->willReturn('error');
-        $this->validator->method('validate')->with(/* TODO: convert Argument matcher */ Argument::type(Query\FetchProductAndProductModelRowsParameters::class))->willReturn($violations);
+        $this->validator->method('validate')->with($this->isInstanceOf(Query\FetchProductAndProductModelRowsParameters::class))->willReturn($violations);
         $this->sut->shouldThrow(
             \LogicException::class
         )->during(

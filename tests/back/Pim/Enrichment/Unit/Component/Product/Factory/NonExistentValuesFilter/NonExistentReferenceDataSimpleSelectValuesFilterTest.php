@@ -99,8 +99,8 @@ class NonExistentReferenceDataSimpleSelectValuesFilterTest extends TestCase
                     ])->willReturn(['option_toto', 'Option_With_Other_Case']);
         $this->getExistingReferenceDataCodes->method('fromReferenceDataNameAndCodes')->with('another_reference_data', ['option_tata'])->willReturn([]);
         /** @var OnGoingFilteredRawValues $filteredCollection */
-                $filteredCollection = $this->filter($ongoingFilteredRawValues);
-        $filteredCollection->filteredRawValuesCollectionIndexedByType()->shouldBeLike(
+                $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
+        $this->assertEquals(
                     [
                         AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT => [
                             'a_reference_data_simple_select' => [
@@ -143,6 +143,6 @@ class NonExistentReferenceDataSimpleSelectValuesFilterTest extends TestCase
                             ]
                         ],
                     ]
-                );
+                , $filteredCollection->filteredRawValuesCollectionIndexedByType());
     }
 }

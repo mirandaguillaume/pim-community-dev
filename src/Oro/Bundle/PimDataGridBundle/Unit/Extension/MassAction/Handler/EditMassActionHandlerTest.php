@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler;
 
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\PimDataGridBundle\Datasource\DatasourceInterface;
@@ -10,9 +10,9 @@ use Oro\Bundle\PimDataGridBundle\Datasource\ResultRecord\HydratorInterface;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Redirect\EditMassAction;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Event\MassActionEvent;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Event\MassActionEvents;
+use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\EditMassActionHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\EditMassActionHandler;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EditMassActionHandlerTest extends TestCase

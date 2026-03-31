@@ -40,7 +40,7 @@ class ProductValuesCollectionTest extends TestCase
         $this->sut->add($textValues1);
         $this->sut->add($textValues2);
         $this->sut->add($textareaValues);
-        $allTextValues = iterator_to_array($this->getTextValues());
+        $allTextValues = iterator_to_array($this->sut->getTextValues());
         Assert::eq($allTextValues, [$textValues1, $textValues2]);
     }
 
@@ -55,7 +55,7 @@ class ProductValuesCollectionTest extends TestCase
         $this->sut->add($textareaValues1);
         $this->sut->add($textareaValues2);
         $this->sut->add($textValues);
-        $allTextValues = iterator_to_array($this->getTextareaValues());
+        $allTextValues = iterator_to_array($this->sut->getTextareaValues());
         Assert::eq($allTextValues, [$textareaValues1, $textareaValues2]);
     }
 
@@ -73,7 +73,7 @@ class ProductValuesCollectionTest extends TestCase
         $this->sut->add($localizableTextValues2);
         $this->sut->add($notLocalizableTextValues);
         $this->sut->add($textareaValues);
-        $allTextValues = iterator_to_array($this->getLocalizableTextValues());
+        $allTextValues = iterator_to_array($this->sut->getLocalizableTextValues());
         Assert::eq($allTextValues, [$localizableTextValues1, $localizableTextValues2]);
     }
 
@@ -91,7 +91,7 @@ class ProductValuesCollectionTest extends TestCase
         $this->sut->add($localizableTextareaValues2);
         $this->sut->add($notLocalizableTextareaValues);
         $this->sut->add($textValues);
-        $allTextValues = iterator_to_array($this->getLocalizableTextareaValues());
+        $allTextValues = iterator_to_array($this->sut->getLocalizableTextareaValues());
         Assert::eq($allTextValues, [$localizableTextareaValues1, $localizableTextareaValues2]);
     }
 

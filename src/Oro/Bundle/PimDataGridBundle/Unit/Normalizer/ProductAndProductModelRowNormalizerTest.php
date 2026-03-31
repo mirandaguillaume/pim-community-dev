@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Normalizer;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Normalizer;
 
 use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\AdditionalProperty;
 use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row;
@@ -29,7 +29,6 @@ class ProductAndProductModelRowNormalizerTest extends TestCase
         $this->normalizer = $this->createMock(NormalizerInterface::class);
         $this->imageNormalizer = $this->createMock(ImageNormalizer::class);
         $this->sut = new ProductAndProductModelRowNormalizer($this->imageNormalizer);
-        $this->normalizer->method('implement')->with(NormalizerInterface::class);
         $this->sut->setNormalizer($this->normalizer);
     }
 

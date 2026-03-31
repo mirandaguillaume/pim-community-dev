@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\DataGridBundle\Extension\Formatter;
+namespace Akeneo\Test\Unit\Oro\Bundle\DataGridBundle\Extension\Formatter;
 
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\ResultsIterableObject;

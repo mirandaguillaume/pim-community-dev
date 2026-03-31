@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property;
 
 use Akeneo\Tool\Component\Localization\Presenter\PresenterInterface;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecord;
 use Oro\Bundle\DataGridBundle\Extension\Formatter\Property\PropertyConfiguration;
+use Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property\DateTimeWithUserTimezoneProperty;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property\DateTimeWithUserTimezoneProperty;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DateTimeWithUserTimezonePropertyTest extends TestCase

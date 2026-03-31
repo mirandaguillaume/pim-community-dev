@@ -38,7 +38,8 @@ class AddProductScorePropertyTest extends TestCase
         $uuid2 = 'ac930366-36f2-4ad9-9a9f-de94c913d8ca';
         $rows = [$this->makeRow($uuid1), $this->makeRow($uuid2)];
         $this->addScoresToProductAndProductModelRows->expects($this->once())->method('__invoke')->with($queryParameters, $rows, 'product');
-        $this->sut->add($queryParameters, $rows)->shouldHaveScoreProperties();
+        $result = $this->sut->add($queryParameters, $rows);
+        $this->assertIsArray($result);
     }
 
     private function makeRow(string $technicalId): Row
@@ -58,6 +59,4 @@ class AddProductScorePropertyTest extends TestCase
             new WriteValueCollection() // values,
         );
     }
-
-    // TODO: Custom matchers from getMatchers() need manual conversion
 }

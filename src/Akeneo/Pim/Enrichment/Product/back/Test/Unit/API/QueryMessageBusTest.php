@@ -42,11 +42,11 @@ class QueryMessageBusTest extends TestCase
         $this->handler1->expects($this->never())->method('__invoke')->with($this->anything());
         $result = new \stdClass();
         $this->handler2->expects($this->once())->method('__invoke')->with($query)->willReturn($result);
-        $envelope = $this->dispatch($query);
-        $envelope->shouldHaveType(Envelope::class);
+        $envelope = $this->sut->dispatch($query);
+        $this->assertInstanceOf(Envelope::class, $envelope);
         $handledStamp = $envelope->last(HandledStamp::class);
-        $handledStamp->shouldHaveType(HandledStamp::class);
-        $handledStamp->getResult()->shouldBe($result);
+        $this->assertInstanceOf(HandledStamp::class, $handledStamp);
+        $this->assertSame($result, $handledStamp->getResult());
     }
 
     public function test_it_throws_an_exception_when_the_query_cannot_be_handled(): void

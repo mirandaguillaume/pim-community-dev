@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\StorageUtils\Repository;
 
 use Akeneo\Tool\Component\StorageUtils\Cache\EntityManagerClearerInterface;
+use Akeneo\Tool\Component\StorageUtils\Repository\BaseCachedObjectRepository;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\StorageUtils\Repository\BaseCachedObjectRepository;
 
 class BaseCachedObjectRepositoryTest extends TestCase
 {

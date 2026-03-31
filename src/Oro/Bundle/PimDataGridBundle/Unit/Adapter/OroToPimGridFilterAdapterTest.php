@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Adapter;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Adapter;
 
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
+use Oro\Bundle\PimDataGridBundle\Adapter\OroToPimGridFilterAdapter;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionDispatcher;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Adapter\OroToPimGridFilterAdapter;
 
 class OroToPimGridFilterAdapterTest extends TestCase
 {

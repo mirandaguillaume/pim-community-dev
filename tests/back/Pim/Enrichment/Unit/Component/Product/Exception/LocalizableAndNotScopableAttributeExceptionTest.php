@@ -27,18 +27,17 @@ class LocalizableAndNotScopableAttributeExceptionTest extends TestCase
 
     public function test_it_provides_a_templated_error_message(): void
     {
-        $templatedMessage = $this->getTemplatedErrorMessage();
-        $templatedMessage
-                    ->getTemplate()
-                    ->shouldReturn(
-                        'The {attribute_code} attribute does not require a value per channel' .
-                        ' ({channel_code} was detected) but requires a value per locale ({locale_code} was detected).',
-                    );
-        $templatedMessage->getParameters()->shouldReturn([
+        $templatedMessage = $this->sut->getTemplatedErrorMessage();
+        $this->assertSame(
+            'The {attribute_code} attribute does not require a value per channel' .
+            ' ({channel_code} was detected) but requires a value per locale ({locale_code} was detected).',
+            $templatedMessage->getTemplate()
+        );
+        $this->assertSame([
                     'attribute_code' => 'description',
                     'channel_code' => 'ecommerce',
                     'locale_code' => 'en_US',
-                ]);
+                ], $templatedMessage->getParameters());
     }
 
     public function test_it_provides_the_attribute_code(): void

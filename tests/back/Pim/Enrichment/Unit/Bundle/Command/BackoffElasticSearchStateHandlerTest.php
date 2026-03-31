@@ -44,7 +44,7 @@ class BackoffElasticSearchStateHandlerTest extends TestCase
         $codes = range(1, 17);
         $badRequest400Exception = new BadRequest400Exception("", Response::HTTP_TOO_MANY_REQUESTS);
         $bulkEsHandler->method('bulkExecute')->with($this->anything())->willThrowException($badRequest400Exception);
-        $this->expectException($badRequest400Exception);
+        $this->expectException(BadRequest400Exception::class);
         $this->sut->bulkExecute($codes,$bulkEsHandler);
         $bulkEsHandler->method('bulkExecute')->with($this->anything());
         $bulkEsHandler->method('bulkExecute')->with($codes);

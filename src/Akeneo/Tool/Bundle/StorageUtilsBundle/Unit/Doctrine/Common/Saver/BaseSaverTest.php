@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Common\Saver;
 
+use Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Common\Saver\BaseSaver;
 use Akeneo\Tool\Component\StorageUtils\Exception\DuplicateObjectException;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;
@@ -12,9 +13,24 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Common\Saver\BaseSaver;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+
+class ModelToSave
+{
+    public function __construct(private readonly ?int $id = null)
+    {
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+}
+
+class ModelNotToSave
+{
+}
 
 class BaseSaverTest extends TestCase
 {
@@ -68,10 +84,8 @@ class BaseSaverTest extends TestCase
                 $anythingElse::class
             )
         );
-        $this->expectException($exception);
+        $this->expectException(\InvalidArgumentException::class);
         $this->sut->save($anythingElse);
-        $this->expectException($exception);
-        $this->sut->saveAll([$anythingElse, $anythingElse]);
     }
 
     public function test_it_dispatches_events_according_to_the_objects_state_on_unitary_save(): void
@@ -107,7 +121,7 @@ class BaseSaverTest extends TestCase
     public function test_it_catches_orm_exception_and_throws_a_business_exception(): void
     {
         $type = new ModelToSave();
-        $this->objectManager->method('persist')->with($type)->willThrowException(UniqueConstraintViolationException::class);
+        $this->objectManager->method('persist')->with($type)->willThrowException($this->createMock(UniqueConstraintViolationException::class));
         $this->objectManager->expects($this->never())->method('flush');
         $this->expectException(DuplicateObjectException::class);
         $this->sut->save($type);

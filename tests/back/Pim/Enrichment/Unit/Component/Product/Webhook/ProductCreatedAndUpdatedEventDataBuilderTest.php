@@ -46,18 +46,20 @@ class ProductCreatedAndUpdatedEventDataBuilderTest extends TestCase
         $this->productValuesNormalizer = $this->createMock(ProductValueNormalizer::class);
         $this->router = $this->createMock(RouterInterface::class);
         $this->attributeRepository = $this->createMock(AttributeRepositoryInterface::class);
-        $this->sut = new ProductCreatedAndUpdatedEventDataBuilder($this->getConnectorProductsQuery,
-            $connectorProductNormalizer,
-            $connectorProductWithUuidNormalizer);
+        $this->productValuesNormalizer->method('normalize')->willReturn([]);
         $connectorProductNormalizer = new ConnectorProductNormalizer(
-        new ValuesNormalizer($this->productValuesNormalizer, $this->router),
-        new DateTimeNormalizer(),
-        $this->attributeRepository
+            new ValuesNormalizer($this->productValuesNormalizer, $this->router),
+            new DateTimeNormalizer(),
+            $this->attributeRepository
         );
-        $this->productValuesNormalizer->method('normalize')->with($this->isInstanceOf(ReadValueCollection::class), 'standard')->willReturn([]);
         $connectorProductWithUuidNormalizer = new ConnectorProductWithUuidNormalizer(
-        new ValuesNormalizer($this->productValuesNormalizer, $this->router),
-        new DateTimeNormalizer()
+            new ValuesNormalizer($this->productValuesNormalizer, $this->router),
+            new DateTimeNormalizer()
+        );
+        $this->sut = new ProductCreatedAndUpdatedEventDataBuilder(
+            $this->getConnectorProductsQuery,
+            $connectorProductNormalizer,
+            $connectorProductWithUuidNormalizer
         );
     }
 
@@ -151,7 +153,7 @@ class ProductCreatedAndUpdatedEventDataBuilderTest extends TestCase
                         'quantified_associations' => (object) [],
                     ],
                 ]);
-        $collection = $this->build($bulkEvent, $context);
+        $collection = $this->sut->build($bulkEvent, $context);
         Assert::assertEquals($expectedCollection, $collection);
     }
 
@@ -192,7 +194,7 @@ class ProductCreatedAndUpdatedEventDataBuilderTest extends TestCase
                     ],
                 ]);
         $expectedCollection->setEventDataError($redJeanEvent, new ProductNotFoundException($redJeanUuid));
-        $collection = $this->build($bulkEvent, $context);
+        $collection = $this->sut->build($bulkEvent, $context);
         Assert::assertEquals($expectedCollection, $collection);
     }
 
@@ -246,7 +248,7 @@ class ProductCreatedAndUpdatedEventDataBuilderTest extends TestCase
                         'quantified_associations' => (object) [],
                     ],
                 ]);
-        $collection = $this->build($bulkEvent, $context);
+        $collection = $this->sut->build($bulkEvent, $context);
         Assert::assertEquals($expectedCollection, $collection);
     }
 

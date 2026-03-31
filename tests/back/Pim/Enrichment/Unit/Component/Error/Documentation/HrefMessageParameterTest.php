@@ -36,11 +36,13 @@ class HrefMessageParameterTest extends TestCase
 
     public function test_it_validates_the_href(): void
     {
-        $this->expectException(new \InvalidArgumentException(sprintf(
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage(sprintf(
                             'Class "%s" need an URL as href argument, "%s" given.',
                             HrefMessageParameter::class,
                             'help.akeneo.com/what-is-an-attribute.html'
-                        )));
+                        ));
         new HrefMessageParameter('What is an attribute?',
                     'help.akeneo.com/what-is-an-attribute.html');
     }

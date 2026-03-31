@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\FileStorageBundle\Validator\Constraints;
 
 use Akeneo\Tool\Bundle\FileStorageBundle\Validator\Constraints;
+use Akeneo\Tool\Bundle\FileStorageBundle\Validator\Constraints\UploadedFileValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\FileStorageBundle\Validator\Constraints\UploadedFileValidator;
 use Symfony\Component\HttpFoundation\File;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Extension\Pager;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Extension\Pager;
 
 use Oro\Bundle\DataGridBundle\Extension\Pager\PagerInterface;
 use Oro\Bundle\PimDataGridBundle\Extension\Pager\PagerResolver;

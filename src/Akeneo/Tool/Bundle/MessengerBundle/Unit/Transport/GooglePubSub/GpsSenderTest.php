@@ -101,7 +101,7 @@ class GpsSenderTest extends TestCase
         $this->topic->method('publish')->with([
                     'data' => 'My message!',
                     'attributes' => ['my_header' => 'my_header_value'],
-                ])->willThrowException(GoogleException::class);
+                ])->willThrowException(new GoogleException("test error"));
         $this->expectException(TransportException::class);
         $this->sut->send($envelope);
     }

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimFilterBundle\Filter\Product;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter\Product;
 
 use Akeneo\Pim\Enrichment\Component\Product\Exception\ObjectNotFoundException;
 use Oro\Bundle\FilterBundle\Filter\ChoiceFilter;
 use Oro\Bundle\PimFilterBundle\Datasource\FilterDatasourceAdapterInterface;
+use Oro\Bundle\PimFilterBundle\Filter\Product\FamilyFilter;
 use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimFilterBundle\Filter\Product\FamilyFilter;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class FamilyFilterTest extends TestCase
@@ -43,7 +43,7 @@ class FamilyFilterTest extends TestCase
     {
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
-        $this->utility->method('applyFilter')->with($datasource, 'family', 'IN', ['deleted_family'])->willThrowException(ObjectNotFoundException::class);
+        $this->utility->method('applyFilter')->with($datasource, 'family', 'IN', ['deleted_family'])->willThrowException(new ObjectNotFoundException());
         $this->assertSame(false, $this->sut->apply($datasource, ['type' => 'IN', 'value' => ['deleted_family']]));
     }
 }

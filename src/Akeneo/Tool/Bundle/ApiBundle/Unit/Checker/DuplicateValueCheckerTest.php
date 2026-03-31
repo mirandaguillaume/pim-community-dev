@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\ApiBundle\Checker;
 
+use Akeneo\Tool\Bundle\ApiBundle\Checker\DuplicateValueChecker;
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\ApiBundle\Checker\DuplicateValueChecker;
 
 class DuplicateValueCheckerTest extends TestCase
 {

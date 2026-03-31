@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\Attribute;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\Attribute;
 
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute;

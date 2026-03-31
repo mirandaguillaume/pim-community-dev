@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\Attribute;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\Attribute;
 
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Pim\Structure\Component\Model\Attribute;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
+use Akeneo\Test\Acceptance\Attribute\InMemoryAttributeRepository;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Test\Acceptance\Attribute\InMemoryAttributeRepository;
 
 class InMemoryAttributeRepositoryTest extends TestCase
 {

@@ -37,7 +37,9 @@ class ProductModelRemovedTest extends TestCase
 
     public function test_it_validates_the_product_model_code(): void
     {
-        $this->expectException(new \InvalidArgumentException('Expected the key "code" to exist.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Expected the key "code" to exist.');
         new ProductModelRemoved(Author::fromNameAndType('julia', Author::TYPE_UI),
                     [],
                     1598968800,
@@ -46,7 +48,9 @@ class ProductModelRemovedTest extends TestCase
 
     public function test_it_validates_the_category_codes(): void
     {
-        $this->expectException(new \InvalidArgumentException('Expected the key "category_codes" to exist.'),);
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Expected the key "category_codes" to exist.');
         new ProductModelRemoved(Author::fromNameAndType('julia', Author::TYPE_UI),
                     ['code' => 'product_model_code'],
                     1598968800,

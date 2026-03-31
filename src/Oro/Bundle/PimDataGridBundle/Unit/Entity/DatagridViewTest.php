@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Entity;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Entity;
 
 use Akeneo\UserManagement\Component\Model\User;
+use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
 
 class DatagridViewTest extends TestCase
 {

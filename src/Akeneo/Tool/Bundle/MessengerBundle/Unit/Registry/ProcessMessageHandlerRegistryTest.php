@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\MessengerBundle\Registry;
 
+use Akeneo\Tool\Bundle\MessengerBundle\Registry\ProcessMessageHandlerRegistry;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\MessengerBundle\Registry\ProcessMessageHandlerRegistry;
 
 class ProcessMessageHandlerRegistryTest extends TestCase
 {

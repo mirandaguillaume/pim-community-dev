@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\StorageUtils\Validator\Constraints;
 
 use Akeneo\Tool\Component\StorageUtils\Validator\Constraints\WritableDirectory;
+use Akeneo\Tool\Component\StorageUtils\Validator\Constraints\WritableDirectoryValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\StorageUtils\Validator\Constraints\WritableDirectoryValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 

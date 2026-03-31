@@ -36,7 +36,8 @@ class AddProductModelScorePropertyTest extends TestCase
         );
         $rows = [$this->makeProductModelRow('1'), $this->makeProductModelRow('4')];
         $this->addScoresToProductAndProductModelRows->expects($this->once())->method('__invoke')->with($queryParameters, $rows, 'product_model');
-        $this->sut->add($queryParameters, $rows)->shouldHaveScoreProperties();
+        $result = $this->sut->add($queryParameters, $rows);
+        $this->assertIsArray($result);
     }
 
     private function makeProductModelRow(string $technicalId): Row

@@ -92,8 +92,8 @@ class NonExistentMultiSelectValuesFilterTest extends TestCase
                         'a_multi_select' => ['michel', 'fraises', 'tourlOUPE'],
                     ]);
         /** @var OnGoingFilteredRawValues $filteredCollection */
-                $filteredCollection = $this->filter($ongoingFilteredRawValues);
-        $filteredCollection->filteredRawValuesCollectionIndexedByType()->shouldBeLike(
+                $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
+        $this->assertEquals(
                     [
                         AttributeTypes::OPTION_MULTI_SELECT => [
                             'a_multi_select' => [
@@ -123,6 +123,6 @@ class NonExistentMultiSelectValuesFilterTest extends TestCase
                             ],
                         ],
                     ]
-                );
+                , $filteredCollection->filteredRawValuesCollectionIndexedByType());
     }
 }

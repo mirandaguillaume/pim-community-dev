@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Datasource;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Datasource;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderFactoryInterface;
@@ -122,18 +122,13 @@ class ProductDatasourceTest extends TestCase
                     'document_type'    => null,
                 ]);
         // CPM-1082: mainIdentifier attribute should be kept for display purposes in the grid
-        $this->subscriber
-            ->configure(FilterEntityWithValuesSubscriberConfiguration::filterEntityValues(['attribute_1', 'attribute_2', 'sku']))
-            ->shouldBeCalled();
-        $results = $this->getResults();
-        $results->shouldBeArray();
-        $results->shouldHaveCount(2);
-        $results->shouldHaveKey('data');
-        $results->shouldHaveKeyWithValue('totalRecords', 1);
-        $results['data']->shouldBeArray();
-        $results['data']->shouldHaveCount(1);
-        $results['data']->shouldBeAnArrayOfInstanceOf(ResultRecord::class);
+        $this->subscriber->expects($this->once())
+            ->method('configure')
+            ->with(FilterEntityWithValuesSubscriberConfiguration::filterEntityValues(['attribute_1', 'attribute_2', 'sku']));
+        $results = $this->sut->getResults();
+        $this->assertIsArray($results);
+        $this->assertCount(2, $results);
+        $this->assertArrayHasKey('data', $results);
+        $this->assertSame(1, $results['totalRecords']);
     }
-
-    // TODO: Custom matchers from getMatchers() need manual conversion
 }

@@ -14,11 +14,19 @@ use PHPUnit\Framework\TestCase;
 
 class ProductAndProductModelQueryBuilderWithSearchAggregatorFactoryTest extends TestCase
 {
+    private ProductQueryBuilderFactoryInterface|MockObject $factory;
+    private ProductAndProductModelSearchAggregator|MockObject $searchAggregator;
     private ProductAndProductModelQueryBuilderWithSearchAggregatorFactory $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new ProductAndProductModelQueryBuilderWithSearchAggregatorFactory();
+        $this->factory = $this->createMock(ProductQueryBuilderFactoryInterface::class);
+        $this->searchAggregator = $this->createMock(ProductAndProductModelSearchAggregator::class);
+        $this->sut = new ProductAndProductModelQueryBuilderWithSearchAggregatorFactory(
+            ProductAndProductModelQueryBuilder::class,
+            $this->factory,
+            $this->searchAggregator,
+        );
     }
 
     public function test_it_is_a_product_query_builder_factory(): void
@@ -29,8 +37,7 @@ class ProductAndProductModelQueryBuilderWithSearchAggregatorFactoryTest extends 
     public function test_it_creates_a_product_and_product_model_query_builder(): void
     {
         $basePqb = $this->createMock(ProductQueryBuilderInterface::class);
-
-        $factory->create(['default_locale' => 'en_US', 'default_scope' => 'print'])->willReturn($basePqb);
+        $this->factory->method('create')->with(['default_locale' => 'en_US', 'default_scope' => 'print'])->willReturn($basePqb);
         $this->assertInstanceOf(ProductQueryBuilderInterface::class, $this->sut->create(['default_locale' => 'en_US', 'default_scope' => 'print']));
     }
 }

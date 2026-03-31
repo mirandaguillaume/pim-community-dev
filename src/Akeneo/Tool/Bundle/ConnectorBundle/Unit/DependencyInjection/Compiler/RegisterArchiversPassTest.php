@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\ConnectorBundle\DependencyInjection\Compiler;
 
+use Akeneo\Tool\Bundle\ConnectorBundle\DependencyInjection\Compiler\RegisterArchiversPass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\ConnectorBundle\DependencyInjection\Compiler\RegisterArchiversPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 

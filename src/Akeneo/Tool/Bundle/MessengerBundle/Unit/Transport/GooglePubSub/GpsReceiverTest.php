@@ -107,7 +107,7 @@ class GpsReceiverTest extends TestCase
         $this->subscription->method('pull')->with([
                     'maxMessages' => 1,
                     'returnImmediately' => true,
-                ])->willThrowException(GoogleException::class);
+                ])->willThrowException(new GoogleException("test error"));
         $this->sut->shouldThrow(TransportException::class)
                     ->during('get');
     }
@@ -120,7 +120,7 @@ class GpsReceiverTest extends TestCase
                     ]
         );
         $envelope = new Envelope((object) ['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
-        $this->subscription->method('acknowledge')->with($gpsMessage)->willThrowException(GoogleException::class);
+        $this->subscription->method('acknowledge')->with($gpsMessage)->willThrowException(new GoogleException("test error"));
         $this->expectException(TransportException::class);
         $this->sut->ack($envelope);
     }
@@ -133,7 +133,7 @@ class GpsReceiverTest extends TestCase
                     ]
         );
         $envelope = new Envelope((object) ['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
-        $this->subscription->method('acknowledge')->with($gpsMessage)->willThrowException(GoogleException::class);
+        $this->subscription->method('acknowledge')->with($gpsMessage)->willThrowException(new GoogleException("test error"));
         $this->expectException(TransportException::class);
         $this->sut->reject($envelope);
     }

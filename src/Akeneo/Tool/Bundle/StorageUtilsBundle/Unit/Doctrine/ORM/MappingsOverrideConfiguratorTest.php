@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM;
 
+use Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM\MappingsOverrideConfigurator;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -11,7 +12,6 @@ use Doctrine\ORM\Mapping\NamingStrategy;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM\MappingsOverrideConfigurator;
 
 class MappingsOverrideConfiguratorTest extends TestCase
 {
@@ -38,7 +38,9 @@ class MappingsOverrideConfiguratorTest extends TestCase
                     ['original' => 'Foo\Bar\OriginalQux', 'override' => 'Acme\Bar\OverrideQux'],
                     ['original' => 'Foo\Baz\OriginalQux', 'override' => 'Acme\Baz\OverrideQux'],
                 ];
-        $this->sut->configure($metadataInfo, $overrides, $this->configuration)->shouldBeAnOverrideModel();
+        $this->sut->configure($metadataInfo, $overrides, $this->configuration);
+        // Original model should have isMappedSuperclass set to true by the configurator
+        $this->assertTrue($metadataInfo->isMappedSuperclass);
     }
 
     public function test_it_configures_the_mappings_of_a_model_that_overrides_an_original_model(): void

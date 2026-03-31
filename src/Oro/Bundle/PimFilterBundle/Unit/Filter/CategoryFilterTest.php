@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimFilterBundle\Filter;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter;
 
 use Akeneo\Category\Infrastructure\Component\Classification\Repository\CategoryRepositoryInterface;
 use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface;
 use Oro\Bundle\FilterBundle\Filter\NumberFilter;
 use Oro\Bundle\PimFilterBundle\Datasource\FilterDatasourceAdapterInterface;
+use Oro\Bundle\PimFilterBundle\Filter\CategoryFilter;
 use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimFilterBundle\Filter\CategoryFilter;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class CategoryFilterTest extends TestCase

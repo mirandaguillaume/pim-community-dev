@@ -43,33 +43,33 @@ class ReferenceDataValueFactoryTest extends TestCase
     public function test_it_creates_a_localizable_and_scopable_value(): void
     {
         $attribute = $this->getAttribute(true, true);
-        $value = $this->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', 'blue');
-        $value->shouldBeLike(ReferenceDataValue::scopableLocalizableValue('an_attribute', 'blue', 'ecommerce', 'fr_FR'));
+        $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', 'blue');
+        $this->assertEquals(ReferenceDataValue::scopableLocalizableValue('an_attribute', 'blue', 'ecommerce', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_localizable_value(): void
     {
         $attribute = $this->getAttribute(true, false);
-        $value = $this->createWithoutCheckingData($attribute, null, 'fr_FR', 'blue');
-        $value->shouldBeLike(ReferenceDataValue::localizableValue('an_attribute', 'blue', 'fr_FR'));
+        $value = $this->sut->createWithoutCheckingData($attribute, null, 'fr_FR', 'blue');
+        $this->assertEquals(ReferenceDataValue::localizableValue('an_attribute', 'blue', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, true);
-        $value = $this->createWithoutCheckingData($attribute, 'ecommerce', null, 'blue');
-        $value->shouldBeLike(ReferenceDataValue::scopableValue('an_attribute', 'blue', 'ecommerce'));
+        $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', null, 'blue');
+        $this->assertEquals(ReferenceDataValue::scopableValue('an_attribute', 'blue', 'ecommerce'), $value);
     }
 
     public function test_it_creates_a_non_localizable_and_non_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createWithoutCheckingData($attribute, null, null, 'blue');
-        $value->shouldBeLike(ReferenceDataValue::value('an_attribute', 'blue'));
+        $value = $this->sut->createWithoutCheckingData($attribute, null, null, 'blue');
+        $this->assertEquals(ReferenceDataValue::value('an_attribute', 'blue'), $value);
     }
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT, ['reference_data_name' => 'color'], $isLocalizable, $isScopable, null, null, false, 'reference_data_option', []);
+            return new Attribute('an_attribute', AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT, ['reference_data_name' => 'color'], $isLocalizable, $isScopable, null, null, false, 'reference_data_option', [], $value);
         }
 }

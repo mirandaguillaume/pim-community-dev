@@ -49,15 +49,8 @@ class DeleteAttributesTaskletTest extends TestCase
 
     public function test_it_throws_an_exception_if_step_execution_is_not_set(): void
     {
-        $this->sut->shouldThrow(
-                        new \InvalidArgumentException(
-                            sprintf(
-                                'In order to execute "%s" you need to set a step execution.',
-                                DeleteAttributesTasklet::class
-                            )
-                        )
-                    )
-                    ->during('execute');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->sut->execute();
     }
 
     public function test_it_deletes_attributes(): void

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\BatchQueue\Queue;
 
 use Akeneo\Tool\Component\BatchQueue\Queue\JobExecutionMessageInterface;
+use Akeneo\Tool\Component\BatchQueue\Queue\UiJobExecutionMessage;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\BatchQueue\Queue\UiJobExecutionMessage;
 
 class UiJobExecutionMessageTest extends TestCase
 {

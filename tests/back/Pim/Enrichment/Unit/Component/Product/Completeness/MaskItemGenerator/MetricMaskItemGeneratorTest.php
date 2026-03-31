@@ -15,7 +15,6 @@ class MetricMaskItemGeneratorTest extends TestCase
     protected function setUp(): void
     {
         $this->sut = new MetricMaskItemGenerator();
-        $this->sut->beConstructedWith();
     }
 
     public function test_it_is_a_mask_item_generator(): void

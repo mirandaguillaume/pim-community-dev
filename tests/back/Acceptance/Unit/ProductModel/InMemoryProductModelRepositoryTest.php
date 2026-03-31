@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\ProductModel;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\ProductModel;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModel;
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductModelRepositoryInterface;

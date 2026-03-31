@@ -34,11 +34,13 @@ class DefaultColumnSorterTest extends TestCase
 
     public function test_it_sort_headers_columns(): void
     {
-        $this->fieldSplitter->method('splitFieldName')->with('code')->willReturn(['code']);
-        $this->fieldSplitter->method('splitFieldName')->with('sort_order')->willReturn(['sort_order']);
-        $this->fieldSplitter->method('splitFieldName')->with('label')->willReturn(['label']);
         $qualityScoreField = sprintf('%s-en_US-ecommerce', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX);
-        $this->fieldSplitter->method('splitFieldName')->with($qualityScoreField)->willReturn([GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX]);
+        $this->fieldSplitter->method('splitFieldName')->willReturnCallback(function (string $field) use ($qualityScoreField) {
+            if ($field === $qualityScoreField) {
+                return [GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX];
+            }
+            return [$field];
+        });
         $this->assertSame([
                     'code',
                     'label',

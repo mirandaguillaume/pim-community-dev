@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\ConnectorBundle\EventListener;
 
+use Akeneo\Tool\Bundle\ConnectorBundle\EventListener\ResetProcessedItemsBatchSubscriber;
 use Akeneo\Tool\Component\Batch\Event\StepExecutionEvent;
 use Akeneo\Tool\Component\Batch\Item\ExecutionContext;
 use Akeneo\Tool\Component\Batch\Model\StepExecution;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\ConnectorBundle\EventListener\ResetProcessedItemsBatchSubscriber;
 
 class ResetProcessedItemsBatchSubscriberTest extends TestCase
 {

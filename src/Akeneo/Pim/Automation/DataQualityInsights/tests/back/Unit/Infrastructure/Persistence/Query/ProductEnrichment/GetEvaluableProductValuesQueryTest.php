@@ -123,7 +123,7 @@ class GetEvaluableProductValuesQueryTest extends TestCase
                         ->addToChannelAndLocale($mobile, $frFR, 'A textarea for mobile fr_FR')
                     ))
         ;
-        $result = $this->byProductId($productId);
-        $result->shouldBeLike($expectedProductValues);
+        $result = $this->sut->byProductId($productId);
+        $this->assertEquals($expectedProductValues, $result);
     }
 }

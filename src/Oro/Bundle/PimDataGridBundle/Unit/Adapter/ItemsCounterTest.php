@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Adapter;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Adapter;
 
 use Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductGrid\CountImpactedProducts;
 use Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\InternalApi\AttributeSearchableRepository;
+use Oro\Bundle\PimDataGridBundle\Adapter\ItemsCounter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Adapter\ItemsCounter;
 
 class ItemsCounterTest extends TestCase
 {

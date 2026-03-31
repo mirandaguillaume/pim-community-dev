@@ -120,9 +120,9 @@ class UpsertProductCommandTest extends TestCase
         $this->assertSame($categoryUserIntent, $this->sut->categoryUserIntent());
         $this->assertSame($setGroupsIntent, $this->sut->groupUserIntent());
         $this->assertSame([$setTextValue, $setNumberValue, $setDateValue, $addMultiSelectValue, $setAssetValue], $this->sut->valueUserIntents());
-        $quantifiedAssociations = $this->quantifiedAssociationUserIntents();
-        $quantifiedAssociations->shouldHaveType(QuantifiedAssociationUserIntentCollection::class);
-        $quantifiedAssociations->quantifiedAssociationUserIntents()->shouldBe([$associateQuantifiedProducts]);
+        $quantifiedAssociations = $this->sut->quantifiedAssociationUserIntents();
+        $this->assertInstanceOf(QuantifiedAssociationUserIntentCollection::class, $quantifiedAssociations);
+        $this->assertSame([$associateQuantifiedProducts], $quantifiedAssociations->quantifiedAssociationUserIntents());
     }
 
     public function test_it_cannot_be_constructed_with_multiple_set_enabled_intents(): void

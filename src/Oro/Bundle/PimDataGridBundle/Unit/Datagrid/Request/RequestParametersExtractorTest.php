@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Datagrid\Request;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Datagrid\Request;
 
 use Oro\Bundle\DataGridBundle\Datagrid\RequestParameters;
+use Oro\Bundle\PimDataGridBundle\Datagrid\Request\RequestParametersExtractor;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Datagrid\Request\RequestParametersExtractor;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -50,6 +50,8 @@ class RequestParametersExtractorTest extends TestCase
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
         $this->requestParams->expects($this->once())->method('get')->with('dataLocale', null)->willReturn(null);
         $request->expects($this->once())->method('get')->with('dataLocale', null)->willReturn(null);
-        $this->sut->shouldThrow(new \LogicException('Parameter "dataLocale" is expected'))->duringGetParameter('dataLocale');
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Parameter "dataLocale" is expected');
+        $this->sut->getParameter('dataLocale');
     }
 }

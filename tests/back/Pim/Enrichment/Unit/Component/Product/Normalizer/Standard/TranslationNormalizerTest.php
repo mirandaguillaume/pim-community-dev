@@ -15,11 +15,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TranslationNormalizerTest extends TestCase
 {
+    private IdentifiableObjectRepositoryInterface|MockObject $localeRepository;
     private TranslationNormalizer $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new TranslationNormalizer();
+        $this->localeRepository = $this->createMock(IdentifiableObjectRepositoryInterface::class);
+        $this->sut = new TranslationNormalizer($this->localeRepository);
     }
 
     public function test_it_normalize_even_if_the_locale_case_is_wrong(): void
@@ -27,6 +29,15 @@ class TranslationNormalizerTest extends TestCase
         $translatable = $this->createMock(TranslatableInterface::class);
         $english = $this->createMock(AttributeTranslation::class);
         $french = $this->createMock(AttributeTranslation::class);
+
+        $localeEn = $this->createMock(LocaleInterface::class);
+        $localeEn->method('isActivated')->willReturn(true);
+        $localeFr = $this->createMock(LocaleInterface::class);
+        $localeFr->method('isActivated')->willReturn(true);
+        $this->localeRepository->method('findOneByIdentifier')->willReturnMap([
+            ['en_US', $localeEn],
+            ['FR_FR', $localeFr],
+        ]);
 
         $translatable->method('getTranslations')->willReturn([
                     $english, $french
@@ -49,6 +60,15 @@ class TranslationNormalizerTest extends TestCase
         $translatable = $this->createMock(TranslatableInterface::class);
         $english = $this->createMock(AttributeTranslation::class);
         $french = $this->createMock(AttributeTranslation::class);
+
+        $localeEn = $this->createMock(LocaleInterface::class);
+        $localeEn->method('isActivated')->willReturn(true);
+        $localeFr = $this->createMock(LocaleInterface::class);
+        $localeFr->method('isActivated')->willReturn(true);
+        $this->localeRepository->method('findOneByIdentifier')->willReturnMap([
+            ['en_US', $localeEn],
+            ['fr_FR', $localeFr],
+        ]);
 
         $translatable->method('getTranslations')->willReturn([
                     $english, $french

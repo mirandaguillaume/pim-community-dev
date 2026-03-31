@@ -44,8 +44,8 @@ class GetProductsWithCompletenessesTest extends TestCase
         $completenessCollection = new ProductCompletenessCollection(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'), $completenesses);
         $connectorProduct = $this->getConnectorProduct(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'));
         $this->getProductCompletenesses->method('fromProductUuid')->with(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'))->willReturn($completenessCollection);
-        $productWithCompleteness = $this->fromConnectorProduct($connectorProduct);
-        $productWithCompleteness->completenesses()->shouldReturn($completenessCollection);
+        $productWithCompleteness = $this->sut->fromConnectorProduct($connectorProduct);
+        $this->assertSame($completenessCollection, $productWithCompleteness->completenesses());
     }
 
     public function test_it_builds_a_product_list_with_completenesses(): void
@@ -72,7 +72,7 @@ class GetProductsWithCompletenessesTest extends TestCase
                         Uuid::fromString('d9f573cc-8905-4949-8151-baf9d5328f26'),
                         Uuid::fromString('fdf6f091-3f75-418f-98af-8c19db8b0000')
                     ], 'ecommerce', ['fr_FR', 'en_US'])->willReturn($completenessesList);
-        $productListWithCompleteness = $this->fromConnectorProductList($connectorProductList, 'ecommerce', ['fr_FR', 'en_US']);
+        $productListWithCompleteness = $this->sut->fromConnectorProductList($connectorProductList, 'ecommerce', ['fr_FR', 'en_US']);
         foreach ($productListWithCompleteness as $productWithCompleteness) {
                     $productWithCompleteness->completeness()->shouldReturn($completenessesList[$productWithCompleteness->id()]);
                 }

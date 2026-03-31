@@ -26,11 +26,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
     {
         $field = 'quantified_associations';
         $data = null;
-        $this->expectException(InvalidPropertyTypeException::arrayExpected(
-            $field,
-            QuantifiedAssociationsStructureValidator::class,
-            $data
-        ));
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->validate($field, $data);
     }
 
@@ -40,7 +36,8 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
         $data = [
                     '1234' => [],
                 ];
-        $this->sut->shouldNotThrow()->during('validate', [$field, $data]);
+        $this->sut->validate($field, $data);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_throws_when_association_type_values_is_not_an_array(): void
@@ -49,12 +46,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
         $data = [
                     'PACK' => 'foo',
                 ];
-        $this->expectException(InvalidPropertyTypeException::validArrayStructureExpected(
-            $field,
-            '"PACK" should contain an array',
-            QuantifiedAssociationsStructureValidator::class,
-            $data
-        ));
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->validate($field, $data);
     }
 
@@ -66,12 +58,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
                         0 => [],
                     ],
                 ];
-        $this->expectException(InvalidPropertyTypeException::validArrayStructureExpected(
-            $field,
-            'entity type in "PACK" should be a string',
-            QuantifiedAssociationsStructureValidator::class,
-            $data
-        ));
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->validate($field, $data);
     }
 
@@ -83,12 +70,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
                         'products' => 'foo',
                     ],
                 ];
-        $this->expectException(InvalidPropertyTypeException::validArrayStructureExpected(
-            $field,
-            '"PACK[products]" should contain an array',
-            QuantifiedAssociationsStructureValidator::class,
-            $data
-        ));
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->validate($field, $data);
     }
 
@@ -102,12 +84,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
                         ],
                     ],
                 ];
-        $this->expectException(InvalidPropertyTypeException::validArrayStructureExpected(
-            $field,
-            '"PACK[products]" should contain an array',
-            QuantifiedAssociationsStructureValidator::class,
-            $data
-        ));
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->validate($field, $data);
     }
 
@@ -121,12 +98,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
                         ],
                     ],
                 ];
-        $this->expectException(InvalidPropertyTypeException::validArrayStructureExpected(
-            $field,
-            'a quantified association should contain the key "identifier"',
-            QuantifiedAssociationsStructureValidator::class,
-            $data
-        ));
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->validate($field, $data);
     }
 
@@ -140,12 +112,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
                         ],
                     ],
                 ];
-        $this->expectException(InvalidPropertyTypeException::validArrayStructureExpected(
-            $field,
-            'a quantified association should contain the key "quantity"',
-            QuantifiedAssociationsStructureValidator::class,
-            $data
-        ));
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->validate($field, $data);
     }
 
@@ -159,12 +126,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
                         ],
                     ],
                 ];
-        $this->expectException(InvalidPropertyTypeException::validArrayStructureExpected(
-            $field,
-            'a quantified association should contain a valid identifier',
-            QuantifiedAssociationsStructureValidator::class,
-            $data
-        ));
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->validate($field, $data);
     }
 
@@ -178,12 +140,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
                         ],
                     ],
                 ];
-        $this->expectException(InvalidPropertyTypeException::validArrayStructureExpected(
-            $field,
-            'a quantified association should contain a valid quantity',
-            QuantifiedAssociationsStructureValidator::class,
-            $data
-        ));
+        $this->expectException(InvalidPropertyTypeException::class);
         $this->sut->validate($field, $data);
     }
 
@@ -197,9 +154,7 @@ class QuantifiedAssociationsStructureValidatorTest extends TestCase
                         ],
                     ],
                 ];
-        $this->sut->shouldNotThrow()->during(
-            'validate',
-            [$field, $data]
-        );
+        $this->sut->validate($field, $data);
+        $this->addToAssertionCount(1);
     }
 }

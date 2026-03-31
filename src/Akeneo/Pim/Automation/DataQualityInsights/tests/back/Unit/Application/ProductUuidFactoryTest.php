@@ -26,11 +26,10 @@ class ProductUuidFactoryTest extends TestCase
 
     public function test_it_creates_a_collection_of_product_uuids(): void
     {
-        $collectionBehavior = $this->createCollection([
+        $collection = $this->sut->createCollection([
                     'df470d52-7723-4890-85a0-e79be625e2ed',
                     '6d125b99-d971-41d9-a264-b020cd486aee',
                 ]);
-        $collection = $collectionBehavior;
         Assert::allIsInstanceOf($collection, ProductUuid::class);
         Assert::same((string) $collection->toArray()[0], 'df470d52-7723-4890-85a0-e79be625e2ed');
         Assert::same((string) $collection->toArray()[1], '6d125b99-d971-41d9-a264-b020cd486aee');

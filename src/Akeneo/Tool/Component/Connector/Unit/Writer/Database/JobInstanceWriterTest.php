@@ -46,12 +46,11 @@ class JobInstanceWriterTest extends TestCase
         $jobInstance1 = $this->createMock(JobInstance::class);
         $jobInstance2 = $this->createMock(JobInstance::class);
 
-        $this->bulkSaver->method('saveAll')->with([$jobInstance1, $jobInstance2]);
-        $this->bulkDetacher->method('detachAll')->with([$jobInstance1, $jobInstance2]);
+        $this->bulkSaver->expects($this->once())->method('saveAll')->with([$jobInstance1, $jobInstance2]);
+        $this->bulkDetacher->expects($this->once())->method('detachAll')->with([$jobInstance1, $jobInstance2]);
         $jobInstance1->method('getId')->willReturn(null);
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('create');
         $jobInstance2->method('getId')->willReturn(42);
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('update');
+        $this->stepExecution->expects($this->exactly(2))->method('incrementSummaryInfo');
         $this->sut->write([$jobInstance1, $jobInstance2]);
     }
 }

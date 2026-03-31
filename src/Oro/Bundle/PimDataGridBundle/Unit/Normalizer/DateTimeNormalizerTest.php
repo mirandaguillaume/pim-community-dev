@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Normalizer;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Normalizer;
 
 use Akeneo\Tool\Component\Localization\Presenter\PresenterInterface;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
@@ -13,6 +13,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class DateTimeNormalizerTest extends TestCase
 {
+    private const TEST_TIMEZONE = 'Europe/Paris';
+
     private NormalizerInterface|MockObject $standardNormalizer;
     private PresenterInterface|MockObject $presenter;
     private UserContext|MockObject $userContext;

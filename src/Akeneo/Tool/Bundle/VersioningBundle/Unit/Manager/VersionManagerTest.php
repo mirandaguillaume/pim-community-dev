@@ -9,13 +9,13 @@ use Akeneo\Tool\Bundle\VersioningBundle\Builder\VersionBuilder;
 use Akeneo\Tool\Bundle\VersioningBundle\Event\BuildVersionEvent;
 use Akeneo\Tool\Bundle\VersioningBundle\Event\BuildVersionEvents;
 use Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionContext;
+use Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionManager;
 use Akeneo\Tool\Bundle\VersioningBundle\Repository\VersionRepositoryInterface;
 use Akeneo\Tool\Component\Versioning\Model\Version;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class VersionManagerTest extends TestCase

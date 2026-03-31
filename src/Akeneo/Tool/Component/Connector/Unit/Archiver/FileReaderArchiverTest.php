@@ -219,7 +219,7 @@ class FileReaderArchiverTest extends TestCase
         $jobInstance->method('getJobName')->willReturn('import_job');
         $jobExecution->method('getJobInstance')->willReturn($jobInstance);
         $stepExecution->method('getJobExecution')->willReturn($jobExecution);
-        $this->jobRegistry->method('get')->with('import_job')->willThrowException(\Exception::class);
+        $this->jobRegistry->method('get')->with('import_job')->willThrowException(new \Exception());
         $this->assertSame(false, $this->sut->supports($stepExecution));
     }
 

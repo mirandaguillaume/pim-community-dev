@@ -13,19 +13,31 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class AssociationTypeNormalizerTest extends TestCase
 {
+    private NormalizerInterface|MockObject $normalizer;
+    private VersionManager|MockObject $versionManager;
+    private NormalizerInterface|MockObject $versionNormalizer;
     private AssociationTypeNormalizer $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new AssociationTypeNormalizer();
+        $this->normalizer = $this->createMock(NormalizerInterface::class);
+        $this->versionManager = $this->createMock(VersionManager::class);
+        $this->versionNormalizer = $this->createMock(NormalizerInterface::class);
+        $this->sut = new AssociationTypeNormalizer(
+            $this->normalizer,
+            $this->versionManager,
+            $this->versionNormalizer,
+        );
     }
 
     public function test_it_adds_the_attribute_id_to_the_normalized_association_type(): void
     {
         $associationType = $this->createMock(AssociationTypeInterface::class);
 
-        $normalizer->normalize($associationType, 'standard', [])->willReturn(['code' => 'variant']);
+        $this->normalizer->method('normalize')->with($associationType, 'standard', [])->willReturn(['code' => 'variant']);
         $associationType->method('getId')->willReturn(12);
+        $this->versionManager->method('getOldestLogEntry')->willReturn(null);
+        $this->versionManager->method('getNewestLogEntry')->willReturn(null);
         $this->assertSame([
                             'code' => 'variant',
                             'meta' => [
@@ -44,6 +56,6 @@ class AssociationTypeNormalizerTest extends TestCase
 
         $this->assertSame(true, $this->sut->supportsNormalization($associationType, 'internal_api'));
         $this->assertSame(false, $this->sut->supportsNormalization($associationType, 'json'));
-        $this->assertSame(false, $this->sut->supportsNormalization(new \StdClass(), 'internal_api'));
+        $this->assertSame(false, $this->sut->supportsNormalization(new \stdClass(), 'internal_api'));
     }
 }

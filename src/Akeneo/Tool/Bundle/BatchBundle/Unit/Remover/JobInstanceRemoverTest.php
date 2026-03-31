@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\Remover;
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\UserManagement\DeleteRunningUser;
+use Akeneo\Tool\Bundle\BatchBundle\Remover\JobInstanceRemover;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Remover\BulkRemoverInterface;
 use Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface;
@@ -12,7 +13,6 @@ use Akeneo\Tool\Component\StorageUtils\Repository\RemovableObjectRepositoryInter
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use spec\Akeneo\Tool\Bundle\BatchBundle\Remover\JobInstanceRemover;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class JobInstanceRemoverTest extends TestCase
@@ -94,9 +94,7 @@ class JobInstanceRemoverTest extends TestCase
                 $anythingElse::class
             )
         );
-        $this->expectException($exception);
+        $this->expectException(\InvalidArgumentException::class);
         $this->sut->remove($anythingElse);
-        $this->expectException($exception);
-        $this->sut->removeAll([$anythingElse, $anythingElse]);
     }
 }

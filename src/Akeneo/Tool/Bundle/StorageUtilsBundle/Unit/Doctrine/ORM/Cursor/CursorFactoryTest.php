@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 class CursorFactoryTest extends TestCase
 {
+    private const DEFAULT_BATCH_SIZE = 100;
+
     private EntityManager|MockObject $entityManager;
     private CursorFactory $sut;
 

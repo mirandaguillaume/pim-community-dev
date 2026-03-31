@@ -6,6 +6,7 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\StorageUtils\Database;
 
 use Akeneo\Tool\Component\StorageUtils\Database\MySqlPlatformHelper;
 use Akeneo\Tool\Component\StorageUtils\Database\PostgreSqlPlatformHelper;
+use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperFactory;
 use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
@@ -13,7 +14,6 @@ use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperFactory;
 
 class SqlPlatformHelperFactoryTest extends TestCase
 {

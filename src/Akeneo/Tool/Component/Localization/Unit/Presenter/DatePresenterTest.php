@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Localization\Presenter;
 
 use Akeneo\Tool\Component\Localization\Factory\DateFactory;
+use Akeneo\Tool\Component\Localization\Presenter\DatePresenter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Localization\Presenter\DatePresenter;
 
 class DatePresenterTest extends TestCase
 {

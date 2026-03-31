@@ -56,7 +56,8 @@ class ChannelScopeMapperTest extends TestCase
 
     public function test_it_throws_an_exception_when_trying_to_get_acls_if_an_unknown_scope_is_given(): void
     {
-        $this->expectException(new \InvalidArgumentException('The scope "unknown_scope" does not exist.'));
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The scope "unknown_scope" does not exist.');
         $this->sut->getAcls('unknown_scope');
     }
 
@@ -89,7 +90,8 @@ class ChannelScopeMapperTest extends TestCase
 
     public function test_it_throws_an_exception_when_trying_to_get_message_if_an_unknown_scope_is_given(): void
     {
-        $this->expectException(new \InvalidArgumentException('The scope "unknown_scope" does not exist.'));
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The scope "unknown_scope" does not exist.');
         $this->sut->getMessage('unknown_scope');
     }
 
@@ -112,7 +114,8 @@ class ChannelScopeMapperTest extends TestCase
 
     public function test_it_throws_an_exception_when_trying_to_get_lower_hierarchy_scopes_for_an_unknown_scope(): void
     {
-        $this->expectException(new \InvalidArgumentException('The scope "unknown_scope" does not exist.'));
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The scope "unknown_scope" does not exist.');
         $this->sut->getLowerHierarchyScopes('unknown_scope');
     }
 }

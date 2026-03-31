@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Normalizer;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Normalizer;
 
 use Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface;
 use Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface;
@@ -40,7 +40,6 @@ class ProductModelNormalizerTest extends TestCase
         $this->imageAsLabel = $this->createMock(ImageAsLabel::class);
         $this->imageNormalizer = $this->createMock(ImageNormalizer::class);
         $this->sut = new ProductModelNormalizer($this->filter, $this->findVariantProductCompletenessQuery, $this->imageAsLabel, $this->imageNormalizer);
-        $this->normalizer->method('implement')->with(NormalizerInterface::class);
         $this->sut->setNormalizer($this->normalizer);
     }
 

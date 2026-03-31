@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Reader\File;
 
+use Akeneo\Tool\Component\Connector\Reader\File\FlatFileIterator;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Reader\File\FlatFileIterator;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class FlatFileIteratorTest extends TestCase
@@ -54,10 +54,7 @@ class FlatFileIteratorTest extends TestCase
                         'CROSS',
                         'winter_boots',
                         'Donec',
-                        'dictum magna.
-
-        Lorem ispum
-        Est',
+                        "dictum magna.\n\nLorem ispum\nEst",
                     ], $this->sut->current());
     }
 

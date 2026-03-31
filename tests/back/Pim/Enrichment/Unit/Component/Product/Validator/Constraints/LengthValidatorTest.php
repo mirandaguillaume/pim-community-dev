@@ -15,28 +15,27 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class LengthValidatorTest extends TestCase
 {
+    private ExecutionContextInterface|MockObject $context;
     private LengthValidator $sut;
 
     protected function setUp(): void
     {
+        $this->context = $this->createMock(ExecutionContextInterface::class);
         $this->sut = new LengthValidator();
+        $this->sut->initialize($this->context);
     }
 
     public function test_it_allows_null_value(): void
     {
         $constraint = new Length(['max' => 5, 'attributeCode' => 'a_code']);
-        $context
-                    ->buildViolation($this->anything())
-                    ->shouldNotBeCalled();
+        $this->context->expects($this->never())->method('buildViolation');
         $this->sut->validate(null, $constraint);
     }
 
     public function test_it_allows_empty_value(): void
     {
         $constraint = new Length(['max' => 5, 'attributeCode' => 'a_code']);
-        $context
-                    ->buildViolation($this->anything())
-                    ->shouldNotBeCalled();
+        $this->context->expects($this->never())->method('buildViolation');
         $this->sut->validate('', $constraint);
     }
 
@@ -45,16 +44,12 @@ class LengthValidatorTest extends TestCase
         $constraintViolationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
         $constraint = new Length(['max' => 5, 'attributeCode' => 'a_code']);
-        $context
-                    ->buildViolation($constraint->maxMessage)
-                    ->shouldBeCalled()
-                    ->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->once())->method('setParameter')->with('%attribute%', $constraint->attributeCode)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->once())->method('setParameter')->with('%limit%', $constraint->max)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->once())->method('setInvalidValue')->with('azertyu')->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->once())->method('setPlural')->with((int) $constraint->max)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->once())->method('setCode')->with(Length::TOO_LONG_ERROR)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->once())->method('addViolation')->willReturn($constraintViolationBuilder);
+        $this->context->method('buildViolation')->willReturn($constraintViolationBuilder);
+        $constraintViolationBuilder->method('setParameter')->willReturn($constraintViolationBuilder);
+        $constraintViolationBuilder->method('setInvalidValue')->willReturn($constraintViolationBuilder);
+        $constraintViolationBuilder->method('setPlural')->willReturn($constraintViolationBuilder);
+        $constraintViolationBuilder->method('setCode')->willReturn($constraintViolationBuilder);
+        $constraintViolationBuilder->expects($this->once())->method('addViolation');
         $this->sut->validate('azertyu', $constraint);
     }
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimFilterBundle\Filter\ProductValue;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter\ProductValue;
 
 use Oro\Bundle\FilterBundle\Datasource\FilterDatasourceAdapterInterface;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\DateRangeFilterType;
 use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
 use Oro\Bundle\PimFilterBundle\Filter\ProductValue\AbstractDateFilter;
+use Oro\Bundle\PimFilterBundle\Filter\ProductValue\DateRangeFilter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimFilterBundle\Filter\ProductValue\DateRangeFilter;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -45,8 +45,8 @@ class DateRangeFilterTest extends TestCase
 
     public function test_it_parses_two_datetime_objects(): void
     {
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
@@ -67,7 +67,7 @@ class DateRangeFilterTest extends TestCase
 
     public function test_it_parses_one_start_date(): void
     {
-        $start = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
@@ -85,7 +85,7 @@ class DateRangeFilterTest extends TestCase
 
     public function test_it_parses_one_end_date(): void
     {
-        $end = $this->createMock(DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
@@ -103,8 +103,8 @@ class DateRangeFilterTest extends TestCase
 
     public function test_it_parses_between_type_range(): void
     {
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
@@ -125,8 +125,8 @@ class DateRangeFilterTest extends TestCase
 
     public function test_it_parses_not_between_type_range(): void
     {
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
@@ -147,8 +147,8 @@ class DateRangeFilterTest extends TestCase
 
     public function test_it_parses_more_than_type_range(): void
     {
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
@@ -169,8 +169,8 @@ class DateRangeFilterTest extends TestCase
 
     public function test_it_parses_less_than_type_range(): void
     {
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
@@ -191,8 +191,8 @@ class DateRangeFilterTest extends TestCase
 
     public function test_it_fallbacks_on_between_type_range(): void
     {
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
@@ -262,8 +262,8 @@ class DateRangeFilterTest extends TestCase
     public function test_it_applies_between_date_range_filter(): void
     {
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
@@ -285,8 +285,8 @@ class DateRangeFilterTest extends TestCase
     public function test_it_applies_not_between_date_range_filter(): void
     {
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
@@ -313,8 +313,8 @@ class DateRangeFilterTest extends TestCase
     public function test_it_applies_less_than_date_range_filter(): void
     {
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
@@ -336,8 +336,8 @@ class DateRangeFilterTest extends TestCase
     public function test_it_applies_more_than_date_range_filter(): void
     {
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
-        $start = $this->createMock(DateTime::class);
-        $end = $this->createMock(DateTime::class);
+        $start = $this->createMock(\DateTime::class);
+        $end = $this->createMock(\DateTime::class);
 
         $start->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));
         $end->expects($this->once())->method('setTimezone')->with(/* TODO: convert Argument matcher */ Argument::allOf($this->isType('\DateTimeZone'), Argument::which('getName', 'UTC')));

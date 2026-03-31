@@ -6,10 +6,10 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Batch\Job\JobParameters;
 
 use Akeneo\Tool\Component\Batch\Job\JobInterface;
 use Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderInterface;
+use Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderRegistry;
 use Akeneo\Tool\Component\Batch\Job\JobParameters\NonExistingServiceException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderRegistry;
 
 class DefaultValuesProviderRegistryTest extends TestCase
 {

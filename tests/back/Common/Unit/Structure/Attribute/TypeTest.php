@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Common\Structure\Attribute;
+namespace Akeneo\Test\Unit\Akeneo\Test\Common\Structure\Attribute;
 
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Test\Common\Structure\Attribute\Type;

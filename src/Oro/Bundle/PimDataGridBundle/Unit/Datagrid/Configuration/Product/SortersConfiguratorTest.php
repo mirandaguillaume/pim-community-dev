@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product;
 
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Extension\Formatter\Configuration as FormatterConfiguration;
@@ -10,9 +10,9 @@ use Oro\Bundle\DataGridBundle\Extension\Sorter\Configuration as OrmSorterConfigu
 use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\ConfiguratorInterface;
 use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ConfigurationRegistry;
 use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ContextConfigurator;
+use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\SortersConfigurator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\SortersConfigurator;
 
 class SortersConfiguratorTest extends TestCase
 {
@@ -62,6 +62,7 @@ class SortersConfiguratorTest extends TestCase
         $this->registry->method('getConfiguration')->with('pim_catalog_text')->willReturn([]);
         $columnConfPath = sprintf('%s[%s]', OrmSorterConfiguration::COLUMNS_PATH, 'identifier');
         $this->configuration->expects($this->once())->method('offsetSetByPath')->with($columnConfPath, $this->anything());
-        $this->sut->shouldThrow('\LogicException')->duringConfigure($this->configuration);
+        $this->expectException(\LogicException::class);
+        $this->sut->configure($this->configuration);
     }
 }

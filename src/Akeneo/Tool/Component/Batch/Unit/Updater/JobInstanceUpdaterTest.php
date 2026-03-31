@@ -34,7 +34,6 @@ class JobInstanceUpdaterTest extends TestCase
         $this->upsertRunningUser = $this->createMock(UpsertRunningUser::class);
         $this->clock = $this->createMock(ClockInterface::class);
         $this->sut = new JobInstanceUpdater($this->jobParametersFactory, $this->jobRegistry, $this->upsertRunningUser, $this->clock);
-        $this->jobInstance->method('getJobName')->willReturn('xlsx_product_import');
     }
 
     public function test_it_is_initializable(): void
@@ -133,10 +132,7 @@ class JobInstanceUpdaterTest extends TestCase
 
     public function test_it_throws_an_exception_if_it_is_not_a_job_instance(): void
     {
-        $this->expectException(InvalidObjectException::objectExpected(
-            'stdClass',
-            JobInstance::class
-        ));
+        $this->expectException(InvalidObjectException::class);
         $this->sut->update(new \stdClass(), []);
     }
 

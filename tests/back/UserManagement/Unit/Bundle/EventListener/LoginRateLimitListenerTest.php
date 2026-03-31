@@ -18,6 +18,9 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 class LoginRateLimitListenerTest extends TestCase
 {
+    private const ACCOUNT_LOCK_DURATION = 2;
+    private const ALLOWED_FAILED_ATTEMPTS = 10;
+
     private UserManager|MockObject $userManager;
     private LoginRateLimitListener $sut;
 
@@ -39,11 +42,11 @@ class LoginRateLimitListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $event = $this->createMock(CheckPassportEvent::class);
 
-        $this->sut->initUser($user, 0, null);
-        $this->sut->initPassport($passport, $badge, $user);
+        $this->configureUser($user, 0, null);
+        $this->configurePassport($passport, $badge, $user);
         $event->method('getPassport')->willReturn($passport);
         $this->sut->checkPassport($event);
-        $this->userManager->method('updateUser');
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_can_authenticate_under_max_limit_counter(): void
@@ -53,10 +56,11 @@ class LoginRateLimitListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $event = $this->createMock(CheckPassportEvent::class);
 
-        $this->sut->initUser($user, self::ALLOWED_FAILED_ATTEMPTS - 1, $this->getAuthenticationFailureResetDateFromNow(1));
-        $this->sut->initPassport($passport, $badge, $user);
+        $this->configureUser($user, self::ALLOWED_FAILED_ATTEMPTS - 1, $this->getAuthenticationFailureResetDateFromNow(1));
+        $this->configurePassport($passport, $badge, $user);
         $event->method('getPassport')->willReturn($passport);
         $this->sut->checkPassport($event);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_rejects_authentication_when_limit_is_reached(): void
@@ -66,11 +70,11 @@ class LoginRateLimitListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $event = $this->createMock(CheckPassportEvent::class);
 
-        $this->sut->initUser($user, self::ALLOWED_FAILED_ATTEMPTS, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION - 1));
-        $this->sut->initPassport($passport, $badge, $user);
+        $this->configureUser($user, self::ALLOWED_FAILED_ATTEMPTS, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION - 1));
+        $this->configurePassport($passport, $badge, $user);
         $event->method('getPassport')->willReturn($passport);
-        $this->sut->shouldThrow(new LockedAccountException(self::ACCOUNT_LOCK_DURATION))
-                    ->duringCheckPassport($event);
+        $this->expectException(LockedAccountException::class);
+        $this->sut->checkPassport($event);
     }
 
     public function test_it_rejects_authentication_when_user_just_reach_max_attempt(): void
@@ -80,11 +84,11 @@ class LoginRateLimitListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $event = $this->createMock(CheckPassportEvent::class);
 
-        $this->sut->initUser($user, self::ALLOWED_FAILED_ATTEMPTS, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION - 1));
-        $this->sut->initPassport($passport, $badge, $user);
+        $this->configureUser($user, self::ALLOWED_FAILED_ATTEMPTS, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION - 1));
+        $this->configurePassport($passport, $badge, $user);
         $event->method('getPassport')->willReturn($passport);
-        $this->sut->shouldThrow(LockedAccountException::class)
-                    ->duringCheckPassport($event);
+        $this->expectException(LockedAccountException::class);
+        $this->sut->checkPassport($event);
     }
 
     public function test_it_increase_failed_attempts_counter_on_login_failure(): void
@@ -94,19 +98,18 @@ class LoginRateLimitListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $event = $this->createMock(LoginFailureEvent::class);
 
-        $this->sut->initUser($user,self::ALLOWED_FAILED_ATTEMPTS - 1, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION - 1));
-        $this->sut->initPassport($passport, $badge, $user);
+        $this->configureUser($user, self::ALLOWED_FAILED_ATTEMPTS - 1, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION - 1));
+        $this->configurePassport($passport, $badge, $user);
         $event->method('getPassport')->willReturn($passport);
+        $user->expects($this->once())->method('setConsecutiveAuthenticationFailureCounter')->with(self::ALLOWED_FAILED_ATTEMPTS);
+        $this->userManager->expects($this->once())->method('updateUser')->with($user);
         $this->sut->onFailureLogin($event);
-        $this->sut->lockStateShouldBeUpdated($this->userManager, $user, self::ALLOWED_FAILED_ATTEMPTS);
     }
 
     public function test_it_consider_login_has_failed_when_passport_is_empty(): void
     {
-        $user = $this->createMock(UserInterface::class);
         $event = $this->createMock(LoginFailureEvent::class);
 
-        $this->sut->initUser($user,self::ALLOWED_FAILED_ATTEMPTS - 1, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION - 1));
         $event->method('getPassport')->willReturn(null);
         $this->assertNull($this->sut->onFailureLogin($event));
     }
@@ -114,11 +117,8 @@ class LoginRateLimitListenerTest extends TestCase
     public function test_it_consider_login_has_failed_when_passport_is_not_a_symfony_passport_instance(): void
     {
         $passport = $this->createMock(Passport::class);
-        $badge = $this->createMock(UserBadge::class);
-        $user = $this->createMock(UserInterface::class);
         $event = $this->createMock(LoginFailureEvent::class);
 
-        $this->sut->initUser($user,self::ALLOWED_FAILED_ATTEMPTS - 1, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION - 1));
         $event->method('getPassport')->willReturn($passport);
         $passport->method('hasBadge')->with(UserBadge::class)->willReturn(false);
         $this->assertNull($this->sut->onFailureLogin($event));
@@ -129,44 +129,32 @@ class LoginRateLimitListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $event = $this->createMock(LoginSuccessEvent::class);
 
-        $this->sut->initUser($user, 0, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION + 1));
+        $this->configureUser($user, 0, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION + 1));
         $event->method('getUser')->willReturn($user);
+        $user->expects($this->once())->method('setConsecutiveAuthenticationFailureCounter')->with(0);
+        $user->expects($this->once())->method('setAuthenticationFailureResetDate')->with(null);
+        $this->userManager->expects($this->once())->method('updateUser')->with($user);
         $this->sut->onSuccessfulLogin($event);
-        $this->sut->lockStateShouldBeReset($user, $this->userManager);
     }
 
-    private function initUser(UserInterface $user, int $consecutiveAuthenticationFailureCounter, \DateTime $authenticationFailureResetDate): void
+    private function configureUser(UserInterface|MockObject $user, int $consecutiveAuthenticationFailureCounter, ?\DateTime $authenticationFailureResetDate): void
     {
-            $user->getConsecutiveAuthenticationFailureCounter()->willReturn($consecutiveAuthenticationFailureCounter);
-            $user->getAuthenticationFailureResetDate()->willReturn($authenticationFailureResetDate);
-            $user->getRoles()->willReturn([]);
-            $user->getPassword()->willReturn('');
-            $user->getSalt()->willReturn('');
-        }
+        $user->method('getConsecutiveAuthenticationFailureCounter')->willReturn($consecutiveAuthenticationFailureCounter);
+        $user->method('getAuthenticationFailureResetDate')->willReturn($authenticationFailureResetDate);
+        $user->method('getRoles')->willReturn([]);
+        $user->method('getPassword')->willReturn('');
+        $user->method('getSalt')->willReturn('');
+    }
 
-    private function initPassport(Passport $passport, UserBadge $badge, UserInterface $user): void
+    private function configurePassport(Passport|MockObject $passport, UserBadge|MockObject $badge, UserInterface|MockObject $user): void
     {
-            $passport->hasBadge(UserBadge::class)->willReturn(true);
-            $passport->getBadge(UserBadge::class)->willReturn($badge);
-            $badge->getUser()->willReturn($user);
-        }
+        $passport->method('hasBadge')->with(UserBadge::class)->willReturn(true);
+        $passport->method('getBadge')->with(UserBadge::class)->willReturn($badge);
+        $badge->method('getUser')->willReturn($user);
+    }
 
     private function getAuthenticationFailureResetDateFromNow(int $minutesBehind): \DateTime
     {
-            return (new \DateTime())->modify("-{$minutesBehind} minute");
-        }
-
-    private function lockStateShouldBeUpdated(UserManager $userManager, UserInterface $user, int $expectedConsecutiveAuthenticationFailureCounter): void
-    {
-            $user->setConsecutiveAuthenticationFailureCounter($expectedConsecutiveAuthenticationFailureCounter)->shouldHaveBeenCalledOnce();
-            $user->setAuthenticationFailureResetDate()->shouldNotBeCalled();
-            $userManager->updateUser($user)->shouldHaveBeenCalled();
-        }
-
-    private function lockStateShouldBeReset(UserInterface $user, UserManager $userManager): void
-    {
-            $user->setConsecutiveAuthenticationFailureCounter(0)->shouldHaveBeenCalledOnce();
-            $user->setAuthenticationFailureResetDate(null)->shouldHaveBeenCalled();
-            $userManager->updateUser($user)->shouldHaveBeenCalled();
-        }
+        return (new \DateTime())->modify("-{$minutesBehind} minute");
+    }
 }

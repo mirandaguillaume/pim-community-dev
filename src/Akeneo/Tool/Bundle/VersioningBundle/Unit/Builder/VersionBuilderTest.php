@@ -6,12 +6,12 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\Builder;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
+use Akeneo\Tool\Bundle\VersioningBundle\Builder\VersionBuilder;
 use Akeneo\Tool\Bundle\VersioningBundle\Factory\VersionFactory;
 use Akeneo\Tool\Component\Versioning\Model\Version;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\Builder\VersionBuilder;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class VersionBuilderTest extends TestCase

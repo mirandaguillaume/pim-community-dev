@@ -16,19 +16,20 @@ use PHPUnit\Framework\TestCase;
  */
 class MultiSelectTranslatorTest extends TestCase
 {
+    private GetExistingAttributeOptionsWithValues|MockObject $getExistingAttributeOptionsWithValues;
     private MultiSelectTranslator $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new MultiSelectTranslator();
+        $this->getExistingAttributeOptionsWithValues = $this->createMock(GetExistingAttributeOptionsWithValues::class);
+        $this->sut = new MultiSelectTranslator($this->getExistingAttributeOptionsWithValues);
     }
 
     public function test_it_is_case_insensitive_to_find_options_labels(): void
     {
-        $getExistingAttributeOptionsWithValues = $this->createMock(GetExistingAttributeOptionsWithValues::class);
 
         $locale = 'fr_FR';
-        $getExistingAttributeOptionsWithValues->method('fromAttributeCodeAndOptionCodes')->with([
+        $this->getExistingAttributeOptionsWithValues->method('fromAttributeCodeAndOptionCodes')->with([
                         $this->optionKey('color', 'red'),
                         $this->optionKey('color', 'yellow'),
                         $this->optionKey('color', 'purple')

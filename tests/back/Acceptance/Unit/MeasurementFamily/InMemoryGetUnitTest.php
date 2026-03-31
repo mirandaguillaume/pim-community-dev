@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\MeasurementFamily;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\MeasurementFamily;
 
 use Akeneo\Test\Acceptance\MeasurementFamily\InMemoryGetUnit;
 use Akeneo\Test\Acceptance\MeasurementFamily\InMemoryMeasurementFamilyRepository;

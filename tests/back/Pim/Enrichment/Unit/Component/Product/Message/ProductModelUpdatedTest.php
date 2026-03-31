@@ -33,7 +33,9 @@ class ProductModelUpdatedTest extends TestCase
 
     public function test_it_validates_the_product_model_code(): void
     {
-        $this->expectException(new \InvalidArgumentException('Expected the key "code" to exist.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Expected the key "code" to exist.');
         new ProductModelUpdated(Author::fromNameAndType('julia', Author::TYPE_UI),
                     [],
                     1598968800,

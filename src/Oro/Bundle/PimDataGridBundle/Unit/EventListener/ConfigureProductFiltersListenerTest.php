@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\EventListener;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\EventListener;
 
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Akeneo\UserManagement\Component\Model\UserInterface;
@@ -10,9 +10,9 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Event\BuildAfter;
 use Oro\Bundle\DataGridBundle\Extension\Acceptor;
+use Oro\Bundle\PimDataGridBundle\EventListener\ConfigureProductFiltersListener;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\EventListener\ConfigureProductFiltersListener;
 
 class ConfigureProductFiltersListenerTest extends TestCase
 {

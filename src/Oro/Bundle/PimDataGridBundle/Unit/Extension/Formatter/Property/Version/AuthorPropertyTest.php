@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property\Version;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property\Version;
 
 use Akeneo\UserManagement\Bundle\Manager\UserManager;
 use Akeneo\UserManagement\Component\Model\User;
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
+use Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property\Version\AuthorProperty;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Extension\Formatter\Property\Version\AuthorProperty;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AuthorPropertyTest extends TestCase

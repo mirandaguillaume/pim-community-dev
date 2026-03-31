@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\FileStorage;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\FileStorage;
 
 use Akeneo\Test\Acceptance\FileStorage\InMemoryFileStorer;
 use Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface;

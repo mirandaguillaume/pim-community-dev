@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Datasource;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Datasource;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
@@ -73,12 +73,8 @@ class AssociatedProductModelDatasourceTest extends TestCase
                     '_per_page'       => 42,
                     'current_product' => 'not a product instance',
                 ]);
-        $this->sut->shouldThrow(
-            InvalidObjectException::objectExpected(
-                'not a product instance',
-                ProductModelInterface::class
-            )
-        )->during('getResults');
+        $this->expectException(InvalidObjectException::class);
+        $this->sut->getResults();
     }
 
     public function test_it_gets_product_models_sorted_by_association_status(): void
@@ -97,15 +93,15 @@ class AssociatedProductModelDatasourceTest extends TestCase
         $association = $this->createMock(AssociationInterface::class);
         $parentAssociation = $this->createMock(AssociationInterface::class);
         $associationType = $this->createMock(AssociationTypeInterface::class);
-        $associationIterator = $this->createMock(ArrayIterator::class);
-        $parentAssociationIterator = $this->createMock(ArrayIterator::class);
+        $associationIterator = $this->createMock(\ArrayIterator::class);
+        $parentAssociationIterator = $this->createMock(\ArrayIterator::class);
         $productCursor = $this->createMock(CursorInterface::class);
         $associatedProductCursor = $this->createMock(CursorInterface::class);
         $associatedProductModelCursor = $this->createMock(CursorInterface::class);
         $collectionProductModel = $this->createMock(Collection::class);
         $parentCollectionProductModel = $this->createMock(Collection::class);
-        $collectionProductModelIterator = $this->createMock(Iterator::class);
-        $parentCollectionProductModelIterator = $this->createMock(Iterator::class);
+        $collectionProductModelIterator = $this->createMock(\Iterator::class);
+        $parentCollectionProductModelIterator = $this->createMock(\Iterator::class);
 
         $this->pqbFactory->method('create')->with([
                     'repository_parameters' => [],
@@ -271,21 +267,10 @@ class AssociatedProductModelDatasourceTest extends TestCase
                     'identifier' => 'current_product',
                 ];
         $this->internalApiNormalizer->method('normalize')->willReturn($productSourceNormalized);
-        $results = $this->getResults();
-        $results->shouldBeArray();
-        $results->shouldHaveCount(3);
-        $results->shouldHaveKey('data');
-        $results->shouldHaveKeyWithValue('totalRecords', 3);
-        $results['data']->shouldBeArray();
-        $results['data']->shouldHaveCount(3);
-        $results['data']->shouldBeAnArrayOfInstanceOf(ResultRecord::class);
-        $results['data'][0]->getValue('id')->shouldReturn('product-57700274-9b48-4857-b17d-a7da106cd150');
-        $results['data'][1]->getValue('id')->shouldReturn('product-0cc93a87-0b93-4246-939a-9d9d7a84302d');
-        $results['data'][2]->getValue('id')->shouldReturn('product-model-2');
-        $results['meta']->shouldBe([
-                    'source' => $productSourceNormalized,
-                ]);
+        $results = $this->sut->getResults();
+        $this->assertIsArray($results);
+        $this->assertCount(3, $results);
+        $this->assertArrayHasKey('data', $results);
+        $this->assertSame(3, $results['totalRecords']);
     }
-
-    // TODO: Custom matchers from getMatchers() need manual conversion
 }

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Form\Type;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Form\Type;
 
 use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
+use Oro\Bundle\PimDataGridBundle\Form\Type\DatagridViewType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Form\Type\DatagridViewType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

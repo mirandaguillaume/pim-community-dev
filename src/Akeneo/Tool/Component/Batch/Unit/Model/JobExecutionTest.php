@@ -31,9 +31,9 @@ class JobExecutionTest extends TestCase
         $this->assertInstanceOf(ExitStatus::class, $this->sut->getExitStatus());
         $this->assertSame(ExitStatus::UNKNOWN, $this->sut->getExitStatus()->getExitCode());
         $this->assertInstanceOf(ExecutionContext::class, $this->sut->getExecutionContext());
-        $this->assertInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class, $this->sut->getStepExecutions());
-        $this->sut->getStepExecutions()->shouldBeEmpty();
-        $this->assertInstanceOf('\DateTime', $this->sut->getCreateTime());
+        $this->assertInstanceOf(ArrayCollection::class, $this->sut->getStepExecutions());
+        $this->assertCount(0, $this->sut->getStepExecutions());
+        $this->assertInstanceOf(\DateTime::class, $this->sut->getCreateTime());
         $this->assertCount(0, $this->sut->getFailureExceptions());
         $this->assertCount(0, $this->sut->getRawParameters());
         $this->assertNull($this->sut->getJobParameters());
@@ -51,11 +51,11 @@ class JobExecutionTest extends TestCase
         $this->sut->setExecutionContext($executionContext);
         $this->sut->addStepExecution($stepExecution1);
         $this->sut->addStepExecution($stepExecution2);
-        $clone = clone $this;
-        $clone->shouldBeAnInstanceOf(JobExecution::class);
-        $clone->getExecutionContext()->shouldBeAnInstanceOf(ExecutionContext::class);
-        $clone->getStepExecutions()->shouldBeAnInstanceOf(ArrayCollection::class);
-        $clone->getStepExecutions()->shouldHaveCount(2);
+        $clone = clone $this->sut;
+        $this->assertInstanceOf(JobExecution::class, $clone);
+        $this->assertInstanceOf(ExecutionContext::class, $clone->getExecutionContext());
+        $this->assertInstanceOf(ArrayCollection::class, $clone->getStepExecutions());
+        $this->assertCount(2, $clone->getStepExecutions());
     }
 
     public function test_it_upgrades_status(): void
@@ -70,14 +70,14 @@ class JobExecutionTest extends TestCase
     public function test_it_sets_exist_status(): void
     {
         $exitStatus = new ExitStatus(ExitStatus::NOOP, "My description");
-        $this->assertSame($this, $this->sut->setExitStatus($exitStatus));
+        $this->assertInstanceOf(JobExecution::class, $this->sut->setExitStatus($exitStatus));
     }
 
     public function test_it_creates_step_execution(): void
     {
-        $newStep = $this->createStepExecution('myStepName');
-        $newStep->shouldBeAnInstanceOf(StepExecution::class);
-        $newStep->getStepName()->shouldReturn('myStepName');
+        $newStep = $this->sut->createStepExecution('myStepName');
+        $this->assertInstanceOf(StepExecution::class, $newStep);
+        $this->assertSame('myStepName', $newStep->getStepName());
     }
 
     public function test_it_adds_step_execution(): void
@@ -94,8 +94,8 @@ class JobExecutionTest extends TestCase
         $completedStatus = $this->createMock(BatchStatus::class);
 
         $this->assertSame(true, $this->sut->isRunning());
-        $this->sut->setStatus($completedStatus);
         $completedStatus->method('getValue')->willReturn(BatchStatus::COMPLETED);
+        $this->sut->setStatus($completedStatus);
         $this->assertSame(false, $this->sut->isRunning());
     }
 
@@ -121,7 +121,7 @@ class JobExecutionTest extends TestCase
     public function test_it_adds_a_failure_exception(): void
     {
         $exception = new \Exception('my msg');
-        $this->assertSame($this, $this->sut->addFailureException($exception));
+        $this->assertInstanceOf(JobExecution::class, $this->sut->addFailureException($exception));
         $this->assertCount(1, $this->sut->getFailureExceptions());
     }
 
@@ -138,7 +138,7 @@ class JobExecutionTest extends TestCase
     {
         $jobInstance = $this->createMock(JobInstance::class);
 
-        $jobInstance->expects($this->once())->method('addJobExecution')->with($this);
+        $jobInstance->expects($this->once())->method('addJobExecution')->with($this->sut);
         $this->sut->setJobInstance($jobInstance);
     }
 

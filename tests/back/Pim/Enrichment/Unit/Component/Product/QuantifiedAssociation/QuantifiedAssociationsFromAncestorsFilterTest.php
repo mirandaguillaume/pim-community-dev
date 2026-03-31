@@ -17,11 +17,13 @@ use PHPUnit\Framework\TestCase;
  */
 class QuantifiedAssociationsFromAncestorsFilterTest extends TestCase
 {
+    private QuantifiedAssociationsMerger|MockObject $quantifiedAssociationsMerger;
     private QuantifiedAssociationsFromAncestorsFilter $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new QuantifiedAssociationsFromAncestorsFilter();
+        $this->quantifiedAssociationsMerger = $this->createMock(QuantifiedAssociationsMerger::class);
+        $this->sut = new QuantifiedAssociationsFromAncestorsFilter($this->quantifiedAssociationsMerger);
     }
 
     public function test_it_remove_quantified_associations_on_products_belonging_to_an_ancestor(): void

@@ -54,7 +54,7 @@ class ProductValueChannelFilterTest extends TestCase
 
     public function test_it_fails_if_it_is_not_a_product_value(): void
     {
-        $anOtherObject = $this->createMock(StdClass::class);
+        $anOtherObject = new \stdClass();
 
         $this->expectException('\LogicException');
         $this->sut->filterObject($anOtherObject, 'pim:product_value:view', ['channels' => ['en_US']]);

@@ -69,15 +69,15 @@ class CompleteEvaluationWithImprovableAttributesTest extends TestCase
         ;
         $this->calculateRequiredAttributesCompleteness->method('calculate')->with($productUuid)->willReturn($requiredAttributesCompletenessResult);
         $this->calculateNonRequiredAttributesCompleteness->method('calculate')->with($productUuid)->willReturn($nonRequiredAttributesCompletenessResult);
-        $completedCriteriaEvaluations = $this->__invoke($criteriaEvaluations);
-        $completedCriteriaEvaluations->count()->shouldBe($criteriaEvaluations->count());
+        $completedCriteriaEvaluations = ($this->sut)($criteriaEvaluations);
+        $this->assertSame($criteriaEvaluations->count(), $completedCriteriaEvaluations->count());
         $completedRequiredCompletenessEvaluation = $completedCriteriaEvaluations->get(
             new CriterionCode(EvaluateCompletenessOfRequiredAttributes::CRITERION_CODE)
         );
         $requiredCompletenessEvaluation = $criteriaEvaluations->get(
             new CriterionCode(EvaluateCompletenessOfRequiredAttributes::CRITERION_CODE)
         );
-        $completedRequiredCompletenessEvaluation->getResult()->getData()->shouldBe([
+        $this->assertEquals([
                     'total_number_of_attributes' => 12,
                     'attributes_with_rates' => [
                         'ecommerce' => [
@@ -85,24 +85,24 @@ class CompleteEvaluationWithImprovableAttributesTest extends TestCase
                         ],
                         'mobile' => ['en_US' => []],
                     ],
-                ]);
-        $completedRequiredCompletenessEvaluation->getResult()->getRates()->toArrayInt()->shouldBe([
+                ], $completedRequiredCompletenessEvaluation->getResult()->getData());
+        $this->assertEquals([
                     'ecommerce' => [
                         'en_US' => 80,
                     ],
                     'mobile' => [
                         'en_US' => 100,
                     ],
-                ]);
-        $completedRequiredCompletenessEvaluation->getProductId()->shouldBe($productUuid);
-        $completedRequiredCompletenessEvaluation->getStatus()->shouldBe($requiredCompletenessEvaluation->getStatus());
-        $completedRequiredCompletenessEvaluation->getEvaluatedAt()->shouldBe($requiredCompletenessEvaluation->getEvaluatedAt());
-        $completedRequiredCompletenessEvaluation->getResult()->getRates()->shouldBe($requiredCompletenessEvaluation->getResult()->getRates());
-        $completedRequiredCompletenessEvaluation->getResult()->getStatus()->shouldBe($requiredCompletenessEvaluation->getResult()->getStatus());
+                ], $completedRequiredCompletenessEvaluation->getResult()->getRates()->toArrayInt());
+        $this->assertEquals($productUuid, $completedRequiredCompletenessEvaluation->getProductId());
+        $this->assertEquals($requiredCompletenessEvaluation->getStatus(), $completedRequiredCompletenessEvaluation->getStatus());
+        $this->assertEquals($requiredCompletenessEvaluation->getEvaluatedAt(), $completedRequiredCompletenessEvaluation->getEvaluatedAt());
+        $this->assertEquals($requiredCompletenessEvaluation->getResult()->getRates(), $completedRequiredCompletenessEvaluation->getResult()->getRates());
+        $this->assertEquals($requiredCompletenessEvaluation->getResult()->getStatus(), $completedRequiredCompletenessEvaluation->getResult()->getStatus());
         $completedNonRequiredCompletenessEvaluation = $completedCriteriaEvaluations->get(
             new CriterionCode(EvaluateCompletenessOfNonRequiredAttributes::CRITERION_CODE)
         );
-        $completedNonRequiredCompletenessEvaluation->getResult()->getData()->shouldBe([
+        $this->assertEquals([
                     'total_number_of_attributes' => 7,
                     'attributes_with_rates' => [
                         'ecommerce' => [
@@ -110,17 +110,17 @@ class CompleteEvaluationWithImprovableAttributesTest extends TestCase
                         ],
                         'mobile' => ['en_US' => []],
                     ],
-                ]);
-        $completedNonRequiredCompletenessEvaluation->getResult()->getRates()->toArrayInt()->shouldBe([
+                ], $completedNonRequiredCompletenessEvaluation->getResult()->getData());
+        $this->assertEquals([
                     'ecommerce' => [
                         'en_US' => 75,
                     ],
                     'mobile' => [
                         'en_US' => 100,
                     ],
-                ]);
+                ], $completedNonRequiredCompletenessEvaluation->getResult()->getRates()->toArrayInt());
         $spellingCriterionCode = new CriterionCode('consistency_spelling');
-        $completedCriteriaEvaluations->get($spellingCriterionCode)->shouldBe($criteriaEvaluations->get($spellingCriterionCode));
+        $this->assertEquals($criteriaEvaluations->get($spellingCriterionCode), $completedCriteriaEvaluations->get($spellingCriterionCode));
     }
 
     public function test_it_does_nothing_when_there_is_no_criterion_to_complete(): void

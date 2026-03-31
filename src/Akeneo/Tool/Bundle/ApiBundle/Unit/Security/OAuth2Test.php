@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\ApiBundle\Security;
 
 use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2Storage;
+use Akeneo\Tool\Bundle\ApiBundle\Security\OAuth2;
 use Akeneo\Tool\Component\Api\Event\ApiAuthenticationFailedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\ApiBundle\Security\OAuth2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

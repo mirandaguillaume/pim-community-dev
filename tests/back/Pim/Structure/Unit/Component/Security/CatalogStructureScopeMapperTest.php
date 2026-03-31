@@ -53,7 +53,9 @@ class CatalogStructureScopeMapperTest extends TestCase
 
     public function test_it_does_not_provide_acl_if_an_unknown_scope_is_given(): void
     {
-        $this->expectException(new \InvalidArgumentException('The scope "unknown_scope" does not exist.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('The scope "unknown_scope" does not exist.');
         $this->sut->getAcls('unknown_scope');
     }
 
@@ -77,7 +79,9 @@ class CatalogStructureScopeMapperTest extends TestCase
 
     public function test_it_does_not_provide_message_if_an_unknown_scope_is_given(): void
     {
-        $this->expectException(new \InvalidArgumentException('The scope "unknown_scope" does not exist.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('The scope "unknown_scope" does not exist.');
         $this->sut->getMessage('unknown_scope');
     }
 
@@ -95,7 +99,9 @@ class CatalogStructureScopeMapperTest extends TestCase
 
     public function test_it_does_not_provide_lower_hierarchy_scopes_for_an_unknown_scope(): void
     {
-        $this->expectException(new \InvalidArgumentException('The scope "unknown_scope" does not exist.'));
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('The scope "unknown_scope" does not exist.');
         $this->sut->getLowerHierarchyScopes('unknown_scope');
     }
 }

@@ -22,24 +22,22 @@ class FileGuesserTest extends TestCase
 
     public function test_it_enforces_attribute_type(): void
     {
-        $attribute = $this->createMock(AttributeInterface::class);
+        $dataProvider = [
+            ['pim_catalog_file', true],
+            ['pim_catalog_image', true],
+            ['pim_catalog_text', false],
+        ];
 
-        foreach ($this->sut->dataProviderForSupportedAttributes() as $attributeTypeTest) {
-                    $attributeType = $attributeTypeTest[0];
-                    $expectedResult = $attributeTypeTest[1];
-                    $attribute->getType()
-                        ->willReturn($attributeType);
-                    $this->sut->supportAttribute($attribute)
-                        ->shouldReturn($expectedResult);
-                }
-    }
-
-    private function dataProviderForSupportedAttributes()
-    {
-            return [
-                ['pim_catalog_file', true],
-                ['pim_catalog_image', true],
-                ['pim_catalog_text', false],
-            ];
+        foreach ($dataProvider as $attributeTypeTest) {
+            $attributeType = $attributeTypeTest[0];
+            $expectedResult = $attributeTypeTest[1];
+            $attribute = $this->createMock(AttributeInterface::class);
+            $attribute->method('getType')->willReturn($attributeType);
+            $this->assertSame(
+                $expectedResult,
+                $this->sut->supportAttribute($attribute),
+                sprintf('Failed for attribute type "%s"', $attributeType)
+            );
         }
+    }
 }

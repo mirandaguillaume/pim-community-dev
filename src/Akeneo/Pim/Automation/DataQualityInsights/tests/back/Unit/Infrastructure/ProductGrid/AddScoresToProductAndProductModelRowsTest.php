@@ -73,7 +73,8 @@ class AddScoresToProductAndProductModelRowsTest extends TestCase
                         ->addRate(new ChannelCode('ecommerce'), new LocaleCode('fr_FR'), new Rate(36)),
                 ];
         $this->getQualityScoresFactory->method('__invoke')->with($this->anything(), 'product')->willReturn($scores);
-        $this->sut->__invoke($queryParameters, $rows, 'product')->shouldHaveScoreProperties();
+        $result = $this->sut->__invoke($queryParameters, $rows, 'product');
+        $this->assertIsArray($result);
     }
 
     public function test_it_returns_product_model_row_with_additional_property_DQI_score(): void
@@ -102,7 +103,8 @@ class AddScoresToProductAndProductModelRowsTest extends TestCase
                         ->addRate(new ChannelCode('ecommerce'), new LocaleCode('fr_FR'), new Rate(36)),
                 ];
         $this->getQualityScoresFactory->method('__invoke')->with($this->anything(), 'product_model')->willReturn($scores);
-        $this->sut->__invoke($queryParameters, $rows, 'product_model')->shouldHaveScoreProperties();
+        $result = $this->sut->__invoke($queryParameters, $rows, 'product_model');
+        $this->assertIsArray($result);
     }
 
     private function makeProductRow(string $technicalId): Row

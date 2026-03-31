@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Common;
+namespace Akeneo\Test\Unit\Akeneo\Test\Common;
 
 use Akeneo\Test\Common\Path;
 use PHPUnit\Framework\TestCase;

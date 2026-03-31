@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\MeasureBundle\Validation\MeasurementFamily;
 
 use Akeneo\Tool\Bundle\MeasureBundle\Validation\MeasurementFamily\OperationValue;
+use Akeneo\Tool\Bundle\MeasureBundle\Validation\MeasurementFamily\OperationValueValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\MeasureBundle\Validation\MeasurementFamily\OperationValueValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class OperationValueValidatorTest extends TestCase

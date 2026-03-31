@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\FilterBundle\Filter;
+namespace Akeneo\Test\Unit\Oro\Bundle\FilterBundle\Filter;
 
 use Doctrine\ORM\Query\Expr;
 use Oro\Bundle\FilterBundle\Datasource\ExpressionBuilderInterface;

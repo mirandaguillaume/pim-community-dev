@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Normalizer\Product;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Normalizer\Product;
 
 use Akeneo\Pim\Enrichment\Component\Product\Value\OptionsValueInterface;
 use Akeneo\Pim\Structure\Component\Model\AttributeOptionInterface;

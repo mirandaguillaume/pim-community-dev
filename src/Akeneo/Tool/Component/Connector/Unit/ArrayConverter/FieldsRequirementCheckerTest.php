@@ -25,14 +25,14 @@ class FieldsRequirementCheckerTest extends TestCase
 
     public function test_it_does_not_raise_exception_when_there_is_no_required_fields(): void
     {
-        $this->sut->shouldNotThrow(StructureArrayConversionException::class)
-                    ->during('checkFieldsPresence', [['foo' => 'bar'], []]);
+        $this->sut->checkFieldsPresence(['foo' => 'bar'], []);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_does_not_raise_exception_when_all_required_fields_are_filled(): void
     {
-        $this->sut->shouldNotThrow(StructureArrayConversionException::class)
-                    ->during('checkFieldsPresence', [['foo' => 'bar'], ['foo']]);
+        $this->sut->checkFieldsPresence(['foo' => 'bar'], ['foo']);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_should_raise_exception_when_a_required_field_is_blank(): void

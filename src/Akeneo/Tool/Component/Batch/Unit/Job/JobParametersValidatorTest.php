@@ -8,9 +8,9 @@ use Akeneo\Tool\Component\Batch\Job\JobInterface;
 use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Job\JobParameters\ConstraintCollectionProviderInterface;
 use Akeneo\Tool\Component\Batch\Job\JobParameters\ConstraintCollectionProviderRegistry;
+use Akeneo\Tool\Component\Batch\Job\JobParametersValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Batch\Job\JobParametersValidator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class JobParametersValidatorTest extends TestCase

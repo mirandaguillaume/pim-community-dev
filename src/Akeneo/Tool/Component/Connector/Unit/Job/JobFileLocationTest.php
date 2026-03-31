@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Job;
 
+use Akeneo\Tool\Component\Connector\Job\JobFileLocation;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Job\JobFileLocation;
 
 class JobFileLocationTest extends TestCase
 {

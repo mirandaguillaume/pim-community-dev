@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Validator\Constraints;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Validator\Constraints;
 
 use Akeneo\UserManagement\Component\Model\User;
 use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;

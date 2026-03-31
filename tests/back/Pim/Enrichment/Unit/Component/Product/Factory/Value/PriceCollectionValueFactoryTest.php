@@ -46,40 +46,40 @@ class PriceCollectionValueFactoryTest extends TestCase
     {
         $priceCollection = new PriceCollection([new ProductPrice(5, 'EUR'), new ProductPrice(5, 'USD')]);
         $attribute = $this->getAttribute(true, true);
-        $value = $this->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', [['amount' => 5, 'currency' => 'EUR'], ['amount' => 5, 'currency' => 'USD']]);
-        $value->shouldBeLike(PriceCollectionValue::scopableLocalizableValue('an_attribute', $priceCollection, 'ecommerce', 'fr_FR'));
+        $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', [['amount' => 5, 'currency' => 'EUR'], ['amount' => 5, 'currency' => 'USD']]);
+        $this->assertEquals(PriceCollectionValue::scopableLocalizableValue('an_attribute', $priceCollection, 'ecommerce', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_localizable_value(): void
     {
         $priceCollection = new PriceCollection([new ProductPrice(5, 'EUR'), new ProductPrice(5, 'USD')]);
         $attribute = $this->getAttribute(true, false);
-        $value = $this->createWithoutCheckingData($attribute, null, 'fr_FR', [['amount' => 5, 'currency' => 'EUR'], ['amount' => 5, 'currency' => 'USD']]);
-        $value->shouldBeLike(PriceCollectionValue::localizableValue('an_attribute', $priceCollection, 'fr_FR'));
+        $value = $this->sut->createWithoutCheckingData($attribute, null, 'fr_FR', [['amount' => 5, 'currency' => 'EUR'], ['amount' => 5, 'currency' => 'USD']]);
+        $this->assertEquals(PriceCollectionValue::localizableValue('an_attribute', $priceCollection, 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_scopable_value(): void
     {
         $priceCollection = new PriceCollection([new ProductPrice(5, 'EUR'), new ProductPrice(5, 'USD')]);
         $attribute = $this->getAttribute(false, true);
-        $value = $this->createWithoutCheckingData($attribute, 'ecommerce', null, [['amount' => 5, 'currency' => 'EUR'], ['amount' => 5, 'currency' => 'USD']]);
-        $value->shouldBeLike(PriceCollectionValue::scopableValue('an_attribute', $priceCollection, 'ecommerce'));
+        $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', null, [['amount' => 5, 'currency' => 'EUR'], ['amount' => 5, 'currency' => 'USD']]);
+        $this->assertEquals(PriceCollectionValue::scopableValue('an_attribute', $priceCollection, 'ecommerce'), $value);
     }
 
     public function test_it_creates_a_non_localizable_and_non_scopable_value(): void
     {
         $priceCollection = new PriceCollection([new ProductPrice(5, 'EUR'), new ProductPrice(5, 'USD')]);
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createWithoutCheckingData($attribute, null, null, [['amount' => 5, 'currency' => 'EUR'], ['amount' => 5, 'currency' => 'USD']]);
-        $value->shouldBeLike(PriceCollectionValue::value('an_attribute', $priceCollection));
+        $value = $this->sut->createWithoutCheckingData($attribute, null, null, [['amount' => 5, 'currency' => 'EUR'], ['amount' => 5, 'currency' => 'USD']]);
+        $this->assertEquals(PriceCollectionValue::value('an_attribute', $priceCollection), $value);
     }
 
     public function test_it_sorts_the_result(): void
     {
         $priceCollection = new PriceCollection([new ProductPrice(5, 'EUR'), new ProductPrice(5, 'USD')]);
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createWithoutCheckingData($attribute, null, null, [['amount' => 5, 'currency' => 'USD'], ['amount' => 5, 'currency' => 'EUR']]);
-        $value->shouldBeLike(PriceCollectionValue::value('an_attribute', $priceCollection));
+        $value = $this->sut->createWithoutCheckingData($attribute, null, null, [['amount' => 5, 'currency' => 'USD'], ['amount' => 5, 'currency' => 'EUR']]);
+        $this->assertEquals(PriceCollectionValue::value('an_attribute', $priceCollection), $value);
     }
 
     public function test_it_throws_an_exception_if_it_is_not_an_array_of_amount_currency(): void
@@ -90,6 +90,6 @@ class PriceCollectionValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::PRICE_COLLECTION, [], $isLocalizable, $isScopable, null, null, false, 'prices', []);
+            return new Attribute('an_attribute', AttributeTypes::PRICE_COLLECTION, [], $isLocalizable, $isScopable, null, null, false, 'prices', [], $value);
         }
 }

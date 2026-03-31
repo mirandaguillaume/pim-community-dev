@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimFilterBundle\Filter\Product;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter\Product;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterface;
@@ -12,10 +12,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\FilterBundle\Filter\BooleanFilter;
 use Oro\Bundle\PimDataGridBundle\Datagrid\Request\RequestParametersExtractorInterface;
 use Oro\Bundle\PimFilterBundle\Datasource\FilterDatasourceAdapterInterface;
+use Oro\Bundle\PimFilterBundle\Filter\Product\IsAssociatedFilter;
 use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimFilterBundle\Filter\Product\IsAssociatedFilter;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class IsAssociatedFilterTest extends TestCase

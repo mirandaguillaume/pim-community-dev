@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Extension\Sorter\Product;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Extension\Sorter\Product;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use Oro\Bundle\PimDataGridBundle\Datasource\ProductDatasource;
+use Oro\Bundle\PimDataGridBundle\Extension\Sorter\Product\ValueSorter;
 use Oro\Bundle\PimDataGridBundle\Extension\Sorter\SorterInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Extension\Sorter\Product\ValueSorter;
 
 class ValueSorterTest extends TestCase
 {

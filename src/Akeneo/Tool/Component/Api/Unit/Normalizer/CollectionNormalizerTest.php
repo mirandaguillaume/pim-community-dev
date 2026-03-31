@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Api\Normalizer;
 
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
+use Akeneo\Tool\Component\Api\Normalizer\CollectionNormalizer;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Api\Normalizer\CollectionNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CollectionNormalizerTest extends TestCase
@@ -20,7 +20,6 @@ class CollectionNormalizerTest extends TestCase
     {
         $this->serializer = $this->createMock(SerializerInterface::class);
         $this->sut = new CollectionNormalizer();
-        $this->serializer->method('implement')->with(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
         $this->sut->setSerializer($this->serializer);
     }
 

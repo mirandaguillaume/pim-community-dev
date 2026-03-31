@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimFilterBundle\Filter\Product;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter\Product;
 
 use Akeneo\Pim\Enrichment\Bundle\Doctrine\Common\Filter\ObjectCodeResolver;
 use Oro\Bundle\FilterBundle\Filter\BooleanFilter;
 use Oro\Bundle\PimDataGridBundle\Datagrid\Request\RequestParametersExtractorInterface;
 use Oro\Bundle\PimFilterBundle\Datasource\FilterDatasourceAdapterInterface;
+use Oro\Bundle\PimFilterBundle\Filter\Product\InGroupFilter;
 use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimFilterBundle\Filter\Product\InGroupFilter;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class InGroupFilterTest extends TestCase

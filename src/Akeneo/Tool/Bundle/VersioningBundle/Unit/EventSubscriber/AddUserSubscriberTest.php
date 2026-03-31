@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 
 use Akeneo\Tool\Bundle\VersioningBundle\Event\BuildVersionEvent;
+use Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddUserSubscriber;
 use Akeneo\UserManagement\Component\Model\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddUserSubscriber;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

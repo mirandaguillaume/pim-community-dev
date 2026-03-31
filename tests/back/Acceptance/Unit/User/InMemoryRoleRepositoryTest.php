@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\User;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\User;
 
 use Akeneo\Test\Acceptance\User\InMemoryRoleRepository;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;

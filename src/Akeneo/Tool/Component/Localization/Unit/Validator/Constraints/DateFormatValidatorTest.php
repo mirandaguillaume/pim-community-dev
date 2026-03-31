@@ -6,9 +6,9 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Localization\Validator\Con
 
 use Akeneo\Tool\Component\Localization\Factory\DateFactory;
 use Akeneo\Tool\Component\Localization\Validator\Constraints\DateFormat;
+use Akeneo\Tool\Component\Localization\Validator\Constraints\DateFormatValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Localization\Validator\Constraints\DateFormatValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 

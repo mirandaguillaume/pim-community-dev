@@ -14,7 +14,6 @@ class OnGoingFilteredRawValuesTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = OnGoingFilteredRawValues::fromNonFilteredValuesCollectionIndexedByType($rawValues);
         $rawValues = [
         AttributeTypes::OPTION_SIMPLE_SELECT => [
         'a_select' => [
@@ -65,6 +64,7 @@ class OnGoingFilteredRawValuesTest extends TestCase
         ]
         ]
         ];
+        $this->sut = OnGoingFilteredRawValues::fromNonFilteredValuesCollectionIndexedByType($rawValues);
     }
 
     public function test_it_has_a_type(): void
@@ -168,7 +168,7 @@ class OnGoingFilteredRawValuesTest extends TestCase
                     ]
                 ];
         /** @var OnGoingFilteredRawValues $newOngoingFilteredRawValues */
-                $newOngoingFilteredRawValues = $this->addFilteredValuesIndexedByType($rawValues);
-        $newOngoingFilteredRawValues->nonFilteredRawValuesCollectionIndexedByType()->shouldBeLike($notFilteredValues);
+                $newOngoingFilteredRawValues = $this->sut->addFilteredValuesIndexedByType($rawValues);
+        $this->assertEquals($notFilteredValues, $newOngoingFilteredRawValues->nonFilteredRawValuesCollectionIndexedByType());
     }
 }

@@ -43,8 +43,8 @@ class MetricGuesserTest extends TestCase
         $attribute = $this->createMock(AttributeInterface::class);
 
         $attribute->method('getCode')->willReturn('');
-        $constraints = $this->guessConstraints($attribute);
-        $constraints->shouldHaveCount(2);
+        $constraints = $this->sut->guessConstraints($attribute);
+        $this->assertCount(2, $constraints);
         $constraint = $constraints[0];
         $constraint->shouldBeAnInstanceOf(ValidMetric::class);
         $constraint = $constraints[1];

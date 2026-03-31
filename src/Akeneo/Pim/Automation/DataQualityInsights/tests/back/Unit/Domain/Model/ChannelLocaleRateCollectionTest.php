@@ -17,6 +17,7 @@ class ChannelLocaleRateCollectionTest extends TestCase
 
     protected function setUp(): void
     {
+        $this->sut = new ChannelLocaleRateCollection();
     }
 
     public function test_it_can_be_constructed_from_an_array_of_rates_as_integer(): void
@@ -39,7 +40,7 @@ class ChannelLocaleRateCollectionTest extends TestCase
                         'en_US' => new Rate(42),
                     ],
                 ];
-        $rates = \iterator_to_array($this);
+        $rates = \iterator_to_array($this->sut);
         Assert::eq($expectedRates, $rates);
     }
 
@@ -72,7 +73,7 @@ class ChannelLocaleRateCollectionTest extends TestCase
                         'en_US' => new Rate(73),
                     ],
                 ];
-        $rates = \iterator_to_array($this);
+        $rates = \iterator_to_array($this->sut);
         Assert::eq($expectedRates, $rates);
     }
 

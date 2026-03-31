@@ -21,10 +21,10 @@ class MaskItemGeneratorTest extends TestCase
         $this->generator1 = $this->createMock(MaskItemGeneratorForAttributeType::class);
         $this->generator2 = $this->createMock(MaskItemGeneratorForAttributeType::class);
         $this->generator3 = $this->createMock(MaskItemGeneratorForAttributeType::class);
-        $this->sut = new MaskItemGenerator([$this->generator1, $this->generator2, $this->generator3]);
         $this->generator1->method('supportedAttributeTypes')->willReturn([]);
         $this->generator2->method('supportedAttributeTypes')->willReturn(['attributeType2']);
         $this->generator3->method('supportedAttributeTypes')->willReturn(['attributeType3', 'attributeType3bis']);
+        $this->sut = new MaskItemGenerator([$this->generator1, $this->generator2, $this->generator3]);
     }
 
     public function test_it_is_a_mask_item_generator(): void
@@ -42,7 +42,9 @@ class MaskItemGeneratorTest extends TestCase
 
     public function test_it_should_throw_exception_on_non_existing_generator(): void
     {
-        $this->expectException(new \LogicException('MaskItemGenerator for attribute type "nonExistingAttributeType" not found'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('MaskItemGenerator for attribute type "nonExistingAttributeType" not found');
         $this->sut->generate('attributeCode', 'nonExistingAttributeType', 'channelCode', 'localeCode', 'value');
     }
 }

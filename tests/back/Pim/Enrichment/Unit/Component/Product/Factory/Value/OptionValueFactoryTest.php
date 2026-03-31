@@ -45,32 +45,32 @@ class OptionValueFactoryTest extends TestCase
     {
         $attribute = $this->getAttribute(true, true);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', 'michel');
-        $value->shouldBeLike(OptionValue::scopableLocalizableValue('an_attribute', 'michel', 'ecommerce', 'fr_FR'));
+                $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', 'michel');
+        $this->assertEquals(OptionValue::scopableLocalizableValue('an_attribute', 'michel', 'ecommerce', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_localizable_value(): void
     {
         $attribute = $this->getAttribute(true, false);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, null, 'fr_FR', 'michel');
-        $value->shouldBeLike(OptionValue::localizableValue('an_attribute', 'michel', 'fr_FR'));
+                $value = $this->sut->createWithoutCheckingData($attribute, null, 'fr_FR', 'michel');
+        $this->assertEquals(OptionValue::localizableValue('an_attribute', 'michel', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, true);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, 'ecommerce', null, 'michel');
-        $value->shouldBeLike(OptionValue::scopableValue('an_attribute', 'michel', 'ecommerce'));
+                $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', null, 'michel');
+        $this->assertEquals(OptionValue::scopableValue('an_attribute', 'michel', 'ecommerce'), $value);
     }
 
     public function test_it_creates_a_non_localizable_and_non_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, false);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, null, null, 'michel');
-        $value->shouldBeLike(OptionValue::value('an_attribute', 'michel'));
+                $value = $this->sut->createWithoutCheckingData($attribute, null, null, 'michel');
+        $this->assertEquals(OptionValue::value('an_attribute', 'michel'), $value);
     }
 
     public function test_it_throws_an_exception_if_it_is_not_a_string(): void
@@ -81,6 +81,6 @@ class OptionValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::OPTION_SIMPLE_SELECT, [], $isLocalizable, $isScopable, null, null, false, 'option', []);
+            return new Attribute('an_attribute', AttributeTypes::OPTION_SIMPLE_SELECT, [], $isLocalizable, $isScopable, null, null, false, 'option', [], $value);
         }
 }

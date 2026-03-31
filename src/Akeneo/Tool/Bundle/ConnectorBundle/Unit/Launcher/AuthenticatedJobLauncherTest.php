@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\ConnectorBundle\Launcher;
 
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
+use Akeneo\Tool\Bundle\ConnectorBundle\Launcher\AuthenticatedJobLauncher;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\ConnectorBundle\Launcher\AuthenticatedJobLauncher;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthenticatedJobLauncherTest extends TestCase

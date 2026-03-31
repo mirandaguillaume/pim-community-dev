@@ -99,8 +99,8 @@ class NonExistentReferenceDataMultiSelectValuesFilterTest extends TestCase
         $this->getExistingReferenceDataCodes->method('fromReferenceDataNameAndCodes')->with('some_reference_data', $referenceDataCodes)->willReturn(['Michel', 'Fraises']);
         $this->getExistingReferenceDataCodes->method('fromReferenceDataNameAndCodes')->with('another_reference_data', ['des', 'damme', 'Claude', 'fRaiseS'])->willReturn(['Claude', 'Damme']);
         /** @var OnGoingFilteredRawValues $filteredCollection */
-                $filteredCollection = $this->filter($ongoingFilteredRawValues);
-        $filteredCollection->filteredRawValuesCollectionIndexedByType()->shouldBeLike(
+                $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
+        $this->assertEquals(
                     [
                         AttributeTypes::REFERENCE_DATA_MULTI_SELECT => [
                             'a_reference_data_multi_select' => [
@@ -139,6 +139,6 @@ class NonExistentReferenceDataMultiSelectValuesFilterTest extends TestCase
                             ]
                         ],
                     ]
-                );
+                , $filteredCollection->filteredRawValuesCollectionIndexedByType());
     }
 }

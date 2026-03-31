@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration;
 
+use Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\Loader;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\Loader;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class LoaderTest extends TestCase

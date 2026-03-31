@@ -44,42 +44,42 @@ class BooleanValueFactoryTest extends TestCase
     {
         $attribute = $this->getAttribute(true, true);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', true);
-        $value->shouldBeLike(ScalarValue::scopableLocalizableValue('an_attribute', true, 'ecommerce', 'fr_FR'));
+                $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', true);
+        $this->assertEquals(ScalarValue::scopableLocalizableValue('an_attribute', true, 'ecommerce', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_localizable_value(): void
     {
         $attribute = $this->getAttribute(true, false);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, null, 'fr_FR', true);
-        $value->shouldBeLike(ScalarValue::localizableValue('an_attribute', true, 'fr_FR'));
+                $value = $this->sut->createWithoutCheckingData($attribute, null, 'fr_FR', true);
+        $this->assertEquals(ScalarValue::localizableValue('an_attribute', true, 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, true);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, 'ecommerce', null, true);
-        $value->shouldBeLike(ScalarValue::scopableValue('an_attribute', true, 'ecommerce'));
+                $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', null, true);
+        $this->assertEquals(ScalarValue::scopableValue('an_attribute', true, 'ecommerce'), $value);
     }
 
     public function test_it_creates_a_non_localizable_and_non_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, false);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, null, null, true);
-        $value->shouldBeLike(ScalarValue::value('an_attribute', true));
+                $value = $this->sut->createWithoutCheckingData($attribute, null, null, true);
+        $this->assertEquals(ScalarValue::value('an_attribute', true), $value);
     }
 
     public function test_it_converts_to_boolean_type_the_value(): void
     {
         $attribute = $this->getAttribute(true, true);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', 1);
-        $value->shouldBeLike(ScalarValue::scopableLocalizableValue('an_attribute', 1, 'ecommerce', 'fr_FR'));
-        $value = $this->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', '1');
-        $value->shouldBeLike(ScalarValue::scopableLocalizableValue('an_attribute', 1, 'ecommerce', 'fr_FR'));
+                $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', 1);
+        $this->assertEquals(ScalarValue::scopableLocalizableValue('an_attribute', 1, 'ecommerce', 'fr_FR'), $value);
+        $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', '1');
+        $this->assertEquals(ScalarValue::scopableLocalizableValue('an_attribute', 1, 'ecommerce', 'fr_FR'), $value);
     }
 
     public function test_it_throws_an_exception_if_it_is_not_a_boolean(): void
@@ -93,6 +93,6 @@ class BooleanValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::BOOLEAN, [], $isLocalizable, $isScopable, null, null, false, 'boolean', []);
+            return new Attribute('an_attribute', AttributeTypes::BOOLEAN, [], $isLocalizable, $isScopable, null, null, false, 'boolean', [], $value);
         }
 }

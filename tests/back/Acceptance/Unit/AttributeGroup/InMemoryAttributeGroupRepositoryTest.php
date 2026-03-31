@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\AttributeGroup;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\AttributeGroup;
 
 use Akeneo\Pim\Structure\Component\Model\AttributeGroup;
 use Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeGroupRepositoryInterface;
+use Akeneo\Test\Acceptance\AttributeGroup\InMemoryAttributeGroupRepository;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Test\Acceptance\AttributeGroup\InMemoryAttributeGroupRepository;
 
 class InMemoryAttributeGroupRepositoryTest extends TestCase
 {

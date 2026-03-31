@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimFilterBundle\Filter;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
 use Oro\Bundle\FilterBundle\Datasource\FilterDatasourceAdapterInterface;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\BooleanFilterType;
+use Oro\Bundle\PimFilterBundle\Filter\ProductAndProductModelCompletenessFilter;
 use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimFilterBundle\Filter\ProductAndProductModelCompletenessFilter;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class ProductAndProductModelCompletenessFilterTest extends TestCase

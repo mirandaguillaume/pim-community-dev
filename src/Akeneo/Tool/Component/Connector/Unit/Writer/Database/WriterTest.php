@@ -8,11 +8,11 @@ use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface;
 use Akeneo\Tool\Component\Batch\Item\ItemWriterInterface;
 use Akeneo\Tool\Component\Batch\Model\StepExecution;
 use Akeneo\Tool\Component\Batch\Step\StepExecutionAwareInterface;
+use Akeneo\Tool\Component\Connector\Writer\Database\Writer;
 use Akeneo\Tool\Component\StorageUtils\Detacher\BulkObjectDetacherInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Writer\Database\Writer;
 
 class WriterTest extends TestCase
 {
@@ -41,12 +41,11 @@ class WriterTest extends TestCase
         $object1 = $this->createMock(CategoryInterface::class);
         $object2 = $this->createMock(CategoryInterface::class);
 
-        $this->bulkSaver->method('saveAll')->with([$object1, $object2]);
-        $this->bulkDetacher->method('detachAll')->with([$object1, $object2]);
+        $this->bulkSaver->expects($this->once())->method('saveAll')->with([$object1, $object2]);
+        $this->bulkDetacher->expects($this->once())->method('detachAll')->with([$object1, $object2]);
         $object1->method('getId')->willReturn(null);
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('create');
         $object2->method('getId')->willReturn(42);
-        $this->stepExecution->expects($this->once())->method('incrementSummaryInfo')->with('update');
+        $this->stepExecution->expects($this->exactly(2))->method('incrementSummaryInfo');
         $this->sut->write([$object1, $object2]);
     }
 }

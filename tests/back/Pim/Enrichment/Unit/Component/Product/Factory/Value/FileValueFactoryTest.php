@@ -53,8 +53,8 @@ class FileValueFactoryTest extends TestCase
         $fileInfo = new FileInfo();
         $this->fileInfoRepository->method('findOneByIdentifier')->with('a_file')->willReturn($fileInfo);
         $attribute = $this->getAttribute(true, true);
-        $value = $this->createByCheckingData($attribute, 'ecommerce', 'fr_FR', 'a_file');
-        $value->shouldBeLike(MediaValue::scopableLocalizableValue('an_attribute', $fileInfo, 'ecommerce', 'fr_FR'));
+        $value = $this->sut->createByCheckingData($attribute, 'ecommerce', 'fr_FR', 'a_file');
+        $this->assertEquals(MediaValue::scopableLocalizableValue('an_attribute', $fileInfo, 'ecommerce', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_localizable_value(): void
@@ -62,8 +62,8 @@ class FileValueFactoryTest extends TestCase
         $fileInfo = new FileInfo();
         $this->fileInfoRepository->method('findOneByIdentifier')->with('a_file')->willReturn($fileInfo);
         $attribute = $this->getAttribute(true, false);
-        $value = $this->createByCheckingData($attribute, null, 'fr_FR', 'a_file');
-        $value->shouldBeLike(MediaValue::localizableValue('an_attribute', $fileInfo, 'fr_FR'));
+        $value = $this->sut->createByCheckingData($attribute, null, 'fr_FR', 'a_file');
+        $this->assertEquals(MediaValue::localizableValue('an_attribute', $fileInfo, 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_scopable_value(): void
@@ -71,8 +71,8 @@ class FileValueFactoryTest extends TestCase
         $fileInfo = new FileInfo();
         $this->fileInfoRepository->method('findOneByIdentifier')->with('a_file')->willReturn($fileInfo);
         $attribute = $this->getAttribute(false, true);
-        $value = $this->createByCheckingData($attribute, 'ecommerce', null, 'a_file');
-        $value->shouldBeLike(MediaValue::scopableValue('an_attribute', $fileInfo, 'ecommerce'));
+        $value = $this->sut->createByCheckingData($attribute, 'ecommerce', null, 'a_file');
+        $this->assertEquals(MediaValue::scopableValue('an_attribute', $fileInfo, 'ecommerce'), $value);
     }
 
     public function test_it_creates_a_non_localizable_and_non_scopable_value(): void
@@ -80,8 +80,8 @@ class FileValueFactoryTest extends TestCase
         $fileInfo = new FileInfo();
         $this->fileInfoRepository->method('findOneByIdentifier')->with('a_file')->willReturn($fileInfo);
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createByCheckingData($attribute, null, null, 'a_file');
-        $value->shouldBeLike(MediaValue::value('an_attribute', $fileInfo));
+        $value = $this->sut->createByCheckingData($attribute, null, null, 'a_file');
+        $this->assertEquals(MediaValue::value('an_attribute', $fileInfo), $value);
     }
 
     public function test_it_creates_a_value_without_checking_data(): void
@@ -89,8 +89,8 @@ class FileValueFactoryTest extends TestCase
         $fileInfo = new FileInfo();
         $this->fileInfoRepository->method('findOneByIdentifier')->with('a_file')->willReturn($fileInfo);
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createWithoutCheckingData($attribute, null, null, 'a_file');
-        $value->shouldBeLike(MediaValue::value('an_attribute', $fileInfo));
+        $value = $this->sut->createWithoutCheckingData($attribute, null, null, 'a_file');
+        $this->assertEquals(MediaValue::value('an_attribute', $fileInfo), $value);
     }
 
     public function test_it_throws_an_exception_if_provided_data_is_not_a_string(): void
@@ -102,6 +102,6 @@ class FileValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::FILE, [], $isLocalizable, $isScopable, null, null, false, 'file', []);
+            return new Attribute('an_attribute', AttributeTypes::FILE, [], $isLocalizable, $isScopable, null, null, false, 'file', [], $value);
         }
 }

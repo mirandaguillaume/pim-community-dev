@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\Catalog;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\Catalog;
 
 use Akeneo\Pim\Structure\Component\Model\GroupType;
 use Akeneo\Pim\Structure\Component\Repository\GroupTypeRepositoryInterface;

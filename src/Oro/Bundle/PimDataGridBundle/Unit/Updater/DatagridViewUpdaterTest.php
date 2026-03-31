@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Updater;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Updater;
 
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidObjectException;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
@@ -36,10 +36,8 @@ class DatagridViewUpdaterTest extends TestCase
 
     public function test_it_throws_an_exception_if_the_given_object_is_not_a_datagrid(): void
     {
-        $this->expectException(InvalidObjectException::objectExpected(
-            'stdClass',
-            DatagridView::class
-        ));
+        $this->expectException(InvalidObjectException::class);
+        $this->expectExceptionMessage(sprintf('Expects a "%s", "%s" given.', DatagridView::class, 'stdClass'));
         $this->sut->update(new \stdClass(), []);
     }
 

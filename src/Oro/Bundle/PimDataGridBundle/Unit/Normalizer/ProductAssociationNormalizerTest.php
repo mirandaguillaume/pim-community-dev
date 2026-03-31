@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Normalizer;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Normalizer;
 
 use Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompleteness;
 use Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompletenessCollection;
@@ -33,7 +33,6 @@ class ProductAssociationNormalizerTest extends TestCase
         $this->imageNormalizer = $this->createMock(ImageNormalizer::class);
         $this->getProductCompletenesses = $this->createMock(GetProductCompletenesses::class);
         $this->sut = new ProductAssociationNormalizer($this->imageNormalizer, $this->getProductCompletenesses);
-        $this->serializer->method('implement')->with(NormalizerInterface::class);
         $this->sut->setSerializer($this->serializer);
     }
 

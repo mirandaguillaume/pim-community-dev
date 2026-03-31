@@ -30,38 +30,26 @@ class ValidateAttributeTest extends TestCase
 
     public function test_it_is_valid_when_attribute_is_localizable_and_scopable_with_provided_locale_code_and_channel_code(): void
     {
-        $this->sut->shouldNotThrow(PropertyException::class)->during('validate', [
-                    $this->getAttribute(true, true),
-                    'ecommerce',
-                    'en_US'
-                ]);
+        $this->sut->validate($this->getAttribute(true, true), 'ecommerce', 'en_US');
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_is_valid_when_attribute_is_localizable_with_provided_locale_code_and_null_channel_code(): void
     {
-        $this->sut->shouldNotThrow(PropertyException::class)->during('validate', [
-                    $this->getAttribute(false, true),
-                    null,
-                    'en_US'
-                ]);
+        $this->sut->validate($this->getAttribute(false, true), null, 'en_US');
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_is_valid_when_attribute_is_scopable_with_null_locale_code_and_provided_channel_code(): void
     {
-        $this->sut->shouldNotThrow(PropertyException::class)->during('validate', [
-                    $this->getAttribute(false, true),
-                    null,
-                    'en_US'
-                ]);
+        $this->sut->validate($this->getAttribute(false, true), null, 'en_US');
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_is_valid_when_attribute_is_neither_scopable_nor_localizable_with_null_locale_code_and_null_channel_code(): void
     {
-        $this->sut->shouldNotThrow(PropertyException::class)->during('validate', [
-                    $this->getAttribute(false, false),
-                    null,
-                    null
-                ]);
+        $this->sut->validate($this->getAttribute(false, false), null, null);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_throws_an_exception_when_attribute_is_localizable_and_scopable_with_null_locale_code(): void

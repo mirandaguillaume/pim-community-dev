@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Batch\Job;
 
+use Akeneo\Tool\Component\Batch\Job\RuntimeErrorException;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Batch\Job\RuntimeErrorException;
 
 class RuntimeErrorExceptionTest extends TestCase
 {

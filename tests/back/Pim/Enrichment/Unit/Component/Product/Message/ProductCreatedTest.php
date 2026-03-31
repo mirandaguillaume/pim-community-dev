@@ -41,7 +41,9 @@ class ProductCreatedTest extends TestCase
 
     public function test_it_validates_the_product_identifier(): void
     {
-        $this->expectException(new \InvalidArgumentException('Expected the key "identifier" to exist.'),);
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Expected the key "identifier" to exist.');
         new ProductCreated(Author::fromNameAndType('julia', Author::TYPE_UI),
                     [],
                     1598968800,
@@ -50,7 +52,9 @@ class ProductCreatedTest extends TestCase
 
     public function test_it_validates_the_product_uuid(): void
     {
-        $this->expectException(new \InvalidArgumentException('Expected the key "uuid" to exist.'),);
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Expected the key "uuid" to exist.');
         new ProductCreated(Author::fromNameAndType('julia', Author::TYPE_UI),
                     [
                         'identifier' => 'product_identifier'

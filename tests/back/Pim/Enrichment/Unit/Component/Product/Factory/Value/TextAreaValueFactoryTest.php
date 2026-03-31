@@ -44,32 +44,32 @@ class TextAreaValueFactoryTest extends TestCase
     {
         $attribute = $this->getAttribute(true, true);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', 'a_textarea');
-        $value->shouldBeLike(ScalarValue::scopableLocalizableValue('an_attribute', 'a_textarea', 'ecommerce', 'fr_FR'));
+                $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', 'fr_FR', 'a_textarea');
+        $this->assertEquals(ScalarValue::scopableLocalizableValue('an_attribute', 'a_textarea', 'ecommerce', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_localizable_value(): void
     {
         $attribute = $this->getAttribute(true, false);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, null, 'fr_FR', 'a_textarea');
-        $value->shouldBeLike(ScalarValue::localizableValue('an_attribute', 'a_textarea', 'fr_FR'));
+                $value = $this->sut->createWithoutCheckingData($attribute, null, 'fr_FR', 'a_textarea');
+        $this->assertEquals(ScalarValue::localizableValue('an_attribute', 'a_textarea', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, true);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, 'ecommerce', null, 'a_textarea');
-        $value->shouldBeLike(ScalarValue::scopableValue('an_attribute', 'a_textarea', 'ecommerce'));
+                $value = $this->sut->createWithoutCheckingData($attribute, 'ecommerce', null, 'a_textarea');
+        $this->assertEquals(ScalarValue::scopableValue('an_attribute', 'a_textarea', 'ecommerce'), $value);
     }
 
     public function test_it_creates_a_non_localizable_and_non_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, false);
         /** @var ScalarValue $value */
-                $value = $this->createWithoutCheckingData($attribute, null, null, 'a_textarea');
-        $value->shouldBeLike(ScalarValue::value('an_attribute', 'a_textarea'));
+                $value = $this->sut->createWithoutCheckingData($attribute, null, null, 'a_textarea');
+        $this->assertEquals(ScalarValue::value('an_attribute', 'a_textarea'), $value);
     }
 
     public function test_it_throws_an_exception_if_it_is_not_a_scalar(): void
@@ -83,6 +83,6 @@ class TextAreaValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::TEXTAREA, [], $isLocalizable, $isScopable, null, null, false, 'textarea', []);
+            return new Attribute('an_attribute', AttributeTypes::TEXTAREA, [], $isLocalizable, $isScopable, null, null, false, 'textarea', [], $value);
         }
 }

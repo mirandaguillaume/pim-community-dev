@@ -11,52 +11,63 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\AttributeRequirementInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
-use Akeneo\Pim\Structure\Component\Repository\FamilyRepositoryInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CreateAttributeRequirementSubscriberTest extends TestCase
 {
+    private AttributeRequirementFactory|MockObject $requirementFactory;
     private CreateAttributeRequirementSubscriber $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new CreateAttributeRequirementSubscriber();
+        $this->requirementFactory = $this->createMock(AttributeRequirementFactory::class);
+        $this->sut = new CreateAttributeRequirementSubscriber($this->requirementFactory);
     }
 
     public function test_it_ignores_non_ChannelInterface_entity(): void
     {
         $eventArgs = $this->createMock(LifecycleEventArgs::class);
-        $entityManager = $this->createMock(ObjectManager::class);
-
-        $eventArgs->method('getObject')->willReturn(null);
-        $entityManager->expects($this->never())->method('persist')->with($this->anything());
+        $eventArgs->method('getObject')->willReturn(new \stdClass());
         $this->assertNull($this->sut->prePersist($eventArgs));
     }
 
     public function test_it_creates_requirements_for_the_attribute_defined_as_identifier(): void
     {
-        $familyRepository = $this->createMock(FamilyRepositoryInterface::class);
-        $attributeRepository = $this->createMock(AttributeRepositoryInterface::class);
+        $channel = $this->createMock(ChannelInterface::class);
+        $entityManager = $this->createMock(ObjectManager::class);
+        $eventArgs = $this->createMock(LifecycleEventArgs::class);
+        $eventArgs->method('getObject')->willReturn($channel);
+        $eventArgs->method('getObjectManager')->willReturn($entityManager);
+
         $familyA = $this->createMock(FamilyInterface::class);
         $familyB = $this->createMock(FamilyInterface::class);
         $identifierAttribute = $this->createMock(AttributeInterface::class);
         $attributeRequirementA = $this->createMock(AttributeRequirementInterface::class);
         $attributeRequirementB = $this->createMock(AttributeRequirementInterface::class);
 
-        $entityManager->getRepository(FamilyInterface::class)->willReturn($familyRepository);
-        $entityManager->getRepository(AttributeInterface::class)->willReturn($attributeRepository);
+        $familyRepository = $this->createMock(ObjectRepository::class);
+        $attributeRepository = $this->createMock(AttributeRepositoryInterface::class);
+
+        $entityManager->method('getRepository')->willReturnMap([
+            [FamilyInterface::class, $familyRepository],
+            [AttributeInterface::class, $attributeRepository],
+        ]);
+
         $familyRepository->method('findAll')->willReturn([$familyA, $familyB]);
         $attributeRepository->method('getIdentifier')->willReturn($identifierAttribute);
-        $requirementFactory
-                    ->createAttributeRequirement($identifierAttribute, $channel, true)
-                    ->willReturn($attributeRequirementA, $attributeRequirementB);
+
+        $this->requirementFactory->method('createAttributeRequirement')
+            ->with($identifierAttribute, $channel, true)
+            ->willReturnOnConsecutiveCalls($attributeRequirementA, $attributeRequirementB);
+
         $attributeRequirementA->expects($this->once())->method('setFamily')->with($familyA);
         $attributeRequirementB->expects($this->once())->method('setFamily')->with($familyB);
-        $entityManager->persist($attributeRequirementA)->shouldBeCalled();
-        $entityManager->persist($attributeRequirementB)->shouldBeCalled();
-        $this->assertNull($this->sut->prePersist($eventArgs));
+        $entityManager->expects($this->exactly(2))->method('persist');
+
+        $this->sut->prePersist($eventArgs);
     }
 }

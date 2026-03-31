@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\EventSubscriber;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\EventSubscriber;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithFamilyInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithValuesInterface;
@@ -30,7 +30,7 @@ class FilterEntityWithValuesSubscriberTest extends TestCase
 
     public function test_it_does_not_filter_non_entity_with_values_object(): void
     {
-        $entity = $this->createMock(StdClass::class);
+        $entity = new \stdClass();
         $event = $this->createMock(LifecycleEventArgs::class);
 
         $event->method('getObject')->willReturn($entity);

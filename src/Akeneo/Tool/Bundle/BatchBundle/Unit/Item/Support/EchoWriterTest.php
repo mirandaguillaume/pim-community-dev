@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\Item\Support;
 
+use Akeneo\Tool\Bundle\BatchBundle\Item\Support\EchoWriter;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\BatchBundle\Item\Support\EchoWriter;
 
 class EchoWriterTest extends TestCase
 {

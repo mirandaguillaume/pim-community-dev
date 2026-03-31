@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Processor;
 
+use Akeneo\Tool\Component\Connector\Processor\DummyItemProcessor;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Processor\DummyItemProcessor;
 
 class DummyItemProcessorTest extends TestCase
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Reader;
 
+use Akeneo\Tool\Component\Connector\Reader\DummyItemReader;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Reader\DummyItemReader;
 
 class DummyItemReaderTest extends TestCase
 {

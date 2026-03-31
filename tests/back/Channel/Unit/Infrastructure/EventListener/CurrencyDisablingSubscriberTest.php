@@ -14,11 +14,13 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class CurrencyDisablingSubscriberTest extends TestCase
 {
+    private ChannelRepositoryInterface|MockObject $channelRepository;
     private CurrencyDisablingSubscriber $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new CurrencyDisablingSubscriber();
+        $this->channelRepository = $this->createMock(ChannelRepositoryInterface::class);
+        $this->sut = new CurrencyDisablingSubscriber($this->channelRepository);
     }
 
     public function test_it_is_an_event_subscriber(): void
@@ -29,11 +31,11 @@ class CurrencyDisablingSubscriberTest extends TestCase
     public function test_it_does_not_throw_when_this_is_not_a_currency(): void
     {
         $event = $this->createMock(GenericEvent::class);
-        $notACurrency = $this->createMock(StdClass::class);
+        $notACurrency = new \stdClass();
 
         $event->method('getSubject')->willReturn($notACurrency);
-        $this->sut->shouldNotThrow(new LinkedChannelException('You cannot disable a currency linked to a channel.'))
-                    ->during('checkChannelLink', [$event]);
+        $this->sut->checkChannelLink($event);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_does_not_throw_when_currency_is_not_saved(): void
@@ -43,8 +45,8 @@ class CurrencyDisablingSubscriberTest extends TestCase
 
         $event->method('getSubject')->willReturn($currency);
         $currency->method('getId')->willReturn(null);
-        $this->sut->shouldNotThrow(new LinkedChannelException('You cannot disable a currency linked to a channel.'))
-                    ->during('checkChannelLink', [$event]);
+        $this->sut->checkChannelLink($event);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_does_not_throw_when_currency_is_activated(): void
@@ -55,8 +57,8 @@ class CurrencyDisablingSubscriberTest extends TestCase
         $event->method('getSubject')->willReturn($currency);
         $currency->method('getId')->willReturn(42);
         $currency->method('isActivated')->willReturn(true);
-        $this->sut->shouldNotThrow(new LinkedChannelException('You cannot disable a currency linked to a channel.'))
-                    ->during('checkChannelLink', [$event]);
+        $this->sut->checkChannelLink($event);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_does_not_throw_when_currency_is_unused(): void
@@ -67,9 +69,9 @@ class CurrencyDisablingSubscriberTest extends TestCase
         $event->method('getSubject')->willReturn($currency);
         $currency->method('getId')->willReturn(42);
         $currency->method('isActivated')->willReturn(false);
-        $channelRepository->getChannelCountUsingCurrency($currency)->willReturn(0);
-        $this->sut->shouldNotThrow(new LinkedChannelException('You cannot disable a currency linked to a channel.'))
-                    ->during('checkChannelLink', [$event]);
+        $this->channelRepository->method('getChannelCountUsingCurrency')->with($currency)->willReturn(0);
+        $this->sut->checkChannelLink($event);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_throws_linked_channel_exception(): void
@@ -80,8 +82,8 @@ class CurrencyDisablingSubscriberTest extends TestCase
         $event->method('getSubject')->willReturn($currency);
         $currency->method('getId')->willReturn(42);
         $currency->method('isActivated')->willReturn(false);
-        $channelRepository->getChannelCountUsingCurrency($currency)->willReturn(1);
-        $this->expectException(new LinkedChannelException('You cannot disable a currency linked to a channel.'));
+        $this->channelRepository->method('getChannelCountUsingCurrency')->with($currency)->willReturn(1);
+        $this->expectException(LinkedChannelException::class);
         $this->sut->checkChannelLink($event);
     }
 }

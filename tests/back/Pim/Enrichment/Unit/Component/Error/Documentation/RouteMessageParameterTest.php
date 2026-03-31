@@ -44,19 +44,16 @@ class RouteMessageParameterTest extends TestCase
                     '{pim_enrich_attribute_index}',
                 ];
         foreach ($wrongMatches as $wrongMatch) {
-                    $this->beConstructedWith(
-                        'Attributes settings',
-                        $wrongMatch
-                    );
-                    $this
-                        ->shouldThrow(
-                            new \InvalidArgumentException(sprintf(
-                                'The provided route must be composed by a-z or _ characters only, "%s" given.',
-                                $wrongMatch
-                            ))
-                        )
-                        ->duringInstantiation();
-                }
+            try {
+                new RouteMessageParameter(
+                    'Attributes settings',
+                    $wrongMatch
+                );
+                $this->fail('Expected InvalidArgumentException was not thrown for: ' . $wrongMatch);
+            } catch (\InvalidArgumentException $e) {
+                $this->assertStringContainsString($wrongMatch, $e->getMessage());
+            }
+        }
     }
 
     public function test_it_validates_that_the_route_parameters_have_the_good_format(): void
@@ -67,19 +64,16 @@ class RouteMessageParameterTest extends TestCase
                     ['code' => 'pastel', 'zero' => []],
                 ];
         foreach ($wrongMatches as $wrongMatch) {
-                    $this->beConstructedWith(
-                        'Attributes settings',
-                        'pim_enrich_attribute_index',
-                        $wrongMatch
-                    );
-                    $this
-                        ->shouldThrow(
-                            new \InvalidArgumentException(sprintf(
-                                '$routeParameter argument from "%s" class must be an associative array of string.',
-                                RouteMessageParameter::class
-                            ))
-                        )
-                        ->duringInstantiation();
-                }
+            try {
+                new RouteMessageParameter(
+                    'Attributes settings',
+                    'pim_enrich_attribute_index',
+                    $wrongMatch
+                );
+                $this->fail('Expected InvalidArgumentException was not thrown');
+            } catch (\InvalidArgumentException $e) {
+                $this->assertStringContainsString(RouteMessageParameter::class, $e->getMessage());
+            }
+        }
     }
 }

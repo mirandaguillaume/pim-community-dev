@@ -85,12 +85,14 @@ class DocumentationCollectionTest extends TestCase
                 {
                 }
         ;
-        $this->expectException(new \InvalidArgumentException(sprintf(
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage(sprintf(
                             'Class "%s" can only contain collection of "%s", instance of "%s" given.',
                             DocumentationCollection::class,
                             Documentation::class,
                             get_class($documentation)
-                        )));
+                        ));
         new DocumentationCollection([$documentation]);
     }
 }

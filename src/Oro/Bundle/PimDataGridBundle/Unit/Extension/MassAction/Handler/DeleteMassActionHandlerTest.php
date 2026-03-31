@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler;
 
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductMassActionRepositoryInterface;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
@@ -13,9 +13,9 @@ use Oro\Bundle\PimDataGridBundle\Datasource\ResultRecord\HydratorInterface;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Ajax\DeleteMassAction;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Event\MassActionEvent;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Event\MassActionEvents;
+use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\DeleteMassActionHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\DeleteMassActionHandler;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -47,7 +47,7 @@ class DeleteMassActionHandlerTest extends TestCase
         $this->datasource->expects($this->once())->method('setHydrator')->with($this->hydrator);
         $this->datasource->method('getMassActionRepository')->willReturn($this->massActionRepo);
         // prepare mass action response
-        $this->massAction->getOptions()->willReturn($this->options);
+        $this->massAction->method('getOptions')->willReturn($this->options);
         $this->options->method('offsetGetByPath')->willReturn('qux');
     }
 
@@ -85,8 +85,8 @@ class DeleteMassActionHandlerTest extends TestCase
         $this->datasource->method('getResults')->willReturn($objectIds);
         $this->massActionRepo->method('deleteFromIds')->with($objectIds)->willReturn($countRemoved);
         $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->anything(), $this->anything());
-        $this->sut->handle($this->datagrid, $this->massAction)
-                    ->shouldReturnAnInstanceOf(MassActionResponseInterface::class);
+        $result = $this->sut->handle($this->datagrid, $this->massAction);
+        $this->assertInstanceOf(MassActionResponseInterface::class, $result);
     }
 
     public function test_it_returns_failed_message_if_an_exception_occurs(): void
@@ -105,7 +105,7 @@ class DeleteMassActionHandlerTest extends TestCase
             $this->isInstanceOf(MassActionEvent::class),
             MassActionEvents::MASS_DELETE_POST_HANDLER
         );
-        $this->sut->handle($this->datagrid, $this->massAction)
-                    ->shouldReturnAnInstanceOf(MassActionResponseInterface::class);
+        $result = $this->sut->handle($this->datagrid, $this->massAction);
+        $this->assertInstanceOf(MassActionResponseInterface::class, $result);
     }
 }

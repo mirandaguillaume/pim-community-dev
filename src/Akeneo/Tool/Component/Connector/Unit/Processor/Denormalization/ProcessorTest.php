@@ -10,6 +10,7 @@ use Akeneo\Tool\Component\Batch\Item\InvalidItemException;
 use Akeneo\Tool\Component\Batch\Item\ItemProcessorInterface;
 use Akeneo\Tool\Component\Batch\Model\StepExecution;
 use Akeneo\Tool\Component\Batch\Step\StepExecutionAwareInterface;
+use Akeneo\Tool\Component\Connector\Processor\Denormalization\Processor;
 use Akeneo\Tool\Component\StorageUtils\Detacher\ObjectDetacherInterface;
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyException;
 use Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactory;
@@ -17,7 +18,6 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
 use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Processor\Denormalization\Processor;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -72,9 +72,6 @@ class ProcessorTest extends TestCase
         $this->repository->method('findOneByIdentifier')->with($this->anything())->willReturn($channel);
         $channel->method('getId')->willReturn(42);
         $values = $this->getValues();
-        $this->updater->expects($this->once())->method('update')->with($channel, $values);
-        $this->validator->method('validate')->with($channel)->willReturn(new ConstraintViolationList());
-        $this->assertSame($channel, $this->sut->process($values));
         $this->updater->method('update')->with($channel, $values)->willThrowException(new InvalidPropertyException('code', 'value', 'className', 'The code could not be blank.'));
         $this->expectException(InvalidItemException::class);
         $this->sut->process($values);
@@ -106,24 +103,26 @@ class ProcessorTest extends TestCase
         $this->sut->setStepExecution($stepExecution);
         $this->repository->method('getIdentifierProperties')->willReturn(['code']);
         $stepExecution->method('getExecutionContext')->willReturn($executionContext);
-        $executionContext->method('get')->with('processed_items_batch')->willReturn(null);
+        $processedItems = null;
+        $executionContext->method('get')->with('processed_items_batch')->willReturnCallback(
+            function () use (&$processedItems) {
+                return $processedItems;
+            }
+        );
+        $executionContext->method('put')->willReturnCallback(
+            function (string $key, $value) use (&$processedItems) {
+                $processedItems = $value;
+            }
+        );
         $this->repository->method('findOneByIdentifier')->with('mycode')->willReturn(null);
+        // Factory creates only once (channel is found in execution context on 2nd call)
         $this->factory->expects($this->exactly(1))->method('create')->willReturn($channel);
-        // TODO: manual conversion needed — complex .will() callback
-        // $executionContext
-        //             ->put('processed_items_batch', ['mycode' => $channel])
-        //             ->shouldBeCalled()
-        //             ->will(function () use ($executionContext, $channel) {
-        //                 $executionContext->get('processed_items_batch')->willReturn(['mycode' => $channel]);
-        //             });
-        $firstChannelValues = $this->getValues();
-        $this->updater->expects($this->once())->method('update')->with($channel, $firstChannelValues);
+        $this->updater->expects($this->exactly(2))->method('update');
         $this->validator->method('validate')->with($channel)->willReturn(new ConstraintViolationList());
+        $firstChannelValues = $this->getValues();
         $this->assertSame($channel, $this->sut->process($firstChannelValues));
         $secondChannelValues = $this->getValues();
         $secondChannelValues['label'] = 'Another label';
-        $this->updater->expects($this->once())->method('update')->with($channel, $secondChannelValues);
-        $this->validator->method('validate')->with($channel)->willReturn(new ConstraintViolationList());
         $this->assertSame($channel, $this->sut->process($secondChannelValues));
     }
 

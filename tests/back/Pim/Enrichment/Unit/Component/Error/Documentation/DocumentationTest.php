@@ -54,11 +54,13 @@ class DocumentationTest extends TestCase
 
     public function test_it_validates_that_message_parameters_implement_the_good_interface(): void
     {
-        $this->expectException(new \InvalidArgumentException(sprintf(
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage(sprintf(
                             'Class "%s" accepts only associative array of "%s" as $messageParameters.',
                             Documentation::class,
                             MessageParameterInterface::class
-                        )));
+                        ));
         new Documentation('More information about attributes: {what_is_attribute} {attribute_settings}.',
                     [
                         'what_is_attribute' => new HrefMessageParameter(
@@ -76,32 +78,28 @@ class DocumentationTest extends TestCase
     {
         $message = 'More information about attributes: {what_is_attribute} {attribute_settings}.';
         foreach (['what_attribute', '{what_is_attribute}'] as $wrongMatch) {
-                    $this->beConstructedWith(
-                        $message,
-                        [
-                            $wrongMatch => new HrefMessageParameter(
-                                'What is an attribute?',
-                                'https://help.akeneo.com/what-is-an-attribute.html'
-                            ),
-                        ],
-                        Documentation::STYLE_TEXT
-                    );
+            try {
+                new Documentation(
+                    $message,
+                    [
+                        $wrongMatch => new HrefMessageParameter(
+                            'What is an attribute?',
+                            'https://help.akeneo.com/what-is-an-attribute.html'
+                        ),
+                    ],
+                    Documentation::STYLE_TEXT
+                );
+                $this->fail('Expected InvalidArgumentException was not thrown for: ' . $wrongMatch);
+            } catch (\InvalidArgumentException $e) {
+                $this->assertStringContainsString($wrongMatch, $e->getMessage());
+            }
+        }
+    }
 
-                    $this
-                        ->shouldThrow(
-                            new \InvalidArgumentException(sprintf(
-                                '$messageParameters "%s" not found in $message "%s".',
-                                $wrongMatch,
-                                $message
-                            ))
-                        )
-                        ->duringInstantiation();
-                }
-        $this->expectException(new \InvalidArgumentException(sprintf(
-                            '$messageParameters "%s" not found in $message "%s".',
-                            0,
-                            $message
-                        )));
+    public function test_it_validates_that_message_parameters_keys_must_be_strings(): void
+    {
+        $message = 'More information about attributes: {what_is_attribute} {attribute_settings}.';
+        $this->expectException(\InvalidArgumentException::class);
         new Documentation($message,
                     [
                         new HrefMessageParameter(

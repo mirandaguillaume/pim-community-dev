@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Normalizer\Product;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Normalizer\Product;
 
 use Akeneo\Pim\Enrichment\Component\Product\Localization\Presenter\PresenterRegistryInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
@@ -30,7 +30,6 @@ class ProductValuesNormalizerTest extends TestCase
         $this->presenterRegistry = $this->createMock(PresenterRegistryInterface::class);
         $this->userContext = $this->createMock(UserContext::class);
         $this->sut = new ProductValuesNormalizer($this->presenterRegistry, $this->userContext);
-        $this->serializer->method('implement')->with(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
         $this->sut->setSerializer($this->serializer);
     }
 

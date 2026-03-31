@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product;
 
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\FilterBundle\Grid\Extension\Configuration as FilterConfiguration;
 use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\ConfiguratorInterface;
 use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ConfigurationRegistry;
 use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ContextConfigurator;
+use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\FiltersConfigurator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\FiltersConfigurator;
 
 class FiltersConfiguratorTest extends TestCase
 {
@@ -112,6 +112,7 @@ class FiltersConfiguratorTest extends TestCase
         $configuration->method('offsetGet')->with(ContextConfigurator::SOURCE_KEY)->willReturn($attributesConf);
         $this->registry->method('getConfiguration')->with('pim_catalog_identifier')->willReturn(['filter' => ['identifier_config']]);
         $this->registry->method('getConfiguration')->with('pim_catalog_text')->willReturn([]);
-        $this->sut->shouldThrow('\LogicException')->duringConfigure($configuration);
+        $this->expectException(\LogicException::class);
+        $this->sut->configure($configuration);
     }
 }

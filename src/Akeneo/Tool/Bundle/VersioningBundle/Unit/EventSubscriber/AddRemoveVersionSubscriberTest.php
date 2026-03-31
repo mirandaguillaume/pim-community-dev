@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 
+use Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddRemoveVersionSubscriber;
 use Akeneo\Tool\Bundle\VersioningBundle\Factory\VersionFactory;
 use Akeneo\Tool\Bundle\VersioningBundle\Repository\VersionRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Event\RemoveEvent;
@@ -12,7 +13,6 @@ use Akeneo\Tool\Component\Versioning\Model\VersionableInterface;
 use Akeneo\Tool\Component\Versioning\Model\VersionInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddRemoveVersionSubscriber;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

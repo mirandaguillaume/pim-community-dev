@@ -95,8 +95,8 @@ class NonExistentChannelLocaleValuesFilterTest extends TestCase
         $this->getAttributes->method('forCode')->with('a_select')->willReturn($attributes['a_select']);
         $this->getAttributes->method('forCode')->with('another_select')->willReturn($attributes['another_select']);
         $this->getAttributes->method('forCode')->with('a_description')->willReturn($attributes['a_description']);
-        $filteredRawValues = $this->filter($ongoingFilteredRawValues)->filteredRawValuesCollectionIndexedByType();
-        $filteredRawValues->shouldBeLike([
+        $filteredRawValues = $this->sut->filter($ongoingFilteredRawValues)->filteredRawValuesCollectionIndexedByType();
+        $this->assertEquals([
                     AttributeTypes::OPTION_SIMPLE_SELECT => [
                         'a_select' => [
                             [
@@ -131,7 +131,7 @@ class NonExistentChannelLocaleValuesFilterTest extends TestCase
                             ],
                         ],
                     ],
-                ]);
+                ], $filteredRawValues);
     }
 
     public function test_it_filters_values_of_not_activated_locales(): void
@@ -195,8 +195,8 @@ class NonExistentChannelLocaleValuesFilterTest extends TestCase
         $this->getAttributes->method('forCode')->with('a_select')->willReturn($attributes['a_select']);
         $this->getAttributes->method('forCode')->with('another_select')->willReturn($attributes['another_select']);
         $this->getAttributes->method('forCode')->with('a_description')->willReturn($attributes['a_description']);
-        $filteredRawValues = $this->filter($ongoingFilteredRawValues)->filteredRawValuesCollectionIndexedByType();
-        $filteredRawValues->shouldBeLike([
+        $filteredRawValues = $this->sut->filter($ongoingFilteredRawValues)->filteredRawValuesCollectionIndexedByType();
+        $this->assertEquals([
                     AttributeTypes::OPTION_SIMPLE_SELECT => [
                         'a_select' => [
                             [
@@ -236,7 +236,7 @@ class NonExistentChannelLocaleValuesFilterTest extends TestCase
                             ],
                         ],
                     ],
-                ]);
+                ], $filteredRawValues);
     }
 
     private function getAttributes(): array

@@ -162,7 +162,7 @@ class UpsertProductHandlerTest extends TestCase
         $token->method('getUser')->willReturn($user);
         $user->method('getId')->willReturn(1);
         $this->productSaver->expects($this->never())->method('save')->with($product);
-        $this->expectException(new ViolationsException($violations));
+        $this->expectException(ViolationsException::class);
         $this->sut->__invoke($command);
     }
 
@@ -184,7 +184,7 @@ class UpsertProductHandlerTest extends TestCase
         $this->productRepository->expects($this->once())->method('findOneByIdentifier')->with('identifier1')->willReturn($product);
         $this->productValidator->expects($this->once())->method('validate')->with($product)->willReturn($violations);
         $this->productSaver->expects($this->never())->method('save')->with($product);
-        $this->expectException(new LegacyViolationsException($violations));
+        $this->expectException(LegacyViolationsException::class);
         $this->sut->__invoke($command);
     }
 

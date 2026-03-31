@@ -16,16 +16,19 @@ use PHPUnit\Framework\TestCase;
 
 class MeasurementFamilyTest extends TestCase
 {
+    private const MEASUREMENT_FAMILY_CODE = 'Length';
+    private const MEASUREMENT_FAMILY_LABEL = ['en_US' => 'Length', 'fr_FR' => 'Longueur'];
+    private const METER_UNIT_CODE = 'METER';
+    private const METER_LABELS = ['en_US' => 'meter', 'fr_FR' => 'mètre'];
+    private const METER_SYMBOL = 'm';
+    private const CENTIMETER_UNIT_CODE = 'CENTIMETER';
+    private const CENTIMETER_LABELS = ['en_US' => 'centimeter', 'fr_FR' => 'centimètre'];
+    private const CENTIMETER_SYMBOL = 'cm';
+
     private MeasurementFamily $sut;
 
     protected function setUp(): void
     {
-        $this->sut = MeasurementFamily::create(
-            MeasurementFamilyCode::fromString(self::MEASUREMENT_FAMILY_CODE),
-            LabelCollection::fromArray(self::MEASUREMENT_FAMILY_LABEL),
-            $standardUnitCode,
-            [$meterUnit, $centimeterUnit],
-        );
         $standardUnitCode = UnitCode::fromString(self::METER_UNIT_CODE);
         $meterUnit = Unit::create(
             $standardUnitCode,
@@ -38,6 +41,12 @@ class MeasurementFamilyTest extends TestCase
             LabelCollection::fromArray(self::CENTIMETER_LABELS),
             [Operation::create('mul', '5')],
             self::CENTIMETER_SYMBOL,
+        );
+        $this->sut = MeasurementFamily::create(
+            MeasurementFamilyCode::fromString(self::MEASUREMENT_FAMILY_CODE),
+            LabelCollection::fromArray(self::MEASUREMENT_FAMILY_LABEL),
+            $standardUnitCode,
+            [$meterUnit, $centimeterUnit],
         );
     }
 

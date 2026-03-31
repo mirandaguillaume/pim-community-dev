@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\EventListener;
 
+use Akeneo\Tool\Bundle\BatchBundle\EventListener\LoadJobParametersListener;
 use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Job\JobParametersFactory;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\BatchBundle\EventListener\LoadJobParametersListener;
 
 class LoadJobParametersListenerTest extends TestCase
 {

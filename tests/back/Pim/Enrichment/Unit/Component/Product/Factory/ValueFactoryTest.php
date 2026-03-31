@@ -15,17 +15,17 @@ use PHPUnit\Framework\TestCase;
 
 class ValueFactoryTest extends TestCase
 {
-    private ValueFactory|MockObject $factory1;
-    private ValueFactory|MockObject $factory2;
+    private SingleValueFactory|MockObject $factory1;
+    private SingleValueFactory|MockObject $factory2;
     private ValueFactory $sut;
 
     protected function setUp(): void
     {
-        $this->factory1 = $this->createMock(ValueFactory::class);
-        $this->factory2 = $this->createMock(ValueFactory::class);
-        $this->sut = new ValueFactory([$this->factory1, $this->factory2]);
+        $this->factory1 = $this->createMock(SingleValueFactory::class);
+        $this->factory2 = $this->createMock(SingleValueFactory::class);
         $this->factory1->method('supportedAttributeType')->willReturn('an_attribute_type1');
         $this->factory2->method('supportedAttributeType')->willReturn('an_attribute_type2');
+        $this->sut = new ValueFactory([$this->factory1, $this->factory2]);
     }
 
     public function test_it_calls_the_right_factory_without_checking_data(): void

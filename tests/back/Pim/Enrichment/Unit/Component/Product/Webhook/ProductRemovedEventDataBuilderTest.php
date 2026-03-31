@@ -23,7 +23,6 @@ class ProductRemovedEventDataBuilderTest extends TestCase
     protected function setUp(): void
     {
         $this->sut = new ProductRemovedEventDataBuilder();
-        $this->sut->beConstructedWith();
     }
 
     public function test_it_is_initializable(): void
@@ -90,7 +89,7 @@ class ProductRemovedEventDataBuilderTest extends TestCase
                     'identifier' => 'red_jean',
                     'uuid' => $uuidRedJean
                 ]]);
-        $collection = $this->build($bulkEvent, $context);
+        $collection = $this->sut->build($bulkEvent, $context);
         Assert::assertEquals($expectedCollection, $collection);
     }
 }

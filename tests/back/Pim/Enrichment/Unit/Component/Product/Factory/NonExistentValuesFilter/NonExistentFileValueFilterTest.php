@@ -80,8 +80,8 @@ class NonExistentFileValueFilterTest extends TestCase
         $this->fileInfoRepository->method('findBy')->with(['key' => ['fileA', 'fileB', 'unexistingFile']])->willReturn([$fileA, $fileB]);
         $this->fileInfoRepository->method('findBy')->with(['key' => ['imageA', 'imageB', 'unexistingImage']])->willReturn([$imageA, $imageB]);
         /** @var OnGoingFilteredRawValues $filteredCollection */
-                $filteredCollection = $this->filter($ongoingFilteredRawValues);
-        $filteredCollection->filteredRawValuesCollectionIndexedByType()->shouldBeLike([
+                $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
+        $this->assertEquals([
                     AttributeTypes::IMAGE => [
                         'an_image' => [
                             [
@@ -110,6 +110,6 @@ class NonExistentFileValueFilterTest extends TestCase
                             ]
                         ]
                     ],
-                ]);
+                ], $filteredCollection->filteredRawValuesCollectionIndexedByType());
     }
 }

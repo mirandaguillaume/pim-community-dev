@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Redirect;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Redirect;
 
 use Oro\Bundle\DataGridBundle\Extension\Action\ActionConfiguration;
+use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Redirect\EditMassAction;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Redirect\EditMassAction;
 
 class EditMassActionTest extends TestCase
 {
@@ -21,16 +21,16 @@ class EditMassActionTest extends TestCase
     {
         $params = [];
         $options = ActionConfiguration::createNamed('edit', $params);
-        $this->sut->shouldThrow(
-            new \LogicException('There is no option "route" for action "edit".')
-        )->duringSetOptions($options);
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('There is no option "route" for action "edit".');
+        $this->sut->setOptions($options);
     }
 
     public function test_it_defines_default_values(): void
     {
         $params = ['route' => 'foo'];
         $options = ActionConfiguration::createNamed('edit', $params);
-        $this->sut->setOptions($options)->shouldNotThrow($this->anything());
+        $this->sut->setOptions($options);
         $this->assertSame('edit', $this->sut->getOptions()->getName());
         $this->assertSame('redirect', $this->sut->getOptions()->offsetGet('frontend_type'));
         $this->assertSame([], $this->sut->getOptions()->offsetGet('route_parameters'));
@@ -46,7 +46,7 @@ class EditMassActionTest extends TestCase
                     'handler'          => 'my_handler',
                 ];
         $options = ActionConfiguration::createNamed('edit', $params);
-        $this->sut->setOptions($options)->shouldNotThrow($this->anything());
+        $this->sut->setOptions($options);
         $this->assertSame('edit', $this->sut->getOptions()->getName());
         $this->assertSame('my_handler', $this->sut->getOptions()->offsetGet('handler'));
         $this->assertSame('baz', $this->sut->getOptions()->offsetGet('route'));
@@ -57,7 +57,7 @@ class EditMassActionTest extends TestCase
     {
         $params = ['route' => 'foo', 'frontend_type' => 'bar'];
         $options = ActionConfiguration::createNamed('edit', $params);
-        $this->sut->setOptions($options)->shouldNotThrow($this->anything());
+        $this->sut->setOptions($options);
         $this->assertSame('redirect', $this->sut->getOptions()->offsetGet('frontend_type'));
     }
 }

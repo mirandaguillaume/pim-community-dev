@@ -10,12 +10,12 @@ use PHPUnit\Framework\TestCase;
 
 class TechnicalErrorEventTest extends TestCase
 {
-    private Exception|MockObject $error;
+    private \Exception|MockObject $error;
     private TechnicalErrorEvent $sut;
 
     protected function setUp(): void
     {
-        $this->error = $this->createMock(Exception::class);
+        $this->error = $this->createMock(\Exception::class);
         $this->sut = new TechnicalErrorEvent($this->error);
     }
 

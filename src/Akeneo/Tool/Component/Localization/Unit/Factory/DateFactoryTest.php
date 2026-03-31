@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Localization\Factory;
 
+use Akeneo\Tool\Component\Localization\Factory\DateFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Localization\Factory\DateFactory;
 
 class DateFactoryTest extends TestCase
 {

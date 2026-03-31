@@ -44,8 +44,8 @@ class NumericGuesserTest extends TestCase
         $attribute = $this->createMock(AttributeInterface::class);
 
         $attribute->method('getCode')->willReturn('');
-        $constraints = $this->guessConstraints($attribute);
-        $constraints->shouldHaveCount(1);
+        $constraints = $this->sut->guessConstraints($attribute);
+        $this->assertCount(1, $constraints);
         $constraint = $constraints[0];
         $constraint->shouldBeAnInstanceOf(IsNumeric::class);
     }

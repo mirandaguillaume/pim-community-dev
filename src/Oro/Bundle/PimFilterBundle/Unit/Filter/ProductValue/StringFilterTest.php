@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimFilterBundle\Filter\ProductValue;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter\ProductValue;
 
 use Oro\Bundle\FilterBundle\Datasource\FilterDatasourceAdapterInterface;
 use Oro\Bundle\PimFilterBundle\Filter\ProductFilterUtility;
+use Oro\Bundle\PimFilterBundle\Filter\ProductValue\StringFilter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimFilterBundle\Filter\ProductValue\StringFilter;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class StringFilterTest extends TestCase

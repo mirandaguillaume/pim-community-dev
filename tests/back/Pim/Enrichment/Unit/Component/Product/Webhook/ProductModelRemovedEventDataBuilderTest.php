@@ -23,7 +23,6 @@ class ProductModelRemovedEventDataBuilderTest extends TestCase
     protected function setUp(): void
     {
         $this->sut = new ProductModelRemovedEventDataBuilder();
-        $this->sut->beConstructedWith();
     }
 
     public function test_it_is_initializable(): void
@@ -69,7 +68,7 @@ class ProductModelRemovedEventDataBuilderTest extends TestCase
         $expectedCollection = new EventDataCollection();
         $expectedCollection->setEventData($blueJeanEvent, ['resource' => ['code' => 'blue_jean']]);
         $expectedCollection->setEventData($redJeanEvent, ['resource' => ['code' => 'red_jean']]);
-        $collection = $this->build($bulkEvent, $context);
+        $collection = $this->sut->build($bulkEvent, $context);
         Assert::assertEquals($expectedCollection, $collection);
     }
 }

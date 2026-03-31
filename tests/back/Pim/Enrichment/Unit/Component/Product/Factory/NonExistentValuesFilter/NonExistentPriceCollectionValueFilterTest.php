@@ -69,8 +69,8 @@ class NonExistentPriceCollectionValueFilterTest extends TestCase
         $this->findActivatedCurrencies->method('forChannel')->with('ecommerce')->willReturn(['EUR']);
         $this->findActivatedCurrencies->method('forChannel')->with('tablet')->willReturn(['EUR']);
         /** @var OnGoingFilteredRawValues $filteredCollection */
-                $filteredCollection = $this->filter($ongoingFilteredRawValues);
-        $filteredCollection->filteredRawValuesCollectionIndexedByType()->shouldBeLike(
+                $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
+        $this->assertEquals(
                     [
                         AttributeTypes::PRICE_COLLECTION => [
                             'a_price_collection' => [
@@ -88,6 +88,6 @@ class NonExistentPriceCollectionValueFilterTest extends TestCase
                             ]
                         ],
                     ]
-                );
+                , $filteredCollection->filteredRawValuesCollectionIndexedByType());
     }
 }

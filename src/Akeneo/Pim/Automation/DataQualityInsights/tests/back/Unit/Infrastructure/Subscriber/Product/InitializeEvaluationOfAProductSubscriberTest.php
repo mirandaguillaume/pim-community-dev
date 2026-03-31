@@ -84,7 +84,7 @@ class InitializeEvaluationOfAProductSubscriberTest extends TestCase
         $product->method('getUuid')->willReturn(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'));
         $productUuidCollection = ProductUuidCollection::fromStrings(['54162e35-ff81-48f1-96d5-5febd3f00fd5']);
         $this->idFactory->method('createCollection')->with(['54162e35-ff81-48f1-96d5-5febd3f00fd5'])->willReturn($productUuidCollection);
-        $this->createProductsCriteriaEvaluations->method('createAll')->with($productUuidCollection)->willThrowException(\Exception::class);
+        $this->createProductsCriteriaEvaluations->method('createAll')->with($productUuidCollection)->willThrowException(new \Exception('test'));
         $this->logger->expects($this->once())->method('error')->with('Unable to create product criteria evaluation', $this->anything());
         $this->sut->onPostSave(new GenericEvent($product, ['unitary' => true]));
     }

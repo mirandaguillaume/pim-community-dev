@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Extension\MassAction;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductMassActionRepositoryInterface;
@@ -18,10 +18,10 @@ use Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionParametersParser;
 use Oro\Bundle\PimDataGridBundle\Datasource\DatasourceInterface;
 use Oro\Bundle\PimDataGridBundle\Datasource\ProductDatasource;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\MassActionHandlerInterface;
+use Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionDispatcher;
 use Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionHandlerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\MassActionDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 
 class MassActionDispatcherTest extends TestCase
@@ -33,7 +33,7 @@ class MassActionDispatcherTest extends TestCase
     private DatagridInterface|MockObject $grid;
     private Acceptor|MockObject $acceptor;
     private DatasourceInterface|MockObject $acceptedDatasource;
-    private DatasourceInterface|MockObject $datasource;
+    private ProductDatasource|MockObject $datasource;
     private QueryBuilder|MockObject $queryBuilder;
     private MassActionDispatcher $sut;
 
@@ -46,7 +46,7 @@ class MassActionDispatcherTest extends TestCase
         $this->grid = $this->createMock(DatagridInterface::class);
         $this->acceptor = $this->createMock(Acceptor::class);
         $this->acceptedDatasource = $this->createMock(DatasourceInterface::class);
-        $this->datasource = $this->createMock(DatasourceInterface::class);
+        $this->datasource = $this->createMock(ProductDatasource::class);
         $this->queryBuilder = $this->createMock(QueryBuilder::class);
         $this->sut = new MassActionDispatcher($this->handlerRegistry, $this->manager, $this->requestParams, $this->parametersParser, ['product-grid']);
         $this->acceptedDatasource->method('getQueryBuilder')->willReturn($this->queryBuilder);
@@ -87,13 +87,14 @@ class MassActionDispatcherTest extends TestCase
         $massActionInterface->method('getOptions')->willReturn($options);
         $this->handlerRegistry->method('getHandler')->with($alias)->willReturn($massActionHandler);
         $massActionHandler->method('handle')->with($this->grid, $massActionInterface)->willReturn($massActionHandler);
-        $this->sut->dispatch([
+        $result = $this->sut->dispatch([
                     'inset' => 'inset',
                     'values' => [1],
                     'gridName'   => 'grid',
                     'massAction' => $massActionInterface,
                     'actionName' => 'mass_edit_action',
-                ])->shouldReturnAnInstanceOf('\\' . \Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\MassActionHandlerInterface::class);
+                ]);
+        $this->assertInstanceOf(MassActionHandlerInterface::class, $result);
     }
 
     public function test_it_throws_an_exception_without_extension(): void
@@ -113,7 +114,8 @@ class MassActionDispatcherTest extends TestCase
                     'actionName' => 'mass_edit_action']);
         $this->acceptor->method('getExtensions')->willReturn([]);
         $this->datasource->method('getMassActionRepository')->willReturn($massActionRepository);
-        $this->expectException(new \LogicException("MassAction extension is not applied to datagrid."));
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('MassAction extension is not applied to datagrid.');
         $this->sut->dispatch([
                         'inset'      => 'inset',
                         'values'     => [1],
@@ -146,7 +148,8 @@ class MassActionDispatcherTest extends TestCase
         $this->datasource->method('getMassActionRepository')->willReturn($massActionRepository);
         $this->acceptor->method('getExtensions')->willReturn([$massActionExtension]);
         $massActionExtension->method('getMassAction')->with($massActionName, $this->grid)->willReturn(false);
-        $this->expectException(new \LogicException(sprintf('Can\'t find mass action "%s"', $massActionName)));
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage(sprintf('Can\'t find mass action "%s"', $massActionName));
         $this->sut->dispatch([
                         'inset'      => 'inset',
                         'values'     => [1],
@@ -163,7 +166,8 @@ class MassActionDispatcherTest extends TestCase
                     'actionName' => $massActionName,
                 ]);
         $this->parametersParser->method('parse')->with($request)->willReturn(['inset' => 'inset', 'values' => '']);
-        $this->expectException(new \LogicException(sprintf('There is nothing to do in mass action "%s"', $massActionName)));
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage(sprintf('There is nothing to do in mass action "%s"', $massActionName));
         $this->sut->dispatch(['inset' => 'inset', 'values' => '', 'actionName' => $massActionName]);
     }
 
@@ -191,7 +195,8 @@ class MassActionDispatcherTest extends TestCase
         $this->datasource->method('getMassActionRepository')->willReturn($massActionRepository);
         $massActionExtension->method('getMassAction')->with($massActionName, $this->grid)->willReturn($massActionInterface);
         $this->acceptor->method('getExtensions')->willReturn([$massActionExtension]);
-        $this->expectException(new \LogicException('getRawFilters is only implemented for ProductDatasource and ProductAndProductModelDatasource'));
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('getRawFilters is only implemented for ProductDatasource and ProductAndProductModelDatasource');
         $this->sut->getRawFilters([
                         'inset'      => 'inset',
                         'values'     => [1],

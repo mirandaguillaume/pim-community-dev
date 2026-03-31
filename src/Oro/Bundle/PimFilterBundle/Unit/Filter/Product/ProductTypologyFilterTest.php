@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimFilterBundle\Filter\Product;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimFilterBundle\Filter\Product;
 
 use Oro\Bundle\PimFilterBundle\Datasource\FilterDatasourceAdapterInterface;
 use Oro\Bundle\PimFilterBundle\Filter\Product\ProductTypologyFilter;

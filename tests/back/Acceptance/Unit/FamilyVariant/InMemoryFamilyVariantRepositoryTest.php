@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\FamilyVariant;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\FamilyVariant;
 
 use Akeneo\Pim\Structure\Component\Model\FamilyVariant;
 use Akeneo\Pim\Structure\Component\Repository\FamilyVariantRepositoryInterface;

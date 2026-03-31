@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Localization\Validator\Constraints;
 
 use Akeneo\Tool\Component\Localization\Validator\Constraints\NumberFormat;
+use Akeneo\Tool\Component\Localization\Validator\Constraints\NumberFormatValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Localization\Validator\Constraints\NumberFormatValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 

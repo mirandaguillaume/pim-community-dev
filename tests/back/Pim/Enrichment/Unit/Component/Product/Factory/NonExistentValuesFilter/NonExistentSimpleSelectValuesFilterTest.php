@@ -84,8 +84,8 @@ class NonExistentSimpleSelectValuesFilterTest extends TestCase
                         'a_select' => ['option_toto'],
                     ]);
         /** @var OnGoingFilteredRawValues $filteredCollection */
-                $filteredCollection = $this->filter($ongoingFilteredRawValues);
-        $filteredCollection->filteredRawValuesCollectionIndexedByType()->shouldBeLike(
+                $filteredCollection = $this->sut->filter($ongoingFilteredRawValues);
+        $this->assertEquals(
                     [
                         AttributeTypes::OPTION_SIMPLE_SELECT => [
                             'a_select' => [
@@ -116,6 +116,6 @@ class NonExistentSimpleSelectValuesFilterTest extends TestCase
                             ],
                         ],
                     ]
-                );
+                , $filteredCollection->filteredRawValuesCollectionIndexedByType());
     }
 }

@@ -15,11 +15,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class QuantifiedAssociationsNormalizerTest extends TestCase
 {
+    private QuantifiedAssociationsMerger|MockObject $quantifiedAssociationsMerger;
     private QuantifiedAssociationsNormalizer $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new QuantifiedAssociationsNormalizer();
+        $this->quantifiedAssociationsMerger = $this->createMock(QuantifiedAssociationsMerger::class);
+        $this->sut = new QuantifiedAssociationsNormalizer($this->quantifiedAssociationsMerger);
     }
 
     public function test_it_normalizes_a_product_without_its_parents_associations(): void

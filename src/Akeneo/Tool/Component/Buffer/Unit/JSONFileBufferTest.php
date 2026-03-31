@@ -6,8 +6,8 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Buffer;
 
 use Akeneo\Tool\Component\Buffer\BufferInterface;
 use Akeneo\Tool\Component\Buffer\Exception\UnsupportedItemTypeException;
+use Akeneo\Tool\Component\Buffer\JSONFileBuffer;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Buffer\JSONFileBuffer;
 
 class JSONFileBufferTest extends TestCase
 {

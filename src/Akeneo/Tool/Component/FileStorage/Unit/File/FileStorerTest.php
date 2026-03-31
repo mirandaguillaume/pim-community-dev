@@ -6,6 +6,7 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\FileStorage\File;
 
 use Akeneo\Tool\Component\FileStorage\Exception\FileTransferException;
 use Akeneo\Tool\Component\FileStorage\Exception\InvalidFile;
+use Akeneo\Tool\Component\FileStorage\File\FileStorer;
 use Akeneo\Tool\Component\FileStorage\FileInfoFactoryInterface;
 use Akeneo\Tool\Component\FileStorage\FilesystemProvider;
 use Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface;
@@ -14,7 +15,6 @@ use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToWriteFile;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\FileStorage\File\FileStorer;
 
 class FileStorerTest extends TestCase
 {

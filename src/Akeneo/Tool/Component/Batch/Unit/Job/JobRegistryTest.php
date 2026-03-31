@@ -6,10 +6,10 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Batch\Job;
 
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
 use Akeneo\Tool\Component\Batch\Job\JobInterface;
+use Akeneo\Tool\Component\Batch\Job\JobRegistry;
 use Akeneo\Tool\Component\Batch\Job\UndefinedJobException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Batch\Job\JobRegistry;
 
 class JobRegistryTest extends TestCase
 {
@@ -29,8 +29,13 @@ class JobRegistryTest extends TestCase
         $this->referenceEntityJob->method('getName')->willReturn('reference_entity_job');
         $this->assetJob->method('getName')->willReturn('asset_manager_job');
         $this->productExportJob->method('getName')->willReturn('product_export_job');
-        $this->featureFlags->method('isEnabled')->with('asset_manager')->willReturn(true);
-        $this->featureFlags->method('isEnabled')->with('reference_entity')->willReturn(false);
+        $this->featureFlags->method('isEnabled')->willReturnCallback(function (string $feature): bool {
+            return match ($feature) {
+                'asset_manager' => true,
+                'reference_entity' => false,
+                default => throw new \InvalidArgumentException("Unknown feature: $feature"),
+            };
+        });
         $this->sut->register($this->referenceEntityJob, 'import', 'connector_1', 'reference_entity');
         $this->sut->register($this->assetJob, 'import', 'connector_2', 'asset_manager');
         $this->sut->register($this->productExportJob, 'export', 'connector_2');

@@ -88,15 +88,15 @@ class IdentifierValueFactoryTest extends TestCase
     public function test_it_creates_a_value_for_the_main_identifier_attribute(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createByCheckingData($attribute, null, null, 'my_identifier');
-        $value->shouldBeLike(IdentifierValue::value('an_attribute', true, 'my_identifier'));
+        $value = $this->sut->createByCheckingData($attribute, null, null, 'my_identifier');
+        $this->assertEquals(IdentifierValue::value('an_attribute', true, 'my_identifier'), $value);
     }
 
     public function test_it_creates_a_value_for_another_identifier_attribute(): void
     {
         $attribute = $this->getAttribute(false, false, false);
-        $value = $this->createByCheckingData($attribute, null, null, 'my_identifier');
-        $value->shouldBeLike(IdentifierValue::value('an_attribute', false, 'my_identifier'));
+        $value = $this->sut->createByCheckingData($attribute, null, null, 'my_identifier');
+        $this->assertEquals(IdentifierValue::value('an_attribute', false, 'my_identifier'), $value);
     }
 
     private function getAttribute(bool $isLocalizable, bool $isScopable, bool $isMainIdentifier = true): Attribute
@@ -115,6 +115,6 @@ class IdentifierValueFactoryTest extends TestCase
                 null,
                 [],
                 $isMainIdentifier
-            );
+            , $value);
         }
 }

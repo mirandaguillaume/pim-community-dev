@@ -32,7 +32,7 @@ class CriterionEvaluationTest extends TestCase
         $this->sut->end($result);
         $this->assertEquals(CriterionEvaluationStatus::done(), $this->sut->getStatus());
         $this->assertSame($result, $this->sut->getResult());
-        $this->sut->getEvaluatedAt()->shouldNotBe(null);
+        $this->assertNotNull($this->sut->getEvaluatedAt());
     }
 
     public function test_it_changes_it_status_to_done_if_it_is_not_applicable(): void
@@ -41,7 +41,7 @@ class CriterionEvaluationTest extends TestCase
         $this->sut->applicabilityEvaluated(new CriterionApplicability($result, false));
         $this->assertEquals(CriterionEvaluationStatus::done(), $this->sut->getStatus());
         $this->assertSame($result, $this->sut->getResult());
-        $this->sut->getEvaluatedAt()->shouldNotBe(null);
+        $this->assertNotNull($this->sut->getEvaluatedAt());
     }
 
     public function test_it_changes_it_status_to_pending_if_it_is_applicable(): void

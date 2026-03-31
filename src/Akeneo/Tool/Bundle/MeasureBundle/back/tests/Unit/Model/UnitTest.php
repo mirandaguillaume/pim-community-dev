@@ -13,6 +13,12 @@ use PHPUnit\Framework\TestCase;
 
 class UnitTest extends TestCase
 {
+    private const UNIT_CODE = 'METER';
+    private const UNIT_LABELS = ['en_US' => 'Meter', 'fr_FR' => 'Metre'];
+    private const OPERATION_OPERATOR = 'mul';
+    private const OPERATION_VALUE = '1';
+    private const SYMBOL = 'm';
+
     private Unit $sut;
 
     protected function setUp(): void

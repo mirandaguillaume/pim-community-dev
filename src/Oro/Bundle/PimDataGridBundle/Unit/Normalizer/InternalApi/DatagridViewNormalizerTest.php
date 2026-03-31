@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Normalizer\InternalApi;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Normalizer\InternalApi;
 
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
+use Oro\Bundle\PimDataGridBundle\Normalizer\InternalApi\DatagridViewNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\Normalizer\InternalApi\DatagridViewNormalizer;
 
 class DatagridViewNormalizerTest extends TestCase
 {

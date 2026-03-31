@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Localization\Localizer;
 
 use Akeneo\Tool\Component\Localization\Factory\DateFactory;
+use Akeneo\Tool\Component\Localization\Localizer\DateLocalizer;
 use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
 use Akeneo\Tool\Component\Localization\Validator\Constraints\DateFormat;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Localization\Localizer\DateLocalizer;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;

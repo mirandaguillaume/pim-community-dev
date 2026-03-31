@@ -21,7 +21,7 @@ class AttributeNormalizerTest extends TestCase
     {
         $this->stdNormalizer = $this->createMock(NormalizerInterface::class);
         $this->translationNormalizer = $this->createMock(NormalizerInterface::class);
-        $this->sut = new AttributeNormalizer($this->stdNormalizer);
+        $this->sut = new AttributeNormalizer($this->stdNormalizer, $this->translationNormalizer);
     }
 
     public function test_it_is_initializable(): void

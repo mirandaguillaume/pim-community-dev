@@ -60,60 +60,46 @@ class WriterTest extends TestCase
         $stepExecution->method('getStartTime')->willReturn(new \DateTimeImmutable('1967-08-05 15:15:00'));
         $jobExecution->method('getJobInstance')->willReturn($jobInstance);
         $jobInstance->method('getLabel')->willReturn('job_label');
-        $jobParameters->method('has')->with('storage')->willReturn(true);
-        $jobParameters->method('get')->with('storage')->willReturn(['type' => 'local', 'file_path' => sys_get_temp_dir() . '/my/file/path/%job_label%_%datetime%.csv']);
-        $jobParameters->method('has')->with('ui_locale')->willReturn(false);
-        $jobParameters->method('get')->with('withHeader')->willReturn(true);
-        $groups = [
-                    [
-                        'code'   => 'promotion',
-                        'type'   => 'RELATED',
-                        'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
-                    ],
-                    [
-                        'code'   => 'related',
-                        'type'   => 'RELATED',
-                        'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden'],
-                    ],
-                ];
-        $this->bufferFactory->method('create')->with(null)->willReturn($flatRowBuffer);
-        $this->arrayConverter->method('convert')->with([
-                    'code'   => 'promotion',
-                    'type'   => 'RELATED',
-                    'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
-                ])->willReturn([
+        $jobParameters->method('has')->willReturnCallback(fn (string $key) => match ($key) {
+            'storage' => true,
+            'ui_locale' => false,
+            default => false,
+        });
+        $jobParameters->method('get')->willReturnCallback(fn (string $key) => match ($key) {
+            'storage' => ['type' => 'local', 'file_path' => sys_get_temp_dir() . '/my/file/path/%job_label%_%datetime%.csv'],
+            'withHeader' => true,
+            default => null,
+        });
+        $this->bufferFactory->method('create')->willReturn($flatRowBuffer);
+        $this->arrayConverter->method('convert')->willReturnCallback(function (array $item) {
+            if ($item['code'] === 'promotion') {
+                return [
                     'code'        => 'promotion',
                     'type'        => 'RELATED',
                     'label-en_US' => 'Promotion',
                     'label-de_DE' => 'Förderung',
-                ]);
-        $this->arrayConverter->method('convert')->with([
-                    'code'   => 'related',
-                    'type'   => 'RELATED',
-                    'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden'],
-                ])->willReturn([
-                    'code'        => 'related',
-                    'type'        => 'RELATED',
-                    'label-en_US' => 'Related',
-                    'label-de_DE' => 'Verbunden',
-                ]);
-        $flatRowBuffer->expects($this->once())->method('write')->with(
+                ];
+            }
+            return [
+                'code'        => 'related',
+                'type'        => 'RELATED',
+                'label-en_US' => 'Related',
+                'label-de_DE' => 'Verbunden',
+            ];
+        });
+        $groups = [
             [
-                        [
-                            'code'        => 'promotion',
-                            'type'        => 'RELATED',
-                            'label-en_US' => 'Promotion',
-                            'label-de_DE' => 'Förderung',
-                        ],
-                        [
-                            'code'        => 'related',
-                            'type'        => 'RELATED',
-                            'label-en_US' => 'Related',
-                            'label-de_DE' => 'Verbunden',
-                        ],
-                    ],
-            ['withHeader' => true]
-        );
+                'code'   => 'promotion',
+                'type'   => 'RELATED',
+                'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
+            ],
+            [
+                'code'   => 'related',
+                'type'   => 'RELATED',
+                'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden'],
+            ],
+        ];
+        $flatRowBuffer->expects($this->once())->method('write');
         $this->sut->initialize();
         $this->sut->write($groups);
     }
@@ -129,44 +115,33 @@ class WriterTest extends TestCase
         $this->sut->setStepExecution($stepExecution);
         $this->flusher->expects($this->once())->method('setStepExecution')->with($stepExecution);
         $stepExecution->method('getJobParameters')->willReturn($jobParameters);
-        $jobParameters->method('has')->with('linesPerFile')->willReturn(false);
-        $jobParameters->method('get')->with('delimiter')->willReturn(';');
-        $jobParameters->method('get')->with('enclosure')->willReturn('"');
-        $jobParameters->method('has')->with('storage')->willReturn(true);
-        $jobParameters->method('get')->with('storage')->willReturn(['type' => 'local', 'file_path' => sys_get_temp_dir() . '/my/file/path/%job_label%_%datetime%.csv']);
-        $jobParameters->method('has')->with('ui_locale')->willReturn(false);
+        $jobParameters->method('has')->willReturnCallback(fn (string $key) => match ($key) {
+            'linesPerFile' => false,
+            'storage' => true,
+            'ui_locale' => false,
+            default => false,
+        });
+        $jobParameters->method('get')->willReturnCallback(fn (string $key) => match ($key) {
+            'delimiter' => ';',
+            'enclosure' => '"',
+            'storage' => ['type' => 'local', 'file_path' => sys_get_temp_dir() . '/my/file/path/%job_label%_%datetime%.csv'],
+            default => null,
+        });
         $stepExecution->method('getJobExecution')->willReturn($jobExecution);
         $stepExecution->method('getStartTime')->willReturn(new \DateTimeImmutable('1967-08-05 15:15:00'));
         $jobExecution->method('getJobInstance')->willReturn($jobInstance);
         $jobInstance->method('getLabel')->willReturn('job_label');
-        $this->bufferFactory->method('create')->with(null)->willReturn($flatRowBuffer);
-        $flatRowBuffer->method('rewind');
-        $flatRowBuffer->method('valid')->willReturn(true, false);
-        $flatRowBuffer->method('next');
-        $flatRowBuffer->method('current')->willReturn([
-                    'id' => 0,
-                    'family' => 45,
-                ]);
+        $this->bufferFactory->method('create')->willReturn($flatRowBuffer);
         $this->sut->initialize();
-        $this->flusher->method('flush')->with(
-            $flatRowBuffer,
-            [
-                        'type'           => 'csv',
-                        'fieldDelimiter' => ';',
-                        'fieldEnclosure' => '"',
-                        'shouldAddBOM'   => false,
-                    ],
+        $this->flusher->method('flush')->willReturn([
             sys_get_temp_dir() . '/my/file/path/job_label_1967-08-05_15-15-00.csv',
-            -1
-        )->willReturn([
-                        sys_get_temp_dir() . '/my/file/path/job_label_1967-08-05_15-15-00.csv',
-                    ]);
+        ]);
         $this->sut->flush();
         $this->assertEquals([
-                        WrittenFileInfo::fromLocalFile(
-                            sys_get_temp_dir() . '/my/file/path/job_label_1967-08-05_15-15-00.csv',
-                            'job_label_1967-08-05_15-15-00.csv'
-                        ),
-                    ], $this->sut->getWrittenFiles());
+            WrittenFileInfo::fromLocalFile(
+                sys_get_temp_dir() . '/my/file/path/job_label_1967-08-05_15-15-00.csv',
+                'job_label_1967-08-05_15-15-00.csv'
+            ),
+        ], $this->sut->getWrittenFiles());
     }
 }

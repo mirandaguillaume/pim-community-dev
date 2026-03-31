@@ -481,7 +481,9 @@ class ColumnsMergerTest extends TestCase
         $this->fieldExtractor->method('extractColumnInfo')->with('PACK-products')->willReturn(null);
         $this->associationColumnResolver->method('resolveQuantifiedQuantityAssociationColumns')->willReturn(['PACK-products-quantity']);
         $this->associationColumnResolver->method('resolveQuantifiedIdentifierAssociationColumns')->willReturn(['PACK-products']);
-        $this->expectException(new \LogicException('A "PACK-products-quantity" column is missing for quantified association'));
+        $this->expectException(\LogicException::class);
+
+        $this->expectExceptionMessage('A "PACK-products-quantity" column is missing for quantified association');
         $this->sut->merge($row, []);
     }
 }

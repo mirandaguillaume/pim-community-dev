@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\AttributeOption;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\AttributeOption;
 
 use Akeneo\Pim\Structure\Component\Model\Attribute;
 use Akeneo\Pim\Structure\Component\Model\AttributeOption;

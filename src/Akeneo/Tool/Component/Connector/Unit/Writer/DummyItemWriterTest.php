@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Writer;
 
+use Akeneo\Tool\Component\Connector\Writer\DummyItemWriter;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Writer\DummyItemWriter;
 
 class DummyItemWriterTest extends TestCase
 {

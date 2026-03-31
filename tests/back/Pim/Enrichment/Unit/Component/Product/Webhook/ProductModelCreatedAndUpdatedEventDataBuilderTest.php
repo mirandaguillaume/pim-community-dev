@@ -34,11 +34,23 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class ProductModelCreatedAndUpdatedEventDataBuilderTest extends TestCase
 {
+    private GetConnectorProductModels|MockObject $getConnectorProductModels;
     private ProductModelCreatedAndUpdatedEventDataBuilder $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new ProductModelCreatedAndUpdatedEventDataBuilder();
+        $this->getConnectorProductModels = $this->createMock(GetConnectorProductModels::class);
+        $productValuesNormalizer = $this->createMock(ProductValueNormalizer::class);
+        $router = $this->createMock(RouterInterface::class);
+        $productValuesNormalizer->method('normalize')->willReturn([]);
+        $connectorProductModelNormalizer = new ConnectorProductModelNormalizer(
+            new ValuesNormalizer($productValuesNormalizer, $router),
+            new DateTimeNormalizer()
+        );
+        $this->sut = new ProductModelCreatedAndUpdatedEventDataBuilder(
+            $this->getConnectorProductModels,
+            $connectorProductModelNormalizer
+        );
     }
 
     public function test_it_is_initializable(): void
@@ -114,7 +126,7 @@ class ProductModelCreatedAndUpdatedEventDataBuilderTest extends TestCase
                         'quantified_associations' => (object)[],
                     ],
                 ]);
-        $collection = $this->build($bulkEvent, $context);
+        $collection = $this->sut->build($bulkEvent, $context);
         Assert::assertEquals($expectedCollection, $collection);
     }
 
@@ -148,7 +160,7 @@ class ProductModelCreatedAndUpdatedEventDataBuilderTest extends TestCase
                     ],
                 ]);
         $expectedCollection->setEventDataError($shoesEvent, new ProductModelNotFoundException('shoes'));
-        $collection = $this->build($bulkEvent, $context);
+        $collection = $this->sut->build($bulkEvent, $context);
         Assert::assertEquals($expectedCollection, $collection);
     }
 

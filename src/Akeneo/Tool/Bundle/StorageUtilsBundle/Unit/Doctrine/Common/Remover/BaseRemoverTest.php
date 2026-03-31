@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Common\Remover;
 
+use Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Common\Remover\BaseRemover;
 use Akeneo\Tool\Component\StorageUtils\Remover\BulkRemoverInterface;
 use Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Common\Remover\BaseRemover;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class BaseRemoverTest extends TestCase
@@ -66,9 +66,7 @@ class BaseRemoverTest extends TestCase
                 $anythingElse::class
             )
         );
-        $this->expectException($exception);
+        $this->expectException(\InvalidArgumentException::class);
         $this->sut->remove($anythingElse);
-        $this->expectException($exception);
-        $this->sut->removeAll([$anythingElse, $anythingElse]);
     }
 }

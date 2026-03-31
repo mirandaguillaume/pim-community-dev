@@ -45,36 +45,36 @@ class DateValueFactoryTest extends TestCase
     public function test_it_creates_a_localizable_and_scopable_value(): void
     {
         $attribute = $this->getAttribute(true, true);
-        $value = $this->createByCheckingData($attribute, 'ecommerce', 'fr_FR', '2019-05-21 07:29:04');
-        $value->shouldBeLike(DateValue::scopableLocalizableValue('an_attribute', new \DateTime('2019-05-21 07:29:04'), 'ecommerce', 'fr_FR'));
+        $value = $this->sut->createByCheckingData($attribute, 'ecommerce', 'fr_FR', '2019-05-21 07:29:04');
+        $this->assertEquals(DateValue::scopableLocalizableValue('an_attribute', new \DateTime('2019-05-21 07:29:04'), 'ecommerce', 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_localizable_value(): void
     {
         $attribute = $this->getAttribute(true, false);
-        $value = $this->createByCheckingData($attribute, null, 'fr_FR', '2019-05-21 07:29:04');
-        $value->shouldBeLike(DateValue::localizableValue('an_attribute', new \DateTime('2019-05-21 07:29:04'), 'fr_FR'));
+        $value = $this->sut->createByCheckingData($attribute, null, 'fr_FR', '2019-05-21 07:29:04');
+        $this->assertEquals(DateValue::localizableValue('an_attribute', new \DateTime('2019-05-21 07:29:04'), 'fr_FR'), $value);
     }
 
     public function test_it_creates_a_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, true);
-        $value = $this->createByCheckingData($attribute, 'ecommerce', null, '2019-05-21 07:29:04');
-        $value->shouldBeLike(DateValue::scopableValue('an_attribute', new \DateTime('2019-05-21 07:29:04'), 'ecommerce'));
+        $value = $this->sut->createByCheckingData($attribute, 'ecommerce', null, '2019-05-21 07:29:04');
+        $this->assertEquals(DateValue::scopableValue('an_attribute', new \DateTime('2019-05-21 07:29:04'), 'ecommerce'), $value);
     }
 
     public function test_it_creates_a_non_localizable_and_non_scopable_value(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createByCheckingData($attribute, null, null, '2019-05-21 07:29:04');
-        $value->shouldBeLike(DateValue::value('an_attribute', new \DateTime('2019-05-21 07:29:04')));
+        $value = $this->sut->createByCheckingData($attribute, null, null, '2019-05-21 07:29:04');
+        $this->assertEquals(DateValue::value('an_attribute', new \DateTime('2019-05-21 07:29:04')), $value);
     }
 
     public function test_it_creates_a_value_without_checking_type(): void
     {
         $attribute = $this->getAttribute(false, false);
-        $value = $this->createWithoutCheckingData($attribute, null, null, '2019-05-21 07:29:04');
-        $value->shouldBeLike(DateValue::value('an_attribute', new \DateTime('2019-05-21 07:29:04')));
+        $value = $this->sut->createWithoutCheckingData($attribute, null, null, '2019-05-21 07:29:04');
+        $this->assertEquals(DateValue::value('an_attribute', new \DateTime('2019-05-21 07:29:04')), $value);
     }
 
     public function test_it_throws_an_exception_when_provided_data_is_not_a_string(): void
@@ -93,6 +93,6 @@ class DateValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable): Attribute
     {
-            return new Attribute('an_attribute', AttributeTypes::DATE, [], $isLocalizable, $isScopable, null, null, false, 'date', []);
+            return new Attribute('an_attribute', AttributeTypes::DATE, [], $isLocalizable, $isScopable, null, null, false, 'date', [], $value);
         }
 }

@@ -7,6 +7,7 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Batch\Job;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Akeneo\Tool\Component\Batch\Job\JobRepositoryInterface;
+use Akeneo\Tool\Component\Batch\Job\JobStopper;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\Batch\Model\StepExecution;
@@ -14,7 +15,6 @@ use Akeneo\Tool\Component\Batch\Query\GetJobExecutionStatusInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use spec\Akeneo\Tool\Component\Batch\Job\JobStopper;
 
 class JobStopperTest extends TestCase
 {

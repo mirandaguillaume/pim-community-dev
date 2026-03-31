@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\DataTransformer;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\DataTransformer;
 
 use Akeneo\UserManagement\Component\Model\UserInterface;
+use Oro\Bundle\PimDataGridBundle\DataTransformer\DefaultViewDataTransformer;
 use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
 use Oro\Bundle\PimDataGridBundle\Repository\DatagridViewRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Oro\Bundle\PimDataGridBundle\DataTransformer\DefaultViewDataTransformer;
 
 class DefaultViewDataTransformerTest extends TestCase
 {

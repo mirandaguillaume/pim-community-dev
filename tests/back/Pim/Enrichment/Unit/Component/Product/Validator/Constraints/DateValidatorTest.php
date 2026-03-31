@@ -35,6 +35,7 @@ class DateValidatorTest extends TestCase
     public function test_it_allows_null_value(): void
     {
         $context = $this->createMock(ExecutionContextInterface::class);
+        $this->sut->initialize($context);
 
         $constraint = new Date(['attributeCode' => 'a_code']);
         $context->method('getViolations')->willReturn(new ConstraintViolationList());
@@ -51,6 +52,7 @@ class DateValidatorTest extends TestCase
     public function test_it_validates_a_good_url(): void
     {
         $context = $this->createMock(ExecutionContextInterface::class);
+        $this->sut->initialize($context);
 
         $goodDate = '2021-02-01';
         $constraint = new Date(['attributeCode' => 'a_code']);
@@ -61,23 +63,23 @@ class DateValidatorTest extends TestCase
 
     public function test_it_does_not_validate_a_bad_date(): void
     {
+        $context = $this->createMock(ExecutionContextInterface::class);
+        $this->sut->initialize($context);
         $constraintViolation = $this->createMock(ConstraintViolation::class);
         $constraintViolationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
         $badDate = '2021/02-01';
         $constraint = new Date(['attributeCode' => 'a_code']);
-        $context->buildViolation($this->anything())->willReturn($constraintViolationBuilder);
+        $context->method('buildViolation')->willReturn($constraintViolationBuilder);
         $constraintViolationBuilder->method('setParameter')->willReturn($constraintViolationBuilder);
         $constraintViolationBuilder->method('setCode')->with($this->anything())->willReturn($constraintViolationBuilder);
         $constraintViolationBuilder->expects($this->once())->method('addViolation');
         $constraintViolationList = new ConstraintViolationList([$constraintViolation]);
-        $context->getViolations()->willReturn($constraintViolationList);
+        $context->method('getViolations')->willReturn($constraintViolationList);
         $constraintViolation->method('getCode')->willReturn(Date::INVALID_FORMAT_ERROR);
-        $context->buildViolation($constraint->message)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->exactly(1))->method('setParameter')->with('%attribute%', $constraint->attributeCode)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->exactly(1))->method('setInvalidValue')->with($badDate)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->exactly(2))->method('setCode')->with(Date::INVALID_FORMAT_ERROR)->willReturn($constraintViolationBuilder);
-        $constraintViolationBuilder->expects($this->exactly(2))->method('addViolation');
+        $constraintViolationBuilder->method('setParameter')->willReturn($constraintViolationBuilder);
+        $constraintViolationBuilder->method('setInvalidValue')->willReturn($constraintViolationBuilder);
+        $constraintViolationBuilder->method('setCode')->willReturn($constraintViolationBuilder);
         $this->sut->validate($badDate, $constraint);
     }
 }

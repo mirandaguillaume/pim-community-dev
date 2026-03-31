@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\Validator\Constraints;
 
 use Akeneo\Tool\Bundle\BatchBundle\Validator\Constraints\JobInstance as JobInstanceConstraint;
+use Akeneo\Tool\Bundle\BatchBundle\Validator\Constraints\JobInstanceValidator;
 use Akeneo\Tool\Component\Batch\Job\JobInterface;
 use Akeneo\Tool\Component\Batch\Job\JobRegistry;
 use Akeneo\Tool\Component\Batch\Job\UndefinedJobException;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\BatchBundle\Validator\Constraints\JobInstanceValidator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
@@ -32,20 +32,20 @@ class JobInstanceValidatorTest extends TestCase
 
     public function test_it_is_a_constraint_validator(): void
     {
-        $this->assertInstanceOf('\\' . \Symfony\Component\Validator\ConstraintValidator::class, $this->sut);
+        $this->assertInstanceOf(\Symfony\Component\Validator\ConstraintValidator::class, $this->sut);
     }
 
     public function test_it_validates_only_job_instance(): void
     {
-        $constraint = $this->createMock(Constraint::class);
+        $constraint = new JobInstanceConstraint();
 
         $this->context->expects($this->never())->method('buildViolation');
-        $this->sut->validate($object, $constraint);
+        $this->sut->validate(new \stdClass(), $constraint);
     }
 
     public function test_it_validates_that_a_job_instance_has_a_known_type(): void
     {
-        $constraint = $this->createMock(Constraint::class);
+        $constraint = new JobInstanceConstraint();
         $jobInstance = $this->createMock(JobInstance::class);
         $job = $this->createMock(JobInterface::class);
 
@@ -57,7 +57,7 @@ class JobInstanceValidatorTest extends TestCase
 
     public function test_it_adds_a_violation_if_job_instance_has_an_unknown_type(): void
     {
-        $constraint = $this->createMock(JobInstance::class);
+        $constraint = new JobInstanceConstraint();
         $jobInstance = $this->createMock(JobInstance::class);
         $violation = $this->createMock(ConstraintViolationBuilderInterface::class);
 

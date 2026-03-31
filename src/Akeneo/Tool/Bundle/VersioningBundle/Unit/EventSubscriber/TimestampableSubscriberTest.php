@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 
+use Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\TimestampableSubscriber;
 use Akeneo\Tool\Component\Versioning\Model\TimestampableInterface;
 use Akeneo\Tool\Component\Versioning\Model\Version;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +15,6 @@ use Doctrine\ORM\UnitOfWork as ORMUnitOfWork;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\TimestampableSubscriber;
 
 class TimestampableSubscriberTest extends TestCase
 {

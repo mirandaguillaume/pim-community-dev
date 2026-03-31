@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\StorageUtils\Cache;
 
+use Akeneo\Tool\Component\StorageUtils\Cache\LRUCache;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\StorageUtils\Cache\LRUCache;
 
 class LRUCacheTest extends TestCase
 {

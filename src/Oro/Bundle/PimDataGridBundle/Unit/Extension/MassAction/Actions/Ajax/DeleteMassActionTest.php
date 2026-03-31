@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Ajax;
+namespace Akeneo\Test\Unit\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Actions\Ajax;
 
 use Oro\Bundle\DataGridBundle\Extension\Action\ActionConfiguration;
 use Oro\Bundle\DataGridBundle\Extension\MassAction\Actions\MassActionInterface;
@@ -35,7 +35,7 @@ class DeleteMassActionTest extends TestCase
                     'entity_name'      => 'qux',
                 ];
         $options = ActionConfiguration::createNamed('export', $params);
-        $this->sut->setOptions($options)->shouldNotThrow($this->anything());
+        $this->sut->setOptions($options);
         $this->assertSame('export', $this->sut->getOptions()->getName());
         $this->assertSame($routeParams, $this->sut->getOptions()->offsetGet('route_parameters'));
         $this->assertSame('my_handler', $this->sut->getOptions()->offsetGet('handler'));

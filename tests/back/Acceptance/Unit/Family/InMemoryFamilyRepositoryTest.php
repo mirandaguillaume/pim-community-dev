@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Unit\spec\Akeneo\Test\Acceptance\Family;
+namespace Akeneo\Test\Unit\Akeneo\Test\Acceptance\Family;
 
 use Akeneo\Channel\Infrastructure\Component\Model\Channel;
 use Akeneo\Pim\Structure\Component\Model\Family;

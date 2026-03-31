@@ -64,9 +64,9 @@ class OperationJobLauncherTest extends TestCase
 
         $operation->method('getJobInstanceCode')->willReturn('mass_colorize');
         $this->jobInstanceRepo->method('findOneByIdentifier')->with('mass_colorize')->willReturn(null);
-        $this->expectException(new NotFoundResourceException(
-                    'No JobInstance found with code "mass_colorize"'
-                ));
+        $this->expectException(NotFoundResourceException::class);
+
+        $this->expectExceptionMessage('No JobInstance found with code "mass_colorize"');
         $this->sut->launch($operation);
     }
 }

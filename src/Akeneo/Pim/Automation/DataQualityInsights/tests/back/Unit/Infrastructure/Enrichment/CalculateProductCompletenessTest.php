@@ -83,8 +83,8 @@ class CalculateProductCompletenessTest extends TestCase
                         ),
                     ]
         ));
-        $evaluationResult = $this->calculate($productUuid);
-        $evaluationResult->getRates()->toArrayInt()->shouldBeLike([
+        $evaluationResult = $this->sut->calculate($productUuid);
+        $this->assertEquals([
                     'ecommerce' => [
                         'en_US' => 60,
                         'fr_FR' => 40,
@@ -93,8 +93,8 @@ class CalculateProductCompletenessTest extends TestCase
                         'en_US' => 66,
                         'fr_FR' => 30,
                     ],
-                ]);
-        $evaluationResult->getMissingAttributes()->toArray()->shouldBeLike([
+                ], $evaluationResult->getRates()->toArrayInt());
+        $this->assertEquals([
                     'ecommerce' => [
                         'en_US' => ['name', 'description', 'weight', 'height'],
                         'fr_FR' => ['name', 'description', 'weight', 'height', 'width', 'brand'],
@@ -103,6 +103,6 @@ class CalculateProductCompletenessTest extends TestCase
                         'en_US' => ['name', 'description', 'weight', 'height'],
                         'fr_FR' => ['name', 'description', 'weight', 'height', 'width', 'brand', 'color'],
                     ],
-                ]);
+                ], $evaluationResult->getMissingAttributes()->toArray());
     }
 }

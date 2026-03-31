@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Buffer;
 
+use Akeneo\Tool\Component\Buffer\BufferFactory;
 use Akeneo\Tool\Component\Buffer\Exception\InvalidClassNameException;
 use Akeneo\Tool\Component\Buffer\JSONFileBuffer;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Buffer\BufferFactory;
 
 class BufferFactoryTest extends TestCase
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\Manager;
 
+use Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionContext;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionContext;
 
 class VersionContextTest extends TestCase
 {

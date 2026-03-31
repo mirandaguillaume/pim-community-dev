@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\StorageUtils\Factory;
 
+use Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactory;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactory;
 
 class SimpleFactoryTest extends TestCase
 {

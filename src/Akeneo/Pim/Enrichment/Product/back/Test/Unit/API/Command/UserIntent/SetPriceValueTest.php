@@ -19,8 +19,8 @@ class SetPriceValueTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new SetPriceValue('net_price', 'ecommerce', 'en_US', $priceValue);
         $priceValue = new PriceValue('100', 'USD');
+        $this->sut = new SetPriceValue('net_price', 'ecommerce', 'en_US', $priceValue);
     }
 
     public function test_it_is_initializable(): void

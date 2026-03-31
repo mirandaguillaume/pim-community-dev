@@ -25,7 +25,6 @@ class TransformCriterionEvaluationResultIdsTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new TransformCriterionEvaluationResultIds($transformChannelLocaleDataIds, $transformCommonCriterionResultData, $transformCompletenessResultData);
         $attributes = new InMemoryAttributes([
         'name' => 12,
         'description' => 34,
@@ -41,6 +40,7 @@ class TransformCriterionEvaluationResultIdsTest extends TestCase
         $transformChannelLocaleDataIds = new TransformChannelLocaleDataIds($channels, $locales);
         $transformCommonCriterionResultData = new TransformCommonCriterionResultDataIds($transformChannelLocaleDataIds, $attributes);
         $transformCompletenessResultData = new TransformCompletenessResultDataIds($transformChannelLocaleDataIds);
+        $this->sut = new TransformCriterionEvaluationResultIds($transformChannelLocaleDataIds, $transformCommonCriterionResultData, $transformCompletenessResultData);
     }
 
     public function test_it_transforms_a_common_criterion_evaluation_result_from_ids_to_codes(): void
