@@ -6,12 +6,12 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\Builder;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
+use Akeneo\Tool\Bundle\VersioningBundle\Builder\VersionBuilder;
 use Akeneo\Tool\Bundle\VersioningBundle\Factory\VersionFactory;
 use Akeneo\Tool\Component\Versioning\Model\Version;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\Builder\VersionBuilder;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class VersionBuilderTest extends TestCase
@@ -35,10 +35,10 @@ class VersionBuilderTest extends TestCase
         $uuid = Uuid::fromString('114c9108-444d-408a-ab43-195068166d2c');
         $product->method('getUuid')->willReturn($uuid);
         $this->normalizer->method('normalize')->with($product, 'flat', [])->willReturn(['bar' => 'baz']);
-        $this->versionFactory->method('create')->with(/* TODO: convert Argument matcher */ Argument::Any(), null, $uuid, 'foo', null)->willReturn($version);
+        $this->versionFactory->method('create')->with($this->anything(), null, $uuid, 'foo', null)->willReturn($version);
         $version->method('setVersion')->with(1)->willReturn($version);
         $version->method('setSnapshot')->with(['bar' => 'baz'])->willReturn($version);
-        $version->method('setChangeset')->with(['bar' => ['old' => '', 'new' => 'baz']])->willReturn($version);
+        $version->expects($this->once())->method('setChangeset')->with(['bar' => ['old' => '', 'new' => 'baz']])->willReturn($version);
         $this->sut->buildVersion($product, 'foo');
     }
 
@@ -49,15 +49,15 @@ class VersionBuilderTest extends TestCase
 
         $uuid = Uuid::fromString('114c9108-444d-408a-ab43-195068166d2c');
         $product->method('getUuid')->willReturn($uuid);
-        $this->versionFactory->method('create')->with(/* TODO: convert Argument matcher */ Argument::Any(), null, $uuid, 'baz', null)->willReturn($pending);
+        $this->versionFactory->method('create')->with($this->anything(), null, $uuid, 'baz', null)->willReturn($pending);
         $pending->method('getChangeset')->willReturn($pending);
         $pending->method('setChangeset')->with([])->willReturn($pending);
         $pending->method('getAuthor')->willReturn('baz');
         $pending->method('isPending')->willReturn(true);
-        $version = $this->createPendingVersion($product, 'baz', []);
-        $version->shouldBeAnInstanceOf(Version::class);
-        $version->getAuthor()->shouldReturn('baz');
-        $version->isPending()->shouldReturn(true);
+        $version = $this->sut->createPendingVersion($product, 'baz', []);
+        $this->assertInstanceOf(Version::class, $version);
+        $this->assertSame('baz', $version->getAuthor());
+        $this->assertTrue($version->isPending());
     }
 
     public function test_it_builds_pending_versions(): void
@@ -92,7 +92,7 @@ class VersionBuilderTest extends TestCase
         $pending->method('setVersion')->with(2)->willReturn($pending);
         $pending->method('setSnapshot')->with(['test' => 'old_data', "name" => "pending name", "description" => "old description"])->willReturn($pending);
         $pending->method('getChangeset')->willReturn(['test' => 'pending_data', "name" => "pending name"]);
-        $pending->method('setChangeset')->with(["name" => ["old" => "", "new" => "pending name"]])->willReturn($pending);
+        $pending->expects($this->once())->method('setChangeset')->with(["name" => ["old" => "", "new" => "pending name"]])->willReturn($pending);
         $this->sut->buildPendingVersion($pending, $previousVersion);
     }
 
@@ -127,7 +127,7 @@ class VersionBuilderTest extends TestCase
                     'date_with_old_format_and_timezone' => '2020-01-01T12:00:00+12:00',
                     'date_with_old_format_has_changed' => '2020-01-02T00:00:00+00:00',
                 ])->willReturn($version);
-        $version->method('setChangeset')->with([
+        $version->expects($this->once())->method('setChangeset')->with([
                     'name' => ['old' => 'foo', 'new' => 'bar'],
                     'date_with_old_format_has_changed' => ['old' => '2020-01-01', 'new' => '2020-01-02T00:00:00+00:00'],
                 ])->willReturn($version);

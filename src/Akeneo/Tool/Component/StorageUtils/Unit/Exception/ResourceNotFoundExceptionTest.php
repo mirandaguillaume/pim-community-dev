@@ -14,8 +14,8 @@ class ResourceNotFoundExceptionTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new ResourceNotFoundException($objectClassName);
         $objectClassName = Product::class;
+        $this->sut = new ResourceNotFoundException($objectClassName);
     }
 
     public function test_it_is_initializable(): void

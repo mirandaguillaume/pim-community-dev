@@ -40,7 +40,7 @@ class RedirectToEditConnectedAppActionTest extends TestCase
 
     public function test_it_is_a_redirect_to_connected_app_editing_action(): void
     {
-        $this->sut->beAnInstanceOf(RedirectToEditConnectedAppAction::class);
+        $this->assertInstanceOf(RedirectToEditConnectedAppAction::class, $this->sut);
     }
 
     public function test_it_throws_not_found_exception_when_connected_app_is_not_found(): void
@@ -68,8 +68,10 @@ class RedirectToEditConnectedAppActionTest extends TestCase
             null,
             true,
         ));
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
+        // Source only calls isGranted('manage_apps')
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, false],
+        ]);
         $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($appId);
     }
@@ -91,8 +93,9 @@ class RedirectToEditConnectedAppActionTest extends TestCase
             null,
             false,
         ));
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, false],
+        ]);
         $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($appId);
     }
@@ -114,8 +117,9 @@ class RedirectToEditConnectedAppActionTest extends TestCase
             null,
             false,
         ));
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(true);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, true],
+        ]);
         $this->router->method('generate')->with('akeneo_connectivity_connection_connect_connected_apps_edit', [
                         'connectionCode' => 'random_connection_code',
                     ])->willReturn('/connect/connected-apps/random_connection_code');

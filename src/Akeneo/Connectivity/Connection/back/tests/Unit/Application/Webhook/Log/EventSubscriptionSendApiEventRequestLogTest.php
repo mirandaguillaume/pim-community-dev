@@ -21,34 +21,34 @@ class EventSubscriptionSendApiEventRequestLogTest extends TestCase
 
     protected function setUp(): void
     {
+        $webhook = new ActiveWebhook('ecommerce', 0, 'a_secret', 'http://localhost/webhook', false);
+        $author = Author::fromNameAndType('julia', Author::TYPE_UI);
+        $events = [
+            new WebhookEvent(
+                'product.created',
+                '79fc4791-86d6-4d3b-93c5-76b787af9497',
+                '2020-01-01T00:00:00+00:00',
+                $author,
+                'staging.akeneo.com',
+                ['data'],
+                $this->createEvent($author, ['data'])
+            ),
+            new WebhookEvent(
+                'product.updated',
+                '8bdfe74c-da2e-4bda-a2b1-b5e2a3006ea3',
+                '2020-01-01T00:00:11+00:00',
+                $author,
+                'staging.akeneo.com',
+                ['data'],
+                $this->createEvent($author, ['data'])
+            ),
+        ];
+        $webhookRequest = new WebhookRequest($webhook, $events);
         $this->sut = new EventSubscriptionSendApiEventRequestLog(
             $webhookRequest,
             ['Content-Type' => 'application/json'],
             1_603_935_007.832
         );
-        $webhook = new ActiveWebhook('ecommerce', 0, 'a_secret', 'http://localhost/webhook', false);
-        $author = Author::fromNameAndType('julia', Author::TYPE_UI);
-        $events = [
-        new WebhookEvent(
-            'product.created',
-            '79fc4791-86d6-4d3b-93c5-76b787af9497',
-            '2020-01-01T00:00:00+00:00',
-            $author,
-            'staging.akeneo.com',
-            ['data'],
-            $this->createEvent($author, ['data'])
-        ),
-        new WebhookEvent(
-            'product.updated',
-            '8bdfe74c-da2e-4bda-a2b1-b5e2a3006ea3',
-            '2020-01-01T00:00:11+00:00',
-            $author,
-            'staging.akeneo.com',
-            ['data'],
-            $this->createEvent($author, ['data'])
-        ),
-        ];
-        $webhookRequest = new WebhookRequest($webhook, $events);
     }
 
     public function test_it_is_initializable(): void

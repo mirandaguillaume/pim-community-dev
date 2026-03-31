@@ -4,9 +4,19 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\ArrayConverter;
 
+use Akeneo\Tool\Component\Connector\ArrayConverter\InvalidDataItemConverter;
 use Akeneo\Tool\Component\Connector\Exception\DataArrayConversionException;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\ArrayConverter\InvalidDataItemConverter;
+
+class FakeObject
+{
+    public string $property = '';
+
+    public function __toString(): string
+    {
+        return $this->property;
+    }
+}
 
 class InvalidDataItemConverterTest extends TestCase
 {

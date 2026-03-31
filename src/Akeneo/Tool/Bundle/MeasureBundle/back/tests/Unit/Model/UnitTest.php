@@ -13,6 +13,12 @@ use PHPUnit\Framework\TestCase;
 
 class UnitTest extends TestCase
 {
+    private const UNIT_CODE = 'METER';
+    private const UNIT_LABELS = ['en_US' => 'Meter', 'fr_FR' => 'Metre'];
+    private const OPERATION_OPERATOR = 'mul';
+    private const OPERATION_VALUE = '1';
+    private const SYMBOL = 'm';
+
     private Unit $sut;
 
     protected function setUp(): void
@@ -46,7 +52,7 @@ class UnitTest extends TestCase
     {
         $wrongOperation = 1234;
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->create(
+        Unit::create(
             UnitCode::fromString(self::UNIT_CODE),
             LabelCollection::fromArray(self::UNIT_LABELS),
             [$wrongOperation],
@@ -57,7 +63,7 @@ class UnitTest extends TestCase
     public function test_it_should_be_created_with_at_least_one_operation(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->create(
+        Unit::create(
             UnitCode::fromString(self::UNIT_CODE),
             LabelCollection::fromArray(self::UNIT_LABELS),
             [],
@@ -67,26 +73,28 @@ class UnitTest extends TestCase
 
     public function test_it_returns_the_label_of_the_provided_locale(): void
     {
-        $this->assertSame('metre', $this->sut->getLabel(LocaleIdentifier::fromCode('fr_FR')));
+        $this->assertSame('Metre', $this->sut->getLabel(LocaleIdentifier::fromCode('fr_FR')));
     }
 
     public function test_it_returns_the_code_between_brackets_when_there_is_no_label_for_the_locale(): void
     {
-        $this->assertSame('[meter]', $this->sut->getLabel(LocaleIdentifier::fromCode('UNKNOWN')));
+        $this->assertSame('[METER]', $this->sut->getLabel(LocaleIdentifier::fromCode('UNKNOWN')));
     }
 
     public function test_it_tells_if_it_is_a_standard_unit(): void
     {
-        $this->sut = Unit::create(
-            UnitCode::fromString(self::UNIT_CODE),
-            LabelCollection::fromArray(self::UNIT_LABELS),
-            [Operation::create('mul', '1')],
-            self::SYMBOL,
-        );
+        // A unit with mul/1 can be a standard unit
+        $this->assertTrue($this->sut->canBeAStandardUnit());
     }
 
     public function test_it_tells_if_it_is_not_be_a_standard_unit(): void
     {
-        $this->assertSame(false, $this->sut->canBeAStandardUnit());
+        $nonStandardUnit = Unit::create(
+            UnitCode::fromString('CENTIMETER'),
+            LabelCollection::fromArray(['en_US' => 'Centimeter']),
+            [Operation::create('div', '100')],
+            'cm',
+        );
+        $this->assertFalse($nonStandardUnit->canBeAStandardUnit());
     }
 }

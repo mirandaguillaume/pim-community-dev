@@ -42,6 +42,6 @@ class EventsApiRequestSucceededEventTest extends TestCase
     public function test_it_throws_when_events_have_an_unexpected_class(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->sut->__construct('code', [new \stdClass()]);
+        new EventsApiRequestSucceededEvent('code', [new \stdClass()]);
     }
 }

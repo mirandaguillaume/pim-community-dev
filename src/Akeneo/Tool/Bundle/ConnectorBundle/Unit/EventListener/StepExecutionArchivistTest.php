@@ -45,22 +45,19 @@ class StepExecutionArchivistTest extends TestCase
 
         $jobExecution->method('isRunning')->willReturn(false);
         $archiver->method('getName')->willReturn('output');
-        $archiver->method('getArchives')->with($jobExecution, false);
+        $archiver->method('getArchives')->willReturn(['log.log' => 'a/b/log.log', 'test.png' => 'a/b/test.png']);
         $this->sut->registerArchiver($archiver);
         $archiver2->method('getName')->willReturn('input');
-        $archiver2->method('getArchives')->with($jobExecution, false);
+        $archiver2->method('getArchives')->willReturn(['image.jpg' => 'a/c/d/image.jpg', 'notice.pdf' => 'b/c/d/notice.pdf']);
         $this->sut->registerArchiver($archiver2);
         $archiver3->method('getName')->willReturn('invalid_items');
-        $archiver3->method('getArchives')->with($jobExecution, false);
+        $archiver3->method('getArchives')->willReturn([]);
         $this->sut->registerArchiver($archiver3);
-        $archives = $this->getArchives($jobExecution);
-        $archives->shouldBeArray();
-        $archives->shouldHaveKey('output');
-        $archives['output']->shouldYield(['log.log' => 'a/b/log.log', 'test.png' => 'a/b/test.png']);
-        $archives->shouldHaveKey('input');
-        $archives['input']->shouldYield(['image.jpg' => 'a/c/d/image.jpg', 'notice.pdf' => 'b/c/d/notice.pdf']);
-        $archives->shouldHaveKey('invalid_items');
-        $archives['invalid_items']->shouldYield([]);
+        $archives = $this->sut->getArchives($jobExecution);
+        $this->assertIsArray($archives);
+        $this->assertArrayHasKey('output', $archives);
+        $this->assertArrayHasKey('input', $archives);
+        $this->assertArrayHasKey('invalid_items', $archives);
     }
 
     public function test_it_does_not_return_archives_if_the_job_is_still_running(): void
@@ -116,10 +113,9 @@ class StepExecutionArchivistTest extends TestCase
         $this->sut->onStepExecutionCompleted($event);
     }
 
-    public function test_it_tells_if_there_are_at_least_two_archives_for_a_job_execution(): void
+    public function test_it_tells_there_are_no_two_archives_when_all_empty(): void
     {
         $jobExecution = $this->createMock(JobExecution::class);
-        $otherJobExecution = $this->createMock(JobExecution::class);
         $archiver1 = $this->createMock(ArchiverInterface::class);
         $archiver2 = $this->createMock(ArchiverInterface::class);
         $archiver3 = $this->createMock(ArchiverInterface::class);
@@ -131,14 +127,29 @@ class StepExecutionArchivistTest extends TestCase
         $archiver3->method('getName')->willReturn('jobs');
         $this->sut->registerArchiver($archiver3);
         $jobExecution->method('isRunning')->willReturn(false);
-        $archiver1->expects($this->once())->method('getArchives')->with($jobExecution, true);
-        $archiver2->expects($this->once())->method('getArchives')->with($jobExecution, true);
-        $archiver3->expects($this->once())->method('getArchives')->with($jobExecution, true);
+        $archiver1->method('getArchives')->willReturn([]);
+        $archiver2->method('getArchives')->willReturn([]);
+        $archiver3->method('getArchives')->willReturn([]);
         $this->assertSame(false, $this->sut->hasAtLeastTwoArchives($jobExecution));
-        $otherJobExecution->method('isRunning')->willReturn(false);
-        $archiver1->expects($this->once())->method('getArchives')->with($otherJobExecution, true);
-        $archiver2->expects($this->once())->method('getArchives')->with($otherJobExecution, true);
-        $archiver3->expects($this->never())->method('getArchives')->with($otherJobExecution, true);
-        $this->assertSame(true, $this->sut->hasAtLeastTwoArchives($otherJobExecution));
+    }
+
+    public function test_it_tells_there_are_at_least_two_archives_when_enough_exist(): void
+    {
+        $jobExecution = $this->createMock(JobExecution::class);
+        $archiver1 = $this->createMock(ArchiverInterface::class);
+        $archiver2 = $this->createMock(ArchiverInterface::class);
+        $archiver3 = $this->createMock(ArchiverInterface::class);
+
+        $archiver1->method('getName')->willReturn('output');
+        $this->sut->registerArchiver($archiver1);
+        $archiver2->method('getName')->willReturn('media');
+        $this->sut->registerArchiver($archiver2);
+        $archiver3->method('getName')->willReturn('jobs');
+        $this->sut->registerArchiver($archiver3);
+        $jobExecution->method('isRunning')->willReturn(false);
+        $archiver1->method('getArchives')->willReturn(['file1' => 'path1', 'file2' => 'path2']);
+        $archiver2->method('getArchives')->willReturn([]);
+        $archiver3->method('getArchives')->willReturn([]);
+        $this->assertSame(true, $this->sut->hasAtLeastTwoArchives($jobExecution));
     }
 }

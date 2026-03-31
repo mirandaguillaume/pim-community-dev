@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Batch\Item;
 
+use Akeneo\Tool\Component\Batch\Item\ExecutionContext;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Batch\Item\ExecutionContext;
 
 class ExecutionContextTest extends TestCase
 {

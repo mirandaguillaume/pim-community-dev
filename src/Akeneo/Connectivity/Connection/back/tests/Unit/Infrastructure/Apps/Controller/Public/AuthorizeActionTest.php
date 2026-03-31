@@ -90,7 +90,7 @@ class AuthorizeActionTest extends TestCase
 
     public function test_it_is_an_authorize_action(): void
     {
-        $this->sut->beAnInstanceOf(AuthorizeAction::class);
+        $this->assertInstanceOf(AuthorizeAction::class, $this->sut);
     }
 
     public function test_it_throws_not_found_exception_with_feature_flag_disabled(): void
@@ -146,8 +146,11 @@ class AuthorizeActionTest extends TestCase
                     'categories' => ['master'],
                 ]);
         $this->getAppQuery->method('execute')->with($clientId)->willReturn($app);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(false);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
+        // Source calls isGranted('manage_apps') first, then isGranted('open_apps')
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, false],
+            ['akeneo_connectivity_connection_open_apps', null, false],
+        ]);
         $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($request);
     }
@@ -157,15 +160,24 @@ class AuthorizeActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $clientId = 'valid_client_id';
-        $this->sut->setUpBeforeScopes(
-            $clientId,
-            $this->marketplaceActivateFeatureFlag,
-            $this->router,
-            $request,
-            $this->getAppQuery,
-            $this->security,
-            $this->clientProvider,
-        );
+        $this->marketplaceActivateFeatureFlag->method('isEnabled')->willReturn(true);
+        $request->query = new InputBag(['client_id' => $clientId]);
+        $app = App::fromCustomAppValues([
+            'id' => $clientId,
+            'name' => 'custom app',
+            'activate_url' => 'http://url.test',
+            'callback_url' => 'http://url.test',
+        ]);
+        $this->getAppQuery->method('execute')->with($clientId)->willReturn($app);
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, true],
+            ['akeneo_connectivity_connection_open_apps', null, true],
+        ]);
+        $this->clientProvider->method('findOrCreateClient')->with($app)->willReturn(new Client());
+        $this->router->method('generate')->willReturnMap([
+            ['akeneo_connectivity_connection_connect_apps_authorize', ['client_id' => $clientId], '/connect/apps/authorize'],
+        ]);
+
         $requestedScopes = ['write_products'];
         $originalScopes = ['read_products'];
         $diffScopes = ['write_products'];
@@ -197,15 +209,24 @@ class AuthorizeActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $clientId = 'valid_client_id';
-        $this->sut->setUpBeforeScopes(
-            $clientId,
-            $this->marketplaceActivateFeatureFlag,
-            $this->router,
-            $request,
-            $this->getAppQuery,
-            $this->security,
-            $this->clientProvider,
-        );
+        $this->marketplaceActivateFeatureFlag->method('isEnabled')->willReturn(true);
+        $request->query = new InputBag(['client_id' => $clientId]);
+        $app = App::fromCustomAppValues([
+            'id' => $clientId,
+            'name' => 'custom app',
+            'activate_url' => 'http://url.test',
+            'callback_url' => 'http://url.test',
+        ]);
+        $this->getAppQuery->method('execute')->with($clientId)->willReturn($app);
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, true],
+            ['akeneo_connectivity_connection_open_apps', null, true],
+        ]);
+        $this->clientProvider->method('findOrCreateClient')->with($app)->willReturn(new Client());
+        $this->router->method('generate')->willReturnMap([
+            ['akeneo_connectivity_connection_connect_apps_authorize', ['client_id' => $clientId], '/connect/apps/authorize'],
+        ]);
+
         $requestedScopes = ['read_products'];
         $originalScopes = ['write_products'];
         $diffScopes = [];
@@ -244,8 +265,10 @@ class AuthorizeActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->marketplaceActivateFeatureFlag->method('isEnabled')->willReturn(true);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, false],
+            ['akeneo_connectivity_connection_open_apps', null, true],
+        ]);
         $requestedScopes = ['write_products'];
         $originalScopes = ['read_products'];
         $diffScopes = ['write_products'];
@@ -296,7 +319,6 @@ class AuthorizeActionTest extends TestCase
                     'state' => 'random_state_string',
                 ]);
         $this->assertEquals(new RedirectResponse('http://url.test'), $this->sut->__invoke($request));
-        $this->updateConnectedAppScopesWithAuthorizationHandler->method('handle')->with($this->isInstanceOf(UpdateConnectedAppScopesWithAuthorizationCommand::class));
     }
 
     public function test_it_denies_access_to_users_who_cannot_manage_and_its_first_connection_attempt(): void
@@ -304,8 +326,10 @@ class AuthorizeActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->marketplaceActivateFeatureFlag->method('isEnabled')->willReturn(true);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_open_apps')->willReturn(true);
-        $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_apps')->willReturn(false);
+        $this->security->method('isGranted')->willReturnMap([
+            ['akeneo_connectivity_connection_manage_apps', null, false],
+            ['akeneo_connectivity_connection_open_apps', null, true],
+        ]);
         $clientId = 'a_client_id';
         $app = App::fromWebMarketplaceValues([
                     'id' => $clientId,
@@ -341,38 +365,5 @@ class AuthorizeActionTest extends TestCase
                 ]);
         $this->expectException(AccessDeniedHttpException::class);
         $this->sut->__invoke($request);
-        $this->updateConnectedAppScopesWithAuthorizationHandler->method('handle')->with($this->isInstanceOf(UpdateConnectedAppScopesWithAuthorizationCommand::class));
-    }
-
-    private function setUpBeforeScopes(
-        string $clientId,
-        FeatureFlag $marketplaceActivateFeatureFlag,
-        RouterInterface $router,
-        Request $request,
-        GetAppQueryInterface $getAppQuery,
-        SecurityFacade $security,
-        ClientProviderInterface $clientProvider,
-    ): void {
-        $marketplaceActivateFeatureFlag->isEnabled()->willReturn(true);
-    
-        $request->query = new InputBag(['client_id' => $clientId]);
-        $router
-            ->generate('akeneo_connectivity_connection_connect_apps_authorize', [
-                'client_id' => $clientId,
-            ])
-            ->willReturn('/connect/apps/authorize');
-    
-        $app = App::fromCustomAppValues([
-            'id' => $clientId,
-            'name' => 'custom app',
-            'activate_url' => 'http://url.test',
-            'callback_url' => 'http://url.test',
-        ]);
-    
-        $getAppQuery->execute($clientId)->willReturn($app);
-    
-        $clientProvider->findOrCreateClient($app)->willReturn(new Client());
-    
-        $security->isGranted('akeneo_connectivity_connection_manage_apps')->willReturn(true);
     }
 }

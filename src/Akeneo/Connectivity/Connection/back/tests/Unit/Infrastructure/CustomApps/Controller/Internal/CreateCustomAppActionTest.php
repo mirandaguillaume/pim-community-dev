@@ -70,9 +70,11 @@ class CreateCustomAppActionTest extends TestCase
         $token->method('getUser')->willReturn($user);
         $user->method('getId')->willReturn(42);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(true);
-        $request->method('get')->with('name', '')->willReturn('Custom app name');
-        $request->method('get')->with('callbackUrl', '')->willReturn('http://callback-url.test');
-        $request->method('get')->with('activateUrl', '')->willReturn('http://callback-url.test');
+        $request->method('get')->willReturnMap([
+            ['name', '', 'Custom app name'],
+            ['callbackUrl', '', 'http://callback-url.test'],
+            ['activateUrl', '', 'http://callback-url.test'],
+        ]);
         $constraintList = new ConstraintViolationList([]);
         $this->validator->method('validate')->with($this->isInstanceOf(CreateCustomAppCommand::class))->willReturn($constraintList);
         $this->createCustomAppCommandHandler->expects($this->once())->method('handle')->with($this->isInstanceOf(CreateCustomAppCommand::class));
@@ -154,9 +156,11 @@ class CreateCustomAppActionTest extends TestCase
         $token->method('getUser')->willReturn($user);
         $user->method('getId')->willReturn(42);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(true);
-        $request->method('get')->with('name', '')->willReturn('Too long');
-        $request->method('get')->with('callbackUrl', '')->willReturn('Not url');
-        $request->method('get')->with('activateUrl', '')->willReturn('Not url');
+        $request->method('get')->willReturnMap([
+            ['name', '', 'Too long'],
+            ['callbackUrl', '', 'Not url'],
+            ['activateUrl', '', 'Not url'],
+        ]);
         $nameViolation = new ConstraintViolation('Too long', '', [], '', 'name', 'it is too long');
         $callbackUrlViolation = new ConstraintViolation('Not url', '', [], '', 'callbackUrl', 'it is not a url');
         $activateUrlViolation = new ConstraintViolation('Not url', '', [], '', 'activateUrl', 'it is not a url');

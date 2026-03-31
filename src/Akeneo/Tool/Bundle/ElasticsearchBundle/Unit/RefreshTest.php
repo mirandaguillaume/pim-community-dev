@@ -9,27 +9,21 @@ use PHPUnit\Framework\TestCase;
 
 class RefreshTest extends TestCase
 {
-    private Refresh $sut;
-
-    protected function setUp(): void
-    {
-    }
-
     public function test_it_creates_a_enable_refresh_param(): void
     {
-        $this->sut->beConstructedThrough('enable');
-        $this->assertSame(Refresh::ENABLE, $this->sut->getType());
+        $sut = Refresh::enable();
+        $this->assertSame(Refresh::ENABLE, $sut->getType());
     }
 
     public function test_it_creates_a_disable_refresh_param(): void
     {
-        $this->sut->beConstructedThrough('disable');
-        $this->assertSame(Refresh::DISABLE, $this->sut->getType());
+        $sut = Refresh::disable();
+        $this->assertSame(Refresh::DISABLE, $sut->getType());
     }
 
     public function test_it_creates_a_wait_for_refresh_param(): void
     {
-        $this->sut->beConstructedThrough('waitFor');
-        $this->assertSame(Refresh::WAIT_FOR, $this->sut->getType());
+        $sut = Refresh::waitFor();
+        $this->assertSame(Refresh::WAIT_FOR, $sut->getType());
     }
 }

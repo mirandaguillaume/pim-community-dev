@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\EntityManager;
 
+use Akeneo\Tool\Bundle\BatchBundle\EntityManager\PersistedConnectionEntityManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\BatchBundle\EntityManager\PersistedConnectionEntityManager;
 
 class PersistedConnectionEntityManagerTest extends TestCase
 {

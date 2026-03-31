@@ -130,8 +130,8 @@ class JobExecutionAuthenticatorTest extends TestCase
         $jobExecution->method('getUser')->willReturn('julia');
         $jobParameters->method('has')->with('is_user_authenticated')->willReturn(true);
         $jobParameters->method('get')->with('is_user_authenticated')->willReturn(true);
-        $this->uiUserProvider->method('loadUserByIdentifier')->with('julia')->willThrowException(UserNotFoundException::class);
-        $this->jobUserProvider->method('loadUserByIdentifier')->with('julia')->willThrowException(UserNotFoundException::class);
+        $this->uiUserProvider->method('loadUserByIdentifier')->with('julia')->willThrowException(new UserNotFoundException());
+        $this->jobUserProvider->method('loadUserByIdentifier')->with('julia')->willThrowException(new UserNotFoundException());
         $token  = new UsernamePasswordToken($user, 'main', ['role']);
         $this->tokenStorage->expects($this->never())->method('setToken')->with($token);
         $this->expectException(UserNotFoundException::class);

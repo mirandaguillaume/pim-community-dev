@@ -28,13 +28,14 @@ class JobInstanceTest extends TestCase
 
     public function test_it_is_cloneable(): void
     {
+        $this->sut = new JobInstance('connector', 'type', 'job_name');
         $jobExecution = $this->createMock(JobExecution::class);
 
         $this->sut->addJobExecution($jobExecution);
-        $clone = clone $this;
-        $clone->shouldBeAnInstanceOf(JobInstance::class);
-        $clone->getJobExecutions()->shouldHaveCount(1);
-        $clone->getId()->shouldReturn(null);
+        $clone = clone $this->sut;
+        $this->assertInstanceOf(JobInstance::class, $clone);
+        $this->assertCount(1, $clone->getJobExecutions());
+        $this->assertNull($clone->getId());
     }
 
     public function test_it_throws_logic_exception_when_changes_job_name(): void

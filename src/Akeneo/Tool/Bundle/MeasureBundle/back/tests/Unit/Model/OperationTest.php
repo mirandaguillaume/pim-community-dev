@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 
 class OperationTest extends TestCase
 {
+    private const OPERATOR = 'mul';
+    private const VALUE = '0.01';
+
     private Operation $sut;
 
     protected function setUp(): void

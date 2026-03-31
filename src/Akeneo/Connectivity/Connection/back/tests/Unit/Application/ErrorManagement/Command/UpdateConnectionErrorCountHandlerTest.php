@@ -33,39 +33,44 @@ class UpdateConnectionErrorCountHandlerTest extends TestCase
     {
         $firstCount = new HourlyErrorCount(
             'erp',
-            HourlyInterval::createFromDateTime(new \DateTime('now')),
+            HourlyInterval::createFromDateTime(new \DateTime('now', new \DateTimeZone('UTC'))),
             2,
             ErrorTypes::BUSINESS
         );
         $secondCount = new HourlyErrorCount(
             'erp',
-            HourlyInterval::createFromDateTime(new \DateTime('now')),
+            HourlyInterval::createFromDateTime(new \DateTime('now', new \DateTimeZone('UTC'))),
             2,
             ErrorTypes::TECHNICAL
         );
         $command = new UpdateConnectionErrorCountCommand([$firstCount, $secondCount]);
-        $this->errorCountRepository->expects($this->once())->method('upsert')->with($firstCount);
-        $this->errorCountRepository->expects($this->once())->method('upsert')->with($secondCount);
+        $upsertedCounts = [];
+        $this->errorCountRepository->expects($this->exactly(2))->method('upsert')->willReturnCallback(
+            function (HourlyErrorCount $count) use (&$upsertedCounts) {
+                $upsertedCounts[] = $count;
+            }
+        );
         $this->sut->handle($command);
+        $this->assertSame($firstCount, $upsertedCounts[0]);
+        $this->assertSame($secondCount, $upsertedCounts[1]);
     }
 
     public function test_it_does_not_update_a_0_count(): void
     {
         $firstCount = new HourlyErrorCount(
             'erp',
-            HourlyInterval::createFromDateTime(new \DateTime('now')),
+            HourlyInterval::createFromDateTime(new \DateTime('now', new \DateTimeZone('UTC'))),
             2,
             ErrorTypes::BUSINESS
         );
         $secondCount = new HourlyErrorCount(
             'erp',
-            HourlyInterval::createFromDateTime(new \DateTime('now')),
+            HourlyInterval::createFromDateTime(new \DateTime('now', new \DateTimeZone('UTC'))),
             0,
             ErrorTypes::TECHNICAL
         );
         $command = new UpdateConnectionErrorCountCommand([$firstCount, $secondCount]);
         $this->errorCountRepository->expects($this->once())->method('upsert')->with($firstCount);
-        $this->errorCountRepository->expects($this->never())->method('upsert')->with($secondCount);
         $this->sut->handle($command);
     }
 }

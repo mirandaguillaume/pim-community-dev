@@ -6,8 +6,8 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Buffer;
 
 use Akeneo\Tool\Component\Buffer\BufferInterface;
 use Akeneo\Tool\Component\Buffer\Exception\UnsupportedItemTypeException;
+use Akeneo\Tool\Component\Buffer\JSONFileBuffer;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Buffer\JSONFileBuffer;
 
 class JSONFileBufferTest extends TestCase
 {
@@ -33,13 +33,7 @@ class JSONFileBufferTest extends TestCase
         foreach ($this->sut as $item) {
             $readItems[] = $item;
         }
-        if ($items !== $readItems) {
-            throw new FailedPredictionException(sprintf(
-                'Expected items "%s", got "%s"',
-                implode(', ', $items),
-                implode(', ', $readItems)
-            ));
-        }
+        $this->assertSame($items, $readItems);
     }
 
     public function test_it_supports_only_scalar_and_array_items(): void
@@ -63,12 +57,6 @@ class JSONFileBufferTest extends TestCase
             $readItems[] = $item;
         }
         $items = ['item_1', 'item_2', 'item_3'];
-        if ($items !== $readItems) {
-            throw new FailedPredictionException(sprintf(
-                'Expected items "%s", got "%s"',
-                implode(', ', $items),
-                implode(', ', $readItems)
-            ));
-        }
+        $this->assertSame($items, $readItems);
     }
 }

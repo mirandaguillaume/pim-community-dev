@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 class PaginatorFactoryTest extends TestCase
 {
+    private const DEFAULT_BATCH_SIZE = 100;
+
     private PaginatorFactory $sut;
 
     protected function setUp(): void
@@ -31,7 +33,7 @@ class PaginatorFactoryTest extends TestCase
     {
         $cursor = $this->createMock(CursorInterface::class);
 
-        $paginator = $this->createPaginator($cursor);
-        $paginator->shouldBeAnInstanceOf(PaginatorInterface::class);
+        $paginator = $this->sut->createPaginator($cursor);
+        $this->assertInstanceOf(PaginatorInterface::class, $paginator);
     }
 }

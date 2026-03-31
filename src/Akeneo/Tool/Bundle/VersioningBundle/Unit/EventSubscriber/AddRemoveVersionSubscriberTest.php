@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 
+use Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddRemoveVersionSubscriber;
 use Akeneo\Tool\Bundle\VersioningBundle\Factory\VersionFactory;
 use Akeneo\Tool\Bundle\VersioningBundle\Repository\VersionRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Event\RemoveEvent;
@@ -12,7 +13,6 @@ use Akeneo\Tool\Component\Versioning\Model\VersionableInterface;
 use Akeneo\Tool\Component\Versioning\Model\VersionInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddRemoveVersionSubscriber;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -59,7 +59,7 @@ class AddRemoveVersionSubscriberTest extends TestCase
         $this->versionRepository->method('getNewestLogEntry')->with($this->anything(), 12, null)->willReturn($previousVersion);
         $previousVersion->method('getVersion')->willReturn(11);
         $previousVersion->method('getSnapshot')->willReturn(['foo' => 'bar']);
-        $this->versionFactory->method('create')->with(/* TODO: convert Argument matcher */ Argument::Any(), 12, null, 'admin', 'Deleted')->willReturn($removeVersion);
+        $this->versionFactory->method('create')->with($this->anything(), 12, null, 'admin', 'Deleted')->willReturn($removeVersion);
         $removeVersion->method('setVersion')->with(12)->willReturn($removeVersion);
         $removeVersion->method('setSnapshot')->with(['foo' => 'bar'])->willReturn($removeVersion);
         $removeVersion->method('setChangeset')->with([])->willReturn($removeVersion);

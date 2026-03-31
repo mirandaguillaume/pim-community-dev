@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\FileStorage\File;
 
 use Akeneo\Tool\Component\FileStorage\Exception\FileTransferException;
+use Akeneo\Tool\Component\FileStorage\File\FileFetcher;
 use League\Flysystem\FilesystemReader;
 use League\Flysystem\UnableToReadFile;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\FileStorage\File\FileFetcher;
 
 class FileFetcherTest extends TestCase
 {
@@ -25,11 +25,13 @@ class FileFetcherTest extends TestCase
         $filesystem = $this->createMock(FilesystemReader::class);
 
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(true);
-        $filesystem->expects($this->once())->method('readStream')->with('path/to/file.txt');
-        $rawFile = $this->fetch($filesystem, 'path/to/file.txt');
-        $rawFile->shouldBeAnInstanceOf(\SplFileInfo::class);
+        $filesystem->method('readStream')->with('path/to/file.txt')->willReturn(fopen('php://temp', 'r'));
+        $rawFile = $this->sut->fetch($filesystem, 'path/to/file.txt');
+        $this->assertInstanceOf(\SplFileInfo::class, $rawFile);
         $rawPathname = $rawFile->getPathname();
-        unlink($rawPathname);
+        if (file_exists($rawPathname)) {
+            unlink($rawPathname);
+        }
     }
 
     public function test_it_throws_an_exception_when_the_file_is_not_on_the_filesystem(): void
@@ -38,7 +40,6 @@ class FileFetcherTest extends TestCase
 
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(false);
         $this->expectException(\LogicException::class);
-
         $this->expectExceptionMessage('The file "path/to/file.txt" is not present on the filesystem.');
         $this->sut->fetch($filesystem, 'path/to/file.txt');
     }

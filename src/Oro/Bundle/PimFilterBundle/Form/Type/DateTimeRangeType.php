@@ -39,6 +39,7 @@ class DateTimeRangeType extends AbstractType
                 'field_type'    => DateTimeType::class,
                 'field_options' => [
                     'format'        => LocalizerInterface::DEFAULT_DATETIME_FORMAT,
+                    'html5'          => false,
                     'view_timezone' => null,
                 ],
             ]

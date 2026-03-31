@@ -23,6 +23,7 @@ class WebhookRequestTest extends TestCase
 
     protected function setUp(): void
     {
+        $author = Author::fromNameAndType('julia', Author::TYPE_UI);
         $this->sut = new WebhookRequest(
             new ActiveWebhook('ecommerce', 0, 'a_secret', 'http://localhost/webhook', false),
             [
@@ -37,7 +38,6 @@ class WebhookRequestTest extends TestCase
                 ),
             ]
         );
-        $author = Author::fromNameAndType('julia', Author::TYPE_UI);
     }
 
     public function test_it_is_initializable(): void

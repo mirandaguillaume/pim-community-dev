@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\Remover;
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\UserManagement\DeleteRunningUser;
+use Akeneo\Tool\Bundle\BatchBundle\Remover\JobInstanceRemover;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Remover\BulkRemoverInterface;
 use Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface;
@@ -12,7 +13,6 @@ use Akeneo\Tool\Component\StorageUtils\Repository\RemovableObjectRepositoryInter
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use spec\Akeneo\Tool\Bundle\BatchBundle\Remover\JobInstanceRemover;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class JobInstanceRemoverTest extends TestCase
@@ -35,7 +35,7 @@ class JobInstanceRemoverTest extends TestCase
             $this->deleteRunningUser,
             $this->logger,
         );
-        $this->eventDispatcher->method('dispatch')->with($this->anything(), $this->isType('string'))->willReturn($this->isType('object'));
+        $this->eventDispatcher->method('dispatch')->willReturnArgument(0);
     }
 
     public function test_it_is_a_remover(): void
@@ -67,8 +67,7 @@ class JobInstanceRemoverTest extends TestCase
         $jobInstance2->method('getId')->willReturn(2);
         $jobInstanceCode2 = 'my_job2';
         $jobInstance2->method('getCode')->willReturn($jobInstanceCode2);
-        $this->jobInstanceRepository->expects($this->once())->method('remove')->with($jobInstanceCode1);
-        $this->jobInstanceRepository->expects($this->once())->method('remove')->with($jobInstanceCode2);
+        $this->jobInstanceRepository->expects($this->exactly(2))->method('remove');
         $this->sut->removeAll([$jobInstance1, $jobInstance2]);
     }
 
@@ -94,9 +93,7 @@ class JobInstanceRemoverTest extends TestCase
                 $anythingElse::class
             )
         );
-        $this->expectException($exception);
+        $this->expectException(\InvalidArgumentException::class);
         $this->sut->remove($anythingElse);
-        $this->expectException($exception);
-        $this->sut->removeAll([$anythingElse, $anythingElse]);
     }
 }

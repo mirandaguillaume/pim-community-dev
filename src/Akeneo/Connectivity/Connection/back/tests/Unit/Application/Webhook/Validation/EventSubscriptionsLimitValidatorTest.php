@@ -20,6 +20,8 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class EventSubscriptionsLimitValidatorTest extends TestCase
 {
+    private const ACTIVE_EVENT_SUBSCRIPTIONS_LIMIT = 3;
+
     private SelectActiveWebhooksQueryInterface|MockObject $selectActiveWebhooksQuery;
     private ExecutionContextInterface|MockObject $context;
     private EventSubscriptionsLimitValidator $sut;
@@ -47,8 +49,9 @@ class EventSubscriptionsLimitValidatorTest extends TestCase
         $this->selectActiveWebhooksQuery->method('execute')->willReturn([]);
         $eventSubscription = new ConnectionWebhook('erp', true, 'http://localhost');
         $constraint = new EventSubscriptionsLimit();
-        $this->sut->shouldNotThrow(new UnexpectedTypeException($constraint, EventSubscriptionsLimit::class))
-                    ->during('validate', [$eventSubscription, $constraint]);
+        // Should not throw UnexpectedTypeException
+        $this->sut->validate($eventSubscription, $constraint);
+        $this->assertTrue(true);
     }
 
     public function test_it_does_not_support_other_constraints(): void
@@ -65,8 +68,9 @@ class EventSubscriptionsLimitValidatorTest extends TestCase
         $this->selectActiveWebhooksQuery->method('execute')->willReturn([]);
         $eventSubscription = new ConnectionWebhook('erp', true, 'http://localhost');
         $constraint = new EventSubscriptionsLimit();
-        $this->sut->shouldNotThrow(new UnexpectedValueException($eventSubscription, ConnectionWebhook::class))
-                    ->during('validate', [$eventSubscription, $constraint]);
+        // Should not throw UnexpectedValueException
+        $this->sut->validate($eventSubscription, $constraint);
+        $this->assertTrue(true);
     }
 
     public function test_it_does_not_support_other_values(): void

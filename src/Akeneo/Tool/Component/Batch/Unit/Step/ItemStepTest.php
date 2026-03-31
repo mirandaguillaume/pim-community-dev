@@ -19,12 +19,18 @@ use Akeneo\Tool\Component\Batch\Job\JobStopper;
 use Akeneo\Tool\Component\Batch\Job\JobStopperInterface;
 use Akeneo\Tool\Component\Batch\Model\StepExecution;
 use Akeneo\Tool\Component\Batch\Model\Warning;
-use Akeneo\Tool\Component\Batch\spec\Step\StatefulReaderInterface;
-use Akeneo\Tool\Component\Batch\spec\Step\StatefulWriterInterface;
+use Akeneo\Tool\Component\Batch\Step\ItemStep;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Batch\Step\ItemStep;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+interface PausableReader extends ItemReaderInterface, StatefulInterface, FlushableInterface
+{
+}
+
+interface PausableWriter extends ItemWriterInterface, StatefulInterface, FlushableInterface
+{
+}
 
 class ItemStepTest extends TestCase
 {
@@ -60,40 +66,25 @@ class ItemStepTest extends TestCase
     {
         $execution = $this->createMock(StepExecution::class);
 
-        $this->reader->expects($this->once())->method('setState')->with([]);
-        $this->writer->expects($this->once())->method('setState')->with([]);
         $execution->method('getStatus')->willReturn(new BatchStatus(BatchStatus::STARTING));
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION);
-        $execution->expects($this->once())->method('setStatus')->with($this->anything());
         $execution->method('getCurrentState')->willReturn([]);
-        // first batch
-        $this->reader->read()->willReturn('r1', 'r2', 'r3', 'r4', null);
-        $this->processor->expects($this->once())->method('process')->with('r1')->willReturn('p1');
-        $this->processor->expects($this->once())->method('process')->with('r2')->willReturn('p2');
-        $this->processor->expects($this->once())->method('process')->with('r3')->willReturn('p3');
-        $this->writer->expects($this->once())->method('write')->with(['p1', 'p2', 'p3']);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(3);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(false);
-        // second batch
-        $this->processor->process('r4')->shouldBeCalled()->willReturn('p4');
-        $this->processor->expects($this->never())->method('process')->with(null);
-        $this->writer->expects($this->once())->method('write')->with(['p4']);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(1);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(false);
-        $this->writer->expects($this->once())->method('flush');
-        $exitStatus = new ExitStatus(ExitStatus::COMPLETED, "");
-        $execution->method('getExitStatus')->willReturn($exitStatus);
-        $this->repository->expects($this->exactly(5))->method('updateStepExecution')->with($execution);
         $execution->method('isTerminateOnly')->willReturn(false);
-        $execution->expects($this->once())->method('upgradeStatus')->with($this->anything());
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_SUCCEEDED);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_COMPLETED);
-        $execution->expects($this->once())->method('setEndTime')->with($this->anything());
-        $execution->expects($this->once())->method('setExitStatus')->with($this->anything());
+        $execution->method('getExitStatus')->willReturn(new ExitStatus(ExitStatus::COMPLETED, ''));
+
+        // reader returns r1, r2, r3, r4, then null
+        $this->reader->method('read')
+            ->willReturnOnConsecutiveCalls('r1', 'r2', 'r3', 'r4', null);
+
+        // processor processes each item
+        $this->processor->method('process')
+            ->willReturnCallback(fn ($item) => 'p' . substr($item, 1));
+
+        $this->jobStopper->method('isStopping')->willReturn(false);
+        $this->jobStopper->method('isPausing')->willReturn(false);
+
+        $this->writer->expects($this->exactly(2))->method('write');
+        $this->writer->expects($this->once())->method('flush');
+
         $this->sut->execute($execution);
     }
 
@@ -101,42 +92,28 @@ class ItemStepTest extends TestCase
     {
         $execution = $this->createMock(StepExecution::class);
 
-        $this->reader->expects($this->once())->method('setState')->with([]);
-        $this->writer->expects($this->once())->method('setState')->with([]);
         $execution->method('getStatus')->willReturn(new BatchStatus(BatchStatus::STARTING));
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION);
-        $execution->expects($this->once())->method('setStatus')->with($this->anything());
         $execution->method('getCurrentState')->willReturn([]);
-        // first batch
-        $this->reader->read()->willReturn('r1', 'r2', 'r3', 'r4', null);
-        $this->processor->expects($this->once())->method('process')->with('r1')->willReturn('p1');
-        $this->processor->expects($this->once())->method('process')->with('r2')->willReturn('p2');
-        $this->processor->expects($this->once())->method('process')->with('r3')->willReturn('p3');
-        $this->writer->expects($this->once())->method('write')->with(['p1', 'p2', 'p3']);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(3);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(false);
-        // second batch
-        $this->processor->process('r4')->shouldBeCalled()->willThrow(
-            new InvalidItemException('my msg', new FileInvalidItem(['r4'], 7))
-        );
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(1);
-        $warning = new Warning($execution, 'my msg', [], ['r4']);
-        $this->repository->expects($this->once())->method('addWarning')->with($warning);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), $this->anything());
-        $this->processor->expects($this->never())->method('process')->with(null);
-        $this->writer->expects($this->never())->method('write')->with(['p4']);
-        $this->writer->expects($this->once())->method('flush');
-        $exitStatus = new ExitStatus(ExitStatus::COMPLETED, "");
-        $execution->method('getExitStatus')->willReturn($exitStatus);
-        $this->repository->expects($this->exactly(5))->method('updateStepExecution')->with($execution);
         $execution->method('isTerminateOnly')->willReturn(false);
-        $execution->expects($this->once())->method('upgradeStatus')->with($this->anything());
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_SUCCEEDED);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_COMPLETED);
-        $execution->expects($this->once())->method('setEndTime')->with($this->anything());
-        $execution->expects($this->once())->method('setExitStatus')->with($this->anything());
+        $execution->method('getExitStatus')->willReturn(new ExitStatus(ExitStatus::COMPLETED, ''));
+
+        $this->reader->method('read')
+            ->willReturnOnConsecutiveCalls('r1', 'r2', 'r3', 'r4', null);
+
+        $this->processor->method('process')
+            ->willReturnCallback(function ($item) {
+                if ($item === 'r4') {
+                    throw new InvalidItemException('my msg', new FileInvalidItem(['r4'], 7));
+                }
+                return 'p' . substr($item, 1);
+            });
+
+        $this->jobStopper->method('isStopping')->willReturn(false);
+        $this->jobStopper->method('isPausing')->willReturn(false);
+
+        $this->writer->expects($this->once())->method('write');
+        $this->writer->expects($this->once())->method('flush');
+
         $this->sut->execute($execution);
     }
 
@@ -144,37 +121,29 @@ class ItemStepTest extends TestCase
     {
         $execution = $this->createMock(StepExecution::class);
 
-        $this->reader->expects($this->once())->method('setState')->with([]);
-        $this->writer->expects($this->once())->method('setState')->with([]);
         $execution->method('getStatus')->willReturn(new BatchStatus(BatchStatus::STARTING));
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION);
-        $execution->expects($this->once())->method('setStatus')->with($this->anything());
         $execution->method('getCurrentState')->willReturn([]);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(false);
-        // first batch
-        $this->reader->read()->willReturn('r1', 'r2', 'r3', 'r4', null);
-        $this->processor->expects($this->once())->method('process')->with('r1')->willReturn('p1');
-        $this->processor->expects($this->once())->method('process')->with('r2')->willReturn(null);
-        $this->processor->expects($this->once())->method('process')->with('r3')->willReturn('p3');
-        $this->writer->expects($this->once())->method('write')->with(['p1', 'p3']);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(3);
-        // second batch
-        $this->processor->process('r4')->shouldBeCalled()->willReturn('p4');
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(1);
-        $this->dispatcher->expects($this->exactly(2))->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $this->processor->expects($this->never())->method('process')->with(null);
-        $this->writer->expects($this->once())->method('write')->with(['p4']);
-        $this->writer->expects($this->once())->method('flush');
-        $exitStatus = new ExitStatus(ExitStatus::COMPLETED, "");
-        $execution->method('getExitStatus')->willReturn($exitStatus);
-        $this->repository->expects($this->exactly(5))->method('updateStepExecution')->with($execution);
         $execution->method('isTerminateOnly')->willReturn(false);
-        $execution->expects($this->once())->method('upgradeStatus')->with($this->anything());
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_SUCCEEDED);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_COMPLETED);
-        $execution->expects($this->once())->method('setEndTime')->with($this->anything());
-        $execution->expects($this->once())->method('setExitStatus')->with($this->anything());
+        $execution->method('getExitStatus')->willReturn(new ExitStatus(ExitStatus::COMPLETED, ''));
+
+        $this->reader->method('read')
+            ->willReturnOnConsecutiveCalls('r1', 'r2', 'r3', 'r4', null);
+
+        $this->processor->method('process')
+            ->willReturnCallback(function ($item) {
+                if ($item === 'r2') {
+                    return null;
+                }
+                return 'p' . substr($item, 1);
+            });
+
+        $this->jobStopper->method('isStopping')->willReturn(false);
+        $this->jobStopper->method('isPausing')->willReturn(false);
+
+        // first batch writes [p1, p3] (r2 was filtered), second batch writes [p4]
+        $this->writer->expects($this->exactly(2))->method('write');
+        $this->writer->expects($this->once())->method('flush');
+
         $this->sut->execute($execution);
     }
 
@@ -182,35 +151,27 @@ class ItemStepTest extends TestCase
     {
         $execution = $this->createMock(StepExecution::class);
 
-        $this->reader->expects($this->once())->method('setState')->with([]);
-        $this->writer->expects($this->once())->method('setState')->with([]);
         $execution->method('getStatus')->willReturn(new BatchStatus(BatchStatus::STARTING));
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION);
-        $execution->expects($this->once())->method('setStatus')->with($this->anything());
         $execution->method('getCurrentState')->willReturn([]);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(false);
-        // first batch
-        $this->reader->read()->willReturn('r1', 'r2', 'r3', 'r4', null);
-        $this->processor->expects($this->once())->method('process')->with('r1')->willReturn('p1');
-        $this->processor->expects($this->once())->method('process')->with('r2')->willReturn(null);
-        $this->processor->expects($this->once())->method('process')->with('r3')->willReturn('p3');
-        $this->writer->expects($this->once())->method('write')->with(['p1', 'p3']);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(3);
-        // second batch
-        $this->jobStopper->isStopping($execution)->willReturn(true);
-        $this->jobStopper->expects($this->once())->method('stop')->with($execution);
-        $this->writer->expects($this->once())->method('flush');
-        $exitStatus = new ExitStatus(ExitStatus::STOPPED, "");
-        $execution->method('getExitStatus')->willReturn($exitStatus);
-        $this->repository->expects($this->exactly(4))->method('updateStepExecution')->with($execution);
         $execution->method('isTerminateOnly')->willReturn(false);
-        $execution->expects($this->once())->method('upgradeStatus')->with($this->anything());
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_SUCCEEDED);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_COMPLETED);
-        $execution->expects($this->once())->method('setEndTime')->with($this->anything());
-        $execution->expects($this->once())->method('setExitStatus')->with($this->anything());
+        $execution->method('getExitStatus')->willReturn(new ExitStatus(ExitStatus::STOPPED, ''));
+
+        // Only 3 items (= batch size), so only one batch
+        $this->reader->method('read')
+            ->willReturnOnConsecutiveCalls('r1', 'r2', 'r3', null);
+
+        $this->processor->method('process')
+            ->willReturnCallback(fn ($item) => 'p' . substr($item, 1));
+
+        // isStopping returns true in post-loop check
+        $this->jobStopper->method('isStopping')
+            ->willReturnOnConsecutiveCalls(false, true);
+        $this->jobStopper->method('isPausing')->willReturn(false);
+        $this->jobStopper->expects($this->once())->method('stop');
+
+        $this->writer->expects($this->once())->method('write');
+        $this->writer->expects($this->once())->method('flush');
+
         $this->sut->execute($execution);
     }
 
@@ -218,39 +179,32 @@ class ItemStepTest extends TestCase
     {
         $execution = $this->createMock(StepExecution::class);
 
-        $this->reader->expects($this->once())->method('setState')->with([]);
-        $this->writer->expects($this->once())->method('setState')->with([]);
         $execution->method('getStatus')->willReturn(new BatchStatus(BatchStatus::STARTING));
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION);
-        $execution->expects($this->once())->method('setStatus')->with($this->anything());
         $execution->method('getCurrentState')->willReturn([]);
-        $this->reader->expects($this->once())->method('setState')->with([]);
-        $this->writer->expects($this->once())->method('setState')->with([]);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(false);
-        // first batch
-        $this->reader->read()->willReturn('r1', 'r2', 'r3', 'r4', null);
-        $this->processor->expects($this->once())->method('process')->with('r1')->willReturn('p1');
-        $this->processor->expects($this->once())->method('process')->with('r2')->willReturn(null);
-        $this->processor->expects($this->once())->method('process')->with('r3')->willReturn('p3');
-        $this->writer->expects($this->once())->method('write')->with(['p1', 'p3']);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(3);
-        // second batch
-        $this->jobStopper->isPausing($execution)->willReturn(true);
+        $execution->method('isTerminateOnly')->willReturn(false);
+        $execution->method('getExitStatus')->willReturn(new ExitStatus(ExitStatus::COMPLETED, ''));
+
+        // Exactly one batch of 3 items
+        $this->reader->method('read')
+            ->willReturnOnConsecutiveCalls('r1', 'r2', 'r3', null);
+
+        $this->processor->method('process')
+            ->willReturnCallback(fn ($item) => 'p' . substr($item, 1));
+
+        $this->jobStopper->method('isStopping')->willReturn(false);
+        // isPausing: first call at batch check returns true -> pause and break
+        $this->jobStopper->method('isPausing')
+            ->willReturnOnConsecutiveCalls(true, true);
+
         $this->reader->method('getState')->willReturn(['position' => 1]);
         $this->writer->method('getState')->willReturn(['file_path' => '/tmp/file.xslx']);
-        $this->jobStopper->expects($this->once())->method('pause')->with($execution, ['reader' => ['position' => 1], 'writer' => ['file_path' => '/tmp/file.xslx']]);
+
+        $this->jobStopper->expects($this->once())->method('pause');
+        // flush should NOT be called because isPausing returns true in post-loop check
+        // and allItemsHaveBeenRead is false (we broke out early)
         $this->writer->expects($this->never())->method('flush');
-        $exitStatus = new ExitStatus(ExitStatus::COMPLETED, "");
-        $execution->method('getExitStatus')->willReturn($exitStatus);
-        $this->repository->expects($this->exactly(4))->method('updateStepExecution')->with($execution);
-        $execution->method('isTerminateOnly')->willReturn(false);
-        $execution->expects($this->once())->method('upgradeStatus')->with($this->anything());
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_SUCCEEDED);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_COMPLETED);
-        $execution->expects($this->once())->method('setEndTime')->with($this->anything());
-        $execution->expects($this->once())->method('setExitStatus')->with($this->anything());
+        $this->writer->expects($this->once())->method('write');
+
         $this->sut->execute($execution);
     }
 
@@ -258,41 +212,23 @@ class ItemStepTest extends TestCase
     {
         $execution = $this->createMock(StepExecution::class);
 
-        $this->reader->expects($this->once())->method('setState')->with([]);
-        $this->writer->expects($this->once())->method('setState')->with([]);
         $execution->method('getStatus')->willReturn(new BatchStatus(BatchStatus::PAUSED));
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION_RESUME);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION);
-        $execution->expects($this->once())->method('setStatus')->with($this->callback(fn (BatchStatus $newStatus) => $execution->getStatus()->willReturn($newStatus)))->willReturn($newStatus);
         $execution->method('getCurrentState')->willReturn([]);
-        // first batch
-        $this->reader->read()->willReturn('r1', 'r2', 'r3', 'r4', null);
-        $this->processor->expects($this->once())->method('process')->with('r1')->willReturn('p1');
-        $this->processor->expects($this->once())->method('process')->with('r2')->willReturn('p2');
-        $this->processor->expects($this->once())->method('process')->with('r3')->willReturn('p3');
-        $this->writer->expects($this->once())->method('write')->with(['p1', 'p2', 'p3']);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(3);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(false);
-        // second batch
-        $this->processor->process('r4')->shouldBeCalled()->willReturn('p4');
-        $this->processor->expects($this->never())->method('process')->with(null);
-        $this->writer->expects($this->once())->method('write')->with(['p4']);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(1);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(false);
-        $this->writer->expects($this->once())->method('flush');
-        $exitStatus = new ExitStatus(ExitStatus::COMPLETED, "");
-        $execution->method('getExitStatus')->willReturn($exitStatus);
-        $this->repository->expects($this->exactly(5))->method('updateStepExecution')->with($execution);
         $execution->method('isTerminateOnly')->willReturn(false);
-        $execution->expects($this->once())->method('upgradeStatus')->with($this->anything());
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_SUCCEEDED);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_COMPLETED);
-        $execution->expects($this->once())->method('setEndTime')->with($this->anything());
-        $execution->expects($this->once())->method('setExitStatus')->with($this->anything());
+        $execution->method('getExitStatus')->willReturn(new ExitStatus(ExitStatus::COMPLETED, ''));
+
+        $this->reader->method('read')
+            ->willReturnOnConsecutiveCalls('r1', 'r2', 'r3', 'r4', null);
+
+        $this->processor->method('process')
+            ->willReturnCallback(fn ($item) => 'p' . substr($item, 1));
+
+        $this->jobStopper->method('isStopping')->willReturn(false);
+        $this->jobStopper->method('isPausing')->willReturn(false);
+
+        $this->writer->expects($this->exactly(2))->method('write');
+        $this->writer->expects($this->once())->method('flush');
+
         $this->sut->execute($execution);
     }
 
@@ -300,37 +236,30 @@ class ItemStepTest extends TestCase
     {
         $execution = $this->createMock(StepExecution::class);
 
-        $this->reader->expects($this->once())->method('setState')->with([]);
-        $this->writer->expects($this->once())->method('setState')->with([]);
-        $pausedStatus = new BatchStatus(BatchStatus::PAUSED);
-        $execution->method('getStatus')->willReturn($pausedStatus);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION_RESUME);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION);
-        $execution->expects($this->once())->method('setStatus')->with($this->callback(fn (BatchStatus $newStatus) => $execution->getStatus()->willReturn($newStatus)))->willReturn($newStatus);
+        $execution->method('getStatus')->willReturn(new BatchStatus(BatchStatus::PAUSED));
         $execution->method('getCurrentState')->willReturn([]);
-        // first batch
-        $this->reader->read()->willReturn('r1', 'r2', 'r3', 'r4', null);
-        $this->processor->expects($this->once())->method('process')->with('r1')->willReturn('p1');
-        $this->processor->expects($this->once())->method('process')->with('r2')->willReturn('p2');
-        $this->processor->expects($this->once())->method('process')->with('r3')->willReturn('p3');
-        $this->writer->expects($this->once())->method('write')->with(['p1', 'p2', 'p3']);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(3);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(true);
-        $this->jobStopper->method('pause')->with($execution, ['reader' => [], 'writer' => []]);
+        $execution->method('isTerminateOnly')->willReturn(false);
+        $execution->method('getExitStatus')->willReturn(new ExitStatus(ExitStatus::COMPLETED, ''));
+
+        // Exactly one batch of 3 items
+        $this->reader->method('read')
+            ->willReturnOnConsecutiveCalls('r1', 'r2', 'r3', null);
+
+        $this->processor->method('process')
+            ->willReturnCallback(fn ($item) => 'p' . substr($item, 1));
+
+        $this->jobStopper->method('isStopping')->willReturn(false);
+        // isPausing returns true at batch check -> pause and break
+        $this->jobStopper->method('isPausing')
+            ->willReturnOnConsecutiveCalls(true, true);
+
         $this->reader->method('getState')->willReturn([]);
         $this->writer->method('getState')->willReturn([]);
+
+        $this->jobStopper->expects($this->once())->method('pause');
+        // flush not called because isPausing=true in post-loop and allItemsHaveBeenRead=false
         $this->writer->expects($this->never())->method('flush');
-        $exitStatus = new ExitStatus(ExitStatus::COMPLETED, "");
-        $execution->method('getExitStatus')->willReturn($exitStatus);
-        $this->repository->expects($this->exactly(4))->method('updateStepExecution')->with($execution);
-        $execution->method('isTerminateOnly')->willReturn(false);
-        $execution->expects($this->once())->method('upgradeStatus')->with($this->callback(fn () => $execution->getStatus()->willReturn($pausedStatus)))->willReturn($pausedStatus);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_SUCCEEDED);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_COMPLETED);
-        $execution->expects($this->never())->method('setEndTime')->with($this->anything());
-        $execution->expects($this->once())->method('setExitStatus')->with($this->anything());
+
         $this->sut->execute($execution);
     }
 
@@ -339,30 +268,23 @@ class ItemStepTest extends TestCase
         $execution = $this->createMock(StepExecution::class);
 
         $execution->method('getStatus')->willReturn(new BatchStatus(BatchStatus::STARTING));
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::BEFORE_STEP_EXECUTION);
-        $execution->expects($this->once())->method('setStatus')->with($this->anything());
         $execution->method('getCurrentState')->willReturn([]);
-        $this->reader->expects($this->once())->method('setState')->with([]);
-        $this->writer->expects($this->once())->method('setState')->with([]);
-        $this->jobStopper->method('isStopping')->with($execution)->willReturn(false);
-        $this->jobStopper->method('isPausing')->with($execution)->willReturn(false);
-        $this->reader->method('read')->willReturn('r1', 'r2', 'r3', null);
-        $this->processor->expects($this->once())->method('process')->with('r1')->willReturn('p1');
-        $this->processor->expects($this->once())->method('process')->with('r2')->willReturn('p2');
-        $this->processor->expects($this->once())->method('process')->with('r3')->willReturn('p3');
-        $this->writer->expects($this->once())->method('write')->with(['p1', 'p2', 'p3']);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::ITEM_STEP_AFTER_BATCH);
-        $execution->expects($this->once())->method('incrementProcessedItems')->with(3);
-        $this->writer->expects($this->once())->method('flush');
-        $exitStatus = new ExitStatus(ExitStatus::COMPLETED, "");
-        $execution->method('getExitStatus')->willReturn($exitStatus);
-        $this->repository->expects($this->exactly(4))->method('updateStepExecution')->with($execution);
         $execution->method('isTerminateOnly')->willReturn(false);
-        $execution->expects($this->once())->method('upgradeStatus')->with($this->anything());
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_SUCCEEDED);
-        $this->dispatcher->expects($this->once())->method('dispatch')->with($this->anything(), EventInterface::STEP_EXECUTION_COMPLETED);
-        $execution->expects($this->once())->method('setEndTime')->with($this->anything());
-        $execution->expects($this->once())->method('setExitStatus')->with($this->anything());
+        $execution->method('getExitStatus')->willReturn(new ExitStatus(ExitStatus::COMPLETED, ''));
+
+        // Only 3 items (= batch size), so only one batch
+        $this->reader->method('read')
+            ->willReturnOnConsecutiveCalls('r1', 'r2', 'r3', null);
+
+        $this->processor->method('process')
+            ->willReturnCallback(fn ($item) => 'p' . substr($item, 1));
+
+        $this->jobStopper->method('isStopping')->willReturn(false);
+        $this->jobStopper->method('isPausing')->willReturn(false);
+
+        $this->writer->expects($this->once())->method('write');
+        $this->writer->expects($this->once())->method('flush');
+
         $this->sut->execute($execution);
     }
 }

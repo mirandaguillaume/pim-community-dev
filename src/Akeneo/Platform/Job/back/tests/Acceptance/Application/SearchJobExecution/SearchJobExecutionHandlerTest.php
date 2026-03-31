@@ -21,9 +21,10 @@ class SearchJobExecutionHandlerTest extends AcceptanceTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->searchJobExecution = $this->get(SearchJobExecutionInterface::class);
         $this->handler = $this->get(SearchJobExecutionHandler::class);
-        static::bootKernel(['debug' => false]);
     }
 
     /**

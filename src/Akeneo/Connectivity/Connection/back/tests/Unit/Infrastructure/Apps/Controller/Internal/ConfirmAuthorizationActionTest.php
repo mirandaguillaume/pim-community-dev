@@ -95,7 +95,7 @@ class ConfirmAuthorizationActionTest extends TestCase
 
     public function test_it_is_a_confirmation_authorization_action(): void
     {
-        $this->sut->beAnInstanceOf(ConfirmAuthorizationAction::class);
+        $this->assertInstanceOf(ConfirmAuthorizationAction::class, $this->sut);
     }
 
     public function test_it_throws_not_found_exception_with_feature_flag_disabled(): void

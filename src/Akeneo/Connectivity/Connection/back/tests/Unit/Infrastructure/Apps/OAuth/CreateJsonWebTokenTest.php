@@ -35,17 +35,26 @@ class CreateJsonWebTokenTest extends TestCase
     private ClockInterface|MockObject $clock;
     private PimUrl|MockObject $pimUrl;
     private CreateJsonWebToken $sut;
+    private \DateTimeImmutable $now;
+    private string $pimUrlString;
+    private string $clientId;
+    private string $ppid;
+    private string $firstname;
+    private string $lastname;
+    private string $email;
+    private string $privateKey;
+    private string $publicKey;
 
     protected function setUp(): void
     {
         $this->getAsymmetricKeysQuery = $this->createMock(GetAsymmetricKeysQueryInterface::class);
         $this->clock = $this->createMock(ClockInterface::class);
         $this->pimUrl = $this->createMock(PimUrl::class);
+        $this->initCommonData();
         $this->sut = new CreateJsonWebToken($this->clock, $this->pimUrl, $this->getAsymmetricKeysQuery);
-        $this->sut->setCommonData();
         $this->getAsymmetricKeysQuery->method('execute')->willReturn(AsymmetricKeys::create($this->publicKey, $this->privateKey));
         $this->clock->method('now')->willReturn($this->now);
-        $this->pimUrl->method('getPimUrl')->willReturn($this->pimUrl);
+        $this->pimUrl->method('getPimUrl')->willReturn($this->pimUrlString);
     }
 
     public function test_it_is_a_create_json_web_token(): void
@@ -63,7 +72,7 @@ class CreateJsonWebTokenTest extends TestCase
             $this->lastname,
             $this->email
         );
-        $this->sut->assertToken($token);
+        $this->assertToken($token);
     }
 
     public function test_it_creates_jwt_token_with_scope_profile(): void
@@ -76,7 +85,7 @@ class CreateJsonWebTokenTest extends TestCase
             $this->lastname,
             $this->email
         );
-        $this->sut->assertToken($token, [AuthenticationScope::SCOPE_PROFILE]);
+        $this->assertToken($token, [AuthenticationScope::SCOPE_PROFILE]);
     }
 
     public function test_it_creates_jwt_token_with_scope_email(): void
@@ -89,7 +98,7 @@ class CreateJsonWebTokenTest extends TestCase
             $this->lastname,
             $this->email
         );
-        $this->sut->assertToken($token, [AuthenticationScope::SCOPE_EMAIL]);
+        $this->assertToken($token, [AuthenticationScope::SCOPE_EMAIL]);
     }
 
     public function test_it_throws_exception_because_openid_scope_has_not_been_consented(): void
@@ -126,7 +135,7 @@ class CreateJsonWebTokenTest extends TestCase
         };
     
         $constraints = [
-            new IssuedBy($this->pimUrl),
+            new IssuedBy($this->pimUrlString),
             new RelatedTo($this->ppid),
             new PermittedFor($this->clientId),
             new LooseValidAt($frozenClock),
@@ -161,10 +170,10 @@ class CreateJsonWebTokenTest extends TestCase
         }
     }
 
-    private function setCommonData(): void
+    private function initCommonData(): void
     {
         $this->now = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, '2021-12-12T00:00:00Z');
-        $this->pimUrl = 'http://my-akeneo.test';
+        $this->pimUrlString = 'http://my-akeneo.test';
         $this->clientId = 'a_client_id';
         $this->ppid = 'a_ppid';
         $this->firstname = 'a_first_name';

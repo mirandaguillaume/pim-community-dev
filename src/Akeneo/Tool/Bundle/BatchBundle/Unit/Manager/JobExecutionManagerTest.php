@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\Manager;
 
+use Akeneo\Tool\Bundle\BatchBundle\Manager\JobExecutionManager;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\BatchBundle\Manager\JobExecutionManager;
 
 class JobExecutionManagerTest extends TestCase
 {

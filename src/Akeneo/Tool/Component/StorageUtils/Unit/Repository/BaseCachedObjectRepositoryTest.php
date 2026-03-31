@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\StorageUtils\Repository;
 
 use Akeneo\Tool\Component\StorageUtils\Cache\EntityManagerClearerInterface;
+use Akeneo\Tool\Component\StorageUtils\Repository\BaseCachedObjectRepository;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\StorageUtils\Repository\BaseCachedObjectRepository;
 
 class BaseCachedObjectRepositoryTest extends TestCase
 {
@@ -35,8 +35,17 @@ class BaseCachedObjectRepositoryTest extends TestCase
     {
         $object1 = new \stdClass();
         $object2 = new \stdClass();
-        $this->repository->expects($this->exactly(1))->method('findOneByIdentifier')->with('objectidentifier1')->willReturn($object1);
-        $this->repository->expects($this->exactly(1))->method('findOneByIdentifier')->with('objectidentifier2')->willReturn($object2);
+        $callCount = 0;
+        $this->repository->expects($this->exactly(2))->method('findOneByIdentifier')->willReturnCallback(
+            function (string $identifier) use ($object1, $object2, &$callCount) {
+                $callCount++;
+                return match ($identifier) {
+                    'objectidentifier1' => $object1,
+                    'objectidentifier2' => $object2,
+                    default => null,
+                };
+            }
+        );
         $this->assertSame($object1, $this->sut->findOneByIdentifier('objectidentifier1'));
         $this->assertSame($object1, $this->sut->findOneByIdentifier('objectidentifier1'));
         $this->assertSame($object1, $this->sut->findOneByIdentifier('objectidentifier1'));

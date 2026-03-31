@@ -24,9 +24,9 @@ class MeasurementFamilyListValidatorTest extends TestCase
     public function test_it_returns_the_errors_of_an_invalid_list_of_measurement_families(): void
     {
         $measurementFamilyList = [['not a object'], 'not an array'];
-        $errors = $this->validate($measurementFamilyList);
-        $errors->shouldBeArray();
-        $errors->shouldHaveCount(3);
+        $errors = $this->sut->validate($measurementFamilyList);
+        $this->assertIsArray($errors);
+        $this->assertCount(3, $errors);
     }
 
     public function test_it_returns_an_empty_array_if_the_list_of_measurement_families_is_valid(): void

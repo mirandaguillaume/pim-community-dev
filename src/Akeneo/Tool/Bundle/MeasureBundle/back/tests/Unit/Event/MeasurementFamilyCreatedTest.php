@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\MeasureBundle\Event;
 
+use Akeneo\Tool\Bundle\MeasureBundle\Event\MeasurementFamilyCreated;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\MeasurementFamilyCode;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\MeasureBundle\Event\MeasurementFamilyCreated;
 
 class MeasurementFamilyCreatedTest extends TestCase
 {

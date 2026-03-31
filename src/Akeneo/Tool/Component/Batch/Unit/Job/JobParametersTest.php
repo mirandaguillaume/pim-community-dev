@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Batch\Job;
 
+use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Job\UndefinedJobParameterException;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Batch\Job\JobParameters;
 
 class JobParametersTest extends TestCase
 {

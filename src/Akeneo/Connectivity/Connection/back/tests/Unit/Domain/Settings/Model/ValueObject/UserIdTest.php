@@ -32,6 +32,6 @@ class UserIdTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $this->expectExceptionMessage('User id must be positive.');
-        $this->sut->__construct(-2);
+        new UserId(-2);
     }
 }

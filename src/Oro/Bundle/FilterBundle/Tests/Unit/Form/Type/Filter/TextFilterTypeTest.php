@@ -6,6 +6,7 @@ use Oro\Bundle\FilterBundle\Form\Type\Filter\FilterType;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType;
 use Oro\Bundle\FilterBundle\Tests\Unit\Fixtures\CustomFormExtension;
 use Oro\Bundle\FilterBundle\Tests\Unit\Form\Type\AbstractTypeTestCase;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class TextFilterTypeTest extends AbstractTypeTestCase
 {
@@ -14,10 +15,10 @@ class TextFilterTypeTest extends AbstractTypeTestCase
     protected function setUp(): void
     {
         $translator = $this->createMockTranslator();
-        $this->formExtensions[] = new CustomFormExtension([new FilterType($translator)]);
+        $this->type = new TextFilterType($translator);
+        $this->formExtensions[] = new CustomFormExtension([new FilterType($translator), $this->type]);
 
         parent::setUp();
-        $this->type = new TextFilterType($translator);
     }
 
     /**
@@ -41,13 +42,13 @@ class TextFilterTypeTest extends AbstractTypeTestCase
         return [
             [
                 'defaultOptions' => [
-                    'field_type'       => 'text',
+                    'field_type'       => TextType::class,
                     'operator_choices' => [
                         TextFilterType::TYPE_CONTAINS     => 'oro.filter.form.label_type_contains',
                         TextFilterType::TYPE_NOT_CONTAINS => 'oro.filter.form.label_type_not_contains',
                         TextFilterType::TYPE_EQUAL        => 'oro.filter.form.label_type_equals',
                         TextFilterType::TYPE_STARTS_WITH  => 'oro.filter.form.label_type_start_with',
-                        TextFilterType::TYPE_ENDS_WITH    => 'oro.filter.form.label_type_end_with',
+                        TextFilterType::TYPE_EMPTY        => 'oro.filter.form.label_type_empty',
                     ],
                 ],
             ],

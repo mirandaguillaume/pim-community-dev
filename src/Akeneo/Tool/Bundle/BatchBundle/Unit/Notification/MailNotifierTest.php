@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\Notification;
 
 use Akeneo\Platform\Bundle\NotificationBundle\Email\MailNotifierInterface;
+use Akeneo\Tool\Bundle\BatchBundle\Notification\MailNotifier;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use spec\Akeneo\Tool\Bundle\BatchBundle\Notification\MailNotifier;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
@@ -84,7 +84,7 @@ class MailNotifierTest extends TestCase
             $this->anything(),
             $this->anything(),
             $this->anything()
-        )->willThrowException(\Throwable::class);
+        )->willThrowException(new \RuntimeException('test error'));
         $this->logger->expects($this->once())->method('error')->with($this->anything(), $this->anything());
         $this->sut->notify($jobExecution);
     }

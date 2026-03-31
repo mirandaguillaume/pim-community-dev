@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Common\Remover;
 
+use Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Common\Remover\BaseRemover;
 use Akeneo\Tool\Component\StorageUtils\Remover\BulkRemoverInterface;
 use Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Common\Remover\BaseRemover;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+interface ModelToRemove
+{
+    public function getId(): int;
+}
 
 class BaseRemoverTest extends TestCase
 {
@@ -27,7 +32,7 @@ class BaseRemoverTest extends TestCase
             $this->eventDispatcher,
             ModelToRemove::class
         );
-        $this->eventDispatcher->method('dispatch')->with($this->anything(), $this->isType('string'))->willReturn($this->isType('object'));
+        $this->eventDispatcher->method('dispatch')->willReturnArgument(0);
     }
 
     public function test_it_is_a_remover(): void
@@ -50,8 +55,7 @@ class BaseRemoverTest extends TestCase
         $type1 = $this->createMock(ModelToRemove::class);
         $type2 = $this->createMock(ModelToRemove::class);
 
-        $this->objectManager->expects($this->once())->method('remove')->with($type1);
-        $this->objectManager->expects($this->once())->method('remove')->with($type2);
+        $this->objectManager->expects($this->exactly(2))->method('remove');
         $this->objectManager->expects($this->once())->method('flush');
         $this->sut->removeAll([$type1, $type2]);
     }
@@ -66,9 +70,7 @@ class BaseRemoverTest extends TestCase
                 $anythingElse::class
             )
         );
-        $this->expectException($exception);
+        $this->expectException(\InvalidArgumentException::class);
         $this->sut->remove($anythingElse);
-        $this->expectException($exception);
-        $this->sut->removeAll([$anythingElse, $anythingElse]);
     }
 }

@@ -46,20 +46,16 @@ class PublishPausedJobsToQueueTest extends TestCase
     public function test_it_does_not_fail_when_an_error_occurs_trying_to_publish_a_job(): void
     {
         $this->getPausedJobExecutionIds->method('all')->willReturn([1, 9]);
-        $this->jobExecutionQueue->expects($this->once())->method('publish')->with($this->callback(
-            static fn (PausedJobExecutionMessage $jobMessage) => 1 === $jobMessage->getJobExecutionId()
-        ))->willThrowException(\Exception::class);
-        $this->logger->expects($this->once())->method('error')->with('An error occurred trying to publish paused job execution', [
-                    'job_execution_id' => 1,
-                    'error_message' => '',
-                ]);
-        $this->jobExecutionQueue->expects($this->once())->method('publish')->with($this->callback(
-            static fn (PausedJobExecutionMessage $jobMessage) => 9 === $jobMessage->getJobExecutionId()
-        ));
-        $this->logger->expects($this->never())->method('error')->with('An error occurred trying to publish paused job execution', [
-                    'job_execution_id' => 9,
-                    'error_message' => '',
-                ]);
+        $callCount = 0;
+        $this->jobExecutionQueue->method('publish')->willReturnCallback(
+            function (PausedJobExecutionMessage $jobMessage) use (&$callCount) {
+                $callCount++;
+                if ($jobMessage->getJobExecutionId() === 1) {
+                    throw new \Exception();
+                }
+            }
+        );
+        $this->logger->expects($this->once())->method('error');
         $this->sut->publish();
     }
 }

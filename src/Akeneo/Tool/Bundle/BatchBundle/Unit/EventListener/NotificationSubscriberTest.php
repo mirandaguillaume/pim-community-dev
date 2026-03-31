@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\EventListener;
 
+use Akeneo\Tool\Bundle\BatchBundle\EventListener\NotificationSubscriber;
 use Akeneo\Tool\Bundle\BatchBundle\Notification\Notifier;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\BatchBundle\EventListener\NotificationSubscriber;
 
 class NotificationSubscriberTest extends TestCase
 {

@@ -6,9 +6,9 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Job\JobParameter
 
 use Akeneo\Tool\Component\Batch\Job\JobInterface;
 use Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderInterface;
+use Akeneo\Tool\Component\Connector\Job\JobParameters\DefaultValuesProvider\SimpleCsvExport;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Job\JobParameters\DefaultValuesProvider\SimpleCsvExport;
 
 class SimpleCsvExportTest extends TestCase
 {

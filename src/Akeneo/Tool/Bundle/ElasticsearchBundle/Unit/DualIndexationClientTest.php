@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class DualIndexationClientTest extends TestCase
 {
-    private Client|MockObject $nativeClient;
+    private NativeClient|MockObject $nativeClient;
     private ClientBuilder|MockObject $clientBuilder;
     private Loader|MockObject $indexConfigurationLoader;
     private Client|MockObject $dualClient;
@@ -24,10 +24,13 @@ class DualIndexationClientTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->nativeClient = $this->createMock(Client::class);
+        $this->nativeClient = $this->createMock(NativeClient::class);
         $this->clientBuilder = $this->createMock(ClientBuilder::class);
         $this->indexConfigurationLoader = $this->createMock(Loader::class);
         $this->dualClient = $this->createMock(Client::class);
+        // Configure mocks BEFORE constructing DualIndexationClient
+        $this->clientBuilder->method('setHosts')->with(['localhost:9200'])->willReturn($this->clientBuilder);
+        $this->clientBuilder->method('build')->willReturn($this->nativeClient);
         $this->sut = new DualIndexationClient(
             $this->clientBuilder,
             $this->indexConfigurationLoader,
@@ -37,8 +40,6 @@ class DualIndexationClientTest extends TestCase
             100_000_000,
             $this->dualClient
         );
-        $this->clientBuilder->method('setHosts')->with(['localhost:9200'])->willReturn($this->clientBuilder);
-        $this->clientBuilder->method('build')->willReturn($this->nativeClient);
     }
 
     public function test_it_can_be_instantiated(): void
@@ -55,7 +56,7 @@ class DualIndexationClientTest extends TestCase
                         'body' => ['a key' => 'a value'],
                         'refresh' => 'wait_for',
                     ])->willReturn(['errors' => false]);
-        $this->dualClient->expects($this->once())->method('index')->with('identifier', ['a key' => 'a value'], Refresh::waitFor());
+        $this->dualClient->expects($this->once())->method('index')->with('identifier', ['a key' => 'a value'], Refresh::waitFor())->willReturn(['errors' => false]);
         $this->assertSame(['errors' => false], $this->sut->index('identifier', ['a key' => 'a value'], Refresh::waitFor()));
     }
 
@@ -84,12 +85,11 @@ class DualIndexationClientTest extends TestCase
                     ],
                     'refresh' => 'wait_for',
                 ])->willReturn($expectedResponse);
-        ;
         $documents = [
                     ['identifier' => 'foo', 'name' => 'a name'],
                     ['identifier' => 'bar', 'name' => 'a name'],
                 ];
-        $this->dualClient->expects($this->once())->method('bulkIndexes')->with($documents, 'identifier', Refresh::waitFor());
+        $this->dualClient->expects($this->once())->method('bulkIndexes')->with($documents, 'identifier', Refresh::waitFor())->willReturn($expectedResponse);
         $this->assertSame($expectedResponse, $this->sut->bulkIndexes($documents, 'identifier', Refresh::waitFor()));
     }
 
@@ -110,7 +110,7 @@ class DualIndexationClientTest extends TestCase
 
         $this->nativeClient->method('indices')->willReturn($indices);
         $indices->method('refresh')->with(['index' => 'an_index_name'])->willReturn(['errors' => false]);
-        $this->dualClient->expects($this->once())->method('refreshIndex');
+        $this->dualClient->expects($this->once())->method('refreshIndex')->willReturn(['errors' => false]);
         $this->assertSame(['errors' => false], $this->sut->refreshIndex());
     }
 }

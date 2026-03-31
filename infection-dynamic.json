@@ -1,0 +1,1 @@
+{"source":{"directories":["src/Akeneo/Connectivity/Connection/back"],"excludes":["tests","Test","spec"]},"phpUnit":{"configDir":"var/infection"},"tmpDir":"var/infection/tmp","timeout":30}

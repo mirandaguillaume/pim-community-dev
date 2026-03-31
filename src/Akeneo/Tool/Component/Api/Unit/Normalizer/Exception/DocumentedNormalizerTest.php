@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Api\Normalizer\Exception;
 
 use Akeneo\Tool\Component\Api\Exception\DocumentedHttpException;
+use Akeneo\Tool\Component\Api\Normalizer\Exception\DocumentedNormalizer;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Api\Normalizer\Exception\DocumentedNormalizer;
 use Symfony\Component\HttpFoundation\Response;
 
 class DocumentedNormalizerTest extends TestCase

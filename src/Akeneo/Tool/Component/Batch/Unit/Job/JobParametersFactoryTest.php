@@ -8,10 +8,10 @@ use Akeneo\Tool\Component\Batch\Job\JobInterface;
 use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderInterface;
 use Akeneo\Tool\Component\Batch\Job\JobParameters\DefaultValuesProviderRegistry;
+use Akeneo\Tool\Component\Batch\Job\JobParametersFactory;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Batch\Job\JobParametersFactory;
 
 class JobParametersFactoryTest extends TestCase
 {
@@ -21,7 +21,7 @@ class JobParametersFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->registry = $this->createMock(DefaultValuesProviderRegistry::class);
-        $this->sut = new JobParametersFactory($this->registry, self::INSTANCE_CLASS);
+        $this->sut = new JobParametersFactory($this->registry, JobParameters::class);
     }
 
     public function test_it_creates_a_job_parameters_with_default_values(): void
@@ -32,13 +32,14 @@ class JobParametersFactoryTest extends TestCase
         $job->method('getName')->willReturn('foo');
         $this->registry->method('get')->with($job)->willReturn($provider);
         $provider->method('getDefaultValues')->willReturn(['my_default_field' => 'my default value']);
-        $jobParameters = $this->create($job, ['my_defined_field' => 'my defined value']);
-        $jobParameters->shouldReturnAnInstanceOf(JobParameters::class);
-        $jobParameters->all()->shouldBe(
+        $jobParameters = $this->sut->create($job, ['my_defined_field' => 'my defined value']);
+        $this->assertInstanceOf(JobParameters::class, $jobParameters);
+        $this->assertSame(
             [
-                        'my_default_field' => 'my default value',
-                        'my_defined_field' => 'my defined value',
-                    ]
+                'my_default_field' => 'my default value',
+                'my_defined_field' => 'my defined value',
+            ],
+            $jobParameters->all()
         );
     }
 
@@ -46,9 +47,9 @@ class JobParametersFactoryTest extends TestCase
     {
         $jobExecution = $this->createMock(JobExecution::class);
 
-        $jobExecution->method('getRawParameters');
-        $jobParameters = $this->createFromRawParameters($jobExecution);
-        $jobParameters->shouldReturnAnInstanceOf(JobParameters::class);
-        $jobParameters->all()->shouldBe(['foo' => 'baz']);
+        $jobExecution->method('getRawParameters')->willReturn(['foo' => 'baz']);
+        $jobParameters = $this->sut->createFromRawParameters($jobExecution);
+        $this->assertInstanceOf(JobParameters::class, $jobParameters);
+        $this->assertSame(['foo' => 'baz'], $jobParameters->all());
     }
 }

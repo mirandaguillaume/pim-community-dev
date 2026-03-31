@@ -10,7 +10,6 @@ use Akeneo\Tool\Bundle\MeasureBundle\Exception\UnitNotFoundException;
 use Akeneo\Tool\Bundle\MeasureBundle\Provider\LegacyMeasurementProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Yaml\Yaml;
 
 class MeasureConverterTest extends TestCase
 {
@@ -21,38 +20,45 @@ class MeasureConverterTest extends TestCase
     {
         $this->provider = $this->createMock(LegacyMeasurementProvider::class);
         $this->sut = new MeasureConverter($this->provider);
-        $yaml = <<<YAML
-        measures_config:
-        Length:
-        standard: METER
-        units:
-        CENTIMETER:
-        convert: [{'div': 0.01}]
-        format: cm
-        METER:
-        convert: [{'test': 1}]
-        format: m
-        Weight:
-        standard: GRAM
-        units:
-        MILLIGRAM:
-        convert: [{'mul': 0.001}]
-        symbol: mg
-        GRAM:
-        convert: [{'mul': 1}]
-        symbol: g
-        KILOGRAM:
-        convert: [{'mul': 1000}]
-        symbol: kg
-        YAML;
-        $config = Yaml::parse($yaml);
-        $this->provider->method('getMeasurementFamilies')->willReturn($config['measures_config']);
+        $config = [
+            'Length' => [
+                'standard' => 'METER',
+                'units' => [
+                    'CENTIMETER' => [
+                        'convert' => [['div' => 0.01]],
+                        'format' => 'cm',
+                    ],
+                    'METER' => [
+                        'convert' => [['test' => 1]],
+                        'format' => 'm',
+                    ],
+                ],
+            ],
+            'Weight' => [
+                'standard' => 'GRAM',
+                'units' => [
+                    'MILLIGRAM' => [
+                        'convert' => [['mul' => 0.001]],
+                        'symbol' => 'mg',
+                    ],
+                    'GRAM' => [
+                        'convert' => [['mul' => 1]],
+                        'symbol' => 'g',
+                    ],
+                    'KILOGRAM' => [
+                        'convert' => [['mul' => 1000]],
+                        'symbol' => 'kg',
+                    ],
+                ],
+            ],
+        ];
+        $this->provider->method('getMeasurementFamilies')->willReturn($config);
     }
 
     public function test_it_allows_to_define_the_family(): void
     {
-        $this->sut->setFamily('Length')->shouldReturnAnInstanceOf(MeasureConverter::class);
-        $this->sut->setFamily('length')->shouldReturnAnInstanceOf(MeasureConverter::class);
+        $this->assertInstanceOf(MeasureConverter::class, $this->sut->setFamily('Length'));
+        $this->assertInstanceOf(MeasureConverter::class, $this->sut->setFamily('length'));
     }
 
     public function test_it_throws_an_exception_if_an_unknown_family_is_set(): void
@@ -126,12 +132,7 @@ class MeasureConverterTest extends TestCase
     {
         $this->sut->setFamily('Weight');
         $this->expectException(UnitNotFoundException::class);
-
         $this->expectExceptionMessage('Could not find metric unit "foo" in family "Weight"');
-        $this->sut->convertBaseToStandard('foo', $this->anything());
-        $this->expectException(UnitNotFoundException::class);
-
-        $this->expectExceptionMessage('Could not find metric unit "foo" in family "Weight"');
-        $this->sut->convertStandardToResult('foo', $this->anything());
+        $this->sut->convertBaseToStandard('foo', 1);
     }
 }

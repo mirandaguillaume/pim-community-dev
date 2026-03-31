@@ -15,10 +15,10 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
     protected function setUp(): void
     {
         $translator = $this->createMockTranslator();
-        $this->formExtensions[] = new CustomFormExtension([new FilterType($translator)]);
+        $this->type = new ChoiceFilterType($translator);
+        $this->formExtensions[] = new CustomFormExtension([new FilterType($translator), $this->type]);
 
         parent::setUp();
-        $this->type = new ChoiceFilterType($translator);
     }
 
     /**
@@ -75,7 +75,7 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'field_options' => [
-                        'choices' => [1 => 'One', 2 => 'Two'],
+                        'choices' => ['One' => 1, 'Two' => 2],
                     ],
                 ],
             ],
@@ -87,7 +87,7 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'field_options' => [
-                        'choices' => [1 => 'One'],
+                        'choices' => ['One' => 1],
                     ],
                 ],
             ],
@@ -100,20 +100,20 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
                 'customOptions' => [
                     'field_options' => [
                         'multiple' => true,
-                        'choices'  => [1 => 'One', 2 => 'Two', 3 => 'Three'],
+                        'choices'  => ['One' => 1, 'Two' => 2, 'Three' => 3],
                     ],
                 ],
             ],
             'invalid multiple choices' => [
-                'bindData' => ['value' => [3, 4]],
-                'formData' => ['type'  => null],
+                'bindData' => ['value' => [4, 5]],
+                'formData' => ['type'  => null, 'value' => []],
                 'viewData' => [
-                    'value' => ['type' => null, 'value' => [3, 4]],
+                    'value' => ['type' => '', 'value' => []],
                 ],
                 'customOptions' => [
                     'field_options' => [
                         'multiple' => true,
-                        'choices'  => [1 => 'One', 2 => 'Two', 3 => 'Three'],
+                        'choices'  => ['One' => 1, 'Two' => 2, 'Three' => 3],
                     ],
                 ],
             ],

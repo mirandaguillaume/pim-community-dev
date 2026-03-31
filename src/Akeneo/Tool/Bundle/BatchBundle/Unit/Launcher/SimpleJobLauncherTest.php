@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\Launcher;
 
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
+use Akeneo\Tool\Bundle\BatchBundle\Launcher\SimpleJobLauncher;
 use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Job\Job;
@@ -18,7 +19,6 @@ use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\BatchBundle\Launcher\SimpleJobLauncher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;

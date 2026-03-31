@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Localization\Factory;
 
+use Akeneo\Tool\Component\Localization\Factory\NumberFactory;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Localization\Factory\NumberFactory;
 
 class NumberFactoryTest extends TestCase
 {

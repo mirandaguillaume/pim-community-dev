@@ -6,12 +6,12 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesse
 
 use Akeneo\Pim\Structure\Component\Model\AttributeRequirement;
 use Akeneo\Pim\Structure\Component\Model\Family;
+use Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesser\FamilyAttributeRequirementUpdateGuesser;
 use Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesser\UpdateGuesserInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\UnitOfWork;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesser\FamilyAttributeRequirementUpdateGuesser;
 
 class FamilyAttributeRequirementUpdateGuesserTest extends TestCase
 {

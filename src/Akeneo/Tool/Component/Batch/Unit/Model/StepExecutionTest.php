@@ -33,16 +33,16 @@ class StepExecutionTest extends TestCase
         $this->assertSame(ExitStatus::EXECUTING, $this->sut->getExitStatus()->getExitCode());
         $this->assertInstanceOf(ExecutionContext::class, $this->sut->getExecutionContext());
         $this->assertInstanceOf(ArrayCollection::class, $this->sut->getWarnings());
-        $this->sut->getWarnings()->shouldBeEmpty();
-        $this->assertInstanceOf('\DateTime', $this->sut->getStartTime());
+        $this->assertCount(0, $this->sut->getWarnings());
+        $this->assertInstanceOf(\DateTime::class, $this->sut->getStartTime());
         $this->assertCount(0, $this->sut->getFailureExceptions());
     }
 
     public function test_it_is_cloneable(): void
     {
-        $clone = clone $this;
-        $clone->shouldBeAnInstanceOf(StepExecution::class);
-        $clone->getId()->shouldReturn(null);
+        $clone = clone $this->sut;
+        $this->assertInstanceOf(StepExecution::class, $clone);
+        $this->assertNull($clone->getId());
     }
 
     public function test_it_upgrades_status(): void
@@ -56,13 +56,13 @@ class StepExecutionTest extends TestCase
 
     public function test_it_sets_exist_status(): void
     {
-        $this->assertSame($this, $this->sut->setExitStatus(new ExitStatus(ExitStatus::NOOP, "foo")));
+        $this->assertInstanceOf(StepExecution::class, $this->sut->setExitStatus(new ExitStatus(ExitStatus::NOOP, "foo")));
     }
 
     public function test_it_adds_a_failure_exception(): void
     {
         $exception = new \Exception('my msg');
-        $this->assertSame($this, $this->sut->addFailureException($exception));
+        $this->assertInstanceOf(StepExecution::class, $this->sut->addFailureException($exception));
         $this->assertCount(1, $this->sut->getFailureExceptions());
     }
 

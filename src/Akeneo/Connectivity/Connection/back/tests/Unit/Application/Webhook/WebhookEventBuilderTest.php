@@ -33,6 +33,7 @@ class WebhookEventBuilderTest extends TestCase
 
     protected function setUp(): void
     {
+        date_default_timezone_set('UTC');
         $this->notSupportedEventDataBuilder = $this->createMock(EventDataBuilderInterface::class);
         $this->supportedEventDataBuilder = $this->createMock(EventDataBuilderInterface::class);
         $this->apiEventBuildErrorLogger = $this->createMock(ApiEventBuildErrorLoggerInterface::class);
@@ -86,7 +87,6 @@ class WebhookEventBuilderTest extends TestCase
     {
         $user = $this->createMock(UserInterface::class);
 
-        $user->method('getId')->willReturn(1);
         $author = Author::fromNameAndType('julia', Author::TYPE_UI);
         $pimEvent = $this->createEvent($author, ['data'], 1_599_814_161, 'a20832d1-a1e6-4f39-99ea-a1dd859faddb');
         $pimEventBulk = new BulkEvent([$pimEvent]);
@@ -112,7 +112,6 @@ class WebhookEventBuilderTest extends TestCase
     {
         $user = $this->createMock(UserInterface::class);
 
-        $user->method('getId')->willReturn(1);
         $author = Author::fromNameAndType('julia', Author::TYPE_UI);
         $pimEvent = $this->createEvent($author, ['data'], 1_599_814_161, 'a20832d1-a1e6-4f39-99ea-a1dd859faddb');
         $pimEventBulk = new BulkEvent([$pimEvent]);
@@ -168,8 +167,8 @@ class WebhookEventBuilderTest extends TestCase
         $author = Author::fromNameAndType('julia', Author::TYPE_UI);
         $pimEvent = $this->createEvent($author, ['data'], 1_599_814_161, 'a20832d1-a1e6-4f39-99ea-a1dd859faddb');
         $pimEventBulk = new BulkEvent([$pimEvent]);
-        $expectedException = new \InvalidArgumentException('The required option "pim_source" is missing.');
-        $this->expectException($expectedException);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The required option "pim_source" is missing.');
         $this->sut->build(
             $pimEventBulk,
             [

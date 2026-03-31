@@ -10,11 +10,13 @@ use PHPUnit\Framework\TestCase;
 
 class CommandResultTest extends TestCase
 {
+    private array $output;
     private CommandResult $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new CommandResult($this->ouput, 0);
+        $this->output = ['line1', 'line2'];
+        $this->sut = new CommandResult($this->output, 0);
     }
 
     public function test_it_can_be_initialized(): void
@@ -25,7 +27,7 @@ class CommandResultTest extends TestCase
 
     public function test_it_can_return_command_output(): void
     {
-        $this->assertSame($this->ouput, $this->sut->getCommandOutput());
+        $this->assertSame($this->output, $this->sut->getCommandOutput());
     }
 
     public function test_it_can_return_command_status(): void

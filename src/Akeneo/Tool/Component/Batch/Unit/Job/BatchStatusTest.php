@@ -31,11 +31,11 @@ class BatchStatusTest extends TestCase
 
     public function test_it_returns_largest_of_two_values(): void
     {
-        $this::max(BatchStatus::FAILED, BatchStatus::COMPLETED)->shouldReturn(BatchStatus::FAILED);
-        $this::max(BatchStatus::COMPLETED, BatchStatus::FAILED)->shouldReturn(BatchStatus::FAILED);
-        $this::max(BatchStatus::FAILED, BatchStatus::FAILED)->shouldReturn(BatchStatus::FAILED);
-        $this::max(BatchStatus::STARTED, BatchStatus::STARTING)->shouldReturn(BatchStatus::STARTED);
-        $this::max(BatchStatus::COMPLETED, BatchStatus::STARTED)->shouldReturn(BatchStatus::STARTED);
+        $this->assertSame(BatchStatus::FAILED, BatchStatus::max(BatchStatus::FAILED, BatchStatus::COMPLETED));
+        $this->assertSame(BatchStatus::FAILED, BatchStatus::max(BatchStatus::COMPLETED, BatchStatus::FAILED));
+        $this->assertSame(BatchStatus::FAILED, BatchStatus::max(BatchStatus::FAILED, BatchStatus::FAILED));
+        $this->assertSame(BatchStatus::STARTED, BatchStatus::max(BatchStatus::STARTED, BatchStatus::STARTING));
+        $this->assertSame(BatchStatus::STARTED, BatchStatus::max(BatchStatus::COMPLETED, BatchStatus::STARTED));
     }
 
     public function test_it_upgrades_finished_value_when_already_failed(): void

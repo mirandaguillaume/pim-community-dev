@@ -10,6 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 class UnitCodeTest extends TestCase
 {
+    private const UNIT_CODE = 'METER';
+
     private UnitCode $sut;
 
     protected function setUp(): void

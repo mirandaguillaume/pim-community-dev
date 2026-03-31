@@ -19,7 +19,7 @@ class RandomCodeGeneratorTest extends TestCase
 
     public function test_it_generates_a_random_code(): void
     {
-        $code = $this->generate();
+        $code = $this->sut->generate();
         Assert::assertIsString($code);
         Assert::assertMatchesRegularExpression('|[a-zA-Z0-9]{60,120}|', $code);
     }

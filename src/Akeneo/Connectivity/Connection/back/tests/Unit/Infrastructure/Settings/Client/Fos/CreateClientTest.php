@@ -32,7 +32,7 @@ class CreateClientTest extends TestCase
 
     public function test_it_creates_a_client_with_a_label(): void
     {
-        $fosClient = $this->createMock(Client::class);
+        $fosClient = $this->createMock(FosClient::class);
 
         $this->clientManager->method('createClient')->willReturn($fosClient);
         $fosClient->expects($this->once())->method('setLabel')->with('new_app');

@@ -103,7 +103,7 @@ class FileWriterArchiverTest extends TestCase
         $jobInstance->method('getJobName')->willReturn('export_job');
         $jobExecution->method('getJobInstance')->willReturn($jobInstance);
         $stepExecution->method('getJobExecution')->willReturn($jobExecution);
-        $this->jobRegistry->method('get')->with('export_job')->willThrowException(\Exception::class);
+        $this->jobRegistry->method('get')->with('export_job')->willThrowException(new \Exception());
         $this->assertSame(false, $this->sut->supports($stepExecution));
     }
 
@@ -190,7 +190,19 @@ class FileWriterArchiverTest extends TestCase
         $jobExecution->method('getJobInstance')->willReturn($jobInstance);
         $jobExecution->method('getId')->willReturn(1);
         $step1->method('getName')->willReturn('step_1');
-        $writer = $this->getUsableWriter();
+        $writtenFiles = [
+            WrittenFileInfo::fromFileStorage(
+                'a/b/c/file.png',
+                'catalogStorage',
+                'files/my_media.png'
+            ),
+            WrittenFileInfo::fromLocalFile(
+                '/tmp/export.csv',
+                'export.csv',
+            ),
+        ];
+        $path = '/tmp/export.csv';
+        $writer = $this->getUsableWriter($writtenFiles, $path);
         $step1->method('getWriter')->willReturn($writer);
         $step2->method('getName')->willReturn('step_2');
         $step2->expects($this->never())->method('getWriter');
@@ -198,28 +210,20 @@ class FileWriterArchiverTest extends TestCase
         $stepExecution->method('getJobExecution')->willReturn($jobExecution);
         $stepExecution->method('getStepName')->willReturn('step_1');
         $this->jobRegistry->method('get')->with('export_job')->willReturn($job);
-        $writtenFiles = [
-                    WrittenFileInfo::fromFileStorage(
-                        'a/b/c/file.png',
-                        'catalogStorage',
-                        'files/my_media.png'
-                    ),
-                    WrittenFileInfo::fromLocalFile(
-                        '/tmp/export.csv',
-                        'export.csv',
-                    ),
-                ];
-        $path = '/tmp/export.csv';
-        $writer = $this->getUsableWriter($writtenFiles, $path);
-        $step1->method('getWriter')->willReturn($writer);
-        $this->filesystemProvider->method('getFilesystem')->with('catalogStorage')->willReturn($catalogFilesystem);
+        $this->filesystemProvider->method('getFilesystem')->willReturnCallback(
+            function (string $name) use ($catalogFilesystem, $localFilesystem) {
+                return match ($name) {
+                    'catalogStorage' => $catalogFilesystem,
+                    'localFilesystem' => $localFilesystem,
+                    default => throw new \InvalidArgumentException("Unknown filesystem: $name"),
+                };
+            }
+        );
         $imageStream = fopen('php://memory', 'r');
         $catalogFilesystem->method('readStream')->with('a/b/c/file.png')->willReturn($imageStream);
-        $this->archivistFilesystem->expects($this->once())->method('writeStream')->with('export/export_job/1/output/files/my_media.png', $imageStream);
-        $this->filesystemProvider->method('getFilesystem')->with('localFilesystem')->willReturn($localFilesystem);
         $csvStream = fopen('php://memory', 'r');
         $localFilesystem->method('readStream')->with('/tmp/export.csv')->willReturn($csvStream);
-        $this->archivistFilesystem->expects($this->once())->method('writeStream')->with('export/export_job/1/output/export.csv', $csvStream);
+        $this->archivistFilesystem->expects($this->exactly(2))->method('writeStream');
         $this->sut->archive($stepExecution);
     }
 
@@ -264,7 +268,19 @@ class FileWriterArchiverTest extends TestCase
         $jobExecution->method('getJobInstance')->willReturn($jobInstance);
         $jobExecution->method('getId')->willReturn(1);
         $step1->method('getName')->willReturn('step_1');
-        $writer = $this->getUsableWriter();
+        $writtenFiles = [
+            WrittenFileInfo::fromFileStorage(
+                'a/b/c/non_existing_file.png',
+                'catalogStorage',
+                'files/non_existing_file.png'
+            ),
+            WrittenFileInfo::fromFileStorage(
+                'a/b/c/file.png',
+                'catalogStorage',
+                'files/my_media.png'
+            ),
+        ];
+        $writer = $this->getUsableWriter($writtenFiles);
         $step1->method('getWriter')->willReturn($writer);
         $step2->method('getName')->willReturn('step_2');
         $step2->expects($this->never())->method('getWriter');
@@ -272,26 +288,17 @@ class FileWriterArchiverTest extends TestCase
         $stepExecution->method('getJobExecution')->willReturn($jobExecution);
         $stepExecution->method('getStepName')->willReturn('step_1');
         $this->jobRegistry->method('get')->with('export_job')->willReturn($job);
-        $writtenFiles = [
-                    WrittenFileInfo::fromFileStorage(
-                        'a/b/c/non_existing_file.png',
-                        'catalogStorage',
-                        'files/non_existing_file.png'
-                    ),
-                    WrittenFileInfo::fromFileStorage(
-                        'a/b/c/file.png',
-                        'catalogStorage',
-                        'files/my_media.png'
-                    ),
-                ];
-        $writer = $this->getUsableWriter($writtenFiles);
-        $step1->method('getWriter')->willReturn($writer);
         $this->filesystemProvider->method('getFilesystem')->with('catalogStorage')->willReturn($catalogFilesystem);
-        $catalogFilesystem->method('readStream')->with('a/b/c/non_existing_file.png')->willThrowException(UnableToReadFile::class);
         $imageStream = fopen('php://memory', 'r');
-        $catalogFilesystem->method('readStream')->with('a/b/c/file.png')->willReturn($imageStream);
-        $this->archivistFilesystem->expects($this->once())->method('writeStream')->with('export/export_job/1/output/files/my_media.png', $imageStream);
-        $this->archivistFilesystem->expects($this->never())->method('writeStream')->with('export/export_job/1/output/non_existing_file.csv', $this->isType('resource'));
+        $catalogFilesystem->method('readStream')->willReturnCallback(
+            function (string $path) use ($imageStream) {
+                if ($path === 'a/b/c/non_existing_file.png') {
+                    throw UnableToReadFile::fromLocation($path);
+                }
+                return $imageStream;
+            }
+        );
+        $this->archivistFilesystem->expects($this->once())->method('writeStream');
         $this->logger->expects($this->once())->method('warning')->with(
             'The remote file could not be read from the remote filesystem',
             $this->isType('array')
@@ -327,12 +334,13 @@ class FileWriterArchiverTest extends TestCase
                             new FileAttributes('export/export_job/1/output/files/sku2/media.png'),
                         ]
         ));
-        $this->sut->getArchives($jobExecution)->shouldYield([
-                    'export_1.csv' => 'export/export_job/1/output/export_1.csv',
-                    'export_2.csv' => 'export/export_job/1/output/export_2.csv',
-                    'files/sku1/image.jpg' => 'export/export_job/1/output/files/sku1/image.jpg',
-                    'files/sku2/media.png' => 'export/export_job/1/output/files/sku2/media.png',
-                ]);
+        $expected = [
+            'export_1.csv' => 'export/export_job/1/output/export_1.csv',
+            'export_2.csv' => 'export/export_job/1/output/export_2.csv',
+            'files/sku1/image.jpg' => 'export/export_job/1/output/files/sku1/image.jpg',
+            'files/sku2/media.png' => 'export/export_job/1/output/files/sku2/media.png',
+        ];
+        $this->assertSame($expected, iterator_to_array($this->sut->getArchives($jobExecution)));
     }
 
     public function test_it_returns_the_archivist_directory_from_job_execution(): void

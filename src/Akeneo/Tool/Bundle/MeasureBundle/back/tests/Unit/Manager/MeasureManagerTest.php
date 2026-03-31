@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\MeasureBundle\Manager;
 
 use Akeneo\Tool\Bundle\MeasureBundle\Exception\MeasurementFamilyNotFoundException;
+use Akeneo\Tool\Bundle\MeasureBundle\Manager\MeasureManager;
 use Akeneo\Tool\Bundle\MeasureBundle\Provider\LegacyMeasurementProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\MeasureBundle\Manager\MeasureManager;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  *
@@ -26,44 +25,46 @@ class MeasureManagerTest extends TestCase
     {
         $this->provider = $this->createMock(LegacyMeasurementProvider::class);
         $this->sut = new MeasureManager($this->provider);
-        $yaml = <<<YAML
-        measures_config:
-        Length:
-        standard: METER
-        units:
-        CENTIMETER:
-        convert: [{'div': 0.01}]
-        format: cm
-        METER:
-        convert: [{'test': 1}]
-        format: m
-        Weight:
-        standard: GRAM
-        units:
-        MILLIGRAM:
-        convert: [{'mul': 0.001}]
-        symbol: mg
-        GRAM:
-        convert: [{'mul': 1}]
-        symbol: g
-        KILOGRAM:
-        convert: [{'mul': 1000}]
-        symbol: kg
-        YAML;
-        $config = Yaml::parse($yaml);
-        $this->provider->method('getMeasurementFamilies')->willReturn($config['measures_config']);
+        $config = [
+            'Length' => [
+                'standard' => 'METER',
+                'units' => [
+                    'CENTIMETER' => [
+                        'convert' => [['div' => 0.01]],
+                        'format' => 'cm',
+                    ],
+                    'METER' => [
+                        'convert' => [['test' => 1]],
+                        'format' => 'm',
+                    ],
+                ],
+            ],
+            'Weight' => [
+                'standard' => 'GRAM',
+                'units' => [
+                    'MILLIGRAM' => [
+                        'convert' => [['mul' => 0.001]],
+                        'symbol' => 'mg',
+                    ],
+                    'GRAM' => [
+                        'convert' => [['mul' => 1]],
+                        'symbol' => 'g',
+                    ],
+                    'KILOGRAM' => [
+                        'convert' => [['mul' => 1000]],
+                        'symbol' => 'kg',
+                    ],
+                ],
+            ],
+        ];
+        $this->provider->method('getMeasurementFamilies')->willReturn($config);
     }
 
     public function test_it_throws_an_exception_when_try_to_get_symbols_of_unknown_family(): void
     {
         $this->expectException(MeasurementFamilyNotFoundException::class);
-
         $this->expectExceptionMessage('Undefined measure family "foo"');
         $this->sut->getUnitSymbolsForFamily('foo');
-        $this->expectException(MeasurementFamilyNotFoundException::class);
-
-        $this->expectExceptionMessage('Undefined measure family "foo"');
-        $this->sut->getUnitCodesForFamily('foo');
     }
 
     public function test_it_returns_unit_symbols_list_from_a_family(): void

@@ -35,8 +35,7 @@ class WebMarketplaceApiTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->fakeAppsFeatureFlag = $this->createMock(FeatureFlag::class);
         $this->sut = new WebMarketplaceApi($this->client, $this->webMarketplaceAliases, $this->logger, $this->fakeAppsFeatureFlag);
-        $this->sut->setFixturePath(__DIR__ . '/fixtures/');
-        $this->fakeAppsFeatureFlag->method('isEnabled')->willReturn(false);
+        $this->sut->setFixturePath(__DIR__ . '/../../spec/Infrastructure/Marketplace/fixtures/');
     }
 
     public function test_it_is_initializable(): void
@@ -96,7 +95,7 @@ class WebMarketplaceApiTest extends TestCase
                         'limit' => 10,
                     ],
                 ])->willReturn($response);
-        $extensions = ($this->getExtensions());
+        $extensions = ($this->sut->getExtensions());
         Assert::assertEquals($expectedResponse, $extensions);
     }
 
@@ -165,6 +164,7 @@ class WebMarketplaceApiTest extends TestCase
         $response = $this->createMock(Response::class);
         $stream = $this->createMock(StreamInterface::class);
 
+        $this->fakeAppsFeatureFlag->method('isEnabled')->willReturn(false);
         $expectedResponse = [
                     'total' => 2,
                     'limit' => 10,
@@ -211,14 +211,14 @@ class WebMarketplaceApiTest extends TestCase
                         'limit' => 10,
                     ],
                 ])->willReturn($response);
-        $apps = ($this->getApps());
+        $apps = ($this->sut->getApps());
         Assert::assertEquals($expectedResponse, $apps);
     }
 
     public function test_it_returns_fake_apps(): void
     {
         $this->fakeAppsFeatureFlag->method('isEnabled')->willReturn(true);
-        $extensions = ($this->getApps());
+        $extensions = ($this->sut->getApps());
         Assert::assertEquals([
                     'total' => 2,
                     'offset' => 0,

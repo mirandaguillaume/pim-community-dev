@@ -66,60 +66,46 @@ class WriterTest extends TestCase
         $stepExecution->method('getStartTime')->willReturn(new \DateTimeImmutable('1967-08-05 15:15:00'));
         $jobExecution->method('getJobInstance')->willReturn($jobInstance);
         $jobInstance->method('getLabel')->willReturn('XLSX Group export');
-        $jobParameters->method('get')->with('withHeader')->willReturn(true);
-        $jobParameters->method('has')->with('storage')->willReturn(true);
-        $jobParameters->method('get')->with('storage')->willReturn(['type' => 'local', 'file_path' => sys_get_temp_dir() . '/my/file/path/%job_label%_%datetime%.xlsx']);
-        $jobParameters->method('has')->with('ui_locale')->willReturn(false);
-        $groups = [
-                    [
-                        'code'   => 'promotion',
-                        'type'   => 'RELATED',
-                        'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
-                    ],
-                    [
-                        'code'   => 'related',
-                        'type'   => 'RELATED',
-                        'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden'],
-                    ],
-                ];
-        $this->arrayConverter->method('convert')->with([
-                    'code'   => 'promotion',
-                    'type'   => 'RELATED',
-                    'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
-                ])->willReturn([
+        $jobParameters->method('get')->willReturnCallback(fn (string $key) => match ($key) {
+            'withHeader' => true,
+            'storage' => ['type' => 'local', 'file_path' => sys_get_temp_dir() . '/my/file/path/%job_label%_%datetime%.xlsx'],
+            default => null,
+        });
+        $jobParameters->method('has')->willReturnCallback(fn (string $key) => match ($key) {
+            'storage' => true,
+            'ui_locale' => false,
+            default => false,
+        });
+        $this->arrayConverter->method('convert')->willReturnCallback(function (array $item) {
+            if ($item['code'] === 'promotion') {
+                return [
                     'code'        => 'promotion',
                     'type'        => 'RELATED',
                     'label-en_US' => 'Promotion',
                     'label-de_DE' => 'Förderung',
-                ]);
-        $this->arrayConverter->method('convert')->with([
-                    'code'   => 'related',
-                    'type'   => 'RELATED',
-                    'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden'],
-                ])->willReturn([
-                    'code'        => 'related',
-                    'type'        => 'RELATED',
-                    'label-en_US' => 'Related',
-                    'label-de_DE' => 'Verbunden',
-                ]);
-        $this->bufferFactory->method('create')->with(null)->willReturn($flatRowBuffer);
-        $flatRowBuffer->expects($this->once())->method('write')->with(
+                ];
+            }
+            return [
+                'code'        => 'related',
+                'type'        => 'RELATED',
+                'label-en_US' => 'Related',
+                'label-de_DE' => 'Verbunden',
+            ];
+        });
+        $groups = [
             [
-                        [
-                            'code'        => 'promotion',
-                            'type'        => 'RELATED',
-                            'label-en_US' => 'Promotion',
-                            'label-de_DE' => 'Förderung',
-                        ],
-                        [
-                            'code'        => 'related',
-                            'type'        => 'RELATED',
-                            'label-en_US' => 'Related',
-                            'label-de_DE' => 'Verbunden',
-                        ],
-                    ],
-            ['withHeader' => true]
-        );
+                'code'   => 'promotion',
+                'type'   => 'RELATED',
+                'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
+            ],
+            [
+                'code'   => 'related',
+                'type'   => 'RELATED',
+                'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden'],
+            ],
+        ];
+        $this->bufferFactory->method('create')->willReturn($flatRowBuffer);
+        $flatRowBuffer->expects($this->once())->method('write');
         $this->sut->initialize();
         $this->sut->write($groups);
     }
@@ -139,31 +125,32 @@ class WriterTest extends TestCase
         $stepExecution->method('getStartTime')->willReturn(new \DateTimeImmutable('1967-08-05 15:15:00'));
         $jobExecution->method('getJobInstance')->willReturn($jobInstance);
         $jobInstance->method('getLabel')->willReturn('XLSX Group export');
-        $jobParameters->method('get')->with('linesPerFile')->willReturn(1);
-        $jobParameters->method('has')->with('storage')->willReturn(true);
-        $jobParameters->method('get')->with('storage')->willReturn(['type' => 'local', 'file_path' => sys_get_temp_dir() . '/my/file/path/%job_label%_%datetime%.xlsx']);
-        $jobParameters->method('has')->with('ui_locale')->willReturn(false);
-        $this->bufferFactory->method('create')->with(null)->willReturn($flatRowBuffer);
+        $jobParameters->method('get')->willReturnCallback(fn (string $key) => match ($key) {
+            'linesPerFile' => 1,
+            'storage' => ['type' => 'local', 'file_path' => sys_get_temp_dir() . '/my/file/path/%job_label%_%datetime%.xlsx'],
+            default => null,
+        });
+        $jobParameters->method('has')->willReturnCallback(fn (string $key) => match ($key) {
+            'storage' => true,
+            'ui_locale' => false,
+            default => false,
+        });
+        $this->bufferFactory->method('create')->willReturn($flatRowBuffer);
         $this->sut->initialize();
-        $this->flusher->method('flush')->with(
-            $flatRowBuffer,
-            ['type' => 'xlsx'],
-            sys_get_temp_dir() . '/my/file/path/XLSX_Group_export_1967-08-05_15-15-00.xlsx',
-            1
-        )->willReturn([
-                        sys_get_temp_dir() . '/my/file/path/XLSX_Group_export_1967-08-05_15-15-00_1.xlsx',
-                        sys_get_temp_dir() . '/my/file/path/XLSX_Group_export_1967-08-05_15-15-00_2.xlsx',
-                    ]);
+        $this->flusher->method('flush')->willReturn([
+            sys_get_temp_dir() . '/my/file/path/XLSX_Group_export_1967-08-05_15-15-00_1.xlsx',
+            sys_get_temp_dir() . '/my/file/path/XLSX_Group_export_1967-08-05_15-15-00_2.xlsx',
+        ]);
         $this->sut->flush();
         $this->assertEquals([
-                        WrittenFileInfo::fromLocalFile(
-                            sys_get_temp_dir() . '/my/file/path/XLSX_Group_export_1967-08-05_15-15-00_1.xlsx',
-                            'XLSX_Group_export_1967-08-05_15-15-00_1.xlsx'
-                        ),
-                        WrittenFileInfo::fromLocalFile(
-                            sys_get_temp_dir() . '/my/file/path/XLSX_Group_export_1967-08-05_15-15-00_2.xlsx',
-                            'XLSX_Group_export_1967-08-05_15-15-00_2.xlsx'
-                        ),
-                    ], $this->sut->getWrittenFiles());
+            WrittenFileInfo::fromLocalFile(
+                sys_get_temp_dir() . '/my/file/path/XLSX_Group_export_1967-08-05_15-15-00_1.xlsx',
+                'XLSX_Group_export_1967-08-05_15-15-00_1.xlsx'
+            ),
+            WrittenFileInfo::fromLocalFile(
+                sys_get_temp_dir() . '/my/file/path/XLSX_Group_export_1967-08-05_15-15-00_2.xlsx',
+                'XLSX_Group_export_1967-08-05_15-15-00_2.xlsx'
+            ),
+        ], $this->sut->getWrittenFiles());
     }
 }

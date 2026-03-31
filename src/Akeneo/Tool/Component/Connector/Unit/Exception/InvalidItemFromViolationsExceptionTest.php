@@ -6,9 +6,9 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Exception;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductPrice;
 use Akeneo\Tool\Component\Batch\Item\DataInvalidItem;
+use Akeneo\Tool\Component\Connector\Exception\InvalidItemFromViolationsException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Exception\InvalidItemFromViolationsException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 

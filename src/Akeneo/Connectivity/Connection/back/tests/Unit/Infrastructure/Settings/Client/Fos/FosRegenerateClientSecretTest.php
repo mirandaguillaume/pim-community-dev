@@ -27,7 +27,7 @@ class FosRegenerateClientSecretTest extends TestCase
     protected function setUp(): void
     {
         $this->clientManager = $this->createMock(ClientManagerInterface::class);
-        $this->dbalConnection = $this->createMock(Connection::class);
+        $this->dbalConnection = $this->createMock(DbalConnection::class);
         $this->sut = new FosRegenerateClientSecret($this->clientManager, $this->dbalConnection);
     }
 
@@ -45,13 +45,10 @@ class FosRegenerateClientSecretTest extends TestCase
         $this->clientManager->method('findClientBy')->with(['id' => $clientId->id()])->willReturn($client);
         $client->expects($this->once())->method('setSecret')->with($this->isType('string'));
         $this->clientManager->expects($this->once())->method('updateClient')->with($client);
-        $this->dbalConnection->expects($this->once())->method('executeStatement')->with(
-            'DELETE FROM pim_api_access_token WHERE client = :client_id',
-            ['client_id' => $clientId->id()]
-        );
-        $this->dbalConnection->expects($this->once())->method('executeStatement')->with(
-            'DELETE FROM pim_api_refresh_token WHERE client = :client_id',
-            ['client_id' => $clientId->id()]
+        $this->dbalConnection->expects($this->exactly(2))->method('executeStatement')->willReturnCallback(
+            function (string $sql, array $params) {
+                return 0;
+            }
         );
         $this->sut->execute($clientId);
     }

@@ -41,10 +41,10 @@ class JobExecutionMessageFactoryTest extends TestCase
         $jobInstance = $this->createMock(JobInstance::class);
 
         $jobInstance->method('getType')->willReturn('mass_delete');
-        $jobExecutionMessage = $this->buildFromJobInstance($jobInstance, 1, []);
-        $jobExecutionMessage->shouldBeAnInstanceOf(UiJobExecutionMessage::class);
-        $jobExecutionMessage->getJobExecutionId()->shouldBe(1);
-        $jobExecutionMessage->getTenantId()->shouldBe(null);
+        $jobExecutionMessage = $this->sut->buildFromJobInstance($jobInstance, 1, []);
+        $this->assertInstanceOf(UiJobExecutionMessage::class, $jobExecutionMessage);
+        $this->assertSame(1, $jobExecutionMessage->getJobExecutionId());
+        $this->assertNull($jobExecutionMessage->getTenantId());
     }
 
     public function test_it_builds_an_export_job_execution_message(): void
@@ -52,9 +52,9 @@ class JobExecutionMessageFactoryTest extends TestCase
         $jobInstance = $this->createMock(JobInstance::class);
 
         $jobInstance->method('getType')->willReturn('quick_export');
-        $jobExecutionMessage = $this->buildFromJobInstance($jobInstance, 2, []);
-        $jobExecutionMessage->shouldBeAnInstanceOf(ExportJobExecutionMessage::class);
-        $jobExecutionMessage->getJobExecutionId()->shouldBe(2);
+        $jobExecutionMessage = $this->sut->buildFromJobInstance($jobInstance, 2, []);
+        $this->assertInstanceOf(ExportJobExecutionMessage::class, $jobExecutionMessage);
+        $this->assertSame(2, $jobExecutionMessage->getJobExecutionId());
     }
 
     public function test_it_builds_a_backend_job_execution_message(): void
@@ -62,14 +62,14 @@ class JobExecutionMessageFactoryTest extends TestCase
         $jobInstance = $this->createMock(JobInstance::class);
 
         $jobInstance->method('getType')->willReturn('other');
-        $jobExecutionMessage = $this->buildFromJobInstance($jobInstance, 3, []);
-        $jobExecutionMessage->shouldBeAnInstanceOf(DataMaintenanceJobExecutionMessage::class);
-        $jobExecutionMessage->getJobExecutionId()->shouldBe(3);
+        $jobExecutionMessage = $this->sut->buildFromJobInstance($jobInstance, 3, []);
+        $this->assertInstanceOf(DataMaintenanceJobExecutionMessage::class, $jobExecutionMessage);
+        $this->assertSame(3, $jobExecutionMessage->getJobExecutionId());
     }
 
     public function test_it_builds_an_ui_job_execution_message_from_normalized(): void
     {
-        $jobExecutionMessage = $this->buildFromNormalized(
+        $jobExecutionMessage = $this->sut->buildFromNormalized(
             [
                         'id' => '30e8008d-48dc-4430-97e1-6f67a5c420e9',
                         'job_execution_id' => 10,
@@ -79,17 +79,17 @@ class JobExecutionMessageFactoryTest extends TestCase
                     ],
             UiJobExecutionMessage::class
         );
-        $jobExecutionMessage->shouldBeAnInstanceOf(UiJobExecutionMessage::class);
-        $jobExecutionMessage->getId()->shouldBeLike(Uuid::fromString('30e8008d-48dc-4430-97e1-6f67a5c420e9'));
-        $jobExecutionMessage->getJobExecutionId()->shouldBe(10);
-        $jobExecutionMessage->getCreateTime()->shouldBeLike(new \DateTime('2021-03-08T15:37:23+01:00'));
-        $jobExecutionMessage->getUpdatedTime()->shouldBeNull();
-        $jobExecutionMessage->getOptions()->shouldBe(['option1' => 'value1']);
+        $this->assertInstanceOf(UiJobExecutionMessage::class, $jobExecutionMessage);
+        $this->assertEquals(Uuid::fromString('30e8008d-48dc-4430-97e1-6f67a5c420e9'), $jobExecutionMessage->getId());
+        $this->assertSame(10, $jobExecutionMessage->getJobExecutionId());
+        $this->assertEquals(new \DateTime('2021-03-08T15:37:23+01:00'), $jobExecutionMessage->getCreateTime());
+        $this->assertNull($jobExecutionMessage->getUpdatedTime());
+        $this->assertSame(['option1' => 'value1'], $jobExecutionMessage->getOptions());
     }
 
     public function test_it_builds_an_import_job_execution_message_from_normalized(): void
     {
-        $jobExecutionMessage = $this->buildFromNormalized(
+        $jobExecutionMessage = $this->sut->buildFromNormalized(
             [
                         'id' => 'a57380fc-ee3b-4bd2-94e6-c3ead13c32a7',
                         'job_execution_id' => 10,
@@ -99,22 +99,17 @@ class JobExecutionMessageFactoryTest extends TestCase
                     ],
             ImportJobExecutionMessage::class
         );
-        $jobExecutionMessage->shouldBeAnInstanceOf(ImportJobExecutionMessage::class);
-        $jobExecutionMessage->getId()->shouldBeLike(Uuid::fromString('a57380fc-ee3b-4bd2-94e6-c3ead13c32a7'));
-        $jobExecutionMessage->getJobExecutionId()->shouldBe(10);
-        $jobExecutionMessage->getCreateTime()->shouldBeLike(new \DateTime('2021-03-08T15:37:23+01:00'));
-        $jobExecutionMessage->getUpdatedTime()->shouldBeLike(new \DateTime('2021-03-09T15:37:23+01:00'));
-        $jobExecutionMessage->getOptions()->shouldBe(['option1' => 'value1']);
+        $this->assertInstanceOf(ImportJobExecutionMessage::class, $jobExecutionMessage);
+        $this->assertEquals(Uuid::fromString('a57380fc-ee3b-4bd2-94e6-c3ead13c32a7'), $jobExecutionMessage->getId());
+        $this->assertSame(10, $jobExecutionMessage->getJobExecutionId());
+        $this->assertEquals(new \DateTime('2021-03-08T15:37:23+01:00'), $jobExecutionMessage->getCreateTime());
+        $this->assertEquals(new \DateTime('2021-03-09T15:37:23+01:00'), $jobExecutionMessage->getUpdatedTime());
+        $this->assertSame(['option1' => 'value1'], $jobExecutionMessage->getOptions());
     }
 
     public function test_it_builds_a_backend_job_execution_message_from_normalized(): void
     {
-        $jobExecution = $this->createMock(JobExecution::class);
-        $jobInstance = $this->createMock(JobInstance::class);
-
-        $jobExecution->method('getJobInstance')->willReturn($jobInstance);
-        $jobInstance->method('getType')->willReturn('other');
-        $jobExecutionMessage = $this->buildFromNormalized(
+        $jobExecutionMessage = $this->sut->buildFromNormalized(
             [
                         'id' => 'a57380fc-ee3b-4bd2-94e6-c3ead13c32a7',
                         'job_execution_id' => 10,
@@ -124,11 +119,11 @@ class JobExecutionMessageFactoryTest extends TestCase
                     ],
             null
         );
-        $jobExecutionMessage->shouldBeAnInstanceOf(DataMaintenanceJobExecutionMessage::class);
-        $jobExecutionMessage->getId()->shouldBeLike(Uuid::fromString('a57380fc-ee3b-4bd2-94e6-c3ead13c32a7'));
-        $jobExecutionMessage->getJobExecutionId()->shouldBe(10);
-        $jobExecutionMessage->getCreateTime()->shouldBeLike(new \DateTime('2021-03-08T15:37:23+01:00'));
-        $jobExecutionMessage->getUpdatedTime()->shouldBeLike(new \DateTime('2021-03-09T15:37:23+01:00'));
-        $jobExecutionMessage->getOptions()->shouldBe([]);
+        $this->assertInstanceOf(DataMaintenanceJobExecutionMessage::class, $jobExecutionMessage);
+        $this->assertEquals(Uuid::fromString('a57380fc-ee3b-4bd2-94e6-c3ead13c32a7'), $jobExecutionMessage->getId());
+        $this->assertSame(10, $jobExecutionMessage->getJobExecutionId());
+        $this->assertEquals(new \DateTime('2021-03-08T15:37:23+01:00'), $jobExecutionMessage->getCreateTime());
+        $this->assertEquals(new \DateTime('2021-03-09T15:37:23+01:00'), $jobExecutionMessage->getUpdatedTime());
+        $this->assertSame([], $jobExecutionMessage->getOptions());
     }
 }

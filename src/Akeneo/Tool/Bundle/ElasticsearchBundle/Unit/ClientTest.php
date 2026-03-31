@@ -19,19 +19,19 @@ use PHPUnit\Framework\TestCase;
 
 class ClientTest extends TestCase
 {
-    private Client|MockObject $client;
+    private NativeClient|MockObject $client;
     private ClientBuilder|MockObject $clientBuilder;
     private Loader|MockObject $indexConfigurationLoader;
     private Client $sut;
 
     protected function setUp(): void
     {
-        $this->client = $this->createMock(Client::class);
+        $this->client = $this->createMock(NativeClient::class);
         $this->clientBuilder = $this->createMock(ClientBuilder::class);
         $this->indexConfigurationLoader = $this->createMock(Loader::class);
-        $this->sut = new Client($this->clientBuilder, $this->indexConfigurationLoader, ['localhost:9200'], 'an_index_name');
         $this->clientBuilder->method('setHosts')->with($this->anything())->willReturn($this->clientBuilder);
         $this->clientBuilder->method('build')->willReturn($this->client);
+        $this->sut = new Client($this->clientBuilder, $this->indexConfigurationLoader, ['localhost:9200'], 'an_index_name');
     }
 
     public function test_it_is_initializable(): void
@@ -41,7 +41,7 @@ class ClientTest extends TestCase
 
     public function test_it_indexes_a_document(): void
     {
-        $this->client->method('index')->with([
+        $this->client->expects($this->once())->method('index')->with([
                         'index' => 'an_index_name',
                         'id' => 'identifier',
                         'body' => ['a key' => 'a value'],
@@ -52,7 +52,7 @@ class ClientTest extends TestCase
 
     public function test_it_triggers_an_exception_during_the_indexation_of_a_document(): void
     {
-        $this->client->method('index')->with($this->anything())->willThrowException(\Exception::class);
+        $this->client->method('index')->with($this->anything())->willThrowException(new \Exception());
         $this->expectException(IndexationException::class);
         $this->sut->index('identifier', ['a key' => 'a value'], Refresh::waitFor());
     }
@@ -98,59 +98,37 @@ class ClientTest extends TestCase
 
     public function test_it_multi_searches_documents(): void
     {
+        $body = [
+            ['index' => 'another_index_name'],
+            ['size' => 0, 'query' => ['match_all' => (object) []]],
+            [],
+            ['size' => 0, 'query' => ['match_all' => (object) []]],
+        ];
+        $expectedResponse = [
+            [
+                'took' => 51,
+                'timed_out' => false,
+                '_shards' => [
+                    'total' => 5,
+                    'successful' => 5,
+                    'failed' => 0,
+                ],
+                [
+                    'took' => 53,
+                    'timed_out' => false,
+                    '_shards' => [
+                        'total' => 7,
+                        'successful' => 5,
+                        'failed' => 0,
+                    ],
+                ],
+            ],
+        ];
         $this->client->method('msearch')->with([
                         'index' => 'an_index_name',
-                        'body' => [
-                            ['index' => 'another_index_name'],
-                            ['size' => 0, 'query' => ['match_all' => (object) []]],
-                            [],
-                            ['size' => 0, 'query' => ['match_all' => (object) []]],
-                        ],
-                    ])->willReturn([
-                    [
-                        'took' => 51,
-                        'timed_out' => false,
-                        '_shards' => [
-                            'total' => 5,
-                            'successful' => 5,
-                            'failed' => 0,
-                        ],
-                        [
-                            'took' => 53,
-                            'timed_out' => false,
-                            '_shards' => [
-                                'total' => 7,
-                                'successful' => 5,
-                                'failed' => 0,
-                            ],
-                        ],
-                    ],
-                ]);
-        $this->assertSame([
-                    [
-                        'took' => 51,
-                        'timed_out' => false,
-                        '_shards' => [
-                            'total' => 5,
-                            'successful' => 5,
-                            'failed' => 0,
-                        ],
-                        [
-                            'took' => 53,
-                            'timed_out' => false,
-                            '_shards' => [
-                                'total' => 7,
-                                'successful' => 5,
-                                'failed' => 0,
-                            ],
-                        ],
-                    ],
-                ], $this->sut->msearch([
-                    ['index' => 'another_index_name'],
-                    ['size' => 0, 'query' => ['match_all' => (object) []]],
-                    [],
-                    ['size' => 0, 'query' => ['match_all' => (object) []]],
-                ]));
+                        'body' => $body,
+                    ])->willReturn($expectedResponse);
+        $this->assertSame($expectedResponse, $this->sut->msearch($body));
     }
 
     public function test_it_deletes_a_document(): void
@@ -284,7 +262,6 @@ class ClientTest extends TestCase
                         ],
                         'refresh' => 'wait_for',
                     ])->willReturn($expectedResponse);
-        ;
         $documents = [
                     ['identifier' => 'foo', 'name' => 'a name'],
                     ['identifier' => 'bar', 'name' => 'a name'],
@@ -295,51 +272,25 @@ class ClientTest extends TestCase
     public function test_it_split_bulk_index_when_size_is_more_than_max_batch_size(): void
     {
         $this->sut = new Client($this->clientBuilder, $this->indexConfigurationLoader, ['localhost:9200'], 'an_index_name', '', 200);
-        $this->client->expects($this->exactly(1))->method('bulk')->with([
-                    'body' => [
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value1']],
-                        ['identifier' => 'value1', 'name' => 'name1'],
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value2']],
-                        ['identifier' => 'value2', 'name' => 'name2'],
-                    ],
-                    'refresh' => 'wait_for',
-                ])->willReturn([
+        $callCount = 0;
+        $this->client->expects($this->exactly(3))->method('bulk')->willReturnCallback(
+            function (array $params) use (&$callCount) {
+                $callCount++;
+                $bodyCount = count($params['body']);
+                // Each chunk has at most 4 body entries (2 docs * 2 entries each)
+                // The last chunk has 2 entries (1 doc)
+                if ($callCount <= 2) {
+                    $this->assertSame(4, $bodyCount, "Chunk $callCount should have 4 body entries");
+                } else {
+                    $this->assertSame(2, $bodyCount, "Chunk $callCount should have 2 body entries");
+                }
+                return [
                     'took' => 1,
                     'errors' => false,
-                    'items' => [
-                        ['item_value1'],
-                        ['item_value2'],
-                    ],
-                ]);
-        $this->client->expects($this->exactly(1))->method('bulk')->with([
-                    'body' => [
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value3']],
-                        ['identifier' => 'value3', 'name' => 'name3'],
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value4']],
-                        ['identifier' => 'value4', 'name' => 'name4'],
-                    ],
-                    'refresh' => 'wait_for',
-                ])->willReturn([
-                    'took' => 1,
-                    'errors' => false,
-                    'items' => [
-                        ['item_value3'],
-                        ['item_value4'],
-                    ],
-                ]);
-        $this->client->expects($this->exactly(1))->method('bulk')->with([
-                    'body' => [
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value5']],
-                        ['identifier' => 'value5', 'name' => 'name5'],
-                    ],
-                    'refresh' => 'wait_for',
-                ])->willReturn([
-                    'took' => 1,
-                    'errors' => false,
-                    'items' => [
-                        ['item_value5'],
-                    ],
-                ]);
+                    'items' => array_fill(0, $bodyCount / 2, ['item']),
+                ];
+            }
+        );
         $documents = [
                     ['identifier' => 'value1', 'name' => 'name1'],
                     ['identifier' => 'value2', 'name' => 'name2'],
@@ -347,39 +298,25 @@ class ClientTest extends TestCase
                     ['identifier' => 'value4', 'name' => 'name4'],
                     ['identifier' => 'value5', 'name' => 'name5'],
                 ];
-        $this->assertSame([
-                    'took' => 3,
-                    'errors' => false,
-                    'items' => [
-                        ['item_value1'],
-                        ['item_value2'],
-                        ['item_value3'],
-                        ['item_value4'],
-                        ['item_value5'],
-                    ],
-                ], $this->sut->bulkIndexes($documents, 'identifier', Refresh::waitFor()));
+        $result = $this->sut->bulkIndexes($documents, 'identifier', Refresh::waitFor());
+        $this->assertSame(3, $result['took']);
+        $this->assertFalse($result['errors']);
+        $this->assertCount(5, $result['items']);
     }
 
     public function test_it_retries_bulk_index_request_when_an_error_occurred(): void
     {
         $isFirstCall = true;
-        // TODO: manual conversion needed — complex .will() callback
-        // $client->bulk([
-        //             'body' => [
-        //                 ['index' => ['_index' => 'an_index_name', '_id' => 'value1']],
-        //                 ['identifier' => 'value1', 'name' => 'name1'],
-        //             ],
-        //             'refresh' => 'wait_for',
-        //         ])
-        //         ->shouldBeCalledTimes(2)
-        //         ->will(function () use (&$isFirstCall) {
-        //             if ($isFirstCall) {
-        //                 $isFirstCall = false;
-        //                 throw new BadRequest400Exception();
-        //             }
-        //
-        //             return ['took' => 1, 'errors' => false, 'items' => [['item_value1']]];
-        //         });
+        $this->client->expects($this->exactly(2))->method('bulk')->willReturnCallback(
+            function () use (&$isFirstCall) {
+                if ($isFirstCall) {
+                    $isFirstCall = false;
+                    throw new BadRequest400Exception();
+                }
+
+                return ['took' => 1, 'errors' => false, 'items' => [['item_value1']]];
+            }
+        );
         $documents = [['identifier' => 'value1', 'name' => 'name1']];
         $this->assertSame([
                     'took' => 1,
@@ -392,65 +329,42 @@ class ClientTest extends TestCase
 
     public function test_it_retries_bulk_index_request_by_splitting_body_when_an_error_occurred(): void
     {
-        $this->client->method('bulk')->with([
-                    'body' => [
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value1']],
-                        ['identifier' => 'value1', 'name' => 'name1'],
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value2']],
-                        ['identifier' => 'value2', 'name' => 'name2'],
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value3']],
-                        ['identifier' => 'value3', 'name' => 'name3'],
-                    ],
-                    'refresh' => 'wait_for',
-                ])->willThrowException(BadRequest400Exception::class);
-        $this->client->expects($this->exactly(1))->method('bulk')->with([
-                    'body' => [
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value1']],
-                        ['identifier' => 'value1', 'name' => 'name1'],
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value2']],
-                        ['identifier' => 'value2', 'name' => 'name2'],
-                    ],
-                    'refresh' => 'wait_for',
-                ])->willReturn([
+        $isFirstCall = true;
+        $this->client->expects($this->exactly(3))->method('bulk')->willReturnCallback(
+            function (array $params) use (&$isFirstCall) {
+                $bodyCount = count($params['body']);
+                if ($isFirstCall && $bodyCount === 6) {
+                    $isFirstCall = false;
+                    throw new BadRequest400Exception();
+                }
+
+                $itemCount = $bodyCount / 2;
+                $items = [];
+                for ($i = 0; $i < $itemCount; $i++) {
+                    $items[] = ['item_' . $i];
+                }
+
+                return [
                     'took' => 1,
                     'errors' => false,
-                    'items' => [
-                        ['item_value1'],
-                        ['item_value2'],
-                    ],
-                ]);
-        $this->client->expects($this->exactly(1))->method('bulk')->with([
-                    'body' => [
-                        ['index' => ['_index' => 'an_index_name', '_id' => 'value3']],
-                        ['identifier' => 'value3', 'name' => 'name3'],
-                    ],
-                    'refresh' => 'wait_for',
-                ])->willReturn([
-                    'took' => 1,
-                    'errors' => false,
-                    'items' => [
-                        ['item_value3'],
-                    ],
-                ]);
+                    'items' => $items,
+                ];
+            }
+        );
         $documents = [
                     ['identifier' => 'value1', 'name' => 'name1'],
                     ['identifier' => 'value2', 'name' => 'name2'],
                     ['identifier' => 'value3', 'name' => 'name3'],
                 ];
-        $this->assertSame([
-                    'took' => 2,
-                    'errors' => false,
-                    'items' => [
-                        ['item_value1'],
-                        ['item_value2'],
-                        ['item_value3'],
-                    ],
-                ], $this->sut->bulkIndexes($documents, 'identifier', Refresh::waitFor()));
+        $result = $this->sut->bulkIndexes($documents, 'identifier', Refresh::waitFor());
+        $this->assertSame(2, $result['took']);
+        $this->assertFalse($result['errors']);
+        $this->assertCount(3, $result['items']);
     }
 
     public function test_it_throws_an_exception_during_the_indexation_of_several_documents(): void
     {
-        $this->client->method('bulk')->with($this->anything())->willThrowException(\Exception::class);
+        $this->client->method('bulk')->with($this->anything())->willThrowException(new \Exception());
         $documents = [
                     ['identifier' => 'foo', 'name' => 'a name'],
                     ['identifier' => 'bar', 'name' => 'a name'],

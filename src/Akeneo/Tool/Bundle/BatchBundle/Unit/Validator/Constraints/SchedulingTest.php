@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchBundle\Validator\Constraints;
 
+use Akeneo\Tool\Bundle\BatchBundle\Validator\Constraints\Scheduling;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\BatchBundle\Validator\Constraints\Scheduling;
 
 class SchedulingTest extends TestCase
 {

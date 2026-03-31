@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 
+use Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddContextSubscriber;
 use Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionContext;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddContextSubscriber;
 
 class AddContextSubscriberTest extends TestCase
 {

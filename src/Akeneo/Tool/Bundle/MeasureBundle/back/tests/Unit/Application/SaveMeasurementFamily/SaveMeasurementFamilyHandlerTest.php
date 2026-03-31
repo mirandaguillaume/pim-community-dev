@@ -6,6 +6,7 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\MeasureBundle\Application\Sav
 
 use Akeneo\Tool\Bundle\MeasureBundle\Application\SaveMeasurementFamily\SaveMeasurementFamilyCommand;
 use Akeneo\Tool\Bundle\MeasureBundle\Application\SaveMeasurementFamily\SaveMeasurementFamilyHandler;
+use Akeneo\Tool\Bundle\MeasureBundle\Event\MeasurementFamilyUpdated;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\LabelCollection;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\MeasurementFamily;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\MeasurementFamilyCode;
@@ -91,6 +92,7 @@ class SaveMeasurementFamilyHandlerTest extends TestCase
             Assert::eq($expectedArea, $area);
             return true;
         }));
+        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(MeasurementFamilyUpdated::class));
         $this->sut->handle($saveMeasurementFamilyCommand);
     }
 }

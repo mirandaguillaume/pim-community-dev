@@ -27,13 +27,13 @@ class RequestAppAuthorizationHandlerTest extends TestCase
         $this->validator = $this->createMock(ValidatorInterface::class);
         $this->session = $this->createMock(AppAuthorizationSessionInterface::class);
         $this->scopeMapperChannel = $this->createMock(ScopeMapperInterface::class);
+        $this->scopeMapperChannel->method('getScopes')->willReturn(['read_channel_localization', 'read_channel_settings']);
+        $scopeMapperRegistry = new ScopeMapperRegistry([$this->scopeMapperChannel]);
         $this->sut = new RequestAppAuthorizationHandler(
             $this->validator,
             $this->session,
             $scopeMapperRegistry,
         );
-        $this->scopeMapperChannel->method('getScopes')->willReturn(['read_channel_localization', 'read_channel_settings']);
-        $scopeMapperRegistry = new ScopeMapperRegistry([$this->scopeMapperChannel]);
     }
 
     public function test_it_is_a_request_app_authorization_handler(): void

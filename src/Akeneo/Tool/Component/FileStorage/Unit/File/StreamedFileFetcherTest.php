@@ -5,25 +5,34 @@ declare(strict_types=1);
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\FileStorage\File;
 
 use Akeneo\Tool\Component\FileStorage\Exception\FileTransferException;
+use Akeneo\Tool\Component\FileStorage\File\StreamedFileFetcher;
 use Akeneo\Tool\Component\FileStorage\StreamedFileResponse;
 use League\Flysystem\FilesystemReader;
 use League\Flysystem\UnableToReadFile;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\FileStorage\File\StreamedFileFetcher;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class StreamedFileFetcherTest extends TestCase
 {
+    private string $directory;
     private StreamedFileFetcher $sut;
 
     protected function setUp(): void
     {
         $this->sut = new StreamedFileFetcher();
-        $this->sut->directory = sys_get_temp_dir() . '/spec/';
-        $this->sut->filesystem = new Filesystem();
-        $this->sut->filesystem->mkdir($this->directory);
+        $this->directory = sys_get_temp_dir() . '/spec_streamed_file_fetcher/';
+        $fs = new Filesystem();
+        $fs->mkdir($this->directory);
+    }
+
+    protected function tearDown(): void
+    {
+        $fs = new Filesystem();
+        if (is_dir($this->directory)) {
+            $fs->remove($this->directory);
+        }
     }
 
     public function test_it_fetches_a_file(): void
@@ -45,7 +54,6 @@ class StreamedFileFetcherTest extends TestCase
 
         $filesystem->method('fileExists')->with('path/to/file.txt')->willReturn(false);
         $this->expectException(FileNotFoundException::class);
-
         $this->expectExceptionMessage('path/to/file.txt');
         $this->sut->fetch($filesystem, 'path/to/file.txt', []);
     }
@@ -58,7 +66,6 @@ class StreamedFileFetcherTest extends TestCase
         $e = UnableToReadFile::fromLocation('path/to/file.txt');
         $filesystem->method('readStream')->with('path/to/file.txt')->willThrowException($e);
         $this->expectException(FileTransferException::class);
-
         $this->expectExceptionMessage('Unable to fetch the file "path/to/file.txt" from the filesystem.');
         $this->sut->fetch($filesystem, 'path/to/file.txt', []);
     }

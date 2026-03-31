@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\StorageUtils\Database;
 
+use Akeneo\Tool\Component\StorageUtils\Database\MySqlPlatformHelper;
 use Akeneo\Tool\Component\StorageUtils\Database\SqlPlatformHelperInterface;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\StorageUtils\Database\MySqlPlatformHelper;
 
 class MySqlPlatformHelperTest extends TestCase
 {

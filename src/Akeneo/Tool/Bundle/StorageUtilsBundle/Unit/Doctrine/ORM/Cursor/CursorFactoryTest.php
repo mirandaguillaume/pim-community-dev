@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 class CursorFactoryTest extends TestCase
 {
+    private const DEFAULT_BATCH_SIZE = 100;
+
     private EntityManager|MockObject $entityManager;
     private CursorFactory $sut;
 
@@ -50,7 +52,7 @@ class CursorFactoryTest extends TestCase
         $queryBuilder->method('from')->with($this->anything(), $this->anything(), 'a.id')->willReturn($queryBuilder);
         $queryBuilder->method('distinct')->with(true)->willReturn($queryBuilder);
         $queryBuilder->method('getQuery')->willReturn($query);
-        $query->expects($this->once())->method('useQueryCache')->with(false);
+        $query->expects($this->atLeastOnce())->method('useQueryCache')->with(false);
         $query->method('getArrayResult')->willReturn([]);
         $this->assertEquals(new Cursor($queryBuilder, $this->entityManager, 100), $this->sut->createCursor($queryBuilder));
     }

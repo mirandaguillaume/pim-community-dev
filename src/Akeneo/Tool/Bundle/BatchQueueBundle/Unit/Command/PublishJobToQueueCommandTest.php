@@ -6,6 +6,7 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\BatchQueueBundle\Command;
 
 use Akeneo\Tool\Bundle\BatchBundle\Job\DoctrineJobRepository;
 use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
+use Akeneo\Tool\Bundle\BatchQueueBundle\Command\PublishJobToQueueCommand;
 use Akeneo\Tool\Component\Batch\Job\JobParametersFactory;
 use Akeneo\Tool\Component\Batch\Job\JobRegistry;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
@@ -13,7 +14,6 @@ use Akeneo\Tool\Component\BatchQueue\Queue\PublishJobToQueue;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\BatchQueueBundle\Command\PublishJobToQueueCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -39,6 +39,7 @@ class PublishJobToQueueCommandTest extends TestCase
         $this->jobParametersFactory = $this->createMock(JobParametersFactory::class);
         $this->jobInstanceRepository = $this->createMock(JobInstanceRepository::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
+        $jobInstanceClass = \Akeneo\Tool\Component\Batch\Model\JobInstance::class;
         $this->sut = new PublishJobToQueueCommand(
             $this->publishJobToQueue,
             $this->jobRepository,
@@ -46,7 +47,6 @@ class PublishJobToQueueCommandTest extends TestCase
             $this->jobParametersFactory,
             $jobInstanceClass
         );
-        $jobInstanceClass = \Akeneo\Tool\Component\Batch\Model\JobInstance::class;
         $this->jobRepository->method('getJobManager')->willReturn($this->entityManager);
         $this->entityManager->method('getRepository')->with($jobInstanceClass)->willReturn($this->jobInstanceRepository);
     }
@@ -84,11 +84,17 @@ class PublishJobToQueueCommandTest extends TestCase
         $inputNoLog = null;
         $inputUsername = 'admin';
         $inputEmail = null;
-        $input->method('getArgument')->with('code')->willReturn($inputCode);
-        $input->method('getOption')->with('config')->willReturn($inputConfig);
-        $input->method('getOption')->with('no-log')->willReturn($inputNoLog);
-        $input->method('getOption')->with('username')->willReturn($inputUsername);
-        $input->method('getOption')->with('email')->willReturn($inputEmail);
+        $input->method('getArgument')->willReturnCallback(fn (string $name) => match ($name) {
+            'code' => $inputCode,
+            default => null,
+        });
+        $input->method('getOption')->willReturnCallback(fn (string $name) => match ($name) {
+            'config' => $inputConfig,
+            'no-log' => $inputNoLog,
+            'username' => $inputUsername,
+            'email' => $inputEmail,
+            default => null,
+        });
         $this->publishJobToQueue->expects($this->once())->method('publish')->with(
             $inputCode,
             json_decode($inputConfig, true),
@@ -125,11 +131,17 @@ class PublishJobToQueueCommandTest extends TestCase
         $inputNoLog = null;
         $inputUsername = 'admin';
         $inputEmail = null;
-        $input->method('getArgument')->with('code')->willReturn($inputCode);
-        $input->method('getOption')->with('config')->willReturn($inputConfig);
-        $input->method('getOption')->with('no-log')->willReturn($inputNoLog);
-        $input->method('getOption')->with('username')->willReturn($inputUsername);
-        $input->method('getOption')->with('email')->willReturn($inputEmail);
+        $input->method('getArgument')->willReturnCallback(fn (string $name) => match ($name) {
+            'code' => $inputCode,
+            default => null,
+        });
+        $input->method('getOption')->willReturnCallback(fn (string $name) => match ($name) {
+            'config' => $inputConfig,
+            'no-log' => $inputNoLog,
+            'username' => $inputUsername,
+            'email' => $inputEmail,
+            default => null,
+        });
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->run($input, $output);
     }

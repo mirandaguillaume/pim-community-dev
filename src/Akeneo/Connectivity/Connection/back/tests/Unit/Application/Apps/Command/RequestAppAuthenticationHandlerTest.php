@@ -104,8 +104,7 @@ class RequestAppAuthenticationHandlerTest extends TestCase
         $dateTime = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, '2020-01-01T00:00:00Z');
         $this->clock->method('now')->willReturn($dateTime);
         $this->getUserConsentedAuthenticationScopesQuery->method('execute')->with(1, 'a_app_id')->willReturn(['openid']);
-        $exception = new UserConsentRequiredException('a_app_id', 1);
-        $this->expectException($exception);
+        $this->expectException(UserConsentRequiredException::class);
         $this->sut->handle($command);
     }
 }

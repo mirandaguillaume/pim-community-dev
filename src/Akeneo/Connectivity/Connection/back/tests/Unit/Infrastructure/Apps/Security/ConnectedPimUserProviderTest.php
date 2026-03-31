@@ -28,7 +28,7 @@ class ConnectedPimUserProviderTest extends TestCase
 
     public function test_it_is_a_connected_pim_user_provider(): void
     {
-        $this->sut->beAnInstanceOf(ConnectedPimUserProvider::class);
+        $this->assertInstanceOf(ConnectedPimUserProvider::class, $this->sut);
     }
 
     public function test_it_gets_current_user_id(): void

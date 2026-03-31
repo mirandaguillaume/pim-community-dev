@@ -31,8 +31,11 @@ class LabelTranslatorTest extends TestCase
         $catalogue = $this->createMock(MessageCatalogueInterface::class);
 
         $this->translator->method('getCatalogue')->with('fr_FR')->willReturn($catalogue);
-        $catalogue->method('defines')->with('some.key')->willReturn(true);
-        $catalogue->method('defines')->with('not.found')->willReturn(false);
+        $catalogue->method('defines')->willReturnCallback(fn (string $key) => match ($key) {
+            'some.key' => true,
+            'not.found' => false,
+            default => false,
+        });
         $this->translator->method('trans')->with('some.key', [], null, 'fr_FR')->willReturn('une traduction');
         $this->assertSame('une traduction', $this->sut->translate('some.key', 'fr_FR', '[fallback]'));
         $this->assertSame('[fallback]', $this->sut->translate('not.found', 'fr_FR', '[fallback]'));

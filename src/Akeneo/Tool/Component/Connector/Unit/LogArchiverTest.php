@@ -7,10 +7,10 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
+use Akeneo\Tool\Component\Connector\LogArchiver;
 use League\Flysystem\FilesystemWriter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\LogArchiver;
 
 class LogArchiverTest extends TestCase
 {

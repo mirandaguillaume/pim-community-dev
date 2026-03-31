@@ -6,9 +6,9 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Step;
 
 use Akeneo\Tool\Component\Batch\Job\JobRepositoryInterface;
 use Akeneo\Tool\Component\Connector\Item\CharsetValidator;
+use Akeneo\Tool\Component\Connector\Step\ValidatorStep;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Step\ValidatorStep;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ValidatorStepTest extends TestCase

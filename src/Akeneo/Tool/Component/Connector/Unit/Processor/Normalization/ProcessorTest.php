@@ -6,10 +6,10 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Processor\Normal
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\GroupInterface;
 use Akeneo\Tool\Component\Batch\Item\ItemProcessorInterface;
+use Akeneo\Tool\Component\Connector\Processor\Normalization\Processor;
 use Akeneo\Tool\Component\StorageUtils\Detacher\ObjectDetacherInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Processor\Normalization\Processor;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProcessorTest extends TestCase
@@ -39,11 +39,11 @@ class ProcessorTest extends TestCase
                         'type'   => 'RELATED',
                         'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
                     ]);
+        $this->objectDetacher->expects($this->once())->method('detach')->with($group);
         $this->assertSame([
                     'code'   => 'promotion',
                     'type'   => 'RELATED',
                     'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
                 ], $this->sut->process($group));
-        $this->objectDetacher->expects($this->once())->method('detach')->with($group);
     }
 }

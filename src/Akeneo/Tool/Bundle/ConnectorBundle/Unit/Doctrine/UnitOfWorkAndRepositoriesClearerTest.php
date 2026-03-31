@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Bundle\ConnectorBundle\Doctrine;
 
+use Akeneo\Tool\Bundle\ConnectorBundle\Doctrine\UnitOfWorkAndRepositoriesClearer;
 use Akeneo\Tool\Component\StorageUtils\Repository\CachedObjectRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\ConnectorBundle\Doctrine\UnitOfWorkAndRepositoriesClearer;
 
 class UnitOfWorkAndRepositoriesClearerTest extends TestCase
 {

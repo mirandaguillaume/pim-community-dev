@@ -6,9 +6,9 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Connector\Job\JobParameter
 
 use Akeneo\Tool\Component\Batch\Job\JobInterface;
 use Akeneo\Tool\Component\Batch\Job\JobParameters\ConstraintCollectionProviderInterface;
+use Akeneo\Tool\Component\Connector\Job\JobParameters\ConstraintCollectionProvider\SimpleCsvExport;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Connector\Job\JobParameters\ConstraintCollectionProvider\SimpleCsvExport;
 
 class SimpleCsvExportTest extends TestCase
 {
@@ -26,16 +26,15 @@ class SimpleCsvExportTest extends TestCase
 
     public function test_it_provides_constraints_collection(): void
     {
-        $collection = $this->getConstraintCollection();
-        $collection->shouldReturnAnInstanceOf(\Symfony\Component\Validator\Constraints\Collection::class);
+        $collection = $this->sut->getConstraintCollection();
         $fields = $collection->fields;
-        $fields->shouldHaveCount(6);
-        $fields->shouldHaveKey('storage');
-        $fields->shouldHaveKey('delimiter');
-        $fields->shouldHaveKey('enclosure');
-        $fields->shouldHaveKey('withHeader');
-        $fields->shouldHaveKey('users_to_notify');
-        $fields->shouldHaveKey('is_user_authenticated');
+        $this->assertCount(6, $fields);
+        $this->assertArrayHasKey('storage', $fields);
+        $this->assertArrayHasKey('delimiter', $fields);
+        $this->assertArrayHasKey('enclosure', $fields);
+        $this->assertArrayHasKey('withHeader', $fields);
+        $this->assertArrayHasKey('users_to_notify', $fields);
+        $this->assertArrayHasKey('is_user_authenticated', $fields);
     }
 
     public function test_it_supports_a_job(): void

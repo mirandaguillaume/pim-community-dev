@@ -12,9 +12,9 @@ use Akeneo\Tool\Bundle\MeasureBundle\Model\Unit;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\UnitCode;
 use Akeneo\Tool\Bundle\MeasureBundle\Persistence\MeasurementFamilyRepositoryInterface;
 use Akeneo\Tool\Bundle\MeasureBundle\Provider\LegacyMeasurementAdapter;
+use Akeneo\Tool\Bundle\MeasureBundle\Provider\LegacyMeasurementProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Bundle\MeasureBundle\Provider\LegacyMeasurementProvider;
 use Symfony\Component\Yaml\Yaml;
 
 class LegacyMeasurementProviderTest extends TestCase

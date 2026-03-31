@@ -6,9 +6,9 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Localization\Localizer;
 
 use Akeneo\Tool\Component\Localization\Factory\NumberFactory;
 use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
+use Akeneo\Tool\Component\Localization\Localizer\NumberLocalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Localization\Localizer\NumberLocalizer;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -19,12 +19,23 @@ class NumberLocalizerTest extends TestCase
     private NumberFactory|MockObject $numberFactory;
     private NumberLocalizer $sut;
 
+    /** @var ConstraintViolationListInterface|null */
+    private ?ConstraintViolationListInterface $overrideValidation = null;
+
     protected function setUp(): void
     {
         $this->validator = $this->createMock(ValidatorInterface::class);
         $this->numberFactory = $this->createMock(NumberFactory::class);
         $this->sut = new NumberLocalizer($this->validator, $this->numberFactory, ['pim_catalog_number']);
-        $this->validator->method('validate')->willReturn(new ConstraintViolationList());
+        $this->overrideValidation = null;
+        $this->validator->method('validate')->willReturnCallback(
+            function (mixed $value, mixed $constraint = null) {
+                if ($this->overrideValidation !== null) {
+                    return $this->overrideValidation;
+                }
+                return new ConstraintViolationList();
+            }
+        );
     }
 
     public function test_it_is_a_localizer(): void
@@ -57,9 +68,8 @@ class NumberLocalizerTest extends TestCase
     public function test_it_returns_a_constraint_if_the_decimal_separator_is_not_valid(): void
     {
         $constraints = $this->createMock(ConstraintViolationListInterface::class);
-
         $constraints->method('count')->willReturn(1);
-        $this->validator->method('validate')->with('10.00', $this->anything())->willReturn($constraints);
+        $this->overrideValidation = $constraints;
         $this->assertSame($constraints, $this->sut->validate('10.00', 'number', ['decimal_separator' => ',']));
     }
 

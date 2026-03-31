@@ -35,6 +35,11 @@ class GetConnectedAppAuthenticationScopesActionTest extends TestCase
             $this->findOneConnectedAppByConnectionCodeQuery,
             $this->connectedPimUserProvider,
         );
+        $this->connectedPimUserProvider->method('getCurrentUserId')->willReturn(42);
+    }
+
+    public function test_it_returns_a_list_of_authentication_scopes(): void
+    {
         $this->findOneConnectedAppByConnectionCodeQuery->method('execute')->with('app_connection_code')->willReturn(new ConnectedApp(
             'app_identifier',
             'my app',
@@ -45,16 +50,11 @@ class GetConnectedAppAuthenticationScopesActionTest extends TestCase
             'app_123456abcdef',
             'an_username',
         ));
-        $this->connectedPimUserProvider->method('getCurrentUserId')->willReturn(42);
         $this->getUserConsentedAuthenticationScopesQuery->method('execute')->with(42, 'app_identifier')->willReturn([
-        'auth_scope_a',
-        'auth_scope_b',
-        'auth_scope_c',
+            'auth_scope_a',
+            'auth_scope_b',
+            'auth_scope_c',
         ]);
-    }
-
-    public function test_it_returns_a_list_of_authentication_scopes(): void
-    {
         $this->assertEquals(new JsonResponse([
                     'auth_scope_a',
                     'auth_scope_b',
@@ -64,6 +64,16 @@ class GetConnectedAppAuthenticationScopesActionTest extends TestCase
 
     public function test_it_returns_an_empty_list_of_authentication_scopes(): void
     {
+        $this->findOneConnectedAppByConnectionCodeQuery->method('execute')->with('app_connection_code')->willReturn(new ConnectedApp(
+            'app_identifier',
+            'my app',
+            ['foo', 'bar'],
+            'app_connection_code',
+            'app_logo',
+            'app_author',
+            'app_123456abcdef',
+            'an_username',
+        ));
         $this->getUserConsentedAuthenticationScopesQuery->method('execute')->with(42, 'app_identifier')->willReturn([]);
         $this->assertEquals(new JsonResponse([]), $this->sut->__invoke('app_connection_code'));
     }
@@ -72,7 +82,6 @@ class GetConnectedAppAuthenticationScopesActionTest extends TestCase
     {
         $this->findOneConnectedAppByConnectionCodeQuery->method('execute')->with('foo')->willReturn(null);
         $this->expectException(NotFoundHttpException::class);
-
         $this->expectExceptionMessage('Connected app with connection code foo does not exist.');
         $this->sut->__invoke('foo');
     }

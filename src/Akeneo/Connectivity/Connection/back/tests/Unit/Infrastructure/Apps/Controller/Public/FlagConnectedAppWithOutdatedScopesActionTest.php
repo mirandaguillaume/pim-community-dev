@@ -66,7 +66,7 @@ class FlagConnectedAppWithOutdatedScopesActionTest extends TestCase
     public function test_it_throws_logic_exception_when_user_returned_do_not_implement_user_interface(): void
     {
         $token = $this->createMock(TokenInterface::class);
-        $nonAkeneoUser = $this->createMock(UserInterface::class);
+        $nonAkeneoUser = $this->createMock(SymfonyUserInterface::class);
         $request = $this->createMock(Request::class);
 
         $token->method('getUser')->willReturn($nonAkeneoUser);

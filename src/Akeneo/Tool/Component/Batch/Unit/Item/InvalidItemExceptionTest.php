@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Batch\Item;
 
+use Akeneo\Tool\Component\Batch\Item\InvalidItemException;
 use Akeneo\Tool\Component\Batch\Item\InvalidItemInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use spec\Akeneo\Tool\Component\Batch\Item\InvalidItemException;
 
 class InvalidItemExceptionTest extends TestCase
 {
