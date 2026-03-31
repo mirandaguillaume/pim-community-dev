@@ -1784,7 +1784,6 @@ jobs:
               --ignore-msi-with-no-mutations
         env:
           CHANGED_SRC: ${{ steps.classify.outputs.changed_src }}
-        env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
       - name: Run Infection (test-coverage mode — mutate source covered by changed tests)
