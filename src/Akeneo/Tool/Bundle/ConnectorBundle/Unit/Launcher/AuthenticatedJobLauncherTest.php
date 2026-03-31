@@ -32,7 +32,7 @@ class AuthenticatedJobLauncherTest extends TestCase
         $jobInstance = $this->createMock(JobInstance::class);
         $user = $this->createMock(UserInterface::class);
 
-        $this->jobLauncher->method('launch')->with($jobInstance, $user, ['filePath' => '/tmp', 'is_user_authenticated' => true]);
+        $this->jobLauncher->expects($this->once())->method('launch')->with($jobInstance, $user, ['filePath' => '/tmp', 'is_user_authenticated' => true]);
         $this->sut->launch($jobInstance, $user, ['filePath' => '/tmp']);
     }
 }

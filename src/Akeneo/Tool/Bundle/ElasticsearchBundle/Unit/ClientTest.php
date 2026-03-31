@@ -41,7 +41,7 @@ class ClientTest extends TestCase
 
     public function test_it_indexes_a_document(): void
     {
-        $this->client->method('index')->with([
+        $this->client->expects($this->once())->method('index')->with([
                         'index' => 'an_index_name',
                         'id' => 'identifier',
                         'body' => ['a key' => 'a value'],

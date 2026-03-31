@@ -38,7 +38,7 @@ class VersionBuilderTest extends TestCase
         $this->versionFactory->method('create')->with($this->anything(), null, $uuid, 'foo', null)->willReturn($version);
         $version->method('setVersion')->with(1)->willReturn($version);
         $version->method('setSnapshot')->with(['bar' => 'baz'])->willReturn($version);
-        $version->method('setChangeset')->with(['bar' => ['old' => '', 'new' => 'baz']])->willReturn($version);
+        $version->expects($this->once())->method('setChangeset')->with(['bar' => ['old' => '', 'new' => 'baz']])->willReturn($version);
         $this->sut->buildVersion($product, 'foo');
     }
 
@@ -92,7 +92,7 @@ class VersionBuilderTest extends TestCase
         $pending->method('setVersion')->with(2)->willReturn($pending);
         $pending->method('setSnapshot')->with(['test' => 'old_data', "name" => "pending name", "description" => "old description"])->willReturn($pending);
         $pending->method('getChangeset')->willReturn(['test' => 'pending_data', "name" => "pending name"]);
-        $pending->method('setChangeset')->with(["name" => ["old" => "", "new" => "pending name"]])->willReturn($pending);
+        $pending->expects($this->once())->method('setChangeset')->with(["name" => ["old" => "", "new" => "pending name"]])->willReturn($pending);
         $this->sut->buildPendingVersion($pending, $previousVersion);
     }
 
@@ -127,7 +127,7 @@ class VersionBuilderTest extends TestCase
                     'date_with_old_format_and_timezone' => '2020-01-01T12:00:00+12:00',
                     'date_with_old_format_has_changed' => '2020-01-02T00:00:00+00:00',
                 ])->willReturn($version);
-        $version->method('setChangeset')->with([
+        $version->expects($this->once())->method('setChangeset')->with([
                     'name' => ['old' => 'foo', 'new' => 'bar'],
                     'date_with_old_format_has_changed' => ['old' => '2020-01-01', 'new' => '2020-01-02T00:00:00+00:00'],
                 ])->willReturn($version);

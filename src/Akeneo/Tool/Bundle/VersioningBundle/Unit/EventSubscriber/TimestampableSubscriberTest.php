@@ -44,7 +44,7 @@ class TimestampableSubscriberTest extends TestCase
         $metadata = $this->createMock(ClassMetadata::class);
 
         $this->em->method('getClassMetadata')->with('bar')->willReturn($metadata);
-        $metadata->method('getReflectionClass')->willReturn(new \ReflectionClass(NonTimestampableInterface::class));
+        $metadata->method('getReflectionClass')->willReturn(new \ReflectionClass(\stdClass::class));
         $version->method('getResourceId')->willReturn('foo');
         $version->method('getResourceName')->willReturn('bar');
         $args->method('getObject')->willReturn($version);

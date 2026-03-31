@@ -39,6 +39,7 @@ class PublishJobToQueueCommandTest extends TestCase
         $this->jobParametersFactory = $this->createMock(JobParametersFactory::class);
         $this->jobInstanceRepository = $this->createMock(JobInstanceRepository::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
+        $jobInstanceClass = \Akeneo\Tool\Component\Batch\Model\JobInstance::class;
         $this->sut = new PublishJobToQueueCommand(
             $this->publishJobToQueue,
             $this->jobRepository,
@@ -46,7 +47,6 @@ class PublishJobToQueueCommandTest extends TestCase
             $this->jobParametersFactory,
             $jobInstanceClass
         );
-        $jobInstanceClass = \Akeneo\Tool\Component\Batch\Model\JobInstance::class;
         $this->jobRepository->method('getJobManager')->willReturn($this->entityManager);
         $this->entityManager->method('getRepository')->with($jobInstanceClass)->willReturn($this->jobInstanceRepository);
     }
@@ -84,11 +84,17 @@ class PublishJobToQueueCommandTest extends TestCase
         $inputNoLog = null;
         $inputUsername = 'admin';
         $inputEmail = null;
-        $input->method('getArgument')->with('code')->willReturn($inputCode);
-        $input->method('getOption')->with('config')->willReturn($inputConfig);
-        $input->method('getOption')->with('no-log')->willReturn($inputNoLog);
-        $input->method('getOption')->with('username')->willReturn($inputUsername);
-        $input->method('getOption')->with('email')->willReturn($inputEmail);
+        $input->method('getArgument')->willReturnCallback(fn (string $name) => match ($name) {
+            'code' => $inputCode,
+            default => null,
+        });
+        $input->method('getOption')->willReturnCallback(fn (string $name) => match ($name) {
+            'config' => $inputConfig,
+            'no-log' => $inputNoLog,
+            'username' => $inputUsername,
+            'email' => $inputEmail,
+            default => null,
+        });
         $this->publishJobToQueue->expects($this->once())->method('publish')->with(
             $inputCode,
             json_decode($inputConfig, true),
@@ -125,11 +131,17 @@ class PublishJobToQueueCommandTest extends TestCase
         $inputNoLog = null;
         $inputUsername = 'admin';
         $inputEmail = null;
-        $input->method('getArgument')->with('code')->willReturn($inputCode);
-        $input->method('getOption')->with('config')->willReturn($inputConfig);
-        $input->method('getOption')->with('no-log')->willReturn($inputNoLog);
-        $input->method('getOption')->with('username')->willReturn($inputUsername);
-        $input->method('getOption')->with('email')->willReturn($inputEmail);
+        $input->method('getArgument')->willReturnCallback(fn (string $name) => match ($name) {
+            'code' => $inputCode,
+            default => null,
+        });
+        $input->method('getOption')->willReturnCallback(fn (string $name) => match ($name) {
+            'config' => $inputConfig,
+            'no-log' => $inputNoLog,
+            'username' => $inputUsername,
+            'email' => $inputEmail,
+            default => null,
+        });
         $this->expectException(\InvalidArgumentException::class);
         $this->sut->run($input, $output);
     }

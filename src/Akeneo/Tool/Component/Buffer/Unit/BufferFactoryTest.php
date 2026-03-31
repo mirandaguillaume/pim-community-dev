@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class BufferFactoryTest extends TestCase
 {
+    private const string JSON_BUFFER_CLASS = JSONFileBuffer::class;
     private BufferFactory $sut;
 
     protected function setUp(): void
@@ -21,11 +22,11 @@ class BufferFactoryTest extends TestCase
     public function test_it_throws_an_exception_if_configured_with_a_wrong_classname(): void
     {
         $this->expectException(InvalidClassNameException::class);
-        $this->sut->__construct('\\stdClass');
+        new BufferFactory('\\stdClass');
     }
 
     public function test_it_creates_a_buffer(): void
     {
-        $this->sut->create()->shouldReturnAnInstanceOf(self::JSON_BUFFER_CLASS);
+        $this->assertInstanceOf(self::JSON_BUFFER_CLASS, $this->sut->create());
     }
 }

@@ -23,6 +23,7 @@ class ProductEventNormalizerTest extends TestCase
 
     protected function setUp(): void
     {
+        date_default_timezone_set('UTC');
         $this->sut = new ProductEventNormalizer();
     }
 

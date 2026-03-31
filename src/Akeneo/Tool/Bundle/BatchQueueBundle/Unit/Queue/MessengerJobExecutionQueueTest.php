@@ -33,8 +33,7 @@ class MessengerJobExecutionQueueTest extends TestCase
     {
         $jobExecutionMessage = DataMaintenanceJobExecutionMessage::createJobExecutionMessage(1, []);
         $envelope = new Envelope($jobExecutionMessage);
-        $this->bus->method('dispatch')->with($jobExecutionMessage)->willReturn($envelope);
-        $this->bus->expects($this->once())->method('dispatch')->with($jobExecutionMessage);
+        $this->bus->expects($this->once())->method('dispatch')->with($jobExecutionMessage)->willReturn($envelope);
         $this->sut->publish($jobExecutionMessage);
     }
 }

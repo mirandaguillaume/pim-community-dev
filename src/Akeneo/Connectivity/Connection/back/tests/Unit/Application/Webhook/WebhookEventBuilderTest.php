@@ -33,6 +33,7 @@ class WebhookEventBuilderTest extends TestCase
 
     protected function setUp(): void
     {
+        date_default_timezone_set('UTC');
         $this->notSupportedEventDataBuilder = $this->createMock(EventDataBuilderInterface::class);
         $this->supportedEventDataBuilder = $this->createMock(EventDataBuilderInterface::class);
         $this->apiEventBuildErrorLogger = $this->createMock(ApiEventBuildErrorLoggerInterface::class);

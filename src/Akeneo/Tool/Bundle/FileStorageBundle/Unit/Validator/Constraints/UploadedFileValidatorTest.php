@@ -31,7 +31,11 @@ class UploadedFileValidatorTest extends TestCase
 
     public function test_it_validates_a_correct_file(): void
     {
-        $file = new UploadedFile(__FILE__, 'akeneo.PNG', 'image/png', null, true);
+        $file = $this->createMock(UploadedFile::class);
+        $file->method('guessExtension')->willReturn('png');
+        $file->method('getClientOriginalExtension')->willReturn('png');
+        $file->method('getMimeType')->willReturn('image/png');
+        $file->method('getClientMimeType')->willReturn('image/png');
         $constraint = new Constraints\UploadedFile([
                     'types' => ['png' => ['image/png']],
                 ]);
@@ -41,7 +45,11 @@ class UploadedFileValidatorTest extends TestCase
 
     public function test_it_validates_a_file_with_supported_type_and_extension_even_if_they_dont_match(): void
     {
-        $file = new UploadedFile(__FILE__, 'akeneo.ai', 'application/illustrator', null, true);
+        $file = $this->createMock(UploadedFile::class);
+        $file->method('guessExtension')->willReturn('ai');
+        $file->method('getClientOriginalExtension')->willReturn('ai');
+        $file->method('getMimeType')->willReturn('application/illustrator');
+        $file->method('getClientMimeType')->willReturn('application/illustrator');
         $constraint = new Constraints\UploadedFile([
                     'types' => ['ai' => ['application/illustrator'], 'pdf' => ['application/pdf']],
                 ]);

@@ -131,12 +131,19 @@ class JobExecutionManagerTest extends TestCase
         $stmt = $this->createMock(Statement::class);
 
         $this->connection->method('prepare')->with($this->isType('string'))->willReturn($stmt);
-        $stmt->expects($this->once())->method('bindValue')->with('id', 1);
-        $stmt->expects($this->once())->method('bindValue')->with('status', BatchStatus::FAILED);
-        $stmt->expects($this->once())->method('bindValue')->with('exit_code', ExitStatus::FAILED);
-        $stmt->expects($this->once())->method('bindValue')->with(/* TODO: convert Argument matcher */ 'updated_time', Argument::type(\DateTime::class), Types::DATETIME_MUTABLE);
+        $bindCalls = [];
+        $stmt->expects($this->exactly(4))->method('bindValue')->willReturnCallback(
+            function (string $param, mixed $value, mixed $type = null) use (&$bindCalls): void {
+                $bindCalls[$param] = ['value' => $value, 'type' => $type];
+            }
+        );
         $stmt->expects($this->once())->method('executeStatement');
         $this->sut->markAsFailed(1);
+        $this->assertSame(1, $bindCalls['id']['value']);
+        $this->assertSame(BatchStatus::FAILED, $bindCalls['status']['value']);
+        $this->assertSame(ExitStatus::FAILED, $bindCalls['exit_code']['value']);
+        $this->assertInstanceOf(\DateTime::class, $bindCalls['updated_time']['value']);
+        $this->assertSame(Types::DATETIME_MUTABLE, $bindCalls['updated_time']['type']);
     }
 
     public function test_it_updates_healthcheck(): void
@@ -144,10 +151,18 @@ class JobExecutionManagerTest extends TestCase
         $stmt = $this->createMock(Statement::class);
 
         $this->connection->method('prepare')->with($this->isType('string'))->willReturn($stmt);
-        $stmt->expects($this->once())->method('bindValue')->with('id', 1);
-        $stmt->expects($this->once())->method('bindValue')->with(/* TODO: convert Argument matcher */ 'health_check_time', Argument::type(\DateTime::class), Types::DATETIME_MUTABLE);
-        $stmt->expects($this->once())->method('bindValue')->with(/* TODO: convert Argument matcher */ 'updated_time', Argument::type(\DateTime::class), Types::DATETIME_MUTABLE);
+        $bindCalls = [];
+        $stmt->expects($this->exactly(3))->method('bindValue')->willReturnCallback(
+            function (string $param, mixed $value, mixed $type = null) use (&$bindCalls): void {
+                $bindCalls[$param] = ['value' => $value, 'type' => $type];
+            }
+        );
         $stmt->expects($this->once())->method('executeStatement');
         $this->sut->updateHealthCheck(1);
+        $this->assertSame(1, $bindCalls['id']['value']);
+        $this->assertInstanceOf(\DateTime::class, $bindCalls['health_check_time']['value']);
+        $this->assertSame(Types::DATETIME_MUTABLE, $bindCalls['health_check_time']['type']);
+        $this->assertInstanceOf(\DateTime::class, $bindCalls['updated_time']['value']);
+        $this->assertSame(Types::DATETIME_MUTABLE, $bindCalls['updated_time']['type']);
     }
 }

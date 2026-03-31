@@ -53,7 +53,7 @@ class GpsTransportTest extends TestCase
     public function test_it_sends_a_message(): void
     {
         $envelope = new Envelope(new \stdClass());
-        $this->sender->method('send')->with($envelope)->willReturn($envelope);
+        $this->sender->expects($this->once())->method('send')->with($envelope)->willReturn($envelope);
         $this->sut->send($envelope);
     }
 

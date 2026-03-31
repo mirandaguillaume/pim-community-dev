@@ -33,13 +33,13 @@ class UpdateConnectionErrorCountHandlerTest extends TestCase
     {
         $firstCount = new HourlyErrorCount(
             'erp',
-            HourlyInterval::createFromDateTime(new \DateTime('now')),
+            HourlyInterval::createFromDateTime(new \DateTime('now', new \DateTimeZone('UTC'))),
             2,
             ErrorTypes::BUSINESS
         );
         $secondCount = new HourlyErrorCount(
             'erp',
-            HourlyInterval::createFromDateTime(new \DateTime('now')),
+            HourlyInterval::createFromDateTime(new \DateTime('now', new \DateTimeZone('UTC'))),
             2,
             ErrorTypes::TECHNICAL
         );
@@ -59,13 +59,13 @@ class UpdateConnectionErrorCountHandlerTest extends TestCase
     {
         $firstCount = new HourlyErrorCount(
             'erp',
-            HourlyInterval::createFromDateTime(new \DateTime('now')),
+            HourlyInterval::createFromDateTime(new \DateTime('now', new \DateTimeZone('UTC'))),
             2,
             ErrorTypes::BUSINESS
         );
         $secondCount = new HourlyErrorCount(
             'erp',
-            HourlyInterval::createFromDateTime(new \DateTime('now')),
+            HourlyInterval::createFromDateTime(new \DateTime('now', new \DateTimeZone('UTC'))),
             0,
             ErrorTypes::TECHNICAL
         );

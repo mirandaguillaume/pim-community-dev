@@ -28,6 +28,7 @@ class EventsApiDebugLoggerTest extends TestCase
 
     protected function setUp(): void
     {
+        date_default_timezone_set('UTC');
         $this->eventsApiDebugRepository = $this->createMock(EventsApiDebugRepositoryInterface::class);
         $this->sut = new EventsApiDebugLogger(
             $this->eventsApiDebugRepository,

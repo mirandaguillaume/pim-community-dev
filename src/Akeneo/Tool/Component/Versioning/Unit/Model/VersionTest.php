@@ -85,7 +85,7 @@ class VersionTest extends TestCase
 
     public function test_it_stores_date_of_getting_logged(): void
     {
-        $this->sut->getLoggedAt()->shouldHaveType('\DateTime');
+        $this->assertInstanceOf(\DateTime::class, $this->sut->getLoggedAt());
     }
 
     public function test_it_can_have_a_pending_state(): void

@@ -37,6 +37,7 @@ class AddUserSubscriberTest extends TestCase
         $this->tokenStorage->method('getToken')->willReturn($this->token);
         $this->token->method('getUser')->willReturn($user);
         $user->method('getUserIdentifier')->willReturn('foo');
+        $event->expects($this->once())->method('setUsername')->with('foo');
         $this->sut->preBuild($event);
     }
 
@@ -45,6 +46,7 @@ class AddUserSubscriberTest extends TestCase
         $event = $this->createMock(BuildVersionEvent::class);
 
         $this->tokenStorage->method('getToken')->willReturn(null);
+        $event->expects($this->never())->method('setUsername');
         $this->sut->preBuild($event);
     }
 }
