@@ -111,6 +111,14 @@ parameters:
         - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Specification
         - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Unit
         - %currentWorkingDirectory%/src/Oro/Bundle/PimDataGridBundle/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/DataGridBundle/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/FilterBundle/Unit
+        - %currentWorkingDirectory%/src/Oro/Bundle/PimFilterBundle/Unit
+        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Product/back/Test/Unit
+        - %currentWorkingDirectory%/tests/back/Pim
+        - %currentWorkingDirectory%/tests/back/UserManagement/Unit
+        - %currentWorkingDirectory%/tests/back/Channel/Unit
+        - %currentWorkingDirectory%/tests/back/Acceptance/Unit
         - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Bundle/Resources/fonts/dompdf_font_family_cache.php
         # Class to remove (validate that they are not used anymore RAB-1161)
         - %currentWorkingDirectory%/src/Akeneo/Platform/Bundle/UIBundle/Twig/Node/PlaceholderNode.php
