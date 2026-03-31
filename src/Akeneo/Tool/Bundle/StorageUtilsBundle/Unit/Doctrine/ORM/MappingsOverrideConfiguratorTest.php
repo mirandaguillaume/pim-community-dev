@@ -13,6 +13,20 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+// Define real classes with inheritance for the test
+class OriginalQux1
+{
+}
+class OriginalQux2
+{
+}
+class OverrideQux1 extends OriginalQux1
+{
+}
+class OverrideQux2 extends OriginalQux2
+{
+}
+
 class MappingsOverrideConfiguratorTest extends TestCase
 {
     private EntityManagerInterface|MockObject $em;
@@ -45,25 +59,25 @@ class MappingsOverrideConfiguratorTest extends TestCase
 
     public function test_it_configures_the_mappings_of_a_model_that_overrides_an_original_model(): void
     {
-        $metadataInfo = $this->createMock(ClassMetadata::class);
         $mappingDriver = $this->createMock(MappingDriver::class);
         $namingStrategy = $this->createMock(NamingStrategy::class);
 
-        $originalQux1 = __NAMESPACE__ . '\OriginalQux1';
-        $originalQux2 = __NAMESPACE__ . '\OriginalQux2';
-        $overrideQux1 = __NAMESPACE__ . '\OverrideQux1';
-        $overrideQux2 = __NAMESPACE__ . '\OverrideQux2';
+        $originalQux1 = OriginalQux1::class;
+        $originalQux2 = OriginalQux2::class;
+        $overrideQux1 = OverrideQux1::class;
+        $overrideQux2 = OverrideQux2::class;
+
         $mappingDriver->method('getAllClassNames')->willReturn([$originalQux1]);
         $this->configuration->method('getMetadataDriverImpl')->willReturn($mappingDriver);
         $this->configuration->method('getNamingStrategy')->willReturn($namingStrategy);
-        $metadataInfo->method('getName')->willReturn($overrideQux1);
+
+        $metadataInfo = new ClassMetadata($overrideQux1);
         $mappingDriver->expects($this->once())->method('loadMetadataForClass')->with($originalQux1, $this->anything());
+
         $overrides = [
                     ['original' => $originalQux1, 'override' => $overrideQux1],
                     ['original' => $originalQux2, 'override' => $overrideQux2],
                 ];
         $this->sut->configure($metadataInfo, $overrides, $this->configuration);
     }
-
-    // TODO: Custom matchers from getMatchers() need manual conversion
 }

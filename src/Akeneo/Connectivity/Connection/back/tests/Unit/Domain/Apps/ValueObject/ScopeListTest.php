@@ -29,6 +29,7 @@ class ScopeListTest extends TestCase
             AuthenticationScope::SCOPE_PROFILE,
             AuthenticationScope::SCOPE_OPENID
         ), );
+        $this->assertInstanceOf(ScopeList::class, $this->sut);
     }
 
     public function test_it_is_instantiable_from_an_array_of_scopes(): void
@@ -38,6 +39,7 @@ class ScopeListTest extends TestCase
                             AuthenticationScope::SCOPE_PROFILE,
                             AuthenticationScope::SCOPE_OPENID,
                         ], );
+        $this->assertInstanceOf(ScopeList::class, $this->sut);
     }
 
     public function test_it_gets_scopes(): void

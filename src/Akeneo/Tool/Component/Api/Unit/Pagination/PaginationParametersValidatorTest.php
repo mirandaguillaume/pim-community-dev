@@ -52,12 +52,14 @@ class PaginationParametersValidatorTest extends TestCase
     {
         $this->sut->validate(['with_count' => 'true']);
         $this->sut->validate(['with_count' => 'false']);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_ignores_with_count_with_search_after_pagination(): void
     {
         $this->sut->validate(['with_count' => '1', 'pagination_type' => 'search_after'], ['support_search_after' => true]);
         $this->sut->validate(['with_count' => '0', 'pagination_type' => 'search_after'], ['support_search_after' => true]);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_validates_integer_values_with_offset_pagination(): void
@@ -68,6 +70,7 @@ class PaginationParametersValidatorTest extends TestCase
                     'pagination_type' => 'page',
                 ];
         $this->sut->validate($parameters);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_validates_integer_as_string_values_with_offset_pagination(): void
@@ -78,6 +81,7 @@ class PaginationParametersValidatorTest extends TestCase
                     'pagination_type' => 'page',
                 ];
         $this->sut->validate($parameters);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_does_not_validates_float_page_values_with_offset_pagination(): void

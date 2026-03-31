@@ -52,24 +52,30 @@ class InvalidAppAuthenticationExceptionTest extends TestCase
 
     public function test_it_initializes_message(): void
     {
-        $this->constraintViolationList->method('count')->willReturn(2);
-        $this->constraintViolationList->method('get')->with(0)->willReturn(new ConstraintViolation(
-            'a_constraint_violation_message',
-            '',
-            [],
-            '',
-            'a_path',
-            'invalid'
-        ));
-        $this->constraintViolationList->method('get')->with(1)->willReturn(new ConstraintViolation(
-            'another_constraint_violation_message',
-            '',
-            [],
-            '',
-            'a_path',
-            'invalid'
-        ));
-        $this->sut = new InvalidAppAuthenticationException($this->constraintViolationList);
+        $constraintViolationList = $this->createMock(ConstraintViolationListInterface::class);
+        $constraintViolationList->method('count')->willReturn(2);
+        $constraintViolationList->method('get')->willReturnCallback(
+            fn (int $index) => match ($index) {
+                0 => new ConstraintViolation(
+                    'a_constraint_violation_message',
+                    '',
+                    [],
+                    '',
+                    'a_path',
+                    'invalid'
+                ),
+                1 => new ConstraintViolation(
+                    'another_constraint_violation_message',
+                    '',
+                    [],
+                    '',
+                    'a_path',
+                    'invalid'
+                ),
+                default => throw new \InvalidArgumentException("Unexpected index: $index"),
+            }
+        );
+        $this->sut = new InvalidAppAuthenticationException($constraintViolationList);
         $this->assertSame('a_constraint_violation_message', $this->sut->getMessage());
     }
 }

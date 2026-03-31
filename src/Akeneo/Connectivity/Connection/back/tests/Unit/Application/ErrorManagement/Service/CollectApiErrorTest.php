@@ -103,8 +103,13 @@ class CollectApiErrorTest extends TestCase
         $this->connectionContext->method('isCollectable')->willReturn(true);
         $connection->method('code')->willReturn(new ConnectionCode('erp'));
         $connection->method('flowType')->willReturn(new FlowType(FlowType::DATA_SOURCE));
-        $this->serializer->method('serialize')->with($violation1, 'json', $this->anything())->willReturn('{"message":"business error 1"}');
-        $this->serializer->method('serialize')->with($violation2, 'json', $this->anything())->willReturn('{"message":"business error 2"}');
+        $this->serializer->method('serialize')->willReturnCallback(
+            fn ($object, $format, $context) => match (true) {
+                $object === $violation1 => '{"message":"business error 1"}',
+                $object === $violation2 => '{"message":"business error 2"}',
+                default => throw new \InvalidArgumentException('Unexpected serialize call'),
+            }
+        );
         $this->updateErrorCountHandler->expects($this->once())->method('handle')->with($this->callback(function (UpdateConnectionErrorCountCommand $command): bool {
             $hourlyErrorCounts = $command->errorCounts();
             Assert::assertCount(2, $hourlyErrorCounts);

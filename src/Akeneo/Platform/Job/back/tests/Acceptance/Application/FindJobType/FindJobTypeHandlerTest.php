@@ -16,9 +16,10 @@ class FindJobTypeHandlerTest extends AcceptanceTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->findJobType = $this->get(FindJobTypeInterface::class);
         $this->handler = $this->get(FindJobTypeHandler::class);
-        static::bootKernel(['debug' => false]);
     }
 
     /**

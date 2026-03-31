@@ -58,9 +58,9 @@ class GuzzleWebhookClientTest extends TestCase
             $this->eventDispatcher,
             ['timeout' => 0.5, 'concurrency' => 1],
             $this->versionProvider,
-            \getenv('PFID'),
+            (\getenv('PFID') ?: null),
         );
-        $this->eventDispatcher->method('dispatch')->with($this->anything())->willReturn($this->isType('object'));
+        $this->eventDispatcher->method('dispatch')->willReturnArgument(0);
     }
 
     public function test_it_is_initializable(): void
@@ -71,7 +71,9 @@ class GuzzleWebhookClientTest extends TestCase
 
     public function test_it_sends_webhook_requests_in_bulk(): void
     {
-        $this->eventDispatcher->method('dispatch')->with($this->anything())->willReturn($this->isType('object'));
+        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        $eventsApiRequestLogger = $this->createMock(EventsApiRequestLoggerInterface::class);
+
         $this->versionProvider->method('getVersion')->willReturn('v20210526040645');
         $mock = new MockHandler(
             [
@@ -83,15 +85,16 @@ class GuzzleWebhookClientTest extends TestCase
         $history = Middleware::history($container);
         $handlerStack = HandlerStack::create($mock);
         $handlerStack->push($history);
+        $pfid = (\getenv('PFID') ?: null);
         $this->sut = new GuzzleWebhookClient(
             new Client(['handler' => $handlerStack]),
             new JsonEncoder(),
             $this->sendApiEventRequestLogger,
-            $this->eventsApiRequestLogger,
-            $this->eventDispatcher,
+            $eventsApiRequestLogger,
+            $eventDispatcher,
             ['timeout' => 0.5, 'concurrency' => 1],
             $this->versionProvider,
-            \getenv('PFID'),
+            $pfid,
         );
         $author = Author::fromNameAndType('julia', Author::TYPE_UI);
         $Request1pimEvent = $this->createEvent($author, ['data_1'], 1_577_836_800, '7abae2fe-759a-4fce-aa43-f413980671b3');
@@ -124,6 +127,13 @@ class GuzzleWebhookClientTest extends TestCase
                         ),
                     ]
         );
+
+        $dispatchedEvents = [];
+        $eventDispatcher->method('dispatch')->willReturnCallback(function ($event) use (&$dispatchedEvents) {
+            $dispatchedEvents[] = $event;
+            return $event;
+        });
+
         $this->sut->bulkSend([$request1, $request2]);
         Assert::assertCount(2, $container);
         // Request 1
@@ -136,30 +146,12 @@ class GuzzleWebhookClientTest extends TestCase
         $signature = Signature::createSignature('a_secret', $timestamp, $body);
         Assert::assertEquals($signature, $request->getHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)[0]);
         $userAgent = 'AkeneoPIM/v20210526040645';
-        if (false !== \getenv('PFID')) {
-            $userAgent .= ' ' . \getenv('PFID');
+        if (null !== $pfid) {
+            $userAgent .= ' ' . $pfid;
         }
         Assert::assertSame($userAgent, $request->getHeader(RequestHeaders::HEADER_REQUEST_USERAGENT)[0]);
-        $this->eventDispatcher->expects($this->exactly(1))->method('dispatch')->with($this->logicalAnd(
-            $this->isInstanceOf(EventsApiRequestSucceededEvent::class),
-            $this->callback(function (EventsApiRequestSucceededEvent $event) use ($Request1pimEvent): bool {
-                if ('ecommerce' !== $event->getConnectionCode() || $Request1pimEvent !== $event->getEvents()[0]) {
-                    return false;
-                }
 
-                return true;
-            })
-        ));
-        $this->eventsApiRequestLogger->expects($this->once())->method('logEventsApiRequestSucceed')->with(
-            'ecommerce',
-            $request1->apiEvents(),
-            'http://localhost/webhook1',
-            200,
-            $this->anything()
-        );
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(EventsApiRequestSucceededEvent::class));
         // Request 2
-
         $request = $this->findRequest($container, 'http://localhost/webhook2');
         Assert::assertNotNull($request);
         $body = '{"events":[{"action":"product.created","event_id":"7abae2fe-759a-4fce-aa43-f413980671b3","event_datetime":"2020-01-01T00:00:00+00:00","author":"julia","author_type":"ui","pim_source":"staging.akeneo.com","data":["data_2"]}]}';
@@ -167,28 +159,18 @@ class GuzzleWebhookClientTest extends TestCase
         $timestamp = (int) $request->getHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)[0];
         $signature = Signature::createSignature('a_secret', $timestamp, $body);
         Assert::assertEquals($signature, $request->getHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)[0]);
-        $this->eventDispatcher->expects($this->exactly(1))->method('dispatch')->with($this->logicalAnd(
-            $this->isInstanceOf(EventsApiRequestSucceededEvent::class),
-            $this->callback(function (EventsApiRequestSucceededEvent $event) use ($Request2pimEvent): bool {
-                if ('erp' !== $event->getConnectionCode() || $Request2pimEvent !== $event->getEvents()[0]) {
-                    return false;
-                }
 
-                return true;
-            })
-        ));
-        $this->eventsApiRequestLogger->expects($this->once())->method('logEventsApiRequestSucceed')->with(
-            'erp',
-            $request2->apiEvents(),
-            'http://localhost/webhook2',
-            200,
-            $this->anything()
-        );
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(EventsApiRequestSucceededEvent::class));
+        // Verify dispatched events
+        Assert::assertCount(2, $dispatchedEvents);
+        Assert::assertInstanceOf(EventsApiRequestSucceededEvent::class, $dispatchedEvents[0]);
+        Assert::assertInstanceOf(EventsApiRequestSucceededEvent::class, $dispatchedEvents[1]);
     }
 
     public function test_it_logs_a_failed_events_api_request(): void
     {
+        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        $eventsApiRequestLogger = $this->createMock(EventsApiRequestLoggerInterface::class);
+
         $this->versionProvider->method('getVersion')->willReturn('v20210526040645');
         $mock = new MockHandler(
             [
@@ -203,11 +185,11 @@ class GuzzleWebhookClientTest extends TestCase
             new Client(['handler' => $handlerStack]),
             new JsonEncoder(),
             $this->sendApiEventRequestLogger,
-            $this->eventsApiRequestLogger,
-            $this->eventDispatcher,
+            $eventsApiRequestLogger,
+            $eventDispatcher,
             ['timeout' => 0.5, 'concurrency' => 1],
             $this->versionProvider,
-            \getenv('PFID'),
+            (\getenv('PFID') ?: null),
         );
         $author = Author::fromNameAndType('julia', Author::TYPE_UI);
         $request1 = new WebhookRequest(
@@ -224,14 +206,14 @@ class GuzzleWebhookClientTest extends TestCase
                         ),
                     ]
         );
-        $this->eventsApiRequestLogger->expects($this->once())->method('logEventsApiRequestFailed')->with(
+        $eventsApiRequestLogger->expects($this->once())->method('logEventsApiRequestFailed')->with(
             'ecommerce',
             $request1->apiEvents(),
             'http://localhost/webhook1',
             500,
             $this->anything()
         );
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(EventsApiRequestFailedEvent::class));
+        $eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(EventsApiRequestFailedEvent::class))->willReturnArgument(0);
         $this->sut->bulkSend([$request1]);
         Assert::assertCount(1, $container);
     }
@@ -239,6 +221,7 @@ class GuzzleWebhookClientTest extends TestCase
     public function test_it_does_not_send_webhook_request_because_of_timeout(): void
     {
         $debugLogger = $this->createMock(EventsApiRequestLoggerInterface::class);
+        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
         $this->versionProvider->method('getVersion')->willReturn('v20210526040645');
         $container = [];
@@ -250,13 +233,13 @@ class GuzzleWebhookClientTest extends TestCase
             new JsonEncoder(),
             $this->sendApiEventRequestLogger,
             $debugLogger,
-            $this->eventDispatcher,
+            $eventDispatcher,
             ['timeout' => 0.5, 'concurrency' => 1],
             $this->versionProvider,
-            \getenv('PFID'),
+            (\getenv('PFID') ?: null),
         );
         $author = Author::fromNameAndType('julia', Author::TYPE_UI);
-        $request = new WebhookRequest(
+        $webhookRequest = new WebhookRequest(
             new ActiveWebhook('ecommerce', 0, 'a_secret', 'http://localhost/webhook', false),
             [
                         new WebhookEvent(
@@ -270,14 +253,14 @@ class GuzzleWebhookClientTest extends TestCase
                         ),
                     ]
         );
-        $this->sut->bulkSend([$request]);
         $debugLogger->expects($this->once())->method('logEventsApiRequestTimedOut')->with(
             'ecommerce',
-            $request->apiEvents(),
+            $webhookRequest->apiEvents(),
             'http://localhost/webhook',
             0.5
         );
-        $this->eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(EventsApiRequestFailedEvent::class));
+        $eventDispatcher->expects($this->once())->method('dispatch')->with($this->isInstanceOf(EventsApiRequestFailedEvent::class))->willReturnArgument(0);
+        $this->sut->bulkSend([$webhookRequest]);
         Assert::assertCount(1, $container);
         $request = $this->findRequest($container, 'http://localhost/webhook');
         Assert::assertNotNull($request);

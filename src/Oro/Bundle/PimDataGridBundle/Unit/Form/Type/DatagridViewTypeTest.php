@@ -58,12 +58,9 @@ class DatagridViewTypeTest extends TestCase
     {
         $resolver = $this->createMock(OptionsResolver::class);
 
-        $resolver->method('setDefaults')->with([
-                        'data_class' => DatagridView::class,
-                    ])->willReturn($resolver);
-        $this->sut->configureOptions($resolver);
-        $resolver->method('setDefaults')->with([
+        $resolver->expects($this->once())->method('setDefaults')->with([
                         'data_class' => DatagridView::class,
                     ]);
+        $this->sut->configureOptions($resolver);
     }
 }

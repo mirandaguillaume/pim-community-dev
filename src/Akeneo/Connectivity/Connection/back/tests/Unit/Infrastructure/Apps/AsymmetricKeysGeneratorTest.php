@@ -18,7 +18,7 @@ class AsymmetricKeysGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new AsymmetricKeysGenerator(__DIR__ . '/openssl.cnf');
+        $this->sut = new AsymmetricKeysGenerator(__DIR__ . '/../../spec/Infrastructure/Apps/openssl.cnf');
     }
 
     public function test_it_is_an_asymmetric_keys_generator(): void

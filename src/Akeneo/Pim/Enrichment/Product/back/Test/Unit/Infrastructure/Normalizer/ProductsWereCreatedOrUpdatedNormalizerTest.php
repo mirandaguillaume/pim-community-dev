@@ -33,9 +33,10 @@ class ProductsWereCreatedOrUpdatedNormalizerTest extends TestCase
     {
         $uuid1 = Uuid::uuid4();
         $uuid2 = Uuid::uuid4();
+        $utc = new \DateTimeZone('UTC');
         $object = new ProductsWereCreatedOrUpdated([
-                    new ProductWasCreated($uuid1, \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-06-26 02:05:27')),
-                    new ProductWasUpdated($uuid2, \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-06-27 02:05:27')),
+                    new ProductWasCreated($uuid1, \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-06-26 02:05:27', $utc)),
+                    new ProductWasUpdated($uuid2, \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-06-27 02:05:27', $utc)),
                 ]);
         $this->assertSame([
                     'events' => [
@@ -58,9 +59,10 @@ class ProductsWereCreatedOrUpdatedNormalizerTest extends TestCase
     {
         $uuid1 = Uuid::uuid4();
         $uuid2 = Uuid::uuid4();
+        $utc = new \DateTimeZone('UTC');
         $object = new ProductsWereCreatedOrUpdated([
-                    new ProductWasCreated($uuid1, \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-06-26 02:05:27')),
-                    new ProductWasUpdated($uuid2, \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-06-27 02:05:27')),
+                    new ProductWasCreated($uuid1, \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-06-26 02:05:27', $utc)),
+                    new ProductWasUpdated($uuid2, \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-06-27 02:05:27', $utc)),
                 ]);
         $normalized = [
                     'events' => [

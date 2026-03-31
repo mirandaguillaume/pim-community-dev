@@ -35,6 +35,7 @@ class FilterEntityWithValuesSubscriberTest extends TestCase
 
         $event->method('getObject')->willReturn($entity);
         $this->sut->postLoad($event);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_does_not_filter_entity_with_values_by_default(): void

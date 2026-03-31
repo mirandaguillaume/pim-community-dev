@@ -43,7 +43,7 @@ class AddLocaleCodeToGridListenerTest extends TestCase
         $config->method('offsetGetByPath')->with('[options][locale_parameter]')->willReturn('dataLocale');
         $datasource->method('getQueryBuilder')->willReturn($queryBuilder);
         $this->requestParams->method('get')->with('dataLocale', null)->willReturn('fr_FR');
-        $queryBuilder->method('setParameter')->with('dataLocale', 'fr_FR')->willReturn($queryBuilder);
+        $queryBuilder->expects($this->once())->method('setParameter')->with('dataLocale', 'fr_FR')->willReturn($queryBuilder);
         $this->sut->onBuildAfter($event);
     }
 

@@ -39,7 +39,7 @@ class WebhookReachabilityCheckerTest extends TestCase
         $this->client = $this->createMock(ClientInterface::class);
         $this->validator = $this->createMock(ValidatorInterface::class);
         $this->versionProvider = $this->createMock(VersionProviderInterface::class);
-        $this->sut = new WebhookReachabilityChecker($this->client, $this->validator, $this->versionProvider, \getenv('PFID'));
+        $this->sut = new WebhookReachabilityChecker($this->client, $this->validator, $this->versionProvider, (\getenv('PFID') ?: null));
     }
 
     public function test_it_is_initializable(): void

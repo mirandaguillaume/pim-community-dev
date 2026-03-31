@@ -43,6 +43,7 @@ class AuthorizationRequestNotifierTest extends TestCase
     {
         $usersThatShouldBeNotified = ['userA', 'userB', 'userC'];
         $this->findAllUsernamesWithAclQuery->method('execute')->with('akeneo_connectivity_connection_manage_apps')->willReturn($usersThatShouldBeNotified);
+        $this->notifier->expects($this->once())->method('notify')->with($this->isInstanceOf(NotificationInterface::class), $usersThatShouldBeNotified);
         $this->sut->notify(new ConnectedApp(
             '0dfce574-2238-4b13-b8cc-8d257ce7645b',
             'App A',
@@ -57,6 +58,5 @@ class AuthorizationRequestNotifierTest extends TestCase
             'partner A',
             true
         ));
-        $this->notifier->method('notify')->with($this->isInstanceOf(NotificationInterface::class), $usersThatShouldBeNotified);
     }
 }

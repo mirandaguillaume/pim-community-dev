@@ -87,7 +87,7 @@ class CreateCustomAppActionTest extends TestCase
     {
         $request = $this->createMock(Request::class);
         $token = $this->createMock(TokenInterface::class);
-        $user = $this->createMock(UserInterface::class);
+        $user = $this->createMock(SymfonyUserInterface::class);
 
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(true);
         $token->method('getUser')->willReturn($user);

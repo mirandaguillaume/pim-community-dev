@@ -32,13 +32,14 @@ class DuplicateValueCheckerTest extends TestCase
 
     public function test_it_does_not_throws_exception_if_values_are_different(): void
     {
-        $this->sut->shouldNotThrow(InvalidPropertyTypeException::class)->during('check', [[
-                    'values' => [
-                        'a_simple_select' => [
-                            ['locale' => null, 'scope' => null, 'data' => 'optionB'],
-                            ['locale' => null, 'scope' => 'ecommerce', 'data' => 'optionA'],
-                        ],
-                    ],
-                ]]);
+        $this->sut->check([
+            'values' => [
+                'a_simple_select' => [
+                    ['locale' => null, 'scope' => null, 'data' => 'optionB'],
+                    ['locale' => null, 'scope' => 'ecommerce', 'data' => 'optionA'],
+                ],
+            ],
+        ]);
+        $this->addToAssertionCount(1);
     }
 }

@@ -6,7 +6,6 @@ namespace Akeneo\Test\Unit\spec\Akeneo\Tool\Component\Api\Normalizer;
 
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Tool\Component\Api\Normalizer\CollectionNormalizer;
-use ArrayIterator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -45,14 +44,8 @@ class CollectionNormalizerTest extends TestCase
     {
         $familyA = $this->createMock(FamilyInterface::class);
         $familyB = $this->createMock(FamilyInterface::class);
-        $familyCollection = $this->createMock(ArrayCollection::class);
-        $familyIterator = $this->createMock(ArrayIterator::class);
+        $familyCollection = new ArrayCollection([$familyA, $familyB]);
 
-        $familyCollection->method('getIterator')->willReturn($familyIterator);
-        $familyIterator->expects($this->once())->method('rewind');
-        $familyIterator->method('valid')->willReturn(true, true, false);
-        $familyIterator->method('current')->willReturn($familyA, $familyB);
-        $familyIterator->expects($this->once())->method('next');
         $this->serializer->method('normalize')->willReturnCallback(function ($object) use ($familyA, $familyB) {
             if ($object === $familyA) {
                 return [

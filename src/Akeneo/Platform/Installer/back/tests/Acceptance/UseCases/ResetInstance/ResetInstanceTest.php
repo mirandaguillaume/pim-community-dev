@@ -18,6 +18,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 class ResetInstanceTest extends KernelTestCase
 {
+    protected function setUp(): void
+    {
+        static::bootKernel(['debug' => false, 'environment' => 'test_fake']);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->ensureKernelShutdown();
+    }
+
     public function test_it_reset_the_pim_by_keeping_users_user_roles_and_user_groups(): void
     {
         $this->getHandler()->handle(new ResetInstanceCommand());

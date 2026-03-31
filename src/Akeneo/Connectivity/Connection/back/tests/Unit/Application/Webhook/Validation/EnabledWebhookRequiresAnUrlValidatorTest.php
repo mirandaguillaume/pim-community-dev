@@ -102,7 +102,7 @@ class EnabledWebhookRequiresAnUrlValidatorTest extends TestCase
         $this->expectException(UnexpectedTypeException::class);
         $this->sut->validate(
             new ConnectionWebhook('magento', false),
-            new LocalConstraint(),
+            new class() extends Constraint {},
         );
     }
 

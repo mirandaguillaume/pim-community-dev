@@ -157,8 +157,13 @@ class SendBusinessEventToWebhooksHandlerTest extends TestCase
         $erpWebhook = new ActiveWebhook('erp_source', 42, 'a_secret', 'http://localhost/', true);
         $magentoWebhook = new ActiveWebhook('ecommerce_destination', 12, 'a_secret', 'http://localhost/', false);
         $this->selectActiveWebhooksQuery->method('execute')->willReturn([$erpWebhook, $magentoWebhook]);
-        $this->webhookUserAuthenticator->method('authenticate')->with(12)->willReturn($magentoUser);
-        $this->webhookUserAuthenticator->method('authenticate')->with(42)->willReturn($erpUser);
+        $this->webhookUserAuthenticator->method('authenticate')->willReturnCallback(
+            fn (int $userId) => match ($userId) {
+                12 => $magentoUser,
+                42 => $erpUser,
+                default => throw new \InvalidArgumentException("Unexpected userId: $userId"),
+            }
+        );
         $this->builder->method('build')->with(
             $pimEventBulk,
             [
@@ -234,7 +239,7 @@ class SendBusinessEventToWebhooksHandlerTest extends TestCase
                             'connection_code' => $webhook->connectionCode(),
                             'is_using_uuid' => $webhook->isUsingUuid(),
                         ]
-        )->willThrowException(\Exception::class);
+        )->willThrowException(new \Exception());
         $this->client->expects($this->once())->method('bulkSend')->with($this->callback(
             function (iterable $iterable): bool {
                 $requests = \iterator_to_array($iterable);

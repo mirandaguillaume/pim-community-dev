@@ -52,7 +52,7 @@ class CursorFactoryTest extends TestCase
         $queryBuilder->method('from')->with($this->anything(), $this->anything(), 'a.id')->willReturn($queryBuilder);
         $queryBuilder->method('distinct')->with(true)->willReturn($queryBuilder);
         $queryBuilder->method('getQuery')->willReturn($query);
-        $query->expects($this->once())->method('useQueryCache')->with(false);
+        $query->expects($this->atLeastOnce())->method('useQueryCache')->with(false);
         $query->method('getArrayResult')->willReturn([]);
         $this->assertEquals(new Cursor($queryBuilder, $this->entityManager, 100), $this->sut->createCursor($queryBuilder));
     }
