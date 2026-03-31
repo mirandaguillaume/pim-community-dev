@@ -35,6 +35,22 @@ class EnabledFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'enabled', '=', true);
-        $this->sut->apply($datasource, ['type' => null, 'value' => [0 => true]]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => [0 => true]]));
+    }
+
+    public function test_it_casts_value_to_bool(): void
+    {
+        $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
+
+        $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'enabled', '=', false);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => [0 => 0]]));
+    }
+
+    public function test_it_returns_false_when_value_is_not_set(): void
+    {
+        $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
+
+        $this->utility->expects($this->never())->method('applyFilter');
+        $this->assertSame(false, $this->sut->apply($datasource, 'invalid'));
     }
 }

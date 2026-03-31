@@ -35,7 +35,7 @@ class EntityTypeFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->never())->method('applyFilter');
-        $this->sut->apply($datasource, ['type' => null, 'value' => 'toto']);
+        $this->assertSame(false, $this->sut->apply($datasource, ['type' => null, 'value' => 'toto']));
     }
 
     public function test_it_applies_filter_for_products(): void
@@ -43,6 +43,6 @@ class EntityTypeFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'entity_type', '=', ProductInterface::class);
-        $this->sut->apply($datasource, ['type' => null, 'value' => 'product']);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => 'product']));
     }
 }

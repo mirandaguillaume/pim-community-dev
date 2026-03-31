@@ -24,6 +24,45 @@ class FilterTypeTest extends AbstractTypeTestCase
         parent::setUp();
     }
 
+    public function testFieldAndOperatorAreNotRequired(): void
+    {
+        $form = $this->factory->create(FilterType::class);
+
+        $this->assertFalse($form->get('value')->getConfig()->getOption('required'));
+        $this->assertFalse($form->get('type')->getConfig()->getOption('required'));
+    }
+
+    public function testOperatorOptionsAreMerged(): void
+    {
+        $form = $this->factory->create(FilterType::class, null, [
+            'operator_choices' => [1 => 'Choice 1'],
+            'operator_options' => ['attr' => ['class' => 'custom']],
+        ]);
+
+        $this->assertSame(['class' => 'custom'], $form->get('type')->getConfig()->getOption('attr'));
+    }
+
+    public function testFieldOptionsAreMerged(): void
+    {
+        $form = $this->factory->create(FilterType::class, null, [
+            'field_options' => ['attr' => ['class' => 'field-class']],
+        ]);
+
+        $this->assertSame(['class' => 'field-class'], $form->get('value')->getConfig()->getOption('attr'));
+    }
+
+    public function testEmptyChoiceAddsEmptyAndNotEmptyToOperator(): void
+    {
+        $form = $this->factory->create(FilterType::class, null, [
+            'field_options' => ['attr' => ['empty_choice' => true]],
+            'operator_choices' => [1 => 'Choice 1'],
+        ]);
+
+        $typeChoices = $form->get('type')->getConfig()->getOption('choices');
+        $this->assertArrayHasKey('oro.filter.form.label_type_empty', $typeChoices);
+        $this->assertArrayHasKey('oro.filter.form.label_type_not_empty', $typeChoices);
+    }
+
     /**
      * {@inheritDoc}
      */

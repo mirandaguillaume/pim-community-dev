@@ -35,7 +35,7 @@ class LabelOrIdentifierFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'label_or_identifier', 'CONTAINS', 'mylabel');
-        $this->sut->apply($datasource, ['type' => null, 'value' => 'mylabel']);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => 'mylabel']));
     }
 
     public function test_it_applies_a_filter_on_product_when_value_contains_underscore(): void
@@ -43,6 +43,6 @@ class LabelOrIdentifierFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'label_or_identifier', 'CONTAINS', 'mylabel_');
-        $this->sut->apply($datasource, ['type' => null, 'value' => 'mylabel_']);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => 'mylabel_']));
     }
 }

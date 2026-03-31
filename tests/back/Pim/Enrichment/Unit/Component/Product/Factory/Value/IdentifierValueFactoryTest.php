@@ -35,10 +35,12 @@ class IdentifierValueFactoryTest extends TestCase
     public function test_it_does_not_support_null(): void
     {
         $this->expectException(InvalidPropertyTypeException::class);
-        $this->sut->createByCheckingData($this->getAttribute(true, true),
-                    'ecommerce',
-                    'fr_FR',
-                    null);
+        $this->sut->createByCheckingData(
+            $this->getAttribute(true, true),
+            'ecommerce',
+            'fr_FR',
+            null
+        );
     }
 
     public function test_it_cannot_create_a_localizable_and_scopable_value(): void
@@ -79,10 +81,12 @@ class IdentifierValueFactoryTest extends TestCase
     public function test_it_throws_an_exception_if_it_is_not_a_string(): void
     {
         $this->expectException(InvalidPropertyTypeException::class);
-        $this->sut->createByCheckingData($this->getAttribute(true, true),
-                    'ecommerce',
-                    'fr_FR',
-                    new \stdClass());
+        $this->sut->createByCheckingData(
+            $this->getAttribute(true, true),
+            'ecommerce',
+            'fr_FR',
+            new \stdClass()
+        );
     }
 
     public function test_it_creates_a_value_for_the_main_identifier_attribute(): void
@@ -101,20 +105,20 @@ class IdentifierValueFactoryTest extends TestCase
 
     private function getAttribute(bool $isLocalizable, bool $isScopable, bool $isMainIdentifier = true): Attribute
     {
-            return new Attribute(
-                'an_attribute',
-                AttributeTypes::IDENTIFIER,
-                [],
-                $isLocalizable,
-                $isScopable,
-                null,
-                null,
-                false,
-                'text',
-                [],
-                null,
-                [],
-                $isMainIdentifier
-            , $value);
-        }
+        return new Attribute(
+            'an_attribute',
+            AttributeTypes::IDENTIFIER,
+            [],
+            $isLocalizable,
+            $isScopable,
+            null,
+            null,
+            false,
+            'text',
+            [],
+            null,
+            [],
+            $isMainIdentifier,
+        );
+    }
 }

@@ -77,6 +77,17 @@ class DateTimeRangeFilterTypeTest extends AbstractTypeTestCase
                     'widget_options' => ['firstDay' => 1],
                 ],
             ],
+            'default widget options' => [
+                'bindData' => [],
+                'formData' => ['type' => null, 'value' => ['start' => '', 'end' => '']],
+                'viewData' => [
+                    'value'          => ['type'     => null, 'value' => ['start' => '', 'end' => '']],
+                    'widget_options' => ['firstDay' => 0],
+                ],
+                'customOptions' => [
+                    'widget_options' => [],
+                ],
+            ],
         ];
     }
 }

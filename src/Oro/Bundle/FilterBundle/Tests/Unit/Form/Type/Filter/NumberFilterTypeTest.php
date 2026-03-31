@@ -104,6 +104,23 @@ class NumberFilterTypeTest extends AbstractTypeTestCase
                     'data_type'  => NumberFilterType::DATA_INTEGER,
                 ],
             ],
+            'decimal' => [
+                'bindData' => ['type' => NumberFilterType::TYPE_EQUAL, 'value' => '12345.68'],
+                'formData' => ['type' => NumberFilterType::TYPE_EQUAL, 'value' => 12345.68],
+                'viewData' => [
+                    'value'             => ['type' => NumberFilterType::TYPE_EQUAL, 'value' => '12,345.68'],
+                    'formatter_options' => [
+                        'decimals'         => 2,
+                        'grouping'         => true,
+                        'orderSeparator'   => ',',
+                        'decimalSeparator' => '.',
+                    ],
+                ],
+                'customOptions' => [
+                    'field_options' => ['grouping' => true, 'scale' => 2],
+                    'data_type'    => NumberFilterType::DATA_DECIMAL,
+                ],
+            ],
             'money' => [
                 'bindData' => ['type' => NumberFilterType::TYPE_EQUAL, 'value' => '12345.67890'],
                 'formData' => [

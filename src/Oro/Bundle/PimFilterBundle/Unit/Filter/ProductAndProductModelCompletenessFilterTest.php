@@ -36,7 +36,7 @@ class ProductAndProductModelCompletenessFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'completeness', Operators::AT_LEAST_COMPLETE, null);
-        $this->sut->apply($datasource, ['type' => null, 'value' => BooleanFilterType::TYPE_YES]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => BooleanFilterType::TYPE_YES]));
     }
 
     public function test_it_applies_a_filter_on_not_complete_products_and_product_models(): void
@@ -44,6 +44,6 @@ class ProductAndProductModelCompletenessFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'completeness', Operators::AT_LEAST_INCOMPLETE, null);
-        $this->sut->apply($datasource, ['type' => null, 'value' => BooleanFilterType::TYPE_NO]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => BooleanFilterType::TYPE_NO]));
     }
 }

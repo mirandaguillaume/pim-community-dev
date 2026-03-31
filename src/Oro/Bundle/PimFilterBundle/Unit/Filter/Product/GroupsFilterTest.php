@@ -38,6 +38,6 @@ class GroupsFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'groups', 'IN', ['foo', 'bar']);
-        $this->sut->apply($datasource, ['type' => null, 'value' => ['foo', 'bar']]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => ['foo', 'bar']]));
     }
 }

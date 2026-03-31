@@ -270,7 +270,7 @@ class DateRangeFilterTest extends TestCase
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'data_name_key', 'BETWEEN', ['1987-05-14', '2014-01-23']);
-        $this->sut->apply(
+        $this->assertSame(true, $this->sut->apply(
             $datasource,
             [
                         'value' => [
@@ -279,7 +279,7 @@ class DateRangeFilterTest extends TestCase
                         ],
                         'type'  => DateRangeFilterType::TYPE_BETWEEN,
                     ]
-        );
+        ));
     }
 
     public function test_it_applies_not_between_date_range_filter(): void
@@ -298,7 +298,7 @@ class DateRangeFilterTest extends TestCase
             'NOT BETWEEN',
             ['1987-05-14', '2014-01-23']
         );
-        $this->sut->apply(
+        $this->assertSame(true, $this->sut->apply(
             $datasource,
             [
                         'value' => [
@@ -307,7 +307,7 @@ class DateRangeFilterTest extends TestCase
                         ],
                         'type'  => DateRangeFilterType::TYPE_NOT_BETWEEN,
                     ]
-        );
+        ));
     }
 
     public function test_it_applies_less_than_date_range_filter(): void
@@ -321,7 +321,7 @@ class DateRangeFilterTest extends TestCase
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'data_name_key', '<', '2014-01-23');
-        $this->sut->apply(
+        $this->assertSame(true, $this->sut->apply(
             $datasource,
             [
                         'value' => [
@@ -330,7 +330,7 @@ class DateRangeFilterTest extends TestCase
                         ],
                         'type'  => DateRangeFilterType::TYPE_LESS_THAN,
                     ]
-        );
+        ));
     }
 
     public function test_it_applies_more_than_date_range_filter(): void
@@ -344,7 +344,7 @@ class DateRangeFilterTest extends TestCase
         $start->method('format')->with('Y-m-d')->willReturn('1987-05-14');
         $end->method('format')->with('Y-m-d')->willReturn('2014-01-23');
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'data_name_key', '>', '1987-05-14');
-        $this->sut->apply(
+        $this->assertSame(true, $this->sut->apply(
             $datasource,
             [
                         'value' => [
@@ -353,7 +353,7 @@ class DateRangeFilterTest extends TestCase
                         ],
                         'type'  => DateRangeFilterType::TYPE_MORE_THAN,
                     ]
-        );
+        ));
     }
 
     public function test_it_provides_date_range_form(): void

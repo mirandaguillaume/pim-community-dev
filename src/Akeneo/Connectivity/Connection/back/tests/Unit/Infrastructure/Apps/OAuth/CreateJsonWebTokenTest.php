@@ -35,6 +35,15 @@ class CreateJsonWebTokenTest extends TestCase
     private ClockInterface|MockObject $clock;
     private PimUrl|MockObject $pimUrl;
     private CreateJsonWebToken $sut;
+    private \DateTimeImmutable $now;
+    private string $pimUrlString;
+    private string $clientId;
+    private string $ppid;
+    private string $firstname;
+    private string $lastname;
+    private string $email;
+    private string $privateKey;
+    private string $publicKey;
 
     protected function setUp(): void
     {

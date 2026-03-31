@@ -70,13 +70,13 @@ class ChoiceFilterTest extends TestCase
         $this->attributeRepository->method('findOneByCode')->with('data_name_key')->willReturn($attribute);
         $this->attributeOptionRepository->method('findCodesByIdentifiers')->with($this->anything(), ['foo', 'bar'])->willReturn([['code' => 'foo'], ['code' => 'bar']]);
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'data_name_key', 'IN', ['foo', 'bar']);
-        $this->sut->apply(
+        $this->assertSame(true, $this->sut->apply(
             $datasource,
             [
                         'value' => ['foo', 'bar'],
                         'type'  => AjaxChoiceFilterType::TYPE_CONTAINS,
                     ]
-        );
+        ));
     }
 
     public function test_it_applies_choice_filter_on_datasource_for_collection_value(): void

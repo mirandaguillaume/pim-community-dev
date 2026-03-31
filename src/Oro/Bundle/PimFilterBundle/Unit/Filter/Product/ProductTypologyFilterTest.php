@@ -34,7 +34,7 @@ class ProductTypologyFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->never())->method('applyFilter');
-        $this->sut->apply($datasource, ['type' => null, 'value' => 'toto']);
+        $this->assertSame(false, $this->sut->apply($datasource, ['type' => null, 'value' => 'toto']));
     }
 
     public function test_it_applies_filter_for_simple_product_typology(): void
@@ -42,7 +42,7 @@ class ProductTypologyFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'family_variant', 'EMPTY', null);
-        $this->sut->apply($datasource, ['type' => null, 'value' => 'simple']);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => 'simple']));
     }
 
     public function test_it_applies_filter_for_variant_product_typology(): void
@@ -50,6 +50,6 @@ class ProductTypologyFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'family_variant', 'NOT EMPTY', null);
-        $this->sut->apply($datasource, ['type' => null, 'value' => 'variant']);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => 'variant']));
     }
 }

@@ -59,6 +59,19 @@ class LabelCollectionTest extends TestCase
         $this->assertSame(['en_US' => 'A US label'], $this->sut->normalize());
     }
 
+    public function test_it_skips_all_empty_labels_across_the_collection(): void
+    {
+        $this->sut = LabelCollection::fromArray([
+            'en_US' => '',
+            'fr_FR' => '',
+            'de_DE' => 'German label',
+        ]);
+        $this->assertNull($this->sut->getLabel('en_US'));
+        $this->assertNull($this->sut->getLabel('fr_FR'));
+        $this->assertSame('German label', $this->sut->getLabel('de_DE'));
+        $this->assertSame(['de_DE' => 'German label'], $this->sut->normalize());
+    }
+
     public function test_it_tells_if_it_has_label(): void
     {
         $this->assertSame(true, $this->sut->hasLabel('en_US'));

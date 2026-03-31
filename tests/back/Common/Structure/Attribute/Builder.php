@@ -52,7 +52,6 @@ class Builder
         $this->type = new Type(AttributeTypes::IDENTIFIER);
         $this->isUnique = false;
         $this->localizable = false;
-        $this->specificlocalizable = false;
         $this->scopable = false;
         $this->backendType = AttributeTypes::BACKEND_TYPE_TEXT;
     }

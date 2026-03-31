@@ -49,7 +49,16 @@ class CategoryFilterTest extends TestCase
         $tree->method('getCode')->willReturn('my_tree');
         $this->categoryRepo->method('find')->with(1)->willReturn($tree);
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'categories', 'NOT IN CHILDREN', ['my_tree']);
-        $this->sut->apply($datasource, ['value' => ['categoryId' => -1, 'treeId' => 1]]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['value' => ['categoryId' => -1, 'treeId' => 1]]));
+    }
+
+    public function test_it_returns_false_when_unclassified_tree_not_found(): void
+    {
+        $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
+
+        $this->categoryRepo->method('find')->with(999)->willReturn(null);
+        $this->utility->expects($this->never())->method('applyFilter');
+        $this->assertSame(false, $this->sut->apply($datasource, ['value' => ['categoryId' => -1, 'treeId' => 999]]));
     }
 
     public function test_it_applies_a_filter_by_in_category(): void
@@ -60,7 +69,7 @@ class CategoryFilterTest extends TestCase
         $this->categoryRepo->method('find')->with(42)->willReturn($category);
         $category->method('getCode')->willReturn('foo');
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'categories', 'IN', ['foo']);
-        $this->sut->apply($datasource, ['value' => ['categoryId' => 42], 'type' => false]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['value' => ['categoryId' => 42], 'type' => false]));
     }
 
     public function test_it_applies_a_filter_by_in_category_with_children(): void
@@ -71,6 +80,58 @@ class CategoryFilterTest extends TestCase
         $this->categoryRepo->method('find')->with(42)->willReturn($category);
         $category->method('getCode')->willReturn('foo');
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'categories', 'IN CHILDREN', ['foo']);
-        $this->sut->apply($datasource, ['value' => ['categoryId' => 42], 'type' => true]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['value' => ['categoryId' => 42], 'type' => true]));
+    }
+
+    public function test_it_returns_false_when_category_not_found(): void
+    {
+        $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
+
+        $this->categoryRepo->method('find')->willReturn(null);
+        $this->utility->expects($this->never())->method('applyFilter');
+        $this->assertSame(false, $this->sut->apply($datasource, ['value' => ['categoryId' => 999], 'type' => true]));
+    }
+
+    public function test_parse_data_returns_false_for_invalid_input(): void
+    {
+        $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
+
+        $this->assertSame(false, $this->sut->apply($datasource, 'not_an_array'));
+        $this->assertSame(false, $this->sut->apply($datasource, ['no_value_key' => 1]));
+        $this->assertSame(false, $this->sut->apply($datasource, ['value' => 'not_an_array']));
+    }
+
+    public function test_parse_data_defaults_include_sub_to_true_when_type_is_not_set(): void
+    {
+        $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
+        $category = $this->createMock(CategoryInterface::class);
+
+        $this->categoryRepo->method('find')->with(42)->willReturn($category);
+        $category->method('getCode')->willReturn('foo');
+        // Without 'type', includeSub should default to true -> IN CHILDREN
+        $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'categories', 'IN CHILDREN', ['foo']);
+        $this->assertSame(true, $this->sut->apply($datasource, ['value' => ['categoryId' => 42]]));
+    }
+
+    public function test_parse_data_casts_tree_id_to_int(): void
+    {
+        $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
+        $tree = $this->createMock(CategoryInterface::class);
+
+        $tree->method('getCode')->willReturn('tree');
+        $this->categoryRepo->method('find')->with(5)->willReturn($tree);
+        $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'categories', 'NOT IN CHILDREN', ['tree']);
+        $this->assertSame(true, $this->sut->apply($datasource, ['value' => ['categoryId' => -1, 'treeId' => '5']]));
+    }
+
+    public function test_parse_data_casts_category_id_to_int(): void
+    {
+        $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
+        $category = $this->createMock(CategoryInterface::class);
+
+        $this->categoryRepo->method('find')->with(7)->willReturn($category);
+        $category->method('getCode')->willReturn('cat');
+        $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'categories', 'IN', ['cat']);
+        $this->assertSame(true, $this->sut->apply($datasource, ['value' => ['categoryId' => '7'], 'type' => false]));
     }
 }

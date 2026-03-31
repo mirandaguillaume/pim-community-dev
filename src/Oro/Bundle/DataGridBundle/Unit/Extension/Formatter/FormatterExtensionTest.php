@@ -119,8 +119,18 @@ class FormatterExtensionTest extends TestCase
             [Configuration::COLUMNS_KEY, [], [1234 => ['type' => 'property1']]],
             [Configuration::PROPERTIES_KEY, [], ['identifier' => ['type' => 'property2']]],
         ]);
-        // offsetSet is called multiple times with different args - just verify it is called
-        $result->expects($this->atLeastOnce())->method('offsetSet');
+        $result->expects($this->exactly(4))->method('offsetSet')
+            ->willReturnCallback(function ($key, $value) {
+                static $callIndex = 0;
+                $callIndex++;
+                match ($callIndex) {
+                    1 => $this->assertSame('extra_key', $key) ?: $this->assertSame('extra key value', $value),
+                    2 => $this->assertSame('totalRecords', $key) ?: $this->assertSame(10, $value),
+                    3 => $this->assertSame('meta', $key) ?: $this->assertSame([], $value),
+                    4 => $this->assertSame('data', $key),
+                    default => $this->fail("Unexpected offsetSet call $callIndex"),
+                };
+            });
         $config1234 = PropertyConfiguration::createNamed(1234, ['type' => 'property1']);
         $configIdentifier = PropertyConfiguration::createNamed('identifier', ['type' => 'property2']);
         $property1->method('init')->with($config1234)->willReturn($initializedProperty1);

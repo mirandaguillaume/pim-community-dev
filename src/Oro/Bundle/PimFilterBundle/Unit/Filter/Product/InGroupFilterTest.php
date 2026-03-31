@@ -43,6 +43,6 @@ class InGroupFilterTest extends TestCase
         $this->extractor->method('getDatagridParameter')->with('currentGroup')->willReturn(12);
         $this->codeResolver->method('getCodesFromIds')->with('group', [12])->willReturn(['foo']);
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'groups', 'IN', ['foo']);
-        $this->sut->apply($datasource, ['type' => null, 'value' => 1]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => 1]));
     }
 }

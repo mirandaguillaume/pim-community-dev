@@ -37,7 +37,7 @@ class ProductCompletenessFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'completeness', Operators::EQUALS_ON_AT_LEAST_ONE_LOCALE, 100);
-        $this->sut->apply($datasource, ['type' => null, 'value' => BooleanFilterType::TYPE_YES]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => BooleanFilterType::TYPE_YES]));
     }
 
     public function test_it_applies_a_filter_on_not_complete_products(): void
@@ -45,6 +45,14 @@ class ProductCompletenessFilterTest extends TestCase
         $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
 
         $this->utility->expects($this->once())->method('applyFilter')->with($datasource, 'completeness', Operators::LOWER_THAN_ON_AT_LEAST_ONE_LOCALE, 100);
-        $this->sut->apply($datasource, ['type' => null, 'value' => BooleanFilterType::TYPE_NO]);
+        $this->assertSame(true, $this->sut->apply($datasource, ['type' => null, 'value' => BooleanFilterType::TYPE_NO]));
+    }
+
+    public function test_it_returns_false_for_invalid_values(): void
+    {
+        $datasource = $this->createMock(FilterDatasourceAdapterInterface::class);
+
+        $this->utility->expects($this->never())->method('applyFilter');
+        $this->assertSame(false, $this->sut->apply($datasource, ['type' => null, 'value' => 999]));
     }
 }
