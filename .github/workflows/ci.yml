@@ -1767,17 +1767,55 @@ jobs:
           HOST_GID=$(id -g)
           mkdir -p var/infection/tmp
 
-          # Build a dynamic config scoped to only the changed source dirs
+          # Build a dynamic Infection config scoped to only the changed source dirs
           SRC_DIRS=$(echo "$CHANGED_SRC" | sed 's|/[^/]*$||' | sort -u)
           DIR_JSON=$(echo "$SRC_DIRS" | sed 's/.*/"&"/' | paste -sd, -)
-          echo "{\"source\":{\"directories\":[$DIR_JSON],\"excludes\":[\"tests\",\"Test\",\"spec\"]},\"phpUnit\":{\"configDir\":\".\"},\"logs\":{\"text\":\"var/infection/infection.log\",\"html\":\"var/infection/infection.html\"},\"tmpDir\":\"var/infection/tmp\",\"timeout\":30}" > infection-dynamic.json
+
+          # Build a scoped PHPUnit config that only loads tests covering the changed dirs
+          # This avoids loading 5000 tests with Xdebug coverage (OOM)
+          TEST_DIRS=""
+          for src_dir in $SRC_DIRS; do
+            # Map source dir to likely test dir
+            test_dir=$(echo "$src_dir" | sed 's|/src/|/tests/|; s|/back$|/back/tests/Unit|; s|Form/Type$|Tests/Unit/Form/Type|')
+            [ -d "$test_dir" ] && TEST_DIRS="$TEST_DIRS <directory suffix=\"Test.php\">$test_dir</directory>"
+          done
+          if [ -z "$TEST_DIRS" ]; then
+            # Fallback: use full suite but with --filter to narrow
+            FILTER=$(echo "$SRC_DIRS" | xargs -I{} basename {} | paste -sd'|' -)
+            TEST_DIRS="<directory suffix=\"Test.php\">src</directory><directory suffix=\"Test.php\">tests/back</directory>"
+          fi
+
+          # Write scoped Infection config
+          echo "{\"source\":{\"directories\":[$DIR_JSON],\"excludes\":[\"tests\",\"Test\",\"spec\"]},\"phpUnit\":{\"configDir\":\"var/infection\"},\"logs\":{\"text\":\"var/infection/infection.log\",\"html\":\"var/infection/infection.html\"},\"tmpDir\":\"var/infection/tmp\",\"timeout\":30}" > infection-dynamic.json
+
+          # Write a scoped PHPUnit config that only loads tests for changed source dirs
+          # This avoids loading 5000 tests with Xdebug coverage (causes OOM/SIGTERM)
+          TEST_DIR_XML=""
+          for src_dir in $SRC_DIRS; do
+            for candidate in \
+              "$(echo "$src_dir" | sed 's|/Form/Type.*|/Tests/Unit|')" \
+              "$(echo "$src_dir" | sed 's|/back$|/back/tests/Unit|')" \
+              "$(echo "$src_dir" | sed 's|^src/|tests/back/|; s|/Component/.*|/Unit|; s|/Bundle/.*|/Unit|')"
+            do
+              [ -d "$candidate" ] && TEST_DIR_XML="$TEST_DIR_XML<directory suffix=\"Test.php\">$candidate</directory>" && break
+            done
+          done
+          [ -z "$TEST_DIR_XML" ] && TEST_DIR_XML='<directory suffix="Test.php">src</directory>'
+
+          cat > var/infection/phpunit.xml <<XMLEOF
+          <?xml version="1.0"?>
+          <phpunit bootstrap="/srv/pim/vendor/autoload.php" cacheDirectory="/tmp/.phpunit.cache">
+            <php><ini name="memory_limit" value="-1"/></php>
+            <testsuites><testsuite name="scoped">$TEST_DIR_XML</testsuite></testsuites>
+          </phpunit>
+          XMLEOF
+          echo "Scoped PHPUnit config: $(cat var/infection/phpunit.xml)"
           echo "Infection config: $(cat infection-dynamic.json)"
 
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
               --configuration=infection-dynamic.json \
-              --test-framework-options="--testsuite=PHPUnit_Unit_Test" \
               --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1" \
               --threads=4 \
               --min-msi=80 \
