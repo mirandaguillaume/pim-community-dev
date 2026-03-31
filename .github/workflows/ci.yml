@@ -1779,20 +1779,36 @@ jobs:
           echo "=== Mutating: $SOURCE_DIR ==="
 
           # Find test dirs covering this source dir
-          top=$(echo "$SOURCE_DIR" | sed 's|^src/||' | cut -d/ -f1-2)
           TEST_XML=""
-          for d in $(find "src/$top" -type d \( -name "Unit" -o -name "Tests" \) 2>/dev/null | head -30); do
+
+          # 1. Search within the source dir itself for test dirs
+          for d in $(find "$SOURCE_DIR" -type d \( -name "Unit" -o -name "Tests" \) 2>/dev/null | head -20); do
             TEST_XML="$TEST_XML<directory suffix=\"Test.php\">/srv/pim/$d</directory>"
           done
-          ctx=$(echo "$top" | sed 's|Oro/Bundle.*|Oro|; s|Akeneo/\([^/]*\).*|\1|')
-          for d in "tests/back/$ctx/Unit" "tests/back/$ctx/Enrichment/Unit" "tests/back/$ctx/Structure/Unit"; do
-            [ -d "$d" ] && TEST_XML="$TEST_XML<directory suffix=\"Test.php\">/srv/pim/$d</directory>"
+
+          # 2. For Oro: search all bundles under Oro/Bundle (cross-deps)
+          if echo "$SOURCE_DIR" | grep -q "^src/Oro/"; then
+            for d in $(find src/Oro/Bundle -type d \( -name "Unit" -o -name "Tests" \) 2>/dev/null | head -30); do
+              TEST_XML="$TEST_XML<directory suffix=\"Test.php\">/srv/pim/$d</directory>"
+            done
+          fi
+
+          # 3. Search in tests/back/ for the matching context
+          ctx=$(echo "$SOURCE_DIR" | sed 's|^src/Akeneo/\([^/]*\).*|\1|; s|^src/Oro.*|Oro|; s|^components/.*|Components|')
+          for d in $(find "tests/back/$ctx" -type d -name "Unit" 2>/dev/null | head -10); do
+            TEST_XML="$TEST_XML<directory suffix=\"Test.php\">/srv/pim/$d</directory>"
           done
+
+          # 4. For components: search in back/tests/Unit
           if echo "$SOURCE_DIR" | grep -q "^components/"; then
             ct=$(echo "$SOURCE_DIR" | sed 's|/back/src|/back/tests/Unit|')
             [ -d "$ct" ] && TEST_XML="$TEST_XML<directory suffix=\"Test.php\">/srv/pim/$ct</directory>"
           fi
-          [ -z "$TEST_XML" ] && echo "No test dir found, skipping" && exit 0
+
+          # Deduplicate
+          TEST_XML=$(echo "$TEST_XML" | sed 's|</directory>|\n|g' | sort -u | sed 's|$|</directory>|' | grep "suffix" | tr -d '\n')
+
+          [ -z "$TEST_XML" ] && echo "No test dir found for $SOURCE_DIR, skipping" && exit 0
 
           echo "Test dirs: $(echo "$TEST_XML" | grep -o '<directory' | wc -l)"
 
