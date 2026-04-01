@@ -2,7 +2,6 @@
 
 /**
  * Enrichment Product bounded context tasks.
- * Replaces make-file/enrichment-product.mk.
  */
 
 namespace enrichment_product;

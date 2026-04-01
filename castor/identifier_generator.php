@@ -2,7 +2,6 @@
 
 /**
  * Identifier Generator bounded context tasks.
- * Replaces make-file/identifier-generator.mk.
  */
 
 namespace identifier_generator;

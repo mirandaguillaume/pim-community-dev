@@ -2,7 +2,6 @@
 
 /**
  * Import/Export bounded context tasks.
- * Replaces make-file/import-export.mk.
  */
 
 namespace import_export;

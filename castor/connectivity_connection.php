@@ -2,7 +2,6 @@
 
 /**
  * Connectivity Connection bounded context tasks.
- * Replaces make-file/connectivity-connection.mk.
  */
 
 namespace connectivity;

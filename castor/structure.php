@@ -2,7 +2,6 @@
 
 /**
  * Structure bounded context tasks.
- * Replaces make-file/structure.mk.
  */
 
 namespace structure;

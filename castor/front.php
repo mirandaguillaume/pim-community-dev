@@ -2,7 +2,6 @@
 
 /**
  * Front-end tasks.
- * Replaces targets from the root Makefile: node_modules, javascript-*, front-packages, dsm, assets, css.
  */
 
 namespace front;

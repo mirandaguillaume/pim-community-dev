@@ -139,8 +139,6 @@ jobs:
               - '.github/**'
               - 'docker-compose*.yml'
               - 'docker/**'
-              - 'Makefile'
-              - 'make-file/**'
               - 'castor/**'
               - 'castor.php'
 

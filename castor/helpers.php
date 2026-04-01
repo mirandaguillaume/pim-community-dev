@@ -2,7 +2,6 @@
 
 /**
  * Shared helper functions for Castor tasks.
- * Replaces Makefile variables: DOCKER_COMPOSE, PHP_RUN, PHP_EXEC, YARN_RUN, NODE_RUN.
  */
 
 use function Castor\context;

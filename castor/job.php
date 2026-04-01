@@ -2,7 +2,6 @@
 
 /**
  * Job bounded context tasks.
- * Replaces make-file/job.mk.
  */
 
 namespace job;

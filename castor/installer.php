@@ -2,7 +2,6 @@
 
 /**
  * Installer bounded context tasks.
- * Replaces make-file/installer.mk.
  */
 
 namespace installer;

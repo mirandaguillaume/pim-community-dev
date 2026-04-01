@@ -2,7 +2,6 @@
 
 /**
  * Communication Channel bounded context tasks.
- * Replaces make-file/communication-channel.mk.
  */
 
 namespace communication_channel;

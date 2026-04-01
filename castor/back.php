@@ -2,7 +2,6 @@
 
 /**
  * Back-end tasks.
- * Replaces targets from the root Makefile: fix-cs-back, cache, vendor, database, workers.
  */
 
 namespace back;
