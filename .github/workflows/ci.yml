@@ -1887,18 +1887,35 @@ jobs:
       - name: Compute changed front-end files
         id: changed
         run: |
-          CHANGED=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
+          # 1. Changed source files (direct)
+          SRC_FILES=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
             | grep -E '^(front-packages|components|src)/' \
             | grep -v '\.test\.\|\.spec\.\|__tests__\|__mocks__\|stories' || true)
-          if [ -z "$CHANGED" ]; then
+
+          # 2. Changed test files → map to source files
+          TEST_FILES=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
+            | grep -E '\.(test|spec)\.(ts|tsx)$' || true)
+          MAPPED=""
+          for test in $TEST_FILES; do
+            # Pattern 1: Foo.test.tsx → Foo.tsx (co-located)
+            src=$(echo "$test" | sed 's/\.\(test\|spec\)\.\(tsx\?\)/.\2/')
+            [ -f "$src" ] && MAPPED="$MAPPED $src" && continue
+            # Pattern 2: __tests__/Foo.test.tsx → ../Foo.tsx
+            src=$(echo "$test" | sed 's|/__tests__/|/|; s/\.\(test\|spec\)\.\(tsx\?\)/.\2/')
+            [ -f "$src" ] && MAPPED="$MAPPED $src"
+          done
+
+          # Combine and deduplicate
+          ALL=$(echo "$SRC_FILES $MAPPED" | tr ' ' '\n' | grep -v '^$' | sort -u || true)
+
+          if [ -z "$ALL" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "No front-end source files changed"
+            echo "No front-end source files to mutate"
           else
-            # Format as comma-separated Stryker --mutate glob
-            MUTATE=$(echo "$CHANGED" | paste -sd, -)
+            MUTATE=$(echo "$ALL" | paste -sd, -)
             echo "skip=false" >> "$GITHUB_OUTPUT"
             echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
-            echo "Files to mutate ($(echo "$CHANGED" | wc -l)): $MUTATE"
+            echo "Files to mutate ($(echo "$ALL" | wc -l)): $MUTATE"
           fi
 
       - name: Run Stryker mutation testing
