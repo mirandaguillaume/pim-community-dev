@@ -2,7 +2,6 @@
 
 /**
  * User Management bounded context tasks.
- * Replaces make-file/user-management.mk.
  */
 
 namespace user_management;

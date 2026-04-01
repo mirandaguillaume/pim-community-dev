@@ -2,7 +2,6 @@
 
 /**
  * Data Quality Insights bounded context tasks.
- * Replaces make-file/data-quality-insights.mk.
  */
 
 namespace data_quality_insights;

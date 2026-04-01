@@ -2,7 +2,6 @@
 
 /**
  * Channel bounded context tasks.
- * Replaces make-file/channel.mk.
  */
 
 namespace channel;

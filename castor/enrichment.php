@@ -2,7 +2,6 @@
 
 /**
  * Enrichment (legacy) bounded context tasks.
- * Replaces make-file/enrichment.mk.
  */
 
 namespace enrichment;

@@ -2,7 +2,6 @@
 
 /**
  * Category bounded context tasks.
- * Replaces make-file/category.mk.
  */
 
 namespace category;

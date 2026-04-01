@@ -2,7 +2,6 @@
 
 /**
  * Main CI test tasks.
- * Replaces make-file/test.mk: lint-back, unit-back, acceptance-back, coupling-back, etc.
  */
 
 namespace test;

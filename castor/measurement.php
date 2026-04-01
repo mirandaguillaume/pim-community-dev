@@ -2,7 +2,6 @@
 
 /**
  * Measurement bounded context tasks.
- * Replaces make-file/measurement.mk.
  */
 
 namespace measurement;

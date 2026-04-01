@@ -2,7 +2,6 @@
 
 /**
  * @deprecated These targets are deprecated. Use the bounded-context-specific targets instead.
- * Replaces make-file/dev.mk.
  */
 
 namespace dev;
