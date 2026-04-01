@@ -1672,7 +1672,7 @@ jobs:
             fi
           done
           # Deduplicate
-          DIRS=$(echo "$DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u)
+          DIRS=$(echo "$DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u || true)
 
           # Build JSON array with MSI=80 for all shards
           if [ -z "$DIRS" ]; then
