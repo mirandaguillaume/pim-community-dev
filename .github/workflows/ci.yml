@@ -1857,6 +1857,84 @@ jobs:
           echo "Verifying Symfony container is valid..."
           docker-compose run --rm -e APP_ENV=test php php bin/console lint:container 2>&1
 
+  # ===========================================================================
+  # MUTATION TESTING (FRONT): Stryker on changed TS/TSX files (MSI >= 50%)
+  # ===========================================================================
+  mutation-testing-front:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yarn-cache: 'true'
+          pull-base-images: 'false'
+
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Compute changed front-end files
+        id: changed
+        run: |
+          # 1. Changed source files (direct)
+          SRC_FILES=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
+            | grep -E '^(front-packages|components|src)/' \
+            | grep -v '\.test\.\|\.spec\.\|__tests__\|__mocks__\|stories' || true)
+
+          # 2. Changed test files → map to source files
+          TEST_FILES=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
+            | grep -E '\.(test|spec)\.(ts|tsx)$' || true)
+          MAPPED=""
+          for test in $TEST_FILES; do
+            # Pattern 1: Foo.test.tsx → Foo.tsx (co-located)
+            src=$(echo "$test" | sed 's/\.\(test\|spec\)\.\(tsx\?\)/.\2/')
+            [ -f "$src" ] && MAPPED="$MAPPED $src" && continue
+            # Pattern 2: __tests__/Foo.test.tsx → ../Foo.tsx
+            src=$(echo "$test" | sed 's|/__tests__/|/|; s/\.\(test\|spec\)\.\(tsx\?\)/.\2/')
+            [ -f "$src" ] && MAPPED="$MAPPED $src"
+          done
+
+          # Combine and deduplicate
+          ALL=$(echo "$SRC_FILES $MAPPED" | tr ' ' '\n' | grep -v '^$' | sort -u || true)
+
+          if [ -z "$ALL" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "No front-end source files to mutate"
+          else
+            MUTATE=$(echo "$ALL" | paste -sd, -)
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
+            echo "Files to mutate ($(echo "$ALL" | wc -l)): $MUTATE"
+          fi
+
+      - name: Run Stryker mutation testing
+        if: steps.changed.outputs.skip != 'true'
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            node yarn stryker run \
+              --mutate "${{ steps.changed.outputs.mutate }}" \
+              --reporters clear-text,progress \
+              --thresholds.break 50
+
+      - name: Upload Stryker report
+        if: always() && steps.changed.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stryker-report
+          path: var/stryker/
+          retention-days: 30
+
   ci-success:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs:
@@ -1881,6 +1959,7 @@ jobs:
       - test-playwright
       - mutation-testing
       - mutation-setup
+      - mutation-testing-front
     if: always()
     timeout-minutes: 5
     steps:
@@ -1911,6 +1990,7 @@ jobs:
           echo "  test-behat: ${{ needs.test-behat.result }}"
           echo "  test-playwright: ${{ needs.test-playwright.result }}"
           echo "  mutation-testing: ${{ needs.mutation-testing.result }}"
+          echo "  mutation-testing-front: ${{ needs.mutation-testing-front.result }}"
 
           # Each job must be either 'success' or 'skipped' (path-filtered).
           # 'image' and 'prepare' are never path-filtered so must always succeed.
@@ -1937,6 +2017,7 @@ jobs:
             "${{ needs.test-behat.result }}"
             "${{ needs.test-playwright.result }}"
             "${{ needs.mutation-testing.result }}"
+            "${{ needs.mutation-testing-front.result }}"
           )
 
           failed=false
