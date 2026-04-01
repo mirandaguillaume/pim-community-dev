@@ -1672,7 +1672,7 @@ jobs:
             fi
           done
           # Deduplicate
-          DIRS=$(echo "$DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u)
+          DIRS=$(echo "$DIRS" | tr ' ' '\n' | grep -v '^$' | sort -u || true)
 
           # Build JSON array with MSI=80 for all shards
           if [ -z "$DIRS" ]; then
@@ -1859,6 +1859,67 @@ jobs:
           echo "Verifying Symfony container is valid..."
           docker-compose run --rm -e APP_ENV=test php php bin/console lint:container 2>&1
 
+  # ===========================================================================
+  # MUTATION TESTING (FRONT): Stryker on changed TS/TSX files (MSI >= 50%)
+  # ===========================================================================
+  mutation-testing-front:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yarn-cache: 'true'
+          pull-base-images: 'false'
+
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Compute changed front-end files
+        id: changed
+        run: |
+          CHANGED=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
+            | grep -E '^(front-packages|components|src)/' \
+            | grep -v '\.test\.\|\.spec\.\|__tests__\|__mocks__\|stories' || true)
+          if [ -z "$CHANGED" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "No front-end source files changed"
+          else
+            # Format as comma-separated Stryker --mutate glob
+            MUTATE=$(echo "$CHANGED" | paste -sd, -)
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
+            echo "Files to mutate ($(echo "$CHANGED" | wc -l)): $MUTATE"
+          fi
+
+      - name: Run Stryker mutation testing
+        if: steps.changed.outputs.skip != 'true'
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
+            node yarn stryker run \
+              --mutate "${{ steps.changed.outputs.mutate }}" \
+              --reporters clear-text,progress \
+              --thresholds.break 50
+
+      - name: Upload Stryker report
+        if: always() && steps.changed.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stryker-report
+          path: var/stryker/
+          retention-days: 30
+
   ci-success:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs:
@@ -1883,6 +1944,7 @@ jobs:
       - test-playwright
       - mutation-testing
       - mutation-setup
+      - mutation-testing-front
     if: always()
     timeout-minutes: 5
     steps:
@@ -1913,6 +1975,7 @@ jobs:
           echo "  test-behat: ${{ needs.test-behat.result }}"
           echo "  test-playwright: ${{ needs.test-playwright.result }}"
           echo "  mutation-testing: ${{ needs.mutation-testing.result }}"
+          echo "  mutation-testing-front: ${{ needs.mutation-testing-front.result }}"
 
           # Each job must be either 'success' or 'skipped' (path-filtered).
           # 'image' and 'prepare' are never path-filtered so must always succeed.
@@ -1939,6 +2002,7 @@ jobs:
             "${{ needs.test-behat.result }}"
             "${{ needs.test-playwright.result }}"
             "${{ needs.mutation-testing.result }}"
+            "${{ needs.mutation-testing-front.result }}"
           )
 
           failed=false
