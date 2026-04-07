@@ -5,6 +5,7 @@ src/**/lib/**/*.js
 src/Akeneo/Connectivity/Connection
 src/Akeneo/FreeTrial/front
 src/Akeneo/Pim/Automation/RuleEngine/front
+src/Akeneo/Pim/Automation/DataQualityInsights/tests/front
 src/Akeneo/Pim/Enrichment/AssetManager/tests/front
 src/Akeneo/Pim/TableAttribute/front
 src/Akeneo/Platform/Job/front/process-tracker
