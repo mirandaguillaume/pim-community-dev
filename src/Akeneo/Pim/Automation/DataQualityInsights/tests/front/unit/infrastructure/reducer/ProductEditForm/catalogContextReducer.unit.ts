@@ -29,6 +29,14 @@ describe('catalogContextReducer', () => {
     });
   });
 
+  describe('action type constants', () => {
+    test('expose their canonical string identifier', () => {
+      expect(CHANGE_CATALOG_CONTEXT_LOCALE).toBe('CHANGE_CATALOG_CONTEXT_LOCALE');
+      expect(CHANGE_CATALOG_CONTEXT_CHANNEL).toBe('CHANGE_CATALOG_CONTEXT_CHANNEL');
+      expect(INITIALIZE_CATALOG_CONTEXT).toBe('INITIALIZE_CATALOG_CONTEXT');
+    });
+  });
+
   describe('action creators', () => {
     test('changeCatalogContextLocale builds a CHANGE_CATALOG_CONTEXT_LOCALE action', () => {
       expect(changeCatalogContextLocale('fr_FR')).toEqual({

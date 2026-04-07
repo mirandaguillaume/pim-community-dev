@@ -42,6 +42,21 @@ describe('pageContextReducer', () => {
     });
   });
 
+  describe('action type constants', () => {
+    // These assertions pin each constant to its exact string value so that a
+    // mutation changing the literal (e.g. to '') would be caught — otherwise
+    // the tests below become tautologies (both action creator and reducer
+    // reference the same mutated constant and still agree).
+    test('expose their canonical string identifier', () => {
+      expect(CHANGE_PRODUCT_TAB).toBe('CHANGE_PRODUCT_TAB');
+      expect(START_PRODUCT_ATTRIBUTES_TAB_LOADING).toBe('START_PRODUCT_ATTRIBUTES_TAB_LOADING');
+      expect(END_PRODUCT_ATTRIBUTES_TAB_LOADING).toBe('END_PRODUCT_ATTRIBUTES_TAB_LOADING');
+      expect(SHOW_DATA_QUALITY_INSIGHTS_ATTRIBUTE_TO_IMPROVE).toBe('SHOW_DATA_QUALITY_INSIGHTS_ATTRIBUTE_TO_IMPROVE');
+      expect(START_PRODUCT_EVALUATION).toBe('START_PRODUCT_EVALUATION');
+      expect(END_PRODUCT_EVALUATION).toBe('END_PRODUCT_EVALUATION');
+    });
+  });
+
   describe('action creators', () => {
     test('changeProductTabAction builds a CHANGE_PRODUCT_TAB action with the new tab name', () => {
       expect(changeProductTabAction('pim-product-edit-form-history')).toEqual({

@@ -23,6 +23,8 @@
     "src/Akeneo/Tool/Bundle/MeasureBundle/front/src/**/*.{ts,tsx}",
     "src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.{ts,tsx}",
     "src/Akeneo/Platform/Job/front/process-tracker/src/**/*.{ts,tsx}",
+    "src/Akeneo/Pim/Automation/DataQualityInsights/front/src/infrastructure/reducer/**/*.ts",
+    "src/Akeneo/Pim/Automation/DataQualityInsights/front/src/application/helper/**/*.ts",
     "!**/*.spec.{ts,tsx}",
     "!**/*.test.{ts,tsx}",
     "!**/__tests__/**",
