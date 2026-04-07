@@ -36,7 +36,6 @@ const unitConfig = {
     '<rootDir>/src/Akeneo/Connectivity/',
     '<rootDir>/src/Akeneo/Category/',
   ],
-  modulePathIgnorePatterns: ['<rootDir>/.claude/worktrees/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleDirectories: ['node_modules', '<rootDir>/public/bundles/'],
   globals: {
