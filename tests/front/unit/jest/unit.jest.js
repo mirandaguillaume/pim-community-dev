@@ -1,7 +1,8 @@
+const path = require('path');
 const baseConfig = require(`${__dirname}/../../common/base.jest.json`);
 
 const unitConfig = {
-  rootDir: process.cwd(),
+  rootDir: process.env.INIT_CWD || path.resolve(__dirname, '../../../..'),
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
@@ -26,6 +27,11 @@ const unitConfig = {
     '^react-dom$': '<rootDir>/node_modules/react-dom',
     '^styled-components$': '<rootDir>/node_modules/styled-components',
     '\\.(jpg|ico|jpeg|png|gif|svg|css)$': `${__dirname}/fileMock.js`,
+    '^akeneo-design-system$': '<rootDir>/front-packages/akeneo-design-system/src/index.ts',
+    '^@akeneo-pim-community/shared$': '<rootDir>/front-packages/shared/src/index.ts',
+    '^@akeneo-pim-community/shared/lib/(.*)$': '<rootDir>/front-packages/shared/src/$1',
+    '^akeneopimstructure/(.*)$': '<rootDir>/src/Akeneo/Pim/Structure/Bundle/Resources/public/$1',
+    '^pimui/(.*)$': '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/public/$1',
   },
   testMatch: ['<rootDir>/src/**/*.unit.(js|jsx|ts|tsx)'],
   testPathIgnorePatterns: [
@@ -36,7 +42,6 @@ const unitConfig = {
     '<rootDir>/src/Akeneo/Connectivity/',
     '<rootDir>/src/Akeneo/Category/',
   ],
-  modulePathIgnorePatterns: ['<rootDir>/.claude/worktrees/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleDirectories: ['node_modules', '<rootDir>/public/bundles/'],
   globals: {

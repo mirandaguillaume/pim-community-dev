@@ -3,7 +3,8 @@
 
 
 "@akeneo-pim-community/shared@link:../front-packages/shared":
-  version "1.0.0"
+  version "0.0.0"
+  uid ""
 
 "@akeneo-pim-community/shared@link:front-packages/shared":
   version "1.0.0"
@@ -3520,11 +3521,7 @@ ajv@~8.17.1:
 
 "akeneo-design-system@link:front-packages/akeneo-design-system":
   version "0.0.0"
-  dependencies:
-    draft-js "^0.10.5"
-    draftjs-to-html "^0.8.4"
-    html-to-draftjs "^1.5.0"
-    react-draft-wysiwyg "^1.12.13"
+  uid ""
 
 angular-html-parser@~6.0.2:
   version "6.0.2"
@@ -4325,6 +4322,13 @@ brace-expansion@^1.1.7:
   dependencies:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
+
+brace-expansion@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-2.0.3.tgz#0493338bdd58e319b1039c67cf7ee439892c01d9"
+  integrity sha512-MCV/fYJEbqx68aE58kv2cA/kiky1G8vux3OR6/jbS+jIMe/6fJWa0DTzJU7dqijOWYwHi1t29FlfYI9uytqlpA==
+  dependencies:
+    balanced-match "^1.0.0"
 
 braces@^3.0.1, braces@^3.0.3, braces@~3.0.2:
   version "3.0.3"
@@ -8937,12 +8941,19 @@ minimalistic-assert@^1.0.0:
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
   integrity sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==
 
-minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.2, minimatch@^9.0.4, minimatch@~9.0.5:
+minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.2:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.5.tgz#580c88f8d5445f2bd6aa8f3cadefa0de79fbd69e"
   integrity sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==
   dependencies:
     brace-expansion "^1.1.7"
+
+minimatch@^9.0.4, minimatch@~9.0.5:
+  version "9.0.9"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-9.0.9.tgz#9b0cb9fcb78087f6fd7eababe2511c4d3d60574e"
+  integrity sha512-OBwBN9AL4dqmETlpS2zasx+vTeWclWzkblfZk7KTA5j3jeOONz/tRCnZomUyvNg83wL5Zv9Ss6HMJXAgL8R2Yg==
+  dependencies:
+    brace-expansion "^2.0.2"
 
 minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6, minimist@^1.2.8:
   version "1.2.8"

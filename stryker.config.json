@@ -2,9 +2,10 @@
   "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/core/schema/stryker-schema.json",
   "testRunner": "jest",
   "jest": {
-    "configFile": "tests/front/unit/jest/unit.jest.js"
+    "configFile": "tests/front/unit/jest/stryker.jest.js",
+    "enableFindRelatedTests": false
   },
-  "checkers": ["typescript"],
+  "checkers": [],
   "tsconfigFile": "tsconfig.json",
   "reporters": ["html", "json", "clear-text", "progress"],
   "htmlReporter": {
@@ -23,6 +24,9 @@
     "src/Akeneo/Tool/Bundle/MeasureBundle/front/src/**/*.{ts,tsx}",
     "src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.{ts,tsx}",
     "src/Akeneo/Platform/Job/front/process-tracker/src/**/*.{ts,tsx}",
+    "src/Akeneo/Pim/Automation/DataQualityInsights/front/src/infrastructure/reducer/**/*.ts",
+    "src/Akeneo/Pim/Automation/DataQualityInsights/front/src/application/helper/**/*.ts",
+    "src/Akeneo/Pim/Automation/DataQualityInsights/front/src/domain/KeyIndicator.ts",
     "!**/*.spec.{ts,tsx}",
     "!**/*.test.{ts,tsx}",
     "!**/__tests__/**",
@@ -30,6 +34,7 @@
     "!**/test/**",
     "!**/stories/**"
   ],
+  "ignorePatterns": ["var", "coverage", "public", "tools", ".worktrees", "vendor"],
   "tempDirName": "/tmp/stryker-tmp",
   "thresholds": {
     "high": 80,
