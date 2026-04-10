@@ -2,9 +2,10 @@
   "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/core/schema/stryker-schema.json",
   "testRunner": "jest",
   "jest": {
-    "configFile": "tests/front/unit/jest/unit.jest.js"
+    "configFile": "tests/front/unit/jest/unit.jest.js",
+    "enableFindRelatedTests": false
   },
-  "checkers": ["typescript"],
+  "checkers": [],
   "tsconfigFile": "tsconfig.json",
   "reporters": ["html", "json", "clear-text", "progress"],
   "htmlReporter": {
@@ -33,6 +34,7 @@
     "!**/test/**",
     "!**/stories/**"
   ],
+  "ignorePatterns": ["var", "coverage", "public", "tools", ".worktrees", "vendor"],
   "tempDirName": "/tmp/stryker-tmp",
   "thresholds": {
     "high": 80,

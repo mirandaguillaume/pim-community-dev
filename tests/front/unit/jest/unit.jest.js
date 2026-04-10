@@ -2,7 +2,7 @@ const path = require('path');
 const baseConfig = require(`${__dirname}/../../common/base.jest.json`);
 
 const unitConfig = {
-  rootDir: path.resolve(__dirname, '../../../..'),
+  rootDir: process.env.INIT_CWD || path.resolve(__dirname, '../../../..'),
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
