@@ -29,6 +29,7 @@ const unitConfig = {
     '\\.(jpg|ico|jpeg|png|gif|svg|css)$': `${__dirname}/fileMock.js`,
     '^akeneo-design-system$': '<rootDir>/front-packages/akeneo-design-system/src/index.ts',
     '^@akeneo-pim-community/shared$': '<rootDir>/front-packages/shared/src/index.ts',
+    '^@akeneo-pim-community/shared/lib/(.*)$': '<rootDir>/front-packages/shared/src/$1',
     '^akeneopimstructure/(.*)$': '<rootDir>/src/Akeneo/Pim/Structure/Bundle/Resources/public/$1',
     '^pimui/(.*)$': '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/public/$1',
   },

@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/core/schema/stryker-schema.json",
   "testRunner": "jest",
   "jest": {
-    "configFile": "tests/front/unit/jest/unit.jest.js",
+    "configFile": "tests/front/unit/jest/stryker.jest.js",
     "enableFindRelatedTests": false
   },
   "checkers": [],
