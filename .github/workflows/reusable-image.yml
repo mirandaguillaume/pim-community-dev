@@ -20,7 +20,11 @@ jobs:
     outputs:
       image: ${{ steps.meta.outputs.image }}
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
+        with:
+          clean: false
 
       - name: Login to Docker Hub (avoid rate limits on buildkit pull)
         if: vars.DOCKERHUB_USERNAME != ''
