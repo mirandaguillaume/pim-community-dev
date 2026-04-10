@@ -1923,6 +1923,10 @@ jobs:
               s|/front/src/Domain/|/front/src/domain/|;
               s|\.unit\.(tsx?)$|.\1|
             ')
+            [ -f "$src" ] && MAPPED="$MAPPED $src" && continue
+            # Pattern 4: <bundle>/front/tests/src/Foo.test.ts → <bundle>/front/src/Foo.ts
+            # Connectivity and other bundles that use a parallel tests/ mirror adjacent to src/.
+            src=$(echo "$test" | sed -E 's|/front/tests/src/|/front/src/|; s/\.(test|spec|unit)\.(tsx?)$/.\2/')
             [ -f "$src" ] && MAPPED="$MAPPED $src"
           done
 
