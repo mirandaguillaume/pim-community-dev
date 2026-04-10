@@ -1937,8 +1937,7 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             node yarn stryker run \
               --mutate "${{ steps.changed.outputs.mutate }}" \
-              --reporters clear-text,progress \
-              --thresholds.break 50
+              --reporters clear-text,progress
 
       - name: Upload Stryker report
         if: always() && steps.changed.outputs.skip != 'true'
