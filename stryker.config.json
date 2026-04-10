@@ -25,6 +25,8 @@
     "src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.{ts,tsx}",
     "src/Akeneo/Platform/Job/front/process-tracker/src/**/*.{ts,tsx}",
     "src/Akeneo/Pim/Automation/DataQualityInsights/front/src/infrastructure/reducer/**/*.ts",
+    "src/Akeneo/Pim/Automation/DataQualityInsights/front/src/infrastructure/fetcher/**/*.ts",
+    "!src/Akeneo/Pim/Automation/DataQualityInsights/front/src/infrastructure/fetcher/**/Product*Fetcher.ts",
     "src/Akeneo/Pim/Automation/DataQualityInsights/front/src/application/helper/**/*.ts",
     "src/Akeneo/Pim/Automation/DataQualityInsights/front/src/domain/KeyIndicator.ts",
     "!**/*.spec.{ts,tsx}",
