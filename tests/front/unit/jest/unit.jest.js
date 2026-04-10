@@ -27,6 +27,8 @@ const unitConfig = {
     '^react-dom$': '<rootDir>/node_modules/react-dom',
     '^styled-components$': '<rootDir>/node_modules/styled-components',
     '\\.(jpg|ico|jpeg|png|gif|svg|css)$': `${__dirname}/fileMock.js`,
+    '^akeneopimstructure/(.*)$': '<rootDir>/src/Akeneo/Pim/Structure/Bundle/Resources/public/$1',
+    '^pimui/(.*)$': '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/public/$1',
   },
   testMatch: ['<rootDir>/src/**/*.unit.(js|jsx|ts|tsx)'],
   testPathIgnorePatterns: [

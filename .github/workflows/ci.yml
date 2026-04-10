@@ -1882,6 +1882,12 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
+
       - name: Compute changed front-end files
         id: changed
         run: |
