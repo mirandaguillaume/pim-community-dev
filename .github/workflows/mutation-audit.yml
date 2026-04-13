@@ -36,6 +36,21 @@ on:
         required: false
         type: string
         default: 'max'
+      js-filter:
+        description: 'Stryker scope (workspace to mutate)'
+        required: false
+        type: choice
+        options:
+          - all
+          - shared
+          - design-system
+          - identifier-generator
+          - connectivity
+          - measure
+          - catalog-volume
+          - process-tracker
+          - dqi
+        default: all
 
 env:
   COMPOSER_MEMORY_LIMIT: -1
@@ -183,10 +198,35 @@ jobs:
       - name: Create output directory
         run: mkdir -p var/stryker
 
+      - name: Resolve Stryker mutate scope
+        id: scope
+        env:
+          JS_FILTER: ${{ inputs.js-filter }}
+        run: |
+          case "${JS_FILTER}" in
+            shared)               MUTATE="front-packages/shared/src/**/*.{ts,tsx}" ;;
+            design-system)        MUTATE="front-packages/akeneo-design-system/src/**/*.{ts,tsx}" ;;
+            identifier-generator) MUTATE="components/identifier-generator/front/src/**/*.{ts,tsx}" ;;
+            connectivity)         MUTATE="src/Akeneo/Connectivity/Connection/front/src/**/*.{ts,tsx}" ;;
+            measure)              MUTATE="src/Akeneo/Tool/Bundle/MeasureBundle/front/src/**/*.{ts,tsx}" ;;
+            catalog-volume)       MUTATE="src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.{ts,tsx}" ;;
+            process-tracker)      MUTATE="src/Akeneo/Platform/Job/front/process-tracker/src/**/*.{ts,tsx}" ;;
+            dqi)                  MUTATE="src/Akeneo/Pim/Automation/DataQualityInsights/front/src/**/*.ts" ;;
+            *)                    MUTATE="" ;;
+          esac
+          echo "mutate=${MUTATE}" >> "$GITHUB_OUTPUT"
+          echo "Scope: ${JS_FILTER} → ${MUTATE:-all (from config)}"
+
       - name: Run Stryker mutation testing
-        run: yarn stryker run --tempDirName "$RUNNER_TEMP/stryker-tmp" || true
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
+          STRYKER_MUTATE: ${{ steps.scope.outputs.mutate }}
+        run: |
+          ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp"
+          if [ -n "$STRYKER_MUTATE" ]; then
+            ARGS="$ARGS --mutate $STRYKER_MUTATE"
+          fi
+          yarn stryker run $ARGS || true
 
       - name: Stryker summary
         if: always()
