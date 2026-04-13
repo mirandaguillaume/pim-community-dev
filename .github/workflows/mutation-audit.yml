@@ -195,11 +195,8 @@ jobs:
           yarn dsm:build
           yarn shared:build
 
-      - name: Create output and temp directories
-        run: |
-          mkdir -p var/stryker
-          rm -rf /tmp/stryker-tmp
-          mkdir -p /tmp/stryker-tmp
+      - name: Create output directory
+        run: mkdir -p var/stryker
 
       - name: Resolve Stryker mutate scope
         id: scope
