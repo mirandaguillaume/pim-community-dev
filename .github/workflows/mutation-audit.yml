@@ -222,11 +222,11 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=8192"
           STRYKER_MUTATE: ${{ steps.scope.outputs.mutate }}
         run: |
-          ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp"
           if [ -n "$STRYKER_MUTATE" ]; then
-            ARGS="$ARGS --mutate $STRYKER_MUTATE"
+            yarn stryker run --tempDirName "$RUNNER_TEMP/stryker-tmp" --mutate "$STRYKER_MUTATE" || true
+          else
+            yarn stryker run --tempDirName "$RUNNER_TEMP/stryker-tmp" || true
           fi
-          yarn stryker run $ARGS || true
 
       - name: Stryker summary
         if: always()
