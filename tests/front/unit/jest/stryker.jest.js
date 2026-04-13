@@ -45,7 +45,8 @@ module.exports = {
     // Connectivity Connection workspace: @src/ → front/src/
     '^@src/(.*)$': `${CONNECTIVITY_FRONT}/src/$1`,
     // Yarn workspace symlinks may break in the Stryker sandbox — resolve directly.
-    '^@akeneo-pim-community/catalogs$': '<rootDir>/components/catalogs/mock/lib/exports.js',
+    // Point to src/ (not lib/) because lib/ is compiled and may not exist on CI.
+    '^@akeneo-pim-community/catalogs$': '<rootDir>/components/catalogs/mock/src/exports.ts',
   },
   testMatch: [
     ...unitConfig.testMatch,
