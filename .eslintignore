@@ -2,6 +2,7 @@
 components/**/front
 src/**/DataGridBundle/**/*.js
 src/**/lib/**/*.js
+src/Akeneo/Category/front
 src/Akeneo/Connectivity/Connection
 src/Akeneo/FreeTrial/front
 src/Akeneo/Pim/Automation/RuleEngine/front
