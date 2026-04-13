@@ -184,7 +184,7 @@ jobs:
         run: mkdir -p var/stryker
 
       - name: Run Stryker mutation testing
-        run: yarn stryker run --tempDirName .stryker-tmp || true
+        run: yarn stryker run --tempDirName "$RUNNER_TEMP/stryker-tmp" || true
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
 

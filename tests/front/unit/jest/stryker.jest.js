@@ -29,8 +29,8 @@ const IDENTIFIER_GEN_FRONT = '<rootDir>/components/identifier-generator/front';
 module.exports = {
   ...unitConfig,
   // On CI self-hosted runners /tmp is shared with sticky bit, so a prior run's
-  // /tmp/jest may be owned by a different UID. Use a workspace-relative cache.
-  cacheDirectory: process.env.CI ? '<rootDir>/.jest-cache' : unitConfig.cacheDirectory,
+  // /tmp/jest may be owned by a different UID. Use RUNNER_TEMP (per-job unique).
+  cacheDirectory: process.env.RUNNER_TEMP ? `${process.env.RUNNER_TEMP}/jest-cache` : unitConfig.cacheDirectory,
   moduleNameMapper: {
     ...unitConfig.moduleNameMapper,
     // pim/* aliases point to public/bundles/pimui which is excluded from the
