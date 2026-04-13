@@ -1,5 +1,5 @@
 import {connectionsAuditDataFetched, connectionsFetched} from '@src/audit/actions/dashboard-actions';
-import {reducer, State} from '@src/audit/reducers/dashboard-reducer';
+import {initialState, reducer, State} from '@src/audit/reducers/dashboard-reducer';
 import {AuditEventType} from '@src/model/audit-event-type.enum';
 import {FlowType} from '@src/model/flow-type.enum';
 
@@ -56,6 +56,29 @@ describe('Dashboard reducer', () => {
                 [AuditEventType.PRODUCT_READ]: {},
             },
         });
+    });
+
+    it('filters out FlowType.OTHER connections', () => {
+        const action = connectionsFetched([
+            {code: 'erp', label: 'ERP', flowType: FlowType.DATA_SOURCE, image: null, auditable: true},
+            {code: 'other', label: 'Other', flowType: FlowType.OTHER, image: null, auditable: true},
+        ]);
+        const newState = reducer(initialState, action);
+        expect(Object.keys(newState.connections)).toStrictEqual(['erp']);
+    });
+
+    it('filters out non-auditable connections', () => {
+        const action = connectionsFetched([
+            {code: 'erp', label: 'ERP', flowType: FlowType.DATA_SOURCE, image: null, auditable: true},
+            {code: 'bynder', label: 'Bynder', flowType: FlowType.DATA_DESTINATION, image: null, auditable: false},
+        ]);
+        const newState = reducer(initialState, action);
+        expect(Object.keys(newState.connections)).toStrictEqual(['erp']);
+    });
+
+    it('returns unchanged state for unknown actions', () => {
+        const newState = reducer(initialState, {type: 'UNKNOWN'} as any);
+        expect(newState).toBe(initialState);
     });
 
     it('handles CONNECTIONS_AUDIT_DATA_FETCHED action', () => {
