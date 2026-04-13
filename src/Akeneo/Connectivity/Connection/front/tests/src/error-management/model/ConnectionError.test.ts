@@ -15,11 +15,13 @@ describe('ConnectionError model constants', () => {
 
     describe('documentation style constants', () => {
         it("DocumentationStyleText is 'text'", () => expect(DocumentationStyleText).toBe('text'));
-        it("DocumentationStyleInformation is 'information'", () => expect(DocumentationStyleInformation).toBe('information'));
+        it("DocumentationStyleInformation is 'information'", () =>
+            expect(DocumentationStyleInformation).toBe('information'));
     });
 
     describe('error message type constants', () => {
         it("ErrorMessageDomainType is 'domain_error'", () => expect(ErrorMessageDomainType).toBe('domain_error'));
-        it("ErrorMessageViolationType is 'violation_error'", () => expect(ErrorMessageViolationType).toBe('violation_error'));
+        it("ErrorMessageViolationType is 'violation_error'", () =>
+            expect(ErrorMessageViolationType).toBe('violation_error'));
     });
 });

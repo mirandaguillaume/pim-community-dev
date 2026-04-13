@@ -3,8 +3,7 @@ import fetchMock from 'jest-fetch-mock';
 import {useConnectionErrors} from '@src/error-management/hooks/api/use-connection-errors';
 import {mockFetchResponses} from '../../../../test-utils';
 
-const ROUTE =
-    'akeneo_connectivity_connection_error_management_rest_get_connection_business_errors?connection_code=erp';
+const ROUTE = 'akeneo_connectivity_connection_error_management_rest_get_connection_business_errors?connection_code=erp';
 
 describe('useConnectionErrors', () => {
     beforeEach(() => fetchMock.resetMocks());

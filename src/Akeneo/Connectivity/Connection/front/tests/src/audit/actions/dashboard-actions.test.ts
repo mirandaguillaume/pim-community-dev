@@ -18,9 +18,7 @@ describe('dashboard action type constants', () => {
 
 describe('connectionsFetched', () => {
     it('creates an action with the given connections as payload', () => {
-        const connections = [
-            {code: 'erp', label: 'ERP', flowType: FlowType.DATA_SOURCE, image: null, auditable: true},
-        ];
+        const connections = [{code: 'erp', label: 'ERP', flowType: FlowType.DATA_SOURCE, image: null, auditable: true}];
         expect(connectionsFetched(connections)).toStrictEqual({
             type: CONNECTIONS_FETCHED,
             payload: connections,
