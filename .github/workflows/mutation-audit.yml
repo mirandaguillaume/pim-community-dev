@@ -180,8 +180,11 @@ jobs:
           yarn dsm:build
           yarn shared:build
 
-      - name: Create output directory
-        run: mkdir -p var/stryker
+      - name: Create output and temp directories
+        run: |
+          mkdir -p var/stryker
+          mkdir -p /tmp/stryker-tmp
+          chmod 1777 /tmp/stryker-tmp
 
       - name: Run Stryker mutation testing
         run: yarn mutation-front || true
