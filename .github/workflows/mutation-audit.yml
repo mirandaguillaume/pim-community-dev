@@ -203,14 +203,16 @@ jobs:
         env:
           JS_FILTER: ${{ inputs.js-filter }}
         run: |
+          # Stryker CLI splits --mutate on commas, so we use that as the
+          # separator for ts + tsx patterns (no brace expansion).
           case "${JS_FILTER}" in
-            shared)               MUTATE="front-packages/shared/src/**/*.{ts,tsx}" ;;
-            design-system)        MUTATE="front-packages/akeneo-design-system/src/**/*.{ts,tsx}" ;;
-            identifier-generator) MUTATE="components/identifier-generator/front/src/**/*.{ts,tsx}" ;;
-            connectivity)         MUTATE="src/Akeneo/Connectivity/Connection/front/src/**/*.{ts,tsx}" ;;
-            measure)              MUTATE="src/Akeneo/Tool/Bundle/MeasureBundle/front/src/**/*.{ts,tsx}" ;;
-            catalog-volume)       MUTATE="src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.{ts,tsx}" ;;
-            process-tracker)      MUTATE="src/Akeneo/Platform/Job/front/process-tracker/src/**/*.{ts,tsx}" ;;
+            shared)               MUTATE="front-packages/shared/src/**/*.ts,front-packages/shared/src/**/*.tsx" ;;
+            design-system)        MUTATE="front-packages/akeneo-design-system/src/**/*.ts,front-packages/akeneo-design-system/src/**/*.tsx" ;;
+            identifier-generator) MUTATE="components/identifier-generator/front/src/**/*.ts,components/identifier-generator/front/src/**/*.tsx" ;;
+            connectivity)         MUTATE="src/Akeneo/Connectivity/Connection/front/src/**/*.ts,src/Akeneo/Connectivity/Connection/front/src/**/*.tsx" ;;
+            measure)              MUTATE="src/Akeneo/Tool/Bundle/MeasureBundle/front/src/**/*.ts,src/Akeneo/Tool/Bundle/MeasureBundle/front/src/**/*.tsx" ;;
+            catalog-volume)       MUTATE="src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.ts,src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.tsx" ;;
+            process-tracker)      MUTATE="src/Akeneo/Platform/Job/front/process-tracker/src/**/*.ts,src/Akeneo/Platform/Job/front/process-tracker/src/**/*.tsx" ;;
             dqi)                  MUTATE="src/Akeneo/Pim/Automation/DataQualityInsights/front/src/**/*.ts" ;;
             *)                    MUTATE="" ;;
           esac
