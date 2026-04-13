@@ -44,6 +44,8 @@ module.exports = {
     '^module-registry$': `${__dirname}/stubs/module-registry.stub.js`,
     // Connectivity Connection workspace: @src/ → front/src/
     '^@src/(.*)$': `${CONNECTIVITY_FRONT}/src/$1`,
+    // Yarn workspace symlinks may break in the Stryker sandbox — resolve directly.
+    '^@akeneo-pim-community/catalogs$': '<rootDir>/components/catalogs/mock/lib/exports.js',
   },
   testMatch: [
     ...unitConfig.testMatch,
