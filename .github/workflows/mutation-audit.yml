@@ -224,10 +224,11 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=8192"
           STRYKER_MUTATE: ${{ steps.scope.outputs.mutate }}
         run: |
-          # coverageAnalysis=off: perTest tracing adds ~25s overhead per mutant
-          # which causes mass timeouts. 'off' runs all tests per mutant — slower
-          # per mutant but no tracing overhead, so it actually finishes faster.
-          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --coverageAnalysis off"
+          # coverageAnalysis=all: traces coverage per file (not per test).
+          # perTest adds ~25s Jest fork overhead per mutant causing mass timeouts.
+          # 'all' does a single dry run, then only runs tests covering each file.
+          # 2x faster than 'off' and no false timeouts unlike 'perTest'.
+          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --coverageAnalysis all"
           if [ -n "$STRYKER_MUTATE" ]; then
             yarn stryker run $COMMON_ARGS --mutate "$STRYKER_MUTATE" || true
           else
