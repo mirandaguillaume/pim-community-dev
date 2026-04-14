@@ -227,8 +227,7 @@ jobs:
           # coverageAnalysis=off: perTest tracing adds ~25s overhead per mutant
           # which causes mass timeouts. 'off' runs all tests per mutant — slower
           # per mutant but no tracing overhead, so it actually finishes faster.
-          # ignoreStatic: skip mutants in static initializers (not killable).
-          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --coverageAnalysis off --ignoreStatic"
+          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --coverageAnalysis off"
           if [ -n "$STRYKER_MUTATE" ]; then
             yarn stryker run $COMMON_ARGS --mutate "$STRYKER_MUTATE" || true
           else
