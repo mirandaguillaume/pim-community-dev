@@ -228,7 +228,8 @@ jobs:
           # perTest adds ~25s Jest fork overhead per mutant causing mass timeouts.
           # 'all' does a single dry run, then only runs tests covering each file.
           # 2x faster than 'off' and no false timeouts unlike 'perTest'.
-          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --coverageAnalysis all"
+          # timeoutMS=30000: Jest fork overhead is ~25s, default 5s is too short.
+          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --coverageAnalysis all --timeoutMS 30000"
           if [ -n "$STRYKER_MUTATE" ]; then
             yarn stryker run $COMMON_ARGS --mutate "$STRYKER_MUTATE" || true
           else
