@@ -224,9 +224,11 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=8192"
           STRYKER_MUTATE: ${{ steps.scope.outputs.mutate }}
         run: |
-          # timeoutMS=60000: Jest fork overhead is ~25s, default 5s causes false timeouts
-          # timeoutFactor=3: give 3x the net test time on top of the base timeout
-          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --timeoutMS 60000 --timeoutFactor 3"
+          # coverageAnalysis=off: perTest tracing adds ~25s overhead per mutant
+          # which causes mass timeouts. 'off' runs all tests per mutant — slower
+          # per mutant but no tracing overhead, so it actually finishes faster.
+          # ignoreStatic: skip mutants in static initializers (not killable).
+          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --coverageAnalysis off --ignoreStatic"
           if [ -n "$STRYKER_MUTATE" ]; then
             yarn stryker run $COMMON_ARGS --mutate "$STRYKER_MUTATE" || true
           else
