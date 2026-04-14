@@ -224,10 +224,13 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=8192"
           STRYKER_MUTATE: ${{ steps.scope.outputs.mutate }}
         run: |
+          # timeoutMS=60000: Jest fork overhead is ~25s, default 5s causes false timeouts
+          # timeoutFactor=3: give 3x the net test time on top of the base timeout
+          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --timeoutMS 60000 --timeoutFactor 3"
           if [ -n "$STRYKER_MUTATE" ]; then
-            yarn stryker run --tempDirName "$RUNNER_TEMP/stryker-tmp" --mutate "$STRYKER_MUTATE" || true
+            yarn stryker run $COMMON_ARGS --mutate "$STRYKER_MUTATE" || true
           else
-            yarn stryker run --tempDirName "$RUNNER_TEMP/stryker-tmp" || true
+            yarn stryker run $COMMON_ARGS || true
           fi
 
       - name: Stryker summary
