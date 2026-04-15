@@ -36,7 +36,7 @@
     "!**/test/**",
     "!**/stories/**"
   ],
-  "ignorePatterns": ["var", "coverage", "public", "tools", ".worktrees", "vendor"],
+  "ignorePatterns": ["var", "coverage", "public", "/tools/", ".worktrees", "vendor"],
   "tempDirName": "/tmp/stryker-tmp",
   "thresholds": {
     "high": 80,

@@ -25,6 +25,7 @@ const unitConfig = require('./unit.jest.js');
 const PIMUI_SRC = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/public';
 const CONNECTIVITY_FRONT = '<rootDir>/src/Akeneo/Connectivity/Connection/front';
 const IDENTIFIER_GEN_FRONT = '<rootDir>/components/identifier-generator/front';
+const MEASURE_FRONT = '<rootDir>/src/Akeneo/Tool/Bundle/MeasureBundle/front';
 
 module.exports = {
   ...unitConfig,
@@ -55,6 +56,8 @@ module.exports = {
     // identifier-generator co-located tests (not in __tests__/ dirs)
     `${IDENTIFIER_GEN_FRONT}/src/**/*.test.(ts|tsx)`,
     `${IDENTIFIER_GEN_FRONT}/src/**/*.unit.(ts|tsx)`,
+    // MeasureBundle co-located tests
+    `${MEASURE_FRONT}/src/**/*.test.(ts|tsx)`,
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.
