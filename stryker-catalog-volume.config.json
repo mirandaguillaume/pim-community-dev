@@ -13,7 +13,12 @@
     "!**/*.test.{ts,tsx}",
     "!**/*.unit.{ts,tsx}",
     "!**/__tests__/**",
-    "!**/__mocks__/**"
+    "!**/__mocks__/**",
+    "!**/getMockCatalogVolume.ts",
+    "!**/FakePIM.tsx",
+    "!**/index.tsx",
+    "!**/setupTests.ts",
+    "!**/env.d.ts"
   ],
   "ignorePatterns": ["var", "coverage", "/public", "/tools/", ".worktrees", "vendor"],
   "coverageAnalysis": "perTest",

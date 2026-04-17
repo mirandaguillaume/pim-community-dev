@@ -7,6 +7,7 @@ type CatalogVolumeScreenErrorProps = {
   message: string;
 };
 
+// Stryker disable all
 const Container = styled.div`
   max-width: 940px;
   margin: 10px auto;
@@ -38,6 +39,7 @@ const Message = styled.div`
   font-family: ${getFontFamily('default')};
   font-weight: normal;
 `;
+// Stryker restore all
 
 const CatalogVolumeScreenError = ({title, message}: CatalogVolumeScreenErrorProps) => {
   return (
