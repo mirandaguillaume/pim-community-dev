@@ -126,3 +126,17 @@ test('it displays a summary table', () => {
   expect(screen.getByText('a job failure')).toBeInTheDocument();
   expect(screen.getByText('another job failure')).toBeInTheDocument();
 });
+
+test('it shows nothing when stepExecutions is undefined', () => {
+  const executionWithoutSteps: JobExecution = {
+    ...jobExecution,
+    stepExecutions: undefined,
+  };
+  const {container} = renderWithProviders(<SummaryTable jobExecution={executionWithoutSteps} />);
+  expect(container).toBeEmptyDOMElement();
+});
+
+test('it shows warning reason text', () => {
+  renderWithProviders(<SummaryTable jobExecution={jobExecution} />);
+  expect(screen.getByText('a reason')).toBeInTheDocument();
+});

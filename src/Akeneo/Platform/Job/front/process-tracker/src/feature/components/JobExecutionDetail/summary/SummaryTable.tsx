@@ -6,6 +6,7 @@ import {InnerTable} from './InnerTable';
 import {WarningHelper} from './WarningHelper';
 import {JobExecution, StepExecution, isPaused} from '../../../models';
 
+// Stryker disable all
 const SpacedTable = styled(Table)`
   margin-bottom: 40px;
 `;
@@ -18,6 +19,7 @@ const SummaryCell = styled(Table.Cell)`
 const LargeCell = styled.td.attrs({colSpan: 5})`
   padding: 0 0 1px 0;
 `;
+// Stryker restore all
 
 const getStepKey = ({job, label}: StepExecution) => `batch_jobs.${job}.${label}.label`;
 

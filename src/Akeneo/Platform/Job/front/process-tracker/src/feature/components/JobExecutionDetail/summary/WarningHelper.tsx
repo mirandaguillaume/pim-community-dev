@@ -5,9 +5,11 @@ import {useTranslate} from '@akeneo-pim-community/shared';
 import {Warning} from '../../../models';
 import {InnerTable} from './InnerTable';
 
+// Stryker disable all
 const SpacedTable = styled(InnerTable)`
   margin-top: 10px;
 `;
+// Stryker restore all
 
 type WarningHelperProps = {
   warning: Warning;
