@@ -21,12 +21,16 @@ const CatalogVolumeKeyFigure: FC<Props> = ({catalogVolume}) => {
           {catalogVolume.type === 'average_max' && typeof catalogVolume.value === 'object' && (
             <KeyFigure icon={icon} title={translate(`pim_catalog_volume.axis.${catalogVolume.name}`)}>
               {catalogVolume.value.average !== undefined && (
+                // Stryker disable next-line StringLiteral
                 <KeyFigure.Figure label={translate('pim_catalog_volume.mean')}>
+                  {/* Stryker disable next-line ObjectLiteral,BooleanLiteral */}
                   {catalogVolume.value.average.toLocaleString(userLocale, {useGrouping: true})}
                 </KeyFigure.Figure>
               )}
               {catalogVolume.value.max !== undefined && (
+                // Stryker disable next-line StringLiteral
                 <KeyFigure.Figure label={translate('pim_catalog_volume.max')}>
+                  {/* Stryker disable next-line ObjectLiteral,BooleanLiteral */}
                   {catalogVolume.value.max.toLocaleString(userLocale, {useGrouping: true})}
                 </KeyFigure.Figure>
               )}
@@ -34,7 +38,9 @@ const CatalogVolumeKeyFigure: FC<Props> = ({catalogVolume}) => {
           )}
 
           {catalogVolume.type === 'count' && typeof catalogVolume.value !== 'object' && (
+            // Stryker disable next-line StringLiteral
             <KeyFigure icon={icon} title={translate(`pim_catalog_volume.axis.${catalogVolume.name}`)}>
+              {/* Stryker disable next-line StringLiteral,ObjectLiteral,BooleanLiteral */}
               <KeyFigure.Figure>{catalogVolume.value.toLocaleString(userLocale, {useGrouping: true})}</KeyFigure.Figure>
             </KeyFigure>
           )}

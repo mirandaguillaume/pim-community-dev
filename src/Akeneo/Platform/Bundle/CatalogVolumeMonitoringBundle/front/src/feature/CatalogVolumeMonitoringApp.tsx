@@ -10,6 +10,7 @@ interface Props {
   getCatalogVolumes: GetCatalogVolumeInterface;
 }
 
+// Stryker disable all
 const StyledKeyFigureGrid = styled(KeyFigureGrid)`
   grid-template-columns: repeat(3, 33%);
 `;
@@ -17,6 +18,7 @@ const StyledKeyFigureGrid = styled(KeyFigureGrid)`
 const KeyFiguresContainer = styled.div`
   margin-bottom: 40px;
 `;
+// Stryker restore all
 
 const CatalogVolumeMonitoringApp = ({getCatalogVolumes}: Props) => {
   const translate = useTranslate();

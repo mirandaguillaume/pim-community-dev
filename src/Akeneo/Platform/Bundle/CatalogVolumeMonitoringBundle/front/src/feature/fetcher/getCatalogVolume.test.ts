@@ -38,6 +38,16 @@ beforeEach(() => {
   mockRouter('pim_volume_monitoring_get_volumes');
 });
 
+test('it uses the correct route name to generate the URL', async () => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({ok: true, json: () => Promise.resolve(volumesResponse)})
+  );
+
+  await getCatalogVolume(mockedDependencies.router);
+
+  expect(mockedDependencies.router.generate).toHaveBeenCalledWith('pim_volume_monitoring_get_volumes');
+});
+
 test('get Catalog volume with success', async () => {
   // Given
   global.fetch = jest.fn(() =>

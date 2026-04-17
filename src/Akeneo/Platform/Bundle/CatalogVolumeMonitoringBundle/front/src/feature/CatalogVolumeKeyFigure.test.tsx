@@ -49,6 +49,64 @@ test('it renders key figure of type average', () => {
   expect(screen.getByText(43)).toBeInTheDocument();
 });
 
+test('it renders both average and max values for average_max type', () => {
+  renderWithProviders(
+    <CatalogVolumeKeyFigure
+      catalogVolume={{name: 'average_max_attributes_per_family', type: 'average_max', value: {average: 4, max: 43}}}
+    />
+  );
+
+  expect(screen.getByText(4)).toBeInTheDocument();
+  expect(screen.getByText(43)).toBeInTheDocument();
+});
+
+test('it renders count value with locale grouping for large numbers', () => {
+  renderWithProviders(
+    <CatalogVolumeKeyFigure catalogVolume={{name: 'count_products', type: 'count', value: 1234567}} />
+  );
+
+  const formatted = (1234567).toLocaleString('en', {useGrouping: true});
+  expect(screen.getByText(formatted)).toBeInTheDocument();
+});
+
+test('it renders only max when average is undefined', () => {
+  renderWithProviders(
+    <CatalogVolumeKeyFigure
+      catalogVolume={{
+        name: 'average_max_attributes_per_family',
+        type: 'average_max',
+        value: {average: undefined as any, max: 99},
+      }}
+    />
+  );
+
+  expect(screen.getByText(99)).toBeInTheDocument();
+});
+
+test('it renders only average when max is undefined', () => {
+  renderWithProviders(
+    <CatalogVolumeKeyFigure
+      catalogVolume={{
+        name: 'average_max_attributes_per_family',
+        type: 'average_max',
+        value: {average: 7, max: undefined as any},
+      }}
+    />
+  );
+
+  expect(screen.getByText(7)).toBeInTheDocument();
+});
+
+test('it renders nothing when value is null', () => {
+  renderWithProviders(
+    <CatalogVolumeKeyFigure
+      catalogVolume={{name: 'count_products', type: 'count', value: null as any}}
+    />
+  );
+
+  expect(screen.queryByText('pim_catalog_volume.axis.count_products')).not.toBeInTheDocument();
+});
+
 test('it does not render key figure of type average when the value is not an object', () => {
   const catalogVolumeAverageMaxAttributesPerFamilyWrongFormat: CatalogVolume = {
     name: 'average_max_attributes_per_family',
