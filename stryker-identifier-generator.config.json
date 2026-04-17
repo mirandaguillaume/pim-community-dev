@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/core/schema/stryker-schema.json",
+  "testRunner": "jest",
+  "jest": {
+    "configFile": "components/identifier-generator/front/jest.config.js",
+    "enableFindRelatedTests": false
+  },
+  "checkers": [],
+  "tsconfigFile": "tsconfig.json",
+  "reporters": ["clear-text", "progress"],
+  "mutate": [
+    "components/identifier-generator/front/src/**/*.{ts,tsx}",
+    "!**/*.test.{ts,tsx}",
+    "!**/*.unit.{ts,tsx}",
+    "!**/__tests__/**",
+    "!**/__mocks__/**"
+  ],
+  "ignorePatterns": ["var", "coverage", "/public", "/tools/", ".worktrees", "vendor"],
+  "coverageAnalysis": "perTest",
+  "timeoutMS": 30000,
+  "concurrency": 4,
+  "tempDirName": "/tmp/stryker-tmp"
+}

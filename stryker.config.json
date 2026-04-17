@@ -17,7 +17,6 @@
   "mutate": [
     "front-packages/shared/src/**/*.{ts,tsx}",
     "front-packages/akeneo-design-system/src/**/*.{ts,tsx}",
-    "components/identifier-generator/front/src/**/*.{ts,tsx}",
     "src/Akeneo/Category/front/src/**/*.{ts,tsx}",
     "src/Akeneo/Connectivity/Connection/front/src/**/*.{ts,tsx}",
     "src/Akeneo/Connectivity/Connection/workspaces/permission-form/src/**/*.{ts,tsx}",
@@ -36,7 +35,10 @@
     "!**/test/**",
     "!**/stories/**"
   ],
-  "ignorePatterns": ["var", "coverage", "public", "tools", ".worktrees", "vendor"],
+  "coverageAnalysis": "perTest",
+  "timeoutMS": 30000,
+  "concurrency": 4,
+  "ignorePatterns": ["var", "coverage", "/public", "/tools/", ".worktrees", "vendor"],
   "tempDirName": "/tmp/stryker-tmp",
   "thresholds": {
     "high": 80,

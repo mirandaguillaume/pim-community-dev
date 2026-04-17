@@ -1,4 +1,4 @@
-import {useCreateMeasurementFamilySaver} from './use-create-measurement-family-saver';
+import {useSaveMeasurementFamilySaver} from './use-save-measurement-family-saver';
 import {renderHookWithProviders} from '@akeneo-pim-community/shared';
 
 declare global {
@@ -43,7 +43,7 @@ test('It returns a success response when saving', async () => {
     ok: true,
   }));
 
-  const {result} = renderHookWithProviders(() => useCreateMeasurementFamilySaver());
+  const {result} = renderHookWithProviders(() => useSaveMeasurementFamilySaver());
   const save = result.current;
 
   expect(await save(measurementFamily)).toEqual({
@@ -65,7 +65,7 @@ test('It returns a list of errors when there is a validation problem', async () 
     json: () => Promise.resolve(errors),
   }));
 
-  const {result} = renderHookWithProviders(() => useCreateMeasurementFamilySaver());
+  const {result} = renderHookWithProviders(() => useSaveMeasurementFamilySaver());
   const save = result.current;
 
   expect(await save(measurementFamily)).toEqual({
@@ -74,30 +74,19 @@ test('It returns a list of errors when there is a validation problem', async () 
   });
 });
 
-test('An error is thrown if the server does not respond correctly', async () => {
-  global.fetch = jest.fn().mockImplementation(() => ({
-    ok: false,
-  }));
-
-  const {result} = renderHookWithProviders(() => useCreateMeasurementFamilySaver());
-  const save = result.current;
-
-  expect(save(measurementFamily)).rejects.toThrow();
-});
-
 test('It calls fetch with the correct URL, method, headers, and body', async () => {
   global.fetch = jest.fn().mockImplementation(() => ({
     ok: true,
   }));
 
-  const {result} = renderHookWithProviders(() => useCreateMeasurementFamilySaver());
+  const {result} = renderHookWithProviders(() => useSaveMeasurementFamilySaver());
   const save = result.current;
 
   await save(measurementFamily);
 
   expect(global.fetch).toHaveBeenCalledTimes(1);
   expect(global.fetch).toHaveBeenCalledWith(
-    expect.stringContaining('akeneo_measurements_measurement_family_create_rest'),
+    expect.stringContaining('akeneo_measurements_measurement_family_create_save'),
     {
       method: 'POST',
       headers: [

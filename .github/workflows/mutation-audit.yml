@@ -36,6 +36,21 @@ on:
         required: false
         type: string
         default: 'max'
+      js-filter:
+        description: 'Stryker scope (workspace to mutate)'
+        required: false
+        type: choice
+        options:
+          - all
+          - shared
+          - design-system
+          - identifier-generator
+          - connectivity
+          - measure
+          - catalog-volume
+          - process-tracker
+          - dqi
+        default: all
 
 env:
   COMPOSER_MEMORY_LIMIT: -1
@@ -183,10 +198,44 @@ jobs:
       - name: Create output directory
         run: mkdir -p var/stryker
 
+      - name: Resolve Stryker mutate scope
+        id: scope
+        env:
+          JS_FILTER: ${{ inputs.js-filter }}
+        run: |
+          # Stryker CLI splits --mutate on commas, so we use that as the
+          # separator for ts + tsx patterns (no brace expansion).
+          case "${JS_FILTER}" in
+            shared)               MUTATE="front-packages/shared/src/**/*.ts,front-packages/shared/src/**/*.tsx" ;;
+            design-system)        MUTATE="front-packages/akeneo-design-system/src/**/*.ts,front-packages/akeneo-design-system/src/**/*.tsx" ;;
+            identifier-generator) MUTATE="components/identifier-generator/front/src/**/*.ts,components/identifier-generator/front/src/**/*.tsx" ;;
+            connectivity)         MUTATE="src/Akeneo/Connectivity/Connection/front/src/**/*.ts,src/Akeneo/Connectivity/Connection/front/src/**/*.tsx" ;;
+            measure)              MUTATE="src/Akeneo/Tool/Bundle/MeasureBundle/front/src/**/*.ts,src/Akeneo/Tool/Bundle/MeasureBundle/front/src/**/*.tsx" ;;
+            catalog-volume)       MUTATE="src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.ts,src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/src/**/*.tsx" ;;
+            process-tracker)      MUTATE="src/Akeneo/Platform/Job/front/process-tracker/src/**/*.ts,src/Akeneo/Platform/Job/front/process-tracker/src/**/*.tsx" ;;
+            dqi)                  MUTATE="src/Akeneo/Pim/Automation/DataQualityInsights/front/src/**/*.ts" ;;
+            *)                    MUTATE="" ;;
+          esac
+          echo "mutate=${MUTATE}" >> "$GITHUB_OUTPUT"
+          echo "Scope: ${JS_FILTER} → ${MUTATE:-all (from config)}"
+
       - name: Run Stryker mutation testing
-        run: yarn mutation-front || true
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
+          STRYKER_MUTATE: ${{ steps.scope.outputs.mutate }}
+        run: |
+          # coverageAnalysis=off: 'all' and 'perTest' fail to link workspace
+          # tests to sources (ignorePatterns/sandbox issues). 'off' runs all tests
+          # per mutant — slower but produces reliable results.
+          # timeoutMS=30000: Jest fork overhead is ~25s, default 5s is too short.
+          # concurrency=4: self-hosted runners share one machine (62GB RAM),
+          # running multiple audits in parallel causes resource contention.
+          COMMON_ARGS="--tempDirName $RUNNER_TEMP/stryker-tmp --coverageAnalysis off --timeoutMS 30000 --concurrency 4"
+          if [ -n "$STRYKER_MUTATE" ]; then
+            yarn stryker run $COMMON_ARGS --mutate "$STRYKER_MUTATE" || true
+          else
+            yarn stryker run $COMMON_ARGS || true
+          fi
 
       - name: Stryker summary
         if: always()

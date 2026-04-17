@@ -38,6 +38,7 @@ enum Tab {
   Properties = 'properties',
 }
 
+// Stryker disable all: styled-components CSS
 const Container = styled.div`
   /* 70 = TabContainer height + margin */
   height: calc(100% - 70px);
@@ -69,6 +70,7 @@ const TabSelector = styled.div<{isActive: boolean}>`
     margin-left: 5px;
   }
 `;
+// Stryker restore all
 
 const Errors = ({errors}: {errors: ValidationError[]}) => {
   if (0 === errors.length) {

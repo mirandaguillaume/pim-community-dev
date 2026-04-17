@@ -1,25 +1,44 @@
 /**
  * Jest config for Stryker mutation testing.
  *
- * Extends unit.jest.js with two categories of overrides required for the
+ * Extends unit.jest.js with three categories of overrides required for the
  * Stryker sandbox environment:
  *
  * 1. moduleNameMapper: redirects every entry that points into public/ (which
  *    Stryker excludes via ignorePatterns) to the corresponding TypeScript/JS
  *    source in src/, or to a minimal stub for generated JSON files that have
- *    no source equivalent.
+ *    no source equivalent. Also adds workspace-specific aliases (@src/ for
+ *    Connectivity Connection).
  *
- * 2. testPathIgnorePatterns: excludes test suites whose transitive imports
- *    require gitignored generated files that Stryker cannot copy to the sandbox
- *    (e.g. CommunicationChannelBundle models/*.schema.json).
+ * 2. testPathIgnorePatterns: selectively removes workspace exclusions from
+ *    unit.jest.js. Connectivity and identifier-generator (co-located only)
+ *    tests are included. Category tests are excluded because they use
+ *    jest.spyOn(global, 'fetch') which conflicts with jest-fetch-mock.
+ *    CommunicationChannelBundle remains excluded (gitignored schema.json).
+ *
+ * 3. testMatch: extended to cover Connectivity (.test.ts in tests/) and
+ *    identifier-generator (.test.ts co-located) in addition to root .unit.ts.
  */
 const path = require('path');
 const unitConfig = require('./unit.jest.js');
 
 const PIMUI_SRC = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/public';
+const CONNECTIVITY_FRONT = '<rootDir>/src/Akeneo/Connectivity/Connection/front';
+const IDENTIFIER_GEN_FRONT = '<rootDir>/components/identifier-generator/front';
+const MEASURE_FRONT = '<rootDir>/src/Akeneo/Tool/Bundle/MeasureBundle/front';
 
 module.exports = {
   ...unitConfig,
+  // unit.jest.js sets rootDir = process.env.INIT_CWD || path.resolve(...).
+  // INIT_CWD is set by yarn to the original project root. When Stryker copies
+  // the project into a sandbox (/tmp/stryker-tmp/sandbox-XXX/) and mutates files
+  // there, INIT_CWD still points to the original project. Jest then runs tests
+  // against the ORIGINAL (unmutated) code → all mutants survive.
+  // Fix: always resolve rootDir relative to __dirname (which IS the sandbox copy).
+  rootDir: path.resolve(__dirname, '../../../..'),
+  // On CI self-hosted runners /tmp is shared with sticky bit, so a prior run's
+  // /tmp/jest may be owned by a different UID. Use RUNNER_TEMP (per-job unique).
+  cacheDirectory: process.env.RUNNER_TEMP ? `${process.env.RUNNER_TEMP}/jest-cache` : unitConfig.cacheDirectory,
   moduleNameMapper: {
     ...unitConfig.moduleNameMapper,
     // pim/* aliases point to public/bundles/pimui which is excluded from the
@@ -31,13 +50,54 @@ module.exports = {
     routes: `${__dirname}/stubs/routes.stub.json`,
     // module-registry.js is gitignored (generated during front build). Use an empty stub.
     '^module-registry$': `${__dirname}/stubs/module-registry.stub.js`,
+    // Connectivity Connection workspace: @src/ → front/src/
+    '^@src/(.*)$': `${CONNECTIVITY_FRONT}/src/$1`,
+    // Yarn workspace symlinks may break in the Stryker sandbox — resolve directly.
+    // Point to src/ (not lib/) because lib/ is compiled and may not exist on CI.
+    '^@akeneo-pim-community/catalogs$': '<rootDir>/components/catalogs/mock/src/exports.ts',
   },
+  // Explicit testMatch targeting ONLY modules in the Stryker mutate scope.
+  // unit.jest.js uses '<rootDir>/src/**/*.unit.(ts|tsx)' which is too broad —
+  // it pulls in UIBundle (pim/form-builder), OroBundle (DataGrid), UserManagement
+  // etc. that depend on legacy Backbone modules not available in the sandbox.
+  testMatch: [
+    // DataQualityInsights — only reducer, fetcher, helper, domain tests.
+    // Component tests (Application/component/, Dashboard/, ProductEvaluationTab/)
+    // use @akeneo-pim-community/data-quality-insights via workspace symlinks
+    // that break in the Stryker sandbox (mock paths resolve to original project).
+    '<rootDir>/src/Akeneo/Pim/Automation/DataQualityInsights/**/infrastructure/**/*.unit.(ts|tsx)',
+    '<rootDir>/src/Akeneo/Pim/Automation/DataQualityInsights/**/Application/helper/**/*.unit.(ts|tsx)',
+    '<rootDir>/src/Akeneo/Pim/Automation/DataQualityInsights/**/Domain/**/*.unit.(ts|tsx)',
+    // Connectivity (dedicated tests/ directory with .test.ts pattern)
+    `${CONNECTIVITY_FRONT}/tests/**/*.test.(ts|tsx)`,
+    // MeasureBundle (co-located .test.ts)
+    `${MEASURE_FRONT}/src/**/*.test.(ts|tsx)`,
+    // Identifier Generator, CatalogVolumeMonitoring, and Process Tracker have
+    // their own jest configs with incompatible settings (setupFiles, tsconfig,
+    // resetMocks). They use dedicated Stryker configs (stryker-*.config.json).
+  ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.
   moduleDirectories: ['node_modules'],
   testPathIgnorePatterns: [
-    ...unitConfig.testPathIgnorePatterns,
+    '/node_modules/',
+    '/front-packages/',
+    '<rootDir>/vendors/',
+    // Category and CatalogVolumeMonitoring tests use jest.spyOn(global, 'fetch')
+    // which conflicts with the jest-fetch-mock setup from the root config.
+    '<rootDir>/src/Akeneo/Category/',
+    '<rootDir>/src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/',
     // models/*.schema.json files are gitignored (generated by yarn generate-models).
     '<rootDir>/src/Akeneo/Platform/Bundle/CommunicationChannelBundle/',
+    // identifier-generator uses its own Stryker config (stryker-identifier-generator.config.json).
+    '<rootDir>/components/identifier-generator/',
+  ],
+  setupFiles: [
+    `${__dirname}/mocks.js`,
+    // Use Stryker-safe fetch mock that suppresses JSDOM teardown errors without
+    // calling process.exit() (which kills the Stryker child worker).
+    `${__dirname}/strykerFetchMock.ts`,
+    // Connectivity workspace fetch mock (same contract as root fetchMock.ts)
+    `${CONNECTIVITY_FRONT}/tests/mocks/fetch-mock.ts`,
   ],
 };

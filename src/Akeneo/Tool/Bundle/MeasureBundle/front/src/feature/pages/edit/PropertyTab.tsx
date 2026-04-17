@@ -12,12 +12,14 @@ import {
   useSecurity,
 } from '@akeneo-pim-community/shared';
 
+// Stryker disable all: styled-components CSS
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
   overflow: auto;
 `;
+// Stryker restore all
 
 const PropertyTab = ({
   measurementFamily,

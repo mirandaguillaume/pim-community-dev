@@ -41,9 +41,11 @@ type CreateUnitProps = {
   onNewUnit: (unit: Unit) => void;
 };
 
+// Stryker disable all: styled-components CSS
 const FormGroup = styled(Section)`
   max-width: 400px;
 `;
+// Stryker restore all
 
 const CreateUnit = ({onClose, onNewUnit, measurementFamily}: CreateUnitProps) => {
   const translate = useTranslate();
