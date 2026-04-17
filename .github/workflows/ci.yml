@@ -1934,7 +1934,7 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             node yarn stryker run \
-              --configFile "${{ steps.changed.outputs.config }}" \
+              --config-file "${{ steps.changed.outputs.config }}" \
               --mutate "${{ steps.changed.outputs.mutate }}" \
               --reporters clear-text,progress
 
