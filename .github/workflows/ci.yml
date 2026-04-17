@@ -1933,8 +1933,7 @@ jobs:
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
-            node yarn stryker run \
-              --config-file "${{ steps.changed.outputs.config }}" \
+            node yarn stryker run "${{ steps.changed.outputs.config }}" \
               --mutate "${{ steps.changed.outputs.mutate }}" \
               --reporters clear-text,progress
 
