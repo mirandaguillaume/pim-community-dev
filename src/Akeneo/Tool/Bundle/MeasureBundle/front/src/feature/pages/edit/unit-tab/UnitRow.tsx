@@ -4,6 +4,7 @@ import {Unit, UnitCode, getUnitLabel} from '../../../model/unit';
 import {useTranslate, useUserContext} from '@akeneo-pim-community/shared';
 import {Badge, Pill, Table} from 'akeneo-design-system';
 
+// Stryker disable all: styled-components CSS
 const UnitCodeContainer = styled.span`
   display: flex;
   justify-content: space-between;
@@ -14,6 +15,7 @@ const UnitCodeContainer = styled.span`
 const UnitCodeLabel = styled.span`
   flex: 1;
 `;
+// Stryker restore all
 
 type UnitRowProps = {
   unit: Unit;

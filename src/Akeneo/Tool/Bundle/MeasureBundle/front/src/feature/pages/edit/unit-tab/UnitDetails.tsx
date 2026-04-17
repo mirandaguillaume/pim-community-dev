@@ -24,6 +24,7 @@ import {
 } from '@akeneo-pim-community/shared';
 import {Button, getColor, SectionTitle, useBooleanState} from 'akeneo-design-system';
 
+// Stryker disable all: styled-components CSS
 const Container = styled.div`
   margin-left: 40px;
   width: 400px;
@@ -40,6 +41,7 @@ const Footer = styled.div`
   justify-content: flex-end;
   z-index: 10;
 `;
+// Stryker restore all
 
 type UnitDetailsProps = {
   measurementFamily: MeasurementFamily;

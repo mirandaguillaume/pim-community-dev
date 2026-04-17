@@ -25,6 +25,7 @@ import {Operation, Operator, emptyOperation} from '../../model/operation';
 import {useLocalizedNumber} from '../../shared/hooks/use-localized-number';
 import {ConfigContext} from '../../context/config-context';
 
+// Stryker disable all: styled-components CSS
 const Container = styled.div<{level: number}>`
   position: relative;
   margin-left: ${({level}) => (level > 1 ? 24 * (level - 1) : 0)}px;
@@ -135,6 +136,7 @@ const SpacedHelper = styled(Helper)<{hasOffset?: boolean}>`
   margin-top: 5px;
   margin-left: ${({hasOffset}) => (hasOffset ? 24 : 0)}px;
 `;
+// Stryker restore all
 
 type OperationCollectionProps = {
   operations: Operation[];

@@ -6,11 +6,13 @@ import {Direction} from '../../model/direction';
 import {useTranslate} from '@akeneo-pim-community/shared';
 import {Table} from 'akeneo-design-system';
 
+// Stryker disable all: styled-components CSS
 const SpacedTable = styled(Table)`
   th {
     padding-top: 15px;
   }
 `;
+// Stryker restore all
 
 type MeasurementFamilyTableProps = {
   measurementFamilies: MeasurementFamily[];

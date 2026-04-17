@@ -14,6 +14,7 @@ import {
   useUserContext,
 } from '@akeneo-pim-community/shared';
 
+// Stryker disable all: styled-components CSS
 const SpacedTable = styled(Table)`
   th {
     padding-top: 15px;
@@ -36,6 +37,7 @@ const UnitList = styled.div`
   flex: 1;
   overflow: auto;
 `;
+// Stryker restore all
 
 type UnitTabProps = {
   measurementFamily: MeasurementFamily;
