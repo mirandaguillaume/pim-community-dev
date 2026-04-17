@@ -1907,6 +1907,24 @@ jobs:
             echo "skip=false" >> "$GITHUB_OUTPUT"
             echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
             echo "Files to mutate ($(echo "$SRC_FILES" | sort -u | wc -l)): $MUTATE"
+
+            # Use workspace-specific config when all changed files belong to one workspace.
+            # Falls back to global config for multi-workspace or unknown-workspace changes.
+            is_single_workspace() {
+              ! echo "$SRC_FILES" | grep -vE "^$1" | grep -q .
+            }
+            CONFIG="stryker.config.json"
+            if is_single_workspace 'src/Akeneo/Tool/Bundle/MeasureBundle/'; then
+              CONFIG="stryker-measure.config.json"
+            elif is_single_workspace 'src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/'; then
+              CONFIG="stryker-catalog-volume.config.json"
+            elif is_single_workspace 'src/Akeneo/Platform/Job/front/process-tracker/'; then
+              CONFIG="stryker-process-tracker.config.json"
+            elif is_single_workspace 'components/identifier-generator/'; then
+              CONFIG="stryker-identifier-generator.config.json"
+            fi
+            echo "config=$CONFIG" >> "$GITHUB_OUTPUT"
+            echo "Using Stryker config: $CONFIG"
           fi
 
       - name: Run Stryker mutation testing
@@ -1916,6 +1934,7 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             node yarn stryker run \
+              --configFile "${{ steps.changed.outputs.config }}" \
               --mutate "${{ steps.changed.outputs.mutate }}" \
               --reporters clear-text,progress
 
