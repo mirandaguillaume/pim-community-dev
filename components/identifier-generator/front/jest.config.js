@@ -7,7 +7,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.tsx'],
   moduleDirectories: ['node_modules', '<rootDir>/../../../node_modules/'],
   transform: {
-    '^.+\\.tsx?$': ['ts-jest', {tsconfig: './tsconfig.jest.json'}],
+    '^.+\\.tsx?$': ['ts-jest', {tsconfig: `${__dirname}/tsconfig.jest.json`}],
     '^.+\\.css$': '<rootDir>/config/jest/cssTransform.js',
     '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js',
   },
