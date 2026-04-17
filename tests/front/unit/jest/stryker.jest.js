@@ -96,6 +96,10 @@ module.exports = {
     // (Router, DependenciesContext) not available in the root Jest config.
     // Only co-located *.test.ts files (not in __tests__/ dirs) are included.
     '/components/identifier-generator/front/src/.*/__tests__/',
+    // errors.test.ts uses toBeInstanceOf(ServerError) which breaks in the
+    // Stryker sandbox: @ts-nocheck changes ts-jest compilation of
+    // "extends Error" → prototype chain breaks → instanceof fails.
+    '/identifier-generator/front/src/feature/errors/errors\\.test\\.ts$',
   ],
   setupFiles: [
     `${__dirname}/mocks.js`,
