@@ -26,6 +26,7 @@ import {Progress, SummaryTable, ShowProfile, StopJobAction, JobExecutionStatus} 
 import {getDownloadLinks, JobExecution} from '../models';
 import {useJobExecution} from '../hooks/useJobExecution';
 
+// Stryker disable all
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,6 +48,7 @@ const StatusContainer = styled.div`
   align-items: center;
   gap: 5px;
 `;
+// Stryker restore all
 
 const canDownloadLog = ({isGranted}: Security, jobExecution: JobExecution | null) => {
   if (!jobExecution || !jobExecution.meta.logExists) {

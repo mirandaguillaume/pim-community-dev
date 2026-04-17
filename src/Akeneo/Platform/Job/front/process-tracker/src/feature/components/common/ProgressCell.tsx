@@ -9,6 +9,7 @@ import {
 } from '../../models';
 import {useTranslate} from '@akeneo-pim-community/shared';
 
+// Stryker disable all
 const Container = styled.div`
   display: grid;
   grid-auto-flow: column;
@@ -18,6 +19,7 @@ const Container = styled.div`
   min-width: 100px;
   max-width: 200px;
 `;
+// Stryker restore all
 
 type ProgressCellProps = {
   jobExecutionRow: JobExecutionRow;

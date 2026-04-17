@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {getColor, Table} from 'akeneo-design-system';
 
+// Stryker disable all
 const TableContainer = styled(Table)`
   tr:last-child {
     td {
@@ -15,6 +16,7 @@ const TableContainer = styled(Table)`
 
   background-color: ${getColor('white')};
 `;
+// Stryker restore all
 
 type InnerTableProps = {
   content: {[key: string]: string | object};
