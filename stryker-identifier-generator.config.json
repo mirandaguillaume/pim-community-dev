@@ -13,7 +13,11 @@
     "!**/*.test.{ts,tsx}",
     "!**/*.unit.{ts,tsx}",
     "!**/__tests__/**",
-    "!**/__mocks__/**"
+    "!**/__mocks__/**",
+    "!**/setupTests.tsx",
+    "!**/env.d.ts",
+    "!**/fixtures/**",
+    "!**/test-utils.tsx"
   ],
   "ignorePatterns": ["var", "coverage", "/public", "/tools/", ".worktrees", "vendor"],
   "coverageAnalysis": "perTest",

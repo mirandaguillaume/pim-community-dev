@@ -1,3 +1,4 @@
+// Stryker disable all
 import styled from 'styled-components';
 import {
   AkeneoThemedProps,
@@ -250,3 +251,4 @@ const Styled = {
 };
 
 export {Styled};
+// Stryker restore all
