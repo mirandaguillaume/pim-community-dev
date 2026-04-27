@@ -10,6 +10,8 @@ src/Akeneo/Pim/Automation/DataQualityInsights/tests/front
 src/Akeneo/Pim/Enrichment/AssetManager/tests/front
 src/Akeneo/Pim/Structure/Bundle/Resources/public/js/attribute-option/**/*.unit.ts
 src/Akeneo/Pim/TableAttribute/front
+src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/activity
+src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/system
 src/Akeneo/Platform/Job/front/process-tracker
 src/Akeneo/Tool/Bundle/MeasureBundle/front
 src/Oro/**/**/*.js
