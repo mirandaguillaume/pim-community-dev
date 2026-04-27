@@ -3,7 +3,10 @@ import {act} from '@testing-library/react';
 import {useCountCategoryTreesChildren} from './useCountCategoryTreesChildren';
 
 describe('useCountCategoryTreesChildren', () => {
+  afterEach(() => jest.restoreAllMocks());
+
   test('it returns null initially', () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({json: jest.fn()} as any);
     const {result} = renderHookWithProviders(() => useCountCategoryTreesChildren());
     expect(result.current).toBeNull();
   });

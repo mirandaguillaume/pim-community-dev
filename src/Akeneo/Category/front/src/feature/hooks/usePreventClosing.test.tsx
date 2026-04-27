@@ -27,11 +27,15 @@ describe('usePreventClosing', () => {
   test('it prevents unload and sets returnValue when isDirty returns true', () => {
     renderHook(() => usePreventClosing(() => true, 'You have unsaved changes'));
 
-    const event = Object.assign(new Event('beforeunload'), {returnValue: ''}) as BeforeUnloadEvent;
+    const event = new Event('beforeunload', {cancelable: true}) as BeforeUnloadEvent;
     const preventSpy = jest.spyOn(event, 'preventDefault');
+    // Capture raw assignments before jsdom normalises non-empty strings to `true`
+    const returnValueSetter = jest.fn();
+    Object.defineProperty(event, 'returnValue', {set: returnValueSetter, get: () => '', configurable: true});
+
     window.dispatchEvent(event);
 
     expect(preventSpy).toHaveBeenCalled();
-    expect(event.returnValue).toBe('You have unsaved changes');
+    expect(returnValueSetter).toHaveBeenCalledWith('You have unsaved changes');
   });
 });
