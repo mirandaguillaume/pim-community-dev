@@ -72,6 +72,8 @@ module.exports = {
     `${CONNECTIVITY_FRONT}/tests/**/*.test.(ts|tsx)`,
     // MeasureBundle (co-located .test.ts)
     `${MEASURE_FRONT}/src/**/*.test.(ts|tsx)`,
+    // UserManagement/tools: no Backbone dependencies, safe in sandbox.
+    '<rootDir>/src/Akeneo/UserManagement/Bundle/Resources/public/js/tools/*.unit.ts',
     // Identifier Generator, CatalogVolumeMonitoring, and Process Tracker have
     // their own jest configs with incompatible settings (setupFiles, tsconfig,
     // resetMocks). They use dedicated Stryker configs (stryker-*.config.json).

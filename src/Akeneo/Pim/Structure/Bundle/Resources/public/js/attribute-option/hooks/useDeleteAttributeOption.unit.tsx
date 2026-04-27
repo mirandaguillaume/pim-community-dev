@@ -3,11 +3,14 @@ import {act, renderHook} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 import {useDeleteAttributeOption} from 'akeneopimstructure/js/attribute-option/hooks/useDeleteAttributeOption';
 import {AttributeContextProvider} from 'akeneopimstructure/js/attribute-option/contexts';
+import {DefaultProviders} from '@akeneo-pim-community/shared';
 
 const wrapper = ({children}: {children: React.ReactNode}) => (
-  <AttributeContextProvider attributeId={42} autoSortOptions={false}>
-    {children}
-  </AttributeContextProvider>
+  <DefaultProviders>
+    <AttributeContextProvider attributeId={42} autoSortOptions={false}>
+      {children}
+    </AttributeContextProvider>
+  </DefaultProviders>
 );
 
 beforeEach(() => fetchMock.resetMocks());

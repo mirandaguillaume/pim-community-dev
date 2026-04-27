@@ -4,11 +4,14 @@ import fetchMock from 'jest-fetch-mock';
 import {useManualSortAttributeOptions} from 'akeneopimstructure/js/attribute-option/hooks/useManualSortAttributeOptions';
 import {AttributeContextProvider} from 'akeneopimstructure/js/attribute-option/contexts';
 import {AttributeOption} from 'akeneopimstructure/js/attribute-option/model';
+import {DefaultProviders} from '@akeneo-pim-community/shared';
 
 const wrapper = ({children}: {children: React.ReactNode}) => (
-  <AttributeContextProvider attributeId={3} autoSortOptions={false}>
-    {children}
-  </AttributeContextProvider>
+  <DefaultProviders>
+    <AttributeContextProvider attributeId={3} autoSortOptions={false}>
+      {children}
+    </AttributeContextProvider>
+  </DefaultProviders>
 );
 
 const options: AttributeOption[] = [

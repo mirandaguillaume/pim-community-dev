@@ -4,10 +4,10 @@ const FetcherRegistry = require('pim/fetcher-registry');
 
 const fetchAllAttributeGroups = async (): Promise<AttributeGroupCollection> => {
   try {
-    return FetcherRegistry.getFetcher('attribute-group').fetchAll();
+    return await FetcherRegistry.getFetcher('attribute-group').fetchAll();
   } catch (error) {
     console.error(error);
-    return Promise.resolve({});
+    return {};
   }
 };
 

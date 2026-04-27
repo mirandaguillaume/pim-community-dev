@@ -4,7 +4,7 @@ const FetcherRegistry = require('pim/fetcher-registry');
 
 const fetchAllLocales = async (): Promise<Locale[]> => {
   try {
-    return FetcherRegistry.getFetcher('locale').fetchAll();
+    return await FetcherRegistry.getFetcher('locale').fetchAll();
   } catch (error) {
     console.error(error);
     return [];
@@ -12,7 +12,7 @@ const fetchAllLocales = async (): Promise<Locale[]> => {
 };
 const fetchActivatedLocales = async (): Promise<Locale[]> => {
   try {
-    return FetcherRegistry.getFetcher('locale').fetchActivated({filter_locales: false});
+    return await FetcherRegistry.getFetcher('locale').fetchActivated({filter_locales: false});
   } catch (error) {
     console.error(error);
     return [];
