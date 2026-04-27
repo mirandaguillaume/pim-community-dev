@@ -135,6 +135,11 @@ jobs:
               - 'src/**/*.js'
               - 'src/**/*.jsx'
               - 'src/**/*.less'
+              - 'components/**/*.ts'
+              - 'components/**/*.tsx'
+              - 'components/**/*.js'
+              - 'components/**/*.jsx'
+              - 'components/**/*.less'
             ci:
               - '.github/**'
               - 'docker-compose*.yml'
