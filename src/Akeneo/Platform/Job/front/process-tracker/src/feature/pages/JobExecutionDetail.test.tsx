@@ -83,6 +83,30 @@ jest.mock('../hooks/useJobExecution', () => ({
           () => {},
           false,
         ];
+      case '29':
+        return [jobExecution, null, () => {}, true];
+      case '30':
+        return [{...jobExecution, meta: {...jobExecution.meta, logExists: false, archives: {}}}, null, () => {}, false];
+      case '31':
+        return [
+          {
+            ...jobExecution,
+            meta: {
+              ...jobExecution.meta,
+              archives: {
+                output: {
+                  label: 'pim_enrich.entity.job_execution.module.download.output',
+                  files: {'file.csv': 'path/file.csv'},
+                },
+              },
+            },
+          },
+          null,
+          () => {},
+          false,
+        ];
+      case '32':
+        return [{...jobExecution, meta: {...jobExecution.meta, generateZipArchive: true}}, null, () => {}, false];
       default:
         return [null, null, () => {}, false];
     }
@@ -163,4 +187,37 @@ test('it displays an error if needed', () => {
 
   expect(screen.getByText('not found')).toBeInTheDocument();
   expect(screen.getByText('404')).toBeInTheDocument();
+});
+
+test('it shows the refreshing indicator when auto-refreshing', () => {
+  renderWithProviders(<JobExecutionDetail jobExecutionId="29" />);
+
+  expect(screen.getByText('pim_import_export.form.job_execution.refreshing')).toBeInTheDocument();
+});
+
+test('it hides secondary actions when log does not exist and no archives', () => {
+  renderWithProviders(<JobExecutionDetail jobExecutionId="30" />);
+
+  expect(screen.queryByTitle('pim_common.other_actions')).not.toBeInTheDocument();
+});
+
+test('it shows a direct download button when there is a single archive', () => {
+  renderWithProviders(<JobExecutionDetail jobExecutionId="31" />);
+
+  expect(screen.getByText('pim_enrich.entity.job_execution.module.download.output')).toBeInTheDocument();
+  expect(screen.queryByText('pim_enrich.entity.job_execution.module.download.dropdown_title')).not.toBeInTheDocument();
+});
+
+test('it shows the zip archive link in the download dropdown', () => {
+  renderWithProviders(<JobExecutionDetail jobExecutionId="32" />);
+
+  userEvent.click(screen.getByText('pim_enrich.entity.job_execution.module.download.dropdown_title'));
+  expect(screen.getByText('pim_import_export.form.job_execution.button.download_archive.title')).toBeInTheDocument();
+});
+
+test('it opens the secondary actions dropdown and shows the download log link', () => {
+  renderWithProviders(<JobExecutionDetail jobExecutionId="24" />);
+
+  userEvent.click(screen.getByTitle('pim_common.other_actions'));
+  expect(screen.getByText('pim_import_export.form.job_execution.button.download_log.title')).toBeInTheDocument();
 });

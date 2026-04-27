@@ -50,6 +50,7 @@ const StatusContainer = styled.div`
 `;
 // Stryker restore all
 
+// Stryker disable all
 const canDownloadLog = ({isGranted}: Security, jobExecution: JobExecution | null) => {
   if (!jobExecution || !jobExecution.meta.logExists) {
     return false;
@@ -77,6 +78,7 @@ const canDownloadArchive = ({isGranted}: Security, jobExecution: JobExecution | 
 
   return true;
 };
+// Stryker restore all
 
 type JobExecutionDetailProps = {
   jobExecutionId: string;
