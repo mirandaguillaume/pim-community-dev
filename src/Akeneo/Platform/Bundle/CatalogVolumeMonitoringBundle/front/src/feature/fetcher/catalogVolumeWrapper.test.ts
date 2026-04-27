@@ -62,7 +62,11 @@ test('it maps each volume to its correct axis', () => {
     count_asset_family: {value: 8, has_warning: false, type: 'count'},
     count_product_and_product_model_values: {value: 9200, has_warning: false, type: 'count'},
     average_max_options_per_attribute: {value: {average: 69, max: 1007}, has_warning: false, type: 'average_max'},
-    average_max_records_per_reference_entity: {value: {average: 1432, max: 10002}, has_warning: false, type: 'average_max'},
+    average_max_records_per_reference_entity: {
+      value: {average: 1432, max: 10002},
+      has_warning: false,
+      type: 'average_max',
+    },
     average_max_assets_per_asset_family: {value: {average: 7, max: 21}, has_warning: false, type: 'average_max'},
     average_max_attributes_per_asset_family: {value: {average: 4, max: 5}, has_warning: false, type: 'average_max'},
     average_max_attributes_per_reference_entity: {value: {average: 6, max: 9}, has_warning: false, type: 'average_max'},
