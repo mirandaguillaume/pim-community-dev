@@ -6,6 +6,7 @@ const unitConfig = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
+  coverageProvider: 'v8',
   coveragePathIgnorePatterns: [
     'front-packages',
     'src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/legacy-bridge',
