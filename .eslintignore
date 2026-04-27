@@ -16,6 +16,7 @@ src/Akeneo/Pim/TableAttribute/front
 src/Akeneo/UserManagement/Bundle/Resources/public/js/**/*.unit.ts
 src/Akeneo/UserManagement/Bundle/Resources/public/js/**/*.unit.tsx
 src/Akeneo/UserManagement/Bundle/Resources/workspaces/user-ui/tests
+src/Akeneo/Pim/Enrichment/Bundle/Resources/workspaces/enrichment/src/**/*.unit.ts
 src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/activity
 src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/system
 src/Akeneo/Platform/Job/front/process-tracker
