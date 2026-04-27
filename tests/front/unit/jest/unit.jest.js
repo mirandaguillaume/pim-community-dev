@@ -52,7 +52,7 @@ const unitConfig = {
     },
     fos: {Router: {setData: () => {}}},
   },
-  coverageReporters: ['text-summary', 'html'],
+  coverageReporters: ['text-summary', 'lcov'],
   coverageDirectory: '<rootDir>/coverage/',
   coverageThreshold: {
     global: {
