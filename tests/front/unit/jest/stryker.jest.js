@@ -26,6 +26,7 @@ const PIMUI_SRC = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/publi
 const CONNECTIVITY_FRONT = '<rootDir>/src/Akeneo/Connectivity/Connection/front';
 const IDENTIFIER_GEN_FRONT = '<rootDir>/components/identifier-generator/front';
 const MEASURE_FRONT = '<rootDir>/src/Akeneo/Tool/Bundle/MeasureBundle/front';
+const SETTINGS_UI_FRONT = '<rootDir>/src/Akeneo/Pim/Structure/Bundle/Resources/workspaces/settings-ui';
 
 module.exports = {
   ...unitConfig,
@@ -55,6 +56,9 @@ module.exports = {
     // Yarn workspace symlinks may break in the Stryker sandbox — resolve directly.
     // Point to src/ (not lib/) because lib/ is compiled and may not exist on CI.
     '^@akeneo-pim-community/catalogs$': '<rootDir>/components/catalogs/mock/src/exports.ts',
+    // settings-ui workspace: path imports include /src/ prefix already.
+    '^@akeneo-pim-community/settings-ui/(.*)$': `${SETTINGS_UI_FRONT}/$1`,
+    '^@akeneo-pim-community/settings-ui$': `${SETTINGS_UI_FRONT}/src/index.ts`,
   },
   // Explicit testMatch targeting ONLY modules in the Stryker mutate scope.
   // unit.jest.js uses '<rootDir>/src/**/*.unit.(ts|tsx)' which is too broad —
@@ -72,6 +76,10 @@ module.exports = {
     `${CONNECTIVITY_FRONT}/tests/**/*.test.(ts|tsx)`,
     // MeasureBundle (co-located .test.ts)
     `${MEASURE_FRONT}/src/**/*.test.(ts|tsx)`,
+    // UserManagement/tools: no Backbone dependencies, safe in sandbox.
+    '<rootDir>/src/Akeneo/UserManagement/Bundle/Resources/public/js/tools/*.unit.ts',
+    // settings-ui infrastructure: fetchers/removers only — no Backbone or workspace symlinks.
+    '<rootDir>/src/Akeneo/Pim/Structure/Bundle/Resources/workspaces/settings-ui/tests/front/unit/infrastructure/**/*.unit.ts',
     // Identifier Generator, CatalogVolumeMonitoring, and Process Tracker have
     // their own jest configs with incompatible settings (setupFiles, tsconfig,
     // resetMocks). They use dedicated Stryker configs (stryker-*.config.json).

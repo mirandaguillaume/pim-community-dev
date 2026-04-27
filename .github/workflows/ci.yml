@@ -575,7 +575,7 @@ jobs:
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn unit --shard=${{ matrix.shard }}/2 --coverage --coverageDirectory=coverage/shard-${{ matrix.shard }}
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=8192" node yarn unit --shard=${{ matrix.shard }}/2 --coverage --coverageDirectory=coverage/shard-${{ matrix.shard }}
 
       - name: Run Connectivity Connection unit tests
         if: matrix.shard == 1

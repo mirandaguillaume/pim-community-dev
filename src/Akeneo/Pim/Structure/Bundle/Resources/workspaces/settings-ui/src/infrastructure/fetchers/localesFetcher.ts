@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires,
+   @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access,
+   @typescript-eslint/no-unsafe-return */
 import {Locale} from '../../models';
 
 const FetcherRegistry = require('pim/fetcher-registry');
 
 const fetchAllLocales = async (): Promise<Locale[]> => {
   try {
-    return FetcherRegistry.getFetcher('locale').fetchAll();
+    return await FetcherRegistry.getFetcher('locale').fetchAll();
   } catch (error) {
     console.error(error);
     return [];
@@ -12,7 +15,7 @@ const fetchAllLocales = async (): Promise<Locale[]> => {
 };
 const fetchActivatedLocales = async (): Promise<Locale[]> => {
   try {
-    return FetcherRegistry.getFetcher('locale').fetchActivated({filter_locales: false});
+    return await FetcherRegistry.getFetcher('locale').fetchActivated({filter_locales: false});
   } catch (error) {
     console.error(error);
     return [];

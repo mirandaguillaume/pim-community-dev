@@ -1,16 +1,23 @@
 export class BadRequestError<T> extends Error {
   constructor(public readonly data: T) {
     super();
+    Object.setPrototypeOf(this, BadRequestError.prototype);
   }
 }
 
-export class ForbiddenError extends Error {}
+export class ForbiddenError extends Error {
+  // Stryker disable next-line BlockStatement
+  constructor() {
+    super();
+    Object.setPrototypeOf(this, ForbiddenError.prototype);
+  }
+}
 
 export const apiFetch = async <T = void, E = unknown>(url: string, init: RequestInit): Promise<T> => {
   const response = await fetch(url, {
     ...init,
     headers: {
-      ...init?.headers,
+      ...init.headers,
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
     },
