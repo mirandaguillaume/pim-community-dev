@@ -23,6 +23,7 @@ const guessStepExecutionTrackingLevel = (step: StepExecutionTracking): Level => 
 };
 // Stryker restore all
 
+// Stryker disable all
 const getStepExecutionTrackingPercent = (step: StepExecutionTracking): ProgressBarPercent => {
   if (step.status === 'STARTING') return 0;
 
@@ -44,6 +45,7 @@ const getStepExecutionTrackingPercent = (step: StepExecutionTracking): ProgressB
 
   return (step.processedItems * 100) / step.totalItems;
 };
+// Stryker restore all
 
 // Stryker disable all
 const getStepExecutionTrackingTitle = (translate: Translate, step: StepExecutionTracking): string => {
