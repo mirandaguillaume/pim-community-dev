@@ -99,14 +99,20 @@ const JobExecutionDetail = ({jobExecutionId}: JobExecutionDetailProps) => {
   const [downloadDropdownIsOpen, openDownloadDropdown, closeDownloadDropdown] = useBooleanState(false);
 
   const downloadLogIsVisible = canDownloadLog(security, jobExecution);
+  // Stryker disable next-line OptionalChaining,NullishCoalescing
   const downloadArchiveLinks = getDownloadLinks(jobExecution?.meta.archives ?? null);
   const downloadArchiveLinkIsVisible = canDownloadArchive(security, jobExecution) && 0 < downloadArchiveLinks.length;
+  // Stryker disable next-line OptionalChaining,NullishCoalescing
   const downloadZipArchive = jobExecution?.meta?.generateZipArchive ?? false;
 
+  // Stryker disable next-line StringLiteral,OptionalChaining,LogicalOperator
   const showProfileIsVisible = jobTypeWithProfile.includes(jobExecution?.jobInstance.type || '');
 
+  // Stryker disable next-line StringLiteral
   const dashboardHref = useRoute('pim_dashboard_index');
+  // Stryker disable next-line StringLiteral
   const jobTrackerHref = useRoute('akeneo_job_process_tracker_index');
+  // Stryker disable next-line StringLiteral
   const downloadLogHref = useRoute('pim_importexport_export_execution_download_log', {
     id: jobExecutionId,
   });

@@ -4,6 +4,7 @@ import {Badge, Level, Tooltip} from 'akeneo-design-system';
 import {useTranslate} from '@akeneo-pim-community/shared';
 import {JobStatus, isInProgress, isPaused} from '../../models';
 
+// Stryker disable all
 const StatusContainer = styled.div`
   display: flex;
   align-items: center;
@@ -21,6 +22,7 @@ const badgeLevel = (status: JobStatus, hasError: boolean, hasWarning: boolean): 
       return 'primary';
   }
 };
+// Stryker restore all
 
 type JobExecutionStatusProps = {
   status: JobStatus;

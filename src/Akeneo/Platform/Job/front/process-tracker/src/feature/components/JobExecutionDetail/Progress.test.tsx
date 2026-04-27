@@ -123,4 +123,11 @@ test('it shows the progress of a job', () => {
   expect(mockTranslate).toHaveBeenCalledWith('pim_import_export.tracking.in_progress', {duration: ' '});
   expect(mockTranslate).toHaveBeenCalledWith('batch_jobs.csv_product_export.export.label');
   expect(mockTranslate).toHaveBeenCalledWith('pim_import_export.tracking.untrackable');
+  expect(mockTranslate).toHaveBeenCalledWith('pim_import_export.tracking.not_started');
+  expect(mockTranslate).toHaveBeenCalledWith('pim_import_export.tracking.estimating');
+  expect(mockTranslate).toHaveBeenCalledWith('akeneo_job.job_status.PAUSED');
+  expect(mockTranslate).toHaveBeenCalledWith(
+    'pim_import_export.tracking.completed',
+    expect.objectContaining({duration: expect.any(String)})
+  );
 });

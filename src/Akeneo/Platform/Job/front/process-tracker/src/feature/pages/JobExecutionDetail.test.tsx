@@ -117,6 +117,10 @@ jest.mock('@akeneo-pim-community/shared/lib/components/PimView', () => ({
   PimView: () => <></>,
 }));
 
+jest.mock('../components/JobExecutionDetail/ShowProfile', () => ({
+  ShowProfile: ({jobInstance}: {jobInstance: {code: string}}) => <div>show-profile-{jobInstance.code}</div>,
+}));
+
 const mockStopJobExecution = jest.fn();
 jest.mock('../components/common/StopJobAction', () => ({
   StopJobAction: ({onStop}: {onStop: () => void}) => (
@@ -220,4 +224,11 @@ test('it opens the secondary actions dropdown and shows the download log link', 
 
   userEvent.click(screen.getByTitle('pim_common.other_actions'));
   expect(screen.getByText('pim_import_export.form.job_execution.button.download_log.title')).toBeInTheDocument();
+});
+
+test('it shows the show profile link for export type in the secondary actions dropdown', () => {
+  renderWithProviders(<JobExecutionDetail jobExecutionId="25" />);
+
+  userEvent.click(screen.getByTitle('pim_common.other_actions'));
+  expect(screen.getByText('show-profile-csv_product_export')).toBeInTheDocument();
 });
