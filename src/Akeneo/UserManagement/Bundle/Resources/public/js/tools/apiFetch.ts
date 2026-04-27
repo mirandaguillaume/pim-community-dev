@@ -1,10 +1,16 @@
 export class BadRequestError<T> extends Error {
   constructor(public readonly data: T) {
     super();
+    Object.setPrototypeOf(this, BadRequestError.prototype);
   }
 }
 
-export class ForbiddenError extends Error {}
+export class ForbiddenError extends Error {
+  constructor() {
+    super();
+    Object.setPrototypeOf(this, ForbiddenError.prototype);
+  }
+}
 
 export const apiFetch = async <T = void, E = unknown>(url: string, init: RequestInit): Promise<T> => {
   const response = await fetch(url, {
