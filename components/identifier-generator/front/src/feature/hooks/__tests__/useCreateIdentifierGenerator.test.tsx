@@ -2,8 +2,7 @@ import {act, renderHook, waitFor} from '@testing-library/react';
 import {useCreateIdentifierGenerator} from '../useCreateIdentifierGenerator';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
-import {AbbreviationType, IdentifierGenerator, PROPERTY_NAMES, TEXT_TRANSFORMATION} from '../../models';
-import {InvalidIdentifierGenerator, ServerError} from '../../errors';
+import {IdentifierGenerator, PROPERTY_NAMES, TEXT_TRANSFORMATION} from '../../models';
 
 const generator: IdentifierGenerator = {
   code: 'my_generator',
