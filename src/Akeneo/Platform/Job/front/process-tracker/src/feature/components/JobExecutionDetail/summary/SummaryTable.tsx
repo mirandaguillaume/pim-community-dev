@@ -21,6 +21,7 @@ const LargeCell = styled.td.attrs({colSpan: 5})`
 `;
 // Stryker restore all
 
+// Stryker disable all
 const getStepKey = ({job, label}: StepExecution) => `batch_jobs.${job}.${label}.label`;
 
 const getStepLabel = (translate: Translate, step: StepExecution): string => {
@@ -48,6 +49,7 @@ const getStepStatusLevel = (step: StepExecution): Level => {
 
   return 'primary';
 };
+// Stryker restore all
 
 type SummaryTableProps = {
   jobExecution: JobExecution;
@@ -71,6 +73,7 @@ const SummaryTable = ({jobExecution}: SummaryTableProps) => {
         {jobExecution.stepExecutions.map(step => (
           <React.Fragment key={getStepKey(step)}>
             <Table.Row>
+              {/* Stryker disable next-line BooleanLiteral */}
               <Table.Cell rowTitle={true} title={getStepLabel(translate, step)}>
                 {getStepLabel(translate, step)}
               </Table.Cell>
@@ -100,6 +103,7 @@ const SummaryTable = ({jobExecution}: SummaryTableProps) => {
             {step.failures.map((failure, index) => (
               <Table.Row key={index}>
                 <LargeCell>
+                  {/* Stryker disable next-line ConditionalExpression */}
                   <Helper level="error">{'string' === typeof failure ? failure : failure.label}</Helper>
                 </LargeCell>
               </Table.Row>

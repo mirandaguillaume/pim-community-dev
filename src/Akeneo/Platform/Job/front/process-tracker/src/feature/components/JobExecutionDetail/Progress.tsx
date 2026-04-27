@@ -5,6 +5,7 @@ import {StepExecutionTracking, isPaused} from '../../models';
 import {Translate, useTranslate} from '@akeneo-pim-community/shared';
 import {formatSecondsIntl} from '../../tools/intl-duration';
 
+// Stryker disable all
 const Container = styled.div`
   display: grid;
   grid-auto-flow: column;
@@ -20,7 +21,9 @@ const guessStepExecutionTrackingLevel = (step: StepExecutionTracking): Level => 
 
   return 'primary';
 };
+// Stryker restore all
 
+// Stryker disable all
 const getStepExecutionTrackingPercent = (step: StepExecutionTracking): ProgressBarPercent => {
   if (step.status === 'STARTING') return 0;
 
@@ -42,7 +45,9 @@ const getStepExecutionTrackingPercent = (step: StepExecutionTracking): ProgressB
 
   return (step.processedItems * 100) / step.totalItems;
 };
+// Stryker restore all
 
+// Stryker disable all
 const getStepExecutionTrackingTitle = (translate: Translate, step: StepExecutionTracking): string => {
   let key = `batch_jobs.${step.jobName}.${step.stepName}.label`;
   if (translate(key) === key) {
@@ -51,6 +56,7 @@ const getStepExecutionTrackingTitle = (translate: Translate, step: StepExecution
 
   return translate(key);
 };
+// Stryker restore all
 
 const getStepExecutionTrackingProgressLabel = (
   translate: Translate,

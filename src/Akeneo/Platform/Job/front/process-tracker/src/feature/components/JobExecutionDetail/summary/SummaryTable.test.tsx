@@ -125,6 +125,25 @@ test('it displays a summary table', () => {
   expect(screen.getByText('a step failure')).toBeInTheDocument();
   expect(screen.getByText('a job failure')).toBeInTheDocument();
   expect(screen.getByText('another job failure')).toBeInTheDocument();
+  expect(screen.getByText('pim_import_export.form.job_execution.summary.header.step')).toBeInTheDocument();
+  expect(screen.getByText('pim_common.status')).toBeInTheDocument();
+  expect(screen.getByText('pim_import_export.form.job_execution.summary.header.summary')).toBeInTheDocument();
+  expect(screen.getByText('pim_import_export.form.job_execution.summary.header.start')).toBeInTheDocument();
+  expect(screen.getByText('pim_import_export.form.job_execution.summary.header.end')).toBeInTheDocument();
+});
+
+test('it shows nothing when stepExecutions is undefined', () => {
+  const executionWithoutSteps: JobExecution = {
+    ...jobExecution,
+    stepExecutions: undefined,
+  };
+  const {container} = renderWithProviders(<SummaryTable jobExecution={executionWithoutSteps} />);
+  expect(container).toBeEmptyDOMElement();
+});
+
+test('it shows warning reason text', () => {
+  renderWithProviders(<SummaryTable jobExecution={jobExecution} />);
+  expect(screen.getByText('a reason')).toBeInTheDocument();
 });
 
 test('it shows nothing when stepExecutions is undefined', () => {
