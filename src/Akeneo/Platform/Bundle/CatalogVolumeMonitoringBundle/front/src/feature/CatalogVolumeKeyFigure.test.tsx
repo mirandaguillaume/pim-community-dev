@@ -99,9 +99,7 @@ test('it renders only average when max is undefined', () => {
 
 test('it renders nothing when value is null', () => {
   renderWithProviders(
-    <CatalogVolumeKeyFigure
-      catalogVolume={{name: 'count_products', type: 'count', value: null as any}}
-    />
+    <CatalogVolumeKeyFigure catalogVolume={{name: 'count_products', type: 'count', value: null as any}} />
   );
 
   expect(screen.queryByText('pim_catalog_volume.axis.count_products')).not.toBeInTheDocument();

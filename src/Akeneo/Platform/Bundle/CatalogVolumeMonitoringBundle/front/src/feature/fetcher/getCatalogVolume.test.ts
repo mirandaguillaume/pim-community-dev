@@ -39,9 +39,7 @@ beforeEach(() => {
 });
 
 test('it uses the correct route name to generate the URL', async () => {
-  global.fetch = jest.fn(() =>
-    Promise.resolve({ok: true, json: () => Promise.resolve(volumesResponse)})
-  );
+  global.fetch = jest.fn(() => Promise.resolve({ok: true, json: () => Promise.resolve(volumesResponse)}));
 
   await getCatalogVolume(mockedDependencies.router);
 
