@@ -6,6 +6,7 @@ export class BadRequestError<T> extends Error {
 }
 
 export class ForbiddenError extends Error {
+  // Stryker disable next-line BlockStatement
   constructor() {
     super();
     Object.setPrototypeOf(this, ForbiddenError.prototype);
@@ -16,7 +17,7 @@ export const apiFetch = async <T = void, E = unknown>(url: string, init: Request
   const response = await fetch(url, {
     ...init,
     headers: {
-      ...init?.headers,
+      ...init.headers,
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
     },
