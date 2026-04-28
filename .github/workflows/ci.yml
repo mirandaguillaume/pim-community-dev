@@ -664,11 +664,11 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn generate-models
 
-      - name: Run DataQualityInsights unit tests (shard ${{ matrix.shard }}/2)
+      - name: Run DataQualityInsights unit tests (shard ${{ matrix.shard }}/4)
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=4096" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --maxWorkers=2 --forceExit --testPathPattern='DataQualityInsights' --shard=${{ matrix.shard }}/4
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=4096" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --maxWorkers=2 --workerIdleMemoryLimit=1024MB --forceExit --testPathPattern='DataQualityInsights' --shard=${{ matrix.shard }}/4
 
   # ===========================================================================
   # FRONT-CONNECTIVITY: Jest tests for Connectivity Connection workspace
