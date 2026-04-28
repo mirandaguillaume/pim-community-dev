@@ -615,7 +615,7 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=4096" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --runInBand --forceExit --testPathIgnorePatterns='DataQualityInsights' --shard=${{ matrix.shard }}/2
 
   # ===========================================================================
-  # FRONT-DQI: DataQualityInsights unit tests (2 shards to stay within heap limit)
+  # FRONT-DQI: DataQualityInsights unit tests (4 shards — V8 fills any heap limit given)
   # ===========================================================================
   test-front-dqi:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
@@ -625,7 +625,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2]
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
 
@@ -668,7 +668,7 @@ jobs:
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=6144" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --runInBand --forceExit --testPathPattern='DataQualityInsights' --shard=${{ matrix.shard }}/2
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=4096" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --runInBand --forceExit --testPathPattern='DataQualityInsights' --shard=${{ matrix.shard }}/4
 
   # ===========================================================================
   # FRONT-CONNECTIVITY: Jest tests for Connectivity Connection workspace
