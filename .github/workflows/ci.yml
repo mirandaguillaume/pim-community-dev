@@ -668,7 +668,7 @@ jobs:
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=4096" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --runInBand --forceExit --testPathPattern='DataQualityInsights' --shard=${{ matrix.shard }}/2
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=6144" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --runInBand --forceExit --testPathPattern='DataQualityInsights' --shard=${{ matrix.shard }}/2
 
   # ===========================================================================
   # FRONT-CONNECTIVITY: Jest tests for Connectivity Connection workspace
