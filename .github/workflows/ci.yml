@@ -57,7 +57,7 @@ defaults:
 #     ├──► prepare ──┬──► build-front [if frontend] ──┬──► test-playwright [if front]►│
 #     │              │                                 │                       │
 #     │              ├──► lint-front [if frontend] ────────────────────────►│
-#     │              ├──► test-front-unit [if frontend] (2 shards) ───────────►│
+#     │              ├──► test-front-unit [if frontend] (3 shards) ───────────►│
 #     │              │                                                         │
 #     │              ├──► lint-back [if backend] ───────────────────────►│
 #     │              ├──► lint-deprecations [if backend] ──────────────────►│
@@ -522,17 +522,17 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn npm audit --severity moderate || echo "::warning::yarn audit found vulnerabilities — review before merging"
 
   # ===========================================================================
-  # FRONT-UNIT: Jest unit tests (sharded x2)
+  # FRONT-UNIT: Jest unit tests (sharded x3)
   # ===========================================================================
   test-front-unit:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2]
+        shard: [1, 2, 3]
     steps:
       - uses: actions/checkout@v4
 
@@ -571,11 +571,11 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn generate-models
 
-      - name: Run Jest unit tests (shard ${{ matrix.shard }}/2)
+      - name: Run Jest unit tests (shard ${{ matrix.shard }}/3)
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=8192" node yarn unit --shard=${{ matrix.shard }}/2 --coverage --coverageDirectory=coverage/shard-${{ matrix.shard }}
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=8192" node yarn unit --shard=${{ matrix.shard }}/3 --coverage --coverageDirectory=coverage/shard-${{ matrix.shard }}
 
       - name: Run Connectivity Connection unit tests
         if: matrix.shard == 1
