@@ -612,15 +612,7 @@ jobs:
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=8192" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --runInBand --forceExit --shard=${{ matrix.shard }}/3 --coverage --coverageDirectory=coverage/shard-${{ matrix.shard }}
-
-      - name: Upload coverage reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: jest-coverage-shard-${{ matrix.shard }}
-          path: coverage/
-          retention-days: 30
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=4096" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --runInBand --forceExit --shard=${{ matrix.shard }}/3
 
   # ===========================================================================
   # FRONT-CONNECTIVITY: Jest tests for Connectivity Connection workspace
