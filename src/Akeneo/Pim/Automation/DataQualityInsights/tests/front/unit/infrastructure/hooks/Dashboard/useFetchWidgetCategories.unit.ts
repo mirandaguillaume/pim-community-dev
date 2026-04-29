@@ -11,7 +11,8 @@ describe('useFetchWidgetCategories', () => {
   beforeEach(() => jest.clearAllMocks());
 
   it('returns empty object without fetching when categories array is empty', () => {
-    const {result} = renderHook(() => useFetchWidgetCategories('ecommerce', 'en_US', []));
+    const noCategories: any[] = [];
+    const {result} = renderHook(() => useFetchWidgetCategories('ecommerce', 'en_US', noCategories));
     expect(result.current).toEqual({});
     expect(mockedFetchWidgetCategories).not.toHaveBeenCalled();
   });
