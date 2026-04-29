@@ -1909,8 +1909,11 @@ jobs:
             # is insufficient; token comparison catches all pure-reformatting commits.
             HAS_LOGIC_CHANGE=false
             for f in $SRC_FILES; do
-              OLD=$(git show origin/master:"$f" 2>/dev/null | tr -d '[:space:]' || echo "NEW_FILE")
-              NEW=$(git show HEAD:"$f" 2>/dev/null | tr -d '[:space:]' || echo "")
+              OLD=$(git show origin/master:"$f" 2>/dev/null | tr -d '[:space:]')
+              NEW=$(git show HEAD:"$f" 2>/dev/null | tr -d '[:space:]')
+              OLD_LEN=${#OLD}
+              NEW_LEN=${#NEW}
+              echo "DEBUG $f: OLD=${OLD_LEN}chars NEW=${NEW_LEN}chars SAME=$([ "$OLD" = "$NEW" ] && echo yes || echo no)"
               if [ "$OLD" != "$NEW" ]; then
                 HAS_LOGIC_CHANGE=true
                 echo "Logic change detected in: $f"
