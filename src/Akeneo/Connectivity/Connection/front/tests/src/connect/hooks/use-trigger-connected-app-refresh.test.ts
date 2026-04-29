@@ -18,10 +18,10 @@ test('it returns true when refresh succeeds', async () => {
     const {result} = renderHook(() => useTriggerConnectedAppRefresh());
     const refreshed = await result.current('magento');
 
-    expect(fetchMock).toBeCalledWith(
-        'akeneo_connectivity_connection_apps_rest_refresh?connectionCode=magento',
-        {method: 'POST', headers: [['X-Requested-With', 'XMLHttpRequest']]}
-    );
+    expect(fetchMock).toBeCalledWith('akeneo_connectivity_connection_apps_rest_refresh?connectionCode=magento', {
+        method: 'POST',
+        headers: [['X-Requested-With', 'XMLHttpRequest']],
+    });
     expect(refreshed).toBe(true);
 });
 

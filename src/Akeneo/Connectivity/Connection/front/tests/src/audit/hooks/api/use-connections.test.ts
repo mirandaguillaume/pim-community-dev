@@ -28,10 +28,9 @@ describe('useConnections', () => {
 
         renderHook(() => useConnections());
 
-        expect(mockUseQuery).toHaveBeenCalledWith(
-            'akeneo_connectivity_connection_rest_list',
-            {search: JSON.stringify({types: ['default', 'app']})}
-        );
+        expect(mockUseQuery).toHaveBeenCalledWith('akeneo_connectivity_connection_rest_list', {
+            search: JSON.stringify({types: ['default', 'app']}),
+        });
     });
 
     it('returns connections from query data', () => {
