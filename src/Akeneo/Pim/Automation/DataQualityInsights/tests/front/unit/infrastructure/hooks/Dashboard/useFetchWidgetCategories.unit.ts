@@ -2,8 +2,10 @@ import {renderHook, waitFor} from '@testing-library/react';
 import useFetchWidgetCategories from '@akeneo-pim-community/data-quality-insights/src/infrastructure/hooks/Dashboard/useFetchWidgetCategories';
 import fetchWidgetCategories from '@akeneo-pim-community/data-quality-insights/src/infrastructure/fetcher/Dashboard/fetchWidgetCategories';
 
-jest.mock('routing', () => ({generate: jest.fn()}));
-jest.mock('@akeneo-pim-community/data-quality-insights/src/infrastructure/fetcher/Dashboard/fetchWidgetCategories');
+jest.mock(
+  '@akeneo-pim-community/data-quality-insights/src/infrastructure/fetcher/Dashboard/fetchWidgetCategories',
+  () => jest.fn()
+);
 
 const mockedFetchWidgetCategories = fetchWidgetCategories as jest.Mock;
 
