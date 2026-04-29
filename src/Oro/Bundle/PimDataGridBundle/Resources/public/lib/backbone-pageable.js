@@ -84,8 +84,8 @@
     var kvps = qs.split('&');
     for (var i = 0, l = kvps.length; i < l; i++) {
       var param = kvps[i];
-      (kvp = param.split('=')), (k = kvp[0]), (v = kvp[1] || true);
-      (k = decode(k)), (ls = params[k]);
+      ((kvp = param.split('=')), (k = kvp[0]), (v = kvp[1] || true));
+      ((k = decode(k)), (ls = params[k]));
       if (_isArray(ls)) ls.push(v);
       else if (ls) params[k] = [ls, v];
       else params[k] = v;
@@ -222,7 +222,7 @@
       order: 'order',
       directions: {
         '-1': 'asc',
-        '1': 'desc',
+        1: 'desc',
       },
     },
 
@@ -424,8 +424,8 @@
               pageIndex >= pageSize
                 ? model
                 : !_isUndefined(options.at) && addAt < pageEnd && pageCol.length > pageSize
-                ? pageCol.at(pageSize)
-                : null;
+                  ? pageCol.at(pageSize)
+                  : null;
             if (modelToRemove) {
               var addHandlers = collection._events.add || [],
                 popOptions = {onAdd: true};
@@ -1133,7 +1133,7 @@
         kvps = _pairs(queryParams),
         thisCopy = _clone(this);
       for (i = 0; i < kvps.length; i++) {
-        (kvp = kvps[i]), (k = kvp[0]), (v = kvp[1]);
+        ((kvp = kvps[i]), (k = kvp[0]), (v = kvp[1]));
         v = _isFunction(v) ? v.call(thisCopy) : v;
         if (state[k] != null && v != null) {
           data[v] = state[k];
@@ -1236,7 +1236,7 @@
         var l = left.get(sortKey),
           r = right.get(sortKey),
           t;
-        if (order === 1) (t = l), (l = r), (r = t);
+        if (order === 1) ((t = l), (l = r), (r = t));
         if (l === r) return 0;
         else if (l < r) return -1;
         return 1;

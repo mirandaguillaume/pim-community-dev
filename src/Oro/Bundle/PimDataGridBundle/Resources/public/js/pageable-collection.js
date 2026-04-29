@@ -42,7 +42,7 @@ define(['underscore', 'backbone', 'backbone/pageable-collection', 'oro/app'], fu
     queryParams: _.extend({}, BackbonePageableCollection.prototype.queryParams, {
       directions: {
         '-1': 'ASC',
-        '1': 'DESC',
+        1: 'DESC',
       },
       totalRecords: undefined,
       totalPages: undefined,
@@ -484,7 +484,7 @@ define(['underscore', 'backbone', 'backbone/pageable-collection', 'oro/app'], fu
         kvps = _.pairs(queryParams),
         thisCopy = _.clone(this);
       for (i = 0; i < kvps.length; i++) {
-        (kvp = kvps[i]), (k = kvp[0]), (v = kvp[1]);
+        ((kvp = kvps[i]), (k = kvp[0]), (v = kvp[1]));
         v = _.isFunction(v) ? v.call(thisCopy) : v;
         if (state[k] != null && v != null) {
           data[v] = state[k];

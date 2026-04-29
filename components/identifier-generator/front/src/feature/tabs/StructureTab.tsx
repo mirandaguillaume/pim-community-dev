@@ -58,15 +58,16 @@ const StructureTab: React.FC<StructureTabProps> = ({
     };
   }, [queryClient]);
 
-  const removeIdentifiers: (structureWithIdentifiers: StructureWithIdentifiers) => Structure =
-    structureWithIdentifiers => {
-      return structureWithIdentifiers.map(propertyWithIdentifier => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {id, ...property} = propertyWithIdentifier;
+  const removeIdentifiers: (
+    structureWithIdentifiers: StructureWithIdentifiers
+  ) => Structure = structureWithIdentifiers => {
+    return structureWithIdentifiers.map(propertyWithIdentifier => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const {id, ...property} = propertyWithIdentifier;
 
-        return property;
-      });
-    };
+      return property;
+    });
+  };
 
   const onPropertyChange = (property: Property) => {
     if (selectedProperty) {

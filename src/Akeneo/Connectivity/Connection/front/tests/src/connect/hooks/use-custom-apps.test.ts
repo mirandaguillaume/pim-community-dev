@@ -39,7 +39,7 @@ test('it returns loading status and customApps values', async () => {
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     mockFetchResponses({
@@ -70,7 +70,7 @@ test('it returns loading status and empty values on fetch error ', async () => {
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     mockFetchResponses({
@@ -102,7 +102,7 @@ test('it returns loading status and empty values with feature flag disabled', as
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const {result} = renderHook(() => useCustomApps());

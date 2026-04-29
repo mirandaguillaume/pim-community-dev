@@ -16,7 +16,7 @@ test('it fetches the custom apps', async () => {
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const expected = {

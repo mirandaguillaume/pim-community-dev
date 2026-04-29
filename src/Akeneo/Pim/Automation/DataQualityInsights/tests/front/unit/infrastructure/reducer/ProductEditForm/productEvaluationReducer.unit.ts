@@ -15,7 +15,7 @@ const buildEvaluation = (overrides: Partial<ProductEvaluation> = {}): ProductEva
       },
     },
     ...overrides,
-  } as ProductEvaluation);
+  }) as ProductEvaluation;
 
 describe('productEvaluationReducer', () => {
   describe('initial state', () => {

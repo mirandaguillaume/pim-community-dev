@@ -73,11 +73,12 @@ if [ -n "$CHANGED_PHP" ]; then
 fi
 
 # ── JS/TS: ESLint on changed files only ──
+# Root .eslintrc uses @babel/eslint-parser — only handles .js/.jsx; skip .ts/.tsx
 if [ -n "$CHANGED_JS" ] && command -v npx >/dev/null 2>&1; then
-    # Filter to existing files only
+    # Filter to existing .js/.jsx files only (root ESLint config doesn't support TS)
     EXISTING_JS=""
     for f in $CHANGED_JS; do
-        [ -f "$f" ] && EXISTING_JS="$EXISTING_JS $f"
+        [[ "$f" =~ \.(js|jsx)$ ]] && [ -f "$f" ] && EXISTING_JS="$EXISTING_JS $f"
     done
     if [ -n "$EXISTING_JS" ]; then
         ESLINT_RESULT=$(npx eslint --no-error-on-unmatched-pattern --quiet $EXISTING_JS 2>&1 || true)

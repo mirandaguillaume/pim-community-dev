@@ -23,8 +23,11 @@ const ImageContainer = styled.img<
   ${({isStacked}) =>
     isStacked &&
     css`
-      box-shadow: 1px -1px 0 0 ${getColor('white')}, 2px -2px 0 0 ${getColor('grey', 80)},
-        3px -3px 0 0 ${getColor('white')}, 4px -4px 0 0 ${getColor('grey', 80)};
+      box-shadow:
+        1px -1px 0 0 ${getColor('white')},
+        2px -2px 0 0 ${getColor('grey', 80)},
+        3px -3px 0 0 ${getColor('white')},
+        4px -4px 0 0 ${getColor('grey', 80)};
     `}
 
   ${({isLoading}) => isLoading && placeholderStyle}

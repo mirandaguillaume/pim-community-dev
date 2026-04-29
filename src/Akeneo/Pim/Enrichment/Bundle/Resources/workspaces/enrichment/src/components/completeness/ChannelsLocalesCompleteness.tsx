@@ -52,10 +52,10 @@ const getProgressMessageByChannelRatio = (channelRatio: number): string => {
   return channelRatio < 1
     ? 'pim_dashboard.widget.completeness.progress_messages.message1'
     : channelRatio < 50
-    ? 'pim_dashboard.widget.completeness.progress_messages.message2'
-    : channelRatio < 100
-    ? 'pim_dashboard.widget.completeness.progress_messages.message3'
-    : 'pim_dashboard.widget.completeness.progress_messages.message4';
+      ? 'pim_dashboard.widget.completeness.progress_messages.message2'
+      : channelRatio < 100
+        ? 'pim_dashboard.widget.completeness.progress_messages.message3'
+        : 'pim_dashboard.widget.completeness.progress_messages.message4';
 };
 
 const getProgressbarLevel = (score: number) => {

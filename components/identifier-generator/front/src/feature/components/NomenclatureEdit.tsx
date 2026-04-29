@@ -41,7 +41,7 @@ const NomenclatureEdit: FC<NomenclatureEditProps> = ({selectedProperty, itemsPer
   const [isOpen, open, close] = useBooleanState();
   const [nomenclature, setNomenclature] = useState<Nomenclature | undefined>(undefined);
   const {data: fetchedNomenclature} = useGetNomenclature(
-    selectedProperty.type === PROPERTY_NAMES.FAMILY ? 'family' : selectedProperty.attributeCode ?? ''
+    selectedProperty.type === PROPERTY_NAMES.FAMILY ? 'family' : (selectedProperty.attributeCode ?? '')
   );
   const [filter, setFilter] = useState<NomenclatureFilter>('all');
   const [valuesToSave, setValuesToSave] = useState<NomenclatureValues>({});
@@ -121,7 +121,7 @@ const NomenclatureEdit: FC<NomenclatureEditProps> = ({selectedProperty, itemsPer
         {
           ...nomenclature,
           propertyCode:
-            selectedProperty.type === PROPERTY_NAMES.FAMILY ? 'family' : selectedProperty.attributeCode ?? '',
+            selectedProperty.type === PROPERTY_NAMES.FAMILY ? 'family' : (selectedProperty.attributeCode ?? ''),
           values: valuesToSave,
         },
         {
@@ -150,15 +150,15 @@ const NomenclatureEdit: FC<NomenclatureEditProps> = ({selectedProperty, itemsPer
     selectedProperty.type === PROPERTY_NAMES.FAMILY
       ? 'pim_enrich.entity.family.page_title.index'
       : selectedProperty.type === PROPERTY_NAMES.SIMPLE_SELECT
-      ? 'pim_enrich.entity.attribute_option.page_title.index'
-      : 'pim_reference_entity.record.count';
+        ? 'pim_enrich.entity.attribute_option.page_title.index'
+        : 'pim_reference_entity.record.count';
 
   const titleNoEntities =
     selectedProperty.type === PROPERTY_NAMES.FAMILY
       ? 'pim_enrich.entity.family.plural_label'
       : selectedProperty.type === PROPERTY_NAMES.SIMPLE_SELECT
-      ? 'pim_enrich.entity.attribute_option.short_uppercase_label'
-      : 'pim_reference_entity.record.plural_label';
+        ? 'pim_enrich.entity.attribute_option.short_uppercase_label'
+        : 'pim_reference_entity.record.plural_label';
 
   return (
     <>

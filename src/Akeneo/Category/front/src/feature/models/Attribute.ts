@@ -12,7 +12,7 @@ const TYPES = [
   CATEGORY_ATTRIBUTE_TYPE_IMAGE,
 ] as const;
 
-export type CategoryAttributeType = typeof TYPES[number];
+export type CategoryAttributeType = (typeof TYPES)[number];
 
 export type Attribute = {
   uuid: string;

@@ -433,8 +433,8 @@ define([
           association && association.products
             ? association.products.length
             : association && association.product_uuids
-            ? association.product_uuids.length
-            : 0;
+              ? association.product_uuids.length
+              : 0;
 
         assocType.productModelCount = association && association.product_models ? association.product_models.length : 0;
 

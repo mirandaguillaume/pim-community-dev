@@ -18,12 +18,15 @@ createRoot(document.getElementById('root')!).render(
             <Router basename="/">
               <Routes>
                 <Route path="/configuration" element={<ConfigurationPage />} />
-                <Route path="/*" element={
-                  <CategoriesApp
-                    setCanLeavePage={canLeavePage => console.debug('Can leave page:', canLeavePage)}
-                    setLeavePageMessage={leavePageMessage => console.debug('Leave page message:', leavePageMessage)}
-                  />
-                } />
+                <Route
+                  path="/*"
+                  element={
+                    <CategoriesApp
+                      setCanLeavePage={canLeavePage => console.debug('Can leave page:', canLeavePage)}
+                      setLeavePageMessage={leavePageMessage => console.debug('Leave page message:', leavePageMessage)}
+                    />
+                  }
+                />
               </Routes>
             </Router>
           </FakePIM>

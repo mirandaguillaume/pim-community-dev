@@ -39,8 +39,8 @@ export const EventLogLevelFilter: FC<{
                 {levels.length === 0
                     ? translate('akeneo_connectivity.connection.webhook.event_logs.list.search.none')
                     : levels.length === LEVELS.length
-                    ? translate('akeneo_connectivity.connection.webhook.event_logs.list.search.all')
-                    : levels.map(level => translateLevel(level)).join(', ')}
+                      ? translate('akeneo_connectivity.connection.webhook.event_logs.list.search.all')
+                      : levels.map(level => translateLevel(level)).join(', ')}
             </SwitcherButton>
             {isOpen && (
                 <Dropdown.Overlay verticalPosition='down' onClose={close}>

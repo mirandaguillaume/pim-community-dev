@@ -8,6 +8,6 @@ export type WrongCredentialsCombination = {
         {
             username: string;
             date: string;
-        }
+        },
     ];
 };

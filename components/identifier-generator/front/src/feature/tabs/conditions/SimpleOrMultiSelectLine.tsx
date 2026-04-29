@@ -87,8 +87,8 @@ const SimpleOrMultiSelectLine: React.FC<SimpleOrMultiSelectLineProps> = ({condit
                   error instanceof Unauthorized
                     ? 'pim_error.unauthorized_list_attributes'
                     : error instanceof AttributeNotFound
-                    ? 'pim_error.selection_attribute_not_found'
-                    : 'pim_error.general'
+                      ? 'pim_error.selection_attribute_not_found'
+                      : 'pim_error.general'
                 )}
               </Helper>
             ) : (

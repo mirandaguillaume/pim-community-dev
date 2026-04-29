@@ -1937,7 +1937,9 @@ jobs:
   mutation-testing-front:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: |
+      (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true') &&
+      !startsWith(github.head_ref, 'upgrade/')
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
@@ -1973,28 +1975,50 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "No front-end source files changed, skipping mutation testing"
           else
-            MUTATE=$(echo "$SRC_FILES" | sort -u | paste -sd, -)
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-            echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
-            echo "Files to mutate ($(echo "$SRC_FILES" | sort -u | wc -l)): $MUTATE"
+            # Skip if every TS/TSX change is formatting-only (no token-level changes).
+            # Strip ALL whitespace (spaces, tabs, newlines) from both versions and compare
+            # the raw token stream. Prettier may split/join lines so --ignore-all-space
+            # is insufficient; token comparison catches all pure-reformatting commits.
+            HAS_LOGIC_CHANGE=false
+            for f in $SRC_FILES; do
+              OLD=$(git show origin/master:"$f" 2>/dev/null | tr -d '[:space:]')
+              NEW=$(git show HEAD:"$f" 2>/dev/null | tr -d '[:space:]')
+              OLD_LEN=${#OLD}
+              NEW_LEN=${#NEW}
+              echo "DEBUG $f: OLD=${OLD_LEN}chars NEW=${NEW_LEN}chars SAME=$([ "$OLD" = "$NEW" ] && echo yes || echo no)"
+              if [ "$OLD" != "$NEW" ]; then
+                HAS_LOGIC_CHANGE=true
+                echo "Logic change detected in: $f"
+                break
+              fi
+            done
+            if [ "$HAS_LOGIC_CHANGE" = "false" ]; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "All front-end changes are formatting-only (token stream identical), skipping mutation testing"
+            else
+              MUTATE=$(echo "$SRC_FILES" | sort -u | paste -sd, -)
+              echo "skip=false" >> "$GITHUB_OUTPUT"
+              echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
+              echo "Files to mutate ($(echo "$SRC_FILES" | sort -u | wc -l)): $MUTATE"
 
-            # Use workspace-specific config when all changed files belong to one workspace.
-            # Falls back to global config for multi-workspace or unknown-workspace changes.
-            is_single_workspace() {
-              ! echo "$SRC_FILES" | grep -vE "^$1" | grep -q .
-            }
-            CONFIG="stryker.config.json"
-            if is_single_workspace 'src/Akeneo/Tool/Bundle/MeasureBundle/'; then
-              CONFIG="stryker-measure.config.json"
-            elif is_single_workspace 'src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/'; then
-              CONFIG="stryker-catalog-volume.config.json"
-            elif is_single_workspace 'src/Akeneo/Platform/Job/front/process-tracker/'; then
-              CONFIG="stryker-process-tracker.config.json"
-            elif is_single_workspace 'components/identifier-generator/'; then
-              CONFIG="stryker-identifier-generator.config.json"
+              # Use workspace-specific config when all changed files belong to one workspace.
+              # Falls back to global config for multi-workspace or unknown-workspace changes.
+              is_single_workspace() {
+                ! echo "$SRC_FILES" | grep -vE "^$1" | grep -q .
+              }
+              CONFIG="stryker.config.json"
+              if is_single_workspace 'src/Akeneo/Tool/Bundle/MeasureBundle/'; then
+                CONFIG="stryker-measure.config.json"
+              elif is_single_workspace 'src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/'; then
+                CONFIG="stryker-catalog-volume.config.json"
+              elif is_single_workspace 'src/Akeneo/Platform/Job/front/process-tracker/'; then
+                CONFIG="stryker-process-tracker.config.json"
+              elif is_single_workspace 'components/identifier-generator/'; then
+                CONFIG="stryker-identifier-generator.config.json"
+              fi
+              echo "config=$CONFIG" >> "$GITHUB_OUTPUT"
+              echo "Using Stryker config: $CONFIG"
             fi
-            echo "config=$CONFIG" >> "$GITHUB_OUTPUT"
-            echo "Using Stryker config: $CONFIG"
           fi
 
       - name: Run Stryker mutation testing

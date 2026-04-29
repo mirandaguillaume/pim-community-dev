@@ -2,7 +2,7 @@ import {FeatureFlags} from '@akeneo-pim-community/shared';
 
 const SFTP_STORAGE_LOGIN_TYPES = ['password', 'private_key'] as const;
 
-type SftpStorageLoginType = typeof SFTP_STORAGE_LOGIN_TYPES[number];
+type SftpStorageLoginType = (typeof SFTP_STORAGE_LOGIN_TYPES)[number];
 
 type JobType = 'import' | 'export';
 

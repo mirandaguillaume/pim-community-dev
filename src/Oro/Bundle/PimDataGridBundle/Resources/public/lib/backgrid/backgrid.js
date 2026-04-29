@@ -1918,7 +1918,7 @@
       var lcid = left.cid,
         rcid = right.cid;
       if (!_.isUndefined(lcid) && !_.isUndefined(rcid)) {
-        (lcid = lcid.slice(1) * 1), (rcid = rcid.slice(1) * 1);
+        ((lcid = lcid.slice(1) * 1), (rcid = rcid.slice(1) * 1));
         if (lcid < rcid) return -1;
         else if (lcid > rcid) return 1;
       }
