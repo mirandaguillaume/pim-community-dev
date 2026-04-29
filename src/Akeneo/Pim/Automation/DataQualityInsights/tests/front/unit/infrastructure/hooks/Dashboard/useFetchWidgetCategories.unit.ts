@@ -2,6 +2,7 @@ import {renderHook, waitFor} from '@testing-library/react';
 import useFetchWidgetCategories from '@akeneo-pim-community/data-quality-insights/src/infrastructure/hooks/Dashboard/useFetchWidgetCategories';
 import fetchWidgetCategories from '@akeneo-pim-community/data-quality-insights/src/infrastructure/fetcher/Dashboard/fetchWidgetCategories';
 
+// Factory mock prevents loading the real fetcher (which triggers fos-routing-base OOM)
 jest.mock(
   '@akeneo-pim-community/data-quality-insights/src/infrastructure/fetcher/Dashboard/fetchWidgetCategories',
   () => jest.fn()
