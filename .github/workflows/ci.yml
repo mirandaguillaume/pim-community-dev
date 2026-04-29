@@ -1903,25 +1903,36 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "No front-end source files changed, skipping mutation testing"
           else
-            # Filter out files where all changes are whitespace/indentation only.
-            # Line-split changes (e.g. Prettier CSS expansion) still appear; pure
-            # indentation changes are excluded.
-            LOGIC_FILES=$(git diff --diff-filter=AM --ignore-all-space --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
-              | grep -E '^(front-packages|components|src)/' \
-              | grep -v '\.test\.\|\.spec\.\|\.unit\.\|__tests__\|__mocks__\|stories' || true)
-            if [ -z "$LOGIC_FILES" ]; then
+            # Skip if every TS/TSX change is formatting-only (no token-level changes).
+            # Strip ALL whitespace (spaces, tabs, newlines) from both versions and compare
+            # the raw token stream. Prettier may split/join lines so --ignore-all-space
+            # is insufficient; token comparison catches all pure-reformatting commits.
+            HAS_LOGIC_CHANGE=false
+            for f in $SRC_FILES; do
+              OLD=$(git show origin/master:"$f" 2>/dev/null | tr -d '[:space:]')
+              NEW=$(git show HEAD:"$f" 2>/dev/null | tr -d '[:space:]')
+              OLD_LEN=${#OLD}
+              NEW_LEN=${#NEW}
+              echo "DEBUG $f: OLD=${OLD_LEN}chars NEW=${NEW_LEN}chars SAME=$([ "$OLD" = "$NEW" ] && echo yes || echo no)"
+              if [ "$OLD" != "$NEW" ]; then
+                HAS_LOGIC_CHANGE=true
+                echo "Logic change detected in: $f"
+                break
+              fi
+            done
+            if [ "$HAS_LOGIC_CHANGE" = "false" ]; then
               echo "skip=true" >> "$GITHUB_OUTPUT"
-              echo "All front-end changes are indentation-only, skipping mutation testing"
+              echo "All front-end changes are formatting-only (token stream identical), skipping mutation testing"
             else
-              MUTATE=$(echo "$LOGIC_FILES" | sort -u | paste -sd, -)
+              MUTATE=$(echo "$SRC_FILES" | sort -u | paste -sd, -)
               echo "skip=false" >> "$GITHUB_OUTPUT"
               echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
-              echo "Files to mutate ($(echo "$LOGIC_FILES" | sort -u | wc -l)): $MUTATE"
+              echo "Files to mutate ($(echo "$SRC_FILES" | sort -u | wc -l)): $MUTATE"
 
               # Use workspace-specific config when all changed files belong to one workspace.
               # Falls back to global config for multi-workspace or unknown-workspace changes.
               is_single_workspace() {
-                ! echo "$LOGIC_FILES" | grep -vE "^$1" | grep -q .
+                ! echo "$SRC_FILES" | grep -vE "^$1" | grep -q .
               }
               CONFIG="stryker.config.json"
               if is_single_workspace 'src/Akeneo/Tool/Bundle/MeasureBundle/'; then
