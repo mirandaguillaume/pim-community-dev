@@ -12,7 +12,10 @@ const ToolbarContainer = styled.div<{isVisible: boolean} & AkeneoThemedProps>`
   border-top: 1px solid ${({isVisible}) => (!isVisible ? 'transparent' : getColor('grey', 80))};
   flex-basis: ${({isVisible}) => (!isVisible ? 0 : '70px')};
   min-height: ${({isVisible}) => (!isVisible ? 0 : '70px')};
-  transition: flex-basis 0.3s ease-in-out, min-height 0.3s ease-in-out, border 0.3s ease-in-out;
+  transition:
+    flex-basis 0.3s ease-in-out,
+    min-height 0.3s ease-in-out,
+    border 0.3s ease-in-out;
   overflow: ${({isVisible}) => (!isVisible ? 'hidden' : 'visible')};
 `;
 

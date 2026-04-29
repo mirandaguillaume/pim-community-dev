@@ -24,13 +24,13 @@ test('The marketplace renders with apps', () => {
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
     (useSecurity as jest.Mock).mockImplementation(() => ({
         isGranted: (acl: string) =>
             ({
                 akeneo_connectivity_connection_manage_apps: true,
-            }[acl] ?? false),
+            })[acl] ?? false,
     }));
 
     mockFetchResponses({
@@ -98,13 +98,13 @@ test('The marketplace renders with extensions', () => {
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
     (useSecurity as jest.Mock).mockImplementation(() => ({
         isGranted: (acl: string) =>
             ({
                 akeneo_connectivity_connection_manage_apps: true,
-            }[acl] ?? false),
+            })[acl] ?? false,
     }));
 
     mockFetchResponses({
@@ -170,13 +170,13 @@ test('The marketplace renders with custom apps', () => {
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
     (useSecurity as jest.Mock).mockImplementation(() => ({
         isGranted: (acl: string) =>
             ({
                 akeneo_connectivity_connection_manage_apps: true,
-            }[acl] ?? false),
+            })[acl] ?? false,
     }));
 
     mockFetchResponses({
@@ -239,13 +239,13 @@ test('The search input filters custom apps, apps and extensions', async () => {
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
     (useSecurity as jest.Mock).mockImplementation(() => ({
         isGranted: (acl: string) =>
             ({
                 akeneo_connectivity_connection_manage_apps: true,
-            }[acl] ?? false),
+            })[acl] ?? false,
     }));
 
     mockFetchResponses({
@@ -391,13 +391,13 @@ test('The connect buttons are disabled and a warning is showed when the limit of
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
     (useSecurity as jest.Mock).mockImplementation(() => ({
         isGranted: (acl: string) =>
             ({
                 akeneo_connectivity_connection_manage_apps: true,
-            }[acl] ?? false),
+            })[acl] ?? false,
     }));
 
     mockFetchResponses({
@@ -458,13 +458,13 @@ test('The connect buttons are disabled and a warning is showed when the user can
         isEnabled: (feature: string) =>
             ({
                 marketplace_activate: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
     (useSecurity as jest.Mock).mockImplementation(() => ({
         isGranted: (acl: string) =>
             ({
                 akeneo_connectivity_connection_manage_apps: false,
-            }[acl] ?? false),
+            })[acl] ?? false,
     }));
 
     mockFetchResponses({

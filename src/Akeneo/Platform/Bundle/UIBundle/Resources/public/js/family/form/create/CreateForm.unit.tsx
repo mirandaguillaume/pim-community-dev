@@ -60,7 +60,7 @@ test('it renders form & user creates family', async () => {
 
 test('user sends form & it returns an error', async () => {
   const closeFn = jest.fn();
-  (mockedFamily = () =>
+  ((mockedFamily = () =>
     Promise.reject({
       values: [
         {
@@ -72,7 +72,7 @@ test('user sends form & it returns an error', async () => {
         },
       ],
     })),
-    renderWithProviders(<CreateForm onConfirm={closeFn} onCancel={closeFn} />);
+    renderWithProviders(<CreateForm onConfirm={closeFn} onCancel={closeFn} />));
 
   expect(screen.queryByText('pim_common.create')).toBeInTheDocument();
 

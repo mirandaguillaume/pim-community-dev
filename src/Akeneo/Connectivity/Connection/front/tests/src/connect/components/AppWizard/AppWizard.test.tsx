@@ -111,7 +111,7 @@ test('The wizard renders without error', async () => {
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: false,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const fetchAppWizardDataResponses: MockFetchResponses = {
@@ -143,7 +143,7 @@ test('The wizard renders without error when no logo', async () => {
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: false,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const fetchAppWizardDataResponses: MockFetchResponses = {
@@ -174,7 +174,7 @@ test('The wizard redirect to the marketplace when closed', async () => {
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: false,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const fetchAppWizardDataResponses: MockFetchResponses = {
@@ -214,7 +214,7 @@ test('The wizard display a notification and redirects on success', async () => {
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: false,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const fetchAppWizardDataResponses: MockFetchResponses = {
@@ -272,7 +272,7 @@ test('The wizard display the authentication step', async () => {
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: false,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const fetchAppWizardDataResponses: MockFetchResponses = {
@@ -304,7 +304,7 @@ test('The wizard prevents going past the authorizations step without consent', a
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: false,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const fetchAppWizardDataResponses: MockFetchResponses = {
@@ -381,7 +381,7 @@ test('The wizard allows going past the authorizations step when checkbox consent
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: false,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const fetchAppWizardDataResponses: MockFetchResponses = {
@@ -438,7 +438,7 @@ test('The wizard prevents going past the authorizations step without certificati
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: false,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const fetchAppWizardDataResponses: MockFetchResponses = {
@@ -517,7 +517,7 @@ test('The wizard notifies an unspecified error occurred on app confirm', async (
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const clientId = '8d8a7dc1-0827-4cc9-9ae5-577c6419230b';
@@ -565,7 +565,7 @@ test('The wizard saves app and permissions on confirm', async () => {
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const clientId = '8d8a7dc1-0827-4cc9-9ae5-577c6419230b';
@@ -645,7 +645,7 @@ test('The wizard saves app but have some failing permissions on confirm', async 
         isEnabled: (feature: string) =>
             ({
                 connect_app_with_permissions: true,
-            }[feature] ?? false),
+            })[feature] ?? false,
     }));
 
     const clientId = '8d8a7dc1-0827-4cc9-9ae5-577c6419230b';

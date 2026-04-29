@@ -6,4 +6,4 @@ export interface QualityScoreModel {
 
 export const allScoreValues = ['A', 'B', 'C', 'D', 'E'] as const;
 
-export type QualityScoreValue = typeof allScoreValues[number];
+export type QualityScoreValue = (typeof allScoreValues)[number];

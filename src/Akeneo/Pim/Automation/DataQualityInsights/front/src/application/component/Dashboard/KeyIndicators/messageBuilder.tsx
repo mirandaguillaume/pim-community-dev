@@ -13,11 +13,10 @@ export type MarkersMapping = {
  */
 export const messageBuilder =
   (mapping: MarkersMapping) =>
-  (source: string): JSX.Element =>
-    (
-      <TextWithLink>
-        {source.split(' ').map((substr, index) => (
-          <React.Fragment key={index}>{mapping[substr] || <span>{substr}</span>} </React.Fragment>
-        ))}
-      </TextWithLink>
-    );
+  (source: string): JSX.Element => (
+    <TextWithLink>
+      {source.split(' ').map((substr, index) => (
+        <React.Fragment key={index}>{mapping[substr] || <span>{substr}</span>} </React.Fragment>
+      ))}
+    </TextWithLink>
+  );

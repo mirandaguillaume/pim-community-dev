@@ -5,7 +5,7 @@ import {ContentBlock} from 'draft-js';
 
 jest.mock(
   'html-to-draftjs',
-  () => (text: string) => 'WILL FAIL' === text ? undefined : {contentBlocks: [new ContentBlock({text})]}
+  () => (text: string) => ('WILL FAIL' === text ? undefined : {contentBlocks: [new ContentBlock({text})]})
 );
 
 test('it renders and handle changes', () => {

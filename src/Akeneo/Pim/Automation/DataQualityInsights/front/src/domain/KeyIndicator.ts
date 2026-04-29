@@ -34,8 +34,8 @@ export const areAllCountsZero = (c: CountsByProductType | Counts): boolean => {
 
 export const keyIndicatorProducts = ['has_image', 'good_enrichment', 'values_perfect_spelling'] as const;
 export const keyIndicatorAttributes = ['attributes_perfect_spelling'] as const;
-export type KeyIndicatorProducts = typeof keyIndicatorProducts[number];
-export type KeyIndicatorAttributes = typeof keyIndicatorAttributes[number];
+export type KeyIndicatorProducts = (typeof keyIndicatorProducts)[number];
+export type KeyIndicatorAttributes = (typeof keyIndicatorAttributes)[number];
 
 export function isKeyIndicatorProducts(code: string): code is KeyIndicatorProducts {
   return (keyIndicatorProducts as unknown as string[]).includes(code);

@@ -57,7 +57,7 @@ test('It returns an image uploader that can handle failure', async () => {
         ...xhrMock,
         status: 500,
         response: 'Internal server error',
-      } as XMLHttpRequest)
+      }) as XMLHttpRequest
   );
 
   const {result} = renderHookWithProviders(() => useUploader('fake_route'));

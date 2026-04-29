@@ -45,9 +45,7 @@ export const LoadAttributeSetModal = ({templateId, onClose, onSuccess}: Props) =
         {translate('akeneo.category.template.load_attribute_set.section_title')}
       </Modal.SectionTitle>
       <Modal.Title>{translate('akeneo.category.template.load_attribute_set.title')}</Modal.Title>
-      <SpacedDescription>
-        {translate('akeneo.category.template.load_attribute_set.description')}
-      </SpacedDescription>
+      <SpacedDescription>{translate('akeneo.category.template.load_attribute_set.description')}</SpacedDescription>
       {translate('akeneo.category.template.load_attribute_set.content_description')}
       <List>
         <ListItem>{translate('akeneo.category.template.load_attribute_set.content.description_attributes')}</ListItem>

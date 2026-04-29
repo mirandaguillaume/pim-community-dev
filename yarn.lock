@@ -3,7 +3,8 @@
 
 
 "@akeneo-pim-community/shared@link:../front-packages/shared":
-  version "1.0.0"
+  version "0.0.0"
+  uid ""
 
 "@akeneo-pim-community/shared@link:front-packages/shared":
   version "1.0.0"
@@ -3520,11 +3521,7 @@ ajv@~8.17.1:
 
 "akeneo-design-system@link:front-packages/akeneo-design-system":
   version "0.0.0"
-  dependencies:
-    draft-js "^0.10.5"
-    draftjs-to-html "^0.8.4"
-    html-to-draftjs "^1.5.0"
-    react-draft-wysiwyg "^1.12.13"
+  uid ""
 
 angular-html-parser@~6.0.2:
   version "6.0.2"
@@ -9780,6 +9777,11 @@ prettier@^2.1.1, prettier@^2.2.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.4.1.tgz#671e11c89c14a4cfc876ce564106c4a6726c9f5c"
   integrity sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==
+
+prettier@^3.8.3:
+  version "3.8.3"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.8.3.tgz#560f2de55bf01b4c0503bc629d5df99b9a1d09b0"
+  integrity sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==
 
 pretty-format@^26.0.0, pretty-format@^26.6.2:
   version "26.6.2"

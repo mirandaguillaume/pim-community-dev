@@ -98,7 +98,7 @@ const mockACLs: (view: boolean, manage: boolean) => void = (view: boolean, manag
       ({
         pim_identifier_generator_view: view,
         pim_identifier_generator_manage: manage,
-      }[acl] ?? false),
+      })[acl] ?? false,
   }));
 };
 

@@ -7,7 +7,7 @@ import {useTranslate} from '../../shared/translate';
 type ProvidersAndSavedPermissions = [
     PermissionFormProvider<any>[] | null,
     PermissionsByProviderKey,
-    Dispatch<SetStateAction<PermissionsByProviderKey>>
+    Dispatch<SetStateAction<PermissionsByProviderKey>>,
 ];
 
 const usePermissionsFormProviders = (userGroupName: string): ProvidersAndSavedPermissions => {

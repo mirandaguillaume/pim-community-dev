@@ -13,13 +13,16 @@ interface Props {
 export const ConnectionSelect = ({connections, onChange, label}: Props) => {
     const generate = useMediaUrlGenerator();
 
-    const data = connections.reduce((data, connection) => {
-        data[connection.code] = {
-            label: connection.label,
-            imageSrc: (connection.image && generate(connection.image, 'dropdown_select_picture')) || undefined,
-        };
-        return data;
-    }, {} as {[code: string]: {label: string; imageSrc?: string}});
+    const data = connections.reduce(
+        (data, connection) => {
+            data[connection.code] = {
+                label: connection.label,
+                imageSrc: (connection.image && generate(connection.image, 'dropdown_select_picture')) || undefined,
+            };
+            return data;
+        },
+        {} as {[code: string]: {label: string; imageSrc?: string}}
+    );
 
     return (
         <span>

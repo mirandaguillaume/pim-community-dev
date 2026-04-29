@@ -11,7 +11,7 @@ const AVAILABLE_JOB_STATUSES = [
   'PAUSED',
 ] as const;
 
-type JobStatus = typeof AVAILABLE_JOB_STATUSES[number];
+type JobStatus = (typeof AVAILABLE_JOB_STATUSES)[number];
 
 const isPaused = (status: JobStatus): boolean => ['PAUSED', 'PAUSING'].includes(status);
 

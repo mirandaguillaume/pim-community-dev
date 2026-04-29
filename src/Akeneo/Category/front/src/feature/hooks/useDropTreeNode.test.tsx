@@ -69,7 +69,7 @@ describe('useDropTreeNode', () => {
           right: 100,
           bottom: 60,
           left: 0,
-        } as DOMRect)
+        }) as DOMRect
     );
 
     // the dragged element could be dropped before the node
@@ -134,7 +134,7 @@ describe('useDropTreeNode', () => {
           right: 100,
           bottom: 60,
           left: 0,
-        } as DOMRect)
+        }) as DOMRect
     );
 
     act(() => {

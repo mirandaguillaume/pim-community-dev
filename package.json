@@ -70,6 +70,9 @@
     "@playwright/test": "^1.50.0",
     "@rspack/cli": "^1.7.9",
     "@rspack/core": "^1.7.9",
+    "@stryker-mutator/core": "^8.6",
+    "@stryker-mutator/jest-runner": "^8.6",
+    "@stryker-mutator/typescript-checker": "^8.6",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^14.3.0",
     "@testing-library/user-event": "^12.8.3",
@@ -121,7 +124,7 @@
     "jest-fetch-mock": "^3.0.3",
     "jest-watch-typeahead": "^2.2.2",
     "path-browserify": "^1.0.1",
-    "prettier": "^2.1.1",
+    "prettier": "^3.8.3",
     "react-test-renderer": "^18.3.1",
     "redux-devtools-extension": "^2.13.2",
     "text-loader": "0.0.1",
@@ -130,10 +133,7 @@
     "typescript": "^5.7.0",
     "typescript-plugin-styled-components": "^3.0.0",
     "webpack-bundle-analyzer": "^4.10.0",
-    "yamljs": "0.3.0",
-    "@stryker-mutator/core": "^8.6",
-    "@stryker-mutator/jest-runner": "^8.6",
-    "@stryker-mutator/typescript-checker": "^8.6"
+    "yamljs": "0.3.0"
   },
   "dependencies": {
     "@types/react-query": "^1.2.9",

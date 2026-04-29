@@ -39,7 +39,7 @@ export const AttributeList = ({attributes, selectedAttribute, templateId, onAttr
   };
 
   const handleReorder = (indices: number[]) => {
-    if (mutation.isLoading){
+    if (mutation.isLoading) {
       return;
     }
     const uuids = indices.map(i => attributes[i]?.uuid);
@@ -66,9 +66,9 @@ export const AttributeList = ({attributes, selectedAttribute, templateId, onAttr
     <AttributeListContainer>
       <SectionTitle sticky={0}>
         <SectionTitle.Title>{translate('akeneo.category.attributes')}</SectionTitle.Title>
-          <AddAttributeButton ghost size="small" level="tertiary" onClick={openAddTemplateAttributeModal}>
-            {translate('akeneo.category.template.add_attribute.add_button')}
-          </AddAttributeButton>
+        <AddAttributeButton ghost size="small" level="tertiary" onClick={openAddTemplateAttributeModal}>
+          {translate('akeneo.category.template.add_attribute.add_button')}
+        </AddAttributeButton>
       </SectionTitle>
       <ScrollablePanel>
         <Table isDragAndDroppable={true} onReorder={handleReorder}>

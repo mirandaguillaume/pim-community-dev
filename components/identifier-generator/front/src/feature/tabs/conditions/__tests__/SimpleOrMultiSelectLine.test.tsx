@@ -251,7 +251,7 @@ describe('SimpleOrMultiSelectLine', () => {
       isGranted: (acl: string) =>
         ({
           pim_enrich_attribute_index: false,
-        }[acl] ?? false),
+        })[acl] ?? false,
     }));
     const condition: SimpleOrMultiSelectCondition = {
       attributeCode: 'simple_select',

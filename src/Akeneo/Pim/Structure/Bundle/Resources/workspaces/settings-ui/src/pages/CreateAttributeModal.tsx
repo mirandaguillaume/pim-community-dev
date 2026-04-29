@@ -68,9 +68,12 @@ const CreateAttributeModal: React.FC<CreateAttributeModalProps> = ({
   const labelRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   const handleConfirm = () => {
-    const extraFieldsData = extraFields.reduce((old, extraField: CreateAttributeModalExtraField) => {
-      return {...old, ...extraField.data};
-    }, {} as {[key: string]: any});
+    const extraFieldsData = extraFields.reduce(
+      (old, extraField: CreateAttributeModalExtraField) => {
+        return {...old, ...extraField.data};
+      },
+      {} as {[key: string]: any}
+    );
     onStepConfirm({
       code,
       label,

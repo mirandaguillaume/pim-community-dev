@@ -13,7 +13,7 @@ const Warning = styled.div`
 
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; ;
+    text-overflow: ellipsis;
 `;
 
 const WarningIcon = styled(DangerIcon)`
@@ -31,7 +31,7 @@ const Error = styled.div`
 
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; ;
+    text-overflow: ellipsis;
 `;
 
 const ErrorIcon = styled(DangerIcon)`

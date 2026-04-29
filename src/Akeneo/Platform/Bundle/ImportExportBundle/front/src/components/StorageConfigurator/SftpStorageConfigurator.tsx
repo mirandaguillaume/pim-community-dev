@@ -188,7 +188,7 @@ const SftpStorageConfigurator = ({
               </Button>
             )
           }
-          value={passwordIsStoredOnServer ? '••••••••' : storage.password ?? ''}
+          value={passwordIsStoredOnServer ? '••••••••' : (storage.password ?? '')}
           readOnly={passwordIsStoredOnServer}
           required={true}
           type="password"

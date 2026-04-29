@@ -53,8 +53,8 @@ const useDropTreeNode = <T>(node: TreeNode<T> | undefined, reorder: ReorderOnDro
           cursorRelativePosition < topTierHeight
             ? 'before'
             : cursorRelativePosition < bottomTierHeight
-            ? 'in'
-            : 'after',
+              ? 'in'
+              : 'after',
       };
 
       if (!dropTarget || JSON.stringify(dropTarget) !== JSON.stringify(newDropTarget)) {

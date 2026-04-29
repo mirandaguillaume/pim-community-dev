@@ -21,7 +21,7 @@ const getFakeRef = (width: number, height: number, top: number, left: number) =>
         right: 0,
       }),
     },
-  } as RefObject<HTMLElement>);
+  }) as RefObject<HTMLElement>;
 
 test('It returns down when there is enough space above the element', () => {
   const ref = getFakeRef(0, 100, 100, 0);
