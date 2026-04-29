@@ -11,7 +11,8 @@ describe('useFetchWidgetFamilies', () => {
   beforeEach(() => jest.clearAllMocks());
 
   it('returns empty object without fetching when familyCodes is empty', () => {
-    const {result} = renderHook(() => useFetchWidgetFamilies('ecommerce', 'en_US', []));
+    const noFamilyCodes: string[] = [];
+    const {result} = renderHook(() => useFetchWidgetFamilies('ecommerce', 'en_US', noFamilyCodes));
     expect(result.current).toEqual({});
     expect(mockedFetchWidgetFamilies).not.toHaveBeenCalled();
   });
