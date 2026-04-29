@@ -34,7 +34,9 @@ describe('useFetchFamiliesByCodes', () => {
     ];
     fetchMock.mockResponseOnce(JSON.stringify(mockFamilies));
 
-    const {result} = renderHook(() => useFetchFamiliesByCodes({cameras: 1, headphones: 2}));
+    // Stable reference: object defined outside callback so useEffect([widgetFamilies]) doesn't loop
+    const widgetFamilies = {cameras: 1, headphones: 2};
+    const {result} = renderHook(() => useFetchFamiliesByCodes(widgetFamilies));
 
     await waitFor(() => expect(result.current).toEqual(mockFamilies));
     expect(mockGenerate).toHaveBeenCalledWith('akeneo_data_quality_insights_find_families', {
@@ -53,7 +55,8 @@ describe('useFetchFamiliesByCodes', () => {
   it('does not update state after unmount', async () => {
     fetchMock.mockResponseOnce(JSON.stringify([]));
 
-    const {unmount} = renderHook(() => useFetchFamiliesByCodes({cameras: 1}));
+    const stableFamilies = {cameras: 1};
+    const {unmount} = renderHook(() => useFetchFamiliesByCodes(stableFamilies));
     unmount();
     await new Promise(resolve => setTimeout(resolve, 50));
   });
