@@ -8,8 +8,8 @@ describe('wrong-credentials-combination reducer', () => {
 
     it('replaces state with payload on WRONG_CREDENTIALS_COMBINATIONS_FETCHED', () => {
         const combinations = {
-            magento: {username: 'magento_user', client_id: 'abc123'},
-            bynder: {username: 'bynder_user', client_id: 'def456'},
+            magento: {code: 'magento', users: [{username: 'magento_user', date: '2024-01-01'}]},
+            bynder: {code: 'bynder', users: [{username: 'bynder_user', date: '2024-01-02'}]},
         };
 
         const result = reducer(initialState, wrongCredentialsCombinationsFetched(combinations));
@@ -18,8 +18,12 @@ describe('wrong-credentials-combination reducer', () => {
     });
 
     it('overwrites previous state entirely', () => {
-        const oldState = {magento: {username: 'old', client_id: 'old'}};
-        const newCombinations = {bynder: {username: 'new', client_id: 'new'}};
+        const oldState = {
+            magento: {code: 'magento', users: [{username: 'old_user', date: '2023-01-01'}]},
+        };
+        const newCombinations = {
+            bynder: {code: 'bynder', users: [{username: 'new_user', date: '2024-01-01'}]},
+        };
 
         const result = reducer(oldState, wrongCredentialsCombinationsFetched(newCombinations));
 

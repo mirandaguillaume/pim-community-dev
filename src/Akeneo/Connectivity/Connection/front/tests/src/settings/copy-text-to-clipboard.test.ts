@@ -10,7 +10,13 @@ describe('copyTextToClipboard', () => {
 
         jest.spyOn(document, 'createRange').mockReturnValue(range);
         jest.spyOn(window, 'getSelection').mockReturnValue(selection);
-        jest.spyOn(document, 'execCommand').mockReturnValue(true);
+
+        const execCommandMock = jest.fn().mockReturnValue(true);
+        Object.defineProperty(document, 'execCommand', {
+            value: execCommandMock,
+            writable: true,
+            configurable: true,
+        });
 
         const element = document.createElement('div');
         element.textContent = 'copy me';
@@ -20,7 +26,7 @@ describe('copyTextToClipboard', () => {
         expect(range.selectNodeContents).toHaveBeenCalledWith(element);
         expect(selection.removeAllRanges).toHaveBeenCalledTimes(2);
         expect(selection.addRange).toHaveBeenCalledWith(range);
-        expect(document.execCommand).toHaveBeenCalledWith('copy');
+        expect(execCommandMock).toHaveBeenCalledWith('copy');
     });
 
     it('does nothing when getSelection returns null', () => {
