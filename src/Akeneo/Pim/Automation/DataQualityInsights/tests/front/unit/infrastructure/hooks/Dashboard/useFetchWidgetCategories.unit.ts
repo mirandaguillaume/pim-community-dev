@@ -1,12 +1,9 @@
 import {renderHook, waitFor} from '@testing-library/react';
-import useFetchWidgetCategories from '@akeneo-pim-community/data-quality-insights/src/infrastructure/hooks/Dashboard/useFetchWidgetCategories';
-import fetchWidgetCategories from '@akeneo-pim-community/data-quality-insights/src/infrastructure/fetcher/Dashboard/fetchWidgetCategories';
+import useFetchWidgetCategories from '../../../../../../front/src/infrastructure/hooks/Dashboard/useFetchWidgetCategories';
+import fetchWidgetCategories from '../../../../../../front/src/infrastructure/fetcher/Dashboard/fetchWidgetCategories';
 
-// Factory mock prevents loading the real fetcher (which triggers fos-routing-base OOM)
-jest.mock(
-  '@akeneo-pim-community/data-quality-insights/src/infrastructure/fetcher/Dashboard/fetchWidgetCategories',
-  () => jest.fn()
-);
+jest.mock('routing', () => ({generate: jest.fn(() => '/mock-url')}));
+jest.mock('../../../../../../front/src/infrastructure/fetcher/Dashboard/fetchWidgetCategories', () => jest.fn());
 
 const mockedFetchWidgetCategories = fetchWidgetCategories as jest.Mock;
 
