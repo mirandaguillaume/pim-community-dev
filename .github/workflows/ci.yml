@@ -57,7 +57,7 @@ defaults:
 #     ├──► prepare ──┬──► build-front [if frontend] ──┬──► test-playwright [if front]►│
 #     │              │                                 │                       │
 #     │              ├──► lint-front [if frontend] ────────────────────────►│
-#     │              ├──► test-front-unit [if frontend] (3 shards) ───────────►│
+#     │              ├──► test-front-unit [if frontend] (2 shards, no DQI) ────►│
 #     │              │                                                         │
 #     │              ├──► lint-back [if backend] ───────────────────────►│
 #     │              ├──► lint-deprecations [if backend] ──────────────────►│
@@ -522,17 +522,54 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn npm audit --severity moderate || echo "::warning::yarn audit found vulnerabilities — review before merging"
 
   # ===========================================================================
-  # FRONT-UNIT: Jest unit tests (sharded x3)
+  # FRONT-PACKAGES: Jest tests for the 7 front-end workspace packages
+  # (shared, measurement, process-tracker, import-export, catalog-volume-monitoring,
+  #  category, identifier-generator). Runs once — not duplicated across shards.
+  # ===========================================================================
+  test-front-packages:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yarn-cache: 'true'
+          pull-base-images: 'false'
+
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
+
+      - name: Run workspace package unit tests
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:unit
+
+  # ===========================================================================
+  # FRONT-UNIT: Root Jest unit tests (sharded x2, DQI excluded — see test-front-dqi)
   # ===========================================================================
   test-front-unit:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 20
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3]
+        shard: [1, 2]
     steps:
       - uses: actions/checkout@v4
 
@@ -571,14 +608,98 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn generate-models
 
-      - name: Run Jest unit tests (shard ${{ matrix.shard }}/3)
+      - name: Run Jest unit tests (shard ${{ matrix.shard }}/2)
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=8192" node yarn unit --shard=${{ matrix.shard }}/3 --coverage --coverageDirectory=coverage/shard-${{ matrix.shard }}
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=4096" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --runInBand --forceExit --testPathIgnorePatterns='DataQualityInsights' --shard=${{ matrix.shard }}/2
+
+  # ===========================================================================
+  # FRONT-DQI: DataQualityInsights unit tests (4 shards — V8 fills any heap limit given)
+  # ===========================================================================
+  test-front-dqi:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yarn-cache: 'true'
+          pull-base-images: 'false'
+
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Download pre-generated front assets
+        uses: actions/download-artifact@v4
+        with:
+          name: front-assets-pre
+          path: front-assets-pre
+
+      - name: Restore pre-generated front assets
+        run: |
+          cp -a front-assets-pre/. public/
+          sudo chmod -R a+rwX public/
+
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
+
+      - name: Generate models (JSON schemas)
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn generate-models
+
+      - name: Run DataQualityInsights unit tests (shard ${{ matrix.shard }}/4)
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -e NODE_OPTIONS="--max-old-space-size=4096" node yarn jest --no-cache --config tests/front/unit/jest/unit.jest.js --maxWorkers=2 --workerIdleMemoryLimit=1024MB --forceExit --testPathPattern='DataQualityInsights' --shard=${{ matrix.shard }}/4
+
+  # ===========================================================================
+  # FRONT-CONNECTIVITY: Jest tests for Connectivity Connection workspace
+  # ===========================================================================
+  test-front-connectivity:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yarn-cache: 'true'
+          pull-base-images: 'false'
+
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
 
       - name: Run Connectivity Connection unit tests
-        if: matrix.shard == 1
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
@@ -589,7 +710,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: jest-coverage-shard-${{ matrix.shard }}
+          name: jest-coverage-connectivity
           path: coverage/
           retention-days: 30
 
@@ -1958,7 +2079,10 @@ jobs:
       - detect-changes
       - build-front
       - lint-front
+      - test-front-packages
       - test-front-unit
+      - test-front-dqi
+      - test-front-connectivity
       - lint-back
       - lint-deprecations
       - lint-code-style
@@ -1990,7 +2114,10 @@ jobs:
           echo "  prepare: ${{ needs.prepare.result }}"
           echo "  build-front: ${{ needs.build-front.result }}"
           echo "  lint-front: ${{ needs.lint-front.result }}"
+          echo "  test-front-packages: ${{ needs.test-front-packages.result }}"
           echo "  test-front-unit: ${{ needs.test-front-unit.result }}"
+          echo "  test-front-dqi: ${{ needs.test-front-dqi.result }}"
+          echo "  test-front-connectivity: ${{ needs.test-front-connectivity.result }}"
           echo "  lint-back: ${{ needs.lint-back.result }}"
           echo "  lint-deprecations: ${{ needs.lint-deprecations.result }}"
           echo "  lint-code-style: ${{ needs.lint-code-style.result }}"
@@ -2017,7 +2144,10 @@ jobs:
             "${{ needs.prepare.result }}"
             "${{ needs.build-front.result }}"
             "${{ needs.lint-front.result }}"
+            "${{ needs.test-front-packages.result }}"
             "${{ needs.test-front-unit.result }}"
+            "${{ needs.test-front-dqi.result }}"
+            "${{ needs.test-front-connectivity.result }}"
             "${{ needs.lint-back.result }}"
             "${{ needs.lint-deprecations.result }}"
             "${{ needs.lint-code-style.result }}"
