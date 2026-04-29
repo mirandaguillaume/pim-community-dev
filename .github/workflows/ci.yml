@@ -1903,15 +1903,23 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "No front-end source files changed, skipping mutation testing"
           else
-            # Skip if every TS/TSX change is formatting-only (whitespace/indentation).
-            # --ignore-all-space strips all whitespace diffs; if nothing remains, it's a
-            # pure formatting commit (e.g. a Prettier version bump) with no logic changes.
-            LOGIC_CHANGES=$(git diff --diff-filter=AM --ignore-all-space --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
-              | grep -E '^(front-packages|components|src)/' \
-              | grep -v '\.test\.\|\.spec\.\|\.unit\.\|__tests__\|__mocks__\|stories' || true)
-            if [ -z "$LOGIC_CHANGES" ]; then
+            # Skip if every TS/TSX change is formatting-only (no token-level changes).
+            # Strip ALL whitespace (spaces, tabs, newlines) from both versions and compare
+            # the raw token stream. Prettier may split/join lines so --ignore-all-space
+            # is insufficient; token comparison catches all pure-reformatting commits.
+            HAS_LOGIC_CHANGE=false
+            for f in $SRC_FILES; do
+              OLD=$(git show origin/master:"$f" 2>/dev/null | tr -d '[:space:]' || echo "NEW_FILE")
+              NEW=$(git show HEAD:"$f" 2>/dev/null | tr -d '[:space:]' || echo "")
+              if [ "$OLD" != "$NEW" ]; then
+                HAS_LOGIC_CHANGE=true
+                echo "Logic change detected in: $f"
+                break
+              fi
+            done
+            if [ "$HAS_LOGIC_CHANGE" = "false" ]; then
               echo "skip=true" >> "$GITHUB_OUTPUT"
-              echo "All front-end changes are formatting-only (whitespace), skipping mutation testing"
+              echo "All front-end changes are formatting-only (token stream identical), skipping mutation testing"
             else
               MUTATE=$(echo "$SRC_FILES" | sort -u | paste -sd, -)
               echo "skip=false" >> "$GITHUB_OUTPUT"
