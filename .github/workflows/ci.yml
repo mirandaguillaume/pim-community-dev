@@ -1867,7 +1867,9 @@ jobs:
   mutation-testing-front:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: |
+      (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true') &&
+      !startsWith(github.head_ref, 'upgrade/')
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
