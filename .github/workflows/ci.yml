@@ -1903,28 +1903,39 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "No front-end source files changed, skipping mutation testing"
           else
-            MUTATE=$(echo "$SRC_FILES" | sort -u | paste -sd, -)
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-            echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
-            echo "Files to mutate ($(echo "$SRC_FILES" | sort -u | wc -l)): $MUTATE"
+            # Skip if every TS/TSX change is formatting-only (whitespace/indentation).
+            # --ignore-all-space strips all whitespace diffs; if nothing remains, it's a
+            # pure formatting commit (e.g. a Prettier version bump) with no logic changes.
+            LOGIC_CHANGES=$(git diff --diff-filter=AM --ignore-all-space --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
+              | grep -E '^(front-packages|components|src)/' \
+              | grep -v '\.test\.\|\.spec\.\|\.unit\.\|__tests__\|__mocks__\|stories' || true)
+            if [ -z "$LOGIC_CHANGES" ]; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "All front-end changes are formatting-only (whitespace), skipping mutation testing"
+            else
+              MUTATE=$(echo "$SRC_FILES" | sort -u | paste -sd, -)
+              echo "skip=false" >> "$GITHUB_OUTPUT"
+              echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
+              echo "Files to mutate ($(echo "$SRC_FILES" | sort -u | wc -l)): $MUTATE"
 
-            # Use workspace-specific config when all changed files belong to one workspace.
-            # Falls back to global config for multi-workspace or unknown-workspace changes.
-            is_single_workspace() {
-              ! echo "$SRC_FILES" | grep -vE "^$1" | grep -q .
-            }
-            CONFIG="stryker.config.json"
-            if is_single_workspace 'src/Akeneo/Tool/Bundle/MeasureBundle/'; then
-              CONFIG="stryker-measure.config.json"
-            elif is_single_workspace 'src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/'; then
-              CONFIG="stryker-catalog-volume.config.json"
-            elif is_single_workspace 'src/Akeneo/Platform/Job/front/process-tracker/'; then
-              CONFIG="stryker-process-tracker.config.json"
-            elif is_single_workspace 'components/identifier-generator/'; then
-              CONFIG="stryker-identifier-generator.config.json"
+              # Use workspace-specific config when all changed files belong to one workspace.
+              # Falls back to global config for multi-workspace or unknown-workspace changes.
+              is_single_workspace() {
+                ! echo "$SRC_FILES" | grep -vE "^$1" | grep -q .
+              }
+              CONFIG="stryker.config.json"
+              if is_single_workspace 'src/Akeneo/Tool/Bundle/MeasureBundle/'; then
+                CONFIG="stryker-measure.config.json"
+              elif is_single_workspace 'src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/'; then
+                CONFIG="stryker-catalog-volume.config.json"
+              elif is_single_workspace 'src/Akeneo/Platform/Job/front/process-tracker/'; then
+                CONFIG="stryker-process-tracker.config.json"
+              elif is_single_workspace 'components/identifier-generator/'; then
+                CONFIG="stryker-identifier-generator.config.json"
+              fi
+              echo "config=$CONFIG" >> "$GITHUB_OUTPUT"
+              echo "Using Stryker config: $CONFIG"
             fi
-            echo "config=$CONFIG" >> "$GITHUB_OUTPUT"
-            echo "Using Stryker config: $CONFIG"
           fi
 
       - name: Run Stryker mutation testing
