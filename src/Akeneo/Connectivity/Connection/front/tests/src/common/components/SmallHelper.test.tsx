@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/react';
 import {SmallHelper} from '@src/common/components/SmallHelper';
-import {renderWithProviders} from '../../test-utils';
+import {renderWithProviders} from '../../../test-utils';
 
 describe('SmallHelper', () => {
     it('renders children', () => {

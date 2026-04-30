@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen, fireEvent} from '@testing-library/react';
 import {ToggleButton} from '@src/common/components/ToggleButton';
-import {renderWithProviders} from '../../test-utils';
+import {renderWithProviders} from '../../../test-utils';
 
 describe('ToggleButton', () => {
     it('renders a checkbox input', () => {
