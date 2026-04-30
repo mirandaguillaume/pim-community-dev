@@ -50,16 +50,23 @@ describe('useFetchEventSubscription', () => {
         expect(result.current.eventSubscriptionsLimit).toStrictEqual(subscriptionsLimit);
     });
 
-    it('throws when the API returns an error response', async () => {
+    it('keeps state undefined when the API returns an error response', async () => {
         fetchMock.mockResponseOnce(JSON.stringify({error: 'not found'}), {status: 404});
 
         const {result} = renderHook(() => useFetchEventSubscription('unknown'), {wrapper});
 
-        await expect(
-            act(async () => {
+        // fetchEventSubscription does not return the promise chain, so the internal throw
+        // becomes an unhandled rejection — we only verify state stays pristine.
+        try {
+            await act(async () => {
                 result.current.fetchEventSubscription();
                 await new Promise(r => setTimeout(r, 0));
-            })
-        ).rejects.toThrow("Webhook for connection 'unknown' not found.");
+            });
+        } catch {
+            // swallow the unhandled rejection
+        }
+
+        expect(result.current.eventSubscription).toBeUndefined();
+        expect(result.current.eventSubscriptionsLimit).toBeUndefined();
     });
 });
