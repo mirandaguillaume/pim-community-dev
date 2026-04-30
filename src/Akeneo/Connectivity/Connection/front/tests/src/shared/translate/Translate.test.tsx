@@ -1,4 +1,5 @@
 import React from 'react';
+import '@testing-library/jest-dom';
 import {render, screen} from '@testing-library/react';
 import {Translate} from '@src/shared/translate/Translate';
 import {TranslateContext} from '@src/shared/translate/translate-context';

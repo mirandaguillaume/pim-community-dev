@@ -1,4 +1,5 @@
 import React from 'react';
+import '@testing-library/jest-dom';
 import {render, screen} from '@testing-library/react';
 import {SecurityGuard} from '@src/shared/security/SecurityGuard';
 import {SecurityContext} from '@src/shared/security/security-context';
