@@ -56,7 +56,7 @@ describe('useFetchEventSubscription', () => {
         expect(result.current.eventSubscriptionsLimit).toStrictEqual(subscriptionsLimit);
     });
 
-    it('passes the connection code as a route param', async () => {
+    it('passes the connection code as a route param', () => {
         mockFetchResult.mockResolvedValue(
             ok({
                 event_subscription: eventSubscription,
