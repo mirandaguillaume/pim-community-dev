@@ -8,7 +8,7 @@ describe('SearchInput', () => {
     it('renders the input with the given value', () => {
         renderWithProviders(<SearchInput value='hello' onSearch={jest.fn()} placeholder='Search...' />);
 
-        expect((screen.getByTestId('event-logs-list-search-text-filter') as HTMLInputElement).value).toBe('hello');
+        expect(screen.getByTestId('event-logs-list-search-text-filter')).toHaveValue('hello');
     });
 
     it('calls onSearch with the typed value on input change', () => {
