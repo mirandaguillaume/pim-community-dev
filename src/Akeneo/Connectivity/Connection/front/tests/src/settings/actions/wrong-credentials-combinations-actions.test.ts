@@ -2,6 +2,7 @@ import {
     WRONG_CREDENTIALS_COMBINATIONS_FETCHED,
     wrongCredentialsCombinationsFetched,
 } from '@src/settings/actions/wrong-credentials-combinations-actions';
+import {WrongCredentialsCombinations} from '@src/model/wrong-credentials-combinations';
 
 describe('wrong-credentials-combinations-actions', () => {
     it("WRONG_CREDENTIALS_COMBINATIONS_FETCHED is 'WRONG_CREDENTIALS_COMBINATIONS_FETCHED'", () => {
@@ -9,8 +10,11 @@ describe('wrong-credentials-combinations-actions', () => {
     });
 
     it('wrongCredentialsCombinationsFetched creates action with payload', () => {
-        const combinations = {
-            magento: {code: 'magento', users: [{username: 'wrong_user', date: '2024-01-01'}]},
+        const combinations: WrongCredentialsCombinations = {
+            magento: {
+                code: 'magento',
+                users: [{username: 'wrong_user', date: '2024-01-01'}] as [{username: string; date: string}],
+            },
         };
         const action = wrongCredentialsCombinationsFetched(combinations);
 

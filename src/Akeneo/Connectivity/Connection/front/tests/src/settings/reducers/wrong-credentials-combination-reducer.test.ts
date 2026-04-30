@@ -1,5 +1,8 @@
 import {reducer, initialState} from '@src/settings/reducers/wrong-credentials-combination-reducer';
 import {wrongCredentialsCombinationsFetched} from '@src/settings/actions/wrong-credentials-combinations-actions';
+import {WrongCredentialsCombinations} from '@src/model/wrong-credentials-combinations';
+
+type UserTuple = [{username: string; date: string}];
 
 describe('wrong-credentials-combination reducer', () => {
     it('initialState is empty object', () => {
@@ -7,9 +10,9 @@ describe('wrong-credentials-combination reducer', () => {
     });
 
     it('replaces state with payload on WRONG_CREDENTIALS_COMBINATIONS_FETCHED', () => {
-        const combinations = {
-            magento: {code: 'magento', users: [{username: 'magento_user', date: '2024-01-01'}]},
-            bynder: {code: 'bynder', users: [{username: 'bynder_user', date: '2024-01-02'}]},
+        const combinations: WrongCredentialsCombinations = {
+            magento: {code: 'magento', users: [{username: 'magento_user', date: '2024-01-01'}] as UserTuple},
+            bynder: {code: 'bynder', users: [{username: 'bynder_user', date: '2024-01-02'}] as UserTuple},
         };
 
         const result = reducer(initialState, wrongCredentialsCombinationsFetched(combinations));
@@ -18,11 +21,11 @@ describe('wrong-credentials-combination reducer', () => {
     });
 
     it('overwrites previous state entirely', () => {
-        const oldState = {
-            magento: {code: 'magento', users: [{username: 'old_user', date: '2023-01-01'}]},
+        const oldState: WrongCredentialsCombinations = {
+            magento: {code: 'magento', users: [{username: 'old_user', date: '2023-01-01'}] as UserTuple},
         };
-        const newCombinations = {
-            bynder: {code: 'bynder', users: [{username: 'new_user', date: '2024-01-01'}]},
+        const newCombinations: WrongCredentialsCombinations = {
+            bynder: {code: 'bynder', users: [{username: 'new_user', date: '2024-01-01'}] as UserTuple},
         };
 
         const result = reducer(oldState, wrongCredentialsCombinationsFetched(newCombinations));
