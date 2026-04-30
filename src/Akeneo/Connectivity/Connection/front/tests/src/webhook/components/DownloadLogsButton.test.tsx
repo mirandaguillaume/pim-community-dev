@@ -21,9 +21,7 @@ describe('DownloadLogsButton', () => {
     it('renders the download logs label', () => {
         renderWithProviders(<DownloadLogsButton />);
 
-        expect(
-            screen.getByText('akeneo_connectivity.connection.webhook.download_logs')
-        ).toBeInTheDocument();
+        expect(screen.getByText('akeneo_connectivity.connection.webhook.download_logs')).toBeInTheDocument();
     });
 
     it('includes the connection code in the href when an enabled subscription is provided', () => {

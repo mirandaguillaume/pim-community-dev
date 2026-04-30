@@ -19,17 +19,13 @@ const multiUserCombination = {
 
 describe('WrongCombinationsWarning', () => {
     it('renders the documentation link for a single user warning', () => {
-        renderWithProviders(
-            <WrongCombinationsWarning username='good_user' wrongCombination={singleUserCombination} />
-        );
+        renderWithProviders(<WrongCombinationsWarning username='good_user' wrongCombination={singleUserCombination} />);
 
         expect(screen.getByRole('link')).toBeInTheDocument();
     });
 
     it('renders the list title when multiple users have wrong combinations', () => {
-        renderWithProviders(
-            <WrongCombinationsWarning username='good_user' wrongCombination={multiUserCombination} />
-        );
+        renderWithProviders(<WrongCombinationsWarning username='good_user' wrongCombination={multiUserCombination} />);
 
         expect(
             screen.getByText(
@@ -39,9 +35,7 @@ describe('WrongCombinationsWarning', () => {
     });
 
     it('does not render the list title for a single user warning', () => {
-        renderWithProviders(
-            <WrongCombinationsWarning username='good_user' wrongCombination={singleUserCombination} />
-        );
+        renderWithProviders(<WrongCombinationsWarning username='good_user' wrongCombination={singleUserCombination} />);
 
         expect(
             screen.queryByText(

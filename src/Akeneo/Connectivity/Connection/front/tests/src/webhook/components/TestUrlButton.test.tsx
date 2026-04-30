@@ -8,9 +8,7 @@ describe('TestUrlButton', () => {
     it('renders the button text', () => {
         renderWithProviders(<TestUrlButton onClick={jest.fn()} disabled={false} loading={false} />);
 
-        expect(
-            screen.getByText('akeneo_connectivity.connection.webhook.form.test')
-        ).toBeInTheDocument();
+        expect(screen.getByText('akeneo_connectivity.connection.webhook.form.test')).toBeInTheDocument();
     });
 
     it('is disabled when the disabled prop is true', () => {
