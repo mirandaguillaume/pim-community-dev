@@ -1,8 +1,15 @@
 import {useFetchEventSubscription} from '@src/webhook/hooks/api/use-fetch-event-subscription';
+import {fetchResult} from '@src/shared/fetch-result';
+import {ok, err} from '@src/shared/fetch-result/result';
 import {RouterContext} from '@src/shared/router/router-context';
 import {renderHook, act} from '@testing-library/react';
 import React, {FC, PropsWithChildren} from 'react';
 
+jest.mock('@src/shared/fetch-result', () => ({
+    fetchResult: jest.fn(),
+}));
+
+const mockFetchResult = fetchResult as jest.Mock;
 const generate = jest.fn((route: string) => `/api/${route}`);
 
 const wrapper: FC<PropsWithChildren> = ({children}) =>
@@ -19,8 +26,8 @@ const eventSubscription = {
 const subscriptionsLimit = {limit: 10, current: 3};
 
 describe('useFetchEventSubscription', () => {
-    beforeEach(() => {
-        fetchMock.resetMocks();
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     it('starts with undefined eventSubscription and eventSubscriptionsLimit', () => {
@@ -31,12 +38,11 @@ describe('useFetchEventSubscription', () => {
     });
 
     it('populates state after fetchEventSubscription is called', async () => {
-        fetchMock.mockResponseOnce(
-            JSON.stringify({
+        mockFetchResult.mockResolvedValue(
+            ok({
                 event_subscription: eventSubscription,
                 active_event_subscriptions_limit: subscriptionsLimit,
-            }),
-            {status: 200}
+            })
         );
 
         const {result} = renderHook(() => useFetchEventSubscription('magento'), {wrapper});
@@ -50,23 +56,28 @@ describe('useFetchEventSubscription', () => {
         expect(result.current.eventSubscriptionsLimit).toStrictEqual(subscriptionsLimit);
     });
 
-    it('keeps state undefined when the API returns an error response', async () => {
-        fetchMock.mockResponseOnce(JSON.stringify({error: 'not found'}), {status: 404});
+    it('passes the connection code as a route param', async () => {
+        mockFetchResult.mockResolvedValue(
+            ok({
+                event_subscription: eventSubscription,
+                active_event_subscriptions_limit: subscriptionsLimit,
+            })
+        );
 
-        const {result} = renderHook(() => useFetchEventSubscription('unknown'), {wrapper});
+        renderHook(() => useFetchEventSubscription('bynder'), {wrapper});
 
-        // fetchEventSubscription does not return the promise chain, so the internal throw
-        // becomes an unhandled rejection — we only verify state stays pristine.
-        try {
-            await act(async () => {
-                result.current.fetchEventSubscription();
-                await new Promise(r => setTimeout(r, 0));
-            });
-        } catch {
-            // swallow the unhandled rejection
-        }
+        expect(generate).toHaveBeenCalledWith(
+            'akeneo_connectivity_connection_webhook_rest_get',
+            {code: 'bynder'}
+        );
+    });
 
-        expect(result.current.eventSubscription).toBeUndefined();
-        expect(result.current.eventSubscriptionsLimit).toBeUndefined();
+    it('returns a stable fetchEventSubscription callback across re-renders', () => {
+        mockFetchResult.mockResolvedValue(err(null));
+
+        const {result, rerender} = renderHook(() => useFetchEventSubscription('magento'), {wrapper});
+        const first = result.current.fetchEventSubscription;
+        rerender();
+        expect(result.current.fetchEventSubscription).toBe(first);
     });
 });
