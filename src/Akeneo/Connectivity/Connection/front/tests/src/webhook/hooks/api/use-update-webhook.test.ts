@@ -35,7 +35,13 @@ describe('useUpdateWebhook', () => {
 
     it('notifies success when the API call succeeds', async () => {
         fetchMock.mockResponseOnce(
-            JSON.stringify({connectionCode: 'magento', url: 'https://example.com/webhook', secret: null, enabled: true, isUsingUuid: false}),
+            JSON.stringify({
+                connectionCode: 'magento',
+                url: 'https://example.com/webhook',
+                secret: null,
+                enabled: true,
+                isUsingUuid: false,
+            }),
             {status: 200}
         );
 
@@ -43,26 +49,17 @@ describe('useUpdateWebhook', () => {
 
         await result.current(requestData);
 
-        expect(notify).toHaveBeenCalledWith(
-            'success',
-            'akeneo_connectivity.connection.webhook.flash.success'
-        );
+        expect(notify).toHaveBeenCalledWith('success', 'akeneo_connectivity.connection.webhook.flash.success');
     });
 
     it('notifies error with translated generic message when API returns error without field errors', async () => {
-        fetchMock.mockResponseOnce(
-            JSON.stringify({message: 'Something went wrong', errors: null}),
-            {status: 400}
-        );
+        fetchMock.mockResponseOnce(JSON.stringify({message: 'Something went wrong', errors: null}), {status: 400});
 
         const {result} = renderHook(() => useUpdateWebhook('magento'), {wrapper});
 
         await result.current(requestData);
 
-        expect(notify).toHaveBeenCalledWith(
-            'error',
-            'akeneo_connectivity.connection.webhook.flash.error'
-        );
+        expect(notify).toHaveBeenCalledWith('error', 'akeneo_connectivity.connection.webhook.flash.error');
     });
 
     it('notifies once per field error when API returns per-field errors', async () => {
@@ -87,7 +84,13 @@ describe('useUpdateWebhook', () => {
     });
 
     it('returns an ok result on success', async () => {
-        const okData = {connectionCode: 'magento', url: 'https://example.com', secret: 'sec', enabled: true, isUsingUuid: false};
+        const okData = {
+            connectionCode: 'magento',
+            url: 'https://example.com',
+            secret: 'sec',
+            enabled: true,
+            isUsingUuid: false,
+        };
         fetchMock.mockResponseOnce(JSON.stringify(okData), {status: 200});
 
         const {result} = renderHook(() => useUpdateWebhook('magento'), {wrapper});

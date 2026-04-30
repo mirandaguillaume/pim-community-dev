@@ -37,9 +37,6 @@ describe('useFetchConnection', () => {
 
         renderHook(() => useFetchConnection('bynder'));
 
-        expect(mockUseQuery).toHaveBeenCalledWith(
-            'akeneo_connectivity_connection_rest_get',
-            {code: 'bynder'}
-        );
+        expect(mockUseQuery).toHaveBeenCalledWith('akeneo_connectivity_connection_rest_get', {code: 'bynder'});
     });
 });
