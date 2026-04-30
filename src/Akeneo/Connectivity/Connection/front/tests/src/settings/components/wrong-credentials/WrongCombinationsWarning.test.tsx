@@ -7,7 +7,7 @@ import {renderWithProviders} from '../../../../test-utils';
 const singleUserCombination = {
     code: 'magento',
     users: [{username: 'bad_user', date: '2024-01-15T10:30:00+00:00'}],
-};
+} as any;
 
 const multiUserCombination = {
     code: 'magento',
