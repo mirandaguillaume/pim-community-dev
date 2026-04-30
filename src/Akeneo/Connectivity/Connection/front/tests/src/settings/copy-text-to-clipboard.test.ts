@@ -1,6 +1,10 @@
 import {copyTextToClipboard} from '@src/settings/copy-text-to-clipboard';
 
 describe('copyTextToClipboard', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
     it('selects element content and executes copy command', () => {
         const range = {selectNodeContents: jest.fn()} as unknown as Range;
         const selection = {
