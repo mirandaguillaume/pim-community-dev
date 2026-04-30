@@ -66,10 +66,7 @@ describe('useFetchEventSubscription', () => {
 
         renderHook(() => useFetchEventSubscription('bynder'), {wrapper});
 
-        expect(generate).toHaveBeenCalledWith(
-            'akeneo_connectivity_connection_webhook_rest_get',
-            {code: 'bynder'}
-        );
+        expect(generate).toHaveBeenCalledWith('akeneo_connectivity_connection_webhook_rest_get', {code: 'bynder'});
     });
 
     it('returns a stable fetchEventSubscription callback across re-renders', () => {
