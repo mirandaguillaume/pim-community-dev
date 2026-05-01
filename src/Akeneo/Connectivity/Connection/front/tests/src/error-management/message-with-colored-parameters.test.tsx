@@ -1,6 +1,6 @@
 import React from 'react';
 import {messageWithColoredParameters} from '@src/error-management/message-with-colored-parameters';
-import {renderWithProviders} from '../../../test-utils';
+import {renderWithProviders} from '../../test-utils';
 
 describe('messageWithColoredParameters', () => {
     it('replaces {key} placeholders for domain_error type', () => {
