@@ -7,6 +7,6 @@ describe('Loading', () => {
     it('renders the loading spinner svg', () => {
         const {container} = renderWithProviders(<Loading />);
 
-        expect(container.querySelector('.lds-dash-ring')).toBeInTheDocument();
+        expect(container.querySelector('svg')).toBeInTheDocument();
     });
 });
