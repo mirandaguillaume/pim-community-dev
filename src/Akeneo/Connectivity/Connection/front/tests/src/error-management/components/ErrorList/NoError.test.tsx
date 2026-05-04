@@ -12,4 +12,10 @@ describe('NoError', () => {
             screen.getByText('akeneo_connectivity.connection.error_management.connection_monitoring.no_error.title')
         ).toBeInTheDocument();
     });
+
+    it('renders an image', () => {
+        const {container} = renderWithProviders(<NoError />);
+
+        expect(container.querySelector('img')).toBeInTheDocument();
+    });
 });

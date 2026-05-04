@@ -42,4 +42,14 @@ describe('Section', () => {
 
         expect(screen.getByText('Max limit reached')).toBeInTheDocument();
     });
+
+    it('does not render warning when warningMessage is null', () => {
+        renderWithProviders(
+            <Section title='My Apps' information='0 apps' emptyMessage='No apps' warningMessage={null}>
+                <div>App 1</div>
+            </Section>
+        );
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    });
 });
