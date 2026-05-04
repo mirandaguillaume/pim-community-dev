@@ -26,7 +26,7 @@ describe('UserSurvey', () => {
 
     it('opens the survey URL in a new tab when the button is clicked', () => {
         const openMock = jest.fn(() => ({focus: jest.fn()}));
-        window.open = openMock;
+        window.open = openMock as any;
 
         renderWithProviders(<UserSurvey />);
         userEvent.click(screen.getByText('akeneo_connectivity.connection.dashboard.user_survey.button'));
