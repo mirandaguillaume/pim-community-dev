@@ -5,13 +5,6 @@ import fetchMock from 'jest-fetch-mock';
 import {LocationDisplay, mockFetchResponses, renderWithProviders} from '../../../test-utils';
 import {CreateCustomAppPage} from '@src/connect/pages/CreateCustomAppPage';
 import userEvent from '@testing-library/user-event';
-import {setLogger} from '@tanstack/react-query';
-
-setLogger({
-    log: () => null,
-    warn: () => null,
-    error: () => null, // explicit error generation triggers react query to log the error
-});
 
 beforeEach(() => {
     fetchMock.resetMocks();

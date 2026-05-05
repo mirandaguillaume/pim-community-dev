@@ -2,9 +2,6 @@ import {renderHook, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 import {mockFetchResponses, ReactQueryWrapper as wrapper} from '../../../test-utils';
 import {useFetchCustomAppSecret} from '@src/connect/hooks/use-fetch-custom-app-secret';
-import {setLogger} from '@tanstack/react-query';
-
-setLogger({log: () => null, warn: () => null, error: () => null});
 
 beforeEach(() => {
     fetchMock.resetMocks();
