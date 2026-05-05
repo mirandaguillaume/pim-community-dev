@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import {useRouter} from '@akeneo-pim-community/shared';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 
 type Result = {
   data: number | undefined;
@@ -16,5 +16,8 @@ export const useCountCategoryChildren = (categoryId: number): Result => {
     return fetch(url).then(response => response.json().then((categoriesIds: number[]) => categoriesIds.length));
   };
 
-  return useQuery(['countCategoryChildren', categoryId], () => countCategoryChildren(categoryId));
+  return useQuery({
+    queryKey: ['countCategoryChildren', categoryId],
+    queryFn: () => countCategoryChildren(categoryId),
+  });
 };

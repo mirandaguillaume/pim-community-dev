@@ -1,6 +1,6 @@
 import {useRoute} from '../../shared/router';
 import {useCallback} from 'react';
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 
 type DeleteCustomApp = () => Promise<void>;
 export const useDeleteCustomApp = (customAppId: string): DeleteCustomApp => {
@@ -18,5 +18,5 @@ export const useDeleteCustomApp = (customAppId: string): DeleteCustomApp => {
         return Promise.resolve();
     }, [url]);
 
-    return useMutation(request).mutateAsync;
+    return useMutation({mutationFn: request}).mutateAsync;
 };

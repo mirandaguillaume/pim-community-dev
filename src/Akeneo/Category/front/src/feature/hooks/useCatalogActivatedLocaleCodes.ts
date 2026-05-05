@@ -1,7 +1,7 @@
 import {useRoute} from '@akeneo-pim-community/shared';
 import {useCallback} from 'react';
 import {apiFetch} from '../tools/apiFetch';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 
 export const useCatalogActivatedLocaleCodes = () => {
   const url = useRoute('internal_api_category_catalog_activated_locales', {});

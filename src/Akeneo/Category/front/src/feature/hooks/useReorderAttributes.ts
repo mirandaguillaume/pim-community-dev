@@ -1,5 +1,5 @@
 import {useRouter} from '@akeneo-pim-community/shared';
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 import {apiFetch} from '../tools/apiFetch';
 
 type ReorderedAttributes = {

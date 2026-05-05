@@ -1,6 +1,6 @@
 import React, {StrictMode} from 'react';
 import {createHashRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
-import {QueryClientProvider, QueryClient} from 'react-query';
+import {QueryClientProvider, QueryClient} from '@tanstack/react-query';
 import {AkeneoThemeProvider} from './akeneo-theme-provider';
 import {withDependencies} from './dependencies-provider';
 import {CreateCustomAppPage} from '../connect/pages/CreateCustomAppPage';
@@ -10,7 +10,7 @@ const client = new QueryClient({
     defaultOptions: {
         queries: {
             staleTime: 10 * 1000, // 10s
-            cacheTime: 5 * 60 * 1000, // 5m
+            gcTime: 5 * 60 * 1000, // 5m
         },
     },
 });

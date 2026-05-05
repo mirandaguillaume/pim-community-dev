@@ -1,5 +1,5 @@
 import {useRoute} from '@akeneo-pim-community/shared';
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 import {ApiError, apiFetch} from '../tools/apiFetch';
 
 type Data = {

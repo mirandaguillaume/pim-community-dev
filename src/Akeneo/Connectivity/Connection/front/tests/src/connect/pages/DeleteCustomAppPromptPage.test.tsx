@@ -4,7 +4,7 @@ import {act, screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 import {LocationDisplay, mockFetchResponses, renderWithProviders} from '../../../test-utils';
 import userEvent from '@testing-library/user-event';
-import {setLogger} from 'react-query';
+import {setLogger} from '@tanstack/react-query';
 import {DeleteCustomAppPromptPage} from '@src/connect/pages/DeleteCustomAppPromptPage';
 import {NotificationLevel, NotifyContext} from '@src/shared/notify';
 

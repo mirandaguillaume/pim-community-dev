@@ -4,7 +4,7 @@ import {fireEvent, screen, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {mockFetchResponses, renderWithProviders} from '../../../test-utils';
-import {setLogger} from 'react-query';
+import {setLogger} from '@tanstack/react-query';
 
 setLogger({
     log: () => null,

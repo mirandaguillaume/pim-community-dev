@@ -1,6 +1,6 @@
 import {useTranslate} from '@akeneo-pim-community/shared';
 import {Button, DeleteIllustration, Helper, Modal} from 'akeneo-design-system';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 import styled from 'styled-components';
 import {useDeactivateTemplateAttribute} from '../../hooks/useDeactivateTemplateAttribute';
 
@@ -17,7 +17,7 @@ export const DeactivateTemplateAttributeModal = ({templateUuid, attribute, onClo
   const deactivateTemplateAttribute = useDeactivateTemplateAttribute(templateUuid, attribute);
   const handleDeactivateTemplateAttribute = async () => {
     await deactivateTemplateAttribute();
-    await queryClient.invalidateQueries(['get-template', templateUuid]);
+    await queryClient.invalidateQueries({queryKey: ['get-template', templateUuid]});
     onClose();
   };
 

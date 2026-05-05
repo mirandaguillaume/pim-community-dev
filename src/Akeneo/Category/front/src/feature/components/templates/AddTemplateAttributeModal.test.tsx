@@ -2,7 +2,7 @@ import React from 'react';
 import {act, screen} from '@testing-library/react';
 import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {AddTemplateAttributeModal} from './AddTemplateAttributeModal';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import userEvent from '@testing-library/user-event';
 
 const queryClient = new QueryClient();

@@ -1,6 +1,6 @@
 import {NotificationLevel, useNotify, useRoute, useTranslate} from '@akeneo-pim-community/shared';
 import {apiFetch} from '../tools/apiFetch';
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 import {useNavigate} from 'react-router-dom';
 
 export const useDeactivateTemplate = (template: {id: string; label: string}) => {

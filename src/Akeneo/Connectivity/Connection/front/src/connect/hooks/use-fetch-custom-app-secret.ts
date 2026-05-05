@@ -1,4 +1,4 @@
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 
 type Error = string | null;
 type Result = {
@@ -9,12 +9,15 @@ type Result = {
 };
 
 export const useFetchCustomAppSecret = (customAppId: string): Result => {
-    return useQuery<string, Error, string>(['custom_app_secret', customAppId], async () => {
-        const response = await fetch(`/rest/custom-apps/${customAppId}/secret`, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-        });
-        return await response.json();
+    return useQuery<string, Error, string>({
+        queryKey: ['custom_app_secret', customAppId],
+        queryFn: async () => {
+            const response = await fetch(`/rest/custom-apps/${customAppId}/secret`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            });
+            return await response.json();
+        },
     });
 };

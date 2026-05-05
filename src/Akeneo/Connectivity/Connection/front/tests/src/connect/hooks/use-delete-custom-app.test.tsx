@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {mockFetchResponses, ReactQueryWrapper as wrapper} from '../../../test-utils';
-import {setLogger} from 'react-query';
+import {setLogger} from '@tanstack/react-query';
 import {useDeleteCustomApp} from '@src/connect/hooks/use-delete-custom-app';
 import {act, renderHook} from '@testing-library/react';
 

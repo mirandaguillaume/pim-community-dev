@@ -1,4 +1,4 @@
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {apiFetch, BadRequestError} from '../tools/apiFetch';
 

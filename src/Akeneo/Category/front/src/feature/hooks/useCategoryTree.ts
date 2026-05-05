@@ -1,5 +1,5 @@
 import {useRoute} from '@akeneo-pim-community/shared';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {BackendCategoryTree, convertToCategoryTree} from '../models';
 import {apiFetch} from '../tools/apiFetch';
 
@@ -14,9 +14,12 @@ export const useCategoryTree = (treeId: string) => {
     context: 'manage',
   });
 
-  return useQuery(['get-category-tree', treeId], async () => {
-    const tree = await apiFetch<BackendCategoryTree>(url, {});
+  return useQuery({
+    queryKey: ['get-category-tree', treeId],
+    queryFn: async () => {
+      const tree = await apiFetch<BackendCategoryTree>(url, {});
 
-    return convertToCategoryTree(tree);
+      return convertToCategoryTree(tree);
+    },
   });
 };

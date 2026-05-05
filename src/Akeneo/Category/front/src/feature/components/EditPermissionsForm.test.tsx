@@ -3,7 +3,7 @@ import {screen} from '@testing-library/react';
 import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {EditPermissionsForm} from './EditPermissionsForm';
 import {EnrichCategory} from '../models';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 const permissions = {
   own: [{id: 1, label: 'IT Manager'}],

@@ -1,6 +1,6 @@
 import {useRoute} from '@akeneo-pim-community/shared';
 import {apiFetch} from '../tools/apiFetch';
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 
 type Action = 'load_predefined_attributes' | 'create_first_attribute';
 

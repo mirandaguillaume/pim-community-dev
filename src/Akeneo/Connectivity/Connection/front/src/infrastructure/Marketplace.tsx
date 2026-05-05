@@ -4,13 +4,13 @@ import {AkeneoThemeProvider} from './akeneo-theme-provider';
 import {withDependencies} from './dependencies-provider';
 import {SelectUserProfilePage} from '../connect/pages/SelectUserProfilePage';
 import {MarketplacePage} from '../connect/pages/MarketplacePage';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 const client = new QueryClient({
     defaultOptions: {
         queries: {
             staleTime: 10 * 1000, // 10s
-            cacheTime: 5 * 60 * 1000, // 5m
+            gcTime: 5 * 60 * 1000, // 5m
         },
     },
 });

@@ -1,5 +1,5 @@
 import {useRoute} from '../../shared/router';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 
 type Error = string | null;
 type Result = {

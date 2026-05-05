@@ -1,6 +1,6 @@
 import {renderHook, waitFor} from '@testing-library/react';
 import React from 'react';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {DependenciesContext, mockedDependencies} from '@akeneo-pim-community/shared';
 import {useCatalogLocales} from './useCatalogLocales';
 
