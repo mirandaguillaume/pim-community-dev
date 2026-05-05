@@ -28,9 +28,11 @@ describe('ActivateAppButton', () => {
     });
 
     it('renders the connect link with the generated url', () => {
-        renderWithProviders(<ActivateAppButton id='my-app' isConnected={false} isDisabled={false} isPending={false} />);
+        const {container} = renderWithProviders(
+            <ActivateAppButton id='my-app' isConnected={false} isDisabled={false} isPending={false} />
+        );
 
-        expect(screen.getByRole('link')).toHaveAttribute(
+        expect(container.querySelector('a')).toHaveAttribute(
             'href',
             '#akeneo_connectivity_connection_connect_apps_activate?id=my-app'
         );
