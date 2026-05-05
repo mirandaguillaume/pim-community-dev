@@ -17,10 +17,10 @@ export const useUpdateTemplateAttribute = (templateUuid: string, attributeUuid: 
     attributeUuid: attributeUuid,
   });
 
-  return useMutation<void, ApiError<Error>, Data>(data =>
+  return useMutation<void, ApiError<Error>, Data>({mutationFn: (data: Data) =>
     apiFetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
     })
-  );
+  });
 };

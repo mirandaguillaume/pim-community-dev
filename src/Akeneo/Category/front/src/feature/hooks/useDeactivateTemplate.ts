@@ -9,7 +9,7 @@ export const useDeactivateTemplate = (template: {id: string; label: string}) => 
   const translate = useTranslate();
 
   const url = useRoute('pim_enriched_category_rest_deactivate_template', {templateUuid: template.id});
-  const mutation = useMutation(() => apiFetch(url, {method: 'DELETE'}));
+  const mutation = useMutation({mutationFn: () => apiFetch(url, {method: 'DELETE'})});
 
   return async () => {
     try {

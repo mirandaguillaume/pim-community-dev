@@ -9,7 +9,7 @@ import {UnsavedChangesGuard} from './components/templates/UnsavedChangeGuard';
 import {CategoriesIndex, CategoriesTreePage, CategoryEditPage, TemplatePage} from './pages';
 import {BadRequestError} from './tools/apiFetch';
 
-const useErrorBoundary = (error: unknown) => false === error instanceof BadRequestError;
+const throwOnError = (error: unknown) => false === error instanceof BadRequestError;
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -50,8 +50,8 @@ const CategoriesApp: FC<Props> = ({setCanLeavePage, setLeavePageMessage}) => {
     () =>
       new QueryClient({
         defaultOptions: {
-          queries: {useErrorBoundary},
-          mutations: {useErrorBoundary},
+          queries: {throwOnError},
+          mutations: {throwOnError},
         },
       }),
     []

@@ -9,7 +9,7 @@ type ReorderedAttributes = {
 
 export const useReorderAttributes = () => {
   const router = useRouter();
-  return useMutation<void, void, ReorderedAttributes>(async (reorderedAttributes: ReorderedAttributes) => {
+  return useMutation<void, void, ReorderedAttributes>({mutationFn: async (reorderedAttributes: ReorderedAttributes) => {
     return apiFetch<void, void>(
       router.generate('pim_category_template_rest_reorder_attributes', {
         templateUuid: reorderedAttributes.templateUuid,
@@ -19,5 +19,5 @@ export const useReorderAttributes = () => {
         body: JSON.stringify(reorderedAttributes.uuids),
       }
     );
-  });
+  }});
 };

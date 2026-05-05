@@ -109,7 +109,7 @@ export const CreateTemplateModal = ({categoryTree, onClose}: Props) => {
         <Button level="tertiary" onClick={onClose}>
           {translate('pim_common.cancel')}
         </Button>
-        <Button disabled={mutation.isLoading} level="primary" onClick={handleCreate}>
+        <Button disabled={mutation.isPending} level="primary" onClick={handleCreate}>
           {translate('akeneo.category.template.add_attribute.confirmation_modal.create')}
         </Button>
       </Modal.BottomButtons>

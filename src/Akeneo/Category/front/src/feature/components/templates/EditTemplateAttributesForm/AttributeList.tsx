@@ -39,7 +39,7 @@ export const AttributeList = ({attributes, selectedAttribute, templateId, onAttr
   };
 
   const handleReorder = (indices: number[]) => {
-    if (mutation.isLoading) {
+    if (mutation.isPending) {
       return;
     }
     const uuids = indices.map(i => attributes[i]?.uuid);

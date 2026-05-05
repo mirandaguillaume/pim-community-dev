@@ -30,5 +30,5 @@ export const useFetchUserGroups = (): Result => {
     return await response.json();
   }, [url]);
 
-  return useQuery<UserGroup[], ResultError, UserGroup[]>(['user-groups'], fetchUserGroups);
+  return useQuery<UserGroup[], ResultError, UserGroup[]>({queryKey: ['user-groups'], queryFn: fetchUserGroups});
 };

@@ -10,7 +10,7 @@ export const useDeactivateTemplateAttribute = (templateUuid: string, attribute: 
     templateUuid: templateUuid,
     attributeUuid: attribute.uuid,
   });
-  const mutation = useMutation(() => apiFetch(url, {method: 'DELETE'}));
+  const mutation = useMutation({mutationFn: () => apiFetch(url, {method: 'DELETE'})});
 
   return async () => {
     await mutation.mutateAsync();

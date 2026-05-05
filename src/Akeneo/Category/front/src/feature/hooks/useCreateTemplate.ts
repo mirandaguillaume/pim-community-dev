@@ -20,8 +20,8 @@ export type CreateTemplateError = {
 
 export const useCreateTemplate = () => {
   const router = useRouter();
-  return useMutation<MutationResult, BadRequestError<CreateTemplateError>, Form>(
-    async (form: Form) => {
+  return useMutation<MutationResult, BadRequestError<CreateTemplateError>, Form>({
+    mutationFn: async (form: Form) => {
       const requestPayload = {
         code: form.code,
         labels: {[form.locale]: form.label},
@@ -34,8 +34,6 @@ export const useCreateTemplate = () => {
         }
       );
     },
-    {
-      useErrorBoundary: false,
-    }
-  );
+    throwOnError: false,
+  });
 };

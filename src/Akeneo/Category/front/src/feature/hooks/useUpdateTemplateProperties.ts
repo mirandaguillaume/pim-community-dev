@@ -9,5 +9,5 @@ type Error = ApiError<{labels: {[localeCode: string]: string[]}}>;
 export const useUpdateTemplateProperties = (templateUuid: string) => {
   const url = useRoute('pim_category_template_rest_update', {templateUuid});
 
-  return useMutation<void, Error, Data>(data => apiFetch(url, {method: 'PATCH', body: JSON.stringify(data)}));
+  return useMutation<void, Error, Data>({mutationFn: (data: Data) => apiFetch(url, {method: 'PATCH', body: JSON.stringify(data)})});
 };

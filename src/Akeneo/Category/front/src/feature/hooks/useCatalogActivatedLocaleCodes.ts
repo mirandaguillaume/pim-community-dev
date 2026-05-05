@@ -10,6 +10,6 @@ export const useCatalogActivatedLocaleCodes = () => {
     return await apiFetch<string[]>(url, {});
   }, [url]);
 
-  const {data} = useQuery<string[]>(['get-catalog-activated-locales'], fetchCatalogLocales, {});
+  const {data} = useQuery<string[]>({queryKey: ['get-catalog-activated-locales'], queryFn: fetchCatalogLocales});
   return data;
 };

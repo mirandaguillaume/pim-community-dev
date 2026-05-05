@@ -18,7 +18,7 @@ const useCatalogLocales = () => {
     return await apiFetch<CatalogLocale[]>(url, {});
   }, [url]);
 
-  const {data} = useQuery<CatalogLocale[]>(['get-catalog-locales'], fetchCatalogLocales, {staleTime: 60 * 60 * 1000});
+  const {data} = useQuery<CatalogLocale[]>({queryKey: ['get-catalog-locales'], queryFn: fetchCatalogLocales, staleTime: 60 * 60 * 1000});
   return data;
 };
 export {useCatalogLocales};

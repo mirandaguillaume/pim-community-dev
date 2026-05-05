@@ -25,7 +25,7 @@ type ApiResponseError = ResponseError[];
 
 export const useCreateAttribute = () => {
   const router = useRouter();
-  return useMutation<void, BadRequestError<CreateAttributeErrors>, Form>(async (form: Form) => {
+  return useMutation<void, BadRequestError<CreateAttributeErrors>, Form>({mutationFn: async (form: Form) => {
     const requestPayload = {
       code: form.code,
       locale: form.locale,
@@ -51,5 +51,5 @@ export const useCreateAttribute = () => {
 
       throw new BadRequestError(exception);
     });
-  });
+  }});
 };
