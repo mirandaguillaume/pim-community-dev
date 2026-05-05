@@ -1,10 +1,7 @@
 import catalogContextReducer, {
   CatalogContextState,
-  CHANGE_CATALOG_CONTEXT_CHANNEL,
-  CHANGE_CATALOG_CONTEXT_LOCALE,
   changeCatalogContextChannel,
   changeCatalogContextLocale,
-  INITIALIZE_CATALOG_CONTEXT,
   initializeCatalogContext,
 } from '../../../../../../front/src/infrastructure/reducer/ProductEditForm/catalogContextReducer';
 
@@ -29,38 +26,30 @@ describe('catalogContextReducer', () => {
     });
   });
 
-  describe('action type constants', () => {
-    test('expose their canonical string identifier', () => {
-      expect(CHANGE_CATALOG_CONTEXT_LOCALE).toBe('CHANGE_CATALOG_CONTEXT_LOCALE');
-      expect(CHANGE_CATALOG_CONTEXT_CHANNEL).toBe('CHANGE_CATALOG_CONTEXT_CHANNEL');
-      expect(INITIALIZE_CATALOG_CONTEXT).toBe('INITIALIZE_CATALOG_CONTEXT');
-    });
-  });
-
   describe('action creators', () => {
-    test('changeCatalogContextLocale builds a CHANGE_CATALOG_CONTEXT_LOCALE action', () => {
+    test('changeCatalogContextLocale produces a catalogContext/changeCatalogContextLocale action', () => {
       expect(changeCatalogContextLocale('fr_FR')).toEqual({
-        type: CHANGE_CATALOG_CONTEXT_LOCALE,
-        payload: {locale: 'fr_FR'},
+        type: 'catalogContext/changeCatalogContextLocale',
+        payload: 'fr_FR',
       });
     });
 
-    test('changeCatalogContextChannel builds a CHANGE_CATALOG_CONTEXT_CHANNEL action', () => {
+    test('changeCatalogContextChannel produces a catalogContext/changeCatalogContextChannel action', () => {
       expect(changeCatalogContextChannel('mobile')).toEqual({
-        type: CHANGE_CATALOG_CONTEXT_CHANNEL,
-        payload: {channel: 'mobile'},
+        type: 'catalogContext/changeCatalogContextChannel',
+        payload: 'mobile',
       });
     });
 
-    test('initializeCatalogContext builds an INITIALIZE_CATALOG_CONTEXT action with both locale and channel', () => {
+    test('initializeCatalogContext produces an initializeCatalogContext action with both locale and channel', () => {
       expect(initializeCatalogContext('print', 'de_DE')).toEqual({
-        type: INITIALIZE_CATALOG_CONTEXT,
+        type: 'catalogContext/initializeCatalogContext',
         payload: {locale: 'de_DE', channel: 'print'},
       });
     });
   });
 
-  describe('CHANGE_CATALOG_CONTEXT_CHANNEL', () => {
+  describe('changeCatalogContextChannel', () => {
     test('updates the channel and preserves the locale', () => {
       const previousState: CatalogContextState = {locale: 'en_US', channel: 'ecommerce'};
 
@@ -70,7 +59,7 @@ describe('catalogContextReducer', () => {
     });
   });
 
-  describe('CHANGE_CATALOG_CONTEXT_LOCALE', () => {
+  describe('changeCatalogContextLocale', () => {
     test('updates the locale and preserves the channel', () => {
       const previousState: CatalogContextState = {locale: 'en_US', channel: 'ecommerce'};
 
@@ -80,7 +69,7 @@ describe('catalogContextReducer', () => {
     });
   });
 
-  describe('INITIALIZE_CATALOG_CONTEXT', () => {
+  describe('initializeCatalogContext', () => {
     test('overwrites both locale and channel from the payload', () => {
       const previousState: CatalogContextState = {locale: 'en_US', channel: 'ecommerce'};
 

@@ -38,7 +38,7 @@ describe('productEvaluationReducer', () => {
       const evaluation = buildEvaluation();
 
       expect(getProductEvaluationAction(42, evaluation)).toEqual({
-        type: 'GET_PRODUCT_EVALUATION',
+        type: 'productEvaluation/getProductEvaluationAction',
         payload: {
           productId: 42,
           evaluation,
@@ -47,7 +47,7 @@ describe('productEvaluationReducer', () => {
     });
   });
 
-  describe('GET_PRODUCT_EVALUATION', () => {
+  describe('getProductEvaluationAction', () => {
     test('adds an evaluation to an empty dictionary, indexed by productId', () => {
       const evaluation = buildEvaluation();
       const nextState = productEvaluationReducer(undefined, getProductEvaluationAction(42, evaluation));

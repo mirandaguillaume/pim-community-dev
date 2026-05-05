@@ -1,31 +1,7 @@
-import {Action, ActionCreator, Reducer} from 'redux';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Product} from '../../../domain';
 
 export type ProductState = Product;
-
-const INITIALIZE_PRODUCT = 'INITIALIZE_PRODUCT';
-const UNSET_PRODUCT = 'UNSET_PRODUCT';
-
-type InitializeProductAction = Action<typeof INITIALIZE_PRODUCT> & {
-  payload: {
-    product: Product;
-  };
-};
-
-type UnsetProductAction = Action<typeof UNSET_PRODUCT>;
-
-type ProductAction = InitializeProductAction | UnsetProductAction;
-
-export const initializeProductAction: ActionCreator<InitializeProductAction> = (product: Product) => {
-  return {
-    type: INITIALIZE_PRODUCT,
-    payload: {
-      product: product,
-    },
-  };
-};
-
-export const unsetProductAction: ActionCreator<UnsetProductAction> = () => ({type: UNSET_PRODUCT});
 
 const initialState: ProductState = {
   categories: [],
@@ -48,17 +24,19 @@ const initialState: ProductState = {
   },
 };
 
-const productReducer: Reducer<ProductState, ProductAction> = (previousState = initialState, action) => {
-  switch (action.type) {
-    case INITIALIZE_PRODUCT:
-      return {
-        ...action.payload.product,
-      };
-    case UNSET_PRODUCT:
-      return initialState;
-    default:
-      return previousState;
-  }
-};
+const productSlice = createSlice({
+  name: 'product',
+  initialState,
+  reducers: {
+    initializeProductAction(_state, action: PayloadAction<Product>) {
+      return {...action.payload};
+    },
+    unsetProductAction() {
+      return {...initialState};
+    },
+  },
+});
 
-export default productReducer;
+export const {initializeProductAction, unsetProductAction} = productSlice.actions;
+
+export default productSlice.reducer;
