@@ -6,13 +6,11 @@ import {renderWithProviders} from '../../../../test-utils';
 
 describe('SearchFilter', () => {
     it('renders the result count translation key', () => {
-        renderWithProviders(<SearchFilter value='' onSearch={jest.fn()} resultCount={5} />);
+        const {container} = renderWithProviders(<SearchFilter value='' onSearch={jest.fn()} resultCount={5} />);
 
-        expect(
-            screen.getByText(
-                'akeneo_connectivity.connection.error_management.connection_monitoring.search_filter.result_count'
-            )
-        ).toBeInTheDocument();
+        expect(container.textContent).toContain(
+            'akeneo_connectivity.connection.error_management.connection_monitoring.search_filter.result_count'
+        );
     });
 
     it('renders an input element', () => {

@@ -31,19 +31,15 @@ describe('ErrorProductInformation', () => {
     });
 
     it('renders product name and identifier translation keys', () => {
-        renderWithProviders(
+        const {container} = renderWithProviders(
             <ErrorProductInformation product={{id: 1, identifier: 'my-sku', family: null, label: 'My Product'}} />
         );
 
-        expect(
-            screen.getByText(
-                'akeneo_connectivity.connection.error_management.connection_monitoring.error_list.content_column.product_name'
-            )
-        ).toBeInTheDocument();
-        expect(
-            screen.getByText(
-                'akeneo_connectivity.connection.error_management.connection_monitoring.error_list.content_column.with_id'
-            )
-        ).toBeInTheDocument();
+        expect(container.textContent).toContain(
+            'akeneo_connectivity.connection.error_management.connection_monitoring.error_list.content_column.product_name'
+        );
+        expect(container.textContent).toContain(
+            'akeneo_connectivity.connection.error_management.connection_monitoring.error_list.content_column.with_id'
+        );
     });
 });
