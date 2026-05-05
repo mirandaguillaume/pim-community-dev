@@ -3,9 +3,9 @@ export const ATTRIBUTES_LIMIT_REACHED = 'attributes_limit_reached';
 
 export enum ResponseStatusEnum {
   idle = 'idle',
-  loading = 'loading',
+  pending = 'pending',
   success = 'success',
   error = 'error',
 }
 
-export type ResponseStatus = 'idle' | 'loading' | 'success' | 'error';
+export type ResponseStatus = 'idle' | 'pending' | 'success' | 'error';

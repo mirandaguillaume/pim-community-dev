@@ -103,6 +103,38 @@ if [ -n "$CHANGED_JS" ] && command -v npx >/dev/null 2>&1; then
     fi
 fi
 
+# ── JS/TS: RSPack build (catches module resolution and ESM linking errors) ──
+CHANGED_DEPS=$(git diff --name-only "$BASE"...HEAD -- 'package.json' 'yarn.lock' 2>/dev/null || true)
+if [ -n "$CHANGED_JS" ] || [ -n "$CHANGED_DEPS" ]; then
+    echo "Running RSPack build check (yarn webpack-dev)..." >&2
+    RSPACK_RESULT=$(yarn webpack-dev 2>&1 || true)
+    if ! echo "$RSPACK_RESULT" | grep -q "compiled successfully"; then
+        RSPACK_ERRORS=$(echo "$RSPACK_RESULT" | grep -E "^.*(ERROR|error TS)" | head -5 | sed 's/^/    /')
+        ERRORS="$ERRORS\n- RSPACK BUILD FAILED. Run: yarn webpack-dev\n$RSPACK_ERRORS"
+    fi
+fi
+
+# ── JS/TS: Workspace TypeScript lint for impacted workspaces ──
+CHANGED_CATEGORY=$(echo "$CHANGED_JS" | grep 'src/Akeneo/Category/front/' || true)
+if [ -n "$CHANGED_CATEGORY" ]; then
+    echo "Running Category TypeScript check (yarn category:lint:check)..." >&2
+    CATEGORY_RESULT=$(yarn category:lint:check 2>&1 || true)
+    if echo "$CATEGORY_RESULT" | grep -qE 'error TS|[0-9]+ error(s)?'; then
+        TS_SUMMARY=$(echo "$CATEGORY_RESULT" | grep -oE '[0-9]+ error' | tail -1 || echo "errors")
+        ERRORS="$ERRORS\n- CATEGORY TS: $TS_SUMMARY. Run: yarn category:lint:check"
+    fi
+fi
+
+CHANGED_CONNECTIVITY=$(echo "$CHANGED_JS" | grep 'src/Akeneo/Connectivity/Connection/front/src/' || true)
+if [ -n "$CHANGED_CONNECTIVITY" ]; then
+    echo "Running Connectivity TypeScript check (tsc)..." >&2
+    CONN_RESULT=$(cd src/Akeneo/Connectivity/Connection/front && npx tsc --noEmit 2>&1 || true)
+    if echo "$CONN_RESULT" | grep -qE 'error TS'; then
+        CONN_SUMMARY=$(echo "$CONN_RESULT" | grep -c 'error TS' || echo "?")
+        ERRORS="$ERRORS\n- CONNECTIVITY TS: $CONN_SUMMARY error(s). Run: tsc --noEmit in Connection/front"
+    fi
+fi
+
 # ── Output ──
 if [ -n "$ERRORS" ]; then
     echo "PRE-PUSH BLOCKED — fix before pushing:$ERRORS" >&2

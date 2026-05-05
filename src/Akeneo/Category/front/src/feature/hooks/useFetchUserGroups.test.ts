@@ -24,7 +24,7 @@ describe('useFetchUserGroups', () => {
     } as any);
 
     const {result} = renderHook(() => useFetchUserGroups(), {wrapper: createWrapper()});
-    expect(result.current.status).toBe('loading');
+    expect(result.current.status).toBe('pending');
     expect(result.current.data).toBeUndefined();
   });
 
