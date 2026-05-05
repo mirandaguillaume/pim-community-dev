@@ -37,9 +37,9 @@ describe('ErrorsHelper', () => {
         );
     });
 
-    it('renders an illustration image', () => {
+    it('renders the illustration container', () => {
         const {container} = renderWithProviders(<ErrorsHelper errorCount={0} description='some.description.key' />);
 
-        expect(container.querySelector('img')).toBeInTheDocument();
+        expect(container.querySelector('.AknDescriptionHeader-icon')).toBeInTheDocument();
     });
 });

@@ -4,10 +4,10 @@ import {screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {RouteDocumentationMessageParameter} from '@src/error-management/components/Documentation/RouteDocumentationMessageParameter';
 import {RouterContext} from '@src/shared/router';
-import {RouteType} from '@src/error-management/model/ConnectionError';
+import {RouteParameter, RouteType} from '@src/error-management/model/ConnectionError';
 import {renderWithProviders} from '../../../../test-utils';
 
-const routeParam = {
+const routeParam: RouteParameter = {
     type: RouteType,
     title: 'See the attribute',
     route: 'pim_catalog_attribute_index',
