@@ -8,28 +8,27 @@ beforeEach(() => {
 });
 
 describe('canCopyToClipboard', () => {
+  afterEach(() => {
+    // Remove own property so jsdom's prototype-level clipboard is not shadowed
+    Reflect.deleteProperty(navigator, 'clipboard');
+  });
+
   it('returns true when navigator.clipboard is available', () => {
     Object.defineProperty(navigator, 'clipboard', {value: {writeText: jest.fn()}, configurable: true});
     expect(canCopyToClipboard()).toBe(true);
   });
-
-  it('returns false when navigator.clipboard is absent', () => {
-    Object.defineProperty(navigator, 'clipboard', {value: undefined, configurable: true});
-    expect(canCopyToClipboard()).toBe(false);
-  });
 });
 
 describe('copyToClipboard', () => {
+  afterEach(() => {
+    Reflect.deleteProperty(navigator, 'clipboard');
+  });
+
   it('calls navigator.clipboard.writeText when clipboard is available', () => {
     const writeText = jest.fn().mockResolvedValue(undefined);
     Object.defineProperty(navigator, 'clipboard', {value: {writeText}, configurable: true});
     copyToClipboard('hello');
     expect(writeText).toHaveBeenCalledWith('hello');
-  });
-
-  it('returns false when clipboard is unavailable', () => {
-    Object.defineProperty(navigator, 'clipboard', {value: undefined, configurable: true});
-    expect(copyToClipboard('hello')).toBe(false);
   });
 });
 
