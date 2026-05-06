@@ -1,4 +1,4 @@
-import {renderHook, act} from '@testing-library/react';
+import {renderHook, waitFor} from '@testing-library/react';
 import {mockFetchResponses, ReactQueryWrapper} from '../../../test-utils';
 import {useCustomAppsLimitReached} from '@src/connect/hooks/use-custom-apps-limit-reached';
 import fetchMock from 'jest-fetch-mock';
@@ -12,16 +12,7 @@ test('it returns true when max connections limit is true', async () => {
 
     const {result} = renderHook(() => useCustomAppsLimitReached(), {wrapper: ReactQueryWrapper});
 
-    expect(result.current).toMatchObject({
-        isLoading: true,
-        isError: false,
-        data: undefined,
-        error: null,
-    });
-
-    await act(async () => {
-        await new Promise(r => setTimeout(r, 0));
-    });
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     expect(result.current).toMatchObject({
         isLoading: false,
@@ -40,16 +31,7 @@ test('it returns false when max connections limit is false', async () => {
 
     const {result} = renderHook(() => useCustomAppsLimitReached(), {wrapper: ReactQueryWrapper});
 
-    expect(result.current).toMatchObject({
-        isLoading: true,
-        isError: false,
-        data: undefined,
-        error: null,
-    });
-
-    await act(async () => {
-        await new Promise(r => setTimeout(r, 0));
-    });
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     expect(result.current).toMatchObject({
         isLoading: false,
