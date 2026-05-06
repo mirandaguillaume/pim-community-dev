@@ -29,7 +29,12 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     initializeProductAction(_state, action: PayloadAction<Product>) {
-      return {...action.payload};
+      // Deep copy so Immer's autoFreeze does not freeze nested objects that
+      // are shared with Backbone's mutable model: model.toJSON() is a shallow
+      // copy, so values/meta/etc. share the same references as model.attributes.
+      // Without this, Immer freezes those shared refs and silently blocks the
+      // field mutations that Backbone uses to track unsaved changes.
+      return JSON.parse(JSON.stringify(action.payload)) as Product;
     },
     unsetProductAction() {
       return {...initialState};
