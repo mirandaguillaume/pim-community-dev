@@ -22,7 +22,7 @@ const useUiLocales = () => {
     staleTime: 60 * 60 * 1000,
   };
 
-  const {data} = useQuery<UiLocale[]>(['get-ui-locales'], fetchUiLocales, options);
+  const {data} = useQuery<UiLocale[]>({queryKey: ['get-ui-locales'], queryFn: fetchUiLocales, ...options});
   return data;
 };
 export {useUiLocales};
