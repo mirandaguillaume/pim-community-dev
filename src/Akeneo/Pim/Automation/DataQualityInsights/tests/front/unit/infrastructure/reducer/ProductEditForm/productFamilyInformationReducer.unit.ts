@@ -30,17 +30,17 @@ describe('productFamilyInformationReducer', () => {
   });
 
   describe('action creator', () => {
-    test('getProductFamilyInformationAction wraps the family in the action payload', () => {
+    test('getProductFamilyInformationAction passes the family directly as payload', () => {
       const family = buildFamily({code: 'tshirts'});
 
       expect(getProductFamilyInformationAction(family)).toEqual({
-        type: 'GET_PRODUCT_FAMILY_INFORMATION',
-        payload: {family},
+        type: 'families/getProductFamilyInformationAction',
+        payload: family,
       });
     });
   });
 
-  describe('GET_PRODUCT_FAMILY_INFORMATION', () => {
+  describe('getProductFamilyInformationAction', () => {
     test('adds a family to an empty dictionary, indexed by its code', () => {
       const family = buildFamily({code: 'shoes'});
       const nextState = productFamilyInformationReducer(undefined, getProductFamilyInformationAction(family));

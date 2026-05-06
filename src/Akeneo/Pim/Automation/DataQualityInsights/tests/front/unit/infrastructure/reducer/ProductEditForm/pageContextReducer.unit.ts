@@ -1,14 +1,8 @@
 import pageContextReducer, {
-  CHANGE_PRODUCT_TAB,
   changeProductTabAction,
-  END_PRODUCT_ATTRIBUTES_TAB_LOADING,
-  END_PRODUCT_EVALUATION,
   endProductAttributesTabIsLoadedAction,
   endProductEvaluationAction,
-  SHOW_DATA_QUALITY_INSIGHTS_ATTRIBUTE_TO_IMPROVE,
   showDataQualityInsightsAttributeToImproveAction,
-  START_PRODUCT_ATTRIBUTES_TAB_LOADING,
-  START_PRODUCT_EVALUATION,
   startProductAttributesTabIsLoadingAction,
   startProductEvaluationAction,
 } from '../../../../../../front/src/infrastructure/reducer/ProductEditForm/pageContextReducer';
@@ -42,70 +36,55 @@ describe('pageContextReducer', () => {
     });
   });
 
-  describe('action type constants', () => {
-    // These assertions pin each constant to its exact string value so that a
-    // mutation changing the literal (e.g. to '') would be caught — otherwise
-    // the tests below become tautologies (both action creator and reducer
-    // reference the same mutated constant and still agree).
-    test('expose their canonical string identifier', () => {
-      expect(CHANGE_PRODUCT_TAB).toBe('CHANGE_PRODUCT_TAB');
-      expect(START_PRODUCT_ATTRIBUTES_TAB_LOADING).toBe('START_PRODUCT_ATTRIBUTES_TAB_LOADING');
-      expect(END_PRODUCT_ATTRIBUTES_TAB_LOADING).toBe('END_PRODUCT_ATTRIBUTES_TAB_LOADING');
-      expect(SHOW_DATA_QUALITY_INSIGHTS_ATTRIBUTE_TO_IMPROVE).toBe('SHOW_DATA_QUALITY_INSIGHTS_ATTRIBUTE_TO_IMPROVE');
-      expect(START_PRODUCT_EVALUATION).toBe('START_PRODUCT_EVALUATION');
-      expect(END_PRODUCT_EVALUATION).toBe('END_PRODUCT_EVALUATION');
-    });
-  });
-
   describe('action creators', () => {
-    test('changeProductTabAction builds a CHANGE_PRODUCT_TAB action with the new tab name', () => {
+    test('changeProductTabAction produces a pageContext/changeProductTabAction action with the tab name as payload', () => {
       expect(changeProductTabAction('pim-product-edit-form-history')).toEqual({
-        type: CHANGE_PRODUCT_TAB,
-        payload: {currentTab: 'pim-product-edit-form-history'},
+        type: 'pageContext/changeProductTabAction',
+        payload: 'pim-product-edit-form-history',
       });
     });
 
-    test('startProductAttributesTabIsLoadingAction builds a START_PRODUCT_ATTRIBUTES_TAB_LOADING action', () => {
+    test('startProductAttributesTabIsLoadingAction produces a pageContext/startProductAttributesTabIsLoadingAction action', () => {
       expect(startProductAttributesTabIsLoadingAction()).toEqual({
-        type: START_PRODUCT_ATTRIBUTES_TAB_LOADING,
+        type: 'pageContext/startProductAttributesTabIsLoadingAction',
       });
     });
 
-    test('endProductAttributesTabIsLoadedAction builds an END_PRODUCT_ATTRIBUTES_TAB_LOADING action', () => {
+    test('endProductAttributesTabIsLoadedAction produces a pageContext/endProductAttributesTabIsLoadedAction action', () => {
       expect(endProductAttributesTabIsLoadedAction()).toEqual({
-        type: END_PRODUCT_ATTRIBUTES_TAB_LOADING,
+        type: 'pageContext/endProductAttributesTabIsLoadedAction',
       });
     });
 
-    test('showDataQualityInsightsAttributeToImproveAction builds a SHOW_DQI_ATTRIBUTE_TO_IMPROVE action', () => {
+    test('showDataQualityInsightsAttributeToImproveAction passes the attribute code as payload', () => {
       expect(showDataQualityInsightsAttributeToImproveAction('description')).toEqual({
-        type: SHOW_DATA_QUALITY_INSIGHTS_ATTRIBUTE_TO_IMPROVE,
-        payload: {attributeToImprove: 'description'},
+        type: 'pageContext/showDataQualityInsightsAttributeToImproveAction',
+        payload: 'description',
       });
     });
 
     test('showDataQualityInsightsAttributeToImproveAction accepts a null attribute code', () => {
       expect(showDataQualityInsightsAttributeToImproveAction(null)).toEqual({
-        type: SHOW_DATA_QUALITY_INSIGHTS_ATTRIBUTE_TO_IMPROVE,
-        payload: {attributeToImprove: null},
+        type: 'pageContext/showDataQualityInsightsAttributeToImproveAction',
+        payload: null,
       });
     });
 
-    test('startProductEvaluationAction builds a START_PRODUCT_EVALUATION action', () => {
+    test('startProductEvaluationAction produces a pageContext/startProductEvaluationAction action', () => {
       expect(startProductEvaluationAction()).toEqual({
-        type: START_PRODUCT_EVALUATION,
+        type: 'pageContext/startProductEvaluationAction',
       });
     });
 
-    test('endProductEvaluationAction builds an END_PRODUCT_EVALUATION action', () => {
+    test('endProductEvaluationAction produces a pageContext/endProductEvaluationAction action', () => {
       expect(endProductEvaluationAction()).toEqual({
-        type: END_PRODUCT_EVALUATION,
+        type: 'pageContext/endProductEvaluationAction',
       });
     });
   });
 
   describe('reducer cases', () => {
-    test('CHANGE_PRODUCT_TAB updates currentTab and preserves the rest of the state', () => {
+    test('changeProductTabAction updates currentTab and preserves the rest of the state', () => {
       const previousState: ProductEditFormPageContextState = {
         ...initialState,
         attributesTabIsLoading: true,
@@ -122,7 +101,7 @@ describe('pageContextReducer', () => {
       });
     });
 
-    test('START_PRODUCT_ATTRIBUTES_TAB_LOADING flips attributesTabIsLoading to true', () => {
+    test('startProductAttributesTabIsLoadingAction flips attributesTabIsLoading to true', () => {
       const nextState = pageContextReducer(initialState, startProductAttributesTabIsLoadingAction());
 
       expect(nextState.attributesTabIsLoading).toBe(true);
@@ -131,14 +110,14 @@ describe('pageContextReducer', () => {
       expect(nextState.isProductEvaluating).toBe(false);
     });
 
-    test('END_PRODUCT_ATTRIBUTES_TAB_LOADING flips attributesTabIsLoading back to false', () => {
+    test('endProductAttributesTabIsLoadedAction flips attributesTabIsLoading back to false', () => {
       const previousState: ProductEditFormPageContextState = {...initialState, attributesTabIsLoading: true};
       const nextState = pageContextReducer(previousState, endProductAttributesTabIsLoadedAction());
 
       expect(nextState.attributesTabIsLoading).toBe(false);
     });
 
-    test('SHOW_DATA_QUALITY_INSIGHTS_ATTRIBUTE_TO_IMPROVE sets attributeToImprove from the payload', () => {
+    test('showDataQualityInsightsAttributeToImproveAction sets attributeToImprove from the payload', () => {
       const nextState = pageContextReducer(
         initialState,
         showDataQualityInsightsAttributeToImproveAction('description')
@@ -147,20 +126,20 @@ describe('pageContextReducer', () => {
       expect(nextState.attributeToImprove).toBe('description');
     });
 
-    test('SHOW_DATA_QUALITY_INSIGHTS_ATTRIBUTE_TO_IMPROVE accepts a null payload to clear the field', () => {
+    test('showDataQualityInsightsAttributeToImproveAction accepts a null payload to clear the field', () => {
       const previousState: ProductEditFormPageContextState = {...initialState, attributeToImprove: 'sku'};
       const nextState = pageContextReducer(previousState, showDataQualityInsightsAttributeToImproveAction(null));
 
       expect(nextState.attributeToImprove).toBeNull();
     });
 
-    test('START_PRODUCT_EVALUATION flips isProductEvaluating to true', () => {
+    test('startProductEvaluationAction flips isProductEvaluating to true', () => {
       const nextState = pageContextReducer(initialState, startProductEvaluationAction());
 
       expect(nextState.isProductEvaluating).toBe(true);
     });
 
-    test('END_PRODUCT_EVALUATION flips isProductEvaluating back to false', () => {
+    test('endProductEvaluationAction flips isProductEvaluating back to false', () => {
       const previousState: ProductEditFormPageContextState = {...initialState, isProductEvaluating: true};
       const nextState = pageContextReducer(previousState, endProductEvaluationAction());
 

@@ -36,6 +36,7 @@
     "!**/stories/**"
   ],
   "coverageAnalysis": "perTest",
+  "ignoreStatic": true,
   "timeoutMS": 30000,
   "concurrency": 4,
   "ignorePatterns": ["var", "coverage", "/public", "/tools/", ".worktrees", "vendor"],

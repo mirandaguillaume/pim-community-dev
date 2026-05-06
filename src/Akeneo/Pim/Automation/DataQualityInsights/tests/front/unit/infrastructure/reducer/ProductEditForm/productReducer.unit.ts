@@ -50,22 +50,22 @@ describe('productReducer', () => {
   });
 
   describe('action creators', () => {
-    test('initializeProductAction wraps the product in the action payload', () => {
+    test('initializeProductAction passes the product directly as payload', () => {
       const product = buildProduct({identifier: 'sku-42'});
 
       expect(initializeProductAction(product)).toEqual({
-        type: 'INITIALIZE_PRODUCT',
-        payload: {product},
+        type: 'product/initializeProductAction',
+        payload: product,
       });
     });
 
-    test('unsetProductAction builds an UNSET_PRODUCT action with no payload', () => {
-      expect(unsetProductAction()).toEqual({type: 'UNSET_PRODUCT'});
+    test('unsetProductAction produces a product/unsetProductAction action', () => {
+      expect(unsetProductAction()).toEqual({type: 'product/unsetProductAction'});
     });
   });
 
-  describe('INITIALIZE_PRODUCT', () => {
-    test('replaces the entire state with a fresh copy of the product payload', () => {
+  describe('initializeProductAction', () => {
+    test('replaces the entire state with a copy of the product payload', () => {
       const previousState: ProductState = buildProduct({identifier: 'old', enabled: false});
       const newProduct = buildProduct({identifier: 'new', enabled: true});
 
@@ -87,7 +87,7 @@ describe('productReducer', () => {
     });
   });
 
-  describe('UNSET_PRODUCT', () => {
+  describe('unsetProductAction', () => {
     test('resets the state back to the initial product shape', () => {
       const previousState: ProductState = buildProduct({identifier: 'sku-1', enabled: true});
 

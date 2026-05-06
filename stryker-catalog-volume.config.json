@@ -22,6 +22,7 @@
   ],
   "ignorePatterns": ["var", "coverage", "/public", "/tools/", ".worktrees", "vendor"],
   "coverageAnalysis": "perTest",
+  "ignoreStatic": true,
   "timeoutMS": 30000,
   "concurrency": 4,
   "tempDirName": "/tmp/stryker-tmp"

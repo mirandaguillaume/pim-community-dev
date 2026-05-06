@@ -1,5 +1,4 @@
-import {applyMiddleware, combineReducers, createStore, Store} from 'redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import {configureStore} from '@reduxjs/toolkit';
 
 import {
   catalogContextReducer,
@@ -22,23 +21,19 @@ export interface ProductEditFormState {
   product: ProductState;
 }
 
-const composeEnhancers = composeWithDevTools({
-  name: 'Akeneo PIM / Product Edit Form / Data Quality Insights / Store',
-});
-
-export const createStoreWithInitialState = (initialState = undefined) =>
-  createStore(
-    combineReducers({
+export const createStoreWithInitialState = (initialState?: Partial<ProductEditFormState>) =>
+  configureStore({
+    reducer: {
       catalogContext: catalogContextReducer,
       pageContext: pageContextReducer,
       productEvaluation: productEvaluationReducer,
       families: productFamilyInformationReducer,
       product: productReducer,
-    }),
-    initialState,
-    composeEnhancers(applyMiddleware())
-  );
+    },
+    preloadedState: initialState,
+    devTools: {name: 'Akeneo PIM / Product Edit Form / Data Quality Insights / Store'},
+  });
 
-const productEditFormStore: Store<any, any> = createStoreWithInitialState();
+const productEditFormStore = createStoreWithInitialState();
 
 export default productEditFormStore;
