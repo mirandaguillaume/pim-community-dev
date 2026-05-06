@@ -1,5 +1,5 @@
 import {FC, StrictMode, useMemo} from 'react';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {createHashRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
 import {ErrorBoundary} from './ErrorBoundary';
 import {CanLeavePageProvider, EditCategoryProvider} from './components';
@@ -9,7 +9,7 @@ import {UnsavedChangesGuard} from './components/templates/UnsavedChangeGuard';
 import {CategoriesIndex, CategoriesTreePage, CategoryEditPage, TemplatePage} from './pages';
 import {BadRequestError} from './tools/apiFetch';
 
-const useErrorBoundary = (error: unknown) => false === error instanceof BadRequestError;
+const throwOnError = (error: unknown) => false === error instanceof BadRequestError;
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -50,8 +50,8 @@ const CategoriesApp: FC<Props> = ({setCanLeavePage, setLeavePageMessage}) => {
     () =>
       new QueryClient({
         defaultOptions: {
-          queries: {useErrorBoundary},
-          mutations: {useErrorBoundary},
+          queries: {throwOnError},
+          mutations: {throwOnError},
         },
       }),
     []

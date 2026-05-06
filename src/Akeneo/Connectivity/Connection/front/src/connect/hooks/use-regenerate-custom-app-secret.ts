@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import {useRouter} from '../../shared/router/use-router';
-import {useMutation, useQueryClient} from 'react-query';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 export const useRegenerateCustomAppSecret = () => {
     const generateUrl = useRouter();
@@ -25,7 +25,8 @@ export const useRegenerateCustomAppSecret = () => {
         return await response.json();
     }, []);
 
-    return useMutation<string, string, string>(request, {
-        onSuccess: () => queryClient.invalidateQueries('custom_app_secret'),
+    return useMutation<string, string, string>({
+        mutationFn: request,
+        onSuccess: () => queryClient.invalidateQueries({queryKey: ['custom_app_secret']}),
     });
 };

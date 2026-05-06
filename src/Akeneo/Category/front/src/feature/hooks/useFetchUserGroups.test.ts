@@ -1,6 +1,6 @@
 import {renderHook, waitFor} from '@testing-library/react';
 import React from 'react';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {DependenciesContext, mockedDependencies} from '@akeneo-pim-community/shared';
 import {useFetchUserGroups} from './useFetchUserGroups';
 
@@ -24,7 +24,7 @@ describe('useFetchUserGroups', () => {
     } as any);
 
     const {result} = renderHook(() => useFetchUserGroups(), {wrapper: createWrapper()});
-    expect(result.current.status).toBe('loading');
+    expect(result.current.status).toBe('pending');
     expect(result.current.data).toBeUndefined();
   });
 

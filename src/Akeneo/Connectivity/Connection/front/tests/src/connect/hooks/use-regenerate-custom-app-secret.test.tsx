@@ -3,14 +3,7 @@ import {fireEvent, screen, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {mockFetchResponses, renderWithProviders} from '../../../test-utils';
-import {setLogger} from 'react-query';
 import {useRegenerateCustomAppSecret} from '@src/connect/hooks/use-regenerate-custom-app-secret';
-
-setLogger({
-    log: () => null,
-    warn: () => null,
-    error: () => null, // explicit error generation triggers react query to log the error
-});
 
 test('it regenerates the custom app and returns a new secret', async () => {
     mockFetchResponses({
@@ -46,7 +39,7 @@ test('it regenerates the custom app and returns a new secret', async () => {
         })
     );
 
-    expect(onSuccess).toBeCalledWith('newCustomAppSecret', expect.anything(), undefined);
+    expect(onSuccess).toBeCalledWith('newCustomAppSecret', expect.anything(), undefined, expect.any(Object));
 });
 
 test('it returns an error', async () => {

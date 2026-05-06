@@ -1,6 +1,6 @@
 import {NotificationLevel, useNotify, useRoute, useTranslate} from '@akeneo-pim-community/shared';
 import {apiFetch} from '../tools/apiFetch';
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 import {useNavigate} from 'react-router-dom';
 
 export const useDeactivateTemplate = (template: {id: string; label: string}) => {
@@ -9,7 +9,7 @@ export const useDeactivateTemplate = (template: {id: string; label: string}) => 
   const translate = useTranslate();
 
   const url = useRoute('pim_enriched_category_rest_deactivate_template', {templateUuid: template.id});
-  const mutation = useMutation(() => apiFetch(url, {method: 'DELETE'}));
+  const mutation = useMutation({mutationFn: () => apiFetch(url, {method: 'DELETE'})});
 
   return async () => {
     try {

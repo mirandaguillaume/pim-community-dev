@@ -1,8 +1,7 @@
 import {useCallback} from 'react';
 import {useRoute} from '../../shared/router';
-import {useMutation} from 'react-query';
+import {useMutation, UseMutationResult} from '@tanstack/react-query';
 import {CustomAppCredentials} from '../../model/Apps/custom-app-credentials';
-import {UseMutationResult} from 'react-query/types/react/types';
 
 export type CustomApp = {
     name: string;
@@ -56,5 +55,5 @@ export const useCreateCustomApp = (): UseMutationResult<CustomAppCredentials, Er
         [url]
     );
 
-    return useMutation<CustomAppCredentials, Errors, CustomApp>(request);
+    return useMutation<CustomAppCredentials, Errors, CustomApp>({mutationFn: request});
 };

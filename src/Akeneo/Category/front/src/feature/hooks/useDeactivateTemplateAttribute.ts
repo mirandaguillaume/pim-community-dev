@@ -1,5 +1,5 @@
 import {NotificationLevel, useNotify, useRoute, useTranslate} from '@akeneo-pim-community/shared';
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 import {apiFetch} from '../tools/apiFetch';
 
 export const useDeactivateTemplateAttribute = (templateUuid: string, attribute: {uuid: string; label: string}) => {
@@ -10,7 +10,7 @@ export const useDeactivateTemplateAttribute = (templateUuid: string, attribute: 
     templateUuid: templateUuid,
     attributeUuid: attribute.uuid,
   });
-  const mutation = useMutation(() => apiFetch(url, {method: 'DELETE'}));
+  const mutation = useMutation({mutationFn: () => apiFetch(url, {method: 'DELETE'})});
 
   return async () => {
     await mutation.mutateAsync();

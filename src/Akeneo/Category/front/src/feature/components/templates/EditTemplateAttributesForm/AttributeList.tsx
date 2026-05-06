@@ -7,7 +7,7 @@ import {getLabelFromAttribute} from '../../attributes';
 import {useTemplateForm} from '../../providers/TemplateFormProvider';
 import {AddTemplateAttributeModal} from '../AddTemplateAttributeModal';
 import {useReorderAttributes} from '../../../hooks/useReorderAttributes';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 
 const useAttributeFormHasErrors = () => {
   const [state] = useTemplateForm();
@@ -39,13 +39,13 @@ export const AttributeList = ({attributes, selectedAttribute, templateId, onAttr
   };
 
   const handleReorder = (indices: number[]) => {
-    if (mutation.isLoading) {
+    if (mutation.isPending) {
       return;
     }
     const uuids = indices.map(i => attributes[i]?.uuid);
     mutation.mutate(
       {templateUuid: templateId, uuids: uuids},
-      {onSettled: () => queryClient.invalidateQueries(['get-template', templateId])}
+      {onSettled: () => queryClient.invalidateQueries({queryKey: ['get-template', templateId]})}
     );
   };
 

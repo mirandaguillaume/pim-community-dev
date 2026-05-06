@@ -1,5 +1,5 @@
 import {useRoute} from '@akeneo-pim-community/shared';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {apiFetch} from '../tools/apiFetch';
 import {useCallback} from 'react';
 
@@ -18,11 +18,7 @@ const useUiLocales = () => {
     return await apiFetch<UiLocale[]>(url, {});
   }, [url]);
 
-  const options = {
-    staleTime: 60 * 60 * 1000,
-  };
-
-  const {data} = useQuery<UiLocale[]>(['get-ui-locales'], fetchUiLocales, options);
+  const {data} = useQuery<UiLocale[]>({queryKey: ['get-ui-locales'], queryFn: fetchUiLocales, staleTime: 60 * 60 * 1000});
   return data;
 };
 export {useUiLocales};

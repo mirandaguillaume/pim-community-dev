@@ -1,5 +1,5 @@
 import {Field, Helper, TextInput} from 'akeneo-design-system';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 import {useSaveStatus} from '../../../hooks/useSaveStatus';
 import {useUpdateTemplateAttribute} from '../../../hooks/useUpdateTemplateAttribute';
 import {Attribute} from '../../../models';
@@ -42,7 +42,7 @@ export const AttributeLabelTranslationInput = ({attribute, localeCode, label}: P
     try {
       handleStatusListChange(saveStatusId, Status.SAVING);
       await mutation.mutateAsync({labels: {[localeCode]: value}});
-      await queryClient.invalidateQueries(['get-template', attribute.template_uuid]);
+      await queryClient.invalidateQueries({queryKey: ['get-template', attribute.template_uuid]});
       dispatch({
         type: 'attribute_label_translation_saved',
         payload: {attributeUuid: attribute.uuid, localeCode, value},

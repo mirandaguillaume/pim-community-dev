@@ -1,5 +1,5 @@
 import {useRoute} from '../../shared/router';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 
 type Error = string | null;
 type Result = {
@@ -12,13 +12,16 @@ type Result = {
 export const useCustomAppsLimitReached = (): Result => {
     const url = useRoute('akeneo_connectivity_connection_custom_apps_rest_max_limit_reached');
 
-    return useQuery<boolean, Error, boolean>(['custom-apps-limit-reached'], async () => {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-        });
-        return await response.json();
+    return useQuery<boolean, Error, boolean>({
+        queryKey: ['custom-apps-limit-reached'],
+        queryFn: async () => {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            });
+            return await response.json();
+        },
     });
 };

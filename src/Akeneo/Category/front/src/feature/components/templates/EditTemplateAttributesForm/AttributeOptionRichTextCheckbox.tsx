@@ -1,7 +1,7 @@
 import {useTranslate} from '@akeneo-pim-community/shared';
 import {Checkbox} from 'akeneo-design-system';
 import {useState} from 'react';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 import {useSaveStatus} from '../../../hooks/useSaveStatus';
 import {useUpdateTemplateAttribute} from '../../../hooks/useUpdateTemplateAttribute';
 import {Attribute} from '../../../models';
@@ -25,7 +25,7 @@ export const AttributeOptionRichTextCheckbox = ({attribute}: Props) => {
     setIsSaving(true);
     handleStatusListChange(saveStatusId, Status.SAVING);
     await mutation.mutateAsync({isRichTextArea: !(attribute.type === 'richtext')});
-    await queryClient.invalidateQueries(['get-template', attribute.template_uuid]);
+    await queryClient.invalidateQueries({queryKey: ['get-template', attribute.template_uuid]});
     handleStatusListChange(saveStatusId, Status.SAVED);
     setIsSaving(false);
   };

@@ -40,7 +40,7 @@ type Props = {
 export const CreateCustomAppForm: FC<Props> = ({onCancel, setCredentials}) => {
     const translate = useTranslate();
     const [customApp, setCustomApp] = useState<CustomApp>({name: '', activateUrl: '', callbackUrl: ''});
-    const {mutate: createCustomApp, isLoading, error: errors} = useCreateCustomApp();
+    const {mutate: createCustomApp, isPending: isLoading, error: errors} = useCreateCustomApp();
     const handleChange = (field: keyof CustomApp, value: string) => {
         setCustomApp(customApp => ({
             ...customApp,

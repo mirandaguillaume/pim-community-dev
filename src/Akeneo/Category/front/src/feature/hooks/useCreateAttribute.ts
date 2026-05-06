@@ -1,4 +1,4 @@
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {apiFetch, BadRequestError} from '../tools/apiFetch';
 
@@ -25,7 +25,7 @@ type ApiResponseError = ResponseError[];
 
 export const useCreateAttribute = () => {
   const router = useRouter();
-  return useMutation<void, BadRequestError<CreateAttributeErrors>, Form>(async (form: Form) => {
+  return useMutation<void, BadRequestError<CreateAttributeErrors>, Form>({mutationFn: async (form: Form) => {
     const requestPayload = {
       code: form.code,
       locale: form.locale,
@@ -51,5 +51,5 @@ export const useCreateAttribute = () => {
 
       throw new BadRequestError(exception);
     });
-  });
+  }});
 };

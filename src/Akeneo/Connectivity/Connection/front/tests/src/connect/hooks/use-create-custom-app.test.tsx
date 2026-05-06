@@ -4,13 +4,6 @@ import {fireEvent, screen, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {mockFetchResponses, renderWithProviders} from '../../../test-utils';
-import {setLogger} from 'react-query';
-
-setLogger({
-    log: () => null,
-    warn: () => null,
-    error: () => null, // explicit error generation triggers react query to log the error
-});
 
 test('it creates the custom app and returns credentials', async () => {
     mockFetchResponses({
@@ -74,7 +67,8 @@ test('it creates the custom app and returns credentials', async () => {
             clientSecret: 'customSecret',
         },
         expect.anything(),
-        undefined
+        undefined,
+        expect.any(Object)
     );
 });
 

@@ -1,6 +1,6 @@
 import {NotificationLevel, useNotify, useRoute, useTranslate} from '@akeneo-pim-community/shared';
 import {Button, Modal, ProductCategoryIllustration} from 'akeneo-design-system';
-import {useMutation, useQueryClient} from 'react-query';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {apiFetch} from '../../../tools/apiFetch';
 import styled from 'styled-components';
 
@@ -16,9 +16,10 @@ export const LoadAttributeSetModal = ({templateId, onClose, onSuccess}: Props) =
   const notify = useNotify();
 
   const url = useRoute('pim_category_template_rest_load_attribute_set', {templateUuid: templateId});
-  const mutation = useMutation(() => apiFetch(url, {method: 'POST'}), {
+  const mutation = useMutation({
+    mutationFn: () => apiFetch(url, {method: 'POST'}),
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['get-template', templateId]);
+      await queryClient.invalidateQueries({queryKey: ['get-template', templateId]});
       notify(NotificationLevel.SUCCESS, translate('akeneo.category.template.load_attribute_set.notification.success'));
       onSuccess && onSuccess();
     },
@@ -29,7 +30,7 @@ export const LoadAttributeSetModal = ({templateId, onClose, onSuccess}: Props) =
   };
 
   const handleClose = () => {
-    if (mutation.isLoading) {
+    if (mutation.isPending) {
       return;
     }
     onClose();
@@ -55,10 +56,10 @@ export const LoadAttributeSetModal = ({templateId, onClose, onSuccess}: Props) =
       </List>
       {translate('akeneo.category.template.load_attribute_set.confirmation_message')}
       <Modal.BottomButtons>
-        <Button level="tertiary" onClick={handleClose} disabled={mutation.isLoading}>
+        <Button level="tertiary" onClick={handleClose} disabled={mutation.isPending}>
           {translate('pim_common.cancel')}
         </Button>
-        <Button level="primary" onClick={handleLoad} disabled={mutation.isLoading}>
+        <Button level="primary" onClick={handleLoad} disabled={mutation.isPending}>
           {translate('akeneo.category.template.load_attribute_set.button.load')}
         </Button>
       </Modal.BottomButtons>

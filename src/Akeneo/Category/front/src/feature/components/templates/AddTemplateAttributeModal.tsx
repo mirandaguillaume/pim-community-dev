@@ -1,6 +1,6 @@
 import {NotificationLevel, translate, useNotify} from '@akeneo-pim-community/shared';
 import {useState} from 'react';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 import {useCreateAttribute} from '../../hooks/useCreateAttribute';
 import {userContext} from '@akeneo-pim-community/shared/lib/dependencies/user-context';
 import {
@@ -93,7 +93,7 @@ export const AddTemplateAttributeModal = ({templateId, onClose, onSuccess}: Prop
           setError(error.data);
         },
         onSuccess: async () => {
-          await queryClient.invalidateQueries(['get-template', templateId]);
+          await queryClient.invalidateQueries({queryKey: ['get-template', templateId]});
           notify(NotificationLevel.SUCCESS, translate('akeneo.category.template.add_attribute.success.notification'));
           onSuccess && onSuccess();
           onClose();
@@ -180,7 +180,7 @@ export const AddTemplateAttributeModal = ({templateId, onClose, onSuccess}: Prop
         <Button level="tertiary" onClick={onClose}>
           {translate('pim_common.cancel')}
         </Button>
-        <Button disabled={mutation.isLoading} level="primary" onClick={handleCreate}>
+        <Button disabled={mutation.isPending} level="primary" onClick={handleCreate}>
           {translate('akeneo.category.template.add_attribute.confirmation_modal.create')}
         </Button>
       </Modal.BottomButtons>

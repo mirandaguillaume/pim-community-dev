@@ -1,6 +1,6 @@
 import {useRoute} from '@akeneo-pim-community/shared';
 import {useCallback} from 'react';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {ResponseStatus} from '../models/ResponseStatus';
 
 type ResultError = Error | null;
@@ -30,5 +30,5 @@ export const useFetchUserGroups = (): Result => {
     return await response.json();
   }, [url]);
 
-  return useQuery<UserGroup[], ResultError, UserGroup[]>(['user-groups'], fetchUserGroups);
+  return useQuery<UserGroup[], ResultError, UserGroup[]>({queryKey: ['user-groups'], queryFn: fetchUserGroups});
 };

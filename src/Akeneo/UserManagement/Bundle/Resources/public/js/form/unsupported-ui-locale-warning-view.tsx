@@ -4,7 +4,7 @@ import {pimTheme} from 'akeneo-design-system';
 import {ReactView} from '@akeneo-pim-community/legacy-bridge/src/bridge/react';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {UnsupportedUiLocaleWarning} from './unsupported-ui-locale-warning';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 class UnsupportedUiLocaleWarningView extends ReactView {
   reactElementToMount() {

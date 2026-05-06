@@ -1,15 +1,8 @@
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {mockFetchResponses, ReactQueryWrapper as wrapper} from '../../../test-utils';
-import {setLogger} from 'react-query';
 import {useDeleteCustomApp} from '@src/connect/hooks/use-delete-custom-app';
 import {act, renderHook} from '@testing-library/react';
-
-setLogger({
-    log: () => null,
-    warn: () => null,
-    error: () => null, // explicit error generation triggers react query to log the error
-});
 
 test('it successfully deletes the custom app', async () => {
     mockFetchResponses({

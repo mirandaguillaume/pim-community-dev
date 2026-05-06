@@ -71,7 +71,7 @@ export const RegenerateSecretPage = () => {
                 <RegenerateSecretConfirm
                     handleRedirect={handleRedirect}
                     handleRegenerate={handleRegenerate}
-                    buttonDisabled={mutationRegenerateSecret.isLoading}
+                    buttonDisabled={mutationRegenerateSecret.isPending}
                 />
             )}
             {step === 'new_credentials' && (

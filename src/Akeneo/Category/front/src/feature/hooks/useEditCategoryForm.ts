@@ -11,7 +11,7 @@ import {CategoryPermissions} from '../models/CategoryPermission';
 import {UserGroup} from './useFetchUserGroups';
 import {DEACTIVATED_TEMPLATE} from '../models/ResponseStatus';
 import {useNavigate} from 'react-router-dom';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 
 const useEditCategoryForm = (categoryId: number) => {
   const router = useRouter();
@@ -90,7 +90,7 @@ const useEditCategoryForm = (categoryId: number) => {
       notify(NotificationLevel.SUCCESS, translate('pim_enrich.entity.category.content.edit.success'));
 
       // force to fetch attribute list from template to hide potentially deleted attributes
-      await queryClient.invalidateQueries(['get-template', fetchedCategory?.template_uuid]);
+      await queryClient.invalidateQueries({queryKey: ['get-template', fetchedCategory?.template_uuid]});
     } else {
       notify(NotificationLevel.ERROR, response.error.message);
       if (response.error.code && response.error.code === DEACTIVATED_TEMPLATE) {

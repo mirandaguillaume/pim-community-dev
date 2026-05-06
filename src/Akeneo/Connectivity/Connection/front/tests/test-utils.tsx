@@ -6,7 +6,7 @@ import {theme} from '@src/common/styled-with-theme';
 import fetchMock from 'jest-fetch-mock';
 import {MemoryRouter, useLocation} from 'react-router-dom';
 import {DependenciesContext} from '@akeneo-pim-community/shared';
-import {QueryClientProvider, QueryClient} from 'react-query';
+import {QueryClientProvider, QueryClient} from '@tanstack/react-query';
 
 export const LocationDisplay = () => {
     const location = useLocation();

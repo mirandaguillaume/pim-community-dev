@@ -6,7 +6,7 @@ import {ConnectedAppsListPage} from '../connect/pages/ConnectedAppsListPage';
 import {ConnectedAppPage} from '../connect/pages/ConnectedAppPage';
 import {ConnectedAppDeletePage} from '../connect/pages/ConnectedAppDeletePage';
 import {OpenAppPage} from '../connect/pages/OpenAppPage';
-import {QueryClientProvider, QueryClient} from 'react-query';
+import {QueryClientProvider, QueryClient} from '@tanstack/react-query';
 import {ConnectedAppCatalogPage} from '../connect/pages/ConnectedAppCatalogPage';
 import {RegenerateSecretPage} from '../connect/pages/RegenerateSecretPage';
 
@@ -14,7 +14,7 @@ const client = new QueryClient({
     defaultOptions: {
         queries: {
             staleTime: 10 * 1000, // 10s
-            cacheTime: 5 * 60 * 1000, // 5m
+            gcTime: 5 * 60 * 1000, // 5m
         },
     },
 });
