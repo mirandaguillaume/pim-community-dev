@@ -67,7 +67,8 @@ test('it creates the custom app and returns credentials', async () => {
             clientSecret: 'customSecret',
         },
         expect.anything(),
-        undefined
+        undefined,
+        expect.any(Object)
     );
 });
 

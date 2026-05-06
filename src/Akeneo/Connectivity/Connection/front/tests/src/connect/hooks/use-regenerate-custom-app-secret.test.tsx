@@ -39,7 +39,7 @@ test('it regenerates the custom app and returns a new secret', async () => {
         })
     );
 
-    expect(onSuccess).toBeCalledWith('newCustomAppSecret', expect.anything(), undefined);
+    expect(onSuccess).toBeCalledWith('newCustomAppSecret', expect.anything(), undefined, expect.any(Object));
 });
 
 test('it returns an error', async () => {
