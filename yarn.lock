@@ -3,8 +3,7 @@
 
 
 "@akeneo-pim-community/shared@link:../front-packages/shared":
-  version "0.0.0"
-  uid ""
+  version "1.0.0"
 
 "@akeneo-pim-community/shared@link:front-packages/shared":
   version "1.0.0"
@@ -919,9 +918,9 @@
     "@babel/helper-plugin-utils" "^7.28.6"
 
 "@babel/plugin-transform-modules-systemjs@^7.29.0":
-  version "7.29.0"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-modules-systemjs/-/plugin-transform-modules-systemjs-7.29.0.tgz#e458a95a17807c415924106a3ff188a3b8dee964"
-  integrity sha512-PrujnVFbOdUpw4UHiVwKvKRLMMic8+eC0CuNlxjsyZUiBjhFdPsewdXCkveh2KqBA9/waD0W1b4hXSOBQJezpQ==
+  version "7.29.4"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-modules-systemjs/-/plugin-transform-modules-systemjs-7.29.4.tgz#f621105da99919c15cf4bde6fcc7346ef95e7b20"
+  integrity sha512-N7QmZ0xRZfjHOfZeQLJjwgX2zS9pdGHSVl/cjSGlo4dXMqvurfxXDMKY4RqEKzPozV78VMcd0lxyG13mlbKc4w==
   dependencies:
     "@babel/helper-module-transforms" "^7.28.6"
     "@babel/helper-plugin-utils" "^7.28.6"
@@ -3560,7 +3559,11 @@ ajv@~8.17.1:
 
 "akeneo-design-system@link:front-packages/akeneo-design-system":
   version "0.0.0"
-  uid ""
+  dependencies:
+    draft-js "^0.10.5"
+    draftjs-to-html "^0.8.4"
+    html-to-draftjs "^1.5.0"
+    react-draft-wysiwyg "^1.12.13"
 
 angular-html-parser@~6.0.2:
   version "6.0.2"
