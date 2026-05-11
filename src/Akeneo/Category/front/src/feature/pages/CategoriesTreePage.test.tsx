@@ -57,7 +57,8 @@ describe('CategoriesTreePage', () => {
   it('renders the category plural label breadcrumb step', () => {
     mockedUseTree.mockReturnValue({tree: null, loadingStatus: 'fetched', loadTree: jest.fn()} as any);
     renderPage();
-    expect(screen.getByText('pim_enrich.entity.category.plural_label')).toBeInTheDocument();
+    const elements = screen.getAllByText('pim_enrich.entity.category.plural_label');
+    expect(elements.length).toBeGreaterThan(0);
   });
 
   it('renders a full screen error when loading fails', () => {

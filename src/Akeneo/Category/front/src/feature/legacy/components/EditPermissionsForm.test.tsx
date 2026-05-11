@@ -25,7 +25,7 @@ describe('EditPermissionsForm', () => {
         onChangeApplyPermissionsOnChildren={jest.fn()}
       />
     );
-    expect(container.firstChild).toBeEmptyDOMElement();
+    expect(container.firstChild).toBeNull();
   });
 
   it('renders nothing when formData has no permissions', () => {
@@ -41,7 +41,7 @@ describe('EditPermissionsForm', () => {
         onChangeApplyPermissionsOnChildren={jest.fn()}
       />
     );
-    expect(container.firstChild).toBeEmptyDOMElement();
+    expect(container.firstChild).toBeNull();
   });
 
   it('renders view, edit and own permission labels', () => {

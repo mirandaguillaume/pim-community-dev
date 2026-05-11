@@ -10,8 +10,8 @@ jest.mock('@akeneo-pim-community/shared', () => ({
 
 jest.mock('akeneo-design-system', () => ({
   ...jest.requireActual('akeneo-design-system'),
-  MediaFileInput: ({value, placeholder}: any) => (
-    <div data-testid="media-file-input">{placeholder}</div>
+  MediaFileInput: ({placeholder, children}: any) => (
+    <div data-testid="media-file-input">{placeholder}{children}</div>
   ),
   useInModal: jest.fn(() => false),
 }));

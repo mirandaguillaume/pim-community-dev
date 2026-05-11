@@ -1,6 +1,6 @@
 import React from 'react';
-import {render} from '@testing-library/react';
 import {MemoryRouter} from 'react-router-dom';
+import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {useSaveStatus} from '../../hooks/useSaveStatus';
 import {CanLeavePageContext} from '../providers/CanLeavePageProvider';
 import {Status} from '../providers/SaveStatusProvider';
@@ -12,7 +12,7 @@ const mockedUseSaveStatus = useSaveStatus as jest.MockedFunction<typeof useSaveS
 const renderGuard = (globalStatus: Status, setCanLeavePage = jest.fn(), setLeavePageMessage = jest.fn()) => {
   mockedUseSaveStatus.mockReturnValue({globalStatus, handleStatusListChange: jest.fn()} as any);
 
-  return render(
+  return renderWithProviders(
     <MemoryRouter>
       <CanLeavePageContext.Provider value={{setCanLeavePage, setLeavePageMessage}}>
         <UnsavedChangesGuard />

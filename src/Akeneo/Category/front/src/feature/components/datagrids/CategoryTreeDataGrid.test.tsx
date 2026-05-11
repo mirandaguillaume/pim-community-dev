@@ -16,6 +16,9 @@ jest.mock('../../infrastructure', () => ({
   ...jest.requireActual('../../infrastructure'),
   deleteCategory: jest.fn().mockResolvedValue({ok: true}),
 }));
+jest.mock('../../../tools/useDebounceCallback', () => ({
+  useDebounceCallback: jest.fn((callback: (...args: any[]) => void) => callback),
+}));
 
 const mockedUseCount = useCountCategoryTreesChildren as jest.MockedFunction<typeof useCountCategoryTreesChildren>;
 

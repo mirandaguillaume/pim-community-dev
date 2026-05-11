@@ -38,8 +38,8 @@ describe('Tree', () => {
 
   it('calls onClick with the node value when clicked', async () => {
     const onClick = jest.fn();
-    renderTree({onClick});
-    await userEvent.click(screen.getByRole('treeitem'));
+    renderTree({onClick, label: 'Root Category'});
+    await userEvent.click(screen.getByText('Root Category'));
     expect(onClick).toHaveBeenCalledWith(expect.objectContaining({identifier: 1}));
   });
 

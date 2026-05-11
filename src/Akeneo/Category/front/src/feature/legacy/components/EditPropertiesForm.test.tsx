@@ -1,5 +1,5 @@
 import React from 'react';
-import {screen} from '@testing-library/react';
+import {screen, fireEvent} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {EditPropertiesForm} from './EditPropertiesForm';
@@ -22,7 +22,7 @@ describe('EditPropertiesForm', () => {
     const {container} = renderWithProviders(
       <EditPropertiesForm category={category} formData={null} onChangeLabel={jest.fn()} />
     );
-    expect(container.firstChild).toBeEmptyDOMElement();
+    expect(container.firstChild).toBeNull();
   });
 
   it('renders the category code as a read-only input', () => {
@@ -52,14 +52,13 @@ describe('EditPropertiesForm', () => {
     expect(screen.getByText('Label too long')).toBeInTheDocument();
   });
 
-  it('calls onChangeLabel with the locale and new value when a label is changed', async () => {
+  it('calls onChangeLabel with the locale and new value when a label is changed', () => {
     const onChangeLabel = jest.fn();
     renderWithProviders(
       <EditPropertiesForm category={category} formData={makeFormData()} onChangeLabel={onChangeLabel} />
     );
     const enInput = screen.getByDisplayValue('Electronics');
-    await userEvent.clear(enInput);
-    await userEvent.type(enInput, 'Tech');
-    expect(onChangeLabel).toHaveBeenCalledWith('en_US', expect.stringContaining('Tech'));
+    fireEvent.change(enInput, {target: {value: 'Tech'}});
+    expect(onChangeLabel).toHaveBeenCalledWith('en_US', 'Tech');
   });
 });

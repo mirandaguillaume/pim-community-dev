@@ -1,5 +1,7 @@
 import React from 'react';
 import {render} from '@testing-library/react';
+import {ThemeProvider} from 'styled-components';
+import {pimTheme} from 'akeneo-design-system';
 import {buildRichTextFieldAttribute} from './buildRichTextFieldAttribute';
 import {Attribute} from '../../models';
 
@@ -36,7 +38,9 @@ describe('buildRichTextFieldAttribute', () => {
   it('renders the field when value is a string', () => {
     const Component = buildRichTextFieldAttribute(attribute);
     const {container} = render(
-      <Component channel={channel} locale="en_US" value="<p>Hello</p>" onChange={jest.fn()} />
+      <ThemeProvider theme={pimTheme}>
+        <Component channel={channel} locale="en_US" value="<p>Hello</p>" onChange={jest.fn()} />
+      </ThemeProvider>
     );
     expect(container.firstChild).not.toBeNull();
   });

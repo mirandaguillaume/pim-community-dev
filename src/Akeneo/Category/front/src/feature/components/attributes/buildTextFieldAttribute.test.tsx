@@ -1,5 +1,7 @@
 import React from 'react';
 import {render} from '@testing-library/react';
+import {ThemeProvider} from 'styled-components';
+import {pimTheme} from 'akeneo-design-system';
 import {buildTextFieldAttribute} from './buildTextFieldAttribute';
 import {Attribute} from '../../models';
 
@@ -46,7 +48,9 @@ describe('buildTextFieldAttribute', () => {
   it('renders the field when value is a string', () => {
     const Component = buildTextFieldAttribute(attribute);
     const {container} = render(
-      <Component channel={channel} locale="en_US" value="red" onChange={jest.fn()} />
+      <ThemeProvider theme={pimTheme}>
+        <Component channel={channel} locale="en_US" value="red" onChange={jest.fn()} />
+      </ThemeProvider>
     );
     expect(container.firstChild).not.toBeNull();
   });

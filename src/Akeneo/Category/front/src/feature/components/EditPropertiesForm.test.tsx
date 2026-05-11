@@ -1,5 +1,5 @@
 import React from 'react';
-import {screen} from '@testing-library/react';
+import {screen, fireEvent} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {EditPropertiesForm} from './EditPropertiesForm';
@@ -58,12 +58,11 @@ describe('EditPropertiesForm (modern)', () => {
     expect(inputs.length).toBeGreaterThanOrEqual(3);
   });
 
-  it('calls onChangeLabel with the locale code and new value when a label is changed', async () => {
+  it('calls onChangeLabel with the locale code and new value when a label is changed', () => {
     const onChangeLabel = jest.fn();
     renderForm(makeCategory({en_US: 'Electronics'}), onChangeLabel);
     const enInput = screen.getByDisplayValue('Electronics');
-    await userEvent.clear(enInput);
-    await userEvent.type(enInput, 'Tech');
-    expect(onChangeLabel).toHaveBeenCalledWith('en_US', expect.stringContaining('Tech'));
+    fireEvent.change(enInput, {target: {value: 'Tech'}});
+    expect(onChangeLabel).toHaveBeenCalledWith('en_US', 'Tech');
   });
 });
