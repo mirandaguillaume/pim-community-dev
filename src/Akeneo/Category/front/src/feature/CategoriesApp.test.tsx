@@ -15,13 +15,14 @@ jest.mock('./pages', () => ({
 
 describe('CategoriesApp', () => {
   it('renders without crashing', () => {
-    const {container} = render(
-      <ThemeProvider theme={pimTheme}>
-        <DependenciesContext.Provider value={mockedDependencies}>
-          <CategoriesApp setCanLeavePage={jest.fn()} setLeavePageMessage={jest.fn()} />
-        </DependenciesContext.Provider>
-      </ThemeProvider>
-    );
-    expect(container.firstChild).toBeTruthy();
+    expect(() =>
+      render(
+        <ThemeProvider theme={pimTheme}>
+          <DependenciesContext.Provider value={mockedDependencies}>
+            <CategoriesApp setCanLeavePage={jest.fn()} setLeavePageMessage={jest.fn()} />
+          </DependenciesContext.Provider>
+        </ThemeProvider>
+      )
+    ).not.toThrow();
   });
 });

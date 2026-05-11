@@ -1,5 +1,4 @@
 import React from 'react';
-import {MemoryRouter} from 'react-router-dom';
 import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {useSaveStatus} from '../../hooks/useSaveStatus';
 import {CanLeavePageContext} from '../providers/CanLeavePageProvider';
@@ -7,17 +6,20 @@ import {Status} from '../providers/SaveStatusProvider';
 import {UnsavedChangesGuard} from './UnsavedChangeGuard';
 
 jest.mock('../../hooks/useSaveStatus');
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useBlocker: jest.fn(() => ({state: 'unblocked'})),
+}));
+
 const mockedUseSaveStatus = useSaveStatus as jest.MockedFunction<typeof useSaveStatus>;
 
 const renderGuard = (globalStatus: Status, setCanLeavePage = jest.fn(), setLeavePageMessage = jest.fn()) => {
   mockedUseSaveStatus.mockReturnValue({globalStatus, handleStatusListChange: jest.fn()} as any);
 
   return renderWithProviders(
-    <MemoryRouter>
-      <CanLeavePageContext.Provider value={{setCanLeavePage, setLeavePageMessage}}>
-        <UnsavedChangesGuard />
-      </CanLeavePageContext.Provider>
-    </MemoryRouter>
+    <CanLeavePageContext.Provider value={{setCanLeavePage, setLeavePageMessage}}>
+      <UnsavedChangesGuard />
+    </CanLeavePageContext.Provider>
   );
 };
 
@@ -44,9 +46,7 @@ describe('UnsavedChangesGuard', () => {
   it('calls setLeavePageMessage with the unsaved changes key when editing', () => {
     const setLeavePageMessage = jest.fn();
     renderGuard(Status.EDITING, jest.fn(), setLeavePageMessage);
-    expect(setLeavePageMessage).toHaveBeenCalledWith(
-      'akeneo.category.template.attribute.settings.unsaved_changes'
-    );
+    expect(setLeavePageMessage).toHaveBeenCalledWith('akeneo.category.template.attribute.settings.unsaved_changes');
   });
 
   it('does not call setLeavePageMessage when status is SAVED', () => {
