@@ -73,19 +73,13 @@ describe('AttributeSettings', () => {
 
   it('renders localizable checkbox checked', () => {
     renderSettings();
-    const checkboxes = screen.getAllByRole('checkbox');
-    const localizableCheckbox = checkboxes.find(
-      cb => cb.closest('label')?.textContent?.includes('value_per_locale')
-    );
+    const localizableCheckbox = screen.getByRole('checkbox', {name: /value_per_locale/});
     expect(localizableCheckbox).toBeChecked();
   });
 
   it('renders scopable checkbox unchecked', () => {
     renderSettings();
-    const checkboxes = screen.getAllByRole('checkbox');
-    const scopableCheckbox = checkboxes.find(
-      cb => cb.closest('label')?.textContent?.includes('value_per_channel')
-    );
+    const scopableCheckbox = screen.getByRole('checkbox', {name: /value_per_channel/});
     expect(scopableCheckbox).not.toBeChecked();
   });
 

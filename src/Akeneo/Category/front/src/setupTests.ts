@@ -4,3 +4,12 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import './tests/fetchMock';
+
+beforeEach(() => {
+  const intersectionObserverMock = () => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+  });
+  window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
+});
