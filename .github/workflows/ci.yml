@@ -669,7 +669,7 @@ jobs:
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn workspace @akeneo-pim-community/connectivity-connection jest --ci --coverage --coverageDirectory=coverage/connectivity
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn workspace @akeneo-pim-community/connectivity-connection jest --ci --coverage
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn run --cwd=src/Akeneo/Connectivity/Connection/workspaces/permission-form/ jest --ci --coverage
 
       - name: Upload coverage reports
@@ -677,7 +677,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jest-coverage-connectivity
-          path: coverage/
+          path: |
+            src/Akeneo/Connectivity/Connection/front/coverage/
+            src/Akeneo/Connectivity/Connection/workspaces/permission-form/coverage/
           retention-days: 30
 
   # ===========================================================================

@@ -13,4 +13,5 @@ module.exports = {
     },
     setupFiles: ['./tests/mocks/fetch-mock.ts'],
     collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx}'],
+    coverageReporters: ['text-summary', 'html', 'lcov', 'json-summary'],
 };
