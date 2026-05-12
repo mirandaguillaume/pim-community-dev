@@ -16,7 +16,8 @@ jest.mock('../../infrastructure', () => ({
   ...jest.requireActual('../../infrastructure'),
   deleteCategory: jest.fn().mockResolvedValue({ok: true}),
 }));
-jest.mock('../../../tools/useDebounceCallback', () => ({
+jest.mock('@akeneo-pim-community/shared', () => ({
+  ...jest.requireActual('@akeneo-pim-community/shared'),
   useDebounceCallback: jest.fn((callback: (...args: any[]) => void) => callback),
 }));
 
@@ -28,10 +29,8 @@ const trees = [
 ];
 
 const renderDataGrid = (props = {}) => {
-  mockedUseCount.mockReturnValue({'master': 12, 'seasonal': 3});
-  return renderWithProviders(
-    <CategoryTreesDataGrid trees={trees} refreshCategoryTrees={jest.fn()} {...props} />
-  );
+  mockedUseCount.mockReturnValue({master: 12, seasonal: 3});
+  return renderWithProviders(<CategoryTreesDataGrid trees={trees} refreshCategoryTrees={jest.fn()} {...props} />);
 };
 
 describe('CategoryTreesDataGrid', () => {
