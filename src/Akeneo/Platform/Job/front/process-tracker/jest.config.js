@@ -13,7 +13,7 @@ module.exports = {
     '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js',
   },
   transformIgnorePatterns: ['node_modules/(?!(react-draft-wysiwyg)/)'],
-  coverageReporters: ['text-summary', 'html'],
+  coverageReporters: ['text-summary', 'html', 'lcov', 'json-summary'],
   coveragePathIgnorePatterns: [
     '<rootDir>/src/index.tsx',
     '<rootDir>/src/FakePIM.tsx',
