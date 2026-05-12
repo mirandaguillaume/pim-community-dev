@@ -19,6 +19,7 @@ module.exports = {
     collectCoverageFrom: [
       '<rootDir>/src/**/*.{ts,tsx}',
     ],
+    coverageReporters: ['text-summary', 'html', 'lcov', 'json-summary'],
     coverageThreshold: {
         global: {
             branches: 100,
