@@ -57,7 +57,13 @@ runs:
     - name: Login to GHCR
       if: inputs.php-image == 'true'
       shell: bash
-      run: echo "${{ inputs.github-token }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      run: |
+        TOKEN="${{ inputs.github-token }}"
+        for attempt in 1 2 3; do
+          echo "$TOKEN" | docker login ghcr.io -u ${{ github.actor }} --password-stdin && break
+          echo "Docker login attempt $attempt/3 failed, retrying in 15s..."
+          sleep 15
+        done
 
     - name: Pull PHP image from GHCR
       if: inputs.php-image == 'true'
