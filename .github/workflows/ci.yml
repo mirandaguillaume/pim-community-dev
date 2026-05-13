@@ -130,6 +130,7 @@ jobs:
               - '.eslintrc*'
               - 'tsconfig*.json'
               - 'playwright.config.ts'
+              - 'tests/front/**'
               - 'src/**/*.ts'
               - 'src/**/*.tsx'
               - 'src/**/*.js'
