@@ -15,5 +15,6 @@ module.exports = {
   coverageProvider: 'v8',
   coverageReporters: ['text-summary', 'lcov', 'json-summary'],
   collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx}'],
+  setupFiles: ['./tests/setupMocks.js'],
   setupFilesAfterEnv: ['@testing-library/jest-dom'],
 };
