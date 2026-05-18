@@ -529,9 +529,10 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn npm audit --severity moderate || echo "::warning::yarn audit found vulnerabilities — review before merging"
 
   # ===========================================================================
-  # FRONT-PACKAGES: Jest tests for the ejected front-end workspace packages
+  # FRONT-PACKAGES: Unit tests for ejected front-end workspace packages
   # (shared, measurement, process-tracker, import-export, catalog-volume-monitoring,
-  #  category, identifier-generator, communication-channel, activity, settings-ui).
+  #  category, identifier-generator, communication-channel, settings-ui via Jest;
+  #  activity via Bun — runs on host, not in Docker).
   # Runs once — not duplicated across shards.
   # ===========================================================================
   test-front-packages:
@@ -560,11 +561,20 @@ jobs:
           name: front-packages-lib
           path: .
 
-      - name: Run workspace package unit tests
+      - name: Run workspace package unit tests (Jest)
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:unit
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.14'
+
+      - name: Run activity unit tests (Bun)
+        working-directory: src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/activity
+        run: bun test ./src/**/*.unit.ts ./tests/**/*.unit.ts --coverage
 
       - name: Upload coverage reports
         if: always()
