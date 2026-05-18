@@ -529,9 +529,10 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn npm audit --severity moderate || echo "::warning::yarn audit found vulnerabilities — review before merging"
 
   # ===========================================================================
-  # FRONT-PACKAGES: Jest tests for the 7 front-end workspace packages
+  # FRONT-PACKAGES: Jest tests for the ejected front-end workspace packages
   # (shared, measurement, process-tracker, import-export, catalog-volume-monitoring,
-  #  category, identifier-generator). Runs once — not duplicated across shards.
+  #  category, identifier-generator, communication-channel, activity, settings-ui).
+  # Runs once — not duplicated across shards.
   # ===========================================================================
   test-front-packages:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
@@ -577,6 +578,9 @@ jobs:
             src/Akeneo/Platform/Bundle/ImportExportBundle/front/coverage/
             src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/coverage/
             components/identifier-generator/front/coverage/
+            src/Akeneo/Platform/Bundle/CommunicationChannelBundle/front/coverage/
+            src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/activity/coverage/
+            src/Akeneo/Pim/Structure/Bundle/Resources/workspaces/settings-ui/coverage/
           retention-days: 30
 
   # ===========================================================================

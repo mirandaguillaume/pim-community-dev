@@ -2,5 +2,9 @@
   "name": "@akeneo-pim-community/settings-ui",
   "version": "1.0.0",
   "private": true,
-  "main": "src/index.ts"
+  "main": "src/index.ts",
+  "scripts": {
+    "test:unit:run": "jest --config jest.config.js --forceExit --maxWorkers=3 --coverage --coverageDirectory=coverage",
+    "test:unit:watch": "jest --config jest.config.js --maxWorkers=3 --watch"
+  }
 }
