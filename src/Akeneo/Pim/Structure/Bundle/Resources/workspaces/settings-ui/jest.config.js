@@ -10,6 +10,7 @@ module.exports = {
     '^@akeneo-pim-community/settings-ui/src/(.*)$': '<rootDir>/src/$1',
     '^@akeneo-pim-community/settings-ui$': '<rootDir>/src/index.ts',
     '^@akeneo-pim-community/shared$': `${ROOT}/front-packages/shared/src/index.ts`,
+    '^@akeneo-pim-community/shared/lib/(.*)$': `${ROOT}/front-packages/shared/src/$1`,
     '^akeneo-design-system$': `${ROOT}/front-packages/akeneo-design-system/src/index.ts`,
     '^akeneopimstructure/(.*)$': '<rootDir>/../../public/$1',
     '\\.(jpg|ico|jpeg|png|gif|svg|css)$': `${ROOT}/tests/front/unit/jest/fileMock.js`,
