@@ -1,5 +1,5 @@
-import {BackendChannelData, BackendCompletenessData} from '../domain';
-import {ChannelsLocalesCompletenessRatios} from '@akeneo-pim-community/enrichment/src/models';
+import type {BackendChannelData, BackendCompletenessData} from '../domain';
+import type {ChannelsLocalesCompletenessRatios} from '@akeneo-pim-community/enrichment/src/models';
 
 const convertBackendDashboardCompletenessData = (
   data: BackendCompletenessData,
@@ -25,4 +25,5 @@ const convertBackendDashboardCompletenessData = (
   return result;
 };
 
-export {convertBackendDashboardCompletenessData, BackendChannelData};
+export {convertBackendDashboardCompletenessData};
+export type {BackendChannelData};
