@@ -8,7 +8,7 @@
   },
   "scripts": {
     "generate-models": "node $npm_package_config_generate_models_script src/definitions/ src/models/",
-    "test:unit:run": "jest --config jest.config.js --forceExit --maxWorkers=3 --coverage --coverageDirectory=coverage",
+    "test:unit:run": "yarn generate-models && jest --config jest.config.js --forceExit --maxWorkers=3 --coverage --coverageDirectory=coverage",
     "test:unit:watch": "jest --config jest.config.js --maxWorkers=3 --watch"
   }
 }
