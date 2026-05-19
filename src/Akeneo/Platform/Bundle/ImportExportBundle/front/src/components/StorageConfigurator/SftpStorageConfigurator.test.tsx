@@ -5,8 +5,8 @@ import {renderWithProviders, ValidationError} from '@akeneo-pim-community/shared
 import {SftpStorageConfigurator} from './SftpStorageConfigurator';
 import {SftpStorage, LocalStorage} from '../../models';
 
-jest.mock('./CheckStorageConnection', () => ({
-  CheckStorageConnection: () => <button>Check connection</button>,
+jest.mock('../../hooks/useCheckStorageConnection', () => ({
+  useCheckStorageConnection: () => [false, false, jest.fn()],
 }));
 
 jest.mock('../../hooks/useGetPublicKey', () => ({
@@ -15,7 +15,7 @@ jest.mock('../../hooks/useGetPublicKey', () => ({
 
 const notifyMock = jest.fn();
 jest.mock('@akeneo-pim-community/shared', () => ({
-  ...jest.requireActual('@akeneo-pim-community/shared'),
+  ...require('@akeneo-pim-community/shared'),
   useNotify: () => notifyMock,
 }));
 

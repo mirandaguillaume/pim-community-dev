@@ -5,8 +5,8 @@ import {renderWithProviders, ValidationError} from '@akeneo-pim-community/shared
 import {GoogleCloudStorageConfigurator} from './GoogleCloudStorageConfigurator';
 import {GoogleCloudStorage, LocalStorage} from '../../models';
 
-jest.mock('./CheckStorageConnection', () => ({
-  CheckStorageConnection: () => <button>Check connection</button>,
+jest.mock('../../hooks/useCheckStorageConnection', () => ({
+  useCheckStorageConnection: () => [false, false, jest.fn()],
 }));
 
 const storage: GoogleCloudStorage = {
@@ -284,5 +284,5 @@ test('it can check connection', () => {
     />
   );
 
-  expect(screen.getByText('Check connection')).toBeInTheDocument();
+  expect(screen.getByText('pim_import_export.form.job_instance.connection_checker.label')).toBeInTheDocument();
 });

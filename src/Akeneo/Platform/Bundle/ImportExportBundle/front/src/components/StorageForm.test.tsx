@@ -1,21 +1,16 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import {screen, act} from '@testing-library/react';
-import {renderWithProviders, ValidationError, useFeatureFlags} from '@akeneo-pim-community/shared';
+import {renderWithProviders, ValidationError} from '@akeneo-pim-community/shared';
 import {StorageForm} from './StorageForm';
 import {NoneStorage, LocalStorage, SftpStorage} from '../models';
 
-const mockedUseFeatureFlags = useFeatureFlags as jest.Mock;
-
-jest.mock('@akeneo-pim-community/shared/lib/hooks/useFeatureFlags', () => ({
-  useFeatureFlags: jest.fn(),
+jest.mock('@akeneo-pim-community/shared', () => ({
+  ...require('@akeneo-pim-community/shared'),
+  useFeatureFlags: () => ({isEnabled: () => true}),
 }));
 
 beforeEach(() => {
-  mockedUseFeatureFlags.mockImplementation(() => ({
-    isEnabled: (featureFlag: string): boolean => true,
-  }));
-
   global.fetch = mockFetch;
 });
 
