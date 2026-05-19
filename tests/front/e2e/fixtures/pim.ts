@@ -230,18 +230,37 @@ export async function createAttributeViaApi(
   });
 }
 
-export async function createFamilyViaApi(
-  page: Page,
-  data: {code: string; attributes: string[]; labels?: Record<string, string>}
-) {
-  return page.request.post('/configuration/rest/family', {
-    data: {labels: {}, ...data},
+export async function addAttributeToFamilyViaApi(page: Page, familyCode: string, attributeCode: string): Promise<void> {
+  const getResp = await page.request.get(`/configuration/rest/family/${familyCode}`, {
+    headers: XHR_HEADER,
+  });
+  if (!getResp.ok()) throw new Error(`Could not fetch family ${familyCode}: ${getResp.status()}`);
+  const family = await getResp.json();
+  const attrs: string[] = family.attributes ?? [];
+  if (attrs.includes(attributeCode)) return;
+  const putResp = await page.request.put(`/configuration/rest/family/${familyCode}`, {
+    data: {...family, attributes: [...attrs, attributeCode]},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
+  if (!putResp.ok()) throw new Error(`Could not add attribute to family ${familyCode}: ${putResp.status()}`);
 }
 
-export async function deleteFamilyViaApi(page: Page, code: string) {
-  await page.request.delete(`/configuration/rest/family/${code}`, {headers: XHR_HEADER});
+export async function removeAttributeFromFamilyViaApi(
+  page: Page,
+  familyCode: string,
+  attributeCode: string
+): Promise<void> {
+  const getResp = await page.request.get(`/configuration/rest/family/${familyCode}`, {
+    headers: XHR_HEADER,
+  });
+  if (!getResp.ok()) return;
+  const family = await getResp.json();
+  const attrs: string[] = family.attributes ?? [];
+  if (!attrs.includes(attributeCode)) return;
+  await page.request.put(`/configuration/rest/family/${familyCode}`, {
+    data: {...family, attributes: attrs.filter((a: string) => a !== attributeCode)},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
 }
 
 export async function deleteAttributeViaApi(page: Page, code: string) {
@@ -411,8 +430,11 @@ export async function getFirstFamilyCode(page: Page): Promise<string | null> {
   });
   if (!resp.ok()) return null;
   const families = await resp.json();
-  if (Array.isArray(families) && families.length > 0) {
-    return families[0].code;
+  // The endpoint returns an object keyed by family code, not an array
+  if (Array.isArray(families) && families.length > 0) return families[0].code;
+  if (families && typeof families === 'object') {
+    const keys = Object.keys(families);
+    if (keys.length > 0) return keys[0];
   }
   return null;
 }

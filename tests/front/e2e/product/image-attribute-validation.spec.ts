@@ -5,11 +5,12 @@ import {
   attachFileToProductAttribute,
   saveProduct,
   createAttributeViaApi,
-  createFamilyViaApi,
+  addAttributeToFamilyViaApi,
+  removeAttributeFromFamilyViaApi,
   createProductViaApi,
   deleteProductViaApi,
-  deleteFamilyViaApi,
   deleteAttributeViaApi,
+  getFirstFamilyCode,
 } from '../fixtures/pim';
 
 /**
@@ -22,22 +23,25 @@ import {
  * Uses Playwright setInputFiles() which handles hidden file inputs natively,
  * unlike Selenium W3C which fails to locate non-visible elements.
  *
- * Creates its own test fixtures via the internal REST API (mirrors Behat Background).
+ * Creates image attributes then adds them to an existing catalog family.
  */
 
 const ts = Date.now();
 const IMAGE_CODE = `pw_image_${ts}`;
 const THUMB_CODE = `pw_thumb_${ts}`;
-const FAMILY_CODE = `pw_img_fam_${ts}`;
 const PRODUCT_SKU = `pw-img-${ts}`;
 const IMAGE_LABEL = 'Pw Image';
 const THUMB_LABEL = 'Pw Thumb';
 
+let familyCode: string | null = null;
 let productId: string | null = null;
 
 test.beforeAll(async ({browser}) => {
   const page = await browser.newPage();
   await login(page, 'admin', 'admin');
+
+  familyCode = await getFirstFamilyCode(page);
+  expect(familyCode, 'No family found in catalog — icecat_demo_dev must be loaded').toBeTruthy();
 
   const r1 = await createAttributeViaApi(page, {
     code: IMAGE_CODE,
@@ -63,13 +67,10 @@ test.beforeAll(async ({browser}) => {
   });
   expect(r2.ok(), `Failed to create attribute ${THUMB_CODE}: ${r2.status()}`).toBe(true);
 
-  const r3 = await createFamilyViaApi(page, {
-    code: FAMILY_CODE,
-    attributes: ['sku', IMAGE_CODE, THUMB_CODE],
-  });
-  expect(r3.ok(), `Failed to create family ${FAMILY_CODE}: ${r3.status()}`).toBe(true);
+  await addAttributeToFamilyViaApi(page, familyCode!, IMAGE_CODE);
+  await addAttributeToFamilyViaApi(page, familyCode!, THUMB_CODE);
 
-  const r4 = await createProductViaApi(page, PRODUCT_SKU, FAMILY_CODE);
+  const r4 = await createProductViaApi(page, PRODUCT_SKU, familyCode!);
   expect(r4.ok(), `Failed to create product ${PRODUCT_SKU}: ${r4.status()}`).toBe(true);
   const body = await r4.json();
   productId = body.meta?.id ?? body.id ?? null;
@@ -81,7 +82,10 @@ test.afterAll(async ({browser}) => {
   const page = await browser.newPage();
   await login(page, 'admin', 'admin');
   if (productId) await deleteProductViaApi(page, productId);
-  await deleteFamilyViaApi(page, FAMILY_CODE);
+  if (familyCode) {
+    await removeAttributeFromFamilyViaApi(page, familyCode, IMAGE_CODE);
+    await removeAttributeFromFamilyViaApi(page, familyCode, THUMB_CODE);
+  }
   await deleteAttributeViaApi(page, IMAGE_CODE);
   await deleteAttributeViaApi(page, THUMB_CODE);
   await page.close();

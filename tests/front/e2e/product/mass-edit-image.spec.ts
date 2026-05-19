@@ -13,10 +13,11 @@ import {
   productHasAttributeValue,
   createProductViaApi,
   createAttributeViaApi,
-  createFamilyViaApi,
+  addAttributeToFamilyViaApi,
+  removeAttributeFromFamilyViaApi,
   deleteProductViaApi,
-  deleteFamilyViaApi,
   deleteAttributeViaApi,
+  getFirstFamilyCode,
 } from '../fixtures/pim';
 
 /**
@@ -27,22 +28,25 @@ import {
  * Uses Playwright setInputFiles() which handles hidden file inputs natively,
  * unlike Selenium W3C which fails to locate non-visible elements.
  *
- * Creates its own test fixtures via the internal REST API (mirrors Behat Background).
+ * Creates an image attribute and adds it to an existing catalog family.
  */
 
 test.describe('Mass edit image attributes', () => {
   const ts = Date.now();
   const ATTR_CODE = `pw_side_view_${ts}`;
   const ATTR_LABEL = 'Pw Side View';
-  const FAMILY_CODE = `pw_me_img_fam_${ts}`;
   const sku1 = `pw-me-img-1-${ts}`;
   const sku2 = `pw-me-img-2-${ts}`;
+  let familyCode: string | null = null;
   let productId1: string | null = null;
   let productId2: string | null = null;
 
   test.beforeAll(async ({browser}) => {
     const page = await browser.newPage();
     await login(page, 'admin', 'admin');
+
+    familyCode = await getFirstFamilyCode(page);
+    expect(familyCode, 'No family found in catalog — icecat_demo_dev must be loaded').toBeTruthy();
 
     const r1 = await createAttributeViaApi(page, {
       code: ATTR_CODE,
@@ -55,18 +59,14 @@ test.describe('Mass edit image attributes', () => {
     });
     expect(r1.ok(), `Failed to create attribute ${ATTR_CODE}: ${r1.status()}`).toBe(true);
 
-    const r2 = await createFamilyViaApi(page, {
-      code: FAMILY_CODE,
-      attributes: ['sku', ATTR_CODE],
-    });
-    expect(r2.ok(), `Failed to create family ${FAMILY_CODE}: ${r2.status()}`).toBe(true);
+    await addAttributeToFamilyViaApi(page, familyCode!, ATTR_CODE);
 
-    const r3 = await createProductViaApi(page, sku1, FAMILY_CODE);
+    const r3 = await createProductViaApi(page, sku1, familyCode!);
     expect(r3.ok(), `Failed to create product ${sku1}: ${r3.status()}`).toBe(true);
     const body3 = await r3.json();
     productId1 = body3.meta?.id ?? body3.id ?? null;
 
-    const r4 = await createProductViaApi(page, sku2, FAMILY_CODE);
+    const r4 = await createProductViaApi(page, sku2, familyCode!);
     expect(r4.ok(), `Failed to create product ${sku2}: ${r4.status()}`).toBe(true);
     const body4 = await r4.json();
     productId2 = body4.meta?.id ?? body4.id ?? null;
@@ -79,7 +79,7 @@ test.describe('Mass edit image attributes', () => {
     await login(page, 'admin', 'admin');
     if (productId1) await deleteProductViaApi(page, productId1);
     if (productId2) await deleteProductViaApi(page, productId2);
-    await deleteFamilyViaApi(page, FAMILY_CODE);
+    if (familyCode) await removeAttributeFromFamilyViaApi(page, familyCode, ATTR_CODE);
     await deleteAttributeViaApi(page, ATTR_CODE);
     await page.close();
   });
