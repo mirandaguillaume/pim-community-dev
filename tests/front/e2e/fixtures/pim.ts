@@ -16,7 +16,13 @@ export async function selectProductsBySku(page: Page, skus: string[]) {
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
-  await page.getByRole('button', {name: /bulk actions/i}).click();
+  // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
+  // not a <button> — scope to .mass-actions-panel to avoid false positives.
+  await page
+    .locator('.mass-actions-panel a', {hasText: /bulk actions/i})
+    .first()
+    .click();
+  await waitForLoadingMasks(page);
   await page
     .getByText(/edit attribute values/i)
     .first()
