@@ -11,13 +11,11 @@ import {
   attachFileToMassEditAttribute,
   confirmMassEdit,
   productHasAttributeValue,
-  createProductViaApi,
   createAttributeViaApi,
   addAttributeToFamilyViaApi,
   removeAttributeFromFamilyViaApi,
-  deleteProductViaApi,
   deleteAttributeViaApi,
-  getFirstFamilyCode,
+  getFirstProductsFromGrid,
 } from '../fixtures/pim';
 
 /**
@@ -28,25 +26,38 @@ import {
  * Uses Playwright setInputFiles() which handles hidden file inputs natively,
  * unlike Selenium W3C which fails to locate non-visible elements.
  *
- * Creates an image attribute and adds it to an existing catalog family.
+ * Uses existing indexed catalog products to avoid Elasticsearch indexing lag in CI.
  */
 
 test.describe('Mass edit image attributes', () => {
   const ts = Date.now();
   const ATTR_CODE = `pw_side_view_${ts}`;
   const ATTR_LABEL = 'Pw Side View';
-  const sku1 = `pw-me-img-1-${ts}`;
-  const sku2 = `pw-me-img-2-${ts}`;
-  let familyCode: string | null = null;
-  let productId1: string | null = null;
-  let productId2: string | null = null;
+
+  let sku1: string | null = null;
+  let sku2: string | null = null;
+  let uuid1: string | null = null;
+  let uuid2: string | null = null;
+  let families: string[] = [];
 
   test.beforeAll(async ({browser}) => {
     const page = await browser.newPage();
     await login(page, 'admin', 'admin');
 
-    familyCode = await getFirstFamilyCode(page);
-    expect(familyCode, 'No family found in catalog — icecat_demo_dev must be loaded').toBeTruthy();
+    const products = await getFirstProductsFromGrid(page, 2);
+    expect(
+      products.length,
+      'Need at least 2 indexed products in the catalog — icecat_demo_dev must be loaded'
+    ).toBeGreaterThanOrEqual(2);
+
+    sku1 = products[0].sku;
+    sku2 = products[1].sku;
+    uuid1 = products[0].uuid;
+    uuid2 = products[1].uuid;
+
+    // Deduplicate families so we only PUT each family once
+    families = [...new Set([products[0].family, products[1].family].filter(Boolean))];
+    expect(families.length, 'Products must belong to at least one family').toBeGreaterThan(0);
 
     const r1 = await createAttributeViaApi(page, {
       code: ATTR_CODE,
@@ -59,17 +70,9 @@ test.describe('Mass edit image attributes', () => {
     });
     expect(r1.ok(), `Failed to create attribute ${ATTR_CODE}: ${r1.status()}`).toBe(true);
 
-    await addAttributeToFamilyViaApi(page, familyCode!, ATTR_CODE);
-
-    const r3 = await createProductViaApi(page, sku1, familyCode!);
-    expect(r3.ok(), `Failed to create product ${sku1}: ${r3.status()}`).toBe(true);
-    const body3 = await r3.json();
-    productId1 = body3.meta?.id ?? body3.id ?? null;
-
-    const r4 = await createProductViaApi(page, sku2, familyCode!);
-    expect(r4.ok(), `Failed to create product ${sku2}: ${r4.status()}`).toBe(true);
-    const body4 = await r4.json();
-    productId2 = body4.meta?.id ?? body4.id ?? null;
+    for (const familyCode of families) {
+      await addAttributeToFamilyViaApi(page, familyCode, ATTR_CODE);
+    }
 
     await page.close();
   });
@@ -77,9 +80,9 @@ test.describe('Mass edit image attributes', () => {
   test.afterAll(async ({browser}) => {
     const page = await browser.newPage();
     await login(page, 'admin', 'admin');
-    if (productId1) await deleteProductViaApi(page, productId1);
-    if (productId2) await deleteProductViaApi(page, productId2);
-    if (familyCode) await removeAttributeFromFamilyViaApi(page, familyCode, ATTR_CODE);
+    for (const familyCode of families) {
+      await removeAttributeFromFamilyViaApi(page, familyCode, ATTR_CODE);
+    }
     await deleteAttributeViaApi(page, ATTR_CODE);
     await page.close();
   });
@@ -95,7 +98,7 @@ test.describe('Mass edit image attributes', () => {
    */
   test('Successfully update many images values at once', async ({page}) => {
     await goToProductsGrid(page);
-    await selectProductsBySku(page, [sku1, sku2]);
+    await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
     await addAttributeToMassEdit(page, ATTR_LABEL);
     await attachFileToMassEditAttribute(page, ATTR_LABEL, 'SNKRS-1R.png');
@@ -110,8 +113,8 @@ test.describe('Mass edit image attributes', () => {
       });
     }
 
-    expect(await productHasAttributeValue(page, sku1, ATTR_CODE)).toBe(true);
-    expect(await productHasAttributeValue(page, sku2, ATTR_CODE)).toBe(true);
+    expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(true);
+    expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(true);
   });
 
   /**
@@ -122,7 +125,7 @@ test.describe('Mass edit image attributes', () => {
     await goToProductsGrid(page);
 
     // Step 1: set image on sku1 + sku2
-    await selectProductsBySku(page, [sku1, sku2]);
+    await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
     await addAttributeToMassEdit(page, ATTR_LABEL);
     await attachFileToMassEditAttribute(page, ATTR_LABEL, 'SNKRS-1R.png');
@@ -130,24 +133,24 @@ test.describe('Mass edit image attributes', () => {
     if (jobId1) {
       await waitForJobExecutionViaApi(page, jobId1);
     }
-    expect(await productHasAttributeValue(page, sku1, ATTR_CODE)).toBe(true);
-    expect(await productHasAttributeValue(page, sku2, ATTR_CODE)).toBe(true);
+    expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(true);
+    expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(true);
 
     // Step 2: clear image by confirming without attaching a file
     await goToProductsGrid(page);
-    await selectProductsBySku(page, [sku1, sku2]);
+    await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
     await addAttributeToMassEdit(page, ATTR_LABEL);
     const jobId2 = await confirmMassEdit(page);
     if (jobId2) {
       await waitForJobExecutionViaApi(page, jobId2);
     }
-    expect(await productHasAttributeValue(page, sku1, ATTR_CODE)).toBe(false);
-    expect(await productHasAttributeValue(page, sku2, ATTR_CODE)).toBe(false);
+    expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(false);
+    expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(false);
 
     // Step 3: attach invalid extension (.gif) and verify validation error
     await goToProductsGrid(page);
-    await selectProductsBySku(page, [sku1, sku2]);
+    await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
     await addAttributeToMassEdit(page, ATTR_LABEL);
     await attachFileToMassEditAttribute(page, ATTR_LABEL, 'bic-core-148.gif');
@@ -160,7 +163,7 @@ test.describe('Mass edit image attributes', () => {
       page.getByText(/gif.*not allowed|allowed extensions are png|extension.*not allowed/i).first()
     ).toBeVisible({timeout: 15_000});
 
-    expect(await productHasAttributeValue(page, sku1, ATTR_CODE)).toBe(false);
-    expect(await productHasAttributeValue(page, sku2, ATTR_CODE)).toBe(false);
+    expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(false);
+    expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(false);
   });
 });

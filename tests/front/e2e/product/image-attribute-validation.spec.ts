@@ -96,9 +96,8 @@ test.beforeEach(async ({page}) => {
 });
 
 async function navigateToProduct(page: Parameters<typeof login>[0]) {
-  await page.evaluate((sku: string) => {
-    window.location.hash = `#/enrich/product/${sku}/edit`;
-  }, PRODUCT_SKU);
+  if (!productId) throw new Error('productId not set — beforeAll must have failed');
+  await page.goto(`/#/enrich/product/${productId}`);
   await waitForLoadingMasks(page);
   await page.locator('.edit-form, .AknFormContainer').first().waitFor({timeout: 30_000});
 }
