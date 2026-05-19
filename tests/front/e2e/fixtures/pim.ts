@@ -37,10 +37,15 @@ export async function addAttributeToMassEdit(page: Page, attributeLabel: string)
     .getByText(/select attributes/i)
     .first()
     .click();
-  const searchInput = page.locator('input[type="search"]').last();
+  // Select2 v3 creates input.select2-input (type="text"), not input[type="search"].
+  // Scope to .select2-drop to avoid matching unrelated inputs.
+  const searchInput = page.locator('.select2-drop input.select2-input');
+  await searchInput.waitFor({state: 'visible', timeout: 10_000});
   await searchInput.fill(attributeLabel);
-  await page.getByText(attributeLabel, {exact: true}).first().waitFor({timeout: 10_000});
-  await page.getByText(attributeLabel, {exact: true}).first().click();
+  await page.locator('.select2-drop').getByText(attributeLabel, {exact: true}).first().waitFor({timeout: 10_000});
+  await page.locator('.select2-drop').getByText(attributeLabel, {exact: true}).first().click();
+  // The Select2 footer has a real <button> to confirm the selection (closeOnSelect: false).
+  await page.locator('.ui-multiselect-footer button').click();
   await waitForLoadingMasks(page);
 }
 
