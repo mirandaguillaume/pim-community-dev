@@ -1,4 +1,89 @@
 import {Page, expect} from '@playwright/test';
+import * as path from 'node:path';
+
+const BEHAT_FIXTURES = path.resolve(__dirname, '../../../legacy/features/Context/fixtures');
+
+export function fixtureFilePath(name: string): string {
+  return path.join(BEHAT_FIXTURES, name);
+}
+
+export async function selectProductsBySku(page: Page, skus: string[]) {
+  for (const sku of skus) {
+    const row = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku}).first();
+    await row.waitFor({state: 'visible', timeout: 15_000});
+    await row.locator('input[type="checkbox"]').check();
+  }
+}
+
+export async function openBulkEditAttributeValues(page: Page) {
+  await page.getByRole('button', {name: /bulk actions/i}).click();
+  await page
+    .getByText(/edit attribute values/i)
+    .first()
+    .click();
+  await page.getByRole('button', {name: /next/i}).first().click();
+  await waitForLoadingMasks(page);
+}
+
+export async function addAttributeToMassEdit(page: Page, attributeLabel: string) {
+  await page
+    .getByText(/select attributes/i)
+    .first()
+    .click();
+  const searchInput = page.locator('input[type="search"]').last();
+  await searchInput.fill(attributeLabel);
+  await page.getByText(attributeLabel, {exact: true}).first().waitFor({timeout: 10_000});
+  await page.getByText(attributeLabel, {exact: true}).first().click();
+  await waitForLoadingMasks(page);
+}
+
+export async function attachFileToMassEditAttribute(page: Page, attributeLabel: string, fileName: string) {
+  const container = page
+    .locator('.AknComparableFields')
+    .filter({has: page.locator('.AknFieldContainer-label', {hasText: attributeLabel})})
+    .first();
+  await container.locator('input[type="file"]').setInputFiles(fixtureFilePath(fileName));
+}
+
+export async function attachFileToProductAttribute(page: Page, attributeLabel: string, fileName: string) {
+  const container = page
+    .locator('.AknFieldContainer')
+    .filter({has: page.locator('.AknFieldContainer-label', {hasText: attributeLabel})})
+    .first();
+  await container.locator('input[type="file"]').setInputFiles(fixtureFilePath(fileName));
+}
+
+export async function confirmMassEdit(page: Page): Promise<string | null> {
+  const respPromise = page
+    .waitForResponse(r => /mass-edit|batch-action/.test(r.url()) && r.request().method() === 'POST', {timeout: 30_000})
+    .catch(() => null);
+  await page
+    .getByRole('button', {name: /confirm/i})
+    .first()
+    .click();
+  const resp = await respPromise;
+  if (!resp) return null;
+  try {
+    const body = await resp.json();
+    const match = JSON.stringify(body).match(/show\/(\d+)/);
+    return match?.[1] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function productHasAttributeValue(page: Page, sku: string, attributeCode: string): Promise<boolean> {
+  const resp = await page.request.get(`/enrich/product/rest?identifier=${encodeURIComponent(sku)}`, {
+    headers: {'X-Requested-With': 'XMLHttpRequest'},
+  });
+  if (!resp.ok()) return false;
+  const data = await resp.json();
+  const arr = Array.isArray(data) ? data : [data];
+  const product = arr.find((p: any) => p.identifier === sku) ?? arr[0];
+  if (!product) return false;
+  const values = product.values?.[attributeCode];
+  return Array.isArray(values) && values.length > 0 && values[0]?.data != null;
+}
 
 export async function login(page: Page, username: string, password: string) {
   await page.goto('/user/login');
@@ -225,8 +310,8 @@ export async function launchImportViaApi(
   const mimeType = fileName.endsWith('.csv')
     ? 'text/csv'
     : fileName.endsWith('.xlsx')
-    ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    : 'application/octet-stream';
+      ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      : 'application/octet-stream';
 
   const response = await page.request.post(`/job-instance/rest/import/${jobCode}/launch`, {
     headers: XHR_HEADER,

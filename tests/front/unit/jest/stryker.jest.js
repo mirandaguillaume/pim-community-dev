@@ -31,6 +31,7 @@ const ACTIVITY_WORKSPACE = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resour
 const LEGACY_BRIDGE_WORKSPACE = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/legacy-bridge';
 const ENRICHMENT_WORKSPACE = '<rootDir>/src/Akeneo/Pim/Enrichment/Bundle/Resources/workspaces/enrichment';
 const IMPORT_EXPORT_FRONT = '<rootDir>/src/Akeneo/Platform/Bundle/ImportExportBundle/front';
+const CATALOG_VOLUME_FRONT = '<rootDir>/src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front';
 
 module.exports = {
   ...unitConfig,
@@ -94,6 +95,8 @@ module.exports = {
     `${ACTIVITY_WORKSPACE}/**/*.unit.ts`,
     // Import-Export workspace — storage configurator components and hooks.
     `${IMPORT_EXPORT_FRONT}/src/**/*.test.(ts|tsx)`,
+    // Catalog-Volume-Monitoring workspace — volume fetchers, hooks and components.
+    `${CATALOG_VOLUME_FRONT}/src/**/*.test.(ts|tsx)`,
     // Identifier Generator, CatalogVolumeMonitoring, and Process Tracker have
     // their own jest configs with incompatible settings (setupFiles, tsconfig,
     // resetMocks). They use dedicated Stryker configs (stryker-*.config.json).
