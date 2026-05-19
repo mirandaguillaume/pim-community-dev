@@ -1,3 +1,4 @@
+/* global Bun */
 const {JSDOM} = require('jsdom');
 const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {url: 'http://localhost'});
 const {window: jsdomWindow} = dom;
