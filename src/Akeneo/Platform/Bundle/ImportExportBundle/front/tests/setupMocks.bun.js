@@ -17,6 +17,10 @@ global.localStorage = jsdomWindow.localStorage;
 // @testing-library/jest-dom extends expect with toBeInTheDocument, toHaveTextContent, etc.
 require('@testing-library/jest-dom');
 
+// Bun --coverage runs test files in a shared context; explicit cleanup prevents DOM leakage.
+const {cleanup} = require('@testing-library/react');
+afterEach(cleanup);
+
 // Intercept asset and UMD bundle imports that would fail in Bun's ESM context.
 Bun.plugin({
   name: 'asset-and-umd-mock',
