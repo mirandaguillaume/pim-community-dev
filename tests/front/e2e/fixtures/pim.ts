@@ -230,13 +230,23 @@ export async function createAttributeViaApi(
   });
 }
 
+function prepareFamilyForPut(family: Record<string, unknown>): Record<string, unknown> {
+  // Mirror what the Akeneo family form does before PUT:
+  // 1. attributes is an array of objects {code, ...} — send only codes
+  // 2. delete the meta field (read-only server data)
+  const rawAttrs = (family.attributes ?? []) as Array<string | {code: string}>;
+  const attrCodes = rawAttrs.map(a => (typeof a === 'string' ? a : a.code));
+  const {meta: _meta, ...rest} = family;
+  return {...rest, attributes: attrCodes};
+}
+
 export async function addAttributeToFamilyViaApi(page: Page, familyCode: string, attributeCode: string): Promise<void> {
   const getResp = await page.request.get(`/configuration/rest/family/${familyCode}`, {
     headers: XHR_HEADER,
   });
   if (!getResp.ok()) throw new Error(`Could not fetch family ${familyCode}: ${getResp.status()}`);
-  const family = await getResp.json();
-  const attrs: string[] = family.attributes ?? [];
+  const family = prepareFamilyForPut(await getResp.json());
+  const attrs = family.attributes as string[];
   if (attrs.includes(attributeCode)) return;
   const putResp = await page.request.put(`/configuration/rest/family/${familyCode}`, {
     data: {...family, attributes: [...attrs, attributeCode]},
@@ -254,11 +264,11 @@ export async function removeAttributeFromFamilyViaApi(
     headers: XHR_HEADER,
   });
   if (!getResp.ok()) return;
-  const family = await getResp.json();
-  const attrs: string[] = family.attributes ?? [];
+  const family = prepareFamilyForPut(await getResp.json());
+  const attrs = family.attributes as string[];
   if (!attrs.includes(attributeCode)) return;
   await page.request.put(`/configuration/rest/family/${familyCode}`, {
-    data: {...family, attributes: attrs.filter((a: string) => a !== attributeCode)},
+    data: {...family, attributes: attrs.filter(a => a !== attributeCode)},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
 }
