@@ -4,7 +4,7 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "test:unit:run": "jest --config jest.config.js --forceExit --maxWorkers=3 --coverage --coverageDirectory=coverage",
-    "test:unit:watch": "jest --config jest.config.js --maxWorkers=3 --watch"
+    "test:unit:run": "bun test ./src/**/*.unit.ts ./tests/**/*.unit.ts --coverage",
+    "test:unit:watch": "bun test ./src/**/*.unit.ts ./tests/**/*.unit.ts --watch"
   }
 }

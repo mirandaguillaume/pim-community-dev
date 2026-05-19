@@ -13,4 +13,4 @@ type BackendChannelData = {
   };
 };
 
-export {BackendChannelData, BackendCompletenessData};
+export type {BackendChannelData, BackendCompletenessData};

@@ -27,6 +27,9 @@ const CONNECTIVITY_FRONT = '<rootDir>/src/Akeneo/Connectivity/Connection/front';
 const IDENTIFIER_GEN_FRONT = '<rootDir>/components/identifier-generator/front';
 const MEASURE_FRONT = '<rootDir>/src/Akeneo/Tool/Bundle/MeasureBundle/front';
 const SETTINGS_UI_FRONT = '<rootDir>/src/Akeneo/Pim/Structure/Bundle/Resources/workspaces/settings-ui';
+const ACTIVITY_WORKSPACE = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/activity';
+const LEGACY_BRIDGE_WORKSPACE = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/legacy-bridge';
+const ENRICHMENT_WORKSPACE = '<rootDir>/src/Akeneo/Pim/Enrichment/Bundle/Resources/workspaces/enrichment';
 
 module.exports = {
   ...unitConfig,
@@ -59,6 +62,11 @@ module.exports = {
     // settings-ui workspace: path imports include /src/ prefix already.
     '^@akeneo-pim-community/settings-ui/(.*)$': `${SETTINGS_UI_FRONT}/$1`,
     '^@akeneo-pim-community/settings-ui$': `${SETTINGS_UI_FRONT}/src/index.ts`,
+    // Activity workspace dependencies: direct resolution to avoid sandbox symlink issues.
+    // Deep path imports (e.g. legacy-bridge/tests/front/unit/utils) need explicit mapping.
+    '^@akeneo-pim-community/legacy-bridge/(.*)$': `${LEGACY_BRIDGE_WORKSPACE}/$1`,
+    '^@akeneo-pim-community/enrichment$': `${ENRICHMENT_WORKSPACE}/src/index.ts`,
+    '^@akeneo-pim-community/enrichment/(.*)$': `${ENRICHMENT_WORKSPACE}/$1`,
   },
   // Explicit testMatch targeting ONLY modules in the Stryker mutate scope.
   // unit.jest.js uses '<rootDir>/src/**/*.unit.(ts|tsx)' which is too broad —
@@ -80,6 +88,9 @@ module.exports = {
     '<rootDir>/src/Akeneo/UserManagement/Bundle/Resources/public/js/tools/*.unit.ts',
     // settings-ui infrastructure: fetchers/removers only — no Backbone or workspace symlinks.
     '<rootDir>/src/Akeneo/Pim/Structure/Bundle/Resources/workspaces/settings-ui/tests/front/unit/infrastructure/**/*.unit.ts',
+    // Activity workspace — pure data transformation and hook tests, no Backbone.
+    // Tests run under Bun in the main CI step but are Jest-compatible for Stryker.
+    `${ACTIVITY_WORKSPACE}/**/*.unit.ts`,
     // Identifier Generator, CatalogVolumeMonitoring, and Process Tracker have
     // their own jest configs with incompatible settings (setupFiles, tsconfig,
     // resetMocks). They use dedicated Stryker configs (stryker-*.config.json).
