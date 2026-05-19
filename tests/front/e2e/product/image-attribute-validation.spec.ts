@@ -33,7 +33,6 @@ const PRODUCT_SKU = `pw-img-${ts}`;
 const IMAGE_LABEL = 'Pw Image';
 const THUMB_LABEL = 'Pw Thumb';
 
-let setupOk = false;
 let productId: string | null = null;
 
 test.beforeAll(async ({browser}) => {
@@ -50,6 +49,7 @@ test.beforeAll(async ({browser}) => {
     localizable: false,
     labels: {en_US: IMAGE_LABEL},
   });
+  expect(r1.ok(), `Failed to create attribute ${IMAGE_CODE}: ${r1.status()}`).toBe(true);
 
   const r2 = await createAttributeViaApi(page, {
     code: THUMB_CODE,
@@ -61,19 +61,19 @@ test.beforeAll(async ({browser}) => {
     localizable: false,
     labels: {en_US: THUMB_LABEL},
   });
+  expect(r2.ok(), `Failed to create attribute ${THUMB_CODE}: ${r2.status()}`).toBe(true);
 
   const r3 = await createFamilyViaApi(page, {
     code: FAMILY_CODE,
     attributes: ['sku', IMAGE_CODE, THUMB_CODE],
   });
+  expect(r3.ok(), `Failed to create family ${FAMILY_CODE}: ${r3.status()}`).toBe(true);
 
   const r4 = await createProductViaApi(page, PRODUCT_SKU, FAMILY_CODE);
-  if (r4.ok()) {
-    const body = await r4.json();
-    productId = body.meta?.id ?? body.id ?? null;
-  }
+  expect(r4.ok(), `Failed to create product ${PRODUCT_SKU}: ${r4.status()}`).toBe(true);
+  const body = await r4.json();
+  productId = body.meta?.id ?? body.id ?? null;
 
-  setupOk = r1.ok() && r2.ok() && r3.ok() && r4.ok();
   await page.close();
 });
 
@@ -100,10 +100,6 @@ async function navigateToProduct(page: Parameters<typeof login>[0]) {
 }
 
 test('Validate max file size constraint of image attribute', async ({page}) => {
-  if (!setupOk) {
-    test.skip(true, 'Test fixtures could not be created');
-    return;
-  }
   await navigateToProduct(page);
   await attachFileToProductAttribute(page, IMAGE_LABEL, 'akeneo.jpg');
   await saveProduct(page);
@@ -111,10 +107,6 @@ test('Validate max file size constraint of image attribute', async ({page}) => {
 });
 
 test('Validate max file size constraint of scopable image attribute', async ({page}) => {
-  if (!setupOk) {
-    test.skip(true, 'Test fixtures could not be created');
-    return;
-  }
   await navigateToProduct(page);
   const scopeDropdown = page.getByText(/ecommerce/i).first();
   if (await scopeDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
@@ -126,10 +118,6 @@ test('Validate max file size constraint of scopable image attribute', async ({pa
 });
 
 test('Validate allowed extensions constraint of image attribute', async ({page}) => {
-  if (!setupOk) {
-    test.skip(true, 'Test fixtures could not be created');
-    return;
-  }
   await navigateToProduct(page);
   await attachFileToProductAttribute(page, IMAGE_LABEL, 'fanatic-freewave-76.gif');
   await saveProduct(page);
@@ -139,10 +127,6 @@ test('Validate allowed extensions constraint of image attribute', async ({page})
 });
 
 test('Validate allowed extensions constraint of scopable image attribute', async ({page}) => {
-  if (!setupOk) {
-    test.skip(true, 'Test fixtures could not be created');
-    return;
-  }
   await navigateToProduct(page);
   const scopeDropdown = page.getByText(/ecommerce/i).first();
   if (await scopeDropdown.isVisible({timeout: 5_000}).catch(() => false)) {

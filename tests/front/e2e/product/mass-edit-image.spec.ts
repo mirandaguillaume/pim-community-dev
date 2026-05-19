@@ -37,7 +37,6 @@ test.describe('Mass edit image attributes', () => {
   const FAMILY_CODE = `pw_me_img_fam_${ts}`;
   const sku1 = `pw-me-img-1-${ts}`;
   const sku2 = `pw-me-img-2-${ts}`;
-  let setupOk = false;
   let productId1: string | null = null;
   let productId2: string | null = null;
 
@@ -54,24 +53,24 @@ test.describe('Mass edit image attributes', () => {
       localizable: false,
       labels: {en_US: ATTR_LABEL},
     });
+    expect(r1.ok(), `Failed to create attribute ${ATTR_CODE}: ${r1.status()}`).toBe(true);
 
     const r2 = await createFamilyViaApi(page, {
       code: FAMILY_CODE,
       attributes: ['sku', ATTR_CODE],
     });
+    expect(r2.ok(), `Failed to create family ${FAMILY_CODE}: ${r2.status()}`).toBe(true);
 
     const r3 = await createProductViaApi(page, sku1, FAMILY_CODE);
-    if (r3.ok()) {
-      const body = await r3.json();
-      productId1 = body.meta?.id ?? body.id ?? null;
-    }
-    const r4 = await createProductViaApi(page, sku2, FAMILY_CODE);
-    if (r4.ok()) {
-      const body = await r4.json();
-      productId2 = body.meta?.id ?? body.id ?? null;
-    }
+    expect(r3.ok(), `Failed to create product ${sku1}: ${r3.status()}`).toBe(true);
+    const body3 = await r3.json();
+    productId1 = body3.meta?.id ?? body3.id ?? null;
 
-    setupOk = r1.ok() && r2.ok() && r3.ok() && r4.ok();
+    const r4 = await createProductViaApi(page, sku2, FAMILY_CODE);
+    expect(r4.ok(), `Failed to create product ${sku2}: ${r4.status()}`).toBe(true);
+    const body4 = await r4.json();
+    productId2 = body4.meta?.id ?? body4.id ?? null;
+
     await page.close();
   });
 
@@ -95,18 +94,7 @@ test.describe('Mass edit image attributes', () => {
    * Successfully update many images values at once
    */
   test('Successfully update many images values at once', async ({page}) => {
-    if (!setupOk) {
-      test.skip(true, 'Test fixtures could not be created');
-      return;
-    }
-
-    try {
-      await goToProductsGrid(page);
-    } catch {
-      test.skip(true, 'Product grid is empty — no products available');
-      return;
-    }
-
+    await goToProductsGrid(page);
     await selectProductsBySku(page, [sku1, sku2]);
     await openBulkEditAttributeValues(page);
     await addAttributeToMassEdit(page, ATTR_LABEL);
@@ -131,17 +119,7 @@ test.describe('Mass edit image attributes', () => {
    * Mass edit image attribute — set, clear, and validate extension
    */
   test('Mass edit image attribute — set, clear, and validate extension', async ({page}) => {
-    if (!setupOk) {
-      test.skip(true, 'Test fixtures could not be created');
-      return;
-    }
-
-    try {
-      await goToProductsGrid(page);
-    } catch {
-      test.skip(true, 'Product grid is empty — no products available');
-      return;
-    }
+    await goToProductsGrid(page);
 
     // Step 1: set image on sku1 + sku2
     await selectProductsBySku(page, [sku1, sku2]);
