@@ -10,7 +10,7 @@
   },
   "scripts": {
     "app:start": "yarn translation:build && yarn route:build && yarn packages:build && vite",
-    "test:unit:run": "bun test --coverage",
+    "test:unit:run": "bun test",
     "test:unit:watch": "bun test --watch",
     "lib:build": "tsc -p ./tsconfig.build.json",
     "translation:build": "cp $npm_package_config_application_path/public/js/translation/en_US.js ./src/translations.json",
@@ -33,6 +33,10 @@
     "@types/react-dom": "^18.3.0",
     "@types/styled-components": "^5.1.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "istanbul-lib-coverage": "^3.2.0",
+    "istanbul-lib-instrument": "^5.1.0",
+    "istanbul-lib-report": "^3.0.0",
+    "istanbul-reports": "^3.2.0",
     "prettier": "^3.8.3",
     "vite": "^6.4.2"
   },

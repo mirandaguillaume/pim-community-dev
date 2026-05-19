@@ -15,10 +15,6 @@ const storage: AmazonS3Storage = {
 
 let hookResponse = [true, false, jest.fn()];
 
-// Bun coverage mode shares the module registry across test files; re-register the
-// real component to override stubs from other configurator test files.
-jest.mock('./CheckStorageConnection', () => require('./CheckStorageConnection'));
-
 jest.mock('../../hooks/useCheckStorageConnection', () => ({
   useCheckStorageConnection: () => hookResponse,
 }));

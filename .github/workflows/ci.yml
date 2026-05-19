@@ -580,10 +580,6 @@ jobs:
         working-directory: src/Akeneo/Platform/Bundle/ImportExportBundle/front
         run: bun test
 
-      - name: Run import-export unit tests (Bun)
-        working-directory: src/Akeneo/Platform/Bundle/ImportExportBundle/front
-        run: bun test --coverage
-
       - name: Run catalog-volume-monitoring unit tests (Bun)
         working-directory: src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front
         run: bun test
