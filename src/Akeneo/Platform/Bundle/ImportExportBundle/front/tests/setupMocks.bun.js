@@ -21,7 +21,6 @@ require('@testing-library/jest-dom');
 const {cleanup} = require('@testing-library/react');
 afterEach(cleanup);
 
-
 // Intercept asset and UMD bundle imports that would fail in Bun's ESM context.
 Bun.plugin({
   name: 'asset-and-umd-mock',
