@@ -72,15 +72,16 @@ export async function confirmMassEdit(page: Page): Promise<string | null> {
   }
 }
 
-export async function productHasAttributeValue(page: Page, sku: string, attributeCode: string): Promise<boolean> {
-  const resp = await page.request.get(`/enrich/product/rest?identifier=${encodeURIComponent(sku)}`, {
+export async function productHasAttributeValue(
+  page: Page,
+  productUuid: string,
+  attributeCode: string
+): Promise<boolean> {
+  const resp = await page.request.get(`/enrich/product/rest/${productUuid}`, {
     headers: {'X-Requested-With': 'XMLHttpRequest'},
   });
   if (!resp.ok()) return false;
-  const data = await resp.json();
-  const arr = Array.isArray(data) ? data : [data];
-  const product = arr.find((p: any) => p.identifier === sku) ?? arr[0];
-  if (!product) return false;
+  const product = await resp.json();
   const values = product.values?.[attributeCode];
   return Array.isArray(values) && values.length > 0 && values[0]?.data != null;
 }
@@ -275,6 +276,29 @@ export async function removeAttributeFromFamilyViaApi(
 
 export async function deleteAttributeViaApi(page: Page, code: string) {
   await page.request.delete(`/rest/attribute/${code}`, {headers: XHR_HEADER});
+}
+
+/**
+ * Fetch the first N simple products from the product grid (Elasticsearch-backed).
+ * Returns rows already indexed — safe to use for grid-based test interactions.
+ */
+export async function getFirstProductsFromGrid(
+  page: Page,
+  limit = 2
+): Promise<Array<{sku: string; uuid: string; family: string}>> {
+  const perPage = Math.max(limit * 5, 20);
+  const params = new URLSearchParams([
+    ['product-grid[_pager][_page]', '1'],
+    ['product-grid[_pager][_per_page]', String(perPage)],
+  ]);
+  const resp = await page.request.get(`/datagrid/product-grid?${params}`, {headers: XHR_HEADER});
+  if (!resp.ok()) return [];
+  const body = await resp.json();
+  const rows: any[] = Array.isArray(body?.data) ? body.data : [];
+  return rows
+    .filter(r => r.document_type === 'product' && r.identifier && r.technical_id)
+    .slice(0, limit)
+    .map(r => ({sku: String(r.identifier), uuid: String(r.technical_id), family: String(r.family ?? '')}));
 }
 
 /**
