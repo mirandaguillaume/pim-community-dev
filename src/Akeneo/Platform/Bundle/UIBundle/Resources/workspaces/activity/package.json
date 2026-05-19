@@ -4,7 +4,13 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "test:unit:run": "bun test ./src/**/*.unit.ts ./tests/**/*.unit.ts --coverage",
+    "test:unit:run": "bun test ./src/**/*.unit.ts ./tests/**/*.unit.ts",
     "test:unit:watch": "bun test ./src/**/*.unit.ts ./tests/**/*.unit.ts --watch"
+  },
+  "devDependencies": {
+    "istanbul-lib-coverage": "^3.2.0",
+    "istanbul-lib-instrument": "^5.1.0",
+    "istanbul-lib-report": "^3.0.0",
+    "istanbul-reports": "^3.2.0"
   }
 }

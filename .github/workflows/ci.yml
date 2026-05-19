@@ -574,11 +574,11 @@ jobs:
 
       - name: Run activity unit tests (Bun)
         working-directory: src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/activity
-        run: bun test ./src/**/*.unit.ts ./tests/**/*.unit.ts --coverage
+        run: bun test ./src/**/*.unit.ts ./tests/**/*.unit.ts
 
       - name: Run import-export unit tests (Bun)
         working-directory: src/Akeneo/Platform/Bundle/ImportExportBundle/front
-        run: bun test --coverage
+        run: bun test
 
       - name: Upload coverage reports
         if: always()

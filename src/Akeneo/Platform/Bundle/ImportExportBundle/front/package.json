@@ -4,7 +4,7 @@
   "private": true,
   "main": "lib/index.js",
   "scripts": {
-    "test:unit:run": "bun test --coverage",
+    "test:unit:run": "bun test",
     "test:unit:watch": "bun test --watch",
     "lib:build": "tsc -p ./tsconfig.build.json",
     "lint:fix": "prettier --config .prettierrc.json --parser typescript --write \"./src/**/*.{ts,tsx}\"",
@@ -31,6 +31,10 @@
     "@types/react-dom": "^18.3.0",
     "@types/styled-components": "^5.1.1",
     "eslint-config-react-app": "^7.0.1",
+    "istanbul-lib-coverage": "^3.2.0",
+    "istanbul-lib-instrument": "^5.1.0",
+    "istanbul-lib-report": "^3.0.0",
+    "istanbul-reports": "^3.2.0",
     "prettier": "^3.8.3"
   }
 }
