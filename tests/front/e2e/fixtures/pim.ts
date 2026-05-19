@@ -73,7 +73,9 @@ export async function confirmMassEdit(page: Page): Promise<string | null> {
 
   // Set up response capture before clicking the final validate button.
   const respPromise = page
-    .waitForResponse(r => /mass-edit|batch-action/.test(r.url()) && r.request().method() === 'POST', {timeout: 30_000})
+    .waitForResponse(r => /rest\/mass.edit|mass-edit|batch-action/.test(r.url()) && r.request().method() === 'POST', {
+      timeout: 15_000,
+    })
     .catch(() => null);
 
   // Fire the job — the Confirm div on the confirm step has data-action-target="validate".
@@ -119,10 +121,15 @@ export async function login(page: Page, username: string, password: string) {
 export async function goToProductsGrid(page: Page) {
   await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
 
-  // Start listening BEFORE clicking to avoid race conditions
-  const gridDataPromise = page.waitForResponse(
-    resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/')
-  );
+  // Start listening BEFORE clicking to avoid race conditions.
+  // Use a short timeout + catch: if already on the product grid (e.g. after a mass edit redirect),
+  // clicking "Products" may not trigger a new datagrid request. The grid rows waitFor below is
+  // the authoritative signal that the grid is ready.
+  const gridDataPromise = page
+    .waitForResponse(resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/'), {
+      timeout: 10_000,
+    })
+    .catch(() => null);
   await page.getByRole('menuitem', {name: 'Products'}).click();
   await gridDataPromise;
 

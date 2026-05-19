@@ -108,7 +108,7 @@ test.describe('Mass edit image attributes', () => {
       const result = await waitForJobExecutionViaApi(page, jobId);
       expect(['COMPLETED', 'completed']).toContain(result.status?.toUpperCase?.() ?? result.status);
     } else {
-      await expect(page.getByText(/mass edit|action will be processed/i).first()).toBeVisible({
+      await expect(page.getByText(/bulk action.*launched|has been launched|will be notified/i).first()).toBeVisible({
         timeout: 30_000,
       });
     }
