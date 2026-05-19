@@ -4,8 +4,8 @@
   "private": true,
   "main": "lib/index.js",
   "scripts": {
-    "test:unit:run": "bun test './src/**/*.test.ts' './src/**/*.test.tsx' --coverage",
-    "test:unit:watch": "bun test './src/**/*.test.ts' './src/**/*.test.tsx' --watch",
+    "test:unit:run": "bun test --coverage",
+    "test:unit:watch": "bun test --watch",
     "lib:build": "tsc -p ./tsconfig.build.json",
     "lint:fix": "prettier --config .prettierrc.json --parser typescript --write \"./src/**/*.{ts,tsx}\"",
     "lint:check": "prettier --config .prettierrc.json --parser typescript --check \"./src/**/*.{ts,tsx}\" && yarn eslint --max-warnings 0 --ext .tsx,.ts ./src"
