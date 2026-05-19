@@ -211,6 +211,43 @@ export async function deleteProductViaApi(page: Page, productId: string) {
   await page.request.delete(`/enrich/product/rest/${productId}`);
 }
 
+export async function createAttributeViaApi(
+  page: Page,
+  data: {
+    code: string;
+    type: string;
+    group: string;
+    scopable?: boolean;
+    localizable?: boolean;
+    allowed_extensions?: string[];
+    max_file_size?: string;
+    labels?: Record<string, string>;
+  }
+) {
+  return page.request.put('/rest/attribute/', {
+    data: {scopable: false, localizable: false, labels: {}, ...data},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+export async function createFamilyViaApi(
+  page: Page,
+  data: {code: string; attributes: string[]; labels?: Record<string, string>}
+) {
+  return page.request.post('/configuration/rest/family', {
+    data: {labels: {}, ...data},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+export async function deleteFamilyViaApi(page: Page, code: string) {
+  await page.request.delete(`/configuration/rest/family/${code}`, {headers: XHR_HEADER});
+}
+
+export async function deleteAttributeViaApi(page: Page, code: string) {
+  await page.request.delete(`/rest/attribute/${code}`, {headers: XHR_HEADER});
+}
+
 /**
  * Navigate to the export job grid, then open a specific export job's edit page.
  * If no jobCode is provided, opens the first available export job.
