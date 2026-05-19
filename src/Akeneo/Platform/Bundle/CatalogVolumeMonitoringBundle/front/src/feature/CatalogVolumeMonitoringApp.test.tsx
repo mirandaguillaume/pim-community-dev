@@ -4,7 +4,9 @@ import {screen} from '@testing-library/react';
 import {CatalogVolumeMonitoringApp} from './CatalogVolumeMonitoringApp';
 import {useCatalogVolumeByAxis} from './hooks/useCatalogVolumeByAxis';
 
-jest.mock('./hooks/useCatalogVolumeByAxis');
+jest.mock('./hooks/useCatalogVolumeByAxis', () => ({
+  useCatalogVolumeByAxis: jest.fn(),
+}));
 const mockUseCatalogVolumeByAxis = useCatalogVolumeByAxis as jest.Mock;
 
 const axes = [

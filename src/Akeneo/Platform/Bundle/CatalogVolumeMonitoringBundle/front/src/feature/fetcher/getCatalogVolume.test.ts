@@ -2,20 +2,12 @@ import {transformVolumesToAxis} from './catalogVolumeWrapper';
 import {getCatalogVolume} from './getCatalogVolume';
 import {mockedDependencies} from '@akeneo-pim-community/shared';
 
-jest.mock('./catalogVolumeWrapper');
-
-declare global {
-  namespace NodeJS {
-    interface Global {
-      fetch: any;
-    }
-  }
-}
+jest.mock('./catalogVolumeWrapper', () => ({
+  transformVolumesToAxis: jest.fn(),
+}));
 
 const mockRouter = (route: string) => {
-  // @ts-ignore
-  const mockFn = jest.mock();
-  mockFn.spyOn(mockedDependencies.router, 'generate').mockReturnValue(route);
+  jest.spyOn(mockedDependencies.router, 'generate').mockReturnValue(route);
 };
 
 const volumesResponse = {

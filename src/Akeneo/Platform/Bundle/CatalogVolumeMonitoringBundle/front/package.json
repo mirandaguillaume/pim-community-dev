@@ -10,8 +10,8 @@
   },
   "scripts": {
     "app:start": "yarn translation:build && yarn route:build && yarn packages:build && vite",
-    "test:unit:run": "jest --config jest.config.js --forceExit --maxWorkers=3 --coverage --coverageDirectory=coverage",
-    "test:unit:watch": "jest --config jest.config.js --maxWorkers=3 --watch",
+    "test:unit:run": "bun test './src/**/*.test.ts' './src/**/*.test.tsx' --coverage",
+    "test:unit:watch": "bun test './src/**/*.test.ts' './src/**/*.test.tsx' --watch",
     "lib:build": "tsc -p ./tsconfig.build.json",
     "translation:build": "cp $npm_package_config_application_path/public/js/translation/en_US.js ./src/translations.json",
     "route:build": "cp $npm_package_config_application_path/public/js/fos_js_routes.json ./src/routes.json",

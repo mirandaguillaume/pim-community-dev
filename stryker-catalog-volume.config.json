@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/core/schema/stryker-schema.json",
   "testRunner": "jest",
   "jest": {
-    "configFile": "src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/jest.config.js",
+    "configFile": "tests/front/unit/jest/stryker.jest.js",
     "enableFindRelatedTests": false
   },
   "checkers": [],
