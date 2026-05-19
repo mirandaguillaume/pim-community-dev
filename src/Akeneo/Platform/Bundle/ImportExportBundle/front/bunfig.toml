@@ -1,2 +1,5 @@
 [test]
 preload = ["./tests/setupMocks.bun.js", "./tests/istanbul-coverage.bun.js"]
+coverage = true
+coverageReporter = ["lcov"]
+coverageDir = "coverage"

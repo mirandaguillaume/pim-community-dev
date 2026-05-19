@@ -580,6 +580,10 @@ jobs:
         working-directory: src/Akeneo/Platform/Bundle/ImportExportBundle/front
         run: bun test
 
+      - name: Run import-export unit tests (Bun)
+        working-directory: src/Akeneo/Platform/Bundle/ImportExportBundle/front
+        run: bun test './src/**/*.test.ts' './src/**/*.test.tsx' --coverage
+
       - name: Upload coverage reports
         if: always()
         uses: actions/upload-artifact@v4
