@@ -33,18 +33,20 @@ export async function openBulkEditAttributeValues(page: Page) {
 }
 
 export async function addAttributeToMassEdit(page: Page, attributeLabel: string) {
-  await page
-    .getByText(/select attributes/i)
-    .first()
-    .click();
-  // Select2 v3 creates input.select2-input (type="text"), not input[type="search"].
-  // Scope to .select2-drop to avoid matching unrelated inputs.
-  const searchInput = page.locator('.select2-drop input.select2-input');
-  await searchInput.waitFor({state: 'visible', timeout: 10_000});
-  await searchInput.fill(attributeLabel);
+  // The attribute selector is a Select2 v3 multi-select. The `classes` config option puts
+  // class pim-add-attributes-multiselect on the container div (not the dropdown).
+  // For multi-select, the search input lives inside .select2-choices (part of the container),
+  // NOT inside .select2-drop — using it directly avoids the brittle getByText(placeholder) approach.
+  const container = page.locator('.pim-add-attributes-multiselect');
+  await container.waitFor({state: 'visible', timeout: 15_000});
+
+  const choicesInput = container.locator('input.select2-input');
+  await choicesInput.click();
+  await choicesInput.fill(attributeLabel);
+
   await page.locator('.select2-drop').getByText(attributeLabel, {exact: true}).first().waitFor({timeout: 10_000});
   await page.locator('.select2-drop').getByText(attributeLabel, {exact: true}).first().click();
-  // The Select2 footer has a real <button> to confirm the selection (closeOnSelect: false).
+  // The Select2 footer has a real <button> (buttonTitle: pim_common.add = "Add") to confirm.
   await page.locator('.ui-multiselect-footer button').click();
   await waitForLoadingMasks(page);
 }
