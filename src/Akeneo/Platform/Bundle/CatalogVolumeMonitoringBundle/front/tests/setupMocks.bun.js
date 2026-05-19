@@ -16,6 +16,13 @@ global.localStorage = jsdomWindow.localStorage;
 
 require('@testing-library/jest-dom');
 
+// Bun --coverage runs test files in a shared context; explicit cleanup prevents DOM leakage.
+const {cleanup} = require('@testing-library/react');
+afterEach(cleanup);
+
+// Reset mock call counts between tests (Bun coverage shares mock instances).
+beforeEach(() => jest.clearAllMocks());
+
 // IntersectionObserver is not in jsdom — stub it (replaces setupTests.ts beforeEach)
 global.window.IntersectionObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
