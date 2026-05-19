@@ -10,8 +10,8 @@
   },
   "scripts": {
     "app:start": "yarn translation:build && yarn route:build && yarn packages:build && vite",
-    "test:unit:run": "bun test './src/**/*.test.ts' './src/**/*.test.tsx' --coverage",
-    "test:unit:watch": "bun test './src/**/*.test.ts' './src/**/*.test.tsx' --watch",
+    "test:unit:run": "bun test --coverage",
+    "test:unit:watch": "bun test --watch",
     "lib:build": "tsc -p ./tsconfig.build.json",
     "translation:build": "cp $npm_package_config_application_path/public/js/translation/en_US.js ./src/translations.json",
     "route:build": "cp $npm_package_config_application_path/public/js/fos_js_routes.json ./src/routes.json",
