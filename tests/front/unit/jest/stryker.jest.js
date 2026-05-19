@@ -30,6 +30,7 @@ const SETTINGS_UI_FRONT = '<rootDir>/src/Akeneo/Pim/Structure/Bundle/Resources/w
 const ACTIVITY_WORKSPACE = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/activity';
 const LEGACY_BRIDGE_WORKSPACE = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/legacy-bridge';
 const ENRICHMENT_WORKSPACE = '<rootDir>/src/Akeneo/Pim/Enrichment/Bundle/Resources/workspaces/enrichment';
+const IMPORT_EXPORT_FRONT = '<rootDir>/src/Akeneo/Platform/Bundle/ImportExportBundle/front';
 
 module.exports = {
   ...unitConfig,
@@ -91,6 +92,8 @@ module.exports = {
     // Activity workspace — pure data transformation and hook tests, no Backbone.
     // Tests run under Bun in the main CI step but are Jest-compatible for Stryker.
     `${ACTIVITY_WORKSPACE}/**/*.unit.ts`,
+    // Import-Export workspace — storage configurator components and hooks.
+    `${IMPORT_EXPORT_FRONT}/src/**/*.test.(ts|tsx)`,
     // Identifier Generator, CatalogVolumeMonitoring, and Process Tracker have
     // their own jest configs with incompatible settings (setupFiles, tsconfig,
     // resetMocks). They use dedicated Stryker configs (stryker-*.config.json).

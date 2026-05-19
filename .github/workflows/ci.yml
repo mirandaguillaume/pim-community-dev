@@ -530,9 +530,9 @@ jobs:
 
   # ===========================================================================
   # FRONT-PACKAGES: Unit tests for ejected front-end workspace packages
-  # (shared, measurement, process-tracker, import-export, catalog-volume-monitoring,
+  # (shared, measurement, process-tracker, catalog-volume-monitoring,
   #  category, identifier-generator, communication-channel, settings-ui via Jest;
-  #  activity via Bun — runs on host, not in Docker).
+  #  activity, import-export via Bun — run on host, not in Docker).
   # Runs once — not duplicated across shards.
   # ===========================================================================
   test-front-packages:
@@ -575,6 +575,10 @@ jobs:
       - name: Run activity unit tests (Bun)
         working-directory: src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/activity
         run: bun test ./src/**/*.unit.ts ./tests/**/*.unit.ts --coverage
+
+      - name: Run import-export unit tests (Bun)
+        working-directory: src/Akeneo/Platform/Bundle/ImportExportBundle/front
+        run: bun test './src/**/*.test.ts' './src/**/*.test.tsx' --coverage
 
       - name: Upload coverage reports
         if: always()
