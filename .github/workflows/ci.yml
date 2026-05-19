@@ -586,7 +586,7 @@ jobs:
 
       - name: Run catalog-volume-monitoring unit tests (Bun)
         working-directory: src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front
-        run: bun test --coverage
+        run: bun test
 
       - name: Upload coverage reports
         if: always()
