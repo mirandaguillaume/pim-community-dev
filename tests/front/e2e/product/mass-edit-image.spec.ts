@@ -154,10 +154,7 @@ test.describe('Mass edit image attributes', () => {
     await openBulkEditAttributeValues(page);
     await addAttributeToMassEdit(page, ATTR_LABEL);
     await attachFileToMassEditAttribute(page, ATTR_LABEL, 'bic-core-148.gif');
-    await page
-      .getByRole('button', {name: /next|confirm/i})
-      .first()
-      .click();
+    await page.locator('.wizard-action[data-action-target="confirm"]').click();
     await waitForLoadingMasks(page);
     await expect(
       page.getByText(/gif.*not allowed|allowed extensions are png|extension.*not allowed/i).first()

@@ -27,7 +27,8 @@ export async function openBulkEditAttributeValues(page: Page) {
     .getByText(/edit attribute values/i)
     .first()
     .click();
-  await page.getByRole('button', {name: /next/i}).first().click();
+  // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
+  await page.locator('.wizard-action[data-action-target="configure"]').click();
   await waitForLoadingMasks(page);
 }
 
@@ -60,13 +61,18 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
 }
 
 export async function confirmMassEdit(page: Page): Promise<string | null> {
+  // Advance from configure step to confirm step (span with data-action-target="confirm").
+  // This triggers server-side validation before transitioning.
+  await page.locator('.wizard-action[data-action-target="confirm"]').click();
+  await waitForLoadingMasks(page);
+
+  // Set up response capture before clicking the final validate button.
   const respPromise = page
     .waitForResponse(r => /mass-edit|batch-action/.test(r.url()) && r.request().method() === 'POST', {timeout: 30_000})
     .catch(() => null);
-  await page
-    .getByRole('button', {name: /confirm/i})
-    .first()
-    .click();
+
+  // Fire the job — the Confirm div on the confirm step has data-action-target="validate".
+  await page.locator('.wizard-action[data-action-target="validate"]').click();
   const resp = await respPromise;
   if (!resp) return null;
   try {
