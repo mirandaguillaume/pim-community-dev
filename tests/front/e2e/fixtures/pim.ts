@@ -33,20 +33,30 @@ export async function openBulkEditAttributeValues(page: Page) {
 }
 
 export async function addAttributeToMassEdit(page: Page, attributeLabel: string) {
-  // The attribute selector is a Select2 v3 multi-select. The `classes` config option puts
-  // class pim-add-attributes-multiselect on the container div (not the dropdown).
-  // For multi-select, the search input lives inside .select2-choices (part of the container),
-  // NOT inside .select2-drop — using it directly avoids the brittle getByText(placeholder) approach.
-  const container = page.locator('.pim-add-attributes-multiselect');
-  await container.waitFor({state: 'visible', timeout: 15_000});
+  // The attribute selector is a Select2 v3 widget rendered as <a class="select2-choice">
+  // inside the Backbone view element (.add-attribute). Note: the 'classes' config key is
+  // Select2 v4 only — Select2 v3 uses containerCssClass, so .pim-add-attributes-multiselect
+  // never appears in the DOM. The clickable trigger is always .add-attribute .select2-choice.
+  const selectButton = page.locator('.add-attribute .select2-choice');
+  await selectButton.waitFor({state: 'visible', timeout: 15_000});
+  await selectButton.click();
 
-  const choicesInput = container.locator('input.select2-input');
-  await choicesInput.click();
-  await choicesInput.fill(attributeLabel);
+  // Select2 v3 opens its dropdown with id="select2-drop". Scope all subsequent interactions
+  // to this unique dropdown to avoid matching other Select2 instances on the page.
+  const dropdown = page.locator('#select2-drop');
+  await dropdown.waitFor({state: 'visible', timeout: 10_000});
 
-  await page.locator('.select2-drop').getByText(attributeLabel, {exact: true}).first().waitFor({timeout: 10_000});
-  await page.locator('.select2-drop').getByText(attributeLabel, {exact: true}).first().click();
-  // The Select2 footer has a real <button> (buttonTitle: pim_common.add = "Add") to confirm.
+  // Select2 v3 triggers search queries on keyup, not the 'input' event.
+  // fill() + dispatchEvent('keyup') ensures the query fires and results are filtered.
+  const searchInput = dropdown.locator('input.select2-input');
+  await searchInput.fill(attributeLabel);
+  await searchInput.dispatchEvent('keyup');
+
+  await dropdown.getByText(attributeLabel, {exact: true}).first().waitFor({timeout: 10_000});
+  await dropdown.getByText(attributeLabel, {exact: true}).first().click();
+
+  // onSelecting calls event.preventDefault() keeping the dropdown open after clicking a result.
+  // The footer "Add" button (buttonTitle: pim_common.add = "Add") confirms the selection.
   await page.locator('.ui-multiselect-footer button').click();
   await waitForLoadingMasks(page);
 }
