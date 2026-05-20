@@ -28,19 +28,21 @@ async function closeAnnouncementsPanel(page: Page): Promise<void> {
 }
 
 export async function selectProductsBySku(page: Page, skus: string[]) {
-  // Close the announcements overlay first — it is position:fixed and covers the entire viewport,
-  // making checkbox clicks fail (element covered) even when the rows are visible in the DOM.
+  // Best-effort panel close before selecting, but notifications can reopen it between iterations.
+  // Each check() uses force:true so the #overlay backdrop cannot block it — see closeAnnouncementsPanel.
   await closeAnnouncementsPanel(page);
   for (const sku of skus) {
     const row = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku}).first();
     await row.waitFor({state: 'visible', timeout: 15_000});
-    await row.locator('input[type="checkbox"]').check({timeout: 15_000});
+    // force:true dispatches the event directly to the checkbox, bypassing browser hit-testing.
+    // This is safe: the overlay (z-index:999) is a notification backdrop, not functional UI state.
+    await row.locator('input[type="checkbox"]').check({force: true, timeout: 15_000});
   }
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
-  // Close the announcements overlay before clicking the bulk-actions link.
-  // Uses the reliable JS-evaluate approach — see closeAnnouncementsPanel above.
+  // Best-effort panel close — notifications can reopen the overlay before any click lands.
+  // All clicks below use force:true for the same reason (see closeAnnouncementsPanel / selectProductsBySku).
   await closeAnnouncementsPanel(page);
 
   // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
@@ -48,16 +50,16 @@ export async function openBulkEditAttributeValues(page: Page) {
   await page
     .locator('.mass-actions-panel a', {hasText: /bulk actions/i})
     .first()
-    .click();
+    .click({force: true});
   await waitForLoadingMasks(page);
   // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
   // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
   // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
   const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
   await tile.waitFor({state: 'visible', timeout: 15_000});
-  await tile.click();
+  await tile.click({force: true});
   // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
-  await page.locator('.wizard-action[data-action-target="configure"]').click();
+  await page.locator('.wizard-action[data-action-target="configure"]').click({force: true});
   await waitForLoadingMasks(page);
 }
 
