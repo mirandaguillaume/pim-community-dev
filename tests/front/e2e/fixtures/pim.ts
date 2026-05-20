@@ -7,24 +7,41 @@ export function fixtureFilePath(name: string): string {
   return path.join(BEHAT_FIXTURES, name);
 }
 
+// Dismiss the announcements panel if it is open.
+// The panel is toggled by adding/removing AknOverlay--show on #overlay (pim-app.ts:70/74).
+// The #overlay element (position:fixed; 100%x100%; z-index:999) covers the entire viewport,
+// blocking clicks on grid checkboxes and the mass-actions-panel link.
+// We use page.evaluate to read the DOM class list directly — isVisible() is unreliable for
+// fixed-position backdrops when their containing block has a computed height of 0.
+// Clicking #overlay itself fires the 'click #overlay' → onClickToCollapsePanel handler.
+async function closeAnnouncementsPanel(page: Page): Promise<void> {
+  const isShowing = await page
+    .evaluate(() => document.querySelector('#overlay')?.classList.contains('AknOverlay--show') ?? false)
+    .catch(() => false);
+  if (!isShowing) return;
+  await page.locator('#overlay').click({force: true});
+  await page
+    .waitForFunction(() => !document.querySelector('#overlay')?.classList.contains('AknOverlay--show'), {
+      timeout: 5_000,
+    })
+    .catch(() => {});
+}
+
 export async function selectProductsBySku(page: Page, skus: string[]) {
+  // Close the announcements overlay first — it is position:fixed and covers the entire viewport,
+  // making checkbox clicks fail (element covered) even when the rows are visible in the DOM.
+  await closeAnnouncementsPanel(page);
   for (const sku of skus) {
     const row = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku}).first();
     await row.waitFor({state: 'visible', timeout: 15_000});
-    await row.locator('input[type="checkbox"]').check();
+    await row.locator('input[type="checkbox"]').check({timeout: 15_000});
   }
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
-  // When the announcements panel is open it adds class AknOverlay--show to the backdrop
-  // (position:fixed, z-index:999), blocking clicks on .mass-actions-panel. The element only
-  // carries the --show class while the panel is visible, so the locator matches zero elements
-  // when the panel is closed — isVisible() returns false immediately without waiting.
-  const overlay = page.locator('.AknOverlay--show');
-  if (await overlay.isVisible({timeout: 1_000}).catch(() => false)) {
-    await page.locator('img[alt="Close"]').click();
-    await overlay.waitFor({state: 'hidden', timeout: 5_000}).catch(() => {});
-  }
+  // Close the announcements overlay before clicking the bulk-actions link.
+  // Uses the reliable JS-evaluate approach — see closeAnnouncementsPanel above.
+  await closeAnnouncementsPanel(page);
 
   // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
   // not a <button> — scope to .mass-actions-panel to avoid false positives.
