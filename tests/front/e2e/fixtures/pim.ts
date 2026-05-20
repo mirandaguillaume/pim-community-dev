@@ -26,7 +26,7 @@ export async function openBulkEditAttributeValues(page: Page) {
   // Use data-code to target the specific operation tile (choose.html renders them with data-code).
   // Avoids matching toast notifications like "The bulk action 'Edit attribute values' has been launched."
   // which also contain the text "edit attribute values".
-  await page.locator('.operation[data-code="edit_common_attributes"]').click();
+  await page.locator('.operation[data-code="edit_common"]').click();
   // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
   await page.locator('.wizard-action[data-action-target="configure"]').click();
   await waitForLoadingMasks(page);
