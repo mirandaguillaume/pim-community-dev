@@ -16,18 +16,14 @@ export async function selectProductsBySku(page: Page, skus: string[]) {
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
-  // After a mass-edit job launches, Akeneo opens the announcements panel which adds an
-  // AknOverlay (position:fixed, z-index:999) covering the viewport. This overlay intercepts
-  // clicks on .mass-actions-panel which sits at a lower z-index — Playwright's actionability
-  // checks will keep retrying until timeout. Dismiss the panel first if it is open.
-  if (
-    await page
-      .getByText('Announcements', {exact: true})
-      .isVisible({timeout: 1_000})
-      .catch(() => false)
-  ) {
+  // When the announcements panel is open it adds class AknOverlay--show to the backdrop
+  // (position:fixed, z-index:999), blocking clicks on .mass-actions-panel. The element only
+  // carries the --show class while the panel is visible, so the locator matches zero elements
+  // when the panel is closed — isVisible() returns false immediately without waiting.
+  const overlay = page.locator('.AknOverlay--show');
+  if (await overlay.isVisible({timeout: 1_000}).catch(() => false)) {
     await page.locator('img[alt="Close"]').click();
-    await page.getByText('Announcements', {exact: true}).waitFor({state: 'hidden', timeout: 5_000});
+    await overlay.waitFor({state: 'hidden', timeout: 5_000}).catch(() => {});
   }
 
   // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
