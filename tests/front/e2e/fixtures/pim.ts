@@ -23,10 +23,12 @@ export async function openBulkEditAttributeValues(page: Page) {
     .first()
     .click();
   await waitForLoadingMasks(page);
-  // Use data-code to target the specific operation tile (choose.html renders them with data-code).
-  // Avoids matching toast notifications like "The bulk action 'Edit attribute values' has been launched."
-  // which also contain the text "edit attribute values".
-  await page.locator('.operation[data-code="edit_common"]').click();
+  // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
+  // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
+  // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
+  const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
+  await tile.waitFor({state: 'visible', timeout: 15_000});
+  await tile.click();
   // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
   await page.locator('.wizard-action[data-action-target="configure"]').click();
   await waitForLoadingMasks(page);
