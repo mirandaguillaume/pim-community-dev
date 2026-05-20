@@ -122,6 +122,8 @@ test.describe('Mass edit image attributes', () => {
    * Mass edit image attribute — set, clear, and validate extension
    */
   test('Mass edit image attribute — set, clear, and validate extension', async ({page}) => {
+    // 3 full wizard flows each with waitForJobExecutionViaApi (≤120s each) — needs more than 120s
+    test.setTimeout(360_000);
     await goToProductsGrid(page);
 
     // Step 1: set image on sku1 + sku2
