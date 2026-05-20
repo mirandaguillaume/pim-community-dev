@@ -41,25 +41,30 @@ export async function selectProductsBySku(page: Page, skus: string[]) {
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
-  // Best-effort panel close — notifications can reopen the overlay before any click lands.
-  // All clicks below use force:true for the same reason (see closeAnnouncementsPanel / selectProductsBySku).
+  // Best-effort panel close before we start. Notifications can reopen the overlay at any time.
   await closeAnnouncementsPanel(page);
 
   // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
   // not a <button> — scope to .mass-actions-panel to avoid false positives.
-  await page
-    .locator('.mass-actions-panel a', {hasText: /bulk actions/i})
-    .first()
-    .click({force: true});
+  // Pattern: waitFor(visible) confirms products are selected and panel is ready, then el.click()
+  // dispatches the event directly to the element (bypassing CSS z-index / pointer-events),
+  // without skipping the visibility prerequisite the way force:true would.
+  const bulkLink = page.locator('.mass-actions-panel a', {hasText: /bulk actions/i}).first();
+  await bulkLink.waitFor({state: 'visible', timeout: 15_000});
+  await bulkLink.evaluate(el => (el as HTMLElement).click());
   await waitForLoadingMasks(page);
+
   // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
   // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
   // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
   const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
   await tile.waitFor({state: 'visible', timeout: 15_000});
-  await tile.click({force: true});
+  await tile.evaluate(el => (el as HTMLElement).click());
+
   // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
-  await page.locator('.wizard-action[data-action-target="configure"]').click({force: true});
+  const configureBtn = page.locator('.wizard-action[data-action-target="configure"]');
+  await configureBtn.waitFor({state: 'visible', timeout: 15_000});
+  await configureBtn.evaluate(el => (el as HTMLElement).click());
   await waitForLoadingMasks(page);
 }
 
