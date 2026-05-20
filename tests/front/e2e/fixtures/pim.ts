@@ -23,10 +23,10 @@ export async function openBulkEditAttributeValues(page: Page) {
     .first()
     .click();
   await waitForLoadingMasks(page);
-  await page
-    .getByText(/edit attribute values/i)
-    .first()
-    .click();
+  // Use data-code to target the specific operation tile (choose.html renders them with data-code).
+  // Avoids matching toast notifications like "The bulk action 'Edit attribute values' has been launched."
+  // which also contain the text "edit attribute values".
+  await page.locator('.operation[data-code="edit_common_attributes"]').click();
   // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
   await page.locator('.wizard-action[data-action-target="configure"]').click();
   await waitForLoadingMasks(page);
@@ -56,8 +56,9 @@ export async function addAttributeToMassEdit(page: Page, attributeLabel: string)
   await dropdown.getByText(attributeLabel, {exact: true}).first().click();
 
   // onSelecting calls event.preventDefault() keeping the dropdown open after clicking a result.
-  // The footer "Add" button (buttonTitle: pim_common.add = "Add") confirms the selection.
-  await page.locator('.ui-multiselect-footer button').click();
+  // Scope to #select2-drop (the currently open dropdown, unique ID in Select2 v3) to avoid
+  // matching stale .ui-multiselect-footer elements left over from previous wizard interactions.
+  await page.locator('#select2-drop .ui-multiselect-footer button').click();
   await waitForLoadingMasks(page);
 }
 
