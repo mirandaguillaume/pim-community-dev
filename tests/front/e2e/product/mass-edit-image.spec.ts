@@ -97,6 +97,8 @@ test.describe('Mass edit image attributes', () => {
    * Successfully update many images values at once
    */
   test('Successfully update many images values at once', async ({page}) => {
+    // 1 wizard flow with pollForNewMassEditJob (≤30s) + waitForJobExecutionViaApi (≤120s) in CI
+    test.setTimeout(300_000);
     await goToProductsGrid(page);
     await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);

@@ -66,7 +66,10 @@ export async function openBulkEditAttributeValues(page: Page) {
   // not a <button> — scope to .mass-actions-panel to avoid false positives.
   const bulkLink = page.locator('.mass-actions-panel a', {hasText: /bulk actions/i}).first();
   await bulkLink.waitFor({state: 'visible', timeout: 15_000});
-  await bulkLink.click();
+  // Use force:true to bypass Playwright's stability check. The QuickExportConfigurator React
+  // component re-renders when selection state changes, causing the bulk link's bounding box
+  // to shift between layout passes — Playwright sees this as "not stable" and retries forever.
+  await bulkLink.click({force: true});
   await waitForLoadingMasks(page);
 
   // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
@@ -151,7 +154,7 @@ async function pollForNewMassEditJob(page: Page, prevMaxId: number, timeout = 30
   while (Date.now() - start < timeout) {
     const id = await getLatestMassEditJobId(page);
     if (id > prevMaxId) return String(id);
-    await page.waitForTimeout(2_000);
+    await page.waitForTimeout(1_000);
   }
   return null;
 }
