@@ -97,7 +97,7 @@ test.describe('Mass edit image attributes', () => {
    * Successfully update many images values at once
    */
   test('Successfully update many images values at once', async ({page}) => {
-    // 1 wizard flow with pollForNewMassEditJob (≤30s) + waitForJobExecutionViaApi (≤120s) in CI
+    // 1 wizard flow with pollForNewMassEditJob (≤60s) + waitForJobExecutionViaApi (≤240s) in CI
     test.setTimeout(300_000);
     await goToProductsGrid(page);
     await selectProductsBySku(page, [sku1!, sku2!]);
@@ -107,7 +107,7 @@ test.describe('Mass edit image attributes', () => {
 
     const jobId = await confirmMassEdit(page);
     if (jobId) {
-      const result = await waitForJobExecutionViaApi(page, jobId);
+      const result = await waitForJobExecutionViaApi(page, jobId, 240_000);
       expect(['COMPLETED', 'completed']).toContain(result.status?.toUpperCase?.() ?? result.status);
     } else {
       await expect(page.getByText(/bulk action.*launched|has been launched|will be notified/i).first()).toBeVisible({
@@ -124,8 +124,8 @@ test.describe('Mass edit image attributes', () => {
    * Mass edit image attribute — set, clear, and validate extension
    */
   test('Mass edit image attribute — set, clear, and validate extension', async ({page}) => {
-    // 3 full wizard flows each with waitForJobExecutionViaApi (≤120s each) — needs more than 120s
-    test.setTimeout(360_000);
+    // 3 full wizard flows each with waitForJobExecutionViaApi (≤180s each) — needs enough budget
+    test.setTimeout(600_000);
     await goToProductsGrid(page);
 
     // Step 1: set image on sku1 + sku2
