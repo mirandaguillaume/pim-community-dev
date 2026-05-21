@@ -96,9 +96,9 @@ test.describe('Mass edit image attributes', () => {
    * Replaces Behat: edit_common_attributes_images.feature:32
    * Successfully update many images values at once
    */
-  test('Successfully update many images values at once', async ({page}) => {
-    // 1 wizard flow with pollForNewMassEditJob (≤60s) + waitForJobExecutionViaApi (≤240s) in CI
-    test.setTimeout(300_000);
+  test('Successfully update many images values at once', {timeout: 300_000}, async ({page}) => {
+    // timeout: 300_000 applies before beforeEach so the full budget covers login + job wait
+    // 1 wizard flow: pollForNewMassEditJob (≤60s) + waitForJobExecutionViaApi (≤240s) in CI
     await goToProductsGrid(page);
     await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
@@ -106,14 +106,12 @@ test.describe('Mass edit image attributes', () => {
     await attachFileToMassEditAttribute(page, ATTR_LABEL, 'SNKRS-1R.png');
 
     const jobId = await confirmMassEdit(page);
-    if (jobId) {
-      const result = await waitForJobExecutionViaApi(page, jobId, 240_000);
-      expect(['COMPLETED', 'completed']).toContain(result.status?.toUpperCase?.() ?? result.status);
-    } else {
-      await expect(page.getByText(/bulk action.*launched|has been launched|will be notified/i).first()).toBeVisible({
-        timeout: 30_000,
-      });
-    }
+    expect(
+      jobId,
+      'Mass-edit job not registered in process-tracker within 60s — consumer may be dead or queue backlog too large'
+    ).toBeTruthy();
+    const result = await waitForJobExecutionViaApi(page, jobId!, 240_000);
+    expect(['COMPLETED', 'completed']).toContain(result.status?.toUpperCase?.() ?? result.status);
 
     expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(true);
     expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(true);
@@ -123,9 +121,8 @@ test.describe('Mass edit image attributes', () => {
    * Replaces Behat: validate_editing_common_image_attributes.feature:43
    * Mass edit image attribute — set, clear, and validate extension
    */
-  test('Mass edit image attribute — set, clear, and validate extension', async ({page}) => {
-    // 3 full wizard flows each with waitForJobExecutionViaApi (≤180s each) — needs enough budget
-    test.setTimeout(600_000);
+  test('Mass edit image attribute — set, clear, and validate extension', {timeout: 600_000}, async ({page}) => {
+    // timeout: 600_000 applies before beforeEach — covers login + 3 wizard flows × (≤60s poll + ≤180s job)
     await goToProductsGrid(page);
 
     // Step 1: set image on sku1 + sku2
@@ -134,9 +131,8 @@ test.describe('Mass edit image attributes', () => {
     await addAttributeToMassEdit(page, ATTR_LABEL);
     await attachFileToMassEditAttribute(page, ATTR_LABEL, 'SNKRS-1R.png');
     const jobId1 = await confirmMassEdit(page);
-    if (jobId1) {
-      await waitForJobExecutionViaApi(page, jobId1);
-    }
+    expect(jobId1, 'Step 1: mass-edit job not registered in process-tracker within 60s').toBeTruthy();
+    await waitForJobExecutionViaApi(page, jobId1!);
     expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(true);
     expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(true);
 
@@ -146,9 +142,8 @@ test.describe('Mass edit image attributes', () => {
     await openBulkEditAttributeValues(page);
     await addAttributeToMassEdit(page, ATTR_LABEL);
     const jobId2 = await confirmMassEdit(page);
-    if (jobId2) {
-      await waitForJobExecutionViaApi(page, jobId2);
-    }
+    expect(jobId2, 'Step 2: mass-edit job not registered in process-tracker within 60s').toBeTruthy();
+    await waitForJobExecutionViaApi(page, jobId2!);
     expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(false);
     expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(false);
 
