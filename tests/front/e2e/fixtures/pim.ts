@@ -7,22 +7,19 @@ export function fixtureFilePath(name: string): string {
   return path.join(BEHAT_FIXTURES, name);
 }
 
-// Dismiss the announcements panel if it is open.
-// The panel is toggled by adding/removing AknOverlay--show on #overlay (pim-app.ts:70/74).
-// The #overlay element (position:fixed; 100%x100%; z-index:999) covers the entire viewport,
-// blocking clicks on grid checkboxes and the mass-actions-panel link.
-// We use page.evaluate to read the DOM class list directly — isVisible() is unreliable for
-// fixed-position backdrops when their containing block has a computed height of 0.
-// Clicking #overlay itself fires the 'click #overlay' → onClickToCollapsePanel handler.
+// Dismiss the announcements panel overlay without triggering Backbone event handlers.
+// The #overlay element (position:fixed; 100%x100%; z-index:999) blocks all clicks when
+// AknOverlay--show is present. Clicking #overlay fires 'click #overlay' → onClickToCollapsePanel
+// → mediator.trigger('pim-app:panel:close'), which has side effects that reset the grid's
+// variant filter back to "Grouped". We remove the class directly via evaluate() to unblock
+// viewport clicks without dispatching any DOM events.
 async function closeAnnouncementsPanel(page: Page): Promise<void> {
-  const isShowing = await page
-    .evaluate(() => document.querySelector('#overlay')?.classList.contains('AknOverlay--show') ?? false)
-    .catch(() => false);
-  if (!isShowing) return;
-  await page.locator('#overlay').click({force: true});
   await page
-    .waitForFunction(() => !document.querySelector('#overlay')?.classList.contains('AknOverlay--show'), {
-      timeout: 5_000,
+    .evaluate(() => {
+      const overlay = document.getElementById('overlay');
+      if (overlay?.classList.contains('AknOverlay--show')) {
+        overlay.classList.remove('AknOverlay--show');
+      }
     })
     .catch(() => {});
 }
@@ -41,17 +38,16 @@ export async function selectProductsBySku(page: Page, skus: string[]) {
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
-  // Best-effort panel close before we start. Notifications can reopen the overlay at any time.
+  // Remove the overlay backdrop before interacting with the wizard.
+  // closeAnnouncementsPanel removes AknOverlay--show via evaluate() without triggering
+  // Backbone event handlers — safe to call multiple times.
   await closeAnnouncementsPanel(page);
 
   // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
   // not a <button> — scope to .mass-actions-panel to avoid false positives.
-  // Pattern: waitFor(visible) confirms products are selected and panel is ready, then el.click()
-  // dispatches the event directly to the element (bypassing CSS z-index / pointer-events),
-  // without skipping the visibility prerequisite the way force:true would.
   const bulkLink = page.locator('.mass-actions-panel a', {hasText: /bulk actions/i}).first();
   await bulkLink.waitFor({state: 'visible', timeout: 15_000});
-  await bulkLink.evaluate(el => (el as HTMLElement).click());
+  await bulkLink.click();
   await waitForLoadingMasks(page);
 
   // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
@@ -59,12 +55,12 @@ export async function openBulkEditAttributeValues(page: Page) {
   // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
   const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
   await tile.waitFor({state: 'visible', timeout: 15_000});
-  await tile.evaluate(el => (el as HTMLElement).click());
+  await tile.click();
 
   // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
   const configureBtn = page.locator('.wizard-action[data-action-target="configure"]');
   await configureBtn.waitFor({state: 'visible', timeout: 15_000});
-  await configureBtn.evaluate(el => (el as HTMLElement).click());
+  await configureBtn.click();
   await waitForLoadingMasks(page);
 }
 
