@@ -26,26 +26,34 @@ async function closeAnnouncementsPanel(page: Page): Promise<void> {
 
 export async function selectProductsBySku(page: Page, skus: string[]) {
   await closeAnnouncementsPanel(page);
+
+  // Verify each target row is visible before bulk-selecting.
   for (const sku of skus) {
-    const row = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku}).first();
-    await row.waitFor({state: 'visible', timeout: 15_000});
-    // Drive selection through Backbone's delegation using a native change event.
-    // select-row-cell.js binds 'change :checkbox' via delegateEvents() on the <td>.
-    // Playwright check({force:true}) can race with a Backbone re-render: if the view
-    // re-renders between click and Playwright's state verification, the new <input>
-    // appears unchecked and check() throws "did not change its state".
-    // window.jQuery is NOT a global in Akeneo's RequireJS environment, so we avoid it.
-    // Instead: set checkbox.checked directly + dispatch a native bubbling change event.
-    // jQuery's .on() delegation on the td picks up native events that bubble — no jQuery
-    // global needed, no re-render race.
-    await row.locator('td.select-row-cell').evaluate(td => {
-      const checkbox = td.querySelector('input[type="checkbox"]') as HTMLInputElement;
-      if (checkbox && !checkbox.checked) {
-        checkbox.checked = true;
-        checkbox.dispatchEvent(new Event('change', {bubbles: true}));
+    await page
+      .locator('tr.AknGrid-bodyRow')
+      .filter({hasText: sku})
+      .first()
+      .waitFor({state: 'visible', timeout: 15_000});
+  }
+
+  // Select all target products in ONE atomic browser-side evaluate.
+  // Splitting into per-sku awaited evaluate calls allows Backbone's backgrid:selected
+  // handler to trigger row re-renders between each Playwright await: the re-rendered
+  // <input> is born unchecked (race with model update), so later selections run against
+  // a stale DOM. One synchronous JS call dispatches all change events before any
+  // re-render can interleave — all Backbone model updates are batched together.
+  await page.evaluate(targetSkus => {
+    document.querySelectorAll('tr.AknGrid-bodyRow').forEach(row => {
+      const text = row.textContent ?? '';
+      if (targetSkus.some(sku => text.includes(sku))) {
+        const checkbox = row.querySelector('td.select-row-cell input[type="checkbox"]') as HTMLInputElement;
+        if (checkbox && !checkbox.checked) {
+          checkbox.checked = true;
+          checkbox.dispatchEvent(new Event('change', {bubbles: true}));
+        }
       }
     });
-  }
+  }, skus);
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
