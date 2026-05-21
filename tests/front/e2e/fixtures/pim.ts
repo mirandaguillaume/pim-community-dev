@@ -73,7 +73,7 @@ export async function openBulkEditAttributeValues(page: Page) {
   // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
   // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
   const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
-  await tile.waitFor({state: 'visible', timeout: 15_000});
+  await tile.waitFor({state: 'visible', timeout: 30_000});
   await tile.click();
 
   // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
@@ -129,30 +129,66 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
   await container.locator('input[type="file"]').setInputFiles(fixtureFilePath(fileName));
 }
 
+// Fetch the most recent edit_common_attributes job execution ID via the process tracker.
+// The controller reads filters from the query string (not the JSON body), so we pass
+// code[] as a query param to filter by job instance code.
+async function getLatestMassEditJobId(page: Page): Promise<number> {
+  const resp = await page.request
+    .post('/rest/process-tracker', {
+      params: {'code[]': 'edit_common_attributes', page: '1', size: '1'},
+      headers: {'X-Requested-With': 'XMLHttpRequest'},
+    })
+    .catch(() => null);
+  if (!resp?.ok()) return 0;
+  const body = await resp.json().catch(() => null);
+  const rows: any[] = body?.rows ?? [];
+  return rows.length > 0 ? (rows[0]?.job_execution_id ?? 0) : 0;
+}
+
+// Poll until a new job execution appears with ID > prevMaxId, then return it.
+async function pollForNewMassEditJob(page: Page, prevMaxId: number, timeout = 30_000): Promise<string | null> {
+  const start = Date.now();
+  while (Date.now() - start < timeout) {
+    const id = await getLatestMassEditJobId(page);
+    if (id > prevMaxId) return String(id);
+    await page.waitForTimeout(2_000);
+  }
+  return null;
+}
+
 export async function confirmMassEdit(page: Page): Promise<string | null> {
-  // Advance from configure step to confirm step (span with data-action-target="confirm").
-  // This triggers server-side validation before transitioning.
+  // Advance from configure step to confirm step.
   await page.locator('.wizard-action[data-action-target="confirm"]').click();
   await waitForLoadingMasks(page);
 
-  // Set up response capture before clicking the final validate button.
-  const respPromise = page
+  // Snapshot the current max job ID before firing. The mass-edit POST returns {}
+  // (no job ID in the response body), so we discover the new job by polling
+  // the process tracker for an ID that postdates this snapshot.
+  const prevMaxId = await getLatestMassEditJobId(page);
+
+  // Listen for the POST before clicking so we don't miss a fast response.
+  const postPromise = page
     .waitForResponse(r => /rest\/mass.edit|mass-edit|batch-action/.test(r.url()) && r.request().method() === 'POST', {
       timeout: 15_000,
     })
     .catch(() => null);
 
-  // Fire the job — the Confirm div on the confirm step has data-action-target="validate".
   await page.locator('.wizard-action[data-action-target="validate"]').click();
-  const resp = await respPromise;
-  if (!resp) return null;
-  try {
-    const body = await resp.json();
-    const match = JSON.stringify(body).match(/show\/(\d+)/);
-    return match?.[1] ?? null;
-  } catch {
-    return null;
+  const resp = await postPromise;
+
+  // Some endpoints (import/export launchers) do include a job ID in the response body.
+  if (resp) {
+    try {
+      const body = await resp.json();
+      const match = JSON.stringify(body).match(/show\/(\d+)/);
+      if (match?.[1]) return match[1];
+    } catch {
+      /* ignore */
+    }
   }
+
+  // Mass-edit returns {}. Poll process-tracker until the new job execution appears.
+  return pollForNewMassEditJob(page, prevMaxId);
 }
 
 export async function productHasAttributeValue(
