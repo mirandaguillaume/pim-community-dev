@@ -25,15 +25,23 @@ async function closeAnnouncementsPanel(page: Page): Promise<void> {
 }
 
 export async function selectProductsBySku(page: Page, skus: string[]) {
-  // Best-effort panel close before selecting, but notifications can reopen it between iterations.
-  // Each check() uses force:true so the #overlay backdrop cannot block it — see closeAnnouncementsPanel.
   await closeAnnouncementsPanel(page);
   for (const sku of skus) {
     const row = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku}).first();
     await row.waitFor({state: 'visible', timeout: 15_000});
-    // force:true dispatches the event directly to the checkbox, bypassing browser hit-testing.
-    // This is safe: the overlay (z-index:999) is a notification backdrop, not functional UI state.
-    await row.locator('input[type="checkbox"]').check({force: true, timeout: 15_000});
+    // Drive selection through Backbone's jQuery delegation instead of Playwright's check().
+    // select-row-cell.js listens for 'change :checkbox' via delegateEvents() and triggers
+    // 'backgrid:selected'. Playwright's check({force:true}) sends a native CDP click; if the
+    // Backbone view re-renders before Playwright re-reads checked, the new <input> appears as
+    // unchecked and check() throws "did not change its state". Using jQuery .prop + .trigger
+    // sets state directly on the model path — no re-render race.
+    await row.locator('td.select-row-cell').evaluate(td => {
+      const $ = (window as any).jQuery;
+      const $cb = $(td).find(':checkbox');
+      if (!$cb.prop('checked')) {
+        $cb.prop('checked', true).trigger('change');
+      }
+    });
   }
 }
 
