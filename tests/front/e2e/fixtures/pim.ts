@@ -29,17 +29,20 @@ export async function selectProductsBySku(page: Page, skus: string[]) {
   for (const sku of skus) {
     const row = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku}).first();
     await row.waitFor({state: 'visible', timeout: 15_000});
-    // Drive selection through Backbone's jQuery delegation instead of Playwright's check().
-    // select-row-cell.js listens for 'change :checkbox' via delegateEvents() and triggers
-    // 'backgrid:selected'. Playwright's check({force:true}) sends a native CDP click; if the
-    // Backbone view re-renders before Playwright re-reads checked, the new <input> appears as
-    // unchecked and check() throws "did not change its state". Using jQuery .prop + .trigger
-    // sets state directly on the model path — no re-render race.
+    // Drive selection through Backbone's delegation using a native change event.
+    // select-row-cell.js binds 'change :checkbox' via delegateEvents() on the <td>.
+    // Playwright check({force:true}) can race with a Backbone re-render: if the view
+    // re-renders between click and Playwright's state verification, the new <input>
+    // appears unchecked and check() throws "did not change its state".
+    // window.jQuery is NOT a global in Akeneo's RequireJS environment, so we avoid it.
+    // Instead: set checkbox.checked directly + dispatch a native bubbling change event.
+    // jQuery's .on() delegation on the td picks up native events that bubble — no jQuery
+    // global needed, no re-render race.
     await row.locator('td.select-row-cell').evaluate(td => {
-      const $ = (window as any).jQuery;
-      const $cb = $(td).find(':checkbox');
-      if (!$cb.prop('checked')) {
-        $cb.prop('checked', true).trigger('change');
+      const checkbox = td.querySelector('input[type="checkbox"]') as HTMLInputElement;
+      if (checkbox && !checkbox.checked) {
+        checkbox.checked = true;
+        checkbox.dispatchEvent(new Event('change', {bubbles: true}));
       }
     });
   }
