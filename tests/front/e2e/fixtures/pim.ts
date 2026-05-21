@@ -66,10 +66,17 @@ export async function openBulkEditAttributeValues(page: Page) {
   // not a <button> — scope to .mass-actions-panel to avoid false positives.
   const bulkLink = page.locator('.mass-actions-panel a', {hasText: /bulk actions/i}).first();
   await bulkLink.waitFor({state: 'visible', timeout: 15_000});
-  // Use force:true to bypass Playwright's stability check. The QuickExportConfigurator React
-  // component re-renders when selection state changes, causing the bulk link's bounding box
-  // to shift between layout passes — Playwright sees this as "not stable" and retries forever.
-  await bulkLink.click({force: true});
+  // Use a JS programmatic click instead of Playwright's locator.click(). The #overlay element
+  // (position:fixed; 100%×100%; z-index:999) is always present in the DOM and captures pointer
+  // events at those screen coordinates even after AknOverlay--show is removed — Playwright's
+  // force:true bypasses actionability checks but still sends a coordinate-based CDP mouse event
+  // that the overlay intercepts. element.click() dispatches the event directly to the DOM node,
+  // bypassing z-index hit-testing entirely.
+  await page.evaluate(() => {
+    const panel = document.querySelector('.mass-actions-panel');
+    const link = panel && Array.from(panel.querySelectorAll('a')).find(a => /bulk\s*action/i.test(a.textContent || ''));
+    if (link) (link as HTMLElement).click();
+  });
   await waitForLoadingMasks(page);
 
   // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
@@ -191,7 +198,8 @@ export async function confirmMassEdit(page: Page): Promise<string | null> {
   }
 
   // Mass-edit returns {}. Poll process-tracker until the new job execution appears.
-  return pollForNewMassEditJob(page, prevMaxId);
+  // 60s gives slow CI runners enough time to enqueue and register the job.
+  return pollForNewMassEditJob(page, prevMaxId, 60_000);
 }
 
 export async function productHasAttributeValue(
