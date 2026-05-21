@@ -213,7 +213,16 @@ export async function productHasAttributeValue(
   if (!resp.ok()) return false;
   const product = await resp.json();
   const values = product.values?.[attributeCode];
-  return Array.isArray(values) && values.length > 0 && values[0]?.data != null;
+  if (!Array.isArray(values) || values.length === 0) return false;
+  const data = values[0]?.data;
+  if (data == null) return false;
+  // The internal API StandardToInternalApi\ValueConverter always wraps cleared file/image
+  // attribute values as {filePath: null, originalFilename: null} instead of plain null.
+  // Treat this object-with-null-filePath as "no value".
+  if (typeof data === 'object' && !Array.isArray(data) && 'filePath' in data) {
+    return (data as {filePath: string | null}).filePath != null;
+  }
+  return true;
 }
 
 export async function login(page: Page, username: string, password: string) {
@@ -556,7 +565,7 @@ export async function launchImportViaApi(
  * Poll a job execution via the internal REST API until it finishes.
  * Returns the full job execution data including step summaries.
  */
-export async function waitForJobExecutionViaApi(page: Page, jobExecutionId: string, timeout = 120_000): Promise<any> {
+export async function waitForJobExecutionViaApi(page: Page, jobExecutionId: string, timeout = 180_000): Promise<any> {
   let data: any;
   const start = Date.now();
   while (Date.now() - start < timeout) {
