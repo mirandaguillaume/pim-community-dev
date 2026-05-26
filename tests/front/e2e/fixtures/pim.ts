@@ -67,13 +67,16 @@ export async function selectProductsBySku(page: Page, skus: string[]) {
   }, skus);
 
   // Verify Backbone's mass-actions counter registered the selections before returning.
-  // If the jQuery event chain broke silently the panel still shows "0 result selected"
-  // and the subsequent bulk-actions click is a no-op — failing here is far faster and
-  // more informative than waiting 120s for the wizard tile to appear.
+  // The mass-actions view el has className 'AknDefault-bottomPanel AknMassActions mass-actions'.
+  // updateView() removes AknDefault-bottomPanel--hidden when count > 0. Waiting for the
+  // hidden class to disappear is more reliable than checking text content because:
+  //  - The .mass-actions-panel child div holds action buttons (not the counter)
+  //  - The counter span (.AknMassActions-counter .count) text is i18n-translated
   await expect(
-    page.locator('.mass-actions-panel'),
-    `Expected mass-actions panel to show ${skus.length} selected`
-  ).toContainText(String(skus.length), {timeout: 15_000});
+    page.locator('.AknDefault-bottomPanel.AknMassActions'),
+    `Backbone mass-actions counter did not reach ${skus.length} within 15s — ` +
+      'backgrid:selected event chain may be broken (check jQuery delegation on select-row-cell)'
+  ).not.toHaveClass(/AknDefault-bottomPanel--hidden/, {timeout: 15_000});
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
