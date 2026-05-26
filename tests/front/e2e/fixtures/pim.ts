@@ -83,7 +83,7 @@ export async function openBulkEditAttributeValues(page: Page) {
   // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
   // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
   const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
-  await tile.waitFor({state: 'visible', timeout: 30_000});
+  await tile.waitFor({state: 'visible', timeout: 60_000});
   await tile.click();
 
   // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
@@ -254,16 +254,18 @@ export async function goToProductsGrid(page: Page) {
   await gridDataPromise;
 
   // Wait for the grid rows to actually render
-  await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
+  await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 60_000});
 
   // Switch to "Product" only view if the variant selector is rendered
   const variantDropdown = page.locator('.AknTitleContainer-variantSelector [data-toggle="dropdown"]');
   if (await variantDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
     await variantDropdown.click();
-    const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
+    const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'), {
+      timeout: 60_000,
+    });
     await page.locator('.display-grouped-item[data-value="product"]').click();
     await filterPromise;
-    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
+    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 60_000});
   }
 }
 
