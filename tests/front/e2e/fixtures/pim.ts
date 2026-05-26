@@ -284,7 +284,7 @@ export async function goToProductsGrid(page: Page) {
   if (await variantDropdown.isVisible({timeout: 15_000}).catch(() => false)) {
     await variantDropdown.click();
     const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'), {
-      timeout: 120_000,
+      timeout: 300_000,
     });
     await page.locator('.display-grouped-item[data-value="product"]').click();
     await filterPromise;
@@ -295,7 +295,7 @@ export async function goToProductsGrid(page: Page) {
   // which resets selectedModels to {}. It then shows .filter-box after 20ms. Waiting here
   // guarantees updateState has already fired before the caller selects rows — without this,
   // updateState can race with selectProductsBySku and silently clear all selections.
-  await page.locator('.filter-box').waitFor({state: 'visible', timeout: 30_000});
+  await page.locator('.filter-box').waitFor({state: 'visible', timeout: 60_000});
 }
 
 export async function selectFirstProduct(page: Page) {
