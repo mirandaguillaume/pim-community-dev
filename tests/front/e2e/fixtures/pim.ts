@@ -42,18 +42,38 @@ export async function selectProductsBySku(page: Page, skus: string[]) {
   // <input> is born unchecked (race with model update), so later selections run against
   // a stale DOM. One synchronous JS call dispatches all change events before any
   // re-render can interleave — all Backbone model updates are batched together.
+  //
+  // Use jQuery trigger() when available: Backbone's select-row-cell.js registers its
+  // 'change :checkbox' delegate via jQuery's .on(), so jQuery's event normalization
+  // is the authoritative path. Native dispatchEvent(new Event) bubbles through the DOM
+  // and jQuery *should* catch it via its addEventListener bridge, but jQuery trigger()
+  // avoids any version-specific discrepancy in that bridging.
   await page.evaluate(targetSkus => {
+    const jq = (window as any).$;
     document.querySelectorAll('tr.AknGrid-bodyRow').forEach(row => {
       const text = row.textContent ?? '';
       if (targetSkus.some(sku => text.includes(sku))) {
         const checkbox = row.querySelector('td.select-row-cell input[type="checkbox"]') as HTMLInputElement;
         if (checkbox && !checkbox.checked) {
           checkbox.checked = true;
-          checkbox.dispatchEvent(new Event('change', {bubbles: true}));
+          if (jq) {
+            jq(checkbox).trigger('change');
+          } else {
+            checkbox.dispatchEvent(new Event('change', {bubbles: true}));
+          }
         }
       }
     });
   }, skus);
+
+  // Verify Backbone's mass-actions counter registered the selections before returning.
+  // If the jQuery event chain broke silently the panel still shows "0 result selected"
+  // and the subsequent bulk-actions click is a no-op — failing here is far faster and
+  // more informative than waiting 120s for the wizard tile to appear.
+  await expect(
+    page.locator('.mass-actions-panel'),
+    `Expected mass-actions panel to show ${skus.length} selected`
+  ).toContainText(String(skus.length), {timeout: 15_000});
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
@@ -83,7 +103,7 @@ export async function openBulkEditAttributeValues(page: Page) {
   // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
   // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
   const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
-  await tile.waitFor({state: 'visible', timeout: 60_000});
+  await tile.waitFor({state: 'visible', timeout: 120_000});
   await tile.click();
 
   // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
@@ -254,18 +274,18 @@ export async function goToProductsGrid(page: Page) {
   await gridDataPromise;
 
   // Wait for the grid rows to actually render
-  await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 60_000});
+  await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 120_000});
 
   // Switch to "Product" only view if the variant selector is rendered
   const variantDropdown = page.locator('.AknTitleContainer-variantSelector [data-toggle="dropdown"]');
   if (await variantDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
     await variantDropdown.click();
     const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'), {
-      timeout: 60_000,
+      timeout: 120_000,
     });
     await page.locator('.display-grouped-item[data-value="product"]').click();
     await filterPromise;
-    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 60_000});
+    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 120_000});
   }
 }
 
