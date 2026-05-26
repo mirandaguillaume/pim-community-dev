@@ -279,16 +279,22 @@ export async function goToProductsGrid(page: Page) {
   // Wait for the grid rows to actually render
   await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 120_000});
 
-  // Switch to "Product" only view if the variant selector is rendered
+  // Switch to "Product" only view if the variant selector is rendered AND not already in that view.
+  // The datagrid remembers the last variant state across navigations within the same session,
+  // so on subsequent calls the dropdown may already show "Ungrouped". Clicking the already-active
+  // option fires no HTTP request, causing filterPromise to hang indefinitely.
   const variantDropdown = page.locator('.AknTitleContainer-variantSelector [data-toggle="dropdown"]');
   if (await variantDropdown.isVisible({timeout: 15_000}).catch(() => false)) {
-    await variantDropdown.click();
-    const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'), {
-      timeout: 300_000,
-    });
-    await page.locator('.display-grouped-item[data-value="product"]').click();
-    await filterPromise;
-    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 120_000});
+    const currentLabel = (await variantDropdown.textContent().catch(() => '')) ?? '';
+    if (!/ungrouped/i.test(currentLabel)) {
+      await variantDropdown.click();
+      const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'), {
+        timeout: 300_000,
+      });
+      await page.locator('.display-grouped-item[data-value="product"]').click();
+      await filterPromise;
+      await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 120_000});
+    }
   }
 
   // state-listener.js fires collection.trigger('updateState') on datagrid_filters:rendered,
