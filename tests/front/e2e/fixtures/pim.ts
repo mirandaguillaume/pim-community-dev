@@ -281,7 +281,7 @@ export async function goToProductsGrid(page: Page) {
 
   // Switch to "Product" only view if the variant selector is rendered
   const variantDropdown = page.locator('.AknTitleContainer-variantSelector [data-toggle="dropdown"]');
-  if (await variantDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
+  if (await variantDropdown.isVisible({timeout: 15_000}).catch(() => false)) {
     await variantDropdown.click();
     const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'), {
       timeout: 120_000,
@@ -290,6 +290,12 @@ export async function goToProductsGrid(page: Page) {
     await filterPromise;
     await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 120_000});
   }
+
+  // state-listener.js fires collection.trigger('updateState') on datagrid_filters:rendered,
+  // which resets selectedModels to {}. It then shows .filter-box after 20ms. Waiting here
+  // guarantees updateState has already fired before the caller selects rows — without this,
+  // updateState can race with selectProductsBySku and silently clear all selections.
+  await page.locator('.filter-box').waitFor({state: 'visible', timeout: 30_000});
 }
 
 export async function selectFirstProduct(page: Page) {
