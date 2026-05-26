@@ -221,8 +221,8 @@ export async function confirmMassEdit(page: Page): Promise<string | null> {
   }
 
   // Mass-edit returns {}. Poll process-tracker until the new job execution appears.
-  // 60s gives slow CI runners enough time to enqueue and register the job.
-  return pollForNewMassEditJob(page, prevMaxId, 60_000);
+  // 120s accounts for slow CI runners where the consumer may lag behind the queue.
+  return pollForNewMassEditJob(page, prevMaxId, 120_000);
 }
 
 export async function productHasAttributeValue(
@@ -309,7 +309,8 @@ export async function selectFirstProduct(page: Page) {
 
 export async function saveProduct(page: Page) {
   const savePromise = page.waitForResponse(
-    resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.request().method() === 'POST'
+    resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.request().method() === 'POST',
+    {timeout: 30_000}
   );
   await page.getByText('Save').first().click();
   await savePromise;
