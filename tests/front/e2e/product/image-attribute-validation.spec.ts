@@ -1,5 +1,17 @@
 import {test, expect} from '@playwright/test';
-import {login, waitForLoadingMasks, attachFileToProductAttribute, saveProduct} from '../fixtures/pim';
+import {
+  login,
+  waitForLoadingMasks,
+  attachFileToProductAttribute,
+  saveProduct,
+  createAttributeViaApi,
+  addAttributeToFamilyViaApi,
+  removeAttributeFromFamilyViaApi,
+  createProductViaApi,
+  deleteProductViaApi,
+  deleteAttributeViaApi,
+  getFirstFamilyCode,
+} from '../fixtures/pim';
 
 /**
  * Replaces Behat:
@@ -11,120 +23,121 @@ import {login, waitForLoadingMasks, attachFileToProductAttribute, saveProduct} f
  * Uses Playwright setInputFiles() which handles hidden file inputs natively,
  * unlike Selenium W3C which fails to locate non-visible elements.
  *
- * Requires catalog with:
- *   - image attribute (pim_catalog_image, allowed_extensions: jpg, max_file_size: 0.01 MB)
- *   - thumbnail attribute (pim_catalog_image, scopable, allowed_extensions: jpg, max_file_size: 0.01 MB)
- *   - a product with family containing both attributes
+ * Creates image attributes then adds them to an existing catalog family.
  */
 
-const XHR = {'X-Requested-With': 'XMLHttpRequest'};
+const ts = Date.now();
+const IMAGE_CODE = `pw_image_${ts}`;
+const THUMB_CODE = `pw_thumb_${ts}`;
+const PRODUCT_SKU = `pw-img-${ts}`;
+const IMAGE_LABEL = 'Pw Image';
+const THUMB_LABEL = 'Pw Thumb';
 
-async function findProductWithImageAttributes(
-  page: ReturnType<typeof test.extend>
-): Promise<{sku: string; hasImage: boolean; hasThumbnail: boolean} | null> {
-  const resp = await (page as any).request.get('/configuration/rest/attribute', {
-    headers: XHR,
+let familyCode: string | null = null;
+let productId: string | null = null;
+
+test.beforeAll(async ({browser}) => {
+  const page = await browser.newPage();
+  await login(page, 'admin', 'admin');
+
+  familyCode = await getFirstFamilyCode(page);
+  expect(familyCode, 'No family found in catalog — icecat_demo_dev must be loaded').toBeTruthy();
+
+  const r1 = await createAttributeViaApi(page, {
+    code: IMAGE_CODE,
+    type: 'pim_catalog_image',
+    group: 'other',
+    allowed_extensions: ['jpg'],
+    max_file_size: '0.01',
+    scopable: false,
+    localizable: false,
+    labels: {en_US: IMAGE_LABEL},
   });
-  if (!resp.ok()) return null;
-  const attrs = await resp.json();
-  const arr = Array.isArray(attrs) ? attrs : (attrs.items ?? []);
-  const image = arr.find((a: any) => a.code === 'image' && a.type === 'pim_catalog_image');
-  const thumbnail = arr.find((a: any) => a.code === 'thumbnail' && a.type === 'pim_catalog_image');
-  if (!image && !thumbnail) return null;
-  return {sku: 'foo', hasImage: !!image, hasThumbnail: !!thumbnail};
+  expect(r1.ok(), `Failed to create attribute ${IMAGE_CODE}: ${r1.status()}`).toBe(true);
+
+  const r2 = await createAttributeViaApi(page, {
+    code: THUMB_CODE,
+    type: 'pim_catalog_image',
+    group: 'other',
+    allowed_extensions: ['jpg'],
+    max_file_size: '0.01',
+    scopable: true,
+    localizable: false,
+    labels: {en_US: THUMB_LABEL},
+  });
+  expect(r2.ok(), `Failed to create attribute ${THUMB_CODE}: ${r2.status()}`).toBe(true);
+
+  await addAttributeToFamilyViaApi(page, familyCode!, IMAGE_CODE);
+  await addAttributeToFamilyViaApi(page, familyCode!, THUMB_CODE);
+
+  const r4 = await createProductViaApi(page, PRODUCT_SKU, familyCode!);
+  expect(r4.ok(), `Failed to create product ${PRODUCT_SKU}: ${r4.status()}`).toBe(true);
+  const body = await r4.json();
+  productId = body.meta?.id ?? body.id ?? null;
+
+  await page.close();
+});
+
+test.afterAll(async ({browser}) => {
+  const page = await browser.newPage();
+  await login(page, 'admin', 'admin');
+  if (productId) await deleteProductViaApi(page, productId);
+  if (familyCode) {
+    await removeAttributeFromFamilyViaApi(page, familyCode, IMAGE_CODE);
+    await removeAttributeFromFamilyViaApi(page, familyCode, THUMB_CODE);
+  }
+  await deleteAttributeViaApi(page, IMAGE_CODE);
+  await deleteAttributeViaApi(page, THUMB_CODE);
+  await page.close();
+});
+
+test.beforeEach(async ({page}) => {
+  await login(page, 'admin', 'admin');
+});
+
+async function navigateToProduct(page: Parameters<typeof login>[0]) {
+  if (!productId) throw new Error('productId not set — beforeAll must have failed');
+  await page.goto(`/#/enrich/product/${productId}`);
+  await waitForLoadingMasks(page);
+  await page.locator('.edit-form, .AknFormContainer').first().waitFor({timeout: 30_000});
 }
 
-async function navigateToProductPage(page: ReturnType<typeof test.extend>, sku: string) {
-  await (page as any).evaluate((s: string) => {
-    window.location.hash = `#/enrich/product/${s}/edit`;
-  }, sku);
-  await waitForLoadingMasks(page as any);
-  await (page as any).locator('.edit-form, .AknFormContainer').first().waitFor({timeout: 30_000});
-}
+test('Validate max file size constraint of image attribute', async ({page}) => {
+  await navigateToProduct(page);
+  await attachFileToProductAttribute(page, IMAGE_LABEL, 'akeneo.jpg');
+  await saveProduct(page);
+  await expect(page.getByText(/too large|exceed|10 kB|0\.01/i).first()).toBeVisible({timeout: 15_000});
+});
 
-test.describe('Image attribute validation in PEF', () => {
-  let catalogInfo: {sku: string; hasImage: boolean; hasThumbnail: boolean} | null = null;
+test('Validate max file size constraint of scopable image attribute', async ({page}) => {
+  await navigateToProduct(page);
+  const scopeDropdown = page.getByText(/ecommerce/i).first();
+  if (await scopeDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
+    await scopeDropdown.click();
+  }
+  await attachFileToProductAttribute(page, THUMB_LABEL, 'akeneo.jpg');
+  await saveProduct(page);
+  await expect(page.getByText(/too large|exceed|10 kB|0\.01/i).first()).toBeVisible({timeout: 15_000});
+});
 
-  test.beforeAll(async ({browser}) => {
-    const page = await browser.newPage();
-    await login(page, 'admin', 'admin');
-    catalogInfo = await findProductWithImageAttributes(page as any);
-    await page.close();
-  });
+test('Validate allowed extensions constraint of image attribute', async ({page}) => {
+  await navigateToProduct(page);
+  await attachFileToProductAttribute(page, IMAGE_LABEL, 'fanatic-freewave-76.gif');
+  await saveProduct(page);
+  await expect(
+    page.getByText(/gif.*not allowed|allowed extensions are jpg|extension.*not allowed/i).first()
+  ).toBeVisible({timeout: 15_000});
+});
 
-  test.beforeEach(async ({page}) => {
-    await login(page, 'admin', 'admin');
-  });
-
-  /**
-   * Replaces Behat: validate_image_attributes.feature:26
-   * Validate the max file size constraint of image attribute
-   */
-  test('Validate max file size constraint of image attribute', async ({page}) => {
-    if (!catalogInfo?.hasImage) {
-      test.skip(true, 'No "image" attribute found in this catalog');
-      return;
-    }
-    await navigateToProductPage(page as any, catalogInfo.sku);
-    await attachFileToProductAttribute(page, 'Image', 'akeneo.jpg');
-    await saveProduct(page);
-    await expect(page.getByText(/too large|exceed|10 kB|0\.01/i).first()).toBeVisible({timeout: 15_000});
-  });
-
-  /**
-   * Replaces Behat: validate_image_attributes.feature:29
-   * Validate the max file size constraint of scopable image attribute
-   */
-  test('Validate max file size constraint of scopable image attribute', async ({page}) => {
-    if (!catalogInfo?.hasThumbnail) {
-      test.skip(true, 'No "thumbnail" attribute found in this catalog');
-      return;
-    }
-    await navigateToProductPage(page as any, catalogInfo.sku);
-    const scopeDropdown = page.getByText(/ecommerce/i).first();
-    if (await scopeDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
-      await scopeDropdown.click();
-    }
-    await attachFileToProductAttribute(page, 'Thumbnail', 'akeneo.jpg');
-    await saveProduct(page);
-    await expect(page.getByText(/too large|exceed|10 kB|0\.01/i).first()).toBeVisible({timeout: 15_000});
-  });
-
-  /**
-   * Replaces Behat: validate_image_attributes.feature:34
-   * Validate the allowed extensions constraint of image attribute
-   */
-  test('Validate allowed extensions constraint of image attribute', async ({page}) => {
-    if (!catalogInfo?.hasImage) {
-      test.skip(true, 'No "image" attribute found in this catalog');
-      return;
-    }
-    await navigateToProductPage(page as any, catalogInfo.sku);
-    await attachFileToProductAttribute(page, 'Image', 'fanatic-freewave-76.gif');
-    await saveProduct(page);
-    await expect(
-      page.getByText(/gif.*not allowed|allowed extensions are jpg|extension.*not allowed/i).first()
-    ).toBeVisible({timeout: 15_000});
-  });
-
-  /**
-   * Replaces Behat: validate_image_attributes.feature:39
-   * Validate the allowed extensions constraint of scopable image attribute
-   */
-  test('Validate allowed extensions constraint of scopable image attribute', async ({page}) => {
-    if (!catalogInfo?.hasThumbnail) {
-      test.skip(true, 'No "thumbnail" attribute found in this catalog');
-      return;
-    }
-    await navigateToProductPage(page as any, catalogInfo.sku);
-    const scopeDropdown = page.getByText(/ecommerce/i).first();
-    if (await scopeDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
-      await scopeDropdown.click();
-    }
-    await attachFileToProductAttribute(page, 'Thumbnail', 'fanatic-freewave-76.gif');
-    await saveProduct(page);
-    await expect(
-      page.getByText(/gif.*not allowed|allowed extensions are jpg|extension.*not allowed/i).first()
-    ).toBeVisible({timeout: 15_000});
-  });
+test('Validate allowed extensions constraint of scopable image attribute', async ({page}) => {
+  await navigateToProduct(page);
+  const scopeDropdown = page.getByText(/ecommerce/i).first();
+  if (await scopeDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
+    await scopeDropdown.click();
+  }
+  await attachFileToProductAttribute(page, THUMB_LABEL, 'fanatic-freewave-76.gif');
+  await saveProduct(page);
+  await expect(
+    page.getByText(/gif.*not allowed|allowed extensions are jpg|extension.*not allowed/i).first()
+  ).toBeVisible({timeout: 15_000});
 });

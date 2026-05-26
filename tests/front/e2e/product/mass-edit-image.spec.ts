@@ -11,7 +11,11 @@ import {
   attachFileToMassEditAttribute,
   confirmMassEdit,
   productHasAttributeValue,
-  createProductViaApi,
+  createAttributeViaApi,
+  addAttributeToFamilyViaApi,
+  removeAttributeFromFamilyViaApi,
+  deleteAttributeViaApi,
+  getFirstProductsFromGrid,
 } from '../fixtures/pim';
 
 /**
@@ -21,39 +25,65 @@ import {
  *
  * Uses Playwright setInputFiles() which handles hidden file inputs natively,
  * unlike Selenium W3C which fails to locate non-visible elements.
+ *
+ * Uses existing indexed catalog products to avoid Elasticsearch indexing lag in CI.
  */
-
-const SIDE_VIEW_FAMILIES = ['sneakers', 'boots', 'sandals'];
-
-async function findFamilyWithSideView(page: ReturnType<typeof test.extend>): Promise<string | null> {
-  const resp = await (page as any).request.get('/configuration/rest/family', {
-    headers: {'X-Requested-With': 'XMLHttpRequest'},
-  });
-  if (!resp.ok()) return null;
-  const families = await resp.json();
-  const arr = Array.isArray(families) ? families : (families.items ?? []);
-  for (const candidate of SIDE_VIEW_FAMILIES) {
-    if (arr.some((f: any) => f.code === candidate)) return candidate;
-  }
-  return null;
-}
 
 test.describe('Mass edit image attributes', () => {
   const ts = Date.now();
-  const sku1 = `pw-me-img-1-${ts}`;
-  const sku2 = `pw-me-img-2-${ts}`;
-  let familyCode: string | null = null;
-  let setupOk = false;
+  const ATTR_CODE = `pw_side_view_${ts}`;
+  const ATTR_LABEL = 'Pw Side View';
+
+  let sku1: string | null = null;
+  let sku2: string | null = null;
+  let uuid1: string | null = null;
+  let uuid2: string | null = null;
+  let families: string[] = [];
 
   test.beforeAll(async ({browser}) => {
     const page = await browser.newPage();
     await login(page, 'admin', 'admin');
-    familyCode = await findFamilyWithSideView(page as any);
-    if (familyCode) {
-      const r1 = await createProductViaApi(page, sku1, familyCode);
-      const r2 = await createProductViaApi(page, sku2, familyCode);
-      setupOk = r1.ok() && r2.ok();
+
+    const products = await getFirstProductsFromGrid(page, 2);
+    expect(
+      products.length,
+      'Need at least 2 indexed products in the catalog — icecat_demo_dev must be loaded'
+    ).toBeGreaterThanOrEqual(2);
+
+    sku1 = products[0].sku;
+    sku2 = products[1].sku;
+    uuid1 = products[0].uuid;
+    uuid2 = products[1].uuid;
+
+    // Deduplicate families so we only PUT each family once
+    families = [...new Set([products[0].family, products[1].family].filter(Boolean))];
+    expect(families.length, 'Products must belong to at least one family').toBeGreaterThan(0);
+
+    const r1 = await createAttributeViaApi(page, {
+      code: ATTR_CODE,
+      type: 'pim_catalog_image',
+      group: 'other',
+      allowed_extensions: ['png', 'jpeg', 'jpg'],
+      scopable: false,
+      localizable: false,
+      labels: {en_US: ATTR_LABEL},
+    });
+    expect(r1.ok(), `Failed to create attribute ${ATTR_CODE}: ${r1.status()}`).toBe(true);
+
+    for (const familyCode of families) {
+      await addAttributeToFamilyViaApi(page, familyCode, ATTR_CODE);
     }
+
+    await page.close();
+  });
+
+  test.afterAll(async ({browser}) => {
+    const page = await browser.newPage();
+    await login(page, 'admin', 'admin');
+    for (const familyCode of families) {
+      await removeAttributeFromFamilyViaApi(page, familyCode, ATTR_CODE);
+    }
+    await deleteAttributeViaApi(page, ATTR_CODE);
     await page.close();
   });
 
@@ -66,98 +96,69 @@ test.describe('Mass edit image attributes', () => {
    * Replaces Behat: edit_common_attributes_images.feature:32
    * Successfully update many images values at once
    */
-  test('Successfully update many images values at once', async ({page}) => {
-    if (!familyCode || !setupOk) {
-      test.skip(true, 'No footwear family with side_view attribute found in this catalog');
-      return;
-    }
-
-    try {
-      await goToProductsGrid(page);
-    } catch {
-      test.skip(true, 'Product grid is empty — no products available');
-      return;
-    }
-
-    await selectProductsBySku(page, [sku1, sku2]);
+  test('Successfully update many images values at once', {timeout: 660_000}, async ({page}) => {
+    // timeout: 660_000 covers beforeEach + UI flow + pollForNewMassEditJob (≤120s) + waitForJobExecutionViaApi (≤420s)
+    await goToProductsGrid(page);
+    await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
-    await addAttributeToMassEdit(page, 'Side view');
-    await attachFileToMassEditAttribute(page, 'Side view', 'SNKRS-1R.png');
+    await addAttributeToMassEdit(page, ATTR_LABEL);
+    await attachFileToMassEditAttribute(page, ATTR_LABEL, 'SNKRS-1R.png');
 
     const jobId = await confirmMassEdit(page);
-    if (jobId) {
-      const result = await waitForJobExecutionViaApi(page, jobId);
-      expect(['COMPLETED', 'completed']).toContain(result.status?.toUpperCase?.() ?? result.status);
-    } else {
-      await expect(page.getByText(/mass edit|action will be processed/i).first()).toBeVisible({
-        timeout: 30_000,
-      });
-    }
+    expect(
+      jobId,
+      'Mass-edit job not registered in process-tracker within 60s — consumer may be dead or queue backlog too large'
+    ).toBeTruthy();
+    const result = await waitForJobExecutionViaApi(page, jobId!, 420_000);
+    expect(['COMPLETED', 'completed']).toContain(result.status?.toUpperCase?.() ?? result.status);
 
-    const sku1HasImage = await productHasAttributeValue(page, sku1, 'side_view');
-    const sku2HasImage = await productHasAttributeValue(page, sku2, 'side_view');
-    expect(sku1HasImage).toBe(true);
-    expect(sku2HasImage).toBe(true);
+    expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(true);
+    expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(true);
   });
 
   /**
    * Replaces Behat: validate_editing_common_image_attributes.feature:43
-   * Successfully mass edit an image attribute (set, clear, invalid extension)
+   * Mass edit image attribute — set, clear, and validate extension
    */
-  test('Mass edit image attribute — set, clear, and validate extension', async ({page}) => {
-    if (!familyCode || !setupOk) {
-      test.skip(true, 'No footwear family with side_view attribute found in this catalog');
-      return;
-    }
-
-    try {
-      await goToProductsGrid(page);
-    } catch {
-      test.skip(true, 'Product grid is empty — no products available');
-      return;
-    }
+  test('Mass edit image attribute — set, clear, and validate extension', {timeout: 1_200_000}, async ({page}) => {
+    // timeout: 1_200_000 covers 3 wizard flows × (≤120s poll + ≤360s job) on slow CI runners
+    await goToProductsGrid(page);
 
     // Step 1: set image on sku1 + sku2
-    await selectProductsBySku(page, [sku1, sku2]);
+    await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
-    await addAttributeToMassEdit(page, 'Side view');
-    await attachFileToMassEditAttribute(page, 'Side view', 'SNKRS-1R.png');
+    await addAttributeToMassEdit(page, ATTR_LABEL);
+    await attachFileToMassEditAttribute(page, ATTR_LABEL, 'SNKRS-1R.png');
     const jobId1 = await confirmMassEdit(page);
-    if (jobId1) {
-      await waitForJobExecutionViaApi(page, jobId1);
-    }
-    expect(await productHasAttributeValue(page, sku1, 'side_view')).toBe(true);
-    expect(await productHasAttributeValue(page, sku2, 'side_view')).toBe(true);
+    expect(jobId1, 'Step 1: mass-edit job not registered in process-tracker within 60s').toBeTruthy();
+    await waitForJobExecutionViaApi(page, jobId1!, 360_000);
+    expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(true);
+    expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(true);
 
     // Step 2: clear image by confirming without attaching a file
     await goToProductsGrid(page);
-    await selectProductsBySku(page, [sku1, sku2]);
+    await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
-    await addAttributeToMassEdit(page, 'Side view');
+    await addAttributeToMassEdit(page, ATTR_LABEL);
     const jobId2 = await confirmMassEdit(page);
-    if (jobId2) {
-      await waitForJobExecutionViaApi(page, jobId2);
-    }
-    expect(await productHasAttributeValue(page, sku1, 'side_view')).toBe(false);
-    expect(await productHasAttributeValue(page, sku2, 'side_view')).toBe(false);
+    expect(jobId2, 'Step 2: mass-edit job not registered in process-tracker within 120s').toBeTruthy();
+    await waitForJobExecutionViaApi(page, jobId2!, 360_000);
+    expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(false);
+    expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(false);
 
     // Step 3: attach invalid extension (.gif) and verify validation error
     await goToProductsGrid(page);
-    await selectProductsBySku(page, [sku1, sku2]);
+    await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
-    await addAttributeToMassEdit(page, 'Side view');
-    await attachFileToMassEditAttribute(page, 'Side view', 'bic-core-148.gif');
-    await page
-      .getByRole('button', {name: /next|confirm/i})
-      .first()
-      .click();
+    await addAttributeToMassEdit(page, ATTR_LABEL);
+    await attachFileToMassEditAttribute(page, ATTR_LABEL, 'bic-core-148.gif');
+    await page.locator('.wizard-action[data-action-target="confirm"]').click();
     await waitForLoadingMasks(page);
     await expect(
       page.getByText(/gif.*not allowed|allowed extensions are png|extension.*not allowed/i).first()
     ).toBeVisible({timeout: 15_000});
 
-    // Products must remain without side_view after the invalid attempt
-    expect(await productHasAttributeValue(page, sku1, 'side_view')).toBe(false);
-    expect(await productHasAttributeValue(page, sku2, 'side_view')).toBe(false);
+    expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(false);
+    expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(false);
   });
 });

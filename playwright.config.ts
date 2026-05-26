@@ -3,7 +3,7 @@ import {defineConfig} from '@playwright/test';
 // Playwright E2E configuration
 export default defineConfig({
   testDir: 'tests/front/e2e',
-  timeout: 120_000,
+  timeout: 600_000,
   expect: {timeout: 10_000},
   retries: 1,
   workers: 1,

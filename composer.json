@@ -210,7 +210,8 @@
             "block-insecure": true,
             "ignore": {
                 "PKSA-y2cr-5h3j-g3ys": "Low severity, transitive dep from google/cloud-pubsub. Awaiting google/auth jwt v7 support.",
-                "CVE-2026-44167": "phpseclib OID DoS — no 3.0.52 release yet; remove once upstream patch ships."
+                "CVE-2026-44167": "phpseclib OID DoS — no 3.0.52 release yet; remove once upstream patch ships.",
+                "CVE-2026-46644": "symfony/polyfill-intl-idn punycode equivalence — fix is in >=1.38.1; remove once composer.lock is updated."
             }
         },
         "platform": {

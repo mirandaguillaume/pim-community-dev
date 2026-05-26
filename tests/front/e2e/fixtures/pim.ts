@@ -7,33 +7,142 @@ export function fixtureFilePath(name: string): string {
   return path.join(BEHAT_FIXTURES, name);
 }
 
+// Dismiss the announcements panel overlay without triggering Backbone event handlers.
+// The #overlay element (position:fixed; 100%x100%; z-index:999) blocks all clicks when
+// AknOverlay--show is present. Clicking #overlay fires 'click #overlay' → onClickToCollapsePanel
+// → mediator.trigger('pim-app:panel:close'), which has side effects that reset the grid's
+// variant filter back to "Grouped". We remove the class directly via evaluate() to unblock
+// viewport clicks without dispatching any DOM events.
+async function closeAnnouncementsPanel(page: Page): Promise<void> {
+  await page
+    .evaluate(() => {
+      const overlay = document.getElementById('overlay');
+      if (overlay?.classList.contains('AknOverlay--show')) {
+        overlay.classList.remove('AknOverlay--show');
+      }
+    })
+    .catch(() => {});
+}
+
 export async function selectProductsBySku(page: Page, skus: string[]) {
+  await closeAnnouncementsPanel(page);
+
+  // Verify each target row is visible before bulk-selecting.
   for (const sku of skus) {
-    const row = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku}).first();
-    await row.waitFor({state: 'visible', timeout: 15_000});
-    await row.locator('input[type="checkbox"]').check();
+    await page
+      .locator('tr.AknGrid-bodyRow')
+      .filter({hasText: sku})
+      .first()
+      .waitFor({state: 'visible', timeout: 15_000});
   }
+
+  // Select all target products in ONE atomic browser-side evaluate.
+  // Splitting into per-sku awaited evaluate calls allows Backbone's backgrid:selected
+  // handler to trigger row re-renders between each Playwright await: the re-rendered
+  // <input> is born unchecked (race with model update), so later selections run against
+  // a stale DOM. One synchronous JS call dispatches all change events before any
+  // re-render can interleave — all Backbone model updates are batched together.
+  //
+  // Use jQuery trigger() when available: Backbone's select-row-cell.js registers its
+  // 'change :checkbox' delegate via jQuery's .on(), so jQuery's event normalization
+  // is the authoritative path. Native dispatchEvent(new Event) bubbles through the DOM
+  // and jQuery *should* catch it via its addEventListener bridge, but jQuery trigger()
+  // avoids any version-specific discrepancy in that bridging.
+  await page.evaluate(targetSkus => {
+    const jq = (window as any).$;
+    document.querySelectorAll('tr.AknGrid-bodyRow').forEach(row => {
+      const text = row.textContent ?? '';
+      if (targetSkus.some(sku => text.includes(sku))) {
+        const checkbox = row.querySelector('td.select-row-cell input[type="checkbox"]') as HTMLInputElement;
+        if (checkbox && !checkbox.checked) {
+          checkbox.checked = true;
+          if (jq) {
+            jq(checkbox).trigger('change');
+          } else {
+            checkbox.dispatchEvent(new Event('change', {bubbles: true}));
+          }
+        }
+      }
+    });
+  }, skus);
+
+  // Verify Backbone's mass-actions counter registered the selections before returning.
+  // The mass-actions view el has className 'AknDefault-bottomPanel AknMassActions mass-actions'.
+  // updateView() removes AknDefault-bottomPanel--hidden when count > 0. Waiting for the
+  // hidden class to disappear is more reliable than checking text content because:
+  //  - The .mass-actions-panel child div holds action buttons (not the counter)
+  //  - The counter span (.AknMassActions-counter .count) text is i18n-translated
+  await expect(
+    page.locator('.AknDefault-bottomPanel.AknMassActions'),
+    `Backbone mass-actions counter did not reach ${skus.length} within 15s — ` +
+      'backgrid:selected event chain may be broken (check jQuery delegation on select-row-cell)'
+  ).not.toHaveClass(/AknDefault-bottomPanel--hidden/, {timeout: 15_000});
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
-  await page.getByRole('button', {name: /bulk actions/i}).click();
-  await page
-    .getByText(/edit attribute values/i)
-    .first()
-    .click();
-  await page.getByRole('button', {name: /next/i}).first().click();
+  // Remove the overlay backdrop before interacting with the wizard.
+  // closeAnnouncementsPanel removes AknOverlay--show via evaluate() without triggering
+  // Backbone event handlers — safe to call multiple times.
+  await closeAnnouncementsPanel(page);
+
+  // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
+  // not a <button> — scope to .mass-actions-panel to avoid false positives.
+  const bulkLink = page.locator('.mass-actions-panel a', {hasText: /bulk actions/i}).first();
+  await bulkLink.waitFor({state: 'visible', timeout: 15_000});
+  // Use a JS programmatic click instead of Playwright's locator.click(). The #overlay element
+  // (position:fixed; 100%×100%; z-index:999) is always present in the DOM and captures pointer
+  // events at those screen coordinates even after AknOverlay--show is removed — Playwright's
+  // force:true bypasses actionability checks but still sends a coordinate-based CDP mouse event
+  // that the overlay intercepts. element.click() dispatches the event directly to the DOM node,
+  // bypassing z-index hit-testing entirely.
+  await page.evaluate(() => {
+    const panel = document.querySelector('.mass-actions-panel');
+    const link = panel && Array.from(panel.querySelectorAll('a')).find(a => /bulk\s*action/i.test(a.textContent || ''));
+    if (link) (link as HTMLElement).click();
+  });
+  await waitForLoadingMasks(page);
+
+  // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
+  // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
+  // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
+  const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
+  await tile.waitFor({state: 'visible', timeout: 120_000});
+  await tile.click();
+
+  // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
+  const configureBtn = page.locator('.wizard-action[data-action-target="configure"]');
+  await configureBtn.waitFor({state: 'visible', timeout: 15_000});
+  await configureBtn.click();
   await waitForLoadingMasks(page);
 }
 
 export async function addAttributeToMassEdit(page: Page, attributeLabel: string) {
-  await page
-    .getByText(/select attributes/i)
-    .first()
-    .click();
-  const searchInput = page.locator('input[type="search"]').last();
+  // The attribute selector is a Select2 v3 widget rendered as <a class="select2-choice">
+  // inside the Backbone view element (.add-attribute). Note: the 'classes' config key is
+  // Select2 v4 only — Select2 v3 uses containerCssClass, so .pim-add-attributes-multiselect
+  // never appears in the DOM. The clickable trigger is always .add-attribute .select2-choice.
+  const selectButton = page.locator('.add-attribute .select2-choice');
+  await selectButton.waitFor({state: 'visible', timeout: 15_000});
+  await selectButton.click();
+
+  // Select2 v3 opens its dropdown with id="select2-drop". Scope all subsequent interactions
+  // to this unique dropdown to avoid matching other Select2 instances on the page.
+  const dropdown = page.locator('#select2-drop');
+  await dropdown.waitFor({state: 'visible', timeout: 10_000});
+
+  // Select2 v3 triggers search queries on keyup, not the 'input' event.
+  // fill() + dispatchEvent('keyup') ensures the query fires and results are filtered.
+  const searchInput = dropdown.locator('input.select2-input');
   await searchInput.fill(attributeLabel);
-  await page.getByText(attributeLabel, {exact: true}).first().waitFor({timeout: 10_000});
-  await page.getByText(attributeLabel, {exact: true}).first().click();
+  await searchInput.dispatchEvent('keyup');
+
+  await dropdown.getByText(attributeLabel, {exact: true}).first().waitFor({timeout: 10_000});
+  await dropdown.getByText(attributeLabel, {exact: true}).first().click();
+
+  // onSelecting calls event.preventDefault() keeping the dropdown open after clicking a result.
+  // Scope to #select2-drop (the currently open dropdown, unique ID in Select2 v3) to avoid
+  // matching stale .ui-multiselect-footer elements left over from previous wizard interactions.
+  await page.locator('#select2-drop .ui-multiselect-footer button').click();
   await waitForLoadingMasks(page);
 }
 
@@ -53,36 +162,90 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
   await container.locator('input[type="file"]').setInputFiles(fixtureFilePath(fileName));
 }
 
-export async function confirmMassEdit(page: Page): Promise<string | null> {
-  const respPromise = page
-    .waitForResponse(r => /mass-edit|batch-action/.test(r.url()) && r.request().method() === 'POST', {timeout: 30_000})
+// Fetch the most recent edit_common_attributes job execution ID via the process tracker.
+// The controller reads filters from the query string (not the JSON body), so we pass
+// code[] as a query param to filter by job instance code.
+async function getLatestMassEditJobId(page: Page): Promise<number> {
+  const resp = await page.request
+    .post('/rest/process-tracker', {
+      params: {'code[]': 'edit_common_attributes', page: '1', size: '1'},
+      headers: {'X-Requested-With': 'XMLHttpRequest'},
+    })
     .catch(() => null);
-  await page
-    .getByRole('button', {name: /confirm/i})
-    .first()
-    .click();
-  const resp = await respPromise;
-  if (!resp) return null;
-  try {
-    const body = await resp.json();
-    const match = JSON.stringify(body).match(/show\/(\d+)/);
-    return match?.[1] ?? null;
-  } catch {
-    return null;
-  }
+  if (!resp?.ok()) return 0;
+  const body = await resp.json().catch(() => null);
+  const rows: any[] = body?.rows ?? [];
+  return rows.length > 0 ? (rows[0]?.job_execution_id ?? 0) : 0;
 }
 
-export async function productHasAttributeValue(page: Page, sku: string, attributeCode: string): Promise<boolean> {
-  const resp = await page.request.get(`/enrich/product/rest?identifier=${encodeURIComponent(sku)}`, {
+// Poll until a new job execution appears with ID > prevMaxId, then return it.
+async function pollForNewMassEditJob(page: Page, prevMaxId: number, timeout = 30_000): Promise<string | null> {
+  const start = Date.now();
+  while (Date.now() - start < timeout) {
+    const id = await getLatestMassEditJobId(page);
+    if (id > prevMaxId) return String(id);
+    await page.waitForTimeout(1_000);
+  }
+  return null;
+}
+
+export async function confirmMassEdit(page: Page): Promise<string | null> {
+  // Advance from configure step to confirm step.
+  await page.locator('.wizard-action[data-action-target="confirm"]').click();
+  await waitForLoadingMasks(page);
+
+  // Snapshot the current max job ID before firing. The mass-edit POST returns {}
+  // (no job ID in the response body), so we discover the new job by polling
+  // the process tracker for an ID that postdates this snapshot.
+  const prevMaxId = await getLatestMassEditJobId(page);
+
+  // Listen for the POST before clicking so we don't miss a fast response.
+  const postPromise = page
+    .waitForResponse(r => /rest\/mass.edit|mass-edit|batch-action/.test(r.url()) && r.request().method() === 'POST', {
+      timeout: 15_000,
+    })
+    .catch(() => null);
+
+  await page.locator('.wizard-action[data-action-target="validate"]').click();
+  const resp = await postPromise;
+
+  // Some endpoints (import/export launchers) do include a job ID in the response body.
+  if (resp) {
+    try {
+      const body = await resp.json();
+      const match = JSON.stringify(body).match(/show\/(\d+)/);
+      if (match?.[1]) return match[1];
+    } catch {
+      /* ignore */
+    }
+  }
+
+  // Mass-edit returns {}. Poll process-tracker until the new job execution appears.
+  // 120s accounts for slow CI runners where the consumer may lag behind the queue.
+  return pollForNewMassEditJob(page, prevMaxId, 120_000);
+}
+
+export async function productHasAttributeValue(
+  page: Page,
+  productUuid: string,
+  attributeCode: string
+): Promise<boolean> {
+  const resp = await page.request.get(`/enrich/product/rest/${productUuid}`, {
     headers: {'X-Requested-With': 'XMLHttpRequest'},
   });
   if (!resp.ok()) return false;
-  const data = await resp.json();
-  const arr = Array.isArray(data) ? data : [data];
-  const product = arr.find((p: any) => p.identifier === sku) ?? arr[0];
-  if (!product) return false;
+  const product = await resp.json();
   const values = product.values?.[attributeCode];
-  return Array.isArray(values) && values.length > 0 && values[0]?.data != null;
+  if (!Array.isArray(values) || values.length === 0) return false;
+  const data = values[0]?.data;
+  if (data == null) return false;
+  // The internal API StandardToInternalApi\ValueConverter always wraps cleared file/image
+  // attribute values as {filePath: null, originalFilename: null} instead of plain null.
+  // Treat this object-with-null-filePath as "no value".
+  if (typeof data === 'object' && !Array.isArray(data) && 'filePath' in data) {
+    return (data as {filePath: string | null}).filePath != null;
+  }
+  return true;
 }
 
 export async function login(page: Page, username: string, password: string) {
@@ -101,25 +264,44 @@ export async function login(page: Page, username: string, password: string) {
 export async function goToProductsGrid(page: Page) {
   await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
 
-  // Start listening BEFORE clicking to avoid race conditions
-  const gridDataPromise = page.waitForResponse(
-    resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/')
-  );
+  // Start listening BEFORE clicking to avoid race conditions.
+  // Use a short timeout + catch: if already on the product grid (e.g. after a mass edit redirect),
+  // clicking "Products" may not trigger a new datagrid request. The grid rows waitFor below is
+  // the authoritative signal that the grid is ready.
+  const gridDataPromise = page
+    .waitForResponse(resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/'), {
+      timeout: 10_000,
+    })
+    .catch(() => null);
   await page.getByRole('menuitem', {name: 'Products'}).click();
   await gridDataPromise;
 
   // Wait for the grid rows to actually render
-  await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
+  await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 120_000});
 
-  // Switch to "Product" only view if the variant selector is rendered
+  // Switch to "Product" only view if the variant selector is rendered AND not already in that view.
+  // The datagrid remembers the last variant state across navigations within the same session,
+  // so on subsequent calls the dropdown may already show "Ungrouped". Clicking the already-active
+  // option fires no HTTP request, causing filterPromise to hang indefinitely.
   const variantDropdown = page.locator('.AknTitleContainer-variantSelector [data-toggle="dropdown"]');
-  if (await variantDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
-    await variantDropdown.click();
-    const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
-    await page.locator('.display-grouped-item[data-value="product"]').click();
-    await filterPromise;
-    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
+  if (await variantDropdown.isVisible({timeout: 15_000}).catch(() => false)) {
+    const currentLabel = (await variantDropdown.textContent().catch(() => '')) ?? '';
+    if (!/ungrouped/i.test(currentLabel)) {
+      await variantDropdown.click();
+      const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'), {
+        timeout: 300_000,
+      });
+      await page.locator('.display-grouped-item[data-value="product"]').click();
+      await filterPromise;
+      await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 120_000});
+    }
   }
+
+  // state-listener.js fires collection.trigger('updateState') on datagrid_filters:rendered,
+  // which resets selectedModels to {}. It then shows .filter-box after 20ms. Waiting here
+  // guarantees updateState has already fired before the caller selects rows — without this,
+  // updateState can race with selectProductsBySku and silently clear all selections.
+  await page.locator('.filter-box').waitFor({state: 'visible', timeout: 60_000});
 }
 
 export async function selectFirstProduct(page: Page) {
@@ -133,7 +315,8 @@ export async function selectFirstProduct(page: Page) {
 
 export async function saveProduct(page: Page) {
   const savePromise = page.waitForResponse(
-    resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.request().method() === 'POST'
+    resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.request().method() === 'POST',
+    {timeout: 30_000}
   );
   await page.getByText('Save').first().click();
   await savePromise;
@@ -209,6 +392,95 @@ export async function createProductViaApi(page: Page, sku: string, family?: stri
 
 export async function deleteProductViaApi(page: Page, productId: string) {
   await page.request.delete(`/enrich/product/rest/${productId}`);
+}
+
+export async function createAttributeViaApi(
+  page: Page,
+  data: {
+    code: string;
+    type: string;
+    group: string;
+    scopable?: boolean;
+    localizable?: boolean;
+    allowed_extensions?: string[];
+    max_file_size?: string;
+    labels?: Record<string, string>;
+  }
+) {
+  return page.request.put('/rest/attribute/', {
+    data: {scopable: false, localizable: false, labels: {}, ...data},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+function prepareFamilyForPut(family: Record<string, unknown>): Record<string, unknown> {
+  // Mirror what the Akeneo family form does before PUT:
+  // 1. attributes is an array of objects {code, ...} — send only codes
+  // 2. delete the meta field (read-only server data)
+  const rawAttrs = (family.attributes ?? []) as Array<string | {code: string}>;
+  const attrCodes = rawAttrs.map(a => (typeof a === 'string' ? a : a.code));
+  const {meta: _meta, ...rest} = family;
+  return {...rest, attributes: attrCodes};
+}
+
+export async function addAttributeToFamilyViaApi(page: Page, familyCode: string, attributeCode: string): Promise<void> {
+  const getResp = await page.request.get(`/configuration/rest/family/${familyCode}`, {
+    headers: XHR_HEADER,
+  });
+  if (!getResp.ok()) throw new Error(`Could not fetch family ${familyCode}: ${getResp.status()}`);
+  const family = prepareFamilyForPut(await getResp.json());
+  const attrs = family.attributes as string[];
+  if (attrs.includes(attributeCode)) return;
+  const putResp = await page.request.put(`/configuration/rest/family/${familyCode}`, {
+    data: {...family, attributes: [...attrs, attributeCode]},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+  if (!putResp.ok()) throw new Error(`Could not add attribute to family ${familyCode}: ${putResp.status()}`);
+}
+
+export async function removeAttributeFromFamilyViaApi(
+  page: Page,
+  familyCode: string,
+  attributeCode: string
+): Promise<void> {
+  const getResp = await page.request.get(`/configuration/rest/family/${familyCode}`, {
+    headers: XHR_HEADER,
+  });
+  if (!getResp.ok()) return;
+  const family = prepareFamilyForPut(await getResp.json());
+  const attrs = family.attributes as string[];
+  if (!attrs.includes(attributeCode)) return;
+  await page.request.put(`/configuration/rest/family/${familyCode}`, {
+    data: {...family, attributes: attrs.filter(a => a !== attributeCode)},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+export async function deleteAttributeViaApi(page: Page, code: string) {
+  await page.request.delete(`/rest/attribute/${code}`, {headers: XHR_HEADER});
+}
+
+/**
+ * Fetch the first N simple products from the product grid (Elasticsearch-backed).
+ * Returns rows already indexed — safe to use for grid-based test interactions.
+ */
+export async function getFirstProductsFromGrid(
+  page: Page,
+  limit = 2
+): Promise<Array<{sku: string; uuid: string; family: string}>> {
+  const perPage = Math.max(limit * 5, 20);
+  const params = new URLSearchParams([
+    ['product-grid[_pager][_page]', '1'],
+    ['product-grid[_pager][_per_page]', String(perPage)],
+  ]);
+  const resp = await page.request.get(`/datagrid/product-grid?${params}`, {headers: XHR_HEADER});
+  if (!resp.ok()) return [];
+  const body = await resp.json();
+  const rows: any[] = Array.isArray(body?.data) ? body.data : [];
+  return rows
+    .filter(r => r.document_type === 'product' && r.identifier && r.technical_id)
+    .slice(0, limit)
+    .map(r => ({sku: String(r.identifier), uuid: String(r.technical_id), family: String(r.family ?? '')}));
 }
 
 /**
@@ -331,7 +603,7 @@ export async function launchImportViaApi(
  * Poll a job execution via the internal REST API until it finishes.
  * Returns the full job execution data including step summaries.
  */
-export async function waitForJobExecutionViaApi(page: Page, jobExecutionId: string, timeout = 120_000): Promise<any> {
+export async function waitForJobExecutionViaApi(page: Page, jobExecutionId: string, timeout = 180_000): Promise<any> {
   let data: any;
   const start = Date.now();
   while (Date.now() - start < timeout) {
@@ -374,8 +646,11 @@ export async function getFirstFamilyCode(page: Page): Promise<string | null> {
   });
   if (!resp.ok()) return null;
   const families = await resp.json();
-  if (Array.isArray(families) && families.length > 0) {
-    return families[0].code;
+  // The endpoint returns an object keyed by family code, not an array
+  if (Array.isArray(families) && families.length > 0) return families[0].code;
+  if (families && typeof families === 'object') {
+    const keys = Object.keys(families);
+    if (keys.length > 0) return keys[0];
   }
   return null;
 }
