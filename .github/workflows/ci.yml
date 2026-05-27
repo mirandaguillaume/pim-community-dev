@@ -77,6 +77,7 @@ defaults:
 #     │              └──► test-behat (10 shards) ──────────────────────►│
 #     │                                                                        │
 #     └──► infra-db-seed [if backend] ───────────────────────────────────────────────┤
+#     └──► infra-db-seed-playwright [if frontend] ──────────────────► test-playwright ┤
 #                                                                              │
 #   ci-success accepts 'success' or 'skipped' (path-filtered jobs)    ────────┘
 # =============================================================================
@@ -392,6 +393,65 @@ jobs:
         with:
           name: infra-db-seed
           path: db-seed.sql
+          retention-days: 1
+
+  # ===========================================================================
+  # PLAYWRIGHT DB SEED: Pre-built icecat prod DB dump for Playwright E2E tests
+  # ===========================================================================
+  infra-db-seed-playwright:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, image, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore icecat DB seed from cache
+        id: db-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: db-seed-playwright.sql
+          key: db-seed-playwright-${{ env.CACHE_VERSION }}-${{ hashFiles('upgrades/**/*.php', 'src/**/DataFixtures/**/*.php', 'src/**/DataFixtures/**/*.yaml', 'src/**/Model/*.php', 'src/**/Entity/*.php', 'src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev/**') }}
+
+      - name: Skip build if cache hit
+        if: steps.db-cache.outputs.cache-hit == 'true'
+        run: echo "Icecat DB seed restored from cache, skipping rebuild"
+
+      - uses: ./.github/actions/setup-pim-job
+        if: steps.db-cache.outputs.cache-hit != 'true'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yarn-cache: 'false'
+
+      - uses: ./.github/actions/install-castor
+        if: steps.db-cache.outputs.cache-hit != 'true'
+
+      - name: Start services and seed icecat database
+        if: steps.db-cache.outputs.cache-hit != 'true'
+        run: |
+          APP_ENV=prod castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator'
+          docker/wait_docker_up.sh
+          APP_ENV=prod castor back:database --catalog src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev
+
+      - name: Dump icecat database
+        if: steps.db-cache.outputs.cache-hit != 'true'
+        run: |
+          DB_NAME=$(grep '^APP_DATABASE_NAME=' .env | cut -d= -f2 || echo "akeneo_pim")
+          DB_NAME=${DB_NAME:-akeneo_pim}
+          docker-compose exec -T mysql mysqldump -uroot -proot "${DB_NAME}" > db-seed-playwright.sql
+
+      - name: Save icecat DB seed to cache
+        if: steps.db-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: db-seed-playwright.sql
+          key: db-seed-playwright-${{ env.CACHE_VERSION }}-${{ hashFiles('upgrades/**/*.php', 'src/**/DataFixtures/**/*.php', 'src/**/DataFixtures/**/*.yaml', 'src/**/Model/*.php', 'src/**/Entity/*.php', 'src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev/**') }}
+
+      - name: Upload icecat DB seed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: infra-db-seed-playwright
+          path: db-seed-playwright.sql
           retention-days: 1
 
   # ===========================================================================
@@ -1428,11 +1488,12 @@ jobs:
   # ===========================================================================
   test-playwright:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare, build-front, detect-changes]
+    needs: [prepare, build-front, detect-changes, infra-db-seed-playwright]
     if: >-
       (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true') &&
       needs.prepare.result == 'success' &&
-      needs.build-front.result == 'success'
+      needs.build-front.result == 'success' &&
+      needs.infra-db-seed-playwright.result == 'success'
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -1458,6 +1519,12 @@ jobs:
       - name: Install Playwright browsers
         run: ./node_modules/.bin/playwright install --with-deps chromium
 
+      - name: Download icecat DB seed
+        uses: actions/download-artifact@v4
+        with:
+          name: infra-db-seed-playwright
+          path: seed
+
       - uses: ./.github/actions/install-castor
 
       - name: Setup and run Playwright
@@ -1466,8 +1533,7 @@ jobs:
           DB_NAME=${DB_NAME:-akeneo_pim}
           APP_ENV=prod castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator'
           docker/wait_docker_up.sh
-          APP_ENV=prod castor back:database --catalog src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev
-          .github/scripts/setup-test-db.sh "${DB_NAME}" "" .github/scripts/behat-extra-tables.sql
+          .github/scripts/setup-test-db.sh "${DB_NAME}" seed/db-seed-playwright.sql .github/scripts/behat-extra-tables.sql
           # Reset Elasticsearch indexes and re-index products so the product grid works
           docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=prod
           # Tune ES for CI: single-node cluster needs no replicas (default=1 leaves shards UNASSIGNED,
@@ -2118,6 +2184,7 @@ jobs:
       - test-acceptance
       - quality-deptrac
       - infra-db-seed
+      - infra-db-seed-playwright
       - test-phpunit-integration
       - infra-data-migrations
       - infra-schema-validate
@@ -2152,6 +2219,7 @@ jobs:
           echo "  test-acceptance: ${{ needs.test-acceptance.result }}"
           echo "  quality-deptrac: ${{ needs.quality-deptrac.result }}"
           echo "  infra-db-seed: ${{ needs.infra-db-seed.result }}"
+          echo "  infra-db-seed-playwright: ${{ needs.infra-db-seed-playwright.result }}"
           echo "  test-phpunit-integration: ${{ needs.test-phpunit-integration.result }}"
           echo "  infra-data-migrations: ${{ needs.infra-data-migrations.result }}"
           echo "  infra-schema-validate: ${{ needs.infra-schema-validate.result }}"
@@ -2181,6 +2249,7 @@ jobs:
             "${{ needs.test-acceptance.result }}"
             "${{ needs.quality-deptrac.result }}"
             "${{ needs.infra-db-seed.result }}"
+            "${{ needs.infra-db-seed-playwright.result }}"
             "${{ needs.test-phpunit-integration.result }}"
             "${{ needs.infra-data-migrations.result }}"
             "${{ needs.infra-schema-validate.result }}"
