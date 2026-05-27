@@ -62,7 +62,7 @@ defaults:
 #     │              ├──► lint-back [if backend] ───────────────────────►│
 #     │              ├──► lint-deprecations [if backend] ──────────────────►│
 #     │              │                                                         │
-#     │              ├──► lint-code-style [if backend] ───────────────────►│
+#     │              ├──► lint-and-security [if backend] ───────────────────►│
 #     │              │                                                         │
 #     │              ├──► test-acceptance [if backend] ───────────────────►│
 #     │              │                                                         │
@@ -790,9 +790,9 @@ jobs:
         run: castor test:deprecation-back
 
   # ===========================================================================
-  # CODE-STYLE-BACK: Coupling detection + legacy translations (no MySQL)
+  # CODE-STYLE-BACK: Coupling detection + legacy translations + security audit (no MySQL)
   # ===========================================================================
-  lint-code-style:
+  lint-and-security:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -2113,7 +2113,7 @@ jobs:
       - test-front-connectivity
       - lint-back
       - lint-deprecations
-      - lint-code-style
+      - lint-and-security
       - test-phpunit-unit
       - test-acceptance
       - quality-deptrac
@@ -2147,7 +2147,7 @@ jobs:
           echo "  test-front-connectivity: ${{ needs.test-front-connectivity.result }}"
           echo "  lint-back: ${{ needs.lint-back.result }}"
           echo "  lint-deprecations: ${{ needs.lint-deprecations.result }}"
-          echo "  lint-code-style: ${{ needs.lint-code-style.result }}"
+          echo "  lint-and-security: ${{ needs.lint-and-security.result }}"
           echo "  test-phpunit-unit: ${{ needs.test-phpunit-unit.result }}"
           echo "  test-acceptance: ${{ needs.test-acceptance.result }}"
           echo "  quality-deptrac: ${{ needs.quality-deptrac.result }}"
@@ -2176,7 +2176,7 @@ jobs:
             "${{ needs.test-front-connectivity.result }}"
             "${{ needs.lint-back.result }}"
             "${{ needs.lint-deprecations.result }}"
-            "${{ needs.lint-code-style.result }}"
+            "${{ needs.lint-and-security.result }}"
             "${{ needs.test-phpunit-unit.result }}"
             "${{ needs.test-acceptance.result }}"
             "${{ needs.quality-deptrac.result }}"
