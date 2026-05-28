@@ -87,12 +87,13 @@ async function navigateToProduct(page: Parameters<typeof login>[0]) {
   await page.locator('.edit-form, .AknFormContainer').first().waitFor({timeout: 30_000});
   await dismissOverlay(page);
   // The attribute group selector is an AknDropdown (div.group-selector).
-  // Open the dropdown then click li[data-element="other"] — the handler 'click li' in
-  // group-selector.js fires on the li, not the inner label span.
+  // group-selector.js change() fires on 'click li' delegated on the div.
+  // Use dispatchEvent to bypass Playwright's stability/overlay actionability
+  // checks — the dropdown animation can keep the <li> "unstable" indefinitely.
   const groupSelector = page.locator('div.group-selector');
   if (await groupSelector.isVisible({timeout: 8_000}).catch(() => false)) {
     await groupSelector.locator('.AknActionButton').click();
-    await page.locator('.group-selector li[data-element="other"]').first().click();
+    await page.locator('.group-selector li[data-element="other"]').first().dispatchEvent('click');
     await waitForLoadingMasks(page);
   }
 }
