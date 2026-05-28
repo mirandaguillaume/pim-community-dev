@@ -13,5 +13,5 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'off',
   },
-  reporter: [['html', {open: 'never'}]],
+  reporter: process.env.CI ? [['github'], ['html', {open: 'never'}]] : [['list'], ['html', {open: 'never'}]],
 });
