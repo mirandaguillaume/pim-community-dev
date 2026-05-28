@@ -79,6 +79,13 @@ async function navigateToProduct(page: Parameters<typeof login>[0]) {
   await page.goto(`/#/enrich/product/${productId}`);
   await waitForLoadingMasks(page);
   await page.locator('.edit-form, .AknFormContainer').first().waitFor({timeout: 30_000});
+  // The PEF opens on the first attribute group alphabetically. Our test attribute lives
+  // in the "other" group — click it so its panel is rendered in the DOM before setInputFiles.
+  await page
+    .locator('.group-label', {hasText: /^other$/i})
+    .first()
+    .click();
+  await waitForLoadingMasks(page);
 }
 
 async function clearImageAttribute(page: Parameters<typeof login>[0]) {

@@ -1534,6 +1534,9 @@ jobs:
           APP_ENV=prod castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator'
           docker/wait_docker_up.sh
           .github/scripts/setup-test-db.sh "${DB_NAME}" seed/db-seed-playwright.sql .github/scripts/behat-extra-tables.sql
+          # Truncate stale Messenger messages from the DB dump — the dump may contain messages
+          # dispatched during catalog loading; the consumer must only process jobs from this run
+          docker-compose exec -T mysql mysql -uroot -proot "${DB_NAME}" -e "TRUNCATE TABLE messenger_messages" 2>/dev/null || true
           # Reset Elasticsearch indexes and re-index products so the product grid works
           docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=prod
           # Tune ES for CI: single-node cluster needs no replicas (default=1 leaves shards UNASSIGNED,
