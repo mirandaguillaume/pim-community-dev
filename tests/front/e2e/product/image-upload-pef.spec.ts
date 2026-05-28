@@ -79,13 +79,15 @@ async function navigateToProduct(page: Parameters<typeof login>[0]) {
   await page.goto(`/#/enrich/product/${productId}`);
   await waitForLoadingMasks(page);
   await page.locator('.edit-form, .AknFormContainer').first().waitFor({timeout: 30_000});
-  // The PEF opens on the first attribute group alphabetically. Our test attribute lives
-  // in the "other" group — click it so its panel is rendered in the DOM before setInputFiles.
-  await page
-    .locator('.group-label', {hasText: /^other$/i})
-    .first()
-    .click();
-  await waitForLoadingMasks(page);
+  // The attribute group selector is an AknDropdown (div.group-selector).
+  // Open the dropdown then click li[data-element="other"] — the handler 'click li' in
+  // group-selector.js fires on the li, not the inner label span.
+  const groupSelector = page.locator('div.group-selector');
+  if (await groupSelector.isVisible({timeout: 8_000}).catch(() => false)) {
+    await groupSelector.locator('.AknActionButton').click();
+    await page.locator('.group-selector li[data-element="other"]').first().click();
+    await waitForLoadingMasks(page);
+  }
 }
 
 async function clearImageAttribute(page: Parameters<typeof login>[0]) {
