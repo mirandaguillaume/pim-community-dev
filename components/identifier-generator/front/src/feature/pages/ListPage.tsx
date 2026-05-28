@@ -18,7 +18,7 @@ import {Styled} from './styles';
 import {Header, ListSkeleton} from '../components';
 import {useNavigate} from 'react-router-dom';
 import {DeleteGeneratorModal} from './';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 
 type ListTableProps = {
   isErrored: boolean;
@@ -55,7 +55,7 @@ const ListTable: React.FC<ListTableProps> = ({
       method: 'PATCH',
       headers: {'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
       body: JSON.stringify({codes}),
-    }).then(() => queryClient.invalidateQueries('getGeneratorList'));
+    }).then(() => queryClient.invalidateQueries({queryKey: ['getGeneratorList']}));
   };
 
   const goToEditPage = (code: string) => () => navigate(`/${code}`);

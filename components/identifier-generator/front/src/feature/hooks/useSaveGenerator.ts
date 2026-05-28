@@ -1,8 +1,7 @@
-import {useMutation} from 'react-query';
+import {useMutation, UseMutateFunction} from '@tanstack/react-query';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {IdentifierGenerator} from '../models';
 import {Violation} from '../validators';
-import {UseMutateFunction} from 'react-query/types/react/types';
 
 type HookResponse = {
   isLoading: boolean;
@@ -27,9 +26,11 @@ const useSaveGenerator = (): HookResponse => {
     return res.ok ? data : Promise.reject(data);
   };
 
-  const {mutate, isLoading, error} = useMutation<IdentifierGenerator, Violation[], IdentifierGenerator>(callSave);
+  const {mutate, isPending, error} = useMutation<IdentifierGenerator, Violation[], IdentifierGenerator>({
+    mutationFn: callSave,
+  });
 
-  return {isLoading, save: mutate, error: error ?? []};
+  return {isLoading: isPending, save: mutate, error: error ?? []};
 };
 
 export {useSaveGenerator};

@@ -1,6 +1,6 @@
 import {IdentifierGenerator} from '../models';
 import {useRouter} from '@akeneo-pim-community/shared';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {ServerError} from '../errors';
 
 type HookResponse = {
@@ -12,9 +12,9 @@ type HookResponse = {
 const useGetIdentifierGenerators = (): HookResponse => {
   const router = useRouter();
 
-  const {data, isLoading, error} = useQuery<IdentifierGenerator[], ServerError, IdentifierGenerator[]>(
-    'getGeneratorList',
-    async () => {
+  const {data, isLoading, error} = useQuery<IdentifierGenerator[], ServerError, IdentifierGenerator[]>({
+    queryKey: ['getGeneratorList'],
+    queryFn: async () => {
       const response = await fetch(router.generate('akeneo_identifier_generator_rest_list'), {
         method: 'GET',
         headers: [['X-Requested-With', 'XMLHttpRequest']],
@@ -22,8 +22,8 @@ const useGetIdentifierGenerators = (): HookResponse => {
       if (!response.ok) throw new ServerError(response.statusText);
 
       return await response.json();
-    }
-  );
+    },
+  });
 
   return {data, isLoading, error};
 };

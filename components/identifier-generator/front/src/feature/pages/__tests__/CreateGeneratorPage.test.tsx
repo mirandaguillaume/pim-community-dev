@@ -4,7 +4,7 @@ import {CreateGeneratorPage} from '../';
 import {MemoryRouter, useLocation} from 'react-router-dom';
 import {act, fireEvent, waitFor} from '@testing-library/react';
 import initialGenerator from '../../tests/fixtures/initialGenerator';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 jest.mock('../CreateOrEditGeneratorPage');
 
@@ -41,7 +41,7 @@ describe('CreateGeneratorPage', () => {
       expect(screen.getByTestId('location')).toHaveTextContent('/initialCode');
     });
     expectCall();
-    expect(mockedQueryClient).toBeCalledWith('getIdentifierGenerator');
+    expect(mockedQueryClient).toBeCalledWith({queryKey: ['getIdentifierGenerator']});
   });
 
   it('should display validation errors', async () => {

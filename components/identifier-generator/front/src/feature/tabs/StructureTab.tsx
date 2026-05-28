@@ -8,7 +8,7 @@ import {TabValidationErrors, TranslationWithLink} from '../components';
 import styled from 'styled-components';
 import {Violation} from '../validators';
 import {useIdentifierGeneratorAclContext} from '../context';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 
 type StructureTabProps = {
   initialStructure: Structure;
@@ -54,7 +54,7 @@ const StructureTab: React.FC<StructureTabProps> = ({
 
   useEffect(() => {
     return () => {
-      queryClient.invalidateQueries(['getPropertyItems']);
+      queryClient.invalidateQueries({queryKey: ['getPropertyItems']});
     };
   }, [queryClient]);
 

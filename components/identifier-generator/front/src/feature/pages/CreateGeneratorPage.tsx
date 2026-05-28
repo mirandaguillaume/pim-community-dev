@@ -5,7 +5,7 @@ import {NotificationLevel, useNotify, useTranslate} from '@akeneo-pim-community/
 import {useNavigate} from 'react-router-dom';
 import {useCreateIdentifierGenerator} from '../hooks';
 import {useIdentifierGeneratorContext} from '../context';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 import {validateIdentifierGenerator, Violation} from '../validators';
 
 type CreateGeneratorProps = {
@@ -18,7 +18,7 @@ const CreateGeneratorPage: React.FC<CreateGeneratorProps> = ({initialGenerator})
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [validationErrors, setValidationErrors] = useState<Violation[]>([]);
-  const {mutate, error, isLoading} = useCreateIdentifierGenerator();
+  const {mutate, error, isPending} = useCreateIdentifierGenerator();
   const identifierGeneratorContext = useIdentifierGeneratorContext();
   const errors = useMemo(
     () => (validationErrors.length > 0 ? validationErrors : error?.violations || []),
@@ -47,8 +47,8 @@ const CreateGeneratorPage: React.FC<CreateGeneratorProps> = ({initialGenerator})
           }
         },
         onSuccess: ({code}: IdentifierGenerator) => {
-          queryClient.invalidateQueries('getIdentifierGenerator');
-          queryClient.invalidateQueries('getGeneratorList');
+          queryClient.invalidateQueries({queryKey: ['getIdentifierGenerator']});
+          queryClient.invalidateQueries({queryKey: ['getGeneratorList']});
           notify(NotificationLevel.SUCCESS, translate('pim_identifier_generator.flash.create.success', {code}));
           identifierGeneratorContext.unsavedChanges.setHasUnsavedChanges(false);
           navigate(`/${code}`);
@@ -60,7 +60,7 @@ const CreateGeneratorPage: React.FC<CreateGeneratorProps> = ({initialGenerator})
 
   return (
     <CreateOrEditGeneratorPage
-      isMainButtonDisabled={isLoading}
+      isMainButtonDisabled={isPending}
       initialGenerator={initialGenerator}
       mainButtonCallback={onSave}
       validationErrors={errors}

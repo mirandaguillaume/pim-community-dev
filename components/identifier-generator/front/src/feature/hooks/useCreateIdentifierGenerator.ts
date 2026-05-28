@@ -1,9 +1,8 @@
 import {IdentifierGenerator} from '../models';
 import {InvalidIdentifierGenerator, ServerError} from '../errors';
-import {useMutation, useQueryClient} from 'react-query';
+import {useMutation, useQueryClient, UseMutateFunction} from '@tanstack/react-query';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {Violation} from '../validators';
-import {UseMutateFunction} from 'react-query/types/react/types';
 
 type ErrorResponse = {
   violations?: Violation[];
@@ -12,15 +11,15 @@ type ErrorResponse = {
 type HookResponse = {
   mutate: UseMutateFunction<IdentifierGenerator, ErrorResponse, IdentifierGenerator, unknown>;
   error: ErrorResponse;
-  isLoading: boolean;
+  isPending: boolean;
 };
 
 const useCreateIdentifierGenerator = (): HookResponse => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const {mutate, error, isLoading} = useMutation<IdentifierGenerator, ErrorResponse, IdentifierGenerator>(
-    async (generator: IdentifierGenerator) => {
+  const {mutate, error, isPending} = useMutation<IdentifierGenerator, ErrorResponse, IdentifierGenerator>({
+    mutationFn: async (generator: IdentifierGenerator) => {
       const response = await fetch(router.generate('akeneo_identifier_generator_rest_create'), {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
@@ -38,12 +37,10 @@ const useCreateIdentifierGenerator = (): HookResponse => {
 
       return await response.json();
     },
-    {
-      onSuccess: () => queryClient.invalidateQueries('getGeneratorList'),
-    }
-  );
+    onSuccess: () => queryClient.invalidateQueries({queryKey: ['getGeneratorList']}),
+  });
 
-  return {mutate, error: error ?? {}, isLoading};
+  return {mutate, error: error ?? {}, isPending};
 };
 
 export {useCreateIdentifierGenerator};

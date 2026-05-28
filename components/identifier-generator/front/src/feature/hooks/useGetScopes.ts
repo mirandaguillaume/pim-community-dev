@@ -1,4 +1,4 @@
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {Channel, useRouter} from '@akeneo-pim-community/shared';
 import {ServerError} from '../errors';
 
@@ -6,7 +6,7 @@ const useGetScopes = (): {data?: Channel[]; isLoading: boolean; error: Error | n
   const router = useRouter();
 
   const {data, isLoading, error} = useQuery<Channel[], Error, Channel[]>({
-    queryKey: 'getScopes',
+    queryKey: ['getScopes'],
     queryFn: async () => {
       const response = await fetch(router.generate('pim_enrich_channel_rest_index'), {
         method: 'GET',

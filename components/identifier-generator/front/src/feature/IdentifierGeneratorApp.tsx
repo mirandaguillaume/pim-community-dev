@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {createHashRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
 import {Edit, List} from './controllers';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import styled from 'styled-components';
 import {getColor} from 'akeneo-design-system';
 import {IdentifierGeneratorAclContextProvider} from './context/IdentifierGeneratorAclContextProvider';

@@ -1,6 +1,6 @@
 import {IdentifierGeneratorCode} from '../models';
 import {ServerError} from '../errors';
-import {useMutation, useQueryClient} from 'react-query';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useRouter} from '@akeneo-pim-community/shared';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -8,8 +8,8 @@ const useDeleteIdentifierGenerator = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  return useMutation(
-    async (code: IdentifierGeneratorCode) => {
+  return useMutation({
+    mutationFn: async (code: IdentifierGeneratorCode) => {
       const response = await fetch(router.generate('akeneo_identifier_generator_rest_delete', {code}), {
         method: 'DELETE',
         headers: [['X-Requested-With', 'XMLHttpRequest']],
@@ -17,10 +17,8 @@ const useDeleteIdentifierGenerator = () => {
 
       if (!response.ok) throw new ServerError();
     },
-    {
-      onSuccess: () => queryClient.invalidateQueries('getGeneratorList'),
-    }
-  );
+    onSuccess: () => queryClient.invalidateQueries({queryKey: ['getGeneratorList']}),
+  });
 };
 
 export {useDeleteIdentifierGenerator};
