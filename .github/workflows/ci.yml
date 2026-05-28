@@ -1589,12 +1589,17 @@ jobs:
           echo "=== HTTP asset check ==="
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/dist/vendor.min.js 2>&1 | head -3
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json 2>&1 | head -3
-          # Start Symfony Messenger consumer so import/export jobs actually execute
+          # Start Symfony Messenger consumer so import/export jobs actually execute.
+          # --time-limit=3600 (1h) outlives the full Playwright suite (~30-40 min).
+          # 900s was too short: the consumer died mid-suite leaving jobs unprocessed.
           docker rm -f pim-job-consumer 2>/dev/null || true
           docker-compose run -d --name pim-job-consumer php \
             php bin/console messenger:consume import_export_job ui_job data_maintenance_job \
-            --env=prod --time-limit=900 --quiet
-          echo "Job consumer started (time-limit=900s)"
+            --env=prod --time-limit=3600 --quiet
+          # Wait for the consumer to finish Symfony kernel boot and start polling
+          # before the test suite submits its first mass-edit job (~10s bootstrap).
+          sleep 15
+          echo "Job consumer ready (time-limit=3600s)"
           PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} castor test:end-to-end-front
           # Clean up consumer
           docker rm -f pim-job-consumer 2>/dev/null || true
