@@ -86,14 +86,22 @@ async function navigateToProduct(page: Parameters<typeof login>[0]) {
   await waitForLoadingMasks(page);
   await page.locator('.edit-form, .AknFormContainer').first().waitFor({timeout: 30_000});
   await dismissOverlay(page);
-  // The attribute group selector is an AknDropdown (div.group-selector).
-  // group-selector.js change() fires on 'click li' delegated on the div.
-  // Use dispatchEvent to bypass Playwright's stability/overlay actionability
-  // checks — the dropdown animation can keep the <li> "unstable" indefinitely.
+  // group-selector.js change() handler reads event.currentTarget.dataset.element.
+  // Backbone delegates events via jQuery — use jQuery's $.trigger() which correctly
+  // sets currentTarget on delegated handlers, unlike native dispatchEvent which can
+  // behave inconsistently across runners with animated dropdowns.
   const groupSelector = page.locator('div.group-selector');
   if (await groupSelector.isVisible({timeout: 8_000}).catch(() => false)) {
-    await groupSelector.locator('.AknActionButton').click();
-    await page.locator('.group-selector li[data-element="other"]').first().dispatchEvent('click');
+    await page.evaluate(() => {
+      const li = document.querySelector('.group-selector li[data-element="other"]');
+      if (li && (window as any).$) (window as any).$(li).trigger('click');
+    });
+    // Wait for the "Other" panel to render in the DOM before proceeding
+    await page
+      .locator('.group-selector .AknActionButton-highlight')
+      .filter({hasText: /other/i})
+      .waitFor({timeout: 10_000})
+      .catch(() => {});
     await waitForLoadingMasks(page);
   }
 }
