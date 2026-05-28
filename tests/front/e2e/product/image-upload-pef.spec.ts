@@ -74,11 +74,18 @@ test.beforeEach(async ({page}) => {
   await login(page, 'admin', 'admin');
 });
 
+async function dismissOverlay(page: Parameters<typeof login>[0]) {
+  // #overlay.AknOverlay--show appears after login and blocks all clicks (position:fixed 100%).
+  // Remove the class directly so clicks on form elements are not intercepted.
+  await page.evaluate(() => document.getElementById('overlay')?.classList.remove('AknOverlay--show')).catch(() => {});
+}
+
 async function navigateToProduct(page: Parameters<typeof login>[0]) {
   if (!productId) throw new Error('productId not set — beforeAll must have failed');
   await page.goto(`/#/enrich/product/${productId}`);
   await waitForLoadingMasks(page);
   await page.locator('.edit-form, .AknFormContainer').first().waitFor({timeout: 30_000});
+  await dismissOverlay(page);
   // The attribute group selector is an AknDropdown (div.group-selector).
   // Open the dropdown then click li[data-element="other"] — the handler 'click li' in
   // group-selector.js fires on the li, not the inner label span.
@@ -91,6 +98,7 @@ async function navigateToProduct(page: Parameters<typeof login>[0]) {
 }
 
 async function clearImageAttribute(page: Parameters<typeof login>[0]) {
+  await dismissOverlay(page);
   // The clear button is a <span class="clear-field"> with a trash icon.
   // Scoped to the attribute container to avoid false positives with other image fields.
   const container = page
