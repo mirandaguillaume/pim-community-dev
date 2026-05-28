@@ -164,7 +164,9 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
   // so the input appears in the DOM before setInputFiles.
   const clearBtn = container.locator('.clear-field');
   if (await clearBtn.isVisible({timeout: 2_000}).catch(() => false)) {
-    await clearBtn.click();
+    // force:true bypasses the #overlay that can re-appear after Backbone re-renders
+    // the attribute group panel. isVisible() already confirmed the element exists.
+    await clearBtn.click({force: true});
     await container.locator('input[type="file"]').waitFor({timeout: 5_000});
   }
   await container.locator('input[type="file"]').setInputFiles(fixtureFilePath(fileName));

@@ -106,7 +106,7 @@ async function clearImageAttribute(page: Parameters<typeof login>[0]) {
     .locator('.AknFieldContainer')
     .filter({has: page.locator('.AknFieldContainer-label', {hasText: ATTR_LABEL})})
     .first();
-  await container.locator('.clear-field').click();
+  await container.locator('.clear-field').click({force: true});
 }
 
 test('Successfully upload an image', async ({page}) => {
