@@ -1,7 +1,6 @@
 import {Nomenclature} from '../models';
-import {useMutation, useQueryClient} from 'react-query';
+import {useMutation, useQueryClient, UseMutateFunction} from '@tanstack/react-query';
 import {useRouter} from '@akeneo-pim-community/shared';
-import {UseMutateFunction} from 'react-query/types/react/types';
 import {Violation} from '../validators';
 
 const useSaveNomenclature: () => {
@@ -11,8 +10,8 @@ const useSaveNomenclature: () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const {mutate: save, isLoading} = useMutation<void, Violation[], Nomenclature>(
-    async (nomenclature: Nomenclature) => {
+  const {mutate: save, isPending} = useMutation<void, Violation[], Nomenclature>({
+    mutationFn: async (nomenclature: Nomenclature) => {
       const response = await fetch(
         router.generate('akeneo_identifier_generator_nomenclature_rest_update', {
           propertyCode: nomenclature.propertyCode,
@@ -31,12 +30,10 @@ const useSaveNomenclature: () => {
 
       return response.ok ? data : Promise.reject(data);
     },
-    {
-      onSuccess: () => queryClient.invalidateQueries('getNomenclature'),
-    }
-  );
+    onSuccess: () => queryClient.invalidateQueries({queryKey: ['getNomenclature']}),
+  });
 
-  return {save, isLoading};
+  return {save, isLoading: isPending};
 };
 
 export {useSaveNomenclature};

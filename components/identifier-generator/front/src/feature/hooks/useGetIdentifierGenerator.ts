@@ -1,4 +1,4 @@
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {IdentifierGenerator, IdentifierGeneratorCode} from '../models';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {IdentifierGeneratorNotFound, ServerError} from '../errors';
@@ -8,9 +8,9 @@ type Response = {data?: IdentifierGenerator; error: Error | null};
 const useGetIdentifierGenerator = (code: IdentifierGeneratorCode): Response => {
   const router = useRouter();
 
-  const {data, error} = useQuery<IdentifierGenerator, Error, IdentifierGenerator>(
-    ['getIdentifierGenerator', code],
-    async () => {
+  const {data, error} = useQuery<IdentifierGenerator, Error, IdentifierGenerator>({
+    queryKey: ['getIdentifierGenerator', code],
+    queryFn: async () => {
       const response = await fetch(router.generate('akeneo_identifier_generator_rest_get', {code}), {
         method: 'GET',
         headers: [['X-Requested-With', 'XMLHttpRequest']],
@@ -22,8 +22,8 @@ const useGetIdentifierGenerator = (code: IdentifierGeneratorCode): Response => {
       }
 
       return await response.json();
-    }
-  );
+    },
+  });
 
   return {data, error};
 };

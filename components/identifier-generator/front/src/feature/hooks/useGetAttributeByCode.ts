@@ -1,4 +1,4 @@
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {ServerError, AttributeNotFound, Unauthorized} from '../errors';
 import {Attribute, AttributeCode} from '../models';

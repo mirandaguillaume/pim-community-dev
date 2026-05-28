@@ -78,6 +78,6 @@ describe('useCreateIdentifierGenerator', () => {
 
   it('should be initially not loading', () => {
     const {result} = renderHook(() => useCreateIdentifierGenerator(), {wrapper: createWrapper()});
-    expect(result.current.isLoading).toBe(false);
+    expect(result.current.isPending).toBe(false);
   });
 });

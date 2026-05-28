@@ -1,4 +1,4 @@
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {UiLocale} from '../models';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {ServerError} from '../errors';
@@ -7,14 +7,17 @@ import {ServerError} from '../errors';
 const useUiLocales = () => {
   const router = useRouter();
 
-  return useQuery<UiLocale[], Error, UiLocale[]>('getUiLocales', async () => {
-    const response = await fetch(router.generate('pim_localization_locale_index'), {
-      method: 'GET',
-      headers: [['X-Requested-With', 'XMLHttpRequest']],
-    });
-    if (!response.ok) throw new ServerError();
+  return useQuery<UiLocale[], Error, UiLocale[]>({
+    queryKey: ['getUiLocales'],
+    queryFn: async () => {
+      const response = await fetch(router.generate('pim_localization_locale_index'), {
+        method: 'GET',
+        headers: [['X-Requested-With', 'XMLHttpRequest']],
+      });
+      if (!response.ok) throw new ServerError();
 
-    return await response.json();
+      return await response.json();
+    },
   });
 };
 

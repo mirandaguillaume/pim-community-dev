@@ -1,5 +1,5 @@
 import {Nomenclature} from '../models';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {ServerError} from '../errors';
 import {useRouter} from '@akeneo-pim-community/shared';
 

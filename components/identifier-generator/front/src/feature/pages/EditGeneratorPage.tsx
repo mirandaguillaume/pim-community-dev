@@ -3,7 +3,7 @@ import {IdentifierGenerator} from '../models';
 import {CreateOrEditGeneratorPage} from './CreateOrEditGeneratorPage';
 import {useSaveGenerator} from '../hooks/useSaveGenerator';
 import {NotificationLevel, useNotify, useTranslate} from '@akeneo-pim-community/shared';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 import {useIdentifierGeneratorContext} from '../context';
 import {validateIdentifierGenerator, Violation} from '../validators';
 
@@ -43,8 +43,8 @@ const EditGeneratorPage: React.FC<EditGeneratorProps> = ({initialGenerator}) => 
             NotificationLevel.SUCCESS,
             translate('pim_identifier_generator.flash.update.success', {code: generator.code})
           );
-          queryClient.invalidateQueries('getIdentifierGenerator');
-          queryClient.invalidateQueries('getGeneratorList');
+          queryClient.invalidateQueries({queryKey: ['getIdentifierGenerator']});
+          queryClient.invalidateQueries({queryKey: ['getGeneratorList']});
           identifierGeneratorContext.unsavedChanges.setHasUnsavedChanges(false);
         },
       });

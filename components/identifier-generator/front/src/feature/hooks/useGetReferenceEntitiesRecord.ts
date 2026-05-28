@@ -1,5 +1,5 @@
 import {PaginateOption} from '../models/option';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {userContext, useRouter} from '@akeneo-pim-community/shared';
 import {ServerError} from '../errors';
 import {AttributeCode} from '../models';

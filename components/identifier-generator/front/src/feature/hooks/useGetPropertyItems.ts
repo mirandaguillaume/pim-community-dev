@@ -1,4 +1,4 @@
-import {useInfiniteQuery} from 'react-query';
+import {useInfiniteQuery, keepPreviousData, InfiniteData} from '@tanstack/react-query';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {ServerError} from '../errors';
 import {useCallback, useMemo} from 'react';
@@ -27,7 +27,7 @@ const useGetPropertyItems = (
   const router = useRouter();
 
   const fetchProperties = useCallback(
-    async ({pageParam}: {pageParam?: PageParam}): Promise<Page> => {
+    async ({pageParam}: {pageParam: PageParam}): Promise<Page> => {
       const _page = pageParam?.number || 1;
       const _search = search || pageParam?.search || '';
       const url = router.generate('akeneo_identifier_generator_get_properties', {
@@ -57,23 +57,28 @@ const useGetPropertyItems = (
     [router, search]
   );
 
-  const {data, hasNextPage, fetchNextPage, error} = useInfiniteQuery<Page, Error, Page>(
-    ['getPropertyItems', search],
-    fetchProperties,
-    {
-      enabled: enabled,
-      keepPreviousData: true,
-      getNextPageParam: last => {
-        const total = last.data?.map(value => value.children.length).reduce((acc, value) => (acc = acc + value), 0);
-        return total >= LIMIT
-          ? {
-              number: last.page.number + 1,
-              search,
-            }
-          : undefined;
-      },
-    }
-  );
+  const {data, hasNextPage, fetchNextPage, error} = useInfiniteQuery<
+    Page,
+    Error,
+    InfiniteData<Page, PageParam>,
+    (string | number)[],
+    PageParam
+  >({
+    queryKey: ['getPropertyItems', search],
+    queryFn: fetchProperties,
+    enabled: enabled,
+    placeholderData: keepPreviousData,
+    initialPageParam: {number: 1, search: ''},
+    getNextPageParam: last => {
+      const total = last.data?.map(value => value.children.length).reduce((acc, value) => (acc = acc + value), 0);
+      return total >= LIMIT
+        ? {
+            number: last.page.number + 1,
+            search,
+          }
+        : undefined;
+    },
+  });
 
   const reducedData = useMemo(
     () => data?.pages.reduce((list: ItemsGroup[], page) => list.concat(page.data), []),

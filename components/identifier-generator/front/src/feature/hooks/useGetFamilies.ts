@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {ServerError, Unauthorized} from '../errors';
 import {Family, FamilyCode} from '../models';

@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {pimTheme} from 'akeneo-design-system';
 import {DefaultProviders, useSecurity} from '@akeneo-pim-community/shared';
 import {ThemeProvider} from 'styled-components';
