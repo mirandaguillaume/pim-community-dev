@@ -269,6 +269,13 @@ export async function login(page: Page, username: string, password: string) {
 
   // Wait for the route loading mask overlay to be hidden
   await expect(page.locator('.hash-loading-mask .loading-mask')).toBeHidden({timeout: 120_000});
+
+  // Proactively dismiss the announcements overlay that appears after login.
+  // #overlay.AknOverlay--show (position:fixed 100%×100% z-index:999) intercepts
+  // every click on the page until dismissed — root cause of the most common
+  // Playwright flaky pattern in this codebase ("locator.click timeout"). Doing
+  // it once in login() covers all tests without per-spec defensive code.
+  await closeAnnouncementsPanel(page);
 }
 
 export async function goToProductsGrid(page: Page) {
