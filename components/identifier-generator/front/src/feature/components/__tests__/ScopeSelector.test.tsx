@@ -8,7 +8,7 @@ describe('ScopeSelector', () => {
   it('should render select with channels', async () => {
     mockResponse('pim_enrich_channel_rest_index', 'GET', {
       ok: true,
-      json: () => mockedScopes,
+      json: mockedScopes,
     });
     const onChange = jest.fn();
     const screen = render(<ScopeSelector value={null} onChange={onChange} />);
@@ -27,7 +27,7 @@ describe('ScopeSelector', () => {
   it('should render select with value', async () => {
     mockResponse('pim_enrich_channel_rest_index', 'GET', {
       ok: true,
-      json: () => mockedScopes,
+      json: mockedScopes,
     });
     const screen = render(<ScopeSelector value={'ecommerce'} onChange={jest.fn()} />);
 

@@ -6,7 +6,7 @@ import {createWrapper} from '../../tests/hooks/config/createWrapper';
 
 describe('useGetScopes', () => {
   it('retrieves scopes list', async () => {
-    mockResponse('pim_enrich_channel_rest_index', 'GET', {ok: true, json: () => mockedScopes});
+    mockResponse('pim_enrich_channel_rest_index', 'GET', {ok: true, json: mockedScopes});
 
     const {result} = renderHook(() => useGetScopes(), {wrapper: createWrapper()});
 
