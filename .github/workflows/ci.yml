@@ -1494,7 +1494,7 @@ jobs:
       needs.prepare.result == 'success' &&
       needs.build-front.result == 'success' &&
       needs.infra-db-seed-playwright.result == 'success'
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
