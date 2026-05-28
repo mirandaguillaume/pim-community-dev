@@ -108,7 +108,15 @@ const utils = {
                     ' is missing from the registry - include it in your requirejs.yml and clear the app cache');
             }
 
-            return __webpack_require__(paths[moduleName])
+            // AMD↔ESM interop: __webpack_require__ returns the module namespace
+            // ({ default: X, __esModule: true }) for files migrated to ESM, but the
+            // legacy AMD/Backbone consumers expect the bare value X (the AMD contract:
+            // a module resolves to a single value). Unwrap .default so an ESM
+            // 'export default X' is consumed identically to a former 'return X'.
+            // Named-export-only modules (no default) are returned as-is and consumed
+            // via 'import * as' from ESM callers, never through this AMD registry.
+            const resolved = __webpack_require__(paths[moduleName]);
+            return resolved && resolved.__esModule && 'default' in resolved ? resolved.default : resolved;
         }`;
 
     const target = registryPath(baseDir);
