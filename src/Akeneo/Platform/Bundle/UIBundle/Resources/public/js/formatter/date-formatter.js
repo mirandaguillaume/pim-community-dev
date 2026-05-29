@@ -1,7 +1,7 @@
 'use strict';
 
 function __pimInterop(m) {
-  return m && m.__esModule ? m.default : m;
+  return m && m.__esModule && 'default' in m ? m.default : m;
 }
 
 var $ = __pimInterop(require('jquery'));

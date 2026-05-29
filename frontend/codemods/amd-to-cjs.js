@@ -10,7 +10,7 @@
  *
  * Becomes:
  *
- *   function __pimInterop(m) { return m && m.__esModule ? m.default : m; }
+ *   function __pimInterop(m) { return m && m.__esModule && 'default' in m ? m.default : m; }
  *   var Alias1 = __pimInterop(require('dep1'));
  *   var Alias2 = __pimInterop(require('dep2'));
  *
@@ -128,7 +128,12 @@ module.exports = function transformer(file, api) {
     }
   }
 
-  // `function __pimInterop(m) { return m && m.__esModule ? m.default : m; }`
+  // `function __pimInterop(m) { return m && m.__esModule && 'default' in m ? m.default : m; }`
+  // The `'default' in m` guard is essential: a TS/ESM module with NAMED exports
+  // only (e.g. `export const getMissingRequiredFields`) is compiled with
+  // `__esModule: true` but NO `default`, so unwrapping to `m.default` would yield
+  // undefined. Such modules must be returned as the namespace so callers can read
+  // their named members. Mirrors createModuleRegistry's runtime-require unwrap.
   const interopDecl = j.functionDeclaration(
     j.identifier(INTEROP_HELPER),
     [j.identifier('m')],
@@ -137,8 +142,12 @@ module.exports = function transformer(file, api) {
         j.conditionalExpression(
           j.logicalExpression(
             '&&',
-            j.identifier('m'),
-            j.memberExpression(j.identifier('m'), j.identifier('__esModule'))
+            j.logicalExpression(
+              '&&',
+              j.identifier('m'),
+              j.memberExpression(j.identifier('m'), j.identifier('__esModule'))
+            ),
+            j.binaryExpression('in', j.literal('default'), j.identifier('m'))
           ),
           j.memberExpression(j.identifier('m'), j.identifier('default')),
           j.identifier('m')
