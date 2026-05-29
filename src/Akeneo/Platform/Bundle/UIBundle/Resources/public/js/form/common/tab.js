@@ -5,40 +5,45 @@
  */
 'use strict';
 
-define(['oro/translator', 'pim/form'], function (__, BaseForm) {
-  return BaseForm.extend({
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.registerTab();
+module.exports = BaseForm.extend({
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    registerTab: function () {
-      this.trigger('tab:register', {
-        code: this.code,
-        label: __(this.config.label),
-      });
-    },
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.registerTab();
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.empty();
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      this.renderExtensions();
-    },
-  });
+  registerTab: function () {
+    this.trigger('tab:register', {
+      code: this.code,
+      label: __(this.config.label),
+    });
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.empty();
+
+    this.renderExtensions();
+  },
 });

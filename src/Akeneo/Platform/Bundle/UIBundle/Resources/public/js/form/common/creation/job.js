@@ -1,85 +1,79 @@
-/**
- * Group type select2 to be added in a creation form
- *
- * @author    Tamara Robichet <tamara.robichet@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'routing',
-  'pim/form',
-  'pim/user-context',
-  'pim/i18n',
-  'oro/translator',
-  'pim/template/form/creation/job',
-  'pim/base-fetcher',
-], function ($, _, Backbone, Routing, BaseForm, UserContext, i18n, __, template, BaseFetcher) {
-  return BaseForm.extend({
-    options: {},
-    template: _.template(template),
-    events: {
-      'change select': 'updateModel',
-    },
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+require('backbone');
+require('routing');
+var BaseForm = __pimInterop(require('pim/form'));
+require('pim/user-context');
+require('pim/i18n');
+var __ = __pimInterop(require('oro/translator'));
+var template = __pimInterop(require('pim/template/form/creation/job'));
+var BaseFetcher = __pimInterop(require('pim/base-fetcher'));
 
-    /**
-     * Configure the form
-     *
-     * @return {Promise}
-     */
-    configure() {
-      const jobType = this.options.config.type;
-      const fetcher = new BaseFetcher({
-        urls: {list: this.options.config.url},
-      });
+module.exports = BaseForm.extend({
+  options: {},
+  template: _.template(template),
+  events: {
+    'change select': 'updateModel',
+  },
 
-      return fetcher.search({jobType}).then(jobs => {
-        this.jobs = jobs;
-        BaseForm.prototype.configure.apply(this, arguments);
-      });
-    },
+  /**
+   * Configure the form
+   *
+   * @return {Promise}
+   */
+  configure() {
+    const jobType = this.options.config.type;
+    const fetcher = new BaseFetcher({
+      urls: {list: this.options.config.url},
+    });
 
-    /**
-     * Model update callback
-     */
-    updateModel(event) {
-      const option = this.$(event.target);
-      const optionParent = $(':selected', option).closest('optgroup');
+    return fetcher.search({jobType}).then(jobs => {
+      this.jobs = jobs;
+      BaseForm.prototype.configure.apply(this, arguments);
+    });
+  },
 
-      this.getFormModel().set({
-        alias: option.val(),
-        connector: optionParent.attr('label'),
-      });
-    },
+  /**
+   * Model update callback
+   */
+  updateModel(event) {
+    const option = this.$(event.target);
+    const optionParent = $(':selected', option).closest('optgroup');
 
-    /**
-     * Renders the form
-     *
-     * @return {Promise}
-     */
-    render() {
-      if (!this.configured) return this;
+    this.getFormModel().set({
+      alias: option.val(),
+      connector: optionParent.attr('label'),
+    });
+  },
 
-      const errors = this.getRoot().validationErrors || [];
-      const identifier = this.options.config.identifier || 'alias';
+  /**
+   * Renders the form
+   *
+   * @return {Promise}
+   */
+  render() {
+    if (!this.configured) return this;
 
-      this.$el.html(
-        this.template({
-          label: __(this.options.config.label),
-          jobs: this.jobs,
-          required: __('pim_common.required_label'),
-          selectedJobType: this.getFormData().alias,
-          errors: errors.filter(error => error.path === identifier),
-          __,
-        })
-      );
+    const errors = this.getRoot().validationErrors || [];
+    const identifier = this.options.config.identifier || 'alias';
 
-      this.$el.find('.job-input').select2();
+    this.$el.html(
+      this.template({
+        label: __(this.options.config.label),
+        jobs: this.jobs,
+        required: __('pim_common.required_label'),
+        selectedJobType: this.getFormData().alias,
+        errors: errors.filter(error => error.path === identifier),
+        __,
+      })
+    );
 
-      this.delegateEvents();
-    },
-  });
+    this.$el.find('.job-input').select2();
+
+    this.delegateEvents();
+  },
 });

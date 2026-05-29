@@ -1,42 +1,41 @@
 'use strict';
-/**
- * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
- * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'oro/translator', 'pim/form', 'pim/template/form/meta/uuid'], function (
-  _,
-  __,
-  BaseForm,
-  formTemplate
-) {
-  return BaseForm.extend({
-    tagName: 'span',
-    className: 'AknTitleContainer-metaItem',
-    template: _.template(formTemplate),
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (meta) {
-      this.config = meta.config;
-      this.label = __(this.config.label);
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var formTemplate = __pimInterop(require('pim/template/form/meta/uuid'));
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      var product = this.getFormData();
-      var html = this.template({
-        label: this.label,
-        uuid: _.result(product.meta, 'uuid', null),
-      });
+module.exports = BaseForm.extend({
+  tagName: 'span',
+  className: 'AknTitleContainer-metaItem',
+  template: _.template(formTemplate),
 
-      this.$el.html(html);
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (meta) {
+    this.config = meta.config;
+    this.label = __(this.config.label);
 
-      return this;
-    },
-  });
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    var product = this.getFormData();
+    var html = this.template({
+      label: this.label,
+      uuid: _.result(product.meta, 'uuid', null),
+    });
+
+    this.$el.html(html);
+
+    return this;
+  },
 });

@@ -6,23 +6,25 @@
  */
 'use strict';
 
-define(['pim/form/common/fields/boolean', 'pim/form/common/fields/values/values-behavior'], (
-  BaseField,
-  ValuesBehavior
-) => {
-  return BaseField.extend({
-    /**
-     * {@inheritdoc}
-     */
-    updateModel(value) {
-      ValuesBehavior.writeValue.call(this, BaseField, value);
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    getModelValue() {
-      return ValuesBehavior.readValue.call(this, BaseField);
-    },
-  });
+var BaseField = __pimInterop(require('pim/form/common/fields/boolean'));
+var ValuesBehavior = __pimInterop(require('pim/form/common/fields/values/values-behavior'));
+
+module.exports = BaseField.extend({
+  /**
+   * {@inheritdoc}
+   */
+  updateModel(value) {
+    ValuesBehavior.writeValue.call(this, BaseField, value);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  getModelValue() {
+    return ValuesBehavior.readValue.call(this, BaseField);
+  },
 });

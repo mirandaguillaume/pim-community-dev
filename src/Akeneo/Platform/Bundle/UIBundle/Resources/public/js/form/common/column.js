@@ -1,184 +1,180 @@
 'use strict';
-/**
- * Display a vertical column for navigation or filters
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'underscore',
-  'oro/translator',
-  'pim/form',
-  'pim/template/form/column',
-  'pim/template/form/column-navigation',
-], function (_, __, BaseForm, template, navigationTemplate) {
-  return BaseForm.extend({
-    className: 'AknColumn',
-    template: _.template(template),
-    navigationTemplate: _.template(navigationTemplate),
-    events: {
-      'click .AknColumn-collapseButton': 'toggleColumn',
-      'click .navigation-link': 'redirect',
-    },
-    navigationItems: [],
 
-    /**
-     * @param {string} meta.config.navigationTitle Title of the navigation dropdown
-     * @param {string} meta.config.stateCode       This is a key to identify each module using column, to
-     *                 store if the column is collapsed or not. If you want to use the different collapsed
-     *                 states, use different "stateCode" value.
-     *
-     * {@inheritdoc}
-     */
-    initialize: function (meta) {
-      this.config = meta.config;
-      this.navigationItems = [];
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return BaseForm.prototype.initialize.apply(this, arguments);
-    },
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/form/column'));
+var navigationTemplate = __pimInterop(require('pim/template/form/column-navigation'));
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.onExtensions('pim_menu:column:register_navigation_item', this.registerNavigationItem);
-      this.getRoot().on('pim_menu:item:update_route_params', this.updateNavigationItemRouteParams, this);
+module.exports = BaseForm.extend({
+  className: 'AknColumn',
+  template: _.template(template),
+  navigationTemplate: _.template(navigationTemplate),
+  events: {
+    'click .AknColumn-collapseButton': 'toggleColumn',
+    'click .navigation-link': 'redirect',
+  },
+  navigationItems: [],
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+  /**
+   * @param {string} meta.config.navigationTitle Title of the navigation dropdown
+   * @param {string} meta.config.stateCode       This is a key to identify each module using column, to
+   *                 store if the column is collapsed or not. If you want to use the different collapsed
+   *                 states, use different "stateCode" value.
+   *
+   * {@inheritdoc}
+   */
+  initialize: function (meta) {
+    this.config = meta.config;
+    this.navigationItems = [];
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.empty().append(this.template());
+    return BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      if (!_.isEmpty(this.getNavigationItems())) {
-        this.$el.find('.column-inner').prepend(
-          this.navigationTemplate({
-            navigationItems: this.getNavigationItems(),
-            title: __(this.config.navigationTitle),
-          })
-        );
-      }
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.onExtensions('pim_menu:column:register_navigation_item', this.registerNavigationItem);
+    this.getRoot().on('pim_menu:item:update_route_params', this.updateNavigationItemRouteParams, this);
 
-      if (this.isCollapsed()) {
-        this.setCollapsed(true);
-      }
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      this.delegateEvents();
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.empty().append(this.template());
 
-      return BaseForm.prototype.render.apply(this, arguments);
-    },
+    if (!_.isEmpty(this.getNavigationItems())) {
+      this.$el.find('.column-inner').prepend(
+        this.navigationTemplate({
+          navigationItems: this.getNavigationItems(),
+          title: __(this.config.navigationTitle),
+        })
+      );
+    }
 
-    /**
-     * {@inheritdoc}
-     */
-    toggleColumn: function () {
-      this.setCollapsed(!this.isCollapsed());
-    },
+    if (this.isCollapsed()) {
+      this.setCollapsed(true);
+    }
 
-    /**
-     * Returns true if the column is collapsed.
-     * It uses the session storage with a key attached to this module.
-     * If no key was found, returns false by default.
-     *
-     * @returns {boolean}
-     */
-    isCollapsed: function () {
-      var result = sessionStorage.getItem(this.getSessionStorageKey());
+    this.delegateEvents();
 
-      if (null === result) {
-        return false;
-      }
+    return BaseForm.prototype.render.apply(this, arguments);
+  },
 
-      return '1' === result;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  toggleColumn: function () {
+    this.setCollapsed(!this.isCollapsed());
+  },
 
-    /**
-     * Stores in the session storage if the column is collapsed or not.
-     *
-     * @param {boolean} value
-     */
-    setCollapsed: function (value) {
-      sessionStorage.setItem(this.getSessionStorageKey(), value ? '1' : '0');
+  /**
+   * Returns true if the column is collapsed.
+   * It uses the session storage with a key attached to this module.
+   * If no key was found, returns false by default.
+   *
+   * @returns {boolean}
+   */
+  isCollapsed: function () {
+    var result = sessionStorage.getItem(this.getSessionStorageKey());
 
-      var collapseModifier = '';
-      if (this.config.collapsedModifier !== undefined) {
-        collapseModifier = this.config.collapsedModifier;
-      }
-      if (value) {
-        this.$el.addClass('AknColumn--collapsed ' + collapseModifier);
-      } else {
-        this.$el.removeClass('AknColumn--collapsed ' + collapseModifier);
-      }
-    },
+    if (null === result) {
+      return false;
+    }
 
-    /**
-     * Returns the key used by the session storage for this module.
-     *
-     * @returns {string}
-     */
-    getSessionStorageKey: function () {
-      return 'collapsedColumn_' + this.config.stateCode;
-    },
+    return '1' === result;
+  },
 
-    /**
-     * Registers a new item to display on navigation template
-     *
-     * @param {Event}    navigationItem
-     * @param {string}   navigationItem.label
-     * @param {function} navigationItem.isVisible
-     * @param {string}   navigationItem.code
-     */
-    registerNavigationItem: function (navigationItem) {
-      this.navigationItems.push(navigationItem);
-    },
+  /**
+   * Stores in the session storage if the column is collapsed or not.
+   *
+   * @param {boolean} value
+   */
+  setCollapsed: function (value) {
+    sessionStorage.setItem(this.getSessionStorageKey(), value ? '1' : '0');
 
-    /**
-     * Update a navigation item route params.
-     *
-     * @param {string} payload
-     * @param {string} payload.route
-     * @param {string} payload.routeParams
-     */
-    updateNavigationItemRouteParams: function (payload) {
-      const item = this.findNavigationItemByRoute(payload.route);
-      if (undefined === item) {
-        return;
-      }
+    var collapseModifier = '';
+    if (this.config.collapsedModifier !== undefined) {
+      collapseModifier = this.config.collapsedModifier;
+    }
+    if (value) {
+      this.$el.addClass('AknColumn--collapsed ' + collapseModifier);
+    } else {
+      this.$el.removeClass('AknColumn--collapsed ' + collapseModifier);
+    }
+  },
 
-      item.routeParams = payload.routeParams;
-    },
+  /**
+   * Returns the key used by the session storage for this module.
+   *
+   * @returns {string}
+   */
+  getSessionStorageKey: function () {
+    return 'collapsedColumn_' + this.config.stateCode;
+  },
 
-    /**
-     * Find a navigation item by route.
-     *
-     * @param {string} route
-     *
-     * @return {(object|undefined)}
-     */
-    findNavigationItemByRoute: function (route) {
-      return this.navigationItems.find(item => item.route === route);
-    },
+  /**
+   * Registers a new item to display on navigation template
+   *
+   * @param {Event}    navigationItem
+   * @param {string}   navigationItem.label
+   * @param {function} navigationItem.isVisible
+   * @param {string}   navigationItem.code
+   */
+  registerNavigationItem: function (navigationItem) {
+    this.navigationItems.push(navigationItem);
+  },
 
-    /**
-     * Returns the visible navigation items
-     *
-     * @returns {Array}
-     */
-    getNavigationItems: function () {
-      return _.filter(this.navigationItems, function (navigationItem) {
-        return !_.isFunction(navigationItem.isVisible) || navigationItem.isVisible();
-      });
-    },
+  /**
+   * Update a navigation item route params.
+   *
+   * @param {string} payload
+   * @param {string} payload.route
+   * @param {string} payload.routeParams
+   */
+  updateNavigationItemRouteParams: function (payload) {
+    const item = this.findNavigationItemByRoute(payload.route);
+    if (undefined === item) {
+      return;
+    }
 
-    /**
-     * @param {Event} event
-     */
-    redirect: function (event) {
-      this.getRoot().trigger('column-tab:select-tab', event);
-    },
-  });
+    item.routeParams = payload.routeParams;
+  },
+
+  /**
+   * Find a navigation item by route.
+   *
+   * @param {string} route
+   *
+   * @return {(object|undefined)}
+   */
+  findNavigationItemByRoute: function (route) {
+    return this.navigationItems.find(item => item.route === route);
+  },
+
+  /**
+   * Returns the visible navigation items
+   *
+   * @returns {Array}
+   */
+  getNavigationItems: function () {
+    return _.filter(this.navigationItems, function (navigationItem) {
+      return !_.isFunction(navigationItem.isVisible) || navigationItem.isVisible();
+    });
+  },
+
+  /**
+   * @param {Event} event
+   */
+  redirect: function (event) {
+    this.getRoot().trigger('column-tab:select-tab', event);
+  },
 });

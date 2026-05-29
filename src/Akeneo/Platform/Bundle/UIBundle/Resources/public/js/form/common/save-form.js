@@ -1,127 +1,109 @@
 'use strict';
 
-/**
- * Save extension for simple entity types
- *
- * @author    Tamara Robichet <tamara.robichet@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/form/common/save',
-  'oro/messenger',
-  'pim/saver/entity-saver',
-  'pim/field-manager',
-  'pim/i18n',
-  'pim/user-context',
-  'pim/router',
-  'pim/common/property',
-  'pim/analytics',
-], function (
-  $,
-  _,
-  __,
-  BaseSave,
-  messenger,
-  EntitySaver,
-  FieldManager,
-  i18n,
-  UserContext,
-  router,
-  propertyAccessor,
-  analytics
-) {
-  return BaseSave.extend({
-    /**
-     * Sets message labels for updates
-     */
-    configure: function () {
-      this.notReadyMessage = __(this.config.notReadyMessage);
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return BaseSave.prototype.configure.apply(this, arguments);
-    },
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseSave = __pimInterop(require('pim/form/common/save'));
+var messenger = __pimInterop(require('oro/messenger'));
+var EntitySaver = __pimInterop(require('pim/saver/entity-saver'));
+var FieldManager = __pimInterop(require('pim/field-manager'));
+var i18n = __pimInterop(require('pim/i18n'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var router = __pimInterop(require('pim/router'));
+var propertyAccessor = __pimInterop(require('pim/common/property'));
+var analytics = __pimInterop(require('pim/analytics'));
 
-    /**
-     * Given an array of fields, return the translation for each in a map
-     *
-     * @param  {Array} fields         An array of field objects
-     * @param  {String} catalogLocale The locale
-     * @return {Array}                An array of labels
-     */
-    getFieldLabels: function (fields, catalogLocale) {
-      return _.map(fields, function (field) {
-        return i18n.getLabel(field.attribute.label, catalogLocale, field.attribute.code);
-      });
-    },
+module.exports = BaseSave.extend({
+  /**
+   * Sets message labels for updates
+   */
+  configure: function () {
+    this.notReadyMessage = __(this.config.notReadyMessage);
 
-    /**
-     * Shows an error message for the given message text and labels
-     *
-     * @param  {String} message The given error message
-     * @param  {Array} labels   An array of field names
-     */
-    showFlashMessage: function (message, labels) {
-      var flash = __(message, {fields: labels.join(', ')});
-      messenger.notify('error', flash);
-    },
+    return BaseSave.prototype.configure.apply(this, arguments);
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    save: function () {
-      var excludedProperties = _.union(this.config.excludedProperties, ['meta']);
-      var entity = _.omit(this.getFormData(), excludedProperties);
+  /**
+   * Given an array of fields, return the translation for each in a map
+   *
+   * @param  {Array} fields         An array of field objects
+   * @param  {String} catalogLocale The locale
+   * @return {Array}                An array of labels
+   */
+  getFieldLabels: function (fields, catalogLocale) {
+    return _.map(fields, function (field) {
+      return i18n.getLabel(field.attribute.label, catalogLocale, field.attribute.code);
+    });
+  },
 
-      var notReadyFields = FieldManager.getNotReadyFields();
+  /**
+   * Shows an error message for the given message text and labels
+   *
+   * @param  {String} message The given error message
+   * @param  {Array} labels   An array of field names
+   */
+  showFlashMessage: function (message, labels) {
+    var flash = __(message, {fields: labels.join(', ')});
+    messenger.notify('error', flash);
+  },
 
-      if (0 < notReadyFields.length) {
-        var catalogLocale = UserContext.get('catalogLocale');
-        var fieldLabels = this.getFieldLabels(notReadyFields, catalogLocale);
+  /**
+   * {@inheritdoc}
+   */
+  save: function () {
+    var excludedProperties = _.union(this.config.excludedProperties, ['meta']);
+    var entity = _.omit(this.getFormData(), excludedProperties);
 
-        return this.showFlashMessage(this.notReadyMessage, fieldLabels);
+    var notReadyFields = FieldManager.getNotReadyFields();
+
+    if (0 < notReadyFields.length) {
+      var catalogLocale = UserContext.get('catalogLocale');
+      var fieldLabels = this.getFieldLabels(notReadyFields, catalogLocale);
+
+      return this.showFlashMessage(this.notReadyMessage, fieldLabels);
+    }
+
+    this.showLoadingMask();
+    this.getRoot().trigger('pim_enrich:form:entity:pre_save');
+
+    const entityIdProperty = this.config.entityIdentifierParamName || 'code';
+    let identifierProperty = 'identifier';
+    if (this.config.identifierParamName !== undefined) {
+      if (this.config.identifierParamName === 'undefined') {
+        identifierProperty = undefined;
+      } else {
+        identifierProperty = this.configure.identifierParamName;
       }
+    }
+    const entityId = propertyAccessor.accessProperty(this.getFormData(), entityIdProperty, '');
+    const redirectAfterRouteIdentifierParamName = this.config.redirectAfterRouteIdentifierParamName || 'identifier';
 
-      this.showLoadingMask();
-      this.getRoot().trigger('pim_enrich:form:entity:pre_save');
+    return EntitySaver.setUrl(this.config.url)
+      .setIdentifierProperty(identifierProperty)
+      .save(entityId, entity, this.config.method || 'POST')
+      .then(
+        function (data) {
+          this.postSave(data);
+          this.setData(data);
+          this.getRoot().trigger('pim_enrich:form:entity:post_fetch', data);
 
-      const entityIdProperty = this.config.entityIdentifierParamName || 'code';
-      let identifierProperty = 'identifier';
-      if (this.config.identifierParamName !== undefined) {
-        if (this.config.identifierParamName === 'undefined') {
-          identifierProperty = undefined;
-        } else {
-          identifierProperty = this.configure.identifierParamName;
-        }
-      }
-      const entityId = propertyAccessor.accessProperty(this.getFormData(), entityIdProperty, '');
-      const redirectAfterRouteIdentifierParamName = this.config.redirectAfterRouteIdentifierParamName || 'identifier';
+          if (this.config.redirectAfter) {
+            var params = {};
+            params[redirectAfterRouteIdentifierParamName] = entityId;
 
-      return EntitySaver.setUrl(this.config.url)
-        .setIdentifierProperty(identifierProperty)
-        .save(entityId, entity, this.config.method || 'POST')
-        .then(
-          function (data) {
-            this.postSave(data);
-            this.setData(data);
-            this.getRoot().trigger('pim_enrich:form:entity:post_fetch', data);
+            router.redirectToRoute(this.config.redirectAfter, params);
+          }
 
-            if (this.config.redirectAfter) {
-              var params = {};
-              params[redirectAfterRouteIdentifierParamName] = entityId;
-
-              router.redirectToRoute(this.config.redirectAfter, params);
-            }
-
-            analytics.appcuesTrack('common:form:saved', {
-              code: this.code,
-            });
-          }.bind(this)
-        )
-        .fail(this.fail.bind(this))
-        .always(this.hideLoadingMask.bind(this));
-    },
-  });
+          analytics.appcuesTrack('common:form:saved', {
+            code: this.code,
+          });
+        }.bind(this)
+      )
+      .fail(this.fail.bind(this))
+      .always(this.hideLoadingMask.bind(this));
+  },
 });

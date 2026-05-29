@@ -1,64 +1,59 @@
 'use strict';
-/**
- * Updated at extension
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @author    Filips Alpe <filips@akeneo.com>
- * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'oro/translator', 'pim/form', 'oro/mediator', 'pim/template/form/meta/updated'], function (
-  _,
-  __,
-  BaseForm,
-  mediator,
-  formTemplate
-) {
-  return BaseForm.extend({
-    tagName: 'span',
-    className: 'AknTitleContainer-metaItem',
-    template: _.template(formTemplate),
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (meta) {
-      this.config = meta.config;
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      this.label = __(this.config.label);
-      this.labelBy = __(this.config.labelBy);
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+require('oro/mediator');
+var formTemplate = __pimInterop(require('pim/template/form/meta/updated'));
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  tagName: 'span',
+  className: 'AknTitleContainer-metaItem',
+  template: _.template(formTemplate),
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.render);
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (meta) {
+    this.config = meta.config;
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+    this.label = __(this.config.label);
+    this.labelBy = __(this.config.labelBy);
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      var product = this.getFormData();
-      var html = '';
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      if (product.meta.updated) {
-        html = this.template({
-          label: this.label,
-          labelBy: this.labelBy,
-          loggedAt: _.result(product.meta.updated, 'logged_at', null),
-          author: _.result(product.meta.updated, 'author', null),
-        });
-      }
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.render);
 
-      this.$el.html(html);
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      return this;
-    },
-  });
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    var product = this.getFormData();
+    var html = '';
+
+    if (product.meta.updated) {
+      html = this.template({
+        label: this.label,
+        labelBy: this.labelBy,
+        loggedAt: _.result(product.meta.updated, 'logged_at', null),
+        author: _.result(product.meta.updated, 'author', null),
+      });
+    }
+
+    this.$el.html(html);
+
+    return this;
+  },
 });

@@ -1,134 +1,126 @@
 'use strict';
 
-/**
- * Display navigation links in column for the tab display
- *
- * Even if this module has the same design than `navigation-block`, it does not works like it, because this module is
- * not composed of extensions, but listen to the product edit form events to register its own tabs.
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['jquery', 'underscore', 'oro/translator', 'pim/form', 'pim/template/form/column-tabs-navigation'], function (
-  $,
-  _,
-  __,
-  BaseForm,
-  template
-) {
-  return BaseForm.extend({
-    className: 'AknColumn-block',
-    template: _.template(template),
-    tabs: [],
-    currentTab: null,
-    events: {
-      'click .column-navigation-link': 'selectTab',
-    },
-    currentKey: 'current_column_tab',
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * @param {string} meta.config.title Translation key of the block title
-     *
-     * {@inheritdoc}
-     */
-    initialize: function (meta) {
-      this.config = meta.config;
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/form/column-tabs-navigation'));
 
-      return BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  className: 'AknColumn-block',
+  template: _.template(template),
+  tabs: [],
+  currentTab: null,
+  events: {
+    'click .column-navigation-link': 'selectTab',
+  },
+  currentKey: 'current_column_tab',
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.tabs = [];
+  /**
+   * @param {string} meta.config.title Translation key of the block title
+   *
+   * {@inheritdoc}
+   */
+  initialize: function (meta) {
+    this.config = meta.config;
 
-      this.currentTab = sessionStorage.getItem(this.currentKey);
+    return BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      this.listenTo(this.getRoot(), 'column-tab:register', this.registerTab);
-      this.listenTo(this.getRoot(), 'column-tab:select-tab', this.setCurrentTab);
-      this.listenTo(this.getRoot(), 'column-tab:change-tab', this.selectTab);
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.tabs = [];
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+    this.currentTab = sessionStorage.getItem(this.currentKey);
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.empty().html(
-        this.template({
-          tabs: this.getTabs(),
-          currentTab: this.getCurrentTabOrDefault(),
-          title: __(this.config.title),
-        })
-      );
-    },
+    this.listenTo(this.getRoot(), 'column-tab:register', this.registerTab);
+    this.listenTo(this.getRoot(), 'column-tab:select-tab', this.setCurrentTab);
+    this.listenTo(this.getRoot(), 'column-tab:change-tab', this.selectTab);
 
-    /**
-     * Registers a new tab
-     *
-     * @param event
-     */
-    registerTab: function (event) {
-      var tab = {
-        code: event.code,
-        isVisible: event.isVisible,
-        label: event.label,
-        route: event.code,
-      };
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      const existingTab = this.tabs.find(currentTab => currentTab.code === tab.code);
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.empty().html(
+      this.template({
+        tabs: this.getTabs(),
+        currentTab: this.getCurrentTabOrDefault(),
+        title: __(this.config.title),
+      })
+    );
+  },
 
-      if (undefined === existingTab) {
-        this.tabs.push(tab);
-      } else {
-        existingTab.label = event.label;
-        existingTab.isVisible = event.isVisible;
-      }
-      this.trigger('pim_menu:column:register_navigation_item', tab);
+  /**
+   * Registers a new tab
+   *
+   * @param event
+   */
+  registerTab: function (event) {
+    var tab = {
+      code: event.code,
+      isVisible: event.isVisible,
+      label: event.label,
+      route: event.code,
+    };
 
-      this.render();
-    },
+    const existingTab = this.tabs.find(currentTab => currentTab.code === tab.code);
 
-    /**
-     * Displays another tab
-     *
-     * @param event
-     */
-    selectTab: function (event) {
-      this.getRoot().trigger('column-tab:select-tab', event);
-      this.setCurrentTab(event.currentTarget.dataset.tab);
-      this.render();
-    },
+    if (undefined === existingTab) {
+      this.tabs.push(tab);
+    } else {
+      existingTab.label = event.label;
+      existingTab.isVisible = event.isVisible;
+    }
+    this.trigger('pim_menu:column:register_navigation_item', tab);
 
-    /**
-     * Set the current tab
-     *
-     * @param {string} tabCode
-     */
-    setCurrentTab: function (tabCode) {
-      this.currentTab = tabCode;
-    },
+    this.render();
+  },
 
-    /**
-     * Returns the current tab.
-     * If there is no selected tab, returns the first available tab.
-     */
-    getCurrentTabOrDefault: function () {
-      var result = _.findWhere(this.getTabs(), {code: this.currentTab});
+  /**
+   * Displays another tab
+   *
+   * @param event
+   */
+  selectTab: function (event) {
+    this.getRoot().trigger('column-tab:select-tab', event);
+    this.setCurrentTab(event.currentTarget.dataset.tab);
+    this.render();
+  },
 
-      return undefined !== result ? result.code : _.first(_.pluck(this.tabs, 'code'));
-    },
+  /**
+   * Set the current tab
+   *
+   * @param {string} tabCode
+   */
+  setCurrentTab: function (tabCode) {
+    this.currentTab = tabCode;
+  },
 
-    /**
-     * Returns the list of visible tabs
-     */
-    getTabs: function () {
-      return _.filter(this.tabs, function (tab) {
-        return !_.isFunction(tab.isVisible) || tab.isVisible();
-      });
-    },
-  });
+  /**
+   * Returns the current tab.
+   * If there is no selected tab, returns the first available tab.
+   */
+  getCurrentTabOrDefault: function () {
+    var result = _.findWhere(this.getTabs(), {code: this.currentTab});
+
+    return undefined !== result ? result.code : _.first(_.pluck(this.tabs, 'code'));
+  },
+
+  /**
+   * Returns the list of visible tabs
+   */
+  getTabs: function () {
+    return _.filter(this.tabs, function (tab) {
+      return !_.isFunction(tab.isVisible) || tab.isVisible();
+    });
+  },
 });

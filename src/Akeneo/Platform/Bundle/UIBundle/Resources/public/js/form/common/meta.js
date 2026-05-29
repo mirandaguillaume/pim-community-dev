@@ -1,41 +1,42 @@
 'use strict';
-/**
- * Displays a list of meta information
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'oro/translator', 'pim/form', 'pim/template/form/meta'], function (_, __, BaseForm, template) {
-  return BaseForm.extend({
-    template: _.template(template),
 
-    config: {},
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (meta) {
-      this.config = meta.config;
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/form/meta'));
 
-      return BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  template: _.template(template),
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.empty();
+  config: {},
 
-      if (!_.isEmpty(this.extensions)) {
-        this.$el.html(
-          this.template({
-            label: __(this.config.label),
-          })
-        );
-      }
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (meta) {
+    this.config = meta.config;
 
-      return BaseForm.prototype.render.apply(this, arguments);
-    },
-  });
+    return BaseForm.prototype.initialize.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.empty();
+
+    if (!_.isEmpty(this.extensions)) {
+      this.$el.html(
+        this.template({
+          label: __(this.config.label),
+        })
+      );
+    }
+
+    return BaseForm.prototype.render.apply(this, arguments);
+  },
 });

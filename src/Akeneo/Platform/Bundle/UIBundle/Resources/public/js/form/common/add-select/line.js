@@ -1,49 +1,49 @@
 'use strict';
 
-/**
- * Common add select line view
- *
- * @author    Alexandr Jeliuc <alex@jeliuc.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-define(['jquery', 'underscore', 'backbone', 'pim/template/form/add-select/line'], function ($, _, Backbone, template) {
-  return Backbone.View.extend({
-    className: 'select2-results',
-    template: _.template(template),
-    checked: false,
-    item: null,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function () {
-      this.item = this.options.item;
-    },
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+var Backbone = __pimInterop(require('backbone'));
+var template = __pimInterop(require('pim/template/form/add-select/line'));
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(
-        this.template({
-          item: this.item,
-          checked: this.checked,
-        })
-      );
+module.exports = Backbone.View.extend({
+  className: 'select2-results',
+  template: _.template(template),
+  checked: false,
+  item: null,
 
-      return this;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function () {
+    this.item = this.options.item;
+  },
 
-    /**
-     * Update the checkbox status then render the view
-     *
-     * @param {bool} checked
-     */
-    setCheckedCheckbox: function (checked) {
-      this.checked = checked;
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(
+      this.template({
+        item: this.item,
+        checked: this.checked,
+      })
+    );
 
-      this.render();
-    },
-  });
+    return this;
+  },
+
+  /**
+   * Update the checkbox status then render the view
+   *
+   * @param {bool} checked
+   */
+  setCheckedCheckbox: function (checked) {
+    this.checked = checked;
+
+    this.render();
+  },
 });

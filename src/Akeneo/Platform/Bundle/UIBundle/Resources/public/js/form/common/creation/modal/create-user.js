@@ -1,44 +1,46 @@
 'use strict';
 
-define(['pim/form/common/creation/modal'], function (BaseModal) {
-  return BaseModal.extend({
-    events: {
-      'keyup input': 'updateButtonState',
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    updateButtonState() {
-      this.$el.parent().find('.AknButton.ok').toggleClass('AknButton--disabled', !this.isReadyToSubmit());
-    },
+var BaseModal = __pimInterop(require('pim/form/common/creation/modal'));
 
-    isReadyToSubmit() {
-      const data = this.getFormData();
+module.exports = BaseModal.extend({
+  events: {
+    'keyup input': 'updateButtonState',
+  },
 
-      return !Object.keys(this.extensions).some(extensionKey => {
-        const extension = this.getExtension(extensionKey);
+  updateButtonState() {
+    this.$el.parent().find('.AknButton.ok').toggleClass('AknButton--disabled', !this.isReadyToSubmit());
+  },
 
-        return (
-          extension.config.required && (undefined === data[extension.fieldName] || '' === data[extension.fieldName])
-        );
-      });
-    },
+  isReadyToSubmit() {
+    const data = this.getFormData();
 
-    /**
-     * {@inheritdoc}
-     */
-    render() {
-      BaseModal.prototype.render.apply(this, arguments);
-      this.updateButtonState();
+    return !Object.keys(this.extensions).some(extensionKey => {
+      const extension = this.getExtension(extensionKey);
 
-      return this;
-    },
+      return extension.config.required && (undefined === data[extension.fieldName] || '' === data[extension.fieldName]);
+    });
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    confirmModal() {
-      if (!this.isReadyToSubmit()) return;
+  /**
+   * {@inheritdoc}
+   */
+  render() {
+    BaseModal.prototype.render.apply(this, arguments);
+    this.updateButtonState();
 
-      return BaseModal.prototype.confirmModal.apply(this, arguments);
-    },
-  });
+    return this;
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  confirmModal() {
+    if (!this.isReadyToSubmit()) return;
+
+    return BaseModal.prototype.confirmModal.apply(this, arguments);
+  },
 });
