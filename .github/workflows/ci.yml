@@ -1589,21 +1589,52 @@ jobs:
           echo "=== HTTP asset check ==="
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/dist/vendor.min.js 2>&1 | head -3
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json 2>&1 | head -3
-          # Start Symfony Messenger consumer so import/export jobs actually execute.
-          # --time-limit=3600 (1h) outlives the full Playwright suite (~30-40 min).
-          # 900s was too short: the consumer died mid-suite leaving jobs unprocessed.
-          docker rm -f pim-job-consumer 2>/dev/null || true
-          docker-compose run -d --name pim-job-consumer php \
-            php bin/console messenger:consume import_export_job ui_job data_maintenance_job \
-            --env=prod --time-limit=3600
-          # Wait for the consumer to finish Symfony kernel boot and start polling
-          # before the test suite submits its first mass-edit job (~10s bootstrap).
-          sleep 15
-          echo "Job consumer ready (time-limit=3600s)"
+          # Start N SUPERVISED Symfony Messenger consumers so import/export jobs
+          # actually execute throughout the whole Playwright suite.
+          #
+          # Why this shape (3 supervised workers, not 1 long-lived):
+          #  - Supervisor loop: each worker runs inside `while true; do ...; done`,
+          #    so a crash, OOM, or --time-limit/--memory-limit recycle restarts it
+          #    immediately. A single unsupervised worker that died left the queue
+          #    orphaned for the rest of the suite ("consumer may be dead").
+          #  - Staggered --time-limit (300/360/420s) so the 3 workers never recycle
+          #    at the same instant — at least 2 are always draining the queue.
+          #  - --memory-limit=512M recycles a leaking worker cleanly (messenger checks
+          #    limits BETWEEN messages, never mid-job, so jobs are never truncated).
+          #  - 3 parallel workers absorb queue backlog under load (the doctrine
+          #    transport locks rows with SELECT ... FOR UPDATE, so no double-process).
+          CONSUMER_COUNT=3
+          for i in $(seq 1 "${CONSUMER_COUNT}"); do
+            TL=$((240 + i * 60))   # 300s, 360s, 420s — staggered recycle
+            docker rm -f "pim-job-consumer-${i}" 2>/dev/null || true
+            docker-compose run -d --name "pim-job-consumer-${i}" php \
+              sh -c "while true; do php bin/console messenger:consume import_export_job ui_job data_maintenance_job --env=prod --time-limit=${TL} --memory-limit=512M; echo \"[supervisor] consumer ${i} exited (\$?), restarting\"; sleep 1; done"
+          done
+          # Deterministic readiness probe (replaces a blind sleep): wait until each
+          # worker has printed the messenger "Consuming messages from transport(s)"
+          # banner — proof it booted the kernel and is polling — before tests submit
+          # their first mass-edit job.
+          echo "Waiting for ${CONSUMER_COUNT} consumers to start draining..."
+          for i in $(seq 1 "${CONSUMER_COUNT}"); do
+            for attempt in $(seq 1 30); do
+              if docker logs "pim-job-consumer-${i}" 2>&1 | grep -qi 'Consuming messages'; then
+                echo "consumer ${i} ready after $((attempt * 2))s"
+                break
+              fi
+              if [ "${attempt}" -eq 30 ]; then
+                echo "WARN: consumer ${i} not confirmed ready after 60s — logs:"
+                docker logs "pim-job-consumer-${i}" 2>&1 | tail -20 || true
+              fi
+              sleep 2
+            done
+          done
           PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} castor test:end-to-end-front
-          # Dump consumer logs before cleanup so the artifact captures everything
-          docker logs pim-job-consumer > consumer.log 2>&1 || true
-          docker rm -f pim-job-consumer 2>/dev/null || true
+          # Dump each consumer's logs before cleanup so the artifact captures the
+          # full supervisor history (restarts, recycles, processed jobs).
+          for i in $(seq 1 "${CONSUMER_COUNT}"); do
+            docker logs "pim-job-consumer-${i}" > "consumer-${i}.log" 2>&1 || true
+            docker rm -f "pim-job-consumer-${i}" 2>/dev/null || true
+          done
 
       - name: Upload Playwright report
         if: failure()
@@ -1613,7 +1644,7 @@ jobs:
           path: |
             playwright-report/
             test-results/
-            consumer.log
+            consumer-*.log
           retention-days: 3
 
   # ===========================================================================
