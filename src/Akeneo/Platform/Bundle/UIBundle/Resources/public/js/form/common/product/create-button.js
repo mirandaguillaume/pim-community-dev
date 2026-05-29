@@ -1,166 +1,148 @@
-/**
- * Create product and product-model extension
- *
- * @author    Tamara Robichet <tamara.robichet@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'backbone',
-  'pim/form',
-  'pim/template/product/create-button',
-  'pim/template/product/create-modal-content',
-  'pim/fetcher-registry',
-  'bootstrap-modal',
-  'pim/form-builder',
-  'pim/security-context',
-  'pim/template/common/modal-centered',
-], function (
-  $,
-  _,
-  __,
-  Backbone,
-  BaseForm,
-  template,
-  modalContentTemplate,
-  FetcherRegistry,
-  BootstrapModal,
-  FormBuilder,
-  SecurityContext,
-  modalTemplate
-) {
-  return BaseForm.extend({
-    template: _.template(template),
-    modalTemplate: _.template(modalTemplate),
-    modalContentTemplate: _.template(modalContentTemplate),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    events: {
-      'click .create-product-button': 'openModal',
-    },
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var Backbone = __pimInterop(require('backbone'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/product/create-button'));
+var modalContentTemplate = __pimInterop(require('pim/template/product/create-modal-content'));
+require('pim/fetcher-registry');
+require('bootstrap-modal');
+var FormBuilder = __pimInterop(require('pim/form-builder'));
+var SecurityContext = __pimInterop(require('pim/security-context'));
+var modalTemplate = __pimInterop(require('pim/template/common/modal-centered'));
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize(config) {
-      this.config = config.config;
-      this.modal = null;
+module.exports = BaseForm.extend({
+  template: _.template(template),
+  modalTemplate: _.template(modalTemplate),
+  modalContentTemplate: _.template(modalContentTemplate),
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+  events: {
+    'click .create-product-button': 'openModal',
+  },
 
-    /**
-     * Closes the selection modal and unbinds the click events
-     */
-    closeModal() {
-      if (this.modal) {
-        this.modal.close();
-        this.modal.$el.off();
-      }
-    },
+  /**
+   * {@inheritdoc}
+   */
+  initialize(config) {
+    this.config = config.config;
+    this.modal = null;
 
-    /**
-     * Returns a list of choices that are allowed by permissions
-     * @return {Object} choices
-     */
-    getAllowedChoices(choices) {
-      return Object.values(choices).filter(choice => {
-        return SecurityContext.isGranted(choice.aclResourceId);
-      });
-    },
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * Opens the selection modal with the configured choices
-     * If there's only one available choice, directly open the form
-     * for that choice.
-     *
-     * @return {Backbone.BootstrapModal} The modal
-     */
-    openModal() {
-      if (this.modal) {
-        this.closeModal();
-      }
+  /**
+   * Closes the selection modal and unbinds the click events
+   */
+  closeModal() {
+    if (this.modal) {
+      this.modal.close();
+      this.modal.$el.off();
+    }
+  },
 
-      const {choices, modalTitle, subTitle} = this.config;
-      const allowedChoices = this.getAllowedChoices(choices);
+  /**
+   * Returns a list of choices that are allowed by permissions
+   * @return {Object} choices
+   */
+  getAllowedChoices(choices) {
+    return Object.values(choices).filter(choice => {
+      return SecurityContext.isGranted(choice.aclResourceId);
+    });
+  },
 
-      if (1 === allowedChoices.length) {
-        const firstChoice = allowedChoices[0];
+  /**
+   * Opens the selection modal with the configured choices
+   * If there's only one available choice, directly open the form
+   * for that choice.
+   *
+   * @return {Backbone.BootstrapModal} The modal
+   */
+  openModal() {
+    if (this.modal) {
+      this.closeModal();
+    }
 
-        return this.openFormModal(null, firstChoice.form);
-      }
+    const {choices, modalTitle, subTitle} = this.config;
+    const allowedChoices = this.getAllowedChoices(choices);
 
-      const translatedChoices = [];
-      Object.keys(allowedChoices).forEach(key => {
-        translatedChoices[key] = allowedChoices[key];
-        translatedChoices[key].title = __(translatedChoices[key].title);
-      });
+    if (1 === allowedChoices.length) {
+      const firstChoice = allowedChoices[0];
 
-      this.modal = new Backbone.BootstrapModal({
-        title: __(modalTitle),
-        subtitle: __(subTitle),
-        okText: '',
-        template: this.modalTemplate,
-        content: this.modalContentTemplate({
-          choices: translatedChoices,
-        }),
-      }).open();
+      return this.openFormModal(null, firstChoice.form);
+    }
 
-      this.modal.$el.on('click', '.cancel', this.closeModal.bind(this));
-      this.modal.$el.on('click', '.product-choice', this.openFormModal.bind(this));
+    const translatedChoices = [];
+    Object.keys(allowedChoices).forEach(key => {
+      translatedChoices[key] = allowedChoices[key];
+      translatedChoices[key].title = __(translatedChoices[key].title);
+    });
 
-      return this.modal;
-    },
+    this.modal = new Backbone.BootstrapModal({
+      title: __(modalTitle),
+      subtitle: __(subTitle),
+      okText: '',
+      template: this.modalTemplate,
+      content: this.modalContentTemplate({
+        choices: translatedChoices,
+      }),
+    }).open();
 
-    /**
-     * {@inheritdoc}
-     */
-    shutdown: function () {
-      if (this.modal) {
-        this.modal.$el.off();
-      }
+    this.modal.$el.on('click', '.cancel', this.closeModal.bind(this));
+    this.modal.$el.on('click', '.product-choice', this.openFormModal.bind(this));
 
-      BaseForm.prototype.shutdown.apply(this, arguments);
-    },
+    return this.modal;
+  },
 
-    /**
-     * Opens a form model for the selected choice. If formName is passed in, it
-     * overrides the formName from the event target element.
-     *
-     * @param  {jQuery.Event} event The click event from the selection modal
-     * @param  {String} formName The name of the form extension defined for a choice
-     * @return {Promise}
-     */
-    openFormModal(event, formName) {
-      const form = formName || $(event.currentTarget).attr('data-form');
+  /**
+   * {@inheritdoc}
+   */
+  shutdown: function () {
+    if (this.modal) {
+      this.modal.$el.off();
+    }
 
-      return FormBuilder.build(form).then(modal => {
-        this.closeModal();
-        modal.open();
-      });
-    },
+    BaseForm.prototype.shutdown.apply(this, arguments);
+  },
 
-    /**
-     * Render the create button
-     * If the user is not allowed to access the forms for the choices
-     * don't render the create button.
-     */
-    render() {
-      const {choices, buttonTitle} = this.config;
+  /**
+   * Opens a form model for the selected choice. If formName is passed in, it
+   * overrides the formName from the event target element.
+   *
+   * @param  {jQuery.Event} event The click event from the selection modal
+   * @param  {String} formName The name of the form extension defined for a choice
+   * @return {Promise}
+   */
+  openFormModal(event, formName) {
+    const form = formName || $(event.currentTarget).attr('data-form');
 
-      if (0 === this.getAllowedChoices(choices).length) {
-        this.$el.hide();
+    return FormBuilder.build(form).then(modal => {
+      this.closeModal();
+      modal.open();
+    });
+  },
 
-        return;
-      }
+  /**
+   * Render the create button
+   * If the user is not allowed to access the forms for the choices
+   * don't render the create button.
+   */
+  render() {
+    const {choices, buttonTitle} = this.config;
 
-      this.$el.html(
-        this.template({
-          buttonTitle: __(buttonTitle),
-        })
-      );
-    },
-  });
+    if (0 === this.getAllowedChoices(choices).length) {
+      this.$el.hide();
+
+      return;
+    }
+
+    this.$el.html(
+      this.template({
+        buttonTitle: __(buttonTitle),
+      })
+    );
+  },
 });

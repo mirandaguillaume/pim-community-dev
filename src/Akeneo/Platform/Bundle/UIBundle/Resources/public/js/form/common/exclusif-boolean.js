@@ -1,50 +1,56 @@
 'use strict';
 
-define(['underscore', 'pim/form', 'pim/template/form/exclusif-boolean'], function (_, BaseForm, template) {
-  return BaseForm.extend({
-    template: _.template(template),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      let self = this;
-      this.booleanExtensions = Object.values(this.extensions).filter(extension => {
-        return self.isBooleanExtension(extension);
-      });
+var _ = __pimInterop(require('underscore'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/form/exclusif-boolean'));
 
-      BaseForm.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  template: _.template(template),
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(
-        this.template({
-          fields: null,
-        })
-      );
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    let self = this;
+    this.booleanExtensions = Object.values(this.extensions).filter(extension => {
+      return self.isBooleanExtension(extension);
+    });
 
-      let extensionChecked = this.getCheckedExtension();
-      Object.values(this.booleanExtensions).forEach(function (extension) {
-        extension.readOnly = extensionChecked && extensionChecked !== extension;
-      });
+    BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      this.renderExtensions();
-    },
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(
+      this.template({
+        fields: null,
+      })
+    );
 
-    isBooleanExtension: function (extension) {
-      return extension.options.module === 'pim/form/common/fields/boolean';
-    },
+    let extensionChecked = this.getCheckedExtension();
+    Object.values(this.booleanExtensions).forEach(function (extension) {
+      extension.readOnly = extensionChecked && extensionChecked !== extension;
+    });
 
-    getCheckedExtension: function () {
-      let formData = this.getFormData();
-      let checkedExtension = Object.values(this.booleanExtensions).filter(extension => {
-        return formData.hasOwnProperty(extension.fieldName) && formData[extension.fieldName] === true;
-      });
+    this.renderExtensions();
+  },
 
-      return checkedExtension[0] || null;
-    },
-  });
+  isBooleanExtension: function (extension) {
+    return extension.options.module === 'pim/form/common/fields/boolean';
+  },
+
+  getCheckedExtension: function () {
+    let formData = this.getFormData();
+    let checkedExtension = Object.values(this.booleanExtensions).filter(extension => {
+      return formData.hasOwnProperty(extension.fieldName) && formData[extension.fieldName] === true;
+    });
+
+    return checkedExtension[0] || null;
+  },
 });

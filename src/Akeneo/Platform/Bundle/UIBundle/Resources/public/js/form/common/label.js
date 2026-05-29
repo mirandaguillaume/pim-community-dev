@@ -1,62 +1,62 @@
 'use strict';
-/**
- * Label extension
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @author    Filips Alpe <filips@akeneo.com>
- * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['pim/form', 'pim/user-context', 'pim/i18n', 'underscore'], function (BaseForm, UserContext, i18n, _) {
-  return BaseForm.extend({
-    tagName: 'h1',
-    className: 'AknTitleContainer-title',
 
-    /**
-     * @param {Object} meta
-     */
-    initialize: function (meta) {
-      this.config = _.extend({}, meta.config);
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      UserContext.off('change:catalogLocale change:catalogScope', this.render);
-      this.listenTo(UserContext, 'change:catalogLocale', this.render);
-      this.listenTo(UserContext, 'change:catalogScope', this.render);
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.render);
+var BaseForm = __pimInterop(require('pim/form'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var i18n = __pimInterop(require('pim/i18n'));
+var _ = __pimInterop(require('underscore'));
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  tagName: 'h1',
+  className: 'AknTitleContainer-title',
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.text(this.getLabel());
+  /**
+   * @param {Object} meta
+   */
+  initialize: function (meta) {
+    this.config = _.extend({}, meta.config);
+  },
 
-      return this;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    UserContext.off('change:catalogLocale change:catalogScope', this.render);
+    this.listenTo(UserContext, 'change:catalogLocale', this.render);
+    this.listenTo(UserContext, 'change:catalogScope', this.render);
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.render);
 
-    /**
-     * Provide the object label
-     *
-     * @return {String}
-     */
-    getLabel: function () {
-      var data = this.getFormData();
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      if (this.config.field) {
-        return data[this.config.field];
-      }
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.text(this.getLabel());
 
-      if (undefined === data.labels) {
-        return '';
-      }
+    return this;
+  },
 
-      return i18n.getLabel(data.labels, UserContext.get('catalogLocale'), data.code);
-    },
-  });
+  /**
+   * Provide the object label
+   *
+   * @return {String}
+   */
+  getLabel: function () {
+    var data = this.getFormData();
+
+    if (this.config.field) {
+      return data[this.config.field];
+    }
+
+    if (undefined === data.labels) {
+      return '';
+    }
+
+    return i18n.getLabel(data.labels, UserContext.get('catalogLocale'), data.code);
+  },
 });

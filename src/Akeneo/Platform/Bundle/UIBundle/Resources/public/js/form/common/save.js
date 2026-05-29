@@ -1,124 +1,119 @@
 'use strict';
 
-/**
- * Save extension
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['oro/translator', 'pim/form', 'oro/mediator', 'oro/loading-mask', 'oro/messenger'], function (
-  __,
-  BaseForm,
-  mediator,
-  LoadingMask,
-  messenger
-) {
-  return BaseForm.extend({
-    loadingMask: null,
-    updateFailureMessage: __('pim_enrich.entity.fallback.flash.update.fail'),
-    updateSuccessMessage: __('pim_enrich.entity.fallback.flash.update.success'),
-    sessionExpiredMessage: __('pim_enrich.entity.fallback.flash.update.fail_session_expired'),
-    isFlash: true,
-    label: __('pim_common.save'),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+require('oro/mediator');
+var LoadingMask = __pimInterop(require('oro/loading-mask'));
+var messenger = __pimInterop(require('oro/messenger'));
 
-      if (this.config.hasOwnProperty('updateSuccessMessage')) {
-        this.updateSuccessMessage = __(this.config.updateSuccessMessage);
-      }
-      if (this.config.hasOwnProperty('updateFailureMessage')) {
-        this.updateFailureMessage = __(this.config.updateFailureMessage);
-      }
-      if (this.config.hasOwnProperty('sessionExpiredMessage')) {
-        this.sessionExpiredMessage = __(this.config.sessionExpiredMessage);
-      }
+module.exports = BaseForm.extend({
+  loadingMask: null,
+  updateFailureMessage: __('pim_enrich.entity.fallback.flash.update.fail'),
+  updateSuccessMessage: __('pim_enrich.entity.fallback.flash.update.success'),
+  sessionExpiredMessage: __('pim_enrich.entity.fallback.flash.update.fail_session_expired'),
+  isFlash: true,
+  label: __('pim_common.save'),
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.trigger('save-buttons:register-button', {
-        className: 'save',
-        priority: 200,
-        label: this.label,
-        events: {
-          'click .save': this.save.bind(this),
-        },
-      });
+    if (this.config.hasOwnProperty('updateSuccessMessage')) {
+      this.updateSuccessMessage = __(this.config.updateSuccessMessage);
+    }
+    if (this.config.hasOwnProperty('updateFailureMessage')) {
+      this.updateFailureMessage = __(this.config.updateFailureMessage);
+    }
+    if (this.config.hasOwnProperty('sessionExpiredMessage')) {
+      this.sessionExpiredMessage = __(this.config.sessionExpiredMessage);
+    }
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * Save the current form
-     */
-    save: function () {
-      throw new Error('This method must be implemented');
-    },
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.trigger('save-buttons:register-button', {
+      className: 'save',
+      priority: 200,
+      label: this.label,
+      events: {
+        'click .save': this.save.bind(this),
+      },
+    });
 
-    /**
-     * Show the loading mask
-     */
-    showLoadingMask: function () {
-      this.loadingMask = new LoadingMask();
-      this.loadingMask.render().$el.appendTo(this.getRoot().$el).show();
-    },
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-    /**
-     * Hide the loading mask
-     */
-    hideLoadingMask: function () {
-      this.loadingMask.hide().$el.remove();
-    },
+  /**
+   * Save the current form
+   */
+  save: function () {
+    throw new Error('This method must be implemented');
+  },
 
-    /**
-     * What to do after a save
-     *
-     * @param {any} data
-     */
-    postSave: function (data) {
-      this.getRoot().trigger('pim_enrich:form:entity:post_save', data);
+  /**
+   * Show the loading mask
+   */
+  showLoadingMask: function () {
+    this.loadingMask = new LoadingMask();
+    this.loadingMask.render().$el.appendTo(this.getRoot().$el).show();
+  },
 
-      messenger.notify('success', this.updateSuccessMessage, {flash: this.isFlash});
-    },
+  /**
+   * Hide the loading mask
+   */
+  hideLoadingMask: function () {
+    this.loadingMask.hide().$el.remove();
+  },
 
-    /**
-     * On save fail
-     *
-     * @param {Object} response
-     */
-    fail: function (response) {
-      let errorMessage = this.updateFailureMessage;
-      switch (response.status) {
-        case 422:
-        case 400:
-          this.getRoot().trigger('pim_enrich:form:entity:bad_request', {
-            sentData: this.getFormData(),
-            response: response.responseJSON,
-          });
-          break;
-        case 401:
-          errorMessage = this.sessionExpiredMessage;
-          break;
-        case 500:
-          /* global console */
-          const message = response.responseJSON ? response.responseJSON : response;
+  /**
+   * What to do after a save
+   *
+   * @param {any} data
+   */
+  postSave: function (data) {
+    this.getRoot().trigger('pim_enrich:form:entity:post_save', data);
 
-          console.error('Errors:', message);
-          this.getRoot().trigger('pim_enrich:form:entity:error:save', message);
-          break;
-        default:
-      }
+    messenger.notify('success', this.updateSuccessMessage, {flash: this.isFlash});
+  },
 
-      messenger.notify('error', errorMessage);
-    },
-  });
+  /**
+   * On save fail
+   *
+   * @param {Object} response
+   */
+  fail: function (response) {
+    let errorMessage = this.updateFailureMessage;
+    switch (response.status) {
+      case 422:
+      case 400:
+        this.getRoot().trigger('pim_enrich:form:entity:bad_request', {
+          sentData: this.getFormData(),
+          response: response.responseJSON,
+        });
+        break;
+      case 401:
+        errorMessage = this.sessionExpiredMessage;
+        break;
+      case 500:
+        /* global console */
+        const message = response.responseJSON ? response.responseJSON : response;
+
+        console.error('Errors:', message);
+        this.getRoot().trigger('pim_enrich:form:entity:error:save', message);
+        break;
+      default:
+    }
+
+    messenger.notify('error', errorMessage);
+  },
 });

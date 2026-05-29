@@ -1,84 +1,79 @@
 'use strict';
-/**
- * Download file extension
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @author    Alban Alnot <alban.alnot@consertotech.pro>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'underscore',
-  'oro/translator',
-  'pim/form',
-  'pim/template/form/download-file',
-  'routing',
-  'pim/user-context',
-  'pim/common/property',
-], function (_, __, BaseForm, template, Routing, UserContext, propertyAccessor) {
-  return BaseForm.extend({
-    template: _.template(template),
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (meta) {
-      this.config = meta.config;
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/form/download-file'));
+var Routing = __pimInterop(require('routing'));
+require('pim/user-context');
+var propertyAccessor = __pimInterop(require('pim/common/property'));
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.render);
+module.exports = BaseForm.extend({
+  template: _.template(template),
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (meta) {
+    this.config = meta.config;
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      if (!this.isVisible()) {
-        return this;
-      }
-      this.$el.html(
-        this.template({
-          btnLabel: __(this.config.label),
-          btnIcon: this.config.iconName,
-          url: this.getUrl(),
-        })
-      );
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.render);
+
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    if (!this.isVisible()) {
       return this;
-    },
+    }
+    this.$el.html(
+      this.template({
+        btnLabel: __(this.config.label),
+        btnIcon: this.config.iconName,
+        url: this.getUrl(),
+      })
+    );
 
-    /**
-     * Get the url with parameters
-     *
-     * @returns {string}
-     */
-    getUrl: function () {
-      var parameters = {};
-      if (this.config.urlParams) {
-        var formData = this.getFormData();
-        this.config.urlParams.forEach(function (urlParam) {
-          parameters[urlParam.property] = propertyAccessor.accessProperty(formData, urlParam.path);
-        });
-      }
+    return this;
+  },
 
-      return Routing.generate(this.config.url, parameters);
-    },
+  /**
+   * Get the url with parameters
+   *
+   * @returns {string}
+   */
+  getUrl: function () {
+    var parameters = {};
+    if (this.config.urlParams) {
+      var formData = this.getFormData();
+      this.config.urlParams.forEach(function (urlParam) {
+        parameters[urlParam.property] = propertyAccessor.accessProperty(formData, urlParam.path);
+      });
+    }
 
-    /**
-     * Returns true if the extension should be visible
-     *
-     * @returns {boolean}
-     */
-    isVisible: function () {
-      return propertyAccessor.accessProperty(this.getFormData(), this.config.isVisiblePath);
-    },
-  });
+    return Routing.generate(this.config.url, parameters);
+  },
+
+  /**
+   * Returns true if the extension should be visible
+   *
+   * @returns {boolean}
+   */
+  isVisible: function () {
+    return propertyAccessor.accessProperty(this.getFormData(), this.config.isVisiblePath);
+  },
 });

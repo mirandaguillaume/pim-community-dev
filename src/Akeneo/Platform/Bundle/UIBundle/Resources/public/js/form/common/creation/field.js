@@ -1,69 +1,63 @@
-/**
- * Generic field to be added in a creation form
- *
- * @author    Alban Alnot <alban.alnot@consertotech.pro>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-define(['jquery', 'underscore', 'oro/translator', 'pim/form', 'pim/template/form/creation/field'], function (
-  $,
-  _,
-  __,
-  BaseForm,
-  template
-) {
-  return BaseForm.extend({
-    template: _.template(template),
-    dialog: null,
-    events: {
-      'keyup input': 'updateModel',
-      'change input': 'updateModel',
-    },
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/form/creation/field'));
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
-      this.identifier = this.config.identifier || 'code';
+module.exports = BaseForm.extend({
+  template: _.template(template),
+  dialog: null,
+  events: {
+    'keyup input': 'updateModel',
+    'change input': 'updateModel',
+  },
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
+    this.identifier = this.config.identifier || 'code';
 
-    /**
-     * Model update callback
-     */
-    updateModel: function (event) {
-      this.getFormModel().set(this.identifier, event.target.value || '');
-    },
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      if (!this.configured) this;
+  /**
+   * Model update callback
+   */
+  updateModel: function (event) {
+    this.getFormModel().set(this.identifier, event.target.value || '');
+  },
 
-      const errors = this.getRoot().validationErrors || [];
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    if (!this.configured) this;
 
-      this.$el.html(
-        this.template({
-          identifier: this.identifier,
-          label: __(this.config.label),
-          requiredLabel: __('pim_common.required_label'),
-          errors: errors.filter(error => {
-            const id = this.identifier;
-            const {path, attribute} = error;
+    const errors = this.getRoot().validationErrors || [];
 
-            return id === path || id === attribute;
-          }),
-          value: this.getFormData()[this.identifier],
-        })
-      );
+    this.$el.html(
+      this.template({
+        identifier: this.identifier,
+        label: __(this.config.label),
+        requiredLabel: __('pim_common.required_label'),
+        errors: errors.filter(error => {
+          const id = this.identifier;
+          const {path, attribute} = error;
 
-      this.delegateEvents();
+          return id === path || id === attribute;
+        }),
+        value: this.getFormData()[this.identifier],
+      })
+    );
 
-      return this;
-    },
-  });
+    this.delegateEvents();
+
+    return this;
+  },
 });

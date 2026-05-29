@@ -5,37 +5,39 @@
  */
 'use strict';
 
-define(['jquery', 'underscore', 'pim/form/common/fields/field', 'pim/template/form/common/fields/textarea'], function (
-  $,
-  _,
-  BaseField,
-  template
-) {
-  return BaseField.extend({
-    template: _.template(template),
-    events: {
-      'keyup textarea': function (event) {
-        this.errors = [];
-        this.updateModel(this.getFieldValue(event.target));
-      },
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    renderInput: function (templateContext) {
-      return this.template(
-        _.extend(templateContext, {
-          value: this.getModelValue(),
-        })
-      );
-    },
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var BaseField = __pimInterop(require('pim/form/common/fields/field'));
+var template = __pimInterop(require('pim/template/form/common/fields/textarea'));
 
-    /**
-     * {@inheritdoc}
-     */
-    getFieldValue: function (field) {
-      return $(field).val();
+module.exports = BaseField.extend({
+  template: _.template(template),
+  events: {
+    'keyup textarea': function (event) {
+      this.errors = [];
+      this.updateModel(this.getFieldValue(event.target));
     },
-  });
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  renderInput: function (templateContext) {
+    return this.template(
+      _.extend(templateContext, {
+        value: this.getModelValue(),
+      })
+    );
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  getFieldValue: function (field) {
+    return $(field).val();
+  },
 });

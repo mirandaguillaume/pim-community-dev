@@ -5,46 +5,51 @@
  */
 'use strict';
 
-define(['jquery', 'pim/form/common/fields/simple-select-async'], function ($, SimpleSelectAsync) {
-  return SimpleSelectAsync.extend({
-    /**
-     * {@inheritdoc}
-     */
-    getSelect2Options() {
-      const parent = SimpleSelectAsync.prototype.getSelect2Options.apply(this, arguments);
-      parent.multiple = true;
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return parent;
-    },
+var $ = __pimInterop(require('jquery'));
+var SimpleSelectAsync = __pimInterop(require('pim/form/common/fields/simple-select-async'));
 
-    /**
-     * {@inheritdoc}
-     */
-    select2InitSelection(element, callback) {
-      const strValues = $(element).val();
-      const values = strValues.split(',');
-      if (values.length > 0) {
-        $.ajax({
-          url: this.choiceUrl,
-          data: {options: {identifiers: strValues}},
-          type: this.choiceVerb,
-        }).then(response => {
-          let selecteds = Object.values(response.results).filter(item => {
-            return values.indexOf(item.code) > -1;
-          });
+module.exports = SimpleSelectAsync.extend({
+  /**
+   * {@inheritdoc}
+   */
+  getSelect2Options() {
+    const parent = SimpleSelectAsync.prototype.getSelect2Options.apply(this, arguments);
+    parent.multiple = true;
 
-          if (selecteds.length === 0) {
-            selecteds = Object.values(response.results).filter(item => {
-              return values.indexOf(item.id) > -1;
-            });
-          } else {
-            selecteds = selecteds.map(selected => {
-              return this.convertBackendItem(selected);
-            });
-          }
-          callback(selecteds);
+    return parent;
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  select2InitSelection(element, callback) {
+    const strValues = $(element).val();
+    const values = strValues.split(',');
+    if (values.length > 0) {
+      $.ajax({
+        url: this.choiceUrl,
+        data: {options: {identifiers: strValues}},
+        type: this.choiceVerb,
+      }).then(response => {
+        let selecteds = Object.values(response.results).filter(item => {
+          return values.indexOf(item.code) > -1;
         });
-      }
-    },
-  });
+
+        if (selecteds.length === 0) {
+          selecteds = Object.values(response.results).filter(item => {
+            return values.indexOf(item.id) > -1;
+          });
+        } else {
+          selecteds = selecteds.map(selected => {
+            return this.convertBackendItem(selected);
+          });
+        }
+        callback(selecteds);
+      });
+    }
+  },
 });

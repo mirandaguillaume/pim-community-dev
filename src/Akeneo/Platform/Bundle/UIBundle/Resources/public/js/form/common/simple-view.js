@@ -7,72 +7,74 @@
  */
 'use strict';
 
-define(['jquery', 'underscore', 'backbone', 'oro/translator', 'pim/form', 'require-context'], function (
-  $,
-  _,
-  Backbone,
-  __,
-  BaseForm,
-  requireContext
-) {
-  return BaseForm.extend({
-    config: {},
-    template: null,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (meta) {
-      this.config = meta.config;
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+require('backbone');
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var requireContext = __pimInterop(require('require-context'));
 
-      if (_.has(meta, 'forwarded-events')) {
-        this.forwardMediatorEvents(meta['forwarded-events']);
-      }
+module.exports = BaseForm.extend({
+  config: {},
+  template: null,
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (meta) {
+    this.config = meta.config;
 
-    /**
-     * {@inheritdoc}
-     *
-     * Waiting for the template to be required.
-     */
-    configure: function () {
-      if (undefined === this.config.template) {
-        throw new Error('The view "' + this.code + '" must be configured with a template.');
-      }
+    if (_.has(meta, 'forwarded-events')) {
+      this.forwardMediatorEvents(meta['forwarded-events']);
+    }
 
-      this.template = requireContext(this.config.template);
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      this.listenTo(this.getRoot(), 'grid:third_column:toggle', this.toggleThirdColumn.bind(this));
+  /**
+   * {@inheritdoc}
+   *
+   * Waiting for the template to be required.
+   */
+  configure: function () {
+    if (undefined === this.config.template) {
+      throw new Error('The view "' + this.code + '" must be configured with a template.');
+    }
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+    this.template = requireContext(this.config.template);
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      let templateParams = this.config.templateParams || {};
-      templateParams = _.extend({}, {__: __}, templateParams);
+    this.listenTo(this.getRoot(), 'grid:third_column:toggle', this.toggleThirdColumn.bind(this));
 
-      this.$el.html(_.template(this.template)(templateParams));
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      this.renderExtensions();
-    },
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    let templateParams = this.config.templateParams || {};
+    templateParams = _.extend({}, {__: __}, templateParams);
 
-    /**
-     * Toggle the third column
-     */
-    toggleThirdColumn() {
-      const thirdColumn = this.$el.find('.AknDefault-thirdColumnContainer');
-      const thirdColumnContent = this.$el.find('.AknDefault-thirdColumn');
-      const width = thirdColumnContent.outerWidth() || 300;
+    this.$el.html(_.template(this.template)(templateParams));
 
-      if (null !== thirdColumn) {
-        thirdColumn.css({marginLeft: -width});
-        thirdColumn.toggleClass('AknDefault-thirdColumnContainer--open');
-      }
-    },
-  });
+    this.renderExtensions();
+  },
+
+  /**
+   * Toggle the third column
+   */
+  toggleThirdColumn() {
+    const thirdColumn = this.$el.find('.AknDefault-thirdColumnContainer');
+    const thirdColumnContent = this.$el.find('.AknDefault-thirdColumn');
+    const width = thirdColumnContent.outerWidth() || 300;
+
+    if (null !== thirdColumn) {
+      thirdColumn.css({marginLeft: -width});
+      thirdColumn.toggleClass('AknDefault-thirdColumnContainer--open');
+    }
+  },
 });
