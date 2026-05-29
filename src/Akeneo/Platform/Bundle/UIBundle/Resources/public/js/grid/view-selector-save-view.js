@@ -1,125 +1,105 @@
 'use strict';
 
-/**
- * Save extension for the Datagrid View Selector.
- * It displays a button near the selector to allow the user to save the current changes
- * to the current view.
- *
- * @author    Adrien Pétremann <adrien.petremann@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/form',
-  'pim/template/grid/view-selector/save-view',
-  'pim/datagrid/state',
-  'pim/dialog',
-  'routing',
-  'pim/user-context',
-  'pim/saver/datagrid-view',
-  'oro/messenger',
-  'pim/analytics',
-], function (
-  $,
-  _,
-  __,
-  BaseForm,
-  template,
-  DatagridState,
-  Dialog,
-  Routing,
-  UserContext,
-  DatagridViewSaver,
-  messenger,
-  analytics
-) {
-  return BaseForm.extend({
-    template: _.template(template),
-    tagName: 'span',
-    className: 'save-button',
-    events: {
-      'click .save': 'saveView',
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'grid:view-selector:state-changed', this.onDatagridStateChange);
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/grid/view-selector/save-view'));
+var DatagridState = __pimInterop(require('pim/datagrid/state'));
+require('pim/dialog');
+require('routing');
+var UserContext = __pimInterop(require('pim/user-context'));
+var DatagridViewSaver = __pimInterop(require('pim/saver/datagrid-view'));
+var messenger = __pimInterop(require('oro/messenger'));
+var analytics = __pimInterop(require('pim/analytics'));
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  template: _.template(template),
+  tagName: 'span',
+  className: 'save-button',
+  events: {
+    'click .save': 'saveView',
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      if (
-        'view' !== this.getRoot().currentViewType ||
-        UserContext.get('meta').id !== this.getRoot().currentView.owner_id
-      ) {
-        this.$el.html('');
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'grid:view-selector:state-changed', this.onDatagridStateChange);
 
-        return;
-      }
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      this.$el.html(
-        this.template({
-          dirty: this.dirty,
-          label: __('pim_datagrid.view_selector.save_changes'),
-        })
-      );
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    if (
+      'view' !== this.getRoot().currentViewType ||
+      UserContext.get('meta').id !== this.getRoot().currentView.owner_id
+    ) {
+      this.$el.html('');
 
-      this.$('[data-toggle="tooltip"]').tooltip();
-    },
+      return;
+    }
 
-    /**
-     * Method called on datagrid state change (when columns or filters are modified)
-     *
-     * @param {Object} datagridState
-     */
-    onDatagridStateChange: function (datagridState) {
-      var initialView = this.getRoot().initialView;
-      var initialViewExists = null !== initialView && 0 !== initialView.id;
+    this.$el.html(
+      this.template({
+        dirty: this.dirty,
+        label: __('pim_datagrid.view_selector.save_changes'),
+      })
+    );
 
-      if (initialViewExists) {
-        var filtersModified = initialView.filters !== datagridState.filters;
-        var columnsModified = !_.isEqual(initialView.columns, datagridState.columns.split(','));
+    this.$('[data-toggle="tooltip"]').tooltip();
+  },
 
-        this.dirty = filtersModified || columnsModified;
-        this.render();
-      }
-    },
+  /**
+   * Method called on datagrid state change (when columns or filters are modified)
+   *
+   * @param {Object} datagridState
+   */
+  onDatagridStateChange: function (datagridState) {
+    var initialView = this.getRoot().initialView;
+    var initialViewExists = null !== initialView && 0 !== initialView.id;
 
-    /**
-     * Save the current Datagrid view in database and triggers an event to the parent
-     * to select it.
-     */
-    saveView: function () {
-      var gridState = DatagridState.get(this.getRoot().gridAlias, ['filters', 'columns']);
+    if (initialViewExists) {
+      var filtersModified = initialView.filters !== datagridState.filters;
+      var columnsModified = !_.isEqual(initialView.columns, datagridState.columns.split(','));
 
-      var currentView = $.extend(true, {}, this.getRoot().currentView);
-      currentView.filters = gridState.filters;
-      currentView.columns = gridState.columns;
+      this.dirty = filtersModified || columnsModified;
+      this.render();
+    }
+  },
 
-      DatagridViewSaver.save(currentView, this.getRoot().gridAlias)
-        .done(
-          function (response) {
-            this.getRoot().trigger('grid:view-selector:view-saved', response.id);
+  /**
+   * Save the current Datagrid view in database and triggers an event to the parent
+   * to select it.
+   */
+  saveView: function () {
+    var gridState = DatagridState.get(this.getRoot().gridAlias, ['filters', 'columns']);
 
-            analytics.appcuesTrack('product-grid:view:saved', {
-              name: currentView.label,
-            });
-          }.bind(this)
-        )
-        .fail(function (response) {
-          _.each(response.responseJSON, function (error) {
-            messenger.notify('error', error);
+    var currentView = $.extend(true, {}, this.getRoot().currentView);
+    currentView.filters = gridState.filters;
+    currentView.columns = gridState.columns;
+
+    DatagridViewSaver.save(currentView, this.getRoot().gridAlias)
+      .done(
+        function (response) {
+          this.getRoot().trigger('grid:view-selector:view-saved', response.id);
+
+          analytics.appcuesTrack('product-grid:view:saved', {
+            name: currentView.label,
           });
+        }.bind(this)
+      )
+      .fail(function (response) {
+        _.each(response.responseJSON, function (error) {
+          messenger.notify('error', error);
         });
-    },
-  });
+      });
+  },
 });
