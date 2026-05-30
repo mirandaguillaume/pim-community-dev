@@ -1,13 +1,8 @@
-/* global define */
-define(['oro/datagrid/string-cell'], function (StringCell) {
-  'use strict';
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-  /**
-   * Datetime column cell
-   *
-   * @export  oro/datagrid/datetime-cell
-   * @class   oro.datagrid.DateTimeCell
-   * @extends oro.datagrid.StringCell
-   */
-  return StringCell.extend({type: 'dateTime'});
-});
+var StringCell = __pimInterop(require('oro/datagrid/string-cell'));
+('use strict');
+
+module.exports = StringCell.extend({type: 'dateTime'});

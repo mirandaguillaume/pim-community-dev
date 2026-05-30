@@ -1,28 +1,25 @@
-/* global define */
-define([
-  'underscore',
-  'oro/datagrid/image-cell',
-  'pim/template/datagrid/cell/product-and-product-model-image-cell',
-], function (_, ImageCell, productAndProductModelTemplate) {
-  'use strict';
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
+
+var _ = __pimInterop(require('underscore'));
+var ImageCell = __pimInterop(require('oro/datagrid/image-cell'));
+var productAndProductModelTemplate = __pimInterop(
+  require('pim/template/datagrid/cell/product-and-product-model-image-cell')
+);
+('use strict');
+
+module.exports = ImageCell.extend({
+  productAndProductModelTemplate: _.template(productAndProductModelTemplate),
 
   /**
-   * Uses a different template if the model is a product_model.
-   *
-   * @extends oro.datagrid.ImageCell
+   * {@inheritdoc}
    */
-  return ImageCell.extend({
-    productAndProductModelTemplate: _.template(productAndProductModelTemplate),
+  getTemplate(params) {
+    if (this.model.get('document_type') === 'product_model') {
+      return this.productAndProductModelTemplate(params);
+    }
 
-    /**
-     * {@inheritdoc}
-     */
-    getTemplate(params) {
-      if (this.model.get('document_type') === 'product_model') {
-        return this.productAndProductModelTemplate(params);
-      }
-
-      return ImageCell.prototype.getTemplate.apply(this, arguments);
-    },
-  });
+    return ImageCell.prototype.getTemplate.apply(this, arguments);
+  },
 });

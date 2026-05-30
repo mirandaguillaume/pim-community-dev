@@ -1,19 +1,16 @@
-/* global define */
-define(['oro/datagrid/string-cell'], function (StringCell) {
-  'use strict';
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-  /**
-   * Label column cell
-   *
-   * @extends oro.datagrid.StringCell
-   */
-  return StringCell.extend({
-    className: 'AknGrid-bodyCell AknGrid-bodyCell--noWrap AknGrid-bodyCell--highlight',
-    render: function () {
-      StringCell.prototype.render.apply(this, arguments);
-      this.$el.prop('title', this.$el.text());
+var StringCell = __pimInterop(require('oro/datagrid/string-cell'));
+('use strict');
 
-      return this;
-    },
-  });
+module.exports = StringCell.extend({
+  className: 'AknGrid-bodyCell AknGrid-bodyCell--noWrap AknGrid-bodyCell--highlight',
+  render: function () {
+    StringCell.prototype.render.apply(this, arguments);
+    this.$el.prop('title', this.$el.text());
+
+    return this;
+  },
 });
