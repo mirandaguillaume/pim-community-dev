@@ -1,73 +1,75 @@
 'use strict';
 
-define([
-  'underscore',
-  'oro/translator',
-  'jquery',
-  'pim/form',
-  'pim/template/system/tab/loading-message',
-  'bootstrap.bootstrapswitch',
-], function (_, __, $, BaseForm, template) {
-  return BaseForm.extend({
-    events: {
-      'change input[type="checkbox"]': 'updateBoolean',
-      'change textarea': 'updateText',
-    },
-    isGroup: true,
-    label: __('oro_config.form.config.group.loading_message.title'),
-    template: _.template(template),
-    code: 'oro_config_loading_message',
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.trigger('tab:register', {
-        code: this.code,
-        label: this.label,
-      });
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var $ = __pimInterop(require('jquery'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/system/tab/loading-message'));
+require('bootstrap.bootstrapswitch');
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  events: {
+    'change input[type="checkbox"]': 'updateBoolean',
+    'change textarea': 'updateText',
+  },
+  isGroup: true,
+  label: __('oro_config.form.config.group.loading_message.title'),
+  template: _.template(template),
+  code: 'oro_config_loading_message',
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(
-        this.template({
-          loading_message_enabled: this.getFormData().pim_ui___loading_message_enabled.value,
-          loading_messages: this.getFormData().pim_ui___loading_messages.value,
-        })
-      );
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.trigger('tab:register', {
+      code: this.code,
+      label: this.label,
+    });
 
-      this.$el.find('.switch').bootstrapSwitch();
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      this.delegateEvents();
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(
+      this.template({
+        loading_message_enabled: this.getFormData().pim_ui___loading_message_enabled.value,
+        loading_messages: this.getFormData().pim_ui___loading_messages.value,
+      })
+    );
 
-      return BaseForm.prototype.render.apply(this, arguments);
-    },
+    this.$el.find('.switch').bootstrapSwitch();
 
-    /**
-     * Update model after value change
-     *
-     * @param {Event} event
-     */
-    updateBoolean: function (event) {
-      var data = this.getFormData();
-      data.pim_ui___loading_message_enabled.value = $(event.target).prop('checked') ? '1' : '0';
-      this.setData(data);
-    },
+    this.delegateEvents();
 
-    /**
-     * Update model after value change
-     *
-     * @param {Event} event
-     */
-    updateText: function (event) {
-      var data = this.getFormData();
-      data.pim_ui___loading_messages.value = $(event.target).val();
-      this.setData(data);
-    },
-  });
+    return BaseForm.prototype.render.apply(this, arguments);
+  },
+
+  /**
+   * Update model after value change
+   *
+   * @param {Event} event
+   */
+  updateBoolean: function (event) {
+    var data = this.getFormData();
+    data.pim_ui___loading_message_enabled.value = $(event.target).prop('checked') ? '1' : '0';
+    this.setData(data);
+  },
+
+  /**
+   * Update model after value change
+   *
+   * @param {Event} event
+   */
+  updateText: function (event) {
+    var data = this.getFormData();
+    data.pim_ui___loading_messages.value = $(event.target).val();
+    this.setData(data);
+  },
 });
