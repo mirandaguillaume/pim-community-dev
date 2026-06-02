@@ -1,40 +1,42 @@
 'use strict';
 
-define([
-  'underscore',
-  'oro/translator',
-  'pim/controller/front',
-  'pim/form-builder',
-  'pim/fetcher-registry',
-  'pim/user-context',
-  'pim/dialog',
-  'pim/page-title',
-], function (_, __, BaseController, FormBuilder, FetcherRegistry, UserContext, Dialog, PageTitle) {
-  return BaseController.extend({
-    /**
-     * {@inheritdoc}
-     */
-    renderForm: function (route) {
-      return FetcherRegistry.getFetcher(this.options.config.entity)
-        .fetch(route.params.uuid || route.params.id, {cached: false})
-        .then(product => {
-          if (!this.active) {
-            return;
-          }
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-          PageTitle.set({'product.label': product.meta.label[UserContext.get('catalogLocale')]});
+require('underscore');
+require('oro/translator');
+var BaseController = __pimInterop(require('pim/controller/front'));
+var FormBuilder = __pimInterop(require('pim/form-builder'));
+var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var UserContext = __pimInterop(require('pim/user-context'));
+require('pim/dialog');
+var PageTitle = __pimInterop(require('pim/page-title'));
 
-          return FormBuilder.build(product.meta.form).then(form => {
-            this.on('pim:controller:can-leave', function (event) {
-              form.trigger('pim_enrich:form:can-leave', event);
-            });
-            form.setData(product);
+module.exports = BaseController.extend({
+  /**
+   * {@inheritdoc}
+   */
+  renderForm: function (route) {
+    return FetcherRegistry.getFetcher(this.options.config.entity)
+      .fetch(route.params.uuid || route.params.id, {cached: false})
+      .then(product => {
+        if (!this.active) {
+          return;
+        }
 
-            form.setElement(this.$el).render();
+        PageTitle.set({'product.label': product.meta.label[UserContext.get('catalogLocale')]});
 
-            return form;
+        return FormBuilder.build(product.meta.form).then(form => {
+          this.on('pim:controller:can-leave', function (event) {
+            form.trigger('pim_enrich:form:can-leave', event);
           });
+          form.setData(product);
+
+          form.setElement(this.$el).render();
+
+          return form;
         });
-    },
-  });
+      });
+  },
 });
