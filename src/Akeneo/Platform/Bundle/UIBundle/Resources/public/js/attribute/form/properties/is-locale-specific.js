@@ -5,17 +5,21 @@
  */
 'use strict';
 
-define(['pim/form/common/fields/boolean'], function (BaseField) {
-  return BaseField.extend({
-    /**
-     * {@inheritdoc}
-     */
-    updateModel: function () {
-      BaseField.prototype.updateModel.apply(this, arguments);
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      if (false === this.getFormData().is_locale_specific) {
-        this.setData({available_locales: []}, {silent: true});
-      }
-    },
-  });
+var BaseField = __pimInterop(require('pim/form/common/fields/boolean'));
+
+module.exports = BaseField.extend({
+  /**
+   * {@inheritdoc}
+   */
+  updateModel: function () {
+    BaseField.prototype.updateModel.apply(this, arguments);
+
+    if (false === this.getFormData().is_locale_specific) {
+      this.setData({available_locales: []}, {silent: true});
+    }
+  },
 });

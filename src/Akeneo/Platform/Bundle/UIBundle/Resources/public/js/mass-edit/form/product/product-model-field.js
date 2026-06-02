@@ -7,106 +7,108 @@
  */
 'use strict';
 
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/mass-edit-form/product/mass-edit-field',
-  'pim/router',
-  'pim/user-context',
-  'pim/fetcher-registry',
-  'pim/media-url-generator',
-  'pim/template/product/form/variant-navigation/product-model-item',
-], function ($, _, __, MassEditField, Routing, UserContext, FetcherRegistry, MediaUrlGenerator, templateProductModel) {
-  return MassEditField.extend({
-    previousFamilyVariant: null,
-    templateProductModel: _.template(templateProductModel),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure() {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.onPostUpdate.bind(this));
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+require('oro/translator');
+var MassEditField = __pimInterop(require('pim/mass-edit-form/product/mass-edit-field'));
+require('pim/router');
+var UserContext = __pimInterop(require('pim/user-context'));
+var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
+var templateProductModel = __pimInterop(require('pim/template/product/form/variant-navigation/product-model-item'));
 
-      return MassEditField.prototype.configure.apply(this, arguments);
-    },
+module.exports = MassEditField.extend({
+  previousFamilyVariant: null,
+  templateProductModel: _.template(templateProductModel),
 
-    /**
-     * When the model data is updated with a new family variant, drops the previous value and re-render the
-     * field.
-     */
-    onPostUpdate() {
-      if (this.getFormData().family_variant !== this.previousFamilyVariant) {
-        this.previousFamilyVariant = this.getFormData().family_variant;
-        this.setData({[this.fieldName]: null});
+  /**
+   * {@inheritdoc}
+   */
+  configure() {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.onPostUpdate.bind(this));
 
-        this.render();
-      }
-    },
+    return MassEditField.prototype.configure.apply(this, arguments);
+  },
 
-    /**
-     * {@inheritdoc}
-     *
-     * This method overrides the previous one to be able to format the result and add an image and set a
-     * custom template.
-     */
-    getSelect2Options() {
-      let options = MassEditField.prototype.getSelect2Options.apply(this, arguments);
+  /**
+   * When the model data is updated with a new family variant, drops the previous value and re-render the
+   * field.
+   */
+  onPostUpdate() {
+    if (this.getFormData().family_variant !== this.previousFamilyVariant) {
+      this.previousFamilyVariant = this.getFormData().family_variant;
+      this.setData({[this.fieldName]: null});
 
-      options.dropdownCssClass = 'variant-navigation';
-      options.formatResult = (item, $container) => {
-        const filePath = null !== item.image ? item.image.filePath : null;
-        const entity = {
-          label: item.text,
-          image: MediaUrlGenerator.getMediaShowUrl(filePath, 'thumbnail_small'),
-        };
+      this.render();
+    }
+  },
 
-        $container.append(this.templateProductModel({entity: entity, getClass: this.getCompletenessBadgeClass}));
+  /**
+   * {@inheritdoc}
+   *
+   * This method overrides the previous one to be able to format the result and add an image and set a
+   * custom template.
+   */
+  getSelect2Options() {
+    let options = MassEditField.prototype.getSelect2Options.apply(this, arguments);
+
+    options.dropdownCssClass = 'variant-navigation';
+    options.formatResult = (item, $container) => {
+      const filePath = null !== item.image ? item.image.filePath : null;
+      const entity = {
+        label: item.text,
+        image: MediaUrlGenerator.getMediaShowUrl(filePath, 'thumbnail_small'),
       };
 
-      return options;
-    },
+      $container.append(this.templateProductModel({entity: entity, getClass: this.getCompletenessBadgeClass}));
+    };
 
-    /**
-     * {@inheritdoc}
-     */
-    select2Data() {
-      let result = MassEditField.prototype.select2Data.apply(this, arguments);
-      result.options.family_variant = this.getFormData().family_variant;
+    return options;
+  },
 
-      return result;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  select2Data() {
+    let result = MassEditField.prototype.select2Data.apply(this, arguments);
+    result.options.family_variant = this.getFormData().family_variant;
 
-    /**
-     * {@inheritdoc}
-     */
-    convertBackendItem(item) {
-      return {
-        id: item.code,
-        text: `${item.code} - ${item.meta.label[UserContext.get('catalogLocale')]}`,
-        image: item.meta.image || null,
-      };
-    },
+    return result;
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    isReadOnly() {
-      return !this.getFormData().family_variant || MassEditField.prototype.isReadOnly.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  convertBackendItem(item) {
+    return {
+      id: item.code,
+      text: `${item.code} - ${item.meta.label[UserContext.get('catalogLocale')]}`,
+      image: item.meta.image || null,
+    };
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    select2InitSelection(element, callback) {
-      const id = $(element).val();
-      if ('' !== id) {
-        FetcherRegistry.getFetcher('product-model-by-code')
-          .fetch(id)
-          .then(productModel => {
-            callback(this.convertBackendItem(productModel));
-          });
-      }
-    },
-  });
+  /**
+   * {@inheritdoc}
+   */
+  isReadOnly() {
+    return !this.getFormData().family_variant || MassEditField.prototype.isReadOnly.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  select2InitSelection(element, callback) {
+    const id = $(element).val();
+    if ('' !== id) {
+      FetcherRegistry.getFetcher('product-model-by-code')
+        .fetch(id)
+        .then(productModel => {
+          callback(this.convertBackendItem(productModel));
+        });
+    }
+  },
 });

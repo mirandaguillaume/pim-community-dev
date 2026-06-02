@@ -1,89 +1,84 @@
-/**
- * On a Product Model Edit Form, this module displays number of product variant in the subtree of this Product Model,
- * eg: 2 / 10.
- *
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'underscore',
-  'oro/translator',
-  'pim/form',
-  'pim/template/product-model/complete-variant-product',
-  'pim/user-context',
-], function (_, __, BaseForm, template, UserContext) {
-  return BaseForm.extend({
-    className: 'AknButtonList-item',
-    template: _.template(template),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      UserContext.off('change:catalogLocale change:catalogScope', this.render);
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/product-model/complete-variant-product'));
+var UserContext = __pimInterop(require('pim/user-context'));
 
-      this.listenTo(UserContext, 'change:catalogLocale change:catalogScope', this.render);
+module.exports = BaseForm.extend({
+  className: 'AknButtonList-item',
+  template: _.template(template),
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    UserContext.off('change:catalogLocale change:catalogScope', this.render);
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      const variantProductCompleteness = this.getFormData().meta.variant_product_completenesses;
-      const completenesses = variantProductCompleteness.completenesses;
-      const channel = UserContext.get('catalogScope');
-      const locale = UserContext.get('catalogLocale');
+    this.listenTo(UserContext, 'change:catalogLocale change:catalogScope', this.render);
 
-      const totalProducts = variantProductCompleteness.total;
-      let completeProducts = 0;
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      if (_.has(completenesses, channel) && _.has(completenesses[channel], locale)) {
-        completeProducts = completenesses[channel][locale];
-      }
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    const variantProductCompleteness = this.getFormData().meta.variant_product_completenesses;
+    const completenesses = variantProductCompleteness.completenesses;
+    const channel = UserContext.get('catalogScope');
+    const locale = UserContext.get('catalogLocale');
 
-      this.$el.html(
-        this.template({
-          color: this.badgeCssClass(completeProducts, totalProducts),
-          label: this.badgeLabel(),
-          ratio: this.ratioLabel(completeProducts, totalProducts),
-        })
-      );
-    },
+    const totalProducts = variantProductCompleteness.total;
+    let completeProducts = 0;
 
-    /**
-     * Return the color of the badge
-     *
-     * @param {int} completeProducts
-     * @param {int} totalProducts
-     *
-     * @returns {string}
-     */
-    badgeCssClass: function (completeProducts, totalProducts) {
-      const ratio = completeProducts / totalProducts;
-      let color = 'warning';
+    if (_.has(completenesses, channel) && _.has(completenesses[channel], locale)) {
+      completeProducts = completenesses[channel][locale];
+    }
 
-      if (1 === ratio) {
-        color = 'success';
-      } else if (0 === ratio || 0 === totalProducts) {
-        color = 'important';
-      }
+    this.$el.html(
+      this.template({
+        color: this.badgeCssClass(completeProducts, totalProducts),
+        label: this.badgeLabel(),
+        ratio: this.ratioLabel(completeProducts, totalProducts),
+      })
+    );
+  },
 
-      return color;
-    },
+  /**
+   * Return the color of the badge
+   *
+   * @param {int} completeProducts
+   * @param {int} totalProducts
+   *
+   * @returns {string}
+   */
+  badgeCssClass: function (completeProducts, totalProducts) {
+    const ratio = completeProducts / totalProducts;
+    let color = 'warning';
 
-    /**
-     * Return the label of the badge
-     *
-     * @returns {string}
-     */
-    badgeLabel: function () {
-      return __('pim_enrich.entity.product_model.module.completeness.label');
-    },
+    if (1 === ratio) {
+      color = 'success';
+    } else if (0 === ratio || 0 === totalProducts) {
+      color = 'important';
+    }
 
-    ratioLabel: function (completeProducts, totalProducts) {
-      return `${completeProducts} / ${totalProducts}`;
-    },
-  });
+    return color;
+  },
+
+  /**
+   * Return the label of the badge
+   *
+   * @returns {string}
+   */
+  badgeLabel: function () {
+    return __('pim_enrich.entity.product_model.module.completeness.label');
+  },
+
+  ratioLabel: function (completeProducts, totalProducts) {
+    return `${completeProducts} / ${totalProducts}`;
+  },
 });

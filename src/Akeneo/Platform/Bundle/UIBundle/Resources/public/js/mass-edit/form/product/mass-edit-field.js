@@ -8,42 +8,46 @@
  */
 'use strict';
 
-define(['pim/form/common/fields/simple-select-async'], function (SimpleSelectAsync) {
-  return SimpleSelectAsync.extend({
-    readOnly: false,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize() {
-      SimpleSelectAsync.prototype.initialize.apply(this, arguments);
+var SimpleSelectAsync = __pimInterop(require('pim/form/common/fields/simple-select-async'));
 
-      this.readOnly = false;
-    },
+module.exports = SimpleSelectAsync.extend({
+  readOnly: false,
 
-    /**
-     * {@inheritdoc}
-     */
-    configure() {
-      this.listenTo(this, 'mass-edit:update-read-only', this.setReadOnly.bind(this));
+  /**
+   * {@inheritdoc}
+   */
+  initialize() {
+    SimpleSelectAsync.prototype.initialize.apply(this, arguments);
 
-      return SimpleSelectAsync.prototype.configure.apply(this, arguments);
-    },
+    this.readOnly = false;
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    isReadOnly() {
-      return this.readOnly || SimpleSelectAsync.prototype.isReadOnly.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  configure() {
+    this.listenTo(this, 'mass-edit:update-read-only', this.setReadOnly.bind(this));
 
-    /**
-     * Updates the readOnly parameter to avoid edition of the field
-     *
-     * @param {Boolean} readOnly
-     */
-    setReadOnly(readOnly) {
-      this.readOnly = readOnly;
-    },
-  });
+    return SimpleSelectAsync.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  isReadOnly() {
+    return this.readOnly || SimpleSelectAsync.prototype.isReadOnly.apply(this, arguments);
+  },
+
+  /**
+   * Updates the readOnly parameter to avoid edition of the field
+   *
+   * @param {Boolean} readOnly
+   */
+  setReadOnly(readOnly) {
+    this.readOnly = readOnly;
+  },
 });

@@ -1,87 +1,83 @@
 'use strict';
-/**
- * Change family operation
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'underscore',
-  'oro/translator',
-  'pim/mass-edit-form/product/operation',
-  'pim/common/select2/family',
-  'pim/template/mass-edit/product/change-family',
-  'pim/initselect2',
-], function (_, __, BaseOperation, Select2Configurator, template, initSelect2) {
-  return BaseOperation.extend({
-    template: _.template(template),
-    events: {
-      'change .family': 'updateModel',
-    },
 
-    /**
-     * {@inheritdoc}
-     */
-    reset: function () {
-      this.setValue(null);
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(
-        this.template({
-          readOnly: this.readOnly,
-          value: this.getValue(),
-          label: __('pim_enrich.entity.family.uppercase_label'),
-        })
-      );
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
+var Select2Configurator = __pimInterop(require('pim/common/select2/family'));
+var template = __pimInterop(require('pim/template/mass-edit/product/change-family'));
+var initSelect2 = __pimInterop(require('pim/initselect2'));
 
-      var options = Select2Configurator.getConfig(this.getValue());
+module.exports = BaseOperation.extend({
+  template: _.template(template),
+  events: {
+    'change .family': 'updateModel',
+  },
 
-      initSelect2.init(this.$('.family'), options);
+  /**
+   * {@inheritdoc}
+   */
+  reset: function () {
+    this.setValue(null);
+  },
 
-      return this;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(
+      this.template({
+        readOnly: this.readOnly,
+        value: this.getValue(),
+        label: __('pim_enrich.entity.family.uppercase_label'),
+      })
+    );
 
-    /**
-     * Update the form model from a dom event
-     *
-     * @param {event} event
-     */
-    updateModel: function (event) {
-      this.setValue(event.target.value);
-    },
+    var options = Select2Configurator.getConfig(this.getValue());
 
-    /**
-     * update the form model
-     *
-     * @param {string} family
-     */
-    setValue: function (family) {
-      var data = this.getFormData();
+    initSelect2.init(this.$('.family'), options);
 
-      data.actions = [
-        {
-          field: 'family',
-          value: family,
-        },
-      ];
+    return this;
+  },
 
-      this.setData(data);
-    },
+  /**
+   * Update the form model from a dom event
+   *
+   * @param {event} event
+   */
+  updateModel: function (event) {
+    this.setValue(event.target.value);
+  },
 
-    /**
-     * Get the current model value
-     *
-     * @return {string}
-     */
-    getValue: function () {
-      var action = _.findWhere(this.getFormData().actions, {field: 'family'});
+  /**
+   * update the form model
+   *
+   * @param {string} family
+   */
+  setValue: function (family) {
+    var data = this.getFormData();
 
-      return action ? action.value : null;
-    },
-  });
+    data.actions = [
+      {
+        field: 'family',
+        value: family,
+      },
+    ];
+
+    this.setData(data);
+  },
+
+  /**
+   * Get the current model value
+   *
+   * @return {string}
+   */
+  getValue: function () {
+    var action = _.findWhere(this.getFormData().actions, {field: 'family'});
+
+    return action ? action.value : null;
+  },
 });

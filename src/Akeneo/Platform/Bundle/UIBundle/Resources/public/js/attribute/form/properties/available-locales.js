@@ -5,15 +5,19 @@
  */
 'use strict';
 
-define(['pim/form/common/fields/available-locales'], function (BaseAvailableLocales) {
-  return BaseAvailableLocales.extend({
-    /**
-     * {@inheritdoc}
-     *
-     * This field shouldn't be displayed if the attribute is not locale specific.
-     */
-    isVisible: function () {
-      return undefined !== this.getFormData().is_locale_specific && this.getFormData().is_locale_specific;
-    },
-  });
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
+
+var BaseAvailableLocales = __pimInterop(require('pim/form/common/fields/available-locales'));
+
+module.exports = BaseAvailableLocales.extend({
+  /**
+   * {@inheritdoc}
+   *
+   * This field shouldn't be displayed if the attribute is not locale specific.
+   */
+  isVisible: function () {
+    return undefined !== this.getFormData().is_locale_specific && this.getFormData().is_locale_specific;
+  },
 });

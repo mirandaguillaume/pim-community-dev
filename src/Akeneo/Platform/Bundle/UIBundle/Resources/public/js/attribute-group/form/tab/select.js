@@ -1,81 +1,76 @@
 'use strict';
 
-/**
- * Attribute group edit form add attribute select extension view
- *
- * @author   Julien Sanchez <julien@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'pim/product/add-select/attribute',
-  'pim/fetcher-registry',
-  'pim/formatter/choices/base',
-  'pim/common/add-select/line',
-  'pim/user-context',
-], function ($, _, AddAttributeSelect, FetcherRegistry, ChoicesFormatter, LineView, UserContext) {
-  return AddAttributeSelect.extend({
-    lineView: LineView,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * Render this extension
-     *
-     * @return {Object}
-     */
-    render: function () {
-      if (!this.hasRightToAdd()) {
-        return this;
-      }
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+var AddAttributeSelect = __pimInterop(require('pim/product/add-select/attribute'));
+var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var ChoicesFormatter = __pimInterop(require('pim/formatter/choices/base'));
+var LineView = __pimInterop(require('pim/common/add-select/line'));
+var UserContext = __pimInterop(require('pim/user-context'));
 
-      return AddAttributeSelect.prototype.render.apply(this, arguments);
-    },
+module.exports = AddAttributeSelect.extend({
+  lineView: LineView,
 
-    /**
-     * Creates request according to recieved options
-     *
-     * @param {Object} options
-     */
-    onGetQuery: function (options) {
-      return FetcherRegistry.getFetcher('attribute')
-        .search({
-          identifiers: this.getParent().getOtherAttributes().join(','),
-          rights: 0,
-          search: options.term,
-          options: {
-            locale: UserContext.get('catalogLocale'),
-          },
-        })
-        .then(this.prepareChoices)
-        .then(function (choices) {
-          options.callback({
-            results: choices,
-            more: false,
-          });
+  /**
+   * Render this extension
+   *
+   * @return {Object}
+   */
+  render: function () {
+    if (!this.hasRightToAdd()) {
+      return this;
+    }
+
+    return AddAttributeSelect.prototype.render.apply(this, arguments);
+  },
+
+  /**
+   * Creates request according to recieved options
+   *
+   * @param {Object} options
+   */
+  onGetQuery: function (options) {
+    return FetcherRegistry.getFetcher('attribute')
+      .search({
+        identifiers: this.getParent().getOtherAttributes().join(','),
+        rights: 0,
+        search: options.term,
+        options: {
+          locale: UserContext.get('catalogLocale'),
+        },
+      })
+      .then(this.prepareChoices)
+      .then(function (choices) {
+        options.callback({
+          results: choices,
+          more: false,
         });
-    },
+      });
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    prepareChoices: function (items) {
-      return _.chain(items)
-        .map(function (item) {
-          var choice = ChoicesFormatter.formatOne(item);
+  /**
+   * {@inheritdoc}
+   */
+  prepareChoices: function (items) {
+    return _.chain(items)
+      .map(function (item) {
+        var choice = ChoicesFormatter.formatOne(item);
 
-          return choice;
-        })
-        .value();
-    },
+        return choice;
+      })
+      .value();
+  },
 
-    /**
-     * Does the user has right to add an attribute
-     *
-     * @return {Boolean}
-     */
-    hasRightToAdd: function () {
-      return this.getParent().hasRightToAdd();
-    },
-  });
+  /**
+   * Does the user has right to add an attribute
+   *
+   * @return {Boolean}
+   */
+  hasRightToAdd: function () {
+    return this.getParent().hasRightToAdd();
+  },
 });

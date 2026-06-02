@@ -1,78 +1,75 @@
 'use strict';
 
-/**
- * @author    Adrien Pétremann <adrien.petremann@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/form/common/save',
-  'oro/messenger',
-  'pim/saver/product-model',
-  'pim/field-manager',
-  'pim/i18n',
-  'pim/user-context',
-  'pim/analytics',
-], function ($, _, __, BaseSave, messenger, ProductModelSaver, FieldManager, i18n, UserContext, analytics) {
-  return BaseSave.extend({
-    updateSuccessMessage: __('pim_enrich.entity.product_model.flash.update.success'),
-    updateFailureMessage: __('pim_enrich.entity.product_model.flash.update.fail'),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:update-association', this.save);
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseSave = __pimInterop(require('pim/form/common/save'));
+var messenger = __pimInterop(require('oro/messenger'));
+var ProductModelSaver = __pimInterop(require('pim/saver/product-model'));
+var FieldManager = __pimInterop(require('pim/field-manager'));
+var i18n = __pimInterop(require('pim/i18n'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var analytics = __pimInterop(require('pim/analytics'));
 
-      return BaseSave.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseSave.extend({
+  updateSuccessMessage: __('pim_enrich.entity.product_model.flash.update.success'),
+  updateFailureMessage: __('pim_enrich.entity.product_model.flash.update.fail'),
 
-    /**
-     * {@inheritdoc}
-     */
-    save: function (options) {
-      var productModel = $.extend(true, {}, this.getFormData());
-      var productModelId = productModel.meta.id;
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:update-association', this.save);
 
-      delete productModel.meta;
-      delete productModel.family;
+    return BaseSave.prototype.configure.apply(this, arguments);
+  },
 
-      var notReadyFields = FieldManager.getNotReadyFields();
+  /**
+   * {@inheritdoc}
+   */
+  save: function (options) {
+    var productModel = $.extend(true, {}, this.getFormData());
+    var productModelId = productModel.meta.id;
 
-      if (0 < notReadyFields.length) {
-        var fieldLabels = _.map(notReadyFields, function (field) {
-          return i18n.getLabel(field.attribute.label, UserContext.get('catalogLocale'), field.attribute.code);
-        });
+    delete productModel.meta;
+    delete productModel.family;
 
-        messenger.notify(
-          'error',
-          __('pim_enrich.entity.product_model.flash.update.fields_not_ready', {
-            fields: fieldLabels.join(', '),
-          })
-        );
+    var notReadyFields = FieldManager.getNotReadyFields();
 
-        return;
-      }
-
-      this.showLoadingMask();
-      this.getRoot().trigger('pim_enrich:form:entity:pre_save');
-
-      analytics.appcuesTrack('product-model:form:saved', {
-        code: productModel.code,
+    if (0 < notReadyFields.length) {
+      var fieldLabels = _.map(notReadyFields, function (field) {
+        return i18n.getLabel(field.attribute.label, UserContext.get('catalogLocale'), field.attribute.code);
       });
 
-      return ProductModelSaver.save(productModelId, productModel)
-        .then(
-          function (data) {
-            this.postSave();
+      messenger.notify(
+        'error',
+        __('pim_enrich.entity.product_model.flash.update.fields_not_ready', {
+          fields: fieldLabels.join(', '),
+        })
+      );
 
-            this.setData(data, options);
+      return;
+    }
 
-            this.getRoot().trigger('pim_enrich:form:entity:post_fetch', data);
-          }.bind(this)
-        )
-        .fail(this.fail.bind(this))
-        .always(this.hideLoadingMask.bind(this));
-    },
-  });
+    this.showLoadingMask();
+    this.getRoot().trigger('pim_enrich:form:entity:pre_save');
+
+    analytics.appcuesTrack('product-model:form:saved', {
+      code: productModel.code,
+    });
+
+    return ProductModelSaver.save(productModelId, productModel)
+      .then(
+        function (data) {
+          this.postSave();
+
+          this.setData(data, options);
+
+          this.getRoot().trigger('pim_enrich:form:entity:post_fetch', data);
+        }.bind(this)
+      )
+      .fail(this.fail.bind(this))
+      .always(this.hideLoadingMask.bind(this));
+  },
 });

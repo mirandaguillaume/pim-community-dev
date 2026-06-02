@@ -1,91 +1,87 @@
 'use strict';
 
-/**
- * Allow to search a product with family variant in order to update it
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'oro/messenger',
-  'pim/mass-edit-form/product/operation',
-  'pim/common/property',
-  'pim/template/mass-edit/product/update-entity-with-family-variant-parent',
-], function ($, _, __, messenger, BaseOperation, propertyAccessor, template) {
-  return BaseOperation.extend({
-    template: _.template(template),
-    events: {},
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.updateModel);
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var messenger = __pimInterop(require('oro/messenger'));
+var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
+var propertyAccessor = __pimInterop(require('pim/common/property'));
 
-      return BaseOperation.prototype.configure.apply(this, arguments);
-    },
+var template = __pimInterop(require('pim/template/mass-edit/product/update-entity-with-family-variant-parent'));
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(
-        this.template({
-          value: this.getValue(),
-          readOnly: this.readOnly,
-        })
-      );
+module.exports = BaseOperation.extend({
+  template: _.template(template),
+  events: {},
 
-      BaseOperation.prototype.render.apply(this, arguments);
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_update', this.updateModel);
 
-      return this;
-    },
+    return BaseOperation.prototype.configure.apply(this, arguments);
+  },
 
-    /**
-     * Updates the model to store action
-     *
-     * @param {Object} formData
-     */
-    updateModel: function (formData) {
-      if (this.getParent().getCurrentOperation() === this.getCode()) {
-        formData.actions = [
-          {
-            field: 'productModelCode',
-            value: formData.product_model,
-          },
-        ];
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(
+      this.template({
+        value: this.getValue(),
+        readOnly: this.readOnly,
+      })
+    );
 
-        this.setData(formData, {silent: true});
-      }
-    },
+    BaseOperation.prototype.render.apply(this, arguments);
 
-    /**
-     * {@inheritdoc}
-     */
-    getValue: function () {
-      const action = _.findWhere(this.getFormData().actions, {field: 'productModelCode'});
+    return this;
+  },
 
-      return action ? action.value : null;
-    },
+  /**
+   * Updates the model to store action
+   *
+   * @param {Object} formData
+   */
+  updateModel: function (formData) {
+    if (this.getParent().getCurrentOperation() === this.getCode()) {
+      formData.actions = [
+        {
+          field: 'productModelCode',
+          value: formData.product_model,
+        },
+      ];
 
-    /**
-     * Checks there is one product model selected to go to the next step
-     */
-    validate: function () {
-      const data = this.getFormData();
-      const productModelCode = propertyAccessor.accessProperty(data, 'actions.0.value', null);
+      this.setData(formData, {silent: true});
+    }
+  },
 
-      const hasUpdate = null !== productModelCode;
+  /**
+   * {@inheritdoc}
+   */
+  getValue: function () {
+    const action = _.findWhere(this.getFormData().actions, {field: 'productModelCode'});
 
-      if (!hasUpdate) {
-        messenger.notify('error', __('pim_enrich.mass_edit.product.operation.add_to_existing_product_model.no_update'));
-      }
+    return action ? action.value : null;
+  },
 
-      return $.Deferred().resolve(hasUpdate);
-    },
-  });
+  /**
+   * Checks there is one product model selected to go to the next step
+   */
+  validate: function () {
+    const data = this.getFormData();
+    const productModelCode = propertyAccessor.accessProperty(data, 'actions.0.value', null);
+
+    const hasUpdate = null !== productModelCode;
+
+    if (!hasUpdate) {
+      messenger.notify('error', __('pim_enrich.mass_edit.product.operation.add_to_existing_product_model.no_update'));
+    }
+
+    return $.Deferred().resolve(hasUpdate);
+  },
 });

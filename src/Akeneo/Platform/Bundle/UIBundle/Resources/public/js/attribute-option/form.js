@@ -1,48 +1,50 @@
 'use strict';
 
-define([
-  'underscore',
-  'oro/translator',
-  'backbone',
-  'pim/form',
-  'pim/template/attribute-option/form',
-  'pim/user-context',
-  'pim/i18n',
-], function (_, __, Backbone, BaseForm, template, UserContext, i18n) {
-  return BaseForm.extend({
-    template: _.template(template),
-    events: {
-      'change input': 'updateModel',
-    },
-    updateModel: function () {
-      var optionValues = {};
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      _.each(this.$('input[name^="label-"]'), function (labelInput) {
-        var locale = labelInput.dataset.locale;
-        optionValues[locale] = {
-          locale: locale,
-          value: labelInput.value,
-        };
-      });
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+require('backbone');
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/attribute-option/form'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var i18n = __pimInterop(require('pim/i18n'));
 
-      this.getFormModel().set('code', this.$('input[name="code"]').val());
-      this.getFormModel().set('optionValues', optionValues);
-    },
-    render: function () {
-      if (!this.configured) {
-        return this;
-      }
+module.exports = BaseForm.extend({
+  template: _.template(template),
+  events: {
+    'change input': 'updateModel',
+  },
+  updateModel: function () {
+    var optionValues = {};
 
-      this.$el.html(
-        this.template({
-          locale: UserContext.get('catalogLocale'),
-          i18n: i18n,
-          option: this.getFormData(),
-          __,
-        })
-      );
+    _.each(this.$('input[name^="label-"]'), function (labelInput) {
+      var locale = labelInput.dataset.locale;
+      optionValues[locale] = {
+        locale: locale,
+        value: labelInput.value,
+      };
+    });
 
-      return this.renderExtensions();
-    },
-  });
+    this.getFormModel().set('code', this.$('input[name="code"]').val());
+    this.getFormModel().set('optionValues', optionValues);
+  },
+  render: function () {
+    if (!this.configured) {
+      return this;
+    }
+
+    this.$el.html(
+      this.template({
+        locale: UserContext.get('catalogLocale'),
+        i18n: i18n,
+        option: this.getFormData(),
+        __,
+      })
+    );
+
+    return this.renderExtensions();
+  },
 });
