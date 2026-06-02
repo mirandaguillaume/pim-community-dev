@@ -1,19 +1,14 @@
 'use strict';
 
-/**
- * Prodct add attribute select line view
- *
- * @author    Alexandr Jeliuc <alex@jeliuc.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'pim/common/add-select/line',
-  'pim/template/product/add-select/attribute/line',
-], function ($, _, BaseLine, template) {
-  return BaseLine.extend({
-    template: _.template(template),
-  });
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
+
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+var BaseLine = __pimInterop(require('pim/common/add-select/line'));
+var template = __pimInterop(require('pim/template/product/add-select/attribute/line'));
+
+module.exports = BaseLine.extend({
+  template: _.template(template),
 });

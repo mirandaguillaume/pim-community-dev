@@ -1,55 +1,50 @@
 'use strict';
-/**
- * Download pdf extension
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @author    Filips Alpe <filips@akeneo.com>
- * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'pim/form', 'pim/template/product/download-pdf', 'routing', 'pim/user-context'], function (
-  _,
-  BaseForm,
-  template,
-  Routing,
-  UserContext
-) {
-  return BaseForm.extend({
-    tagName: 'a',
 
-    className: 'AknDropdown-menuLink btn-download',
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    template: _.template(template),
+var _ = __pimInterop(require('underscore'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/product/download-pdf'));
+var Routing = __pimInterop(require('routing'));
+var UserContext = __pimInterop(require('pim/user-context'));
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      UserContext.off('change:catalogLocale change:catalogScope', this.render);
-      this.listenTo(UserContext, 'change:catalogLocale change:catalogScope', this.render);
+module.exports = BaseForm.extend({
+  tagName: 'a',
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+  className: 'AknDropdown-menuLink btn-download',
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      if (!this.getFormData().meta) {
-        return;
-      }
+  template: _.template(template),
 
-      this.$el.html(this.template());
-      this.$el.attr(
-        'href',
-        Routing.generate('pim_pdf_generator_download_product_pdf', {
-          uuid: this.getFormData().meta.id,
-          dataLocale: UserContext.get('catalogLocale'),
-          dataScope: UserContext.get('catalogScope'),
-        })
-      );
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    UserContext.off('change:catalogLocale change:catalogScope', this.render);
+    this.listenTo(UserContext, 'change:catalogLocale change:catalogScope', this.render);
 
-      return this;
-    },
-  });
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    if (!this.getFormData().meta) {
+      return;
+    }
+
+    this.$el.html(this.template());
+    this.$el.attr(
+      'href',
+      Routing.generate('pim_pdf_generator_download_product_pdf', {
+        uuid: this.getFormData().meta.id,
+        dataLocale: UserContext.get('catalogLocale'),
+        dataScope: UserContext.get('catalogScope'),
+      })
+    );
+
+    return this;
+  },
 });

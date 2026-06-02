@@ -1,127 +1,122 @@
-/**
- * Extension to set up the category tree filter for the product grid
- *
- * @author    Tamara Robichet <tamara.robichet@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'jquery', 'pim/form-builder', 'pim/form', 'oro/datafilter/product_category-filter'], function (
-  _,
-  $,
-  FormBuilder,
-  BaseForm,
-  CategoryFilter
-) {
-  return BaseForm.extend({
-    config: {
-      alias: 'product-grid',
-      categoryTreeName: 'pim_enrich_product_grid_category_tree',
-    },
-    id: 'tree',
-    className: 'filter-item',
-    attributes: {
-      'data-name': 'category',
-      'data-type': 'tree',
-      'data-relatedentity': 'product',
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * @inheritdoc
-     */
-    initialize(options) {
-      this.config = Object.assign(this.config, options.config || {});
+require('underscore');
+var $ = __pimInterop(require('jquery'));
+require('pim/form-builder');
+var BaseForm = __pimInterop(require('pim/form'));
+var CategoryFilter = __pimInterop(require('oro/datafilter/product_category-filter'));
 
-      return BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  config: {
+    alias: 'product-grid',
+    categoryTreeName: 'pim_enrich_product_grid_category_tree',
+  },
+  id: 'tree',
+  className: 'filter-item',
+  attributes: {
+    'data-name': 'category',
+    'data-type': 'tree',
+    'data-relatedentity': 'product',
+  },
 
-    /**
-     * @inheritDoc
-     */
-    configure() {
-      this.listenTo(this.getRoot(), 'datagrid:getParams', this.setupCategoryTree);
+  /**
+   * @inheritdoc
+   */
+  initialize(options) {
+    this.config = Object.assign(this.config, options.config || {});
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+    return BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * Render the category tree extensions when the datagrid is ready
-     */
-    setupCategoryTree(urlParams) {
-      const categoryFilter = new CategoryFilter(
-        urlParams,
-        this.config.alias,
-        this.config.categoryTreeName,
-        this.$el,
-        value => {
-          this.valueUpdated(value);
-        }
-      );
+  /**
+   * @inheritDoc
+   */
+  configure() {
+    this.listenTo(this.getRoot(), 'datagrid:getParams', this.setupCategoryTree);
 
-      this.listenTo(categoryFilter, 'update', function (value) {
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * Render the category tree extensions when the datagrid is ready
+   */
+  setupCategoryTree(urlParams) {
+    const categoryFilter = new CategoryFilter(
+      urlParams,
+      this.config.alias,
+      this.config.categoryTreeName,
+      this.$el,
+      value => {
         this.valueUpdated(value);
-      });
-
-      this.listenTo(categoryFilter, 'update_label', function (treeLabel, categoryLabel) {
-        this.getRoot().trigger('pim_enrich:form:category_updated', {
-          categoryLabel: categoryLabel ? this.trimCount(categoryLabel) : '',
-          treeLabel: this.trimCount(treeLabel),
-        });
-      });
-
-      return categoryFilter;
-    },
-
-    /**
-     * Triggers a new event when the value of the category is updated
-     *
-     * @param {Object} value
-     * @param {integer} value.type
-     * @param {integer} value.value.categoryId
-     * @param {integer} value.value.treeId
-     */
-    valueUpdated(value) {
-      this.getRoot().trigger('pim_enrich:form:category_updated', {
-        categoryLabel: this.getCategoryLabel(value.value.categoryId),
-        treeLabel: this.getTreeLabel(),
-      });
-    },
-
-    /**
-     * Get the category label from its id.
-     * We search the matching DOM element in the JStree plugin directly, because it does not exist any fetcher
-     * able to get the label from its id.
-     *
-     * @returns {String}
-     */
-    getCategoryLabel() {
-      return this.trimCount($('#tree [aria-selected=true]').text().trim());
-    },
-
-    /**
-     * Get the current tree label.
-     * See this.getCategoryLabel
-     *
-     * @returns {String}
-     */
-    getTreeLabel() {
-      const button = $('#tree [role=tree] [role=treeitem] button[title]:first');
-      if (button.length) {
-        return this.trimCount(button.text().trim());
       }
+    );
 
-      return '';
-    },
+    this.listenTo(categoryFilter, 'update', function (value) {
+      this.valueUpdated(value);
+    });
 
-    /**
-     * Deletes the count of the category and the tree to only keep the label
-     * For example, "Audio (123)" will return "Audio".
-     *
-     * @param {String} str
-     *
-     * @returns {String}
-     */
-    trimCount(str) {
-      return str.replace(/(.*) \(\d+\)/, (match, text) => text);
-    },
-  });
+    this.listenTo(categoryFilter, 'update_label', function (treeLabel, categoryLabel) {
+      this.getRoot().trigger('pim_enrich:form:category_updated', {
+        categoryLabel: categoryLabel ? this.trimCount(categoryLabel) : '',
+        treeLabel: this.trimCount(treeLabel),
+      });
+    });
+
+    return categoryFilter;
+  },
+
+  /**
+   * Triggers a new event when the value of the category is updated
+   *
+   * @param {Object} value
+   * @param {integer} value.type
+   * @param {integer} value.value.categoryId
+   * @param {integer} value.value.treeId
+   */
+  valueUpdated(value) {
+    this.getRoot().trigger('pim_enrich:form:category_updated', {
+      categoryLabel: this.getCategoryLabel(value.value.categoryId),
+      treeLabel: this.getTreeLabel(),
+    });
+  },
+
+  /**
+   * Get the category label from its id.
+   * We search the matching DOM element in the JStree plugin directly, because it does not exist any fetcher
+   * able to get the label from its id.
+   *
+   * @returns {String}
+   */
+  getCategoryLabel() {
+    return this.trimCount($('#tree [aria-selected=true]').text().trim());
+  },
+
+  /**
+   * Get the current tree label.
+   * See this.getCategoryLabel
+   *
+   * @returns {String}
+   */
+  getTreeLabel() {
+    const button = $('#tree [role=tree] [role=treeitem] button[title]:first');
+    if (button.length) {
+      return this.trimCount(button.text().trim());
+    }
+
+    return '';
+  },
+
+  /**
+   * Deletes the count of the category and the tree to only keep the label
+   * For example, "Audio (123)" will return "Audio".
+   *
+   * @param {String} str
+   *
+   * @returns {String}
+   */
+  trimCount(str) {
+    return str.replace(/(.*) \(\d+\)/, (match, text) => text);
+  },
 });

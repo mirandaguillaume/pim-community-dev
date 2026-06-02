@@ -1,67 +1,63 @@
 'use strict';
-/**
- * Displays the total missing required attributes
- *
- * @author    Adrien Pétremann <adrien.petremann@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'underscore',
-  'oro/translator',
-  'pim/router',
-  'pim/form',
-  'pim/user-context',
-  'pim/provider/to-fill-field-provider',
-  'pim/template/product/form/total-missing-required-attributes',
-], function (_, __, router, BaseForm, UserContext, toFillFieldProvider, template) {
-  return BaseForm.extend({
-    className: 'AknButtonList-item',
-    template: _.template(template),
-    events: {
-      'click .required-attribute-indicator': 'filterRequiredAttributes',
-    },
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(UserContext, 'change:catalogLocale change:catalogScope', this.render);
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.render.bind(this));
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+require('pim/router');
+var BaseForm = __pimInterop(require('pim/form'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var toFillFieldProvider = __pimInterop(require('pim/provider/to-fill-field-provider'));
+var template = __pimInterop(require('pim/template/product/form/total-missing-required-attributes'));
 
-    /**
-     * {@inheritDoc}
-     */
-    render: function () {
-      this.$el.empty();
+module.exports = BaseForm.extend({
+  className: 'AknButtonList-item',
+  template: _.template(template),
+  events: {
+    'click .required-attribute-indicator': 'filterRequiredAttributes',
+  },
 
-      const product = this.getFormData();
-      const scope = UserContext.get('catalogScope');
-      const locale = UserContext.get('catalogLocale');
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(UserContext, 'change:catalogLocale change:catalogScope', this.render);
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.render.bind(this));
 
-      const missingAttributes = toFillFieldProvider.getMissingRequiredFields(product, scope, locale);
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      if (missingAttributes.length > 0) {
-        this.$el.append(
-          this.template({
-            __: __,
-            missingRequiredAttributesCount: missingAttributes.length,
-            missingValues: 'pim_enrich.entity.product.module.completeness.missing_values',
-          })
-        );
-      }
+  /**
+   * {@inheritDoc}
+   */
+  render: function () {
+    this.$el.empty();
 
-      return this;
-    },
+    const product = this.getFormData();
+    const scope = UserContext.get('catalogScope');
+    const locale = UserContext.get('catalogLocale');
 
-    /**
-     * Filter the required attributes and attribute group
-     */
-    filterRequiredAttributes: function () {
-      this.getRoot().trigger('pim_enrich:form:switch_values_filter', 'missing_required');
-    },
-  });
+    const missingAttributes = toFillFieldProvider.getMissingRequiredFields(product, scope, locale);
+
+    if (missingAttributes.length > 0) {
+      this.$el.append(
+        this.template({
+          __: __,
+          missingRequiredAttributesCount: missingAttributes.length,
+          missingValues: 'pim_enrich.entity.product.module.completeness.missing_values',
+        })
+      );
+    }
+
+    return this;
+  },
+
+  /**
+   * Filter the required attributes and attribute group
+   */
+  filterRequiredAttributes: function () {
+    this.getRoot().trigger('pim_enrich:form:switch_values_filter', 'missing_required');
+  },
 });

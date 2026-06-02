@@ -1,159 +1,151 @@
 'use strict';
 
-/**
- * This extension allows user to display a fullscreen item picker.
- * It overrides the default item picker because we have to manage 2 types of entities:
- * - products (identified by their identifier)
- * - product models (identifier by their code)
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'pim/common/item-picker', 'pim/media-url-generator'], function (
-  _,
-  ItemPicker,
-  MediaUrlGenerator
-) {
-  return ItemPicker.extend({
-    items: [],
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    initialize: function () {
-      this.items = [];
+var _ = __pimInterop(require('underscore'));
+var ItemPicker = __pimInterop(require('pim/common/item-picker'));
+var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
 
-      return ItemPicker.prototype.initialize.apply(this, arguments);
-    },
+module.exports = ItemPicker.extend({
+  items: [],
 
-    /**
-     * {@inheritdoc}
-     */
-    selectModel: function (model) {
-      this.addItem({
-        id: model.get('identifier') ?? `[${model.get('technical_id')}]`,
-        itemCode: `${model.get('document_type')};${model.get('id')}`,
-        document_type: model.get('document_type'),
-        technical_id: model.get('technical_id'),
-        label: model.get('label'),
-        image: model.get('image'),
-      });
-    },
+  initialize: function () {
+    this.items = [];
 
-    /**
-     * {@inheritdoc}
-     */
-    unselectModel: function (model) {
-      this.removeItem(`${model.get('document_type')};${model.get('id')}`);
-    },
+    return ItemPicker.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    updateBasket: function () {
-      this.renderBasket(this.items);
-      this.delegateEvents();
-    },
+  /**
+   * {@inheritdoc}
+   */
+  selectModel: function (model) {
+    this.addItem({
+      id: model.get('identifier') ?? `[${model.get('technical_id')}]`,
+      itemCode: `${model.get('document_type')};${model.get('id')}`,
+      document_type: model.get('document_type'),
+      technical_id: model.get('technical_id'),
+      label: model.get('label'),
+      image: model.get('image'),
+    });
+  },
 
-    /**
-     * Add an item to the basket
-     *
-     * @param {Object} item
-     *
-     * @return this
-     */
-    addItem: function (item) {
-      const items = this.items;
-      items.push(item);
-      this.setItems(items);
+  /**
+   * {@inheritdoc}
+   */
+  unselectModel: function (model) {
+    this.removeItem(`${model.get('document_type')};${model.get('id')}`);
+  },
 
-      return this;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  updateBasket: function () {
+    this.renderBasket(this.items);
+    this.delegateEvents();
+  },
 
-    /**
-     * Remove an item from the collection
-     *
-     * @param {string} itemCode
-     *
-     * @return this
-     */
-    removeItem: function (itemCode) {
-      let items = _.filter(this.items, item => item.itemCode !== itemCode);
+  /**
+   * Add an item to the basket
+   *
+   * @param {Object} item
+   *
+   * @return this
+   */
+  addItem: function (item) {
+    const items = this.items;
+    items.push(item);
+    this.setItems(items);
 
-      this.setItems(items);
+    return this;
+  },
 
-      return this;
-    },
+  /**
+   * Remove an item from the collection
+   *
+   * @param {string} itemCode
+   *
+   * @return this
+   */
+  removeItem: function (itemCode) {
+    let items = _.filter(this.items, item => item.itemCode !== itemCode);
 
-    /**
-     * Get all items in the collection
-     *
-     * @return {Array}
-     */
-    getItems: function () {
-      return this.items;
-    },
+    this.setItems(items);
 
-    /**
-     * Set items
-     *
-     * @param {Array} items
-     *
-     * @return this
-     */
-    setItems: function (items) {
-      this.items = _.uniq(items);
-      this.updateBasket();
+    return this;
+  },
 
-      return this;
-    },
+  /**
+   * Get all items in the collection
+   *
+   * @return {Array}
+   */
+  getItems: function () {
+    return this.items;
+  },
 
-    /**
-     * Remove an item from the basket (triggered by 'click .remove-item')
-     *
-     * @param {Event} event
-     */
-    removeItemFromBasket: function (event) {
-      this.removeItem(event.currentTarget.dataset.itemcode);
-      if (this.datagridModel) {
-        this.updateChecked(this.datagridModel);
+  /**
+   * Set items
+   *
+   * @param {Array} items
+   *
+   * @return this
+   */
+  setItems: function (items) {
+    this.items = _.uniq(items);
+    this.updateBasket();
+
+    return this;
+  },
+
+  /**
+   * Remove an item from the basket (triggered by 'click .remove-item')
+   *
+   * @param {Event} event
+   */
+  removeItemFromBasket: function (event) {
+    this.removeItem(event.currentTarget.dataset.itemcode);
+    if (this.datagridModel) {
+      this.updateChecked(this.datagridModel);
+    }
+  },
+
+  /**
+   * Update the checked rows in the grid according to the current model
+   *
+   * @param {Object} datagrid
+   */
+  updateChecked: function (datagrid) {
+    if (datagrid.inputName !== this.datagrid.name) {
+      return;
+    }
+
+    const items = this.getItems();
+
+    datagrid.models.forEach(row => {
+      if (_.some(items, item => item.itemCode === `${row.get('document_type')};${row.get('id')}`)) {
+        row.set('is_checked', true);
+      } else {
+        row.set('is_checked', null);
       }
-    },
+    });
 
-    /**
-     * Update the checked rows in the grid according to the current model
-     *
-     * @param {Object} datagrid
-     */
-    updateChecked: function (datagrid) {
-      if (datagrid.inputName !== this.datagrid.name) {
-        return;
-      }
+    this.setItems(items);
+  },
 
-      const items = this.getItems();
+  /**
+   * {@inheritdoc}
+   */
+  imagePathMethod: item => MediaUrlGenerator.getMediaShowUrl(item.image?.filePath, 'thumbnail_small'),
 
-      datagrid.models.forEach(row => {
-        if (_.some(items, item => item.itemCode === `${row.get('document_type')};${row.get('id')}`)) {
-          row.set('is_checked', true);
-        } else {
-          row.set('is_checked', null);
-        }
-      });
+  /**
+   * {@inheritdoc}
+   */
+  labelMethod: item => item.label ?? `[${item.id}]`,
 
-      this.setItems(items);
-    },
-
-    /**
-     * {@inheritdoc}
-     */
-    imagePathMethod: item => MediaUrlGenerator.getMediaShowUrl(item.image?.filePath, 'thumbnail_small'),
-
-    /**
-     * {@inheritdoc}
-     */
-    labelMethod: item => item.label ?? `[${item.id}]`,
-
-    /**
-     * {@inheritdoc}
-     */
-    itemCodeMethod: item => item.itemCode,
-  });
+  /**
+   * {@inheritdoc}
+   */
+  itemCodeMethod: item => item.itemCode,
 });

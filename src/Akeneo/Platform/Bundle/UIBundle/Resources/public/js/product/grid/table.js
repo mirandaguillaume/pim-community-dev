@@ -1,265 +1,254 @@
-define([
-  'underscore',
-  'jquery',
-  'pim/router',
-  'oro/datagrid-builder',
-  'oro/pageable-collection',
-  'pim/datagrid/state',
-  'require-context',
-  'pim/form',
-  'pim/user-context',
-  'pim/fetcher-registry',
-  'pim/datagrid/state-listener',
-  'oro/loading-mask',
-], function (
-  _,
-  $,
-  Routing,
-  datagridBuilder,
-  PageableCollection,
-  DatagridState,
-  requireContext,
-  BaseForm,
-  UserContext,
-  FetcherRegistry,
-  StateListener,
-  LoadingMask
-) {
-  return BaseForm.extend({
-    config: {},
-    loadingMask: null,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * @inheritdoc
-     */
-    initialize(options) {
-      this.config = options.config;
-      this.loadingMask = new LoadingMask();
+var _ = __pimInterop(require('underscore'));
+var $ = __pimInterop(require('jquery'));
+var Routing = __pimInterop(require('pim/router'));
+var datagridBuilder = __pimInterop(require('oro/datagrid-builder'));
+var PageableCollection = __pimInterop(require('oro/pageable-collection'));
+var DatagridState = __pimInterop(require('pim/datagrid/state'));
+require('require-context');
+var BaseForm = __pimInterop(require('pim/form'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var StateListener = __pimInterop(require('pim/datagrid/state-listener'));
+var LoadingMask = __pimInterop(require('oro/loading-mask'));
 
-      return BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  config: {},
+  loadingMask: null,
 
-    /**
-     * Returns the stored display type for the given grid
-     *
-     * @return {String}
-     */
-    getStoredDisplayType() {
-      return localStorage.getItem(`display-selector:${this.config.gridName}`);
-    },
+  /**
+   * @inheritdoc
+   */
+  initialize(options) {
+    this.config = options.config;
+    this.loadingMask = new LoadingMask();
 
-    /**
-     * Fetch default view for grid
-     * @return {Promise}
-     */
-    getDefaultView() {
-      return FetcherRegistry.getFetcher('datagrid-view')
-        .defaultUserView(this.config.gridName)
-        .then(defaultUserView => defaultUserView.view);
-    },
+    return BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * Fetch default columns for grid
-     * @return {Promise}
-     */
-    getDefaultColumns() {
-      return FetcherRegistry.getFetcher('datagrid-view').defaultColumns(this.config.gridName);
-    },
+  /**
+   * Returns the stored display type for the given grid
+   *
+   * @return {String}
+   */
+  getStoredDisplayType() {
+    return localStorage.getItem(`display-selector:${this.config.gridName}`);
+  },
 
-    /**
-     * Build the datagrid
-     * @param  {Object} resp Datagrid load response
-     */
-    loadDataGrid(resp) {
-      if (typeof resp === 'string' || null === resp) {
-        return;
-      }
+  /**
+   * Fetch default view for grid
+   * @return {Promise}
+   */
+  getDefaultView() {
+    return FetcherRegistry.getFetcher('datagrid-view')
+      .defaultUserView(this.config.gridName)
+      .then(defaultUserView => defaultUserView.view);
+  },
 
-      const {gridName} = this.config;
-      const dataLocale = UserContext.get('catalogLocale');
-      const state = DatagridState.get(gridName, ['view', 'filters', 'columns']);
+  /**
+   * Fetch default columns for grid
+   * @return {Promise}
+   */
+  getDefaultColumns() {
+    return FetcherRegistry.getFetcher('datagrid-view').defaultColumns(this.config.gridName);
+  },
 
-      if (state.columns) {
-        resp.metadata.state.parameters = _.extend({}, resp.metadata.state.parameters, {
-          view: {
-            columns: state.columns,
-            id: state.view,
-          },
-        });
-      }
+  /**
+   * Build the datagrid
+   * @param  {Object} resp Datagrid load response
+   */
+  loadDataGrid(resp) {
+    if (typeof resp === 'string' || null === resp) {
+      return;
+    }
 
-      resp.metadata = this.applyDisplayType(resp.metadata);
+    const {gridName} = this.config;
+    const dataLocale = UserContext.get('catalogLocale');
+    const state = DatagridState.get(gridName, ['view', 'filters', 'columns']);
 
-      $(`#grid-${gridName}`).data({
-        metadata: resp.metadata,
-        data: JSON.parse(resp.data),
+    if (state.columns) {
+      resp.metadata.state.parameters = _.extend({}, resp.metadata.state.parameters, {
+        view: {
+          columns: state.columns,
+          id: state.view,
+        },
       });
+    }
 
-      const url = decodeURI(resp.metadata.options.url).split('?')[0];
-      const localeParam = $.param({dataLocale});
-      resp.metadata.options.url = `${url}?${localeParam}`;
+    resp.metadata = this.applyDisplayType(resp.metadata);
 
-      datagridBuilder([StateListener]);
+    $(`#grid-${gridName}`).data({
+      metadata: resp.metadata,
+      data: JSON.parse(resp.data),
+    });
 
-      this.loadingMask.hide();
-    },
+    const url = decodeURI(resp.metadata.options.url).split('?')[0];
+    const localeParam = $.param({dataLocale});
+    resp.metadata.options.url = `${url}?${localeParam}`;
 
-    /**
-     * Gets the allowed display types from the datagrid config and applies them
-     * The allowed options are:
-     *
-     * manageColumns: Display column selector button or not
-     * rowView: The module to display a row
-     * label: The name of the display type in the display-selector
-     *
-     * @param  {Object} gridMetadata
-     * @param  {Object} selectedType
-     * @return {Object}
-     */
-    applyDisplayType(gridMetadata) {
-      const selectedType = this.getStoredDisplayType();
-      const metadata = Object.assign({}, gridMetadata);
-      const displayTypes = metadata.options.displayTypes || {};
-      const displayType = displayTypes[selectedType];
+    datagridBuilder([StateListener]);
 
-      if (selectedType === 'default' || undefined === displayType) {
-        return gridMetadata;
-      }
+    this.loadingMask.hide();
+  },
 
-      metadata.options.manageColumns = displayType.manageColumns;
-      metadata.options.rowView = displayType.rowView;
+  /**
+   * Gets the allowed display types from the datagrid config and applies them
+   * The allowed options are:
+   *
+   * manageColumns: Display column selector button or not
+   * rowView: The module to display a row
+   * label: The name of the display type in the display-selector
+   *
+   * @param  {Object} gridMetadata
+   * @param  {Object} selectedType
+   * @return {Object}
+   */
+  applyDisplayType(gridMetadata) {
+    const selectedType = this.getStoredDisplayType();
+    const metadata = Object.assign({}, gridMetadata);
+    const displayTypes = metadata.options.displayTypes || {};
+    const displayType = displayTypes[selectedType];
 
-      $('#product-grid').addClass(`AknGrid--${selectedType}`);
+    if (selectedType === 'default' || undefined === displayType) {
+      return gridMetadata;
+    }
 
-      return metadata;
-    },
+    metadata.options.manageColumns = displayType.manageColumns;
+    metadata.options.rowView = displayType.rowView;
 
-    /**
-     * Get the initial grid params with locale
-     * @return {Object} urlParams
-     */
-    getInitialParams() {
-      const dataLocale = UserContext.get('catalogLocale');
-      const alias = this.config.gridName;
-      const urlParams = {dataLocale, alias};
-      urlParams.params = {dataLocale};
+    $('#product-grid').addClass(`AknGrid--${selectedType}`);
 
-      return urlParams;
-    },
+    return metadata;
+  },
 
-    /**
-     * Set the columns on the datagrid state
-     * @param  {Array} columns   An array of columns
-     * @param  {Object} urlParams Url params
-     * @return {Object}
-     */
-    applyColumns(columns, urlParams) {
-      urlParams = _.clone(urlParams);
-      const {gridName} = this.config;
-      if (_.isArray(columns)) columns = columns.join();
+  /**
+   * Get the initial grid params with locale
+   * @return {Object} urlParams
+   */
+  getInitialParams() {
+    const dataLocale = UserContext.get('catalogLocale');
+    const alias = this.config.gridName;
+    const urlParams = {dataLocale, alias};
+    urlParams.params = {dataLocale};
 
-      urlParams[`${gridName}[_parameters][view][columns]`] = columns;
-      DatagridState.set(gridName, {columns: columns});
+    return urlParams;
+  },
 
-      return urlParams;
-    },
+  /**
+   * Set the columns on the datagrid state
+   * @param  {Array} columns   An array of columns
+   * @param  {Object} urlParams Url params
+   * @return {Object}
+   */
+  applyColumns(columns, urlParams) {
+    urlParams = _.clone(urlParams);
+    const {gridName} = this.config;
+    if (_.isArray(columns)) columns = columns.join();
 
-    /**
-     * Set the selected view on the datagrid state
-     * @param  {String} viewId    The id of the view
-     * @param  {Object} urlParams Url params
-     * @return {Object}
-     */
-    applyView(viewId, urlParams) {
-      urlParams = _.clone(urlParams);
-      const {gridName} = this.config;
+    urlParams[`${gridName}[_parameters][view][columns]`] = columns;
+    DatagridState.set(gridName, {columns: columns});
 
-      urlParams[`${gridName}[_parameters][view][id]`] = viewId;
-      DatagridState.set(gridName, {view: viewId});
+    return urlParams;
+  },
 
-      return urlParams;
-    },
+  /**
+   * Set the selected view on the datagrid state
+   * @param  {String} viewId    The id of the view
+   * @param  {Object} urlParams Url params
+   * @return {Object}
+   */
+  applyView(viewId, urlParams) {
+    urlParams = _.clone(urlParams);
+    const {gridName} = this.config;
 
-    /**
-     * Apply filters to the datagrid params
-     * @param  {String} rawFilters Filters as string
-     * @param  {Object} urlParams  Url params
-     * @return {Object}
-     */
-    applyFilters(rawFilters, urlParams) {
-      urlParams = _.clone(urlParams);
-      const {gridName} = this.config;
-      let filters = PageableCollection.prototype.decodeStateData(rawFilters);
-      let options = {};
+    urlParams[`${gridName}[_parameters][view][id]`] = viewId;
+    DatagridState.set(gridName, {view: viewId});
 
-      if (!_.isEmpty(filters.filters)) {
-        options = {
-          state: {
-            filters: _.omit(filters.filters, 'scope'),
-          },
-        };
-      }
+    return urlParams;
+  },
 
-      let collection = new PageableCollection(null, options);
-      collection.processFiltersParams(urlParams, filters, `${gridName}[_filter]`);
+  /**
+   * Apply filters to the datagrid params
+   * @param  {String} rawFilters Filters as string
+   * @param  {Object} urlParams  Url params
+   * @return {Object}
+   */
+  applyFilters(rawFilters, urlParams) {
+    urlParams = _.clone(urlParams);
+    const {gridName} = this.config;
+    let filters = PageableCollection.prototype.decodeStateData(rawFilters);
+    let options = {};
 
-      for (let column in filters.sorters) {
-        urlParams[`${gridName}[_sort_by][${column}]`] = 1 === parseInt(filters.sorters[column]) ? 'DESC' : 'ASC';
-      }
+    if (!_.isEmpty(filters.filters)) {
+      options = {
+        state: {
+          filters: _.omit(filters.filters, 'scope'),
+        },
+      };
+    }
 
-      if (filters.pageSize) {
-        urlParams[`${gridName}[_pager][_per_page]`] = 25;
-      }
+    let collection = new PageableCollection(null, options);
+    collection.processFiltersParams(urlParams, filters, `${gridName}[_filter]`);
 
-      if (filters.currentPage) {
-        urlParams[`${gridName}[_pager][_page]`] = filters.currentPage;
-      }
+    for (let column in filters.sorters) {
+      urlParams[`${gridName}[_sort_by][${column}]`] = 1 === parseInt(filters.sorters[column]) ? 'DESC' : 'ASC';
+    }
 
-      DatagridState.set(gridName, {filters: rawFilters});
+    if (filters.pageSize) {
+      urlParams[`${gridName}[_pager][_per_page]`] = 25;
+    }
 
-      return urlParams;
-    },
+    if (filters.currentPage) {
+      urlParams[`${gridName}[_pager][_page]`] = filters.currentPage;
+    }
 
-    /**
-     * Apply filters columns and view for the datagrid
-     * @param {Array} defaultColumns
-     * @param {String} defaultView
-     */
-    setDatagridState(defaultColumns, defaultView) {
-      const {gridName, datagridLoadUrl} = this.config;
-      let params = this.getInitialParams();
+    DatagridState.set(gridName, {filters: rawFilters});
 
-      if (!DatagridState.get(gridName, ['view'])) {
-        DatagridState.refreshFiltersFromUrl(gridName);
-      }
+    return urlParams;
+  },
 
-      const state = DatagridState.get(gridName, ['view', 'filters', 'columns']);
+  /**
+   * Apply filters columns and view for the datagrid
+   * @param {Array} defaultColumns
+   * @param {String} defaultView
+   */
+  setDatagridState(defaultColumns, defaultView) {
+    const {gridName, datagridLoadUrl} = this.config;
+    let params = this.getInitialParams();
 
-      if (defaultView && ('0' === state.view || null === state.view)) {
-        params = this.applyView(defaultView.id, params);
-        params = this.applyFilters(defaultView.filters, params);
-        params = this.applyColumns(defaultView.columns, params);
-      } else {
-        if (state.view) params = this.applyView(state.view, params);
-        if (state.filters) params = this.applyFilters(state.filters, params);
-        params = this.applyColumns(state.columns || defaultColumns, params);
-      }
+    if (!DatagridState.get(gridName, ['view'])) {
+      DatagridState.refreshFiltersFromUrl(gridName);
+    }
 
-      this.getRoot().trigger('datagrid:getParams', params);
+    const state = DatagridState.get(gridName, ['view', 'filters', 'columns']);
 
-      return $.post(Routing.generate(datagridLoadUrl, {alias: params.alias}), params, this.loadDataGrid.bind(this));
-    },
+    if (defaultView && ('0' === state.view || null === state.view)) {
+      params = this.applyView(defaultView.id, params);
+      params = this.applyFilters(defaultView.filters, params);
+      params = this.applyColumns(defaultView.columns, params);
+    } else {
+      if (state.view) params = this.applyView(state.view, params);
+      if (state.filters) params = this.applyFilters(state.filters, params);
+      params = this.applyColumns(state.columns || defaultColumns, params);
+    }
 
-    /**
-     * @inheritdoc
-     */
-    render() {
-      this.$el.empty().append(this.loadingMask.$el);
-      this.loadingMask.render().show();
+    this.getRoot().trigger('datagrid:getParams', params);
 
-      $.when(this.getDefaultColumns(), this.getDefaultView()).then((defaultColumns, defaultView) => {
-        return this.setDatagridState(defaultColumns, defaultView);
-      });
-    },
-  });
+    return $.post(Routing.generate(datagridLoadUrl, {alias: params.alias}), params, this.loadDataGrid.bind(this));
+  },
+
+  /**
+   * @inheritdoc
+   */
+  render() {
+    this.$el.empty().append(this.loadingMask.$el);
+    this.loadingMask.render().show();
+
+    $.when(this.getDefaultColumns(), this.getDefaultView()).then((defaultColumns, defaultView) => {
+      return this.setDatagridState(defaultColumns, defaultView);
+    });
+  },
 });

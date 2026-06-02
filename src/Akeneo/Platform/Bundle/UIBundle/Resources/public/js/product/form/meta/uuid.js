@@ -1,11 +1,14 @@
 'use strict';
-/**
- * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
- * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'pim/form/common/meta/uuid', 'pim/template/product/meta/uuid'], function (_, Uuid, template) {
-  return Uuid.extend({
-    className: 'AknColumn-block',
-    template: _.template(template),
-  });
+
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
+
+var _ = __pimInterop(require('underscore'));
+var Uuid = __pimInterop(require('pim/form/common/meta/uuid'));
+var template = __pimInterop(require('pim/template/product/meta/uuid'));
+
+module.exports = Uuid.extend({
+  className: 'AknColumn-block',
+  template: _.template(template),
 });
