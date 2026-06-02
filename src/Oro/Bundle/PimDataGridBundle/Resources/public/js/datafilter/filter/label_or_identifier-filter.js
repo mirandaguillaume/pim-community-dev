@@ -1,101 +1,103 @@
 'use strict';
 
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'oro/datafilter/abstract-filter',
-  'pim/template/datagrid/filter/search-filter',
-], function ($, _, __, AbstractFilter, template) {
-  return AbstractFilter.extend({
-    inputValueSelector: 'input[name="value"]',
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    events: {
-      'keydown input[name=value]': 'runTimeout',
-      'keypress input[name=value]': 'runTimeout',
-    },
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var AbstractFilter = __pimInterop(require('oro/datafilter/abstract-filter'));
+var template = __pimInterop(require('pim/template/datagrid/filter/search-filter'));
 
-    emptyValue: {
-      value: '',
-    },
+module.exports = AbstractFilter.extend({
+  inputValueSelector: 'input[name="value"]',
 
-    timer: null,
+  events: {
+    'keydown input[name=value]': 'runTimeout',
+    'keypress input[name=value]': 'runTimeout',
+  },
 
-    isSearch: true,
+  emptyValue: {
+    value: '',
+  },
 
-    timeoutDelay: 500,
+  timer: null,
 
-    className: 'AknFilterBox-searchContainer filter-item search-filter',
+  isSearch: true,
 
-    template: _.template(template),
+  timeoutDelay: 500,
 
-    /**
-     * {@inheritDoc}
-     */
-    render: function () {
-      this.$el.html(
-        this.template({
-          label: __('pim_datagrid.search', {label: __(this.label.toLowerCase())}),
-        })
-      );
+  className: 'AknFilterBox-searchContainer filter-item search-filter',
 
-      this.delegateEvents();
-    },
+  template: _.template(template),
 
-    /**
-     * @inheritDoc
-     */
-    _writeDOMValue: function (value) {
-      this._setInputValue(this.inputValueSelector, value.value);
+  /**
+   * {@inheritDoc}
+   */
+  render: function () {
+    this.$el.html(
+      this.template({
+        label: __('pim_datagrid.search', {label: __(this.label.toLowerCase())}),
+      })
+    );
 
-      return this;
-    },
+    this.delegateEvents();
+  },
 
-    /**
-     * @inheritDoc
-     */
-    _readDOMValue: function () {
-      return {
-        value: this._getInputValue(this.inputValueSelector),
-      };
-    },
+  /**
+   * @inheritDoc
+   */
+  _writeDOMValue: function (value) {
+    this._setInputValue(this.inputValueSelector, value.value);
 
-    /**
-     * Runs a timer to wait some time. When the time is done, it execute the search.
-     * If the user types another time in the search box, it resets the timer and restart one.
-     *
-     * @param {Event} event
-     */
-    runTimeout: function (event) {
-      if (null !== this.timer) {
-        clearTimeout(this.timer);
-      }
+    return this;
+  },
 
-      if (13 === event.keyCode) {
-        // Enter key
-        this.doSearch();
-      } else {
-        this.timer = setTimeout(this.doSearch.bind(this), this.timeoutDelay);
-      }
-    },
+  /**
+   * @inheritDoc
+   */
+  _readDOMValue: function () {
+    return {
+      value: this._getInputValue(this.inputValueSelector),
+    };
+  },
 
-    /**
-     * Executes the search by setting the value.
-     */
-    doSearch: function () {
-      this.setValue(this._readDOMValue());
-    },
+  /**
+   * Runs a timer to wait some time. When the time is done, it execute the search.
+   * If the user types another time in the search box, it resets the timer and restart one.
+   *
+   * @param {Event} event
+   */
+  runTimeout: function (event) {
+    if (null !== this.timer) {
+      clearTimeout(this.timer);
+    }
 
-    /**
-     * Appends filter to a grid
-     * If .search-zone is not in the element that is to say it could be somewhere in the page.
-     */
-    moveFilter: function (collection, element) {
-      if (element.$('.search-zone').length !== 0) {
-        element.$('.search-zone').append(this.$el.get(0));
-      } else if ($('.edit-form .search-zone').length !== 0) {
-        $('.edit-form .search-zone').empty().append(this.$el.get(0));
-      }
-    },
-  });
+    if (13 === event.keyCode) {
+      // Enter key
+      this.doSearch();
+    } else {
+      this.timer = setTimeout(this.doSearch.bind(this), this.timeoutDelay);
+    }
+  },
+
+  /**
+   * Executes the search by setting the value.
+   */
+  doSearch: function () {
+    this.setValue(this._readDOMValue());
+  },
+
+  /**
+   * Appends filter to a grid
+   * If .search-zone is not in the element that is to say it could be somewhere in the page.
+   */
+  moveFilter: function (collection, element) {
+    if (element.$('.search-zone').length !== 0) {
+      element.$('.search-zone').append(this.$el.get(0));
+    } else if ($('.edit-form .search-zone').length !== 0) {
+      $('.edit-form .search-zone').empty().append(this.$el.get(0));
+    }
+  },
 });

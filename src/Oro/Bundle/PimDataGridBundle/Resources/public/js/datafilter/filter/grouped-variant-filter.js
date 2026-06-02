@@ -1,48 +1,48 @@
-/* global define */
-define([
-  'jquery',
-  'oro/translator',
-  'oro/datafilter/select-filter',
-  'pim/template/datagrid/filter-grouped-variant',
-], function ($, __, SelectFilter, template) {
-  'use strict';
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-  return SelectFilter.extend({
-    template: _.template(template),
-    className: 'AknDropdown AknDropdown--left AknTitleContainer-variantSelector',
-    events: {
-      'click .AknDropdown-menuLink': '_onValueChange',
-    },
-    placeholder: __('pim_datagrid.filters.entity_type.grouped'),
+var $ = __pimInterop(require('jquery'));
+var __ = __pimInterop(require('oro/translator'));
+var SelectFilter = __pimInterop(require('oro/datafilter/select-filter'));
+var template = __pimInterop(require('pim/template/datagrid/filter-grouped-variant'));
+('use strict');
 
-    _onValueChange: function (event) {
-      const value = this.$(event.currentTarget).find('.display-grouped-item').data('value');
-      this.setValue({value});
-    },
+module.exports = SelectFilter.extend({
+  template: _.template(template),
+  className: 'AknDropdown AknDropdown--left AknTitleContainer-variantSelector',
+  events: {
+    'click .AknDropdown-menuLink': '_onValueChange',
+  },
+  placeholder: __('pim_datagrid.filters.entity_type.grouped'),
 
-    _onValueUpdated: function () {
-      SelectFilter.prototype._onValueUpdated.apply(this, arguments);
-      this._updateHighlight();
-    },
+  _onValueChange: function (event) {
+    const value = this.$(event.currentTarget).find('.display-grouped-item').data('value');
+    this.setValue({value});
+  },
 
-    render: function () {
-      SelectFilter.prototype.render.apply(this, arguments);
-      this._updateHighlight();
+  _onValueUpdated: function () {
+    SelectFilter.prototype._onValueUpdated.apply(this, arguments);
+    this._updateHighlight();
+  },
 
-      return this;
-    },
+  render: function () {
+    SelectFilter.prototype.render.apply(this, arguments);
+    this._updateHighlight();
 
-    moveFilter: function (collection, element) {
-      if (element.$('.search-zone').length !== 0) {
-        element.$('.search-zone').append(this.$el.get(0));
-      } else if ($('.edit-form .search-zone').length !== 0) {
-        $('.edit-form .search-zone').append(this.$el.get(0));
-      }
-      this._updateHighlight();
-    },
+    return this;
+  },
 
-    _updateHighlight: function () {
-      this._highlightDropdown(this.getValue().value || '', '');
-    },
-  });
+  moveFilter: function (collection, element) {
+    if (element.$('.search-zone').length !== 0) {
+      element.$('.search-zone').append(this.$el.get(0));
+    } else if ($('.edit-form .search-zone').length !== 0) {
+      $('.edit-form .search-zone').append(this.$el.get(0));
+    }
+    this._updateHighlight();
+  },
+
+  _updateHighlight: function () {
+    this._highlightDropdown(this.getValue().value || '', '');
+  },
 });
