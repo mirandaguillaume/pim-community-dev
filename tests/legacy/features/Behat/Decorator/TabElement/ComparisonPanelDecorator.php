@@ -25,13 +25,29 @@ class ComparisonPanelDecorator extends ElementDecorator
      */
     public function selectElements($mode)
     {
-        $this->spin(function () use ($mode) {
-            $dropdown = $this->find('css', $this->selectors['Change selection dropdown']);
-            if (null === $dropdown) {
-                return false;
-            }
-            $dropdown->click();
+        $dropdown = $this->spin(function () {
+            return $this->find('css', $this->selectors['Change selection dropdown']) ?: false;
+        }, 'Change selection dropdown was not found');
 
+        // Open the menu only when it is not already open. Re-clicking the toggle while
+        // the menu is open lets the decorative <li class="AknDropdown-menuTitle"> — which
+        // overlaps the toggle during the 0.2s fadeIn animation — intercept the click,
+        // the cause of the "element click intercepted" Spin timeout flaky on this step.
+        $this->spin(function () use ($dropdown) {
+            if (!$dropdown->getParent()->hasClass('open')) {
+                $dropdown->click();
+            }
+
+            return $dropdown->getParent()->hasClass('open');
+        }, 'Could not open the selection dropdown');
+
+        // Click the requested option. This spin never touches the toggle again, so a
+        // retry (e.g. while the count has not refreshed yet) cannot hit the intercept.
+        // The menu links sit below the title, so they are never overlapped by it.
+        $this->spin(function () use ($dropdown, $mode) {
+            if (0 !== $this->selectedItemsCount()) {
+                return true;
+            }
             $selector = $dropdown->getParent()->find('css', sprintf('a:contains("%s")', ucfirst($mode)));
             if (null === $selector) {
                 return false;
