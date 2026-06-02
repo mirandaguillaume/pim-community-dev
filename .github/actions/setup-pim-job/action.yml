@@ -72,7 +72,19 @@ runs:
         HASH=$(sha256sum Dockerfile | cut -c1-12)
         IMAGE="ghcr.io/${{ github.repository }}/php:df-${HASH}-${{ inputs.php-version }}"
         echo "Pulling PHP image: ${IMAGE}"
-        docker pull "$IMAGE"
+        # Retry with backoff: ghcr.io intermittently returns 5xx (502 Bad Gateway)
+        # on manifest/token requests. A single un-retried `docker pull` failure took
+        # down build-front, lint-front, test-front-unit and test-behat across several
+        # PRs at once. Mirror the GHCR-login retry above.
+        for attempt in 1 2 3 4 5; do
+          docker pull "$IMAGE" && break
+          if [ "$attempt" -eq 5 ]; then
+            echo "::error::docker pull failed after 5 attempts for ${IMAGE}"
+            exit 1
+          fi
+          echo "docker pull attempt ${attempt}/5 failed (transient ghcr.io error?), retrying in $((attempt * 10))s..."
+          sleep $((attempt * 10))
+        done
         docker tag "$IMAGE" akeneo/pim-php-dev:${{ inputs.php-version }}
 
     - name: Pull base Docker images
