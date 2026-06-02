@@ -1,91 +1,83 @@
-define([
-  'underscore',
-  'jquery',
-  'pim/controller/front',
-  'pim/form-builder',
-  'pim/user-context',
-  'oro/mediator',
-  'routing',
-  'pim/fetcher-registry',
-  'pim/provider/sequential-edit-provider',
-], function (
-  _,
-  $,
-  BaseController,
-  FormBuilder,
-  UserContext,
-  mediator,
-  Routing,
-  fetcherRegistry,
-  sequentialEditProvider
-) {
-  return BaseController.extend({
-    config: {
-      gridExtension: 'pim-product-index',
-      gridName: 'product-grid',
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize(options) {
-      this.config = Object.assign(this.config, options.config || {});
+require('underscore');
+require('jquery');
+var BaseController = __pimInterop(require('pim/controller/front'));
+var FormBuilder = __pimInterop(require('pim/form-builder'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var mediator = __pimInterop(require('oro/mediator'));
+require('routing');
+var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var sequentialEditProvider = __pimInterop(require('pim/provider/sequential-edit-provider'));
 
-      return BaseController.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseController.extend({
+  config: {
+    gridExtension: 'pim-product-index',
+    gridName: 'product-grid',
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    renderForm() {
-      this.selectMenuTab();
+  /**
+   * {@inheritdoc}
+   */
+  initialize(options) {
+    this.config = Object.assign(this.config, options.config || {});
 
-      const {gridName, gridExtension} = this.config;
-      fetcherRegistry.getFetcher('datagrid-view').clear();
-      sequentialEditProvider.clear();
+    return BaseController.prototype.initialize.apply(this, arguments);
+  },
 
-      return FormBuilder.build(gridExtension).then(form => {
-        this.setupLocale();
-        this.setupMassEditAttributes();
-        form.setElement(this.$el).render({gridName});
+  /**
+   * {@inheritdoc}
+   */
+  renderForm() {
+    this.selectMenuTab();
 
-        return form;
-      });
-    },
+    const {gridName, gridExtension} = this.config;
+    fetcherRegistry.getFetcher('datagrid-view').clear();
+    sequentialEditProvider.clear();
 
-    /**
-     * {@inheritdoc}
-     */
-    renderTemplate(content) {
-      if (!this.active) {
-        return;
-      }
+    return FormBuilder.build(gridExtension).then(form => {
+      this.setupLocale();
+      this.setupMassEditAttributes();
+      form.setElement(this.$el).render({gridName});
 
-      this.$el.html(content);
-    },
+      return form;
+    });
+  },
 
-    /**
-     * Get the locale from url and set to UserContext
-     */
-    setupLocale() {
-      const locale = window.location.hash.split('?dataLocale=')[1];
-      if (locale) {
-        UserContext.set('catalogLocale', locale);
-      }
-    },
+  /**
+   * {@inheritdoc}
+   */
+  renderTemplate(content) {
+    if (!this.active) {
+      return;
+    }
 
-    /**
-     * Clear mass edit selected attributes
-     */
-    setupMassEditAttributes() {
-      sessionStorage.setItem('mass_edit_selected_attributes', JSON.stringify([]));
-    },
+    this.$el.html(content);
+  },
 
-    /**
-     * Select products menu tab
-     */
-    selectMenuTab() {
-      mediator.trigger('pim_menu:highlight:tab', {extension: 'pim-menu-products'});
-    },
-  });
+  /**
+   * Get the locale from url and set to UserContext
+   */
+  setupLocale() {
+    const locale = window.location.hash.split('?dataLocale=')[1];
+    if (locale) {
+      UserContext.set('catalogLocale', locale);
+    }
+  },
+
+  /**
+   * Clear mass edit selected attributes
+   */
+  setupMassEditAttributes() {
+    sessionStorage.setItem('mass_edit_selected_attributes', JSON.stringify([]));
+  },
+
+  /**
+   * Select products menu tab
+   */
+  selectMenuTab() {
+    mediator.trigger('pim_menu:highlight:tab', {extension: 'pim-menu-products'});
+  },
 });
