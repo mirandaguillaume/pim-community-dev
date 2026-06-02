@@ -5,106 +5,108 @@
  */
 'use strict';
 
-define([
-  'underscore',
-  'pim/controller/front',
-  'pim/form-builder',
-  'pim/fetcher-registry',
-  'pim/user-context',
-], function (_, BaseController, FormBuilder, fetcherRegistry, UserContext) {
-  return BaseController.extend({
-    /**
-     * {@inheritdoc}
-     */
-    renderForm: function () {
-      if (!this.active) {
-        return;
-      }
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      fetcherRegistry.getFetcher('attribute-group').clear();
-      fetcherRegistry.getFetcher('locale').clear();
-      fetcherRegistry.getFetcher('measure').clear();
+require('underscore');
+var BaseController = __pimInterop(require('pim/controller/front'));
+var FormBuilder = __pimInterop(require('pim/form-builder'));
+var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var UserContext = __pimInterop(require('pim/user-context'));
 
-      const code = this.getQueryParam(location.href, 'code');
-      const type = this.getQueryParam(location.href, 'attribute_type');
-      const label = this.getQueryParam(location.href, 'label');
-      const localizable = this.getQueryParam(location.href, 'localizable');
-      const scopable = this.getQueryParam(location.href, 'scopable');
-      const unique = this.getQueryParam(location.href, 'unique');
-      const labels = {};
-      if (label) {
-        labels[UserContext.get('catalogLocale')] = label;
-      }
+module.exports = BaseController.extend({
+  /**
+   * {@inheritdoc}
+   */
+  renderForm: function () {
+    if (!this.active) {
+      return;
+    }
 
-      return FormBuilder.getFormMeta('pim-attribute-create-form')
-        .then(FormBuilder.buildForm)
-        .then(form => {
-          if (code) {
-            form.setCode(code);
-          }
-          form.setType(type);
-          if (label) {
-            form.setLabels(labels);
-          }
+    fetcherRegistry.getFetcher('attribute-group').clear();
+    fetcherRegistry.getFetcher('locale').clear();
+    fetcherRegistry.getFetcher('measure').clear();
 
-          if (localizable) {
-            form.setLocalizable(localizable);
-          }
+    const code = this.getQueryParam(location.href, 'code');
+    const type = this.getQueryParam(location.href, 'attribute_type');
+    const label = this.getQueryParam(location.href, 'label');
+    const localizable = this.getQueryParam(location.href, 'localizable');
+    const scopable = this.getQueryParam(location.href, 'scopable');
+    const unique = this.getQueryParam(location.href, 'unique');
+    const labels = {};
+    if (label) {
+      labels[UserContext.get('catalogLocale')] = label;
+    }
 
-          if (scopable) {
-            form.setScopable(scopable);
-          }
+    return FormBuilder.getFormMeta('pim-attribute-create-form')
+      .then(FormBuilder.buildForm)
+      .then(form => {
+        if (code) {
+          form.setCode(code);
+        }
+        form.setType(type);
+        if (label) {
+          form.setLabels(labels);
+        }
 
-          if (unique) {
-            form.setUnique(unique);
-          }
+        if (localizable) {
+          form.setLocalizable(localizable);
+        }
 
-          return form.configure().then(() => {
-            return form;
-          });
-        })
-        .then(form => {
-          this.on('pim:controller:can-leave', event => {
-            form.trigger('pim_enrich:form:can-leave', event);
-          });
+        if (scopable) {
+          form.setScopable(scopable);
+        }
 
-          form.setData(this.getNewAttribute(type, code, labels, localizable, scopable, unique));
+        if (unique) {
+          form.setUnique(unique);
+        }
 
-          form.setElement(this.$el).render();
-
+        return form.configure().then(() => {
           return form;
         });
-    },
+      })
+      .then(form => {
+        this.on('pim:controller:can-leave', event => {
+          form.trigger('pim_enrich:form:can-leave', event);
+        });
 
-    /**
-     * Extracts the value of a given parameter from the query string.
-     *
-     * @param {String} url
-     * @param {String} paramName
-     *
-     * @return  {String}
-     */
-    getQueryParam: function (url, paramName) {
-      const searchParams = new URL(url.replace('/#/', '/'))?.searchParams;
+        form.setData(this.getNewAttribute(type, code, labels, localizable, scopable, unique));
 
-      return searchParams?.get(paramName);
-    },
+        form.setElement(this.$el).render();
 
-    /**
-     * @param {String} type
-     *
-     * @return {Object}
-     */
-    getNewAttribute: function (type, code, labels, localizable, scopable, unique) {
-      return {
-        code: code ?? '',
-        labels: labels,
-        type: type,
-        localizable: localizable === 'true',
-        scopable: scopable === 'true',
-        unique: unique === 'true',
-        available_locales: [],
-      };
-    },
-  });
+        return form;
+      });
+  },
+
+  /**
+   * Extracts the value of a given parameter from the query string.
+   *
+   * @param {String} url
+   * @param {String} paramName
+   *
+   * @return  {String}
+   */
+  getQueryParam: function (url, paramName) {
+    const searchParams = new URL(url.replace('/#/', '/'))?.searchParams;
+
+    return searchParams?.get(paramName);
+  },
+
+  /**
+   * @param {String} type
+   *
+   * @return {Object}
+   */
+  getNewAttribute: function (type, code, labels, localizable, scopable, unique) {
+    return {
+      code: code ?? '',
+      labels: labels,
+      type: type,
+      localizable: localizable === 'true',
+      scopable: scopable === 'true',
+      unique: unique === 'true',
+      available_locales: [],
+    };
+  },
 });
