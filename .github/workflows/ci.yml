@@ -1604,11 +1604,22 @@ jobs:
           #  - 3 parallel workers absorb queue backlog under load (the doctrine
           #    transport locks rows with SELECT ... FOR UPDATE, so no double-process).
           CONSUMER_COUNT=3
+          # Mirror each consumer's stdout/stderr to a bind-mounted file (./ -> /srv/pim)
+          # so the logs SURVIVE container removal. On these shared bare-metal runners the
+          # one-off `docker-compose run` containers get swept (e.g. a concurrent job's
+          # `docker-compose down --remove-orphans`) before the dump step runs, so
+          # `docker logs` returned "No such container" and the mass-edit diagnostic was
+          # lost exactly when needed. A file on the host volume is immune to that.
+          # `tee` (not `tee -a`) truncates any stale file from a previous run that reused
+          # this self-hosted workspace. `docker logs` (readiness probe below) still sees
+          # the output because tee mirrors to the container's stdout as well.
+          mkdir -p var/logs
+          rm -f var/logs/consumer-*.log 2>/dev/null || true
           for i in $(seq 1 "${CONSUMER_COUNT}"); do
             TL=$((240 + i * 60))   # 300s, 360s, 420s — staggered recycle
             docker rm -f "pim-job-consumer-${i}" 2>/dev/null || true
             docker-compose run -d --name "pim-job-consumer-${i}" php \
-              sh -c "while true; do php bin/console messenger:consume import_export_job ui_job data_maintenance_job --env=prod --time-limit=${TL} --memory-limit=512M; echo \"[supervisor] consumer ${i} exited (\$?), restarting\"; sleep 1; done"
+              sh -c "{ while true; do php bin/console messenger:consume import_export_job ui_job data_maintenance_job --env=prod --time-limit=${TL} --memory-limit=512M; echo \"[supervisor] consumer ${i} exited (\$?), restarting\"; sleep 1; done; } 2>&1 | tee /srv/pim/var/logs/consumer-${i}.log"
           done
           # Deterministic readiness probe (replaces a blind sleep): wait until each
           # worker has printed the messenger "Consuming messages from transport(s)"
@@ -1630,21 +1641,38 @@ jobs:
           done
           PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} castor test:end-to-end-front
 
-      # Separate `if: always()` step: when Playwright fails, `castor` exits non-zero
-      # and the bash -e run step above aborts — so a dump loop in that SAME block
-      # never runs, and the consumer logs (the key diagnostic for mass-edit job
-      # timing) are lost exactly when they are needed. Dumping here guarantees
-      # capture on failure. CONSUMER_COUNT mirrors the start step (3).
+      # Separate `if: always()` step so it runs even when Playwright fails and the
+      # `bash -e` setup step above aborts. The consumer stdout is mirrored to a
+      # bind-mounted file (var/logs/consumer-N.log) by the start step, so we read THAT
+      # — it survives container removal, unlike `docker logs` which returned
+      # "No such container" once the one-off containers were swept on these shared
+      # runners. `docker logs` is kept only as a fallback for the rare case the file
+      # is empty (container died before writing a single line).
       - name: Dump Messenger consumer logs
         if: always()
         shell: bash
         run: |
           for i in 1 2 3; do
-            docker logs "pim-job-consumer-${i}" > "consumer-${i}.log" 2>&1 || true
+            if [ -s "var/logs/consumer-${i}.log" ]; then
+              # `sudo`: tee runs as the container user (often root), so the bind-mounted
+              # file may be root-owned. chown back to the runner so upload can read it.
+              sudo cp "var/logs/consumer-${i}.log" "consumer-${i}.log" || cp "var/logs/consumer-${i}.log" "consumer-${i}.log" || true
+              sudo chown "$(id -u):$(id -g)" "consumer-${i}.log" 2>/dev/null || true
+            else
+              docker logs "pim-job-consumer-${i}" > "consumer-${i}.log" 2>&1 || true
+            fi
             docker rm -f "pim-job-consumer-${i}" 2>/dev/null || true
           done
           echo "=== consumer log sizes ==="
           ls -l consumer-*.log 2>/dev/null || echo "no consumer logs captured"
+          # Print tails inline so the mass-edit diagnostic is visible in the job log
+          # itself — no need to download the artifact to see whether the consumer
+          # received and processed the job.
+          for i in 1 2 3; do
+            echo "::group::consumer-${i}.log (last 40 lines)"
+            tail -40 "consumer-${i}.log" 2>/dev/null || echo "(empty)"
+            echo "::endgroup::"
+          done
 
       - name: Upload Playwright report
         if: failure()
