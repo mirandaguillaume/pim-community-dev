@@ -7,45 +7,47 @@
  */
 'use strict';
 
-define(['underscore', 'oro/translator', 'pim/form', 'pim/fetcher-registry'], function (
-  _,
-  __,
-  BaseForm,
-  fetcherRegistry
-) {
-  return BaseForm.extend({
-    /**
-     * {@inherit}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+var _ = __pimInterop(require('underscore'));
+require('oro/translator');
+var BaseForm = __pimInterop(require('pim/form'));
+var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
 
-    /**
-     * {@inherit}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:filter:set-default', this.addFilter.bind(this));
+module.exports = BaseForm.extend({
+  /**
+   * {@inherit}
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * Adds filters to the collection.
-     *
-     * @param {Object} event
-     */
-    addFilter: function (event) {
-      event.push(
-        fetcherRegistry
-          .getFetcher('attribute')
-          .fetchByTypes(this.config.types)
-          .then(function (attributes) {
-            return _.pluck(attributes, 'code');
-          })
-      );
-    },
-  });
+  /**
+   * {@inherit}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:filter:set-default', this.addFilter.bind(this));
+
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * Adds filters to the collection.
+   *
+   * @param {Object} event
+   */
+  addFilter: function (event) {
+    event.push(
+      fetcherRegistry
+        .getFetcher('attribute')
+        .fetchByTypes(this.config.types)
+        .then(function (attributes) {
+          return _.pluck(attributes, 'code');
+        })
+    );
+  },
 });

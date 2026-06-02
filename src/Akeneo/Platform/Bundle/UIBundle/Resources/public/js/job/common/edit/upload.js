@@ -1,77 +1,72 @@
 'use strict';
 
-/**
- * Displays a drop zone to upload a file.
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['jquery', 'underscore', 'oro/translator', 'pim/form', 'pim/template/export/common/edit/upload'], function (
-  $,
-  _,
-  __,
-  BaseForm,
-  template
-) {
-  return BaseForm.extend({
-    template: _.template(template),
-    events: {
-      'change input[type="file"]': 'addFile',
-      'click .clear-field': 'removeFile',
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/export/common/edit/upload'));
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  template: _.template(template),
+  events: {
+    'change input[type="file"]': 'addFile',
+    'click .clear-field': 'removeFile',
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(
-        this.template({
-          file: this.getFormData().file,
-          type: this.config.type,
-          __,
-        })
-      );
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-      this.delegateEvents();
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      return this;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(
+      this.template({
+        file: this.getFormData().file,
+        type: this.config.type,
+        __,
+      })
+    );
 
-    /**
-     * When a file is added to the dom input
-     */
-    addFile: function () {
-      var input = this.$('input[type="file"]').get(0);
-      if (!input || 0 === input.files.length) {
-        return;
-      }
+    this.delegateEvents();
 
-      this.setData({file: input.files[0]});
+    return this;
+  },
 
-      this.getRoot().trigger('pim_enrich:form:job:file_updated');
+  /**
+   * When a file is added to the dom input
+   */
+  addFile: function () {
+    var input = this.$('input[type="file"]').get(0);
+    if (!input || 0 === input.files.length) {
+      return;
+    }
 
-      this.render();
-    },
+    this.setData({file: input.files[0]});
 
-    /**
-     * When the user remove the file from the input
-     */
-    removeFile: function () {
-      this.setData({file: null});
+    this.getRoot().trigger('pim_enrich:form:job:file_updated');
 
-      this.getRoot().trigger('pim_enrich:form:job:file_updated');
+    this.render();
+  },
 
-      this.render();
-    },
-  });
+  /**
+   * When the user remove the file from the input
+   */
+  removeFile: function () {
+    this.setData({file: null});
+
+    this.getRoot().trigger('pim_enrich:form:job:file_updated');
+
+    this.render();
+  },
 });

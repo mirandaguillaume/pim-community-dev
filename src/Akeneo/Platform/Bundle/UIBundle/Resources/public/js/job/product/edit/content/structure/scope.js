@@ -1,152 +1,148 @@
 'use strict';
-/**
- * Scope structure filter
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/template/export/product/edit/content/structure/scope',
-  'pim/form',
-  'pim/fetcher-registry',
-  'pim/user-context',
-  'jquery.select2',
-  'pim/i18n',
-], function ($, _, __, template, BaseForm, fetcherRegistry, UserContext, select2, i18n) {
-  return BaseForm.extend({
-    config: {},
-    className: 'AknFieldContainer',
-    template: _.template(template),
 
-    /**
-     * Initializes configuration.
-     *
-     * @param {Object} config
-     */
-    initialize: function (config) {
-      this.config = config.config;
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return BaseForm.prototype.initialize.apply(this, arguments);
-    },
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var template = __pimInterop(require('pim/template/export/product/edit/content/structure/scope'));
+var BaseForm = __pimInterop(require('pim/form'));
+var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var UserContext = __pimInterop(require('pim/user-context'));
+require('jquery.select2');
+var i18n = __pimInterop(require('pim/i18n'));
 
-    /**
-     * Renders scopes dropdown.
-     *
-     * @return {Object}
-     */
-    render: function () {
-      if (!this.configured) {
-        return this;
-      }
+module.exports = BaseForm.extend({
+  config: {},
+  className: 'AknFieldContainer',
+  template: _.template(template),
 
-      fetcherRegistry
-        .getFetcher('channel')
-        .fetchAll()
-        .then(
-          function (channels) {
-            if (!this.getScope()) {
-              this.setScope(_.first(channels).code);
-            }
+  /**
+   * Initializes configuration.
+   *
+   * @param {Object} config
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-            this.$el.html(
-              this.template({
-                isEditable: this.isEditable(),
-                __: __,
-                channels: this.setChannelLabels(channels),
-                scope: this.getScope(),
-                errors: this.getParent().getValidationErrorsForField('scope'),
-              })
-            );
+    return BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-            this.$('.select2').select2({minimumResultsForSearch: -1}).on('change', this.updateState.bind(this));
-
-            this.$('[data-toggle="tooltip"]').tooltip();
-
-            this.renderExtensions();
-          }.bind(this)
-        );
-
+  /**
+   * Renders scopes dropdown.
+   *
+   * @return {Object}
+   */
+  render: function () {
+    if (!this.configured) {
       return this;
-    },
+    }
 
-    /**
-     * Sets fallback labels for channels without a translation
-     *
-     * @param {Array} channels
-     *
-     * @return {Array}
-     */
-    setChannelLabels: function (channels) {
-      var locale = UserContext.get('uiLocale');
+    fetcherRegistry
+      .getFetcher('channel')
+      .fetchAll()
+      .then(
+        function (channels) {
+          if (!this.getScope()) {
+            this.setScope(_.first(channels).code);
+          }
 
-      return _.map(channels, function (channel) {
-        channel.label = i18n.getLabel(channel.labels, locale, channel.code);
+          this.$el.html(
+            this.template({
+              isEditable: this.isEditable(),
+              __: __,
+              channels: this.setChannelLabels(channels),
+              scope: this.getScope(),
+              errors: this.getParent().getValidationErrorsForField('scope'),
+            })
+          );
 
-        return channel;
-      });
-    },
+          this.$('.select2').select2({minimumResultsForSearch: -1}).on('change', this.updateState.bind(this));
 
-    /**
-     * Returns whether this filter is editable.
-     *
-     * @returns {boolean}
-     */
-    isEditable: function () {
-      return undefined !== this.config.readOnly ? !this.config.readOnly : true;
-    },
+          this.$('[data-toggle="tooltip"]').tooltip();
 
-    /**
-     * Sets new scope on field change.
-     *
-     * @param {Object} event
-     */
-    updateState: function (event) {
-      this.setScope(event.target.value);
-    },
+          this.renderExtensions();
+        }.bind(this)
+      );
 
-    /**
-     * Sets specified scope into root model.
-     *
-     * @param {String} code
-     */
-    setScope: function (code) {
-      var data = this.getFilters();
-      var before = data.structure.scope;
+    return this;
+  },
 
-      data.structure.scope = code;
-      this.setData(data);
+  /**
+   * Sets fallback labels for channels without a translation
+   *
+   * @param {Array} channels
+   *
+   * @return {Array}
+   */
+  setChannelLabels: function (channels) {
+    var locale = UserContext.get('uiLocale');
 
-      if (before !== code) {
-        this.getRoot().trigger('channel:update:after', data.structure.scope);
-      }
-    },
+    return _.map(channels, function (channel) {
+      channel.label = i18n.getLabel(channel.labels, locale, channel.code);
 
-    /**
-     * Gets scope from root model.
-     *
-     * @returns {String}
-     */
-    getScope: function () {
-      var structure = this.getFilters().structure;
+      return channel;
+    });
+  },
 
-      if (_.isUndefined(structure)) {
-        return null;
-      }
+  /**
+   * Returns whether this filter is editable.
+   *
+   * @returns {boolean}
+   */
+  isEditable: function () {
+    return undefined !== this.config.readOnly ? !this.config.readOnly : true;
+  },
 
-      return _.isUndefined(structure.scope) ? null : structure.scope;
-    },
+  /**
+   * Sets new scope on field change.
+   *
+   * @param {Object} event
+   */
+  updateState: function (event) {
+    this.setScope(event.target.value);
+  },
 
-    /**
-     * Get filters
-     *
-     * @return {object}
-     */
-    getFilters: function () {
-      return this.getFormData().configuration.filters;
-    },
-  });
+  /**
+   * Sets specified scope into root model.
+   *
+   * @param {String} code
+   */
+  setScope: function (code) {
+    var data = this.getFilters();
+    var before = data.structure.scope;
+
+    data.structure.scope = code;
+    this.setData(data);
+
+    if (before !== code) {
+      this.getRoot().trigger('channel:update:after', data.structure.scope);
+    }
+  },
+
+  /**
+   * Gets scope from root model.
+   *
+   * @returns {String}
+   */
+  getScope: function () {
+    var structure = this.getFilters().structure;
+
+    if (_.isUndefined(structure)) {
+      return null;
+    }
+
+    return _.isUndefined(structure.scope) ? null : structure.scope;
+  },
+
+  /**
+   * Get filters
+   *
+   * @return {object}
+   */
+  getFilters: function () {
+    return this.getFormData().configuration.filters;
+  },
 });

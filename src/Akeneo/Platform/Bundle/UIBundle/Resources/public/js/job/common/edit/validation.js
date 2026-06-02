@@ -1,52 +1,54 @@
 'use strict';
 
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/form',
-  'pim/template/export/common/edit/validation',
-  'oro/messenger',
-  'pim/common/property',
-], function ($, _, __, BaseForm, template, messenger, propertyAccessor) {
-  return BaseForm.extend({
-    template: _.template(template),
-    errors: [],
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:filter:extension:add', this.addFilterExtension.bind(this));
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:bad_request', this.setValidationErrors.bind(this));
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+require('oro/translator');
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/export/common/edit/validation'));
+require('oro/messenger');
+var propertyAccessor = __pimInterop(require('pim/common/property'));
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  template: _.template(template),
+  errors: [],
 
-    setValidationErrors: function (event) {
-      this.errors = event.response;
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:filter:extension:add', this.addFilterExtension.bind(this));
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:bad_request', this.setValidationErrors.bind(this));
 
-      this.getRoot().trigger('pim_enrich:form:entity:validation_error', event);
-    },
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-    /**
-     * Adds the extension to filters.
-     * If there is an error for the current filter, we add an element to it.
-     *
-     * @param {Object} event
-     */
-    addFilterExtension: function (event) {
-      var filter = event.filter;
+  setValidationErrors: function (event) {
+    this.errors = event.response;
 
-      if (null !== propertyAccessor.accessProperty(this.errors, 'configuration.filters.data' + filter.getField())) {
-        var content = $(
-          this.template({
-            errors: propertyAccessor.accessProperty(this.errors, 'configuration.filters.data' + filter.getField()),
-          })
-        );
+    this.getRoot().trigger('pim_enrich:form:entity:validation_error', event);
+  },
 
-        event.filter.addElement('below-input', 'validation', content);
-      }
-    },
-  });
+  /**
+   * Adds the extension to filters.
+   * If there is an error for the current filter, we add an element to it.
+   *
+   * @param {Object} event
+   */
+  addFilterExtension: function (event) {
+    var filter = event.filter;
+
+    if (null !== propertyAccessor.accessProperty(this.errors, 'configuration.filters.data' + filter.getField())) {
+      var content = $(
+        this.template({
+          errors: propertyAccessor.accessProperty(this.errors, 'configuration.filters.data' + filter.getField()),
+        })
+      );
+
+      event.filter.addElement('below-input', 'validation', content);
+    }
+  },
 });

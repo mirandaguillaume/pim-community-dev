@@ -7,24 +7,31 @@
  */
 'use strict';
 
-define(['jquery', 'underscore', 'backbone', 'pim/form'], function ($, _, Backbone, BaseForm) {
-  return BaseForm.extend({
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:filter:extension:add', this.addFilterExtension.bind(this));
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+require('jquery');
+require('underscore');
+require('backbone');
+var BaseForm = __pimInterop(require('pim/form'));
 
-    /**
-     * Sets filters in readonly mode.
-     *
-     * @param {Object} event
-     */
-    addFilterExtension: function (event) {
-      event.filter.setEditable(false);
-    },
-  });
+module.exports = BaseForm.extend({
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:filter:extension:add', this.addFilterExtension.bind(this));
+
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * Sets filters in readonly mode.
+   *
+   * @param {Object} event
+   */
+  addFilterExtension: function (event) {
+    event.filter.setEditable(false);
+  },
 });

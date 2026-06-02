@@ -7,44 +7,46 @@
  */
 'use strict';
 
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/form',
-  'pim/template/export/product/edit/content/data/help',
-], function ($, _, __, BaseForm, template) {
-  return BaseForm.extend({
-    template: _.template(template),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:filter:extension:add', this.addFilterExtension.bind(this));
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/export/product/edit/content/data/help'));
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  template: _.template(template),
 
-    /**
-     * Adds the extension to filters.
-     * If the translation is not here the tooltip won't be displayed at all.
-     *
-     * @param {Object} event
-     */
-    addFilterExtension: function (event) {
-      var key = 'pim_enrich.export.product.filter.' + event.filter.shortname + '.help';
-      var text = __(key);
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:filter:extension:add', this.addFilterExtension.bind(this));
 
-      if (key === text) {
-        return;
-      }
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      var $content = $(this.template({text: text}));
+  /**
+   * Adds the extension to filters.
+   * If the translation is not here the tooltip won't be displayed at all.
+   *
+   * @param {Object} event
+   */
+  addFilterExtension: function (event) {
+    var key = 'pim_enrich.export.product.filter.' + event.filter.shortname + '.help';
+    var text = __(key);
 
-      $content.find('[data-toggle="tooltip"]').tooltip();
+    if (key === text) {
+      return;
+    }
 
-      event.filter.addElement('after-input', 'help', $content);
-    },
-  });
+    var $content = $(this.template({text: text}));
+
+    $content.find('[data-toggle="tooltip"]').tooltip();
+
+    event.filter.addElement('after-input', 'help', $content);
+  },
 });

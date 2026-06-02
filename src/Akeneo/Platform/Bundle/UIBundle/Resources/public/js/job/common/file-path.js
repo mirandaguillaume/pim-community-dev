@@ -1,75 +1,71 @@
 'use strict';
-/**
- * Displays the file path to upload
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'oro/translator', 'pim/form', 'pim/template/import/file-path', 'akeneo-design-system'], function (
-  _,
-  __,
-  BaseForm,
-  template,
-  {Badge}
-) {
-  return BaseForm.extend({
-    className: 'AknCenteredBox',
-    template: _.template(template),
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/import/file-path'));
+var {Badge} = __pimInterop(require('akeneo-design-system'));
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      const {label, path, badge} = this.getStorageInfo();
+module.exports = BaseForm.extend({
+  className: 'AknCenteredBox',
+  template: _.template(template),
 
-      this.$el.html(this.template({label, path}));
-      this.renderBadge(badge);
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-      this.delegateEvents();
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      return BaseForm.prototype.render.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    const {label, path, badge} = this.getStorageInfo();
 
-    renderBadge: function (badge) {
-      if (null === badge) return;
+    this.$el.html(this.template({label, path}));
+    this.renderBadge(badge);
 
-      this.renderReact(Badge, {children: badge, level: 'secondary'}, this.$el.find('.storage_type')[0]);
-    },
+    this.delegateEvents();
 
-    getStorageInfo: function () {
-      const {configuration} = this.getFormData();
-      const storageType = configuration.storage?.type ?? 'none';
-      const filePath = configuration.storage?.file_path ?? '';
+    return BaseForm.prototype.render.apply(this, arguments);
+  },
 
-      switch (storageType) {
-        case 'sftp':
-        case 'amazon_s3':
-        case 'microsoft_azure':
-        case 'google_cloud_storage':
-          return {
-            badge: __(`pim_import_export.form.job_instance.storage_form.connection.${storageType}`),
-            label: __(this.config.label),
-            path: filePath,
-          };
-        case 'local':
-        case 'none':
-        default:
-          return {
-            badge: null,
-            label: __(this.config.label),
-            path: filePath,
-          };
-      }
-    },
-  });
+  renderBadge: function (badge) {
+    if (null === badge) return;
+
+    this.renderReact(Badge, {children: badge, level: 'secondary'}, this.$el.find('.storage_type')[0]);
+  },
+
+  getStorageInfo: function () {
+    const {configuration} = this.getFormData();
+    const storageType = configuration.storage?.type ?? 'none';
+    const filePath = configuration.storage?.file_path ?? '';
+
+    switch (storageType) {
+      case 'sftp':
+      case 'amazon_s3':
+      case 'microsoft_azure':
+      case 'google_cloud_storage':
+        return {
+          badge: __(`pim_import_export.form.job_instance.storage_form.connection.${storageType}`),
+          label: __(this.config.label),
+          path: filePath,
+        };
+      case 'local':
+      case 'none':
+      default:
+        return {
+          badge: null,
+          label: __(this.config.label),
+          path: filePath,
+        };
+    }
+  },
 });
