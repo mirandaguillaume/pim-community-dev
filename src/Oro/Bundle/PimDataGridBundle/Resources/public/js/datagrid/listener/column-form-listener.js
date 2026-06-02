@@ -1,124 +1,125 @@
-define(['jquery', 'underscore', 'oro/mediator', 'oro/datagrid/column-form-listener', 'pim/security-context'], function (
-  $,
-  _,
-  mediator,
-  OroColumnFormListener,
-  SecurityContext
-) {
-  'use strict';
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-  /**
-   * Column form listener based on oro implementation that allows
-   * changing of field selectors dynamically using mediator
-   */
-  var ColumnFormListener = OroColumnFormListener.extend({
-    $checkbox: null,
-    initialize: function () {
-      OroColumnFormListener.prototype.initialize.apply(this, arguments);
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var mediator = __pimInterop(require('oro/mediator'));
+var OroColumnFormListener = __pimInterop(require('oro/datagrid/column-form-listener'));
+var SecurityContext = __pimInterop(require('pim/security-context'));
+('use strict');
 
-      this.$checkbox = $('<input type="checkbox">').css('margin', 0);
+/**
+ * Column form listener based on oro implementation that allows
+ * changing of field selectors dynamically using mediator
+ */
+var ColumnFormListener = OroColumnFormListener.extend({
+  $checkbox: null,
+  initialize: function () {
+    OroColumnFormListener.prototype.initialize.apply(this, arguments);
 
-      mediator.on(
-        'datagrid_collection_set_after',
-        function (collection, $grid) {
-          if (collection.inputName === this.gridName) {
-            this.$el = $grid.find('table.grid thead th:not([style])').first();
+    this.$checkbox = $('<input type="checkbox">').css('margin', 0);
 
-            this.$el.empty();
+    mediator.on(
+      'datagrid_collection_set_after',
+      function (collection, $grid) {
+        if (collection.inputName === this.gridName) {
+          this.$el = $grid.find('table.grid thead th:not([style])').first();
 
-            this.setStateFromCollection(collection);
+          this.$el.empty();
 
-            if (this.isEnabled()) {
-              this.$el.html(this.$checkbox);
-              this.$checkbox.on(
-                'click',
-                _.bind(function () {
-                  var state = this.$checkbox.is(':checked');
-                  _.each(
-                    collection.models,
-                    function (model) {
-                      model.set(this.columnName, state);
-                    },
-                    this
-                  );
-                }, this)
-              );
-            }
+          this.setStateFromCollection(collection);
+
+          if (this.isEnabled()) {
+            this.$el.html(this.$checkbox);
+            this.$checkbox.on(
+              'click',
+              _.bind(function () {
+                var state = this.$checkbox.is(':checked');
+                _.each(
+                  collection.models,
+                  function (model) {
+                    model.set(this.columnName, state);
+                  },
+                  this
+                );
+              }, this)
+            );
           }
-        },
-        this
-      );
+        }
+      },
+      this
+    );
 
-      mediator.on(
-        'grid_load:complete',
-        function (collection) {
-          if (collection.inputName === this.gridName) {
-            this.setStateFromCollection(collection);
-          }
-        },
-        this
-      );
+    mediator.on(
+      'grid_load:complete',
+      function (collection) {
+        if (collection.inputName === this.gridName) {
+          this.setStateFromCollection(collection);
+        }
+      },
+      this
+    );
 
-      mediator.bind(
-        'column_form_listener:set_selectors:' + this.gridName,
-        function (selectors) {
-          this._clearState();
-          this.selectors = selectors;
-          this._restoreState();
-          this._synchronizeState();
-        },
-        this
-      );
+    mediator.bind(
+      'column_form_listener:set_selectors:' + this.gridName,
+      function (selectors) {
+        this._clearState();
+        this.selectors = selectors;
+        this._restoreState();
+        this._synchronizeState();
+      },
+      this
+    );
 
-      mediator.trigger('column_form_listener:initialized', this.gridName);
-    },
+    mediator.trigger('column_form_listener:initialized', this.gridName);
+  },
 
-    isEnabled: function () {
-      if (undefined === this.attributes?.acl_resource) {
-        return true;
-      }
+  isEnabled: function () {
+    if (undefined === this.attributes?.acl_resource) {
+      return true;
+    }
 
-      return SecurityContext.isGranted(this.attributes.acl_resource);
-    },
-    _explode: function (string) {
-      if (!string) {
-        return [];
-      }
-      return _.map(string.split(','), function (val) {
-        return val ? String(val).trim() : null;
-      });
-    },
+    return SecurityContext.isGranted(this.attributes.acl_resource);
+  },
+  _explode: function (string) {
+    if (!string) {
+      return [];
+    }
+    return _.map(string.split(','), function (val) {
+      return val ? String(val).trim() : null;
+    });
+  },
 
-    setStateFromCollection: function (collection) {
-      var checked = true;
-      _.each(
-        collection.models,
-        function (model) {
-          if (checked) {
-            checked = model.get(this.columnName);
-          }
-        },
-        this
-      );
-      this.$checkbox.prop('checked', checked);
-    },
+  setStateFromCollection: function (collection) {
+    var checked = true;
+    _.each(
+      collection.models,
+      function (model) {
+        if (checked) {
+          checked = model.get(this.columnName);
+        }
+      },
+      this
+    );
+    this.$checkbox.prop('checked', checked);
+  },
 
-    _processValue: function (id, model) {
-      OroColumnFormListener.prototype._processValue.apply(this, arguments);
+  _processValue: function (id, model) {
+    OroColumnFormListener.prototype._processValue.apply(this, arguments);
 
-      var selectEvent = model.get(this.columnName) ? 'selectModel' : 'unselectModel';
-      mediator.trigger('datagrid:' + selectEvent + ':' + this.gridName, model);
-    },
-  });
-
-  return {
-    init: function ($gridContainer, gridName) {
-      var metadata = $gridContainer.data('metadata');
-      var options = metadata.options || {};
-      if (options.columnListener) {
-        options.columnListener.selectors = options.columnListener.selectors || {};
-        new ColumnFormListener(_.extend({$gridContainer: $gridContainer, gridName: gridName}, options.columnListener));
-      }
-    },
-  };
+    var selectEvent = model.get(this.columnName) ? 'selectModel' : 'unselectModel';
+    mediator.trigger('datagrid:' + selectEvent + ':' + this.gridName, model);
+  },
 });
+
+module.exports = {
+  init: function ($gridContainer, gridName) {
+    var metadata = $gridContainer.data('metadata');
+    var options = metadata.options || {};
+    if (options.columnListener) {
+      options.columnListener.selectors = options.columnListener.selectors || {};
+      new ColumnFormListener(_.extend({$gridContainer: $gridContainer, gridName: gridName}, options.columnListener));
+    }
+  },
+};

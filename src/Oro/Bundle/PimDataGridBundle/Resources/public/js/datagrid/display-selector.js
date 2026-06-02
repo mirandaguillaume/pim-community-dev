@@ -1,118 +1,112 @@
-/*
- * This module renders a dropdown list that allows the user to change the
- * display type for a grid.
- *
- * @author    Tamara Robichet <tamara.robichet@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'oro/translator',
-  'pim/form',
-  'pim/template/datagrid/display-selector',
-  'pim/router',
-], function ($, _, Backbone, __, BaseForm, template, Routing) {
-  return BaseForm.extend({
-    className: 'AknDropdown AknDropdown--left AknTitleContainer-displaySelector',
-    gridName: null,
-    template: _.template(template),
-    events: {
-      'click .display-selector-item': 'setDisplayType',
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * @inheritDoc
-     */
-    initialize(options) {
-      this.gridName = options.config.gridName;
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+require('backbone');
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/datagrid/display-selector'));
+var Routing = __pimInterop(require('pim/router'));
 
-      if (null === this.gridName) {
-        new Error('You must specify gridName for the display-selector');
-      }
+module.exports = BaseForm.extend({
+  className: 'AknDropdown AknDropdown--left AknTitleContainer-displaySelector',
+  gridName: null,
+  template: _.template(template),
+  events: {
+    'click .display-selector-item': 'setDisplayType',
+  },
 
-      return BaseForm.prototype.initialize.apply(this, arguments);
-    },
+  /**
+   * @inheritDoc
+   */
+  initialize(options) {
+    this.gridName = options.config.gridName;
 
-    /**
-     * @inheritDoc
-     */
-    configure() {
-      this.listenTo(this.getRoot(), 'grid_load:start', this.collectDisplayOptions.bind(this));
+    if (null === this.gridName) {
+      new Error('You must specify gridName for the display-selector');
+    }
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+    return BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * Receives the grid displayTypes config from the gridView and
-     * renders them (with translated labels);
-     *
-     * @param  {Backbone.Collection} collection The datagrid collection
-     * @param  {Backbone.View} gridView   The datagrid view
-     */
-    collectDisplayOptions(collection, gridView) {
-      const displayTypes = gridView.options.displayTypes;
+  /**
+   * @inheritDoc
+   */
+  configure() {
+    this.listenTo(this.getRoot(), 'grid_load:start', this.collectDisplayOptions.bind(this));
 
-      if (undefined === displayTypes) {
-        return;
-      }
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      for (let display in displayTypes) {
-        const type = displayTypes[display];
-        type.label = __(type.label);
-      }
+  /**
+   * Receives the grid displayTypes config from the gridView and
+   * renders them (with translated labels);
+   *
+   * @param  {Backbone.Collection} collection The datagrid collection
+   * @param  {Backbone.View} gridView   The datagrid view
+   */
+  collectDisplayOptions(collection, gridView) {
+    const displayTypes = gridView.options.displayTypes;
 
-      this.renderDisplayTypes(displayTypes);
-    },
+    if (undefined === displayTypes) {
+      return;
+    }
 
-    /**
-     * Returns the display type stored for a grid name
-     * @return {String} The name of the display type e.g. thumbnail
-     */
-    getStoredType() {
-      return localStorage.getItem(`display-selector:${this.gridName}`);
-    },
+    for (let display in displayTypes) {
+      const type = displayTypes[display];
+      type.label = __(type.label);
+    }
 
-    /**
-     * Gets the name of the display type from the event target and
-     * puts it in localStorage using the gridName as the key.
-     *
-     * @param {jQuery.Event} event The dropdown item click event
-     */
-    setDisplayType(event) {
-      const type = this.$(event.target).data('type');
+    this.renderDisplayTypes(displayTypes);
+  },
 
-      localStorage.setItem(`display-selector:${this.gridName}`, type);
+  /**
+   * Returns the display type stored for a grid name
+   * @return {String} The name of the display type e.g. thumbnail
+   */
+  getStoredType() {
+    return localStorage.getItem(`display-selector:${this.gridName}`);
+  },
 
-      return Routing.reloadPage();
-    },
+  /**
+   * Gets the name of the display type from the event target and
+   * puts it in localStorage using the gridName as the key.
+   *
+   * @param {jQuery.Event} event The dropdown item click event
+   */
+  setDisplayType(event) {
+    const type = this.$(event.target).data('type');
 
-    /**
-     * Renders the dropdown list to show the display types
-     *
-     * @param  {Object} types A config object containing the display types
-     * @return {Function}
-     */
-    renderDisplayTypes(types) {
-      const firstType = Object.keys(types)[0];
-      let selectedType = this.getStoredType();
-      const displayLabel = __('pim_datagrid.display_selector.label');
+    localStorage.setItem(`display-selector:${this.gridName}`, type);
 
-      if (undefined === types[selectedType]) {
-        selectedType = firstType;
-      }
+    return Routing.reloadPage();
+  },
 
-      this.$el.html(
-        this.template({
-          displayLabel,
-          types,
-          selectedType,
-        })
-      );
+  /**
+   * Renders the dropdown list to show the display types
+   *
+   * @param  {Object} types A config object containing the display types
+   * @return {Function}
+   */
+  renderDisplayTypes(types) {
+    const firstType = Object.keys(types)[0];
+    let selectedType = this.getStoredType();
+    const displayLabel = __('pim_datagrid.display_selector.label');
 
-      return BaseForm.prototype.render.apply(this, arguments);
-    },
-  });
+    if (undefined === types[selectedType]) {
+      selectedType = firstType;
+    }
+
+    this.$el.html(
+      this.template({
+        displayLabel,
+        types,
+        selectedType,
+      })
+    );
+
+    return BaseForm.prototype.render.apply(this, arguments);
+  },
 });

@@ -1,28 +1,23 @@
-/* global define */
-define(['oro/datagrid/model-action'], function (ModelAction) {
-  'use strict';
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
+
+var ModelAction = __pimInterop(require('oro/datagrid/model-action'));
+('use strict');
+
+module.exports = ModelAction.extend({
+  /** @property {Boolean} */
+  noHref: false,
 
   /**
-   * Ajax action, triggers REST AJAX request
+   * Creates launcher
    *
-   * @export  oro/datagrid/ajax-action
-   * @class   oro.datagrid.AjaxAction
-   * @extends oro.datagrid.ModelAction
+   * @param {Object} options Launcher options
+   * @return {oro.datagrid.ActionLauncher}
    */
-  return ModelAction.extend({
-    /** @property {Boolean} */
-    noHref: false,
+  createLauncher: function (options) {
+    this.launcherOptions = _.extend({noHref: this.noHref}, this.launcherOptions);
 
-    /**
-     * Creates launcher
-     *
-     * @param {Object} options Launcher options
-     * @return {oro.datagrid.ActionLauncher}
-     */
-    createLauncher: function (options) {
-      this.launcherOptions = _.extend({noHref: this.noHref}, this.launcherOptions);
-
-      return ModelAction.prototype.createLauncher.apply(this, arguments);
-    },
-  });
+    return ModelAction.prototype.createLauncher.apply(this, arguments);
+  },
 });
