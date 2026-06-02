@@ -1629,12 +1629,22 @@ jobs:
             done
           done
           PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} castor test:end-to-end-front
-          # Dump each consumer's logs before cleanup so the artifact captures the
-          # full supervisor history (restarts, recycles, processed jobs).
-          for i in $(seq 1 "${CONSUMER_COUNT}"); do
+
+      # Separate `if: always()` step: when Playwright fails, `castor` exits non-zero
+      # and the bash -e run step above aborts — so a dump loop in that SAME block
+      # never runs, and the consumer logs (the key diagnostic for mass-edit job
+      # timing) are lost exactly when they are needed. Dumping here guarantees
+      # capture on failure. CONSUMER_COUNT mirrors the start step (3).
+      - name: Dump Messenger consumer logs
+        if: always()
+        shell: bash
+        run: |
+          for i in 1 2 3; do
             docker logs "pim-job-consumer-${i}" > "consumer-${i}.log" 2>&1 || true
             docker rm -f "pim-job-consumer-${i}" 2>/dev/null || true
           done
+          echo "=== consumer log sizes ==="
+          ls -l consumer-*.log 2>/dev/null || echo "no consumer logs captured"
 
       - name: Upload Playwright report
         if: failure()
