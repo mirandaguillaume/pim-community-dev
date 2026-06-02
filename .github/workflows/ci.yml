@@ -1603,6 +1603,13 @@ jobs:
           #    limits BETWEEN messages, never mid-job, so jobs are never truncated).
           #  - 3 parallel workers absorb queue backlog under load (the doctrine
           #    transport locks rows with SELECT ... FOR UPDATE, so no double-process).
+          #  - Transports include paused_job + scheduled_job, NOT just the three job
+          #    queues: mass-edit jobs (edit_common_attributes) are PAUSABLE. If a worker
+          #    receives SIGTERM (docker stop/down) mid-job, PauseJobOnSigtermSubscriber
+          #    marks the execution PAUSED and RequeuePausedJobSubscriber re-dispatches it
+          #    as a PausedJobExecutionMessage onto the `paused_job` transport. Without a
+          #    consumer on paused_job the job never resumes and the E2E poll times out
+          #    ("Job execution still running after 420000ms"). Do NOT drop these.
           CONSUMER_COUNT=3
           # Mirror each consumer's stdout/stderr to a bind-mounted file (./ -> /srv/pim)
           # so the logs SURVIVE container removal. On these shared bare-metal runners the
@@ -1619,7 +1626,7 @@ jobs:
             TL=$((240 + i * 60))   # 300s, 360s, 420s — staggered recycle
             docker rm -f "pim-job-consumer-${i}" 2>/dev/null || true
             docker-compose run -d --name "pim-job-consumer-${i}" php \
-              sh -c "{ while true; do php bin/console messenger:consume import_export_job ui_job data_maintenance_job --env=prod --time-limit=${TL} --memory-limit=512M; echo \"[supervisor] consumer ${i} exited (\$?), restarting\"; sleep 1; done; } 2>&1 | tee /srv/pim/var/logs/consumer-${i}.log"
+              sh -c "{ while true; do php bin/console messenger:consume import_export_job ui_job data_maintenance_job paused_job scheduled_job --env=prod --time-limit=${TL} --memory-limit=512M; echo \"[supervisor] consumer ${i} exited (\$?), restarting\"; sleep 1; done; } 2>&1 | tee /srv/pim/var/logs/consumer-${i}.log"
           done
           # Deterministic readiness probe (replaces a blind sleep): wait until each
           # worker has printed the messenger "Consuming messages from transport(s)"
