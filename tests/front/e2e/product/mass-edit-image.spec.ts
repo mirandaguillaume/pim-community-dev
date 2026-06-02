@@ -96,8 +96,8 @@ test.describe('Mass edit image attributes', () => {
    * Replaces Behat: edit_common_attributes_images.feature:32
    * Successfully update many images values at once
    */
-  test('Successfully update many images values at once', {timeout: 660_000}, async ({page}) => {
-    // timeout: 660_000 covers beforeEach + UI flow + pollForNewMassEditJob (≤120s) + waitForJobExecutionViaApi (≤420s)
+  test('Successfully update many images values at once', {timeout: 720_000}, async ({page}) => {
+    // timeout: 720_000 covers beforeEach + UI flow + pollForNewMassEditJob (≤180s) + waitForJobExecutionViaApi (≤420s)
     await goToProductsGrid(page);
     await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
@@ -120,8 +120,8 @@ test.describe('Mass edit image attributes', () => {
    * Replaces Behat: validate_editing_common_image_attributes.feature:43
    * Mass edit image attribute — set, clear, and validate extension
    */
-  test('Mass edit image attribute — set, clear, and validate extension', {timeout: 1_200_000}, async ({page}) => {
-    // timeout: 1_200_000 covers 3 wizard flows × (≤120s poll + ≤360s job) on slow CI runners
+  test('Mass edit image attribute — set, clear, and validate extension', {timeout: 1_380_000}, async ({page}) => {
+    // timeout: 1_380_000 covers 3 wizard flows × (≤180s poll + ≤360s job) on slow CI runners
     await goToProductsGrid(page);
 
     // Step 1: set image on sku1 + sku2

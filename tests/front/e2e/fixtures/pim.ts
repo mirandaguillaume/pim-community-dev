@@ -159,17 +159,25 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
     .locator('.AknFieldContainer')
     .filter({has: page.locator('.AknFieldContainer-label', {hasText: attributeLabel})})
     .first();
-  // media.html renders input[type=file] only in empty state. If the field is already
-  // filled (previous test left a value), click .clear-field to go back to empty state
-  // so the input appears in the DOM before setInputFiles.
+  // media.html renders input[type=file] ONLY in the empty state; a filled field
+  // (a value left by a previous test) renders a preview + .clear-field instead.
+  // Root cause of the historical 10-minute hang: a 2s isVisible() probe on
+  // .clear-field would race a still-rendering filled field, skip the clear, then
+  // setInputFiles would wait the full 600s test timeout on an input that never
+  // exists. Fix: wait deterministically for the field to settle into EITHER state,
+  // clear if filled, then fail FAST (15s) instead of hanging if the input is absent.
+  const fileInput = container.locator('input[type="file"]');
   const clearBtn = container.locator('.clear-field');
-  if (await clearBtn.isVisible({timeout: 2_000}).catch(() => false)) {
-    // force:true bypasses the #overlay that can re-appear after Backbone re-renders
-    // the attribute group panel. isVisible() already confirmed the element exists.
+  // Wait until the field has rendered in one of its two known states.
+  await expect(fileInput.or(clearBtn).first()).toBeAttached({timeout: 30_000});
+  if (await clearBtn.isVisible().catch(() => false)) {
+    // force:true bypasses the #overlay that can re-appear after Backbone re-renders.
     await clearBtn.click({force: true});
-    await container.locator('input[type="file"]').waitFor({timeout: 5_000});
   }
-  await container.locator('input[type="file"]').setInputFiles(fixtureFilePath(fileName));
+  // The input is display:none in the DOM, so wait for 'attached' (not 'visible').
+  // A 15s ceiling turns a missing-input bug into a fast, legible failure.
+  await fileInput.waitFor({state: 'attached', timeout: 15_000});
+  await fileInput.setInputFiles(fixtureFilePath(fileName));
 }
 
 // Fetch the most recent edit_common_attributes job execution ID via the process tracker.
@@ -231,8 +239,11 @@ export async function confirmMassEdit(page: Page): Promise<string | null> {
   }
 
   // Mass-edit returns {}. Poll process-tracker until the new job execution appears.
-  // 120s accounts for slow CI runners where the consumer may lag behind the queue.
-  return pollForNewMassEditJob(page, prevMaxId, 120_000);
+  // 180s: under CI load the supervised Messenger consumer (3 workers) can still lag
+  // behind the queue right after a worker recycle. The first mass-edit of a suite is
+  // the most exposed, so we give registration a generous window before declaring the
+  // consumer dead (the historical "not registered within 60s" flaky).
+  return pollForNewMassEditJob(page, prevMaxId, 180_000);
 }
 
 export async function productHasAttributeValue(
