@@ -79,14 +79,26 @@ module.exports = function transformer(file, api) {
   const defineCall = defineCalls.get();
   const args = defineCall.node.arguments;
 
-  const factory = args[1];
-  const factoryIsFn = factory && (factory.type === 'FunctionExpression' || factory.type === 'ArrowFunctionExpression');
-  const factoryHasBlock = factoryIsFn && factory.body && factory.body.type === 'BlockStatement';
-  if (args.length !== 2 || args[0].type !== 'ArrayExpression' || !factoryHasBlock) {
+  // Two supported shapes:
+  //   define([deps], factory)  — deps + factory
+  //   define(factory)          — no-dependency-array form (Oro abstract-formatter etc.)
+  let depArray;
+  let factory;
+  if (args.length === 2 && args[0].type === 'ArrayExpression') {
+    depArray = args[0];
+    factory = args[1];
+  } else if (args.length === 1) {
+    depArray = j.arrayExpression([]); // no deps → no require() statements
+    factory = args[0];
+  } else {
     throw new Error(`${file.path}: unsupported define() shape — manual migration needed`);
   }
 
-  const depArray = args[0];
+  const factoryIsFn = factory && (factory.type === 'FunctionExpression' || factory.type === 'ArrowFunctionExpression');
+  const factoryHasBlock = factoryIsFn && factory.body && factory.body.type === 'BlockStatement';
+  if (!factoryHasBlock) {
+    throw new Error(`${file.path}: unsupported define() factory — manual migration needed`);
+  }
 
   // Which factory params are actually referenced in the body? AMD never tripped
   // no-unused-vars on define() params, so unused ones accumulated. For those we
@@ -114,7 +126,17 @@ module.exports = function transformer(file, api) {
     }
     const param = factory.params[i];
     const requireCall = j.callExpression(j.identifier('require'), [j.literal(depNode.value)]);
-    if (param && param.type === 'Identifier' && usedParamNames.has(param.name)) {
+    if (param && param.type === 'ObjectPattern') {
+      // Destructured dep: `var { a, b } = __pimInterop(require('dep'));`
+      // Destructured params are bound by construction (the names are explicit),
+      // so they are always emitted — never collapsed to a side-effect require.
+      needsInterop = true;
+      requireStmts.push(
+        j.variableDeclaration('var', [
+          j.variableDeclarator(param, j.callExpression(j.identifier(INTEROP_HELPER), [requireCall])),
+        ])
+      );
+    } else if (param && param.type === 'Identifier' && usedParamNames.has(param.name)) {
       // Bound + used: `var Alias = __pimInterop(require('dep'));`
       needsInterop = true;
       requireStmts.push(
@@ -123,7 +145,7 @@ module.exports = function transformer(file, api) {
         ])
       );
     } else {
-      // No param OR unused param: side-effect-only `require('dep');`
+      // No param OR unused identifier param: side-effect-only `require('dep');`
       requireStmts.push(j.expressionStatement(requireCall));
     }
   }
