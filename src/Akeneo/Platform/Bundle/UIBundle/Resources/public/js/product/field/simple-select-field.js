@@ -1,190 +1,185 @@
 'use strict';
-/**
- * Simple select field
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @author    Filips Alpe <filips@akeneo.com>
- * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'pim/field',
-  'underscore',
-  'pim/template/product/field/simple-select',
-  'routing',
-  'pim/attribute-option/create',
-  'pim/security-context',
-  'pim/initselect2',
-  'pim/user-context',
-  'pim/i18n',
-], function ($, Field, _, fieldTemplate, Routing, createOption, SecurityContext, initSelect2, UserContext, i18n) {
-  return Field.extend({
-    fieldTemplate: _.template(fieldTemplate),
-    choicePromise: null,
-    promiseIdentifier: null,
-    choiceUrl: null,
-    events: {
-      'change .field-input:first input[type="hidden"].select-field': 'updateModel',
-      'click .add-attribute-option': 'createOption',
-    },
 
-    /**
-     * {@inheritdoc}
-     */
-    getTemplateContext: function () {
-      return Field.prototype.getTemplateContext.apply(this, arguments).then(
-        function (templateContext) {
-          var isAllowed = SecurityContext.isGranted('pim_enrich_attribute_edit');
-          templateContext.userCanAddOption = this.editable && isAllowed;
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-          return templateContext;
-        }.bind(this)
-      );
-    },
+var $ = __pimInterop(require('jquery'));
+var Field = __pimInterop(require('pim/field'));
+var _ = __pimInterop(require('underscore'));
+var fieldTemplate = __pimInterop(require('pim/template/product/field/simple-select'));
+var Routing = __pimInterop(require('routing'));
+var createOption = __pimInterop(require('pim/attribute-option/create'));
+var SecurityContext = __pimInterop(require('pim/security-context'));
+var initSelect2 = __pimInterop(require('pim/initselect2'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var i18n = __pimInterop(require('pim/i18n'));
 
-    /**
-     * Create a new option for this simple select field
-     */
-    createOption: function () {
-      if (!SecurityContext.isGranted('pim_enrich_attribute_edit')) {
-        return;
-      }
+module.exports = Field.extend({
+  fieldTemplate: _.template(fieldTemplate),
+  choicePromise: null,
+  promiseIdentifier: null,
+  choiceUrl: null,
+  events: {
+    'change .field-input:first input[type="hidden"].select-field': 'updateModel',
+    'click .add-attribute-option': 'createOption',
+  },
 
-      createOption(this.attribute).then(
-        function (option) {
-          if (this.isEditable()) {
-            this.setCurrentValue(option.code);
-          }
+  /**
+   * {@inheritdoc}
+   */
+  getTemplateContext: function () {
+    return Field.prototype.getTemplateContext.apply(this, arguments).then(
+      function (templateContext) {
+        var isAllowed = SecurityContext.isGranted('pim_enrich_attribute_edit');
+        templateContext.userCanAddOption = this.editable && isAllowed;
 
-          this.choicePromise = null;
-          this.render();
-        }.bind(this)
-      );
-    },
+        return templateContext;
+      }.bind(this)
+    );
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    renderInput: function (context) {
-      return this.fieldTemplate(context);
-    },
+  /**
+   * Create a new option for this simple select field
+   */
+  createOption: function () {
+    if (!SecurityContext.isGranted('pim_enrich_attribute_edit')) {
+      return;
+    }
 
-    /**
-     * {@inheritdoc}
-     */
-    postRender: function () {
-      this.$('[data-toggle="tooltip"]').tooltip();
-      this.getChoiceUrl().then(
-        function (choiceUrl) {
-          var options = {
-            ajax: {
-              url: choiceUrl,
-              cache: true,
-              data: function (term, page) {
-                return {
-                  search: term,
-                  options: {
-                    limit: 20,
-                    page: page,
-                    catalogLocale: UserContext.get('catalogLocale'),
-                  },
-                };
-              },
-              results: function (response) {
-                if (response.results) {
-                  response.more = 20 === _.keys(response.results).length;
+    createOption(this.attribute).then(
+      function (option) {
+        if (this.isEditable()) {
+          this.setCurrentValue(option.code);
+        }
 
-                  return response;
-                }
+        this.choicePromise = null;
+        this.render();
+      }.bind(this)
+    );
+  },
 
-                var data = {
-                  more: 20 === _.keys(response).length,
-                  results: [],
-                };
-                _.each(
-                  response,
-                  function (value) {
-                    data.results.push(this.convertBackendItem(value));
-                  }.bind(this)
-                );
+  /**
+   * {@inheritdoc}
+   */
+  renderInput: function (context) {
+    return this.fieldTemplate(context);
+  },
 
-                return data;
-              }.bind(this),
+  /**
+   * {@inheritdoc}
+   */
+  postRender: function () {
+    this.$('[data-toggle="tooltip"]').tooltip();
+    this.getChoiceUrl().then(
+      function (choiceUrl) {
+        var options = {
+          ajax: {
+            url: choiceUrl,
+            cache: true,
+            data: function (term, page) {
+              return {
+                search: term,
+                options: {
+                  limit: 20,
+                  page: page,
+                  catalogLocale: UserContext.get('catalogLocale'),
+                },
+              };
             },
-            initSelection: function (element, callback) {
-              var id = $(element).val();
-              if ('' !== id) {
-                if (null === this.choicePromise || this.promiseIdentifier !== id || this.choiceUrl !== choiceUrl) {
-                  this.choiceUrl = choiceUrl;
-                  this.choicePromise = $.get(choiceUrl, {options: {identifiers: [id]}});
-                  this.promiseIdentifier = id;
-                }
+            results: function (response) {
+              if (response.results) {
+                response.more = 20 === _.keys(response.results).length;
 
-                this.choicePromise.then(
-                  function (response) {
-                    var selected = _.find(response, function (result) {
-                      return id.toLowerCase() === (result.code ?? '').toLowerCase();
-                    });
-
-                    if (!selected) {
-                      selected = _.findWhere(response.results, {id: id});
-                    } else {
-                      selected = this.convertBackendItem(selected);
-                    }
-                    callback(selected);
-                  }.bind(this)
-                );
+                return response;
               }
+
+              var data = {
+                more: 20 === _.keys(response).length,
+                results: [],
+              };
+              _.each(
+                response,
+                function (value) {
+                  data.results.push(this.convertBackendItem(value));
+                }.bind(this)
+              );
+
+              return data;
             }.bind(this),
-            placeholder: ' ',
-            allowClear: true,
-          };
+          },
+          initSelection: function (element, callback) {
+            var id = $(element).val();
+            if ('' !== id) {
+              if (null === this.choicePromise || this.promiseIdentifier !== id || this.choiceUrl !== choiceUrl) {
+                this.choiceUrl = choiceUrl;
+                this.choicePromise = $.get(choiceUrl, {options: {identifiers: [id]}});
+                this.promiseIdentifier = id;
+              }
 
-          initSelect2.init(this.$('input.select-field'), options);
-        }.bind(this)
-      );
-    },
+              this.choicePromise.then(
+                function (response) {
+                  var selected = _.find(response, function (result) {
+                    return id.toLowerCase() === (result.code ?? '').toLowerCase();
+                  });
 
-    /**
-     * Get the URL to retrieve the choice list for this select field
-     *
-     * @returns {Promise}
-     */
-    getChoiceUrl: function () {
-      return $.Deferred()
-        .resolve(
-          Routing.generate('pim_enrich_attributeoption_get', {
-            identifier: this.attribute.code,
-          })
-        )
-        .promise();
-    },
+                  if (!selected) {
+                    selected = _.findWhere(response.results, {id: id});
+                  } else {
+                    selected = this.convertBackendItem(selected);
+                  }
+                  callback(selected);
+                }.bind(this)
+              );
+            }
+          }.bind(this),
+          placeholder: ' ',
+          allowClear: true,
+        };
 
-    /**
-     * {@inheritdoc}
-     */
-    updateModel: function () {
-      var data = this.$('.field-input:first input[type="hidden"].select-field').val();
-      data = '' === data ? this.attribute.empty_value : data;
+        initSelect2.init(this.$('input.select-field'), options);
+      }.bind(this)
+    );
+  },
 
-      this.choicePromise = null;
+  /**
+   * Get the URL to retrieve the choice list for this select field
+   *
+   * @returns {Promise}
+   */
+  getChoiceUrl: function () {
+    return $.Deferred()
+      .resolve(
+        Routing.generate('pim_enrich_attributeoption_get', {
+          identifier: this.attribute.code,
+        })
+      )
+      .promise();
+  },
 
-      this.setCurrentValue(data);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  updateModel: function () {
+    var data = this.$('.field-input:first input[type="hidden"].select-field').val();
+    data = '' === data ? this.attribute.empty_value : data;
 
-    /**
-     * Convert the item returned from the backend to fit select2 needs
-     *
-     * @param {object} item
-     *
-     * @return {object}
-     */
-    convertBackendItem: function (item) {
-      return {
-        id: item.code,
-        text: i18n.getLabel(item.labels, UserContext.get('catalogLocale'), item.code),
-      };
-    },
-  });
+    this.choicePromise = null;
+
+    this.setCurrentValue(data);
+  },
+
+  /**
+   * Convert the item returned from the backend to fit select2 needs
+   *
+   * @param {object} item
+   *
+   * @return {object}
+   */
+  convertBackendItem: function (item) {
+    return {
+      id: item.code,
+      text: i18n.getLabel(item.labels, UserContext.get('catalogLocale'), item.code),
+    };
+  },
 });

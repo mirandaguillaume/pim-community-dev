@@ -1,144 +1,125 @@
 'use strict';
 
-/**
- * Override of the attributes module.
- *
- * Purpose of this override is to avoid XHR call when removing an attribute
- * from the Product Edit Form (as we simply want to remove it from the DOM).
- *
- * @author    Adrien Pétremann <adrien.petremann@akeneo.com>
- * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'pim/field-manager',
-  'pim/security-context',
-  'pim/form/common/attributes',
-  'pim/fetcher-registry',
-  'pim/attribute-manager',
-  'pim/user-context',
-  'oro/mediator',
-  'pim/template/product/form/mass-edit/attributes',
-], function (
-  $,
-  _,
-  FieldManager,
-  SecurityContext,
-  BaseAttributes,
-  FetcherRegistry,
-  AttributeManager,
-  UserContext,
-  mediator,
-  template
-) {
-  return BaseAttributes.extend({
-    template: _.template(template),
-    locked: false,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * Listen to mass edit form unlock and lock events
-     *
-     * {@inheritdoc}
-     */
-    configure: function () {
-      mediator.on('mass-edit:form:lock', this.onLock.bind(this));
-      mediator.on('mass-edit:form:unlock', this.onUnlock.bind(this));
-      this.onExtensions('add-attribute:add', this.addAttributes.bind(this));
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var FieldManager = __pimInterop(require('pim/field-manager'));
+var SecurityContext = __pimInterop(require('pim/security-context'));
+var BaseAttributes = __pimInterop(require('pim/form/common/attributes'));
+var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var AttributeManager = __pimInterop(require('pim/attribute-manager'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var mediator = __pimInterop(require('oro/mediator'));
+var template = __pimInterop(require('pim/template/product/form/mass-edit/attributes'));
 
-      return BaseAttributes.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseAttributes.extend({
+  template: _.template(template),
+  locked: false,
 
-    /**
-     * Override for field render to maintain form locked state
-     * @param  {jQueryElement} panel Attribute panel element
-     * @param  {Object} field Attribute field
-     */
-    appendField: function (panel, field) {
-      if (field.canBeSeen()) {
-        field.setLocked(this.locked);
-        field.render();
-        panel.append(field.$el);
-      }
-    },
+  /**
+   * Listen to mass edit form unlock and lock events
+   *
+   * {@inheritdoc}
+   */
+  configure: function () {
+    mediator.on('mass-edit:form:lock', this.onLock.bind(this));
+    mediator.on('mass-edit:form:unlock', this.onUnlock.bind(this));
+    this.onExtensions('add-attribute:add', this.addAttributes.bind(this));
 
-    /**
-     * Add an attribute to the current attribute list
-     *
-     * @param {Event} event
-     */
-    addAttributes: function (event) {
-      var attributeCodes = event.codes;
+    return BaseAttributes.prototype.configure.apply(this, arguments);
+  },
 
-      $.when(
-        FetcherRegistry.getFetcher('attribute').fetchByIdentifiers(attributeCodes),
-        FetcherRegistry.getFetcher('locale').fetch(UserContext.get('catalogLocale')),
-        FetcherRegistry.getFetcher('channel').fetch(UserContext.get('catalogScope'), {force_list_method: true}),
-        FetcherRegistry.getFetcher('currency').fetchAll()
-      ).then(
-        function (attributes, locale, channel, currencies) {
-          var formData = this.getFormData();
+  /**
+   * Override for field render to maintain form locked state
+   * @param  {jQueryElement} panel Attribute panel element
+   * @param  {Object} field Attribute field
+   */
+  appendField: function (panel, field) {
+    if (field.canBeSeen()) {
+      field.setLocked(this.locked);
+      field.render();
+      panel.append(field.$el);
+    }
+  },
 
-          _.each(attributes, function (attribute) {
-            if (!formData.values[attribute.code]) {
-              formData.values[attribute.code] = AttributeManager.generateMissingValues(
-                [],
-                attribute,
-                [locale],
-                [channel],
-                currencies
-              );
-            }
-          });
+  /**
+   * Add an attribute to the current attribute list
+   *
+   * @param {Event} event
+   */
+  addAttributes: function (event) {
+    var attributeCodes = event.codes;
 
-          this.setData(formData);
+    $.when(
+      FetcherRegistry.getFetcher('attribute').fetchByIdentifiers(attributeCodes),
+      FetcherRegistry.getFetcher('locale').fetch(UserContext.get('catalogLocale')),
+      FetcherRegistry.getFetcher('channel').fetch(UserContext.get('catalogScope'), {force_list_method: true}),
+      FetcherRegistry.getFetcher('currency').fetchAll()
+    ).then(
+      function (attributes, locale, channel, currencies) {
+        var formData = this.getFormData();
 
-          this.getRoot().trigger('pim_enrich:form:add-attribute:after');
-        }.bind(this)
-      );
-    },
+        _.each(attributes, function (attribute) {
+          if (!formData.values[attribute.code]) {
+            formData.values[attribute.code] = AttributeManager.generateMissingValues(
+              [],
+              attribute,
+              [locale],
+              [channel],
+              currencies
+            );
+          }
+        });
 
-    /**
-     * Set mass edit form as locked
-     *
-     * {@inheritdoc}
-     */
-    onLock: function () {
-      this.locked = true;
-    },
+        this.setData(formData);
 
-    /**
-     * Set mass edit form as unlocked
-     *
-     * {@inheritdoc}
-     */
-    onUnlock: function () {
-      this.locked = false;
-      this.render();
-    },
+        this.getRoot().trigger('pim_enrich:form:add-attribute:after');
+      }.bind(this)
+    );
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    removeAttribute: function (event) {
-      if (!SecurityContext.isGranted('pim_enrich_product_remove_attribute')) {
-        return;
-      }
-      var attributeCode = event.currentTarget.dataset.attribute;
-      var product = this.getFormData();
-      var fields = FieldManager.getFields();
+  /**
+   * Set mass edit form as locked
+   *
+   * {@inheritdoc}
+   */
+  onLock: function () {
+    this.locked = true;
+  },
 
-      this.triggerExtensions('add-attribute:update:available-attributes');
+  /**
+   * Set mass edit form as unlocked
+   *
+   * {@inheritdoc}
+   */
+  onUnlock: function () {
+    this.locked = false;
+    this.render();
+  },
 
-      delete product.values[attributeCode];
-      // TODO: the manager's internal state shouldn't be modified by reference
-      delete fields[attributeCode];
+  /**
+   * {@inheritdoc}
+   */
+  removeAttribute: function (event) {
+    if (!SecurityContext.isGranted('pim_enrich_product_remove_attribute')) {
+      return;
+    }
+    var attributeCode = event.currentTarget.dataset.attribute;
+    var product = this.getFormData();
+    var fields = FieldManager.getFields();
 
-      this.setData(product);
-      this.getRoot().trigger('pim_enrich:form:remove-attribute:after');
+    this.triggerExtensions('add-attribute:update:available-attributes');
 
-      this.render();
-    },
-  });
+    delete product.values[attributeCode];
+    // TODO: the manager's internal state shouldn't be modified by reference
+    delete fields[attributeCode];
+
+    this.setData(product);
+    this.getRoot().trigger('pim_enrich:form:remove-attribute:after');
+
+    this.render();
+  },
 });

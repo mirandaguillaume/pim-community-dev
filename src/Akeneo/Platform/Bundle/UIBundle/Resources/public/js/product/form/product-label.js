@@ -1,89 +1,84 @@
 'use strict';
-/**
- * Product label extension
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @author    Filips Alpe <filips@akeneo.com>
- * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['pim/form/common/label', 'pim/user-context', 'pim/fetcher-registry'], function (
-  Label,
-  UserContext,
-  FetcherRegistry
-) {
-  return Label.extend({
-    family: null,
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.fetchFamily(this.getFormData().family);
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return Label.prototype.render.apply(this, arguments);
-    },
+var Label = __pimInterop(require('pim/form/common/label'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
 
-    /**
-     * {@inheritdoc}
-     */
-    getLabel: function () {
-      if (!this.getFormData().family) {
-        return this.getLabelFromMeta();
-      }
+module.exports = Label.extend({
+  family: null,
 
-      if (!this.family) {
-        return null;
-      }
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.fetchFamily(this.getFormData().family);
 
-      return this.getLabelFromAttribute() || this.getFormData().identifier;
-    },
+    return Label.prototype.render.apply(this, arguments);
+  },
 
-    getLabelFromAttribute: function () {
-      var attributeAsLabelIdentifier = this.family.attribute_as_label;
-      var attribute = this.family.attributes.find(attribute => attribute.code === attributeAsLabelIdentifier);
-      var scopable = attribute.scopable;
-      var localizable = attribute.localizable;
-      var scope = UserContext.get('catalogScope');
-      var locale = UserContext.get('catalogLocale');
+  /**
+   * {@inheritdoc}
+   */
+  getLabel: function () {
+    if (!this.getFormData().family) {
+      return this.getLabelFromMeta();
+    }
 
-      var values = this.getFormData().values[attributeAsLabelIdentifier];
-      if (values) {
-        return values.find(value => {
-          return (false === scopable || value.scope === scope) && (false === localizable || value.locale === locale);
-        }).data;
-      }
-
-      return '';
-    },
-
-    getLabelFromMeta: function () {
-      var meta = this.getFormData().meta;
-
-      if (meta && meta.label) {
-        return meta.label[UserContext.get('catalogLocale')];
-      }
-
+    if (!this.family) {
       return null;
-    },
+    }
 
-    fetchFamily: function (code) {
-      if (!code) {
-        return;
-      }
+    return this.getLabelFromAttribute() || this.getFormData().identifier;
+  },
 
-      if (this.family && this.family.code === code) {
-        return;
-      }
+  getLabelFromAttribute: function () {
+    var attributeAsLabelIdentifier = this.family.attribute_as_label;
+    var attribute = this.family.attributes.find(attribute => attribute.code === attributeAsLabelIdentifier);
+    var scopable = attribute.scopable;
+    var localizable = attribute.localizable;
+    var scope = UserContext.get('catalogScope');
+    var locale = UserContext.get('catalogLocale');
 
-      FetcherRegistry.getFetcher('family')
-        .fetch(code)
-        .then(
-          function (family) {
-            this.family = family;
-            this.render();
-          }.bind(this)
-        );
-    },
-  });
+    var values = this.getFormData().values[attributeAsLabelIdentifier];
+    if (values) {
+      return values.find(value => {
+        return (false === scopable || value.scope === scope) && (false === localizable || value.locale === locale);
+      }).data;
+    }
+
+    return '';
+  },
+
+  getLabelFromMeta: function () {
+    var meta = this.getFormData().meta;
+
+    if (meta && meta.label) {
+      return meta.label[UserContext.get('catalogLocale')];
+    }
+
+    return null;
+  },
+
+  fetchFamily: function (code) {
+    if (!code) {
+      return;
+    }
+
+    if (this.family && this.family.code === code) {
+      return;
+    }
+
+    FetcherRegistry.getFetcher('family')
+      .fetch(code)
+      .then(
+        function (family) {
+          this.family = family;
+          this.render();
+        }.bind(this)
+      );
+  },
 });

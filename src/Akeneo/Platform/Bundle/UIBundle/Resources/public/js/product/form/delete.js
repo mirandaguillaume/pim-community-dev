@@ -1,21 +1,19 @@
 'use strict';
 
-/**
- * Delete product extension
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['pim/form/common/delete', 'pim/remover/product'], function (DeleteForm, ProductRemover) {
-  return DeleteForm.extend({
-    remover: ProductRemover,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    getIdentifier: function () {
-      return this.getFormData().meta.id;
-    },
-  });
+var DeleteForm = __pimInterop(require('pim/form/common/delete'));
+var ProductRemover = __pimInterop(require('pim/remover/product'));
+
+module.exports = DeleteForm.extend({
+  remover: ProductRemover,
+
+  /**
+   * {@inheritdoc}
+   */
+  getIdentifier: function () {
+    return this.getFormData().meta.id;
+  },
 });

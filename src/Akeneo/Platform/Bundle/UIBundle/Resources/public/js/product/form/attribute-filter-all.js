@@ -1,42 +1,41 @@
 'use strict';
-/**
- * Idle filter used as default.
- *
- * @author    Yohan Blain <yohan.blain@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
 
-define(['jquery', 'oro/translator', 'pim/form'], function ($, __, BaseForm) {
-  return BaseForm.extend({
-    /**
-     * @returns {String}
-     */
-    getCode() {
-      return 'all';
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * @returns {String}
-     */
-    getLabel() {
-      return __('pim_enrich.entity.product.module.attribute_filter.all');
-    },
+var $ = __pimInterop(require('jquery'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
 
-    /**
-     * @returns {Boolean}
-     */
-    isVisible() {
-      return true;
-    },
+module.exports = BaseForm.extend({
+  /**
+   * @returns {String}
+   */
+  getCode() {
+    return 'all';
+  },
 
-    /**
-     * @param {Object} values
-     *
-     * @returns {Promise}
-     */
-    filterValues(values) {
-      return $.Deferred().resolve(values).promise();
-    },
-  });
+  /**
+   * @returns {String}
+   */
+  getLabel() {
+    return __('pim_enrich.entity.product.module.attribute_filter.all');
+  },
+
+  /**
+   * @returns {Boolean}
+   */
+  isVisible() {
+    return true;
+  },
+
+  /**
+   * @param {Object} values
+   *
+   * @returns {Promise}
+   */
+  filterValues(values) {
+    return $.Deferred().resolve(values).promise();
+  },
 });
