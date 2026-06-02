@@ -1,66 +1,61 @@
 'use strict';
 
-/**
- * Attributes tab top toolbar view
- *
- * @author    Alexandr Jeliuc <alex@jeliuc.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'oro/translator', 'pim/form', 'pim/template/family/tab/attributes/toolbar'], function (
-  _,
-  __,
-  BaseForm,
-  template
-) {
-  return BaseForm.extend({
-    className: 'AknGridToolbar',
-    template: _.template(template),
-    readOnly: false,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+var _ = __pimInterop(require('underscore'));
+require('oro/translator');
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/family/tab/attributes/toolbar'));
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  className: 'AknGridToolbar',
+  template: _.template(template),
+  readOnly: false,
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(
-        this.getRoot(),
-        'pim_enrich:form:update_read_only',
-        function (readOnly) {
-          this.readOnly = readOnly;
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-          this.render();
-        }.bind(this)
-      );
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      BaseForm.prototype.configure.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(
+      this.getRoot(),
+      'pim_enrich:form:update_read_only',
+      function (readOnly) {
+        this.readOnly = readOnly;
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      if (!this.configured) {
-        return this;
-      }
+        this.render();
+      }.bind(this)
+    );
 
-      if (this.readOnly) {
-        this.$el.empty();
+    BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-        return this;
-      }
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    if (!this.configured) {
+      return this;
+    }
 
-      this.$el.html(this.template({}));
+    if (this.readOnly) {
+      this.$el.empty();
 
-      this.renderExtensions();
-    },
-  });
+      return this;
+    }
+
+    this.$el.html(this.template({}));
+
+    this.renderExtensions();
+  },
 });

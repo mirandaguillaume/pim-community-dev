@@ -1,59 +1,54 @@
 'use strict';
 
-/**
- * Code field view
- *
- * @author    Alexandr Jeliuc <alex@jeliuc.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'oro/translator', 'pim/form', 'pim/template/form/properties/input'], function (
-  _,
-  __,
-  BaseForm,
-  template
-) {
-  return BaseForm.extend({
-    className: 'input',
-    template: _.template(template),
-    errors: [],
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
-    },
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/form/properties/input'));
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  className: 'input',
+  template: _.template(template),
+  errors: [],
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      if (!this.configured) {
-        return this;
-      }
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
+  },
 
-      this.$el.html(
-        this.template({
-          fieldName: this.config.fieldBaseId + 'code',
-          className: 'family-code',
-          value: this.getFormData().code,
-          errors: [],
-          label: __(this.config.label),
-          requiredLabel: __('pim_common.required_label'),
-          isRequired: true,
-          isReadOnly: true,
-        })
-      );
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      this.renderExtensions();
-    },
-  });
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    if (!this.configured) {
+      return this;
+    }
+
+    this.$el.html(
+      this.template({
+        fieldName: this.config.fieldBaseId + 'code',
+        className: 'family-code',
+        value: this.getFormData().code,
+        errors: [],
+        label: __(this.config.label),
+        requiredLabel: __('pim_common.required_label'),
+        isRequired: true,
+        isReadOnly: true,
+      })
+    );
+
+    this.renderExtensions();
+  },
 });

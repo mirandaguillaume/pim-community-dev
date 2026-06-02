@@ -1,64 +1,60 @@
 'use strict';
-/**
- * Button that handles the opening of the "create new family variant" modal.
- *
- * @author    Adrien Pétremann <adrien.petremann@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['jquery', 'underscore', 'oro/translator', 'oro/messenger', 'pim/form', 'pim/form-modal'], function (
-  $,
-  _,
-  __,
-  messenger,
-  BaseForm,
-  FormModal
-) {
-  return BaseForm.extend({
-    className: 'AknButton AknButton--action AknButton--small add-variant',
-    modal: null,
 
-    events: {
-      click: 'openModal',
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    render() {
-      this.$el.html(__('pim_enrich.entity.family_variant.module.create.label'));
-      this.delegateEvents();
+require('jquery');
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var messenger = __pimInterop(require('oro/messenger'));
+var BaseForm = __pimInterop(require('pim/form'));
+var FormModal = __pimInterop(require('pim/form-modal'));
 
-      return BaseForm.prototype.render.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  className: 'AknButton AknButton--action AknButton--small add-variant',
+  modal: null,
 
-    /**
-     * Open the modal containing the form to create a new family variant.
-     */
-    openModal() {
-      const modalParameters = {
-        className: 'modal modal--fullPage add-family-variant-modal',
-        content: '',
-        cancelText: __('pim_common.cancel'),
-        okText: __('pim_common.create'),
-        okCloses: false,
-      };
+  events: {
+    click: 'openModal',
+  },
 
-      const formModal = new FormModal('pim-family-variant-create-form', this.submitForm.bind(this), modalParameters, {
-        family: this.getFormData().code,
-      });
+  /**
+   * {@inheritdoc}
+   */
+  render() {
+    this.$el.html(__('pim_enrich.entity.family_variant.module.create.label'));
+    this.delegateEvents();
 
-      formModal.open();
-    },
+    return BaseForm.prototype.render.apply(this, arguments);
+  },
 
-    /**
-     * Action made when user submit the modal.
-     */
-    submitForm(formModal) {
-      return formModal.saveFamilyVariant().then(familyVariant => {
-        messenger.notify('success', _.__('pim_enrich.entity.family_variant.flash.create.success'));
-        this.getRoot().trigger('pim_enrich.entity.family.family_variant.post_create', familyVariant);
-      });
-    },
-  });
+  /**
+   * Open the modal containing the form to create a new family variant.
+   */
+  openModal() {
+    const modalParameters = {
+      className: 'modal modal--fullPage add-family-variant-modal',
+      content: '',
+      cancelText: __('pim_common.cancel'),
+      okText: __('pim_common.create'),
+      okCloses: false,
+    };
+
+    const formModal = new FormModal('pim-family-variant-create-form', this.submitForm.bind(this), modalParameters, {
+      family: this.getFormData().code,
+    });
+
+    formModal.open();
+  },
+
+  /**
+   * Action made when user submit the modal.
+   */
+  submitForm(formModal) {
+    return formModal.saveFamilyVariant().then(familyVariant => {
+      messenger.notify('success', _.__('pim_enrich.entity.family_variant.flash.create.success'));
+      this.getRoot().trigger('pim_enrich.entity.family.family_variant.post_create', familyVariant);
+    });
+  },
 });

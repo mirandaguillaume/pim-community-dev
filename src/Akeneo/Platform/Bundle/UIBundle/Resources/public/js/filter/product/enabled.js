@@ -1,86 +1,86 @@
 'use strict';
 
-//Should be reworked to be a boolean filter
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-define([
-  'underscore',
-  'oro/translator',
-  'pim/filter/filter',
-  'routing',
-  'pim/template/filter/product/enabled',
-  'pim/fetcher-registry',
-  'pim/user-context',
-  'pim/i18n',
-  'jquery.select2',
-], function (_, __, BaseFilter, Routing, template) {
-  return BaseFilter.extend({
-    shortname: 'enabled',
-    template: _.template(template),
-    removable: false,
-    events: {
-      'change [name="filter-value"]': 'updateState',
-    },
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseFilter = __pimInterop(require('pim/filter/filter'));
+require('routing');
+var template = __pimInterop(require('pim/template/filter/product/enabled'));
+require('pim/fetcher-registry');
+require('pim/user-context');
+require('pim/i18n');
+require('jquery.select2');
 
-    /**
-     * {@inherit}
-     */
-    configure: function () {
-      this.listenTo(
-        this.getRoot(),
-        'pim_enrich:form:entity:pre_update',
-        function (data) {
-          _.defaults(data, {field: this.getCode(), operator: '=', value: true});
-        }.bind(this)
-      );
+module.exports = BaseFilter.extend({
+  shortname: 'enabled',
+  template: _.template(template),
+  removable: false,
+  events: {
+    'change [name="filter-value"]': 'updateState',
+  },
 
-      return BaseFilter.prototype.configure.apply(this, arguments);
-    },
+  /**
+   * {@inherit}
+   */
+  configure: function () {
+    this.listenTo(
+      this.getRoot(),
+      'pim_enrich:form:entity:pre_update',
+      function (data) {
+        _.defaults(data, {field: this.getCode(), operator: '=', value: true});
+      }.bind(this)
+    );
 
-    /**
-     * Returns rendered input.
-     *
-     * @return {String}
-     */
-    renderInput: function () {
-      return this.template({
-        isEditable: this.isEditable(),
-        labels: {
-          title: __('pim_common.status'),
-          valueChoices: {
-            all: __('pim_common.all'),
-            enabled: __('pim_enrich.export.product.filter.enabled.value.enabled'),
-            disabled: __('pim_enrich.export.product.filter.enabled.value.disabled'),
-          },
+    return BaseFilter.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * Returns rendered input.
+   *
+   * @return {String}
+   */
+  renderInput: function () {
+    return this.template({
+      isEditable: this.isEditable(),
+      labels: {
+        title: __('pim_common.status'),
+        valueChoices: {
+          all: __('pim_common.all'),
+          enabled: __('pim_enrich.export.product.filter.enabled.value.enabled'),
+          disabled: __('pim_enrich.export.product.filter.enabled.value.disabled'),
         },
-        value: this.getValue(),
-      });
-    },
+      },
+      value: this.getValue(),
+    });
+  },
 
-    /**
-     * Initializes select2 after rendering.
-     */
-    postRender: function () {
-      this.$('[name="filter-value"]').select2({minimumResultsForSearch: -1});
-    },
+  /**
+   * Initializes select2 after rendering.
+   */
+  postRender: function () {
+    this.$('[name="filter-value"]').select2({minimumResultsForSearch: -1});
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    isEmpty: function () {
-      return false;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  isEmpty: function () {
+    return false;
+  },
 
-    /**
-     * Updates operator and value on fields change.
-     */
-    updateState: function () {
-      var value = this.$('[name="filter-value"]').val();
+  /**
+   * Updates operator and value on fields change.
+   */
+  updateState: function () {
+    var value = this.$('[name="filter-value"]').val();
 
-      if ('all' === value) {
-        this.setData({field: this.getField(), operator: 'ALL', value: null});
-      } else {
-        this.setData({field: this.getField(), operator: '=', value: 'enabled' === value});
-      }
-    },
-  });
+    if ('all' === value) {
+      this.setData({field: this.getField(), operator: 'ALL', value: null});
+    } else {
+      this.setData({field: this.getField(), operator: '=', value: 'enabled' === value});
+    }
+  },
 });

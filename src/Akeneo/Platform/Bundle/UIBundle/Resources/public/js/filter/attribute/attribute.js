@@ -8,260 +8,262 @@
 
 'use strict';
 
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/filter/filter',
-  'pim/fetcher-registry',
-  'pim/i18n',
-  'pim/user-context',
-  'pim/product-edit-form/scope-switcher',
-  'pim/product-edit-form/locale-switcher',
-], function ($, _, __, BaseFilter, FetcherRegistry, i18n, UserContext, ScopeSwitcher, LocaleSwitcher) {
-  return BaseFilter.extend({
-    /**
-     * {@inherit}
-     */
-    initialize: function (config) {
-      if (undefined !== config) {
-        this.config = config.config;
-      }
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return BaseFilter.prototype.initialize.apply(this, arguments);
-    },
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseFilter = __pimInterop(require('pim/filter/filter'));
+var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var i18n = __pimInterop(require('pim/i18n'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var ScopeSwitcher = __pimInterop(require('pim/product-edit-form/scope-switcher'));
+var LocaleSwitcher = __pimInterop(require('pim/product-edit-form/locale-switcher'));
 
-    /**
-     * Sets the scope code on which this filter operates.
-     *
-     * @param {string} scope
-     * @param {Object} options
-     */
-    setScope: function (scope, options) {
-      var context = this.getFormData().context || {};
-      context.scope = scope;
+module.exports = BaseFilter.extend({
+  /**
+   * {@inherit}
+   */
+  initialize: function (config) {
+    if (undefined !== config) {
+      this.config = config.config;
+    }
 
-      this.setData({context: context}, options);
-    },
+    return BaseFilter.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * Gets the scope code on which this filter operates.
-     *
-     * @return {string}
-     */
-    getScope: function () {
-      if (undefined === this.getFormData().context) {
-        return null;
-      }
+  /**
+   * Sets the scope code on which this filter operates.
+   *
+   * @param {string} scope
+   * @param {Object} options
+   */
+  setScope: function (scope, options) {
+    var context = this.getFormData().context || {};
+    context.scope = scope;
 
-      return this.getFormData().context.scope;
-    },
+    this.setData({context: context}, options);
+  },
 
-    /**
-     * Sets the locale code on which this filter operates.
-     *
-     * @param {string} locale
-     * @param {Object} options
-     */
-    setLocale: function (locale, options) {
-      var context = this.getFormData().context || {};
-      context.locale = locale;
+  /**
+   * Gets the scope code on which this filter operates.
+   *
+   * @return {string}
+   */
+  getScope: function () {
+    if (undefined === this.getFormData().context) {
+      return null;
+    }
 
-      this.setData({context: context}, options);
-    },
+    return this.getFormData().context.scope;
+  },
 
-    /**
-     * Gets the locale code on which this filter operates.
-     *
-     * @return {string}
-     */
-    getLocale: function () {
-      if (undefined === this.getFormData().context) {
-        return null;
-      }
+  /**
+   * Sets the locale code on which this filter operates.
+   *
+   * @param {string} locale
+   * @param {Object} options
+   */
+  setLocale: function (locale, options) {
+    var context = this.getFormData().context || {};
+    context.locale = locale;
 
-      return this.getFormData().context.locale;
-    },
+    this.setData({context: context}, options);
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    renderElements: function () {
-      FetcherRegistry.getFetcher('attribute')
-        .fetch(this.getCode())
-        .then(
-          function (attribute) {
-            if (this.isEditable()) {
-              this.addContextDropdowns(attribute);
-            } else {
-              this.addContextLabels(attribute);
-            }
-          }.bind(this)
-        )
-        .then(
-          function () {
-            BaseFilter.prototype.renderElements.apply(this, arguments);
-          }.bind(this)
-        );
-    },
+  /**
+   * Gets the locale code on which this filter operates.
+   *
+   * @return {string}
+   */
+  getLocale: function () {
+    if (undefined === this.getFormData().context) {
+      return null;
+    }
 
-    /**
-     * Adds the context dropdown to the filter in edit mode according to attribute information.
-     *
-     * @param {Object} attribute
-     */
-    addContextDropdowns: function (attribute) {
-      var container = $('<span class="AknFieldContainer-contextContainer AknButtonList filter-context">');
+    return this.getFormData().context.locale;
+  },
 
-      if (attribute.scopable) {
-        var scopeSwitcher = new ScopeSwitcher({config: {context: 'base_product'}});
-        scopeSwitcher.setDisplayInline(false);
-        scopeSwitcher.setDisplayLabel(false);
-
-        this.listenTo(scopeSwitcher, 'pim_enrich:form:scope_switcher:pre_render', this.initScope.bind(this));
-
-        this.listenTo(
-          scopeSwitcher,
-          'pim_enrich:form:scope_switcher:change',
-          function (scopeEvent) {
-            if ('base_product' === scopeEvent.context) {
-              this.setScope(scopeEvent.scopeCode, {silent: true});
-              this.trigger('pim_enrich:form:entity:post_update');
-            }
-          }.bind(this)
-        );
-
-        container.append(scopeSwitcher.render().$el);
-      }
-
-      if (attribute.localizable) {
-        var localeSwitcher = new LocaleSwitcher({config: {context: 'base_product'}});
-        localeSwitcher.setDisplayInline(false);
-        localeSwitcher.setDisplayLabel(false);
-
-        this.listenTo(localeSwitcher, 'pim_enrich:form:locale_switcher:pre_render', this.initLocale.bind(this));
-
-        this.listenTo(
-          localeSwitcher,
-          'pim_enrich:form:locale_switcher:change',
-          function (localeEvent) {
-            if ('base_product' === localeEvent.context) {
-              this.setLocale(localeEvent.localeCode, {silent: true});
-              this.trigger('pim_enrich:form:entity:post_update');
-            }
-          }.bind(this)
-        );
-
-        container.append(localeSwitcher.render().$el);
-      }
-
-      this.addElement('after-label', 'filter-context', container);
-    },
-
-    /**
-     * {@inheritdoc}
-     */
-    getTemplateContext: function () {
-      return $.when(
-        BaseFilter.prototype.getTemplateContext.apply(this, arguments),
-        FetcherRegistry.getFetcher('attribute').fetch(this.getCode())
-      ).then(
-        function (templateContext, attribute) {
-          return _.extend({}, templateContext, {
-            label: i18n.getLabel(attribute.labels, UserContext.get('uiLocale'), attribute.code),
-            attribute: attribute,
-          });
+  /**
+   * {@inheritdoc}
+   */
+  renderElements: function () {
+    FetcherRegistry.getFetcher('attribute')
+      .fetch(this.getCode())
+      .then(
+        function (attribute) {
+          if (this.isEditable()) {
+            this.addContextDropdowns(attribute);
+          } else {
+            this.addContextLabels(attribute);
+          }
         }.bind(this)
-      );
-    },
-
-    /**
-     * Adds the context labels to the filter in view mode according to attribute information.
-     *
-     * @param {Object} attribute
-     */
-    addContextLabels: function (attribute) {
-      var promises = [];
-
-      if (attribute.scopable && this.getScope()) {
-        promises.push(
-          FetcherRegistry.getFetcher('channel')
-            .fetch(this.getScope())
-            .then(function (channel) {
-              return $('<span>').html(channel.label);
-            })
-        );
-      }
-
-      if (attribute.localizable && this.getLocale()) {
-        promises.push(
-          $.Deferred()
-            .resolve($('<span>').html(i18n.getFlag(this.getLocale())))
-            .promise()
-        );
-      }
-
-      $.when.apply($, promises).then(
+      )
+      .then(
         function () {
-          var container = $('<span class="AknButtonList filter-context">');
-          _.each(_.toArray(arguments), function (item) {
-            container.append(item);
-          });
-
-          this.addElement('after-input', 'filter-context', container);
+          BaseFilter.prototype.renderElements.apply(this, arguments);
         }.bind(this)
       );
-    },
+  },
 
-    /**
-     * Initialize the scope
-     *
-     * @param {Object} scopeEvent
-     * @param {string} scopeEvent.context
-     * @param {string} scopeEvent.scopeCode
-     */
-    initScope: function (scopeEvent) {
-      if (this.getScope()) {
-        scopeEvent.scopeCode = this.getScope();
-      } else {
-        this.setScope(scopeEvent.scopeCode, {silent: true});
-        this.trigger('pim_enrich:form:entity:post_update');
+  /**
+   * Adds the context dropdown to the filter in edit mode according to attribute information.
+   *
+   * @param {Object} attribute
+   */
+  addContextDropdowns: function (attribute) {
+    var container = $('<span class="AknFieldContainer-contextContainer AknButtonList filter-context">');
+
+    if (attribute.scopable) {
+      var scopeSwitcher = new ScopeSwitcher({config: {context: 'base_product'}});
+      scopeSwitcher.setDisplayInline(false);
+      scopeSwitcher.setDisplayLabel(false);
+
+      this.listenTo(scopeSwitcher, 'pim_enrich:form:scope_switcher:pre_render', this.initScope.bind(this));
+
+      this.listenTo(
+        scopeSwitcher,
+        'pim_enrich:form:scope_switcher:change',
+        function (scopeEvent) {
+          if ('base_product' === scopeEvent.context) {
+            this.setScope(scopeEvent.scopeCode, {silent: true});
+            this.trigger('pim_enrich:form:entity:post_update');
+          }
+        }.bind(this)
+      );
+
+      container.append(scopeSwitcher.render().$el);
+    }
+
+    if (attribute.localizable) {
+      var localeSwitcher = new LocaleSwitcher({config: {context: 'base_product'}});
+      localeSwitcher.setDisplayInline(false);
+      localeSwitcher.setDisplayLabel(false);
+
+      this.listenTo(localeSwitcher, 'pim_enrich:form:locale_switcher:pre_render', this.initLocale.bind(this));
+
+      this.listenTo(
+        localeSwitcher,
+        'pim_enrich:form:locale_switcher:change',
+        function (localeEvent) {
+          if ('base_product' === localeEvent.context) {
+            this.setLocale(localeEvent.localeCode, {silent: true});
+            this.trigger('pim_enrich:form:entity:post_update');
+          }
+        }.bind(this)
+      );
+
+      container.append(localeSwitcher.render().$el);
+    }
+
+    this.addElement('after-label', 'filter-context', container);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  getTemplateContext: function () {
+    return $.when(
+      BaseFilter.prototype.getTemplateContext.apply(this, arguments),
+      FetcherRegistry.getFetcher('attribute').fetch(this.getCode())
+    ).then(
+      function (templateContext, attribute) {
+        return _.extend({}, templateContext, {
+          label: i18n.getLabel(attribute.labels, UserContext.get('uiLocale'), attribute.code),
+          attribute: attribute,
+        });
+      }.bind(this)
+    );
+  },
+
+  /**
+   * Adds the context labels to the filter in view mode according to attribute information.
+   *
+   * @param {Object} attribute
+   */
+  addContextLabels: function (attribute) {
+    var promises = [];
+
+    if (attribute.scopable && this.getScope()) {
+      promises.push(
+        FetcherRegistry.getFetcher('channel')
+          .fetch(this.getScope())
+          .then(function (channel) {
+            return $('<span>').html(channel.label);
+          })
+      );
+    }
+
+    if (attribute.localizable && this.getLocale()) {
+      promises.push(
+        $.Deferred()
+          .resolve($('<span>').html(i18n.getFlag(this.getLocale())))
+          .promise()
+      );
+    }
+
+    $.when.apply($, promises).then(
+      function () {
+        var container = $('<span class="AknButtonList filter-context">');
+        _.each(_.toArray(arguments), function (item) {
+          container.append(item);
+        });
+
+        this.addElement('after-input', 'filter-context', container);
+      }.bind(this)
+    );
+  },
+
+  /**
+   * Initialize the scope
+   *
+   * @param {Object} scopeEvent
+   * @param {string} scopeEvent.context
+   * @param {string} scopeEvent.scopeCode
+   */
+  initScope: function (scopeEvent) {
+    if (this.getScope()) {
+      scopeEvent.scopeCode = this.getScope();
+    } else {
+      this.setScope(scopeEvent.scopeCode, {silent: true});
+      this.trigger('pim_enrich:form:entity:post_update');
+    }
+  },
+
+  /**
+   * Initialize the locale
+   *
+   * @param {Object} localeEvent
+   * @param {string} localeEvent.context
+   * @param {string} localeEvent.localeCode
+   */
+  initLocale: function (localeEvent) {
+    if (this.getLocale()) {
+      localeEvent.localeCode = this.getLocale();
+    } else {
+      this.setLocale(localeEvent.localeCode, {silent: true});
+      this.trigger('pim_enrich:form:entity:post_update');
+    }
+  },
+
+  /**
+   * Returns the list of the operator choices with their translations.
+   *
+   * @returns {object}
+   */
+  getLabelledOperatorChoices(shortName) {
+    let result = {};
+    this.config.operators.forEach(operator => {
+      const key = 'pim_enrich.export.product.filter.' + shortName + '.operators.' + operator;
+      let translation = __(key);
+      if (translation === key) {
+        translation = __('pim_common.operators.' + operator);
       }
-    },
+      result[operator] = translation;
+    });
 
-    /**
-     * Initialize the locale
-     *
-     * @param {Object} localeEvent
-     * @param {string} localeEvent.context
-     * @param {string} localeEvent.localeCode
-     */
-    initLocale: function (localeEvent) {
-      if (this.getLocale()) {
-        localeEvent.localeCode = this.getLocale();
-      } else {
-        this.setLocale(localeEvent.localeCode, {silent: true});
-        this.trigger('pim_enrich:form:entity:post_update');
-      }
-    },
-
-    /**
-     * Returns the list of the operator choices with their translations.
-     *
-     * @returns {object}
-     */
-    getLabelledOperatorChoices(shortName) {
-      let result = {};
-      this.config.operators.forEach(operator => {
-        const key = 'pim_enrich.export.product.filter.' + shortName + '.operators.' + operator;
-        let translation = __(key);
-        if (translation === key) {
-          translation = __('pim_common.operators.' + operator);
-        }
-        result[operator] = translation;
-      });
-
-      return result;
-    },
-  });
+    return result;
+  },
 });
