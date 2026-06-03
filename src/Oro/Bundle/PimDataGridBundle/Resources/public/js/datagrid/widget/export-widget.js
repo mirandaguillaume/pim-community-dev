@@ -9,7 +9,7 @@ var messenger = __pimInterop(require('oro/messenger'));
 var Error = __pimInterop(require('oro/error'));
 var Routing = __pimInterop(require('routing'));
 var React = __pimInterop(require('react'));
-require('akeneo-design-system');
+var {Link} = require('akeneo-design-system');
 
 module.exports = Backbone.View.extend({
   action: null,

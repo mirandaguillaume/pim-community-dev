@@ -12,7 +12,7 @@ require('backbone');
 var groupTemplate = __pimInterop(require('pim/template/datagrid/actions-group'));
 var BaseForm = __pimInterop(require('pim/form'));
 var mediator = __pimInterop(require('oro/mediator'));
-require('pimdatagrid/datagrid/quickexport/component/QuickExportConfigurator');
+var {QuickExportConfigurator} = require('pimdatagrid/datagrid/quickexport/component/QuickExportConfigurator');
 var UserContext = __pimInterop(require('pim/user-context'));
 const ActionsPanel = BaseForm.extend({
   appendToGrid: false,
