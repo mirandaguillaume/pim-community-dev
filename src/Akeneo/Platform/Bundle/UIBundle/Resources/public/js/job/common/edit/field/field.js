@@ -1,96 +1,90 @@
 'use strict';
 
-/**
- * Base field form extension
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-define([
-  'underscore',
-  'oro/translator',
-  'pim/form',
-  'pim/common/property',
-  'pim/template/export/common/edit/field/field',
-], function (_, __, BaseForm, propertyAccessor, template) {
-  return BaseForm.extend({
-    template: _.template(template),
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var propertyAccessor = __pimInterop(require('pim/common/property'));
+var template = __pimInterop(require('pim/template/export/common/edit/field/field'));
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+module.exports = BaseForm.extend({
+  template: _.template(template),
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(this.template(this.getTemplateContext()));
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      this.$('.field-input').prepend(this.renderInput(this.getTemplateContext()));
-      this.$('[data-toggle="tooltip"]').tooltip();
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(this.template(this.getTemplateContext()));
 
-      this.delegateEvents();
+    this.$('.field-input').prepend(this.renderInput(this.getTemplateContext()));
+    this.$('[data-toggle="tooltip"]').tooltip();
 
-      return this;
-    },
+    this.delegateEvents();
 
-    /**
-     * Render the input itself
-     *
-     * @param {object} templateContext
-     *
-     * @return {string}
-     */
-    renderInput: function (templateContext) {
-      return this.fieldTemplate(templateContext);
-    },
+    return this;
+  },
 
-    /**
-     * Get the template object for the field
-     *
-     * @return {object}
-     */
-    getTemplateContext: function () {
-      return {
-        __: __,
-        value: this.getValue(),
-        config: this.config,
-        error: this.getParent().getValidationErrorsForField(this.getFieldCode()),
-      };
-    },
+  /**
+   * Render the input itself
+   *
+   * @param {object} templateContext
+   *
+   * @return {string}
+   */
+  renderInput: function (templateContext) {
+    return this.fieldTemplate(templateContext);
+  },
 
-    /**
-     * Get the current value of the field
-     *
-     * @return {mixed}
-     */
-    getValue: function () {
-      return propertyAccessor.accessProperty(this.getFormData(), this.getFieldCode());
-    },
+  /**
+   * Get the template object for the field
+   *
+   * @return {object}
+   */
+  getTemplateContext: function () {
+    return {
+      __: __,
+      value: this.getValue(),
+      config: this.config,
+      error: this.getParent().getValidationErrorsForField(this.getFieldCode()),
+    };
+  },
 
-    /**
-     * Get the field code of the property
-     *
-     * @return {strign}
-     */
-    getFieldCode: function () {
-      return this.config.fieldCode;
-    },
+  /**
+   * Get the current value of the field
+   *
+   * @return {mixed}
+   */
+  getValue: function () {
+    return propertyAccessor.accessProperty(this.getFormData(), this.getFieldCode());
+  },
 
-    /**
-     * Update the model after dom update
-     */
-    updateState: function () {
-      var data = propertyAccessor.updateProperty(this.getFormData(), this.getFieldCode(), this.getFieldValue());
+  /**
+   * Get the field code of the property
+   *
+   * @return {strign}
+   */
+  getFieldCode: function () {
+    return this.config.fieldCode;
+  },
 
-      this.setData(data);
-    },
-  });
+  /**
+   * Update the model after dom update
+   */
+  updateState: function () {
+    var data = propertyAccessor.updateProperty(this.getFormData(), this.getFieldCode(), this.getFieldValue());
+
+    this.setData(data);
+  },
 });

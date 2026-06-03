@@ -1,86 +1,81 @@
 'use strict';
 
-/**
- * Save extension for job instance
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/form/common/save',
-  'oro/messenger',
-  'pim/field-manager',
-  'pim/i18n',
-  'pim/user-context',
-  'routing',
-  'pim/router',
-  'pim/analytics',
-], function ($, _, __, BaseSave, messenger, FieldManager, i18n, UserContext, Routing, router, analytics) {
-  return BaseSave.extend({
-    updateSuccessMessage: __('pim_import_export.entity.job_instance.flash.update.success'),
-    updateFailureMessage: __('pim_import_export.entity.job_instance.flash.update.fail'),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    save: function () {
-      var jobInstance = $.extend(true, {}, this.getFormData());
+var $ = __pimInterop(require('jquery'));
+require('underscore');
+var __ = __pimInterop(require('oro/translator'));
+var BaseSave = __pimInterop(require('pim/form/common/save'));
+var messenger = __pimInterop(require('oro/messenger'));
+require('pim/field-manager');
+require('pim/i18n');
+require('pim/user-context');
+require('routing');
+var router = __pimInterop(require('pim/router'));
+var analytics = __pimInterop(require('pim/analytics'));
 
-      delete jobInstance.meta;
-      delete jobInstance.connector;
+module.exports = BaseSave.extend({
+  updateSuccessMessage: __('pim_import_export.entity.job_instance.flash.update.success'),
+  updateFailureMessage: __('pim_import_export.entity.job_instance.flash.update.fail'),
 
-      this.showLoadingMask();
-      this.getRoot().trigger('pim_enrich:form:entity:pre_save');
+  /**
+   * {@inheritdoc}
+   */
+  save: function () {
+    var jobInstance = $.extend(true, {}, this.getFormData());
 
-      return this.getJobInstanceSaver()
-        .save(jobInstance.code, jobInstance)
-        .then(
-          function (data) {
-            this.postSave();
+    delete jobInstance.meta;
+    delete jobInstance.connector;
 
-            this.setData(data);
-            this.getRoot().trigger('pim_enrich:form:entity:post_fetch', data);
+    this.showLoadingMask();
+    this.getRoot().trigger('pim_enrich:form:entity:pre_save');
 
-            analytics.appcuesTrack('job-instance:form-edit:saved', {
-              code: jobInstance.code,
-            });
+    return this.getJobInstanceSaver()
+      .save(jobInstance.code, jobInstance)
+      .then(
+        function (data) {
+          this.postSave();
 
-            router.redirectToRoute(this.config.redirectPath, {code: jobInstance.code});
-          }.bind(this)
-        )
-        .fail(this.fail.bind(this))
-        .always(this.hideLoadingMask.bind(this));
-    },
+          this.setData(data);
+          this.getRoot().trigger('pim_enrich:form:entity:post_fetch', data);
 
-    /**
-     * @inheritDoc
-     */
-    fail: function (response) {
-      switch (response.status) {
-        case 400:
-          this.getRoot().trigger('pim_enrich:form:entity:bad_request', {
-            sentData: this.getFormData(),
-            response: response.responseJSON,
+          analytics.appcuesTrack('job-instance:form-edit:saved', {
+            code: jobInstance.code,
           });
-          break;
-        case 500:
-          /* global console */
-          const message = response.responseJSON ? response.responseJSON : response;
 
-          console.error('Errors:', message);
-          this.getRoot().trigger('pim_enrich:form:entity:error:save', message);
-          break;
-        default:
-      }
+          router.redirectToRoute(this.config.redirectPath, {code: jobInstance.code});
+        }.bind(this)
+      )
+      .fail(this.fail.bind(this))
+      .always(this.hideLoadingMask.bind(this));
+  },
 
-      messenger.notify(
-        'error',
-        response.responseJSON.message ? __(response.responseJSON.message) : this.updateFailureMessage
-      );
-    },
-  });
+  /**
+   * @inheritDoc
+   */
+  fail: function (response) {
+    switch (response.status) {
+      case 400:
+        this.getRoot().trigger('pim_enrich:form:entity:bad_request', {
+          sentData: this.getFormData(),
+          response: response.responseJSON,
+        });
+        break;
+      case 500:
+        /* global console */
+        const message = response.responseJSON ? response.responseJSON : response;
+
+        console.error('Errors:', message);
+        this.getRoot().trigger('pim_enrich:form:entity:error:save', message);
+        break;
+      default:
+    }
+
+    messenger.notify(
+      'error',
+      response.responseJSON.message ? __(response.responseJSON.message) : this.updateFailureMessage
+    );
+  },
 });

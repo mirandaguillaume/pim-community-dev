@@ -1,87 +1,83 @@
 'use strict';
-/**
- * Properties form
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'underscore',
-  'oro/translator',
-  'pim/template/export/common/edit/properties',
-  'pim/common/tab',
-  'pim/common/property',
-  'pim/edition',
-], function (_, __, template, BaseTab, propertyAccessor, pimEdition) {
-  return BaseTab.extend({
-    template: _.template(template),
-    errors: {},
 
-    /**
-     * {@inherit}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.resetValidationErrors.bind(this));
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.render.bind(this));
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:validation_error', this.setValidationErrors.bind(this));
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:validation_error', this.render.bind(this));
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return BaseTab.prototype.configure.apply(this, arguments);
-    },
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var template = __pimInterop(require('pim/template/export/common/edit/properties'));
+var BaseTab = __pimInterop(require('pim/common/tab'));
+var propertyAccessor = __pimInterop(require('pim/common/property'));
+var pimEdition = __pimInterop(require('pim/edition'));
 
-    /**
-     * {@inherit}
-     */
-    registerTab: function () {
-      this.trigger('tab:register', {
-        code: this.config.tabCode ? this.config.tabCode : this.code,
-        label: __(this.config.tabTitle),
-        isVisible: () => !(this.config.hideForCloudEdition && pimEdition.isCloudEdition()),
-      });
-    },
+module.exports = BaseTab.extend({
+  template: _.template(template),
+  errors: {},
 
-    /**
-     * Set validation errors after save request failure
-     *
-     * @param {event} event
-     */
-    setValidationErrors: function (event) {
-      this.errors = event.response;
-    },
+  /**
+   * {@inherit}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.resetValidationErrors.bind(this));
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.render.bind(this));
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:validation_error', this.setValidationErrors.bind(this));
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:validation_error', this.render.bind(this));
 
-    /**
-     * Remove validation error
-     */
-    resetValidationErrors: function () {
-      if (Object.entries(this.errors).length >= 0) {
-        this.getRoot().trigger('pim_enrich:form:form-tabs:remove-errors');
-        this.errors = {};
-      }
-    },
+    return BaseTab.prototype.configure.apply(this, arguments);
+  },
 
-    /**
-     * Get the validtion errors for the given field
-     *
-     * @param {string} field
-     *
-     * @return {mixed}
-     */
-    getValidationErrorsForField: function (field) {
-      return propertyAccessor.accessProperty(this.errors, field, null);
-    },
+  /**
+   * {@inherit}
+   */
+  registerTab: function () {
+    this.trigger('tab:register', {
+      code: this.config.tabCode ? this.config.tabCode : this.code,
+      label: __(this.config.tabTitle),
+      isVisible: () => !(this.config.hideForCloudEdition && pimEdition.isCloudEdition()),
+    });
+  },
 
-    /**
-     * {@inherit}
-     */
-    render: function () {
-      if (!this.configured) {
-        return this;
-      }
+  /**
+   * Set validation errors after save request failure
+   *
+   * @param {event} event
+   */
+  setValidationErrors: function (event) {
+    this.errors = event.response;
+  },
 
-      this.$el.html(this.template({__: __}));
+  /**
+   * Remove validation error
+   */
+  resetValidationErrors: function () {
+    if (Object.entries(this.errors).length >= 0) {
+      this.getRoot().trigger('pim_enrich:form:form-tabs:remove-errors');
+      this.errors = {};
+    }
+  },
 
-      this.renderExtensions();
-    },
-  });
+  /**
+   * Get the validtion errors for the given field
+   *
+   * @param {string} field
+   *
+   * @return {mixed}
+   */
+  getValidationErrorsForField: function (field) {
+    return propertyAccessor.accessProperty(this.errors, field, null);
+  },
+
+  /**
+   * {@inherit}
+   */
+  render: function () {
+    if (!this.configured) {
+      return this;
+    }
+
+    this.$el.html(this.template({__: __}));
+
+    this.renderExtensions();
+  },
 });

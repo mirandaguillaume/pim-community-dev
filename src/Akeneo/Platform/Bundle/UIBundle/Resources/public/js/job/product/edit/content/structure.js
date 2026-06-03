@@ -1,75 +1,71 @@
 'use strict';
-/**
- * Structure section
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'underscore',
-  'oro/translator',
-  'pim/template/export/product/edit/content/structure',
-  'pim/form',
-  'pim/common/property',
-], function (_, __, template, BaseForm, propertyAccessor) {
-  return BaseForm.extend({
-    className: 'structure-filters',
-    errors: {},
-    template: _.template(template),
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:bad_request', this.setValidationErrors.bind(this));
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.resetValidationErrors.bind(this));
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.render.bind(this));
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var template = __pimInterop(require('pim/template/export/product/edit/content/structure'));
+var BaseForm = __pimInterop(require('pim/form'));
+var propertyAccessor = __pimInterop(require('pim/common/property'));
 
-    /**
-     * Set the validation errors after validation fail
-     *
-     * @param {event} event
-     */
-    setValidationErrors: function (event) {
-      this.errors = event.response;
-    },
+module.exports = BaseForm.extend({
+  className: 'structure-filters',
+  errors: {},
+  template: _.template(template),
 
-    /**
-     * Rest validation error after fetch
-     */
-    resetValidationErrors: function () {
-      this.errors = {};
-    },
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:bad_request', this.setValidationErrors.bind(this));
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.resetValidationErrors.bind(this));
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.render.bind(this));
 
-    /**
-     * Get the validtion errors for the given field
-     *
-     * @param {string} field
-     *
-     * @return {mixed}
-     */
-    getValidationErrorsForField: function (field) {
-      return propertyAccessor.accessProperty(this.errors, 'configuration.filters.structure.' + field, []);
-    },
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-    /**
-     * Renders this view.
-     *
-     * @return {Object}
-     */
-    render: function () {
-      if (!this.configured) {
-        return this;
-      }
-      this.$el.html(this.template({__: __}));
+  /**
+   * Set the validation errors after validation fail
+   *
+   * @param {event} event
+   */
+  setValidationErrors: function (event) {
+    this.errors = event.response;
+  },
 
-      this.renderExtensions();
+  /**
+   * Rest validation error after fetch
+   */
+  resetValidationErrors: function () {
+    this.errors = {};
+  },
 
+  /**
+   * Get the validtion errors for the given field
+   *
+   * @param {string} field
+   *
+   * @return {mixed}
+   */
+  getValidationErrorsForField: function (field) {
+    return propertyAccessor.accessProperty(this.errors, 'configuration.filters.structure.' + field, []);
+  },
+
+  /**
+   * Renders this view.
+   *
+   * @return {Object}
+   */
+  render: function () {
+    if (!this.configured) {
       return this;
-    },
-  });
+    }
+    this.$el.html(this.template({__: __}));
+
+    this.renderExtensions();
+
+    return this;
+  },
 });

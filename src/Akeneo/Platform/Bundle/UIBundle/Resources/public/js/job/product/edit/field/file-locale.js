@@ -1,59 +1,54 @@
 'use strict';
 
-/**
- * Label locales field
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/fetcher-registry',
-  'pim/job/common/edit/field/field',
-  'pim/job/common/edit/field/select',
-  'pim/user-context',
-], function ($, _, __, FetcherRegistry, BaseField, SelectField, UserContext) {
-  return SelectField.extend({
-    /**
-     * {@inherit}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'job.with_label.change', () => {
-        this.render();
-      });
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return $.when(
-        FetcherRegistry.getFetcher('locale').fetchActivated(),
-        SelectField.prototype.configure.apply(this, arguments)
-      ).then(
-        function (locales) {
-          this.config.options = locales.reduce((result, locale) => ({...result, [locale.code]: locale.label}), {});
-        }.bind(this)
-      );
-    },
+var $ = __pimInterop(require('jquery'));
+require('underscore');
+require('oro/translator');
+var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var BaseField = __pimInterop(require('pim/job/common/edit/field/field'));
+var SelectField = __pimInterop(require('pim/job/common/edit/field/select'));
+var UserContext = __pimInterop(require('pim/user-context'));
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      if (!this.getFormData().configuration.with_label) {
-        this.$el.html('');
+module.exports = SelectField.extend({
+  /**
+   * {@inherit}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'job.with_label.change', () => {
+      this.render();
+    });
 
-        return this;
-      }
+    return $.when(
+      FetcherRegistry.getFetcher('locale').fetchActivated(),
+      SelectField.prototype.configure.apply(this, arguments)
+    ).then(
+      function (locales) {
+        this.config.options = locales.reduce((result, locale) => ({...result, [locale.code]: locale.label}), {});
+      }.bind(this)
+    );
+  },
 
-      BaseField.prototype.render.apply(this, arguments);
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    if (!this.getFormData().configuration.with_label) {
+      this.$el.html('');
 
-      const select2 = this.$('.select2');
-      select2.select2();
+      return this;
+    }
 
-      const fileLocale = this.getFormData().configuration.file_locale;
-      if (undefined === fileLocale || null === fileLocale) {
-        select2.val(UserContext.get('catalogLocale')).change();
-      }
-    },
-  });
+    BaseField.prototype.render.apply(this, arguments);
+
+    const select2 = this.$('.select2');
+    select2.select2();
+
+    const fileLocale = this.getFormData().configuration.file_locale;
+    if (undefined === fileLocale || null === fileLocale) {
+      select2.val(UserContext.get('catalogLocale')).change();
+    }
+  },
 });
