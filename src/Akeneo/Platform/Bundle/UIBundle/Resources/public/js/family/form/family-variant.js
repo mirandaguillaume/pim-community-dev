@@ -1,68 +1,70 @@
 'use strict';
 
-define([
-  'underscore',
-  'pim/form',
-  'oro/mediator',
-  'pim/common/grid',
-  'oro/translator',
-  'pim/user-context',
-  'pim/common/form-modal-creator',
-  'pim/template/family/tab/family-variant',
-  'pim/analytics',
-], function (_, BaseForm, mediator, Grid, __, UserContext, formModalCreator, template, analytics) {
-  return BaseForm.extend({
-    template: _.template(template),
-    className: 'tabbable variant',
-    variantGrid: null,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * @param {Object} meta
-     */
-    initialize: function (meta) {
-      this.config = _.extend({}, meta.config);
-      this.config.modelDependent = false;
+var _ = __pimInterop(require('underscore'));
+var BaseForm = __pimInterop(require('pim/form'));
+var mediator = __pimInterop(require('oro/mediator'));
+var Grid = __pimInterop(require('pim/common/grid'));
+var __ = __pimInterop(require('oro/translator'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var formModalCreator = __pimInterop(require('pim/common/form-modal-creator'));
+var template = __pimInterop(require('pim/template/family/tab/family-variant'));
+var analytics = __pimInterop(require('pim/analytics'));
 
-      return BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  template: _.template(template),
+  className: 'tabbable variant',
+  variantGrid: null,
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.trigger('tab:register', {
-        code: this.config.tabCode ? this.config.tabCode : this.code,
-        label: __(this.config.title),
+  /**
+   * @param {Object} meta
+   */
+  initialize: function (meta) {
+    this.config = _.extend({}, meta.config);
+    this.config.modelDependent = false;
+
+    return BaseForm.prototype.initialize.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.trigger('tab:register', {
+      code: this.config.tabCode ? this.config.tabCode : this.code,
+      label: __(this.config.title),
+    });
+
+    this.listenTo(this.getRoot(), 'pim_enrich.entity.family.family_variant.post_create', familyVariant => {
+      mediator.trigger(`datagrid:doRefresh:${this.config.gridName}`);
+
+      formModalCreator.createModal(familyVariant.code, 'family-variant');
+    });
+
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    if (!this.variantGrid) {
+      this.variantGrid = new Grid(this.config.gridName, {
+        family_id: this.getFormData().meta.id,
+        localeCode: UserContext.get('catalogLocale'),
       });
+    }
 
-      this.listenTo(this.getRoot(), 'pim_enrich.entity.family.family_variant.post_create', familyVariant => {
-        mediator.trigger(`datagrid:doRefresh:${this.config.gridName}`);
+    analytics.appcuesTrack('family:edit:variant-selected', {
+      code: this.code,
+    });
 
-        formModalCreator.createModal(familyVariant.code, 'family-variant');
-      });
+    this.$el.html(this.template());
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
-
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      if (!this.variantGrid) {
-        this.variantGrid = new Grid(this.config.gridName, {
-          family_id: this.getFormData().meta.id,
-          localeCode: UserContext.get('catalogLocale'),
-        });
-      }
-
-      analytics.appcuesTrack('family:edit:variant-selected', {
-        code: this.code,
-      });
-
-      this.$el.html(this.template());
-
-      this.renderExtensions();
-      this.getZone('grid').appendChild(this.variantGrid.render().el);
-    },
-  });
+    this.renderExtensions();
+    this.getZone('grid').appendChild(this.variantGrid.render().el);
+  },
 });

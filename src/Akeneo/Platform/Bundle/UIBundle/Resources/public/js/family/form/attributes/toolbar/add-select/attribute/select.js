@@ -1,76 +1,71 @@
 'use strict';
 
-/**
- * Family edit form add attribute select extension view
- *
- * @author    Alexandr Jeliuc <alex@jeliuc.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['jquery', 'underscore', 'pim/product/add-select/attribute', 'pim/fetcher-registry', 'pim/analytics'], function (
-  $,
-  _,
-  AddAttributeSelect,
-  FetcherRegistry,
-  analytics
-) {
-  return AddAttributeSelect.extend({
-    /**
-     * {@inheritdoc}
-     */
-    fetchItems: function (searchParameters) {
-      return this.getItemsToExclude().then(
-        function (attributeCodes) {
-          searchParameters.options.excluded_identifiers = attributeCodes;
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-          return FetcherRegistry.getFetcher(this.mainFetcher)
-            .search(searchParameters)
-            .then(
-              function (attributes) {
-                const groupCodes = _.unique(_.pluck(attributes, 'group'));
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var AddAttributeSelect = __pimInterop(require('pim/product/add-select/attribute'));
+var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var analytics = __pimInterop(require('pim/analytics'));
 
-                return FetcherRegistry.getFetcher('attribute-group')
-                  .fetchByIdentifiers(groupCodes)
-                  .then(
-                    function (attributeGroups) {
-                      return this.populateGroupProperties(attributes, attributeGroups);
-                    }.bind(this)
-                  );
-              }.bind(this)
-            );
-        }.bind(this)
-      );
-    },
+module.exports = AddAttributeSelect.extend({
+  /**
+   * {@inheritdoc}
+   */
+  fetchItems: function (searchParameters) {
+    return this.getItemsToExclude().then(
+      function (attributeCodes) {
+        searchParameters.options.excluded_identifiers = attributeCodes;
 
-    /**
-     * {@inheritdoc}
-     */
-    getItemsToExclude: function () {
-      return $.Deferred().resolve(
-        this.getFormData().attributes.map(attribute => {
-          return attribute.code;
-        })
-      );
-    },
+        return FetcherRegistry.getFetcher(this.mainFetcher)
+          .search(searchParameters)
+          .then(
+            function (attributes) {
+              const groupCodes = _.unique(_.pluck(attributes, 'group'));
 
-    /**
-     * {@inheritdoc}
-     */
-    addItems: function () {
-      this.getRoot().trigger(this.addEvent, {codes: this.selection});
+              return FetcherRegistry.getFetcher('attribute-group')
+                .fetchByIdentifiers(groupCodes)
+                .then(
+                  function (attributeGroups) {
+                    return this.populateGroupProperties(attributes, attributeGroups);
+                  }.bind(this)
+                );
+            }.bind(this)
+          );
+      }.bind(this)
+    );
+  },
 
-      analytics.appcuesTrack('family-grid:mass-edit:attributes-added', {
-        codes: this.selection,
-      });
-    },
+  /**
+   * {@inheritdoc}
+   */
+  getItemsToExclude: function () {
+    return $.Deferred().resolve(
+      this.getFormData().attributes.map(attribute => {
+        return attribute.code;
+      })
+    );
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    getSelectSearchParameters: function () {
-      return _.extend({}, AddAttributeSelect.prototype.getSelectSearchParameters.apply(this, arguments), {
-        rights: 0,
-      });
-    },
-  });
+  /**
+   * {@inheritdoc}
+   */
+  addItems: function () {
+    this.getRoot().trigger(this.addEvent, {codes: this.selection});
+
+    analytics.appcuesTrack('family-grid:mass-edit:attributes-added', {
+      codes: this.selection,
+    });
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  getSelectSearchParameters: function () {
+    return _.extend({}, AddAttributeSelect.prototype.getSelectSearchParameters.apply(this, arguments), {
+      rights: 0,
+    });
+  },
 });
