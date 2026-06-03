@@ -1,41 +1,43 @@
-define(['underscore', 'pim/form', 'oro/mediator', 'oro/datafilter/collection-filters-manager'], function (
-  _,
-  BaseForm,
-  mediator,
-  FiltersManager
-) {
-  return BaseForm.extend({
-    displayAsPanel: false,
-    isLoaded: false,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * @inheritdoc
-     */
-    initialize(meta) {
-      this.displayAsPanel = undefined === meta.config.displayAsPanel ? false : meta.config.displayAsPanel;
+require('underscore');
+var BaseForm = __pimInterop(require('pim/form'));
+var mediator = __pimInterop(require('oro/mediator'));
+var FiltersManager = __pimInterop(require('oro/datafilter/collection-filters-manager'));
 
-      this.listenTo(mediator, 'datagrid_filters:loaded', this.showFilterManager.bind(this));
+module.exports = BaseForm.extend({
+  displayAsPanel: false,
+  isLoaded: false,
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+  /**
+   * @inheritdoc
+   */
+  initialize(meta) {
+    this.displayAsPanel = undefined === meta.config.displayAsPanel ? false : meta.config.displayAsPanel;
 
-    /**
-     * Creates a new FiltersManager and renders it
-     *
-     * @param {Object} options
-     */
-    showFilterManager(options) {
-      options.displayAsPanel = this.displayAsPanel;
-      if (this.isLoaded) {
-        return;
-      }
-      this.isLoaded = true;
+    this.listenTo(mediator, 'datagrid_filters:loaded', this.showFilterManager.bind(this));
 
-      const filtersList = new FiltersManager(options);
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      this.$el.append(filtersList.render().$el);
+  /**
+   * Creates a new FiltersManager and renders it
+   *
+   * @param {Object} options
+   */
+  showFilterManager(options) {
+    options.displayAsPanel = this.displayAsPanel;
+    if (this.isLoaded) {
+      return;
+    }
+    this.isLoaded = true;
 
-      mediator.trigger('datagrid_filters:build.post', filtersList);
-    },
-  });
+    const filtersList = new FiltersManager(options);
+
+    this.$el.append(filtersList.render().$el);
+
+    mediator.trigger('datagrid_filters:build.post', filtersList);
+  },
 });

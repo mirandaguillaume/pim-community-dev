@@ -1,31 +1,24 @@
-/* global define */
-define(['underscore', 'oro/translator', 'oro/datagrid/delete-action', 'pim/dialog'], function (
-  _,
-  __,
-  DeleteAction,
-  Dialog
-) {
-  'use strict';
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-  /**
-   * Revoke action with confirm dialog, triggers REST DELETE request
-   *
-   * @export  oro/datagrid/revoke-action
-   * @class   oro.datagrid.RevokeAction
-   * @extends oro.datagrid.DeleteAction
-   */
-  return DeleteAction.extend({
-    getConfirmDialog: function () {
-      const entityCode = this.getEntityCode();
+require('underscore');
+var __ = __pimInterop(require('oro/translator'));
+var DeleteAction = __pimInterop(require('oro/datagrid/delete-action'));
+var Dialog = __pimInterop(require('pim/dialog'));
+('use strict');
 
-      this.confirmModal = Dialog.confirm(
-        __(`pim_enrich.entity.${entityCode}.module.revoke.confirm`),
-        __('pim_common.confirm_revocation'),
-        this.doDelete.bind(this),
-        this.getEntityHint(true)
-      );
+module.exports = DeleteAction.extend({
+  getConfirmDialog: function () {
+    const entityCode = this.getEntityCode();
 
-      return this.confirmModal;
-    },
-  });
+    this.confirmModal = Dialog.confirm(
+      __(`pim_enrich.entity.${entityCode}.module.revoke.confirm`),
+      __('pim_common.confirm_revocation'),
+      this.doDelete.bind(this),
+      this.getEntityHint(true)
+    );
+
+    return this.confirmModal;
+  },
 });
