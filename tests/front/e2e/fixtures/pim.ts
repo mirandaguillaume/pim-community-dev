@@ -342,9 +342,14 @@ export async function selectFirstProduct(page: Page) {
 }
 
 export async function saveProduct(page: Page) {
+  // The save POSTs to the COLLECTION endpoint `/enrich/product/rest` (no trailing slash,
+  // no uuid) — unlike the load GET / delete which hit `/enrich/product/rest/{uuid}`.
+  // The predicate must therefore allow `rest` to be followed by `/`, `?`, or end-of-string;
+  // requiring a trailing slash (`/rest/`) never matched the save POST, so waitForResponse
+  // hung until timeout even though the save itself returns 200 in ~150ms. Matching the
+  // real URL makes this resolve immediately (no flaky, no inflated timeout).
   const savePromise = page.waitForResponse(
-    resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.request().method() === 'POST',
-    {timeout: 30_000}
+    resp => /\/enrich\/product(-model)?\/rest(\/|\?|$)/.test(resp.url()) && resp.request().method() === 'POST'
   );
   await page.getByText('Save').first().click();
   await savePromise;
