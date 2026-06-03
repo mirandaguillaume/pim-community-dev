@@ -5,63 +5,67 @@
  */
 'use strict';
 
-define(['pim/form/common/edit-form'], function (BaseEditForm) {
-  return BaseEditForm.extend({
-    type: null,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.on('pim_enrich:form:entity:post_fetch', this.render);
+var BaseEditForm = __pimInterop(require('pim/form/common/edit-form'));
 
-      return BaseEditForm.prototype.configure.apply(this, arguments);
-    },
+module.exports = BaseEditForm.extend({
+  type: null,
 
-    render: function () {
-      this.$el.addClass('attribute');
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.on('pim_enrich:form:entity:post_fetch', this.render);
 
-      return BaseEditForm.prototype.render.apply(this, arguments);
-    },
+    return BaseEditForm.prototype.configure.apply(this, arguments);
+  },
 
-    /**
-     * Sets the attribute code for dynamic tree building purpose at configuration time.
-     *
-     * @param {String} type
-     */
-    setCode: function (code) {
-      this.code = code;
-    },
+  render: function () {
+    this.$el.addClass('attribute');
 
-    /**
-     * Sets the attribute type for dynamic tree building purpose at configuration time.
-     *
-     * @param {String} type
-     */
-    setType: function (type) {
-      this.type = type;
-    },
+    return BaseEditForm.prototype.render.apply(this, arguments);
+  },
 
-    /**
-     * Returns the view name associated to the key.
-     *
-     * @return {String}
-     */
-    getType: function () {
-      return this.type;
-    },
+  /**
+   * Sets the attribute code for dynamic tree building purpose at configuration time.
+   *
+   * @param {String} type
+   */
+  setCode: function (code) {
+    this.code = code;
+  },
 
-    setLabels: function (labels) {
-      this.labels = labels;
-    },
-    setLocalizable: function (localizable) {
-      this.localizable = localizable === 'true';
-    },
-    setScopable: function (scopable) {
-      this.scopable = scopable === 'true';
-    },
-    setUnique: function (unique) {
-      this.unique = unique === 'true';
-    },
-  });
+  /**
+   * Sets the attribute type for dynamic tree building purpose at configuration time.
+   *
+   * @param {String} type
+   */
+  setType: function (type) {
+    this.type = type;
+  },
+
+  /**
+   * Returns the view name associated to the key.
+   *
+   * @return {String}
+   */
+  getType: function () {
+    return this.type;
+  },
+
+  setLabels: function (labels) {
+    this.labels = labels;
+  },
+  setLocalizable: function (localizable) {
+    this.localizable = localizable === 'true';
+  },
+  setScopable: function (scopable) {
+    this.scopable = scopable === 'true';
+  },
+  setUnique: function (unique) {
+    this.unique = unique === 'true';
+  },
 });

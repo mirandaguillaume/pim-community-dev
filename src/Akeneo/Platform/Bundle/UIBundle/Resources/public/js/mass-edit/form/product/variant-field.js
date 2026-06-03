@@ -8,42 +8,46 @@
  */
 'use strict';
 
-define(['pim/product-model/form/creation/variant'], function (Variant) {
-  return Variant.extend({
-    readOnly: false,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize() {
-      Variant.prototype.initialize.apply(this, arguments);
+var Variant = __pimInterop(require('pim/product-model/form/creation/variant'));
 
-      this.readOnly = false;
-    },
+module.exports = Variant.extend({
+  readOnly: false,
 
-    /**
-     * {@inheritdoc}
-     */
-    configure() {
-      this.listenTo(this, 'mass-edit:update-read-only', this.setReadOnly.bind(this));
+  /**
+   * {@inheritdoc}
+   */
+  initialize() {
+    Variant.prototype.initialize.apply(this, arguments);
 
-      return Variant.prototype.configure.apply(this, arguments);
-    },
+    this.readOnly = false;
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    isReadOnly() {
-      return this.readOnly || !this.getFormData().family;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  configure() {
+    this.listenTo(this, 'mass-edit:update-read-only', this.setReadOnly.bind(this));
 
-    /**
-     * Updates the readOnly parameter to avoid edition of the field
-     *
-     * @param {Boolean} readOnly
-     */
-    setReadOnly(readOnly) {
-      this.readOnly = readOnly;
-    },
-  });
+    return Variant.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  isReadOnly() {
+    return this.readOnly || !this.getFormData().family;
+  },
+
+  /**
+   * Updates the readOnly parameter to avoid edition of the field
+   *
+   * @param {Boolean} readOnly
+   */
+  setReadOnly(readOnly) {
+    this.readOnly = readOnly;
+  },
 });

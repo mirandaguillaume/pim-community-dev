@@ -5,15 +5,19 @@
  */
 'use strict';
 
-define(['pim/form/common/fields/text'], function (BaseField) {
-  return BaseField.extend({
-    /**
-     * {@inheritdoc}
-     *
-     * This field should be displayed only when the validation rule is set to "regular expression".
-     */
-    isVisible: function () {
-      return 'regexp' === this.getFormData().validation_rule;
-    },
-  });
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
+
+var BaseField = __pimInterop(require('pim/form/common/fields/text'));
+
+module.exports = BaseField.extend({
+  /**
+   * {@inheritdoc}
+   *
+   * This field should be displayed only when the validation rule is set to "regular expression".
+   */
+  isVisible: function () {
+    return 'regexp' === this.getFormData().validation_rule;
+  },
 });

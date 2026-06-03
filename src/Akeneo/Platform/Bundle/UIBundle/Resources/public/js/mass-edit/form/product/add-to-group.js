@@ -1,109 +1,105 @@
 'use strict';
-/**
- * Add to group operation
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'oro/messenger',
-  'pim/i18n',
-  'pim/user-context',
-  'pim/mass-edit-form/product/operation',
-  'pim/fetcher-registry',
-  'pim/common/property',
-  'pim/template/mass-edit/product/add-to-group',
-], function ($, _, __, messenger, i18n, UserContext, BaseOperation, FetcherRegistry, propertyAccessor, template) {
-  return BaseOperation.extend({
-    template: _.template(template),
 
-    /**
-     * {@inheritdoc}
-     */
-    reset: function () {
-      this.setValue([]);
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(this.template());
-      this.renderExtensions();
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var messenger = __pimInterop(require('oro/messenger'));
+require('pim/i18n');
+require('pim/user-context');
+var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
+require('pim/fetcher-registry');
+var propertyAccessor = __pimInterop(require('pim/common/property'));
+var template = __pimInterop(require('pim/template/mass-edit/product/add-to-group'));
 
-      this.$el.find('input[name=group]').attr('disabled', this.readOnly ? 'disabled' : null);
+module.exports = BaseOperation.extend({
+  template: _.template(template),
 
-      return this;
-    },
+  /**
+   * {@inheritdoc}
+   */
+  reset: function () {
+    this.setValue([]);
+  },
 
-    /**
-     * Update the mass edit model
-     *
-     * @param {Event} event
-     */
-    updateModel: function (event) {
-      this.transformValue(event.target.value, event.target.checked ? _.union : _.without);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(this.template());
+    this.renderExtensions();
 
-    /**
-     * Update the model after dom event triggered
-     *
-     * @param {array} groups
-     */
-    setValue: function (groups) {
-      var data = this.getFormData();
+    this.$el.find('input[name=group]').attr('disabled', this.readOnly ? 'disabled' : null);
 
-      data.actions = [
-        {
-          field: 'groups',
-          value: groups,
-        },
-      ];
+    return this;
+  },
 
-      this.setData(data);
-    },
+  /**
+   * Update the mass edit model
+   *
+   * @param {Event} event
+   */
+  updateModel: function (event) {
+    this.transformValue(event.target.value, event.target.checked ? _.union : _.without);
+  },
 
-    /**
-     * Transform dom event to proper group array
-     *
-     * @param {string}   group
-     * @param {function} method
-     */
-    transformValue: function (group, method) {
-      var value = this.getValue();
+  /**
+   * Update the model after dom event triggered
+   *
+   * @param {array} groups
+   */
+  setValue: function (groups) {
+    var data = this.getFormData();
 
-      this.setValue(method(value, [group]));
-    },
+    data.actions = [
+      {
+        field: 'groups',
+        value: groups,
+      },
+    ];
 
-    /**
-     * Get current value from mass edit model
-     *
-     * @return {array}
-     */
-    getValue: function () {
-      return _.findWhere(this.getFormData().actions, {field: 'group'});
-    },
+    this.setData(data);
+  },
 
-    /**
-     * Checks there is at least one group selected to go to the next step
-     */
-    validate: function () {
-      const data = this.getFormData();
-      const groupsStr = propertyAccessor.accessProperty(data, 'group', '');
-      const groups = groupsStr.split(',');
-      this.setValue(groups);
+  /**
+   * Transform dom event to proper group array
+   *
+   * @param {string}   group
+   * @param {function} method
+   */
+  transformValue: function (group, method) {
+    var value = this.getValue();
 
-      const hasUpdates = 0 !== groups.length;
+    this.setValue(method(value, [group]));
+  },
 
-      if (!hasUpdates) {
-        messenger.notify('error', __('pim_enrich.mass_edit.product.operation.add_to_group.no_update'));
-      }
+  /**
+   * Get current value from mass edit model
+   *
+   * @return {array}
+   */
+  getValue: function () {
+    return _.findWhere(this.getFormData().actions, {field: 'group'});
+  },
 
-      return $.Deferred().resolve(hasUpdates);
-    },
-  });
+  /**
+   * Checks there is at least one group selected to go to the next step
+   */
+  validate: function () {
+    const data = this.getFormData();
+    const groupsStr = propertyAccessor.accessProperty(data, 'group', '');
+    const groups = groupsStr.split(',');
+    this.setValue(groups);
+
+    const hasUpdates = 0 !== groups.length;
+
+    if (!hasUpdates) {
+      messenger.notify('error', __('pim_enrich.mass_edit.product.operation.add_to_group.no_update'));
+    }
+
+    return $.Deferred().resolve(hasUpdates);
+  },
 });

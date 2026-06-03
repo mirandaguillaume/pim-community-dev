@@ -1,121 +1,122 @@
 'use strict';
-/**
- * Base operation
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['jquery', 'underscore', 'oro/translator', 'pim/form/common/edit-form'], function ($, _, __, BaseForm) {
-  return BaseForm.extend({
-    readOnly: false,
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (meta) {
-      this.config = _.extend({}, meta.config);
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form/common/edit-form'));
 
-    /**
-     * Called to reset the operation module
-     */
-    reset: function () {},
+module.exports = BaseForm.extend({
+  readOnly: false,
 
-    /**
-     * The label displayed in the operation list
-     *
-     * @return {String}
-     */
-    getLabel: function () {
-      return __(this.config.label);
-    },
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (meta) {
+    this.config = _.extend({}, meta.config);
 
-    /**
-     * Returns the title of the operation
-     *
-     * @returns {String}
-     */
-    getTitle() {
-      return __(this.config.title);
-    },
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * Returns the label with the count of impacted elements
-     *
-     * @returns {String}
-     */
-    getLabelCount: function () {
-      const itemsCount = this.getFormData().itemsCount;
+  /**
+   * Called to reset the operation module
+   */
+  reset: function () {},
 
-      return __(this.config.labelCount, {itemsCount}, itemsCount);
-    },
+  /**
+   * The label displayed in the operation list
+   *
+   * @return {String}
+   */
+  getLabel: function () {
+    return __(this.config.label);
+  },
 
-    /**
-     * Returns the main illustration of this operation
-     *
-     * @returns {String}
-     */
-    getIllustrationClass: function () {
-      return this.config.illustration || 'products';
-    },
+  /**
+   * Returns the title of the operation
+   *
+   * @returns {String}
+   */
+  getTitle() {
+    return __(this.config.title);
+  },
 
-    /**
-     * Get the operation description
-     *
-     * @return {String}
-     */
-    getDescription: function () {
-      return __(this.config.description);
-    },
+  /**
+   * Returns the label with the count of impacted elements
+   *
+   * @returns {String}
+   */
+  getLabelCount: function () {
+    const itemsCount = this.getFormData().itemsCount;
 
-    /**
-     * Get the operation code
-     *
-     * @return {String}
-     */
-    getCode: function () {
-      return this.config.code;
-    },
+    return __(this.config.labelCount, {itemsCount}, itemsCount);
+  },
 
-    /**
-     * Get the operation icon
-     *
-     * @return {String}
-     */
-    getIcon: function () {
-      return this.config.icon;
-    },
+  /**
+   * Returns the main illustration of this operation
+   *
+   * @returns {String}
+   */
+  getIllustrationClass: function () {
+    return this.config.illustration || 'products';
+  },
 
-    /**
-     * Get job instance code to launch
-     *
-     * @return {String}
-     */
-    getJobInstanceCode: function () {
-      return this.config.jobInstanceCode;
-    },
+  /**
+   * Get the operation description
+   *
+   * @return {String}
+   */
+  getDescription: function () {
+    return __(this.config.description);
+  },
 
-    /**
-     * Called when the operation should switch from read only or edit
-     *
-     * @param {boolean} readOnly
-     */
-    setReadOnly: function (readOnly) {
-      this.readOnly = readOnly;
+  /**
+   * Get the operation code
+   *
+   * @return {String}
+   */
+  getCode: function () {
+    return this.config.code;
+  },
 
-      this.triggerExtensions('mass-edit:update-read-only', this.readOnly);
-    },
+  /**
+   * Get the operation icon
+   *
+   * @return {String}
+   */
+  getIcon: function () {
+    return this.config.icon;
+  },
 
-    /**
-     * Called before the confirmation step to validate the model
-     *
-     * @return {promise}
-     */
-    validate: function () {
-      return $.Deferred().resolve(true);
-    },
-  });
+  /**
+   * Get job instance code to launch
+   *
+   * @return {String}
+   */
+  getJobInstanceCode: function () {
+    return this.config.jobInstanceCode;
+  },
+
+  /**
+   * Called when the operation should switch from read only or edit
+   *
+   * @param {boolean} readOnly
+   */
+  setReadOnly: function (readOnly) {
+    this.readOnly = readOnly;
+
+    this.triggerExtensions('mass-edit:update-read-only', this.readOnly);
+  },
+
+  /**
+   * Called before the confirmation step to validate the model
+   *
+   * @return {promise}
+   */
+  validate: function () {
+    return $.Deferred().resolve(true);
+  },
 });

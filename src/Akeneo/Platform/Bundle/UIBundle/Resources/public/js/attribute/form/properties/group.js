@@ -5,73 +5,75 @@
  */
 'use strict';
 
-define([
-  'jquery',
-  'underscore',
-  'oro/translator',
-  'pim/form/common/fields/field',
-  'pim/fetcher-registry',
-  'pim/user-context',
-  'pim/i18n',
-  'pim/template/attribute/tab/properties/group',
-], function ($, _, __, BaseField, fetcherRegistry, UserContext, i18n, template) {
-  return BaseField.extend({
-    events: {
-      'change select': function (event) {
-        this.errors = [];
-        this.updateModel(this.getFieldValue(event.target));
-        this.getRoot().render();
-      },
-    },
-    template: _.template(template),
-    attributeGroups: {},
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      return $.when(
-        BaseField.prototype.configure.apply(this, arguments),
-        fetcherRegistry
-          .getFetcher('attribute-group')
-          .fetchAll()
-          .then(
-            function (attributeGroups) {
-              this.attributeGroups = attributeGroups;
-            }.bind(this)
-          )
-      );
-    },
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseField = __pimInterop(require('pim/form/common/fields/field'));
+var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var i18n = __pimInterop(require('pim/i18n'));
+var template = __pimInterop(require('pim/template/attribute/tab/properties/group'));
 
-    /**
-     * {@inheritdoc}
-     */
-    renderInput: function (templateContext) {
-      return this.template(
-        _.extend(templateContext, {
-          value: this.getFormData()[this.fieldName],
-          groups: _.sortBy(this.attributeGroups, 'sort_order'),
-          i18n: i18n,
-          locale: UserContext.get('catalogLocale'),
-          labels: {
-            defaultLabel: __('pim_enrich.entity.attribute.property.group.choose'),
-          },
-        })
-      );
+module.exports = BaseField.extend({
+  events: {
+    'change select': function (event) {
+      this.errors = [];
+      this.updateModel(this.getFieldValue(event.target));
+      this.getRoot().render();
     },
+  },
+  template: _.template(template),
+  attributeGroups: {},
 
-    /**
-     * {@inheritdoc}
-     */
-    postRender: function () {
-      this.$('select.select2').select2();
-    },
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    return $.when(
+      BaseField.prototype.configure.apply(this, arguments),
+      fetcherRegistry
+        .getFetcher('attribute-group')
+        .fetchAll()
+        .then(
+          function (attributeGroups) {
+            this.attributeGroups = attributeGroups;
+          }.bind(this)
+        )
+    );
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    getFieldValue: function (field) {
-      return $(field).val();
-    },
-  });
+  /**
+   * {@inheritdoc}
+   */
+  renderInput: function (templateContext) {
+    return this.template(
+      _.extend(templateContext, {
+        value: this.getFormData()[this.fieldName],
+        groups: _.sortBy(this.attributeGroups, 'sort_order'),
+        i18n: i18n,
+        locale: UserContext.get('catalogLocale'),
+        labels: {
+          defaultLabel: __('pim_enrich.entity.attribute.property.group.choose'),
+        },
+      })
+    );
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  postRender: function () {
+    this.$('select.select2').select2();
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  getFieldValue: function (field) {
+    return $(field).val();
+  },
 });

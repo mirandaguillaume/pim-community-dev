@@ -5,50 +5,52 @@
  */
 'use strict';
 
-define([
-  'jquery',
-  'underscore',
-  'pim/form',
-  'pim/fetcher-registry',
-  'pim/attributeoptionview',
-  'pim/template/attribute/tab/choices/options-grid',
-], function ($, _, BaseForm, fetcherRegistry, AttributeOptionGrid, template) {
-  return BaseForm.extend({
-    template: _.template(template),
-    locales: [],
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      return $.when(
-        BaseForm.prototype.configure.apply(this, arguments),
-        fetcherRegistry
-          .getFetcher('locale')
-          .fetchActivated()
-          .then(
-            function (locales) {
-              this.locales = locales;
-            }.bind(this)
-          )
-      );
-    },
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+var BaseForm = __pimInterop(require('pim/form'));
+var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
+var AttributeOptionGrid = __pimInterop(require('pim/attributeoptionview'));
+var template = __pimInterop(require('pim/template/attribute/tab/choices/options-grid'));
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(
-        this.template({
-          attributeId: this.getFormData().meta.id,
-          sortable: !this.getFormData().auto_option_sorting,
-          localeCodes: _.pluck(this.locales, 'code'),
-        })
-      );
+module.exports = BaseForm.extend({
+  template: _.template(template),
+  locales: [],
 
-      AttributeOptionGrid(this.$('.attribute-option-grid'));
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    return $.when(
+      BaseForm.prototype.configure.apply(this, arguments),
+      fetcherRegistry
+        .getFetcher('locale')
+        .fetchActivated()
+        .then(
+          function (locales) {
+            this.locales = locales;
+          }.bind(this)
+        )
+    );
+  },
 
-      this.renderExtensions();
-    },
-  });
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(
+      this.template({
+        attributeId: this.getFormData().meta.id,
+        sortable: !this.getFormData().auto_option_sorting,
+        localeCodes: _.pluck(this.locales, 'code'),
+      })
+    );
+
+    AttributeOptionGrid(this.$('.attribute-option-grid'));
+
+    this.renderExtensions();
+  },
 });
