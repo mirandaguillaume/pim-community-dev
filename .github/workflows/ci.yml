@@ -1620,12 +1620,24 @@ jobs:
           # `-vv` makes messenger log every message it receives/handles, so we can see
           # exactly which message a worker is stuck on. `docker logs` is now empty (stdout
           # goes to the file), so the readiness probe below greps the FILE instead.
+          # Namespace the consumer container names by COMPOSE_PROJECT_NAME (unique per
+          # runner: pim-bare-metal-NN). These bare-metal runners share ONE Docker daemon
+          # (they coexist via unique host ports), so a GLOBAL fixed name like
+          # "pim-job-consumer-1" COLLIDES across concurrent jobs: one job's `docker-compose
+          # run --name` fails ("container name already in use" → setup exits 1), and a
+          # concurrent job's `docker rm -f pim-job-consumer-1` removes another job's LIVE
+          # consumer mid-job — which is why the dump saw "No such container" and why the
+          # pausable mass-edit job got SIGTERM'd → paused → stranded → "still running after
+          # 420000ms". A per-runner prefix is unique across all concurrent jobs, killing
+          # the whole class of collision flakies. The log file name stays per-workspace
+          # (each runner has its own checkout), so it needs no namespacing.
+          CNAME_PREFIX="${COMPOSE_PROJECT_NAME:-pim}-job-consumer"
           mkdir -p var/logs
           rm -f var/logs/consumer-*.log 2>/dev/null || true
           for i in $(seq 1 "${CONSUMER_COUNT}"); do
             TL=$((240 + i * 60))   # 300s, 360s, 420s — staggered recycle
-            docker rm -f "pim-job-consumer-${i}" 2>/dev/null || true
-            docker-compose run -d --name "pim-job-consumer-${i}" php \
+            docker rm -f "${CNAME_PREFIX}-${i}" 2>/dev/null || true
+            docker-compose run -d --name "${CNAME_PREFIX}-${i}" php \
               sh -c "{ while true; do php bin/console messenger:consume import_export_job ui_job data_maintenance_job paused_job scheduled_job --env=prod --time-limit=${TL} --memory-limit=512M -vv; echo \"[supervisor] consumer ${i} exited (\$?), restarting\"; sleep 1; done; } > /srv/pim/var/logs/consumer-${i}.log 2>&1"
           done
           # Deterministic readiness probe (replaces a blind sleep): wait until each
@@ -1659,16 +1671,17 @@ jobs:
         if: always()
         shell: bash
         run: |
+          CNAME_PREFIX="${COMPOSE_PROJECT_NAME:-pim}-job-consumer"
           for i in 1 2 3; do
             if [ -s "var/logs/consumer-${i}.log" ]; then
-              # `sudo`: tee runs as the container user (often root), so the bind-mounted
-              # file may be root-owned. chown back to the runner so upload can read it.
+              # `sudo`: the container writes the bind-mounted file as its user (often root),
+              # so chown back to the runner so upload can read it.
               sudo cp "var/logs/consumer-${i}.log" "consumer-${i}.log" || cp "var/logs/consumer-${i}.log" "consumer-${i}.log" || true
               sudo chown "$(id -u):$(id -g)" "consumer-${i}.log" 2>/dev/null || true
             else
-              docker logs "pim-job-consumer-${i}" > "consumer-${i}.log" 2>&1 || true
+              docker logs "${CNAME_PREFIX}-${i}" > "consumer-${i}.log" 2>&1 || true
             fi
-            docker rm -f "pim-job-consumer-${i}" 2>/dev/null || true
+            docker rm -f "${CNAME_PREFIX}-${i}" 2>/dev/null || true
           done
           echo "=== consumer log sizes ==="
           ls -l consumer-*.log 2>/dev/null || echo "no consumer logs captured"
