@@ -4,19 +4,24 @@
  */
 'use strict';
 
-define(['pim/form/common/edit-form', 'pim/user-context'], function (BaseEditForm, UserContext) {
-  return BaseEditForm.extend({
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.on('pim_enrich:form:entity:post_fetch', this._refreshUserContext);
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return BaseEditForm.prototype.configure.apply(this, arguments);
-    },
+var BaseEditForm = __pimInterop(require('pim/form/common/edit-form'));
+var UserContext = __pimInterop(require('pim/user-context'));
 
-    _refreshUserContext: function () {
-      UserContext.refresh();
-    },
-  });
+module.exports = BaseEditForm.extend({
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.on('pim_enrich:form:entity:post_fetch', this._refreshUserContext);
+
+    return BaseEditForm.prototype.configure.apply(this, arguments);
+  },
+
+  _refreshUserContext: function () {
+    UserContext.refresh();
+  },
 });

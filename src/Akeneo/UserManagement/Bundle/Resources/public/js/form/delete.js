@@ -1,21 +1,19 @@
 'use strict';
 
-/**
- * User delete extension
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['pim/form/common/delete', 'pim/remover/user'], function (DeleteForm, UserRemover) {
-  return DeleteForm.extend({
-    remover: UserRemover,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    getIdentifier: function () {
-      return this.getFormData().meta.id;
-    },
-  });
+var DeleteForm = __pimInterop(require('pim/form/common/delete'));
+var UserRemover = __pimInterop(require('pim/remover/user'));
+
+module.exports = DeleteForm.extend({
+  remover: UserRemover,
+
+  /**
+   * {@inheritdoc}
+   */
+  getIdentifier: function () {
+    return this.getFormData().meta.id;
+  },
 });
