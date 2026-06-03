@@ -127,15 +127,15 @@ module.exports = function transformer(file, api) {
     const param = factory.params[i];
     const requireCall = j.callExpression(j.identifier('require'), [j.literal(depNode.value)]);
     if (param && param.type === 'ObjectPattern') {
-      // Destructured dep: `var { a, b } = __pimInterop(require('dep'));`
-      // Destructured params are bound by construction (the names are explicit),
-      // so they are always emitted — never collapsed to a side-effect require.
-      needsInterop = true;
-      requireStmts.push(
-        j.variableDeclaration('var', [
-          j.variableDeclarator(param, j.callExpression(j.identifier(INTEROP_HELPER), [requireCall])),
-        ])
-      );
+      // Destructured (NAMED) import: `var { a, b } = require('dep');`
+      // Destructure from the RAW require, NOT __pimInterop: named exports live on the
+      // module namespace, but __pimInterop unwraps an `__esModule` dep to its `.default`
+      // — where the named members do not exist — yielding `undefined` bindings. Raw
+      // require keeps the namespace, mirroring the AMD `define([...], fn({a}))` semantics
+      // (which read `.a` off the dependency value). Destructured params are bound by
+      // construction (the names are explicit), so they are always emitted, never
+      // collapsed to a side-effect require.
+      requireStmts.push(j.variableDeclaration('var', [j.variableDeclarator(param, requireCall)]));
     } else if (param && param.type === 'Identifier' && usedParamNames.has(param.name)) {
       // Bound + used: `var Alias = __pimInterop(require('dep'));`
       needsInterop = true;
@@ -144,9 +144,38 @@ module.exports = function transformer(file, api) {
           j.variableDeclarator(j.identifier(param.name), j.callExpression(j.identifier(INTEROP_HELPER), [requireCall])),
         ])
       );
-    } else {
-      // No param OR unused identifier param: side-effect-only `require('dep');`
+    } else if (!param || param.type === 'Identifier') {
+      // No param, OR an Identifier param genuinely unused in the body:
+      // side-effect-only `require('dep');` (no binding → no ReferenceError, no lint).
       requireStmts.push(j.expressionStatement(requireCall));
+    } else {
+      // GUARD-RAIL: any other param shape (AssignmentPattern/default value,
+      // ArrayPattern, RestElement, …) is NOT one we know how to bind. Emitting a
+      // bare require() here would SILENTLY DROP the binding and create a runtime
+      // ReferenceError — the datagrid-killer class of bug, where a dropped
+      // QuickExportConfigurator binding blanked the whole grid. Fail loudly so the
+      // file gets manual migration instead of a silent break.
+      throw new Error(
+        `${file.path}: unhandled factory param shape "${param.type}" at dep index ${i} ` +
+          `('${depNode.value}') — manual migration needed (a bare require() would drop the binding)`
+      );
+    }
+  }
+
+  // GUARD-RAIL (defense in depth): every USED identifier param must have produced a
+  // `var Alias = ...` binding. If the usage heuristic above ever regresses and a
+  // referenced param is misclassified as unused, this catches it at migration time
+  // instead of shipping a silent runtime ReferenceError.
+  const boundNames = new Set(
+    requireStmts
+      .filter(s => s.type === 'VariableDeclaration' && s.declarations[0].id.type === 'Identifier')
+      .map(s => s.declarations[0].id.name)
+  );
+  for (const param of factory.params) {
+    if (param && param.type === 'Identifier' && usedParamNames.has(param.name) && !boundNames.has(param.name)) {
+      throw new Error(
+        `${file.path}: used binding "${param.name}" would be dropped — codemod invariant violated, manual review needed`
+      );
     }
   }
 
