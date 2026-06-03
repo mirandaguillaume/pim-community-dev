@@ -1,46 +1,47 @@
 'use strict';
 
-/**
- * Datagrid View Fetcher.
- * We override the default fetcher to add additional methods
- * to fetch default columns & default user datagrid view.
- */
-define(['jquery', 'routing', 'pim/base-fetcher'], function ($, Routing, BaseFetcher) {
-  return BaseFetcher.extend({
-    /**
-     * Fetch default columns for grid with given alias
-     *
-     * @param {string} alias
-     *
-     * @return Promise
-     */
-    defaultColumns: function (alias) {
-      let columns = this.entityPromises['columns'];
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      if (!columns) {
-        columns = $.getJSON(Routing.generate(this.options.urls.columns, {alias: alias}));
-        this.entityPromises['columns'] = columns;
-      }
+var $ = __pimInterop(require('jquery'));
+var Routing = __pimInterop(require('routing'));
+var BaseFetcher = __pimInterop(require('pim/base-fetcher'));
 
-      return columns;
-    },
+module.exports = BaseFetcher.extend({
+  /**
+   * Fetch default columns for grid with given alias
+   *
+   * @param {string} alias
+   *
+   * @return Promise
+   */
+  defaultColumns: function (alias) {
+    let columns = this.entityPromises['columns'];
 
-    /**
-     * Fetch default datagrid view for given alias of the current user
-     *
-     * @param {string} alias
-     *
-     * @return Promise
-     */
-    defaultUserView: function (alias) {
-      let view = this.entityPromises['view'];
+    if (!columns) {
+      columns = $.getJSON(Routing.generate(this.options.urls.columns, {alias: alias}));
+      this.entityPromises['columns'] = columns;
+    }
 
-      if (!view) {
-        view = $.getJSON(Routing.generate(this.options.urls.userDefaultView, {alias: alias}));
-        this.entityPromises['view'] = view;
-      }
+    return columns;
+  },
 
-      return view;
-    },
-  });
+  /**
+   * Fetch default datagrid view for given alias of the current user
+   *
+   * @param {string} alias
+   *
+   * @return Promise
+   */
+  defaultUserView: function (alias) {
+    let view = this.entityPromises['view'];
+
+    if (!view) {
+      view = $.getJSON(Routing.generate(this.options.urls.userDefaultView, {alias: alias}));
+      this.entityPromises['view'] = view;
+    }
+
+    return view;
+  },
 });
