@@ -1,55 +1,53 @@
 'use strict';
 
-/**
- * Loading mask widget
- *
- * @export  oro/loading-mask
- * @class   oro.LoadingMask
- * @extends Backbone.View
- */
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-/* global define */
-define(['jquery', 'underscore', 'backbone', 'oro/translator'], function ($, _, Backbone, __) {
-  return Backbone.View.extend({
-    /** @property {Boolean} */
-    displayed: false,
+require('jquery');
+require('underscore');
+var Backbone = __pimInterop(require('backbone'));
+require('oro/translator');
 
-    /** @property {String} */
-    className: 'AknLoadingMask loading-mask',
+module.exports = Backbone.View.extend({
+  /** @property {Boolean} */
+  displayed: false,
 
-    /**
-     * Show loading mask
-     *
-     * @return {*}
-     */
-    show: function () {
-      this.$el.show();
-      this.displayed = true;
+  /** @property {String} */
+  className: 'AknLoadingMask loading-mask',
 
-      return this;
-    },
+  /**
+   * Show loading mask
+   *
+   * @return {*}
+   */
+  show: function () {
+    this.$el.show();
+    this.displayed = true;
 
-    /**
-     * Hide loading mask
-     *
-     * @return {*}
-     */
-    hide: function () {
-      this.$el.hide();
-      this.displayed = false;
+    return this;
+  },
 
-      return this;
-    },
+  /**
+   * Hide loading mask
+   *
+   * @return {*}
+   */
+  hide: function () {
+    this.$el.hide();
+    this.displayed = false;
 
-    /**
-     * Render loading mask
-     *
-     * @return {*}
-     */
-    render: function () {
-      this.hide();
+    return this;
+  },
 
-      return this;
-    },
-  });
+  /**
+   * Render loading mask
+   *
+   * @return {*}
+   */
+  render: function () {
+    this.hide();
+
+    return this;
+  },
 });
