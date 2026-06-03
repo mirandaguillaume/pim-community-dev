@@ -39,6 +39,13 @@ autopilot — removing `amd: {}` changes bundler behaviour for the WHOLE bundle.
    (no unit tests for legacy modules — see the test-coverage finding).
 5. (Optional, separate) Mechanical flip `require`/`module.exports` → `import`/
    `export default` for native ESM + better tree-shaking. Not required to remove amd:{}.
+6. **Final cleanup — remove migration tooling** (LAST, only once steps 1–5 are done):
+   delete `frontend/codemods/amd-to-cjs.js` AND `frontend/codemods/cjs-to-esm.js`, and
+   remove the now-unused `jscodeshift` devDependency from `package.json`. Verified safe to
+   remove together: the codemods are pure manual tooling (referenced nowhere in CI / castor
+   / scripts) and `jscodeshift` is used by nothing else. The migration record stays in git
+   history. Do this LAST — `amd-to-cjs.js` is still needed for step 2 (the bootstrap shims
+   are still AMD) and `cjs-to-esm.js` for step 5 (the ESM flip); deleting earlier breaks B3.
 
 ## Why this is worth it
 
