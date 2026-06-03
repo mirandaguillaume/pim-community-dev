@@ -1611,22 +1611,22 @@ jobs:
           #    consumer on paused_job the job never resumes and the E2E poll times out
           #    ("Job execution still running after 420000ms"). Do NOT drop these.
           CONSUMER_COUNT=3
-          # Mirror each consumer's stdout/stderr to a bind-mounted file (./ -> /srv/pim)
-          # so the logs SURVIVE container removal. On these shared bare-metal runners the
-          # one-off `docker-compose run` containers get swept (e.g. a concurrent job's
-          # `docker-compose down --remove-orphans`) before the dump step runs, so
-          # `docker logs` returned "No such container" and the mass-edit diagnostic was
-          # lost exactly when needed. A file on the host volume is immune to that.
-          # `tee` (not `tee -a`) truncates any stale file from a previous run that reused
-          # this self-hosted workspace. `docker logs` (readiness probe below) still sees
-          # the output because tee mirrors to the container's stdout as well.
+          # Redirect each consumer's stdout/stderr DIRECTLY to a bind-mounted file
+          # (./ -> /srv/pim) so the log SURVIVES container removal AND is not truncated by
+          # buffering. A previous version piped through `| tee`, but the OS pipe + tee
+          # block-buffered the output: only the first ~573-byte flush (the startup banner)
+          # reached the file and everything after was lost when the container was killed —
+          # so the mass-edit hang was invisible. A plain `>` redirect avoids the pipe, and
+          # `-vv` makes messenger log every message it receives/handles, so we can see
+          # exactly which message a worker is stuck on. `docker logs` is now empty (stdout
+          # goes to the file), so the readiness probe below greps the FILE instead.
           mkdir -p var/logs
           rm -f var/logs/consumer-*.log 2>/dev/null || true
           for i in $(seq 1 "${CONSUMER_COUNT}"); do
             TL=$((240 + i * 60))   # 300s, 360s, 420s — staggered recycle
             docker rm -f "pim-job-consumer-${i}" 2>/dev/null || true
             docker-compose run -d --name "pim-job-consumer-${i}" php \
-              sh -c "{ while true; do php bin/console messenger:consume import_export_job ui_job data_maintenance_job paused_job scheduled_job --env=prod --time-limit=${TL} --memory-limit=512M; echo \"[supervisor] consumer ${i} exited (\$?), restarting\"; sleep 1; done; } 2>&1 | tee /srv/pim/var/logs/consumer-${i}.log"
+              sh -c "{ while true; do php bin/console messenger:consume import_export_job ui_job data_maintenance_job paused_job scheduled_job --env=prod --time-limit=${TL} --memory-limit=512M -vv; echo \"[supervisor] consumer ${i} exited (\$?), restarting\"; sleep 1; done; } > /srv/pim/var/logs/consumer-${i}.log 2>&1"
           done
           # Deterministic readiness probe (replaces a blind sleep): wait until each
           # worker has printed the messenger "Consuming messages from transport(s)"
@@ -1635,13 +1635,13 @@ jobs:
           echo "Waiting for ${CONSUMER_COUNT} consumers to start draining..."
           for i in $(seq 1 "${CONSUMER_COUNT}"); do
             for attempt in $(seq 1 30); do
-              if docker logs "pim-job-consumer-${i}" 2>&1 | grep -qi 'Consuming messages'; then
+              if grep -qi 'Consuming messages' "var/logs/consumer-${i}.log" 2>/dev/null; then
                 echo "consumer ${i} ready after $((attempt * 2))s"
                 break
               fi
               if [ "${attempt}" -eq 30 ]; then
-                echo "WARN: consumer ${i} not confirmed ready after 60s — logs:"
-                docker logs "pim-job-consumer-${i}" 2>&1 | tail -20 || true
+                echo "WARN: consumer ${i} not confirmed ready after 60s — file tail:"
+                tail -20 "var/logs/consumer-${i}.log" 2>/dev/null || true
               fi
               sleep 2
             done
@@ -1680,6 +1680,29 @@ jobs:
             tail -40 "consumer-${i}.log" 2>/dev/null || echo "(empty)"
             echo "::endgroup::"
           done
+
+      # Dump the batch-job + messenger-queue DB state so a hung mass-edit job's exact
+      # location is visible: which job_execution status (a non-COMPLETED row with a
+      # start_time but no end_time = stuck/running), which step it reached, and whether a
+      # message is stranded in a queue (a messenger_messages row with delivered_at set but
+      # still present = picked up but never acknowledged; a row on queue_name='paused_job'
+      # = the job paused and is waiting to resume). The consumer log shows the worker side;
+      # this shows the DB side. Diagnostic-only (|| true never fails the build).
+      - name: Dump batch job + messenger queue state
+        if: always()
+        shell: bash
+        run: |
+          DB_NAME=$(grep '^APP_DATABASE_NAME=' .env | cut -d= -f2 || echo "akeneo_pim"); DB_NAME=${DB_NAME:-akeneo_pim}
+          q() { docker-compose exec -T mysql mysql -uroot -proot "${DB_NAME}" -e "$1" 2>/dev/null || echo "query failed"; }
+          echo "::group::recent job_executions (status: non-terminal with start & no end = stuck)"
+          q "SELECT je.id, ji.code, je.status, je.exit_code, je.start_time, je.end_time, LEFT(je.exit_description,160) exit_desc FROM akeneo_batch_job_execution je JOIN akeneo_batch_job_instance ji ON ji.id=je.job_instance_id ORDER BY je.id DESC LIMIT 20;"
+          echo "::endgroup::"
+          echo "::group::recent step_executions"
+          q "SELECT id, job_execution_id, step_name, status, read_count, write_count, start_time, end_time FROM akeneo_batch_step_execution ORDER BY id DESC LIMIT 30;"
+          echo "::endgroup::"
+          echo "::group::messenger_messages (queued/in-flight; delivered_at set + present = stuck)"
+          q "SELECT id, queue_name, created_at, available_at, delivered_at FROM messenger_messages ORDER BY id DESC LIMIT 30;"
+          echo "::endgroup::"
 
       - name: Upload Playwright report
         if: failure()
