@@ -1,72 +1,67 @@
 'use strict';
 
-/**
- * Module used to display the product datagrid in a group
- *
- * @author    Nicolas Dupont <nicolas@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['oro/translator', 'pim/form', 'pim/fetcher-registry', 'pim/user-context', 'pim/common/grid'], function (
-  __,
-  BaseForm,
-  FetcherRegistry,
-  UserContext,
-  Grid
-) {
-  return BaseForm.extend({
-    className: 'products',
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+require('pim/fetcher-registry');
+var UserContext = __pimInterop(require('pim/user-context'));
+var Grid = __pimInterop(require('pim/common/grid'));
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  className: 'products',
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.trigger('tab:register', {
-        code: this.code,
-        label: __(this.config.label),
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
+
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.trigger('tab:register', {
+      code: this.code,
+      label: __(this.config.label),
+    });
+
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    if (!this.productGroupGrid) {
+      this.productGroupGrid = new Grid(this.config.gridId, {
+        locale: UserContext.get('catalogLocale'),
+        currentGroup: this.getFormData().meta.id,
+        id: this.getFormData().meta.id,
+        selection: this.getFormData().products,
+        selectionIdentifier: 'id',
       });
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+      this.productGroupGrid.on(
+        'grid:selection:updated',
+        function (selection) {
+          this.setData('products', selection);
+        }.bind(this)
+      );
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      if (!this.productGroupGrid) {
-        this.productGroupGrid = new Grid(this.config.gridId, {
-          locale: UserContext.get('catalogLocale'),
-          currentGroup: this.getFormData().meta.id,
-          id: this.getFormData().meta.id,
-          selection: this.getFormData().products,
-          selectionIdentifier: 'id',
-        });
+      this.getRoot().on('pim_enrich:form:entity:post_fetch', () => {
+        const shouldRefresh = this.code === this.getParent().getCurrentTab();
+        if (shouldRefresh) this.productGroupGrid.refresh();
+      });
+    }
 
-        this.productGroupGrid.on(
-          'grid:selection:updated',
-          function (selection) {
-            this.setData('products', selection);
-          }.bind(this)
-        );
+    this.$el.empty().append(this.productGroupGrid.render().$el);
 
-        this.getRoot().on('pim_enrich:form:entity:post_fetch', () => {
-          const shouldRefresh = this.code === this.getParent().getCurrentTab();
-          if (shouldRefresh) this.productGroupGrid.refresh();
-        });
-      }
-
-      this.$el.empty().append(this.productGroupGrid.render().$el);
-
-      this.renderExtensions();
-    },
-  });
+    this.renderExtensions();
+  },
 });

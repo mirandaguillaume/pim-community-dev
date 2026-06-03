@@ -1,46 +1,48 @@
-define(['oro/datagrid/delete-action', 'pim/router', 'pim/security-context'], function (
-  DeleteAction,
-  Router,
-  SecurityContext
-) {
-  return DeleteAction.extend({
-    /** @property {Boolean} */
-    noHref: true,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize() {
-      this.launcherOptions.enabled = this.isEnabled();
+var DeleteAction = __pimInterop(require('oro/datagrid/delete-action'));
+var Router = __pimInterop(require('pim/router'));
+var SecurityContext = __pimInterop(require('pim/security-context'));
 
-      return DeleteAction.prototype.initialize.apply(this, arguments);
-    },
+module.exports = DeleteAction.extend({
+  /** @property {Boolean} */
+  noHref: true,
 
-    getLink() {
-      const productType = this.model.get('document_type');
-      const id = this.model.get('technical_id');
+  /**
+   * {@inheritdoc}
+   */
+  initialize() {
+    this.launcherOptions.enabled = this.isEnabled();
 
-      if (productType === 'product') {
-        return Router.generate('pim_enrich_product_rest_remove', {uuid: id});
-      }
+    return DeleteAction.prototype.initialize.apply(this, arguments);
+  },
 
-      return Router.generate('pim_enrich_' + productType + '_rest_remove', {id});
-    },
+  getLink() {
+    const productType = this.model.get('document_type');
+    const id = this.model.get('technical_id');
 
-    getEntityHint() {
-      return this.model.get('document_type').replace('_', ' ');
-    },
+    if (productType === 'product') {
+      return Router.generate('pim_enrich_product_rest_remove', {uuid: id});
+    }
 
-    /**
-     * {@inheritdoc}
-     */
-    isEnabled() {
-      const productType = this.model.get('document_type');
+    return Router.generate('pim_enrich_' + productType + '_rest_remove', {id});
+  },
 
-      return (
-        (SecurityContext.isGranted('pim_enrich_product_model_remove') && productType === 'product_model') ||
-        (SecurityContext.isGranted('pim_enrich_product_remove') && productType === 'product')
-      );
-    },
-  });
+  getEntityHint() {
+    return this.model.get('document_type').replace('_', ' ');
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  isEnabled() {
+    const productType = this.model.get('document_type');
+
+    return (
+      (SecurityContext.isGranted('pim_enrich_product_model_remove') && productType === 'product_model') ||
+      (SecurityContext.isGranted('pim_enrich_product_remove') && productType === 'product')
+    );
+  },
 });

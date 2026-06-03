@@ -1,116 +1,97 @@
 'use strict';
 
-/**
- * This extension will display the user navigation.
- * The user navigation contains:
- * - The link to display the user options
- * - The notification menu
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define([
-  'underscore',
-  'oro/translator',
-  'pim/form',
-  'pim/router',
-  'pim/user-context',
-  'pim/notifications',
-  'akeneo/communication-channel',
-  'pim/media-url-generator',
-  'pim/template/menu/user-navigation',
-  'pim/feature-flags',
-], function (
-  _,
-  __,
-  BaseForm,
-  router,
-  UserContext,
-  Notifications,
-  CommunicationChannel,
-  MediaUrlGenerator,
-  template,
-  FeatureFlags
-) {
-  return BaseForm.extend({
-    className: 'AknTitleContainer-userMenu',
-    template: _.template(template),
-    events: {
-      'click .logout': 'logout',
-      'click .user-account': 'userAccount',
-    },
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var router = __pimInterop(require('pim/router'));
+var UserContext = __pimInterop(require('pim/user-context'));
+var Notifications = __pimInterop(require('pim/notifications'));
+var CommunicationChannel = __pimInterop(require('akeneo/communication-channel'));
+var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
+var template = __pimInterop(require('pim/template/menu/user-navigation'));
+var FeatureFlags = __pimInterop(require('pim/feature-flags'));
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  className: 'AknTitleContainer-userMenu',
+  template: _.template(template),
+  events: {
+    'click .logout': 'logout',
+    'click .user-account': 'userAccount',
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.html(
-        this.template({
-          firstName: UserContext.get('first_name'),
-          lastName: UserContext.get('last_name'),
-          avatar: this.getAvatar(),
-          logoutLabel: __(this.config.logout),
-          userAccountLabel: __(this.config.userAccount),
-          freeTrialEnabled: FeatureFlags.isEnabled('free_trial'),
-          segmentIntegrationEnabled: FeatureFlags.isEnabled('segment_integration'),
-        })
-      );
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-      var notificationView = new Notifications({
-        imgUrl: 'bundles/pimimportexport/images/loading.gif',
-        loadingText: __('pim_common.loading'),
-        noNotificationsMessage: __('pim_notification.no_notifications'),
-        markAsReadMessage: __('pim_notification.mark_all_as_read'),
-      });
-      notificationView.setElement(this.$('.notification')).render();
-      notificationView.refresh();
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-      if (FeatureFlags.isEnabled('communication_channel')) {
-        const communicationChannelView = new CommunicationChannel();
-        communicationChannelView.setElement(this.$('.communication-channel')).render();
-      }
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.html(
+      this.template({
+        firstName: UserContext.get('first_name'),
+        lastName: UserContext.get('last_name'),
+        avatar: this.getAvatar(),
+        logoutLabel: __(this.config.logout),
+        userAccountLabel: __(this.config.userAccount),
+        freeTrialEnabled: FeatureFlags.isEnabled('free_trial'),
+        segmentIntegrationEnabled: FeatureFlags.isEnabled('segment_integration'),
+      })
+    );
 
-      this.delegateEvents();
+    var notificationView = new Notifications({
+      imgUrl: 'bundles/pimimportexport/images/loading.gif',
+      loadingText: __('pim_common.loading'),
+      noNotificationsMessage: __('pim_notification.no_notifications'),
+      markAsReadMessage: __('pim_notification.mark_all_as_read'),
+    });
+    notificationView.setElement(this.$('.notification')).render();
+    notificationView.refresh();
 
-      return BaseForm.prototype.render.apply(this, arguments);
-    },
+    if (FeatureFlags.isEnabled('communication_channel')) {
+      const communicationChannelView = new CommunicationChannel();
+      communicationChannelView.setElement(this.$('.communication-channel')).render();
+    }
 
-    /**
-     * Redirect user to logout
-     */
-    logout: function () {
-      window.location = router.generate('pim_user_logout_redirect');
-    },
+    this.delegateEvents();
 
-    /**
-     * Redirect user it's account details
-     */
-    userAccount: function () {
-      router.redirectToRoute('pim_user_edit', {
-        identifier: UserContext.get('meta').id,
-      });
-    },
+    return BaseForm.prototype.render.apply(this, arguments);
+  },
 
-    /**
-     * Return user's avatar
-     */
-    getAvatar: function () {
-      const filePath = UserContext.get('avatar').filePath;
-      if (null === filePath || undefined === filePath) {
-        return null;
-      }
+  /**
+   * Redirect user to logout
+   */
+  logout: function () {
+    window.location = router.generate('pim_user_logout_redirect');
+  },
 
-      return MediaUrlGenerator.getMediaShowUrl(UserContext.get('avatar').filePath, 'thumbnail_small');
-    },
-  });
+  /**
+   * Redirect user it's account details
+   */
+  userAccount: function () {
+    router.redirectToRoute('pim_user_edit', {
+      identifier: UserContext.get('meta').id,
+    });
+  },
+
+  /**
+   * Return user's avatar
+   */
+  getAvatar: function () {
+    const filePath = UserContext.get('avatar').filePath;
+    if (null === filePath || undefined === filePath) {
+      return null;
+    }
+
+    return MediaUrlGenerator.getMediaShowUrl(UserContext.get('avatar').filePath, 'thumbnail_small');
+  },
 });

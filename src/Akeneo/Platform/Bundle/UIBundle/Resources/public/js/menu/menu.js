@@ -1,40 +1,39 @@
 'use strict';
 
-/**
- * Base extension for menu
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'pim/form', 'pim/template/menu/menu'], function (_, BaseForm, template) {
-  return BaseForm.extend({
-    className: 'AknHeader',
-    template: _.template(template),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      this.$el.empty().append(this.template());
+var _ = __pimInterop(require('underscore'));
+var BaseForm = __pimInterop(require('pim/form'));
+var template = __pimInterop(require('pim/template/menu/menu'));
 
-      return BaseForm.prototype.render.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  className: 'AknHeader',
+  template: _.template(template),
 
-    /**
-     * {@inheritdoc}
-     */
-    renderExtension: function (extension) {
-      if (
-        !_.isEmpty(extension.options.config) &&
-        (!extension.options.config.to || extension.options.config.isLandingSectionPage) &&
-        _.isFunction(extension.hasChildren) &&
-        !extension.hasChildren()
-      ) {
-        return;
-      }
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    this.$el.empty().append(this.template());
 
-      BaseForm.prototype.renderExtension.apply(this, arguments);
-    },
-  });
+    return BaseForm.prototype.render.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   */
+  renderExtension: function (extension) {
+    if (
+      !_.isEmpty(extension.options.config) &&
+      (!extension.options.config.to || extension.options.config.isLandingSectionPage) &&
+      _.isFunction(extension.hasChildren) &&
+      !extension.hasChildren()
+    ) {
+      return;
+    }
+
+    BaseForm.prototype.renderExtension.apply(this, arguments);
+  },
 });

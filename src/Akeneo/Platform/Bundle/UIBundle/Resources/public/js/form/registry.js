@@ -1,20 +1,24 @@
 'use strict';
 
-define(['jquery', 'pim/form-config-provider'], function ($, ConfigProvider) {
-  const getFormExtensions = formMeta => {
-    return ConfigProvider.getExtensionMap().then(extensionMap => {
-      return extensionMap.filter(extension => extension.parent === formMeta.code);
-    });
-  };
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-  const getFormMeta = formName => {
-    return ConfigProvider.getExtensionMap().then(extensionMap => {
-      return extensionMap.find(extension => extension.code === formName);
-    });
-  };
+require('jquery');
+var ConfigProvider = __pimInterop(require('pim/form-config-provider'));
+const getFormExtensions = formMeta => {
+  return ConfigProvider.getExtensionMap().then(extensionMap => {
+    return extensionMap.filter(extension => extension.parent === formMeta.code);
+  });
+};
 
-  return {
-    getFormExtensions,
-    getFormMeta,
-  };
-});
+const getFormMeta = formName => {
+  return ConfigProvider.getExtensionMap().then(extensionMap => {
+    return extensionMap.find(extension => extension.code === formName);
+  });
+};
+
+module.exports = {
+  getFormExtensions,
+  getFormMeta,
+};

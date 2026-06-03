@@ -1,38 +1,43 @@
-define(['oro/datagrid/ajax-action', 'pim/router'], function (AjaxAction, Router) {
-  return AjaxAction.extend({
-    /** @property {Boolean} */
-    noHref: true,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize() {
-      this.launcherOptions.enabled = this.isEnabled();
+var AjaxAction = __pimInterop(require('oro/datagrid/ajax-action'));
+var Router = __pimInterop(require('pim/router'));
 
-      AjaxAction.prototype.initialize.apply(this, arguments);
-    },
+module.exports = AjaxAction.extend({
+  /** @property {Boolean} */
+  noHref: true,
 
-    /**
-     * {@inheritdoc}
-     */
-    isEnabled() {
-      return this.model.get('document_type') !== 'product_model';
-    },
+  /**
+   * {@inheritdoc}
+   */
+  initialize() {
+    this.launcherOptions.enabled = this.isEnabled();
 
-    /**
-     * {@inheritdoc}
-     */
-    getMethod: function () {
-      return 'POST';
-    },
+    AjaxAction.prototype.initialize.apply(this, arguments);
+  },
 
-    getLink() {
-      const productType = this.model.get('document_type');
-      const id = this.model.get('technical_id');
+  /**
+   * {@inheritdoc}
+   */
+  isEnabled() {
+    return this.model.get('document_type') !== 'product_model';
+  },
 
-      if (productType === 'product') {
-        return Router.generate('pim_enrich_product_toggle_status', {uuid: id});
-      }
-    },
-  });
+  /**
+   * {@inheritdoc}
+   */
+  getMethod: function () {
+    return 'POST';
+  },
+
+  getLink() {
+    const productType = this.model.get('document_type');
+    const id = this.model.get('technical_id');
+
+    if (productType === 'product') {
+      return Router.generate('pim_enrich_product_toggle_status', {uuid: id});
+    }
+  },
 });

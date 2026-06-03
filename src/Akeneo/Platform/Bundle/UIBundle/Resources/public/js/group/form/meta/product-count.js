@@ -1,57 +1,52 @@
 'use strict';
 
-/**
- * Group meta extension to display number of products this group contains
- *
- * @author    Nicolas Dupont <nicolas@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'oro/translator', 'pim/form', 'pim/template/group/meta/product-count'], function (
-  _,
-  __,
-  BaseForm,
-  formTemplate
-) {
-  return BaseForm.extend({
-    tagName: 'span',
-    template: _.template(formTemplate),
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    initialize: function (config) {
-      this.config = config.config;
+var _ = __pimInterop(require('underscore'));
+var __ = __pimInterop(require('oro/translator'));
+var BaseForm = __pimInterop(require('pim/form'));
+var formTemplate = __pimInterop(require('pim/template/group/meta/product-count'));
 
-      BaseForm.prototype.initialize.apply(this, arguments);
-    },
+module.exports = BaseForm.extend({
+  tagName: 'span',
+  template: _.template(formTemplate),
 
-    /**
-     * {@inheritdoc}
-     */
-    configure: function () {
-      this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.render);
+  /**
+   * {@inheritdoc}
+   */
+  initialize: function (config) {
+    this.config = config.config;
 
-      return BaseForm.prototype.configure.apply(this, arguments);
-    },
+    BaseForm.prototype.initialize.apply(this, arguments);
+  },
 
-    /**
-     * {@inheritdoc}
-     */
-    render: function () {
-      var group = this.getFormData();
-      var html = '';
+  /**
+   * {@inheritdoc}
+   */
+  configure: function () {
+    this.listenTo(this.getRoot(), 'pim_enrich:form:entity:post_fetch', this.render);
 
-      if (_.has(group, 'products')) {
-        html = this.template({
-          label: __(this.config.productCountLabel),
-          productCount: group.products.length,
-        });
-      }
+    return BaseForm.prototype.configure.apply(this, arguments);
+  },
 
-      this.$el.html(html);
+  /**
+   * {@inheritdoc}
+   */
+  render: function () {
+    var group = this.getFormData();
+    var html = '';
 
-      return this;
-    },
-  });
+    if (_.has(group, 'products')) {
+      html = this.template({
+        label: __(this.config.productCountLabel),
+        productCount: group.products.length,
+      });
+    }
+
+    this.$el.html(html);
+
+    return this;
+  },
 });
