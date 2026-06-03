@@ -1,20 +1,24 @@
 'use strict';
 
-define(['pim/router', 'oro/translator'], function (router, __) {
-  let routeParams = {};
-  let render = (name, params) => {
-    document.title = __('pim_title.' + name, params);
-  };
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-  router.on('route_complete', name => {
-    render(name, routeParams);
-  });
+var router = __pimInterop(require('pim/router'));
+var __ = __pimInterop(require('oro/translator'));
+let routeParams = {};
+let render = (name, params) => {
+  document.title = __('pim_title.' + name, params);
+};
 
-  return {
-    set: params => {
-      routeParams = params;
-    },
-
-    render: render,
-  };
+router.on('route_complete', name => {
+  render(name, routeParams);
 });
+
+module.exports = {
+  set: params => {
+    routeParams = params;
+  },
+
+  render: render,
+};

@@ -207,12 +207,34 @@ module.exports = function transformer(file, api) {
     ])
   );
 
+  // DIRECTIVE PROLOGUE: an AMD factory's leading `'use strict';` is the FIRST
+  // statement of the factory BODY, so it is a valid directive there. Once we
+  // prepend `__pimInterop` + the require() statements, it would no longer be the
+  // module's first statement → it degrades to a no-op expression (recast even
+  // prints it parenthesised, `('use strict');`), silently dropping strict mode
+  // from the whole module — a semantic regression flagged by the wave14 review.
+  // Strip any leading string-literal directive(s) from the factory body and, if
+  // `'use strict'` was among them, re-emit ONE bare `'use strict';` at the very
+  // top of the module so it stays a real directive prologue (making the entire
+  // CJS module strict — a superset of the original factory-scoped directive).
+  const bodyStmts = factory.body.body.slice();
+  let hasUseStrict = false;
+  while (
+    bodyStmts.length > 0 &&
+    bodyStmts[0].type === 'ExpressionStatement' &&
+    (bodyStmts[0].expression.type === 'Literal' || bodyStmts[0].expression.type === 'StringLiteral') &&
+    typeof bodyStmts[0].expression.value === 'string'
+  ) {
+    if (bodyStmts[0].expression.value === 'use strict') hasUseStrict = true;
+    bodyStmts.shift();
+  }
+
   // Convert the factory's TOP-LEVEL `return X;` → `module.exports = X;`.
   // Only the factory's own top-level return is rewritten; returns nested inside
   // methods/functions stay untouched (they are deeper in the AST, not in
   // factory.body.body).
   const newBodyStmts = [];
-  for (const stmt of factory.body.body) {
+  for (const stmt of bodyStmts) {
     if (stmt.type === 'ReturnStatement' && stmt.argument) {
       newBodyStmts.push(
         j.expressionStatement(
@@ -228,7 +250,8 @@ module.exports = function transformer(file, api) {
     }
   }
 
-  const replacement = [...(needsInterop ? [interopDecl] : []), ...requireStmts, ...newBodyStmts];
+  const useStrictPrologue = hasUseStrict ? [j.expressionStatement(j.literal('use strict'))] : [];
+  const replacement = [...useStrictPrologue, ...(needsInterop ? [interopDecl] : []), ...requireStmts, ...newBodyStmts];
 
   const defineStatement = j(defineCall).closest(j.ExpressionStatement);
   defineStatement.replaceWith(() => replacement);

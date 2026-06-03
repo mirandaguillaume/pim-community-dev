@@ -1,12 +1,15 @@
-define(['jquery', 'underscore', 'routing'], function ($, _, Routing) {
-  'use strict';
+'use strict';
 
-  /**
-   * @return {Object}
-   */
-  return {
-    collect: function (route) {
-      return $.getJSON(Routing.generate(route));
-    },
-  };
-});
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
+
+var $ = __pimInterop(require('jquery'));
+require('underscore');
+var Routing = __pimInterop(require('routing'));
+
+module.exports = {
+  collect: function (route) {
+    return $.getJSON(Routing.generate(route));
+  },
+};

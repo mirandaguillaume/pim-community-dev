@@ -1,32 +1,36 @@
 'use strict';
 
-define(['jquery', 'routing'], ($, Routing) => {
-  var contextData = {};
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-  return {
-    /**
-     * Fetches data from the back then stores it.
-     *
-     * @returns {Promise}
-     */
-    initialize: () => {
-      return $.get(Routing.generate('pim_user_security_rest_get')).then(response => (contextData = response));
-    },
+var $ = __pimInterop(require('jquery'));
+var Routing = __pimInterop(require('routing'));
+var contextData = {};
 
-    /**
-     * Returns the value corresponding to the specified key.
-     *
-     * @param {String} key
-     *
-     * @returns {*}
-     */
-    get: key => contextData[key],
+module.exports = {
+  /**
+   * Fetches data from the back then stores it.
+   *
+   * @returns {Promise}
+   */
+  initialize: () => {
+    return $.get(Routing.generate('pim_user_security_rest_get')).then(response => (contextData = response));
+  },
 
-    /**
-     * Shortcut to test if an ACL is granted for the current user.
-     *
-     * @param {String} acl
-     */
-    isGranted: acl => contextData[acl] === true,
-  };
-});
+  /**
+   * Returns the value corresponding to the specified key.
+   *
+   * @param {String} key
+   *
+   * @returns {*}
+   */
+  get: key => contextData[key],
+
+  /**
+   * Shortcut to test if an ACL is granted for the current user.
+   *
+   * @param {String} acl
+   */
+  isGranted: acl => contextData[acl] === true,
+};
