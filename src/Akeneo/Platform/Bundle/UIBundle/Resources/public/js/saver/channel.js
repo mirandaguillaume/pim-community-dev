@@ -1,55 +1,50 @@
 'use strict';
 
-/**
- * Module to save channel
- *
- * @author    Alexandr Jeliuc <alex@jeliuc.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'pim/saver/base', 'routing', 'oro/mediator', 'jquery'], function (
-  _,
-  BaseSaver,
-  Routing,
-  mediator,
-  $
-) {
-  return _.extend({}, BaseSaver, {
-    /**
-     * {@inheritdoc}
-     */
-    getUrl: function (code) {
-      if (null === code) {
-        return Routing.generate(__moduleConfig.postUrl);
-      }
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-      return Routing.generate(__moduleConfig.putUrl, {code: code});
-    },
+var _ = __pimInterop(require('underscore'));
+var BaseSaver = __pimInterop(require('pim/saver/base'));
+var Routing = __pimInterop(require('routing'));
+var mediator = __pimInterop(require('oro/mediator'));
+var $ = __pimInterop(require('jquery'));
 
-    /**
-     * {@inheritdoc}
-     */
-    save: function (code, data, method) {
-      var queryData = data;
-      var locales = [];
+module.exports = _.extend({}, BaseSaver, {
+  /**
+   * {@inheritdoc}
+   */
+  getUrl: function (code) {
+    if (null === code) {
+      return Routing.generate(__moduleConfig.postUrl);
+    }
 
-      _.each(data.locales, function (locale) {
-        locales.push(locale.code);
-      });
+    return Routing.generate(__moduleConfig.putUrl, {code: code});
+  },
 
-      queryData.locales = locales;
+  /**
+   * {@inheritdoc}
+   */
+  save: function (code, data, method) {
+    var queryData = data;
+    var locales = [];
 
-      return $.ajax({
-        type: method,
-        url: this.getUrl(code),
-        data: JSON.stringify(queryData),
-      }).then(
-        function (entity) {
-          mediator.trigger('pim_enrich:form:entity:post_save', entity);
+    _.each(data.locales, function (locale) {
+      locales.push(locale.code);
+    });
 
-          return entity;
-        }.bind(this)
-      );
-    },
-  });
+    queryData.locales = locales;
+
+    return $.ajax({
+      type: method,
+      url: this.getUrl(code),
+      data: JSON.stringify(queryData),
+    }).then(
+      function (entity) {
+        mediator.trigger('pim_enrich:form:entity:post_save', entity);
+
+        return entity;
+      }.bind(this)
+    );
+  },
 });
