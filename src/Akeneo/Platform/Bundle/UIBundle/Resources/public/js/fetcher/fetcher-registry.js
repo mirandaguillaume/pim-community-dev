@@ -1,72 +1,79 @@
 'use strict';
 
-define(['jquery', 'underscore', 'pim/base-fetcher', 'require-context'], function ($, _, BaseFetcher, requireContext) {
-  return {
-    fetchers: {},
-    initializePromise: null,
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
 
-    /**
-     * @return Promise
-     */
-    initialize: function () {
-      if (null === this.initializePromise) {
-        var fetcherList = __moduleConfig.fetchers;
-        var deferred = $.Deferred();
-        var defaultFetcher = 'pim/base-fetcher';
-        var fetchers = {};
+var $ = __pimInterop(require('jquery'));
+var _ = __pimInterop(require('underscore'));
+require('pim/base-fetcher');
+var requireContext = __pimInterop(require('require-context'));
 
-        _.each(fetcherList, function (config, name) {
-          config = _.isString(config) ? {module: config} : config;
-          config.options = config.options || {};
-          fetchers[name] = config;
-        });
+module.exports = {
+  fetchers: {},
+  initializePromise: null,
 
-        for (var fetcher in fetcherList) {
-          var moduleName = fetcherList[fetcher].module || defaultFetcher;
-          var ResolvedModule = requireContext(moduleName);
-          fetchers[fetcher].loadedModule = new ResolvedModule(fetchers[fetcher].options);
-          fetchers[fetcher].options = fetcherList[fetcher].options;
-        }
+  /**
+   * @return Promise
+   */
+  initialize: function () {
+    if (null === this.initializePromise) {
+      var fetcherList = __moduleConfig.fetchers;
+      var deferred = $.Deferred();
+      var defaultFetcher = 'pim/base-fetcher';
+      var fetchers = {};
 
-        this.fetchers = fetchers;
-        deferred.resolve();
+      _.each(fetcherList, function (config, name) {
+        config = _.isString(config) ? {module: config} : config;
+        config.options = config.options || {};
+        fetchers[name] = config;
+      });
 
-        this.initializePromise = deferred.promise();
+      for (var fetcher in fetcherList) {
+        var moduleName = fetcherList[fetcher].module || defaultFetcher;
+        var ResolvedModule = requireContext(moduleName);
+        fetchers[fetcher].loadedModule = new ResolvedModule(fetchers[fetcher].options);
+        fetchers[fetcher].options = fetcherList[fetcher].options;
       }
 
-      return this.initializePromise;
-    },
+      this.fetchers = fetchers;
+      deferred.resolve();
 
-    /**
-     * Get the related fetcher for the given collection name
-     *
-     * @param {String} entityType
-     *
-     * @return Fetcher
-     */
-    getFetcher: function (entityType) {
-      var fetcher = this.fetchers[entityType] || this.fetchers.default;
+      this.initializePromise = deferred.promise();
+    }
 
-      return fetcher.loadedModule;
-    },
+    return this.initializePromise;
+  },
 
-    /**
-     * Clear the fetcher cache for the given collection name
-     *
-     * @param {String}         entityType
-     * @param {String|integer} entity
-     */
-    clear: function (entityType, entity) {
-      return this.getFetcher(entityType).clear(entity);
-    },
+  /**
+   * Get the related fetcher for the given collection name
+   *
+   * @param {String} entityType
+   *
+   * @return Fetcher
+   */
+  getFetcher: function (entityType) {
+    var fetcher = this.fetchers[entityType] || this.fetchers.default;
 
-    /**
-     * Clear all fetchers cache
-     */
-    clearAll: function () {
-      _.each(this.fetchers, function (fetcher) {
-        fetcher.loadedModule.clear();
-      });
-    },
-  };
-});
+    return fetcher.loadedModule;
+  },
+
+  /**
+   * Clear the fetcher cache for the given collection name
+   *
+   * @param {String}         entityType
+   * @param {String|integer} entity
+   */
+  clear: function (entityType, entity) {
+    return this.getFetcher(entityType).clear(entity);
+  },
+
+  /**
+   * Clear all fetchers cache
+   */
+  clearAll: function () {
+    _.each(this.fetchers, function (fetcher) {
+      fetcher.loadedModule.clear();
+    });
+  },
+};

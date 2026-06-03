@@ -1,19 +1,18 @@
 'use strict';
 
-/**
- * Module to save job instance
- *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-define(['underscore', 'pim/saver/base', 'routing'], function (_, BaseSaver, Routing) {
-  return _.extend({}, BaseSaver, {
-    /**
-     * {@inheritdoc}
-     */
-    getUrl: function (identifier) {
-      return Routing.generate(__moduleConfig.url, {identifier: identifier});
-    },
-  });
+function __pimInterop(m) {
+  return m && m.__esModule && 'default' in m ? m.default : m;
+}
+
+var _ = __pimInterop(require('underscore'));
+var BaseSaver = __pimInterop(require('pim/saver/base'));
+var Routing = __pimInterop(require('routing'));
+
+module.exports = _.extend({}, BaseSaver, {
+  /**
+   * {@inheritdoc}
+   */
+  getUrl: function (identifier) {
+    return Routing.generate(__moduleConfig.url, {identifier: identifier});
+  },
 });
