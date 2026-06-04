@@ -25,12 +25,15 @@ console.log(
 );
 
 const rspackConfig = {
-  // RSPack disables AMD module analysis by default (unlike Webpack 5 which
-  // enables it). The Akeneo codebase relies heavily on AMD define() calls
-  // (index.js, require-polyfill.js, require-context.js, and 700+ Backbone
-  // modules). Without this, the dependency tree is not followed and the
-  // bundle is nearly empty.
-  amd: {},
+  // AMD module analysis intentionally NOT enabled. The Akeneo front-end has
+  // been fully migrated from AMD define() to CommonJS (require/module.exports)
+  // — Phase B waves 1–14 for the 700+ Backbone modules plus the
+  // require-polyfill / require-context bootstrap shims. With zero define()
+  // modules left in app code, RSPack follows the CJS/ESM dependency graph
+  // natively, which also re-enables the tree-shaking and scope-hoisting that
+  // `amd: {}` previously disabled. Vendor UMD libs under Resources/public/lib
+  // keep working: they fall back to the CommonJS/global branch when
+  // `define.amd` is absent.
   stats: {
     hash: false,
     modules: false,
