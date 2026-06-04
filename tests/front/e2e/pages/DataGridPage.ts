@@ -43,8 +43,11 @@ export class DataGridPage {
   async waitForGridLoaded(): Promise<void> {
     // Wait for loading mask to disappear (from Grid.php isLoadingMaskVisible)
     await expect(this.loadingMask).toBeHidden({timeout: 30_000});
-    // Wait for the grid table to be visible
-    await expect(this.grid).toBeVisible({timeout: 30_000});
+    // Wait for a terminal grid state. On EMPTY result sets (e.g. a search with
+    // no match) Oro hides table.grid entirely and renders the .no-data
+    // placeholder instead — waiting for the table alone turned every
+    // legitimate empty result into a 30s timeout that looked like a flaky.
+    await expect(this.grid.or(this.gridContainer.locator('.no-data')).first()).toBeVisible({timeout: 30_000});
   }
 
   /**

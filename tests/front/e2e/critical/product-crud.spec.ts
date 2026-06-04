@@ -146,17 +146,21 @@ test.describe('@critical Product CRUD', () => {
     expect(initialCount).toBeGreaterThan(0);
 
     // Use the search bar input (from Grid.php: '.search-filter input')
-    // This is the label_or_identifier filter used by SearchDecorator
+    // This is the label_or_identifier filter used by SearchDecorator.
+    // The search bar is a core grid feature: fail loudly if it is missing
+    // instead of silently skipping the whole scenario.
     const searchInput = page.locator('.search-filter input');
-    if (await searchInput.isVisible({timeout: 5_000}).catch(() => false)) {
-      const gridRefreshPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
-      await searchInput.fill('nonexistent-product-xyz-999');
-      await searchInput.press('Enter');
-      await gridRefreshPromise;
+    await expect(searchInput).toBeVisible({timeout: 5_000});
 
-      // Either empty grid or fewer results
-      await grid.waitForGridLoaded();
-    }
+    const gridRefreshPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
+    await searchInput.fill('nonexistent-product-xyz-999');
+    await searchInput.press('Enter');
+    await gridRefreshPromise;
+
+    // The term matches nothing: the grid hides table.grid and renders the
+    // .no-data placeholder — assert that state explicitly (a bare
+    // waitForGridLoaded used to time out 30s on the hidden table).
+    await grid.expectRowCount(0);
   });
 
   /**
