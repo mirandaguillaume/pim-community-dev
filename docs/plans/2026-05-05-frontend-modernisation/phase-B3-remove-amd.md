@@ -21,10 +21,17 @@ autopilot — removing `amd: {}` changes bundler behaviour for the WHOLE bundle.
      `requireContext`). Build/runtime-critical.
    - `require-context.js` — `define([...])`; the module-registry resolver.
    These must be migrated to CJS (or rewritten) before `amd: {}` can go.
-2. **Vendor UMD libs** (`src/**/Resources/public/lib/*`: bootstrap-modal, jquery-ui,
-   summernote, backbone-pageable, jquery.multiselect): NOT a blocker — UMD has a
-   CommonJS/global fallback, so they keep working once `define.amd` is absent. Do NOT
-   touch them.
+2. **Vendor libs** (`src/**/Resources/public/lib/*`) — ⚠️ NOT uniformly safe, READ
+   EACH WRAPPER (lesson from the first B3 CI run, PR #248):
+   - `summernote.js`, `backbone-pageable.js`, fos `router.min.js`: real UMD with a
+     `typeof define === 'function'` guard + CJS/global fallback → safe, do NOT touch.
+   - `multiselect/jquery.multiselect.js` + `jquery.multiselect.filter.js`: were
+     hand-wrapped in an UNGUARDED top-level `define(['jquery'], …)` (pure AMD, no
+     fallback). Without `amd:{}` they threw `define is not defined` at evaluation →
+     webpack cached the partially-evaluated `{}` exports → every grid filter require
+     returned `{}` → the 78× `filterModule.extend is not a function` Behat wipeout
+     (product_scope/select/multiselect filter chain requires `jquery.multiselect`).
+     Fixed by migrating both to CJS with the standard codemod.
 
 ## Steps (after the 3 PRs merge)
 
