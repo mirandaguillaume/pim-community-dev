@@ -1,15 +1,9 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import Datepicker from 'datepicker';
+import DateContext from 'pim/date-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Datepicker = __pimInterop(require('datepicker'));
-var DateContext = __pimInterop(require('pim/date-context'));
-
-module.exports = {
+export default {
   /**
    * Date widget options
    */

@@ -1,19 +1,7 @@
-/**
- * @author    Yohan Blain <yohan.blain@akeneo.com>
- * @author    Damien Carcel <damien.carcel@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-'use strict';
+import BaseField from 'pim/form/common/fields/simple-select-async';
+import ValuesBehavior from 'pim/form/common/fields/values/values-behavior';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseField = __pimInterop(require('pim/form/common/fields/simple-select-async'));
-var ValuesBehavior = __pimInterop(require('pim/form/common/fields/values/values-behavior'));
-
-module.exports = BaseField.extend({
+export default BaseField.extend({
   /**
    * {@inheritdoc}
    */

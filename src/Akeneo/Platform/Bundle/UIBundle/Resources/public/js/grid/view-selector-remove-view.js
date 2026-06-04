@@ -1,20 +1,14 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/grid/view-selector/remove-view';
+import Dialog from 'pim/dialog';
+import UserContext from 'pim/user-context';
+import DatagridViewRemover from 'pim/remover/datagrid-view';
+import * as messenger from 'oro/messenger';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/grid/view-selector/remove-view'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var DatagridViewRemover = __pimInterop(require('pim/remover/datagrid-view'));
-var messenger = __pimInterop(require('oro/messenger'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   tagName: 'span',
   className: 'remove-button',

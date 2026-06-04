@@ -1,16 +1,10 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var Routing = __pimInterop(require('routing'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var messenger = __pimInterop(require('oro/messenger'));
-var errorTemplate = __pimInterop(require('pim/template/attribute-option/validation-error'));
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import Routing from 'routing';
+import FormBuilder from 'pim/form-builder';
+import * as messenger from 'oro/messenger';
+import errorTemplate from 'pim/template/attribute-option/validation-error';
 var CreateOptionView = Backbone.View.extend({
   errorTemplate: _.template(errorTemplate),
   attribute: null,
@@ -64,7 +58,7 @@ var CreateOptionView = Backbone.View.extend({
   },
 });
 
-module.exports = function (attribute) {
+export default function (attribute) {
   if (!attribute) {
     throw new Error('Attribute must be provided to create a new option');
   }
@@ -74,4 +68,4 @@ module.exports = function (attribute) {
   return view.createOption().always(function () {
     view.remove();
   });
-};
+}

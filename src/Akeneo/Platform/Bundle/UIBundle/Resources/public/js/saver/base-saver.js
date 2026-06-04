@@ -1,14 +1,8 @@
-'use strict';
+import $ from 'jquery';
+import mediator from 'oro/mediator';
+import Routing from 'routing';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var mediator = __pimInterop(require('oro/mediator'));
-var Routing = __pimInterop(require('routing'));
-
-module.exports = {
+export default {
   /**
    * Save an entity
    *

@@ -1,17 +1,11 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import * as toFillFieldProvider from 'pim/provider/to-fill-field-provider';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var toFillFieldProvider = __pimInterop(require('pim/provider/to-fill-field-provider'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   /**
    * @returns {String}
    */

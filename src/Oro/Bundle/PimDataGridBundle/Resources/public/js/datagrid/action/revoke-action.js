@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import 'underscore';
+import __ from 'oro/translator';
+import DeleteAction from 'oro/datagrid/delete-action';
+import Dialog from 'pim/dialog';
 
-require('underscore');
-var __ = __pimInterop(require('oro/translator'));
-var DeleteAction = __pimInterop(require('oro/datagrid/delete-action'));
-var Dialog = __pimInterop(require('pim/dialog'));
-('use strict');
-
-module.exports = DeleteAction.extend({
+export default DeleteAction.extend({
   getConfirmDialog: function () {
     const entityCode = this.getEntityCode();
 

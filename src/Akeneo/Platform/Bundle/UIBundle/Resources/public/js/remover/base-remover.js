@@ -1,13 +1,7 @@
-'use strict';
+import $ from 'jquery';
+import mediator from 'oro/mediator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var mediator = __pimInterop(require('oro/mediator'));
-
-module.exports = {
+export default {
   /**
    * Remove an entity
    *

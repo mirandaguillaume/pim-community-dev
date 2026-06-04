@@ -1,15 +1,9 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'bootstrap.datetimepicker';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('bootstrap.datetimepicker');
-
-module.exports = {
+export default {
   options: {
     language: 'en',
     pickTime: false,

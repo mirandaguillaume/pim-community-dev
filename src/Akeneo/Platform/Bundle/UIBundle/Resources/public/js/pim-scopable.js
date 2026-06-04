@@ -1,19 +1,13 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Backbone = __pimInterop(require('backbone'));
-var _ = __pimInterop(require('underscore'));
-var mediator = __pimInterop(require('oro/mediator'));
-var wysiwyg = __pimInterop(require('wysiwyg'));
-var optionform = __pimInterop(require('pim/optionform'));
-var fileinput = __pimInterop(require('pim/fileinput'));
-require('bootstrap');
-require('bootstrap.bootstrapswitch');
-require('jquery.select2');
+import $ from 'jquery';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import mediator from 'oro/mediator';
+import wysiwyg from 'wysiwyg';
+import optionform from 'pim/optionform';
+import fileinput from 'pim/fileinput';
+import 'bootstrap';
+import 'bootstrap.bootstrapswitch';
+import 'jquery.select2';
 /**
  * Allow expanding/collapsing scopable fields
  *
@@ -122,7 +116,7 @@ var ScopableField = Backbone.View.extend({
   },
 });
 
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   label: null,
   fieldViews: [],
   fields: [],

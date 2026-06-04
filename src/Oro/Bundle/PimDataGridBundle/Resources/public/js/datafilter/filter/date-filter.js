@@ -1,18 +1,13 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import ChoiceFilter from 'oro/datafilter/choice-filter';
+import Datepicker from 'datepicker';
+import DateContext from 'pim/date-context';
+import DateFormatter from 'pim/formatter/date';
+import template from 'pim/template/datagrid/filter/date-filter';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var ChoiceFilter = __pimInterop(require('oro/datafilter/choice-filter'));
-var Datepicker = __pimInterop(require('datepicker'));
-var DateContext = __pimInterop(require('pim/date-context'));
-var DateFormatter = __pimInterop(require('pim/formatter/date'));
-var template = __pimInterop(require('pim/template/datagrid/filter/date-filter'));
-('use strict');
-
-module.exports = ChoiceFilter.extend({
+export default ChoiceFilter.extend({
   /**
    * Template for filter criteria
    *

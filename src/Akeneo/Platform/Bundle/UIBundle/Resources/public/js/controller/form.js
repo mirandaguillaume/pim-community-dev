@@ -1,17 +1,11 @@
-'use strict';
+import $ from 'jquery';
+import 'underscore';
+import mediator from 'oro/mediator';
+import TemplateController from 'pim/controller/template';
+import router from 'pim/router';
+import 'jquery.form';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var mediator = __pimInterop(require('oro/mediator'));
-var TemplateController = __pimInterop(require('pim/controller/template'));
-var router = __pimInterop(require('pim/router'));
-require('jquery.form');
-
-module.exports = TemplateController.extend({
+export default TemplateController.extend({
   events: {
     'submit form': 'submitForm',
   },

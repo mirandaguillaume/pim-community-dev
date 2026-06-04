@@ -1,29 +1,23 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import router from 'pim/router';
+import 'pim/i18n';
+import UserContext from 'pim/user-context';
+import BaseForm from 'pim/form';
+import SecurityContext from 'pim/security-context';
+import initSelect2 from 'pim/initselect2';
+import FetcherRegistry from 'pim/fetcher-registry';
+import MediaUrlGenerator from 'pim/media-url-generator';
+import * as messenger from 'oro/messenger';
+import FormModal from 'pim/form-modal';
+import template from 'pim/template/product/form/variant-navigation/navigation';
+import templateProduct from 'pim/template/product/form/variant-navigation/product-item';
+import templateProductModel from 'pim/template/product/form/variant-navigation/product-model-item';
+import templateAddChild from 'pim/template/product/form/variant-navigation/add-child-button';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var router = __pimInterop(require('pim/router'));
-require('pim/i18n');
-var UserContext = __pimInterop(require('pim/user-context'));
-var BaseForm = __pimInterop(require('pim/form'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
-var messenger = __pimInterop(require('oro/messenger'));
-var FormModal = __pimInterop(require('pim/form-modal'));
-var template = __pimInterop(require('pim/template/product/form/variant-navigation/navigation'));
-var templateProduct = __pimInterop(require('pim/template/product/form/variant-navigation/product-item'));
-var templateProductModel = __pimInterop(require('pim/template/product/form/variant-navigation/product-model-item'));
-var templateAddChild = __pimInterop(require('pim/template/product/form/variant-navigation/add-child-button'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   templateProduct: _.template(templateProduct),
   templateProductModel: _.template(templateProductModel),

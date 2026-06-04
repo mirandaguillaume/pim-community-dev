@@ -1,14 +1,8 @@
-'use strict';
+import BaseForm from 'pim/form';
+import Grid from 'pim/common/grid';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseForm = __pimInterop(require('pim/form'));
-var Grid = __pimInterop(require('pim/common/grid'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   grid: null,
 
   /**

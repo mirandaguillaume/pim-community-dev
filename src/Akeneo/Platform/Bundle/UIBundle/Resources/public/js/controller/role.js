@@ -1,16 +1,10 @@
-'use strict';
+import $ from 'jquery';
+import FormController from 'pim/controller/form';
+import securityContext from 'pim/security-context';
+import configProvider from 'pim/form-config-provider';
+import router from 'pim/router';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var FormController = __pimInterop(require('pim/controller/form'));
-var securityContext = __pimInterop(require('pim/security-context'));
-var configProvider = __pimInterop(require('pim/form-config-provider'));
-var router = __pimInterop(require('pim/router'));
-
-module.exports = FormController.extend({
+export default FormController.extend({
   /**
    * {@inheritdoc}
    */

@@ -1,17 +1,11 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import 'pim/fetcher-registry';
+import template from 'pim/template/group/tab/properties/general';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-require('pim/fetcher-registry');
-var template = __pimInterop(require('pim/template/group/tab/properties/general'));
-require('jquery.select2');
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'tabsection',
   template: _.template(template),
 

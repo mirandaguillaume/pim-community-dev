@@ -1,13 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var tools = __pimInterop(require('oro/tools'));
-var mediator = __pimInterop(require('oro/mediator'));
-var FiltersManager = __pimInterop(require('oro/datafilter/collection-filters-manager'));
-var BaseForm = __pimInterop(require('pim/form'));
+import 'jquery';
+import _ from 'underscore';
+import tools from 'oro/tools';
+import mediator from 'oro/mediator';
+import FiltersManager from 'oro/datafilter/collection-filters-manager';
+import BaseForm from 'pim/form';
 const DataFilterBuilder = BaseForm.extend({
   initialized: false,
   config: {
@@ -125,4 +121,4 @@ const DataFilterBuilder = BaseForm.extend({
 // Drop in TIP-733-2
 DataFilterBuilder.init = () => new DataFilterBuilder();
 
-module.exports = DataFilterBuilder;
+export default DataFilterBuilder;

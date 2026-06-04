@@ -1,19 +1,13 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import template from 'pim/template/export/product/edit/content/data';
+import BaseForm from 'pim/form';
+import fetcherRegistry from 'pim/fetcher-registry';
+import formBuilder from 'pim/form-builder';
+import PropertyAccessor from 'pim/common/property';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var template = __pimInterop(require('pim/template/export/product/edit/content/data'));
-var BaseForm = __pimInterop(require('pim/form'));
-var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var formBuilder = __pimInterop(require('pim/form-builder'));
-var PropertyAccessor = __pimInterop(require('pim/common/property'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   filterViews: [],
   template: _.template(template),
 

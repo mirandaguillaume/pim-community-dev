@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import 'jquery';
+import Backbone from 'backbone';
 
-var _ = __pimInterop(require('underscore'));
-require('jquery');
-var Backbone = __pimInterop(require('backbone'));
-('use strict');
-
-module.exports = Backbone.Model.extend({
+export default Backbone.Model.extend({
   /** @param {String} Column name of cells that will be listened for changing their values */
   columnName: 'id',
 

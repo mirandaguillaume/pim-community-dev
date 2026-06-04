@@ -1,12 +1,7 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import Backbone from 'backbone';
+import _ from 'underscore';
 
-var Backbone = __pimInterop(require('backbone'));
-var _ = __pimInterop(require('underscore'));
-('use strict');
-
-module.exports = Backbone.Model.extend({
+export default Backbone.Model.extend({
   /** @property */
   idAttribute: 'name',
 

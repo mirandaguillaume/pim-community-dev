@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import StringCell from 'oro/datagrid/string-cell';
+import __ from 'oro/translator';
+import template from 'pim/template/datagrid/cell/enabled-cell';
 
-var StringCell = __pimInterop(require('oro/datagrid/string-cell'));
-var __ = __pimInterop(require('oro/translator'));
-var template = __pimInterop(require('pim/template/datagrid/cell/enabled-cell'));
-('use strict');
-
-module.exports = StringCell.extend({
+export default StringCell.extend({
   template: _.template(template),
 
   /**

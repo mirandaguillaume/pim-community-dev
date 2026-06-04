@@ -1,14 +1,8 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import FetcherRegistry from 'pim/fetcher-registry';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-
-module.exports = {
+export default {
   /**
    * Get all the attribute group for the given product
    *

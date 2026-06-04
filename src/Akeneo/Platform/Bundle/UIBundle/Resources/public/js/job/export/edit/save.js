@@ -1,13 +1,7 @@
-'use strict';
+import BaseSave from 'pim/job-instance-edit-form/save';
+import JobInstanceSaver from 'pim/saver/job-instance-export';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseSave = __pimInterop(require('pim/job-instance-edit-form/save'));
-var JobInstanceSaver = __pimInterop(require('pim/saver/job-instance-export'));
-
-module.exports = BaseSave.extend({
+export default BaseSave.extend({
   /**
    * {@inheritdoc}
    */

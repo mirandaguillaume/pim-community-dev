@@ -1,20 +1,6 @@
-/**
- * This module displays a variant field as select2
- * It is adapted for mass edit because it has ability to have readOnly option do disallow edit.
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-'use strict';
+import Variant from 'pim/product-model/form/creation/variant';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Variant = __pimInterop(require('pim/product-model/form/creation/variant'));
-
-module.exports = Variant.extend({
+export default Variant.extend({
   readOnly: false,
 
   /**

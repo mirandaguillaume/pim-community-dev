@@ -1,11 +1,6 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import AbstractAction from 'oro/datagrid/abstract-action';
 
-var AbstractAction = __pimInterop(require('oro/datagrid/abstract-action'));
-('use strict');
-
-module.exports = AbstractAction.extend({
+export default AbstractAction.extend({
   /** @property oro.PageableCollection */
   collection: undefined,
 

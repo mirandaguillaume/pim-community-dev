@@ -1,11 +1,5 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Backbone = __pimInterop(require('backbone'));
-var _ = __pimInterop(require('underscore'));
+import Backbone from 'backbone';
+import _ from 'underscore';
 
 var Indicator = Backbone.Model.extend({
   defaults: {
@@ -34,7 +28,7 @@ var IndicatorView = Backbone.View.extend({
   },
 });
 
-module.exports = function (opts) {
+export default function (opts) {
   var el = opts.el || null;
   delete opts.el;
   var indicator = new Indicator(opts);
@@ -46,4 +40,4 @@ module.exports = function (opts) {
   };
 
   return indicator;
-};
+}

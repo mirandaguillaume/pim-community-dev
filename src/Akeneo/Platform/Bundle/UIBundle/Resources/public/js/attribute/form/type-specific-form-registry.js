@@ -1,12 +1,6 @@
-'use strict';
+import _ from 'underscore';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-
-module.exports = {
+export default {
   /**
    * Get the form name corresponding to the specified attribute type, or null.
    *

@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import 'underscore';
+import __ from 'oro/translator';
+import ChoiceFilter from 'oro/datafilter/choice-filter';
 
-require('underscore');
-var __ = __pimInterop(require('oro/translator'));
-var ChoiceFilter = __pimInterop(require('oro/datafilter/choice-filter'));
-('use strict');
-
-module.exports = ChoiceFilter.extend({
+export default ChoiceFilter.extend({
   initialize: function () {
     this.choices = [
       {label: __('pim_datagrid.filters.common.in_list'), value: 'in'},

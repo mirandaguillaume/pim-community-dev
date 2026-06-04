@@ -1,23 +1,17 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/grid/view-selector/save-view';
+import DatagridState from 'pim/datagrid/state';
+import 'pim/dialog';
+import 'routing';
+import UserContext from 'pim/user-context';
+import DatagridViewSaver from 'pim/saver/datagrid-view';
+import * as messenger from 'oro/messenger';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/grid/view-selector/save-view'));
-var DatagridState = __pimInterop(require('pim/datagrid/state'));
-require('pim/dialog');
-require('routing');
-var UserContext = __pimInterop(require('pim/user-context'));
-var DatagridViewSaver = __pimInterop(require('pim/saver/datagrid-view'));
-var messenger = __pimInterop(require('oro/messenger'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   tagName: 'span',
   className: 'save-button',

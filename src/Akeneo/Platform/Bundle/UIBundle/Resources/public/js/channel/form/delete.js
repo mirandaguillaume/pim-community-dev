@@ -1,12 +1,6 @@
-'use strict';
+import DeleteForm from 'pim/form/common/delete';
+import ChannelRemover from 'pim/remover/channel';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var DeleteForm = __pimInterop(require('pim/form/common/delete'));
-var ChannelRemover = __pimInterop(require('pim/remover/channel'));
-
-module.exports = DeleteForm.extend({
+export default DeleteForm.extend({
   remover: ChannelRemover,
 });

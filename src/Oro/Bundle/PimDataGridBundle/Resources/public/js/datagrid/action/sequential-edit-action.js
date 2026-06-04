@@ -1,19 +1,14 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Routing from 'routing';
+import MassAction from 'oro/datagrid/mass-action';
+import router from 'pim/router';
+import * as messenger from 'oro/messenger';
+import sequentialEditProvider from 'pim/provider/sequential-edit-provider';
+import LoadingMask from 'oro/loading-mask';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Routing = __pimInterop(require('routing'));
-var MassAction = __pimInterop(require('oro/datagrid/mass-action'));
-var router = __pimInterop(require('pim/router'));
-var messenger = __pimInterop(require('oro/messenger'));
-var sequentialEditProvider = __pimInterop(require('pim/provider/sequential-edit-provider'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-('use strict');
-
-module.exports = MassAction.extend({
+export default MassAction.extend({
   /**
    * Execute sequential edit
    */

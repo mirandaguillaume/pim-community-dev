@@ -1,18 +1,12 @@
-'use strict';
+import 'oro/translator';
+import BaseController from 'pim/controller/front';
+import FormBuilder from 'pim/form-builder';
+import FetcherRegistry from 'pim/fetcher-registry';
+import 'pim/user-context';
+import 'pim/dialog';
+import PageTitle from 'pim/page-title';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('oro/translator');
-var BaseController = __pimInterop(require('pim/controller/front'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-require('pim/user-context');
-require('pim/dialog');
-var PageTitle = __pimInterop(require('pim/page-title'));
-
-module.exports = BaseController.extend({
+export default BaseController.extend({
   /**
    * {@inheritdoc}
    */

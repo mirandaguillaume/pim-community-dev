@@ -1,18 +1,13 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import TextFilter from 'oro/datafilter/text-filter';
+import Routing from 'routing';
+import initSelect2 from 'pim/initselect2';
+import UserContext from 'pim/user-context';
+import 'jquery.select2';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var TextFilter = __pimInterop(require('oro/datafilter/text-filter'));
-var Routing = __pimInterop(require('routing'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-var UserContext = __pimInterop(require('pim/user-context'));
-require('jquery.select2');
-('use strict');
-
-module.exports = TextFilter.extend({
+export default TextFilter.extend({
   operatorChoices: [],
   choiceUrl: null,
   choiceUrlParams: {},

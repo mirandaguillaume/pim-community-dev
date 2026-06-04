@@ -1,12 +1,6 @@
-'use strict';
+import BaseModal from 'pim/form/common/creation/modal';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseModal = __pimInterop(require('pim/form/common/creation/modal'));
-
-module.exports = BaseModal.extend({
+export default BaseModal.extend({
   events: {
     'keyup input': 'updateButtonState',
   },

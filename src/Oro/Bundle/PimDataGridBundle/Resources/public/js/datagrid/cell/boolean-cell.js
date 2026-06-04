@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import 'underscore';
+import Backgrid from 'backgrid';
+import SecurityContext from 'pim/security-context';
 
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var Backgrid = __pimInterop(require('backgrid'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-('use strict');
-
-module.exports = Backgrid.BooleanCell.extend({
+export default Backgrid.BooleanCell.extend({
   /** @property {Boolean} */
   listenRowClick: true,
 

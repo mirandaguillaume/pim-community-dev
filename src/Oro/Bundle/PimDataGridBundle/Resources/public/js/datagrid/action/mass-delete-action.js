@@ -1,19 +1,14 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import 'underscore';
+import __ from 'oro/translator';
+import Routing from 'routing';
+import MassAction from 'oro/datagrid/mass-action';
+import router from 'pim/router';
+import * as messenger from 'oro/messenger';
+import LoadingMask from 'oro/loading-mask';
+import Dialog from 'pim/dialog';
 
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var __ = __pimInterop(require('oro/translator'));
-var Routing = __pimInterop(require('routing'));
-var MassAction = __pimInterop(require('oro/datagrid/mass-action'));
-var router = __pimInterop(require('pim/router'));
-var messenger = __pimInterop(require('oro/messenger'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var Dialog = __pimInterop(require('pim/dialog'));
-('use strict');
-
-module.exports = MassAction.extend({
+export default MassAction.extend({
   /** @type oro.Modal */
   errorModal: undefined,
 

@@ -1,13 +1,7 @@
-'use strict';
+import _ from 'underscore';
+import requireContext from 'require-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var requireContext = __pimInterop(require('require-context'));
-
-module.exports = {
+export default {
   /**
    * Loads dynamic list of modules and execute callback function with passed modules
    *
@@ -18,7 +12,11 @@ module.exports = {
     var arrayArguments = _.object(requirements, arguments);
     var requirements = _.values(modules);
 
-    require.ensure([], function () {
+    // `require.ensure([], cb)` with an empty deps array is a no-op async
+    // boundary that webpack compiled to `Promise.resolve().then(cb)`. The
+    // CJS-parser feature is not recognised inside an ES module (bare `require`
+    // would be an undefined runtime reference), so use the Promise directly.
+    Promise.resolve().then(function () {
       _.each(
         modules,
         _.bind(function (value, key) {

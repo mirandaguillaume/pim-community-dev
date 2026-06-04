@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import Backbone from 'backbone';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import GridViewsCollection from 'oro/datagrid/grid-views/collection';
 
-var Backbone = __pimInterop(require('backbone'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var GridViewsCollection = __pimInterop(require('oro/datagrid/grid-views/collection'));
-('use strict');
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   /** @property */
   events: {
     'click a': 'onChange',

@@ -1,13 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import 'underscore';
+import 'jquery';
+import FormBuilder from 'pim/form-builder';
+import BaseForm from 'pim/form';
 
-require('underscore');
-require('jquery');
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var BaseForm = __pimInterop(require('pim/form'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'view-selector',
   config: {
     gridName: 'product-grid',

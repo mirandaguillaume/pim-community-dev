@@ -1,20 +1,14 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/attribute/attribute';
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import * as i18n from 'pim/i18n';
+import template from 'pim/template/filter/attribute/metric';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/attribute/attribute'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-var template = __pimInterop(require('pim/template/filter/attribute/metric'));
-require('jquery.select2');
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   shortname: 'metric',
   template: _.template(template),
   events: {

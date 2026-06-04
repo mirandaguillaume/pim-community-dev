@@ -1,19 +1,15 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import 'backbone';
+import 'routing';
+import BaseForm from 'pim/form';
+import 'pim/user-context';
+import 'pim/i18n';
+import __ from 'oro/translator';
+import template from 'pim/template/form/creation/job';
+import BaseFetcher from 'pim/base-fetcher';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('backbone');
-require('routing');
-var BaseForm = __pimInterop(require('pim/form'));
-require('pim/user-context');
-require('pim/i18n');
-var __ = __pimInterop(require('oro/translator'));
-var template = __pimInterop(require('pim/template/form/creation/job'));
-var BaseFetcher = __pimInterop(require('pim/base-fetcher'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   options: {},
   template: _.template(template),
   events: {

@@ -1,16 +1,10 @@
-'use strict';
+import $ from 'jquery';
+import Field from 'pim/field';
+import _ from 'underscore';
+import FetcherRegistry from 'pim/fetcher-registry';
+import fieldTemplate from 'pim/template/product/field/price-collection';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Field = __pimInterop(require('pim/field'));
-var _ = __pimInterop(require('underscore'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var fieldTemplate = __pimInterop(require('pim/template/product/field/price-collection'));
-
-module.exports = Field.extend({
+export default Field.extend({
   fieldTemplate: _.template(fieldTemplate),
   events: {
     'change .field-input:first input[type="text"]': 'updateModel',

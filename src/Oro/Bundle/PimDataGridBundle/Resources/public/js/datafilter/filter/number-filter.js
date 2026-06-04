@@ -1,11 +1,6 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import ChoiceFilter from 'oro/datafilter/choice-filter';
 
-var ChoiceFilter = __pimInterop(require('oro/datafilter/choice-filter'));
-('use strict');
-
-module.exports = ChoiceFilter.extend({
+export default ChoiceFilter.extend({
   /**
    * {@inheritdoc}
    */

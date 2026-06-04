@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import Backbone from 'backbone';
+import Backgrid from 'backgrid';
+import HeaderCell from 'oro/datagrid/header-cell';
 
-var Backbone = __pimInterop(require('backbone'));
-var Backgrid = __pimInterop(require('backgrid'));
-var HeaderCell = __pimInterop(require('oro/datagrid/header-cell'));
-('use strict');
-
-module.exports = Backgrid.Header.extend({
+export default Backgrid.Header.extend({
   /** @property */
   tagName: 'thead',
 

@@ -1,24 +1,15 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import * as i18n from 'pim/i18n';
+import userContext from 'pim/user-context';
+import fetcherRegistry from 'pim/fetcher-registry';
+import template from 'pim/template/export/product/edit/content/structure/attributes-selector';
+import attributeListTemplate from 'pim/template/export/product/edit/content/structure/attribute-list';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var i18n = __pimInterop(require('pim/i18n'));
-var userContext = __pimInterop(require('pim/user-context'));
-var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-
-var template = __pimInterop(require('pim/template/export/product/edit/content/structure/attributes-selector'));
-
-var attributeListTemplate = __pimInterop(require('pim/template/export/product/edit/content/structure/attribute-list'));
-
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   events: {
     'click .attribute-groups li': 'changeAttributeGroup',
     'keyup .search-field': 'updateSearch',

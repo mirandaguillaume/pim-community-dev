@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import Backgrid from 'backgrid';
+import template from 'pim/template/datagrid/cell/expand-history-cell';
 
-var _ = __pimInterop(require('underscore'));
-var Backgrid = __pimInterop(require('backgrid'));
-var template = __pimInterop(require('pim/template/datagrid/cell/expand-history-cell'));
-('use strict');
-
-module.exports = Backgrid.StringCell.extend({
+export default Backgrid.StringCell.extend({
   /** @property */
   className: 'AknGrid-bodyCell AknGrid-expandable',
   template: _.template(template),

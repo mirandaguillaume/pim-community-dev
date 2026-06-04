@@ -1,22 +1,14 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product/completeness';
+import 'pim/fetcher-registry';
+import 'pim/i18n';
+import UserContext from 'pim/user-context';
+import {ChannelsLocalesCompleteness, formatProductCompleteness} from '@akeneo-pim-community/enrichment';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product/completeness'));
-require('pim/fetcher-registry');
-require('pim/i18n');
-var UserContext = __pimInterop(require('pim/user-context'));
-var {ChannelsLocalesCompleteness, formatProductCompleteness} = __pimInterop(
-  require('@akeneo-pim-community/enrichment')
-);
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   className: 'panel-pane completeness-panel AknCompletenessPanel',
   initialFamily: null,

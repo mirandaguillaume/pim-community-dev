@@ -1,15 +1,9 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/form/tab/attribute/attribute-filter';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/form/tab/attribute/attribute-filter'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknDropdown AknButtonList-item nav nav-tabs attribute-filter',
   template: _.template(template),
 

@@ -1,10 +1,5 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var Backgrid = __pimInterop(require('backgrid'));
-('use strict');
+import _ from 'underscore';
+import Backgrid from 'backgrid';
 
 /**
  * Cell formatter with fixed fromRaw method
@@ -29,4 +24,4 @@ _.extend(CellFormatter.prototype, {
   },
 });
 
-module.exports = CellFormatter;
+export default CellFormatter;

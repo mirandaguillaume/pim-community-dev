@@ -1,24 +1,18 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Router from 'pim/router';
+import BaseForm from 'pim/form';
+import * as i18n from 'pim/i18n';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import SecurityContext from 'pim/security-context';
+import Dialog from 'pim/dialog';
+import template from 'pim/template/form/attribute-group/tab/attribute';
+import DatagridState from 'pim/datagrid/state';
+import 'jquery-ui';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Router = __pimInterop(require('pim/router'));
-var BaseForm = __pimInterop(require('pim/form'));
-var i18n = __pimInterop(require('pim/i18n'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var template = __pimInterop(require('pim/template/form/attribute-group/tab/attribute'));
-var DatagridState = __pimInterop(require('pim/datagrid/state'));
-require('jquery-ui');
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'tabbable tabs-left',
   template: _.template(template),
   otherAttributes: [],

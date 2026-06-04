@@ -1,21 +1,15 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import FetcherRegistry from 'pim/fetcher-registry';
+import * as i18n from 'pim/i18n';
+import UserContext from 'pim/user-context';
+import SecurityContext from 'pim/security-context';
+import template from 'pim/template/family/tab/general/attribute-as-image';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var i18n = __pimInterop(require('pim/i18n'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var template = __pimInterop(require('pim/template/family/tab/general/attribute-as-image'));
-require('jquery.select2');
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknFieldContainer',
   template: _.template(template),
   errors: [],

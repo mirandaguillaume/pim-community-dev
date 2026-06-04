@@ -1,17 +1,11 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseOperation from 'pim/mass-edit-form/product/operation';
+import Select2Configurator from 'pim/common/select2/family';
+import template from 'pim/template/mass-edit/product/change-family';
+import initSelect2 from 'pim/initselect2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
-var Select2Configurator = __pimInterop(require('pim/common/select2/family'));
-var template = __pimInterop(require('pim/template/mass-edit/product/change-family'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-
-module.exports = BaseOperation.extend({
+export default BaseOperation.extend({
   template: _.template(template),
   events: {
     'change .family': 'updateModel',

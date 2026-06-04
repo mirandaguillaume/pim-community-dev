@@ -1,16 +1,10 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'oro/mediator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product/meta/status-switcher';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('oro/mediator');
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product/meta/status-switcher'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknColumn-block AknDropdown',
   template: _.template(template),
   events: {

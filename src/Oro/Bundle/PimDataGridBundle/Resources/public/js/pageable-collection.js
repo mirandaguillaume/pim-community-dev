@@ -1,13 +1,7 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var BackbonePageableCollection = __pimInterop(require('backbone/pageable-collection'));
-var app = __pimInterop(require('oro/app'));
+import _ from 'underscore';
+import Backbone from 'backbone';
+import BackbonePageableCollection from 'backbone/pageable-collection';
+import app from 'oro/app';
 
 /**
  * Pageable collection
@@ -621,4 +615,4 @@ var PageableCollection = BackbonePageableCollection.extend({
   },
 });
 
-module.exports = PageableCollection;
+export default PageableCollection;

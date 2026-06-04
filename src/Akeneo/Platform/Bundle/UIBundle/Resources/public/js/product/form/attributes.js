@@ -1,14 +1,8 @@
-'use strict';
+import Routing from 'routing';
+import Attributes from 'pim/form/common/attributes';
+import 'jquery';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Routing = __pimInterop(require('routing'));
-var Attributes = __pimInterop(require('pim/form/common/attributes'));
-require('jquery');
-
-module.exports = Attributes.extend({
+export default Attributes.extend({
   /**
    * {@inheritdoc}
    */

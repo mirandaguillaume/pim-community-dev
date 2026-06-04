@@ -1,22 +1,16 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseSave from 'pim/form/common/save';
+import * as messenger from 'oro/messenger';
+import ChannelSaver from 'pim/saver/channel';
+import 'pim/field-manager';
+import 'pim/i18n';
+import 'pim/user-context';
+import 'routing';
+import router from 'pim/router';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseSave = __pimInterop(require('pim/form/common/save'));
-var messenger = __pimInterop(require('oro/messenger'));
-var ChannelSaver = __pimInterop(require('pim/saver/channel'));
-require('pim/field-manager');
-require('pim/i18n');
-require('pim/user-context');
-require('routing');
-var router = __pimInterop(require('pim/router'));
-
-module.exports = BaseSave.extend({
+export default BaseSave.extend({
   updateSuccessMessage: __('pim_enrich.entity.channel.flash.update.success'),
   updateFailureMessage: __('pim_enrich.entity.channel.flash.update.fail'),
   createSuccessMessage: __('pim_enrich.entity.channel.flash.create.success'),

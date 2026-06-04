@@ -1,11 +1,7 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import AjaxAction from 'oro/datagrid/ajax-action';
+import Router from 'pim/router';
 
-var AjaxAction = __pimInterop(require('oro/datagrid/ajax-action'));
-var Router = __pimInterop(require('pim/router'));
-
-module.exports = AjaxAction.extend({
+export default AjaxAction.extend({
   /** @property {Boolean} */
   noHref: true,
 

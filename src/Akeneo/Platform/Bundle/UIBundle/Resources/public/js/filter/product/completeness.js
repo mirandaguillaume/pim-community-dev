@@ -1,17 +1,11 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/filter';
+import 'routing';
+import template from 'pim/template/filter/product/completeness';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/filter'));
-require('routing');
-var template = __pimInterop(require('pim/template/filter/product/completeness'));
-require('jquery.select2');
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   shortname: 'completeness',
   template: _.template(template),
   events: {

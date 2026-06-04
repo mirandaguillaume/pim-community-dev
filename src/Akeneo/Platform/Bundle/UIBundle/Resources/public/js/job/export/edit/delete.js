@@ -1,12 +1,6 @@
-'use strict';
+import DeleteForm from 'pim/form/common/delete';
+import JobInstanceRemover from 'pim/remover/job-instance-export';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var DeleteForm = __pimInterop(require('pim/form/common/delete'));
-var JobInstanceRemover = __pimInterop(require('pim/remover/job-instance-export'));
-
-module.exports = DeleteForm.extend({
+export default DeleteForm.extend({
   remover: JobInstanceRemover,
 });

@@ -1,15 +1,9 @@
-'use strict';
+import BaseModal from 'pim/form/common/creation/modal';
+import * as messenger from 'oro/messenger';
+import mediator from 'oro/mediator';
+import __ from 'oro/translator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseModal = __pimInterop(require('pim/form/common/creation/modal'));
-var messenger = __pimInterop(require('oro/messenger'));
-var mediator = __pimInterop(require('oro/mediator'));
-var __ = __pimInterop(require('oro/translator'));
-
-module.exports = BaseModal.extend({
+export default BaseModal.extend({
   /**
    * {@inheritdoc}
    */

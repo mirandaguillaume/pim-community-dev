@@ -1,26 +1,16 @@
-/**
- * @deprecated
- * @TODO - Will be removed in TIP-733-2
- */
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import datagridBuilder from 'oro/datagrid-builder';
+import Routing from 'routing';
+import mediator from 'oro/mediator';
+import template from 'pim/template/form/grid';
+import PageableCollection from 'oro/pageable-collection';
+import DatagridState from 'pim/datagrid/state';
+import Error from 'oro/error';
+import requireContext from 'require-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var datagridBuilder = __pimInterop(require('oro/datagrid-builder'));
-var Routing = __pimInterop(require('routing'));
-var mediator = __pimInterop(require('oro/mediator'));
-var template = __pimInterop(require('pim/template/form/grid'));
-var PageableCollection = __pimInterop(require('oro/pageable-collection'));
-var DatagridState = __pimInterop(require('pim/datagrid/state'));
-var Error = __pimInterop(require('oro/error'));
-var requireContext = __pimInterop(require('require-context'));
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   template: _.template(template),
   urlParams: {},
 

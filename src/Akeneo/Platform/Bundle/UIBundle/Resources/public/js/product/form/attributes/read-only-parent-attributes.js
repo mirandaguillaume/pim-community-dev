@@ -1,17 +1,11 @@
-'use strict';
+import $ from 'jquery';
+import 'underscore';
+import __ from 'oro/translator';
+import UserContext from 'pim/user-context';
+import router from 'pim/router';
+import BaseForm from 'pim/form';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var __ = __pimInterop(require('oro/translator'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var router = __pimInterop(require('pim/router'));
-var BaseForm = __pimInterop(require('pim/form'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   /**
    * {@inheritdoc}
    */

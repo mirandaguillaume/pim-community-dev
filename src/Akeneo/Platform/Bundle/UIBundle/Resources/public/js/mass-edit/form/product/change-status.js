@@ -1,16 +1,10 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseOperation from 'pim/mass-edit-form/product/operation';
+import template from 'pim/template/mass-edit/product/change-status';
+import 'bootstrap.bootstrapswitch';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
-var template = __pimInterop(require('pim/template/mass-edit/product/change-status'));
-require('bootstrap.bootstrapswitch');
-
-module.exports = BaseOperation.extend({
+export default BaseOperation.extend({
   template: _.template(template),
   events: {
     'change .switch': 'updateModel',

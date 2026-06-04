@@ -1,16 +1,10 @@
-'use strict';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import 'oro/mediator';
+import LoadingMask from 'oro/loading-mask';
+import * as messenger from 'oro/messenger';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-require('oro/mediator');
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var messenger = __pimInterop(require('oro/messenger'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   loadingMask: null,
   updateFailureMessage: __('pim_enrich.entity.fallback.flash.update.fail'),
   updateSuccessMessage: __('pim_enrich.entity.fallback.flash.update.success'),

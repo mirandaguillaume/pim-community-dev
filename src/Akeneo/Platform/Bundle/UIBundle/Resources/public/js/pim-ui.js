@@ -1,15 +1,9 @@
-'use strict';
+import $ from 'jquery';
+import initSelect2 from 'pim/initselect2';
+import wysiwyg from 'wysiwyg';
+import 'bootstrap';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-var wysiwyg = __pimInterop(require('wysiwyg'));
-require('bootstrap');
-
-module.exports = function ($target) {
+export default function ($target) {
   // Apply Select2
   initSelect2.init($target);
 
@@ -30,4 +24,4 @@ module.exports = function ($target) {
       wysiwyg.init($(this));
     }
   });
-};
+}

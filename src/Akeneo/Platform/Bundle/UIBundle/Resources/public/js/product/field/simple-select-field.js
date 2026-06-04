@@ -1,21 +1,15 @@
-'use strict';
+import $ from 'jquery';
+import Field from 'pim/field';
+import _ from 'underscore';
+import fieldTemplate from 'pim/template/product/field/simple-select';
+import Routing from 'routing';
+import createOption from 'pim/attribute-option/create';
+import SecurityContext from 'pim/security-context';
+import initSelect2 from 'pim/initselect2';
+import UserContext from 'pim/user-context';
+import * as i18n from 'pim/i18n';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Field = __pimInterop(require('pim/field'));
-var _ = __pimInterop(require('underscore'));
-var fieldTemplate = __pimInterop(require('pim/template/product/field/simple-select'));
-var Routing = __pimInterop(require('routing'));
-var createOption = __pimInterop(require('pim/attribute-option/create'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-
-module.exports = Field.extend({
+export default Field.extend({
   fieldTemplate: _.template(fieldTemplate),
   choicePromise: null,
   promiseIdentifier: null,

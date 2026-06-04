@@ -1,15 +1,9 @@
-'use strict';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import 'oro/mediator';
+import FetcherRegistry from 'pim/fetcher-registry';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-require('oro/mediator');
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   /**
    * {@inheritdoc}
    */

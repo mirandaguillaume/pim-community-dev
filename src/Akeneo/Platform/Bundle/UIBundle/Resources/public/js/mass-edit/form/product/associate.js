@@ -1,31 +1,22 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import __ from 'oro/translator';
+import 'routing';
+import BaseOperation from 'pim/mass-edit-form/product/operation';
+import UserContext from 'pim/user-context';
+import FormBuilder from 'pim/form-builder';
+import FetcherRegistry from 'pim/fetcher-registry';
+import * as i18n from 'pim/i18n';
+import MediaUrlGenerator from 'pim/media-url-generator';
+import LoadingMask from 'oro/loading-mask';
+import * as messenger from 'oro/messenger';
+import pickTemplate from 'pim/template/mass-edit/product/associate/pick';
+import confirmTemplate from 'pim/template/mass-edit/product/associate/confirm';
+import modalTemplate from 'pim/template/common/modal-centered';
+import {QuantifiedAssociations} from 'pimui/js/product/form/quantified-associations/components/QuantifiedAssociations';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var __ = __pimInterop(require('oro/translator'));
-require('routing');
-var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var i18n = __pimInterop(require('pim/i18n'));
-var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var messenger = __pimInterop(require('oro/messenger'));
-var pickTemplate = __pimInterop(require('pim/template/mass-edit/product/associate/pick'));
-var confirmTemplate = __pimInterop(require('pim/template/mass-edit/product/associate/confirm'));
-var modalTemplate = __pimInterop(require('pim/template/common/modal-centered'));
-
-var {
-  QuantifiedAssociations,
-} = require('pimui/js/product/form/quantified-associations/components/QuantifiedAssociations');
-
-module.exports = BaseOperation.extend({
+export default BaseOperation.extend({
   className: 'AknGridToolbar',
   pickTemplate: _.template(pickTemplate),
   confirmTemplate: _.template(confirmTemplate),

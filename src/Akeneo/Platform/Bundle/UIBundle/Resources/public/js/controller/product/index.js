@@ -1,18 +1,14 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import 'underscore';
+import 'jquery';
+import BaseController from 'pim/controller/front';
+import FormBuilder from 'pim/form-builder';
+import UserContext from 'pim/user-context';
+import mediator from 'oro/mediator';
+import 'routing';
+import fetcherRegistry from 'pim/fetcher-registry';
+import sequentialEditProvider from 'pim/provider/sequential-edit-provider';
 
-require('underscore');
-require('jquery');
-var BaseController = __pimInterop(require('pim/controller/front'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var mediator = __pimInterop(require('oro/mediator'));
-require('routing');
-var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var sequentialEditProvider = __pimInterop(require('pim/provider/sequential-edit-provider'));
-
-module.exports = BaseController.extend({
+export default BaseController.extend({
   config: {
     gridExtension: 'pim-product-index',
     gridName: 'product-grid',

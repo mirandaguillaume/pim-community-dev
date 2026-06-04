@@ -1,16 +1,10 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import ChoicesFormatter from 'pim/formatter/choices/base';
+import UserContext from 'pim/user-context';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var ChoicesFormatter = __pimInterop(require('pim/formatter/choices/base'));
-var UserContext = __pimInterop(require('pim/user-context'));
-require('jquery.select2');
-
-module.exports = {
+export default {
   resultsPerPage: 20,
   defaultOptions: {
     allowClear: false,

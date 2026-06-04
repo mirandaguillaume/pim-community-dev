@@ -1,10 +1,4 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
+import $ from 'jquery';
 
 var formId;
 var cb;
@@ -67,7 +61,7 @@ function restoreFormState() {
   }
 }
 
-module.exports = function (id, callback) {
+export default function (id, callback) {
   if (typeof Storage === 'undefined') {
     return;
   }
@@ -80,4 +74,4 @@ module.exports = function (id, callback) {
   restoreFormState();
   $('#' + formId).on('shown', 'a[data-toggle="tab"]', saveFormState);
   $('#' + formId).on('tab.loaded', restoreFormState);
-};
+}

@@ -1,20 +1,14 @@
-'use strict';
+import $ from 'jquery';
+import Field from 'pim/field';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import FetcherRegistry from 'pim/fetcher-registry';
+import fieldTemplate from 'pim/template/product/field/metric';
+import initSelect2 from 'pim/initselect2';
+import * as i18n from 'pim/i18n';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Field = __pimInterop(require('pim/field'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var fieldTemplate = __pimInterop(require('pim/template/product/field/metric'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-var i18n = __pimInterop(require('pim/i18n'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = Field.extend({
+export default Field.extend({
   fieldTemplate: _.template(fieldTemplate),
   events: {
     'change .field-input:first .data, .field-input:first .unit': 'updateModel',

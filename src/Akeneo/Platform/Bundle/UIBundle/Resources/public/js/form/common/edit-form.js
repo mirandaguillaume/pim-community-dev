@@ -1,23 +1,17 @@
-'use strict';
+import _ from 'underscore';
+import 'oro/translator';
+import Backbone from 'backbone';
+import template from 'pim/template/common/default-template';
+import BaseForm from 'pim/form';
+import mediator from 'oro/mediator';
+import FetcherRegistry from 'pim/fetcher-registry';
+import FieldManager from 'pim/field-manager';
+import 'pim/form-builder';
+import RequireContext from 'require-context';
+import * as messenger from 'oro/messenger';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-var Backbone = __pimInterop(require('backbone'));
-var template = __pimInterop(require('pim/template/common/default-template'));
-var BaseForm = __pimInterop(require('pim/form'));
-var mediator = __pimInterop(require('oro/mediator'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var FieldManager = __pimInterop(require('pim/field-manager'));
-require('pim/form-builder');
-var RequireContext = __pimInterop(require('require-context'));
-var messenger = __pimInterop(require('oro/messenger'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   scrollPosition: null,
 

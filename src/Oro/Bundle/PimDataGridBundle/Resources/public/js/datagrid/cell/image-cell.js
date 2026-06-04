@@ -1,15 +1,10 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import StringCell from 'oro/datagrid/string-cell';
+import MediaUrlGenerator from 'pim/media-url-generator';
+import template from 'pim/template/datagrid/cell/image-cell';
+import $ from 'jquery';
 
-var _ = __pimInterop(require('underscore'));
-var StringCell = __pimInterop(require('oro/datagrid/string-cell'));
-var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
-var template = __pimInterop(require('pim/template/datagrid/cell/image-cell'));
-var $ = __pimInterop(require('jquery'));
-('use strict');
-
-module.exports = StringCell.extend({
+export default StringCell.extend({
   template: _.template(template),
 
   /**

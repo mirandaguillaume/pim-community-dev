@@ -1,21 +1,17 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import $ from 'jquery';
+import Routing from 'pim/router';
+import datagridBuilder from 'oro/datagrid-builder';
+import PageableCollection from 'oro/pageable-collection';
+import DatagridState from 'pim/datagrid/state';
+import 'require-context';
+import BaseForm from 'pim/form';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import StateListener from 'pim/datagrid/state-listener';
+import LoadingMask from 'oro/loading-mask';
 
-var _ = __pimInterop(require('underscore'));
-var $ = __pimInterop(require('jquery'));
-var Routing = __pimInterop(require('pim/router'));
-var datagridBuilder = __pimInterop(require('oro/datagrid-builder'));
-var PageableCollection = __pimInterop(require('oro/pageable-collection'));
-var DatagridState = __pimInterop(require('pim/datagrid/state'));
-require('require-context');
-var BaseForm = __pimInterop(require('pim/form'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var StateListener = __pimInterop(require('pim/datagrid/state-listener'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   config: {},
   loadingMask: null,
 

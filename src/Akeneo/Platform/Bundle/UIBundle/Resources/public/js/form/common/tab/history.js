@@ -1,15 +1,9 @@
-'use strict';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import Grid from 'pim/common/grid';
+import __ from 'oro/translator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var Grid = __pimInterop(require('pim/common/grid'));
-var __ = __pimInterop(require('oro/translator'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'tabbable history',
   historyGrid: null,
 

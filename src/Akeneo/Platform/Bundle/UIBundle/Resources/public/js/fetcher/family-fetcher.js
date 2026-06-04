@@ -1,13 +1,7 @@
-'use strict';
+import _ from 'underscore';
+import BaseFetcher from 'pim/base-fetcher';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseFetcher = __pimInterop(require('pim/base-fetcher'));
-
-module.exports = BaseFetcher.extend({
+export default BaseFetcher.extend({
   /**
    * Fetch attributes available as axes for the given family
    *

@@ -1,22 +1,16 @@
-'use strict';
+import $ from 'jquery';
+import Field from 'pim/field';
+import _ from 'underscore';
+import Routing from 'routing';
+import AttributeManager from 'pim/attribute-manager';
+import fieldTemplate from 'pim/template/product/field/media';
+import Dialog from 'pim/dialog';
+import mediator from 'oro/mediator';
+import * as messenger from 'oro/messenger';
+import MediaUrlGenerator from 'pim/media-url-generator';
+import 'jquery.slimbox';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Field = __pimInterop(require('pim/field'));
-var _ = __pimInterop(require('underscore'));
-var Routing = __pimInterop(require('routing'));
-var AttributeManager = __pimInterop(require('pim/attribute-manager'));
-var fieldTemplate = __pimInterop(require('pim/template/product/field/media'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var mediator = __pimInterop(require('oro/mediator'));
-var messenger = __pimInterop(require('oro/messenger'));
-var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
-require('jquery.slimbox');
-
-module.exports = Field.extend({
+export default Field.extend({
   fieldTemplate: _.template(fieldTemplate),
   events: {
     'change .edit .field-input:first input[type="file"]': 'updateModel',

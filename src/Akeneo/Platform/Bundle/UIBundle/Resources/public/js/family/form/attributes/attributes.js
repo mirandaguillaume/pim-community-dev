@@ -1,24 +1,18 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import $ from 'jquery';
+import BaseForm from 'pim/form';
+import template from 'pim/template/family/tab/attributes/attributes';
+import UserContext from 'pim/user-context';
+import SecurityContext from 'pim/security-context';
+import * as i18n from 'pim/i18n';
+import FetcherRegistry from 'pim/fetcher-registry';
+import 'pim/dialog';
+import * as Messenger from 'oro/messenger';
+import LoadingMask from 'oro/loading-mask';
+import mediator from 'oro/mediator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var $ = __pimInterop(require('jquery'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/family/tab/attributes/attributes'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-require('pim/dialog');
-var Messenger = __pimInterop(require('oro/messenger'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var mediator = __pimInterop(require('oro/mediator'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'tabsection-content tab-content',
   attributeRequiredIconClass: 'AknAcl-icon AknAcl-icon--granted icon-ok required',
   attributeNotRequiredIconClass: 'AknAcl-icon icon-circle non-required',

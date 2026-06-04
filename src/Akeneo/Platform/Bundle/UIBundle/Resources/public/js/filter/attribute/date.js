@@ -1,20 +1,14 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/attribute/attribute';
+import template from 'pim/template/filter/attribute/date';
+import Datepicker from 'datepicker';
+import DateFormatter from 'pim/formatter/date';
+import DateContext from 'pim/date-context';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/attribute/attribute'));
-var template = __pimInterop(require('pim/template/filter/attribute/date'));
-var Datepicker = __pimInterop(require('datepicker'));
-var DateFormatter = __pimInterop(require('pim/formatter/date'));
-var DateContext = __pimInterop(require('pim/date-context'));
-require('jquery.select2');
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   shortname: 'date',
   template: _.template(template),
   events: {

@@ -1,21 +1,15 @@
-'use strict';
+import _ from 'underscore';
+import 'oro/translator';
+import 'routing';
+import BaseOperation from 'pim/mass-edit-form/product/operation';
+import 'pim/user-context';
+import FormBuilder from 'pim/form-builder';
+import propertyAccessor from 'pim/common/property';
+import FetcherRegistry from 'pim/fetcher-registry';
+import template from 'pim/template/mass-edit/family/set-requirements';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-require('routing');
-var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
-require('pim/user-context');
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var propertyAccessor = __pimInterop(require('pim/common/property'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var template = __pimInterop(require('pim/template/mass-edit/family/set-requirements'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseOperation.extend({
+export default BaseOperation.extend({
   template: _.template(template),
   formPromise: null,
 

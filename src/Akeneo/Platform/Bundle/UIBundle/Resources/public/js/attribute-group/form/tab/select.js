@@ -1,18 +1,12 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import AddAttributeSelect from 'pim/product/add-select/attribute';
+import FetcherRegistry from 'pim/fetcher-registry';
+import ChoicesFormatter from 'pim/formatter/choices/base';
+import LineView from 'pim/common/add-select/line';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var AddAttributeSelect = __pimInterop(require('pim/product/add-select/attribute'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var ChoicesFormatter = __pimInterop(require('pim/formatter/choices/base'));
-var LineView = __pimInterop(require('pim/common/add-select/line'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = AddAttributeSelect.extend({
+export default AddAttributeSelect.extend({
   lineView: LineView,
 
   /**

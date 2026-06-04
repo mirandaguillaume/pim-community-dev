@@ -1,13 +1,7 @@
-'use strict';
+import BaseTranslation from 'pim/common/properties/translation';
+import SecurityContext from 'pim/security-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseTranslation = __pimInterop(require('pim/common/properties/translation'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-
-module.exports = BaseTranslation.extend({
+export default BaseTranslation.extend({
   /**
    * {@inheritdoc}
    */

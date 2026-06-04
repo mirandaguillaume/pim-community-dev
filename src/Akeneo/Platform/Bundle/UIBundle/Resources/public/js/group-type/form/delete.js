@@ -1,12 +1,6 @@
-'use strict';
+import DeleteForm from 'pim/form/common/delete';
+import GroupTypeRemover from 'pim/remover/group-type';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var DeleteForm = __pimInterop(require('pim/form/common/delete'));
-var GroupTypeRemover = __pimInterop(require('pim/remover/group-type'));
-
-module.exports = DeleteForm.extend({
+export default DeleteForm.extend({
   remover: GroupTypeRemover,
 });

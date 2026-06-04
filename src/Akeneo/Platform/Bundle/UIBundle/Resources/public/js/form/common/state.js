@@ -1,18 +1,12 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import Dialog from 'pim/dialog';
+import BaseForm from 'pim/form';
+import template from 'pim/template/form/state';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/form/state'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'updated-status',
   template: _.template(template),
   state: null,

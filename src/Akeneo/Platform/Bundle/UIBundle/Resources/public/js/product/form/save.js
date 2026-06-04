@@ -1,21 +1,15 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseSave from 'pim/form/common/save';
+import * as messenger from 'oro/messenger';
+import ProductSaver from 'pim/saver/product';
+import FieldManager from 'pim/field-manager';
+import * as i18n from 'pim/i18n';
+import UserContext from 'pim/user-context';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseSave = __pimInterop(require('pim/form/common/save'));
-var messenger = __pimInterop(require('oro/messenger'));
-var ProductSaver = __pimInterop(require('pim/saver/product'));
-var FieldManager = __pimInterop(require('pim/field-manager'));
-var i18n = __pimInterop(require('pim/i18n'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseSave.extend({
+export default BaseSave.extend({
   updateSuccessMessage: __('pim_enrich.entity.product.flash.update.success'),
   updateFailureMessage: __('pim_enrich.entity.product.flash.update.fail'),
   updateIdentifierWarningMessage: __('pim_enrich.entity.product.flash.update.identifier_warning'),

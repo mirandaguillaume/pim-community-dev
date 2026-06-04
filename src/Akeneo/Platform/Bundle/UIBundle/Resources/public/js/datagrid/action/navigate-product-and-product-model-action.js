@@ -1,15 +1,9 @@
-'use strict';
+import 'underscore';
+import 'oro/translator';
+import NavigateAction from 'oro/datagrid/navigate-action';
+import Router from 'pim/router';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('underscore');
-require('oro/translator');
-var NavigateAction = __pimInterop(require('oro/datagrid/navigate-action'));
-var Router = __pimInterop(require('pim/router'));
-
-module.exports = NavigateAction.extend({
+export default NavigateAction.extend({
   tabRedirects: {},
   links: {},
 

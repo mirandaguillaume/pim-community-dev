@@ -1,24 +1,18 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import Routing from 'routing';
+import BaseForm from 'pim/form';
+import 'pim/form-builder';
+import 'pim/user-context';
+import LoadingMask from 'oro/loading-mask';
+import router from 'pim/router';
+import * as messenger from 'oro/messenger';
+import template from 'pim/template/form/creation/modal';
+import propertyAccessor from 'pim/common/property';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var Routing = __pimInterop(require('routing'));
-var BaseForm = __pimInterop(require('pim/form'));
-require('pim/form-builder');
-require('pim/user-context');
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var router = __pimInterop(require('pim/router'));
-var messenger = __pimInterop(require('oro/messenger'));
-var template = __pimInterop(require('pim/template/form/creation/modal'));
-var propertyAccessor = __pimInterop(require('pim/common/property'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   config: {},
   template: _.template(template),
   validationErrors: [],

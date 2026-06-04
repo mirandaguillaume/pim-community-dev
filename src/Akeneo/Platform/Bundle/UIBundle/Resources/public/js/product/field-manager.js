@@ -1,14 +1,8 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var ConfigProvider = __pimInterop(require('pim/form-config-provider'));
-var requireContext = __pimInterop(require('require-context'));
+import $ from 'jquery';
+import 'underscore';
+import FetcherRegistry from 'pim/fetcher-registry';
+import ConfigProvider from 'pim/form-config-provider';
+import requireContext from 'require-context';
 var fields = {};
 var visibleFields = {};
 var loadedModules = {};
@@ -44,7 +38,7 @@ var getFieldForAttribute = function (attribute) {
   return deferred.promise();
 };
 
-module.exports = {
+export default {
   /**
    * Get the field view for the given attribute code
    *

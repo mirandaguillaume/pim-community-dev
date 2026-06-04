@@ -1,15 +1,9 @@
-'use strict';
+import _ from 'underscore';
+import SimpleselectField from 'pim/simple-select-field';
+import Routing from 'routing';
+import FetcherRegistry from 'pim/fetcher-registry';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var SimpleselectField = __pimInterop(require('pim/simple-select-field'));
-var Routing = __pimInterop(require('routing'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-
-module.exports = SimpleselectField.extend({
+export default SimpleselectField.extend({
   fieldType: 'reference-simple-select',
   getTemplateContext: function () {
     return SimpleselectField.prototype.getTemplateContext.apply(this, arguments).then(function (templateContext) {

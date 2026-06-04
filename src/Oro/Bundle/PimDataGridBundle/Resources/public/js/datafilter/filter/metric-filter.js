@@ -1,19 +1,14 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import NumberFilter from 'oro/datafilter/number-filter';
+import app from 'oro/app';
+import template from 'pim/template/datagrid/filter/metric-filter';
+import * as i18n from 'pim/i18n';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var NumberFilter = __pimInterop(require('oro/datafilter/number-filter'));
-var app = __pimInterop(require('oro/app'));
-var template = __pimInterop(require('pim/template/datagrid/filter/metric-filter'));
-var i18n = __pimInterop(require('pim/i18n'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-('use strict');
-
-module.exports = NumberFilter.extend({
+export default NumberFilter.extend({
   events: {
     'keyup input': '_onReadCriteriaInputKey',
     'keydown [type="text"]': '_preventEnterProcessing',

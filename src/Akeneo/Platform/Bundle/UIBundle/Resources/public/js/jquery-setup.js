@@ -1,10 +1,4 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
+import $ from 'jquery';
 $.ajaxSetup({
   headers: {
     'X-CSRF-Header': 1,
@@ -25,4 +19,4 @@ $.isActive = $.proxy(
   {active: false}
 );
 
-module.exports = $;
+export default $;

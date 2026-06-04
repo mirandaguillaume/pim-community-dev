@@ -1,13 +1,7 @@
-'use strict';
+import BaseAttributesView from 'pim/family-edit-form/attributes/attributes';
+import mediator from 'oro/mediator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseAttributesView = __pimInterop(require('pim/family-edit-form/attributes/attributes'));
-var mediator = __pimInterop(require('oro/mediator'));
-
-module.exports = BaseAttributesView.extend({
+export default BaseAttributesView.extend({
   lock: false,
 
   /**

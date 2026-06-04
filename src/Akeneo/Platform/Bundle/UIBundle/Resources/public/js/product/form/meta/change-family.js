@@ -1,20 +1,14 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import BaseForm from 'pim/form';
+import innerModalTemplate from 'pim/template/product/meta/change-family-modal';
+import Select2Configurator from 'pim/common/select2/family';
+import initSelect2 from 'pim/initselect2';
+import 'bootstrap-modal';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var BaseForm = __pimInterop(require('pim/form'));
-var innerModalTemplate = __pimInterop(require('pim/template/product/meta/change-family-modal'));
-var Select2Configurator = __pimInterop(require('pim/common/select2/family'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-require('bootstrap-modal');
-require('jquery.select2');
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknColumn-blockDown change-family',
   innerModalTemplate: _.template(innerModalTemplate),
   events: {

@@ -1,26 +1,20 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import template from 'pim/template/export/product/edit/content/structure/attributes';
+import modalTemplate from 'pim/template/common/modal-centered';
+import BaseForm from 'pim/form';
+import LoadingMask from 'oro/loading-mask';
+import 'pim/fetcher-registry';
+import 'pim/user-context';
+import AttributeSelector from 'pim/job/product/edit/content/structure/attributes-selector';
+import analytics from 'pim/analytics';
+import React from 'react';
+import {Helper, Link} from 'akeneo-design-system';
+import {HelperList} from './HelperListProps';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var template = __pimInterop(require('pim/template/export/product/edit/content/structure/attributes'));
-var modalTemplate = __pimInterop(require('pim/template/common/modal-centered'));
-var BaseForm = __pimInterop(require('pim/form'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-require('pim/fetcher-registry');
-require('pim/user-context');
-var AttributeSelector = __pimInterop(require('pim/job/product/edit/content/structure/attributes-selector'));
-var analytics = __pimInterop(require('pim/analytics'));
-var React = __pimInterop(require('react'));
-var {Helper, Link} = __pimInterop(require('akeneo-design-system'));
-var {HelperList} = __pimInterop(require('./HelperListProps'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknFieldContainer attributes',
   template: _.template(template),
   modalTemplate: _.template(modalTemplate),

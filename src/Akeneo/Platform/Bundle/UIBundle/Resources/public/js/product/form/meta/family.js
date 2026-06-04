@@ -1,19 +1,13 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import 'oro/mediator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product/meta/family';
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import * as i18n from 'pim/i18n';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('oro/mediator');
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product/meta/family'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknColumn-block',
 
   template: _.template(template),

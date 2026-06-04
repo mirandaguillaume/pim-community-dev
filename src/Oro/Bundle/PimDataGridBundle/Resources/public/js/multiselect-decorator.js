@@ -1,14 +1,8 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var mediator = __pimInterop(require('oro/mediator'));
-require('jquery.multiselect');
-require('jquery.multiselect.filter');
+import $ from 'jquery';
+import _ from 'underscore';
+import mediator from 'oro/mediator';
+import 'jquery.multiselect';
+import 'jquery.multiselect.filter';
 
 /**
  * Multiselect decorator class.
@@ -165,4 +159,4 @@ MultiselectDecorator.prototype = {
   },
 };
 
-module.exports = MultiselectDecorator;
+export default MultiselectDecorator;

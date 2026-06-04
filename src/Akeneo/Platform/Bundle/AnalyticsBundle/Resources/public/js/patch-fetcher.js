@@ -1,14 +1,8 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import DataCollector from 'pim/data-collector';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var DataCollector = __pimInterop(require('pim/data-collector'));
-
-module.exports = {
+export default {
   /**
    * @return {Promise}
    */

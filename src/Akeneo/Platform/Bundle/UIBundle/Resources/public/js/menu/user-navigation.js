@@ -1,21 +1,15 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import router from 'pim/router';
+import UserContext from 'pim/user-context';
+import Notifications from 'pim/notifications';
+import CommunicationChannel from 'akeneo/communication-channel';
+import MediaUrlGenerator from 'pim/media-url-generator';
+import template from 'pim/template/menu/user-navigation';
+import FeatureFlags from 'pim/feature-flags';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var router = __pimInterop(require('pim/router'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var Notifications = __pimInterop(require('pim/notifications'));
-var CommunicationChannel = __pimInterop(require('akeneo/communication-channel'));
-var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
-var template = __pimInterop(require('pim/template/menu/user-navigation'));
-var FeatureFlags = __pimInterop(require('pim/feature-flags'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknTitleContainer-userMenu',
   template: _.template(template),
   events: {

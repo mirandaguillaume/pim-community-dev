@@ -1,18 +1,12 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product/scope-switcher';
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import * as i18n from 'pim/i18n';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product/scope-switcher'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   className: 'AknDropdown AknButtonList-item scope-switcher',
   events: {

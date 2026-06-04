@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import mediator from 'oro/mediator';
+import ModelAction from 'oro/datagrid/model-action';
+import router from 'pim/router';
 
-var _ = __pimInterop(require('underscore'));
-var mediator = __pimInterop(require('oro/mediator'));
-var ModelAction = __pimInterop(require('oro/datagrid/model-action'));
-var router = __pimInterop(require('pim/router'));
-('use strict');
-
-module.exports = ModelAction.extend({
+export default ModelAction.extend({
   /**
    * If `true` then created launcher will be complete clickable link,
    * If `false` redirection will be delegated to execute method.

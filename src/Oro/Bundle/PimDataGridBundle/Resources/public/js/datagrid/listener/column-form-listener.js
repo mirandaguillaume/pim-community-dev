@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var mediator = __pimInterop(require('oro/mediator'));
-var OroColumnFormListener = __pimInterop(require('oro/datagrid/column-form-listener'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-('use strict');
+import $ from 'jquery';
+import _ from 'underscore';
+import mediator from 'oro/mediator';
+import OroColumnFormListener from 'oro/datagrid/column-form-listener';
+import SecurityContext from 'pim/security-context';
 
 /**
  * Column form listener based on oro implementation that allows
@@ -113,7 +108,7 @@ var ColumnFormListener = OroColumnFormListener.extend({
   },
 });
 
-module.exports = {
+export default {
   init: function ($gridContainer, gridName) {
     var metadata = $gridContainer.data('metadata');
     var options = metadata.options || {};

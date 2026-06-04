@@ -1,14 +1,8 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-
-module.exports = Backbone.BootstrapModal.extend({
+export default Backbone.BootstrapModal.extend({
   /**
    * @param {Object} options
    */

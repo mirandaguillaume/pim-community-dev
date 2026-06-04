@@ -1,15 +1,9 @@
-'use strict';
+import _ from 'underscore';
+import 'jquery';
+import BaseForm from 'pim/form';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-require('jquery');
-var BaseForm = __pimInterop(require('pim/form'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   /**
    * {@inheritdoc}
    */

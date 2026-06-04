@@ -1,24 +1,18 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/filter';
+import 'routing';
+import template from 'pim/template/filter/product/updated';
+import 'pim/fetcher-registry';
+import 'pim/user-context';
+import 'pim/i18n';
+import 'jquery.select2';
+import Datepicker from 'datepicker';
+import DateContext from 'pim/date-context';
+import DateFormatter from 'pim/formatter/date';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/filter'));
-require('routing');
-var template = __pimInterop(require('pim/template/filter/product/updated'));
-require('pim/fetcher-registry');
-require('pim/user-context');
-require('pim/i18n');
-require('jquery.select2');
-var Datepicker = __pimInterop(require('datepicker'));
-var DateContext = __pimInterop(require('pim/date-context'));
-var DateFormatter = __pimInterop(require('pim/formatter/date'));
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   shortname: 'updated',
   template: _.template(template),
   events: {

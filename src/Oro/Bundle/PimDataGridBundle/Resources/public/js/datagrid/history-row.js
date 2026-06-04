@@ -1,16 +1,11 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import 'backgrid';
+import BaseRow from 'oro/datagrid/row';
+import versionTemplate from 'pim/template/datagrid/row/version';
+import changesTemplate from 'pim/template/datagrid/row/changes';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('backgrid');
-var BaseRow = __pimInterop(require('oro/datagrid/row'));
-var versionTemplate = __pimInterop(require('pim/template/datagrid/row/version'));
-var changesTemplate = __pimInterop(require('pim/template/datagrid/row/changes'));
-('use strict');
-
-module.exports = BaseRow.extend({
+export default BaseRow.extend({
   tagName: 'div',
   versionTemplate: _.template(versionTemplate),
   changesTemplate: _.template(changesTemplate),

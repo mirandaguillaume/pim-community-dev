@@ -1,16 +1,10 @@
-'use strict';
+import _ from 'underscore';
+import BaseSaver from 'pim/saver/base';
+import Routing from 'routing';
+import mediator from 'oro/mediator';
+import $ from 'jquery';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseSaver = __pimInterop(require('pim/saver/base'));
-var Routing = __pimInterop(require('routing'));
-var mediator = __pimInterop(require('oro/mediator'));
-var $ = __pimInterop(require('jquery'));
-
-module.exports = _.extend({}, BaseSaver, {
+export default _.extend({}, BaseSaver, {
   /**
    * {@inheritdoc}
    */

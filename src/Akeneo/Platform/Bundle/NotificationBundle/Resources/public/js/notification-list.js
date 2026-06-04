@@ -1,16 +1,10 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Backbone = __pimInterop(require('backbone'));
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Routing = __pimInterop(require('routing'));
-var router = __pimInterop(require('pim/router'));
-var template = __pimInterop(require('pim/template/notification/notification-list'));
+import Backbone from 'backbone';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Routing from 'routing';
+import router from 'pim/router';
+import template from 'pim/template/notification/notification-list';
 
 var Notification = Backbone.Model.extend({
   defaults: {
@@ -196,7 +190,7 @@ var NotificationListView = Backbone.View.extend({
   },
 });
 
-module.exports = function (opts) {
+export default function (opts) {
   var notificationList = new NotificationList();
   var options = _.extend({}, {el: null, collection: notificationList}, opts);
   var notificationListView = new NotificationListView(options);
@@ -211,4 +205,4 @@ module.exports = function (opts) {
   };
 
   return notificationList;
-};
+}

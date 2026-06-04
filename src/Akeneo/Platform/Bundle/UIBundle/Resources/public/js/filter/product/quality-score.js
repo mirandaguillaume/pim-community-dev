@@ -1,22 +1,16 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/filter';
+import 'pim/fetcher-registry';
+import 'pim/user-context';
+import mediator from 'oro/mediator';
+import filterTemplate from 'pim/template/filter/product/quality-score-filter';
+import template from 'pim/template/filter/product/quality-score';
+import templateOperator from 'pim/template/filter/product/quality-score-operator';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/filter'));
-require('pim/fetcher-registry');
-require('pim/user-context');
-var mediator = __pimInterop(require('oro/mediator'));
-var filterTemplate = __pimInterop(require('pim/template/filter/product/quality-score-filter'));
-var template = __pimInterop(require('pim/template/filter/product/quality-score'));
-var templateOperator = __pimInterop(require('pim/template/filter/product/quality-score-operator'));
-require('jquery.select2');
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   className: '',
   shortname: 'quality-score',
   filterTemplate: _.template(filterTemplate),

@@ -1,16 +1,11 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import buttonTemplate from 'pim/template/datagrid/action-launcher-button';
+import listItemTemplate from 'pim/template/datagrid/action-launcher-list-item';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var buttonTemplate = __pimInterop(require('pim/template/datagrid/action-launcher-button'));
-var listItemTemplate = __pimInterop(require('pim/template/datagrid/action-launcher-list-item'));
-('use strict');
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   /** @property */
   enabled: true,
 

@@ -1,17 +1,13 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import * as messenger from 'oro/messenger';
+import Error from 'oro/error';
+import Routing from 'routing';
+import React from 'react';
+import {Link} from 'akeneo-design-system';
 
-var $ = __pimInterop(require('jquery'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var messenger = __pimInterop(require('oro/messenger'));
-var Error = __pimInterop(require('oro/error'));
-var Routing = __pimInterop(require('routing'));
-var React = __pimInterop(require('react'));
-var {Link} = require('akeneo-design-system');
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   action: null,
 
   initialize: function (action) {

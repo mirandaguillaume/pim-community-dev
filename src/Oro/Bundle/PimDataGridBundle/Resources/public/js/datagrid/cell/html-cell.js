@@ -1,11 +1,6 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import StringCell from 'oro/datagrid/string-cell';
 
-var StringCell = __pimInterop(require('oro/datagrid/string-cell'));
-('use strict');
-
-module.exports = StringCell.extend({
+export default StringCell.extend({
   /**
    * Render a text string in a table cell. The text is converted from the
    * model's raw value for this cell's column.

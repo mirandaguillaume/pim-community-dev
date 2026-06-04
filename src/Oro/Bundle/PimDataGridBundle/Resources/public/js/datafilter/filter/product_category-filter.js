@@ -1,15 +1,10 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import NumberFilter from 'oro/datafilter/number-filter';
+import TreeView from 'pim/tree/view';
+import mediator from 'oro/mediator';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var NumberFilter = __pimInterop(require('oro/datafilter/number-filter'));
-var TreeView = __pimInterop(require('pim/tree/view'));
-var mediator = __pimInterop(require('oro/mediator'));
-('use strict');
-
-module.exports = NumberFilter.extend({
+export default NumberFilter.extend({
   /**
    * @inheritDoc
    */

@@ -1,17 +1,11 @@
-'use strict';
+import $ from 'jquery';
+import Field from 'pim/field';
+import _ from 'underscore';
+import fieldTemplate from 'pim/template/product/field/date';
+import Datepicker from 'datepicker';
+import DateContext from 'pim/date-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Field = __pimInterop(require('pim/field'));
-var _ = __pimInterop(require('underscore'));
-var fieldTemplate = __pimInterop(require('pim/template/product/field/date'));
-var Datepicker = __pimInterop(require('datepicker'));
-var DateContext = __pimInterop(require('pim/date-context'));
-
-module.exports = Field.extend({
+export default Field.extend({
   fieldTemplate: _.template(fieldTemplate),
   events: {
     'change .field-input:first input[type="text"]': 'updateModel',

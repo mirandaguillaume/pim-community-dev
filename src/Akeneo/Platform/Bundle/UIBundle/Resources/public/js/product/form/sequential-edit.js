@@ -1,22 +1,16 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-require('oro/mediator');
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product/sequential-edit'));
-require('routing');
-var router = __pimInterop(require('pim/router'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var sequentialEditProvider = __pimInterop(require('pim/provider/sequential-edit-provider'));
-require('bootstrap');
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import 'oro/mediator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product/sequential-edit';
+import 'routing';
+import router from 'pim/router';
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import sequentialEditProvider from 'pim/provider/sequential-edit-provider';
+import 'bootstrap';
 const findObjectIndex = (objects, id, type) => {
   return objects.findIndex(item => item.id + '' === id + '' && item.type === type);
 };
@@ -32,7 +26,7 @@ const getObjectViewParams = object => {
   };
 };
 
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   id: 'sequentialEdit',
   className: 'AknSequentialEdit AknDefault-bottomPanel',
   template: _.template(template),

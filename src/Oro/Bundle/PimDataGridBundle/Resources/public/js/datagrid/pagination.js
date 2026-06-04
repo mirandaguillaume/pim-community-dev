@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import 'backbone';
+import BaseForm from 'pim/form';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('backbone');
-var BaseForm = __pimInterop(require('pim/form'));
-('use strict');
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   /** @property */
   tagName: 'div',
 

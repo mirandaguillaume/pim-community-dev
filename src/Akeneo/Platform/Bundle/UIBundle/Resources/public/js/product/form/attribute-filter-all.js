@@ -1,14 +1,8 @@
-'use strict';
+import $ from 'jquery';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   /**
    * @returns {String}
    */

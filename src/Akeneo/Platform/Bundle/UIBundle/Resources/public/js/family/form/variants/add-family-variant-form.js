@@ -1,17 +1,11 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Routing from 'routing';
+import BaseForm from 'pim/form';
+import template from 'pim/template/family-variant/add-variant-form';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Routing = __pimInterop(require('routing'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/family-variant/add-variant-form'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
 
   render() {

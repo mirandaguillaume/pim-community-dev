@@ -1,17 +1,7 @@
-/**
- * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-'use strict';
+import BaseEditForm from 'pim/form/common/edit-form';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseEditForm = __pimInterop(require('pim/form/common/edit-form'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = BaseEditForm.extend({
+export default BaseEditForm.extend({
   /**
    * {@inheritdoc}
    */

@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import Backgrid from 'backgrid';
+import ActionCell from 'oro/datagrid/action-cell';
 
-var _ = __pimInterop(require('underscore'));
-var Backgrid = __pimInterop(require('backgrid'));
-var ActionCell = __pimInterop(require('oro/datagrid/action-cell'));
-('use strict');
-
-module.exports = Backgrid.Column.extend({
+export default Backgrid.Column.extend({
   /** @property {Object} */
   defaults: _.extend({}, Backgrid.Column.prototype.defaults, {
     name: 'rowActions',

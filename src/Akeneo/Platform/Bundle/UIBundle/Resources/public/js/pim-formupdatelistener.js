@@ -1,15 +1,9 @@
-'use strict';
+import $ from 'jquery';
+import Backbone from 'backbone';
+import Dialog from 'pim/dialog';
+import router from 'pim/router';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Backbone = __pimInterop(require('backbone'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var router = __pimInterop(require('pim/router'));
-
-module.exports = function ($form) {
+export default function ($form) {
   this.updated = false;
   var message = $form.attr('data-updated-message');
   if (!message) {
@@ -76,4 +70,4 @@ module.exports = function ($form) {
     $('a[href^="/"]:not(".no-hash")').off('click', linkClicked);
     $(window).off('beforeunload');
   });
-};
+}

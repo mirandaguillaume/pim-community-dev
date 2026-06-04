@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var mediator = __pimInterop(require('oro/mediator'));
-var AbstractListener = __pimInterop(require('oro/datagrid/abstract-listener'));
-('use strict');
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import mediator from 'oro/mediator';
+import AbstractListener from 'oro/datagrid/abstract-listener';
 
 /**
  * Listener for entity edit form and datagrid
@@ -250,4 +245,4 @@ ColumnFormListener.init = function ($gridContainer, gridName) {
   }
 };
 
-module.exports = ColumnFormListener;
+export default ColumnFormListener;

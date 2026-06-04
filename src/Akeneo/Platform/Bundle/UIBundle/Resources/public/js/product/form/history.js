@@ -1,23 +1,17 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'backbone';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product/history';
+import 'routing';
+import 'oro/mediator';
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import * as i18n from 'pim/i18n';
+import 'bootstrap-modal';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('backbone');
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product/history'));
-require('routing');
-require('oro/mediator');
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-require('bootstrap-modal');
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   className: 'panel-pane history-panel',
   loading: false,

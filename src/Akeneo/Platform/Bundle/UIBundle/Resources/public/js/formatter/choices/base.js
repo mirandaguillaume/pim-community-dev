@@ -1,14 +1,8 @@
-'use strict';
+import _ from 'underscore';
+import UserContext from 'pim/user-context';
+import * as i18n from 'pim/i18n';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-
-module.exports = {
+export default {
   /**
    * Format a collection of entities into a list of choices as follows.
    * From :

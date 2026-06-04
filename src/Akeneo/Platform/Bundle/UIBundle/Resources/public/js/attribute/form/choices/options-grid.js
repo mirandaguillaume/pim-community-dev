@@ -1,22 +1,11 @@
-/**
- * @author    Yohan Blain <yohan.blain@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import fetcherRegistry from 'pim/fetcher-registry';
+import AttributeOptionGrid from 'pim/attributeoptionview';
+import template from 'pim/template/attribute/tab/choices/options-grid';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var AttributeOptionGrid = __pimInterop(require('pim/attributeoptionview'));
-var template = __pimInterop(require('pim/template/attribute/tab/choices/options-grid'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   locales: [],
 

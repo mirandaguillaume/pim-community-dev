@@ -1,29 +1,23 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('backbone');
-require('oro/mediator');
-var Routing = __pimInterop(require('routing'));
-var BaseForm = __pimInterop(require('pim/form'));
-var FieldManager = __pimInterop(require('pim/field-manager'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var AttributeManager = __pimInterop(require('pim/attribute-manager'));
-var AttributeGroupManager = __pimInterop(require('pim/attribute-group-manager'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var formTemplate = __pimInterop(require('pim/template/form/tab/attributes'));
-var attributeGroupTemplate = __pimInterop(require('pim/template/form/tab/attribute/attribute-group'));
-var noDataTemplate = __pimInterop(require('pim/template/common/no-data'));
-var toFillFieldProvider = __pimInterop(require('pim/provider/to-fill-field-provider'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var messenger = __pimInterop(require('oro/messenger'));
-var i18n = __pimInterop(require('pim/i18n'));
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'backbone';
+import 'oro/mediator';
+import Routing from 'routing';
+import BaseForm from 'pim/form';
+import FieldManager from 'pim/field-manager';
+import FetcherRegistry from 'pim/fetcher-registry';
+import AttributeManager from 'pim/attribute-manager';
+import AttributeGroupManager from 'pim/attribute-group-manager';
+import UserContext from 'pim/user-context';
+import SecurityContext from 'pim/security-context';
+import formTemplate from 'pim/template/form/tab/attributes';
+import attributeGroupTemplate from 'pim/template/form/tab/attribute/attribute-group';
+import noDataTemplate from 'pim/template/common/no-data';
+import * as toFillFieldProvider from 'pim/provider/to-fill-field-provider';
+import Dialog from 'pim/dialog';
+import * as messenger from 'oro/messenger';
+import * as i18n from 'pim/i18n';
 /**
  * Group field views by sections (attribute groups)
  *
@@ -83,7 +77,7 @@ const createSectionView = (fieldCollection, template, label) => {
   return view;
 };
 
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(formTemplate),
   attributeGroupTemplate: _.template(attributeGroupTemplate),
   noDataTemplate: _.template(noDataTemplate),

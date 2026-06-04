@@ -1,13 +1,7 @@
-'use strict';
+import $ from 'jquery';
+import LoadingMask from 'oro/loading-mask';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-
-module.exports = function (tab) {
+export default function (tab) {
   var $tab = $(tab);
   var target = $tab.attr('href');
   if (!target || target === '#' || target.indexOf('javascript') === 0) {
@@ -30,4 +24,4 @@ module.exports = function (tab) {
       $target.closest('form').trigger('tab.loaded', $target);
     });
   }
-};
+}

@@ -1,23 +1,17 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import BaseForm from 'pim/form';
+import template from 'pim/template/grid/view-selector';
+import initSelect2 from 'pim/initselect2';
+import DatagridState from 'pim/datagrid/state';
+import FetcherRegistry from 'pim/fetcher-registry';
+import FormBuilder from 'pim/form-builder';
+import mediator from 'oro/mediator';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/grid/view-selector'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-var DatagridState = __pimInterop(require('pim/datagrid/state'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var mediator = __pimInterop(require('oro/mediator'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   resultsPerPage: 20,
   queryTimer: null,

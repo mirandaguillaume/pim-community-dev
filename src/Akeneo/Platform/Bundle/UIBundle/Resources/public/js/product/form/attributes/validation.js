@@ -1,20 +1,14 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import 'backbone';
+import BaseForm from 'pim/form';
+import 'oro/mediator';
+import * as messenger from 'oro/messenger';
+import 'pim/field-manager';
+import ValidationError from 'pim/product-edit-form/attributes/validation-error';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-require('backbone');
-var BaseForm = __pimInterop(require('pim/form'));
-require('oro/mediator');
-var messenger = __pimInterop(require('oro/messenger'));
-require('pim/field-manager');
-var ValidationError = __pimInterop(require('pim/product-edit-form/attributes/validation-error'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   validationErrors: {},
 
   /**

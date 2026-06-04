@@ -1,14 +1,8 @@
-'use strict';
+import $ from 'jquery';
+import 'underscore';
+import AddAttributeSelect from 'pim/product/add-select/attribute';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var AddAttributeSelect = __pimInterop(require('pim/product/add-select/attribute'));
-
-module.exports = AddAttributeSelect.extend({
+export default AddAttributeSelect.extend({
   /**
    * {@inheritdoc}
    */

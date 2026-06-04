@@ -1,21 +1,15 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import FieldManager from 'pim/field-manager';
+import SecurityContext from 'pim/security-context';
+import BaseAttributes from 'pim/form/common/attributes';
+import FetcherRegistry from 'pim/fetcher-registry';
+import AttributeManager from 'pim/attribute-manager';
+import UserContext from 'pim/user-context';
+import mediator from 'oro/mediator';
+import template from 'pim/template/product/form/mass-edit/attributes';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var FieldManager = __pimInterop(require('pim/field-manager'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var BaseAttributes = __pimInterop(require('pim/form/common/attributes'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var AttributeManager = __pimInterop(require('pim/attribute-manager'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var mediator = __pimInterop(require('oro/mediator'));
-var template = __pimInterop(require('pim/template/product/form/mass-edit/attributes'));
-
-module.exports = BaseAttributes.extend({
+export default BaseAttributes.extend({
   template: _.template(template),
   locked: false,
 

@@ -1,5 +1,4 @@
-'use strict';
-module.exports = {
+export default {
   /**
    * Set the collection with the given parameter
    *

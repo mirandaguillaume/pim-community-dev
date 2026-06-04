@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import StringCell from 'oro/datagrid/string-cell';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import CredentialsTemplate from 'pim/template/datagrid/cell/credentials-cell';
 
-var StringCell = __pimInterop(require('oro/datagrid/string-cell'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var CredentialsTemplate = __pimInterop(require('pim/template/datagrid/cell/credentials-cell'));
-('use strict');
-
-module.exports = StringCell.extend({
+export default StringCell.extend({
   className: 'AknGrid-bodyCell AknGrid-bodyCell--credentials',
 
   template: _.template(CredentialsTemplate),

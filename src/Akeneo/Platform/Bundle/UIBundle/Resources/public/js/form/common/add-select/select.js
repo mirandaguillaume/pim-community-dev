@@ -1,23 +1,17 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import template from 'pim/template/form/add-select/select';
+import BaseForm from 'pim/form';
+import LineView from 'pim/common/add-select/line';
+import FooterView from 'pim/common/add-select/footer';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import ChoicesFormatter from 'pim/formatter/choices/base';
+import mediator from 'oro/mediator';
+import initSelect2 from 'pim/initselect2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var template = __pimInterop(require('pim/template/form/add-select/select'));
-var BaseForm = __pimInterop(require('pim/form'));
-var LineView = __pimInterop(require('pim/common/add-select/line'));
-var FooterView = __pimInterop(require('pim/common/add-select/footer'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var ChoicesFormatter = __pimInterop(require('pim/formatter/choices/base'));
-var mediator = __pimInterop(require('oro/mediator'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   tagName: 'div',
   targetElement: 'input[type="hidden"]',
   className: null,

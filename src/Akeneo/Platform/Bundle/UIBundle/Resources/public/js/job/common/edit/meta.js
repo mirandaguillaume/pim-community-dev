@@ -1,15 +1,9 @@
-'use strict';
+import BaseForm from 'pim/form';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import template from 'pim/template/export/common/edit/meta';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseForm = __pimInterop(require('pim/form'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var template = __pimInterop(require('pim/template/export/common/edit/meta'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
 
   /**
