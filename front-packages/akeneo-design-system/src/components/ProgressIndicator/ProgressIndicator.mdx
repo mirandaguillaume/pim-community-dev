@@ -1,0 +1,33 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {ProgressIndicator} from './ProgressIndicator';
+import {Button} from '../Button/Button';
+import {useProgress} from '../../hooks';
+import * as ProgressIndicatorStories from './ProgressIndicator.stories';
+
+<Meta of={ProgressIndicatorStories} />
+
+# Progress indicator
+
+## Usage
+
+Progress indicator display progress through a sequence of logical and numbered steps.
+
+## Playground
+
+<Canvas>
+  <Story of={ProgressIndicatorStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## States
+
+<Canvas>
+  <Story of={ProgressIndicatorStories.States} />
+</Canvas>
+
+## Disabled
+
+<Canvas>
+  <Story of={ProgressIndicatorStories.Disabled} />
+</Canvas>

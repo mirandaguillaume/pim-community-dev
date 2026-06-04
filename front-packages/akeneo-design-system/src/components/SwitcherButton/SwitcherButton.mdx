@@ -1,0 +1,44 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {SwitcherButton} from './SwitcherButton';
+import {Locale} from '../Locale/Locale';
+import styled from 'styled-components';
+import {SpaceContainer} from '../../storybook/PreviewGallery';
+import * as SwitcherButtonStories from './SwitcherButton.stories';
+
+<Meta of={SwitcherButtonStories} />
+
+# SwitcherButton
+
+Switchers are used to switch the filter on the context or the content of a page or a table.
+
+## Usage
+
+Most of the time, when you click on a switcher, a dropdown appears.
+
+## Playground
+
+<Canvas>
+  <Story of={SwitcherButtonStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on inline
+
+<Canvas>
+  <Story of={SwitcherButtonStories.Inline} />
+</Canvas>
+
+## Variation on deletable
+
+<Canvas>
+  <Story of={SwitcherButtonStories.Deletable} />
+</Canvas>
+
+## Example with flag
+
+To display correctly the flag on windows clients, you can use an external font like TwemojiCountryFlags or use one of your own.
+
+<Canvas>
+  <Story of={SwitcherButtonStories.Flag} />
+</Canvas>

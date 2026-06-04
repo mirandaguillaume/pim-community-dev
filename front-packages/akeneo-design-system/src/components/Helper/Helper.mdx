@@ -1,0 +1,81 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {Helper} from './Helper';
+import {Link} from '../Link/Link';
+import * as Icons from '../../icons';
+import {Scrollable, Content} from '../../storybook/PreviewGallery';
+import * as HelperStories from './Helper.stories';
+
+<Meta of={HelperStories} />
+
+# Helper
+
+## Usage
+
+Allows to help the user by pushing contextual information.
+
+## General guidance
+
+It informs the user about :
+
+* The features of the section.
+* The information expected in the field.
+* An alert on the information filled in by the user.
+* An error related to the information filled in by the user.
+
+## Playground
+
+Use this playground to test the helper component
+
+<Canvas>
+  <Story of={HelperStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Composition
+
+When more information can be found in another page, Helper is combined with Link component.
+
+<Canvas>
+  <Story of={HelperStories.Composition} />
+</Canvas>
+
+## Variation on level
+
+<Canvas>
+  <Story of={HelperStories.Level} />
+</Canvas>
+
+## Inline
+
+<Canvas>
+  <Story of={HelperStories.Inline} />
+</Canvas>
+
+## Sticky
+
+<Canvas>
+  <Story of={HelperStories.Sticky} />
+</Canvas>
+
+## With custom Icon
+
+<Canvas>
+  <Story of={HelperStories.CustomIcon} />
+</Canvas>
+
+## Related components
+
+<ul>
+  <li>
+    <LinkTo kind="Components/Information" story="Standard">
+      Information
+    </LinkTo>
+  </li>
+
+  <li>
+    <LinkTo kind="Components/Link" story="Standard">
+      Link
+    </LinkTo>
+  </li>
+</ul>

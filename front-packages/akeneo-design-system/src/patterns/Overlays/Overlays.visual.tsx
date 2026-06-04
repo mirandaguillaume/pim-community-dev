@@ -6,7 +6,7 @@ const storyIds = ['confirm-modal', 'fullscreen-overlay', 'split-screen-overlay']
 
 test.each(storyIds)('Test Overlay %s is displayed correctly', async storyId => {
   await page.goto(`http://localhost:6006/iframe.html?id=patterns-overlays--${storyId}`);
-  const root = await page.waitFor('#root');
+  const root = await page.waitFor('#storybook-root');
   if (null === root) throw new Error('Cannot find root element');
 
   const openButton = await page.$('button[role="button"]');

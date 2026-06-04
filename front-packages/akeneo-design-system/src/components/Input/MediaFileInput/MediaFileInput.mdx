@@ -1,0 +1,48 @@
+import {useState} from 'react';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {MediaFileInput} from './MediaFileInput';
+import {useFakeMediaStorage, FullscreenPreview} from '../../../storybook';
+import {IconButton, Button} from '../../../components';
+import {DownloadIcon, FullscreenIcon} from '../../../icons';
+import {useBooleanState} from '../../../hooks';
+import * as MediaFileInputStories from './MediaFileInput.stories';
+
+<Meta of={MediaFileInputStories} />
+
+# Media File input
+
+## Usage
+
+Media File input allows the user to enter content when the expected user input is a file.
+
+## Playground
+
+<Canvas>
+  <Story of={MediaFileInputStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on size
+
+<Canvas>
+  <Story of={MediaFileInputStories.Size} />
+</Canvas>
+
+## Variation on clearable
+
+<Canvas>
+  <Story of={MediaFileInputStories.Clearable} />
+</Canvas>
+
+## Variation on readonly
+
+<Canvas>
+  <Story of={MediaFileInputStories.ReadOnly} />
+</Canvas>
+
+## Variation on invalid
+
+<Canvas>
+  <Story of={MediaFileInputStories.Invalid} />
+</Canvas>

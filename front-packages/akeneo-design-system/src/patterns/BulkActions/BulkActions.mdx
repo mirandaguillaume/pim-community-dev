@@ -1,0 +1,29 @@
+import {Meta, Story, Canvas} from '@storybook/blocks';
+import {Badge, Button, Checkbox, Dropdown, IconButton, Image, Table, Toolbar, Card, CardGrid} from '../../components';
+import {rows} from '../../components/Table/shared-stories-data';
+import {SpaceContainer} from '../../storybook/PreviewGallery';
+import {useBooleanState, useSelection} from '../../hooks';
+import {ArrowDownIcon} from '../../icons';
+import * as BulkActionsStories from './BulkActions.stories';
+
+<Meta of={BulkActionsStories} />
+
+# Bulk actions
+
+## Big Table
+
+<Canvas>
+  <Story of={BulkActionsStories.BigTable} />
+</Canvas>
+
+## Small Table
+
+<Canvas>
+  <Story of={BulkActionsStories.SmallTable} />
+</Canvas>
+
+## With Cards
+
+<Canvas>
+  <Story of={BulkActionsStories.WithCards} />
+</Canvas>

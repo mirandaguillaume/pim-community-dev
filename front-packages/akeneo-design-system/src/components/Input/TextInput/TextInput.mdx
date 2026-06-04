@@ -1,0 +1,42 @@
+import {useState} from 'react';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {TextInput} from './TextInput';
+import * as TextInputStories from './TextInput.stories';
+
+<Meta of={TextInputStories} />
+
+# Text input
+
+## Usage
+
+Text input allows the user to enter content and data when the expected user input is a single line of text.
+
+### Placeholder text
+
+The placeholder text provides tips or examples of items to enter. Placeholder text disappears when the user begins entering data.
+
+## Playground
+
+<Canvas>
+  <Story of={TextInputStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on readOnly
+
+<Canvas>
+  <Story of={TextInputStories.ReadOnly} />
+</Canvas>
+
+## Variation on invalid
+
+<Canvas>
+  <Story of={TextInputStories.Invalid} />
+</Canvas>
+
+## Variation on character left label
+
+<Canvas>
+  <Story of={TextInputStories.CharacterLeftLabel} />
+</Canvas>

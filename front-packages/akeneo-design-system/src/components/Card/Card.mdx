@@ -1,0 +1,70 @@
+import {useState} from 'react';
+import styled from 'styled-components';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {action} from '@storybook/addon-actions';
+import {Card, CardGrid} from './Card';
+import {Badge, Link} from '../../components';
+import * as CardStories from './Card.stories';
+
+<Meta of={CardStories} />
+
+# Card
+
+## Usage
+
+Cards are used to have a good visual representation of the items to display. Cards can be used in a grid or in a collection.
+*Example: Assets manager or Connections.*
+
+Cards should be displayed in a grid, therefore, a `CardGrid` component is also available with a convenient `size` prop. Possible values for the `size` prop are: `normal` or `big`.
+
+## Playground
+
+<Canvas>
+  <Story of={CardStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Selectable
+
+<Canvas>
+  <Story of={CardStories.Selectable} />
+</Canvas>
+
+## With Badges
+
+<Canvas>
+  <Story of={CardStories.WithBadges} />
+</Canvas>
+
+## With Links
+
+<Canvas>
+  <Story of={CardStories.WithLinks} />
+</Canvas>
+
+## CardGrid
+
+Here the `fit` prop is also set to `contain`.
+
+<Canvas>
+  <Story of={CardStories.CardGrid} />
+</Canvas>
+
+## Big CardGrid
+
+<Canvas>
+  <Story of={CardStories.Size} />
+</Canvas>
+
+## Small Stack Cards
+
+<Canvas>
+  <Story of={CardStories.SmallStackedCard} />
+</Canvas>
+
+## Big Stack Cards
+
+<Canvas>
+  <Story of={CardStories.BigStackedCard} />
+</Canvas>

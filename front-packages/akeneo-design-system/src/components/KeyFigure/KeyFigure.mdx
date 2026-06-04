@@ -1,0 +1,31 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {KeyFigure, KeyFigureGrid} from './KeyFigure';
+import * as Icons from '../../icons';
+import {Tooltip} from '../Tooltip/Tooltip';
+import * as KeyFigureStories from './KeyFigure.stories';
+
+<Meta of={KeyFigureStories} />
+
+# Key Figure
+
+Key figures are used in dashboards to illustrate metrics.
+
+## Playground
+
+<Canvas>
+  <Story of={KeyFigureStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## With only a simple figure
+
+<Canvas>
+  <Story of={KeyFigureStories.ValueOnly} />
+</Canvas>
+
+## KeyFigure grid
+
+<Canvas>
+  <Story of={KeyFigureStories.KeyFigureGrid} />
+</Canvas>

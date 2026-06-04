@@ -1,0 +1,57 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {SubNavigationPanel} from './SubNavigationPanel';
+import {SpaceContainer} from '../../../storybook/PreviewGallery';
+import {useBooleanState} from '../../../hooks';
+import {MoreVerticalIcon} from '../../../icons';
+import {Dropdown} from '../../Dropdown/Dropdown';
+import {Link} from '../../Link/Link';
+import {useState} from 'react';
+import {Collapse} from '../../Collapse/Collapse';
+import * as SubNavigationPanelStories from './SubNavigationPanel.stories';
+
+<Meta of={SubNavigationPanelStories} />
+
+# SubNavigationPanel
+
+## Usage
+
+SubNavigationPanel is used to display a collapsable panel on the left side of the screen.
+
+This panel can contain navigation links or other type of content.
+
+### Interaction
+
+The panel is open by default and can be collapsed with the dedicated button.
+When the panel is collapsed the content is hidden.
+
+## Playground
+
+<Canvas>
+  <Story of={SubNavigationPanelStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Panel with scrollable content
+
+<Canvas>
+  <Story of={SubNavigationPanelStories.ScrollableContent} />
+</Canvas>
+
+## Panel with collapsed content using Dropdown component
+
+<Canvas>
+  <Story of={SubNavigationPanelStories.CollapsedExpandedContent} />
+</Canvas>
+
+## Panel without padding
+
+<Canvas>
+  <Story of={SubNavigationPanelStories.ContentWithoutPadding} />
+</Canvas>
+
+## Panel using Collapse components
+
+<Canvas>
+  <Story of={SubNavigationPanelStories.ContentWithCollapseComponent} />
+</Canvas>

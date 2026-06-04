@@ -1,0 +1,30 @@
+import {Canvas, Meta, Story, Controls} from '@storybook/blocks';
+import {PreviewGrid, PreviewCard, PreviewContainer, LabelContainer} from '../storybook/PreviewGallery';
+import {pimTheme} from '../theme/pim/index';
+import {colors} from './Colors.stories';
+import * as Icons from '../icons';
+import * as IconographyStories from './Iconography.stories';
+
+<Meta of={IconographyStories} />
+
+# Iconography
+
+Icons are visual symbols used to represent ideas, objects or actions. They communicate messages at a glance, allow interactivity and draw attention to important information.
+
+## Designing icons
+
+### Sizes
+
+Akeneo components typically use 18px icons on artboards. Icons on 16px, 24px, 32px and 48px artboards can also be used. Be sure icon size is consistent throughout your product.
+
+### Colors
+
+The icons are always stroke and monochromatic and must respect the color contrast. The color of the icon should reflect the importance of its action, which must always guide the user.
+
+## Icons
+
+<Controls />
+
+<Canvas>
+  <Story of={IconographyStories.Standard} />
+</Canvas>

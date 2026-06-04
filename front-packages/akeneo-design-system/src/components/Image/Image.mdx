@@ -1,0 +1,39 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {Image} from './Image';
+import * as ImageStories from './Image.stories';
+
+<Meta of={ImageStories} />
+
+# Image
+
+## Usage
+
+Image allow to embed an image in a page
+
+## Playground
+
+<Canvas>
+  <Story of={ImageStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on fit
+
+<Canvas>
+  <Story of={ImageStories.Fit} />
+</Canvas>
+
+## Variation on stacked
+
+<Canvas>
+  <Story of={ImageStories.Stack} />
+</Canvas>
+
+## Variation on loading
+
+When the `src` prop is set to `null`, the Image will display itself as loading.
+
+<Canvas>
+  <Story of={ImageStories.Loading} />
+</Canvas>

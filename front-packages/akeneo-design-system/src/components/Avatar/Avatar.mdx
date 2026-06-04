@@ -1,0 +1,49 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {Avatar} from './Avatar';
+import {Avatars} from './Avatars';
+import * as AvatarStories from './Avatar.stories';
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+## Usage
+
+This component is used to display users avatars. If no avatar is available, first letters of the first and last name are
+displayed with a dedicated color.
+
+## Playground
+
+<Canvas>
+  <Story of={AvatarStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on background colors
+
+The background color is based from the username.
+
+<Canvas>
+  <Story of={AvatarStories.BackgroundColors} />
+</Canvas>
+
+## Variation with image
+
+<Canvas>
+  <Story of={AvatarStories.WithImage} />
+</Canvas>
+
+## Variation on List
+
+You can use a dedicated component to display avatar list. After a defined maximum, other avatars are not displayed.
+
+<Canvas>
+  <Story of={AvatarStories.AvatarList} />
+</Canvas>
+
+## Variation on Size
+
+<Canvas>
+  <Story of={AvatarStories.AvatarSize} />
+</Canvas>

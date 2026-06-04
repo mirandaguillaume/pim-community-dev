@@ -1,0 +1,48 @@
+import {useState} from 'react';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {action} from '@storybook/addon-actions';
+import {IconButton} from '../IconButton/IconButton';
+import {SpaceContainer} from '../../storybook';
+import {RefreshIcon} from '../../icons';
+import {Preview} from './Preview';
+import * as PreviewStories from './Preview.stories';
+
+<Meta of={PreviewStories} />
+
+# Preview
+
+## Usage
+
+Preview component is used to put emphasis on some content.
+
+## Playground
+
+<Canvas>
+  <Story of={PreviewStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## With highlighted content
+
+Preview component exposes a `<Preview.Highlight>` subcomponent which can be used to highlight some content.
+
+<Canvas>
+  <Story of={PreviewStories.Highlight} />
+</Canvas>
+
+## With rows
+
+Preview component exposes a `<Preview.Row>` subcomponent which can be used to list content.
+
+The `<Preview.Row>` subcomponent has an `action` prop that accepts an `IconButton` component to add row behaviour.
+
+<Canvas>
+  <Story of={PreviewStories.Row} />
+</Canvas>
+
+## Collapsable
+
+<Canvas>
+  <Story of={PreviewStories.Collapsable} />
+</Canvas>

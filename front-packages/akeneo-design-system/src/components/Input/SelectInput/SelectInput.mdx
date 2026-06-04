@@ -1,0 +1,68 @@
+import {useState} from 'react';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {SelectInput} from './SelectInput';
+import {SpaceContainer} from '../../../storybook/PreviewGallery';
+import {Locale} from '../../../components';
+import * as SelectInputStories from './SelectInput.stories';
+
+<Meta of={SelectInputStories} />
+
+# Select input
+
+## Usage
+
+Select input allows the user to select content and data when the expected user input is composed of one option value.
+
+### Placeholder text
+
+The placeholder text provides tips or examples of items to enter. Placeholder text disappears when the user begins entering data.
+
+## Playground
+
+<Canvas>
+  <Story of={SelectInputStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on readOnly
+
+<Canvas>
+  <Story of={SelectInputStories.ReadOnly} />
+</Canvas>
+
+## Variation on invalid
+
+<Canvas>
+  <Story of={SelectInputStories.Invalid} />
+</Canvas>
+
+## Variation on vertical position
+
+<Canvas>
+  <Story of={SelectInputStories.VerticalPosition} />
+</Canvas>
+
+## Variation on large select input
+
+<Canvas>
+  <Story of={SelectInputStories.Large} />
+</Canvas>
+
+## Variation on large options
+
+<Canvas>
+  <Story of={SelectInputStories.LargeOptions} />
+</Canvas>
+
+## Variation on clearable
+
+<Canvas>
+  <Story of={SelectInputStories.Clearable} />
+</Canvas>
+
+## Pagination
+
+<Canvas>
+  <Story of={SelectInputStories.Pagination} />
+</Canvas>

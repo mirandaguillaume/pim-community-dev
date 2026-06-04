@@ -1,0 +1,53 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {SubNavigationItem} from './SubNavigationItem';
+import {Tag} from '../../Tags/Tags';
+import {SpaceContainer} from '../../../storybook/PreviewGallery';
+import * as SubNavigationItemStories from './SubNavigationItem.stories';
+
+<Meta of={SubNavigationItemStories} />
+
+# SubNavigationItem
+
+## Usage
+
+The Sub Navigation Item is used by the Navigation pattern. This components helps the users in their daily usage as an easy
+way to discover and navigate the interface. Also, it's a companion for them to understand where they are in their
+journey.
+
+## Playground
+
+<Canvas>
+  <Story of={SubNavigationItemStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Label
+
+<Canvas>
+  <Story of={SubNavigationItemStories.Label} />
+</Canvas>
+
+## Variation on active
+
+<Canvas>
+  <Story of={SubNavigationItemStories.Active} />
+</Canvas>
+
+## Variation on disabled
+
+<Canvas>
+  <Story of={SubNavigationItemStories.Disabled} />
+</Canvas>
+
+## With tag
+
+<Canvas>
+  <Story of={SubNavigationItemStories.Tag} />
+</Canvas>
+
+## Variation on onClick
+
+<Canvas>
+  <Story of={SubNavigationItemStories.Link} />
+</Canvas>

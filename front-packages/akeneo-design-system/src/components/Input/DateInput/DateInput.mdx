@@ -1,0 +1,38 @@
+import {useState} from 'react';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {DateInput} from './DateInput';
+import * as DateInputStories from './DateInput.stories';
+
+<Meta of={DateInputStories} />
+
+# DateInput (Beta)
+
+## Usage
+
+Date input allows the user to enter content and data when the expected user input is a date.
+
+## Playground
+
+<Canvas>
+  <Story of={DateInputStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on readOnly
+
+<Canvas>
+  <Story of={DateInputStories.ReadOnly} />
+</Canvas>
+
+## Variation on invalid
+
+<Canvas>
+  <Story of={DateInputStories.Invalid} />
+</Canvas>
+
+## Variation on HTML props (max, min)
+
+<Canvas>
+  <Story of={DateInputStories.HtmlPropsMaxMin} />
+</Canvas>

@@ -1,0 +1,68 @@
+import {useState} from 'react';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {action} from '@storybook/addon-actions';
+import {TagInput} from './TagInput';
+import {Section} from '../../../storybook/PreviewGallery';
+import * as TagInputStories from './TagInput.stories';
+
+<Meta of={TagInputStories} />
+
+# Tag input
+
+## Usage
+
+Fill an input with a list of "tags".
+
+Tags are created when a separator is used (typed or pasted).
+
+Tags can be separated thanks to the following characters:
+
+* space
+* tab
+* line break
+* comma
+* semi-colon
+
+## Playground
+
+<Canvas>
+  <Story of={TagInputStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## With a list of existing tags
+
+<Canvas>
+  <Story of={TagInputStories.ExistingValue} />
+</Canvas>
+
+## With a list of existing tag with labels
+
+<Canvas>
+  <Story of={TagInputStories.ExistingValueAndLabels} />
+</Canvas>
+
+## With a high number of tags
+
+<Canvas>
+  <Story of={TagInputStories.WithAHighNumberOfTags} />
+</Canvas>
+
+## Variation on invalid
+
+<Canvas>
+  <Story of={TagInputStories.VariationOnInvalid} />
+</Canvas>
+
+## Variation on invalid values
+
+<Canvas>
+  <Story of={TagInputStories.VariationOnInvalidValues} />
+</Canvas>
+
+## Variation on readonly
+
+<Canvas>
+  <Story of={TagInputStories.VariationOnReadonly} />
+</Canvas>

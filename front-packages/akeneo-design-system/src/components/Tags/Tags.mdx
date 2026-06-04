@@ -1,0 +1,23 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {Tags, Tag} from './Tags';
+import * as TagsStories from './Tags.stories';
+
+<Meta of={TagsStories} />
+
+# Tags
+
+## Usage
+
+Tags can be used to display a list of keywords.
+
+A `Tags` element can only accept a list of `Tag` children.
+
+Each Tag must have one `tint` attribute that you can pick in that list: `'green' | 'blue' | 'dark_blue' | 'purple' | 'dark_purple' | 'yellow' | 'red' | 'dark_cyan' | 'forest_green' | 'olive_green' | 'hot_pink' | 'coral_red' | 'orange' | 'chocolate'`
+
+## Playground
+
+<Canvas>
+  <Story of={TagsStories.Standard} />
+</Canvas>
+
+<Controls />

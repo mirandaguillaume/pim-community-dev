@@ -2217,7 +2217,7 @@ jobs:
         run: |
           SRC_FILES=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
             | grep -E '^(front-packages|components|src)/' \
-            | grep -v '\.test\.\|\.spec\.\|\.unit\.\|__tests__\|__mocks__\|stories' \
+            | grep -v '\.test\.\|\.spec\.\|\.unit\.\|\.visual\.\|__tests__\|__mocks__\|stories\|\.storybook/' \
             | grep -v '^src/Akeneo/Category/' || true)
 
           if [ -z "$SRC_FILES" ]; then

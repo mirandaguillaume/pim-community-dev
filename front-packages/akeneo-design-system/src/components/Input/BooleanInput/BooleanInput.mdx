@@ -1,0 +1,46 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {BooleanInput} from './BooleanInput';
+import {Link} from '../../Link/Link';
+import {useArgs} from '@storybook/preview-api';
+import * as BooleanInputStories from './BooleanInput.stories';
+
+<Meta of={BooleanInputStories} />
+
+# Boolean input
+
+## Usage
+
+The BooleanInput is used to quickly switch between two possible states. It is commonly used for "yes/no" switches.
+The input can in some cases have a 3rd state, EMPTY. In this case, a clear button allows the user to empty the value of the field.
+
+## Playground
+
+<Canvas>
+  <Story of={BooleanInputStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on value
+
+<Canvas>
+  <Story of={BooleanInputStories.Value} />
+</Canvas>
+
+## Variation on readOnly
+
+<Canvas>
+  <Story of={BooleanInputStories.Readonly} />
+</Canvas>
+
+## Variation on invalid
+
+<Canvas>
+  <Story of={BooleanInputStories.Invalid} />
+</Canvas>
+
+## Variation on size
+
+<Canvas>
+  <Story of={BooleanInputStories.Small} />
+</Canvas>

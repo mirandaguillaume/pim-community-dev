@@ -1,0 +1,31 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {Link} from './Link';
+import * as LinkStories from './Link.stories';
+
+<Meta of={LinkStories} />
+
+# Link
+
+## Usage
+
+Allows to redirect user to another page.
+
+## Playground
+
+Use this playground to test the link component
+
+<Canvas>
+  <Story of={LinkStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Having a link looking like a button
+
+To make your Link look like a `Button`, you can follow <LinkTo kind="Components/Buttons/Button" story="Link">this documentation</LinkTo>
+
+## Variation on status
+
+<Canvas>
+  <Story of={LinkStories.Status} />
+</Canvas>

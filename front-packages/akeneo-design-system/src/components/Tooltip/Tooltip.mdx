@@ -1,0 +1,36 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {Tooltip} from './Tooltip';
+import * as TooltipStories from './Tooltip.stories';
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+## Usage
+
+It's a complementary information that will help the user better understand what he sees / reads (e.g. definition, explication concerning the UI / wording)
+
+👍 **Good reasons to use the tooltip :**
+
+* There are too many helpers in the page, it would blur the readability
+* There isn't enough space in the page to integrate a helper, so we need an overlay
+
+👎 **Bad reasons to use the tooltip :**
+
+* It's an important guiding information to navigate, enrich or complete a task (use a helper instead)
+* I find it more beautiful (it shouldn't matter first)
+* It's an error explanation (this needs to be in a helper)
+
+## Playground
+
+<Canvas>
+  <Story of={TooltipStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## With a title
+
+<Canvas>
+  <Story of={TooltipStories.WithTitle} />
+</Canvas>

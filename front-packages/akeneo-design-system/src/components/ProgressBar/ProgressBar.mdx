@@ -1,0 +1,61 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {ProgressBar} from './ProgressBar';
+import * as ProgressBarStories from './ProgressBar.stories';
+
+<Meta of={ProgressBarStories} />
+
+# Progress bar
+
+## Usage
+
+One of the most important rules in UI / UX design is visibility of system state. The goal behind this rule is pretty obvious: To minimize user stress, you need to provide them with feedback on what is going on with the app within a reasonable amount of time. Don't let users guess, tell them what's going on. And one of the most common forms of this type of feedback is a progress indicator.
+
+### Types of Progress bars
+
+**Determinate:** when indicators are determinate they indicate how long an operation will take when the percentage complete is detectable.
+
+**Indeterminate**: when indicators are indeterminate they request that the user waits while something finishes when it’s not necessary to indicate how long it will take.
+
+## Playground
+
+<Canvas>
+  <Story of={ProgressBarStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on progress
+
+<Canvas>
+  <Story of={ProgressBarStories.Progress} />
+</Canvas>
+
+## Variation on level
+
+<Canvas>
+  <Story of={ProgressBarStories.Level} />
+</Canvas>
+
+## Variation on light
+
+<Canvas>
+  <Story of={ProgressBarStories.Light} />
+</Canvas>
+
+## Variation on size
+
+<Canvas>
+  <Story of={ProgressBarStories.Size} />
+</Canvas>
+
+## Variation on width
+
+<Canvas>
+  <Story of={ProgressBarStories.Width} />
+</Canvas>
+
+## Variation on header
+
+<Canvas>
+  <Story of={ProgressBarStories.Header} />
+</Canvas>

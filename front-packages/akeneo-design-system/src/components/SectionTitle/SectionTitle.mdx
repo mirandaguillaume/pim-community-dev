@@ -1,0 +1,44 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {SectionTitle} from './SectionTitle';
+import {Button, IconButton} from '../../components';
+import {MoreIcon} from '../../icons';
+import {Scrollable, Content} from '../../storybook/PreviewGallery';
+import * as SectionTitleStories from './SectionTitle.stories';
+
+<Meta of={SectionTitleStories} />
+
+# SectionTitle
+
+# Usage
+
+The section title allows users to correctly identify the content of the section. In other words, the title identifies the question asked to the user. The content then responds to them.
+
+A page of the application may have to present a set of different functions, so we will use sections to group each item by group. The Section title component will identify the function of the group.
+
+Use this component only for title, not for description or help message.
+
+## Standard
+
+<Canvas>
+  <Story of={SectionTitleStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## With actions
+
+<Canvas>
+  <Story of={SectionTitleStories.Actions} />
+</Canvas>
+
+## Sticky
+
+<Canvas>
+  <Story of={SectionTitleStories.Sticky} />
+</Canvas>
+
+## Variation on `SectionTitle.Title` level
+
+<Canvas>
+  <Story of={SectionTitleStories.TitleLevel} />
+</Canvas>

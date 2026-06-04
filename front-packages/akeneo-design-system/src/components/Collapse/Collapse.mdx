@@ -1,0 +1,53 @@
+import {useState} from 'react';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {useArgs} from '@storybook/preview-api';
+import {Collapse} from './Collapse';
+import {Helper, Link, TextInput, Field, Pill, Badge, Button} from '../../components';
+import {Section, SpaceContainer, Content} from '../../storybook/PreviewGallery';
+import * as CollapseStories from './Collapse.stories';
+
+<Meta of={CollapseStories} />
+
+# Collapse
+
+## Usage
+
+The collapse is used to organise groups of elements and hide them when the user consider that is unecessary information.
+
+To inform the user when there are changes or choices inside the collapse, there can be a Badge with the number of changes or a Pill component.
+
+## Interaction
+
+By default, the collapse is closed, the user has to click on the "plus icon" to open the collapse.
+
+Two possible behaviours, automaticaly close collapse when you open another one or keep all states (open or close).
+
+## Playground
+
+<Canvas>
+  <Story of={CollapseStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## With Pill
+
+<Canvas>
+  <Story of={CollapseStories.WithPill} />
+</Canvas>
+
+## With Badge
+
+Here you can add/remove content in the Collapse component to see that it adapts its height accordingly.
+
+<Canvas>
+  <Story of={CollapseStories.WithBadge} />
+</Canvas>
+
+## With content
+
+The Collapse can also be set to be opened by default, like here.
+
+<Canvas>
+  <Story of={CollapseStories.WithContent} />
+</Canvas>

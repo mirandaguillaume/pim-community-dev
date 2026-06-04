@@ -5,7 +5,7 @@ expect.extend({toMatchImageSnapshot});
 const storyIds = ['standard', 'with-illustration'];
 test.each(storyIds)('Test modal %s is displayed correctly', async storyId => {
   await page.goto(`http://localhost:6006/iframe.html?id=components-modal--${storyId}`);
-  const root = await page.waitFor('#root');
+  const root = await page.waitFor('#storybook-root');
   if (null === root) throw new Error('Cannot find root element');
 
   const openButton = await page.$('button[role="button"]');
