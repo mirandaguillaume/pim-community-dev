@@ -1,0 +1,48 @@
+import {useState} from 'react';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {Search} from './Search';
+import {Button, Dropdown, SwitcherButton} from '../../components';
+import {ArrowDownIcon} from '../../icons';
+import {SpaceContainer} from '../../storybook';
+import {useBooleanState} from '../../hooks';
+import * as SearchStories from './Search.stories';
+
+<Meta of={SearchStories} />
+
+# Search
+
+## Usage
+
+Search allows users to specify a word or phrase to find relevant content without using navigation. Search can be used as the primary means of discovering content or as a filter to help the user find content.
+
+## Playground
+
+<Canvas>
+  <Story of={SearchStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Example with only the search input
+
+<Canvas>
+  <Story of={SearchStories.BasicSearchInput} />
+</Canvas>
+
+## Example with results and a filter
+
+<Canvas>
+  <Story of={SearchStories.WithResultsAndAFilter} />
+</Canvas>
+
+## Example with only a filter
+
+<Canvas>
+  <Story of={SearchStories.WithOnlyAFilter} />
+</Canvas>
+
+## Example inside a dropdown
+
+<Canvas>
+  <Story of={SearchStories.InsideADropdown} />
+</Canvas>

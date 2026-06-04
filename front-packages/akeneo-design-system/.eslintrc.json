@@ -40,6 +40,16 @@
       }
     },
     {
+      "files": ["**/*.stories.tsx"],
+      "rules": {
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "react-hooks/rules-of-hooks": "off",
+        "max-len": "off"
+      }
+    },
+    {
       "files": ["**/*.unit.ts", "**/*.unit.tsx"],
       "rules": {
         "@typescript-eslint/await-thenable": "off"

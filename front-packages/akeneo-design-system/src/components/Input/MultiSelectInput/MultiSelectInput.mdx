@@ -1,0 +1,68 @@
+import {useState} from 'react';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {MultiSelectInput} from './MultiSelectInput';
+import {SpaceContainer} from '../../../storybook/PreviewGallery';
+import {Locale} from '../../../components';
+import * as MultiSelectInputStories from './MultiSelectInput.stories';
+
+<Meta of={MultiSelectInputStories} />
+
+# Multi select input
+
+## Usage
+
+Multi select input allows the user to select content and data when the expected user input is composed of multiple option values.
+
+### Placeholder text
+
+The placeholder text provides tips or examples of items to enter. Placeholder text disappears when the user begins entering data.
+
+## Playground
+
+<Canvas>
+  <Story of={MultiSelectInputStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on readOnly
+
+<Canvas>
+  <Story of={MultiSelectInputStories.ReadOnly} />
+</Canvas>
+
+## Variation on locked values
+
+<Canvas>
+  <Story of={MultiSelectInputStories.LockedValues} />
+</Canvas>
+
+## Variation on invalid
+
+<Canvas>
+  <Story of={MultiSelectInputStories.Invalid} />
+</Canvas>
+
+## Variation on invalid value
+
+<Canvas>
+  <Story of={MultiSelectInputStories.InvalidValue} />
+</Canvas>
+
+## Variation on vertical position
+
+<Canvas>
+  <Story of={MultiSelectInputStories.VerticalPosition} />
+</Canvas>
+
+## Variation on large select input
+
+<Canvas>
+  <Story of={MultiSelectInputStories.Large} />
+</Canvas>
+
+## Pagination
+
+<Canvas>
+  <Story of={MultiSelectInputStories.Pagination} />
+</Canvas>

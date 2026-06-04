@@ -1,0 +1,53 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import LinkTo from '@storybook/addon-links/react';
+import {IconButton} from './IconButton';
+import * as Icons from '../../icons';
+import * as IconButtonStories from './IconButton.stories';
+
+<Meta of={IconButtonStories} />
+
+# Icon button
+
+## Usage
+
+The IconButton component is useful when your only need is to have a clickable Icon.
+
+## Playground
+
+<Canvas>
+  <Story of={IconButtonStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on level
+
+<Canvas>
+  <Story of={IconButtonStories.Level} />
+</Canvas>
+
+## Variation on ghost & border
+
+<Canvas>
+  <Story of={IconButtonStories.Ghost} />
+</Canvas>
+
+## Variation on disabled
+
+<Canvas>
+  <Story of={IconButtonStories.Disabled} />
+</Canvas>
+
+## Variation on size
+
+<Canvas>
+  <Story of={IconButtonStories.Size} />
+</Canvas>
+
+## Usage with `href` prop
+
+If you want your button to act like a <LinkTo kind="Components/Link" story="Standard">Link</LinkTo> (with "open in a new tab" feature of cmd/ctrl + click), use the `href` prop to specify your link.
+
+<Canvas>
+  <Story of={IconButtonStories.Link} />
+</Canvas>

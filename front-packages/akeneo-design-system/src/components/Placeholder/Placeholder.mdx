@@ -1,0 +1,33 @@
+import {useState, createElement} from 'react';
+import styled from 'styled-components';
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {action} from '@storybook/addon-actions';
+import {Placeholder} from './Placeholder';
+import {UsersIllustration} from '../../illustrations';
+import * as Illustrations from '../../illustrations';
+import * as PlaceholderStories from './Placeholder.stories';
+
+<Meta of={PlaceholderStories} />
+
+# Placeholder
+
+## Usage
+
+Placeholder is used when there is no data to display.
+*Example: when the search doesn't return any result.*
+
+Placeholder requires a title and an illustration and can contain anything in its children.
+
+## Playground
+
+<Canvas>
+  <Story of={PlaceholderStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on `size`
+
+<Canvas>
+  <Story of={PlaceholderStories.Size} />
+</Canvas>

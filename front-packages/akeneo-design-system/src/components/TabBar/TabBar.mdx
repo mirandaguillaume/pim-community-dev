@@ -1,0 +1,57 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {TabBar} from './TabBar';
+import {Badge} from '../Badge/Badge';
+import {Pill} from '../Pill/Pill';
+import {useTabBar} from '../../hooks';
+import {Scrollable, Content} from '../../storybook/PreviewGallery';
+import * as TabBarStories from './TabBar.stories';
+
+<Meta of={TabBarStories} />
+
+# TabBar
+
+## Usage
+
+Tabs are used to move from one content to another within the same context.
+
+## Format
+
+**Text**
+
+Each label describes its content and defines the expectations of the user. Labels are concise and use one or two words maximum. Icons are not allowed in tab labels.
+
+**Order**
+
+The order of the tabs must be consistent across the entire application. Related tabs should be gathered.
+
+## Playground
+
+<Canvas>
+  <Story of={TabBarStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## With Badges
+
+<Canvas>
+  <Story of={TabBarStories.WithBadges} />
+</Canvas>
+
+## With Pills
+
+<Canvas>
+  <Story of={TabBarStories.WithPills} />
+</Canvas>
+
+## With a lot of tabs
+
+<Canvas>
+  <Story of={TabBarStories.LotOfTabs} />
+</Canvas>
+
+## Sticky
+
+<Canvas>
+  <Story of={TabBarStories.Sticky} />
+</Canvas>

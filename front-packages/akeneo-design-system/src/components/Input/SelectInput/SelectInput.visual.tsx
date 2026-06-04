@@ -5,7 +5,7 @@ expect.extend({toMatchImageSnapshot});
 const storyIds = ['standard', 'read-only', 'invalid', 'vertical-position', 'large', 'large-options'];
 test.each(storyIds)('Test select input %s is displayed correctly', async storyId => {
   await page.goto(`http://localhost:6006/iframe.html?id=components-inputs-select-input--${storyId}`);
-  const root = await page.waitFor('#root');
+  const root = await page.waitFor('#storybook-root');
   if (null === root) throw new Error('Cannot find root element');
 
   const firstInput = await page.$('input');
@@ -14,7 +14,7 @@ test.each(storyIds)('Test select input %s is displayed correctly', async storyId
 
   await new Promise(resolve => setTimeout(resolve, 500));
 
-  const select = await page.$('#root > :first-child');
+  const select = await page.$('#storybook-root > :first-child');
   if (null === select) throw new Error('Cannot find input root');
   const image = await select.screenshot();
 

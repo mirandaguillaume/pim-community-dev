@@ -1,0 +1,55 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {List} from './List';
+import {
+  IconButton,
+  NumberInput,
+  SelectInput,
+  MultiSelectInput,
+  TextInput,
+  Locale,
+  Button,
+  Helper,
+} from '../../components';
+import {CloseIcon} from '../../icons';
+import {Content, ListContextContainer} from '../../storybook/PreviewGallery';
+import * as ListStories from './List.stories';
+
+<Meta of={ListStories} />
+
+# List
+
+## Usage
+
+List allow users to analyze and manipulate data, it differs from Table component by the fact that there is no header.
+
+## Playground
+
+<Canvas>
+  <Story of={ListStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Actions
+
+<Canvas>
+  <Story of={ListStories.Actions} />
+</Canvas>
+
+## Error
+
+<Canvas>
+  <Story of={ListStories.Error} />
+</Canvas>
+
+## Selected Row
+
+<Canvas>
+  <Story of={ListStories.Selected} />
+</Canvas>
+
+## Complex list
+
+<Canvas>
+  <Story of={ListStories.Complex} />
+</Canvas>

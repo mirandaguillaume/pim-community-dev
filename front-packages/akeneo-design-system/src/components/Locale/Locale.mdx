@@ -1,0 +1,26 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {Locale} from './Locale';
+import * as LocaleStories from './Locale.stories';
+
+<Meta of={LocaleStories} />
+
+# Locale
+
+## Usage
+
+Component to display a locale (country and language) in Akeneo products.
+To display correctly the flag on windows clients, you can use an external font like TwemojiCountryFlags or use one of your own.
+
+## Playground
+
+<Canvas>
+  <Story of={LocaleStories.Standard} />
+</Canvas>
+
+<Controls />
+
+# Variation on label
+
+<Canvas>
+  <Story of={LocaleStories.Label} />
+</Canvas>

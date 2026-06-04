@@ -1,0 +1,42 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {Tiles, Tile} from './Tiles';
+import {
+  AssetCollectionIcon,
+  DateIcon,
+  FileIcon,
+  AttributeNumberIcon,
+  AttributeTextIcon,
+  IdIcon,
+  MetricIcon,
+  AssetsIcon,
+} from '../../icons';
+import {useTabBar} from "../../hooks/useTabBar";
+import { Tooltip } from '../Tooltip/Tooltip';
+import * as TilesStories from './Tiles.stories';
+
+<Meta of={TilesStories} />
+
+# Tiles
+
+## Usage
+
+The Tiles component provides the user a list of choices, for example, an attribute type, a template, or an export format.
+It is a visual component made up of an icon and a label.
+
+### Format
+
+The component is displayed in a configurable responsive grid (width and gap). Tiles is a set of Tile.
+
+## Playground
+
+<Canvas>
+  <Story of={TilesStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Variation on size
+
+<Canvas>
+  <Story of={TilesStories.Size} />
+</Canvas>

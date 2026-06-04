@@ -1,0 +1,60 @@
+import {Meta, Story, Controls, Canvas} from '@storybook/blocks';
+import {MainNavigationItem} from './MainNavigationItem';
+import * as Icons from '../../../icons';
+import {CardIcon, AkeneoIcon} from '../../../icons';
+import {Tag} from '../../Tags/Tags';
+import * as MainNavigationItemStories from './MainNavigationItem.stories';
+
+<Meta of={MainNavigationItemStories} />
+
+# MainNavigationItem
+
+## Usage
+
+The Main Navigation Item is used by the Navigation pattern. This components helps the users in their daily usage as an
+easy way to discover and navigate the interface. Also, it's a companion for them to understand where they are in their
+journey.
+
+## Playground
+
+<Canvas>
+  <Story of={MainNavigationItemStories.Standard} />
+</Canvas>
+
+<Controls />
+
+## Label
+
+<Canvas>
+  <Story of={MainNavigationItemStories.Label} />
+</Canvas>
+
+## Variation on active
+
+<Canvas>
+  <Story of={MainNavigationItemStories.Active} />
+</Canvas>
+
+## Variation on disabled
+
+<Canvas>
+  <Story of={MainNavigationItemStories.Disabled} />
+</Canvas>
+
+## Variation on icon
+
+<Canvas>
+  <Story of={MainNavigationItemStories.Icon} />
+</Canvas>
+
+## With tag
+
+<Canvas>
+  <Story of={MainNavigationItemStories.Tag} />
+</Canvas>
+
+## Variation on onClick
+
+<Canvas>
+  <Story of={MainNavigationItemStories.Link} />
+</Canvas>

@@ -1,0 +1,46 @@
+import {useState} from 'react';
+import {Meta, Story, Canvas} from '@storybook/blocks';
+import {Content} from '../../storybook/PreviewGallery';
+import {Button, Modal} from '../../components';
+import {AddingValueIllustration, DeleteIllustration} from '../../illustrations';
+import * as OverlaysStories from './Overlays.stories';
+
+<Meta of={OverlaysStories} />
+
+# Overlays
+
+Overlays communicate information through a secondary window and allow the user to keep the context of a particular job. Use overlays when an action requires the user’s full attention to prevent him from being distracted by the rest of the content.
+
+## Usage
+
+Overlays interrupt the user workflow by design. They are the most effective when a task must be completed before a user is allowed to continue. Although useful when used correctly, the overlay should be used with moderation to minimize the disruption of the user experience.
+
+### Confirm Modal
+
+<Canvas>
+  <Story of={OverlaysStories.ConfirmModal} />
+</Canvas>
+
+### Dismissal
+
+**The overlay may be dismissed in 3 ways:**
+
+* Using the "X" button on the top left corner of the overlay
+* Pressing the ESC key
+* Validating or canceling the main action
+
+## Design properties
+
+Overlays are composed of distinct areas: a header, the body, and sometimes an illustration. There are two separate layouts, which we can use as needed. For example, for the data table, we use the full-width overlay, and for product deletion, we use the split overlay with an illustration on the left.
+
+### Fullscreen Overlay
+
+<Canvas>
+  <Story of={OverlaysStories.FullscreenOverlay} />
+</Canvas>
+
+### Split screen Overlay
+
+<Canvas>
+  <Story of={OverlaysStories.SplitScreenOverlay} />
+</Canvas>
