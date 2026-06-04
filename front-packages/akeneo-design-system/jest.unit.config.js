@@ -12,11 +12,12 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '/generator/', 'src/illustrations/', 'src/icons/', '/static/'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
   transformIgnorePatterns: ['/node_modules/'],
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.ts?(x)', '!**/*.visual.ts?(x)'],
+  // *.stories.tsx are excluded like *.visual.tsx: stories were .mdx before the
+  // storybook 8 migration and therefore never part of the coverage scope.
+  collectCoverageFrom: ['src/**/*.ts?(x)', '!**/*.visual.ts?(x)', '!**/*.stories.ts?(x)'],
   cacheDirectory: '/tmp/jest',
   coveragePathIgnorePatterns: [
     'src/illustrations',
