@@ -427,6 +427,11 @@ var PageableCollection = BackbonePageableCollection.extend({
         var models = col.models;
         var currentPage = state.currentPage;
 
+        // resetQuickly is a closure helper living inside the vendor
+        // backbone-pageable.js this module was derived from — the reference
+        // pre-dates the AMD migration and only executes in 'client' mode,
+        // which the PIM never uses (all grids are server-mode).
+        // eslint-disable-next-line no-undef
         if (mode == 'client') resetQuickly(fullCollection, models, opts);
         else if (links[currentPage]) {
           // refetching a page
