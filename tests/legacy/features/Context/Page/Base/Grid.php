@@ -1135,9 +1135,18 @@ class Grid extends Index
                 return false;
             }
 
-            $dropdown->click();
+            $container = $dropdown->getParent();
 
-            $listItem = $dropdown->getParent()->find('css', sprintf('.AknDropdown-menuLink:contains("%s")', $item));
+            // Only click the toggle when the menu is closed: re-clicking it on a
+            // retry while the menu is already deployed is intercepted by the open
+            // .AknDropdown-menu (WebDriver "element click intercepted") and would
+            // toggle the menu shut again — the spin then times out. Same flaky
+            // class as the comparison-panel dropdown fix in ComparisonPanelDecorator.
+            if (!$container->hasClass('open')) {
+                $dropdown->click();
+            }
+
+            $listItem = $container->find('css', sprintf('.AknDropdown-menuLink:contains("%s")', $item));
             if (null === $listItem) {
                 return false;
             }
