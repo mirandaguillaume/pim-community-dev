@@ -1,8 +1,8 @@
 import React from 'react';
 import {Dashboard, DashboardHelper} from '@akeneo-pim-community/data-quality-insights/src/index';
 
-const UserContext = require('pim/user-context');
-const BaseDashboard = require('akeneo/data-quality-insights/view/dqi-dashboard/base-dashboard');
+import UserContext from 'pim/user-context';
+import BaseDashboard from 'akeneo/data-quality-insights/view/dqi-dashboard/base-dashboard';
 
 class SectionView extends BaseDashboard {
   render() {

@@ -5,7 +5,7 @@ import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {SystemIndex} from '@akeneo-pim-community/system';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class SystemIndexController extends ReactController {
   reactElementToMount() {

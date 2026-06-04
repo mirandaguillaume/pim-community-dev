@@ -1,1 +1,3 @@
-module.exports = require('@akeneo-pim-community/shared').translate;
+import {translate} from '@akeneo-pim-community/shared';
+
+export default translate;

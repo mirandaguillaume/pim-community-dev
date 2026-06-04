@@ -1,12 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Backgrid = __pimInterop(require('backgrid'));
-var CellFormatter = __pimInterop(require('oro/datagrid/cell-formatter'));
+import Backgrid from 'backgrid';
+import CellFormatter from 'oro/datagrid/cell-formatter';
 ('use strict');
 
-module.exports = Backgrid.StringCell.extend({
+export default Backgrid.StringCell.extend({
   /**
        @property {(Backgrid.CellFormatter|Object|string)}
        */

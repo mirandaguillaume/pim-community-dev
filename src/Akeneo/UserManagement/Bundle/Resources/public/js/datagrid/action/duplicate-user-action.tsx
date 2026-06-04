@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DuplicateUserApp} from '@akeneo-pim-community/user-ui';
 
-const Routing = require('pim/router');
-const AbstractAction = require('oro/datagrid/abstract-action');
+import Routing from 'pim/router';
+import AbstractAction from 'oro/datagrid/abstract-action';
 
 class DuplicateUserAction extends AbstractAction {
   /**

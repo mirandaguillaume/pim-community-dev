@@ -1,4 +1,4 @@
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 const highlightSystemNavigationConnectionsMenuItem = () => {
   mediator.trigger('pim_menu:highlight:tab', {extension: 'pim-menu-connect'});

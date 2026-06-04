@@ -1,5 +1,5 @@
-const BaseSelect = require('pim/form/common/fields/select');
-const {formatTimezoneOffsetFromUTC} = require('pim/user/tools/timezone-formatter');
+import BaseSelect from 'pim/form/common/fields/select';
+import {formatTimezoneOffsetFromUTC} from 'pim/user/tools/timezone-formatter';
 
 class TimezoneField extends BaseSelect {
   /**

@@ -5,9 +5,9 @@ import {
   PRODUCT_TAB_CHANGED,
 } from '@akeneo-pim-community/data-quality-insights/src';
 
-const BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 
-const __ = require('oro/translator');
+import __ from 'oro/translator';
 
 class DataQualityInsightsTabContent extends BaseView {
   public configure() {

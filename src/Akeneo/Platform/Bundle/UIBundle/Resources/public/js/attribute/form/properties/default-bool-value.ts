@@ -1,4 +1,4 @@
-const BaseSelect = require('pim/form/common/fields/select');
+import BaseSelect from 'pim/form/common/fields/select';
 
 type ModelValue = 'false' | 'true' | '';
 type FieldValue = boolean | null;

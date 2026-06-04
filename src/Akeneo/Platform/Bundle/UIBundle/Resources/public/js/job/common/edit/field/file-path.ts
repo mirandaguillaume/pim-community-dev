@@ -1,5 +1,5 @@
-const BaseField = require('pimui/js/job/common/edit/field/text');
-const editionProvider = require('pim/edition');
+import BaseField from 'pimui/js/job/common/edit/field/text';
+import editionProvider from 'pim/edition';
 
 class FilePath extends BaseField {
   render() {

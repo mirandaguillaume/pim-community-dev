@@ -1,7 +1,7 @@
 import * as $ from 'jquery';
-import BaseView = require('pimui/js/view/base');
-import DefaultProductGridView = require('pimuser/js/fields/default-product-grid-view');
-const Routing = require('routing');
+import BaseView from 'pimui/js/view/base';
+import DefaultProductGridView from 'pimuser/js/fields/default-product-grid-view';
+import Routing from 'routing';
 
 /**
  * @author    Pierre Allard <pierre.allard@akeneo.com>

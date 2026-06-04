@@ -5,7 +5,7 @@ import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {SettingsIndex} from '@akeneo-pim-community/settings-ui';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class DashboardController extends ReactController {
   reactElementToMount() {

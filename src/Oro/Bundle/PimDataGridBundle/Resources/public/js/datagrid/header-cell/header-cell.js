@@ -1,15 +1,11 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var Backgrid = __pimInterop(require('backgrid'));
-var PageableCollection = __pimInterop(require('oro/pageable-collection'));
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import Backgrid from 'backgrid';
+import PageableCollection from 'oro/pageable-collection';
 ('use strict');
 
-module.exports = Backgrid.HeaderCell.extend({
+export default Backgrid.HeaderCell.extend({
   /** @property */
   template: _.template(
     '<% if (sortable) { %>' +

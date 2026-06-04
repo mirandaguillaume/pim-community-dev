@@ -1,13 +1,7 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var FormRegistry = __pimInterop(require('pim/form-registry'));
-var requireContext = __pimInterop(require('require-context'));
+import $ from 'jquery';
+import 'underscore';
+import FormRegistry from 'pim/form-registry';
+import requireContext from 'require-context';
 const getFormMeta = function (formName) {
   return FormRegistry.getFormMeta(formName).then(formMeta => {
     if (undefined === formMeta) {
@@ -64,7 +58,7 @@ https://docs.akeneo.com/latest/design_pim/overview.html#register-it`);
   });
 };
 
-module.exports = {
+export default {
   getFormMeta: getFormMeta,
   buildForm: buildForm,
   build: function (formName) {

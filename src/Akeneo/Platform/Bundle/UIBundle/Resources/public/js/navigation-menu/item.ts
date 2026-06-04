@@ -1,7 +1,7 @@
 'use strict';
 
-const __ = require('oro/translator');
-const BaseForm = require('pim/form');
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
 
 type ItemConfig = {
   position: number;

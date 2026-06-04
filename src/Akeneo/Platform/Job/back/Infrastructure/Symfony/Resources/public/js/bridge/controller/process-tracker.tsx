@@ -5,7 +5,7 @@ import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ProcessTrackerApp} from '@akeneo-pim-community/process-tracker';
 import {ThemeProvider} from 'styled-components';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class ProcessTrackerController extends ReactController {
   private static container = document.createElement('div');

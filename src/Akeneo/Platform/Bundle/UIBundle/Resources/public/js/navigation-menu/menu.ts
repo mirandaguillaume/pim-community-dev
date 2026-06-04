@@ -6,11 +6,11 @@ import View from '../view/base-interface';
 import React from 'react';
 import * as DSM from 'akeneo-design-system';
 
-const BaseForm = require('pim/form');
-const _ = require('underscore');
-const template = require('pim/template/menu/menu');
-const mediator = require('oro/mediator');
-const featureFlags = require('pim/feature-flags');
+import BaseForm from 'pim/form';
+import _ from 'underscore';
+import template from 'pim/template/menu/menu';
+import mediator from 'oro/mediator';
+import featureFlags from 'pim/feature-flags';
 
 type SubEntry = {
   code: string;

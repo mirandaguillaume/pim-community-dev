@@ -1,14 +1,8 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Routing = __pimInterop(require('routing'));
+import $ from 'jquery';
+import Routing from 'routing';
 var contextData = {};
 
-module.exports = {
+export default {
   /**
    * Fetches data from the back then stores it.
    *

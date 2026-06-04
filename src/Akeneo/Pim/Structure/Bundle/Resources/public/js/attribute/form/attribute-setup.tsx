@@ -1,4 +1,4 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import React from 'react';
 import {pimTheme} from 'akeneo-design-system';
 import {ThemeProvider} from 'styled-components';
@@ -6,7 +6,7 @@ import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {AttributeSetupApp} from './AttributeSetupApp';
 import {Attribute} from '../models/Attribute';
 
-const FetcherRegistry = require('pim/fetcher-registry');
+import FetcherRegistry from 'pim/fetcher-registry';
 
 class AttributeSetup extends BaseView {
   mainIdentifierAttribute!: Attribute;

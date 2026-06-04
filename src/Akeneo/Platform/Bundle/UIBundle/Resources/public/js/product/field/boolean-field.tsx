@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import {BooleanInput, pimTheme} from 'akeneo-design-system';
 import {ThemeProvider} from 'styled-components';
 
-const Field = require('pim/field');
-const translate = require('oro/translator');
+import Field from 'pim/field';
+import translate from 'oro/translator';
 
 /**
  * Boolean field

@@ -1,8 +1,8 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import React from 'react';
 import {AttributeGuidelinesApp} from '@akeneo-pim-community/settings-ui';
 
-const propertyAccessor = require('pim/common/property');
+import propertyAccessor from 'pim/common/property';
 
 class Guidelines extends BaseView {
   initialize(): void {

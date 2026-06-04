@@ -5,9 +5,9 @@ import {Badge, Card, pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ViewOptions} from 'backbone';
 
-const BaseRow = require('oro/datagrid/row');
-const MediaUrlGenerator = require('pim/media-url-generator');
-const Router = require('pim/router');
+import BaseRow from 'oro/datagrid/row';
+import MediaUrlGenerator from 'pim/media-url-generator';
+import Router from 'pim/router';
 
 class ProductGalleryRow extends BaseRow {
   selected: boolean;

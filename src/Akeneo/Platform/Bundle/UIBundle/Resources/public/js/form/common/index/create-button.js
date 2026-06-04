@@ -1,19 +1,13 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/form/index/create-button';
+import Routing from 'routing';
+import DialogForm from 'pim/dialogform';
+import FormBuilder from 'pim/form-builder';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/form/index/create-button'));
-var Routing = __pimInterop(require('routing'));
-var DialogForm = __pimInterop(require('pim/dialogform'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   dialog: null,
 

@@ -1,7 +1,7 @@
 import * as $ from 'jquery';
 
-const BaseController = require('pim/controller/base');
-const Router = require('pim/router');
+import BaseController from 'pim/controller/base';
+import Router from 'pim/router';
 
 class EntityCategoriesWithFamilyVariant extends BaseController {
   renderRoute(route: any): any {

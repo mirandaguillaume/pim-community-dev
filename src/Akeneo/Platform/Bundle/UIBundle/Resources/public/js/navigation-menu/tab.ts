@@ -2,10 +2,10 @@
 
 import {ViewOptions} from 'backbone';
 
-const _ = require('underscore');
-const BaseForm = require('pim/form');
-const router = require('pim/router');
-const mediator = require('oro/mediator');
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import router from 'pim/router';
+import mediator from 'oro/mediator';
 
 type TabConfig = {
   position: number;

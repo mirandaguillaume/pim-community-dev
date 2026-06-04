@@ -6,9 +6,9 @@ import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {CategoriesApp} from "@akeneo-pim-community/category";
 
 
-const __ = require('oro/translator');
+import __ from 'oro/translator';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class CategoriesSettings extends ReactController {
   private canLeavePage: boolean = true;

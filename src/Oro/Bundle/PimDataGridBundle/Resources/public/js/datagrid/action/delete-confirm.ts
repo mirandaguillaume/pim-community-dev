@@ -1,5 +1,5 @@
-const __ = require('oro/translator');
-const Dialog = require('pim/dialog');
+import __ from 'oro/translator';
+import Dialog from 'pim/dialog';
 
 /**
  * Delete Confirm modal for datagrid

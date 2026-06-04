@@ -1,17 +1,11 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var tools = __pimInterop(require('oro/tools'));
-var mediator = __pimInterop(require('oro/mediator'));
-var PageableCollection = __pimInterop(require('oro/pageable-collection'));
-var Grid = __pimInterop(require('oro/datagrid/grid'));
-var GridViewsView = __pimInterop(require('oro/datagrid/grid-views/view'));
-var requireContext = __pimInterop(require('require-context'));
+import $ from 'jquery';
+import _ from 'underscore';
+import tools from 'oro/tools';
+import mediator from 'oro/mediator';
+import PageableCollection from 'oro/pageable-collection';
+import Grid from 'oro/datagrid/grid';
+import GridViewsView from 'oro/datagrid/grid-views/view';
+import requireContext from 'require-context';
 var gridSelector = '[data-type="datagrid"]:not([data-rendered])',
   gridGridViewsSelector = '.page-title > .AknTitleContainer .span10:last',
   headerCellModuleName = 'oro/datagrid/{{type}}-header-cell',
@@ -222,7 +216,7 @@ var gridSelector = '[data-type="datagrid"]:not([data-rendered])',
     },
   };
 
-module.exports = function (builders) {
+export default function (builders) {
   $(gridSelector)
     .each(function (i, el) {
       var $el = $(el);
@@ -246,4 +240,4 @@ module.exports = function (builders) {
       });
     })
     .end();
-};
+}

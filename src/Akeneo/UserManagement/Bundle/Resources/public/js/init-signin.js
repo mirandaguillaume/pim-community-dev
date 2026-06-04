@@ -1,12 +1,6 @@
-'use strict';
+import $ from 'jquery';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-
-module.exports = function () {
+export default function () {
   var hashUrl = window.location.hash;
   var hashUrlTag = '#';
   var hashArray;
@@ -21,4 +15,4 @@ module.exports = function () {
     }
     $('input[name="_target_path"]').val(hashUrl);
   }
-};
+}

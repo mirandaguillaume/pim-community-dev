@@ -1,4 +1,4 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import {ValidationError, formatParameters, filterErrors} from '@akeneo-pim-community/shared';
 import {StorageForm, StorageFormProps, Storage} from '@akeneo-pim-community/import-export';
 

@@ -1,4 +1,4 @@
-const BaseForm = require('pim/grid/mass-actions');
+import BaseForm from 'pim/grid/mass-actions';
 
 class MassActions extends BaseForm {
   countEntities() {

@@ -1,4 +1,4 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import {JobInstanceDetail, JobInstanceDetailProps} from '@akeneo-pim-community/process-tracker';
 
 class JobInstance extends BaseView {

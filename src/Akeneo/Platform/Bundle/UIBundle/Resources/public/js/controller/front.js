@@ -1,14 +1,8 @@
-'use strict';
+import __ from 'oro/translator';
+import BaseController from 'pim/controller/base';
+import Error from 'pim/error';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var __ = __pimInterop(require('oro/translator'));
-var BaseController = __pimInterop(require('pim/controller/base'));
-var Error = __pimInterop(require('pim/error'));
-
-module.exports = BaseController.extend({
+export default BaseController.extend({
   formPromise: null,
 
   /**

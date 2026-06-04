@@ -1,11 +1,11 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import * as _ from 'underscore';
 
-const __ = require('oro/translator');
-const filterColumnTemplate = require('pim/template/datagrid/filter-column');
-const filterGroupTemplate = require('pim/template/datagrid/filter-group');
-const mediator = require('oro/mediator');
-const Routing = require('routing');
+import __ from 'oro/translator';
+import filterColumnTemplate from 'pim/template/datagrid/filter-column';
+import filterGroupTemplate from 'pim/template/datagrid/filter-group';
+import mediator from 'oro/mediator';
+import Routing from 'routing';
 
 interface FiltersConfig {
   title: string;

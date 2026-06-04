@@ -1,13 +1,13 @@
 import * as _ from 'underscore';
 import {EventsHash} from 'backbone';
 
-const $ = require('jquery');
-const __ = require('oro/translator');
-const BaseForm = require('pim/form');
-const UserContext = require('pim/user-context');
-const FetcherRegistry = require('pim/fetcher-registry');
-const i18n = require('pim/i18n');
-const template = require('pim/template/product/scope-switcher');
+import $ from 'jquery';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import * as i18n from 'pim/i18n';
+import template from 'pim/template/product/scope-switcher';
 
 interface Channel {
   code: string;

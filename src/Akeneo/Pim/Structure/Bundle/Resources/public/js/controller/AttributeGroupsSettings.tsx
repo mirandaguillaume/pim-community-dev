@@ -2,7 +2,7 @@ import React from 'react';
 import {ReactController} from '@akeneo-pim-community/legacy-bridge/src/bridge/react';
 import {AttributeGroupsApp} from '@akeneo-pim-community/settings-ui';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class AttributeGroupsSettings extends ReactController {
   reactElementToMount() {

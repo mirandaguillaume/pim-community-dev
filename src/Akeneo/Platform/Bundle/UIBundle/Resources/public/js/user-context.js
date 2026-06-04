@@ -1,1 +1,3 @@
-module.exports = require('@akeneo-pim-community/shared').userContext;
+import {userContext} from '@akeneo-pim-community/shared';
+
+export default userContext;

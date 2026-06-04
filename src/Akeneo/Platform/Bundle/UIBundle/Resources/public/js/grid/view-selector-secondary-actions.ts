@@ -1,6 +1,6 @@
 import {EventsHash} from 'backbone';
 
-const BaseView = require('pim/form/common/secondary-actions');
+import BaseView from 'pim/form/common/secondary-actions';
 
 class ViewSelectorSecondaryActions extends BaseView {
   /*

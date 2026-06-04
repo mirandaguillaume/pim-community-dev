@@ -1,7 +1,7 @@
 import {ProductGridViewTitle} from '../../../grid/ProductGridViewTitle';
 
-const BaseView = require('pimui/js/view/base');
-const mediator = require('oro/mediator');
+import BaseView from 'pimui/js/view/base';
+import mediator from 'oro/mediator';
 
 type CurrentView = {
   text: string;

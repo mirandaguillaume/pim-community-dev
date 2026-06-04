@@ -1,8 +1,8 @@
 import {Deferred} from 'jquery';
 import {getOrCreateContainer, mountReactElementRef, unmoundReactElementRef} from './react-element-helper';
 
-const BaseController = require('pim/controller/base');
-const mediator = require('oro/mediator');
+import BaseController from 'pim/controller/base';
+import mediator from 'oro/mediator';
 
 abstract class ReactController extends BaseController {
   /**

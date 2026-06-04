@@ -4,11 +4,11 @@ import * as _ from 'underscore';
 import {Attribute} from '@akeneo-pim-community/structure';
 import NormalizedAttributeGroup from 'pim/model/attribute-group';
 
-const __ = require('oro/translator');
-const BaseMultiSelectAsync = require('pim/form/common/fields/multi-select-async');
-const UserContext = require('pim/user-context');
-const FetcherRegistry = require('pim/fetcher-registry');
-const LineTemplate = require('pim/template/attribute/attribute-line');
+import __ from 'oro/translator';
+import BaseMultiSelectAsync from 'pim/form/common/fields/multi-select-async';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import LineTemplate from 'pim/template/attribute/attribute-line';
 
 /**
  * Product grid filters select. It's a multi-select for attributes.

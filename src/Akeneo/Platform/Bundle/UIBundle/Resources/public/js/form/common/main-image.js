@@ -1,16 +1,10 @@
-'use strict';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import template from 'pim/template/form/main-image';
+import MediaUrlGenerator from 'pim/media-url-generator';
+import $ from 'jquery';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/form/main-image'));
-var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
-var $ = __pimInterop(require('jquery'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   tagName: 'img',
   className: 'AknTitleContainer-image',
   template: _.template(template),

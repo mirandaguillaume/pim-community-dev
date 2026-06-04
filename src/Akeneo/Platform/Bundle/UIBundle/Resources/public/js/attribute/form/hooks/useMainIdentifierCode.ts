@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import {useEffect, useState} from 'react';
 
-const FetcherRegistry = require('pim/fetcher-registry');
+import FetcherRegistry from 'pim/fetcher-registry';
 
 const useMainIdentifierCode = () => {
   const [mainIdentifierCode, setMainIdentifierCode] = useState<string | undefined>(undefined);

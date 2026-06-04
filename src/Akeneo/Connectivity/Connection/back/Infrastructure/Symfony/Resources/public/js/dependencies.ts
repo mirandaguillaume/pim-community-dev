@@ -1,11 +1,11 @@
-const router = require('pim/router');
-const translate = require('oro/translator');
-const viewBuilder = require('pim/form-builder');
-const messenger = require('oro/messenger');
-const userContext = require('pim/user-context');
-const securityContext = require('pim/security-context');
-const featureFlags = require('pim/feature-flags');
-const permissionFormRegistry = require('pim/permission-form-registry').default;
+import router from 'pim/router';
+import translate from 'oro/translator';
+import viewBuilder from 'pim/form-builder';
+import * as messenger from 'oro/messenger';
+import userContext from 'pim/user-context';
+import securityContext from 'pim/security-context';
+import featureFlags from 'pim/feature-flags';
+import permissionFormRegistry from 'pim/permission-form-registry';
 
 export const dependencies = {
   router,

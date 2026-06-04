@@ -1,8 +1,8 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import * as _ from 'underscore';
 
-const mediator = require('oro/mediator');
-const requireContext = require('require-context');
+import mediator from 'oro/mediator';
+import requireContext from 'require-context';
 
 interface FilterModule extends Backbone.View<any> {
   enabled: boolean;

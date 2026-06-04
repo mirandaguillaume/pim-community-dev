@@ -1,4 +1,4 @@
-const BaseOperation = require('pim/mass-edit-form/product/operation');
+import BaseOperation from 'pim/mass-edit-form/product/operation';
 
 class ConvertToSimpleProduct extends BaseOperation {
   public render(): ConvertToSimpleProduct {

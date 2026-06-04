@@ -1,18 +1,12 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product/start-copy';
+import analytics from 'pim/analytics';
+import FeatureFlags from 'pim/feature-flags';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product/start-copy'));
-var analytics = __pimInterop(require('pim/analytics'));
-var FeatureFlags = __pimInterop(require('pim/feature-flags'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   className: 'AknDropdown-menuLink start-copying',
   events: {

@@ -1,6 +1,6 @@
-const View = require('pim/form');
-const Router = require('pim/router');
-const translate = require('oro/translator');
+import View from 'pim/form';
+import Router from 'pim/router';
+import translate from 'oro/translator';
 
 type Config = {
   linkText: string;

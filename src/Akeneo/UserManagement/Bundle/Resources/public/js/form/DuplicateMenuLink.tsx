@@ -2,8 +2,8 @@ import React from 'react';
 import {useBooleanState} from 'akeneo-design-system';
 import {DuplicateUserApp} from '@akeneo-pim-community/user-ui';
 
-const Router = require('pim/router');
-const translate = require('oro/translator');
+import Router from 'pim/router';
+import translate from 'oro/translator';
 
 type DuplicateMenuLinkProps = {
   userId: number;

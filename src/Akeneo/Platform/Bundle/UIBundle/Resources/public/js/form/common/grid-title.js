@@ -1,14 +1,8 @@
-'use strict';
+import BaseForm from 'pim/form';
+import __ from 'oro/translator';
+import mediator from 'oro/mediator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseForm = __pimInterop(require('pim/form'));
-var __ = __pimInterop(require('oro/translator'));
-var mediator = __pimInterop(require('oro/mediator'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   count: null,
 
   /**

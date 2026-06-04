@@ -1,5 +1,5 @@
-const BaseView = require('pim/common/simple-view');
-const FeatureFlags = require('pim/feature-flags');
+import BaseView from 'pim/common/simple-view';
+import FeatureFlags from 'pim/feature-flags';
 
 class UserProfileTabContent extends BaseView {
   public configure() {

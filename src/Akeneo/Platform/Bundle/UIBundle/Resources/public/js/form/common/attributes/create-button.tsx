@@ -1,12 +1,12 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import React from 'react';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {pimTheme} from 'akeneo-design-system';
 import {ThemeProvider} from 'styled-components';
 import {AttributeData, CreateAttributeButtonApp} from '../../../attribute/form/CreateAttributeButtonApp';
-const translate = require('oro/translator');
-const router = require('pim/router');
-const analytics = require('pim/analytics');
+import translate from 'oro/translator';
+import router from 'pim/router';
+import analytics from 'pim/analytics';
 
 type CreateButtonConfig = {
   buttonTitle: string;

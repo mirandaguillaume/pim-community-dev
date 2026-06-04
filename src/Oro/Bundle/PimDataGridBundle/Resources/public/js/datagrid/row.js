@@ -1,13 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backgrid = __pimInterop(require('backgrid'));
+import $ from 'jquery';
+import _ from 'underscore';
+import Backgrid from 'backgrid';
 ('use strict');
 
-module.exports = Backgrid.Row.extend({
+export default Backgrid.Row.extend({
   /** @property */
   events: {
     click: 'onClick',

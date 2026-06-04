@@ -1,6 +1,6 @@
-const MainImage = require('pim/form/common/main-image');
-const UserContext = require('pim/user-context');
-const MediaUrlGenerator = require('pim/media-url-generator');
+import MainImage from 'pim/form/common/main-image';
+import UserContext from 'pim/user-context';
+import MediaUrlGenerator from 'pim/media-url-generator';
 
 /**
  * Display main image with user avatar

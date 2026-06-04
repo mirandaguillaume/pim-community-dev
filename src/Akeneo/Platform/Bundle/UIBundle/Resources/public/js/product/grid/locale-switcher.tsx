@@ -1,16 +1,16 @@
 import {Locale, LocaleSelector} from '@akeneo-pim-community/shared';
 import React from 'react';
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 
-const _ = require('underscore');
-const userContext = require('pim/user-context');
-const FetcherRegistry = require('../../fetcher/fetcher-registry');
+import _ from 'underscore';
+import userContext from 'pim/user-context';
+import FetcherRegistry from '../../fetcher/fetcher-registry';
 const localeFetcher = FetcherRegistry.getFetcher('locale');
-const router = require('pim/router');
-const BaseForm = require('pim/form');
+import router from 'pim/router';
+import BaseForm from 'pim/form';
 
 class LocaleSwitcher extends BaseView {
   private config: any;

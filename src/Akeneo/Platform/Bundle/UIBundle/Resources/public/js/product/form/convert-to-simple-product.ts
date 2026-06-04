@@ -1,11 +1,11 @@
 import {EventsHash} from 'backbone';
 
-import BaseView = require('pimui/js/view/base');
-const Dialog = require('pim/dialog');
-const __ = require('oro/translator');
-const messenger = require('oro/messenger');
-const Routing = require('routing');
-const router = require('pim/router');
+import BaseView from 'pimui/js/view/base';
+import Dialog from 'pim/dialog';
+import __ from 'oro/translator';
+import * as messenger from 'oro/messenger';
+import Routing from 'routing';
+import router from 'pim/router';
 
 interface Config {
   url: string;

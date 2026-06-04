@@ -1,6 +1,6 @@
 import {DuplicateJob} from './DuplicateJob';
 
-import BaseForm = require('../../../view/base');
+import BaseForm from '../../../view/base';
 
 type Config = {
   subTitle: string;

@@ -13,11 +13,11 @@ import {
 import styled, {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {Tree} from 'akeneo-design-system/lib';
-const UserContext = require('pim/user-context');
-const __ = require('oro/translator');
-const Router = require('pim/router');
-const FetcherRegistry = require('pim/fetcher-registry');
-import BaseView = require('pimui/js/view/base');
+import UserContext from 'pim/user-context';
+import __ from 'oro/translator';
+import Router from 'pim/router';
+import FetcherRegistry from 'pim/fetcher-registry';
+import BaseView from 'pimui/js/view/base';
 
 const CategoryTreeContainer = styled.div`
   max-height: calc(100vh - 240px);

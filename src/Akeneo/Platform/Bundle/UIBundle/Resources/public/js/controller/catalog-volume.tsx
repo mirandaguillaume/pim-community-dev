@@ -5,7 +5,7 @@ import {pimTheme} from 'akeneo-design-system';
 import React from 'react';
 import {CatalogVolumeMonitoringApp, getCatalogVolume} from '@akeneo-pim-community/catalog-volume-monitoring';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class CatalogVolumeController extends ReactController {
   reactElementToMount() {

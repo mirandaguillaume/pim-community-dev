@@ -1,17 +1,17 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import * as _ from 'underscore';
 import * as Backbone from 'backbone';
 
-const mediator = require('oro/mediator');
-const __ = require('oro/translator');
-const Routing = require('routing');
-const DatagridState = require('pim/datagrid/state');
-const buttonTemplate = require('pim/template/datagrid/column-selector/button');
-const columnsTemplate = require('pim/template/datagrid/column-selector/columns');
-const innerModalTemplate = require('pim/template/datagrid/column-selector/modal');
-const selectedTemplate = require('pim/template/datagrid/column-selector/selected');
-const modalTemplate = require('pim/template/common/modal-centered');
-const analytics = require('pim/analytics');
+import mediator from 'oro/mediator';
+import __ from 'oro/translator';
+import Routing from 'routing';
+import DatagridState from 'pim/datagrid/state';
+import buttonTemplate from 'pim/template/datagrid/column-selector/button';
+import columnsTemplate from 'pim/template/datagrid/column-selector/columns';
+import innerModalTemplate from 'pim/template/datagrid/column-selector/modal';
+import selectedTemplate from 'pim/template/datagrid/column-selector/selected';
+import modalTemplate from 'pim/template/common/modal-centered';
+import analytics from 'pim/analytics';
 
 interface AttributeGroup {
   code: string;

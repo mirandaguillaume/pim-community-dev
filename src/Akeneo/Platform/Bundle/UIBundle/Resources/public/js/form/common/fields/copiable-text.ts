@@ -1,8 +1,8 @@
 import {EventsHash} from 'backbone';
 
-const _ = require('underscore');
-const BaseText = require('pim/form/common/fields/text');
-const template = require('pim/template/form/common/fields/copiable-text');
+import _ from 'underscore';
+import BaseText from 'pim/form/common/fields/text';
+import template from 'pim/template/form/common/fields/copiable-text';
 
 class CopiableTextField extends BaseText {
   readonly template = _.template(template);

@@ -5,16 +5,12 @@
  */
 'use strict';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import BaseField from 'pim/form/common/fields/field';
+import template from 'pim/template/form/common/fields/text';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var BaseField = __pimInterop(require('pim/form/common/fields/field'));
-var template = __pimInterop(require('pim/template/form/common/fields/text'));
-
-module.exports = BaseField.extend({
+export default BaseField.extend({
   template: _.template(template),
   events: {
     'input input': function (event) {

@@ -5,11 +5,11 @@ import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {DoubleCheckDeleteModal, DoubleCheckDeleteModalProps} from '@akeneo-pim-community/shared';
 
-const MassAction = require('oro/datagrid/mass-action');
-const Routing = require('routing');
-const Messenger = require('oro/messenger');
-const LoadingMask = require('oro/loading-mask');
-const translate = require('oro/translator');
+import MassAction from 'oro/datagrid/mass-action';
+import Routing from 'routing';
+import * as Messenger from 'oro/messenger';
+import LoadingMask from 'oro/loading-mask';
+import translate from 'oro/translator';
 
 type Filter = {
   field: string;

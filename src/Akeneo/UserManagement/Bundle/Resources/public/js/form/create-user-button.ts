@@ -1,5 +1,5 @@
-const CreateButton = require('pim/form/common/index/create-button');
-const FeatureFlags = require('pim/feature-flags');
+import CreateButton from 'pim/form/common/index/create-button';
+import FeatureFlags from 'pim/feature-flags';
 
 class CreateUserButton extends CreateButton {
   public render() {

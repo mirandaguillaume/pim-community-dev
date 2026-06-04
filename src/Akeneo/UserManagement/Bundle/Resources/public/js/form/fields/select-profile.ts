@@ -1,9 +1,9 @@
 import * as $ from 'jquery';
 import * as _ from 'underscore';
-const __ = require('oro/translator');
-const BaseSelect = require('pim/form/common/fields/select');
-const FetcherRegistry = require('pim/fetcher-registry');
-const containerTemplate = require('pim/templates/user/form/fields/select-profile-container');
+import __ from 'oro/translator';
+import BaseSelect from 'pim/form/common/fields/select';
+import FetcherRegistry from 'pim/fetcher-registry';
+import containerTemplate from 'pim/templates/user/form/fields/select-profile-container';
 
 type InterfaceNormalizedProfile = {
   code: string;

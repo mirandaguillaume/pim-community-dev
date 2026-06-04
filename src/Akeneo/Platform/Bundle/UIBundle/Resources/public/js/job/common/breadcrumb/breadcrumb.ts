@@ -1,6 +1,6 @@
 import {JobBreadcrumb, JobBreadcrumbProps} from './JobBreadcrumb';
-import BaseForm = require('../../../view/base');
-const mediator = require('oro/mediator');
+import BaseForm from '../../../view/base';
+import mediator from 'oro/mediator';
 
 type Config = {
   isEdit?: boolean;
