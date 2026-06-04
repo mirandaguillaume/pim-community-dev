@@ -5,6 +5,10 @@ module.exports = {
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
     '\\.(jpg|ico|jpeg|png|gif|svg|css)$': '<rootDir>/__mocks__/fileMock.js',
+    // Unit tests import the LOCAL src/storybook/ helpers as 'storybook/...'
+    // (via moduleDirectories src). Since storybook 8 ships a real `storybook`
+    // npm package, node_modules now shadows that directory — map it back.
+    '^storybook/(.*)$': '<rootDir>/src/storybook/$1',
   },
   roots: ['<rootDir>'],
   setupFilesAfterEnv: ['@testing-library/jest-dom'],
