@@ -39,4 +39,3 @@ export * from './Tiles/Tiles';
 export * from './Toolbar/Toolbar';
 export * from './Tree/Tree';
 export * from './Tooltip/Tooltip';
-export * from './Dummy/Dummy';

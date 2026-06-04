@@ -56,7 +56,7 @@
       }
     }
   ],
-  "ignorePatterns": ["src/illustrations/**", "src/icons/**"],
+  "ignorePatterns": ["src/illustrations/**", "src/icons/**", "*.config.js", ".storybook/main.js"],
   "settings": {
     "react": {
       "version": "detect"
