@@ -1,4 +1,6 @@
-export default {
+'use strict';
+
+module.exports = {
   /**
    * Access a property in an object
    *
