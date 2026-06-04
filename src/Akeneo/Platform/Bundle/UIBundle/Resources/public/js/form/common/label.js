@@ -1,6 +1,6 @@
 import BaseForm from 'pim/form';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import _ from 'underscore';
 
 export default BaseForm.extend({

@@ -4,7 +4,7 @@ import Backbone from 'backbone';
 import formBuilder from 'pim/form-builder';
 import fetcherRegistry from 'pim/fetcher-registry';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import modalTemplate from 'pim/template/common/modal-centered';
 
 export default {

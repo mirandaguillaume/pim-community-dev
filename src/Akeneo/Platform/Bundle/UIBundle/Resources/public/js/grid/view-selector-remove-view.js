@@ -6,7 +6,7 @@ import template from 'pim/template/grid/view-selector/remove-view';
 import Dialog from 'pim/dialog';
 import UserContext from 'pim/user-context';
 import DatagridViewRemover from 'pim/remover/datagrid-view';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 
 export default BaseForm.extend({
   template: _.template(template),

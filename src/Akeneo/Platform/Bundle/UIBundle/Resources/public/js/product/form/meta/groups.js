@@ -11,7 +11,7 @@ import UserContext from 'pim/user-context';
 import FetcherRegistry from 'pim/fetcher-registry';
 import GroupManager from 'pim/group-manager';
 import router from 'pim/router';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import LoadingMask from 'oro/loading-mask';
 import 'bootstrap-modal';
 

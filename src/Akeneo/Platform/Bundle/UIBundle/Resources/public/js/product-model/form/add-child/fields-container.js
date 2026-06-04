@@ -2,7 +2,7 @@ import BaseForm from 'pim/form';
 import $ from 'jquery';
 import _ from 'underscore';
 import 'oro/translator';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import Routing from 'routing';
 import UserContext from 'pim/user-context';
 import FetcherRegistry from 'pim/fetcher-registry';

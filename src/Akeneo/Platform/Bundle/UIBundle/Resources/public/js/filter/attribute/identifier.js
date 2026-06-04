@@ -5,7 +5,7 @@ import BaseFilter from 'pim/filter/filter';
 import FetcherRegistry from 'pim/fetcher-registry';
 import UserContext from 'pim/user-context';
 import template from 'pim/template/filter/product/identifier';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 
 export default BaseFilter.extend({
   shortname: 'identifier',

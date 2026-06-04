@@ -5,7 +5,7 @@ import FetcherRegistry from 'pim/fetcher-registry';
 import UserContext from 'pim/user-context';
 import 'pim/dialog';
 import PageTitle from 'pim/page-title';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 
 export default BaseController.extend({
   initialize: function () {

@@ -8,7 +8,7 @@ import 'routing';
 import 'oro/mediator';
 import FetcherRegistry from 'pim/fetcher-registry';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import 'bootstrap-modal';
 
 export default BaseForm.extend({

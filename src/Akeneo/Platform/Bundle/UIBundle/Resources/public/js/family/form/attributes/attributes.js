@@ -5,10 +5,10 @@ import BaseForm from 'pim/form';
 import template from 'pim/template/family/tab/attributes/attributes';
 import UserContext from 'pim/user-context';
 import SecurityContext from 'pim/security-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import FetcherRegistry from 'pim/fetcher-registry';
 import 'pim/dialog';
-import Messenger from 'oro/messenger';
+import * as Messenger from 'oro/messenger';
 import LoadingMask from 'oro/loading-mask';
 import mediator from 'oro/mediator';
 

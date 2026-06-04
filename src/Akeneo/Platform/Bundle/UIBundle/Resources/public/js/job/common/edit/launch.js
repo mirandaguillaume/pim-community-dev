@@ -5,7 +5,7 @@ import BaseForm from 'pim/form';
 import Routing from 'routing';
 import router from 'pim/router';
 import propertyAccessor from 'pim/common/property';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import LoadingMask from 'oro/loading-mask';
 import template from 'pim/template/export/common/edit/launch';
 import analytics from 'pim/analytics';

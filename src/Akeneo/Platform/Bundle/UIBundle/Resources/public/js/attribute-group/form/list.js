@@ -7,7 +7,7 @@ import 'pim/common/property';
 import Routing from 'routing';
 import router from 'pim/router';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import securityContext from 'pim/security-context';
 import template from 'pim/template/form/attribute-group/list';
 

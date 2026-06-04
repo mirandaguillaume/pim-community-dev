@@ -4,7 +4,7 @@ import __ from 'oro/translator';
 import NumberFilter from 'oro/datafilter/number-filter';
 import app from 'oro/app';
 import template from 'pim/template/datagrid/filter/metric-filter';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import UserContext from 'pim/user-context';
 import FetcherRegistry from 'pim/fetcher-registry';
 

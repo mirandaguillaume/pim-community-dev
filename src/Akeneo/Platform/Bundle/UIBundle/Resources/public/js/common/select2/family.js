@@ -1,7 +1,7 @@
 import _ from 'underscore';
 import FetcherRegistry from 'pim/fetcher-registry';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import Routing from 'routing';
 
 export default {

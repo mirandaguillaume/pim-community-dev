@@ -3,7 +3,7 @@ import _ from 'underscore';
 import __ from 'oro/translator';
 import router from 'pim/router';
 import Routing from 'routing';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import BaseForm from 'pim/form/common/edit-form';
 import LoadingMask from 'oro/loading-mask';
 import template from 'pim/template/mass-edit/form';

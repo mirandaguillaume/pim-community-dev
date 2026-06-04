@@ -4,7 +4,7 @@ import BaseForm from 'pim/form';
 import template from 'pim/template/product/scope-switcher';
 import FetcherRegistry from 'pim/fetcher-registry';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 
 export default BaseForm.extend({
   template: _.template(template),

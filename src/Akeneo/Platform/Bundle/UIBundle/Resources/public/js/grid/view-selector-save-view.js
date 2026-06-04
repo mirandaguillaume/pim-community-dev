@@ -8,7 +8,7 @@ import 'pim/dialog';
 import 'routing';
 import UserContext from 'pim/user-context';
 import DatagridViewSaver from 'pim/saver/datagrid-view';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import analytics from 'pim/analytics';
 
 export default BaseForm.extend({

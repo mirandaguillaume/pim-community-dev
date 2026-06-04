@@ -8,7 +8,7 @@ import FetcherRegistry from 'pim/fetcher-registry';
 import FieldManager from 'pim/field-manager';
 import 'pim/form-builder';
 import RequireContext from 'require-context';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import analytics from 'pim/analytics';
 
 export default BaseForm.extend({

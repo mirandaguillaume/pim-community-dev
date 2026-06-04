@@ -3,7 +3,7 @@ import _ from 'underscore';
 import 'backbone';
 import BaseForm from 'pim/form';
 import 'oro/mediator';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import 'pim/field-manager';
 import ValidationError from 'pim/product-edit-form/attributes/validation-error';
 import UserContext from 'pim/user-context';

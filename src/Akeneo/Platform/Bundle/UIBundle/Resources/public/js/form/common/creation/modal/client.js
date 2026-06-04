@@ -1,5 +1,5 @@
 import BaseModal from 'pim/form/common/creation/modal';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import mediator from 'oro/mediator';
 import __ from 'oro/translator';
 

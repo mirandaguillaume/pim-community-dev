@@ -6,7 +6,7 @@ import AttributeManager from 'pim/attribute-manager';
 import fieldTemplate from 'pim/template/product/field/media';
 import Dialog from 'pim/dialog';
 import mediator from 'oro/mediator';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import MediaUrlGenerator from 'pim/media-url-generator';
 import 'jquery.slimbox';
 

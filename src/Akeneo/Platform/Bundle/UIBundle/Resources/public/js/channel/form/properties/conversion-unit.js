@@ -5,7 +5,7 @@ import BaseForm from 'pim/form';
 import FetcherRegistry from 'pim/fetcher-registry';
 import template from 'pim/template/channel/tab/properties/conversion-unit';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import {Helper} from 'akeneo-design-system';
 import 'jquery.select2';
 

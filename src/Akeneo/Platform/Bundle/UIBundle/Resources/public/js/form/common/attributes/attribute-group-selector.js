@@ -5,7 +5,7 @@ import GroupSelectorForm from 'pim/form/common/group-selector';
 import AttributeGroupManager from 'pim/attribute-group-manager';
 import template from 'pim/template/form/tab/attribute/attribute-group-selector';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import * as toFillFieldProvider from 'pim/provider/to-fill-field-provider';
 
 export default GroupSelectorForm.extend({

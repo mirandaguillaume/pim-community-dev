@@ -5,7 +5,7 @@ import BaseForm from 'pim/form';
 import FetcherRegistry from 'pim/fetcher-registry';
 import template from 'pim/template/channel/tab/properties/general/category-tree';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import 'jquery.select2';
 
 export default BaseForm.extend({

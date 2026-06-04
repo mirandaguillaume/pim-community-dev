@@ -1,7 +1,7 @@
 import _ from 'underscore';
 import FieldForm from 'pim/form/common/creation/field';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import __ from 'oro/translator';
 import FetcherRegistry from 'pim/fetcher-registry';
 import errorTemplate from 'pim/template/product-create-error';

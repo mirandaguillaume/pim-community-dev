@@ -8,7 +8,7 @@ import templateModalContent from 'pim/template/form/creation/modal';
 import templateInput from 'pim/template/grid/view-selector/create-view-inputs';
 import DatagridState from 'pim/datagrid/state';
 import DatagridViewSaver from 'pim/saver/datagrid-view';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 
 export default BaseForm.extend({
   template: _.template(template),

@@ -5,7 +5,7 @@ import Routing from 'routing';
 import template from 'pim/template/filter/product/family';
 import fetcherRegistry from 'pim/fetcher-registry';
 import userContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import 'jquery.select2';
 
 export default BaseFilter.extend({

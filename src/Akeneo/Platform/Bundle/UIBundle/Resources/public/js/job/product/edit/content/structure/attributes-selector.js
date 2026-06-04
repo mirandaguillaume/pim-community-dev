@@ -2,7 +2,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
 import Backbone from 'backbone';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import userContext from 'pim/user-context';
 import fetcherRegistry from 'pim/fetcher-registry';
 import template from 'pim/template/export/product/edit/content/structure/attributes-selector';

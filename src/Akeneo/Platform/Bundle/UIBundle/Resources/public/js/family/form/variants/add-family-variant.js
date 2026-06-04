@@ -1,7 +1,7 @@
 import 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import BaseForm from 'pim/form';
 import FormModal from 'pim/form-modal';
 

@@ -5,7 +5,7 @@ import BaseField from 'pim/form/common/fields/field';
 import fetcherRegistry from 'pim/fetcher-registry';
 import template from 'pim/template/form/common/fields/select';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 
 export default BaseField.extend({
   events: {

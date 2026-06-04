@@ -1,8 +1,8 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
-import messenger from 'oro/messenger';
-import i18n from 'pim/i18n';
+import * as messenger from 'oro/messenger';
+import * as i18n from 'pim/i18n';
 import UserContext from 'pim/user-context';
 import FetcherRegistry from 'pim/fetcher-registry';
 import BaseOperation from 'pim/mass-edit-form/product/operation';

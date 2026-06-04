@@ -4,7 +4,7 @@ import BaseForm from 'pim/form';
 import template from 'pim/template/form/delete';
 import router from 'pim/router';
 import LoadingMask from 'oro/loading-mask';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import Dialog from 'pim/dialog';
 
 export default BaseForm.extend({

@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import BaseOperation from 'pim/mass-edit-form/product/operation';
 import propertyAccessor from 'pim/common/property';
 import template from 'pim/template/mass-edit/product/update-entity-with-family-variant-parent';

@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import 'pim/i18n';
 import 'pim/user-context';
 import BaseOperation from 'pim/mass-edit-form/product/operation';

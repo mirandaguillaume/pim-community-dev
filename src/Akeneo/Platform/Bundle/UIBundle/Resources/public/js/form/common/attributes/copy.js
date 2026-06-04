@@ -8,7 +8,7 @@ import FieldManager from 'pim/field-manager';
 import AttributeManager from 'pim/attribute-manager';
 import UserContext from 'pim/user-context';
 import FetcherRegistry from 'pim/fetcher-registry';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 
 export default BaseForm.extend({
   template: _.template(template),

@@ -6,7 +6,7 @@ import BaseForm from 'pim/form';
 import UserContext from 'pim/user-context';
 import template from 'pim/template/product/comments';
 import Routing from 'routing';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import Dialog from 'pim/dialog';
 
 export default BaseForm.extend({

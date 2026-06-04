@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import DialogForm from 'pim/dialogform';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import initSelect2 from 'pim/initselect2';
 import 'jquery.select2';
 

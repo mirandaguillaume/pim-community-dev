@@ -8,7 +8,7 @@ import 'pim/form-builder';
 import 'pim/user-context';
 import LoadingMask from 'oro/loading-mask';
 import router from 'pim/router';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import template from 'pim/template/form/creation/modal';
 import propertyAccessor from 'pim/common/property';
 

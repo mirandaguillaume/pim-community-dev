@@ -9,7 +9,7 @@ import SecurityContext from 'pim/security-context';
 import initSelect2 from 'pim/initselect2';
 import FetcherRegistry from 'pim/fetcher-registry';
 import MediaUrlGenerator from 'pim/media-url-generator';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import FormModal from 'pim/form-modal';
 import template from 'pim/template/product/form/variant-navigation/navigation';
 import templateProduct from 'pim/template/product/form/variant-navigation/product-item';

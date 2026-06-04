@@ -4,7 +4,7 @@ import __ from 'oro/translator';
 import BaseForm from 'pim/form';
 import template from 'pim/template/product/meta/family-variant';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 
 export default BaseForm.extend({
   className: 'AknColumn-block',

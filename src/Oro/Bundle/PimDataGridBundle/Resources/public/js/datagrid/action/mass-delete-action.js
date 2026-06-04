@@ -4,7 +4,7 @@ import __ from 'oro/translator';
 import Routing from 'routing';
 import MassAction from 'oro/datagrid/mass-action';
 import router from 'pim/router';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import LoadingMask from 'oro/loading-mask';
 import Dialog from 'pim/dialog';
 

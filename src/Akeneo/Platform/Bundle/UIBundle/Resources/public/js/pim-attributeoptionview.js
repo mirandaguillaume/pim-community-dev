@@ -9,7 +9,7 @@ import Dialog from 'pim/dialog';
 import indexTemplate from 'pim/template/attribute-option/index';
 import editTemplate from 'pim/template/attribute-option/edit';
 import showTemplate from 'pim/template/attribute-option/show';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import 'jquery-ui';
 
 var AttributeOptionItem = Backbone.Model.extend({

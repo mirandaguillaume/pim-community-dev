@@ -2,7 +2,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
 import BaseSave from 'pim/form/common/save';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import ChannelSaver from 'pim/saver/channel';
 import 'pim/field-manager';
 import 'pim/i18n';

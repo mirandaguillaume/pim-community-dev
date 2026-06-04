@@ -2,7 +2,7 @@ import BaseForm from 'pim/form';
 import 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import UserContext from 'pim/user-context';
 import FetcherRegistry from 'pim/fetcher-registry';
 import template from 'pim/template/product-model-edit-form/add-child-form-header';

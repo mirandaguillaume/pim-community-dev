@@ -4,7 +4,7 @@ import __ from 'oro/translator';
 import BaseField from 'pim/form/common/fields/field';
 import fetcherRegistry from 'pim/fetcher-registry';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import template from 'pim/template/attribute/tab/properties/group';
 
 export default BaseField.extend({

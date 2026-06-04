@@ -1,6 +1,6 @@
 import 'underscore';
 import __ from 'oro/translator';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import BaseModal from 'pim/form/common/creation/modal';
 
 export default BaseModal.extend({

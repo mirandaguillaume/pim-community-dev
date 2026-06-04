@@ -5,7 +5,7 @@ import __ from 'oro/translator';
 import FetcherRegistry from 'pim/fetcher-registry';
 import fieldTemplate from 'pim/template/product/field/metric';
 import initSelect2 from 'pim/initselect2';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import UserContext from 'pim/user-context';
 
 export default Field.extend({

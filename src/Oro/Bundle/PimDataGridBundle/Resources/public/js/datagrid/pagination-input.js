@@ -4,7 +4,7 @@ import _ from 'underscore';
 import __ from 'oro/translator';
 import Pagination from 'oro/datagrid/pagination';
 import template from 'pim/template/datagrid/pagination';
-import Messenger from 'oro/messenger';
+import * as Messenger from 'oro/messenger';
 
 const PaginationInput = Pagination.extend({
   collection: {},

@@ -2,7 +2,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
 import BaseForm from 'pim/form';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import UserContext from 'pim/user-context';
 import fetcherRegistry from 'pim/fetcher-registry';
 import Dialog from 'pim/dialog';

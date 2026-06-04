@@ -3,7 +3,7 @@ import 'underscore';
 import __ from 'oro/translator';
 import BaseLaunch from 'pim/job/common/edit/launch';
 import router from 'pim/router';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import LoadingMask from 'oro/loading-mask';
 
 export default BaseLaunch.extend({

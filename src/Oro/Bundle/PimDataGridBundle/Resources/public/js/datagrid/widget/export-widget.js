@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import __ from 'oro/translator';
 import Backbone from 'backbone';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import Error from 'oro/error';
 import Routing from 'routing';
 import React from 'react';

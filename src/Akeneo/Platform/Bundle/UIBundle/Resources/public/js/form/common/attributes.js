@@ -16,8 +16,8 @@ import attributeGroupTemplate from 'pim/template/form/tab/attribute/attribute-gr
 import noDataTemplate from 'pim/template/common/no-data';
 import * as toFillFieldProvider from 'pim/provider/to-fill-field-provider';
 import Dialog from 'pim/dialog';
-import messenger from 'oro/messenger';
-import i18n from 'pim/i18n';
+import * as messenger from 'oro/messenger';
+import * as i18n from 'pim/i18n';
 /**
  * Group field views by sections (attribute groups)
  *

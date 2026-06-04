@@ -5,7 +5,7 @@ import 'oro/translator';
 import FetcherRegistry from 'pim/fetcher-registry';
 import template from 'pim/template/form/common/fields/metric';
 import UserContext from 'pim/user-context';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 
 export default BaseField.extend({
   events: {

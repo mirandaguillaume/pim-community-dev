@@ -2,7 +2,7 @@ import 'backbone';
 import _ from 'underscore';
 import Field from 'pim/field';
 import template from 'pim/template/form/tab/attribute/copy-field';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import mediator from 'oro/mediator';
 
 export default Field.extend({

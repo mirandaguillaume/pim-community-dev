@@ -3,7 +3,7 @@ import _ from 'underscore';
 import __ from 'oro/translator';
 import BaseForm from 'pim/form';
 import FetcherRegistry from 'pim/fetcher-registry';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import UserContext from 'pim/user-context';
 import SecurityContext from 'pim/security-context';
 import template from 'pim/template/family/tab/general/attribute-as-image';

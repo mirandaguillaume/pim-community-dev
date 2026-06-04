@@ -1,5 +1,5 @@
 import BaseSave from 'pim/form/common/save-form';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 
 export default BaseSave.extend({
   fail: function (response) {

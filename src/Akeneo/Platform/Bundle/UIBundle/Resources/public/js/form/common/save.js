@@ -2,7 +2,7 @@ import __ from 'oro/translator';
 import BaseForm from 'pim/form';
 import 'oro/mediator';
 import LoadingMask from 'oro/loading-mask';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 
 export default BaseForm.extend({
   loadingMask: null,
