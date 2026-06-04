@@ -1,13 +1,7 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-
-module.exports = {
+export default {
   /** @type {boolean} */
   debug: false,
 

@@ -1,15 +1,9 @@
-'use strict';
+import 'underscore';
+import Column from 'pim/form/common/column';
+import router from 'pim/router';
+import mediator from 'oro/mediator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('underscore');
-var Column = __pimInterop(require('pim/form/common/column'));
-var router = __pimInterop(require('pim/router'));
-var mediator = __pimInterop(require('oro/mediator'));
-
-module.exports = Column.extend({
+export default Column.extend({
   active: false,
   isVisible: true,
 

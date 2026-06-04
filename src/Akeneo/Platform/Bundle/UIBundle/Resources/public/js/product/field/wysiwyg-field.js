@@ -1,16 +1,10 @@
-'use strict';
+import $ from 'jquery';
+import Field from 'pim/field';
+import _ from 'underscore';
+import fieldTemplate from 'pim/template/product/field/textarea';
+import 'summernote';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Field = __pimInterop(require('pim/field'));
-var _ = __pimInterop(require('underscore'));
-var fieldTemplate = __pimInterop(require('pim/template/product/field/textarea'));
-require('summernote');
-
-module.exports = Field.extend({
+export default Field.extend({
   fieldTemplate: _.template(fieldTemplate),
   events: {
     'change .field-input:first textarea:first': 'updateModel',

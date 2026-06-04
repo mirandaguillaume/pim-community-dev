@@ -1,14 +1,8 @@
-'use strict';
+import __ from 'oro/translator';
+import pimEdition from 'pim/edition';
+import BaseForm from 'pim/form';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var __ = __pimInterop(require('oro/translator'));
-var pimEdition = __pimInterop(require('pim/edition'));
-var BaseForm = __pimInterop(require('pim/form'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   visible: false,
 
   /**

@@ -1,18 +1,12 @@
-'use strict';
+import $ from 'jquery';
+import 'underscore';
+import 'oro/translator';
+import FetcherRegistry from 'pim/fetcher-registry';
+import BaseField from 'pim/job/common/edit/field/field';
+import SelectField from 'pim/job/common/edit/field/select';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-require('oro/translator');
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var BaseField = __pimInterop(require('pim/job/common/edit/field/field'));
-var SelectField = __pimInterop(require('pim/job/common/edit/field/select'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = SelectField.extend({
+export default SelectField.extend({
   /**
    * {@inherit}
    */

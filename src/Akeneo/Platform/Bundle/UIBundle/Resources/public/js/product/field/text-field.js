@@ -1,14 +1,8 @@
-'use strict';
+import Field from 'pim/field';
+import _ from 'underscore';
+import fieldTemplate from 'pim/template/product/field/text';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Field = __pimInterop(require('pim/field'));
-var _ = __pimInterop(require('underscore'));
-var fieldTemplate = __pimInterop(require('pim/template/product/field/text'));
-
-module.exports = Field.extend({
+export default Field.extend({
   fieldTemplate: _.template(fieldTemplate),
   events: {
     'change .field-input:first input[type="text"]': 'updateModel',

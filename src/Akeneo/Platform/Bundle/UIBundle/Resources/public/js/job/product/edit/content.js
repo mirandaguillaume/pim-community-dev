@@ -1,18 +1,12 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'backbone';
+import template from 'pim/template/export/product/edit/content';
+import BaseForm from 'pim/form';
+import analytics from 'pim/analytics';
+import {filterErrors} from '@akeneo-pim-community/shared';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('backbone');
-var template = __pimInterop(require('pim/template/export/product/edit/content'));
-var BaseForm = __pimInterop(require('pim/form'));
-var analytics = __pimInterop(require('pim/analytics'));
-var {filterErrors} = __pimInterop(require('@akeneo-pim-community/shared'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
 
   /**

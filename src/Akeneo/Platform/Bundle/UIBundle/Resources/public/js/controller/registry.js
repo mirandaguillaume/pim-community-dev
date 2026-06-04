@@ -1,16 +1,10 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var requireContext = __pimInterop(require('require-context'));
+import $ from 'jquery';
+import requireContext from 'require-context';
 var config = __moduleConfig;
 var controllers = config.controllers || {};
 var defaultController = config.defaultController;
 
-module.exports = {
+export default {
   /**
    * Get the controller for the given name
    *

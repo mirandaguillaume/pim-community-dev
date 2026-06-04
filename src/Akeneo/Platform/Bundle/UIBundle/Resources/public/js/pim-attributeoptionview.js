@@ -1,22 +1,16 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var __ = __pimInterop(require('oro/translator'));
-var Routing = __pimInterop(require('routing'));
-var mediator = __pimInterop(require('oro/mediator'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var indexTemplate = __pimInterop(require('pim/template/attribute-option/index'));
-var editTemplate = __pimInterop(require('pim/template/attribute-option/edit'));
-var showTemplate = __pimInterop(require('pim/template/attribute-option/show'));
-var messenger = __pimInterop(require('oro/messenger'));
-require('jquery-ui');
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import __ from 'oro/translator';
+import Routing from 'routing';
+import mediator from 'oro/mediator';
+import LoadingMask from 'oro/loading-mask';
+import Dialog from 'pim/dialog';
+import indexTemplate from 'pim/template/attribute-option/index';
+import editTemplate from 'pim/template/attribute-option/edit';
+import showTemplate from 'pim/template/attribute-option/show';
+import messenger from 'oro/messenger';
+import 'jquery-ui';
 
 var AttributeOptionItem = Backbone.Model.extend({
   defaults: {
@@ -458,7 +452,7 @@ var ItemCollectionView = Backbone.View.extend({
   },
 });
 
-module.exports = function ($element) {
+export default function ($element) {
   var itemCollectionView = new ItemCollectionView({
     $target: $element,
     updateUrl: Routing.generate('pim_enrich_attributeoption_index', {attributeId: $element.data('attribute-id')}),
@@ -477,4 +471,4 @@ module.exports = function ($element) {
       itemCollectionView.render();
     }.bind(this)
   );
-};
+}

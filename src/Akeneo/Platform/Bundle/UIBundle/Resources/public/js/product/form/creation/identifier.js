@@ -1,18 +1,12 @@
-'use strict';
+import _ from 'underscore';
+import FieldForm from 'pim/form/common/creation/field';
+import UserContext from 'pim/user-context';
+import i18n from 'pim/i18n';
+import __ from 'oro/translator';
+import FetcherRegistry from 'pim/fetcher-registry';
+import errorTemplate from 'pim/template/product-create-error';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var FieldForm = __pimInterop(require('pim/form/common/creation/field'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-var __ = __pimInterop(require('oro/translator'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var errorTemplate = __pimInterop(require('pim/template/product-create-error'));
-
-module.exports = FieldForm.extend({
+export default FieldForm.extend({
   errorTemplate: _.template(errorTemplate),
 
   /**

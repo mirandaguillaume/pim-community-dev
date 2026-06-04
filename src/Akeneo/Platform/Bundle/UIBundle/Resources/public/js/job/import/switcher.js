@@ -1,14 +1,8 @@
-'use strict';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import template from 'pim/template/import/switcher';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/import/switcher'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknButtonList',
   template: _.template(template),
   actions: [],

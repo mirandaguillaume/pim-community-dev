@@ -1,10 +1,6 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
 
-var $ = __pimInterop(require('jquery'));
-
-module.exports = {
+export default {
   /**
    * @property {Number} maxWidth The maximum width of the panel in pixels
    * @property {Number} minWidth The minimum width of the panel in pixels

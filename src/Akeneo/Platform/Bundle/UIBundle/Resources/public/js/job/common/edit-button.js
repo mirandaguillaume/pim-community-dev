@@ -1,16 +1,10 @@
-'use strict';
+import $ from 'jquery';
+import translate from 'oro/translator';
+import BaseRedirect from 'pim/common/redirect';
+import FetcherRegistry from 'pim/fetcher-registry';
+import router from 'pim/router';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var translate = __pimInterop(require('oro/translator'));
-var BaseRedirect = __pimInterop(require('pim/common/redirect'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var router = __pimInterop(require('pim/router'));
-
-module.exports = BaseRedirect.extend({
+export default BaseRedirect.extend({
   /**
    * {@inheritdoc}
    */

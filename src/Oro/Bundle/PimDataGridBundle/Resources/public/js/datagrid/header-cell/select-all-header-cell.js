@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import Backgrid from 'backgrid';
+import SelectRowCell from 'oro/datagrid/select-row-cell';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backgrid = __pimInterop(require('backgrid'));
-var SelectRowCell = __pimInterop(require('oro/datagrid/select-row-cell'));
-('use strict');
-
-module.exports = SelectRowCell.extend({
+export default SelectRowCell.extend({
   /** @property */
   className: 'AknGrid-headerCell AknGrid-headerCell--checkbox select-all-header-cell',
 

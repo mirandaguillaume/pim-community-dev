@@ -1,20 +1,14 @@
-'use strict';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import mediator from 'oro/mediator';
+import Grid from 'pim/common/grid';
+import __ from 'oro/translator';
+import UserContext from 'pim/user-context';
+import formModalCreator from 'pim/common/form-modal-creator';
+import template from 'pim/template/family/tab/family-variant';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var mediator = __pimInterop(require('oro/mediator'));
-var Grid = __pimInterop(require('pim/common/grid'));
-var __ = __pimInterop(require('oro/translator'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var formModalCreator = __pimInterop(require('pim/common/form-modal-creator'));
-var template = __pimInterop(require('pim/template/family/tab/family-variant'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   className: 'tabbable variant',
   variantGrid: null,

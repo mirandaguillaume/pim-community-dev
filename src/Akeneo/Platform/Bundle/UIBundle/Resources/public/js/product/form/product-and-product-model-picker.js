@@ -1,14 +1,8 @@
-'use strict';
+import _ from 'underscore';
+import ItemPicker from 'pim/common/item-picker';
+import MediaUrlGenerator from 'pim/media-url-generator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var ItemPicker = __pimInterop(require('pim/common/item-picker'));
-var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
-
-module.exports = ItemPicker.extend({
+export default ItemPicker.extend({
   items: [],
 
   initialize: function () {

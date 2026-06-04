@@ -1,22 +1,16 @@
-'use strict';
+import $ from 'jquery';
+import 'underscore';
+import __ from 'oro/translator';
+import BaseSave from 'pim/form/common/save';
+import messenger from 'oro/messenger';
+import 'pim/field-manager';
+import 'pim/i18n';
+import 'pim/user-context';
+import 'routing';
+import router from 'pim/router';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var __ = __pimInterop(require('oro/translator'));
-var BaseSave = __pimInterop(require('pim/form/common/save'));
-var messenger = __pimInterop(require('oro/messenger'));
-require('pim/field-manager');
-require('pim/i18n');
-require('pim/user-context');
-require('routing');
-var router = __pimInterop(require('pim/router'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseSave.extend({
+export default BaseSave.extend({
   updateSuccessMessage: __('pim_import_export.entity.job_instance.flash.update.success'),
   updateFailureMessage: __('pim_import_export.entity.job_instance.flash.update.fail'),
 

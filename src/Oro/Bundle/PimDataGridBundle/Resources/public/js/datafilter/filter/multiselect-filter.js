@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import 'oro/translator';
+import SelectFilter from 'oro/datafilter/select-filter';
 
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-var SelectFilter = __pimInterop(require('oro/datafilter/select-filter'));
-('use strict');
-
-module.exports = SelectFilter.extend({
+export default SelectFilter.extend({
   /**
    * Multiselect filter template
    *

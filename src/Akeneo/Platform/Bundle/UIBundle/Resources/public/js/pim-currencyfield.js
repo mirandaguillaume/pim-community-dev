@@ -1,16 +1,10 @@
-'use strict';
+import $ from 'jquery';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import mediator from 'oro/mediator';
+import 'bootstrap';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Backbone = __pimInterop(require('backbone'));
-var _ = __pimInterop(require('underscore'));
-var mediator = __pimInterop(require('oro/mediator'));
-require('bootstrap');
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   fieldSelector: '.currency-field[data-metadata]',
   expandIcon: 'icon-caret-right',
   collapseIcon: 'icon-caret-down',

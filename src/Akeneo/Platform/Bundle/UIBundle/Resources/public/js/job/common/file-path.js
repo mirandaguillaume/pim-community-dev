@@ -1,16 +1,10 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/import/file-path';
+import {Badge} from 'akeneo-design-system';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/import/file-path'));
-var {Badge} = __pimInterop(require('akeneo-design-system'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknCenteredBox',
   template: _.template(template),
 

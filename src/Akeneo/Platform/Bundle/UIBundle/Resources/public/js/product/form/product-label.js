@@ -1,14 +1,8 @@
-'use strict';
+import Label from 'pim/form/common/label';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Label = __pimInterop(require('pim/form/common/label'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-
-module.exports = Label.extend({
+export default Label.extend({
   family: null,
 
   /**

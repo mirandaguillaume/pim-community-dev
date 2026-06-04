@@ -1,19 +1,13 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import formBuilder from 'pim/form-builder';
+import fetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import i18n from 'pim/i18n';
+import modalTemplate from 'pim/template/common/modal-centered';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var formBuilder = __pimInterop(require('pim/form-builder'));
-var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-var modalTemplate = __pimInterop(require('pim/template/common/modal-centered'));
-
-module.exports = {
+export default {
   /**
    * Create a modal from fetcher and entity identifier
    *

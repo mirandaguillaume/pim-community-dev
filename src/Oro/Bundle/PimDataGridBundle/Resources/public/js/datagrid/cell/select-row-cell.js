@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import Backbone from 'backbone';
+import Backgrid from 'backgrid';
 
-var $ = __pimInterop(require('jquery'));
-var Backbone = __pimInterop(require('backbone'));
-var Backgrid = __pimInterop(require('backgrid'));
-('use strict');
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   /** @property */
   className: 'AknGrid-bodyCell AknGrid-bodyCell--tight AknGrid-bodyCell--checkbox select-row-cell',
 

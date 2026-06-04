@@ -1,12 +1,7 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import FiltersManager from 'oro/datafilter/filters-manager';
 
-var _ = __pimInterop(require('underscore'));
-var FiltersManager = __pimInterop(require('oro/datafilter/filters-manager'));
-('use strict');
-
-module.exports = FiltersManager.extend({
+export default FiltersManager.extend({
   /**
    * Initialize filter list options
    *

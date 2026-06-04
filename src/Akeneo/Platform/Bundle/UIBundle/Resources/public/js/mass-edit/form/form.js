@@ -1,21 +1,15 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import router from 'pim/router';
+import Routing from 'routing';
+import messenger from 'oro/messenger';
+import BaseForm from 'pim/form/common/edit-form';
+import LoadingMask from 'oro/loading-mask';
+import template from 'pim/template/mass-edit/form';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var router = __pimInterop(require('pim/router'));
-var Routing = __pimInterop(require('routing'));
-var messenger = __pimInterop(require('oro/messenger'));
-var BaseForm = __pimInterop(require('pim/form/common/edit-form'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var template = __pimInterop(require('pim/template/mass-edit/form'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   currentStep: 'choose',
   events: {

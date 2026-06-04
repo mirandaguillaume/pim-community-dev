@@ -1,20 +1,14 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import GroupSelectorForm from 'pim/form/common/group-selector';
+import AttributeGroupManager from 'pim/attribute-group-manager';
+import template from 'pim/template/form/tab/attribute/attribute-group-selector';
+import UserContext from 'pim/user-context';
+import i18n from 'pim/i18n';
+import * as toFillFieldProvider from 'pim/provider/to-fill-field-provider';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var GroupSelectorForm = __pimInterop(require('pim/form/common/group-selector'));
-var AttributeGroupManager = __pimInterop(require('pim/attribute-group-manager'));
-var template = __pimInterop(require('pim/template/form/tab/attribute/attribute-group-selector'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-var toFillFieldProvider = __pimInterop(require('pim/provider/to-fill-field-provider'));
-
-module.exports = GroupSelectorForm.extend({
+export default GroupSelectorForm.extend({
   tagName: 'div',
 
   className: 'AknDropdown AknButtonList-item nav nav-tabs group-selector',

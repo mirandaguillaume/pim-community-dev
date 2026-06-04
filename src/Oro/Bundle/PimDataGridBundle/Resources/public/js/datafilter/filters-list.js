@@ -1,13 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import mediator from 'oro/mediator';
+import tools from 'oro/tools';
 
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var mediator = __pimInterop(require('oro/mediator'));
-var tools = __pimInterop(require('oro/tools'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   options: {},
   filters: [],
   isLoaded: false,

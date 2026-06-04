@@ -1,9 +1,4 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var NavigateAction = __pimInterop(require('oro/datagrid/navigate-action'));
-('use strict');
+import NavigateAction from 'oro/datagrid/navigate-action';
 
 /**
  * Redirects to a specific tab
@@ -21,4 +16,4 @@ var parent = NavigateAction.prototype,
       parent.run.call(this);
     },
   });
-module.exports = TabRedirectAction;
+export default TabRedirectAction;

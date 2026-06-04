@@ -1,14 +1,10 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product-model/complete-variant-product';
+import UserContext from 'pim/user-context';
 
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product-model/complete-variant-product'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknButtonList-item',
   template: _.template(template),
 

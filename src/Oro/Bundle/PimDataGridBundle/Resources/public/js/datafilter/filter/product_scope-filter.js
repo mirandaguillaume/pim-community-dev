@@ -1,18 +1,13 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import mediator from 'oro/mediator';
+import SelectFilter from 'oro/datafilter/select-filter';
+import UserContext from 'pim/user-context';
+import DatagridState from 'pim/datagrid/state';
+import app from 'oro/app';
+import template from 'pim/template/datagrid/filter/scope-filter';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var mediator = __pimInterop(require('oro/mediator'));
-var SelectFilter = __pimInterop(require('oro/datafilter/select-filter'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var DatagridState = __pimInterop(require('pim/datagrid/state'));
-var app = __pimInterop(require('oro/app'));
-var template = __pimInterop(require('pim/template/datagrid/filter/scope-filter'));
-('use strict');
-
-module.exports = SelectFilter.extend({
+export default SelectFilter.extend({
   template: _.template(template),
   className: 'AknDropdown AknFilterBox-filterContainer filter-select filter-criteria-selector scope-switcher',
   events: {

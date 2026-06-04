@@ -1,16 +1,10 @@
-'use strict';
+import _ from 'underscore';
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import i18n from 'pim/i18n';
+import Routing from 'routing';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-var Routing = __pimInterop(require('routing'));
-
-module.exports = {
+export default {
   /**
    * Provide the config for a family select2 field
    *

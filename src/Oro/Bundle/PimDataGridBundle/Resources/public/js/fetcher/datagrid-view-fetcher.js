@@ -1,14 +1,8 @@
-'use strict';
+import $ from 'jquery';
+import Routing from 'routing';
+import BaseFetcher from 'pim/base-fetcher';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Routing = __pimInterop(require('routing'));
-var BaseFetcher = __pimInterop(require('pim/base-fetcher'));
-
-module.exports = BaseFetcher.extend({
+export default BaseFetcher.extend({
   /**
    * Fetch default columns for grid with given alias
    *

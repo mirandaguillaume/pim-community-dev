@@ -1,15 +1,9 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import FormTabs from 'pim/form/common/form-tabs';
+import template from 'pim/template/form/column-tabs';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var FormTabs = __pimInterop(require('pim/form/common/form-tabs'));
-var template = __pimInterop(require('pim/template/form/column-tabs'));
-
-module.exports = FormTabs.extend({
+export default FormTabs.extend({
   className: '',
 
   template: _.template(template),

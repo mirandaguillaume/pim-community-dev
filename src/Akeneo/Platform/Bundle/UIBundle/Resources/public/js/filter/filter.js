@@ -1,17 +1,11 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import mediator from 'oro/mediator';
+import BaseForm from 'pim/form';
+import filterTemplate from 'pim/template/filter/filter';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var mediator = __pimInterop(require('oro/mediator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var filterTemplate = __pimInterop(require('pim/template/filter/filter'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknFieldContainer control-group filter-item',
   elements: {},
   editable: true,

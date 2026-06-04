@@ -1,19 +1,13 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/form/delete';
+import router from 'pim/router';
+import LoadingMask from 'oro/loading-mask';
+import messenger from 'oro/messenger';
+import Dialog from 'pim/dialog';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/form/delete'));
-var router = __pimInterop(require('pim/router'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var messenger = __pimInterop(require('oro/messenger'));
-var Dialog = __pimInterop(require('pim/dialog'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   tagName: 'button',
 
   className: 'AknDropdown-menuLink delete',

@@ -1,11 +1,6 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import AbstractListener from 'oro/datagrid/abstract-listener';
 
-var AbstractListener = __pimInterop(require('oro/datagrid/abstract-listener'));
-('use strict');
-
-module.exports = AbstractListener.extend({
+export default AbstractListener.extend({
   /** @param {Call} */
   processCallback: null,
 

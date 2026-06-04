@@ -1,23 +1,17 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Backbone = __pimInterop(require('backbone'));
-var _ = __pimInterop(require('underscore'));
-var fieldTemplate = __pimInterop(require('pim/template/product/field/field'));
-var guidelinesTemplate = __pimInterop(require('pim/template/product/field/field-guidelines'));
-var AttributeManager = __pimInterop(require('pim/attribute-manager'));
-var i18n = __pimInterop(require('pim/i18n'));
-var mediator = __pimInterop(require('oro/mediator'));
-var analytics = __pimInterop(require('pim/analytics'));
+import $ from 'jquery';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import fieldTemplate from 'pim/template/product/field/field';
+import guidelinesTemplate from 'pim/template/product/field/field-guidelines';
+import AttributeManager from 'pim/attribute-manager';
+import i18n from 'pim/i18n';
+import mediator from 'oro/mediator';
+import analytics from 'pim/analytics';
 var FieldModel = Backbone.Model.extend({
   values: [],
 });
 
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   tagName: 'div',
   className: 'AknComparableFields field-container',
   options: {},

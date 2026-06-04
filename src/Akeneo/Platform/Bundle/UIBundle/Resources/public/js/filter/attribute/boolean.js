@@ -1,27 +1,14 @@
-/**
- * Boolean attribute filter.
- *
- * @author    Yohan Blain <yohan.blain@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/attribute/attribute';
+import 'pim/fetcher-registry';
+import 'pim/user-context';
+import 'pim/i18n';
+import template from 'pim/template/filter/attribute/boolean';
+import 'bootstrap.bootstrapswitch';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/attribute/attribute'));
-require('pim/fetcher-registry');
-require('pim/user-context');
-require('pim/i18n');
-var template = __pimInterop(require('pim/template/filter/attribute/boolean'));
-require('bootstrap.bootstrapswitch');
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   shortname: 'boolean',
   template: _.template(template),
   events: {

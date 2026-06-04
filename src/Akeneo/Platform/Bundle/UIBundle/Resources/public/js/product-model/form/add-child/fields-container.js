@@ -1,22 +1,15 @@
-'use strict';
+import BaseForm from 'pim/form';
+import $ from 'jquery';
+import _ from 'underscore';
+import 'oro/translator';
+import i18n from 'pim/i18n';
+import Routing from 'routing';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import FormBuilder from 'pim/form-builder';
+import template from 'pim/template/product-model-edit-form/add-child-form-fields-container';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseForm = __pimInterop(require('pim/form'));
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-var i18n = __pimInterop(require('pim/i18n'));
-var Routing = __pimInterop(require('routing'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-
-var template = __pimInterop(require('pim/template/product-model-edit-form/add-child-form-fields-container'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   globalErrors: [],
   errors: [],

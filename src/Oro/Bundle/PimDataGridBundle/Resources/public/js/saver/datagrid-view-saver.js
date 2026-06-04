@@ -1,13 +1,7 @@
-'use strict';
+import $ from 'jquery';
+import Routing from 'routing';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Routing = __pimInterop(require('routing'));
-
-module.exports = {
+export default {
   /**
    * Save the given datagridView for the given gridAlias.
    * Return the POST request promise.

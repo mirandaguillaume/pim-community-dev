@@ -1,21 +1,15 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Backbone = __pimInterop(require('backbone'));
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Routing = __pimInterop(require('routing'));
-var NotificationList = __pimInterop(require('pim/notification-list'));
-var Indicator = __pimInterop(require('pim/indicator'));
-var notificationTpl = __pimInterop(require('pim/template/notification/notification'));
-var notificationFooterTpl = __pimInterop(require('pim/template/notification/notification-footer'));
+import Backbone from 'backbone';
+import $ from 'jquery';
+import _ from 'underscore';
+import Routing from 'routing';
+import NotificationList from 'pim/notification-list';
+import Indicator from 'pim/indicator';
+import notificationTpl from 'pim/template/notification/notification';
+import notificationFooterTpl from 'pim/template/notification/notification-footer';
 
 const NOTIFICATION_TIMEOUT_ID = 'notifications_timeout_ids';
 
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   options: {
     imgUrl: '',
     loadingText: null,

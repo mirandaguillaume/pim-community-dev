@@ -1,14 +1,8 @@
-'use strict';
+import 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('underscore');
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   /**
    * {@inheritdoc}
    */

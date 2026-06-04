@@ -1,12 +1,7 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import Backgrid from 'backgrid';
 
-var _ = __pimInterop(require('underscore'));
-var Backgrid = __pimInterop(require('backgrid'));
-('use strict');
-
-module.exports = Backgrid.SelectCell.extend({
+export default Backgrid.SelectCell.extend({
   /**
    * @inheritDoc
    */

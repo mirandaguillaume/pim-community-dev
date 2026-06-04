@@ -1,23 +1,17 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseSave from 'pim/form/common/save';
+import messenger from 'oro/messenger';
+import EntitySaver from 'pim/saver/entity-saver';
+import FieldManager from 'pim/field-manager';
+import i18n from 'pim/i18n';
+import UserContext from 'pim/user-context';
+import router from 'pim/router';
+import propertyAccessor from 'pim/common/property';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseSave = __pimInterop(require('pim/form/common/save'));
-var messenger = __pimInterop(require('oro/messenger'));
-var EntitySaver = __pimInterop(require('pim/saver/entity-saver'));
-var FieldManager = __pimInterop(require('pim/field-manager'));
-var i18n = __pimInterop(require('pim/i18n'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var router = __pimInterop(require('pim/router'));
-var propertyAccessor = __pimInterop(require('pim/common/property'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseSave.extend({
+export default BaseSave.extend({
   /**
    * Sets message labels for updates
    */

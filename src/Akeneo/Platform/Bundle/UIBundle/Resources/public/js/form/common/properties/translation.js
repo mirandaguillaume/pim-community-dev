@@ -1,17 +1,11 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import FetcherRegistry from 'pim/fetcher-registry';
+import template from 'pim/template/form/properties/translation';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var template = __pimInterop(require('pim/template/form/properties/translation'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'translation-container',
   template: _.template(template),
   events: {

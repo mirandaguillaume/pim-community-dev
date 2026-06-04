@@ -1,15 +1,10 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var mediator = __pimInterop(require('oro/mediator'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Pagination = __pimInterop(require('oro/datagrid/pagination'));
-var template = __pimInterop(require('pim/template/datagrid/pagination'));
-var Messenger = __pimInterop(require('oro/messenger'));
-('use strict');
+import $ from 'jquery';
+import mediator from 'oro/mediator';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Pagination from 'oro/datagrid/pagination';
+import template from 'pim/template/datagrid/pagination';
+import Messenger from 'oro/messenger';
 
 const PaginationInput = Pagination.extend({
   collection: {},
@@ -183,4 +178,4 @@ PaginationInput.init = function (gridContainer, gridName) {
   });
 };
 
-module.exports = PaginationInput;
+export default PaginationInput;

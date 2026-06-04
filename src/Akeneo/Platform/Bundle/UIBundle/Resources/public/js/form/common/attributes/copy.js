@@ -1,22 +1,16 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import 'oro/mediator';
+import template from 'pim/template/form/tab/attribute/copy';
+import CopyField from 'pim/form/common/attributes/copy-field';
+import FieldManager from 'pim/field-manager';
+import AttributeManager from 'pim/attribute-manager';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import i18n from 'pim/i18n';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-require('oro/mediator');
-var template = __pimInterop(require('pim/template/form/tab/attribute/copy'));
-var CopyField = __pimInterop(require('pim/form/common/attributes/copy-field'));
-var FieldManager = __pimInterop(require('pim/field-manager'));
-var AttributeManager = __pimInterop(require('pim/attribute-manager'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var i18n = __pimInterop(require('pim/i18n'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   className: 'AknAttributeActions-copyActions attribute-copy-actions',
   copyFields: {},

@@ -1,12 +1,7 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var mediator = __pimInterop(require('oro/mediator'));
-var __ = __pimInterop(require('oro/translator'));
-('use strict');
+import _ from 'underscore';
+import Backbone from 'backbone';
+import mediator from 'oro/mediator';
+import __ from 'oro/translator';
 
 var $ = Backbone.$;
 
@@ -110,4 +105,4 @@ _.extend(formState.prototype, {
   },
 });
 
-module.exports = formState;
+export default formState;

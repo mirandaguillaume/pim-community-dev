@@ -1,15 +1,9 @@
-'use strict';
+import $ from 'jquery';
+import 'underscore';
+import BaseController from 'pim/controller/base';
+import router from 'pim/router';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var BaseController = __pimInterop(require('pim/controller/base'));
-var router = __pimInterop(require('pim/router'));
-
-module.exports = BaseController.extend({
+export default BaseController.extend({
   /**
    * {@inheritdoc}
    */

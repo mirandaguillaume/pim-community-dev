@@ -1,27 +1,14 @@
-/**
- * This module displays a product model select2
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import 'oro/translator';
+import MassEditField from 'pim/mass-edit-form/product/mass-edit-field';
+import 'pim/router';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import MediaUrlGenerator from 'pim/media-url-generator';
+import templateProductModel from 'pim/template/product/form/variant-navigation/product-model-item';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-var MassEditField = __pimInterop(require('pim/mass-edit-form/product/mass-edit-field'));
-require('pim/router');
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var MediaUrlGenerator = __pimInterop(require('pim/media-url-generator'));
-var templateProductModel = __pimInterop(require('pim/template/product/form/variant-navigation/product-model-item'));
-
-module.exports = MassEditField.extend({
+export default MassEditField.extend({
   previousFamilyVariant: null,
   templateProductModel: _.template(templateProductModel),
 

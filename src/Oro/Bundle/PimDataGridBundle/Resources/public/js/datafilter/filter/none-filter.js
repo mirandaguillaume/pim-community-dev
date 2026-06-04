@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import 'oro/translator';
+import AbstractFilter from 'oro/datafilter/abstract-filter';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-var AbstractFilter = __pimInterop(require('oro/datafilter/abstract-filter'));
-('use strict');
-
-module.exports = AbstractFilter.extend({
+export default AbstractFilter.extend({
   /**
    * Template for filter criteria
    *

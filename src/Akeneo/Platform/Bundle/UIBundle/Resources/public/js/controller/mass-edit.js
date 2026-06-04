@@ -1,19 +1,13 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-var BaseController = __pimInterop(require('pim/controller/front'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var Routing = __pimInterop(require('routing'));
-var analytics = __pimInterop(require('pim/analytics'));
+import $ from 'jquery';
+import _ from 'underscore';
+import 'oro/translator';
+import BaseController from 'pim/controller/front';
+import FormBuilder from 'pim/form-builder';
+import Routing from 'routing';
+import analytics from 'pim/analytics';
 const ACTION_PRODUCT_GRID = 'product-edit';
 
-module.exports = BaseController.extend({
+export default BaseController.extend({
   /**
    * {@inheritdoc}
    */

@@ -1,20 +1,9 @@
-/**
- * @author    Yohan Blain <yohan.blain@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import BaseField from 'pim/form/common/fields/field';
+import template from 'pim/template/form/common/fields/textarea';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var BaseField = __pimInterop(require('pim/form/common/fields/field'));
-var template = __pimInterop(require('pim/template/form/common/fields/textarea'));
-
-module.exports = BaseField.extend({
+export default BaseField.extend({
   template: _.template(template),
   events: {
     'keyup textarea': function (event) {

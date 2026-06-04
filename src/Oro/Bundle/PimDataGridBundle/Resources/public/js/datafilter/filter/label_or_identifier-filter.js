@@ -1,16 +1,10 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import AbstractFilter from 'oro/datafilter/abstract-filter';
+import template from 'pim/template/datagrid/filter/search-filter';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var AbstractFilter = __pimInterop(require('oro/datafilter/abstract-filter'));
-var template = __pimInterop(require('pim/template/datagrid/filter/search-filter'));
-
-module.exports = AbstractFilter.extend({
+export default AbstractFilter.extend({
   inputValueSelector: 'input[name="value"]',
 
   events: {

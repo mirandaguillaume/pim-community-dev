@@ -1,27 +1,21 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'oro/mediator';
+import Backbone from 'backbone';
+import BaseForm from 'pim/form';
+import Routing from 'routing';
+import formTemplate from 'pim/template/product/meta/groups';
+import modalTemplate from 'pim/template/product/meta/group-modal';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import GroupManager from 'pim/group-manager';
+import router from 'pim/router';
+import i18n from 'pim/i18n';
+import LoadingMask from 'oro/loading-mask';
+import 'bootstrap-modal';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('oro/mediator');
-var Backbone = __pimInterop(require('backbone'));
-var BaseForm = __pimInterop(require('pim/form'));
-var Routing = __pimInterop(require('routing'));
-var formTemplate = __pimInterop(require('pim/template/product/meta/groups'));
-var modalTemplate = __pimInterop(require('pim/template/product/meta/group-modal'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var GroupManager = __pimInterop(require('pim/group-manager'));
-var router = __pimInterop(require('pim/router'));
-var i18n = __pimInterop(require('pim/i18n'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-require('bootstrap-modal');
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   tagName: 'span',
 
   className: 'AknColumn-block product-groups',

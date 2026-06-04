@@ -1,11 +1,6 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import ModelAction from 'oro/datagrid/model-action';
 
-var ModelAction = __pimInterop(require('oro/datagrid/model-action'));
-('use strict');
-
-module.exports = ModelAction.extend({
+export default ModelAction.extend({
   /** @property {Boolean} */
   noHref: false,
 

@@ -1,20 +1,14 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import 'oro/translator';
+import BaseAddSelect from 'pim/common/add-select';
+import LineView from 'pim/product/add-select/attribute/line';
+import FetcherRegistry from 'pim/fetcher-registry';
+import 'pim/attribute-manager';
+import ChoicesFormatter from 'pim/formatter/choices/base';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-var BaseAddSelect = __pimInterop(require('pim/common/add-select'));
-var LineView = __pimInterop(require('pim/product/add-select/attribute/line'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-require('pim/attribute-manager');
-var ChoicesFormatter = __pimInterop(require('pim/formatter/choices/base'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseAddSelect.extend({
+export default BaseAddSelect.extend({
   className: 'AknButtonList-item add-attribute',
   lineView: LineView,
   defaultConfig: {

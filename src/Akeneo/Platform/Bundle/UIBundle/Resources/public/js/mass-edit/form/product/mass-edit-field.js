@@ -1,20 +1,6 @@
-/**
- * This module displays a family with select2 for mass edit
- * The difference with standard select2 async is that this will listen to an event to enable or disable the element.
- *
- * @author    Pierre Allard <pierre.allard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-'use strict';
+import SimpleSelectAsync from 'pim/form/common/fields/simple-select-async';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var SimpleSelectAsync = __pimInterop(require('pim/form/common/fields/simple-select-async'));
-
-module.exports = SimpleSelectAsync.extend({
+export default SimpleSelectAsync.extend({
   readOnly: false,
 
   /**

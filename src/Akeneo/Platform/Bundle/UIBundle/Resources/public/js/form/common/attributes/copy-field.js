@@ -1,17 +1,11 @@
-'use strict';
+import 'backbone';
+import _ from 'underscore';
+import Field from 'pim/field';
+import template from 'pim/template/form/tab/attribute/copy-field';
+import i18n from 'pim/i18n';
+import mediator from 'oro/mediator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('backbone');
-var _ = __pimInterop(require('underscore'));
-var Field = __pimInterop(require('pim/field'));
-var template = __pimInterop(require('pim/template/form/tab/attribute/copy-field'));
-var i18n = __pimInterop(require('pim/i18n'));
-var mediator = __pimInterop(require('oro/mediator'));
-
-module.exports = Field.extend({
+export default Field.extend({
   tagName: 'div',
   field: null,
   template: _.template(template),

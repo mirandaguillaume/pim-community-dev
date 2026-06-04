@@ -1,16 +1,10 @@
-'use strict';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product/download-pdf';
+import Routing from 'routing';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product/download-pdf'));
-var Routing = __pimInterop(require('routing'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   tagName: 'a',
 
   className: 'AknDropdown-menuLink btn-download',

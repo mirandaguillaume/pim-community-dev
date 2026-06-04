@@ -1,18 +1,12 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'pim/router';
+import BaseForm from 'pim/form';
+import UserContext from 'pim/user-context';
+import * as toFillFieldProvider from 'pim/provider/to-fill-field-provider';
+import template from 'pim/template/product/form/total-missing-required-attributes';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('pim/router');
-var BaseForm = __pimInterop(require('pim/form'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var toFillFieldProvider = __pimInterop(require('pim/provider/to-fill-field-provider'));
-var template = __pimInterop(require('pim/template/product/form/total-missing-required-attributes'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknButtonList-item',
   template: _.template(template),
   events: {

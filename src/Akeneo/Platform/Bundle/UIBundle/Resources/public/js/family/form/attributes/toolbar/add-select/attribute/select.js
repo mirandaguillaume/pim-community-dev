@@ -1,16 +1,10 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import AddAttributeSelect from 'pim/product/add-select/attribute';
+import FetcherRegistry from 'pim/fetcher-registry';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var AddAttributeSelect = __pimInterop(require('pim/product/add-select/attribute'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = AddAttributeSelect.extend({
+export default AddAttributeSelect.extend({
   /**
    * {@inheritdoc}
    */

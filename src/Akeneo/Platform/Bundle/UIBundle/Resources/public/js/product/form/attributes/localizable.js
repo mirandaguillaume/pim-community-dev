@@ -1,15 +1,9 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import FetcherRegistry from 'pim/fetcher-registry';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   configure: function () {
     this.listenTo(this.getRoot(), 'pim_enrich:form:field:extension:add', this.addFieldExtension);
 

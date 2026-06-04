@@ -1,17 +1,13 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import $ from 'jquery';
+import BaseRow from 'oro/datagrid/product-row';
+import 'pim/media-url-generator';
+import thumbnailTemplate from 'pim/template/product/tab/associated-product-row';
+import mediator from 'oro/mediator';
+import SecurityContext from 'pim/security-context';
+import router from 'pim/router';
 
-var _ = __pimInterop(require('underscore'));
-var $ = __pimInterop(require('jquery'));
-var BaseRow = __pimInterop(require('oro/datagrid/product-row'));
-require('pim/media-url-generator');
-var thumbnailTemplate = __pimInterop(require('pim/template/product/tab/associated-product-row'));
-var mediator = __pimInterop(require('oro/mediator'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var router = __pimInterop(require('pim/router'));
-
-module.exports = BaseRow.extend({
+export default BaseRow.extend({
   thumbnailTemplate: _.template(thumbnailTemplate),
 
   /**

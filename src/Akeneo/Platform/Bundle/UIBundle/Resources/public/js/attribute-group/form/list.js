@@ -1,23 +1,17 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import 'oro/translator';
+import BaseForm from 'pim/form';
+import FetcherRegistry from 'pim/fetcher-registry';
+import 'pim/common/property';
+import Routing from 'routing';
+import router from 'pim/router';
+import UserContext from 'pim/user-context';
+import i18n from 'pim/i18n';
+import securityContext from 'pim/security-context';
+import template from 'pim/template/form/attribute-group/list';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-var BaseForm = __pimInterop(require('pim/form'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-require('pim/common/property');
-var Routing = __pimInterop(require('routing'));
-var router = __pimInterop(require('pim/router'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-var securityContext = __pimInterop(require('pim/security-context'));
-var template = __pimInterop(require('pim/template/form/attribute-group/list'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'tabsection',
   template: _.template(template),
   attributeGroups: [],

@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import MultiSelectFilter from 'oro/datafilter/multiselect-filter';
+import Routing from 'routing';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var MultiSelectFilter = __pimInterop(require('oro/datafilter/multiselect-filter'));
-var Routing = __pimInterop(require('routing'));
-('use strict');
-
-module.exports = MultiSelectFilter.extend({
+export default MultiSelectFilter.extend({
   choicesFetched: false,
   choiceUrl: null,
   choiceUrlParams: {},

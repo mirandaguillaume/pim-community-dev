@@ -1,35 +1,27 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var BaseForm = __pimInterop(require('pim/form'));
-var formTemplate = __pimInterop(require('pim/template/product/tab/associations'));
-var panesTemplate = __pimInterop(require('pim/template/product/tab/association-panes'));
-var modalTemplate = __pimInterop(require('pim/template/common/modal-centered'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var Routing = __pimInterop(require('routing'));
-var mediator = __pimInterop(require('oro/mediator'));
-var datagridBuilder = __pimInterop(require('oro/datagrid-builder'));
-var PageableCollection = __pimInterop(require('oro/pageable-collection'));
-var DatagridState = __pimInterop(require('pim/datagrid/state'));
-var requireContext = __pimInterop(require('require-context'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var securityContext = __pimInterop(require('pim/security-context'));
-var {getLabel} = __pimInterop(require('pim/i18n'));
-var {QuantifiedAssociations} = __pimInterop(
-  require('pimui/js/product/form/quantified-associations/components/QuantifiedAssociations')
-);
-var {filterErrors} = __pimInterop(require('@akeneo-pim-community/shared'));
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import BaseForm from 'pim/form';
+import formTemplate from 'pim/template/product/tab/associations';
+import panesTemplate from 'pim/template/product/tab/association-panes';
+import modalTemplate from 'pim/template/common/modal-centered';
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import Routing from 'routing';
+import mediator from 'oro/mediator';
+import datagridBuilder from 'oro/datagrid-builder';
+import PageableCollection from 'oro/pageable-collection';
+import DatagridState from 'pim/datagrid/state';
+import requireContext from 'require-context';
+import FormBuilder from 'pim/form-builder';
+import securityContext from 'pim/security-context';
+import {getLabel} from 'pim/i18n';
+import {QuantifiedAssociations} from 'pimui/js/product/form/quantified-associations/components/QuantifiedAssociations';
+import {filterErrors} from '@akeneo-pim-community/shared';
 let state = {};
 
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(formTemplate),
   panesTemplate: _.template(panesTemplate),
   modalTemplate: _.template(modalTemplate),

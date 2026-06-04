@@ -1,15 +1,9 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import template from 'pim/template/form/add-select/footer';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var template = __pimInterop(require('pim/template/form/add-select/footer'));
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   template: _.template(template),
   buttonTitle: null,
   numberOfItems: 0,

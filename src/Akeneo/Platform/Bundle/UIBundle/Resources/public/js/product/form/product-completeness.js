@@ -1,19 +1,13 @@
-'use strict';
+import _ from 'underscore';
+import 'oro/translator';
+import 'pim/router';
+import BaseForm from 'pim/form';
+import 'pim/i18n';
+import UserContext from 'pim/user-context';
+import mediator from 'oro/mediator';
+import {ProductCurrentCompleteness, formatCurrentCompleteness} from '@akeneo-pim-community/enrichment';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-require('pim/router');
-var BaseForm = __pimInterop(require('pim/form'));
-require('pim/i18n');
-var UserContext = __pimInterop(require('pim/user-context'));
-var mediator = __pimInterop(require('oro/mediator'));
-var {ProductCurrentCompleteness, formatCurrentCompleteness} = __pimInterop(require('@akeneo-pim-community/enrichment'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   /**
    * {@inheritdoc}
    */

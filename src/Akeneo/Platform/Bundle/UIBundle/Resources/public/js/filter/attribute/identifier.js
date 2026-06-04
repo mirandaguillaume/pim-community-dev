@@ -1,19 +1,13 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/filter';
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import template from 'pim/template/filter/product/identifier';
+import i18n from 'pim/i18n';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/filter'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var template = __pimInterop(require('pim/template/filter/product/identifier'));
-var i18n = __pimInterop(require('pim/i18n'));
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   shortname: 'identifier',
   template: _.template(template),
   events: {

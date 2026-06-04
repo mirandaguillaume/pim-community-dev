@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import 'jquery';
+import 'underscore';
+import DateFilter from 'oro/datafilter/date-filter';
+import DateContext from 'pim/date-context';
 
-require('jquery');
-require('underscore');
-var DateFilter = __pimInterop(require('oro/datafilter/date-filter'));
-var DateContext = __pimInterop(require('pim/date-context'));
-('use strict');
-
-module.exports = DateFilter.extend({
+export default DateFilter.extend({
   /**
    * CSS class for visual datetime input elements
    *

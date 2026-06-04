@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import __ from 'oro/translator';
+import SelectFilter from 'oro/datafilter/select-filter';
+import template from 'pim/template/datagrid/filter-grouped-variant';
 
-var $ = __pimInterop(require('jquery'));
-var __ = __pimInterop(require('oro/translator'));
-var SelectFilter = __pimInterop(require('oro/datafilter/select-filter'));
-var template = __pimInterop(require('pim/template/datagrid/filter-grouped-variant'));
-('use strict');
-
-module.exports = SelectFilter.extend({
+export default SelectFilter.extend({
   template: _.template(template),
   className: 'AknDropdown AknDropdown--left AknTitleContainer-variantSelector',
   events: {

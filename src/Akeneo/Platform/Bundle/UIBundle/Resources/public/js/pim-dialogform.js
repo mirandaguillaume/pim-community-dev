@@ -1,24 +1,18 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var mediator = __pimInterop(require('oro/mediator'));
-var router = __pimInterop(require('pim/router'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-require('jquery-ui');
-require('bootstrap');
+import $ from 'jquery';
+import _ from 'underscore';
+import mediator from 'oro/mediator';
+import router from 'pim/router';
+import LoadingMask from 'oro/loading-mask';
+import initSelect2 from 'pim/initselect2';
+import 'jquery-ui';
+import 'bootstrap';
 
 // Allow using select2 search box in jquery ui dialog
 $.ui.dialog.prototype._allowInteraction = function (e) {
   return !!$(e.target).closest('.ui-dialog, .select2-drop').length;
 };
 
-module.exports = function (elementId, callback) {
+export default function (elementId, callback) {
   var $el = $(elementId);
   if (!$el.length) {
     return console.error('DialogForm: the element could not be found!');
@@ -168,4 +162,4 @@ module.exports = function (elementId, callback) {
       },
     });
   });
-};
+}

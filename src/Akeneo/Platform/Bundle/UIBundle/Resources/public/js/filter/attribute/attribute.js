@@ -1,28 +1,14 @@
-/**
- * Abstract attribute filter
- *
- * @author    Yohan Blain <yohan.blain@akeneo.com>
- * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/filter';
+import FetcherRegistry from 'pim/fetcher-registry';
+import i18n from 'pim/i18n';
+import UserContext from 'pim/user-context';
+import ScopeSwitcher from 'pim/product-edit-form/scope-switcher';
+import LocaleSwitcher from 'pim/product-edit-form/locale-switcher';
 
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/filter'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var i18n = __pimInterop(require('pim/i18n'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var ScopeSwitcher = __pimInterop(require('pim/product-edit-form/scope-switcher'));
-var LocaleSwitcher = __pimInterop(require('pim/product-edit-form/locale-switcher'));
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   /**
    * {@inherit}
    */

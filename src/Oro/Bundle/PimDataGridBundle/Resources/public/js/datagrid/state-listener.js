@@ -1,12 +1,7 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var mediator = __pimInterop(require('oro/mediator'));
-var AbstractListener = __pimInterop(require('oro/datagrid/abstract-listener'));
-var DatagridState = __pimInterop(require('pim/datagrid/state'));
-('use strict');
+import _ from 'underscore';
+import mediator from 'oro/mediator';
+import AbstractListener from 'oro/datagrid/abstract-listener';
+import DatagridState from 'pim/datagrid/state';
 
 /**
  * Datagrid state listener
@@ -81,4 +76,4 @@ StateListener.init = function ($gridContainer, gridName) {
   new StateListener({$gridContainer: $gridContainer, gridName: gridName});
 };
 
-module.exports = StateListener;
+export default StateListener;

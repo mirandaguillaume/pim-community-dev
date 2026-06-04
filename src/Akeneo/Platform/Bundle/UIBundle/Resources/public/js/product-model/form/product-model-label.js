@@ -1,13 +1,7 @@
-'use strict';
+import Label from 'pim/form/common/label';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Label = __pimInterop(require('pim/form/common/label'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = Label.extend({
+export default Label.extend({
   /**
    * Provide the object label
    * @return {String}

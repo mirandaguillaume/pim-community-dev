@@ -1,26 +1,20 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'backbone';
+import Routing from 'routing';
+import BaseForm from 'pim/form';
+import template from 'pim/template/common/item-picker';
+import basketTemplate from 'pim/template/common/item-picker-basket';
+import datagridBuilder from 'oro/datagrid-builder';
+import mediator from 'oro/mediator';
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import CategoryFilter from 'oro/datafilter/product_category-filter';
+import requireContext from 'require-context';
+import Resizable from 'pim/menu/resizable';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('backbone');
-var Routing = __pimInterop(require('routing'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/common/item-picker'));
-var basketTemplate = __pimInterop(require('pim/template/common/item-picker-basket'));
-var datagridBuilder = __pimInterop(require('oro/datagrid-builder'));
-var mediator = __pimInterop(require('oro/mediator'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var CategoryFilter = __pimInterop(require('oro/datafilter/product_category-filter'));
-var requireContext = __pimInterop(require('require-context'));
-var Resizable = __pimInterop(require('pim/menu/resizable'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   basketTemplate: _.template(basketTemplate),
   events: {

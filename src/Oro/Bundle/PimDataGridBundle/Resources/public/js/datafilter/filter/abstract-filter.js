@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import app from 'oro/app';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var app = __pimInterop(require('oro/app'));
-('use strict');
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   /**
    * Filter container tag
    *

@@ -1,22 +1,16 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import messenger from 'oro/messenger';
+import i18n from 'pim/i18n';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import BaseOperation from 'pim/mass-edit-form/product/operation';
+import TreeAssociate from 'pim/tree/associate';
+import propertyAccessor from 'pim/common/property';
+import template from 'pim/template/mass-edit/product/category';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var messenger = __pimInterop(require('oro/messenger'));
-var i18n = __pimInterop(require('pim/i18n'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
-var TreeAssociate = __pimInterop(require('pim/tree/associate'));
-var propertyAccessor = __pimInterop(require('pim/common/property'));
-var template = __pimInterop(require('pim/template/mass-edit/product/category'));
-
-module.exports = BaseOperation.extend({
+export default BaseOperation.extend({
   template: _.template(template),
   currentTree: null,
   categoryCache: {},

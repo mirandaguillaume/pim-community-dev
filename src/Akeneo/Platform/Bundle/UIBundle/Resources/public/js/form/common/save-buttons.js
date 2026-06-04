@@ -1,17 +1,11 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import 'oro/mediator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/form/save-buttons';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-require('oro/mediator');
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/form/save-buttons'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknTitleContainer-rightButton',
   template: _.template(template),
   buttonDefaults: {

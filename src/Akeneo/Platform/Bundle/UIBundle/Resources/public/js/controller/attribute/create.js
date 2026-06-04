@@ -1,21 +1,10 @@
-/**
- * @author    Yohan Blain <yohan.blain@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- */
-'use strict';
+import 'underscore';
+import BaseController from 'pim/controller/front';
+import FormBuilder from 'pim/form-builder';
+import fetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('underscore');
-var BaseController = __pimInterop(require('pim/controller/front'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var UserContext = __pimInterop(require('pim/user-context'));
-
-module.exports = BaseController.extend({
+export default BaseController.extend({
   /**
    * {@inheritdoc}
    */

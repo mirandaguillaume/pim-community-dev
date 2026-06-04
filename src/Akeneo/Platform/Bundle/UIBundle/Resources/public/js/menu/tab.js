@@ -1,18 +1,12 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import router from 'pim/router';
+import Routing from 'routing';
+import template from 'pim/template/menu/tab';
+import mediator from 'oro/mediator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var router = __pimInterop(require('pim/router'));
-var Routing = __pimInterop(require('routing'));
-var template = __pimInterop(require('pim/template/menu/tab'));
-var mediator = __pimInterop(require('oro/mediator'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   events: {
     click: 'redirect',

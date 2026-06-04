@@ -1,15 +1,9 @@
-'use strict';
+import BaseForm from 'pim/form';
+import UserContext from 'pim/user-context';
+import i18n from 'pim/i18n';
+import _ from 'underscore';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseForm = __pimInterop(require('pim/form'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-var _ = __pimInterop(require('underscore'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   tagName: 'h1',
   className: 'AknTitleContainer-title',
 

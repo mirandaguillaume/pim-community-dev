@@ -1,19 +1,11 @@
-/* global define */
-
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('backbone');
-var groupTemplate = __pimInterop(require('pim/template/datagrid/actions-group'));
-var BaseForm = __pimInterop(require('pim/form'));
-var mediator = __pimInterop(require('oro/mediator'));
-var {QuickExportConfigurator} = require('pimdatagrid/datagrid/quickexport/component/QuickExportConfigurator');
-var UserContext = __pimInterop(require('pim/user-context'));
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'backbone';
+import groupTemplate from 'pim/template/datagrid/actions-group';
+import BaseForm from 'pim/form';
+import mediator from 'oro/mediator';
+import {QuickExportConfigurator} from 'pimdatagrid/datagrid/quickexport/component/QuickExportConfigurator';
+import UserContext from 'pim/user-context';
 const ActionsPanel = BaseForm.extend({
   appendToGrid: false,
 
@@ -229,4 +221,4 @@ ActionsPanel.init = (gridContainer, gridName) => {
   return new ActionsPanel({appendToGrid: true, gridElement: $(gridContainer).find('.grid-container')});
 };
 
-module.exports = ActionsPanel;
+export default ActionsPanel;

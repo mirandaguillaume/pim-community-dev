@@ -1,17 +1,11 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import messenger from 'oro/messenger';
+import BaseForm from 'pim/form';
+import FormModal from 'pim/form-modal';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var messenger = __pimInterop(require('oro/messenger'));
-var BaseForm = __pimInterop(require('pim/form'));
-var FormModal = __pimInterop(require('pim/form-modal'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknButton AknButton--action AknButton--small add-variant',
   modal: null,
 

@@ -1,19 +1,14 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import messenger from 'oro/messenger';
+import __ from 'oro/translator';
+import 'pim/dialog';
+import ModelAction from 'oro/datagrid/model-action';
+import mediator from 'oro/mediator';
+import userContext from 'pim/user-context';
+import DeleteConfirm from 'oro/datagrid/delete-confirm';
+import FetcherRegistry from 'pim/fetcher-registry';
 
-var _ = __pimInterop(require('underscore'));
-var messenger = __pimInterop(require('oro/messenger'));
-var __ = __pimInterop(require('oro/translator'));
-require('pim/dialog');
-var ModelAction = __pimInterop(require('oro/datagrid/model-action'));
-var mediator = __pimInterop(require('oro/mediator'));
-var userContext = __pimInterop(require('pim/user-context'));
-var DeleteConfirm = __pimInterop(require('oro/datagrid/delete-confirm'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-('use strict');
-
-module.exports = ModelAction.extend({
+export default ModelAction.extend({
   errorModal: undefined,
 
   confirmModal: undefined,

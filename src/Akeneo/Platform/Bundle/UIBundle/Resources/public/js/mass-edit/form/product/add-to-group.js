@@ -1,21 +1,15 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import messenger from 'oro/messenger';
+import 'pim/i18n';
+import 'pim/user-context';
+import BaseOperation from 'pim/mass-edit-form/product/operation';
+import 'pim/fetcher-registry';
+import propertyAccessor from 'pim/common/property';
+import template from 'pim/template/mass-edit/product/add-to-group';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var messenger = __pimInterop(require('oro/messenger'));
-require('pim/i18n');
-require('pim/user-context');
-var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
-require('pim/fetcher-registry');
-var propertyAccessor = __pimInterop(require('pim/common/property'));
-var template = __pimInterop(require('pim/template/mass-edit/product/add-to-group'));
-
-module.exports = BaseOperation.extend({
+export default BaseOperation.extend({
   template: _.template(template),
 
   /**

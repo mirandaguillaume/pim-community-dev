@@ -1,13 +1,7 @@
-'use strict';
+import BaseSave from 'pim/form/common/save-form';
+import messenger from 'oro/messenger';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseSave = __pimInterop(require('pim/form/common/save-form'));
-var messenger = __pimInterop(require('oro/messenger'));
-
-module.exports = BaseSave.extend({
+export default BaseSave.extend({
   fail: function (response) {
     let errorMessage = this.updateFailureMessage;
 

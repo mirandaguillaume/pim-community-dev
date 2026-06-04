@@ -1,12 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import DeleteAction from 'oro/datagrid/delete-action';
+import Router from 'pim/router';
+import SecurityContext from 'pim/security-context';
 
-var DeleteAction = __pimInterop(require('oro/datagrid/delete-action'));
-var Router = __pimInterop(require('pim/router'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-
-module.exports = DeleteAction.extend({
+export default DeleteAction.extend({
   /** @property {Boolean} */
   noHref: true,
 

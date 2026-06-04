@@ -1,14 +1,8 @@
-'use strict';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import template from 'pim/template/menu/menu';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/menu/menu'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknHeader',
   template: _.template(template),
 

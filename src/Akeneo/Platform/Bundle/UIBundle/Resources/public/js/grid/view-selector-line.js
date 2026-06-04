@@ -1,16 +1,10 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import 'backbone';
+import BaseForm from 'pim/form';
+import template from 'pim/template/grid/view-selector/line';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-require('backbone');
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/grid/view-selector/line'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   datagridView: null,
   datagridViewType: null,

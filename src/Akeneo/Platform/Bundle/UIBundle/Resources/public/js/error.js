@@ -1,15 +1,9 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var routing = __pimInterop(require('routing'));
-var app = __pimInterop(require('oro/app'));
-var Error = __pimInterop(require('pim/error'));
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import routing from 'routing';
+import app from 'oro/app';
+import Error from 'pim/error';
 
 var defaults = {
   header: 'Server error',
@@ -78,4 +72,4 @@ _.extend(error.dispatch, {
   },
 });
 
-module.exports = error;
+export default error;

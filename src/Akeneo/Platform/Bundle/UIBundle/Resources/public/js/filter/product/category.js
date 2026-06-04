@@ -1,22 +1,16 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var BaseFilter = __pimInterop(require('pim/filter/filter'));
-require('routing');
-var CategoryTree = __pimInterop(require('pim/filter/product/category/selector'));
-var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var template = __pimInterop(require('pim/template/filter/product/category'));
-require('jquery.select2');
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import BaseFilter from 'pim/filter/filter';
+import 'routing';
+import CategoryTree from 'pim/filter/product/category/selector';
+import fetcherRegistry from 'pim/fetcher-registry';
+import template from 'pim/template/filter/product/category';
+import 'jquery.select2';
 var TreeModal = Backbone.BootstrapModal.extend({});
 
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   shortname: 'category',
   template: _.template(template),
   className: 'AknFieldContainer control-group filter-item category-filter',

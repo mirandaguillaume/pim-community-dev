@@ -1,20 +1,14 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var i18n = __pimInterop(require('pim/i18n'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var template = __pimInterop(require('pim/template/family-variant/attribute-set'));
-var attributeGroupTemplate = __pimInterop(require('pim/template/family-variant/attribute-group'));
-var analytics = __pimInterop(require('pim/analytics'));
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import i18n from 'pim/i18n';
+import UserContext from 'pim/user-context';
+import fetcherRegistry from 'pim/fetcher-registry';
+import Dialog from 'pim/dialog';
+import template from 'pim/template/family-variant/attribute-set';
+import attributeGroupTemplate from 'pim/template/family-variant/attribute-group';
+import analytics from 'pim/analytics';
 const sortOrdered = (first, second) => first.sort_order - second.sort_order;
 
 /**
@@ -43,7 +37,7 @@ const groupAttributes = (attributes, attributeGroups) => (attributeCodes, locked
  */
 const getAttribute = attributes => attributeCode => attributes.find(attribute => attribute.code === attributeCode);
 
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   events: {
     'click .delete-attribute': 'removeAttributeFromVariantAttributeSet',
     'click .delete-attribute-group': 'removeAttributeGroupFromVariantAttributeSet',

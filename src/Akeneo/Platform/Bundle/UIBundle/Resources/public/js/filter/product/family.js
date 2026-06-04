@@ -1,20 +1,14 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/filter';
+import Routing from 'routing';
+import template from 'pim/template/filter/product/family';
+import fetcherRegistry from 'pim/fetcher-registry';
+import userContext from 'pim/user-context';
+import i18n from 'pim/i18n';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/filter'));
-var Routing = __pimInterop(require('routing'));
-var template = __pimInterop(require('pim/template/filter/product/family'));
-var fetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var userContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-require('jquery.select2');
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   shortname: 'family',
   config: {},
   template: _.template(template),

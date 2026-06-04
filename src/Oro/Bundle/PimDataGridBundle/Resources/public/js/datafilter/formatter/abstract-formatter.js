@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Just a convenient class for interested parties to subclass.
  *
@@ -41,4 +39,4 @@ AbstractFormatter.prototype = {
   },
 };
 
-module.exports = AbstractFormatter;
+export default AbstractFormatter;

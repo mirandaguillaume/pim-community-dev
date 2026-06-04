@@ -1,12 +1,7 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import 'underscore';
+import Backgrid from 'backgrid';
 
-require('underscore');
-var Backgrid = __pimInterop(require('backgrid'));
-('use strict');
-
-module.exports = Backgrid.NumberCell.extend({
+export default Backgrid.NumberCell.extend({
   /** @property {String} */
   style: 'decimal',
 

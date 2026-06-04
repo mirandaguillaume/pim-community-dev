@@ -1,15 +1,9 @@
-'use strict';
+import _ from 'underscore';
+import MultiselectField from 'pim/multi-select-field';
+import Routing from 'routing';
+import FetcherRegistry from 'pim/fetcher-registry';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var MultiselectField = __pimInterop(require('pim/multi-select-field'));
-var Routing = __pimInterop(require('routing'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-
-module.exports = MultiselectField.extend({
+export default MultiselectField.extend({
   fieldType: 'reference-multi-select',
   getTemplateContext: function () {
     return MultiselectField.prototype.getTemplateContext.apply(this, arguments).then(function (templateContext) {

@@ -1,15 +1,9 @@
-'use strict';
+import BaseController from 'pim/controller/front';
+import FetcherRegistry from 'pim/fetcher-registry';
+import PageTitle from 'pim/page-title';
+import FormBuilder from 'pim/form-builder';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseController = __pimInterop(require('pim/controller/front'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var PageTitle = __pimInterop(require('pim/page-title'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-
-module.exports = BaseController.extend({
+export default BaseController.extend({
   /**
    * {@inheritdoc}
    */

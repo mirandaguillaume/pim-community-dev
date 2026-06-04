@@ -1,17 +1,11 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import mediator from 'oro/mediator';
+import FormBuilder from 'pim/form-builder';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var mediator = __pimInterop(require('oro/mediator'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   /**
    * The form name the modal should display.
    * This service must be registered with RequireJS, eg: 'pim-product-edit-form'

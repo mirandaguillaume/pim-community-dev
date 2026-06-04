@@ -1,16 +1,10 @@
-'use strict';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
+import Grid from 'pim/common/grid';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-require('pim/fetcher-registry');
-var UserContext = __pimInterop(require('pim/user-context'));
-var Grid = __pimInterop(require('pim/common/grid'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'products',
 
   /**

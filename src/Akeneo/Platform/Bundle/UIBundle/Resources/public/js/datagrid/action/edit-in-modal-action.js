@@ -1,14 +1,8 @@
-'use strict';
+import 'underscore';
+import AbstractAction from 'oro/datagrid/abstract-action';
+import formModalCreator from 'pim/common/form-modal-creator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('underscore');
-var AbstractAction = __pimInterop(require('oro/datagrid/abstract-action'));
-var formModalCreator = __pimInterop(require('pim/common/form-modal-creator'));
-
-module.exports = AbstractAction.extend({
+export default AbstractAction.extend({
   /**
    * {@inheritdoc}
    */

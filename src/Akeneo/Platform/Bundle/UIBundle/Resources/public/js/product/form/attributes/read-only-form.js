@@ -1,15 +1,9 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import BaseForm from 'pim/form';
+import attributeTemplate from 'pim/template/form/tab/attributes';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var BaseForm = __pimInterop(require('pim/form'));
-var attributeTemplate = __pimInterop(require('pim/template/form/tab/attributes'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(attributeTemplate),
   readOnly: false,
 

@@ -1,13 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import 'underscore';
+import BaseForm from 'pim/form';
+import mediator from 'oro/mediator';
+import FiltersManager from 'oro/datafilter/collection-filters-manager';
 
-require('underscore');
-var BaseForm = __pimInterop(require('pim/form'));
-var mediator = __pimInterop(require('oro/mediator'));
-var FiltersManager = __pimInterop(require('oro/datafilter/collection-filters-manager'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   displayAsPanel: false,
   isLoaded: false,
 

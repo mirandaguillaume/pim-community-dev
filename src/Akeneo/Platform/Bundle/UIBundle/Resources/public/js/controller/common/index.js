@@ -1,14 +1,8 @@
-'use strict';
+import 'underscore';
+import BaseController from 'pim/controller/front';
+import FormBuilder from 'pim/form-builder';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('underscore');
-var BaseController = __pimInterop(require('pim/controller/front'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-
-module.exports = BaseController.extend({
+export default BaseController.extend({
   initialize: function (options) {
     this.options = options;
   },

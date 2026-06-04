@@ -1,15 +1,9 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import BaseFetcher from 'pim/base-fetcher';
+import Routing from 'routing';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var BaseFetcher = __pimInterop(require('pim/base-fetcher'));
-var Routing = __pimInterop(require('routing'));
-
-module.exports = BaseFetcher.extend({
+export default BaseFetcher.extend({
   identifierPromise: null,
   fetchByTypesPromises: [],
 

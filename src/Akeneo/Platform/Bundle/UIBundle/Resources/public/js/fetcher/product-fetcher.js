@@ -1,18 +1,12 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import 'backbone';
+import BaseFetcher from 'pim/base-fetcher';
+import Routing from 'routing';
+import mediator from 'oro/mediator';
+import CacheInvalidator from 'pim/cache-invalidator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-require('backbone');
-var BaseFetcher = __pimInterop(require('pim/base-fetcher'));
-var Routing = __pimInterop(require('routing'));
-var mediator = __pimInterop(require('oro/mediator'));
-var CacheInvalidator = __pimInterop(require('pim/cache-invalidator'));
-
-module.exports = BaseFetcher.extend({
+export default BaseFetcher.extend({
   /**
    * Fetch a product or a product_model based on its id or uuid
    *

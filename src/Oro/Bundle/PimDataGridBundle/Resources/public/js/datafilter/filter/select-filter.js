@@ -1,14 +1,9 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import __ from 'oro/translator';
+import AbstractFilter from 'oro/datafilter/abstract-filter';
+import MultiselectDecorator from 'oro/multiselect-decorator';
 
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var AbstractFilter = __pimInterop(require('oro/datafilter/abstract-filter'));
-var MultiselectDecorator = __pimInterop(require('oro/multiselect-decorator'));
-('use strict');
-
-module.exports = AbstractFilter.extend({
+export default AbstractFilter.extend({
   /**
    * Filter template
    *

@@ -1,19 +1,15 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import __ from 'oro/translator';
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import mediator from 'oro/mediator';
+import MultiselectDecorator from 'oro/multiselect-decorator';
+import addFilterSelectTemplate from 'pim/template/datagrid/add-filter-select';
+import addFilterButtonTemplate from 'pim/template/datagrid/add-filter-button';
+import doneContainerTemplate from 'pim/template/datagrid/done-container';
+import doneButtonTemplate from 'pim/template/datagrid/done-button';
 
-var __ = __pimInterop(require('oro/translator'));
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var mediator = __pimInterop(require('oro/mediator'));
-var MultiselectDecorator = __pimInterop(require('oro/multiselect-decorator'));
-var addFilterSelectTemplate = __pimInterop(require('pim/template/datagrid/add-filter-select'));
-var addFilterButtonTemplate = __pimInterop(require('pim/template/datagrid/add-filter-button'));
-var doneContainerTemplate = __pimInterop(require('pim/template/datagrid/done-container'));
-var doneButtonTemplate = __pimInterop(require('pim/template/datagrid/done-button'));
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   displayAsPanel: false,
 
   /**

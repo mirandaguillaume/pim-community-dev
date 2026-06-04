@@ -1,15 +1,9 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import FetcherRegistry from 'pim/fetcher-registry';
+import FamilyAddAttributeSelect from 'pim/family-edit-form/attributes/toolbar/add-select/attribute';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var FamilyAddAttributeSelect = __pimInterop(require('pim/family-edit-form/attributes/toolbar/add-select/attribute'));
-
-module.exports = FamilyAddAttributeSelect.extend({
+export default FamilyAddAttributeSelect.extend({
   fetchAttributeGroups(attributes) {
     const groupCodes = _.unique(_.pluck(attributes, 'group'));
 

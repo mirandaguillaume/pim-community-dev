@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import Backgrid from 'backgrid';
+import Row from 'oro/datagrid/row';
 
-var _ = __pimInterop(require('underscore'));
-var Backgrid = __pimInterop(require('backgrid'));
-var Row = __pimInterop(require('oro/datagrid/row'));
-('use strict');
-
-module.exports = Backgrid.Body.extend({
+export default Backgrid.Body.extend({
   /** @property */
   row: Row,
 

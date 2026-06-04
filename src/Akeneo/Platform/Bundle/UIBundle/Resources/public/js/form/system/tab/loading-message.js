@@ -1,17 +1,11 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import $ from 'jquery';
+import BaseForm from 'pim/form';
+import template from 'pim/template/system/tab/loading-message';
+import 'bootstrap.bootstrapswitch';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var $ = __pimInterop(require('jquery'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/system/tab/loading-message'));
-require('bootstrap.bootstrapswitch');
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   events: {
     'change input[type="checkbox"]': 'updateBoolean',
     'change textarea': 'updateText',

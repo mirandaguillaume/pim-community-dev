@@ -1,15 +1,9 @@
-'use strict';
+import _ from 'underscore';
+import 'oro/translator';
+import BaseForm from 'pim/form';
+import template from 'pim/template/family/tab/attributes/toolbar';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-require('oro/translator');
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/family/tab/attributes/toolbar'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'AknGridToolbar',
   template: _.template(template),
   readOnly: false,

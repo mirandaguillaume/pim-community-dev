@@ -1,18 +1,12 @@
-'use strict';
+import $ from 'jquery';
+import 'underscore';
+import __ from 'oro/translator';
+import BaseLaunch from 'pim/job/common/edit/launch';
+import router from 'pim/router';
+import messenger from 'oro/messenger';
+import LoadingMask from 'oro/loading-mask';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('underscore');
-var __ = __pimInterop(require('oro/translator'));
-var BaseLaunch = __pimInterop(require('pim/job/common/edit/launch'));
-var router = __pimInterop(require('pim/router'));
-var messenger = __pimInterop(require('oro/messenger'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-
-module.exports = BaseLaunch.extend({
+export default BaseLaunch.extend({
   /**
    * {@inherit}
    */

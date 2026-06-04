@@ -1,10 +1,4 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Routing = __pimInterop(require('routing'));
+import Routing from 'routing';
 var matchUrl = function (url) {
   var routes = Routing.getRoutes();
   var route;
@@ -98,6 +92,6 @@ var matchUrl = function (url) {
   return false;
 };
 
-module.exports = {
+export default {
   match: matchUrl,
 };

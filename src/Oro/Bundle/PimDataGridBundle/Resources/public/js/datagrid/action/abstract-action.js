@@ -1,22 +1,17 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import routing from 'routing';
+import router from 'pim/router';
+import __ from 'oro/translator';
+import mediator from 'oro/mediator';
+import messenger from 'oro/messenger';
+import error from 'oro/error';
+import Dialog from 'pim/dialog';
+import ActionLauncher from 'oro/datagrid/action-launcher';
+import requireContext from 'require-context';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var routing = __pimInterop(require('routing'));
-var router = __pimInterop(require('pim/router'));
-var __ = __pimInterop(require('oro/translator'));
-var mediator = __pimInterop(require('oro/mediator'));
-var messenger = __pimInterop(require('oro/messenger'));
-var error = __pimInterop(require('oro/error'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var ActionLauncher = __pimInterop(require('oro/datagrid/action-launcher'));
-var requireContext = __pimInterop(require('require-context'));
-('use strict');
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   /** @property {Function} */
   launcherPrototype: ActionLauncher,
 

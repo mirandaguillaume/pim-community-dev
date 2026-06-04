@@ -1,17 +1,11 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import template from 'pim/template/export/common/edit/properties';
+import BaseTab from 'pim/common/tab';
+import propertyAccessor from 'pim/common/property';
+import pimEdition from 'pim/edition';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var template = __pimInterop(require('pim/template/export/common/edit/properties'));
-var BaseTab = __pimInterop(require('pim/common/tab'));
-var propertyAccessor = __pimInterop(require('pim/common/property'));
-var pimEdition = __pimInterop(require('pim/edition'));
-
-module.exports = BaseTab.extend({
+export default BaseTab.extend({
   template: _.template(template),
   errors: {},
 

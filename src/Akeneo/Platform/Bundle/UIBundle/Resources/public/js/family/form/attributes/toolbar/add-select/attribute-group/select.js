@@ -1,15 +1,9 @@
-'use strict';
+import 'jquery';
+import 'underscore';
+import 'oro/translator';
+import BaseAddSelect from 'pim/common/add-select';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-require('underscore');
-require('oro/translator');
-var BaseAddSelect = __pimInterop(require('pim/common/add-select'));
-
-module.exports = BaseAddSelect.extend({
+export default BaseAddSelect.extend({
   className: 'AknButtonList-item add-attribute-group',
 
   /**

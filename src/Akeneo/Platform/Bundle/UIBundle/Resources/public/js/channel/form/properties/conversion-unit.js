@@ -1,21 +1,15 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import FetcherRegistry from 'pim/fetcher-registry';
+import template from 'pim/template/channel/tab/properties/conversion-unit';
+import UserContext from 'pim/user-context';
+import i18n from 'pim/i18n';
+import {Helper} from 'akeneo-design-system';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var template = __pimInterop(require('pim/template/channel/tab/properties/conversion-unit'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var i18n = __pimInterop(require('pim/i18n'));
-var {Helper} = __pimInterop(require('akeneo-design-system'));
-require('jquery.select2');
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'tabsection',
   template: _.template(template),
   locale: UserContext.get('uiLocale'),

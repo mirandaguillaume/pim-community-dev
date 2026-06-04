@@ -1,24 +1,18 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import messenger from 'oro/messenger';
+import Routing from 'routing';
+import BaseOperation from 'pim/mass-edit-form/product/operation';
+import UserContext from 'pim/user-context';
+import FormBuilder from 'pim/form-builder';
+import FetcherRegistry from 'pim/fetcher-registry';
+import i18n from 'pim/i18n';
+import propertyAccessor from 'pim/common/property';
+import template from 'pim/template/mass-edit/product/edit-common-attributes';
+import analytics from 'pim/analytics';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var messenger = __pimInterop(require('oro/messenger'));
-var Routing = __pimInterop(require('routing'));
-var BaseOperation = __pimInterop(require('pim/mass-edit-form/product/operation'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var FetcherRegistry = __pimInterop(require('pim/fetcher-registry'));
-var i18n = __pimInterop(require('pim/i18n'));
-var propertyAccessor = __pimInterop(require('pim/common/property'));
-var template = __pimInterop(require('pim/template/mass-edit/product/edit-common-attributes'));
-var analytics = __pimInterop(require('pim/analytics'));
-
-module.exports = BaseOperation.extend({
+export default BaseOperation.extend({
   className: 'AknGridContainer--withoutNoDataPanel',
   template: _.template(template),
   errors: null,

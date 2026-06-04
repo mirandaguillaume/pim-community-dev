@@ -1,24 +1,19 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import Backgrid from 'backgrid';
+import __ from 'oro/translator';
+import mediator from 'oro/mediator';
+import LoadingMask from 'oro/loading-mask';
+import GridHeader from 'oro/datagrid/header';
+import GridBody from 'oro/datagrid/body';
+import ActionColumn from 'oro/datagrid/action-column';
+import SelectRowCell from 'oro/datagrid/select-row-cell';
+import SelectAllHeaderCell from 'oro/datagrid/select-all-header-cell';
+import noDataTemplate from 'pim/template/common/no-data';
+import template from 'pim/template/common/grid';
+import analytics from 'pim/analytics';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backgrid = __pimInterop(require('backgrid'));
-var __ = __pimInterop(require('oro/translator'));
-var mediator = __pimInterop(require('oro/mediator'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var GridHeader = __pimInterop(require('oro/datagrid/header'));
-var GridBody = __pimInterop(require('oro/datagrid/body'));
-var ActionColumn = __pimInterop(require('oro/datagrid/action-column'));
-var SelectRowCell = __pimInterop(require('oro/datagrid/select-row-cell'));
-var SelectAllHeaderCell = __pimInterop(require('oro/datagrid/select-all-header-cell'));
-var noDataTemplate = __pimInterop(require('pim/template/common/no-data'));
-var template = __pimInterop(require('pim/template/common/grid'));
-var analytics = __pimInterop(require('pim/analytics'));
-('use strict');
-
-module.exports = Backgrid.Grid.extend({
+export default Backgrid.Grid.extend({
   /** @property {String} */
   name: 'datagrid',
 

@@ -1,18 +1,12 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import 'pim/fetcher-registry';
+import propertyAccessor from 'pim/common/property';
+import template from 'pim/template/form/tab/section';
+import LoadingMask from 'oro/loading-mask';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-require('pim/fetcher-registry');
-var propertyAccessor = __pimInterop(require('pim/common/property'));
-var template = __pimInterop(require('pim/template/form/tab/section'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   className: 'tabsection',
   template: _.template(template),
   errors: [],

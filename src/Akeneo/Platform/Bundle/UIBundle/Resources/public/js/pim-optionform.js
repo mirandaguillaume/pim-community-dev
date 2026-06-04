@@ -1,14 +1,8 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var DialogForm = __pimInterop(require('pim/dialogform'));
-var messenger = __pimInterop(require('oro/messenger'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-require('jquery.select2');
+import $ from 'jquery';
+import DialogForm from 'pim/dialogform';
+import messenger from 'oro/messenger';
+import initSelect2 from 'pim/initselect2';
+import 'jquery.select2';
 
 var init = function (fieldId) {
   var $field = $(fieldId);
@@ -40,6 +34,6 @@ var init = function (fieldId) {
   new DialogForm(fieldId, callback);
 };
 
-module.exports = {
+export default {
   init: init,
 };

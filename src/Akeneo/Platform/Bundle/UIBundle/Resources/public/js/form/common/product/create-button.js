@@ -1,21 +1,17 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import BaseForm from 'pim/form';
+import template from 'pim/template/product/create-button';
+import modalContentTemplate from 'pim/template/product/create-modal-content';
+import 'pim/fetcher-registry';
+import 'bootstrap-modal';
+import FormBuilder from 'pim/form-builder';
+import SecurityContext from 'pim/security-context';
+import modalTemplate from 'pim/template/common/modal-centered';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var BaseForm = __pimInterop(require('pim/form'));
-var template = __pimInterop(require('pim/template/product/create-button'));
-var modalContentTemplate = __pimInterop(require('pim/template/product/create-modal-content'));
-require('pim/fetcher-registry');
-require('bootstrap-modal');
-var FormBuilder = __pimInterop(require('pim/form-builder'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var modalTemplate = __pimInterop(require('pim/template/common/modal-centered'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
   modalTemplate: _.template(modalTemplate),
   modalContentTemplate: _.template(modalContentTemplate),

@@ -1,17 +1,11 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import ProductFetcher from 'pim/product-fetcher';
+import UserContext from 'pim/user-context';
+import 'oro/mediator';
+import Routing from 'routing';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var ProductFetcher = __pimInterop(require('pim/product-fetcher'));
-var UserContext = __pimInterop(require('pim/user-context'));
-require('oro/mediator');
-var Routing = __pimInterop(require('routing'));
-
-module.exports = ProductFetcher.extend({
+export default ProductFetcher.extend({
   /**
    * @param {Object} options
    */

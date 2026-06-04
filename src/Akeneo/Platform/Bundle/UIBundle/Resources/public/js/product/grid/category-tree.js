@@ -1,14 +1,10 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import 'underscore';
+import $ from 'jquery';
+import 'pim/form-builder';
+import BaseForm from 'pim/form';
+import CategoryFilter from 'oro/datafilter/product_category-filter';
 
-require('underscore');
-var $ = __pimInterop(require('jquery'));
-require('pim/form-builder');
-var BaseForm = __pimInterop(require('pim/form'));
-var CategoryFilter = __pimInterop(require('oro/datafilter/product_category-filter'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   config: {
     alias: 'product-grid',
     categoryTreeName: 'pim_enrich_product_grid_category_tree',

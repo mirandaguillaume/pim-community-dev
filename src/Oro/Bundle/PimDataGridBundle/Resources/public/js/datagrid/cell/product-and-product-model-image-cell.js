@@ -1,15 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import _ from 'underscore';
+import ImageCell from 'oro/datagrid/image-cell';
+import productAndProductModelTemplate from 'pim/template/datagrid/cell/product-and-product-model-image-cell';
 
-var _ = __pimInterop(require('underscore'));
-var ImageCell = __pimInterop(require('oro/datagrid/image-cell'));
-var productAndProductModelTemplate = __pimInterop(
-  require('pim/template/datagrid/cell/product-and-product-model-image-cell')
-);
-('use strict');
-
-module.exports = ImageCell.extend({
+export default ImageCell.extend({
   productAndProductModelTemplate: _.template(productAndProductModelTemplate),
 
   /**

@@ -1,21 +1,15 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import BaseForm from 'pim/form';
+import UserContext from 'pim/user-context';
+import template from 'pim/template/product/comments';
+import Routing from 'routing';
+import messenger from 'oro/messenger';
+import Dialog from 'pim/dialog';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var BaseForm = __pimInterop(require('pim/form'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var template = __pimInterop(require('pim/template/product/comments'));
-var Routing = __pimInterop(require('routing'));
-var messenger = __pimInterop(require('oro/messenger'));
-var Dialog = __pimInterop(require('pim/dialog'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(template),
 
   className: 'panel-pane',

@@ -1,11 +1,5 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('jquery.slimbox');
+import $ from 'jquery';
+import 'jquery.slimbox';
 
 var maxFilenameLength = 20;
 var init = function (id) {
@@ -75,6 +69,6 @@ var init = function (id) {
   }
 };
 
-module.exports = {
+export default {
   init: init,
 };

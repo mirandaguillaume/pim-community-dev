@@ -1,13 +1,8 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import Backgrid from 'backgrid';
+import CellFormatter from 'oro/datagrid/cell-formatter';
+import __ from 'oro/translator';
 
-var Backgrid = __pimInterop(require('backgrid'));
-var CellFormatter = __pimInterop(require('oro/datagrid/cell-formatter'));
-var __ = __pimInterop(require('oro/translator'));
-('use strict');
-
-module.exports = Backgrid.StringCell.extend({
+export default Backgrid.StringCell.extend({
   formatter: new CellFormatter(),
   render: function render() {
     const attributeTypeLabel = this.formatter.fromRaw(this.model.get(this.column.get('name')));

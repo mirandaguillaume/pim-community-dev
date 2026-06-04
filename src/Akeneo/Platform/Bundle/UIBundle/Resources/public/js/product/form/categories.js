@@ -1,23 +1,17 @@
-'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import BaseForm from 'pim/form';
+import formTemplate from 'pim/template/product/tab/categories';
+import switcherTemplate from 'pim/template/product/tab/catalog-switcher';
+import lockedTemplate from 'pim/template/product/tab/jstree-locked-item';
+import UserContext from 'pim/user-context';
+import Routing from 'routing';
+import TreeAssociate from 'pim/tree/associate';
+import mediator from 'oro/mediator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var BaseForm = __pimInterop(require('pim/form'));
-var formTemplate = __pimInterop(require('pim/template/product/tab/categories'));
-var switcherTemplate = __pimInterop(require('pim/template/product/tab/catalog-switcher'));
-var lockedTemplate = __pimInterop(require('pim/template/product/tab/jstree-locked-item'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var Routing = __pimInterop(require('routing'));
-var TreeAssociate = __pimInterop(require('pim/tree/associate'));
-var mediator = __pimInterop(require('oro/mediator'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   template: _.template(formTemplate),
   switcherTemplate: _.template(switcherTemplate),
   lockedTemplate: _.template(lockedTemplate),

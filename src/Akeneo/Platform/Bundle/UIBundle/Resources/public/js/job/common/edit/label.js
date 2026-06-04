@@ -1,13 +1,7 @@
-'use strict';
+import BaseLabel from 'pim/form/common/label';
+import __ from 'oro/translator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var BaseLabel = __pimInterop(require('pim/form/common/label'));
-var __ = __pimInterop(require('oro/translator'));
-
-module.exports = BaseLabel.extend({
+export default BaseLabel.extend({
   /**
    * Provide the object label
    *

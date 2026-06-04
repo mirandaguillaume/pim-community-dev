@@ -1,13 +1,7 @@
-'use strict';
+import DeleteForm from 'pim/form/common/delete';
+import ProductRemover from 'pim/remover/product';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var DeleteForm = __pimInterop(require('pim/form/common/delete'));
-var ProductRemover = __pimInterop(require('pim/remover/product'));
-
-module.exports = DeleteForm.extend({
+export default DeleteForm.extend({
   remover: ProductRemover,
 
   /**

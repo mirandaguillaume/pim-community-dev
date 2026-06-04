@@ -1,19 +1,13 @@
-'use strict';
+import $ from 'jquery';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import mediator from 'oro/mediator';
+import FormRegistry from 'pim/form-registry';
+import propertyAccessor from 'pim/common/property';
+import React from 'react';
+import {Breadcrumb} from 'akeneo-design-system';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var mediator = __pimInterop(require('oro/mediator'));
-var FormRegistry = __pimInterop(require('pim/form-registry'));
-var propertyAccessor = __pimInterop(require('pim/common/property'));
-var React = __pimInterop(require('react'));
-var {Breadcrumb} = __pimInterop(require('akeneo-design-system'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   events: {
     'click .breadcrumb-tab': 'redirectTab',
     'click .breadcrumb-item': 'redirectItem',

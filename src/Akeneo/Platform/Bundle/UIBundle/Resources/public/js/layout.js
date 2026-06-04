@@ -1,12 +1,6 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-require('bootstrap');
-require('jquery-ui');
+import $ from 'jquery';
+import 'bootstrap';
+import 'jquery-ui';
 var layout = {};
 
 layout.init = function (container) {
@@ -115,4 +109,4 @@ layout.scrollspyTop = function () {
   });
 };
 
-module.exports = layout;
+export default layout;

@@ -1,12 +1,6 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var SecurityContext = __pimInterop(require('pim/security-context'));
-var FeatureFlags = __pimInterop(require('pim/feature-flags'));
+import $ from 'jquery';
+import SecurityContext from 'pim/security-context';
+import FeatureFlags from 'pim/feature-flags';
 var promise = null;
 
 /**
@@ -57,7 +51,7 @@ const loadConfig = function () {
   return promise;
 };
 
-module.exports = {
+export default {
   /**
    * Returns configuration for extensions.
    *

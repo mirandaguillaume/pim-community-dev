@@ -1,14 +1,8 @@
-'use strict';
+import 'jquery';
+import _ from 'underscore';
+import BaseLine from 'pim/common/add-select/line';
+import template from 'pim/template/product/add-select/attribute/line';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-var BaseLine = __pimInterop(require('pim/common/add-select/line'));
-var template = __pimInterop(require('pim/template/product/add-select/attribute/line'));
-
-module.exports = BaseLine.extend({
+export default BaseLine.extend({
   template: _.template(template),
 });

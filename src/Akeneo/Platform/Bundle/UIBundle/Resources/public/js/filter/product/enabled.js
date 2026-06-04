@@ -1,20 +1,14 @@
-'use strict';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseFilter from 'pim/filter/filter';
+import 'routing';
+import template from 'pim/template/filter/product/enabled';
+import 'pim/fetcher-registry';
+import 'pim/user-context';
+import 'pim/i18n';
+import 'jquery.select2';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var BaseFilter = __pimInterop(require('pim/filter/filter'));
-require('routing');
-var template = __pimInterop(require('pim/template/filter/product/enabled'));
-require('pim/fetcher-registry');
-require('pim/user-context');
-require('pim/i18n');
-require('jquery.select2');
-
-module.exports = BaseFilter.extend({
+export default BaseFilter.extend({
   shortname: 'enabled',
   template: _.template(template),
   removable: false,
