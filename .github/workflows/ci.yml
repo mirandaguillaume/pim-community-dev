@@ -582,6 +582,25 @@ jobs:
       - name: Run ESLint and Prettier
         run: castor test:lint-front
 
+      # Permanent net from the AMD→CJS→ESM migration: a dropped/undefined
+      # binding in the legacy modules is a runtime ReferenceError the unit
+      # suites cannot catch (no coverage there). Globals are provided by the
+      # RSPack ProvidePlugin (_/Backbone/$/jQuery), the config-loader
+      # (__moduleConfig) and the bundler itself (require/module/exports for
+      # the few deliberately-CJS modules). NOTE: this eslint version only
+      # honors BARE names in --global ('name:false' is silently ignored).
+      - name: Legacy JS no-undef guard
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node \
+            node_modules/.bin/eslint --no-eslintrc --no-ignore \
+              --parser-options=ecmaVersion:2022,sourceType:module \
+              --env browser,es2022 \
+              --global '_,Backbone,$,jQuery,__moduleConfig,require,module,exports' \
+              --rule '{"no-undef":"error"}' \
+              'src/**/Resources/public/js/**/*.js' 'src/**/Resources/public/js/*.js'
+
       - name: Audit JS dependencies for known vulnerabilities
         run: |
           HOST_UID=$(id -u)
