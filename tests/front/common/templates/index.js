@@ -1,3 +1,4 @@
-define(['routing', 'require-polyfill'], function (routing) {
-    routing.setBaseUrl('http://pim.com')
-});
+import routing from 'routing';
+import 'require-polyfill';
+
+routing.setBaseUrl('http://pim.com');
