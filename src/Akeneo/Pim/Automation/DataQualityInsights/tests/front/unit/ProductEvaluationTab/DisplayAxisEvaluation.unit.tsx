@@ -7,7 +7,7 @@ import {
 } from '@akeneo-pim-community/data-quality-insights/src/application/listener';
 import {renderConsistencyEvaluation, renderEnrichmentEvaluation} from '../../utils/render';
 
-const UserContext = require('pim/user-context');
+import UserContext from 'pim/user-context';
 
 jest.mock('pim/user-context');
 

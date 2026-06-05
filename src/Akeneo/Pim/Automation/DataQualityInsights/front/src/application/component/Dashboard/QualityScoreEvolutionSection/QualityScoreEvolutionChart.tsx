@@ -4,7 +4,7 @@ import {useTheme} from 'akeneo-design-system';
 import {useTranslate} from '@akeneo-pim-community/shared';
 import {useGetDashboardChartScalingSizeRatio} from '../../../../infrastructure/hooks';
 
-const UserContext = require('pim/user-context');
+import UserContext from 'pim/user-context';
 
 const INITIAL_CHART_WIDTH = 481;
 const INITIAL_CHART_HEIGHT = 250;

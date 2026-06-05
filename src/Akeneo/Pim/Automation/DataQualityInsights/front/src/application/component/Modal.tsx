@@ -1,6 +1,6 @@
 import React from 'react';
 
-const __ = require('oro/translator');
+import __ from 'oro/translator';
 
 interface ModalProps {
   cssClass: string;

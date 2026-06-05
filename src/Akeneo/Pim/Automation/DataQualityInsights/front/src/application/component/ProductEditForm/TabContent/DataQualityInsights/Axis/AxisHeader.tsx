@@ -3,7 +3,7 @@ import AllAttributesLink from '../AllAttributesLink';
 import {CriterionEvaluationResult, Evaluation} from '../../../../../../domain';
 import {uniq as _uniq} from 'lodash';
 
-const __ = require('oro/translator');
+import __ from 'oro/translator';
 
 const getAxisAttributesWithRecommendations = (criteria: CriterionEvaluationResult[]): string[] => {
   let attributes: string[] = [];

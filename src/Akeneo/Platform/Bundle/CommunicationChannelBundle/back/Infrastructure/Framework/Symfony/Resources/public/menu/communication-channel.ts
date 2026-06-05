@@ -1,9 +1,9 @@
 import * as Backbone from 'backbone';
 import * as _ from 'underscore';
 
-const __ = require('oro/translator');
-const CommunicationChannelTemplate = require('akeneo/template/menu/communication-channel');
-const mediator = require('oro/mediator');
+import __ from 'oro/translator';
+import CommunicationChannelTemplate from 'akeneo/template/menu/communication-channel';
+import mediator from 'oro/mediator';
 
 class CommunicationChannel extends Backbone.View<any> {
   events() {

@@ -2,7 +2,7 @@ import React from 'react';
 import {ReactView} from '@akeneo-pim-community/legacy-bridge/src/bridge/react';
 import {Index} from '@akeneo-pim-community/communication-channel';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class PanelView extends ReactView {
   constructor() {

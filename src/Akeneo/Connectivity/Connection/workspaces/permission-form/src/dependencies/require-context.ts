@@ -1,5 +1,5 @@
 /* istanbul ignore file */
 
-const requireContext = require('require-context');
+import requireContext from 'require-context';
 
 export default requireContext;

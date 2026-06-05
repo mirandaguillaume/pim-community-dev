@@ -41,7 +41,7 @@ abstract class BaseViewMock {
 
 jest.mock('@akeneo-pim-community/legacy-bridge/src/bridge/react', () => ({ReactView: BaseViewMock}));
 
-const Delete = require('pimui/js/attribute/form/delete');
+import Delete from 'pimui/js/attribute/form/delete';
 
 test('it render a delete action button', () => {
   const component = new Delete(container);

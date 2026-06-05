@@ -1,7 +1,7 @@
 import {AttributeGroupCollection} from '../../models';
 
-const FetcherRegistry = require('pim/fetcher-registry');
-const Routing = require('routing');
+import FetcherRegistry from 'pim/fetcher-registry';
+import Routing from 'routing';
 
 type AttributeGroupsOrder = {
   [code: string]: number;

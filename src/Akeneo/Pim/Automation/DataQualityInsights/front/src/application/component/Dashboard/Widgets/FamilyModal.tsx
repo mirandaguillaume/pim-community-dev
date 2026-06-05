@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from '../../Modal';
 import {FamiliesSelect2} from './FamiliesSelect2';
 
-const __ = require('oro/translator');
+import __ from 'oro/translator';
 
 interface FamilyModalProps {
   onConfirm: () => void;

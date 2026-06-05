@@ -3,7 +3,7 @@ import {
   fetchActivatedLocales,
 } from '@akeneo-pim-community/settings-ui/src/infrastructure/fetchers/localesFetcher';
 
-const FetcherRegistry = require('pim/fetcher-registry');
+import FetcherRegistry from 'pim/fetcher-registry';
 
 jest.mock('pim/fetcher-registry');
 

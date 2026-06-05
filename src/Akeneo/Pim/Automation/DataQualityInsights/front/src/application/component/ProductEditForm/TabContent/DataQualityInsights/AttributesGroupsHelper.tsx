@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {AttributeGroup, AttributeGroupCollection} from '../../../../../domain';
 
-const translate = require('oro/translator');
+import translate from 'oro/translator';
 
 const Helper = styled.div`
   margin: 5px 0 10px 0;

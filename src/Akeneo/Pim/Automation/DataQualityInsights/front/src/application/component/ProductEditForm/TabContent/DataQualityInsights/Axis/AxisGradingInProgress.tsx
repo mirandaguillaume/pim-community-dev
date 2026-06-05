@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 
-const __ = require('oro/translator');
+import __ from 'oro/translator';
 
 const AxisGradingInProgress: FC = () => {
   return (

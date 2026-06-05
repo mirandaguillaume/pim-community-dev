@@ -4,10 +4,10 @@ import {
   weeklyCallback,
 } from '@akeneo-pim-community/data-quality-insights/src/application/helper/Dashboard/FormatDateWithUserLocale';
 
-const UserContext = require('pim/user-context');
+import UserContext from 'pim/user-context';
 UserContext.get.mockImplementation(() => 'en_US');
 
-const __ = require('oro/translator');
+import __ from 'oro/translator';
 __.mockImplementation(() => 'day');
 
 beforeEach(() => {

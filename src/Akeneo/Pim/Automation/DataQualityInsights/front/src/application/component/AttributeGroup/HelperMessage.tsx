@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import styled from 'styled-components';
 
-const translate = require('oro/translator');
+import translate from 'oro/translator';
 
 const Helper = styled.div`
   margin-top: -20px;

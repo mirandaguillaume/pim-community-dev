@@ -17,7 +17,7 @@ import {
 import {Recommendation} from './Recommendation';
 import {ROOT_PRODUCT_MODEL_LEVEL} from '../../../../../constant';
 
-const translate = require('oro/translator');
+import translate from 'oro/translator';
 
 const buildAttributesListByLevelVariation = (
   criterion: string,

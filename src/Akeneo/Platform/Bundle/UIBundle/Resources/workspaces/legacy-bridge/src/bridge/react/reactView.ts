@@ -1,5 +1,5 @@
 import {mountReactElementRef, unmountReactElementRef} from './reactElementHelper';
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 
 abstract class ReactView extends BaseView {
   /**

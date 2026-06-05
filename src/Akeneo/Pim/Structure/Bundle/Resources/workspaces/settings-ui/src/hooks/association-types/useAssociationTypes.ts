@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useRouter} from '@akeneo-pim-community/shared';
 import {AssociationType} from '../../models';
 
-const UserContext = require('pim/user-context');
+import UserContext from 'pim/user-context';
 
 export type AssociationTypes = {
   total: number;

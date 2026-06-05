@@ -3,7 +3,7 @@
    @typescript-eslint/no-unsafe-return */
 import {Locale} from '../../models';
 
-const FetcherRegistry = require('pim/fetcher-registry');
+import FetcherRegistry from 'pim/fetcher-registry';
 
 const fetchAllLocales = async (): Promise<Locale[]> => {
   try {

@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {useAttributeGroupState} from '../../../infrastructure/hooks/AttributeGroup/useAttributeGroupState';
 
-const translate = require('oro/translator');
-const securityContext = require('pim/security-context');
+import translate from 'oro/translator';
+import securityContext from 'pim/security-context';
 
 type Props = {
   groupCode: string;

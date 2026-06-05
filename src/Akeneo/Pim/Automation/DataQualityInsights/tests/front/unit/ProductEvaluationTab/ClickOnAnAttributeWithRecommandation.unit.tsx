@@ -19,7 +19,7 @@ beforeEach(() => {
 
 window.dispatchEvent = jest.fn();
 
-const Router = require('pim/router');
+import Router from 'pim/router';
 
 const evaluation: Evaluation = {
   criteria: [

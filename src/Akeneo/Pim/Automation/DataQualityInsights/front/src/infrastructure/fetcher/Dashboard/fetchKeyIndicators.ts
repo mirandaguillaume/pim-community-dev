@@ -1,4 +1,4 @@
-const Routing = require('routing');
+import Routing from 'routing';
 
 const ROUTE_NAME = 'akeneo_data_quality_insights_dashboard_key_indicators';
 

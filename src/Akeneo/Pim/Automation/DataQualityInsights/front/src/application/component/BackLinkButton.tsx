@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Button} from 'akeneo-design-system';
 
-const Router = require('pim/router');
+import Router from 'pim/router';
 
 interface BackLinkButtonProps {
   label: string;

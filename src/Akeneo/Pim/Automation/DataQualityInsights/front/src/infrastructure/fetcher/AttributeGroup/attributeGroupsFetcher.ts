@@ -1,6 +1,6 @@
 import {AttributeGroupCollection} from '../../../domain';
 
-const FetcherRegistry = require('pim/fetcher-registry');
+import FetcherRegistry from 'pim/fetcher-registry';
 
 const fetchAttributeGroupsByCode = async (groupCodes: string[]): Promise<AttributeGroupCollection> => {
   try {

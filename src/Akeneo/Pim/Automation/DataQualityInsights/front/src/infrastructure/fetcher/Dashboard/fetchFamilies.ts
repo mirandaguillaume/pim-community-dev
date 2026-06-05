@@ -1,4 +1,4 @@
-const FetcherRegistry = require('pim/fetcher-registry');
+import FetcherRegistry from 'pim/fetcher-registry';
 
 const fetchFamilies = async () => {
   return FetcherRegistry.getFetcher('family').fetchAll({options: {expanded: 0}});

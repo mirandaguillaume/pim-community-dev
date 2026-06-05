@@ -2,8 +2,8 @@ import {BACK_LINK_SESSION_STORAGE_KEY, FAMILY_EDIT_FORM_ATTRIBUTES_TAB} from '..
 import {Product} from '../../domain';
 import {isProductModel} from '../helper';
 
-const router = require('pim/router');
-const translate = require('oro/translator');
+import router from 'pim/router';
+import translate from 'oro/translator';
 
 const followNotApplicableEnrichmentImageRecommendation = (product: Product) => {
   const family: string | null = product.family;

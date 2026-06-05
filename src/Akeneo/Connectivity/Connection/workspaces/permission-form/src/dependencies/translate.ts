@@ -1,5 +1,5 @@
 /* istanbul ignore file */
 
-const translate = require('oro/translator');
+import translate from 'oro/translator';
 
 export default translate;
