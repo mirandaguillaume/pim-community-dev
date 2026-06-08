@@ -73,6 +73,18 @@ jobs:
         id: build_storybook
         run: cd front-packages/akeneo-design-system && yarn storybook:build && echo ::set-output name=status::success
 
+      # Render-smoke every story via the Storybook test-runner (Playwright). This
+      # restores the per-story render coverage lost when the puppeteer visual
+      # tests were disabled (PR #59): a story that throws on render fails here.
+      # (a11y assertions are a planned follow-up — the 247 existing stories were
+      # never a11y-audited and would need an allowlist first.)
+      - name: Run Storybook test-runner
+        if: steps.build_storybook.outputs.status == 'success'
+        run: |
+          cd front-packages/akeneo-design-system
+          yarn playwright install chromium
+          yarn test:storybook:ci
+
       - name: Launch visual tests
         if: false  # Puppeteer visual tests disabled (deps removed in PR #59)
         run: cd front-packages/akeneo-design-system && yarn test:visual:run && echo ::set-output name=status::success
