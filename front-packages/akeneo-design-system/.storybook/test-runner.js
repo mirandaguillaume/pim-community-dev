@@ -21,10 +21,14 @@
 // The addon-a11y automatic axe run is disabled via `parameters.a11y.test:'off'`
 // in preview.tsx, so this hook is the single axe runner (avoids the
 // "Axe is already running" race). See [[dsm-storybook-test-runner]].
-const {injectAxe, configureAxe, getViolations} = require('axe-playwright');
+const {injectAxe, getViolations} = require('axe-playwright');
 const baseline = require('./a11y-baseline.json');
 
-// Rules we do not enforce at all (separate design decision).
+// Rules we do not enforce at all (separate design decision). Disabled in the
+// per-run axe options (object form) — `runOnly` selects rule SETS, and
+// per-rule {enabled:false} subtracts from that set. (Disabling via a separate
+// `axe.configure([{id,enabled:false}])` does NOT reliably survive a `runOnly`
+// run, which let color-contrast slip through.)
 const DEFERRED_RULES = ['color-contrast'];
 
 module.exports = {
@@ -33,12 +37,9 @@ module.exports = {
   },
 
   async postVisit(page, context) {
-    await configureAxe(page, {
-      rules: DEFERRED_RULES.map(id => ({id, enabled: false})),
-    });
-
     const violations = await getViolations(page, '#storybook-root', {
       runOnly: {type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']},
+      rules: Object.fromEntries(DEFERRED_RULES.map(id => [id, {enabled: false}])),
     });
 
     const storyKey = `${context.title} / ${context.name}`;
