@@ -93,8 +93,14 @@ module.exports = {
     // Activity workspace — pure data transformation and hook tests, no Backbone.
     // Tests run under Bun in the main CI step but are Jest-compatible for Stryker.
     `${ACTIVITY_WORKSPACE}/**/*.unit.ts`,
-    // Import-Export workspace — storage configurator components and hooks.
-    `${IMPORT_EXPORT_FRONT}/src/**/*.test.(ts|tsx)`,
+    // NOTE: the Import-Export workspace (migrated to the Bun runner in #205) is
+    // intentionally NOT matched here. Its tests mock @akeneo-pim-community/shared
+    // with `{...require('@akeneo-pim-community/shared')}` INSIDE the jest.mock
+    // factory of that same module — valid under Bun, but an infinite recursion
+    // ("Maximum call stack size exceeded") under Stryker's jest-runtime dry run.
+    // They crash the runner rather than provide coverage, so excluding them is
+    // coverage-neutral; mutating import-export source needs a dedicated Bun-based
+    // Stryker config, like the other Bun workspaces.
     // Catalog-Volume-Monitoring workspace — volume fetchers, hooks and components.
     `${CATALOG_VOLUME_FRONT}/src/**/*.test.(ts|tsx)`,
     // Identifier Generator, CatalogVolumeMonitoring, and Process Tracker have
@@ -116,6 +122,9 @@ module.exports = {
     '<rootDir>/src/Akeneo/Platform/Bundle/CommunicationChannelBundle/',
     // identifier-generator uses its own Stryker config (stryker-identifier-generator.config.json).
     '<rootDir>/components/identifier-generator/',
+    // Import-Export is a Bun workspace whose mocks recurse under jest (see the
+    // testMatch note above) — keep its tests out of the jest-runtime dry run.
+    `${IMPORT_EXPORT_FRONT}/`,
   ],
   setupFiles: [
     `${__dirname}/mocks.js`,
