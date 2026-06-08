@@ -21,8 +21,8 @@ import {
   productEditFormStore,
 } from '@akeneo-pim-community/data-quality-insights/src';
 import {unsetProductAction} from '@akeneo-pim-community/data-quality-insights/src/infrastructure/reducer/ProductEditForm/productReducer';
-const UserContext = require('pim/user-context');
-const BaseView = require('pimui/js/view/base');
+import UserContext from 'pim/user-context';
+import BaseView from 'pimui/js/view/base';
 
 interface LocaleEvent {
   localeCode: string;

@@ -1,5 +1,5 @@
-const UserContext = require('pim/user-context');
-const __ = require('oro/translator');
+import UserContext from 'pim/user-context';
+import __ from 'oro/translator';
 
 export const weeklyCallback = (lastDayOfWeek: string) => {
   const uiLocale = UserContext.get('uiLocale');

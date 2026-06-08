@@ -1,10 +1,10 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import React from 'react';
 import {BACK_LINK_SESSION_STORAGE_KEY, BackLinkButton} from '@akeneo-pim-community/data-quality-insights';
 import {pimTheme} from 'akeneo-design-system';
 import {ThemeProvider} from 'styled-components';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class BackLink extends BaseView {
   configure(): JQueryPromise<any> {

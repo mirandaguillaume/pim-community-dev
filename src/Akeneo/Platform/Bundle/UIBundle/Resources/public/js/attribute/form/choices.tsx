@@ -1,9 +1,9 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import React from 'react';
 import {ATTRIBUTE_OPTIONS_AUTO_SORT, AttributeOptionsApp} from 'akeneopimstructure/js/attribute-option';
 
-const __ = require('oro/translator');
-const propertyAccessor = require('pim/common/property');
+import __ from 'oro/translator';
+import propertyAccessor from 'pim/common/property';
 
 class Choices extends BaseView {
   private config: any;

@@ -1,6 +1,6 @@
-const MainImage = require('pim/form/common/main-image');
-const UserContext = require('pim/user-context');
-const FetcherRegistry = require('pim/fetcher-registry');
+import MainImage from 'pim/form/common/main-image';
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
 
 class ProductMainImage extends MainImage {
   /**

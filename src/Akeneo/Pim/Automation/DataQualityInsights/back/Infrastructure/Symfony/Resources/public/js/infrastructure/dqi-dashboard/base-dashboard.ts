@@ -1,4 +1,4 @@
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 
 import {
   DATA_QUALITY_INSIGHTS_DASHBOARD_CHANGE_TIME_PERIOD,

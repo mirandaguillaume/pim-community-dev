@@ -5,7 +5,7 @@ import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ConfigForm} from '@akeneo-pim-community/config';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class ConfigController extends ReactController {
   reactElementToMount() {

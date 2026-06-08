@@ -2,7 +2,7 @@
 
 import {ViewOptions} from 'backbone';
 
-const BaseColumn = require('pim/form/common/column');
+import BaseColumn from 'pim/form/common/column';
 
 class Column extends BaseColumn {
   sections: any[];

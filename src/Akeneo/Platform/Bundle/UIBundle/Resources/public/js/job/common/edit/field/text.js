@@ -1,14 +1,8 @@
-'use strict';
+import _ from 'underscore';
+import BaseField from 'pim/job/common/edit/field/field';
+import fieldTemplate from 'pim/template/export/common/edit/field/text';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var BaseField = __pimInterop(require('pim/job/common/edit/field/field'));
-var fieldTemplate = __pimInterop(require('pim/template/export/common/edit/field/text'));
-
-module.exports = BaseField.extend({
+export default BaseField.extend({
   fieldTemplate: _.template(fieldTemplate),
   events: {
     'change input': 'updateState',

@@ -1,6 +1,6 @@
 import {CompareTranslateButton} from '@akeneo-pim-community/product';
 
-const StartCopy = require('pim/product-edit-form/start-copy');
+import StartCopy from 'pim/product-edit-form/start-copy';
 
 class FreeTrialStartCopy extends StartCopy {
   buttonDisabled: boolean = false;

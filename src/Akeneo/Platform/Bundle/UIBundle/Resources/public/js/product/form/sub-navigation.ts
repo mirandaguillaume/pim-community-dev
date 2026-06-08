@@ -1,4 +1,4 @@
-const BaseColumn = require('pim/form/common/column');
+import BaseColumn from 'pim/form/common/column';
 
 class ProductEditFormSubNavigation extends BaseColumn {
   isCollapsedByUser = false;

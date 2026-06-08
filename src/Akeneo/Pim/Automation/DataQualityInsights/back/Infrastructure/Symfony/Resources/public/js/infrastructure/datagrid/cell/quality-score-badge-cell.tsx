@@ -7,7 +7,7 @@ import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {QualityScorePending} from '@akeneo-pim-community/data-quality-insights/src/application/component/QualityScorePending';
 import {QualityScoreValue} from '@akeneo-pim-community/data-quality-insights/src/domain';
 
-const StringCell = require('oro/datagrid/string-cell');
+import StringCell from 'oro/datagrid/string-cell';
 
 class QualityScoreBadgeCell extends StringCell {
   render() {

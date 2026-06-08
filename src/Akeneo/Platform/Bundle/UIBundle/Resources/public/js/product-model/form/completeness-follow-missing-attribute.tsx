@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {useScrollToAttribute, Product} from '@akeneo-pim-community/enrichment';
 
-const BaseView = require('pimui/js/view/base');
-const mediator = require('oro/mediator');
+import BaseView from 'pimui/js/view/base';
+import mediator from 'oro/mediator';
 
 const FollowMissingAttribute: FC<{product: Product}> = ({product}) => {
   useScrollToAttribute(product);

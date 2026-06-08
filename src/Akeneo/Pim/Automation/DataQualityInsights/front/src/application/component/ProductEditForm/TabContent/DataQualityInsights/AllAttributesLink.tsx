@@ -4,7 +4,7 @@ import {
   DATA_QUALITY_INSIGHTS_FILTER_ALL_IMPROVABLE_ATTRIBUTES,
 } from '../../../../listener';
 
-const __ = require('oro/translator');
+import __ from 'oro/translator';
 
 interface AllAttributesLinkProps {
   axis: string;

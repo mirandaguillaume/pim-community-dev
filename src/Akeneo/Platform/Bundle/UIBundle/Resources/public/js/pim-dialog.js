@@ -1,15 +1,9 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-var __ = __pimInterop(require('oro/translator'));
-var router = __pimInterop(require('pim/router'));
-require('bootstrap-modal');
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import __ from 'oro/translator';
+import router from 'pim/router';
+import 'bootstrap-modal';
 
 const Dialog = {
   /**
@@ -137,4 +131,4 @@ const Dialog = {
   },
 };
 
-module.exports = Dialog;
+export default Dialog;

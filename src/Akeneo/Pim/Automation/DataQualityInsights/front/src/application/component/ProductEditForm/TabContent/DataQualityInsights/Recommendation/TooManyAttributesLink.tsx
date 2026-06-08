@@ -5,7 +5,7 @@ import {
 } from '../../../../../user-actions';
 import {useProduct} from '../../../../../../infrastructure/hooks';
 
-const translate = require('oro/translator');
+import translate from 'oro/translator';
 
 interface TooManyAttributesLinkProps {
   axis: string;

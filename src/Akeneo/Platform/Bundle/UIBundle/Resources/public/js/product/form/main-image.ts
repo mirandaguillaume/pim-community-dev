@@ -1,6 +1,6 @@
-const BaseMainImage = require('pim/form/common/main-image');
-const FetcherRegistry = require('pim/fetcher-registry');
-const Routing = require('routing');
+import BaseMainImage from 'pim/form/common/main-image';
+import FetcherRegistry from 'pim/fetcher-registry';
+import Routing from 'routing';
 
 class MainImage extends BaseMainImage {
   configure() {

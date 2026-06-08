@@ -6,8 +6,8 @@ import {MeasurementApp, ConfigContext, UnsavedChangesContext} from '@akeneo-pim-
 import {measurementsDependencies} from '../dependencies';
 import {ThemeProvider} from 'styled-components';
 
-const mediator = require('oro/mediator');
-const __ = require('oro/translator');
+import mediator from 'oro/mediator';
+import __ from 'oro/translator';
 
 class SettingsController extends ReactController {
   private static container = document.createElement('div');

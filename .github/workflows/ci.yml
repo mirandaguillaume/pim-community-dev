@@ -2234,59 +2234,40 @@ jobs:
       - name: Compute changed front-end files
         id: changed
         run: |
-          SRC_FILES=$(git diff --diff-filter=AM --name-only origin/master...HEAD -- '*.ts' '*.tsx' \
-            | grep -E '^(front-packages|components|src)/' \
-            | grep -v '\.test\.\|\.spec\.\|\.unit\.\|\.visual\.\|__tests__\|__mocks__\|stories\|\.storybook/' \
-            | grep -v '^src/Akeneo/Category/' || true)
+          # Only mutation-test files with a REAL logic change. The helper drops
+          # pure module-syntax migrations (require()->import, the AMD->ESM flip)
+          # and reformat-only diffs by comparing the file BODY with import/export
+          # machinery and whitespace removed — mutating a behaviour-neutral
+          # syntax conversion just scores pre-existing untested legacy code and
+          # craters the mutation score (see frontend/ci/mutation-changed-files.js).
+          SRC_FILES=$(node frontend/ci/mutation-changed-files.js || true)
 
           if [ -z "$SRC_FILES" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "No front-end source files changed, skipping mutation testing"
+            echo "No front-end source files with a real logic change, skipping mutation testing"
           else
-            # Skip if every TS/TSX change is formatting-only (no token-level changes).
-            # Strip ALL whitespace (spaces, tabs, newlines) from both versions and compare
-            # the raw token stream. Prettier may split/join lines so --ignore-all-space
-            # is insufficient; token comparison catches all pure-reformatting commits.
-            HAS_LOGIC_CHANGE=false
-            for f in $SRC_FILES; do
-              OLD=$(git show origin/master:"$f" 2>/dev/null | tr -d '[:space:]')
-              NEW=$(git show HEAD:"$f" 2>/dev/null | tr -d '[:space:]')
-              OLD_LEN=${#OLD}
-              NEW_LEN=${#NEW}
-              echo "DEBUG $f: OLD=${OLD_LEN}chars NEW=${NEW_LEN}chars SAME=$([ "$OLD" = "$NEW" ] && echo yes || echo no)"
-              if [ "$OLD" != "$NEW" ]; then
-                HAS_LOGIC_CHANGE=true
-                echo "Logic change detected in: $f"
-                break
-              fi
-            done
-            if [ "$HAS_LOGIC_CHANGE" = "false" ]; then
-              echo "skip=true" >> "$GITHUB_OUTPUT"
-              echo "All front-end changes are formatting-only (token stream identical), skipping mutation testing"
-            else
-              MUTATE=$(echo "$SRC_FILES" | sort -u | paste -sd, -)
-              echo "skip=false" >> "$GITHUB_OUTPUT"
-              echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
-              echo "Files to mutate ($(echo "$SRC_FILES" | sort -u | wc -l)): $MUTATE"
+            MUTATE=$(echo "$SRC_FILES" | sort -u | paste -sd, -)
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
+            echo "Files to mutate ($(echo "$SRC_FILES" | sort -u | wc -l)): $MUTATE"
 
-              # Use workspace-specific config when all changed files belong to one workspace.
-              # Falls back to global config for multi-workspace or unknown-workspace changes.
-              is_single_workspace() {
-                ! echo "$SRC_FILES" | grep -vE "^$1" | grep -q .
-              }
-              CONFIG="stryker.config.json"
-              if is_single_workspace 'src/Akeneo/Tool/Bundle/MeasureBundle/'; then
-                CONFIG="stryker-measure.config.json"
-              elif is_single_workspace 'src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/'; then
-                CONFIG="stryker-catalog-volume.config.json"
-              elif is_single_workspace 'src/Akeneo/Platform/Job/front/process-tracker/'; then
-                CONFIG="stryker-process-tracker.config.json"
-              elif is_single_workspace 'components/identifier-generator/'; then
-                CONFIG="stryker-identifier-generator.config.json"
-              fi
-              echo "config=$CONFIG" >> "$GITHUB_OUTPUT"
-              echo "Using Stryker config: $CONFIG"
+            # Use workspace-specific config when all changed files belong to one workspace.
+            # Falls back to global config for multi-workspace or unknown-workspace changes.
+            is_single_workspace() {
+              ! echo "$SRC_FILES" | grep -vE "^$1" | grep -q .
+            }
+            CONFIG="stryker.config.json"
+            if is_single_workspace 'src/Akeneo/Tool/Bundle/MeasureBundle/'; then
+              CONFIG="stryker-measure.config.json"
+            elif is_single_workspace 'src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/'; then
+              CONFIG="stryker-catalog-volume.config.json"
+            elif is_single_workspace 'src/Akeneo/Platform/Job/front/process-tracker/'; then
+              CONFIG="stryker-process-tracker.config.json"
+            elif is_single_workspace 'components/identifier-generator/'; then
+              CONFIG="stryker-identifier-generator.config.json"
             fi
+            echo "config=$CONFIG" >> "$GITHUB_OUTPUT"
+            echo "Using Stryker config: $CONFIG"
           fi
 
       - name: Run Stryker mutation testing

@@ -1,10 +1,10 @@
 import * as _ from 'underscore';
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 
-const __ = require('oro/translator');
-const DataCollector = require('pim/data-collector');
+import __ from 'oro/translator';
+import DataCollector from 'pim/data-collector';
 
-const template = require('pim/template/menu/help');
+import template from 'pim/template/menu/help';
 
 /**
  * Extension for displaying help link with version numbers

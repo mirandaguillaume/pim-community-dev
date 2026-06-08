@@ -1,6 +1,6 @@
-const UserContext = require('pim/user-context');
-const FetcherRegistry = require('pim/fetcher-registry');
-const HeaderCell = require('oro/datagrid/header-cell');
+import UserContext from 'pim/user-context';
+import FetcherRegistry from 'pim/fetcher-registry';
+import HeaderCell from 'oro/datagrid/header-cell';
 
 /**
  * It gets the header attribute label from the database instead of translation file.

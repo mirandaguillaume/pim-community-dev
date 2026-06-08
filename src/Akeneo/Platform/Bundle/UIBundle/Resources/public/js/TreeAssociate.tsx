@@ -4,7 +4,7 @@ import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {CategoryTree, CategoryTreeModel, CategoryResponse, parseResponse} from '@akeneo-pim-community/shared';
-const Router = require('pim/router');
+import Router from 'pim/router';
 
 class TreeAssociate {
   private selectedCategoryCodesByTreeIdInput: HTMLInputElement;

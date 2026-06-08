@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {Badge} from 'akeneo-design-system';
 import {getQualityBadgeLevel} from '../helper/getQualityBadgeLevel';
 
-const translate = require('oro/translator');
+import translate from 'oro/translator';
 
 type QualityBadgeProps = {
   label: string;

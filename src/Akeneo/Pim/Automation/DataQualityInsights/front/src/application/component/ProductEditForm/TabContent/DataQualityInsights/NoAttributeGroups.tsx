@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const translate = require('oro/translator');
+import translate from 'oro/translator';
 
 const Message = styled.div`
   text-align: center;

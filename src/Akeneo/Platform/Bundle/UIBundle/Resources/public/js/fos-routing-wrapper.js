@@ -1,7 +1,7 @@
-const Routing = require('fos-routing-base');
-const routes = require('routes');
+import Routing from 'fos-routing-base';
+import routes from 'routes';
 
 Routing.setRoutingData(routes);
 Routing.generateHash = (route, routeParams) => `#${Routing.generate(route, routeParams)}`;
 
-module.exports = Routing;
+export default Routing;

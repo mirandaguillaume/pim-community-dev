@@ -1,8 +1,8 @@
 import {Deferred} from 'jquery';
 import {mountReactElementRef, unmountReactElementRef} from './reactElementHelper';
 
-const BaseController = require('pim/controller/base');
-const mediator = require('oro/mediator');
+import BaseController from 'pim/controller/base';
+import mediator from 'oro/mediator';
 abstract class ReactController extends BaseController {
   /**
    * Base React element to mount (and keep as ref between route changes).

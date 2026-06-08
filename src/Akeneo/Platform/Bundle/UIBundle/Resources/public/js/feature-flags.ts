@@ -1,6 +1,6 @@
 import jQuery from 'jquery';
 
-const routing = require('routing');
+import routing from 'routing';
 
 class FeatureFlags {
   static features: {[feature: string]: boolean};

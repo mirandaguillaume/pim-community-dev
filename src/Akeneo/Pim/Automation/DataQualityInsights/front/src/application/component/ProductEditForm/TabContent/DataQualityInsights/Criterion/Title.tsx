@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 
-const translate = require('oro/translator');
+import translate from 'oro/translator';
 
 type Props = {
   criterion?: string;

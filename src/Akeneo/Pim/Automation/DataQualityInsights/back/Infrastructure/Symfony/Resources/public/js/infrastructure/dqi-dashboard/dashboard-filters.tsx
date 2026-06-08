@@ -6,7 +6,7 @@ import {
 import {DashboardContextProvider} from '@akeneo-pim-community/data-quality-insights/src/application/context/DashboardContext';
 import {useSecurity} from '@akeneo-pim-community/shared';
 
-const BaseDashboard = require('akeneo/data-quality-insights/view/dqi-dashboard/base-dashboard');
+import BaseDashboard from 'akeneo/data-quality-insights/view/dqi-dashboard/base-dashboard';
 
 type Props = {
   categoryCode: string | null;

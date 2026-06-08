@@ -7,7 +7,7 @@ import * as _ from 'underscore';
 import * as JQuery from 'jquery';
 import * as Backbone from 'backbone';
 import View from 'pimui/js/view/base-interface';
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 /**
  * View base class

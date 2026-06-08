@@ -21,7 +21,7 @@ import {
   DeleteConfirmation,
 } from '@akeneo-pim-community/settings-ui';
 
-const DatagridState = require('pim/datagrid/state');
+import DatagridState from 'pim/datagrid/state';
 
 const CreatePimView = styled(PimView)`
   .AknButton {

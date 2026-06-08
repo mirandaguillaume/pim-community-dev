@@ -1,7 +1,7 @@
-const BaseView = require('pimui/js/view/base');
-const Routing = require('routing');
-const requireContext = require('require-context');
-const datagridBuilder = require('oro/datagrid-builder');
+import BaseView from 'pimui/js/view/base';
+import Routing from 'routing';
+import requireContext from 'require-context';
+import datagridBuilder from 'oro/datagrid-builder';
 
 class CategoryHistory extends BaseView {
   identifier!: number;

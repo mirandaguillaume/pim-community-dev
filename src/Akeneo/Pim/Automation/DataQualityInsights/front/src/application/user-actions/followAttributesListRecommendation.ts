@@ -11,7 +11,7 @@ import {
   SUB_PRODUCT_MODEL_LEVEL,
 } from '../constant';
 
-const Router = require('pim/router');
+import Router from 'pim/router';
 
 type FollowAttributesListRecommendationHandler = (product: Product, attributes: string[], axis: string) => void;
 

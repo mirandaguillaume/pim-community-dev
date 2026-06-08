@@ -2,8 +2,8 @@ import * as React from 'react';
 import {useRef, useEffect} from 'react';
 import $ from 'jquery';
 import {Family} from '../../../../domain';
-const Routing = require('routing');
-const i18n = require('pim/i18n');
+import Routing from 'routing';
+import * as i18n from 'pim/i18n';
 
 export interface Props {
   onChange: (value?: any) => void;

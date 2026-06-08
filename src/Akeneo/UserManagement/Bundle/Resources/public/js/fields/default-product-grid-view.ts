@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
-const BaseSelect = require('pim/form/common/fields/simple-select-async');
-const Routing = require('routing');
+import BaseSelect from 'pim/form/common/fields/simple-select-async';
+import Routing from 'routing';
 
 /**
  * @author    Pierre Allard <pierre.allard@akeneo.com>

@@ -1,23 +1,17 @@
-'use strict';
+import $ from 'jquery';
+import Backbone from 'backbone';
+import 'underscore';
+import router from 'pim/router';
+import __ from 'oro/translator';
+import 'oro/app';
+import mediator from 'oro/mediator';
+import layout from 'oro/layout';
+import Dialog from 'pim/dialog';
+import * as messenger from 'oro/messenger';
+import 'bootstrap';
+import 'jquery-setup';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var Backbone = __pimInterop(require('backbone'));
-require('underscore');
-var router = __pimInterop(require('pim/router'));
-var __ = __pimInterop(require('oro/translator'));
-require('oro/app');
-var mediator = __pimInterop(require('oro/mediator'));
-var layout = __pimInterop(require('oro/layout'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var messenger = __pimInterop(require('oro/messenger'));
-require('bootstrap');
-require('jquery-setup');
-
-module.exports = function () {
+export default function () {
   mediator.once('tab:changed', function () {
     setTimeout(function () {
       // emulates 'document ready state' for selenium tests
@@ -152,4 +146,4 @@ module.exports = function () {
 
     return false;
   });
-};
+}

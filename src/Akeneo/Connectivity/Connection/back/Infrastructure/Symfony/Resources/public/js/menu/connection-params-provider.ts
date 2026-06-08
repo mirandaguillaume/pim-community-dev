@@ -1,5 +1,5 @@
-const View = require('pim/form');
-const mediator = require('oro/mediator');
+import View from 'pim/form';
+import mediator from 'oro/mediator';
 
 class ConnectionParamsProvider extends View {
   initialize() {

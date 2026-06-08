@@ -1,9 +1,5 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var mediator = __pimInterop(require('oro/mediator'));
+import _ from 'underscore';
+import mediator from 'oro/mediator';
 ('use strict');
 
 var storageEnabled = typeof Storage !== 'undefined' && sessionStorage;
@@ -70,7 +66,7 @@ var _remove = function (alias, key) {
   }
 };
 
-module.exports = {
+export default {
   get: function (alias, keys) {
     if (_.isArray(keys)) {
       var values = {};

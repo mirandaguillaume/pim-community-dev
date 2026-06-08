@@ -5,8 +5,8 @@ import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 
-const DeleteAction = require('oro/datagrid/delete-action');
-const mediator = require('oro/mediator');
+import DeleteAction from 'oro/datagrid/delete-action';
+import mediator from 'oro/mediator';
 
 class DeleteAttributeAction extends DeleteAction {
   execute() {

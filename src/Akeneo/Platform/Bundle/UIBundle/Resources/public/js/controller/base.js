@@ -1,12 +1,6 @@
-'use strict';
+import Backbone from 'backbone';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var Backbone = __pimInterop(require('backbone'));
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   active: false,
 
   /**

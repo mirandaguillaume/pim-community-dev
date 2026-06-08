@@ -1,6 +1,6 @@
-const _ = require('underscore');
-const BaseText = require('pim/form/common/fields/text');
-const template = require('pim/template/form/common/fields/number');
+import _ from 'underscore';
+import BaseText from 'pim/form/common/fields/text';
+import template from 'pim/template/form/common/fields/number';
 
 /**
  * @author    Anael Chardan <anael.chardan@akeneo.com>

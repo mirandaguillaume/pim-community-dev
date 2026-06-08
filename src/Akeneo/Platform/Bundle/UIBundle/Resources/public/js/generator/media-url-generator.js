@@ -1,14 +1,8 @@
-'use strict';
+import 'jquery';
+import 'underscore';
+import Routing from 'routing';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-require('underscore');
-var Routing = __pimInterop(require('routing'));
-
-module.exports = {
+export default {
   /**
    * Get the show media URL
    *

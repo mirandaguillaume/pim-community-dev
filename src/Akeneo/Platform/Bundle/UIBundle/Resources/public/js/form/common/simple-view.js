@@ -7,18 +7,14 @@
  */
 'use strict';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import 'jquery';
+import _ from 'underscore';
+import 'backbone';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import requireContext from 'require-context';
 
-require('jquery');
-var _ = __pimInterop(require('underscore'));
-require('backbone');
-var __ = __pimInterop(require('oro/translator'));
-var BaseForm = __pimInterop(require('pim/form'));
-var requireContext = __pimInterop(require('require-context'));
-
-module.exports = BaseForm.extend({
+export default BaseForm.extend({
   config: {},
   template: null,
 

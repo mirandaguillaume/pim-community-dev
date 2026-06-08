@@ -1,15 +1,11 @@
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var messenger = __pimInterop(require('oro/messenger'));
-var __ = __pimInterop(require('oro/translator'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var AbstractAction = __pimInterop(require('oro/datagrid/abstract-action'));
+import _ from 'underscore';
+import * as messenger from 'oro/messenger';
+import __ from 'oro/translator';
+import Dialog from 'pim/dialog';
+import AbstractAction from 'oro/datagrid/abstract-action';
 ('use strict');
 
-module.exports = AbstractAction.extend({
+export default AbstractAction.extend({
   /** @property {Object} */
   defaultMessages: {
     confirm_title: __('pim_datagrid.mass_action.default.confirmation.title'),

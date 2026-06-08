@@ -5,21 +5,17 @@
  */
 'use strict';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import _ from 'underscore';
+import BaseField from 'pim/form/common/fields/field';
+import __ from 'oro/translator';
+import * as i18n from 'pim/i18n';
+import initSelect2 from 'pim/initselect2';
+import UserContext from 'pim/user-context';
+import template from 'pim/template/form/common/fields/simple-select-async';
+import Routing from 'routing';
 
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var BaseField = __pimInterop(require('pim/form/common/fields/field'));
-var __ = __pimInterop(require('oro/translator'));
-var i18n = __pimInterop(require('pim/i18n'));
-var initSelect2 = __pimInterop(require('pim/initselect2'));
-var UserContext = __pimInterop(require('pim/user-context'));
-var template = __pimInterop(require('pim/template/form/common/fields/simple-select-async'));
-var Routing = __pimInterop(require('routing'));
-
-module.exports = BaseField.extend({
+export default BaseField.extend({
   template: _.template(template),
   choiceUrl: null,
   resultsPerPage: 20,

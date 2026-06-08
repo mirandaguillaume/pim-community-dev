@@ -1,25 +1,19 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-require('backbone');
-var mediator = __pimInterop(require('oro/mediator'));
-var messenger = __pimInterop(require('oro/messenger'));
-var Dialog = __pimInterop(require('pim/dialog'));
-var saveformstate = __pimInterop(require('pim/saveformstate'));
-var loadTab = __pimInterop(require('pim/asynctab'));
-var UI = __pimInterop(require('pim/ui'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var router = __pimInterop(require('pim/router'));
-require('require-polyfill');
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import 'backbone';
+import mediator from 'oro/mediator';
+import * as messenger from 'oro/messenger';
+import Dialog from 'pim/dialog';
+import saveformstate from 'pim/saveformstate';
+import loadTab from 'pim/asynctab';
+import UI from 'pim/ui';
+import LoadingMask from 'oro/loading-mask';
+import router from 'pim/router';
+import 'require-polyfill';
 var initialized = false;
 
-module.exports = function () {
+export default function () {
   if (initialized) {
     return;
   }
@@ -171,4 +165,4 @@ module.exports = function () {
   mediator.on('route_complete pim:reinit', function () {
     pageInit();
   });
-};
+}

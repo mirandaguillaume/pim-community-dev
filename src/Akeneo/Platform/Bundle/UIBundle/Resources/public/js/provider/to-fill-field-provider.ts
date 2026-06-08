@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
 export const getMissingRequiredFields = (product: any, scope: string, locale: string): string[] => {
   const scopeMissingAttributes = _.findWhere(product.meta.required_missing_attributes, {channel: scope});

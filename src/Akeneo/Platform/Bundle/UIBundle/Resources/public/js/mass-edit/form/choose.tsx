@@ -5,8 +5,8 @@ import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {ChooseApp} from './ChooseApp';
 
-const __ = require('oro/translator');
-const analytics = require('pim/analytics');
+import __ from 'oro/translator';
+import analytics from 'pim/analytics';
 
 /**
  * MassEditForm is always a mass edit form backbone component

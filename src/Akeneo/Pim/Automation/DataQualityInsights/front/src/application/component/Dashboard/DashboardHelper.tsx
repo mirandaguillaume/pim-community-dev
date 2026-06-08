@@ -1,7 +1,7 @@
 import React from 'react';
 
-const __ = require('oro/translator');
-const FeatureFlags = require('pim/feature-flags');
+import __ from 'oro/translator';
+import FeatureFlags from 'pim/feature-flags';
 
 const DashboardHelper = React.memo(() => {
   let helper = <></>;

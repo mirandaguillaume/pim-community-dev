@@ -1,5 +1,5 @@
-const Router = require('pim/router');
-const DatagridState = require('pim/datagrid/state');
+import Router from 'pim/router';
+import DatagridState from 'pim/datagrid/state';
 
 export const redirectToAttributeGridFilteredByFamilyAndQuality = (familyCode: string) => {
   const gridFilters = `i=1&p=25&s[label]=-1&f[family][value][]=${familyCode}&f[quality][value]=to_improve&t=attribute-grid`;

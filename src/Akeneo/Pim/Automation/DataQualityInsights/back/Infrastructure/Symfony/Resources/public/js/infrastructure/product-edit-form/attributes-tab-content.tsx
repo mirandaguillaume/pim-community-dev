@@ -1,6 +1,6 @@
 import {ATTRIBUTES_TAB_CONTENT_CONTAINER_ELEMENT_ID} from '@akeneo-pim-community/data-quality-insights/src/application/constant';
 
-const BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 
 class AttributesTabContent extends BaseView {
   public render() {

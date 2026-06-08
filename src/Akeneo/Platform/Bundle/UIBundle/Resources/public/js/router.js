@@ -1,22 +1,16 @@
-'use strict';
-
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var $ = __pimInterop(require('jquery'));
-var _ = __pimInterop(require('underscore'));
-var __ = __pimInterop(require('oro/translator'));
-var Backbone = __pimInterop(require('backbone'));
-var Routing = __pimInterop(require('routing'));
-var RouteMatcher = __pimInterop(require('pim/route-matcher'));
-var LoadingMask = __pimInterop(require('oro/loading-mask'));
-var ControllerRegistry = __pimInterop(require('pim/controller-registry'));
-var mediator = __pimInterop(require('oro/mediator'));
-var Error = __pimInterop(require('pim/error'));
-var securityContext = __pimInterop(require('pim/security-context'));
-require('pim/controller/template');
-var FeatureFlags = __pimInterop(require('pim/feature-flags'));
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'oro/translator';
+import Backbone from 'backbone';
+import Routing from 'routing';
+import RouteMatcher from 'pim/route-matcher';
+import LoadingMask from 'oro/loading-mask';
+import ControllerRegistry from 'pim/controller-registry';
+import mediator from 'oro/mediator';
+import Error from 'pim/error';
+import securityContext from 'pim/security-context';
+import 'pim/controller/template';
+import FeatureFlags from 'pim/feature-flags';
 var Router = Backbone.Router.extend({
   DEFAULT_ROUTE: 'oro_default',
   routes: {
@@ -257,4 +251,4 @@ var Router = Backbone.Router.extend({
   },
 });
 
-module.exports = new Router();
+export default new Router();

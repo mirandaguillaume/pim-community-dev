@@ -1,9 +1,9 @@
 import * as Backbone from 'backbone';
 import * as _ from 'underscore';
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 
-const __ = require('oro/translator');
-const template = require('pim/template/common/section');
+import __ from 'oro/translator';
+import template from 'pim/template/common/section';
 
 interface SectionConfig {
   hint: {

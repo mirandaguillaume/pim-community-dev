@@ -1,6 +1,6 @@
 import * as $ from 'jquery';
-const BaseSelect = require('pim/form/common/fields/select');
-const FetcherRegistry = require('pim/fetcher-registry');
+import BaseSelect from 'pim/form/common/fields/select';
+import FetcherRegistry from 'pim/fetcher-registry';
 
 /**
  * @author    Yohan Blain <yohan.blain@akeneo.com>

@@ -1,7 +1,7 @@
 import {ProductEvaluation} from '../../../domain';
 import ProductEvaluationFetcher from './ProductEvaluationFetcher';
 
-const Routing = require('routing');
+import Routing from 'routing';
 
 const ROUTE_NAME = 'akeneo_data_quality_insights_product_model_evaluation';
 

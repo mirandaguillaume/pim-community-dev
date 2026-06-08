@@ -18,7 +18,7 @@ import {AttributesKeyIndicatorLinkCallback, ProductsKeyIndicatorLinkCallback} fr
 import {KeyIndicatorAboutProducts} from './KeyIndicatorAboutProducts';
 import {KeyIndicatorAboutAttributes} from './KeyIndicatorAboutAttributes';
 
-const featureFlags = require('pim/feature-flags');
+import featureFlags from 'pim/feature-flags';
 
 interface KeyIndicatorAboutProductsDescriptor {
   titleI18nKey: string;

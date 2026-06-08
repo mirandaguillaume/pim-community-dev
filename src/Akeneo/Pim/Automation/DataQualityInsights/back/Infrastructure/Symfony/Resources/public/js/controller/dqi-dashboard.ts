@@ -1,7 +1,7 @@
 // import React from "react";
 
-const BaseController = require('pim/controller/front');
-const FormBuilder = require('pim/form-builder');
+import BaseController from 'pim/controller/front';
+import FormBuilder from 'pim/form-builder';
 
 /**
  * @author Anais Baune Lemaire <anais.lemaire@akeneo.com>

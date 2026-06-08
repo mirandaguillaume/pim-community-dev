@@ -1,5 +1,5 @@
-const BaseGridTitle = require('pim/common/grid-title');
-const __ = require('oro/translator');
+import BaseGridTitle from 'pim/common/grid-title';
+import __ from 'oro/translator';
 
 class ProductGridTitle extends BaseGridTitle {
   private totalProducts: number | null = null;

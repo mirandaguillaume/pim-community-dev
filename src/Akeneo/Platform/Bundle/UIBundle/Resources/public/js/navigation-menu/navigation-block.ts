@@ -1,6 +1,6 @@
 'use strict';
 
-const BaseForm = require('pim/form');
+import BaseForm from 'pim/form';
 
 type NavigationBlockConfig = {
   position: number;

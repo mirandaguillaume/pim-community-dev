@@ -1,15 +1,9 @@
-'use strict';
+import 'jquery';
+import 'underscore';
+import Backbone from 'backbone';
+import 'oro/translator';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-require('jquery');
-require('underscore');
-var Backbone = __pimInterop(require('backbone'));
-require('oro/translator');
-
-module.exports = Backbone.View.extend({
+export default Backbone.View.extend({
   /** @property {Boolean} */
   displayed: false,
 

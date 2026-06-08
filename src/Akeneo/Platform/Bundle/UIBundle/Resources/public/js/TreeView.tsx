@@ -4,8 +4,8 @@ import {ThemeProvider} from 'styled-components';
 import {CategoryTrees, CategoryResponse, parseResponse} from '@akeneo-pim-community/shared';
 import React from 'react';
 import {pimTheme} from 'akeneo-design-system';
-const Router = require('pim/router');
-const __ = require('oro/translator');
+import Router from 'pim/router';
+import __ from 'oro/translator';
 
 type State = {
   selectedNode: number;

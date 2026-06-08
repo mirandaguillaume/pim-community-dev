@@ -5,14 +5,10 @@
  */
 'use strict';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
+import $ from 'jquery';
+import SimpleSelectAsync from 'pim/form/common/fields/simple-select-async';
 
-var $ = __pimInterop(require('jquery'));
-var SimpleSelectAsync = __pimInterop(require('pim/form/common/fields/simple-select-async'));
-
-module.exports = SimpleSelectAsync.extend({
+export default SimpleSelectAsync.extend({
   /**
    * {@inheritdoc}
    */

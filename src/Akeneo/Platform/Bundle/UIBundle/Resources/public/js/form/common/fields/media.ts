@@ -1,12 +1,12 @@
 import * as $ from 'jquery';
-const _ = require('underscore');
-const __ = require('oro/translator');
-const BaseField = require('pim/form/common/fields/field');
-const Routing = require('routing');
-const Mediator = require('oro/mediator');
-const Messenger = require('oro/messenger');
-const MediaUrlGenerator = require('pim/media-url-generator');
-const template = require('pim/template/form/common/fields/media');
+import _ from 'underscore';
+import __ from 'oro/translator';
+import BaseField from 'pim/form/common/fields/field';
+import Routing from 'routing';
+import Mediator from 'oro/mediator';
+import * as Messenger from 'oro/messenger';
+import MediaUrlGenerator from 'pim/media-url-generator';
+import template from 'pim/template/form/common/fields/media';
 require('jquery.slimbox');
 
 /**

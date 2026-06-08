@@ -3,8 +3,8 @@ import {Field, TextAreaInput, LoaderIcon} from 'akeneo-design-system';
 import {LocaleCode, LocaleSelector, Locale, useTranslate} from '@akeneo-pim-community/shared';
 import {Guidelines} from '../../models';
 import styled from 'styled-components';
-const FetcherRegistry = require('pim/fetcher-registry');
-const UserContext = require('pim/user-context');
+import FetcherRegistry from 'pim/fetcher-registry';
+import UserContext from 'pim/user-context';
 
 const Header = styled.div`
   display: flex;

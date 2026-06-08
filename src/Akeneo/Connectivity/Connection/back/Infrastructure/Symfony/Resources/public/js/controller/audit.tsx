@@ -3,7 +3,7 @@ import React from 'react';
 import {dependencies} from '../dependencies';
 import ReactController from '../react/react-controller';
 
-const mediator = require('oro/mediator');
+import mediator from 'oro/mediator';
 
 class AuditController extends ReactController {
   reactElementToMount() {

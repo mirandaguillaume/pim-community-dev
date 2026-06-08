@@ -9,10 +9,10 @@ import {
 
 import {get as _get, has as _has, pick as _pick, uniq as _uniq} from 'lodash';
 
-const $ = require('jquery');
-const __ = require('oro/translator');
-const BaseForm = require('pim/form');
-const UserContext = require('pim/user-context');
+import $ from 'jquery';
+import __ from 'oro/translator';
+import BaseForm from 'pim/form';
+import UserContext from 'pim/user-context';
 
 class AttributeFilterAllMissingAttributes extends BaseForm {
   async filterValues(values: any) {

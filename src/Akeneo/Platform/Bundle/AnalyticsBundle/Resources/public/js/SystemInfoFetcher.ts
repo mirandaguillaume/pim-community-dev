@@ -1,4 +1,4 @@
-const Routing = require('routing');
+import Routing from 'routing';
 
 const ROUTE_NAME = 'pim_analytics_system_info_rest_index';
 

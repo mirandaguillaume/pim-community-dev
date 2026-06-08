@@ -1,13 +1,7 @@
-'use strict';
+import _ from 'underscore';
+import Backbone from 'backbone';
 
-function __pimInterop(m) {
-  return m && m.__esModule && 'default' in m ? m.default : m;
-}
-
-var _ = __pimInterop(require('underscore'));
-var Backbone = __pimInterop(require('backbone'));
-
-module.exports = _.extend(
+export default _.extend(
   {
     clear: function (namespace) {
       this._events = _.omit(this._events, function (events, code) {

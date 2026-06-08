@@ -1,7 +1,7 @@
 import {QualityScoreModel} from '../../../domain';
 import {ProductType} from '../../../domain/Product.interface';
 
-const Routing = require('routing');
+import Routing from 'routing';
 
 const ROUTE_NAMES = {
   product: 'akeneo_data_quality_insights_product_quality_score',

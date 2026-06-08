@@ -1,18 +1,18 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
-import BaseView = require('pimui/js/view/base');
+import BaseView from 'pimui/js/view/base';
 import {systemConfiguration} from '@akeneo-pim-community/shared';
 
-const mediator = require('oro/mediator');
-const FetcherRegistry = require('pim/fetcher-registry');
-const init = require('pim/init');
-const initTranslator = require('pim/init-translator');
-const initLayout = require('oro/init-layout');
-const initSignin = require('pimuser/js/init-signin');
-const pageTitle = require('pim/page-title');
-const DateContext = require('pim/date-context');
-const UserContext = require('pim/user-context');
-const template = require('pim/template/app');
+import mediator from 'oro/mediator';
+import FetcherRegistry from 'pim/fetcher-registry';
+import init from 'pim/init';
+import initTranslator from 'pim/init-translator';
+import initLayout from 'oro/init-layout';
+import initSignin from 'pimuser/js/init-signin';
+import pageTitle from 'pim/page-title';
+import DateContext from 'pim/date-context';
+import UserContext from 'pim/user-context';
+import template from 'pim/template/app';
 
 class PimApp extends BaseView {
   private readonly template = _.template(template);
