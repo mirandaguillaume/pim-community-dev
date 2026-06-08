@@ -21,13 +21,13 @@ describe('followNotApplicableEnrichmentImageRecommendation', () => {
   beforeEach(() => sessionStorage.clear());
 
   it('does nothing when the product has no family', () => {
-    import router from 'pim/router';
+    const router = require('pim/router');
     followNotApplicableEnrichmentImageRecommendation(makeProduct(null) as any);
     expect(router.redirectToRoute).not.toHaveBeenCalled();
   });
 
   it('stores back-link in sessionStorage and redirects to family edit for a simple product', () => {
-    import router from 'pim/router';
+    const router = require('pim/router');
     followNotApplicableEnrichmentImageRecommendation(makeProduct('cameras', 'product', 'uuid-abc') as any);
 
     const stored = JSON.parse(sessionStorage.getItem(BACK_LINK_SESSION_STORAGE_KEY) || '{}');
