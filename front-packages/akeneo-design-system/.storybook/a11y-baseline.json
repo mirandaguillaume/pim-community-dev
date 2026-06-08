@@ -1,0 +1,235 @@
+{
+  "Components/Helper / Sticky": [
+    "scrollable-region-focusable"
+  ],
+  "Components/Inputs/Boolean input / Invalid": [
+    "aria-allowed-attr",
+    "aria-required-attr",
+    "nested-interactive"
+  ],
+  "Components/Inputs/Boolean input / Readonly": [
+    "aria-allowed-attr",
+    "aria-required-attr"
+  ],
+  "Components/Inputs/Boolean input / Small": [
+    "aria-allowed-attr",
+    "aria-required-attr",
+    "nested-interactive"
+  ],
+  "Components/Inputs/Boolean input / Standard": [
+    "aria-allowed-attr",
+    "aria-required-attr",
+    "nested-interactive"
+  ],
+  "Components/Inputs/Boolean input / Value": [
+    "aria-allowed-attr",
+    "aria-required-attr",
+    "nested-interactive"
+  ],
+  "Components/Inputs/Color input / Invalid": [
+    "label"
+  ],
+  "Components/Inputs/Color input / Read Only": [
+    "label"
+  ],
+  "Components/Inputs/Color input / Standard": [
+    "label"
+  ],
+  "Components/Inputs/Date input / Html Props Max Min": [
+    "label"
+  ],
+  "Components/Inputs/Date input / Invalid": [
+    "label"
+  ],
+  "Components/Inputs/Date input / Read Only": [
+    "label"
+  ],
+  "Components/Inputs/Date input / Standard": [
+    "label"
+  ],
+  "Components/Inputs/Multi Select input / Invalid": [
+    "button-name"
+  ],
+  "Components/Inputs/Multi Select input / Invalid Value": [
+    "button-name",
+    "label"
+  ],
+  "Components/Inputs/Multi Select input / Large": [
+    "button-name"
+  ],
+  "Components/Inputs/Multi Select input / Locked Values": [
+    "button-name",
+    "label"
+  ],
+  "Components/Inputs/Multi Select input / Pagination": [
+    "button-name"
+  ],
+  "Components/Inputs/Multi Select input / Read Only": [
+    "button-name",
+    "label"
+  ],
+  "Components/Inputs/Multi Select input / Standard": [
+    "button-name"
+  ],
+  "Components/Inputs/Multi Select input / Vertical Position": [
+    "button-name"
+  ],
+  "Components/Inputs/Select input / Clearable": [
+    "button-name"
+  ],
+  "Components/Inputs/Select input / Invalid": [
+    "button-name"
+  ],
+  "Components/Inputs/Select input / Large": [
+    "button-name"
+  ],
+  "Components/Inputs/Select input / Large Options": [
+    "button-name"
+  ],
+  "Components/Inputs/Select input / Pagination": [
+    "button-name"
+  ],
+  "Components/Inputs/Select input / Read Only": [
+    "button-name",
+    "label"
+  ],
+  "Components/Inputs/Select input / Standard": [
+    "button-name"
+  ],
+  "Components/Inputs/Select input / Vertical Position": [
+    "button-name"
+  ],
+  "Components/Inputs/Table input / Highlight Cells": [
+    "button-name",
+    "label"
+  ],
+  "Components/Inputs/Table input / Standard": [
+    "button-name",
+    "label"
+  ],
+  "Components/Inputs/Tag input / Existing Value": [
+    "label"
+  ],
+  "Components/Inputs/Tag input / Existing Value And Labels": [
+    "label"
+  ],
+  "Components/Inputs/Tag input / Variation On Invalid": [
+    "label"
+  ],
+  "Components/Inputs/Tag input / Variation On Invalid Values": [
+    "label"
+  ],
+  "Components/Inputs/Tag input / Variation On Readonly": [
+    "label"
+  ],
+  "Components/Inputs/Tag input / With A High Number Of Tags": [
+    "label"
+  ],
+  "Components/Inputs/Textarea input / Rich Text Editor": [
+    "aria-allowed-attr"
+  ],
+  "Components/KeyFigure / Key Figure Grid": [
+    "aria-tooltip-name"
+  ],
+  "Components/List / Actions": [
+    "button-name"
+  ],
+  "Components/List / Complex": [
+    "button-name",
+    "label"
+  ],
+  "Components/Message bar / Animate": [
+    "button-name"
+  ],
+  "Components/Message bar / Content": [
+    "button-name"
+  ],
+  "Components/Message bar / Level": [
+    "button-name"
+  ],
+  "Components/Message bar / Standard": [
+    "button-name"
+  ],
+  "Components/Navigation/MainNavigationItem / Tag": [
+    "listitem"
+  ],
+  "Components/Navigation/SubNavigationItem / Tag": [
+    "listitem"
+  ],
+  "Components/Navigation/SubNavigationPanel / Scrollable Content": [
+    "scrollable-region-focusable"
+  ],
+  "Components/Preview / Collapsable": [
+    "aria-hidden-focus"
+  ],
+  "Components/Preview / Row": [
+    "aria-hidden-focus"
+  ],
+  "Components/Progress bar / Header": [
+    "aria-progressbar-name"
+  ],
+  "Components/Switcher Button / Deletable": [
+    "button-name"
+  ],
+  "Components/Table / Complex Table": [
+    "aria-toggle-field-name"
+  ],
+  "Components/Table / Selectable Lines": [
+    "aria-hidden-focus"
+  ],
+  "Components/Table / Table With Actions": [
+    "button-name"
+  ],
+  "Components/Tiles / Size": [
+    "aria-tooltip-name"
+  ],
+  "Components/Tiles / Standard": [
+    "aria-tooltip-name"
+  ],
+  "Components/Toolbar / Standard": [
+    "aria-toggle-field-name"
+  ],
+  "Components/Tooltip / Standard": [
+    "aria-tooltip-name"
+  ],
+  "Components/Tooltip / With Title": [
+    "aria-tooltip-name"
+  ],
+  "Components/Tree / Is Leaf": [
+    "aria-allowed-attr",
+    "button-name"
+  ],
+  "Components/Tree / Is Loading": [
+    "aria-allowed-attr",
+    "button-name"
+  ],
+  "Components/Tree / Read Only": [
+    "aria-allowed-attr",
+    "aria-toggle-field-name",
+    "button-name"
+  ],
+  "Components/Tree / Selectable": [
+    "aria-allowed-attr",
+    "aria-toggle-field-name",
+    "button-name"
+  ],
+  "Components/Tree / Selected": [
+    "aria-allowed-attr",
+    "button-name"
+  ],
+  "Components/Tree / Standard": [
+    "aria-allowed-attr",
+    "button-name"
+  ],
+  "Patterns/Bulk Actions / Big Table": [
+    "aria-hidden-focus",
+    "aria-toggle-field-name"
+  ],
+  "Patterns/Bulk Actions / Small Table": [
+    "aria-hidden-focus",
+    "aria-toggle-field-name"
+  ],
+  "Patterns/Bulk Actions / With Cards": [
+    "aria-toggle-field-name"
+  ]
+}

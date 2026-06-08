@@ -1,16 +1,31 @@
 // Storybook test-runner config.
 //
-// In addition to the built-in render smoke (every story is rendered headlessly
-// and must not throw), we run axe-core accessibility checks per story via
-// axe-playwright.
+// On top of the built-in render smoke (every story is rendered headlessly and
+// must not throw), we run axe-core accessibility checks per story via
+// axe-playwright, enforced as a BASELINE RATCHET:
 //
-// DISCOVERY MODE (current): the 247 pre-existing stories were never a11y-audited,
-// so we do NOT fail the job yet. `getViolations` collects violations WITHOUT
-// throwing (unlike `checkA11y`), and we log one parseable line per story so the
-// real violation inventory can be read from the CI logs. Once we know the
-// landscape, this flips to a gated enforcing mode (allowlist / rule subset /
-// baseline of accepted violations) — see [[dsm-storybook-test-runner]].
+//   - `color-contrast` is globally deferred — it flags the brand palette (98
+//     stories, "serious") and is a separate design decision, tracked for a
+//     future dedicated pass. It is NOT checked here.
+//   - `a11y-baseline.json` freezes the real semantic violations that already
+//     existed when a11y testing was introduced (button-name, label, aria-*).
+//     Those stories stay green so the suite can be adopted without a big-bang
+//     fix.
+//   - Any violation NOT in the baseline (a new story, or a regression on an
+//     existing one) FAILS the job. The debt can only shrink, never grow.
+//
+// To accept a genuinely-unavoidable new violation, add its rule id under the
+// story key in a11y-baseline.json. To pay down debt, remove entries — the
+// "stale baseline" warning below tells you which are now fixable.
+//
+// The addon-a11y automatic axe run is disabled via `parameters.a11y.test:'off'`
+// in preview.tsx, so this hook is the single axe runner (avoids the
+// "Axe is already running" race). See [[dsm-storybook-test-runner]].
 const {injectAxe, configureAxe, getViolations} = require('axe-playwright');
+const baseline = require('./a11y-baseline.json');
+
+// Rules we do not enforce at all (separate design decision).
+const DEFERRED_RULES = ['color-contrast'];
 
 module.exports = {
   async preVisit(page) {
@@ -18,26 +33,42 @@ module.exports = {
   },
 
   async postVisit(page, context) {
-    // WCAG 2.0/2.1 A & AA — the conventional baseline ruleset.
     await configureAxe(page, {
-      // axe runs against the story root that Storybook renders into.
-      // No global rule disabling in discovery mode: we want the full picture.
+      rules: DEFERRED_RULES.map(id => ({id, enabled: false})),
     });
 
     const violations = await getViolations(page, '#storybook-root', {
       runOnly: {type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']},
     });
 
-    const label = `${context.title} / ${context.name}`;
-    if (violations.length === 0) {
-      console.log(`[A11Y] OK   :: ${label}`);
-      return;
+    const storyKey = `${context.title} / ${context.name}`;
+    const accepted = new Set(baseline[storyKey] ?? []);
+    const current = new Set(violations.map(v => v.id));
+
+    // Violations present now but not in the baseline → regression or new story.
+    const introduced = violations.filter(v => !accepted.has(v.id));
+    // Baseline entries no longer violated → debt that can be removed.
+    const fixed = [...accepted].filter(id => !current.has(id));
+
+    if (fixed.length > 0) {
+      console.log(
+        `[A11Y] stale baseline for "${storyKey}": ${fixed.join(', ')} no longer ` +
+          `violated — remove from a11y-baseline.json.`
+      );
     }
 
-    // One machine-readable line per violating story: total node count + rule ids
-    // with per-rule node counts and impact, so the CI log can be aggregated.
-    const total = violations.reduce((n, v) => n + v.nodes.length, 0);
-    const rules = violations.map(v => `${v.id}(${v.impact}:${v.nodes.length})`).join(',');
-    console.log(`[A11Y] FAIL :: ${label} :: nodes=${total} :: ${rules}`);
+    if (introduced.length > 0) {
+      const detail = introduced
+        .map(v => {
+          const nodes = v.nodes.map(n => n.target.join(' ')).join('\n        ');
+          return `  • ${v.id} (${v.impact}) — ${v.help}\n        ${nodes}`;
+        })
+        .join('\n');
+      throw new Error(
+        `Accessibility regression in story "${storyKey}":\n${detail}\n\n` +
+          `Fix the violation, or — if it is unavoidable — add the rule id under ` +
+          `"${storyKey}" in front-packages/akeneo-design-system/.storybook/a11y-baseline.json.`
+      );
+    }
   },
 };

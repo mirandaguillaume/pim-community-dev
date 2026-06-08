@@ -40,6 +40,13 @@ const preview: Preview = {
   },
   parameters: {
     viewMode: 'docs',
+    // Disable addon-a11y's automatic axe run in the test-runner: our own
+    // baseline-ratchet hook (.storybook/test-runner.js) is the single axe
+    // runner. Two concurrent runs throw "Axe is already running". The addon
+    // still works interactively in the Storybook UI panel.
+    a11y: {
+      test: 'off',
+    },
   },
 };
 
