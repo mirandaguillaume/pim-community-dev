@@ -4,7 +4,7 @@ import _ from 'underscore';
 import fieldTemplate from 'pim/template/product/field/field';
 import guidelinesTemplate from 'pim/template/product/field/field-guidelines';
 import AttributeManager from 'pim/attribute-manager';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import mediator from 'oro/mediator';
 import analytics from 'pim/analytics';
 var FieldModel = Backbone.Model.extend({

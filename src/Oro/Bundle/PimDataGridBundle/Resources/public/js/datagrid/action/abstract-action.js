@@ -5,7 +5,7 @@ import routing from 'routing';
 import router from 'pim/router';
 import __ from 'oro/translator';
 import mediator from 'oro/mediator';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import error from 'oro/error';
 import Dialog from 'pim/dialog';
 import ActionLauncher from 'oro/datagrid/action-launcher';

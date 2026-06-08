@@ -7,7 +7,7 @@ import 'oro/app';
 import mediator from 'oro/mediator';
 import layout from 'oro/layout';
 import Dialog from 'pim/dialog';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import 'bootstrap';
 import 'jquery-setup';
 

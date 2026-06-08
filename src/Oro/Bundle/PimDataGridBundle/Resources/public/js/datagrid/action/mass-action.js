@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import __ from 'oro/translator';
 import Dialog from 'pim/dialog';
 import AbstractAction from 'oro/datagrid/abstract-action';

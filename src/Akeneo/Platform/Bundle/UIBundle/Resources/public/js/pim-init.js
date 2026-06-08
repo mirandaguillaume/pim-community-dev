@@ -3,7 +3,7 @@ import _ from 'underscore';
 import __ from 'oro/translator';
 import 'backbone';
 import mediator from 'oro/mediator';
-import messenger from 'oro/messenger';
+import * as messenger from 'oro/messenger';
 import Dialog from 'pim/dialog';
 import saveformstate from 'pim/saveformstate';
 import loadTab from 'pim/asynctab';

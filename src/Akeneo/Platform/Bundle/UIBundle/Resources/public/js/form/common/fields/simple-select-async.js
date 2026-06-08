@@ -9,7 +9,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import BaseField from 'pim/form/common/fields/field';
 import __ from 'oro/translator';
-import i18n from 'pim/i18n';
+import * as i18n from 'pim/i18n';
 import initSelect2 from 'pim/initselect2';
 import UserContext from 'pim/user-context';
 import template from 'pim/template/form/common/fields/simple-select-async';
