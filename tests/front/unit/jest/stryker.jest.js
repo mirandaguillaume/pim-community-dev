@@ -24,7 +24,6 @@ const unitConfig = require('./unit.jest.js');
 
 const PIMUI_SRC = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/public';
 const CONNECTIVITY_FRONT = '<rootDir>/src/Akeneo/Connectivity/Connection/front';
-const IDENTIFIER_GEN_FRONT = '<rootDir>/components/identifier-generator/front';
 const MEASURE_FRONT = '<rootDir>/src/Akeneo/Tool/Bundle/MeasureBundle/front';
 const SETTINGS_UI_FRONT = '<rootDir>/src/Akeneo/Pim/Structure/Bundle/Resources/workspaces/settings-ui';
 const ACTIVITY_WORKSPACE = '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/activity';

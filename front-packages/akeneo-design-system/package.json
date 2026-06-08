@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Akeneo design system",
   "main": "lib/index.js",
+  "sideEffects": ["**/*.css", "**/*.scss", "**/*.less"],
   "scripts": {
     "lib:build": "tsc -p ./tsconfig.build.json",
     "lib:watch": "tsc -p ./tsconfig.build.json --watch",
