@@ -67,6 +67,38 @@ Mitigations / checks:
 4. drive the live local PIM, check console for context/`undefined` errors (the
    swallowed-error net from B7).
 
+## Experiment result (2026-06-08) — dual build attempted, REVERTED
+
+Built `es/` (ESM) for both packages, added `module`/`types`, measured prod.
+**Result: regression, reverted.** The dual build is kept only as this plan +
+the (inert-but-correct) `sideEffects` declarations.
+
+Three structural blockers, all measured:
+
+1. **Dual-package duplication (+0.48 MiB).** With `es/` shipped, vendor.min.js
+   went 4.61 → 5.09 MiB. The source map showed BOTH copies bundled: DS = 313
+   `lib/` modules AND 299 `es/` modules. Root cause: `SelectAttributeType.tsx`
+   does `import * as icons from 'akeneo-design-system/lib/icons'` (CJS deep
+   path) while 407 files import the barrel (now ESM) → two instances. (The
+   54 `shared/lib/tests` deep imports are test-only, not in the prod bundle.)
+2. **Icons are un-tree-shakeable by design.** That same file does
+   `const castIcons = icons as {...}; castIcons[iconsMap[attributeType] || 'AddAttributeIcon']`
+   — a DYNAMIC `ns[runtimeKey]` lookup over all 124 icons (~1 MB). webpack must
+   keep every icon. Icons are the bulk of DS, so the achievable shrink is small.
+3. **DS/shared live in `vendor.min.js`, not `main`** (splitChunks routes
+   node_modules → vendor). `main.min.js` stayed 1.76 MiB throughout — tree-shaking
+   these packages can only ever shrink VENDOR, never main.
+
+### What a real win would require (next attempt)
+- Refactor the dynamic icon lookup (`SelectAttributeType` + any siblings) to
+  static imports of only the needed icons — unlocks tree-shaking the 1 MB icon
+  set. This is a feature-code refactor, the highest-value lever.
+- THEN the dual ESM build + barrel-only imports (migrate the 2 DS deep `/lib/`
+  imports) to avoid duplication.
+- Emit `es/*.d.ts` (or an `exports` map) if any deep `es/` imports need types.
+- Verify the React-context dual-package hazard on `shared` via the live PIM
+  (`DependenciesProvider`).
+
 ## Out of scope / follow-ups
 
 - Migrating the 6+43 deep `/lib/` imports to the barrel (only if they cause a 2nd
