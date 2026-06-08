@@ -27,6 +27,11 @@ const colorsAlternative = [
 
 export default {
   title: 'Guidelines/Colors',
+  // `colors` is a shared palette helper imported by Iconography.stories/.mdx,
+  // not a story. In CSF every named export is treated as a story, so exclude it
+  // explicitly — otherwise the test-runner tries to render it and fails with
+  // "component annotation is missing from the default export".
+  excludeStories: ['colors'],
 };
 
 export const Standard = {
