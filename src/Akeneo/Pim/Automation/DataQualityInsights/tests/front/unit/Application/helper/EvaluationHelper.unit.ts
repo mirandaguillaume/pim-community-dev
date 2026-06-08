@@ -17,14 +17,16 @@ describe('convertEvaluationToLegacyFormat', () => {
       {},
       {
         ecommerce: {
-          en_US: [{code: 'criterion_1', rate: {value: 80, rank: 'B'}, status: 'done', improvable_attributes: []}],
+          en_US: [
+            {code: 'criterion_1', rate: {value: 80, rank: 'B'}, status: 'done' as const, improvable_attributes: []},
+          ],
         },
       }
     );
     expect(result).toEqual({});
   });
 
-  it('returns empty axis entries when productEvaluation is empty', () => {
+  it('returns empty object when productEvaluation is empty', () => {
     const result = convertEvaluationToLegacyFormat({enrichment: ['criterion_1']}, {});
     expect(result).toEqual({});
   });
@@ -83,6 +85,28 @@ describe('convertEvaluationToLegacyFormat', () => {
     const result = convertEvaluationToLegacyFormat(axes, evaluation);
 
     expect(result.enrichment.ecommerce.en_US.rate).toBeNull();
+  });
+
+  it('preserves criterion rate values inside the output criteria array', () => {
+    const axes = {enrichment: ['criterion_1']};
+    const evaluation = {
+      ecommerce: {
+        en_US: [
+          {
+            code: 'criterion_1',
+            rate: {value: 80, rank: 'B'},
+            status: 'done' as const,
+            improvable_attributes: ['attr_x'],
+          },
+        ],
+      },
+    };
+
+    const result = convertEvaluationToLegacyFormat(axes, evaluation);
+    const criterion = result.enrichment.ecommerce.en_US.criteria[0];
+
+    expect(criterion.rate).toEqual({value: 80, rank: 'B'});
+    expect(criterion.improvable_attributes).toEqual(['attr_x']);
   });
 
   it('handles multiple channels and locales independently', () => {
