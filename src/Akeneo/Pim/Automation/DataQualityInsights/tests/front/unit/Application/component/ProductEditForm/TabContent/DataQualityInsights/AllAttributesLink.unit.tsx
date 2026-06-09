@@ -6,6 +6,10 @@ import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import AllAttributesLink from '../../../../../../../../front/src/application/component/ProductEditForm/TabContent/DataQualityInsights/AllAttributesLink';
+import {
+  DATA_QUALITY_INSIGHTS_FILTER_ALL_MISSING_ATTRIBUTES,
+  DATA_QUALITY_INSIGHTS_FILTER_ALL_IMPROVABLE_ATTRIBUTES,
+} from '../../../../../../../../front/src/application/listener/ProductEditForm/ProductContextListener';
 
 jest.mock('oro/translator', () => (key: string) => key, {virtual: true});
 
@@ -41,7 +45,7 @@ describe('AllAttributesLink', () => {
     );
     expect(dispatchSpy).toHaveBeenCalledTimes(1);
     const event = dispatchSpy.mock.calls[0][0] as CustomEvent;
-    expect(event.type).toBe('data-quality:product:filter_all_missing_attributes');
+    expect(event.type).toBe(DATA_QUALITY_INSIGHTS_FILTER_ALL_MISSING_ATTRIBUTES);
     expect(event.detail.attributes).toEqual(['name', 'description']);
   });
 
@@ -50,8 +54,9 @@ describe('AllAttributesLink', () => {
     userEvent.click(
       screen.getByText('akeneo_data_quality_insights.product_evaluation.axis.consistency.attributes_link')
     );
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
     const event = dispatchSpy.mock.calls[0][0] as CustomEvent;
-    expect(event.type).toBe('data-quality:product:filter_all_improvable_attributes');
+    expect(event.type).toBe(DATA_QUALITY_INSIGHTS_FILTER_ALL_IMPROVABLE_ATTRIBUTES);
     expect(event.detail.attributes).toEqual(['brand']);
   });
 });
