@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {renderWithProviders} from '@akeneo-pim-community/legacy-bridge/tests/front/unit/utils';
 
 jest.mock('../../../../../Resources/public/js/attribute/form/SelectAttributeType', () => ({
+  __esModule: true,
   default: ({onStepConfirm, onClose}: {onStepConfirm: (data: any) => void; onClose: () => void}) => (
     <div data-testid="select-attribute-type">
       <button onClick={() => onStepConfirm({attribute_type: 'pim_catalog_text'})}>Select text type</button>
