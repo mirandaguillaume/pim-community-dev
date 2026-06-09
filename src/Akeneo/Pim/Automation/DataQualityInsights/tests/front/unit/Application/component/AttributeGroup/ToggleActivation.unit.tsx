@@ -53,8 +53,7 @@ describe('ToggleActivation', () => {
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
 
-  it('calls toggleGroupActivation when the label is clicked and the user is granted', async () => {
-    const user = userEvent.setup();
+  it('calls toggleGroupActivation when the label is clicked and the user is granted', () => {
     render(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
@@ -63,13 +62,12 @@ describe('ToggleActivation', () => {
       </DependenciesProvider>
     );
 
-    await user.click(document.querySelector('label.switch-small')!);
+    userEvent.click(document.querySelector('label.switch-small')!);
     expect(mockToggle).toHaveBeenCalledTimes(1);
   });
 
-  it('does not call toggleGroupActivation when the user is not granted', async () => {
+  it('does not call toggleGroupActivation when the user is not granted', () => {
     mockIsGranted.mockReturnValue(false);
-    const user = userEvent.setup();
 
     render(
       <DependenciesProvider>
@@ -79,7 +77,7 @@ describe('ToggleActivation', () => {
       </DependenciesProvider>
     );
 
-    await user.click(document.querySelector('label.switch-small')!);
+    userEvent.click(document.querySelector('label.switch-small')!);
     expect(mockToggle).not.toHaveBeenCalled();
   });
 });

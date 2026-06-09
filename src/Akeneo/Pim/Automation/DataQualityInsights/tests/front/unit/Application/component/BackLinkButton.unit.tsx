@@ -8,7 +8,7 @@ import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 
 jest.mock('pim/router', () => ({redirectToRoute: jest.fn()}), {virtual: true});
 
-import {BackLinkButton} from '../../../../../../front/src/application/component/BackLinkButton';
+import {BackLinkButton} from '../../../../../front/src/application/component/BackLinkButton';
 
 describe('BackLinkButton', () => {
   beforeEach(() => {
@@ -28,8 +28,7 @@ describe('BackLinkButton', () => {
     expect(screen.getByRole('button', {name: 'Go back'})).toBeInTheDocument();
   });
 
-  it('calls Router.redirectToRoute with the correct route on click', async () => {
-    const user = userEvent.setup();
+  it('calls Router.redirectToRoute with the correct route on click', () => {
     render(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
@@ -38,14 +37,13 @@ describe('BackLinkButton', () => {
       </DependenciesProvider>
     );
 
-    await user.click(screen.getByRole('button', {name: 'Go back'}));
+    userEvent.click(screen.getByRole('button', {name: 'Go back'}));
 
     const Router = require('pim/router');
     expect(Router.redirectToRoute).toHaveBeenCalledWith('pim_enrich_product_index', undefined);
   });
 
-  it('passes routeParams to Router.redirectToRoute', async () => {
-    const user = userEvent.setup();
+  it('passes routeParams to Router.redirectToRoute', () => {
     render(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
@@ -54,7 +52,7 @@ describe('BackLinkButton', () => {
       </DependenciesProvider>
     );
 
-    await user.click(screen.getByRole('button', {name: 'Go back'}));
+    userEvent.click(screen.getByRole('button', {name: 'Go back'}));
 
     const Router = require('pim/router');
     expect(Router.redirectToRoute).toHaveBeenCalledWith('pim_enrich_product_index', []);

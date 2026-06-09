@@ -1,7 +1,7 @@
 import {
   evaluationPlaceholder,
   convertEvaluationToLegacyFormat,
-} from '../../../../../../front/src/application/helper/EvaluationHelper';
+} from '../../../../../front/src/application/helper/EvaluationHelper';
 
 describe('evaluationPlaceholder', () => {
   it('has null rate and empty criteria', () => {

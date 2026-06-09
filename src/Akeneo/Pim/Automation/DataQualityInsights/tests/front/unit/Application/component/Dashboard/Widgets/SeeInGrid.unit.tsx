@@ -19,9 +19,8 @@ test('it renders the translated label', () => {
   expect(screen.getByText('akeneo_data_quality_insights.dqi_dashboard.widgets.see_in_grid')).toBeInTheDocument();
 });
 
-test('it calls the follow callback when clicked', async () => {
+test('it calls the follow callback when clicked', () => {
   const handleFollow = jest.fn();
-  const user = userEvent.setup();
 
   render(
     <DependenciesProvider>
@@ -31,8 +30,6 @@ test('it calls the follow callback when clicked', async () => {
     </DependenciesProvider>
   );
 
-  await user.click(
-    screen.getByRole('button', {name: 'akeneo_data_quality_insights.dqi_dashboard.widgets.see_in_grid'})
-  );
+  userEvent.click(screen.getByRole('button', {name: 'akeneo_data_quality_insights.dqi_dashboard.widgets.see_in_grid'}));
   expect(handleFollow).toHaveBeenCalledTimes(1);
 });

@@ -7,9 +7,8 @@ import {ThemeProvider} from 'styled-components';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {RemoveItem} from '../../../../../../../front/src/application/component/Dashboard/Widgets/RemoveItem';
 
-test('it calls the remove callback when the close icon is clicked', async () => {
+test('it calls the remove callback when the close icon is clicked', () => {
   const handleRemove = jest.fn();
-  const user = userEvent.setup();
 
   render(
     <DependenciesProvider>
@@ -20,6 +19,6 @@ test('it calls the remove callback when the close icon is clicked', async () => 
   );
 
   const svg = document.querySelector('svg') as SVGElement;
-  await user.click(svg);
+  userEvent.click(svg);
   expect(handleRemove).toHaveBeenCalledTimes(1);
 });

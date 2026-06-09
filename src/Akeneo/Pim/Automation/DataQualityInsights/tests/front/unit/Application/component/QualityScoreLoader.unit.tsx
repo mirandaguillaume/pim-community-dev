@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import {pimTheme} from 'akeneo-design-system';
 import {ThemeProvider} from 'styled-components';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
-import {QualityScoreLoader} from '../../../../../../front/src/application/component/QualityScoreLoader';
+import {QualityScoreLoader} from '../../../../../front/src/application/component/QualityScoreLoader';
 
 test('it renders the quality score loader skeleton', () => {
   render(

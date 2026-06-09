@@ -19,9 +19,8 @@ test('it renders the children label', () => {
   expect(screen.getByText('Add families')).toBeInTheDocument();
 });
 
-test('it calls the add callback when clicked', async () => {
+test('it calls the add callback when clicked', () => {
   const handleAdd = jest.fn();
-  const user = userEvent.setup();
 
   render(
     <DependenciesProvider>
@@ -31,6 +30,6 @@ test('it calls the add callback when clicked', async () => {
     </DependenciesProvider>
   );
 
-  await user.click(screen.getByRole('button', {name: 'Add families'}));
+  userEvent.click(screen.getByRole('button', {name: 'Add families'}));
   expect(handleAdd).toHaveBeenCalledTimes(1);
 });
