@@ -6,6 +6,16 @@ import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {AttributeMessageBuilder} from '../../../../../../../front/src/application/component/Dashboard/KeyIndicators/AttributeMessageBuilder';
 
+jest.mock('@akeneo-pim-community/shared', () => ({
+  ...jest.requireActual('@akeneo-pim-community/shared'),
+  useTranslate: () => (key: string) => {
+    if (key === 'akeneo_data_quality_insights.dqi_dashboard.key_indicators.attributes_to_work_on') {
+      return '<improvable_attributes_count_link/>';
+    }
+    return key;
+  },
+}));
+
 const renderWith = (ui: React.ReactElement) =>
   render(
     <DependenciesProvider>

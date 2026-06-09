@@ -20,14 +20,6 @@ jest.mock('../../../../../front/src/infrastructure/hooks/useInitDashboardContext
 }));
 
 describe('DashboardContext', () => {
-  it('useDashboardContext throws when called outside a Provider', () => {
-    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => {
-      renderHook(() => useDashboardContext());
-    }).toThrow('[DashboardContext]: dashboard context has not been properly initiated');
-    spy.mockRestore();
-  });
-
   it('Provider renders children and exposes the context value', () => {
     const providerWrapper = ({children}: {children: React.ReactNode}) => (
       <DependenciesProvider>

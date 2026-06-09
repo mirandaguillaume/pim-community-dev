@@ -6,6 +6,19 @@ import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {ProductMessageBuilder} from '../../../../../../../front/src/application/component/Dashboard/KeyIndicators/ProductMessageBuilder';
 
+jest.mock('@akeneo-pim-community/shared', () => ({
+  ...jest.requireActual('@akeneo-pim-community/shared'),
+  useTranslate: () => (key: string) => {
+    const translations: Record<string, string> = {
+      'akeneo_data_quality_insights.dqi_dashboard.key_indicators.entities_to_work_on':
+        '<improvable_products_count_link/>',
+      'akeneo_data_quality_insights.dqi_dashboard.key_indicators.entities_to_work_on_2_kinds':
+        '<improvable_products_count_link/> <improvable_product_models_count_link/>',
+    };
+    return translations[key] ?? key;
+  },
+}));
+
 const renderWith = (ui: React.ReactElement) =>
   render(
     <DependenciesProvider>
