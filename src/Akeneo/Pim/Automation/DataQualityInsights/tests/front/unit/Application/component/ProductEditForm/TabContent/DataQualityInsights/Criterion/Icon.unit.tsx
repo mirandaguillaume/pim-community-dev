@@ -17,10 +17,11 @@ describe('Icon', () => {
   it('clones child element with width and height 20', () => {
     const {container} = renderWith(
       <Icon type="svg">
-        <svg data-testid="inner-icon" />
+        <svg />
       </Icon>
     );
     const svg = container.querySelector('svg');
+    expect(svg).not.toBeNull();
     expect(svg).toHaveAttribute('width', '20');
     expect(svg).toHaveAttribute('height', '20');
   });
