@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import __ from 'oro/translator';
 import BaseView from 'pimui/js/view/base';
 import BaseForm from 'pim/form';
@@ -20,6 +21,15 @@ type DisplayTypeConfig = {[name: string]: {label: string}};
  */
 class DisplaySelectorView extends BaseView {
   private gridName: string | null = null;
+
+  events() {
+    return {
+      'click .display-selector-item': (e: JQuery.ClickEvent) => {
+        const type = String($(e.currentTarget).data('type'));
+        this.setDisplayType(type);
+      },
+    };
+  }
 
   constructor(options: {config: {gridName: string}}) {
     super({...options, ...{className: 'AknDropdown AknDropdown--left AknTitleContainer-displaySelector'}});
