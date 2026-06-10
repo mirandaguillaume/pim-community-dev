@@ -37,10 +37,12 @@ const DisplaySelector = ({types, selectedType, displayLabel, onChange}: DisplayS
         <ul className="AknDropdown-menu AknDropdown-menu--open">
           <div className="AknDropdown-menuTitle">{displayLabel}</div>
           {Object.entries(types).map(([key, type]) => (
-            <li key={key} className="display-selector-item" data-type={key} onClick={() => handleSelect(key)}>
+            <li key={key} className="display-selector-item" data-type={key}>
               <a
                 className={`AknDropdown-menuLink${key === selectedType ? ' AknDropdown-menuLink--active' : ''}`}
                 data-type={key}
+                role="button"
+                onClick={() => handleSelect(key)}
               >
                 {type.label}
               </a>
