@@ -108,6 +108,10 @@ module.exports = {
     // DataGrid React components — pure React, no Backbone in test deps, safe in sandbox.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/DisplaySelector.unit.tsx',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/display-selector.unit.tsx',
+    // DataGrid React cells (C1 wave 2) — Backgrid StringCell base mocked at test level.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/EnabledBadge.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/react-cell-base.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/enabled-cell.unit.tsx',
     // UIBundle product/grid — locale-switcher: Backbone view mocked at test level.
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/locale-switcher.unit.tsx',
   ],
