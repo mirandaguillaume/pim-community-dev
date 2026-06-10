@@ -14,6 +14,7 @@ import BaseForm from 'pim/form';
 
 class LocaleSwitcher extends BaseView {
   private config: any;
+  private removed = false;
 
   initialize(config: any): void {
     this.config = config.config;
@@ -28,6 +29,9 @@ class LocaleSwitcher extends BaseView {
 
   render(): any {
     this.fetchLocales().then((locales: Locale[]) => {
+      if (this.removed) {
+        return;
+      }
       const currentLocaleCode = userContext.get('catalogLocale');
       let currentLocale = _.find(locales, {code: currentLocaleCode});
       if (undefined === currentLocale) {
@@ -67,6 +71,12 @@ class LocaleSwitcher extends BaseView {
   changeLocale(localeCode: string): void {
     const {localeParamName} = this.config;
     router.redirectToRoute(this.config.routeName, {[localeParamName]: localeCode});
+  }
+
+  remove(): BaseView {
+    this.removed = true;
+
+    return super.remove();
   }
 }
 

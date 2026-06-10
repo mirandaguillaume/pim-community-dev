@@ -105,6 +105,11 @@ module.exports = {
     // Identifier Generator, CatalogVolumeMonitoring, and Process Tracker have
     // their own jest configs with incompatible settings (setupFiles, tsconfig,
     // resetMocks). They use dedicated Stryker configs (stryker-*.config.json).
+    // DataGrid React components — pure React, no Backbone in test deps, safe in sandbox.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/DisplaySelector.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/display-selector.unit.tsx',
+    // UIBundle product/grid — locale-switcher: Backbone view mocked at test level.
+    '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/locale-switcher.unit.tsx',
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.
