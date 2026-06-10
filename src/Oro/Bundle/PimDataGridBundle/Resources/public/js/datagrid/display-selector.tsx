@@ -90,7 +90,6 @@ class DisplaySelectorView extends BaseView {
         types,
         selectedType,
         displayLabel: __('pim_datagrid.display_selector.label'),
-        onChange: this.setDisplayType.bind(this),
       },
       this.el
     );

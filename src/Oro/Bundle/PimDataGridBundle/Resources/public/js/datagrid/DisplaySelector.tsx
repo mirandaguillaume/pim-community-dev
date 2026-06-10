@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {useBooleanState} from 'akeneo-design-system';
 
 type DisplayType = {
@@ -9,22 +9,18 @@ type DisplaySelectorProps = {
   types: {[name: string]: DisplayType};
   selectedType: string;
   displayLabel: string;
-  onChange: (type: string) => void;
 };
 
-const DisplaySelector = ({types, selectedType, displayLabel, onChange}: DisplaySelectorProps) => {
+// Item clicks are handled by jQuery delegation in display-selector.tsx (events hash).
+// React only manages the open/close toggle; this avoids a race between
+// Routing.reloadPage() (called synchronously inside the jQuery handler) and React's
+// pending close() state flush which would unmount the tree mid-navigation.
+const DisplaySelector = ({types, selectedType, displayLabel}: DisplaySelectorProps) => {
   const [isOpen, open, close] = useBooleanState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleSelect = (type: string) => {
-    close();
-    onChange(type);
-  };
 
   return (
-    <div ref={containerRef} className={isOpen ? 'open' : ''}>
-      {/* data-toggle is inert for React but is the contract used by Behat's
-          getDropdownButton step ('*[data-toggle="dropdown"]:contains(...)') */}
+    <div className={isOpen ? 'open' : ''}>
+      {/* data-toggle is the contract used by Behat's getDropdownButton step */}
       <div
         className="AknActionButton AknActionButton--withoutBorder"
         data-toggle="dropdown"
@@ -42,7 +38,6 @@ const DisplaySelector = ({types, selectedType, displayLabel, onChange}: DisplayS
                 className={`AknDropdown-menuLink${key === selectedType ? ' AknDropdown-menuLink--active' : ''}`}
                 data-type={key}
                 role="button"
-                onClick={() => handleSelect(key)}
               >
                 {type.label}
               </a>

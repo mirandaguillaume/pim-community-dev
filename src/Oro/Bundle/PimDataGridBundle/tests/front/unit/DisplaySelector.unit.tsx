@@ -9,8 +9,8 @@ const types = {
   gallery: {label: 'Gallery'},
 };
 
-test('It renders the selected type label and opens the menu', () => {
-  renderWithProviders(<DisplaySelector types={types} selectedType="list" displayLabel="Views" onChange={jest.fn()} />);
+test('It renders the selected type label and opens the menu on toggle click', () => {
+  renderWithProviders(<DisplaySelector types={types} selectedType="list" displayLabel="Views" />);
 
   expect(screen.getByText('List')).toBeInTheDocument();
   expect(screen.queryByText('Gallery')).not.toBeInTheDocument();
@@ -19,23 +19,24 @@ test('It renders the selected type label and opens the menu', () => {
   expect(screen.getByText('Gallery')).toBeInTheDocument();
 });
 
-test('It calls onChange with the clicked type and closes the menu', () => {
-  const onChange = jest.fn();
-  renderWithProviders(<DisplaySelector types={types} selectedType="list" displayLabel="Views" onChange={onChange} />);
+test('It closes the menu on a second toggle click', () => {
+  renderWithProviders(<DisplaySelector types={types} selectedType="list" displayLabel="Views" />);
 
+  // Open: only the span "List" exists (menu closed), so getByText is unambiguous.
   userEvent.click(screen.getByText('List'));
-  userEvent.click(screen.getByText('Gallery'));
+  expect(screen.getByText('Gallery')).toBeInTheDocument();
 
-  expect(onChange).toHaveBeenCalledWith('gallery');
+  // Close: menu is now open so both the toggle span and the list item have text "List".
+  // getAllByText[0] is the span inside the toggle button.
+  userEvent.click(screen.getAllByText('List')[0]);
   expect(screen.queryByText('Gallery')).not.toBeInTheDocument();
 });
 
 test('It marks the selected item active and keeps data-type hooks', () => {
-  renderWithProviders(
-    <DisplaySelector types={types} selectedType="gallery" displayLabel="Views" onChange={jest.fn()} />
-  );
+  renderWithProviders(<DisplaySelector types={types} selectedType="gallery" displayLabel="Views" />);
 
-  userEvent.click(screen.getAllByText('Gallery')[0]);
+  // Gallery is selectedType; its span is the only "Gallery" element before opening.
+  userEvent.click(screen.getByText('Gallery'));
   const items = document.querySelectorAll('.display-selector-item');
   expect(items).toHaveLength(2);
   expect(items[1].getAttribute('data-type')).toBe('gallery');
