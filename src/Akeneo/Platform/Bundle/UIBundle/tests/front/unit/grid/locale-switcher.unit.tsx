@@ -24,7 +24,7 @@ jest.mock('pimui/js/view/base', () => {
 
 jest.mock('pim/form', () => ({prototype: {initialize: jest.fn(), configure: jest.fn()}}), {virtual: true});
 
-// pim/router IS mapped via stryker moduleNameMapper.
+// pim/router IS mapped via moduleNameMapper in both unit.jest.js and stryker.jest.js.
 jest.mock('pim/router', () => ({
   __esModule: true,
   default: {reloadPage: jest.fn(), redirectToRoute: jest.fn()},
@@ -40,28 +40,28 @@ jest.mock(
   {virtual: true}
 );
 
+// locale-switcher.tsx imports FetcherRegistry via relative path '../../fetcher/fetcher-registry'
+// which resolves to the same absolute file as the pimui/ alias. Jest deduplicates by resolved
+// path so this mock intercepts the relative import inside locale-switcher.tsx.
 // The factory uses mockReturnValue so every getFetcher() call returns the SAME
 // object. localeFetcher (captured at module-load time) and later calls from
 // tests all point to the same {fetchActivated} mock instance.
-jest.mock('../../../Resources/public/js/fetcher/fetcher-registry', () => ({
+jest.mock('pimui/js/fetcher/fetcher-registry', () => ({
   __esModule: true,
   default: {
     getFetcher: jest.fn().mockReturnValue({fetchActivated: jest.fn().mockResolvedValue([])}),
   },
 }));
 
-const LocaleSwitcher = require('../../../Resources/public/js/product/grid/locale-switcher');
+const LocaleSwitcher = require('pimui/js/product/grid/locale-switcher');
 
-const getLocaleFetcher = () =>
-  jest.requireMock('../../../Resources/public/js/fetcher/fetcher-registry').default.getFetcher('locale');
+const getLocaleFetcher = () => jest.requireMock('pimui/js/fetcher/fetcher-registry').default.getFetcher('locale');
 
 describe('LocaleSwitcher host view', () => {
   let view: any;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    // Restore the default resolved value cleared by clearAllMocks()
-    // (clearAllMocks only clears call history, not implementations — no-op here).
     view = new LocaleSwitcher();
     (view as any).config = {routeName: 'pim_enrich_product_index', localeParamName: 'dataLocale'};
   });
