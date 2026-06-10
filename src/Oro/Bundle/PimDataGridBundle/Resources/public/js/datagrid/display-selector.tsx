@@ -15,7 +15,8 @@ type DisplayTypeConfig = {[name: string]: {label: string}};
  *   by the forwarded-events config in form_extensions/product/index.yml:7-9)
  * - stores the chosen type in localStorage under `display-selector:<gridName>`
  *   (read by pim/grid/table applyDisplayType at bootstrap)
- * - full page reload on change (same behavior as the legacy implementation)
+ * - Routing.reloadPage() on change — a SOFT Backbone navigation (hash redirect,
+ *   no browser load event), same behavior as the legacy implementation
  */
 class DisplaySelectorView extends BaseView {
   private gridName: string | null = null;

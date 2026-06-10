@@ -23,13 +23,15 @@ test.describe('Product grid display selector', () => {
     const galleryItem = page.locator('.display-selector-item[data-type="gallery"]');
     await expect(galleryItem).toBeVisible();
 
-    // selection triggers a full page reload — arm the load listener BEFORE clicking
-    const galleryReload = page.waitForEvent('load');
+    // Selecting a type triggers Routing.reloadPage(), which is a SOFT Backbone
+    // navigation (hash redirect with {trigger: true}) — no browser `load` event
+    // is ever fired, and the JS context survives. The localStorage write is
+    // synchronous, so poll it, then wait for the rebuilt toolbar.
     await galleryItem.click();
-    await galleryReload;
-    expect(await page.evaluate(() => localStorage.getItem('display-selector:product-grid'))).toBe('gallery');
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('display-selector:product-grid'))).toBe('gallery');
+    await expect(toggle).toBeVisible();
 
-    // survives an explicit reload
+    // survives a hard reload
     await page.reload();
     await page.waitForLoadState('load');
     expect(await page.evaluate(() => localStorage.getItem('display-selector:product-grid'))).toBe('gallery');
@@ -39,9 +41,7 @@ test.describe('Product grid display selector', () => {
     await toggle.click();
     const defaultItem = page.locator('.display-selector-item[data-type="default"]');
     await expect(defaultItem).toBeVisible();
-    const defaultReload = page.waitForEvent('load');
     await defaultItem.click();
-    await defaultReload;
-    expect(await page.evaluate(() => localStorage.getItem('display-selector:product-grid'))).toBe('default');
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('display-selector:product-grid'))).toBe('default');
   });
 });

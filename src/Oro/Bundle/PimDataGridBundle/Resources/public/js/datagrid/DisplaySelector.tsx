@@ -23,7 +23,13 @@ const DisplaySelector = ({types, selectedType, displayLabel, onChange}: DisplayS
 
   return (
     <div ref={containerRef} className={isOpen ? 'open' : ''}>
-      <div className="AknActionButton AknActionButton--withoutBorder" onClick={isOpen ? close : open}>
+      {/* data-toggle is inert for React but is the contract used by Behat's
+          getDropdownButton step ('*[data-toggle="dropdown"]:contains(...)') */}
+      <div
+        className="AknActionButton AknActionButton--withoutBorder"
+        data-toggle="dropdown"
+        onClick={isOpen ? close : open}
+      >
         {displayLabel}: <span className="AknActionButton-highlight">{types[selectedType]?.label}</span>
         <span className="AknActionButton-caret" />
       </div>
