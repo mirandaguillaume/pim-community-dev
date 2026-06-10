@@ -20,7 +20,13 @@ type DisplayTypeConfig = {[name: string]: {label: string}};
  *   no browser load event), same behavior as the legacy implementation
  */
 class DisplaySelectorView extends BaseView {
-  private gridName: string | null = null;
+  // No initializer: Backbone.View calls initialize() from the parent constructor,
+  // and (with useDefineForClassFields:false) a bare field declaration produces no
+  // runtime code. A `= null` initializer would emit `this.gridName = null` AFTER
+  // super() and clobber the value set in initialize(), making the localStorage key
+  // `display-selector:null` instead of `display-selector:<gridName>` (see rspack
+  // swc-loader config). Type-only declaration mirrors locale-switcher's `config`.
+  private gridName: string | null;
 
   events() {
     return {
