@@ -1,4 +1,13 @@
 // Mock all Backbone/legacy deps BEFORE any import (jest.mock is hoisted).
+
+// legacy-bridge/src/dependencies.ts imports 'pim/form-builder' which is not
+// resolvable in the Jest/Stryker sandbox (no public/bundles/ there). Mock the
+// whole package; renderReactElement is already a jest.fn() so DependenciesProvider
+// is never actually rendered in these tests.
+jest.mock('@akeneo-pim-community/legacy-bridge', () => ({
+  DependenciesProvider: (props: any) => props.children,
+}));
+
 jest.mock('pimui/js/view/base', () => {
   class MockBaseView {
     el: HTMLElement;
