@@ -98,7 +98,7 @@ Three concurrent buses operate: the global mediator singleton, per-object Backbo
 | `update / update_label / enable / disable` (filter objs) | abstract-filter.js:268,133,154; product_category-filter.js:40,141 | filters-manager.js:87-88; category-tree.js:52,56; cross-wire filtersManager←this at product_category-filter.js:62 | No (filters-internal) |
 
 **Two bus mismatches to fix before migration (D2, structural):**
-1. `grid_load:complete`/`grid_load:start` are fired on the **mediator** by `grid.js`, but `display-selector.js` and external `grid/mass-actions.js:44` subscribe via `listenTo(getRoot(), …)` (the form-root bus) — those listeners receive nothing absent a bridge. For `mass-actions.js:44` this is a confirmed dead listener.
+1. `grid_load:complete`/`grid_load:start` are fired on the **mediator** by `grid.js`, while `display-selector.js` and `grid/mass-actions.js:43` subscribe via `listenTo(getRoot(), …)` (the form-root bus). **Correction (wave 1):** on the product index page these listeners ARE alive — `form_extensions/product/index.yml:7-9` declares `forwarded-events: {grid_load:start, grid_load:complete}` on the root form `pim-product-index`. The mismatch remains a real risk for any page whose root form lacks that bridge, and any migration must replicate the bridge explicitly.
 2. `grid:{alias}:state_changed` is fired on the mediator but `grid/view-selector.js:57` listens on `getRoot()` — here a forwarded-events bridge IS configured (requirejs.yml:19-21 + view-selector.js:49-51), so it works. Any migration must replicate this bridge explicitly.
 
 ---
