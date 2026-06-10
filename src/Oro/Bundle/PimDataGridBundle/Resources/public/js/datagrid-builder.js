@@ -4,10 +4,8 @@ import tools from 'oro/tools';
 import mediator from 'oro/mediator';
 import PageableCollection from 'oro/pageable-collection';
 import Grid from 'oro/datagrid/grid';
-import GridViewsView from 'oro/datagrid/grid-views/view';
 import requireContext from 'require-context';
 var gridSelector = '[data-type="datagrid"]:not([data-rendered])',
-  gridGridViewsSelector = '.page-title > .AknTitleContainer .span10:last',
   headerCellModuleName = 'oro/datagrid/{{type}}-header-cell',
   cellModuleName = 'oro/datagrid/{{type}}-cell',
   actionModuleName = 'oro/datagrid/{{type}}-action',
@@ -111,10 +109,6 @@ var gridSelector = '[data-type="datagrid"]:not([data-rendered])',
       grid = new Grid(_.extend({collection: collection}, options));
       this.grid = grid;
       this.$el.append(grid.render().$el);
-
-      // create grid view
-      options = methods.combineGridViewsOptions.call(this);
-      $(gridGridViewsSelector).append(new GridViewsView(_.extend({collection: collection}, options)).render().$el);
     },
 
     /**
@@ -204,15 +198,6 @@ var gridSelector = '[data-type="datagrid"]:not([data-rendered])',
         manageColumns: metadata.options.manageColumns,
         emptyGridOptions: metadata.options.emptyGridOptions,
       };
-    },
-
-    /**
-     * Process metadata and combines options for datagrid views
-     *
-     * @returns {Object}
-     */
-    combineGridViewsOptions: function () {
-      return this.metadata.gridViews || {};
     },
   };
 
