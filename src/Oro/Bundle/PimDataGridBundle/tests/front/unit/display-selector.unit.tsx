@@ -87,4 +87,42 @@ describe('display-selector host view', () => {
     const props = view.renderReact.mock.calls[0][1];
     expect(props.selectedType).toBe('list');
   });
+
+  test('events click handler reads data-type from the item and calls setDisplayType', () => {
+    const setSpy = jest.spyOn(view, 'setDisplayType').mockImplementation(() => undefined);
+    const handler = view.events()['click .display-selector-item'];
+    const item = document.createElement('li');
+    item.setAttribute('data-type', 'gallery');
+
+    handler({currentTarget: item});
+
+    expect(setSpy).toHaveBeenCalledWith('gallery');
+  });
+
+  test('initialize throws when gridName is null', () => {
+    expect(() => view.initialize({config: {gridName: null}})).toThrow(
+      'You must specify gridName for the display-selector'
+    );
+  });
+
+  test('initialize stores the provided gridName', () => {
+    view.initialize({config: {gridName: 'published-product-grid'}});
+    expect(view.gridName).toBe('published-product-grid');
+  });
+
+  test('configure registers a grid_load:start listener on the root', () => {
+    const listenToSpy = jest.spyOn(view, 'listenTo');
+    view.configure();
+    expect(listenToSpy).toHaveBeenCalledWith(expect.anything(), 'grid_load:start', expect.any(Function));
+  });
+
+  test('collectDisplayOptions builds translated types and forwards them to renderReact', () => {
+    const gridView = {
+      options: {displayTypes: {list: {label: 'list.label.key'}, gallery: {label: 'gallery.label.key'}}},
+    };
+    view.collectDisplayOptions({}, gridView);
+    // oro/translator is mocked as identity, so the translated label equals the key.
+    const props = view.renderReact.mock.calls[0][1];
+    expect(props.types).toEqual({list: {label: 'list.label.key'}, gallery: {label: 'gallery.label.key'}});
+  });
 });

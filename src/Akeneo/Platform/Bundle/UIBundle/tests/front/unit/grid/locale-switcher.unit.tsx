@@ -106,4 +106,65 @@ describe('LocaleSwitcher host view', () => {
 
     expect(view.renderReactElement).not.toHaveBeenCalled();
   });
+
+  // Drill DependenciesProvider > ThemeProvider > LocaleSelector on the inert
+  // React element captured by the renderReactElement mock (no actual render).
+  const renderedLocaleSelectorProps = () => {
+    const element = view.renderReactElement.mock.calls[0][0];
+    return element.props.children.props.children.props;
+  };
+
+  test('render passes the active catalog locale and the full list to LocaleSelector', async () => {
+    const locales = [
+      {code: 'en_US', label: 'English'},
+      {code: 'fr_FR', label: 'French'},
+    ];
+    getLocaleFetcher().fetchActivated.mockResolvedValue(locales);
+    const userContext = jest.requireMock('pim/user-context').default;
+    userContext.get.mockReturnValue('fr_FR');
+
+    view.render();
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    expect(view.renderReactElement).toHaveBeenCalledTimes(1);
+    const props = renderedLocaleSelectorProps();
+    expect(props.value).toBe('fr_FR');
+    expect(props.values).toBe(locales);
+    expect(props.inline).toBe(false);
+    // Active locale found → no fallback persistence.
+    expect(userContext.set).not.toHaveBeenCalled();
+  });
+
+  test('render falls back to the first locale and persists it when the catalog locale is inactive', async () => {
+    const locales = [
+      {code: 'en_US', label: 'English'},
+      {code: 'fr_FR', label: 'French'},
+    ];
+    getLocaleFetcher().fetchActivated.mockResolvedValue(locales);
+    const userContext = jest.requireMock('pim/user-context').default;
+    userContext.get.mockReturnValue('de_DE'); // not among the activated locales
+
+    view.render();
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    expect(userContext.set).toHaveBeenCalledWith('catalogLocale', 'en_US');
+    expect(renderedLocaleSelectorProps().value).toBe('en_US');
+  });
+
+  test('initialize stores the inner config object', () => {
+    const inner = {routeName: 'pim_enrich_product_index', localeParamName: 'dataLocale'};
+    view.initialize({config: inner});
+    expect((view as any).config).toBe(inner);
+  });
+
+  test('configure delegates to BaseForm.configure and resolves through super', async () => {
+    const BaseForm = jest.requireMock('pim/form');
+    await expect(view.configure()).resolves.toBeUndefined();
+    expect(BaseForm.prototype.configure).toHaveBeenCalled();
+  });
+
+  test('remove marks the view as removed', () => {
+    view.remove();
+    expect((view as any).removed).toBe(true);
+  });
 });
