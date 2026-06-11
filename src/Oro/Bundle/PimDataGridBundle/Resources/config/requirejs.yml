@@ -38,7 +38,6 @@ config:
                 - jquery.multiselect
 
     paths:
-        oro/datagrid/tab-redirect-action:       pimdatagrid/js/datagrid/action/tab-redirect-action
 
         pim/datagrid/column-selector:           pimdatagrid/js/datagrid/column-selector
 
@@ -55,24 +54,18 @@ config:
         oro/datagrid/sequential_edit-action:    pimdatagrid/js/datagrid/action/sequential-edit-action
         oro/datagrid/mass_delete-action:        pimdatagrid/js/datagrid/action/mass-delete-action
         oro/datagrid/attribute_mass_delete-action: pimdatagrid/js/datagrid/action/attribute-mass-delete-action
-        oro/datagrid/revoke-action:             pimdatagrid/js/datagrid/action/revoke-action
         oro/datagrid/ajax-action:               pimdatagrid/js/datagrid/action/ajax-action
         oro/datagrid/mass-action:               pimdatagrid/js/datagrid/action/mass-action
         oro/datagrid/model-action:              pimdatagrid/js/datagrid/action/model-action
         oro/datagrid/navigate-action:           pimdatagrid/js/datagrid/action/navigate-action
-        oro/datagrid/refresh-collection-action: pimdatagrid/js/datagrid/action/refresh-collection-action
-        oro/datagrid/reset-collection-action:   pimdatagrid/js/datagrid/action/reset-collection-action
         oro/datagrid/actions-panel:             pimdatagrid/js/datagrid/actions-panel
         oro/datagrid/action-column:             pimdatagrid/js/datagrid/column/action-column
         oro/datagrid/body:                      pimdatagrid/js/datagrid/body
         oro/datagrid/action-cell:               pimdatagrid/js/datagrid/cell/action-cell
         oro/datagrid/boolean-cell:              pimdatagrid/js/datagrid/cell/boolean-cell
         oro/datagrid/html-cell:                 pimdatagrid/js/datagrid/cell/html-cell
-        oro/datagrid/date-cell:                 pimdatagrid/js/datagrid/cell/date-cell
         oro/datagrid/history-diff-cell:         pimdatagrid/js/datagrid/cell/history-diff-cell
         oro/datagrid/datetime-cell:             pimdatagrid/js/datagrid/cell/datetime-cell
-        oro/datagrid/number-cell:               pimdatagrid/js/datagrid/cell/number-cell
-        oro/datagrid/integer-cell:              pimdatagrid/js/datagrid/cell/integer-cell
         oro/datagrid/select-cell:               pimdatagrid/js/datagrid/cell/select-cell
         oro/datagrid/select-row-cell:           pimdatagrid/js/datagrid/cell/select-row-cell
         oro/datagrid/string-cell:               pimdatagrid/js/datagrid/cell/string-cell
@@ -83,7 +76,6 @@ config:
         oro/datagrid/image-cell:                pimdatagrid/js/datagrid/cell/image-cell
         oro/datagrid/boolean-label-cell:        pimdatagrid/js/datagrid/cell/boolean-label-cell
         oro/datagrid/boolean-status-cell:        pimdatagrid/js/datagrid/cell/boolean-status-cell
-        oro/datagrid/credentials-cell:          pimdatagrid/js/datagrid/cell/credentials-cell
         oro/datagrid/complete-variant-product-cell: pimdatagrid/js/datagrid/cell/complete-variant-product-cell.tsx
         oro/datagrid/label-cell:                pimdatagrid/js/datagrid/cell/label-cell
         oro/datagrid/cell-formatter:            pimdatagrid/js/datagrid/formatter/cell-formatter
@@ -93,7 +85,6 @@ config:
         oro/datagrid/header:                    pimdatagrid/js/datagrid/header
         oro/datagrid/abstract-listener:         pimdatagrid/js/datagrid/listener/abstract-listener
         oro/datagrid/column-form-listener:      pimdatagrid/js/datagrid/listener/oro-column-form-listener
-        oro/datagrid/callback-listener:         pimdatagrid/js/datagrid/listener/callback-listener
         oro/datagrid/grid-views/view:           pimdatagrid/js/datagrid/grid-views/view
         oro/datagrid/grid-views/model:          pimdatagrid/js/datagrid/grid-views/model
         oro/datagrid/grid-views/collection:     pimdatagrid/js/datagrid/grid-views/collection
@@ -111,7 +102,6 @@ config:
 
         oro/datagrid/product-and-product-model-image-cell: pimdatagrid/js/datagrid/cell/product-and-product-model-image-cell.tsx
         oro/datagrid/product-and-product-model-label-cell: pimdatagrid/js/datagrid/cell/product-and-product-model-label-cell
-        oro/datagrid/attribute-header-cell:                pimdatagrid/js/datagrid/header-cell/attribute-header-cell.ts
 
         backbone/pageable-collection:           pimdatagrid/lib/backbone-pageable
         backgrid:                               pimdatagrid/lib/backgrid/backgrid
