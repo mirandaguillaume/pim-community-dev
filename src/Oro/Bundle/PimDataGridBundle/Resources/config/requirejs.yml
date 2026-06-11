@@ -77,14 +77,14 @@ config:
         oro/datagrid/select-row-cell:           pimdatagrid/js/datagrid/cell/select-row-cell
         oro/datagrid/string-cell:               pimdatagrid/js/datagrid/cell/string-cell
         oro/datagrid/attribute-type-cell:       pimdatagrid/js/datagrid/cell/attribute-type-cell
-        oro/datagrid/completeness-cell:         pimdatagrid/js/datagrid/cell/completeness-cell
+        oro/datagrid/completeness-cell:         pimdatagrid/js/datagrid/cell/completeness-cell.tsx
         oro/datagrid/expand-history-cell:       pimdatagrid/js/datagrid/cell/expand-history-cell
         oro/datagrid/enabled-cell:              pimdatagrid/js/datagrid/cell/enabled-cell.tsx
         oro/datagrid/image-cell:                pimdatagrid/js/datagrid/cell/image-cell
         oro/datagrid/boolean-label-cell:        pimdatagrid/js/datagrid/cell/boolean-label-cell
         oro/datagrid/boolean-status-cell:        pimdatagrid/js/datagrid/cell/boolean-status-cell
         oro/datagrid/credentials-cell:          pimdatagrid/js/datagrid/cell/credentials-cell
-        oro/datagrid/complete-variant-product-cell: pimdatagrid/js/datagrid/cell/complete-variant-product-cell
+        oro/datagrid/complete-variant-product-cell: pimdatagrid/js/datagrid/cell/complete-variant-product-cell.tsx
         oro/datagrid/label-cell:                pimdatagrid/js/datagrid/cell/label-cell
         oro/datagrid/cell-formatter:            pimdatagrid/js/datagrid/formatter/cell-formatter
         oro/datagrid/grid:                      pimdatagrid/js/datagrid/grid
