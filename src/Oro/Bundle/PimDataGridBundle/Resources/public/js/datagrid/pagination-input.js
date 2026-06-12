@@ -5,6 +5,7 @@ import __ from 'oro/translator';
 import Pagination from 'oro/datagrid/pagination';
 import template from 'pim/template/datagrid/pagination';
 import * as Messenger from 'oro/messenger';
+import PaginationBar from './PaginationBar';
 
 const PaginationInput = Pagination.extend({
   collection: {},
@@ -149,19 +150,30 @@ const PaginationInput = Pagination.extend({
    */
   renderPagination: function () {
     if (this.getPages().length <= 1) {
+      this.unmountReact();
       this.$el.empty();
-    } else {
-      Pagination.prototype.renderPagination.apply(this, arguments);
 
-      const state = this.collection.state;
-      const currentPage = state.firstPage === 0 ? state.currentPage : state.currentPage - 1;
-      if (currentPage + 1 === Math.floor(this.maxRescoreWindow / state.pageSize)) {
-        Messenger.notify('warning', __('oro.datagrid.pagination.limit_warning', {limit: this.maxRescoreWindow}));
-      }
+      return this;
+    }
 
-      if (this.options.appendToGrid) {
-        this.gridElement.prepend(this.$el);
-      }
+    const state = this.collection.state;
+
+    this.renderReact(
+      PaginationBar,
+      {
+        handles: this.makeHandles(),
+        disabled: !this.enabled || !state.totalRecords,
+      },
+      this.el
+    );
+
+    const currentPage = state.firstPage === 0 ? state.currentPage : state.currentPage - 1;
+    if (currentPage + 1 === Math.floor(this.maxRescoreWindow / state.pageSize)) {
+      Messenger.notify('warning', __('oro.datagrid.pagination.limit_warning', {limit: this.maxRescoreWindow}));
+    }
+
+    if (this.options.appendToGrid) {
+      this.gridElement.prepend(this.$el);
     }
 
     return this;
