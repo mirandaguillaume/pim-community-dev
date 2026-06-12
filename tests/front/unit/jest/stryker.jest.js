@@ -121,6 +121,9 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/PaginationBar.unit.tsx',
     // UIBundle product/grid — locale-switcher: Backbone view mocked at test level.
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/locale-switcher.unit.tsx',
+    // View-selector leaf pieces (C1 Slice A) — pure presentational React, no Backbone in test deps.
+    '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/ViewSelectorLine.unit.tsx',
+    '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/ViewSelectorCurrent.unit.tsx',
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.

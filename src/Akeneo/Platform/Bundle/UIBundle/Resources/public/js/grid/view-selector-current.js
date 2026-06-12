@@ -2,10 +2,9 @@ import 'jquery';
 import _ from 'underscore';
 import 'backbone';
 import BaseForm from 'pim/form';
-import template from 'pim/template/grid/view-selector/current';
+import ViewSelectorCurrent from './ViewSelectorCurrent';
 
 export default BaseForm.extend({
-  template: _.template(template),
   datagridView: null,
   dirtyColumns: false,
   dirtyFilters: false,
@@ -23,15 +22,15 @@ export default BaseForm.extend({
    * {@inheritdoc}
    */
   render: function () {
-    this.$el.html(
-      this.template({
+    this.renderReact(
+      ViewSelectorCurrent,
+      {
         view: this.datagridView,
         dirtyFilters: this.dirtyFilters,
         dirtyColumns: this.dirtyColumns,
-      })
+      },
+      this.el
     );
-
-    this.renderExtensions();
 
     return this;
   },

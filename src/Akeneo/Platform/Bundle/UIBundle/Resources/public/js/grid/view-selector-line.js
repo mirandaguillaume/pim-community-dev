@@ -1,11 +1,10 @@
 import 'jquery';
-import _ from 'underscore';
 import 'backbone';
+import __ from 'oro/translator';
 import BaseForm from 'pim/form';
-import template from 'pim/template/grid/view-selector/line';
+import ViewSelectorLine from './ViewSelectorLine';
 
 export default BaseForm.extend({
-  template: _.template(template),
   datagridView: null,
   datagridViewType: null,
   currentViewId: null,
@@ -14,14 +13,15 @@ export default BaseForm.extend({
    * {@inheritdoc}
    */
   render: function () {
-    this.$el.html(
-      this.template({
+    this.renderReact(
+      ViewSelectorLine,
+      {
         view: this.datagridView,
         isCurrent: this.currentViewId === this.datagridView.id,
-      })
+        publicLabel: __('pim_datagrid.view_selector.public_label'),
+      },
+      this.el
     );
-
-    this.renderExtensions();
 
     return this;
   },
