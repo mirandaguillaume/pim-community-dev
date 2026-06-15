@@ -127,6 +127,9 @@ module.exports = {
     // View-selector CRUD pieces (C1 Slice B) — pure presentational React, no Backbone in test deps.
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/ViewSelectorActionLink.unit.tsx',
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/CreateViewFields.unit.tsx',
+    // View-selector combobox (C1 Slice C prerequisite) — pure helpers + DSM SelectInput adapter (DSM mocked).
+    '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/viewComboboxHelpers.unit.ts',
+    '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/ViewSelectorCombobox.unit.tsx',
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.
