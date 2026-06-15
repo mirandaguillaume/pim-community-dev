@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {SelectInput} from 'akeneo-design-system';
 import ViewSelectorLine from './ViewSelectorLine';
 import {ComboView, ensureDefaultView, idToValue, mergeViewPages, valueToId} from './viewComboboxHelpers';
@@ -87,6 +87,13 @@ const ViewSelectorCombobox = ({
     setPage(nextPage);
     runSearch(term, nextPage);
   }, [more, page, term, runSearch]);
+
+  // Eager first-page load so opening the dropdown shows results immediately. Select2 fetched on
+  // open; DSM SelectInput exposes no onOpen hook, so mount-load is the pragmatic equivalent.
+  // `searchViews` must be stable (host useCallback) so this runs once per mount.
+  useEffect(() => {
+    runSearch('', 1);
+  }, [runSearch]);
 
   const handleChange = (value: string) => {
     const id = valueToId(value);
