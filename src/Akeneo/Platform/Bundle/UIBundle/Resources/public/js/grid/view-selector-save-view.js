@@ -2,7 +2,6 @@ import $ from 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
 import BaseForm from 'pim/form';
-import template from 'pim/template/grid/view-selector/save-view';
 import DatagridState from 'pim/datagrid/state';
 import 'pim/dialog';
 import 'routing';
@@ -10,9 +9,9 @@ import UserContext from 'pim/user-context';
 import DatagridViewSaver from 'pim/saver/datagrid-view';
 import * as messenger from 'oro/messenger';
 import analytics from 'pim/analytics';
+import ViewSelectorActionLink from './ViewSelectorActionLink';
 
 export default BaseForm.extend({
-  template: _.template(template),
   tagName: 'span',
   className: 'save-button',
   events: {
@@ -36,19 +35,17 @@ export default BaseForm.extend({
       'view' !== this.getRoot().currentViewType ||
       UserContext.get('meta').id !== this.getRoot().currentView.owner_id
     ) {
-      this.$el.html('');
+      this.unmountReact();
+      this.$el.empty();
 
       return;
     }
 
-    this.$el.html(
-      this.template({
-        dirty: this.dirty,
-        label: __('pim_datagrid.view_selector.save_changes'),
-      })
+    this.renderReact(
+      ViewSelectorActionLink,
+      {action: 'save', label: __('pim_datagrid.view_selector.save_changes'), hidden: !this.dirty},
+      this.el
     );
-
-    this.$('[data-toggle="tooltip"]').tooltip();
   },
 
   /**

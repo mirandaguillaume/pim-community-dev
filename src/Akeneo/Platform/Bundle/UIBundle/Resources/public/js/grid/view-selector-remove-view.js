@@ -2,14 +2,13 @@ import 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
 import BaseForm from 'pim/form';
-import template from 'pim/template/grid/view-selector/remove-view';
 import Dialog from 'pim/dialog';
 import UserContext from 'pim/user-context';
 import DatagridViewRemover from 'pim/remover/datagrid-view';
 import * as messenger from 'oro/messenger';
+import ViewSelectorActionLink from './ViewSelectorActionLink';
 
 export default BaseForm.extend({
-  template: _.template(template),
   tagName: 'span',
   className: 'remove-button',
   events: {
@@ -25,18 +24,17 @@ export default BaseForm.extend({
       this.getRoot().currentView.id === 0 ||
       UserContext.get('meta').id !== this.getRoot().currentView.owner_id
     ) {
-      this.$el.html('');
+      this.unmountReact();
+      this.$el.empty();
 
       return this;
     }
 
-    this.$el.html(
-      this.template({
-        label: __('pim_datagrid.view_selector.remove'),
-      })
+    this.renderReact(
+      ViewSelectorActionLink,
+      {action: 'remove', label: __('pim_datagrid.view_selector.remove')},
+      this.el
     );
-
-    this.$('[data-toggle="tooltip"]').tooltip();
 
     return this;
   },
@@ -69,7 +67,15 @@ export default BaseForm.extend({
         }.bind(this)
       )
       .fail(function (response) {
-        messenger.notify('error', response.responseJSON);
+        var errors = response.responseJSON;
+
+        if (_.isArray(errors)) {
+          _.each(errors, function (error) {
+            messenger.notify('error', error);
+          });
+        } else {
+          messenger.notify('error', errors);
+        }
       });
   },
 });

@@ -1,104 +1,125 @@
-import $ from 'jquery';
 import _ from 'underscore';
 import __ from 'oro/translator';
 import Backbone from 'backbone';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import BaseForm from 'pim/form';
-import template from 'pim/template/grid/view-selector/create-view';
 import templateModalContent from 'pim/template/form/creation/modal';
-import templateInput from 'pim/template/grid/view-selector/create-view-inputs';
 import DatagridState from 'pim/datagrid/state';
 import DatagridViewSaver from 'pim/saver/datagrid-view';
 import * as messenger from 'oro/messenger';
+import ViewSelectorActionLink from './ViewSelectorActionLink';
+import CreateViewFields from './CreateViewFields';
 
 export default BaseForm.extend({
-  template: _.template(template),
   templateModalContent: _.template(templateModalContent),
-  templateInput: _.template(templateInput),
   tagName: 'span',
   className: 'create-button',
   events: {
     'click .create': 'promptCreateView',
   },
-  isPrivateView: true,
 
   /**
    * {@inheritdoc}
    */
   render: function () {
     if ('view' !== this.getRoot().currentViewType) {
-      this.$el.html('');
+      this.unmountReact();
+      this.$el.empty();
 
       return this;
     }
 
-    this.$el.html(
-      this.template({
-        label: __('pim_datagrid.view_selector.create_view'),
-      })
+    this.renderReact(
+      ViewSelectorActionLink,
+      {action: 'create', label: __('pim_datagrid.view_selector.create_view')},
+      this.el
     );
-
-    this.$('[data-toggle="tooltip"]').tooltip();
 
     return this;
   },
 
   /**
-   * Prompt the view creation modal.
+   * Prompt the view-creation modal. The legacy Backbone.BootstrapModal chrome is kept (so
+   * `.modal`/`.modal-body`/`.ok` and the PIM-wide "fill in the popin" Behat step keep working);
+   * only the fields are rendered with React (CreateViewFields), with their state lifted here.
    */
   promptCreateView: function () {
     this.getRoot().trigger('grid:view-selector:close-selector');
 
-    let modal = new Backbone.BootstrapModal({
+    this.viewToCreate = {label: '', isPrivate: true};
+
+    const modal = new Backbone.BootstrapModal({
       subtitle: __('pim_datagrid.view_selector.view'),
       title: __('pim_common.create'),
       picture: 'illustrations/Views.svg',
       okText: __('pim_common.save'),
       okCloses: false,
-      content: this.templateModalContent({
-        fields: this.templateInput({__}),
-      }),
+      content: this.templateModalContent({fields: ''}),
     });
 
     modal.open();
 
     const $submitButton = modal.$el.find('.ok').addClass('AknButton--disabled');
-    const $typeSelector = modal.$el.find('.AknCreateView-typeSelector');
+    this.modalFieldsContainer = modal.$el.find('[data-drop-zone="fields"]').get(0);
+
+    ReactDOM.render(
+      React.createElement(CreateViewFields, {
+        labels: {
+          chooseLabel: __('pim_datagrid.view_selector.choose_label'),
+          placeholder: __('pim_datagrid.view_selector.placeholder'),
+          chooseType: __('pim_datagrid.view_selector.choose_type'),
+        },
+        onChange: state => {
+          this.viewToCreate = state;
+          $submitButton.toggleClass('AknButton--disabled', 0 === state.label.length);
+        },
+        onSubmit: () => $submitButton.trigger('click'),
+      }),
+      this.modalFieldsContainer
+    );
 
     modal.on('ok', this.saveView.bind(this, modal));
     modal.on(
       'cancel',
       function () {
+        this.unmountModalFields();
         modal.remove();
       }.bind(this)
     );
-    modal.$('input[name="new-view-label"]').on('input', function (event) {
-      var label = event.target.value;
-
-      if (!label.length) {
-        $submitButton.addClass('AknButton--disabled');
-      } else {
-        $submitButton.removeClass('AknButton--disabled');
-      }
-    });
-    modal.$('input[name="new-view-label"]').on('keypress', function (event) {
-      if (13 === (event.keyCode || event.which) && event.target.value.length) {
-        $submitButton.trigger('click');
-      }
-    });
-    $typeSelector.on('click', () => {
-      $typeSelector.toggleClass('AknSelectButton--selected');
-      this.isPrivateView = !this.isPrivateView;
-    });
   },
 
   /**
-   * Save the current Datagrid view in database and triggers an event to the parent
-   * to select it.
+   * Unmount the React fields rendered inside the modal (the modal lives outside this view's el,
+   * so it is not covered by BaseView.remove()/unmountReact()).
+   */
+  unmountModalFields: function () {
+    if (this.modalFieldsContainer) {
+      ReactDOM.unmountComponentAtNode(this.modalFieldsContainer);
+      this.modalFieldsContainer = null;
+    }
+  },
+
+  /**
+   * {@inheritdoc}
+   *
+   * The modal-fields React tree lives outside this view's `el`, so BaseView.remove()
+   * (which only unmounts `this.el`'s reactRef) would orphan it if the view is torn down
+   * while the create modal is open. Unmount it explicitly first.
+   */
+  remove: function () {
+    this.unmountModalFields();
+
+    return BaseForm.prototype.remove.apply(this, arguments);
+  },
+
+  /**
+   * Save the new Datagrid view in database and trigger an event to the parent to select it.
    *
    * @param {object} modal
    */
   saveView: function (modal) {
-    if ($('.modal .ok').hasClass('AknButton--disabled')) {
+    if (modal.$el.find('.ok').hasClass('AknButton--disabled')) {
       return;
     }
 
@@ -106,14 +127,15 @@ export default BaseForm.extend({
     var newView = {
       filters: gridState.filters,
       columns: gridState.columns,
-      label: modal.$('input[name="new-view-label"]').val(),
-      type: this.isPrivateView ? 'private' : 'public',
+      label: this.viewToCreate.label,
+      type: this.viewToCreate.isPrivate ? 'private' : 'public',
     };
 
     DatagridViewSaver.save(newView, this.getRoot().gridAlias)
       .done(
         function (response) {
           this.getRoot().trigger('grid:view-selector:view-created', response.id);
+          this.unmountModalFields();
           modal.close();
           modal.remove();
         }.bind(this)
