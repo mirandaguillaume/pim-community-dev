@@ -124,6 +124,9 @@ module.exports = {
     // View-selector leaf pieces (C1 Slice A) — pure presentational React, no Backbone in test deps.
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/ViewSelectorLine.unit.tsx',
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/ViewSelectorCurrent.unit.tsx',
+    // View-selector CRUD pieces (C1 Slice B) — pure presentational React, no Backbone in test deps.
+    '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/ViewSelectorActionLink.unit.tsx',
+    '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/CreateViewFields.unit.tsx',
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.
