@@ -100,7 +100,10 @@ const ViewSelectorCombobox = ({
 
   const handleChange = (value: string) => {
     const id = valueToId(value);
-    const picked = [currentView, defaultView, ...views].find(view => null !== view && view.id === id);
+    // Prefer canonical server-fetched objects and the synthetic defaultView over currentView,
+    // which is mutated by the host's onGridStateChange to reflect the live filter/column state.
+    // Selecting the same view should restore its original saved state, not re-apply local changes.
+    const picked = [...views, defaultView, currentView].find(view => null !== view && view.id === id);
 
     if (picked) {
       onSelectView(picked);

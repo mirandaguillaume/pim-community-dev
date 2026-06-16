@@ -167,3 +167,25 @@ test('shows no dirty marker when dirty=false even on the current view', async ()
 
   expect(container.querySelector('.view-dirty')).toBeNull();
 });
+
+test('prefers defaultView over currentView when both share the same id', async () => {
+  // The host mutates this.currentView on every filter change. When the user re-selects the
+  // currently-active view (e.g. Default view), onSelectView must receive the canonical
+  // defaultView object (with its original saved filters), NOT the mutated currentView.
+  const onSelectView = jest.fn();
+  const mutated = {id: 0, text: 'Default view'};
+  const canonical = {id: 0, text: 'Default view', type: 'view' as const};
+
+  const {container} = renderCombobox({
+    currentView: mutated,
+    defaultView: canonical,
+    showDefaultView: false,
+    searchViews: jest.fn().mockResolvedValue({views: [], more: false}),
+    onSelectView,
+  });
+
+  await waitFor(() => expect(optionIds(container)).toEqual(['0']));
+  fireEvent.click(container.querySelector('[data-option="0"]')!);
+
+  expect(onSelectView).toHaveBeenCalledWith(canonical);
+});

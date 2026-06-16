@@ -20,6 +20,11 @@ export default BaseForm.extend({
   defaultUserView: null,
   gridAlias: null,
   dirty: false,
+  // Child extensions (create-view, save-view, remove-view) gate their render on
+  // `this.getRoot().currentViewType === 'view'`.  There is only one view type in
+  // this codebase, so the value is fixed; we expose it as a prototype property so
+  // those modules keep working without needing to know about the host internals.
+  currentViewType: 'view',
 
   /**
    * {@inheritdoc}
