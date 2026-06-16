@@ -120,7 +120,7 @@ export default BaseForm.extend({
    * @return {Promise<{views: array, more: boolean}>}
    */
   searchViews: function (term, page) {
-    var fetcher = this.config.fetchers['view'];
+    var fetcher = this.config.fetchers.view;
     var searchParameters = this.getSelectSearchParameters(term, page);
 
     return FetcherRegistry.getFetcher(fetcher)
