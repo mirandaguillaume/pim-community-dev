@@ -6,7 +6,7 @@ use Behat\Mink\Element\NodeElement;
 use Context\Spin\SpinCapableTrait;
 use Context\Spin\TimeoutException;
 use Pim\Behat\Decorator\ElementDecorator;
-use Pim\Behat\Decorator\Field\Select2Decorator;
+use Pim\Behat\Decorator\Field\ReactViewSelectorDecorator;
 use Pim\Behat\Decorator\Grid\PaginationDecorator;
 
 /**
@@ -39,7 +39,7 @@ class GridCapableDecorator extends ElementDecorator
 
     /** @var array */
     protected $viewSelectorDecorators = [
-        Select2Decorator::class,
+        ReactViewSelectorDecorator::class,
     ];
 
     /**
@@ -62,7 +62,7 @@ class GridCapableDecorator extends ElementDecorator
     }
 
     /**
-     * This method opens the view selector and ensure the drop is displayed
+     * This method opens the view selector and ensures the DSM overlay is displayed.
      *
      * @throws TimeoutException
      */
@@ -70,9 +70,12 @@ class GridCapableDecorator extends ElementDecorator
     {
         $viewSelector = $this->getViewSelector();
         $this->spin(function () use ($viewSelector) {
-            $result = $this->find('css', '.select2-drop.grid-view-selector');
-            if ((null === $result) || !$result->isVisible()) {
-                $viewSelector->find('css', '.select2-arrow')->click();
+            $overlay = $this->getBody()->find('css', '#input-overlay-root');
+            if ((null === $overlay) || !$overlay->isVisible()) {
+                $input = $viewSelector->find('css', 'input[type="text"]');
+                if (null !== $input) {
+                    $input->click();
+                }
 
                 return false;
             }

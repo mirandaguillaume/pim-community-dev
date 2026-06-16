@@ -27,6 +27,8 @@ type Props = {
   searchViews: (term: string, page: number) => Promise<SearchResult>;
   /** Called when a view is picked; the host performs DatagridState.set + reloadPage + mediator. */
   onSelectView: (view: ComboView) => void;
+  /** Whether the current view has unsaved filter/column changes (computed by the host). */
+  dirty: boolean;
   labels: Labels;
 };
 
@@ -37,9 +39,9 @@ type Props = {
  * and each option renders the already-React `ViewSelectorLine`. Selection is delegated to the host
  * via `onSelectView` (which owns DatagridState/reloadPage/mediator).
  *
- * NOT wired yet — this PR ships the component + its unit tests in isolation; the host wiring and the
- * Behat-decorator rewrite land in a follow-up. Deferred to that PR: the 400ms search debounce, the
- * stale-response guard, and the imperative `close-selector` (needs a DSM `SelectInput` enhancement).
+ * Behat contract (Approach A — keep Select2 classnames):
+ *   - Root: `div.select2-container` → GridCapableDecorator anchor `.grid-view-selector .select2-container`
+ *   - Each option: wrapped in `div.select2-result-label` → Select2Decorator `getAvailableValues/setValue`
  */
 const ViewSelectorCombobox = ({
   currentView,
@@ -47,6 +49,7 @@ const ViewSelectorCombobox = ({
   showDefaultView,
   searchViews,
   onSelectView,
+  dirty,
   labels,
 }: Props) => {
   const [views, setViews] = useState<ComboView[]>([]);
@@ -110,27 +113,35 @@ const ViewSelectorCombobox = ({
     null !== currentView && !views.some(view => view.id === currentView.id) ? [currentView, ...views] : views;
 
   return (
-    <SelectInput
-      clearable={false}
-      value={null !== currentView ? idToValue(currentView.id) : null}
-      onChange={handleChange}
-      disableInternalSearch={true}
-      onSearchChange={handleSearchChange}
-      onNextPage={handleNextPage}
-      emptyResultLabel={labels.emptyResult}
-      openLabel={labels.open}
-      placeholder={labels.placeholder}
-    >
-      {options.map(view => (
-        <SelectInput.Option key={view.id} value={idToValue(view.id)} title={view.text}>
-          <ViewSelectorLine
-            view={{id: view.id, text: view.text, type: view.type}}
-            isCurrent={null !== currentView && currentView.id === view.id}
-            publicLabel={labels.publicLabel}
-          />
-        </SelectInput.Option>
-      ))}
-    </SelectInput>
+    <div className="select2-container">
+      <SelectInput
+        clearable={false}
+        value={null !== currentView ? idToValue(currentView.id) : null}
+        onChange={handleChange}
+        disableInternalSearch={true}
+        onSearchChange={handleSearchChange}
+        onNextPage={handleNextPage}
+        emptyResultLabel={labels.emptyResult}
+        openLabel={labels.open}
+        placeholder={labels.placeholder}
+      >
+        {options.map(view => {
+          const isCurrent = null !== currentView && currentView.id === view.id;
+          return (
+            <SelectInput.Option key={view.id} value={idToValue(view.id)} title={view.text}>
+              <div className="select2-result-label">
+                <ViewSelectorLine
+                  view={{id: view.id, text: view.text, type: view.type}}
+                  isCurrent={isCurrent}
+                  publicLabel={labels.publicLabel}
+                  dirty={isCurrent && dirty}
+                />
+              </div>
+            </SelectInput.Option>
+          );
+        })}
+      </SelectInput>
+    </div>
   );
 };
 

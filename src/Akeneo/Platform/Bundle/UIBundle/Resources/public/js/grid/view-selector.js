@@ -4,32 +4,22 @@ import __ from 'oro/translator';
 import Backbone from 'backbone';
 import BaseForm from 'pim/form';
 import template from 'pim/template/grid/view-selector';
-import initSelect2 from 'pim/initselect2';
 import DatagridState from 'pim/datagrid/state';
 import FetcherRegistry from 'pim/fetcher-registry';
-import FormBuilder from 'pim/form-builder';
 import mediator from 'oro/mediator';
 import analytics from 'pim/analytics';
+import ViewSelectorCombobox from './ViewSelectorCombobox';
 
 export default BaseForm.extend({
   template: _.template(template),
   resultsPerPage: 20,
-  queryTimer: null,
   config: {},
-  currentViewType: null,
   currentView: null,
   initialView: null,
   defaultColumns: [],
   defaultUserView: null,
   gridAlias: null,
-  select2Instance: null,
-  viewTypeSwitcher: null,
-  currentLoadingPage: null,
-  currentLoadingTerm: null,
-
-  events: {
-    'click .view-type-item': 'switchViewType',
-  },
+  dirty: false,
 
   /**
    * {@inheritdoc}
@@ -46,6 +36,9 @@ export default BaseForm.extend({
   configure: function (gridAlias) {
     this.gridAlias = gridAlias;
 
+    // Stable reference so the combobox useEffect does not re-trigger on every renderCombobox() call.
+    this.boundSearchViews = this.searchViews.bind(this);
+
     if (_.has(__moduleConfig, 'forwarded-events')) {
       this.forwardMediatorEvents(__moduleConfig['forwarded-events']);
     }
@@ -53,7 +46,6 @@ export default BaseForm.extend({
     this.listenTo(this.getRoot(), 'grid:view-selector:view-created', this.onViewCreated.bind(this));
     this.listenTo(this.getRoot(), 'grid:view-selector:view-saved', this.onViewSaved.bind(this));
     this.listenTo(this.getRoot(), 'grid:view-selector:view-removed', this.onViewRemoved.bind(this));
-    this.listenTo(this.getRoot(), 'grid:view-selector:close-selector', this.closeSelect2.bind(this));
     this.listenTo(this.getRoot(), 'grid:product-grid:state_changed', this.onGridStateChange.bind(this));
 
     Backbone.Router.prototype.on('route', this.unbindEvents.bind(this));
@@ -82,169 +74,70 @@ export default BaseForm.extend({
   render: function () {
     this.initializeSelection().then(
       function () {
-        this.initializeViewTypes();
-
-        this.$el.html(
-          this.template({
-            __: __,
-            currentViewType: this.currentViewType,
-            displaySwitcher: this.config.viewTypes.length > 1,
-            viewTypes: this.config.viewTypes,
-          })
-        );
-        this.initializeSelectWidget();
-
+        this.dirty = false;
+        this.$el.html(this.template({__: __}));
+        this.renderCombobox();
         this.renderExtensions();
       }.bind(this)
     );
   },
 
   /**
-   * Initialize the view type to display at initialization.
+   * Mount/update the React ViewSelectorCombobox in the .view-selector-combobox container.
+   * Called on initial render and on every state change that affects the combobox props.
    */
-  initializeViewTypes: function () {
-    this.currentViewType = 'view';
-  },
+  renderCombobox: function () {
+    var container = this.$('.view-selector-combobox')[0];
+    if (!container) {
+      return;
+    }
 
-  /**
-   * Initialize the Select2 component and format elements.
-   */
-  initializeSelectWidget: function () {
-    var $select = this.$('input[type="hidden"]');
-
-    var options = {
-      dropdownCssClass: 'grid-view-selector',
-      closeOnSelect: false,
-      formatResult: this.formatResult.bind(this),
-      formatSelection: this.formatSelection.bind(this),
-      query: this.query.bind(this),
-      initSelection: function (element, callback) {
-        /**
-         * Initialize the select2 with current selected view. If no current view is selected,
-         * we select the user's one. If he doesn't have one, we create a default one for him!
-         */
-        callback(this.currentView);
-      }.bind(this),
-    };
-
-    this.select2Instance = initSelect2.init($select, options);
-    this.select2Instance.on(
-      'select2-selecting',
-      function (event) {
-        var view = event.object;
-        this.selectView(view);
-      }.bind(this)
-    );
-
-    this.select2Instance.on(
-      'select2-close',
-      function () {
-        this.currentLoadingPage = null;
-        this.currentLoadingTerm = null;
-      }.bind(this)
+    this.renderReact(
+      ViewSelectorCombobox,
+      {
+        currentView: this.currentView,
+        defaultView: this.getDefaultView(),
+        showDefaultView: null === this.defaultUserView,
+        searchViews: this.boundSearchViews,
+        onSelectView: this.selectView.bind(this),
+        dirty: this.dirty,
+        labels: {
+          open: __('pim_common.open'),
+          emptyResult: __('pim_datagrid.view_selector.no_view'),
+          placeholder: __('pim_datagrid.view_selector.placeholder'),
+          publicLabel: __('pim_datagrid.view_selector.public_label'),
+        },
+      },
+      container
     );
   },
 
   /**
-   * Do the Select2 query for the selector view
+   * Paged server search for views — called by the React combobox via `searchViews` prop.
    *
-   * @param options
+   * @param {string} term
+   * @param {int}    page
+   * @return {Promise<{views: array, more: boolean}>}
    */
-  query: function (options) {
-    clearTimeout(this.queryTimer);
-    this.queryTimer = setTimeout(
-      function () {
-        var page = 1;
-        if (options.context && options.context.page) {
-          page = options.context.page;
-        }
+  searchViews: function (term, page) {
+    var fetcher = this.config.fetchers['view'];
+    var searchParameters = this.getSelectSearchParameters(term, page);
 
-        var searchParameters = this.getSelectSearchParameters(options.term, page);
-        var fetcher = this.config.fetchers[this.currentViewType];
-
-        if (this.currentLoadingPage === page && this.currentLoadingTerm === options.term) {
-          return;
-        }
-
-        this.currentLoadingPage = page;
-        this.currentLoadingTerm = options.term;
-
-        FetcherRegistry.getFetcher(fetcher)
-          .search(searchParameters)
-          .then(
-            function (response) {
-              const views = response.results || response;
-              let choices = this.toSelect2Format(views);
-              const more =
-                typeof response.more === 'undefined' ? choices.length === this.getResultsPerPage() : response.more;
-
-              if (page === 1 && !options.term) {
-                choices = this.ensureDefaultView(choices);
-              }
-
-              options.callback({
-                results: choices,
-                more: more,
-                context: {
-                  page: page + 1,
-                },
-              });
-            }.bind(this)
-          );
-      }.bind(this),
-      400
-    );
-  },
-
-  /**
-   * Format result (datagrid view list) method of select2.
-   * This way we can display views and their infos beside them.
-   */
-  formatResult: function (item, $container) {
-    FormBuilder.build('pim-grid-view-selector-line').then(
-      function (form) {
-        form.setParent(this);
-        form.setView(item, this.currentViewType, this.currentView.id);
-        $container.append(form.render().$el);
-      }.bind(this)
-    );
-  },
-
-  /**
-   * Format current selection method of select2.
-   */
-  formatSelection: function (item, $container) {
-    FormBuilder.getFormMeta('pim-grid-view-selector-current')
-      .then(FormBuilder.buildForm)
+    return FetcherRegistry.getFetcher(fetcher)
+      .search(searchParameters)
       .then(
-        function (form) {
-          form.setParent(this);
-          form.setView(item);
+        function (response) {
+          var views = response.results || response;
+          var choices = this.toSelect2Format(views);
+          var more = typeof response.more === 'undefined' ? choices.length === this.getResultsPerPage() : response.more;
 
-          return form.configure().then(
-            function () {
-              $container.append(form.render().$el);
-              this.onGridStateChange();
-            }.bind(this)
-          );
+          return {views: choices, more: more};
         }.bind(this)
       );
   },
 
   /**
-   * Method called on view type switching.
-   *
-   * @param {Event} event
-   */
-  switchViewType: function (event) {
-    this.currentViewType = $(event.target).data('value');
-
-    this.render();
-  },
-
-  /**
    * Initialize the Select2 selection based on the DatagridState.
-   * Could be the User default one, or an existing view edited or whatever.
    *
    * @return {Promise}
    */
@@ -256,11 +149,9 @@ export default BaseForm.extend({
     this.getUserDefaultView().then(
       function (userDefaultView) {
         if (userDefaultView && (!activeViewId || isDefaultView)) {
-          // User is on default view but has a custom default one
           userDefaultView.text = userDefaultView.label;
           deferred.resolve(userDefaultView);
         } else if (activeViewId && !isDefaultView) {
-          // User is on an existing view
           FetcherRegistry.getFetcher('datagrid-view')
             .fetch(activeViewId, {alias: this.gridAlias, cached: false})
             .then(this.postFetchDatagridView.bind(this))
@@ -273,7 +164,6 @@ export default BaseForm.extend({
               }.bind(this)
             );
         } else {
-          // Other, set the default view
           deferred.resolve(this.getDefaultView());
         }
       }.bind(this)
@@ -304,10 +194,8 @@ export default BaseForm.extend({
 
   /**
    * Method called right after fetching the view from the backend.
-   * This is where we can handle the view before it goes to select2.
    *
    * @param {Object} view
-   *
    * @return {Promise}
    */
   postFetchDatagridView: function (view) {
@@ -317,7 +205,7 @@ export default BaseForm.extend({
   },
 
   /**
-   * Return the default view object which contains default columns & no filter.
+   * Return the default view object.
    *
    * @return {Object}
    */
@@ -352,7 +240,6 @@ export default BaseForm.extend({
    * Ensure given choices contain a default view if user doesn't have one.
    *
    * @param {array} choices
-   *
    * @return {array}
    */
   ensureDefaultView: function (choices) {
@@ -367,7 +254,7 @@ export default BaseForm.extend({
 
   /**
    * Method called when the grid state changes.
-   * It allows this selector to react to new filters / columns etc..
+   * Updates currentView filters/columns, recomputes dirty, and re-renders the combobox.
    */
   onGridStateChange: function () {
     var datagridState = DatagridState.get(this.gridAlias, ['filters', 'columns']);
@@ -380,12 +267,23 @@ export default BaseForm.extend({
       this.currentView.columns = datagridState.columns.split(',');
     }
 
+    var initialView = this.initialView;
+    var initialViewExists = null !== initialView && 0 !== initialView.id;
+
+    if (initialViewExists) {
+      this.dirty =
+        initialView.filters !== datagridState.filters ||
+        !_.isEqual(initialView.columns, datagridState.columns.split(','));
+    } else {
+      this.dirty = '' !== datagridState.filters || !_.isEqual(this.defaultColumns, datagridState.columns.split(','));
+    }
+
+    this.renderCombobox();
     this.getRoot().trigger('grid:view-selector:state-changed', datagridState);
   },
 
   /**
    * Method called when a new view has been created.
-   * This method fetches the newly created view thanks to its id, then selects it.
    *
    * @param {int} viewId
    */
@@ -402,7 +300,6 @@ export default BaseForm.extend({
 
   /**
    * Method called when a view has been saved.
-   * This method fetches the saved view thanks to its id, then selects it.
    *
    * @param {int} viewId
    */
@@ -412,7 +309,6 @@ export default BaseForm.extend({
 
   /**
    * Method called when a view is removed.
-   * We reset all filters on the grid.
    */
   onViewRemoved: function () {
     FetcherRegistry.getFetcher('datagrid-view').clear();
@@ -420,16 +316,7 @@ export default BaseForm.extend({
   },
 
   /**
-   * Close the Select2 instance of this View Selector
-   */
-  closeSelect2: function () {
-    if (null !== this.select2Instance) {
-      this.select2Instance.select2('close');
-    }
-  },
-
-  /**
-   * Method called when the user selects a view through this selector.
+   * Method called when the user selects a view.
    *
    * @param {Object} view The selected view
    */
@@ -452,11 +339,10 @@ export default BaseForm.extend({
   },
 
   /**
-   * Get grid view fetcher search parameters by giving select2 search term & page
+   * Get grid view fetcher search parameters.
    *
    * @param {string} term
    * @param {int}    page
-   *
    * @return {Object}
    */
   getSelectSearchParameters: function (term, page) {
@@ -471,11 +357,9 @@ export default BaseForm.extend({
   },
 
   /**
-   * Take incoming data and format them to have all required parameters
-   * to be used by the select2 module.
+   * Take incoming data and format them to have all required parameters.
    *
    * @param {array} data
-   *
    * @return {array}
    */
   toSelect2Format: function (data) {
