@@ -83,6 +83,12 @@ export default BaseForm.extend({
         this.$el.html(this.template({__: __}));
         this.renderCombobox();
         this.renderExtensions();
+        // After initializeSelection() has set initialView, run a dirty check against the
+        // current DatagridState so child extensions (save-view) reflect the correct state.
+        // This is necessary when navigation fires *after* DatagridState is updated (e.g. the
+        // column picker calls DatagridState.set then Backbone.history.navigate): by the time
+        // this form exists, the state_changed event for 'columns' has already been missed.
+        this.onGridStateChange();
       }.bind(this)
     );
   },
