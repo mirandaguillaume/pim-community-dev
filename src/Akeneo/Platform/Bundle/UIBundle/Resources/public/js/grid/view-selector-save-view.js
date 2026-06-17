@@ -33,6 +33,7 @@ export default BaseForm.extend({
   render: function () {
     if (
       'view' !== this.getRoot().currentViewType ||
+      !this.dirty ||
       UserContext.get('meta').id !== this.getRoot().currentView.owner_id
     ) {
       this.unmountReact();
@@ -43,7 +44,7 @@ export default BaseForm.extend({
 
     this.renderReact(
       ViewSelectorActionLink,
-      {action: 'save', label: __('pim_datagrid.view_selector.save_changes'), hidden: !this.dirty},
+      {action: 'save', label: __('pim_datagrid.view_selector.save_changes')},
       this.el
     );
   },
