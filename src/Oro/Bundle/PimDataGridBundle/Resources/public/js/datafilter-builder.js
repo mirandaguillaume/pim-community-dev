@@ -4,19 +4,10 @@ import tools from 'oro/tools';
 import mediator from 'oro/mediator';
 import FiltersManager from 'oro/datafilter/collection-filters-manager';
 import BaseForm from 'pim/form';
+import {resolveFilterModuleId} from 'oro/datafilter/filter-type-registry';
 const DataFilterBuilder = BaseForm.extend({
   initialized: false,
-  config: {
-    filterModuleName: 'oro/datafilter/{{type}}-filter',
-    filterTypes: {
-      identifier: 'identifier',
-      string: 'choice',
-      choice: 'select',
-      selectrow: 'select-row',
-      multichoice: 'multiselect',
-      boolean: 'select',
-    },
-  },
+  config: {},
 
   /**
    * {@inheritdoc}
@@ -69,8 +60,7 @@ const DataFilterBuilder = BaseForm.extend({
   collectModules() {
     var modules = this.modules;
     _.each(this.metadata.filters, filter => {
-      var type = filter.type;
-      modules[type] = this.config.filterModuleName.replace('{{type}}', this.config.filterTypes[type] || type);
+      modules[filter.type] = resolveFilterModuleId(filter.type);
     });
   },
 
