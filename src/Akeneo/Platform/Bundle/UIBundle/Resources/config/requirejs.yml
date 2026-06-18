@@ -995,11 +995,9 @@ config:
     pim/grid/view-selector: pimui/js/product/grid/view-selector
     pim/grid/view-selector/selector: pimui/js/grid/view-selector
     pim/grid/view-selector/view-selector-secondary-actions: pimui/js/grid/view-selector-secondary-actions.ts
-    pim/grid/view-selector/line: pimui/js/grid/view-selector-line
     pim/grid/view-selector/create-view: pimui/js/grid/view-selector-create-view
     pim/grid/view-selector/save-view: pimui/js/grid/view-selector-save-view
     pim/grid/view-selector/remove-view: pimui/js/grid/view-selector-remove-view
-    pim/grid/view-selector/current: pimui/js/grid/view-selector-current
     pim/grid/table: pimui/js/product/grid/table
 
     #
@@ -1242,11 +1240,9 @@ config:
 
     # Grid view selector
     pim/template/grid/view-selector/create-view-inputs: pimui/templates/grid/view-selector-create-view-inputs.html
-    pim/template/grid/view-selector/line: pimui/templates/grid/view-selector-line.html
     pim/template/grid/view-selector/create-view: pimui/templates/grid/view-selector-create-view.html
     pim/template/grid/view-selector/save-view: pimui/templates/grid/view-selector-save-view.html
     pim/template/grid/view-selector/remove-view: pimui/templates/grid/view-selector-remove-view.html
-    pim/template/grid/view-selector/current: pimui/templates/grid/view-selector-current.html
     pim/template/grid/view-selector: pimui/templates/grid/view-selector.html
 
     # Attribute
@@ -1267,8 +1263,6 @@ config:
     # Alias overrides
     pimcommunity/job/common/edit/launch:      pimui/js/job/common/edit/launch
     pimcommunity/grid/view-selector/selector: pimui/js/grid/view-selector
-    pimcommunity/grid/view-selector/line:     pimui/js/grid/view-selector-line
-    pimcommunity/grid/view-selector/current:  pimui/js/grid/view-selector-current
 
     # Catalog volume monitoring
     pim/template/catalog-volume/number:       pimui/templates/catalog-volume/number.html

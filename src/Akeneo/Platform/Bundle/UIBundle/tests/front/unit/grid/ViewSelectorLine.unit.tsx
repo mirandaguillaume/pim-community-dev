@@ -28,3 +28,16 @@ test('renders the public-type badge with the translated label only for public vi
   const priv = render(<ViewSelectorLine view={view({type: 'private'})} isCurrent={false} publicLabel="Public view" />);
   expect(priv.container.querySelector('.view-type')).toBeNull();
 });
+
+test('shows the dirty marker as a separate element (not inside the clean label) only when dirty', () => {
+  const dirty = render(
+    <ViewSelectorLine view={view({text: 'Mine'})} isCurrent={true} publicLabel="Public" dirty={true} />
+  );
+  expect(dirty.container.querySelector('.view-dirty')!.textContent).toBe('*');
+  expect(dirty.container.querySelector('.view-label')!.textContent).toBe('Mine'); // label stays clean for getCurrentValue
+
+  const clean = render(
+    <ViewSelectorLine view={view({text: 'Mine'})} isCurrent={true} publicLabel="Public" dirty={false} />
+  );
+  expect(clean.container.querySelector('.view-dirty')).toBeNull();
+});

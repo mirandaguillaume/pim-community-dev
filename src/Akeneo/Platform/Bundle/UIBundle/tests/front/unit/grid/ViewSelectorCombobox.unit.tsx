@@ -48,6 +48,7 @@ const renderCombobox = (props: Partial<React.ComponentProps<typeof ViewSelectorC
       showDefaultView={false}
       searchViews={jest.fn().mockResolvedValue({views: [], more: false})}
       onSelectView={jest.fn()}
+      dirty={false}
       labels={labels}
       {...props}
     />
@@ -125,4 +126,66 @@ test('delegates selection to onSelectView with the picked view', async () => {
   fireEvent.click(container.querySelector('[data-option="6"]')!);
 
   expect(onSelectView).toHaveBeenCalledWith({id: 6, text: 'Other', type: 'public'});
+});
+
+test('wraps the SelectInput in a .select2-container root for the Behat anchor', async () => {
+  const {container} = renderCombobox();
+
+  expect(container.querySelector('.select2-container')).not.toBeNull();
+});
+
+test('wraps each option in .select2-result-label so Behat getAvailableValues/setValue work', async () => {
+  const searchViews = jest.fn().mockResolvedValue({views: [{id: 3, text: 'A'}], more: false});
+  const {container} = renderCombobox({searchViews});
+
+  await waitFor(() => expect(optionIds(container)).toEqual(['3']));
+
+  expect(container.querySelector('[data-option="3"] .select2-result-label')).not.toBeNull();
+});
+
+test('passes dirty=true only to the current view option, not to other options', async () => {
+  const searchViews = jest.fn().mockResolvedValue({
+    views: [
+      {id: 10, text: 'Current'},
+      {id: 11, text: 'Other'},
+    ],
+    more: false,
+  });
+  const {container} = renderCombobox({currentView: {id: 10, text: 'Current'}, dirty: true, searchViews});
+
+  await waitFor(() => expect(optionIds(container)).toEqual(['10', '11']));
+
+  expect(container.querySelector('[data-option="10"] .view-dirty')).not.toBeNull();
+  expect(container.querySelector('[data-option="11"] .view-dirty')).toBeNull();
+});
+
+test('shows no dirty marker when dirty=false even on the current view', async () => {
+  const searchViews = jest.fn().mockResolvedValue({views: [{id: 10, text: 'Current'}], more: false});
+  const {container} = renderCombobox({currentView: {id: 10, text: 'Current'}, dirty: false, searchViews});
+
+  await waitFor(() => expect(optionIds(container)).toEqual(['10']));
+
+  expect(container.querySelector('.view-dirty')).toBeNull();
+});
+
+test('prefers defaultView over currentView when both share the same id', async () => {
+  // The host mutates this.currentView on every filter change. When the user re-selects the
+  // currently-active view (e.g. Default view), onSelectView must receive the canonical
+  // defaultView object (with its original saved filters), NOT the mutated currentView.
+  const onSelectView = jest.fn();
+  const mutated = {id: 0, text: 'Default view'};
+  const canonical = {id: 0, text: 'Default view', type: 'view' as const};
+
+  const {container} = renderCombobox({
+    currentView: mutated,
+    defaultView: canonical,
+    showDefaultView: false,
+    searchViews: jest.fn().mockResolvedValue({views: [], more: false}),
+    onSelectView,
+  });
+
+  await waitFor(() => expect(optionIds(container)).toEqual(['0']));
+  fireEvent.click(container.querySelector('[data-option="0"]')!);
+
+  expect(onSelectView).toHaveBeenCalledWith(canonical);
 });

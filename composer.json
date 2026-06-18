@@ -97,6 +97,8 @@
         "gedmo/doctrine-extensions": "^3.2.0",
         "google/cloud-pubsub": "^2.0",
         "guzzlehttp/guzzle": "^7.5.0",
+        "guzzlehttp/psr7": "^2.10.2",
+        "mtdowling/jmespath.php": "^2.9.1",
         "imagine/imagine": "^1.3.3",
         "khaled.alshamaa/ar-php": "^6.2",
         "lcobucci/jwt": "^5.0",
@@ -107,7 +109,7 @@
         "oneup/flysystem-bundle": "^4.5.0",
         "openspout/openspout": "^4.9.0",
         "opis/json-schema": "^2.3",
-        "phpseclib/phpseclib": "^3.0",
+        "phpseclib/phpseclib": "^3.0.54",
         "psr/event-dispatcher": "^1.0.0",
         "ramsey/uuid": "^4.7.1",
         "ramsey/uuid-doctrine": "^2.0",
@@ -209,12 +211,7 @@
         "audit": {
             "block-insecure": true,
             "ignore": {
-                "PKSA-y2cr-5h3j-g3ys": "Low severity, transitive dep from google/cloud-pubsub. Awaiting google/auth jwt v7 support.",
-                "CVE-2026-44167": "phpseclib OID DoS — no 3.0.52 release yet; remove once upstream patch ships.",
-                "CVE-2026-46644": "symfony/polyfill-intl-idn punycode equivalence — fix is in >=1.38.1; remove once composer.lock is updated.",
-                "CVE-2026-48736": "symfony/http-foundation IpUtils SSRF bypass — fix is in symfony/http-foundation >=6.4.41; remove once Symfony upgraded.",
-                "CVE-2026-48784": "symfony/routing UrlGenerator dot-segment encoding — fix is in >=6.4.41; remove once Symfony upgraded.",
-                "CVE-2026-48489": "symfony/security-http firewall bypass via failure_forward — fix is in >=6.4.41; remove once Symfony upgraded."
+                "PKSA-y2cr-5h3j-g3ys": "Low severity, transitive dep from google/cloud-pubsub. Awaiting google/auth jwt v7 support."
             }
         },
         "platform": {
