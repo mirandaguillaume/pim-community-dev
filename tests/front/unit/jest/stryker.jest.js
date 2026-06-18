@@ -120,6 +120,8 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/product-and-product-model-label-cell.unit.tsx',
     // DataGrid pagination (C1 wave 3) — presentational bar, pure React, no Backbone in test deps.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/PaginationBar.unit.tsx',
+    // DataGrid no-data block (C1 wave 3) — pure React, no Backbone deps.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/NoDataBlock.unit.tsx',
     // UIBundle product/grid — locale-switcher: Backbone view mocked at test level.
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/locale-switcher.unit.tsx',
     // View-selector leaf pieces (C1 Slice A) — pure presentational React, no Backbone in test deps.

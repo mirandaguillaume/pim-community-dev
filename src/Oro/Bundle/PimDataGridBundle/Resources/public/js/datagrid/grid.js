@@ -9,7 +9,9 @@ import GridBody from 'oro/datagrid/body';
 import ActionColumn from 'oro/datagrid/action-column';
 import SelectRowCell from 'oro/datagrid/select-row-cell';
 import SelectAllHeaderCell from 'oro/datagrid/select-all-header-cell';
-import noDataTemplate from 'pim/template/common/no-data';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {NoDataBlock} from 'oro/datagrid/no-data-block';
 import template from 'pim/template/common/grid';
 import analytics from 'pim/analytics';
 
@@ -28,9 +30,6 @@ export default Backgrid.Grid.extend({
 
   /** @property */
   template: _.template(template),
-
-  /** @property */
-  noDataTemplate: _.template(noDataTemplate),
 
   /** @property {Object} */
   selectors: {
@@ -349,41 +348,34 @@ export default Backgrid.Grid.extend({
   },
 
   /**
-   * Returns the messages to display when there is no results.
-   *
-   * @returns {{hint, subHint: *, imageClass: string}}
+   * Returns the translation keys and params to display when there are no results.
    */
   getDefaultNoDataOptions() {
     const entityHint = (
       this.entityHint ? this.entityHint.replace(/_/, ' ') : __('pim_datagrid.entity_hint')
     ).toLowerCase();
-    let key = _.isEmpty(this.collection.state.filters) ? 'pim_datagrid.no_entities' : 'pim_datagrid.no_results';
+    let hintKey = _.isEmpty(this.collection.state.filters) ? 'pim_datagrid.no_entities' : 'pim_datagrid.no_results';
 
-    if (__(key + '.' + entityHint) !== key + '.' + entityHint) {
-      key += '.' + entityHint;
+    if (__(hintKey + '.' + entityHint) !== hintKey + '.' + entityHint) {
+      hintKey += '.' + entityHint;
     }
 
-    const hint = __(key, {entityHint: entityHint}).replace('\n', '<br />');
-    const subHint = 'pim_datagrid.no_results_subtitle';
-
-    return {hint, subHint, imageClass: '', __};
+    return {hintKey, hintParams: {entityHint}, subHintKey: 'pim_datagrid.no_results_subtitle', imageClass: ''};
   },
 
   /**
    * Render no data block.
    */
   renderNoDataBlock: function () {
-    const customOptions = this.emptyGridOptions;
-    let options = this.getDefaultNoDataOptions();
+    const custom = this.emptyGridOptions;
+    const props =
+      null != custom
+        ? {hintKey: custom.hint, hintParams: {}, subHintKey: custom.subHint, imageClass: custom.imageClass ?? ''}
+        : this.getDefaultNoDataOptions();
 
-    if (null !== customOptions && undefined !== customOptions) {
-      options = customOptions;
-      options.__ = __;
-    }
-
-    this.$(this.selectors.noDataBlock)
-      .html($(this.noDataTemplate(options)))
-      .hide();
+    const noDataEl = this.$(this.selectors.noDataBlock)[0];
+    ReactDOM.render(React.createElement(NoDataBlock, props), noDataEl);
+    this.$(this.selectors.noDataBlock).hide();
     this._updateNoDataBlock();
   },
 
@@ -447,11 +439,11 @@ export default Backgrid.Grid.extend({
   _updateNoDataBlock: function () {
     if (this.collection.models.length > 0) {
       this.$(this.selectors.grid).show();
-      $(this.selectors.toolbar).show();
+      this.$(this.selectors.toolbar).show();
       this.$(this.selectors.noDataBlock).hide();
     } else {
       this.$(this.selectors.grid).hide();
-      $(this.selectors.toolbar).hide();
+      this.$(this.selectors.toolbar).hide();
       this.$(this.selectors.noDataBlock).show();
     }
   },
