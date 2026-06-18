@@ -1,13 +1,5 @@
 // Mock all Backbone/legacy deps BEFORE any import (jest.mock is hoisted).
 
-// legacy-bridge/src/dependencies.ts imports 'pim/form-builder' which is not
-// resolvable in the Jest/Stryker sandbox (no public/bundles/ there). Mock the
-// whole package; renderReactElement is already a jest.fn() so DependenciesProvider
-// is never actually rendered in these tests.
-jest.mock('@akeneo-pim-community/legacy-bridge', () => ({
-  DependenciesProvider: (props: any) => props.children,
-}));
-
 jest.mock('pimui/js/view/base', () => {
   class MockBaseView {
     el: HTMLElement;
@@ -26,7 +18,7 @@ jest.mock('pimui/js/view/base', () => {
     }
     listenTo() {}
     stopListening() {}
-    renderReactElement = jest.fn();
+    renderReact = jest.fn();
   }
   return MockBaseView;
 });
@@ -90,8 +82,8 @@ describe('LocaleSwitcher host view', () => {
     });
   });
 
-  test('render after remove does not call renderReactElement', async () => {
-    // Provide real locales so that without the guard renderReactElement WOULD be
+  test('render after remove does not call renderReact', async () => {
+    // Provide real locales so that without the guard renderReact WOULD be
     // called — making this test actually kill the "remove guard" mutant.
     const locales = [{code: 'en_US', label: 'English (United States)'}];
     getLocaleFetcher().fetchActivated.mockResolvedValue(locales);
@@ -104,15 +96,8 @@ describe('LocaleSwitcher host view', () => {
     // Flush microtasks so the fetchLocales().then() callback has run.
     await new Promise(resolve => setTimeout(resolve, 0));
 
-    expect(view.renderReactElement).not.toHaveBeenCalled();
+    expect(view.renderReact).not.toHaveBeenCalled();
   });
-
-  // Drill DependenciesProvider > ThemeProvider > LocaleSelector on the inert
-  // React element captured by the renderReactElement mock (no actual render).
-  const renderedLocaleSelectorProps = () => {
-    const element = view.renderReactElement.mock.calls[0][0];
-    return element.props.children.props.children.props;
-  };
 
   test('render passes the active catalog locale and the full list to LocaleSelector', async () => {
     const locales = [
@@ -126,8 +111,9 @@ describe('LocaleSwitcher host view', () => {
     view.render();
     await new Promise(resolve => setTimeout(resolve, 0));
 
-    expect(view.renderReactElement).toHaveBeenCalledTimes(1);
-    const props = renderedLocaleSelectorProps();
+    expect(view.renderReact).toHaveBeenCalledTimes(1);
+    const [componentType, props] = view.renderReact.mock.calls[0];
+    expect(componentType).toBeDefined();
     expect(props.value).toBe('fr_FR');
     expect(props.values).toBe(locales);
     expect(props.inline).toBe(false);
@@ -148,7 +134,8 @@ describe('LocaleSwitcher host view', () => {
     await new Promise(resolve => setTimeout(resolve, 0));
 
     expect(userContext.set).toHaveBeenCalledWith('catalogLocale', 'en_US');
-    expect(renderedLocaleSelectorProps().value).toBe('en_US');
+    const [, props] = view.renderReact.mock.calls[0];
+    expect(props.value).toBe('en_US');
   });
 
   test('initialize stores the inner config object', () => {
