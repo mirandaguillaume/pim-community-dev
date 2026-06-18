@@ -29,8 +29,14 @@ const ProductAndProductModelLabelCell = require('../../../Resources/public/js/da
 const makeCell = (columnName: string, rawValue: string, documentType = 'product') => {
   const cell = new ProductAndProductModelLabelCell();
   cell.formatter = {fromRaw: (v: string) => v};
-  cell.column = {get: (_: string) => columnName};
-  cell.model = {get: (key: string) => (key === 'document_type' ? documentType : rawValue)};
+  cell.column = {get: (key: string) => (key === 'name' ? columnName : undefined)};
+  cell.model = {
+    get: (key: string) => {
+      if (key === 'document_type') return documentType;
+      if (key === columnName) return rawValue;
+      return undefined;
+    },
+  };
   return cell;
 };
 
