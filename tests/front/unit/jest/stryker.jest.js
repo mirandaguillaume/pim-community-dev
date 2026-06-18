@@ -117,6 +117,7 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/complete-variant-product-cell.unit.tsx',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/ProductImage.unit.tsx',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/product-and-product-model-image-cell.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/product-and-product-model-label-cell.unit.tsx',
     // DataGrid pagination (C1 wave 3) — presentational bar, pure React, no Backbone in test deps.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/PaginationBar.unit.tsx',
     // UIBundle product/grid — locale-switcher: Backbone view mocked at test level.
