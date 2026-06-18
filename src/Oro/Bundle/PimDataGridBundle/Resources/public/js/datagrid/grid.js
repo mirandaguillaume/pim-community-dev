@@ -15,6 +15,10 @@ import {NoDataBlock} from 'oro/datagrid/no-data-block';
 import template from 'pim/template/common/grid';
 import analytics from 'pim/analytics';
 
+/**
+ * @typedef {import('./GridState').GridState} GridState
+ */
+
 export default Backgrid.Grid.extend({
   /** @property {String} */
   name: 'datagrid',

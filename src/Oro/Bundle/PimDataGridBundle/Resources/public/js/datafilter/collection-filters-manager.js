@@ -1,12 +1,17 @@
 import _ from 'underscore';
 import FiltersManager from 'oro/datafilter/filters-manager';
 
+/**
+ * @typedef {import('../datagrid/GridState').GridState} GridState
+ * @typedef {import('../datagrid/GridState').FilterValues} FilterValues
+ */
+
 export default FiltersManager.extend({
   /**
    * Initialize filter list options
    *
    * @param {Object} options
-   * @param {oro.PageableCollection} [options.collection]
+   * @param {{state: GridState, fetch: function, on: function}} [options.collection]
    * @param {Object} [options.filters]
    * @param {String} [options.addButtonHint]
    */
@@ -30,7 +35,7 @@ export default FiltersManager.extend({
     if (this.ignoreFiltersUpdateEvents) {
       return;
     }
-    this.collection.state.currentPage = 1;
+    /** @type {GridState} */ this.collection.state.currentPage = 1;
     this.collection.fetch();
 
     FiltersManager.prototype._onFilterUpdated.apply(this, arguments);
@@ -39,16 +44,18 @@ export default FiltersManager.extend({
   /**
    * Triggers before collection fetch it's data
    *
+   * @param {{state: GridState}} collection
    * @protected
    */
   _beforeCollectionFetch: function (collection) {
+    /** @type {FilterValues} */
     collection.state.filters = this._createState();
   },
 
   /**
    * Triggers when collection state is updated
    *
-   * @param {oro.PageableCollection} collection
+   * @param {{state: GridState}} collection
    */
   _onUpdateCollectionState: function (collection) {
     this.ignoreFiltersUpdateEvents = true;
@@ -59,6 +66,7 @@ export default FiltersManager.extend({
   /**
    * Triggers after collection resets it's data
    *
+   * @param {{state: GridState, $el: Object}} collection
    * @protected
    */
   _onCollectionReset: function (collection) {
@@ -70,10 +78,11 @@ export default FiltersManager.extend({
   /**
    * Create state according to filters parameters
    *
-   * @return {Object}
+   * @return {FilterValues}
    * @protected
    */
   _createState: function () {
+    /** @type {FilterValues} */
     var state = {};
     _.each(
       this.filters,
@@ -100,7 +109,7 @@ export default FiltersManager.extend({
   /**
    * Apply filter values from state
    *
-   * @param {Object} state
+   * @param {FilterValues} state
    * @protected
    * @return {*}
    */
