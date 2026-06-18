@@ -35,7 +35,7 @@ export default FiltersManager.extend({
     if (this.ignoreFiltersUpdateEvents) {
       return;
     }
-    /** @type {GridState} */ (this.collection.state).currentPage = 1;
+    /** @type {GridState} */ this.collection.state.currentPage = 1;
     this.collection.fetch();
 
     FiltersManager.prototype._onFilterUpdated.apply(this, arguments);
