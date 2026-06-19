@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import FiltersManager from 'oro/datafilter/filters-manager';
+import createGridStateFilterWriter from '../datagrid/createGridStateFilterWriter';
 
 /**
  * @typedef {import('../datagrid/GridState').GridState} GridState
@@ -17,6 +18,7 @@ export default FiltersManager.extend({
    */
   initialize: function (options) {
     this.collection = options.collection;
+    this.stateWriter = createGridStateFilterWriter(this.collection);
 
     this.collection.on('beforeFetch', this._beforeCollectionFetch, this);
     this.collection.on('updateState', this._onUpdateCollectionState, this);
@@ -35,21 +37,20 @@ export default FiltersManager.extend({
     if (this.ignoreFiltersUpdateEvents) {
       return;
     }
-    /** @type {GridState} */ this.collection.state.currentPage = 1;
+    this.stateWriter.resetPage();
     this.collection.fetch();
 
     FiltersManager.prototype._onFilterUpdated.apply(this, arguments);
   },
 
   /**
-   * Triggers before collection fetch it's data
+   * Triggers before collection fetch it's data. Writes the active filter values into grid state
+   * through the explicit GridStateFilterWriter (Wave 4) instead of mutating `collection.state`.
    *
-   * @param {{state: GridState}} collection
    * @protected
    */
-  _beforeCollectionFetch: function (collection) {
-    /** @type {FilterValues} */
-    collection.state.filters = this._createState();
+  _beforeCollectionFetch: function () {
+    this.stateWriter.setFilters(this._createState());
   },
 
   /**

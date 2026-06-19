@@ -135,6 +135,8 @@ module.exports = {
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/ViewSelectorCombobox.unit.tsx',
     // DataGrid filter type registry (C1 Wave 4 prereq) — pure TypeScript constant map + resolver, no Backbone deps.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/FilterTypeRegistry.unit.ts',
+    // DataGrid filter state writer (C1 Wave 4) — pure factory over the GridState contract, no Backbone deps.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateFilterWriter.unit.ts',
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.
