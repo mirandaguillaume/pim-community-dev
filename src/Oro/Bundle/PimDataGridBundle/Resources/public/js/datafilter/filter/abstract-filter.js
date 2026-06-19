@@ -139,7 +139,10 @@ export default Backbone.View.extend({
    * {@inheritdoc}
    */
   render() {
-    $('.column-inner').scroll(this._updateCriteriaSelectorPosition.bind(this));
+    // Use a namespaced event keyed by cid so that re-renders do not accumulate
+    // duplicate handlers across all .column-inner elements in the document.
+    const ns = `scroll.filterCriteria-${this.cid}`;
+    $('.column-inner').off(ns).on(ns, this._updateCriteriaSelectorPosition.bind(this));
   },
 
   /**

@@ -498,15 +498,13 @@ export default Backbone.View.extend({
   },
 
   /**
-   * Get the width of the main column and the header
+   * Get the left offset of the filter container, used to position the add-filter widget.
    * @return {number}
    */
   _getOffsetWidth() {
-    const headerWidth = $('.AknHeader').width();
-    const mainColumn = $('.AknDefault-contentWithColumn .AknColumn');
-    const mainColumnWidth = 0 !== mainColumn.length ? mainColumn.width() : 0;
-
-    return headerWidth + mainColumnWidth;
+    // this.$el is the filter box itself, whose left offset already accounts for
+    // the navigation header and category-tree column widths.
+    return this.$el.offset().left;
   },
 
   /**
