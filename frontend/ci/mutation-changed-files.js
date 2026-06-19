@@ -44,6 +44,7 @@ const changed = git(['diff', '--diff-filter=AM', '--name-only', 'origin/master..
 // never the thing mutation testing should score.
 const isModuleSyntax = line => {
   const t = line.trim();
+
   return (
     t === '' ||
     t === "'use strict';" ||
