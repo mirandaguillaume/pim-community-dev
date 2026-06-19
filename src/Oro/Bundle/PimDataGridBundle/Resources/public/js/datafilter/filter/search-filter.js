@@ -1,8 +1,9 @@
 import 'jquery';
-import _ from 'underscore';
 import __ from 'oro/translator';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import AbstractFilter from 'oro/datafilter/abstract-filter';
-import template from 'pim/template/datagrid/filter/search-filter';
+import SearchFilterInput from './SearchFilterInput';
 
 export default AbstractFilter.extend({
   inputValueSelector: 'input[name="value"]',
@@ -26,19 +27,38 @@ export default AbstractFilter.extend({
 
   className: 'AknFilterBox-searchContainer filter-item search-filter',
 
-  template: _.template(template),
-
   /**
    * {@inheritDoc}
+   *
+   * Renders the React SearchFilterInput into `this.el`. AbstractFilter is a raw Backbone.View (no
+   * renderReact), so ReactDOM.render is used directly (the ReactCellBase pattern); no providers are
+   * needed for this plain-HTML input. The input is uncontrolled — the existing jQuery value path
+   * (enableReadonly + the keydown/focus delegation reading the DOM input) is preserved unchanged.
+   *
+   * Intentionally does NOT call `AbstractFilter.prototype.render` (as in the legacy render): the
+   * search filter has no criteria dropdown, so the prototype's document-wide scroll-reposition
+   * binding must stay unbound — do not add a super call here.
    */
   render: function () {
-    this.$el.html(
-      this.template({
+    ReactDOM.render(
+      React.createElement(SearchFilterInput, {
         label: __('pim_datagrid.search', {label: __(this.label).toLowerCase()}),
-      })
+      }),
+      this.el
     );
 
     this.enableReadonly();
+  },
+
+  /**
+   * {@inheritDoc}
+   *
+   * Unmount the React tree before Backbone tears the element down, to avoid a detached-root leak.
+   */
+  remove: function () {
+    ReactDOM.unmountComponentAtNode(this.el);
+
+    return AbstractFilter.prototype.remove.apply(this, arguments);
   },
 
   /**
