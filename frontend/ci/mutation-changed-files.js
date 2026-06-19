@@ -68,20 +68,27 @@ const body = src =>
     .join('')
     .replace(/\s+/g, '');
 
+// Files that extend Backbone BaseView cannot be tested in the Stryker sandbox:
+// they produce 100+ NoCoverage mutants that crater the overall MSI.
+const isBackboneView = src =>
+  /from ['"]pimui\/js\/view\/base['"]/.test(src) || /require\(['"]pimui\/js\/view\/base['"]\)/.test(src);
+
 const real = [];
 for (const f of changed) {
-  let oldSrc = '';
-  let newSrc = '';
+  let newSrc;
+  try {
+    newSrc = git(['show', `HEAD:${f}`]);
+  } catch {
+    continue; // deleted -> nothing to mutate
+  }
+  if (isBackboneView(newSrc)) continue;
+
+  let oldSrc;
   try {
     oldSrc = git(['show', `origin/master:${f}`]);
   } catch {
     real.push(f); // new file -> real change
     continue;
-  }
-  try {
-    newSrc = git(['show', `HEAD:${f}`]);
-  } catch {
-    continue; // deleted -> nothing to mutate
   }
   if (body(oldSrc) !== body(newSrc)) real.push(f);
 }
