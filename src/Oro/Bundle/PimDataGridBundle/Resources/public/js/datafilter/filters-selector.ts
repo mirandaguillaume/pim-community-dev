@@ -4,6 +4,8 @@ import * as _ from 'underscore';
 import mediator from 'oro/mediator';
 import requireContext from 'require-context';
 import {resolveFilterModuleId} from 'oro/datafilter/filter-type-registry';
+import {FilterValues, GridStateFilterWriter} from '../datagrid/GridState';
+import FiltersPanel from './FiltersPanel';
 
 interface FilterModule extends Backbone.View<any> {
   enabled: boolean;
@@ -92,8 +94,8 @@ class FiltersSelector extends BaseView {
 
   renderFilters(filters: FilterDefinition[], datagridCollection: any): void {
     this.datagridCollection = datagridCollection;
-    const list: DocumentFragment = document.createDocumentFragment();
     const state: FilterState = datagridCollection.state.filters;
+    const filterEls: HTMLElement[] = [];
 
     filters.forEach((filter: FilterDefinition) => {
       const filterModule: FilterModule = this.getFilterModule(filter);
@@ -111,7 +113,7 @@ class FiltersSelector extends BaseView {
         this.listenTo(filterModule, 'update', this.updateGridState.bind(this));
         this.listenTo(filterModule, 'disable', this.disableFilter.bind(this, filter));
 
-        list.appendChild(filterModule.el);
+        filterEls.push(filterModule.el);
       }
 
       if (undefined !== filterModule.moveFilter) {
@@ -119,11 +121,19 @@ class FiltersSelector extends BaseView {
       }
     });
 
-    this.el.appendChild(list);
-    this.restoreFilterState(state, filters);
-
-    mediator.trigger('filters-column:init', this.updateGridState.bind(this));
-    mediator.trigger('datagrid_filters:rendered', datagridCollection);
+    this.renderReact(
+      FiltersPanel,
+      {
+        container: this.el,
+        filterEls,
+        onMounted: () => {
+          this.restoreFilterState(state, filters);
+          mediator.trigger('filters-column:init', this.updateGridState.bind(this));
+          mediator.trigger('datagrid_filters:rendered', datagridCollection);
+        },
+      },
+      this.el
+    );
   }
 
   restoreFilterState(state: FilterState, filters: FilterDefinition[]): void {
@@ -186,8 +196,16 @@ class FiltersSelector extends BaseView {
     const shouldReloadState = (stateHasChanged || currentStateIsEmpty) && false === this.silent;
 
     if (shouldReloadState) {
-      this.datagridCollection.state.filters = updatedState;
-      this.datagridCollection.state.currentPage = 1;
+      const writer: GridStateFilterWriter = {
+        setFilters: (values: FilterValues) => {
+          this.datagridCollection.state.filters = values as FilterState;
+        },
+        resetPage: () => {
+          this.datagridCollection.state.currentPage = 1;
+        },
+      };
+      writer.setFilters(updatedState);
+      writer.resetPage();
       this.datagridCollection.fetch();
     }
   }
