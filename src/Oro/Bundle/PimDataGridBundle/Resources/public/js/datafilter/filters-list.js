@@ -2,23 +2,13 @@ import _ from 'underscore';
 import BaseForm from 'pim/form';
 import mediator from 'oro/mediator';
 import tools from 'oro/tools';
+import {resolveFilterModuleId} from 'oro/datafilter/filter-type-registry';
 
 export default BaseForm.extend({
   options: {},
   filters: [],
   isLoaded: false,
   className: 'AknFilterBox-list filter-box',
-
-  config: {
-    filterModuleName: 'oro/datafilter/{{type}}-filter',
-    filterTypes: {
-      string: 'choice',
-      choice: 'select',
-      selectrow: 'select-row',
-      multichoice: 'multiselect',
-      boolean: 'select',
-    },
-  },
 
   /**
    * @inheritdoc
@@ -74,8 +64,7 @@ export default BaseForm.extend({
     const modules = {};
 
     _.each(this.filters, filter => {
-      const type = filter.type;
-      modules[type] = this.config.filterModuleName.replace('{{type}}', this.config.filterTypes[type] || type);
+      modules[filter.type] = resolveFilterModuleId(filter.type);
     });
 
     return modules;
