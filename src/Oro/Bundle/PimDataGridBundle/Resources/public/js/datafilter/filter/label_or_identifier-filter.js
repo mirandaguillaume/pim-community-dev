@@ -1,10 +1,10 @@
 import $ from 'jquery';
-import _ from 'underscore';
 import __ from 'oro/translator';
-import AbstractFilter from 'oro/datafilter/abstract-filter';
-import template from 'pim/template/datagrid/filter/search-filter';
+import React from 'react';
+import ReactFilterBase from './ReactFilterBase';
+import SearchFilterInput from './SearchFilterInput';
 
-export default AbstractFilter.extend({
+export default ReactFilterBase.extend({
   inputValueSelector: 'input[name="value"]',
 
   events: {
@@ -24,19 +24,17 @@ export default AbstractFilter.extend({
 
   className: 'AknFilterBox-searchContainer filter-item search-filter',
 
-  template: _.template(template),
-
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
+   *
+   * Same uncontrolled React search input as `search-filter`; ReactFilterBase owns the render/unmount
+   * lifecycle. The legacy `delegateEvents()` re-bind in render was redundant — the `events` map is
+   * delegated on the stable `this.$el` container at construction and survives the React render.
    */
-  render: function () {
-    this.$el.html(
-      this.template({
-        label: __('pim_datagrid.search', {label: __(this.label.toLowerCase())}),
-      })
-    );
-
-    this.delegateEvents();
+  reactElement: function () {
+    return React.createElement(SearchFilterInput, {
+      label: __('pim_datagrid.search', {label: __(this.label.toLowerCase())}),
+    });
   },
 
   /**
