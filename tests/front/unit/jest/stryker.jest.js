@@ -133,6 +133,8 @@ module.exports = {
     // View-selector combobox (C1 Slice C prerequisite) — pure helpers + DSM SelectInput adapter (DSM mocked).
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/viewComboboxHelpers.unit.ts',
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/ViewSelectorCombobox.unit.tsx',
+    // DataGrid filter type registry (C1 Wave 4 prereq) — pure TypeScript constant map + resolver, no Backbone deps.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/FilterTypeRegistry.unit.ts',
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.

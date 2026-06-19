@@ -3,6 +3,7 @@ import * as _ from 'underscore';
 
 import mediator from 'oro/mediator';
 import requireContext from 'require-context';
+import {resolveFilterModuleId} from 'oro/datafilter/filter-type-registry';
 
 interface FilterModule extends Backbone.View<any> {
   enabled: boolean;
@@ -41,15 +42,7 @@ class FiltersSelector extends BaseView {
   public silent: boolean;
   public categoryFilter: any;
 
-  public config = {
-    filterTypes: {
-      string: 'choice',
-      choice: 'select',
-      selectrow: 'select-row',
-      multichoice: 'multiselect',
-      boolean: 'select',
-    },
-  };
+  public config = {};
 
   constructor(options: {config: any}) {
     super({...options, ...{className: 'filter-box'}});
@@ -75,12 +68,11 @@ class FiltersSelector extends BaseView {
   }
 
   getFilterModule(filter: FilterDefinition): FilterModule {
-    const types: any = this.config.filterTypes;
-    const filterType = types[filter.type] || filter.type;
     let cachedFilter: FilterModule = this.modules[filter.name];
 
     if (!cachedFilter) {
-      const filterModule: FilterModule = requireContext(`oro/datafilter/${filterType}-filter`);
+      const moduleId = resolveFilterModuleId(filter.type);
+      const filterModule: FilterModule = requireContext(moduleId);
 
       if (!filterModule) {
         throw Error(`No module found for the ${filter.name} filter`);
