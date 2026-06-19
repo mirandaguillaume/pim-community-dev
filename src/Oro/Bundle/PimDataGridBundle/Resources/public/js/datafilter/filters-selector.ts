@@ -5,7 +5,6 @@ import mediator from 'oro/mediator';
 import requireContext from 'require-context';
 import {resolveFilterModuleId} from 'oro/datafilter/filter-type-registry';
 import {FilterValues, GridStateFilterWriter} from '../datagrid/GridState';
-import FiltersPanel from './FiltersPanel';
 
 interface FilterModule extends Backbone.View<any> {
   enabled: boolean;
@@ -94,8 +93,8 @@ class FiltersSelector extends BaseView {
 
   renderFilters(filters: FilterDefinition[], datagridCollection: any): void {
     this.datagridCollection = datagridCollection;
+    const list: DocumentFragment = document.createDocumentFragment();
     const state: FilterState = datagridCollection.state.filters;
-    const filterEls: HTMLElement[] = [];
 
     filters.forEach((filter: FilterDefinition) => {
       const filterModule: FilterModule = this.getFilterModule(filter);
@@ -113,7 +112,7 @@ class FiltersSelector extends BaseView {
         this.listenTo(filterModule, 'update', this.updateGridState.bind(this));
         this.listenTo(filterModule, 'disable', this.disableFilter.bind(this, filter));
 
-        filterEls.push(filterModule.el);
+        list.appendChild(filterModule.el);
       }
 
       if (undefined !== filterModule.moveFilter) {
@@ -121,19 +120,11 @@ class FiltersSelector extends BaseView {
       }
     });
 
-    this.renderReact(
-      FiltersPanel,
-      {
-        container: this.el,
-        filterEls,
-        onMounted: () => {
-          this.restoreFilterState(state, filters);
-          mediator.trigger('filters-column:init', this.updateGridState.bind(this));
-          mediator.trigger('datagrid_filters:rendered', datagridCollection);
-        },
-      },
-      this.el
-    );
+    this.el.appendChild(list);
+    this.restoreFilterState(state, filters);
+
+    mediator.trigger('filters-column:init', this.updateGridState.bind(this));
+    mediator.trigger('datagrid_filters:rendered', datagridCollection);
   }
 
   restoreFilterState(state: FilterState, filters: FilterDefinition[]): void {
