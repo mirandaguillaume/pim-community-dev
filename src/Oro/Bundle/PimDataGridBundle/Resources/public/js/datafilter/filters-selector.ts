@@ -4,7 +4,7 @@ import * as _ from 'underscore';
 import mediator from 'oro/mediator';
 import requireContext from 'require-context';
 import {resolveFilterModuleId} from 'oro/datafilter/filter-type-registry';
-import {FilterValues, GridStateFilterWriter} from '../datagrid/GridState';
+import createGridStateFilterWriter from '../datagrid/createGridStateFilterWriter';
 
 interface FilterModule extends Backbone.View<any> {
   enabled: boolean;
@@ -187,16 +187,9 @@ class FiltersSelector extends BaseView {
     const shouldReloadState = (stateHasChanged || currentStateIsEmpty) && false === this.silent;
 
     if (shouldReloadState) {
-      const writer: GridStateFilterWriter = {
-        setFilters: (values: FilterValues) => {
-          this.datagridCollection.state.filters = values as FilterState;
-        },
-        resetPage: () => {
-          this.datagridCollection.state.currentPage = 1;
-        },
-      };
-      writer.setFilters(updatedState);
-      writer.resetPage();
+      const stateWriter = createGridStateFilterWriter(this.datagridCollection);
+      stateWriter.setFilters(updatedState);
+      stateWriter.resetPage();
       this.datagridCollection.fetch();
     }
   }
