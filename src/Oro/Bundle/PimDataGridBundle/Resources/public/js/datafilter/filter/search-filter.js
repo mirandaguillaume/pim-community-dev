@@ -1,11 +1,10 @@
 import 'jquery';
 import __ from 'oro/translator';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import AbstractFilter from 'oro/datafilter/abstract-filter';
+import ReactFilterBase from './ReactFilterBase';
 import SearchFilterInput from './SearchFilterInput';
 
-export default AbstractFilter.extend({
+export default ReactFilterBase.extend({
   inputValueSelector: 'input[name="value"]',
 
   events: {
@@ -28,37 +27,32 @@ export default AbstractFilter.extend({
   className: 'AknFilterBox-searchContainer filter-item search-filter',
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
-   * Renders the React SearchFilterInput into `this.el`. AbstractFilter is a raw Backbone.View (no
-   * renderReact), so ReactDOM.render is used directly (the ReactCellBase pattern); no providers are
-   * needed for this plain-HTML input. The input is uncontrolled — the existing jQuery value path
-   * (enableReadonly + the keydown/focus delegation reading the DOM input) is preserved unchanged.
-   *
-   * Intentionally does NOT call `AbstractFilter.prototype.render` (as in the legacy render): the
-   * search filter has no criteria dropdown, so the prototype's document-wide scroll-reposition
-   * binding must stay unbound — do not add a super call here.
+   * The input is uncontrolled — the jQuery value path (enableReadonly + the keydown/focus delegation
+   * reading the DOM input) keeps owning the value, so SearchDecorator's `.val().trigger('change')`
+   * still routes to setValue. ReactFilterBase owns the ReactDOM render/unmount lifecycle.
    */
-  render: function () {
-    ReactDOM.render(
-      React.createElement(SearchFilterInput, {
-        label: __('pim_datagrid.search', {label: __(this.label).toLowerCase()}),
-      }),
-      this.el
-    );
-
-    this.enableReadonly();
+  reactElement: function () {
+    return React.createElement(SearchFilterInput, {
+      label: __('pim_datagrid.search', {label: __(this.label).toLowerCase()}),
+    });
   },
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
-   * Unmount the React tree before Backbone tears the element down, to avoid a detached-root leak.
+   * After the React input is mounted, set it readonly (Chrome autofill workaround, toggled by the
+   * focusin/focusout delegation). `ReactFilterBase.prototype.render` does NOT call the AbstractFilter
+   * prototype render, so the document-wide `.column-inner` scroll handler stays unbound (the search
+   * filter has no criteria dropdown).
    */
-  remove: function () {
-    ReactDOM.unmountComponentAtNode(this.el);
+  render: function () {
+    ReactFilterBase.prototype.render.apply(this, arguments);
 
-    return AbstractFilter.prototype.remove.apply(this, arguments);
+    this.enableReadonly();
+
+    return this;
   },
 
   /**
