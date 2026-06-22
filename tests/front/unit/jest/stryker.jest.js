@@ -141,6 +141,8 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/SearchFilterInput.unit.tsx',
     // DataGrid React filter base (C1 Wave 4 Slice B) — ReactDOM render/unmount lifecycle, AbstractFilter mocked.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/react-filter-base.unit.tsx',
+    // DataGrid text filter popup (C1 Wave 4 Slice C1) — pure presentational chip + criteria popup.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/TextFilterCriteria.unit.tsx',
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.
