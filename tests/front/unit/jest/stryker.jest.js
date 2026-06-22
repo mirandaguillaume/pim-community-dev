@@ -145,6 +145,9 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/TextFilterCriteria.unit.tsx',
     // DataGrid filter popup positioning hook (C1 Wave 4 Slice C2) — pure flip/clamp math + the hook.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/useFilterPopupPosition.unit.tsx',
+    // DataGrid choice filter (C1 Wave 4 Slice C3) — operator AknDropdown + choice criteria popup.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/OperatorDropdown.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/ChoiceFilterCriteria.unit.tsx',
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.
