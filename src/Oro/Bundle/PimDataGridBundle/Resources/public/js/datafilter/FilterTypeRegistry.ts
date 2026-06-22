@@ -17,7 +17,10 @@
  */
 export const FILTER_MODULE_IDS = {
   'ajax-choice': 'oro/datafilter/ajax-choice-filter',
-  choice: 'oro/datafilter/choice-filter',
+  // C1 Wave 4 Slice C3: `choice` filters (reached by the `string` metadata type) render via React
+  // (choice-filter-react extends the legacy choice-filter — the operator AknDropdown + Select2 value
+  // field). The legacy `oro/datafilter/choice-filter` module stays for number/identifier/parent/uuid.
+  choice: 'oro/datafilter/choice-filter-react',
   date: 'oro/datafilter/date-filter',
   datetime: 'oro/datafilter/datetime-filter',
   'grouped-variant': 'oro/datafilter/grouped-variant-filter',

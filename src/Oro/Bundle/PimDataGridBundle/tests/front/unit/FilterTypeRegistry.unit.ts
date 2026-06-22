@@ -15,7 +15,7 @@ describe('FILTER_TYPE_ALIASES', () => {
 
 describe('FILTER_MODULE_IDS', () => {
   test('ajax-choice', () => expect(FILTER_MODULE_IDS['ajax-choice']).toBe('oro/datafilter/ajax-choice-filter'));
-  test('choice', () => expect(FILTER_MODULE_IDS['choice']).toBe('oro/datafilter/choice-filter'));
+  test('choice', () => expect(FILTER_MODULE_IDS['choice']).toBe('oro/datafilter/choice-filter-react'));
   test('date', () => expect(FILTER_MODULE_IDS['date']).toBe('oro/datafilter/date-filter'));
   test('datetime', () => expect(FILTER_MODULE_IDS['datetime']).toBe('oro/datafilter/datetime-filter'));
   test('grouped-variant', () =>
@@ -69,7 +69,8 @@ describe('resolveFilterModuleId', () => {
   });
 
   describe('aliased types', () => {
-    test('string → choice-filter', () => expect(resolveFilterModuleId('string')).toBe('oro/datafilter/choice-filter'));
+    test('string → choice-filter-react', () =>
+      expect(resolveFilterModuleId('string')).toBe('oro/datafilter/choice-filter-react'));
     test('choice → select-filter', () => expect(resolveFilterModuleId('choice')).toBe('oro/datafilter/select-filter'));
     test('boolean → select-filter (same as choice)', () =>
       expect(resolveFilterModuleId('boolean')).toBe('oro/datafilter/select-filter'));
