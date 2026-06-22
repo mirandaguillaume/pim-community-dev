@@ -39,7 +39,10 @@ export const FILTER_MODULE_IDS = {
   'select-row': 'oro/datafilter/select-row-filter',
   'select2-choice': 'oro/datafilter/select2-choice-filter',
   'select2-rest-choice': 'oro/datafilter/select2-rest-choice-filter',
-  text: 'oro/datafilter/text-filter',
+  // C1 Wave 4 Slice C1: `text` filters render via React (text-filter-react extends the legacy
+  // text-filter). The legacy `oro/datafilter/text-filter` module stays for the select2/ajax-choice
+  // filters that `TextFilter.extend` it.
+  text: 'oro/datafilter/text-filter-react',
   uuid: 'oro/datafilter/uuid-filter',
 } as const;
 
