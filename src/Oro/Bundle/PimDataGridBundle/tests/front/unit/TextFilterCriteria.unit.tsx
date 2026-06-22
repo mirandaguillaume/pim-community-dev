@@ -8,6 +8,7 @@ const props = (over = {}) => ({
   criteriaHint: 'All',
   canDisable: false,
   updateLabel: 'Update',
+  isOpen: false,
   ...over,
 });
 
@@ -57,4 +58,14 @@ test('renders the disable button only when canDisable is true', () => {
 
   const cannot = render(<TextFilterCriteria {...props({canDisable: false})} />);
   expect(cannot.container.querySelector('.disable-filter')).toBeNull();
+});
+
+test('positions the popup (position:fixed via the hook) only when isOpen is true', () => {
+  const open = render(<TextFilterCriteria {...props({isOpen: true})} />);
+  const openPopup = open.container.querySelector('.filter-criteria') as HTMLElement;
+  expect(openPopup.style.position).toBe('fixed');
+
+  const closed = render(<TextFilterCriteria {...props({isOpen: false})} />);
+  const closedPopup = closed.container.querySelector('.filter-criteria') as HTMLElement;
+  expect(closedPopup.style.position).toBe('');
 });
