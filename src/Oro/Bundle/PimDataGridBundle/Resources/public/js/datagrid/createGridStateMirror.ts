@@ -12,16 +12,27 @@ type StatefulCollection = {
 };
 
 /**
+ * The collection events the mirror re-syncs on — the SAME set `collection-filters-manager.js` binds
+ * to track state. `reset` (Backbone-native, fired by `PageableCollection.reset` after each fetch, once
+ * `parse` has set totalRecords/totalPages) is the settled signal; `beforeFetch` captures the page/sort/
+ * filter writes made just before a request. `updateState` is the one-shot initial-render signal
+ * (`state-listener.js` fires it via `mediator.once('datagrid_filters:rendered')`).
+ *
+ * NB: `reset` is required — the collection's `updateState()` METHOD (which would `trigger('updateState')`
+ * after each state change) has no callers in the bundle, so binding `updateState` alone leaves the
+ * mirror stuck on its seed value after the first fetch.
+ */
+const SYNC_EVENTS = ['reset', 'beforeFetch', 'updateState'];
+
+/**
  * Wave 5 — the bridge that keeps the RTK `gridState` mirror in sync with the authoritative Backbone
  * `collection.state`.
  *
- * The collection already fires `this.trigger('updateState', this, this.state)` (pageable-collection.js,
- * in `reset`) after every fetch — i.e. once the state is settled (`totalRecords` received, `totalPages`
- * derived, `currentPage` clamped). The mirror seeds the store with the current state, then re-syncs on
- * each `updateState`. It never touches Backbone (no fetch path change), so it carries no regression
- * risk: Backbone stays authoritative, RTK is a downstream reflection.
+ * Seeds the store with the current state, then re-syncs on each settle event (see `SYNC_EVENTS`). It
+ * never touches Backbone (no fetch-path change), so it carries no regression risk: Backbone stays
+ * authoritative, RTK is a downstream reflection.
  *
- * Returns a teardown that detaches the listener.
+ * Returns a teardown that detaches every listener.
  */
 export const createGridStateMirror = (collection: StatefulCollection, store: GridStore): (() => void) => {
   const sync = (): void => {
@@ -29,9 +40,9 @@ export const createGridStateMirror = (collection: StatefulCollection, store: Gri
   };
 
   sync();
-  collection.on('updateState', sync);
+  SYNC_EVENTS.forEach(event => collection.on(event, sync));
 
-  return () => collection.off('updateState', sync);
+  return () => SYNC_EVENTS.forEach(event => collection.off(event, sync));
 };
 
 export default createGridStateMirror;

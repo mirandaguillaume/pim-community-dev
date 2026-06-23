@@ -50,9 +50,29 @@ describe('toGridState', () => {
     expect('gridName' in without).toBe(false);
     expect('totalProducts' in without).toBe(false);
 
-    const withOpt = toGridState({...base, gridName: 'product-grid', totalProducts: 7});
+    const withOpt = toGridState({
+      ...base,
+      gridName: 'product-grid',
+      gridView: 42,
+      totalProducts: 7,
+      totalProductModels: 3,
+    });
     expect(withOpt.gridName).toBe('product-grid');
+    expect(withOpt.gridView).toBe(42);
     expect(withOpt.totalProducts).toBe(7);
+    expect(withOpt.totalProductModels).toBe(3);
+  });
+
+  test('clones the optional parameters object (setAdditionalParameter mutates the live one in place)', () => {
+    const base = {currentPage: 1, pageSize: 25, totalRecords: 0, totalPages: 1, sorters: {}, filters: {}};
+    const parameters = {scope: 'ecommerce'};
+
+    const without = toGridState(base);
+    expect('parameters' in without).toBe(false);
+
+    const result = toGridState({...base, parameters});
+    expect(result.parameters).toEqual(parameters);
+    expect(result.parameters).not.toBe(parameters);
   });
 
   test('falls back to defaults for missing core fields', () => {
