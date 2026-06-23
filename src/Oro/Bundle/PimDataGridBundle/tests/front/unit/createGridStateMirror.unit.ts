@@ -39,7 +39,34 @@ test('seeds the store with the current collection state on creation', () => {
   expect(store.getState().gridState.filters).toEqual({a: 1});
 });
 
-test('re-syncs the store on each updateState event', () => {
+test('re-syncs on the `reset` event (the real post-fetch settle signal)', () => {
+  const store = makeStore();
+  const collection = makeCollection(baseState());
+  createGridStateMirror(collection, store);
+
+  // Simulate a settled fetch: parse() has updated totalRecords/currentPage, then reset() fires `reset`.
+  collection.state.currentPage = 2;
+  collection.state.totalRecords = 137;
+  collection.state.filters = {enabled: true};
+  collection.trigger('reset');
+
+  expect(store.getState().gridState.currentPage).toBe(2);
+  expect(store.getState().gridState.totalRecords).toBe(137);
+  expect(store.getState().gridState.filters).toEqual({enabled: true});
+});
+
+test('re-syncs on the `beforeFetch` event (page/filter writes made just before the request)', () => {
+  const store = makeStore();
+  const collection = makeCollection(baseState());
+  createGridStateMirror(collection, store);
+
+  collection.state.currentPage = 5;
+  collection.trigger('beforeFetch');
+
+  expect(store.getState().gridState.currentPage).toBe(5);
+});
+
+test('re-syncs on the `updateState` event (the one-shot initial-render signal)', () => {
   const store = makeStore();
   const collection = makeCollection(baseState());
   createGridStateMirror(collection, store);
@@ -52,13 +79,15 @@ test('re-syncs the store on each updateState event', () => {
   expect(store.getState().gridState.totalRecords).toBe(80);
 });
 
-test('the teardown detaches the updateState listener', () => {
+test('the teardown detaches every settle listener (reset/beforeFetch/updateState)', () => {
   const store = makeStore();
   const collection = makeCollection(baseState());
   const teardown = createGridStateMirror(collection, store);
 
   teardown();
   collection.state.currentPage = 9;
+  collection.trigger('reset');
+  collection.trigger('beforeFetch');
   collection.trigger('updateState');
 
   expect(store.getState().gridState.currentPage).toBe(1);
@@ -71,9 +100,38 @@ test('does not share the live filters reference with the store (clone, so Immer 
 
   createGridStateMirror(collection, store);
 
-  // The store froze its copy; mutating the live object must stay legal (not the frozen one).
   expect(() => {
     (liveFilters as Record<string, unknown>).enabled = false;
   }).not.toThrow();
   expect(store.getState().gridState.filters).toEqual({enabled: true});
+});
+
+test('does not freeze the live sorters object (Backbone mutates it IN PLACE via setSorting)', () => {
+  const store = makeStore();
+  const liveSorters = {label: 1};
+  const collection = makeCollection({...baseState(), sorters: liveSorters});
+
+  createGridStateMirror(collection, store); // dispatch → Immer freezes the store's clone
+
+  // setSorting does `delete state.sorters[k]` / `state.sorters[k] = order` in place — must stay legal.
+  expect(() => {
+    delete (liveSorters as Record<string, unknown>).label;
+    (liveSorters as Record<string, unknown>).price = -1;
+  }).not.toThrow();
+  expect(store.getState().gridState.sorters).toEqual({label: 1});
+});
+
+test('does not freeze the live parameters object (setAdditionalParameter mutates it IN PLACE)', () => {
+  const store = makeStore();
+  const liveParameters = {scope: 'ecommerce'};
+  const collection = makeCollection({...baseState(), parameters: liveParameters});
+
+  createGridStateMirror(collection, store);
+
+  // setAdditionalParameter does `state.parameters[name] = value` / `delete state.parameters[name]`.
+  expect(() => {
+    (liveParameters as Record<string, unknown>).locale = 'en_US';
+    delete (liveParameters as Record<string, unknown>).scope;
+  }).not.toThrow();
+  expect(store.getState().gridState.parameters).toEqual({scope: 'ecommerce'});
 });

@@ -103,8 +103,8 @@ export default Backgrid.Grid.extend({
     this.collection.multipleSorting = this.multipleSorting;
 
     // Wave 5: a per-grid RTK store mirroring collection.state (kept in sync from the collection's
-    // `updateState` event). Backbone stays authoritative; React filter managers (Wave D/E) read this
-    // store via useSelector. Exposed as `this.gridStore`.
+    // settle events — reset/beforeFetch/updateState). Backbone stays authoritative; React filter
+    // managers (Wave D/E) read this store via useSelector. Exposed as `this.gridStore`.
     this.gridStore = createGridStore();
     this._gridStateMirror = createGridStateMirror(this.collection, this.gridStore);
 
@@ -472,8 +472,8 @@ export default Backgrid.Grid.extend({
   /**
    * {@inheritdoc}
    *
-   * Detach the Wave 5 grid-state mirror (its `collection.on('updateState')` binding is direct, so
-   * Backbone's stopListening would not clean it up) before the standard view teardown.
+   * Detach the Wave 5 grid-state mirror (its `collection.on(...)` bindings are direct, so Backbone's
+   * stopListening would not clean them up) before the standard view teardown.
    */
   remove: function () {
     if (this._gridStateMirror) {

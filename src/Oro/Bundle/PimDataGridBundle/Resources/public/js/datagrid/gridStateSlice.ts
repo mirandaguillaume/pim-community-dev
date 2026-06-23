@@ -6,8 +6,9 @@ import {GridState, GridStateReadView} from './GridState';
  *
  * MIRROR approach: the Backbone `PageableCollection` stays authoritative (it keeps owning fetch /
  * parse / `_checkState`). This slice holds a read-only copy, kept in sync by `createGridStateMirror`
- * from the collection's `updateState` event, so React zones (the Wave D/E filter managers) can read
- * grid state via `useSelector` without reaching into the mutable Backbone object.
+ * from the collection's settle events (`reset`/`beforeFetch`/`updateState`), so React zones (the Wave
+ * D/E filter managers) can read grid state via `useSelector` without reaching into the mutable
+ * Backbone object.
  *
  * The only reducer is a wholesale `setGridState` replace — the mirror reflects the authoritative state
  * as a unit; granular reducers belong to a future write-authority phase, not the mirror.
