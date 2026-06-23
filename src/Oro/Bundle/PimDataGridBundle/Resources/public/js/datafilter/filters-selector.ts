@@ -1,10 +1,10 @@
 import BaseView from 'pimui/js/view/base';
-import * as _ from 'underscore';
 
 import mediator from 'oro/mediator';
 import requireContext from 'require-context';
 import {resolveFilterModuleId} from 'oro/datafilter/filter-type-registry';
 import createGridStateFilterWriter from '../datagrid/createGridStateFilterWriter';
+import {computeFilterState, mergeCategoryFilter, shouldReloadGridState} from './filtersSelectorHelpers';
 
 interface FilterModule extends Backbone.View<any> {
   enabled: boolean;
@@ -157,36 +157,14 @@ class FiltersSelector extends BaseView {
   }
 
   getState(): FilterState {
-    let filterState: FilterState = {};
-
-    for (let filterName in this.modules) {
-      const filter = this.modules[filterName];
-      const shortName = `__${filterName}`;
-
-      if (filter.enabled) {
-        if (!filter.isEmpty()) {
-          filterState[filterName] = filter.getValue();
-        } else if (!filter.defaultEnabled) {
-          filterState[shortName] = 1;
-        }
-      } else if (filter.defaultEnabled) {
-        filterState[shortName] = 0;
-      }
-    }
-
-    return filterState;
+    return computeFilterState(this.modules);
   }
 
   updateGridState(): void {
-    const categoryFilter: FilterState = {...this.categoryFilter};
     const currentState: FilterState = this.datagridCollection.state.filters;
-    const updatedState: FilterState = Object.assign(this.getState(), categoryFilter);
+    const updatedState: FilterState = mergeCategoryFilter(this.getState(), this.categoryFilter);
 
-    const stateHasChanged = !_.isEqual(currentState, updatedState);
-    const currentStateIsEmpty = _.isEmpty(currentState);
-    const shouldReloadState = (stateHasChanged || currentStateIsEmpty) && false === this.silent;
-
-    if (shouldReloadState) {
+    if (shouldReloadGridState(currentState, updatedState, this.silent)) {
       const stateWriter = createGridStateFilterWriter(this.datagridCollection);
       stateWriter.setFilters(updatedState);
       stateWriter.resetPage();
