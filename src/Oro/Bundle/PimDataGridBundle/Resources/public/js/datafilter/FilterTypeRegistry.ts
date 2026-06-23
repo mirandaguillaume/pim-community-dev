@@ -30,7 +30,7 @@ export const FILTER_MODULE_IDS = {
   multiselect: 'oro/datafilter/multiselect-filter',
   none: 'oro/datafilter/none-filter',
   number: 'oro/datafilter/number-filter-react',
-  parent: 'oro/datafilter/parent-filter',
+  parent: 'oro/datafilter/parent-filter-react',
   price: 'oro/datafilter/price-filter',
   product_and_product_model_completeness: 'oro/datafilter/product_completeness-filter',
   product_category: 'oro/datafilter/product_category-filter',

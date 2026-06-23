@@ -27,7 +27,7 @@ describe('FILTER_MODULE_IDS', () => {
   test('multiselect', () => expect(FILTER_MODULE_IDS['multiselect']).toBe('oro/datafilter/multiselect-filter'));
   test('none', () => expect(FILTER_MODULE_IDS['none']).toBe('oro/datafilter/none-filter'));
   test('number', () => expect(FILTER_MODULE_IDS['number']).toBe('oro/datafilter/number-filter-react'));
-  test('parent', () => expect(FILTER_MODULE_IDS['parent']).toBe('oro/datafilter/parent-filter'));
+  test('parent', () => expect(FILTER_MODULE_IDS['parent']).toBe('oro/datafilter/parent-filter-react'));
   test('price', () => expect(FILTER_MODULE_IDS['price']).toBe('oro/datafilter/price-filter'));
   test('product_and_product_model_completeness', () =>
     expect(FILTER_MODULE_IDS['product_and_product_model_completeness']).toBe(
