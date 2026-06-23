@@ -24,12 +24,12 @@ export const FILTER_MODULE_IDS = {
   date: 'oro/datafilter/date-filter',
   datetime: 'oro/datafilter/datetime-filter',
   'grouped-variant': 'oro/datafilter/grouped-variant-filter',
-  identifier: 'oro/datafilter/identifier-filter',
+  identifier: 'oro/datafilter/identifier-filter-react',
   label_or_identifier: 'oro/datafilter/label_or_identifier-filter',
   metric: 'oro/datafilter/metric-filter',
   multiselect: 'oro/datafilter/multiselect-filter',
   none: 'oro/datafilter/none-filter',
-  number: 'oro/datafilter/number-filter',
+  number: 'oro/datafilter/number-filter-react',
   parent: 'oro/datafilter/parent-filter',
   price: 'oro/datafilter/price-filter',
   product_and_product_model_completeness: 'oro/datafilter/product_completeness-filter',
@@ -46,7 +46,7 @@ export const FILTER_MODULE_IDS = {
   // text-filter). The legacy `oro/datafilter/text-filter` module stays for the select2/ajax-choice
   // filters that `TextFilter.extend` it.
   text: 'oro/datafilter/text-filter-react',
-  uuid: 'oro/datafilter/uuid-filter',
+  uuid: 'oro/datafilter/uuid-filter-react',
 } as const;
 
 export type CanonicalFilterType = keyof typeof FILTER_MODULE_IDS;
