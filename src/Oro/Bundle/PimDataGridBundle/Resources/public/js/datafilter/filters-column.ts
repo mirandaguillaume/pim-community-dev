@@ -6,18 +6,12 @@ import filterColumnTemplate from 'pim/template/datagrid/filter-column';
 import filterGroupTemplate from 'pim/template/datagrid/filter-group';
 import mediator from 'oro/mediator';
 import Routing from 'routing';
+import {mergeAddedFilters, filterBySearchTerm, groupFilters, GridFilter} from './filtersColumnHelpers';
 
 interface FiltersConfig {
   title: string;
   description: string;
   attributeFiltersRoute: string;
-}
-
-interface GridFilter {
-  group: string;
-  label: string;
-  name: string;
-  enabled: boolean;
 }
 
 class FiltersColumn extends BaseView {
@@ -105,24 +99,6 @@ class FiltersColumn extends BaseView {
     return $.get(search ? `${url}?search=${search}&locale=${locale}` : `${url}?page=${page}&locale=${locale}`);
   }
 
-  mergeAddedFilters(originalFilters: GridFilter[], addedFilters: GridFilter[]): GridFilter[] {
-    const enabledFilters = Object.keys(this.gridCollection.state.filters);
-    const filters = [...originalFilters, ...addedFilters];
-    const uniqueFilters: GridFilter[] = [];
-
-    filters.forEach(mergedFilter => {
-      if (enabledFilters.includes(mergedFilter.name)) {
-        mergedFilter.enabled = true;
-      }
-
-      if (undefined === uniqueFilters.find(searchedFilter => searchedFilter.name === mergedFilter.name)) {
-        uniqueFilters.push(mergedFilter);
-      }
-    });
-
-    return uniqueFilters;
-  }
-
   fetchNextFilters(event: JQueryMouseEventObject): void {
     const list: any = event.currentTarget;
     const scrollPosition = Math.max(0, list.scrollTop);
@@ -137,7 +113,11 @@ class FiltersColumn extends BaseView {
           return this.stopListeningToListScroll();
         }
 
-        this.loadedFilters = this.mergeAddedFilters(this.loadedFilters, loadedFilters);
+        this.loadedFilters = mergeAddedFilters(
+          this.loadedFilters,
+          loadedFilters,
+          Object.keys(this.gridCollection.state.filters)
+        );
 
         this.renderFilters();
         this.hideLoading();
@@ -174,21 +154,19 @@ class FiltersColumn extends BaseView {
     }
 
     return this.fetchFilters(searchValue, 1).then((loadedFilters: GridFilter[]) => {
-      const defaultFilters: GridFilter[] = this.mergeAddedFilters(this.defaultFilters, loadedFilters);
-      this.loadedFilters = this.mergeAddedFilters(this.loadedFilters, defaultFilters);
-      this.searchedFilters = this.filterBySearchTerm(defaultFilters, searchValue);
+      const defaultFilters: GridFilter[] = mergeAddedFilters(
+        this.defaultFilters,
+        loadedFilters,
+        Object.keys(this.gridCollection.state.filters)
+      );
+      this.loadedFilters = mergeAddedFilters(
+        this.loadedFilters,
+        defaultFilters,
+        Object.keys(this.gridCollection.state.filters)
+      );
+      this.searchedFilters = filterBySearchTerm(defaultFilters, searchValue);
 
       return this.renderFilters();
-    });
-  }
-
-  filterBySearchTerm(filters: GridFilter[], searchValue: string) {
-    return filters.filter((filter: GridFilter) => {
-      const label: string = filter.label.toLowerCase();
-      const name: string = filter.name.toLowerCase();
-      const search: string = searchValue.toLowerCase();
-
-      return label.includes(search) || name.includes(search);
     });
   }
 
@@ -201,7 +179,7 @@ class FiltersColumn extends BaseView {
   }
 
   renderFilters(filters = this.searchedFilters || this.loadedFilters): void {
-    const groupedFilters: {[name: string]: GridFilter[]} = this.groupFilters(filters);
+    const groupedFilters: {[name: string]: GridFilter[]} = groupFilters(filters);
     const list = document.createDocumentFragment();
     const filterColumn = $(this.filterList).find('.filters-column');
 
@@ -229,7 +207,11 @@ class FiltersColumn extends BaseView {
     this.showLoading();
 
     this.fetchFilters().then((loadedFilters: GridFilter[]) => {
-      this.loadedFilters = this.mergeAddedFilters(this.defaultFilters, loadedFilters);
+      this.loadedFilters = mergeAddedFilters(
+        this.defaultFilters,
+        loadedFilters,
+        Object.keys(this.gridCollection.state.filters)
+      );
       this.renderFilters();
       this.listenToListScroll();
       this.triggerFiltersUpdated();
@@ -256,10 +238,6 @@ class FiltersColumn extends BaseView {
       groupName,
       ignoredFilters: this.ignoredFilters,
     });
-  }
-
-  groupFilters(filters: GridFilter[]): any {
-    return _.groupBy(filters, (filter: GridFilter) => filter.group || 'System');
   }
 
   configure() {
