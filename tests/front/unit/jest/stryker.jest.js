@@ -154,6 +154,8 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStore.unit.ts',
     // DataGrid filter managers (C1 slice D/E, E1) — filters-selector pure state helpers.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/filtersSelectorHelpers.unit.ts',
+    // DataGrid filter managers (C1 slice D/E, D1a) — filters-column pure helpers.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/filtersColumnHelpers.unit.ts',
   ],
   // public/bundles/ does not exist in the sandbox; akeneopimstructure/ and pimui/
   // are already handled by moduleNameMapper above and in unit.jest.js.
