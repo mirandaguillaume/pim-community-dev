@@ -12,6 +12,10 @@ interface FiltersConfig {
   title: string;
   description: string;
   attributeFiltersRoute: string;
+  // Hide the "Manage filters" add button (default shown). Non-product grids set `manageFilters: false`
+  // and the legacy `filters-manager` hid the button on that flag; this preserves that when those grids
+  // re-point to `filters-column` (the product grid leaves it unset → button shown, unchanged).
+  displayManageFilters?: boolean;
 }
 
 class FiltersColumn extends BaseView {
@@ -257,6 +261,7 @@ class FiltersColumn extends BaseView {
       this.filterColumnTemplate({
         filtersLabel: __('pim_datagrid.filters.label'),
         doneLabel: __('pim_common.done'),
+        displayManageFilters: false !== this.config.displayManageFilters,
       })
     );
     this.filterList = this.$el.find('.filter-list').appendTo($('body'));
