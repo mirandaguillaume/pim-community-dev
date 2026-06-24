@@ -38,13 +38,15 @@ extensions:
         config:
             tab: pim-menu-exports
 
-    pim-export-profile-index-filters-list:
-        module: oro/datafilter/filters-list
+    pim-export-profile-index-filters-column:
+        module: oro/datafilter/filters-column
         parent: pim-export-profile-index-grid-container
         targetZone: filters
+        config:
+            displayManageFilters: false
 
-    pim-export-profile-index-filters-manage:
-        module: oro/datafilter/filters-button
+    pim-export-profile-index-filters-selector:
+        module: oro/datafilter/filters-selector
         parent: pim-export-profile-index-grid-container
         targetZone: filters
 

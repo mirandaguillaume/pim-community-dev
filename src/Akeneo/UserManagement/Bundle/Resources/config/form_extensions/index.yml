@@ -39,13 +39,15 @@ extensions:
             tab: pim-menu-system
             item: pim-menu-system-user-user
 
-    pim-user-index-filters-list:
-        module: oro/datafilter/filters-list
+    pim-user-index-filters-column:
+        module: oro/datafilter/filters-column
         parent: pim-user-index-grid-container
         targetZone: filters
+        config:
+            displayManageFilters: false
 
-    pim-user-index-filters-manage:
-        module: oro/datafilter/filters-button
+    pim-user-index-filters-selector:
+        module: oro/datafilter/filters-selector
         parent: pim-user-index-grid-container
         targetZone: filters
 
