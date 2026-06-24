@@ -1,12 +1,12 @@
 import BaseView from 'pimui/js/view/base';
-import * as _ from 'underscore';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import __ from 'oro/translator';
-import filterColumnTemplate from 'pim/template/datagrid/filter-column';
-import filterGroupTemplate from 'pim/template/datagrid/filter-group';
 import mediator from 'oro/mediator';
 import Routing from 'routing';
 import {mergeAddedFilters, filterBySearchTerm, groupFilters, GridFilter} from './filtersColumnHelpers';
+import FilterColumnPanel from './FilterColumnPanel';
 
 interface FiltersConfig {
   title: string;
@@ -14,22 +14,25 @@ interface FiltersConfig {
   attributeFiltersRoute: string;
 }
 
+/**
+ * The "Manage filters" panel (C1 slice D/E, D1b). The panel UI is rendered by React
+ * (`FilterColumnPanel`, portaled to `<body>`); this Backbone shell keeps owning the orchestration —
+ * the `$.get` attribute fetch, the loaded/searched filter state, the infinite-scroll paging and the
+ * mediator contract (emit `filters-column:update-filters`; listen `datagrid_collection_set_after` /
+ * `filters-selector:disable-filter`). It feeds the component the grouped filters + callbacks and
+ * re-renders on every state change; the component owns only the open/close, search box and scroll.
+ */
 class FiltersColumn extends BaseView {
   public defaultFilters: GridFilter[] = [];
-  public filterList!: JQuery<Element>;
   public gridCollection: any;
   public ignoredFilters!: string[];
   public loadedFilters: GridFilter[] = [];
-  public loading!: boolean;
-  public opened = false;
+  public loading = false;
   public page: number = 1;
-  public timer: any;
-  public searchSelector: string;
   private searchedFilters?: GridFilter[];
+  private hasMore = true;
 
   readonly config!: FiltersConfig;
-  readonly filterColumnTemplate = _.template(filterColumnTemplate);
-  readonly filterGroupTemplate = _.template(filterGroupTemplate);
 
   constructor(options: {config: FiltersConfig}) {
     super(options);
@@ -39,47 +42,6 @@ class FiltersColumn extends BaseView {
     this.gridCollection = {};
     this.ignoredFilters = ['scope'];
     this.loadedFilters = [];
-    this.searchSelector = 'input[type="search"]';
-  }
-
-  public events(): Backbone.EventsHash {
-    return {
-      'click [data-toggle]': 'togglePanel',
-    };
-  }
-
-  togglePanel() {
-    this.opened = !this.opened;
-    let timer: any = null;
-
-    if (this.opened) {
-      $(this.filterList).show();
-
-      timer = setTimeout(() => {
-        $(this.filterList).addClass('AknFilterBox-column--expanded');
-        $(this.searchSelector, this.filterList).focus();
-        clearTimeout(timer);
-      }, 100);
-    } else {
-      $(this.filterList).removeClass('AknFilterBox-column--expanded');
-      timer = setTimeout(() => {
-        $(this.filterList).hide();
-        clearTimeout(timer);
-      }, 200);
-    }
-  }
-
-  toggleFilter(event: JQueryEventObject): void {
-    const filterElement: JQuery<Element> = $(event.currentTarget);
-    const name = filterElement.attr('id');
-    const checked = filterElement.is(':checked');
-    const filter = this.loadedFilters.find((filter: GridFilter) => filter.name === name);
-
-    if (filter) {
-      filter.enabled = checked;
-    }
-
-    this.triggerFiltersUpdated();
   }
 
   getLocale(): string {
@@ -99,104 +61,67 @@ class FiltersColumn extends BaseView {
     return $.get(search ? `${url}?search=${search}&locale=${locale}` : `${url}?page=${page}&locale=${locale}`);
   }
 
-  fetchNextFilters(event: JQueryMouseEventObject): void {
-    const list: any = event.currentTarget;
-    const scrollPosition = Math.max(0, list.scrollTop);
-    const bottomPosition = list.scrollHeight - list.offsetHeight;
-    const isBottom = bottomPosition === scrollPosition;
-
-    if (isBottom) {
-      this.page = this.page + 1;
-
-      this.fetchFilters(null, this.page).then(loadedFilters => {
-        if (loadedFilters.length === 0) {
-          return this.stopListeningToListScroll();
-        }
-
-        this.loadedFilters = mergeAddedFilters(
-          this.loadedFilters,
-          loadedFilters,
-          Object.keys(this.gridCollection.state.filters)
-        );
-
-        this.renderFilters();
-        this.hideLoading();
-      });
-    }
+  private activeFilterNames(): string[] {
+    return Object.keys(this.gridCollection.state.filters);
   }
 
-  searchFilters(event: JQueryEventObject): void {
-    if (null !== this.timer) {
-      clearTimeout(this.timer);
+  /**
+   * Toggle a filter on/off (the React checkbox `onChange`): flip `enabled`, broadcast the new set and
+   * re-render so the controlled checkbox reflects the change.
+   */
+  onToggleFilter(name: string, checked: boolean): void {
+    const filter = this.loadedFilters.find((filter: GridFilter) => filter.name === name);
+    if (filter) {
+      filter.enabled = checked;
     }
 
-    if (27 === event.keyCode) {
-      $(this.filterList).find(this.searchSelector).val('').trigger('keyup');
-      return this.togglePanel();
-    }
-
-    if (13 === event.keyCode) {
-      this.doSearch();
-    } else {
-      this.timer = setTimeout(this.doSearch.bind(this), 200);
-    }
+    this.triggerFiltersUpdated();
+    this.renderPanel();
   }
 
-  doSearch() {
-    this.showLoading();
-
-    const searchValue: any = $(this.filterList).find(this.searchSelector).val();
-
+  /**
+   * Run a debounced search (the React search box). Empty term restores the full list; otherwise fetch
+   * the matching attribute filters and narrow the displayed set.
+   */
+  onSearch(searchValue: string): void {
     if (searchValue.length === 0) {
       this.searchedFilters = undefined;
-
-      return this.renderFilters();
+      this.renderPanel();
+      return;
     }
 
-    return this.fetchFilters(searchValue, 1).then((loadedFilters: GridFilter[]) => {
+    this.setLoading(true);
+    this.fetchFilters(searchValue, 1).then((loadedFilters: GridFilter[]) => {
       const defaultFilters: GridFilter[] = mergeAddedFilters(
         this.defaultFilters,
         loadedFilters,
-        Object.keys(this.gridCollection.state.filters)
+        this.activeFilterNames()
       );
-      this.loadedFilters = mergeAddedFilters(
-        this.loadedFilters,
-        defaultFilters,
-        Object.keys(this.gridCollection.state.filters)
-      );
+      this.loadedFilters = mergeAddedFilters(this.loadedFilters, defaultFilters, this.activeFilterNames());
       this.searchedFilters = filterBySearchTerm(defaultFilters, searchValue);
-
-      return this.renderFilters();
+      this.setLoading(false);
     });
   }
 
-  listenToListScroll(): void {
-    $(this.filterList).off('scroll').on('scroll', this.fetchNextFilters.bind(this));
-  }
-
-  stopListeningToListScroll(): void {
-    $(this.filterList).off('scroll');
-  }
-
-  renderFilters(filters = this.searchedFilters || this.loadedFilters): void {
-    const groupedFilters: {[name: string]: GridFilter[]} = groupFilters(filters);
-    const list = document.createDocumentFragment();
-    const filterColumn = $(this.filterList).find('.filters-column');
-
-    filterColumn.empty();
-
-    for (let groupName in groupedFilters) {
-      const group: GridFilter[] = groupedFilters[groupName];
-      const groupElement = this.renderFilterGroup(group, groupName);
-      list.appendChild($(groupElement).get(0) as any);
+  /**
+   * Infinite scroll (the React panel reached its bottom): fetch the next page until a page comes back
+   * empty.
+   */
+  onScrollBottom(): void {
+    if (!this.hasMore) {
+      return;
     }
 
-    filterColumn.append(list);
+    this.page = this.page + 1;
+    this.fetchFilters(null, this.page).then((loadedFilters: GridFilter[]) => {
+      if (loadedFilters.length === 0) {
+        this.hasMore = false;
+        return;
+      }
 
-    const checkbox = $('input[type="checkbox"]', filterColumn);
-    checkbox.off('change');
-    checkbox.on('change', this.toggleFilter.bind(this));
-    this.hideLoading();
+      this.loadedFilters = mergeAddedFilters(this.loadedFilters, loadedFilters, this.activeFilterNames());
+      this.renderPanel();
+    });
   }
 
   loadFilterList(gridCollection: any, gridElement: JQuery<HTMLElement>): void {
@@ -204,16 +129,12 @@ class FiltersColumn extends BaseView {
 
     this.defaultFilters = 'filters' in metadata ? Object.values(metadata.filters) : [];
     this.gridCollection = gridCollection;
-    this.showLoading();
+    this.hasMore = true;
+    this.setLoading(true);
 
     this.fetchFilters().then((loadedFilters: GridFilter[]) => {
-      this.loadedFilters = mergeAddedFilters(
-        this.defaultFilters,
-        loadedFilters,
-        Object.keys(this.gridCollection.state.filters)
-      );
-      this.renderFilters();
-      this.listenToListScroll();
+      this.loadedFilters = mergeAddedFilters(this.defaultFilters, loadedFilters, this.activeFilterNames());
+      this.setLoading(false);
       this.triggerFiltersUpdated();
     });
   }
@@ -225,19 +146,16 @@ class FiltersColumn extends BaseView {
       }
     });
 
-    this.renderFilters();
+    this.renderPanel();
   }
 
   triggerFiltersUpdated(): void {
     mediator.trigger('filters-column:update-filters', this.loadedFilters, this.gridCollection);
   }
 
-  renderFilterGroup(filters: GridFilter[], groupName: string): string {
-    return this.filterGroupTemplate({
-      filters,
-      groupName,
-      ignoredFilters: this.ignoredFilters,
-    });
+  setLoading(loading: boolean): void {
+    this.loading = loading;
+    this.renderPanel();
   }
 
   configure() {
@@ -251,37 +169,31 @@ class FiltersColumn extends BaseView {
    * {@inheritdoc}
    */
   render(): BaseView {
-    $('.filter-list').remove();
-
-    this.$el.html(
-      this.filterColumnTemplate({
-        filtersLabel: __('pim_datagrid.filters.label'),
-        doneLabel: __('pim_common.done'),
-      })
-    );
-    this.filterList = this.$el.find('.filter-list').appendTo($('body'));
-
-    $(this.searchSelector, this.filterList).on('keyup search', this.searchFilters.bind(this));
-    $('.filter-list', this.filterList).on('scroll', this.searchFilters.bind(this));
-    $('.close', this.filterList).on('click', this.togglePanel.bind(this));
-
-    this.hideLoading();
+    this.renderPanel();
 
     return this;
   }
 
+  renderPanel(): void {
+    ReactDOM.render(
+      React.createElement(FilterColumnPanel, {
+        filtersLabel: __('pim_datagrid.filters.label'),
+        doneLabel: __('pim_common.done'),
+        loading: this.loading,
+        groupedFilters: groupFilters(this.searchedFilters || this.loadedFilters),
+        ignoredFilters: this.ignoredFilters,
+        onSearch: this.onSearch.bind(this),
+        onToggleFilter: this.onToggleFilter.bind(this),
+        onScrollBottom: this.onScrollBottom.bind(this),
+      }),
+      this.el
+    );
+  }
+
   shutdown(): void {
-    $(this.filterList).off().remove();
+    ReactDOM.unmountComponentAtNode(this.el);
 
     BaseView.prototype.shutdown.apply(this, []);
-  }
-
-  showLoading(): void {
-    $('.filter-loading').show();
-  }
-
-  hideLoading(): void {
-    $('.filter-loading').hide();
   }
 }
 
