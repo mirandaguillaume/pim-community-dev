@@ -34,13 +34,15 @@ extensions:
             tab: pim-menu-settings
             item: pim-menu-settings-association-type
 
-    pim-association-type-index-grid-filters-list:
-        module: oro/datafilter/filters-list
+    pim-association-type-index-grid-filters-column:
+        module: oro/datafilter/filters-column
         parent: pim-association-type-index-grid-container
         targetZone: filters
+        config:
+            displayManageFilters: false
 
-    pim-association-type-index-grid-filters-manage:
-        module: oro/datafilter/filters-button
+    pim-association-type-index-grid-filters-selector:
+        module: oro/datafilter/filters-selector
         parent: pim-association-type-index-grid-container
         targetZone: filters
 

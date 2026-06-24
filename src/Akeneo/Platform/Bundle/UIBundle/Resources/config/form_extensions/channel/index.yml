@@ -39,13 +39,15 @@ extensions:
             tab: pim-menu-settings
             item: pim-menu-settings-channel
 
-    pim-channel-index-filters-list:
-        module: oro/datafilter/filters-list
+    pim-channel-index-filters-column:
+        module: oro/datafilter/filters-column
         parent: pim-channel-index-grid-container
         targetZone: filters
+        config:
+            displayManageFilters: false
 
-    pim-channel-index-filters-manage:
-        module: oro/datafilter/filters-button
+    pim-channel-index-filters-selector:
+        module: oro/datafilter/filters-selector
         parent: pim-channel-index-grid-container
         targetZone: filters
 
