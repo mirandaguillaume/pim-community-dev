@@ -39,13 +39,17 @@ extensions:
             tab: pim-menu-settings
             item: pim-menu-settings-group
 
-    pim-group-index-filters-list:
-        module: oro/datafilter/filters-list
+    pim-group-index-filters-column:
+        module: oro/datafilter/filters-column
         parent: pim-group-index-grid-container
         targetZone: filters
+        config:
+            # group is metadata-only: NO attributeFiltersRoute (fetchFilters resolves []), and
+            # displayManageFilters:false mirrors the backend manageFilters:false (no add button).
+            displayManageFilters: false
 
-    pim-group-index-filters-manage:
-        module: oro/datafilter/filters-button
+    pim-group-index-filters-selector:
+        module: oro/datafilter/filters-selector
         parent: pim-group-index-grid-container
         targetZone: filters
 
