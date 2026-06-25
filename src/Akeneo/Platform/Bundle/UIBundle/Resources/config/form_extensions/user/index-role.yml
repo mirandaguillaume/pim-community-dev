@@ -39,14 +39,16 @@ extensions:
             tab: pim-menu-system
             item: pim-menu-system-user-role
 
-    pim-user-role-index-filters-list:
-        module: oro/datafilter/filters-list
-        parent:  pim-user-role-index-grid-container
+    pim-user-role-index-filters-column:
+        module: oro/datafilter/filters-column
+        parent: pim-user-role-index-grid-container
         targetZone: filters
+        config:
+            displayManageFilters: false
 
-    pim-user-role-index-filters-manage:
-        module: oro/datafilter/filters-button
-        parent:  pim-user-role-index-grid-container
+    pim-user-role-index-filters-selector:
+        module: oro/datafilter/filters-selector
+        parent: pim-user-role-index-grid-container
         targetZone: filters
 
     pim-user-role-index-pagination:

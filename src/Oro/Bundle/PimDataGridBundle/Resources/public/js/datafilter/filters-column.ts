@@ -183,6 +183,16 @@ class FiltersColumn extends BaseView {
   }
 
   renderFilters(filters = this.searchedFilters || this.loadedFilters): void {
+    // When the add button is hidden (`displayManageFilters: false`) the panel can never be opened, so
+    // its per-filter checkboxes serve no purpose — and rendering them puts hidden checkboxes (labelled
+    // like the filters, e.g. "Code") in the DOM where Behat's `fillField('Code')` matches them instead
+    // of a create-form input ("Cannot set checkbox value: must be a boolean"). Skip rendering them; the
+    // active-filter box (`filters-selector`) is driven separately via `triggerFiltersUpdated`.
+    if (false === this.config.displayManageFilters) {
+      this.hideLoading();
+      return;
+    }
+
     const groupedFilters: {[name: string]: GridFilter[]} = groupFilters(filters);
     const list = document.createDocumentFragment();
     const filterColumn = $(this.filterList).find('.filters-column');
