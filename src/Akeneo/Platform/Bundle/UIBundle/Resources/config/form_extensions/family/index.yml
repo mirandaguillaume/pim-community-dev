@@ -42,13 +42,15 @@ extensions:
             tab: pim-menu-settings
             item: pim-menu-settings-family
 
-    pim-family-index-filters-list:
-        module: oro/datafilter/filters-list
+    pim-family-index-filters-column:
+        module: oro/datafilter/filters-column
         parent: pim-family-index-grid-container
         targetZone: filters
+        config:
+            displayManageFilters: false
 
-    pim-family-index-filters-manage:
-        module: oro/datafilter/filters-button
+    pim-family-index-filters-selector:
+        module: oro/datafilter/filters-selector
         parent: pim-family-index-grid-container
         targetZone: filters
 
