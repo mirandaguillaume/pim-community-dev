@@ -7,6 +7,7 @@ import filterGroupTemplate from 'pim/template/datagrid/filter-group';
 import mediator from 'oro/mediator';
 import Routing from 'routing';
 import {mergeAddedFilters, filterBySearchTerm, groupFilters, GridFilter} from './filtersColumnHelpers';
+import {d5Log} from './d5Debug';
 
 interface FiltersConfig {
   title: string;
@@ -214,6 +215,7 @@ class FiltersColumn extends BaseView {
   }
 
   loadFilterList(gridCollection: any, gridElement: JQuery<HTMLElement>): void {
+    d5Log('filters-column.loadFilterList grid=' + (gridCollection && gridCollection.inputName));
     const metadata = gridElement.data('metadata') || {};
 
     this.defaultFilters = 'filters' in metadata ? Object.values(metadata.filters) : [];

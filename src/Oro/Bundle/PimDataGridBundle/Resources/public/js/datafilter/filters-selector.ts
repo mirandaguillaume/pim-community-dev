@@ -5,6 +5,7 @@ import requireContext from 'require-context';
 import {resolveFilterModuleId} from 'oro/datafilter/filter-type-registry';
 import createGridStateFilterWriter from '../datagrid/createGridStateFilterWriter';
 import {computeFilterState, mergeCategoryFilter, shouldReloadGridState} from './filtersSelectorHelpers';
+import {d5Log} from './d5Debug';
 
 interface FilterModule extends Backbone.View<any> {
   enabled: boolean;
@@ -92,6 +93,18 @@ class FiltersSelector extends BaseView {
   }
 
   renderFilters(filters: FilterDefinition[], datagridCollection: any): void {
+    d5Log(
+      'renderFilters grid=' + (datagridCollection && datagridCollection.inputName) + ' n=' + (filters && filters.length)
+    );
+    try {
+      this._renderFilters(filters, datagridCollection);
+    } catch (err) {
+      d5Log('  renderFilters THREW: ' + (err as Error).message);
+      throw err;
+    }
+  }
+
+  _renderFilters(filters: FilterDefinition[], datagridCollection: any): void {
     this.datagridCollection = datagridCollection;
     const list: DocumentFragment = document.createDocumentFragment();
     const state: FilterState = datagridCollection.state.filters;
@@ -164,10 +177,13 @@ class FiltersSelector extends BaseView {
     const currentState: FilterState = this.datagridCollection.state.filters;
     const updatedState: FilterState = mergeCategoryFilter(this.getState(), this.categoryFilter);
 
-    if (shouldReloadGridState(currentState, updatedState, this.silent)) {
+    const reload = shouldReloadGridState(currentState, updatedState, this.silent);
+    d5Log('updateGridState grid=' + this.datagridCollection.inputName + ' silent=' + this.silent + ' reload=' + reload);
+    if (reload) {
       const stateWriter = createGridStateFilterWriter(this.datagridCollection);
       stateWriter.setFilters(updatedState);
       stateWriter.resetPage();
+      d5Log('  -> FETCH grid=' + this.datagridCollection.inputName);
       this.datagridCollection.fetch();
     }
   }
