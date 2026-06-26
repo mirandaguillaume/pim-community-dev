@@ -7,13 +7,18 @@ extensions:
             columnName: id
             fetcher: product
 
-    pim-association-product-and-product-model-picker-modal-filters-list:
-        module: oro/datafilter/filters-list
+    pim-association-product-and-product-model-picker-modal-filters-column:
+        module: oro/datafilter/filters-column
         parent: pim-associations-product-and-product-model-picker-modal
         targetZone: filters
-
-    pim-association-product-and-product-model-picker-modal-filters-manage:
-        module: oro/datafilter/filters-button
-        parent: pim-association-product-and-product-model-picker-modal-filters-list
         config:
-            displayAsPanel: true
+            displayManageFilters: false
+            # Scope to the picker grid: the parent associations tab has its own `association-product-grid`,
+            # and `datagrid_collection_set_after` is global — without this the modal's filters react to the
+            # tab grid too and race the product save.
+            datagridName: association-product-picker-grid
+
+    pim-association-product-and-product-model-picker-modal-filters-selector:
+        module: oro/datafilter/filters-selector
+        parent: pim-associations-product-and-product-model-picker-modal
+        targetZone: filters
