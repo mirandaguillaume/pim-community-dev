@@ -16,6 +16,12 @@ interface FiltersConfig {
   // and the legacy `filters-manager` hid the button on that flag; this preserves that when those grids
   // re-point to `filters-column` (the product grid leaves it unset → button shown, unchanged).
   displayManageFilters?: boolean;
+  // Bind only to the grid with this name. `datagrid_collection_set_after` is a GLOBAL mediator event, so
+  // on a page with MORE THAN ONE grid (e.g. the associations picker MODAL, whose parent tab has its own
+  // `association-product-grid`) an unscoped filters-column reacts to BOTH grids and cross-contaminates —
+  // re-rendering the wrong grid's filters and racing the product save. Setting `datagridName` makes this
+  // instance ignore events for any other grid. Single-grid pages (the 13 other re-points) leave it unset.
+  datagridName?: string;
 }
 
 class FiltersColumn extends BaseView {
@@ -214,6 +220,13 @@ class FiltersColumn extends BaseView {
   }
 
   loadFilterList(gridCollection: any, gridElement: JQuery<HTMLElement>): void {
+    // Ignore the global `datagrid_collection_set_after` when it is for a different grid than the one this
+    // instance is scoped to (see `datagridName` on FiltersConfig). Prevents the modal's filters from
+    // reacting to the parent associations-tab grid and racing the product save.
+    if (undefined !== this.config.datagridName && gridCollection.inputName !== this.config.datagridName) {
+      return;
+    }
+
     const metadata = gridElement.data('metadata') || {};
 
     this.defaultFilters = 'filters' in metadata ? Object.values(metadata.filters) : [];
@@ -281,6 +294,17 @@ class FiltersColumn extends BaseView {
     $('.close', this.filterList).on('click', this.togglePanel.bind(this));
 
     this.hideLoading();
+
+    // When the add button is hidden (`displayManageFilters: false`), the panel can never be opened, so
+    // it serves no purpose — and leaving it appended to <body> leaks a hidden `.filter-loading
+    // .loading-mask`. Backbone `remove()` only removes `this.$el`, and the modal that hosts this filter
+    // (the associations picker) closes without calling `shutdown()`, so that leftover lingers in <body>.
+    // Behat's save-wait spins on `find('.loading-mask') === null` — which matches by EXISTENCE, not
+    // visibility — so the leftover (display:none) makes "I save the product" time out. Detach it; the
+    // active filter box (`filters-selector`) is unaffected.
+    if (false === this.config.displayManageFilters) {
+      $(this.filterList).remove();
+    }
 
     return this;
   }
