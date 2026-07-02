@@ -295,6 +295,17 @@ class FiltersColumn extends BaseView {
 
     this.hideLoading();
 
+    // When the add button is hidden (`displayManageFilters: false`), the panel can never be opened, so
+    // it serves no purpose — and leaving it appended to <body> leaks a hidden `.filter-loading
+    // .loading-mask`. Backbone `remove()` only removes `this.$el`, and the modal that hosts this filter
+    // (the associations picker) closes without calling `shutdown()`, so that leftover lingers in <body>.
+    // Behat's save-wait spins on `find('.loading-mask') === null` — which matches by EXISTENCE, not
+    // visibility — so the leftover (display:none) makes "I save the product" time out. Detach it; the
+    // active filter box (`filters-selector`) is unaffected.
+    if (false === this.config.displayManageFilters) {
+      $(this.filterList).remove();
+    }
+
     return this;
   }
 
