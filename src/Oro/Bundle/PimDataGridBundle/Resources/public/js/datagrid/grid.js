@@ -11,7 +11,8 @@ import SelectRowCell from 'oro/datagrid/select-row-cell';
 import SelectAllHeaderCell from 'oro/datagrid/select-all-header-cell';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {NoDataBlock} from 'oro/datagrid/no-data-block';
+import {Provider} from 'react-redux';
+import {ConnectedNoDataBlock} from './ConnectedNoDataBlock';
 import template from 'pim/template/common/grid';
 import analytics from 'pim/analytics';
 import createGridStore from './createGridStore';
@@ -366,13 +367,23 @@ export default Backgrid.Grid.extend({
     const entityHint = (
       this.entityHint ? this.entityHint.replace(/_/, ' ') : __('pim_datagrid.entity_hint')
     ).toLowerCase();
-    let hintKey = _.isEmpty(this.collection.state.filters) ? 'pim_datagrid.no_entities' : 'pim_datagrid.no_results';
 
-    if (__(hintKey + '.' + entityHint) !== hintKey + '.' + entityHint) {
-      hintKey += '.' + entityHint;
-    }
+    // Append the entity-specific suffix (e.g. `pim_datagrid.no_entities.products`) only when such a
+    // translation actually exists, otherwise fall back to the generic key. The filter-state branch that
+    // used to pick between the two base keys now lives in `ConnectedNoDataBlock`, which reads it from the
+    // RTK mirror — so we resolve BOTH candidates here and hand them both to the component.
+    const resolveHintKey = baseKey => {
+      const suffixed = baseKey + '.' + entityHint;
+      return __(suffixed) !== suffixed ? suffixed : baseKey;
+    };
 
-    return {hintKey, hintParams: {entityHint}, subHintKey: 'pim_datagrid.no_results_subtitle', imageClass: ''};
+    return {
+      noEntitiesHintKey: resolveHintKey('pim_datagrid.no_entities'),
+      noResultsHintKey: resolveHintKey('pim_datagrid.no_results'),
+      hintParams: {entityHint},
+      subHintKey: 'pim_datagrid.no_results_subtitle',
+      imageClass: '',
+    };
   },
 
   /**
@@ -380,13 +391,24 @@ export default Backgrid.Grid.extend({
    */
   renderNoDataBlock: function () {
     const custom = this.emptyGridOptions;
+    // The custom empty-state (`emptyGridOptions`) is filter-independent, so both candidate keys are the
+    // same fixed hint — `ConnectedNoDataBlock` then renders it regardless of the mirror's filter state.
     const props =
       null != custom
-        ? {hintKey: custom.hint, hintParams: {}, subHintKey: custom.subHint, imageClass: custom.imageClass ?? ''}
+        ? {
+            noEntitiesHintKey: custom.hint,
+            noResultsHintKey: custom.hint,
+            hintParams: {},
+            subHintKey: custom.subHint,
+            imageClass: custom.imageClass ?? '',
+          }
         : this.getDefaultNoDataOptions();
 
     const noDataEl = this.$(this.selectors.noDataBlock)[0];
-    ReactDOM.render(React.createElement(NoDataBlock, props), noDataEl);
+    ReactDOM.render(
+      React.createElement(Provider, {store: this.gridStore}, React.createElement(ConnectedNoDataBlock, props)),
+      noDataEl
+    );
     this.$(this.selectors.noDataBlock).hide();
     this._updateNoDataBlock();
   },
