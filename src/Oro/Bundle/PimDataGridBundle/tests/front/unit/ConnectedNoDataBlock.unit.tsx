@@ -12,7 +12,7 @@ jest.mock(
 );
 
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import {act, render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import {ConnectedNoDataBlock} from '../../../Resources/public/js/datagrid/ConnectedNoDataBlock';
 import {createGridStore} from '../../../Resources/public/js/datagrid/createGridStore';
@@ -64,7 +64,11 @@ describe('ConnectedNoDataBlock', () => {
 
     expect(screen.getByText('pim_datagrid.no_entities')).toBeInTheDocument();
 
-    store.dispatch(setGridState(toGridState({filters: {sku: {value: 'abc', type: 1}}})));
+    // The dispatch drives a react-redux subscription re-render; wrap it in act() so React 17
+    // flushes it before the assertion (otherwise the DOM still shows the pre-update message).
+    act(() => {
+      store.dispatch(setGridState(toGridState({filters: {sku: {value: 'abc', type: 1}}})));
+    });
 
     expect(screen.getByText('pim_datagrid.no_results')).toBeInTheDocument();
   });
