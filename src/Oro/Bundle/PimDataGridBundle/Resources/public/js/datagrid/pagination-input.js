@@ -6,6 +6,7 @@ import Pagination from 'oro/datagrid/pagination';
 import template from 'pim/template/datagrid/pagination';
 import * as Messenger from 'oro/messenger';
 import PaginationBar from './PaginationBar';
+import {makePaginationHandles, getPages as computePages} from './paginationHelpers';
 
 const PaginationInput = Pagination.extend({
   collection: {},
@@ -67,69 +68,22 @@ const PaginationInput = Pagination.extend({
    * {@inheritdoc}
    */
   makeHandles: function () {
-    let handles = [];
-
-    const state = this.collection.state;
-    const currentPage = state.firstPage === 0 ? state.currentPage : state.currentPage - 1;
-    const pageIds = this.getPages();
-
-    if (this.collection.mode !== 'infinite') {
-      let previousId = _.first(pageIds);
-
-      pageIds.forEach(id => {
-        if (id - previousId > 1) {
-          handles.push({
-            label: this.fastForwardHandleConfig.gap.label,
-            title: this.fastForwardHandleConfig.gap.label,
-            className: 'AknActionButton--unclickable',
-          });
-        }
-        previousId = id;
-        handles.push({
-          label: id + 1,
-          title: 'No. ' + (id + 1),
-          className: currentPage === id ? 'active AknActionButton--highlight' : undefined,
-        });
-      });
-
-      if (state.totalRecords > this.maxRescoreWindow && (previousId + 1) * state.pageSize < this.maxRescoreWindow) {
-        handles.push({
-          label: this.fastForwardHandleConfig.gap.label,
-          title: this.fastForwardHandleConfig.gap.label,
-          className: 'AknActionButton--unclickable',
-        });
-      }
-    }
-
-    return handles;
+    return makePaginationHandles(this.collection.state, {
+      windowSize: this.windowSize,
+      maxRescoreWindow: this.maxRescoreWindow,
+      mode: this.collection.mode,
+      gapLabel: this.fastForwardHandleConfig.gap.label,
+    });
   },
 
   /**
    * Returns the list of pages to display
    */
   getPages() {
-    const collection = this.collection;
-    const state = collection.state;
-
-    let lastPage = state.lastPage ? state.lastPage : state.firstPage;
-    lastPage = state.firstPage === 0 ? lastPage : lastPage - 1;
-    const lastAccessiblePage = Math.floor(this.maxRescoreWindow / state.pageSize);
-    const currentPage = state.firstPage === 0 ? state.currentPage : state.currentPage - 1;
-    let windowStart = currentPage - (this.windowSize - 1) / 2;
-    windowStart = Math.max(Math.min(windowStart, lastPage - this.windowSize + 1), 0);
-    const windowEnd = Math.min(windowStart + this.windowSize, lastPage, lastAccessiblePage);
-    let ids = [];
-
-    ids.push(state.firstPage - 1);
-    for (let i = windowStart; i < windowEnd; i++) {
-      ids.push(i);
-    }
-
-    if (state.totalRecords < this.maxRescoreWindow) {
-      ids.push(lastPage);
-    }
-
-    return _.uniq(ids);
+    return computePages(this.collection.state, {
+      windowSize: this.windowSize,
+      maxRescoreWindow: this.maxRescoreWindow,
+    });
   },
 
   /**
