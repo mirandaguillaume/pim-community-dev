@@ -1,0 +1,1 @@
+{"version":3,"file":"ModalContext.js","sourceRoot":"","sources":["../../../src/components/Modal/ModalContext.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,EAAC,UAAU,EAAC,MAAM,OAAO,CAAC;AAExC,IAAM,YAAY,GAAG,KAAK,CAAC,aAAa,CAAC,KAAK,CAAC,CAAC;AAEhD,IAAM,UAAU,GAAG,cAAM,OAAA,UAAU,CAAC,YAAY,CAAC,EAAxB,CAAwB,CAAC;AAElD,OAAO,EAAC,UAAU,EAAE,YAAY,EAAC,CAAC"}

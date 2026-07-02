@@ -1,0 +1,1 @@
+{"version":3,"file":"useSetPageTitle.js","sourceRoot":"","sources":["../../src/hooks/useSetPageTitle.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,SAAS,EAAC,MAAM,OAAO,CAAC;AAEhC,IAAM,eAAe,GAAG,UAAC,KAAa;IACpC,SAAS,CAAC;QACR,QAAQ,CAAC,KAAK,GAAG,KAAK,CAAC;IACzB,CAAC,EAAE,CAAC,KAAK,CAAC,CAAC,CAAC;AACd,CAAC,CAAC;AAEF,OAAO,EAAC,eAAe,EAAC,CAAC"}
