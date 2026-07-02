@@ -122,6 +122,8 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/PaginationBar.unit.tsx',
     // DataGrid no-data block (C1 wave 3) — pure React, no Backbone deps.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/NoDataBlock.unit.tsx',
+    // DataGrid pagination window helper (C1 Wave 5 groundwork) — pure arithmetic, no Backbone deps.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/paginationHelpers.unit.ts',
     // UIBundle product/grid — locale-switcher: Backbone view mocked at test level.
     '<rootDir>/src/Akeneo/Platform/Bundle/UIBundle/tests/front/unit/grid/locale-switcher.unit.tsx',
     // View-selector leaf pieces (C1 Slice A) — pure presentational React, no Backbone in test deps.
