@@ -65,7 +65,10 @@ export const getPages = (
     ids.push(lastPage);
   }
 
-  return [...new Set(ids)];
+  // Dedupe preserving first-occurrence order (was `_.uniq`). Deliberately NOT `[...new Set(ids)]`:
+  // under tsconfig `target: es5` without `downlevelIteration`, spreading a Set transpiles to
+  // array-copy logic that reads `.length`/indices off the Set and silently yields `[]`.
+  return ids.filter((value, index) => ids.indexOf(value) === index);
 };
 
 /**
