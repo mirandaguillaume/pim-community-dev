@@ -1,0 +1,44 @@
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+import { useState } from 'react';
+var lengthUnits = [
+    { label: 'Millimeter', value: 'MILLIMETER', symbol: 'mm' },
+    { label: 'Centimeter', value: 'CENTIMETER', symbol: 'cm' },
+    { label: 'Decimeter', value: 'DECIMETER', symbol: 'dm' },
+    { label: 'Meter', value: 'METER', symbol: 'm' },
+    { label: 'Decameter', value: 'DECAMETER', symbol: 'dam' },
+    { label: 'Kilometer', value: 'KILOMETER', symbol: 'km' },
+];
+var useFakeTableInput = function (linesCount) {
+    var _a = useState(Array.from(Array(linesCount).keys()).map(function (lineIndex) {
+        return {
+            nutritionScore: "".concat((lineIndex % 3) + 1),
+            part: "".concat(lineIndex * 100, "g"),
+            quantity: lineIndex * 10,
+            is_allergenic: [true, false, null][lineIndex % 3],
+            origin: ['french', 'english', 'german', null][lineIndex % 4],
+            length: { unit: lengthUnits[lineIndex].value, amount: "".concat(lineIndex * 1.5) },
+        };
+    })), state = _a[0], setState = _a[1];
+    var _b = useState(''), searchValue = _b[0], setSearchValue = _b[1];
+    var getValue = function (lineIndex, columnName) {
+        return state[lineIndex][columnName];
+    };
+    var setValue = function (lineIndex, columnName, value) {
+        state[lineIndex][columnName] = value;
+        setState(__spreadArray([], state, true));
+    };
+    var match = function (text) {
+        return text.toLowerCase().includes(searchValue.toLowerCase());
+    };
+    return { getValue: getValue, setValue: setValue, searchValue: searchValue, setSearchValue: setSearchValue, match: match, lengthUnits: lengthUnits };
+};
+export { useFakeTableInput };
+//# sourceMappingURL=useFakeTableInput.js.map
