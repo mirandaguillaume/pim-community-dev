@@ -158,6 +158,14 @@ module.exports = {
     // DataGrid choice filter (C1 Wave 4 Slice C3) — operator AknDropdown + choice criteria popup.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/OperatorDropdown.unit.tsx',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/ChoiceFilterCriteria.unit.tsx',
+    // DataGrid parent filter (C1 Wave 4 Slice C5) — the bespoke choice filter; base fully mocked.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/parent-filter-react.unit.tsx',
+    // DataGrid React filter bridges (C1 Wave 5 .js->.ts) — legacy filter base mocked, React inner-render.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/text-filter-react.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/choice-filter-react.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/number-filter-react.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/identifier-filter-react.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/uuid-filter-react.unit.tsx',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',
