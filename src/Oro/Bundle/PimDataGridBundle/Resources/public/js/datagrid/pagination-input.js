@@ -5,7 +5,7 @@ import __ from 'oro/translator';
 import Pagination from 'oro/datagrid/pagination';
 import template from 'pim/template/datagrid/pagination';
 import * as Messenger from 'oro/messenger';
-import PaginationBar from './PaginationBar';
+import ConnectedPaginationBar from './ConnectedPaginationBar';
 import {makePaginationHandles, getPages as computePages} from './paginationHelpers';
 
 const PaginationInput = Pagination.extend({
@@ -112,11 +112,22 @@ const PaginationInput = Pagination.extend({
 
     const state = this.collection.state;
 
+    // The handles are now rebuilt reactively from the RTK mirror inside ConnectedPaginationBar
+    // (useSelector), instead of being computed here from collection.state and pushed as props.
+    // The host keeps the visibility gate above, the click→getPage navigation, and the rescore
+    // warning below. `firstPage` is a static pageable convention, so reading it once is fine.
     this.renderReact(
-      PaginationBar,
+      ConnectedPaginationBar,
       {
-        handles: this.makeHandles(),
-        disabled: !this.enabled || !state.totalRecords,
+        store: this.collection.gridStore,
+        enabled: this.enabled,
+        config: {
+          firstPage: state.firstPage,
+          windowSize: this.windowSize,
+          maxRescoreWindow: this.maxRescoreWindow,
+          mode: this.collection.mode,
+          gapLabel: this.fastForwardHandleConfig.gap.label,
+        },
       },
       this.el
     );

@@ -108,6 +108,10 @@ export default Backgrid.Grid.extend({
     // managers (Wave D/E) read this store via useSelector. Exposed as `this.gridStore`.
     this.gridStore = createGridStore();
     this._gridStateMirror = createGridStateMirror(this.collection, this.gridStore);
+    // Expose the store on the collection so sub-views that only receive the collection via mediator
+    // events (e.g. `pagination-input.js`, whose `ConnectedPaginationBar` reads it with useSelector)
+    // can reach it — they never get a handle on the grid instance itself.
+    this.collection.gridStore = this.gridStore;
 
     this._initRowActions();
 
