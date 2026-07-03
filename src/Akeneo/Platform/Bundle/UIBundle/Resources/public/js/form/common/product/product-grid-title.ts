@@ -1,67 +1,31 @@
 import BaseGridTitle from 'pim/common/grid-title';
-import __ from 'oro/translator';
+import mediator from 'oro/mediator';
+import ConnectedProductGridTitle from 'oro/datagrid/connected-product-grid-title';
 
+/**
+ * Backbone host for the product grid title (C1 Wave 5).
+ *
+ * The counts are no longer copied off `collection.state` here — they are read reactively
+ * from the per-grid RTK mirror by `ConnectedProductGridTitle` (useSelector). This host only
+ * mounts that React tree, bound to the grid's store, on each load completion.
+ */
 class ProductGridTitle extends BaseGridTitle {
-  private totalProducts: number | null = null;
-  private totalProductModels: number | null = null;
+  /**
+   * Bind only to `grid_load:complete`. The base view also re-rendered on `grid_load:start`,
+   * but at that point no counts are loaded (the base rendered nothing — the loading state),
+   * and the mirror still holds its initial values, so mounting then would flash a wrong count.
+   */
+  initialize(config: any): void {
+    this.config = config.config;
+
+    mediator.on('grid_load:complete', this.setupCount.bind(this));
+  }
 
   /**
-   * Setup the count from the collection
-   *
-   * @param {Object} collection
+   * Mount the mirror-backed React title bound to this grid's store.
    */
   setupCount(collection: any): any {
-    this.totalProducts = collection.state.totalProducts;
-    this.totalProductModels = collection.state.totalProductModels;
-
-    return BaseGridTitle.prototype.setupCount.call(this, collection);
-  }
-
-  private inLoadingStatus(): boolean {
-    return null === this.count && null === this.totalProducts && null === this.totalProductModels;
-  }
-
-  private hasTotalProductCountOrProductModelCount(): boolean {
-    return !!this.totalProducts || !!this.totalProductModels;
-  }
-
-  private renderProductAndProductModelCounts(): ProductGridTitle {
-    const productCount = __(
-      'pim_enrich.entity.product.page_title.product',
-      {count: this.totalProducts},
-      this.totalProducts
-    );
-    const productModelCount = __(
-      'pim_enrich.entity.product.page_title.product_model',
-      {count: this.totalProductModels},
-      this.totalProductModels
-    );
-    if (this.totalProducts && !this.totalProductModels) {
-      this.$el.html(productCount);
-    } else if (!this.totalProducts && this.totalProductModels) {
-      this.$el.html(productModelCount);
-    } else {
-      this.$el.html(
-        __('pim_enrich.entity.product.page_title.product_and_product_model', {productCount, productModelCount})
-      );
-    }
-
-    return this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  render(): ProductGridTitle {
-    if (this.inLoadingStatus()) {
-      return this;
-    }
-
-    if (this.hasTotalProductCountOrProductModelCount()) {
-      return this.renderProductAndProductModelCounts();
-    }
-
-    this.$el.html(__(this.config.title, {count: this.count}, this.count));
+    this.renderReact(ConnectedProductGridTitle, {store: collection.gridStore, config: this.config}, this.el);
 
     return this;
   }
