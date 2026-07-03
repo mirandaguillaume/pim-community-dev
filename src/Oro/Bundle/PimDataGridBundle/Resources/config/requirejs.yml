@@ -100,6 +100,7 @@ config:
         oro/datagrid/product-and-product-model-image-cell: pimdatagrid/js/datagrid/cell/product-and-product-model-image-cell.tsx
         oro/datagrid/product-and-product-model-label-cell: pimdatagrid/js/datagrid/cell/product-and-product-model-label-cell.tsx
         oro/datagrid/no-data-block:                        pimdatagrid/js/datagrid/NoDataBlock.tsx
+        oro/datagrid/connected-product-grid-title:         pimdatagrid/js/datagrid/ConnectedProductGridTitle.tsx
         oro/datagrid/grid-state:                           pimdatagrid/js/datagrid/GridState.ts
         oro/datafilter/filter-type-registry:               pimdatagrid/js/datafilter/FilterTypeRegistry.ts
 
