@@ -120,6 +120,8 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/product-and-product-model-label-cell.unit.tsx',
     // DataGrid pagination (C1 wave 3) — presentational bar, pure React, no Backbone in test deps.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/PaginationBar.unit.tsx',
+    // DataGrid connected pagination (C1 Wave 5) — rebuilds the bar from the RTK mirror via useSelector.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/ConnectedPaginationBar.unit.tsx',
     // DataGrid no-data block (C1 wave 3) — pure React, no Backbone deps.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/NoDataBlock.unit.tsx',
     // DataGrid pagination window helper (C1 Wave 5 groundwork) — pure arithmetic, no Backbone deps.
