@@ -166,6 +166,10 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/number-filter-react.unit.tsx',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/identifier-filter-react.unit.tsx',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/uuid-filter-react.unit.tsx',
+    // DataGrid date filter (C1 Wave 5) — DateFilter bridge + DateFilterCriteria popup with the jQuery
+    // Datepicker shielded in a memoized subtree (init on mount / destroy on unmount).
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/date-filter-react.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/DateFilterCriteria.unit.tsx',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',
