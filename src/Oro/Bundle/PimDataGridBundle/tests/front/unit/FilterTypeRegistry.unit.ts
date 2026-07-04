@@ -16,7 +16,7 @@ describe('FILTER_TYPE_ALIASES', () => {
 describe('FILTER_MODULE_IDS', () => {
   test('ajax-choice', () => expect(FILTER_MODULE_IDS['ajax-choice']).toBe('oro/datafilter/ajax-choice-filter'));
   test('choice', () => expect(FILTER_MODULE_IDS['choice']).toBe('oro/datafilter/choice-filter-react'));
-  test('date', () => expect(FILTER_MODULE_IDS['date']).toBe('oro/datafilter/date-filter'));
+  test('date', () => expect(FILTER_MODULE_IDS['date']).toBe('oro/datafilter/date-filter-react'));
   test('datetime', () => expect(FILTER_MODULE_IDS['datetime']).toBe('oro/datafilter/datetime-filter'));
   test('grouped-variant', () =>
     expect(FILTER_MODULE_IDS['grouped-variant']).toBe('oro/datafilter/grouped-variant-filter'));
@@ -54,7 +54,8 @@ describe('resolveFilterModuleId', () => {
   describe('direct types (no alias)', () => {
     test('text → text-filter-react', () =>
       expect(resolveFilterModuleId('text')).toBe('oro/datafilter/text-filter-react'));
-    test('date → date-filter', () => expect(resolveFilterModuleId('date')).toBe('oro/datafilter/date-filter'));
+    test('date → date-filter-react', () =>
+      expect(resolveFilterModuleId('date')).toBe('oro/datafilter/date-filter-react'));
     test('price → price-filter', () => expect(resolveFilterModuleId('price')).toBe('oro/datafilter/price-filter'));
     test('search → search-filter', () => expect(resolveFilterModuleId('search')).toBe('oro/datafilter/search-filter'));
     test('uuid → uuid-filter-react', () =>

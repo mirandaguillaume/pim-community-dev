@@ -21,7 +21,9 @@ export const FILTER_MODULE_IDS = {
   // (choice-filter-react extends the legacy choice-filter — the operator AknDropdown + Select2 value
   // field). The legacy `oro/datafilter/choice-filter` module stays for number/identifier/parent/uuid.
   choice: 'oro/datafilter/choice-filter-react',
-  date: 'oro/datafilter/date-filter',
+  // C1 Wave 5: `date` filters render via React (date-filter-react extends the legacy date-filter — the
+  // operator AknDropdown + the two jQuery Datepicker widgets shielded inside a memoized subtree).
+  date: 'oro/datafilter/date-filter-react',
   datetime: 'oro/datafilter/datetime-filter',
   'grouped-variant': 'oro/datafilter/grouped-variant-filter',
   identifier: 'oro/datafilter/identifier-filter-react',
