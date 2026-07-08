@@ -17,7 +17,7 @@ describe('FILTER_MODULE_IDS', () => {
   test('ajax-choice', () => expect(FILTER_MODULE_IDS['ajax-choice']).toBe('oro/datafilter/ajax-choice-filter'));
   test('choice', () => expect(FILTER_MODULE_IDS['choice']).toBe('oro/datafilter/choice-filter-react'));
   test('date', () => expect(FILTER_MODULE_IDS['date']).toBe('oro/datafilter/date-filter-react'));
-  test('datetime', () => expect(FILTER_MODULE_IDS['datetime']).toBe('oro/datafilter/datetime-filter'));
+  test('datetime', () => expect(FILTER_MODULE_IDS['datetime']).toBe('oro/datafilter/datetime-filter-react'));
   test('grouped-variant', () =>
     expect(FILTER_MODULE_IDS['grouped-variant']).toBe('oro/datafilter/grouped-variant-filter'));
   test('identifier', () => expect(FILTER_MODULE_IDS['identifier']).toBe('oro/datafilter/identifier-filter-react'));
