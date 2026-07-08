@@ -143,6 +143,7 @@ config:
         oro/datafilter/date-filter-react:           pimdatagrid/js/datafilter/filter/date-filter-react
         oro/datafilter/datetime-filter-react:       pimdatagrid/js/datafilter/filter/datetime-filter-react
         oro/datafilter/select2-choice-filter-react: pimdatagrid/js/datafilter/filter/select2-choice-filter-react
+        oro/datafilter/select2-rest-choice-filter-react: pimdatagrid/js/datafilter/filter/select2-rest-choice-filter-react
         oro/datafilter/parent-filter:               pimdatagrid/js/datafilter/filter/parent-filter
         oro/datafilter/parent-filter-react:         pimdatagrid/js/datafilter/filter/parent-filter-react
         oro/datafilter/identifier-filter:           pimdatagrid/js/datafilter/filter/identifier-filter
