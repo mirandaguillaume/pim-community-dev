@@ -44,7 +44,11 @@ export const FILTER_MODULE_IDS = {
   attribute_search: 'oro/datafilter/search-filter',
   select: 'oro/datafilter/select-filter',
   'select-row': 'oro/datafilter/select-row-filter',
-  'select2-choice': 'oro/datafilter/select2-choice-filter',
+  // C1 Wave 5: `select2-choice` renders via React (select2-choice-filter-react extends the legacy
+  // select2-choice-filter — the operator AknDropdown + the multi-select ajax Select2 value field
+  // shielded inside ChoiceFilterCriteria's memoized subtree). `select2-rest-choice` (a sibling, not a
+  // subclass) stays legacy for now.
+  'select2-choice': 'oro/datafilter/select2-choice-filter-react',
   'select2-rest-choice': 'oro/datafilter/select2-rest-choice-filter',
   // C1 Wave 4 Slice C1: `text` filters render via React (text-filter-react extends the legacy
   // text-filter). The legacy `oro/datafilter/text-filter` module stays for the select2/ajax-choice
