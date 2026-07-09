@@ -46,6 +46,35 @@ export default Select2RestChoiceFilter.extend({
   },
 
   /**
+   * {@inheritdoc}
+   *
+   * Force-clear the persisted Select2 widget when the model has no value.
+   *
+   * The inherited `_updateDOMValue` diff-checks the model value against `select2('data')` and
+   * short-circuits when the model value is empty (`_.difference('', [...]) === []`), so it never
+   * clears the widget. That is safe in the legacy filter because `render()` re-creates the
+   * `input[name="value"]` fresh (empty) on every render. Our memoized `ValueField` input persists
+   * across a hide→show cycle instead, so `setValue(emptyValue)` on hide would leave a STALE Select2
+   * value in the widget (with no visible chip). The next `filterBy` then prunes only visible chips,
+   * cannot remove the orphaned id, and accumulates it (e.g. `[boots]` + `sneakers` → `[boots, sneakers]`).
+   * Clearing the widget when the model is empty mirrors the legacy fresh-input render.
+   */
+  _updateDOMValue: function () {
+    const currentValue = this.getValue();
+
+    if (_.isEmpty(currentValue.value) || _.contains(['empty', 'not empty'], currentValue.type)) {
+      const $value = this.$(this.criteriaValueSelectors.value);
+      if ($value.data('select2')) {
+        $value.select2('val', '');
+      }
+
+      return this;
+    }
+
+    return Select2RestChoiceFilter.prototype._updateDOMValue.apply(this, arguments);
+  },
+
+  /**
    * Render (or reconcile) the React chip + criteria popup into `this.el`.
    *
    * @protected

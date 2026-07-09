@@ -57,6 +57,7 @@ jest.mock(
     proto._getInputValue = jest.fn(() => ['red', 'blue']);
     proto._disableInput = jest.fn();
     proto._enableInput = jest.fn();
+    proto._updateDOMValue = jest.fn();
     proto.getValue = function (this: any) {
       return this._value;
     };
@@ -287,6 +288,48 @@ describe('_readDOMValue()', () => {
     filter._selectedOperator = 'empty';
 
     expect(filter._readDOMValue()).toEqual({value: ['red', 'blue'], type: 'in'});
+  });
+});
+
+describe('_updateDOMValue()', () => {
+  test('clears the persisted Select2 widget when the model value is empty (repairs the inherited short-circuit)', () => {
+    const filter: any = new Bridge();
+    filter._value = {type: 'in', value: ''};
+
+    const result = filter._updateDOMValue();
+
+    expect(filter._$el.select2).toHaveBeenCalledWith('val', '');
+    expect(s2Proto()._updateDOMValue).not.toHaveBeenCalled();
+    expect(result).toBe(filter);
+  });
+
+  test('clears the widget for the empty/not-empty operators', () => {
+    const filter: any = new Bridge();
+    filter._value = {type: 'empty', value: {}};
+
+    filter._updateDOMValue();
+
+    expect(filter._$el.select2).toHaveBeenCalledWith('val', '');
+  });
+
+  test('does not touch Select2 when the widget is not initialised', () => {
+    const filter: any = new Bridge();
+    filter._value = {type: 'in', value: ''};
+    filter._$el.data = jest.fn(() => undefined);
+
+    filter._updateDOMValue();
+
+    expect(filter._$el.select2).not.toHaveBeenCalledWith('val', '');
+  });
+
+  test('delegates a value-bearing model to the legacy Select2RestChoiceFilter._updateDOMValue', () => {
+    const filter: any = new Bridge();
+    filter._value = {type: 'in', value: ['red']};
+
+    filter._updateDOMValue();
+
+    expect(s2Proto()._updateDOMValue).toHaveBeenCalledTimes(1);
+    expect(filter._$el.select2).not.toHaveBeenCalledWith('val', '');
   });
 });
 
