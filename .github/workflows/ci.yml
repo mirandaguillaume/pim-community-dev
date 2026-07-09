@@ -1536,7 +1536,12 @@ jobs:
           fi
 
       - name: Install Playwright browsers
-        run: ./node_modules/.bin/playwright install --with-deps chromium
+        run: |
+          # `--with-deps` runs apt; refresh the lists first so a changed PPA
+          # release label (e.g. ondrej/php relabelling) doesn't abort apt with
+          # exit 100 ("changed its 'Label' value").
+          sudo apt-get update --allow-releaseinfo-change
+          ./node_modules/.bin/playwright install --with-deps chromium
 
       - name: Download icecat DB seed
         uses: actions/download-artifact@v4
