@@ -170,6 +170,8 @@ module.exports = {
     // Datepicker shielded in a memoized subtree (init on mount / destroy on unmount).
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/date-filter-react.unit.tsx',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/DateFilterCriteria.unit.tsx',
+    // DataGrid datetime filter (C1 Wave 5) — extends date-filter-react with the time picker options.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/datetime-filter-react.unit.tsx',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',

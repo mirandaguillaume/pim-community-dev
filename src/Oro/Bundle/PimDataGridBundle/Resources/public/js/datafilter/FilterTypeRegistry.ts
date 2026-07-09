@@ -24,7 +24,9 @@ export const FILTER_MODULE_IDS = {
   // C1 Wave 5: `date` filters render via React (date-filter-react extends the legacy date-filter — the
   // operator AknDropdown + the two jQuery Datepicker widgets shielded inside a memoized subtree).
   date: 'oro/datafilter/date-filter-react',
-  datetime: 'oro/datafilter/datetime-filter',
+  // C1 Wave 5: `datetime` reuses date-filter-react (same DateFilterCriteria markup) with the time picker
+  // options (pickTime) — datetime-filter-react extends date-filter-react exactly as the legacy did.
+  datetime: 'oro/datafilter/datetime-filter-react',
   'grouped-variant': 'oro/datafilter/grouped-variant-filter',
   identifier: 'oro/datafilter/identifier-filter-react',
   label_or_identifier: 'oro/datafilter/label_or_identifier-filter',
