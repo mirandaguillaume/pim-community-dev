@@ -43,7 +43,7 @@ describe('FILTER_MODULE_IDS', () => {
   test('select', () => expect(FILTER_MODULE_IDS['select']).toBe('oro/datafilter/select-filter'));
   test('select-row', () => expect(FILTER_MODULE_IDS['select-row']).toBe('oro/datafilter/select-row-filter'));
   test('select2-choice', () =>
-    expect(FILTER_MODULE_IDS['select2-choice']).toBe('oro/datafilter/select2-choice-filter'));
+    expect(FILTER_MODULE_IDS['select2-choice']).toBe('oro/datafilter/select2-choice-filter-react'));
   test('select2-rest-choice', () =>
     expect(FILTER_MODULE_IDS['select2-rest-choice']).toBe('oro/datafilter/select2-rest-choice-filter'));
   test('text', () => expect(FILTER_MODULE_IDS['text']).toBe('oro/datafilter/text-filter-react'));
