@@ -29,7 +29,7 @@ class ChoiceDecorator extends ElementDecorator
     }
 
     /**
-     * Get all available values in this filter
+     * Get all available values in this filter (React DSM overlay or legacy jquery.multiselect menu).
      *
      * @throws \Exception
      *
@@ -37,8 +37,26 @@ class ChoiceDecorator extends ElementDecorator
      */
     public function getAvailableValues()
     {
-        // The multiselect plugin can put many widgets in the DOM.
-        // We have to find the one that is visible and active.
+        // React DSM: open the widget, read the option <span> texts from the <body> portal.
+        $reactWidget = $this->find('css', '[data-testid="select-filter-widget"]');
+        if (null !== $reactWidget) {
+            $reactWidget->click();
+            $options = $this->spin(function () {
+                return $this->getBody()->findAll('css', '[data-testid]');
+            }, 'Cannot find options');
+
+            $values = [];
+            foreach ($options as $option) {
+                // Skip the widget wrapper itself; keep the option spans.
+                if ('select-filter-widget' !== $option->getAttribute('data-testid')) {
+                    $values[] = $option->getText();
+                }
+            }
+
+            return array_filter($values);
+        }
+
+        // Legacy: find the visible/active multiselect menu, read its `li span` texts.
         $multiSelectWidgets = $this->spin(function () {
             return $this->getBody()->findAll('css', '.ui-multiselect-menu.select-filter-widget');
         }, 'Could not find any multiselect widget');
