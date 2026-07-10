@@ -172,6 +172,9 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/DateFilterCriteria.unit.tsx',
     // DataGrid datetime filter (C1 Wave 5) — extends date-filter-react with the time picker options.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/datetime-filter-react.unit.tsx',
+    // DataGrid FilterOptionDropdown (C1 Wave 5) — generic currency/unit AknDropdown, parametrized
+    // sibling of OperatorDropdown, consumed by the upcoming price/metric filter criteria.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/FilterOptionDropdown.unit.tsx',
     // DataGrid select2-choice filter (C1 Wave 5) — extends the legacy select2-choice, reuses
     // ChoiceFilterCriteria; bridge inits/destroys the multi-select ajax Select2 itself.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/select2-choice-filter-react.unit.tsx',
