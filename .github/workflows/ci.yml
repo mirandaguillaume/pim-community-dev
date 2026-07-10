@@ -1088,7 +1088,7 @@ jobs:
   test-phpunit-integration:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, infra-db-seed, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 90
     strategy:
       fail-fast: false
@@ -1137,6 +1137,21 @@ jobs:
           PHPUNIT_SHARD: ${{ matrix.shard }}
           PHPUNIT_TOTAL_SHARDS: 6
           PHPUNIT_TIMING_FILE: .test-timings/phpunit.json
+          # Nightly / on-demand only: emit a per-shard Xdebug clover. Empty on PRs → PR CI
+          # stays coverage-free (no Xdebug overhead). Integration coverage lands on Codecov
+          # nightly; Codecov merges the 6 shards (flag backend-integration) into the total.
+          PHPUNIT_COVERAGE: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && '1' || '' }}
+
+      - name: Upload integration coverage to Codecov (nightly)
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
+        with:
+          files: var/tests/phpunit/coverage-shard-${{ matrix.shard }}.xml
+          flags: backend-integration
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Collect PHPUnit timings
         if: always()
