@@ -23,7 +23,7 @@ describe('FILTER_MODULE_IDS', () => {
   test('identifier', () => expect(FILTER_MODULE_IDS['identifier']).toBe('oro/datafilter/identifier-filter-react'));
   test('label_or_identifier', () =>
     expect(FILTER_MODULE_IDS['label_or_identifier']).toBe('oro/datafilter/label_or_identifier-filter'));
-  test('metric', () => expect(FILTER_MODULE_IDS['metric']).toBe('oro/datafilter/metric-filter'));
+  test('metric', () => expect(FILTER_MODULE_IDS['metric']).toBe('oro/datafilter/metric-filter-react'));
   test('multiselect', () => expect(FILTER_MODULE_IDS['multiselect']).toBe('oro/datafilter/multiselect-filter'));
   test('none', () => expect(FILTER_MODULE_IDS['none']).toBe('oro/datafilter/none-filter'));
   test('number', () => expect(FILTER_MODULE_IDS['number']).toBe('oro/datafilter/number-filter-react'));

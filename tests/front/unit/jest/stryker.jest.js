@@ -187,6 +187,9 @@ module.exports = {
     // DataGrid price filter (C1 Wave 5) — extends number-filter-react, re-adds the currency layer,
     // renders NumberUnitFilterCriteria.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/price-filter-react.unit.tsx',
+    // DataGrid metric filter (C1 Wave 5) — sibling of price, re-adds the unit layer (i18n labels,
+    // async measure fetch), renders NumberUnitFilterCriteria.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/metric-filter-react.unit.tsx',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',
