@@ -30,12 +30,15 @@ export const FILTER_MODULE_IDS = {
   'grouped-variant': 'oro/datafilter/grouped-variant-filter',
   identifier: 'oro/datafilter/identifier-filter-react',
   label_or_identifier: 'oro/datafilter/label_or_identifier-filter',
-  metric: 'oro/datafilter/metric-filter',
+  // C1 Wave 5: `metric` renders via React (sibling of `price`: number + a unit AknDropdown with i18n
+  // labels, units fetched async; shared NumberUnitFilterCriteria).
+  metric: 'oro/datafilter/metric-filter-react',
   multiselect: 'oro/datafilter/multiselect-filter',
   none: 'oro/datafilter/none-filter',
   number: 'oro/datafilter/number-filter-react',
   parent: 'oro/datafilter/parent-filter-react',
-  price: 'oro/datafilter/price-filter',
+  // C1 Wave 5: `price` renders via React (number + a currency AknDropdown; shared NumberUnitFilterCriteria).
+  price: 'oro/datafilter/price-filter-react',
   product_and_product_model_completeness: 'oro/datafilter/product_completeness-filter',
   product_category: 'oro/datafilter/product_category-filter',
   product_completeness: 'oro/datafilter/product_completeness-filter',
