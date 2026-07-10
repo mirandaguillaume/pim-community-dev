@@ -13,6 +13,9 @@ jest.mock(
       this.choices = [{value: '3', label: '=', data: 3}];
       this._selectedOperator = '1';
       this._value = {type: '1', value: '10', unit: 'KILOGRAM'};
+      this.showLabel = false;
+      this.canDisable = false;
+      this.placeholder = 'All';
       this.measurementFamily = {
         code: 'weight',
         units: [
@@ -26,6 +29,10 @@ jest.mock(
     proto.initialize = jest.fn();
     proto._renderReact = jest.fn();
     proto._getOperatorChoices = jest.fn(() => ({'1': '=', '2': '>'}));
+    // Plain function (not jest.fn) so `jest.clearAllMocks()` in beforeEach never wipes the implementation.
+    proto._getChoiceOption = function (type: string) {
+      return {label: String(type)};
+    };
     proto._getDisplayValue = function (this: any) {
       return this._value;
     };
@@ -131,5 +138,42 @@ describe('metric-filter-react', () => {
 
     expect(filter.measurementFamily).toEqual(measures[0]);
     expect(filter.render).toHaveBeenCalled();
+  });
+
+  test('_renderReact computes _selectedUnit from the display value and mounts the shared criteria', () => {
+    const filter: any = new (Bridge as any)();
+
+    filter._renderReact();
+
+    // Guard fell through to `this._getDisplayValue().unit` (mock `_value.unit` is 'KILOGRAM').
+    expect(filter._selectedUnit).toBe('KILOGRAM');
+    const rendered = filter.el.querySelector('[data-variant="unitfilter"]');
+    expect(rendered).not.toBeNull();
+    expect(rendered!.getAttribute('data-selected-option')).toBe('KILOGRAM');
+    expect(rendered!.getAttribute('data-options')).toContain('{"value":"KILOGRAM","label":"Kilogram"}');
+  });
+
+  test('_renderReact renders nothing when the measurement family has not resolved yet', () => {
+    const filter: any = new (Bridge as any)();
+    filter.measurementFamily = undefined;
+
+    filter._renderReact();
+
+    expect(filter.el.children.length).toBe(0);
+  });
+
+  test('_getCriteriaHint returns "operator value unit-label" for a value-bearing filter', () => {
+    const filter: any = new (Bridge as any)();
+    filter._getChoiceOption = jest.fn(() => ({label: '='}));
+    filter._value = {type: '1', value: '10', unit: 'KILOGRAM'};
+
+    expect(filter._getCriteriaHint()).toBe('= 10 Kilogram');
+  });
+
+  test('_getCriteriaHint returns the choice label for the empty operator', () => {
+    const filter: any = new (Bridge as any)();
+    filter._value = {type: 'empty', value: '', unit: 'KILOGRAM'};
+
+    expect(filter._getCriteriaHint()).toBe(filter._getChoiceOption('empty').label);
   });
 });

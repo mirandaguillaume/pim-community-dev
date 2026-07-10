@@ -8,6 +8,9 @@ jest.mock(
       this.currencies = {USD: 'USD', EUR: 'EUR'};
       this._selectedOperator = '1';
       this._value = {type: '1', value: '10', currency: 'EUR'};
+      this.showLabel = false;
+      this.canDisable = false;
+      this.placeholder = 'All';
       this.criteriaValueSelectors = {currency: 'input[name="currency_currency"]', value: 'input[name="value"]'};
       const $el: any = {val: jest.fn(() => 'EUR')};
       this.$ = jest.fn(() => $el);
@@ -16,6 +19,10 @@ jest.mock(
     const proto = (NumberFilterReact as any).prototype;
     proto._renderReact = jest.fn();
     proto._getOperatorChoices = jest.fn(() => ({'1': '=', '2': '>'}));
+    // Plain function (not jest.fn) so `jest.clearAllMocks()` in beforeEach never wipes the implementation.
+    proto._getChoiceOption = function (type: string) {
+      return {label: String(type)};
+    };
     proto._getDisplayValue = function (this: any) {
       return this._value;
     };
@@ -49,7 +56,11 @@ jest.mock('../../../Resources/public/js/datafilter/filter/NumberUnitFilterCriter
   return {
     __esModule: true,
     default: (props: any) =>
-      React.createElement('div', {'data-variant': props.variantClass, 'data-selected-option': props.selectedOption}),
+      React.createElement('div', {
+        'data-variant': props.variantClass,
+        'data-selected-option': props.selectedOption,
+        'data-options': JSON.stringify(props.optionChoices),
+      }),
   };
 });
 
@@ -89,5 +100,33 @@ describe('price-filter-react', () => {
 
     expect(filter._selectedCurrency).toBe('EUR');
     expect((NumberFilterReact as any).prototype._onValueUpdated).toHaveBeenCalledWith(newValue, oldValue);
+  });
+
+  test('_renderReact computes _selectedCurrency from the display value and mounts the shared criteria', () => {
+    const filter: any = new (Bridge as any)();
+
+    filter._renderReact();
+
+    // Guard fell through to `this._getDisplayValue().currency` (mock `_value.currency` is 'EUR').
+    expect(filter._selectedCurrency).toBe('EUR');
+    const rendered = filter.el.querySelector('[data-variant="currencyfilter"]');
+    expect(rendered).not.toBeNull();
+    expect(rendered!.getAttribute('data-selected-option')).toBe('EUR');
+    expect(rendered!.getAttribute('data-options')).toContain('{"value":"EUR","label":"EUR"}');
+  });
+
+  test('_getCriteriaHint returns "operator value currency" for a value-bearing filter', () => {
+    const filter: any = new (Bridge as any)();
+    filter._getChoiceOption = jest.fn(() => ({label: '='}));
+    filter._value = {type: '1', value: '10', currency: 'EUR'};
+
+    expect(filter._getCriteriaHint()).toBe('= 10 EUR');
+  });
+
+  test('_getCriteriaHint returns the choice label for the empty operator', () => {
+    const filter: any = new (Bridge as any)();
+    filter._value = {type: 'empty', value: '', currency: 'EUR'};
+
+    expect(filter._getCriteriaHint()).toBe(filter._getChoiceOption('empty').label);
   });
 });
