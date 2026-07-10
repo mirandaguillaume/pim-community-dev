@@ -26,6 +26,7 @@ jest.mock(
     proto._writeDOMValue = jest.fn();
     proto._getInputValue = jest.fn(() => 'EUR');
     proto._highlightDropdown = jest.fn();
+    proto._onValueUpdated = jest.fn();
     function backboneExtend(this: any, o: any) {
       const P = this;
       function S(this: any) {
@@ -52,6 +53,7 @@ jest.mock('../../../Resources/public/js/datafilter/filter/NumberUnitFilterCriter
   };
 });
 
+import NumberFilterReact from 'oro/datafilter/number-filter-react';
 import Bridge from '../../../Resources/public/js/datafilter/filter/price-filter-react';
 
 beforeEach(() => jest.clearAllMocks());
@@ -59,10 +61,12 @@ beforeEach(() => jest.clearAllMocks());
 describe('price-filter-react', () => {
   test('_onSelectCurrency records the currency in state and re-renders', () => {
     const filter: any = new (Bridge as any)();
-    const e = {currentTarget: null, preventDefault: jest.fn()};
-    // stub jQuery target lookup: $(e.currentTarget).find('.currency_choice').attr('data-value')
-    const attr = jest.fn(() => 'USD');
-    (filter as any).$ = jest.fn(() => ({find: () => ({attr})}));
+    const currentTarget = document.createElement('div');
+    const choice = document.createElement('span');
+    choice.className = 'currency_choice';
+    choice.setAttribute('data-value', 'USD');
+    currentTarget.appendChild(choice);
+    const e = {currentTarget, preventDefault: jest.fn()};
     const spy = jest.spyOn(filter, '_renderReact');
     filter._onSelectCurrency(e);
     expect(filter._selectedCurrency).toBe('USD');
@@ -74,5 +78,16 @@ describe('price-filter-react', () => {
     const filter: any = new (Bridge as any)();
     filter._selectedCurrency = 'EUR';
     expect(filter._readDOMValue()).toEqual({type: '1', value: '10', currency: 'EUR'});
+  });
+
+  test('_onValueUpdated syncs _selectedCurrency from the new value and defers to the base', () => {
+    const filter: any = new (Bridge as any)();
+    const newValue = {type: '1', value: '5', currency: 'EUR'};
+    const oldValue = {};
+
+    filter._onValueUpdated(newValue, oldValue);
+
+    expect(filter._selectedCurrency).toBe('EUR');
+    expect((NumberFilterReact as any).prototype._onValueUpdated).toHaveBeenCalledWith(newValue, oldValue);
   });
 });

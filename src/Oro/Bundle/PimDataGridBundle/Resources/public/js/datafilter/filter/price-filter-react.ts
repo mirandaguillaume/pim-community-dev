@@ -74,6 +74,18 @@ export default NumberFilterReact.extend({
   /**
    * {@inheritdoc}
    *
+   * Keep `_selectedCurrency` (the source of truth read by `_readDOMValue`/`_renderReact`) in sync when
+   * the model value changes from outside a currency click (applied view, reset, …), then defer to the
+   * base for the operator sync + hint re-render.
+   */
+  _onValueUpdated: function (newValue: any, oldValue: any) {
+    this._selectedCurrency = newValue.currency;
+    NumberFilterReact.prototype._onValueUpdated.apply(this, arguments);
+  },
+
+  /**
+   * {@inheritdoc}
+   *
    * Augment the inherited number read with the currency from state (not the DOM hidden input).
    */
   _readDOMValue: function () {
