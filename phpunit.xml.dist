@@ -34,6 +34,12 @@
         <include>
             <directory>src</directory>
         </include>
+        <exclude>
+            <!-- Test classes should not inflate the coverage denominator (they run at ~100%). -->
+            <directory suffix="Test.php">src</directory>
+            <directory suffix="Integration.php">src</directory>
+            <directory suffix="EndToEnd.php">src</directory>
+        </exclude>
     </source>
 
     <testsuites>
