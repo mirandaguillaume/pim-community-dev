@@ -16,6 +16,7 @@ import {
   removeAttributeFromFamilyViaApi,
   deleteAttributeViaApi,
   getFirstProductsFromGrid,
+  getProductFamilyCode,
 } from '../fixtures/pim';
 
 /**
@@ -55,8 +56,11 @@ test.describe('Mass edit image attributes', () => {
     uuid1 = products[0].uuid;
     uuid2 = products[1].uuid;
 
-    // Deduplicate families so we only PUT each family once
-    families = [...new Set([products[0].family, products[1].family].filter(Boolean))];
+    // Resolve the family CODE from the product API (the grid's `.family` is the localized
+    // LABEL, which 404s against the code-keyed family endpoint — and which family lands
+    // "first" in the ES-ordered grid varies across shards). Deduplicate so we PUT each once.
+    const familyCodes = await Promise.all([getProductFamilyCode(page, uuid1!), getProductFamilyCode(page, uuid2!)]);
+    families = [...new Set(familyCodes.filter((code): code is string => Boolean(code)))];
     expect(families.length, 'Products must belong to at least one family').toBeGreaterThan(0);
 
     const r1 = await createAttributeViaApi(page, {

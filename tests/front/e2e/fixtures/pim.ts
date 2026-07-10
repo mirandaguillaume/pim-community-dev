@@ -510,10 +510,29 @@ export async function getFirstProductsFromGrid(
   if (!resp.ok()) return [];
   const body = await resp.json();
   const rows: any[] = Array.isArray(body?.data) ? body.data : [];
-  return rows
-    .filter(r => r.document_type === 'product' && r.identifier && r.technical_id)
-    .slice(0, limit)
-    .map(r => ({sku: String(r.identifier), uuid: String(r.technical_id), family: String(r.family ?? '')}));
+  return (
+    rows
+      // NB: `family` here is the grid's rendered family LABEL (localized), NOT the code.
+      // For any code-keyed API (e.g. /configuration/rest/family/{code}) resolve the real
+      // code with getProductFamilyCode(uuid) — the label 404s and is ES-order-dependent.
+      .filter(r => r.document_type === 'product' && r.identifier && r.technical_id)
+      .slice(0, limit)
+      .map(r => ({sku: String(r.identifier), uuid: String(r.technical_id), family: String(r.family ?? '')}))
+  );
+}
+
+/**
+ * Resolve a product's family CODE via the enrich product API (internal format, which
+ * keys the family by code). Use this instead of `getFirstProductsFromGrid().family`,
+ * which returns the localized LABEL — that 404s against the code-keyed family endpoints,
+ * and which family lands "first" in the grid is ES-ordering-dependent (non-deterministic
+ * across Playwright shards). Returns null when the product has no family or the fetch fails.
+ */
+export async function getProductFamilyCode(page: Page, productUuid: string): Promise<string | null> {
+  const resp = await page.request.get(`/enrich/product/rest/${productUuid}`, {headers: XHR_HEADER});
+  if (!resp.ok()) return null;
+  const product = await resp.json();
+  return product?.family ? String(product.family) : null;
 }
 
 /**
