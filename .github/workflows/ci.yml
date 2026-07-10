@@ -922,7 +922,8 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
-            php php -d xdebug.mode=coverage vendor/bin/phpunit -c . \
+            -e XDEBUG_MODE=coverage \
+            php php -d zend_extension=xdebug vendor/bin/phpunit -c . \
               --testsuite PHPUnit_Unit_Test \
               --coverage-clover var/tests/phpunit/coverage.xml \
               --coverage-text \
