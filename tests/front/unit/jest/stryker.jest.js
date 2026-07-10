@@ -175,6 +175,9 @@ module.exports = {
     // DataGrid select2-choice filter (C1 Wave 5) — extends the legacy select2-choice, reuses
     // ChoiceFilterCriteria; bridge inits/destroys the multi-select ajax Select2 itself.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/select2-choice-filter-react.unit.tsx',
+    // DataGrid select2-rest-choice filter (C1 Wave 5) — sibling of select2-choice, reuses
+    // ChoiceFilterCriteria; bridge inits/destroys the multi-select ajax Select2 itself.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/select2-rest-choice-filter-react.unit.tsx',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',
