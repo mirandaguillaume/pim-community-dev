@@ -190,6 +190,10 @@ module.exports = {
     // DataGrid metric filter (C1 Wave 5) — sibling of price, re-adds the unit layer (i18n labels,
     // async measure fetch), renders NumberUnitFilterCriteria.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/metric-filter-react.unit.tsx',
+    // DataGrid select filter (Vague B) — SelectFilter bridge replacing jquery.multiselect with the
+    // controlled DSM SelectInput/MultiSelectInput via SelectFilterCriteria.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/SelectFilterCriteria.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/select-filter-react.unit.tsx',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',

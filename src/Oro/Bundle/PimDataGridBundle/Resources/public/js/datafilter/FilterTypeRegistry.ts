@@ -45,7 +45,10 @@ export const FILTER_MODULE_IDS = {
   product_scope: 'oro/datafilter/product_scope-filter',
   search: 'oro/datafilter/search-filter',
   attribute_search: 'oro/datafilter/search-filter',
-  select: 'oro/datafilter/select-filter',
+  // Vague B: `select` renders via React (select-filter-react extends the legacy select-filter — the
+  // jquery.multiselect widget replaced by the controlled DSM SelectInput/MultiSelectInput). The legacy
+  // `oro/datafilter/select-filter` module stays for select-row/multiselect/product_scope/product_completeness.
+  select: 'oro/datafilter/select-filter-react',
   'select-row': 'oro/datafilter/select-row-filter',
   // C1 Wave 5: `select2-choice` renders via React (select2-choice-filter-react extends the legacy
   // select2-choice-filter — the operator AknDropdown + the multi-select ajax Select2 value field
