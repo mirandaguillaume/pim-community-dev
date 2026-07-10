@@ -744,6 +744,17 @@ jobs:
           path: coverage/
           retention-days: 30
 
+      - name: Upload front coverage to Codecov (shard ${{ matrix.shard }})
+        if: always()
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
+        with:
+          files: coverage/lcov.info
+          flags: frontend
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
   # ===========================================================================
   # FRONT-CONNECTIVITY: Jest tests for Connectivity Connection workspace
   # ===========================================================================
