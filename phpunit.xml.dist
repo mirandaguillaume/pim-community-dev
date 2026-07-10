@@ -24,6 +24,18 @@
         </exclude>
     </groups>
 
+    <!--
+        Code-coverage source scope (PHPUnit 10). Without a source element PHPUnit refuses to
+        process coverage ("No filter is configured, code coverage will not be processed"), so the
+        coverage-clover / coverage-text options silently produce nothing. Include the production
+        tree; the coverage job additionally needs Xdebug loaded in coverage mode (see ci.yml).
+    -->
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+
     <testsuites>
         <testsuite name="PIM_Integration_Test">
             <directory suffix="Integration.php">src</directory>
