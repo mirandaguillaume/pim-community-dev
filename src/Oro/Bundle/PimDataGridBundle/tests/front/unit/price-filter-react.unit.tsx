@@ -67,7 +67,7 @@ describe('price-filter-react', () => {
     choice.setAttribute('data-value', 'USD');
     currentTarget.appendChild(choice);
     const e = {currentTarget, preventDefault: jest.fn()};
-    const spy = jest.spyOn(filter, '_renderReact');
+    const spy = jest.spyOn(filter, '_renderReact').mockImplementation(() => {});
     filter._onSelectCurrency(e);
     expect(filter._selectedCurrency).toBe('USD');
     expect(spy).toHaveBeenCalled();
