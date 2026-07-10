@@ -184,6 +184,9 @@ module.exports = {
     // DataGrid NumberUnitFilterCriteria (C1 Wave 5) — shared price/metric criteria popup, reuses
     // FilterOptionDropdown + OperatorDropdown.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/NumberUnitFilterCriteria.unit.tsx',
+    // DataGrid price filter (C1 Wave 5) — extends number-filter-react, re-adds the currency layer,
+    // renders NumberUnitFilterCriteria.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/price-filter-react.unit.tsx',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',

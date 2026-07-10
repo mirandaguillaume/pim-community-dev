@@ -35,7 +35,8 @@ export const FILTER_MODULE_IDS = {
   none: 'oro/datafilter/none-filter',
   number: 'oro/datafilter/number-filter-react',
   parent: 'oro/datafilter/parent-filter-react',
-  price: 'oro/datafilter/price-filter',
+  // C1 Wave 5: `price` renders via React (number + a currency AknDropdown; shared NumberUnitFilterCriteria).
+  price: 'oro/datafilter/price-filter-react',
   product_and_product_model_completeness: 'oro/datafilter/product_completeness-filter',
   product_category: 'oro/datafilter/product_category-filter',
   product_completeness: 'oro/datafilter/product_completeness-filter',
