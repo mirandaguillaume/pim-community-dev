@@ -1526,6 +1526,10 @@ jobs:
       needs.build-front.result == 'success' &&
       needs.infra-db-seed-playwright.result == 'success'
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
 
@@ -1694,7 +1698,7 @@ jobs:
               sleep 2
             done
           done
-          PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} castor test:end-to-end-front
+          PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} PW_SHARD=${{ matrix.shard }}/4 castor test:end-to-end-front
 
       # Separate `if: always()` step so it runs even when Playwright fails and the
       # `bash -e` setup step above aborts. The consumer stdout is mirrored to a
@@ -1757,7 +1761,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-shard-${{ matrix.shard }}
           path: |
             playwright-report/
             test-results/
