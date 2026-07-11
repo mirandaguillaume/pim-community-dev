@@ -1,6 +1,9 @@
 import _ from 'underscore';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {ThemeProvider} from 'styled-components';
+import {pimTheme} from 'akeneo-design-system';
+import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import __ from 'oro/translator';
 import AbstractFilter from 'oro/datafilter/abstract-filter';
 import SelectFilter from 'oro/datafilter/select-filter';
@@ -83,25 +86,38 @@ export default SelectFilter.extend({
   /**
    * Render (or reconcile) the controlled DSM view into `this.el`.
    *
+   * The DSM `SelectInput`/`MultiSelectInput` read the akeneo theme via styled-components' context
+   * (`getColor(...)`), so the mount MUST be wrapped in `ThemeProvider theme={pimTheme}` +
+   * `DependenciesProvider` — the same wrapper every other datagrid React mount uses (see
+   * `datagrid/cell/react-cell-base.tsx`). Without it the DSM components throw at render.
+   *
    * @protected
    */
   _renderReact: function () {
     ReactDOM.render(
-      React.createElement(SelectFilterCriteria, {
-        multiple: !!this.widgetOptions.multiple,
-        value: this._selectedValues,
-        choices: this._reactChoices(),
-        showLabel: this.showLabel,
-        label: __(this.label),
-        canDisable: this.canDisable,
-        nullLink: this.nullLink,
-        placeholder: this.placeholder,
-        emptyResultLabel: __('pim_common.no_result'),
-        openLabel: __('pim_common.open'),
-        removeLabel: __('pim_common.remove'),
-        onChange: this._onReactChange.bind(this),
-        onDisable: this.disable.bind(this),
-      }),
+      React.createElement(
+        ThemeProvider,
+        {theme: pimTheme},
+        React.createElement(
+          DependenciesProvider,
+          null,
+          React.createElement(SelectFilterCriteria, {
+            multiple: !!this.widgetOptions.multiple,
+            value: this._selectedValues,
+            choices: this._reactChoices(),
+            showLabel: this.showLabel,
+            label: __(this.label),
+            canDisable: this.canDisable,
+            nullLink: this.nullLink,
+            placeholder: this.placeholder,
+            emptyResultLabel: __('pim_common.no_result'),
+            openLabel: __('pim_common.open'),
+            removeLabel: __('pim_common.remove'),
+            onChange: this._onReactChange.bind(this),
+            onDisable: this.disable.bind(this),
+          })
+        )
+      ),
       this.el
     );
   },

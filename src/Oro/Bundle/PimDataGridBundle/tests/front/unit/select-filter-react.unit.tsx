@@ -59,6 +59,12 @@ jest.mock(
 
 jest.mock('oro/translator', () => (k: string) => k, {virtual: true});
 
+// The bridge wraps its mount in ThemeProvider + DependenciesProvider (DSM theme context). Stub them to
+// pass-through providers so the mounted SelectFilterCriteria stand-in still lands in `filter.el`.
+jest.mock('styled-components', () => ({ThemeProvider: ({children}: any) => children}));
+jest.mock('akeneo-design-system', () => ({pimTheme: {}}));
+jest.mock('@akeneo-pim-community/legacy-bridge', () => ({DependenciesProvider: ({children}: any) => children}));
+
 jest.mock('../../../Resources/public/js/datafilter/filter/SelectFilterCriteria', () => {
   const React = require('react');
   return {
