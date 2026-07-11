@@ -13,8 +13,9 @@ class MultiSelectDecorator extends ElementDecorator
      * Set the given value to the multi select (comma-separated for multi-value).
      *
      * Supports both the React DSM widget (Vague B: `.filter-select[data-testid="select-filter-widget"]`
-     * opening a `document.body` overlay whose options are `[data-testid="<value>"]`) and the legacy
-     * `jquery.multiselect` widget (`.select-filter-widget` → `li label:contains`).
+     * whose inner `<input>` opens a `#input-overlay-root` overlay portaled under `<body>`, options
+     * matched by their visible label) and the legacy `jquery.multiselect` widget
+     * (`.select-filter-widget` → `li label:contains`).
      *
      * @throws \Exception
      *
@@ -49,14 +50,31 @@ class MultiSelectDecorator extends ElementDecorator
         foreach ($values as $value) {
             $value = trim($value);
 
-            // Open the overlay (portaled to <body>) then click the option by its stable data-testid.
-            $widget = $this->spin(function () {
-                return $this->find('css', '[data-testid="select-filter-widget"]');
-            }, 'Cannot find the React select widget');
-            $widget->click();
+            // The overlay (portaled to <body>) only opens from the inner text input's click handler
+            // (DSM SelectInput/MultiSelectInput wire `openOverlay` on the SearchInput/ChipInput `<input>`,
+            // not on the outer `.filter-select` wrapper), so click that input rather than the wrapper.
+            $input = $this->spin(function () {
+                $widget = $this->find('css', '[data-testid="select-filter-widget"]');
 
+                return null !== $widget ? $widget->find('css', 'input') : null;
+            }, 'Cannot find the React select widget input');
+            $input->click();
+
+            // The DSM overlay is portaled directly under <body> as `#input-overlay-root`, so options are
+            // NOT DOM descendants/siblings of the `.filter-select` wrapper; scope the lookup there.
+            // Options are stamped `data-testid={value}` (the code) but their visible text is the label,
+            // and Behat scenarios drive filters by label, so match on text, not on data-testid=value.
             $option = $this->spin(function () use ($value) {
-                return $this->getBody()->find('css', sprintf('[data-testid="%s"]', $value));
+                foreach ($this->getBody()->findAll('css', '#input-overlay-root [data-testid]') as $candidate) {
+                    if ('backdrop' === $candidate->getAttribute('data-testid')) {
+                        continue;
+                    }
+                    if (trim($candidate->getText()) === $value) {
+                        return $candidate;
+                    }
+                }
+
+                return null;
             }, sprintf('Cannot find option "%s"', $value));
             $option->click();
         }

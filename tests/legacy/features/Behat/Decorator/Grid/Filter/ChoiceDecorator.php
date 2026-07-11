@@ -37,20 +37,26 @@ class ChoiceDecorator extends ElementDecorator
      */
     public function getAvailableValues()
     {
-        // React DSM: open the widget, read the option <span> texts from the <body> portal.
+        // React DSM: open the widget (via its inner input — the wrapper itself has no click handler),
+        // then read the option texts from the `#input-overlay-root` portal (appended to <body>), scoped
+        // to that overlay container so other page elements' data-testid attributes are not picked up.
         $reactWidget = $this->find('css', '[data-testid="select-filter-widget"]');
         if (null !== $reactWidget) {
-            $reactWidget->click();
+            $input = $this->spin(function () use ($reactWidget) {
+                return $reactWidget->find('css', 'input');
+            }, 'Cannot find the React select widget input');
+            $input->click();
+
             $options = $this->spin(function () {
-                return $this->getBody()->findAll('css', '[data-testid]');
+                return $this->getBody()->findAll('css', '#input-overlay-root [data-testid]');
             }, 'Cannot find options');
 
             $values = [];
             foreach ($options as $option) {
-                // Skip the widget wrapper itself; keep the option spans.
-                if ('select-filter-widget' !== $option->getAttribute('data-testid')) {
-                    $values[] = $option->getText();
+                if ('backdrop' === $option->getAttribute('data-testid')) {
+                    continue;
                 }
+                $values[] = $option->getText();
             }
 
             return array_filter($values);
