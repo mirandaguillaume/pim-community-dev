@@ -123,6 +123,29 @@ export default SelectFilter.extend({
   },
 
   /**
+   * {@inheritdoc}
+   *
+   * The legacy `select-filter` returns `this.selectWidget.getWidget()`, but this bridge never builds the
+   * jQuery widget (`this.selectWidget` stays null), so return the filter element instead. Prevents the
+   * `abstract-filter` `.column-inner` scroll handler (which calls `getCriteria()` via
+   * `_updateCriteriaSelectorPosition`) from dereferencing a null widget.
+   */
+  getCriteria: function () {
+    return this.$el;
+  },
+
+  /**
+   * {@inheritdoc}
+   *
+   * No-op: the DSM overlay positions itself (React portal), so the legacy fixed-position reflow — which
+   * would call `getCriteria()` on the (absent) jQuery widget — is dropped, exactly as the other React
+   * filter bridges (`date`/`text-filter-react`) do.
+   */
+  _updateCriteriaSelectorPosition: function () {
+    return this;
+  },
+
+  /**
    * Store the new selection (source of truth), re-render, then push the model value.
    *
    * @protected

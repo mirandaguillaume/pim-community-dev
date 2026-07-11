@@ -157,4 +157,18 @@ describe('select-filter-react', () => {
     expect(filter.el.childNodes.length).toBe(0);
     expect((AbstractFilter as any).prototype.remove).toHaveBeenCalled();
   });
+
+  test('getCriteria returns the filter element (never the absent jQuery widget)', () => {
+    const filter: any = new (Bridge as any)();
+    const element = {jquery: true};
+    filter.$el = element;
+    expect(filter.getCriteria()).toBe(element);
+  });
+
+  test('_updateCriteriaSelectorPosition is a no-op that returns this without touching getCriteria', () => {
+    const filter: any = new (Bridge as any)();
+    const getCriteriaSpy = jest.spyOn(filter, 'getCriteria');
+    expect(filter._updateCriteriaSelectorPosition()).toBe(filter);
+    expect(getCriteriaSpy).not.toHaveBeenCalled();
+  });
 });
