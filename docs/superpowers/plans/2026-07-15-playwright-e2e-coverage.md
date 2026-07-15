@@ -109,10 +109,9 @@ Create `tests/front/e2e/coverage/v8-to-lcov.js`:
  */
 const fs = require('fs');
 const path = require('path');
-const v8toIstanbul = require('v8-to-istanbul');
-const libCoverage = require('istanbul-lib-coverage');
-const libReport = require('istanbul-lib-report');
-const reports = require('istanbul-reports');
+// The istanbul deps are lazy-required INSIDE the functions that use them, so the
+// pure helpers (urlToDiskPath/keepSource/normalizeSource) — and the node check that
+// imports them — load even when v8-to-istanbul et al. are not installed.
 
 const REPO_ROOT = path.resolve(__dirname, '../../../..');
 const V8_DIR = path.join(REPO_ROOT, 'coverage-v8');
@@ -155,6 +154,7 @@ function normalizeSource(sourcePath) {
 
 /** Convert one V8 dump array into istanbul file-coverage objects, filtered + normalized. */
 async function convertDump(entries, repoRoot) {
+  const v8toIstanbul = require('v8-to-istanbul');
   const out = [];
   for (const entry of entries || []) {
     const diskPath = urlToDiskPath(entry.url, repoRoot);
@@ -177,6 +177,9 @@ async function convertDump(entries, repoRoot) {
 }
 
 async function main() {
+  const libCoverage = require('istanbul-lib-coverage');
+  const libReport = require('istanbul-lib-report');
+  const reports = require('istanbul-reports');
   const map = libCoverage.createCoverageMap({});
   if (!fs.existsSync(V8_DIR)) {
     console.warn(`[v8-to-lcov] no ${V8_DIR}; nothing to convert`);
