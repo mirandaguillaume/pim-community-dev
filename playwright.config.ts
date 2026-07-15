@@ -13,5 +13,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'off',
   },
-  reporter: process.env.CI ? [['github'], ['list'], ['html', {open: 'never'}]] : [['list'], ['html', {open: 'never'}]],
+  reporter: process.env.CI
+    ? [['github'], ['list'], ['html', {open: 'never'}], ['json', {outputFile: 'playwright-report/results.json'}]]
+    : [['list'], ['html', {open: 'never'}]],
 });
