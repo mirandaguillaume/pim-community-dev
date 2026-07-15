@@ -1216,11 +1216,19 @@ jobs:
           path: build-front
 
       - name: Compute Behat suite
+        env:
+          GH_EVENT_NAME: ${{ github.event_name }}
         run: |
-          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}"
-          TESTSUITE=$(echo "${BRANCH_NAME}" | sed -e 's/^.*-\([^-]*\)$/\1/g')
-          if ! [[ "${TESTSUITE}" =~ ^(weasel|chipmunk|raccoon)$ ]]; then
-            TESTSUITE="all"
+          # On nightly/manual runs, use the `nightly` suite which adds @critical and @optional
+          # scenarios excluded from the PR `all` suite — giving total Behat coverage.
+          if [[ "$GH_EVENT_NAME" == "schedule" || "$GH_EVENT_NAME" == "workflow_dispatch" ]]; then
+            TESTSUITE="nightly"
+          else
+            BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}"
+            TESTSUITE=$(echo "${BRANCH_NAME}" | sed -e 's/^.*-\([^-]*\)$/\1/g')
+            if ! [[ "${TESTSUITE}" =~ ^(weasel|chipmunk|raccoon)$ ]]; then
+              TESTSUITE="all"
+            fi
           fi
           echo "TESTSUITE=${TESTSUITE}" >> $GITHUB_ENV
 
