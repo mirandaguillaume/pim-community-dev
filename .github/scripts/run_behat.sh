@@ -37,7 +37,7 @@ fi
 
 echo "Running $FILE_COUNT scenarios in a single Behat invocation"
 
-mkdir -p var/tests/behat var/tests/behat/junit
+mkdir -p var/tests/behat
 
 # First pass: run all scenarios in one batch.
 # Uses "progress" formatter for lightweight stdout and "pim" for structured results.
@@ -46,7 +46,6 @@ set +e
 docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
   --strict \
   --format pim --out var/tests/behat/batch_results \
-  --format junit --out var/tests/behat/junit \
   --format progress --out std \
   --colors \
   -p legacy -s $TEST_SUITE \
@@ -70,7 +69,6 @@ docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
   --strict \
   --rerun \
   --format pim --out var/tests/behat/batch_results_retry \
-  --format junit --out var/tests/behat/junit \
   --format progress --out std \
   --colors \
   -p legacy -s $TEST_SUITE \
