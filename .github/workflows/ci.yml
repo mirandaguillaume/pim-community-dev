@@ -1832,7 +1832,7 @@ jobs:
 
       - name: Generate coverage summary
         run: |
-          pip install --quiet defusedxml
+          pip3 install --quiet defusedxml
           python3 << 'PYEOF'
           import os, json, glob, defusedxml.ElementTree as ET, tarfile
 
