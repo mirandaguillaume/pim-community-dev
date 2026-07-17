@@ -90,9 +90,12 @@ jobs:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     timeout-minutes: 5
     outputs:
-      backend: ${{ steps.filter.outputs.backend }}
-      frontend: ${{ steps.filter.outputs.frontend }}
-      ci: ${{ steps.filter.outputs.ci }}
+      # On schedule/workflow_dispatch there is no PR diff — paths-filter outputs false for
+      # everything, so all path-gated jobs would be skipped and the nightly runs to blank.
+      # The `force` step overrides to true; || falls back to the filter for PR/push runs.
+      backend: ${{ steps.force.outputs.backend || steps.filter.outputs.backend }}
+      frontend: ${{ steps.force.outputs.frontend || steps.filter.outputs.frontend }}
+      ci: ${{ steps.force.outputs.ci || steps.filter.outputs.ci }}
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
         run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
@@ -148,6 +151,13 @@ jobs:
               - 'docker/**'
               - 'castor/**'
               - 'castor.php'
+      - name: Force all paths on schedule / workflow_dispatch
+        id: force
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          echo "backend=true" >> $GITHUB_OUTPUT
+          echo "frontend=true" >> $GITHUB_OUTPUT
+          echo "ci=true" >> $GITHUB_OUTPUT
 
   # ===========================================================================
   # BUILD PHP IMAGE (pushed to GHCR, not artifacts)
