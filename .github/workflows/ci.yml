@@ -1580,6 +1580,9 @@ jobs:
       - uses: ./.github/actions/install-castor
 
       - name: Setup and run Playwright
+        env:
+          E2E_COVERAGE: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && '1' || '' }}
+          PW_SHARD: ${{ matrix.shard }}/4
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env | cut -d= -f2 || echo "akeneo_pim")
           DB_NAME=${DB_NAME:-akeneo_pim}
@@ -1711,6 +1714,23 @@ jobs:
             done
           done
           PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} PW_SHARD=${{ matrix.shard }}/4 castor test:end-to-end-front
+
+      - name: Convert E2E V8 coverage to lcov
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        run: node tests/front/e2e/coverage/v8-to-lcov.js
+
+      - name: Upload E2E coverage to Codecov
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage-e2e/lcov.info
+          flags: e2e-playwright
+          disable_search: true
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       # Separate `if: always()` step so it runs even when Playwright fails and the
       # `bash -e` setup step above aborts. The consumer stdout is mirrored to a
