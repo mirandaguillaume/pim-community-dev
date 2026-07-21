@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from '../fixtures/coverage-fixture';
 import {LoginPage} from '../pages/LoginPage';
 import {DataGridPage} from '../pages/DataGridPage';
 import {NavigationHelper} from '../pages/NavigationHelper';

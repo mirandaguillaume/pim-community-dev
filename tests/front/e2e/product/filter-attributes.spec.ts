@@ -1,4 +1,4 @@
-import {test, expect, Page} from '@playwright/test';
+import {test, expect, Page} from '../fixtures/coverage-fixture';
 import {login, goToProductsGrid, selectFirstProduct, waitForLoadingMasks, ensureProductExists} from '../fixtures/pim';
 
 /**
