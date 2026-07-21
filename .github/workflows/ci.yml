@@ -1566,10 +1566,27 @@ jobs:
           # Bare-metal runners share one machine: another concurrent job may hold the
           # apt lock. DPkg::Lock::Timeout makes apt wait (rather than exit 100) for up
           # to 120 s — covers both our explicit update AND the internal apt calls that
-          # `playwright install --with-deps` issues, without needing a shell retry loop.
+          # `playwright install --with-deps` issues.
           echo 'DPkg::Lock::Timeout "120";' | sudo tee /etc/apt/apt.conf.d/90lock-timeout
-          sudo apt-get update --allow-releaseinfo-change
-          ./node_modules/.bin/playwright install --with-deps chromium
+          # apt-get update also intermittently exits 100 on the shared fleet (transient
+          # mirror/repo fetch — the lock timeout above only covers lock contention, not a
+          # failed fetch). Retry best-effort; `playwright install --with-deps` re-runs apt
+          # anyway, so a still-stale index gets a final chance in the loop below.
+          for attempt in 1 2 3; do
+            sudo apt-get update --allow-releaseinfo-change && break \
+              || { echo "apt-get update attempt $attempt/3 failed, retrying in $((attempt * 10))s..."; sleep $((attempt * 10)); }
+          done
+          # `playwright install --with-deps chromium` downloads the browser from the
+          # Playwright CDN and runs apt; both intermittently fail on the shared fleet
+          # (transient CDN 5xx / apt hiccup) and have repeatedly killed a single random
+          # shard at this step. Retry with backoff so a blip doesn't fail the shard.
+          ok=0
+          for attempt in 1 2 3; do
+            if ./node_modules/.bin/playwright install --with-deps chromium; then ok=1; break; fi
+            echo "Playwright browser install attempt $attempt/3 failed, retrying in $((attempt * 15))s..."
+            sleep $((attempt * 15))
+          done
+          [ "$ok" = 1 ] || { echo "::error::Playwright browser install failed after 3 attempts"; exit 1; }
 
       - name: Download icecat DB seed
         uses: actions/download-artifact@v4
