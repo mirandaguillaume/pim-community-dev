@@ -54,14 +54,18 @@ final class CoverageMergerTest extends TestCase
         $merged = $merger->mergeDir($this->dir);
         self::assertInstanceOf(CodeCoverage::class, $merged);
 
-        $lcovPath = $this->dir . '/lcov.info';
-        $merger->writeLcov($merged, $lcovPath);
-        $lcov = file_get_contents($lcovPath);
+        // Assert the union directly on the merged data (no report-format parsing):
+        // dump A covered line 4, dump B covered line 6 → both hit after merge.
+        $lineCoverage = $merged->getData()->lineCoverage();
+        self::assertArrayHasKey($this->fixtureSrc, $lineCoverage);
+        self::assertNotEmpty($lineCoverage[$this->fixtureSrc][4] ?? [], 'line 4 covered by dump A');
+        self::assertNotEmpty($lineCoverage[$this->fixtureSrc][6] ?? [], 'line 6 covered by dump B');
 
-        self::assertStringContainsString('SF:' . $this->fixtureSrc, $lcov);
-        // union → both line 4 and line 6 hit at least once (DA:<line>,<count>=1..)
-        self::assertMatchesRegularExpression('/^DA:4,[1-9]/m', $lcov);
-        self::assertMatchesRegularExpression('/^DA:6,[1-9]/m', $lcov);
+        // Smoke-test the Clover writer (the format Codecov ingests).
+        $cloverPath = $this->dir . '/clover.xml';
+        $merger->writeClover($merged, $cloverPath);
+        self::assertFileExists($cloverPath);
+        self::assertStringContainsString($this->fixtureSrc, file_get_contents($cloverPath));
     }
 
     public function test_it_returns_null_when_the_directory_has_no_cov_files(): void
