@@ -120,7 +120,7 @@ final class FakeCoverageDriver extends Driver
 
 - [ ] **Step 3: Write the failing test for `CoverageMerger`**
 
-Create `tests/legacy/features/Behat/Coverage/CoverageMergerTest.php`. The test writes a tiny fixture source file with known executable lines, builds two `.cov` files that each cover a different line (via `CodeCoverage::append()` + `RawCodeCoverageData::fromXdebugWithoutPathCoverage`), merges them, and asserts the lcov marks BOTH lines hit (proving union) plus the empty-dir returns null.
+Create `tests/legacy/features/Behat/Coverage/CoverageMergerTest.php`. The test writes a tiny fixture source file with known executable lines, builds two `.cov` files that each cover a different line (via `CodeCoverage::append()` + `RawCodeCoverageData::fromXdebugWithoutPathCoverage`), merges them, and asserts (via `getData()->lineCoverage()`) that BOTH lines are hit (proving union) plus a Clover smoke test, plus the empty-dir returns null.
 ```php
 <?php
 
@@ -772,7 +772,7 @@ In `.github/workflows/ci.yml`, the `Setup test database` step (~1232) runs `APP_
 
 - [ ] **Step 2: Merge + upload per shard (before the archive step)**
 
-In `.github/workflows/ci.yml`, immediately **before** `- name: Archive behat artifacts` (~line 1515), insert two nightly-gated, best-effort steps. The merge runs in the `httpd` container (PCOV + vendor present); `coverage-behat/lcov.info` lands on the runner via the `./:/srv/pim` bind-mount.
+In `.github/workflows/ci.yml`, immediately **before** `- name: Archive behat artifacts` (~line 1515), insert two nightly-gated, best-effort steps. The merge runs in the `httpd` container (PCOV + vendor present); `coverage-behat/clover.xml` lands on the runner via the `./:/srv/pim` bind-mount.
 ```yaml
       - name: Merge Behat PHP coverage (shard ${{ matrix.shard }})
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
@@ -825,6 +825,6 @@ git commit -m "ci(behat-coverage): nightly PCOV enablement + per-shard e2e-behat
 
 **2. Placeholder scan.** No TBD/TODO; every code step shows complete code; every CI/infra step gives exact edits + anchors.
 
-**3. Type consistency.** `CoverageCollectorInterface { start(): void; stopAndDump(string): void }` — implemented by `CoverageCollector` (Task 2), consumed by `BehatCoverageSubscriber` (Task 3) and the `SpyCollector` test double (Task 3). `CoverageMerger { mergeDir(): ?CodeCoverage; writeLcov(); writeClover() }` — used by the CLI (Task 4) and its own test (Task 1). `FakeCoverageDriver extends Driver` (3 abstract methods) — used by Tasks 1 & 2 tests. `merge-behat-coverage.php` flags `--in/--lcov/--clover` match the CI invocation (Task 6). `var/tests/behat-coverage` is the dump dir in both the service arg (Task 3) and the merge `--in` (Task 6). Consistent.
+**3. Type consistency.** `CoverageCollectorInterface { start(): void; stopAndDump(string): void }` — implemented by `CoverageCollector` (Task 2), consumed by `BehatCoverageSubscriber` (Task 3) and the `SpyCollector` test double (Task 3). `CoverageMerger { mergeDir(): ?CodeCoverage; writeClover() }` — used by the CLI (Task 4) and its own test (Task 1). `FakeCoverageDriver extends Driver` (3 abstract methods) — used by Tasks 1 & 2 tests. `merge-behat-coverage.php` flags `--in/--clover` match the CI invocation (Task 6). `var/tests/behat-coverage` is the dump dir in both the service arg (Task 3) and the merge `--in` (Task 6). Consistent.
 
 **Note on mutation testing:** the new PHP lives under `tests/` (not `src/`), so it is outside Infection's `src/`-scoped mutation shards → no MSI pressure. The unit tests above are for correctness, not mutation coverage.
