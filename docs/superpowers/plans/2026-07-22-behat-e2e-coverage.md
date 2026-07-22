@@ -4,11 +4,11 @@
 
 **Goal:** Measure which `src/**` PHP code the legacy Behat suite exercises (via remote php-fpm PCOV coverage), and upload it to Codecov under an `e2e-behat` flag, nightly-only.
 
-**Architecture:** A Symfony kernel-request subscriber (registered only in `APP_ENV=behat`) starts a PCOV-backed `CodeCoverage` per HTTP request and dumps a serialized per-request `.cov` on shutdown. Each nightly `test-behat` shard merges its own dumps into an lcov and uploads it to Codecov with flag `e2e-behat`; Codecov unions the 10 shards server-side by flag (exactly like the 4-shard Playwright `e2e-playwright`). PCOV is baked into the image default-OFF and flipped ON only for the nightly via `PHP_INI_SCAN_DIR`.
+**Architecture:** A Symfony kernel-request subscriber (registered only in `APP_ENV=behat`) starts a PCOV-backed `CodeCoverage` per HTTP request and dumps a serialized per-request `.cov` on shutdown. Each nightly `test-behat` shard merges its own dumps into a Clover report and uploads it to Codecov with flag `e2e-behat`; Codecov unions the 10 shards server-side by flag (exactly like the 4-shard Playwright `e2e-playwright`). PCOV is baked into the image default-OFF and flipped ON only for the nightly via `PHP_INI_SCAN_DIR`.
 
 **Tech Stack:** PHP 8.4, Symfony HttpKernel, PCOV (Debian `php8.4-pcov` from deb.sury.org), `phpunit/php-code-coverage` 10.1.16 (already vendored), Docker (httpd+php-fpm via supervisord), GitHub Actions, Codecov.
 
-> **Refinement vs the spec (deliberate, more faithful to "mirror Playwright #339/#343"):** the spec described a two-mode collapse-then-central-merge in `coverage-summary`. Because `coverage-summary` runs on a bare runner with no PHP/Docker, and Playwright instead uploads **per-shard** lcov and lets Codecov merge by flag, this plan does the same: **one merge per shard inside `test-behat`** (where PHP is available) → per-shard Codecov upload under `e2e-behat`. This removes the two-mode script, the cross-shard merge, and all `coverage-summary` changes. The dump directory is also flat (`var/tests/behat-coverage/`, no `<shard>/` segment) because each shard is an isolated CI job/container/checkout.
+> **Refinement vs the spec (deliberate, more faithful to "mirror Playwright #339/#343"):** the spec described a two-mode collapse-then-central-merge in `coverage-summary`. Because `coverage-summary` runs on a bare runner with no PHP/Docker, and Playwright instead uploads **per-shard** coverage and lets Codecov merge by flag, this plan does the same: **one merge per shard inside `test-behat`** (where PHP is available) → per-shard Codecov upload under `e2e-behat`. (Format is **Clover**, not lcov: php-code-coverage 10.1.16 ships `Report\Clover` but has **no** lcov writer, and this repo already uploads PHPUnit clover to Codecov — Codecov merges by flag regardless of format.) This removes the two-mode script, the cross-shard merge, and all `coverage-summary` changes. The dump directory is also flat (`var/tests/behat-coverage/`, no `<shard>/` segment) because each shard is an isolated CI job/container/checkout.
 
 ## Global Constraints
 
@@ -19,7 +19,7 @@
 - **PCOV, line-only:** `pcov.directory=/srv/pim/src`. The coverage `Filter` mirrors `phpunit.xml.dist` `<source>`: include `src`, exclude suffixes `Test.php`, `Integration.php`, `EndToEnd.php`.
 - **Code home:** namespace `Pim\Behat\Coverage\` → `tests/legacy/features/Behat/Coverage/` (autoload-dev, never loaded in prod). Subscriber service registered **only** in `config/services/behat/`.
 - **Single toggle:** `pcov.enabled` (INI_SYSTEM). The subscriber gates on `extension_loaded('pcov') && (int) ini_get('pcov.enabled') === 1` — the same signal php-code-coverage uses to select the PCOV driver.
-- **Codecov:** flag `e2e-behat`, `paths: [src/]`, `carryforward: true` (mirror `e2e-playwright`), `files: coverage-behat/lcov.info`.
+- **Codecov:** flag `e2e-behat`, `paths: [src/]`, `carryforward: true` (mirror `e2e-playwright`), `files: coverage-behat/clover.xml` (Clover, not lcov — see Tech Stack note).
 - **Tests:** the PHP unit tests are driver-free and run in CI via the `test-phpunit-unit` job (`--testsuite PHPUnit_Unit_Test`). They are **not** run locally in this worktree (no `vendor/` here). The nightly is the only proof of real PCOV collection. No new Behat scenarios (byte-identical Behat contract).
 
 ---
@@ -29,7 +29,7 @@
 - `tests/legacy/features/Behat/Coverage/CoverageCollectorInterface.php` — the `start()`/`stopAndDump()` contract (so the subscriber is testable with a spy).
 - `tests/legacy/features/Behat/Coverage/CoverageCollector.php` — wraps a `CodeCoverage`; production `create()` factory + injectable ctor.
 - `tests/legacy/features/Behat/Coverage/BehatCoverageSubscriber.php` — kernel.request → start + register shutdown dump; gated.
-- `tests/legacy/features/Behat/Coverage/CoverageMerger.php` — merge `*.cov` in a dir → lcov/clover.
+- `tests/legacy/features/Behat/Coverage/CoverageMerger.php` — merge `*.cov` in a dir → Clover.
 - `tests/legacy/features/Behat/Coverage/merge-behat-coverage.php` — thin CLI wrapper over `CoverageMerger`.
 - `tests/legacy/features/Behat/Coverage/FakeCoverageDriver.php` — test helper: a driver-free `Driver` for building `.cov` fixtures.
 - `tests/legacy/features/Behat/Coverage/CoverageMergerTest.php`, `CoverageCollectorTest.php`, `BehatCoverageSubscriberTest.php` — unit tests.
@@ -56,7 +56,7 @@
 **Interfaces:**
 - Produces (consumed by Tasks 2, 3, 4):
   - `interface CoverageCollectorInterface { public function start(): void; public function stopAndDump(string $dir): void; }`
-  - `final class CoverageMerger { public function mergeDir(string $dir): ?CodeCoverage; public function writeLcov(CodeCoverage $c, string $path): void; public function writeClover(CodeCoverage $c, string $path): void; }`
+  - `final class CoverageMerger { public function mergeDir(string $dir): ?CodeCoverage; public function writeClover(CodeCoverage $c, string $path): void; }` (Clover only — php-code-coverage 10.1.16 has no lcov writer)
   - `final class FakeCoverageDriver extends Driver` — a no-real-driver `Driver` used only by tests.
 
 - [ ] **Step 1: Write the `CoverageCollectorInterface`**
@@ -178,14 +178,18 @@ final class CoverageMergerTest extends TestCase
         $merged = $merger->mergeDir($this->dir);
         self::assertInstanceOf(CodeCoverage::class, $merged);
 
-        $lcovPath = $this->dir . '/lcov.info';
-        $merger->writeLcov($merged, $lcovPath);
-        $lcov = file_get_contents($lcovPath);
+        // Assert the union directly on the merged data (no report-format parsing):
+        // dump A covered line 4, dump B covered line 6 → both hit after merge.
+        $lineCoverage = $merged->getData()->lineCoverage();
+        self::assertArrayHasKey($this->fixtureSrc, $lineCoverage);
+        self::assertNotEmpty($lineCoverage[$this->fixtureSrc][4] ?? [], 'line 4 covered by dump A');
+        self::assertNotEmpty($lineCoverage[$this->fixtureSrc][6] ?? [], 'line 6 covered by dump B');
 
-        self::assertStringContainsString('SF:' . $this->fixtureSrc, $lcov);
-        // union → both line 4 and line 6 hit at least once (DA:<line>,<count>=1..)
-        self::assertMatchesRegularExpression('/^DA:4,[1-9]/m', $lcov);
-        self::assertMatchesRegularExpression('/^DA:6,[1-9]/m', $lcov);
+        // Smoke-test the Clover writer (the format Codecov ingests).
+        $cloverPath = $this->dir . '/clover.xml';
+        $merger->writeClover($merged, $cloverPath);
+        self::assertFileExists($cloverPath);
+        self::assertStringContainsString($this->fixtureSrc, file_get_contents($cloverPath));
     }
 
     public function test_it_returns_null_when_the_directory_has_no_cov_files(): void
@@ -229,12 +233,12 @@ namespace Pim\Behat\Coverage;
 
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Report\Clover;
-use SebastianBergmann\CodeCoverage\Report\Lcov;
 
 /**
  * Merges the per-request serialized CodeCoverage dumps (*.cov, written by
  * {@see CoverageCollector} via Report\PHP) in a directory into a single object
- * and renders lcov/clover. Incremental (load → merge → free) to bound memory.
+ * and renders Clover (php-code-coverage 10.1.16 ships no lcov writer; Codecov
+ * ingests Clover natively). Incremental (load → merge → free) to bound memory.
  */
 final class CoverageMerger
 {
@@ -259,11 +263,6 @@ final class CoverageMerger
         }
 
         return $merged;
-    }
-
-    public function writeLcov(CodeCoverage $coverage, string $path): void
-    {
-        (new Lcov())->process($coverage, $path);
     }
 
     public function writeClover(CodeCoverage $coverage, string $path): void
@@ -627,7 +626,7 @@ git commit -m "feat(behat-coverage): kernel-request subscriber + behat service w
 
 **Interfaces:**
 - Consumes: `CoverageMerger` (Task 1).
-- Produces: a CLI invoked in CI as `php tests/legacy/features/Behat/Coverage/merge-behat-coverage.php --in <dir> --lcov <path> [--clover <path>]`. Always exits 0; warns loudly on zero dumps (the anti-#328 tripwire).
+- Produces: a CLI invoked in CI as `php tests/legacy/features/Behat/Coverage/merge-behat-coverage.php --in <dir> --clover <path>`. Always exits 0; warns loudly on zero dumps (the anti-#328 tripwire).
 
 - [ ] **Step 1: Write the CLI**
 
@@ -644,13 +643,12 @@ require dirname(__DIR__, 4) . '/vendor/autoload.php';
 
 use Pim\Behat\Coverage\CoverageMerger;
 
-$options = getopt('', ['in:', 'lcov:', 'clover:']);
+$options = getopt('', ['in:', 'clover:']);
 $inDir = $options['in'] ?? null;
-$lcov = $options['lcov'] ?? null;
 $clover = $options['clover'] ?? null;
 
-if ($inDir === null || $lcov === null) {
-    fwrite(STDERR, "[behat-coverage] usage: --in <dir> --lcov <path> [--clover <path>]\n");
+if ($inDir === null || $clover === null) {
+    fwrite(STDERR, "[behat-coverage] usage: --in <dir> --clover <path>\n");
     exit(0);
 }
 
@@ -663,16 +661,13 @@ try {
         exit(0);
     }
 
-    if (!is_dir(dirname($lcov))) {
-        @mkdir(dirname($lcov), 0o777, true);
+    if (!is_dir(dirname($clover))) {
+        @mkdir(dirname($clover), 0o777, true);
     }
 
-    $merger->writeLcov($coverage, $lcov);
-    if ($clover !== null) {
-        $merger->writeClover($coverage, $clover);
-    }
+    $merger->writeClover($coverage, $clover);
 
-    fwrite(STDOUT, "[behat-coverage] wrote {$lcov}\n");
+    fwrite(STDOUT, "[behat-coverage] wrote {$clover}\n");
 } catch (\Throwable $e) {
     fwrite(STDERR, "[behat-coverage] merge failed (ignored): {$e->getMessage()}\n");
 }
@@ -688,7 +683,7 @@ No unit test (thin CLI over the tested `CoverageMerger`). Verify: `require` path
 ```bash
 cd /home/gumiranda/claude-worktrees/pim-community-dev/behat-e2e-coverage
 git add tests/legacy/features/Behat/Coverage/merge-behat-coverage.php
-git commit -m "feat(behat-coverage): merge CLI (per-shard .cov → lcov, best-effort)"
+git commit -m "feat(behat-coverage): merge CLI (per-shard .cov → clover, best-effort)"
 ```
 
 ---
@@ -786,14 +781,14 @@ In `.github/workflows/ci.yml`, immediately **before** `- name: Archive behat art
           docker-compose exec -u www-data -T httpd \
             php tests/legacy/features/Behat/Coverage/merge-behat-coverage.php \
             --in var/tests/behat-coverage \
-            --lcov coverage-behat/lcov.info
+            --clover coverage-behat/clover.xml
 
       - name: Upload Behat PHP coverage to Codecov (shard ${{ matrix.shard }})
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         continue-on-error: true
         uses: codecov/codecov-action@v4
         with:
-          files: coverage-behat/lcov.info
+          files: coverage-behat/clover.xml
           flags: e2e-behat
           disable_search: true
           fail_ci_if_error: false
@@ -813,7 +808,7 @@ In `codecov.yml`, add the flag under the existing `flags:` map (mirroring `e2e-p
 
 - [ ] **Step 4: Verify by review + YAML lint**
 
-No unit test (CI config). Validate YAML: `python3 -c "import yaml,sys; yaml.safe_load(open('.github/workflows/ci.yml')); yaml.safe_load(open('codecov.yml')); print('ok')"` (run from the worktree). Verify by review: both steps are nightly-gated + `continue-on-error`, the merge runs in `httpd` (not `php` — the running stack is `httpd`), the lcov path matches the upload `files:`, and the flag mirrors `e2e-playwright`.
+No unit test (CI config). Validate YAML: `python3 -c "import yaml,sys; yaml.safe_load(open('.github/workflows/ci.yml')); yaml.safe_load(open('codecov.yml')); print('ok')"` (run from the worktree). Verify by review: both steps are nightly-gated + `continue-on-error`, the merge runs in `httpd` (not `php` — the running stack is `httpd`), the clover path matches the upload `files:`, and the flag mirrors `e2e-playwright`.
 
 - [ ] **Step 5: Commit**
 ```bash
