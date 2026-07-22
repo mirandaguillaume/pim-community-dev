@@ -168,7 +168,10 @@ git commit -m "fix(ci): convert E2E V8 coverage with monocart (real line denomin
 **Interfaces:**
 - Produces (consumed by Task 1): per-test files `coverage-v8/<shard>/<testId>.json` = an array of `{source, ...rawScriptCoverage}` (the raw-V8 shape monocart's `add()` consumes).
 
-- [ ] **Step 1: Add `includeRawScriptCoverage` + dump the raw-V8 shape**
+> **⚠️ CORRECTION (applied during implementation — this step's approach was wrong).**
+> `includeRawScriptCoverage` / `it.rawScriptCoverage` are **Puppeteer-only; they do NOT exist in Playwright** (`playwright-core` 1.58.2). The flag is silently ignored and `it.rawScriptCoverage` is always `undefined`, so `entries.map(it => ({source: it.source, ...it.rawScriptCoverage}))` would collapse each dump to source-only (no coverage) and silently keep the degenerate result. **What actually shipped:** `startJSCoverage({resetOnNavigation: false})` (no raw flag) and dump the entries **as-is** — `fs.writeFileSync(..., JSON.stringify(entries))`. Playwright's `stopJSCoverage()` entries already carry `{url, scriptId, source, functions}`, which is monocart's correct Playwright input (validated locally: synthetic partial entry → `LF=5 / LH=4`, sub-100%). Steps 1's two edits below are superseded; keep the existing `startJSCoverage`/`JSON.stringify(entries)` lines. Task 1's `{source, ...rawScriptCoverage}` reference is likewise moot — monocart ingests the plain entries.
+
+- [ ] **Step 1: Add `includeRawScriptCoverage` + dump the raw-V8 shape** *(superseded — see correction above)*
 
 In `tests/front/e2e/fixtures/coverage-fixture.ts`, inside the `COVERAGE` branch of the `page` override, make exactly two changes:
 

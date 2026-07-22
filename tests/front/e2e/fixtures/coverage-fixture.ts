@@ -12,7 +12,8 @@ const OUT = path.resolve(__dirname, '../../../..', 'coverage-v8', SHARD);
 /**
  * Overrides the built-in `page` fixture. When E2E_COVERAGE is set (nightly only)
  * it wraps the test with Chromium V8 JS coverage and dumps the raw entries per
- * test for the v8-to-lcov post-processor. Strict no-op otherwise (zero PR cost).
+ * test for the monocart e2e-coverage-report post-processor. Strict no-op
+ * otherwise (zero PR cost).
  * Every coverage call is best-effort: a failure is logged and never fails the test.
  */
 export const test = base.extend({
