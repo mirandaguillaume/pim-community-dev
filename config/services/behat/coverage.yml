@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        public: true
+
+    Pim\Behat\Coverage\BehatCoverageSubscriber:
+        factory: ['Pim\Behat\Coverage\BehatCoverageSubscriber', 'fromEnvironment']
+        arguments:
+            - '%kernel.project_dir%/var/tests/behat-coverage'
+        tags:
+            - { name: kernel.event_subscriber }
