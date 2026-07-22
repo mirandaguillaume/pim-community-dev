@@ -1735,7 +1735,7 @@ jobs:
       - name: Convert E2E V8 coverage to lcov
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         continue-on-error: true
-        run: node tests/front/e2e/coverage/v8-to-lcov.js
+        run: node tests/front/e2e/coverage/e2e-coverage-report.js
 
       - name: Upload E2E coverage to Codecov
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}

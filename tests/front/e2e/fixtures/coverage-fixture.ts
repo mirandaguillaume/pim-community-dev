@@ -12,7 +12,8 @@ const OUT = path.resolve(__dirname, '../../../..', 'coverage-v8', SHARD);
 /**
  * Overrides the built-in `page` fixture. When E2E_COVERAGE is set (nightly only)
  * it wraps the test with Chromium V8 JS coverage and dumps the raw entries per
- * test for the v8-to-lcov post-processor. Strict no-op otherwise (zero PR cost).
+ * test for the monocart e2e-coverage-report post-processor. Strict no-op
+ * otherwise (zero PR cost).
  * Every coverage call is best-effort: a failure is logged and never fails the test.
  */
 export const test = base.extend({
@@ -29,6 +30,8 @@ export const test = base.extend({
 
     if (COVERAGE) {
       try {
+        // stopJSCoverage() entries are already the raw V8 shape monocart expects
+        // ({url, scriptId, source, functions}) — no reshaping needed.
         const entries = await page.coverage.stopJSCoverage();
         fs.mkdirSync(OUT, {recursive: true});
         const name = testInfo.testId.replace(/[^0-9a-z]/gi, '-');
