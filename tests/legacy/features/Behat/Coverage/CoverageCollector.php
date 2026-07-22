@@ -26,10 +26,18 @@ final class CoverageCollector implements CoverageCollectorInterface
     public static function create(): self
     {
         $filter = new Filter();
-        $filter->includeDirectory('/srv/pim/src');
-        $filter->excludeDirectory('/srv/pim/src', 'Test.php');
-        $filter->excludeDirectory('/srv/pim/src', 'Integration.php');
-        $filter->excludeDirectory('/srv/pim/src', 'EndToEnd.php');
+        $filter->includeDirectory('/srv/pim/src'); // single recursive scan of src
+
+        // Exclude test classes in-memory (mirrors phpunit.xml.dist <source> excludes)
+        // instead of 3 more recursive scans — create() runs once per HTTP request.
+        foreach ($filter->files() as $file) {
+            if (\str_ends_with($file, 'Test.php')
+                || \str_ends_with($file, 'Integration.php')
+                || \str_ends_with($file, 'EndToEnd.php')
+            ) {
+                $filter->excludeFile($file);
+            }
+        }
 
         return new self(new CodeCoverage((new Selector())->forLineCoverage($filter), $filter));
     }
