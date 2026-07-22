@@ -19,7 +19,7 @@ export const test = base.extend({
   page: async ({page}, use, testInfo) => {
     if (COVERAGE) {
       try {
-        await page.coverage.startJSCoverage({resetOnNavigation: false});
+        await page.coverage.startJSCoverage({resetOnNavigation: false, includeRawScriptCoverage: true});
       } catch (e) {
         console.warn(`[coverage] startJSCoverage failed: ${(e as Error).message}`);
       }
@@ -32,7 +32,8 @@ export const test = base.extend({
         const entries = await page.coverage.stopJSCoverage();
         fs.mkdirSync(OUT, {recursive: true});
         const name = testInfo.testId.replace(/[^0-9a-z]/gi, '-');
-        fs.writeFileSync(path.join(OUT, `${name}.json`), JSON.stringify(entries));
+        const raw = entries.map((it: any) => ({source: it.source, ...it.rawScriptCoverage}));
+        fs.writeFileSync(path.join(OUT, `${name}.json`), JSON.stringify(raw));
       } catch (e) {
         console.warn(`[coverage] stopJSCoverage failed: ${(e as Error).message}`);
       }
