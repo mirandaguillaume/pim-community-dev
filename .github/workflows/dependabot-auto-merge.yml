@@ -1,0 +1,62 @@
+name: Dependabot auto-merge
+
+# `pull_request`, not `pull_request_target`. This job never checks out the pull
+# request head, so it has no need for base-repo privileges — and granting them
+# against a head we do not control is exactly the combination that turns a
+# dependency bump into repository write access. The fetch-metadata README still
+# shows pull_request_target; GitHub's own documentation does not, and is right.
+on: pull_request
+
+# Workflow runs triggered by Dependabot are treated as if they came from a fork:
+# the token is read-only and Actions secrets are unavailable. `permissions` is
+# what lifts the token to exactly what `gh pr merge` needs, and nothing else.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  auto-merge:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    timeout-minutes: 5
+    # The head-repo guard stops this from running in downstream forks of this
+    # repository, where `github.repository` would no longer be ours.
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]'
+      && github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+
+      # Two conditions gate the merge.
+      #
+      # Major bumps are left to a human: semver says they may break us, and
+      # nothing in CI can tell us whether the breakage is one we care about.
+      #
+      # front-packages/akeneo-design-system is excluded because `ci-success` —
+      # the only required check on master — does not exercise it. That package
+      # is not a root yarn workspace, so a bump inside it turns ci-success green
+      # with its own tests never having run (PR #337: ci-success SUCCESS, 14
+      # checks skipped). Drop this clause once dsm-test is a required check.
+      - name: Queue auto-merge
+        if: >-
+          steps.meta.outputs.directory != '/front-packages/akeneo-design-system'
+          && contains(fromJSON('["version-update:semver-patch", "version-update:semver-minor"]'), steps.meta.outputs.update-type)
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # --auto queues the merge behind the required checks rather than
+          # merging now, so branch protection still decides the outcome.
+          if ! err=$(gh pr merge --auto --squash "$PR_URL" 2>&1); then
+            echo "$err"
+            # GitHub refuses --auto when the pull request is already mergeable,
+            # because there is nothing left to wait on. Merging directly is the
+            # same decision, taken immediately; protection rules still apply.
+            echo "$err" | grep -q 'clean status' || exit 1
+            gh pr merge --squash "$PR_URL"
+          fi

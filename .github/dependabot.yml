@@ -7,6 +7,12 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "production"
+    # Let a release sit on the registry before we open a PR for it. Patch and
+    # minor bumps merge unattended, so this is the window in which a hijacked
+    # release gets noticed and yanked by someone else. Security updates ignore
+    # cooldown entirely, so CVE fixes are never held back by it.
+    cooldown:
+      default-days: 5
     open-pull-requests-limit: 5
 
   - package-ecosystem: "npm"
@@ -15,6 +21,12 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "production"
+    # Let a release sit on the registry before we open a PR for it. Patch and
+    # minor bumps merge unattended, so this is the window in which a hijacked
+    # release gets noticed and yanked by someone else. Security updates ignore
+    # cooldown entirely, so CVE fixes are never held back by it.
+    cooldown:
+      default-days: 5
     open-pull-requests-limit: 5
 
   - package-ecosystem: "npm"
@@ -23,6 +35,12 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "production"
+    # Let a release sit on the registry before we open a PR for it. Patch and
+    # minor bumps merge unattended, so this is the window in which a hijacked
+    # release gets noticed and yanked by someone else. Security updates ignore
+    # cooldown entirely, so CVE fixes are never held back by it.
+    cooldown:
+      default-days: 5
     open-pull-requests-limit: 5
 
   - package-ecosystem: "composer"
@@ -31,6 +49,8 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "production"
+    cooldown:
+      default-days: 5
     ignore:
       - dependency-name: "*"
         update-types: [ "version-update:semver-major" ]
