@@ -59,6 +59,15 @@ legacy:
                 - src/Akeneo/Connectivity/Connection/tests/features/
             filters:
                 tags: '~@skip&&~@skip-pef&&~@skip-nav&&~@doc&&~@unstable&&~@unstable-app&&~@deprecated&&~@critical&&~@optional'
+        nightly:
+            contexts: *context
+            paths:
+                - tests/legacy/features
+                - src/Akeneo/Connectivity/Connection/tests/features/
+            filters:
+                # Like `all` but includes @critical and @optional scenarios — used on nightly
+                # scheduled runs to give total E2E coverage beyond the PR fast-path.
+                tags: '~@skip&&~@skip-pef&&~@skip-nav&&~@doc&&~@unstable&&~@unstable-app&&~@deprecated'
         chipmunk:
             contexts: *context
             paths:
