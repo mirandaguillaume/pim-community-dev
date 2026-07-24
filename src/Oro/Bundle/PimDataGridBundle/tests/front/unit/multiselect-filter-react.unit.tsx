@@ -134,6 +134,16 @@ describe('multiselect-filter-react', () => {
       filter._value = {value: ''};
       expect(filter._applyAllExclusion(['red'])).toEqual(['red']);
     });
+
+    // Kills the init-coercion mutant: only an empty-string model COMBINED with a `values` array that
+    // contains '' distinguishes `'' === getValue().value ? [''] : …` from its mutated forms. Without the
+    // coercion, previousValue would be the string '' (not ['']), changing the `addAll` diff and yielding
+    // ['']; the coercion keeps addAll=false so "All" is merely dropped, leaving ['red'].
+    test('empty-string model + a selection containing "All" drops "All" (kills the init-coercion mutant)', () => {
+      const filter: any = new (Bridge as any)();
+      filter._value = {value: ''};
+      expect(filter._applyAllExclusion(['red', ''])).toEqual(['red']);
+    });
   });
 
   test('_onReactChange applies the exclusion, stores state, re-renders, and pushes the formatted value', () => {
