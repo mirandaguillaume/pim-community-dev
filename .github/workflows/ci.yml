@@ -1230,6 +1230,8 @@ jobs:
         run: docker-compose down --remove-orphans 2>/dev/null || true
 
       - name: Setup test database
+        env:
+          PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
           DB_NAME=${DB_NAME:-akeneo_pim_test}
@@ -1511,6 +1513,27 @@ jobs:
           else
             echo "  Could not create debug session"
           fi
+
+      - name: Merge Behat PHP coverage (shard ${{ matrix.shard }})
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        run: |
+          docker-compose exec -u www-data -T httpd \
+            php tests/legacy/features/Behat/Coverage/merge-behat-coverage.php \
+            --in var/tests/behat-coverage \
+            --clover coverage-behat/clover.xml
+
+      - name: Upload Behat PHP coverage to Codecov (shard ${{ matrix.shard }})
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage-behat/clover.xml
+          flags: e2e-behat
+          disable_search: true
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Archive behat artifacts
         if: always()
