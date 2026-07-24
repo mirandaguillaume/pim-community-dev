@@ -33,7 +33,7 @@ export const FILTER_MODULE_IDS = {
   // C1 Wave 5: `metric` renders via React (sibling of `price`: number + a unit AknDropdown with i18n
   // labels, units fetched async; shared NumberUnitFilterCriteria).
   metric: 'oro/datafilter/metric-filter-react',
-  multiselect: 'oro/datafilter/multiselect-filter',
+  multiselect: 'oro/datafilter/multiselect-filter-react',
   none: 'oro/datafilter/none-filter',
   number: 'oro/datafilter/number-filter-react',
   parent: 'oro/datafilter/parent-filter-react',
@@ -45,9 +45,10 @@ export const FILTER_MODULE_IDS = {
   product_scope: 'oro/datafilter/product_scope-filter',
   search: 'oro/datafilter/search-filter',
   attribute_search: 'oro/datafilter/search-filter',
-  // Vague B: `select` renders via React (select-filter-react extends the legacy select-filter — the
-  // jquery.multiselect widget replaced by the controlled DSM SelectInput/MultiSelectInput). The legacy
-  // `oro/datafilter/select-filter` module stays for select-row/multiselect/product_scope/product_completeness.
+  // Vague B: `select` and `multiselect` render via React (select-filter-react / multiselect-filter-react
+  // extend the legacy filters — the jquery.multiselect widget replaced by the controlled DSM
+  // SelectInput/MultiSelectInput). The legacy `oro/datafilter/select-filter` module stays for
+  // select-row/product_scope/product_completeness.
   select: 'oro/datafilter/select-filter-react',
   'select-row': 'oro/datafilter/select-row-filter',
   // C1 Wave 5: `select2-choice` renders via React (select2-choice-filter-react extends the legacy
