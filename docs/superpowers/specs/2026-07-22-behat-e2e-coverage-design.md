@@ -64,7 +64,7 @@ pcov.directory=/srv/pim/src    # restrict instrumentation to src/ (perf + scope)
 
 ### 4. Nightly enablement — `docker/php-coverage.d/pcov-on.ini` + `docker-compose.yml`
 - New committed file `docker/php-coverage.d/pcov-on.ini` containing exactly `pcov.enabled=1` (rides the `./:/srv/pim` bind-mount, so it is present inside the container without rebuilding).
-- `docker-compose.yml` `httpd` service gains `PHP_INI_SCAN_DIR: ${PHP_INI_SCAN_DIR:-}` (default empty → unchanged behaviour).
+- `docker-compose.yml` `httpd` service gains `PHP_INI_SCAN_DIR: ${PHP_INI_SCAN_DIR:-:}` (default `:` = scan the compiled-in conf.d; an EMPTY value would disable ALL conf.d scanning → no extensions → app 500s, so the default must be `:`, not empty). Nightly sets `:/srv/pim/docker/php-coverage.d`.
 - The **nightly** `test-behat` job sets `PHP_INI_SCAN_DIR=/usr/local/etc/php/conf.d:/srv/pim/docker/php-coverage.d` on the `httpd` service before `docker-compose up`. The php-fpm **master** reads `PHP_INI_SCAN_DIR` at startup; the extra dir's `pcov.enabled=1` overrides the baked `0`. On PR runs the var is unset → PCOV stays disabled.
 - (The exact `conf.d` path is confirmed against the built image during implementation.)
 

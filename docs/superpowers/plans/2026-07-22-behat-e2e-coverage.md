@@ -732,7 +732,7 @@ Do **not** add pcov to the `ci`-stage removal list (unlike xdebug) — it must s
 
 In `docker-compose.yml`, in the `httpd` service `environment:` block (after the `XDEBUG_MODE` line, ~line 30), add:
 ```yaml
-      PHP_INI_SCAN_DIR: '${PHP_INI_SCAN_DIR:-}'
+      PHP_INI_SCAN_DIR: '${PHP_INI_SCAN_DIR:-:}'
 ```
 Default empty → unchanged behaviour on every non-nightly run. The nightly job (Task 6) exports `PHP_INI_SCAN_DIR=:/srv/pim/docker/php-coverage.d` (leading colon = default conf.d scanned first, then this dir, whose `pcov.enabled=1` overrides the baked `0`).
 
