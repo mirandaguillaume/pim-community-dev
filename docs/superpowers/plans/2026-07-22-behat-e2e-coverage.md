@@ -639,7 +639,7 @@ declare(strict_types=1);
 // Thin CLI over CoverageMerger. Best-effort: always exit 0 so it can never fail
 // the nightly Behat job. Run inside the httpd container where PCOV + vendor exist.
 
-require dirname(__DIR__, 4) . '/vendor/autoload.php';
+require dirname(__DIR__, 5) . '/vendor/autoload.php';
 
 use Pim\Behat\Coverage\CoverageMerger;
 
@@ -677,7 +677,7 @@ exit(0);
 
 - [ ] **Step 2: Verify by review**
 
-No unit test (thin CLI over the tested `CoverageMerger`). Verify: `require` path resolves to `/srv/pim/vendor/autoload.php` (`dirname(__DIR__, 4)` from `tests/legacy/features/Behat/Coverage/` → repo root), the tripwire warning fires on empty input, and it always `exit(0)`.
+No unit test (thin CLI over the tested `CoverageMerger`). Verify: `require` path resolves to `/srv/pim/vendor/autoload.php` (`dirname(__DIR__, 5)` from `tests/legacy/features/Behat/Coverage/` → repo root — the dir is 5 levels deep), the tripwire warning fires on empty input, and it always `exit(0)`.
 
 - [ ] **Step 3: Commit**
 ```bash
