@@ -15,6 +15,10 @@ final class BehatCoverageSubscriberTest extends TestCase
     public function test_it_subscribes_to_the_kernel_request_event(): void
     {
         self::assertArrayHasKey(KernelEvents::REQUEST, BehatCoverageSubscriber::getSubscribedEvents());
+        self::assertSame(
+            ['onRequest', 1024],
+            BehatCoverageSubscriber::getSubscribedEvents()[KernelEvents::REQUEST],
+        );
     }
 
     public function test_it_starts_collection_on_a_main_request_when_enabled(): void
@@ -65,19 +69,5 @@ final class BehatCoverageSubscriberTest extends TestCase
                 return new \Symfony\Component\HttpFoundation\Response();
             }
         };
-    }
-}
-
-final class SpyCollector implements CoverageCollectorInterface
-{
-    public int $startCalls = 0;
-
-    public function start(): void
-    {
-        $this->startCalls++;
-    }
-
-    public function stopAndDump(string $dir): void
-    {
     }
 }
