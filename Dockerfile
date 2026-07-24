@@ -77,6 +77,7 @@ RUN apt-get update && \
         default-mysql-client \
         git \
         perceptualdiff \
+        php${PHP_VERSION}-pcov \
         php${PHP_VERSION}-xdebug \
         procps \
         unzip &&\
@@ -85,6 +86,8 @@ RUN apt-get update && \
 
 COPY docker/build/xdebug.ini /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-xdebug.ini
 COPY docker/build/xdebug.ini /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-xdebug.ini
+COPY docker/build/pcov.ini /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-pcov.ini
+COPY docker/build/pcov.ini /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-pcov.ini
 COPY docker/build/blackfire.ini /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-blackfire.ini
 COPY docker/build/blackfire.ini /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-blackfire.ini
 
