@@ -19,7 +19,7 @@
 - **PCOV, line-only:** `pcov.directory=/srv/pim/src`. The coverage `Filter` mirrors `phpunit.xml.dist` `<source>`: include `src`, exclude suffixes `Test.php`, `Integration.php`, `EndToEnd.php`.
 - **Code home:** namespace `Pim\Behat\Coverage\` → `tests/legacy/features/Behat/Coverage/` (autoload-dev, never loaded in prod). Subscriber service registered **only** in `config/services/behat/`.
 - **Single toggle:** `pcov.enabled` (INI_SYSTEM). The subscriber gates on `extension_loaded('pcov') && (int) ini_get('pcov.enabled') === 1` — the same signal php-code-coverage uses to select the PCOV driver.
-- **Codecov:** flag `e2e-behat`, `paths: [src/]`, `carryforward: true` (mirror `e2e-playwright`), `files: coverage-behat/clover.xml` (Clover, not lcov — see Tech Stack note).
+- **Codecov:** flag `e2e-behat`, `paths: [src/]`, `carryforward: true` (mirror `e2e-playwright`), `files: var/tests/behat-coverage-report/clover.xml` (Clover, not lcov — see Tech Stack note).
 - **Tests:** the PHP unit tests are driver-free and run in CI via the `test-phpunit-unit` job (`--testsuite PHPUnit_Unit_Test`). They are **not** run locally in this worktree (no `vendor/` here). The nightly is the only proof of real PCOV collection. No new Behat scenarios (byte-identical Behat contract).
 
 ---
@@ -772,7 +772,7 @@ In `.github/workflows/ci.yml`, the `Setup test database` step (~1232) runs `APP_
 
 - [ ] **Step 2: Merge + upload per shard (before the archive step)**
 
-In `.github/workflows/ci.yml`, immediately **before** `- name: Archive behat artifacts` (~line 1515), insert two nightly-gated, best-effort steps. The merge runs in the `httpd` container (PCOV + vendor present); `coverage-behat/clover.xml` lands on the runner via the `./:/srv/pim` bind-mount.
+In `.github/workflows/ci.yml`, immediately **before** `- name: Archive behat artifacts` (~line 1515), insert two nightly-gated, best-effort steps. The merge runs in the `httpd` container (PCOV + vendor present); `var/tests/behat-coverage-report/clover.xml` lands on the runner via the `./:/srv/pim` bind-mount.
 ```yaml
       - name: Merge Behat PHP coverage (shard ${{ matrix.shard }})
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
@@ -781,14 +781,14 @@ In `.github/workflows/ci.yml`, immediately **before** `- name: Archive behat art
           docker-compose exec -u www-data -T httpd \
             php tests/legacy/features/Behat/Coverage/merge-behat-coverage.php \
             --in var/tests/behat-coverage \
-            --clover coverage-behat/clover.xml
+            --clover var/tests/behat-coverage-report/clover.xml
 
       - name: Upload Behat PHP coverage to Codecov (shard ${{ matrix.shard }})
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         continue-on-error: true
         uses: codecov/codecov-action@v4
         with:
-          files: coverage-behat/clover.xml
+          files: var/tests/behat-coverage-report/clover.xml
           flags: e2e-behat
           disable_search: true
           fail_ci_if_error: false
