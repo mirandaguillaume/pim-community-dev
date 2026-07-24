@@ -1521,14 +1521,14 @@ jobs:
           docker-compose exec -u www-data -T httpd \
             php tests/legacy/features/Behat/Coverage/merge-behat-coverage.php \
             --in var/tests/behat-coverage \
-            --clover coverage-behat/clover.xml
+            --clover var/tests/behat-coverage-report/clover.xml
 
       - name: Upload Behat PHP coverage to Codecov (shard ${{ matrix.shard }})
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         continue-on-error: true
         uses: codecov/codecov-action@v4
         with:
-          files: coverage-behat/clover.xml
+          files: var/tests/behat-coverage-report/clover.xml
           flags: e2e-behat
           disable_search: true
           fail_ci_if_error: false

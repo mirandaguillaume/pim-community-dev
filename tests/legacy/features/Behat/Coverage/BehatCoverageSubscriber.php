@@ -48,8 +48,8 @@ final class BehatCoverageSubscriber implements EventSubscriberInterface
             $collector->start();
 
             $dir = $this->dumpDir;
-            // Assumes one-shot per-request PHP (php-fpm / public/index.php): each HTTP
-            // request is a fresh process, so start()+shutdown-dump pair exactly once per request.
+            // php-fpm reuses worker processes, but each request boots a fresh kernel and
+            // fires+clears its own shutdown callbacks, so start()+dump pair once per request.
             \register_shutdown_function(static function () use ($collector, $dir): void {
                 try {
                     $collector->stopAndDump($dir);
