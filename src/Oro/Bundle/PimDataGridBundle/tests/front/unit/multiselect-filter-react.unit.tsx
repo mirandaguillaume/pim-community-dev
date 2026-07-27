@@ -1,33 +1,30 @@
-// Mirrors select-filter-react.unit.tsx: mock the legacy base (SelectFilter) + AbstractFilter so the
-// inherited machinery is stubbed; render the child to a prop-capturing div via a real react-dom mount.
-// The multi bridge extends the REAL select-filter-react (PR1), so only SelectFilter/AbstractFilter/DSM
-// are mocked — select-filter-react and its overrides run for real.
+// Mock the React BASE (select-filter-react) so the multiselect bridge's inherited render/value machinery
+// is stubbed — mirrors metric-filter-react.unit.tsx, which mocks its number-filter-react base. The base is
+// imported by the SOURCE via the bare AMD specifier `oro/datafilter/select-filter-react`; jest can only
+// resolve that through a {virtual:true} mock (there is no moduleNameMapper for `oro/datafilter/*`), so the
+// bridge's own overrides are tested against this stub base. The inherited members (render, _renderReact,
+// _normalizeToArray, _writeDOMValue, _onValueUpdated, remove, getCriteria, …) are exercised by PR1's
+// select-filter-react.unit.tsx and are not this PR's mutation surface.
 jest.mock(
-  'oro/datafilter/select-filter',
+  'oro/datafilter/select-filter-react',
   () => {
-    function SelectFilter(this: any) {
+    function SelectFilterReact(this: any) {
       this.el = document.createElement('div');
-      this.choices = [
-        {value: 'red', label: 'Red'},
-        {value: 'blue', label: 'Blue'},
-      ];
-      this.placeholder = 'All';
-      this.populateDefault = true;
-      this.showLabel = true;
-      this.label = 'Color';
-      this.canDisable = true;
-      this.nullLink = '#null';
-      // NOTE: do NOT set this.widgetOptions here — the multi bridge declares widgetOptions:{multiple:true}
-      // on its prototype; an instance property set in this constructor would SHADOW it and force single.
+      // The model value the "All" exclusion diffs against; overridden per-test.
       this._value = {value: ['red']};
+      this.choices = [];
+      this.populateDefault = true;
+      this.placeholder = 'All';
       this.setValue = jest.fn();
     }
-    const proto = (SelectFilter as any).prototype;
+    const proto = (SelectFilterReact as any).prototype;
+    // Plain function (not jest.fn) so its implementation is never at the mercy of a mock reset.
     proto.getValue = function (this: any) {
       return this._value;
     };
     proto._formatRawValue = jest.fn((v: any) => ({...v, raw: true}));
-    proto.disable = jest.fn();
+    // Inherited by the bridge (it does not override _renderReact); spied to assert re-render on change.
+    proto._renderReact = jest.fn();
     function backboneExtend(this: any, o: any) {
       const P = this;
       function S(this: any) {
@@ -38,62 +35,22 @@ jest.mock(
       (S as any).extend = backboneExtend;
       return S;
     }
-    (SelectFilter as any).extend = backboneExtend;
-    return SelectFilter;
-  },
-  {virtual: true}
-);
-
-jest.mock(
-  'oro/datafilter/abstract-filter',
-  () => {
-    function AbstractFilter() {}
-    (AbstractFilter as any).prototype.render = function (this: any) {
-      return this;
-    };
-    (AbstractFilter as any).prototype.remove = jest.fn(function (this: any) {
-      return this;
-    });
-    (AbstractFilter as any).prototype._onValueUpdated = jest.fn();
-    return AbstractFilter;
+    (SelectFilterReact as any).extend = backboneExtend;
+    return SelectFilterReact;
   },
   {virtual: true}
 );
 
 jest.mock('oro/translator', () => (k: string) => k, {virtual: true});
 
-// The inherited _renderReact wraps its mount in ThemeProvider + DependenciesProvider (DSM theme context).
-// Stub them to pass-through providers so the mounted SelectFilterCriteria stand-in lands in `filter.el`.
-jest.mock('styled-components', () => ({ThemeProvider: ({children}: any) => children}));
-jest.mock('akeneo-design-system', () => ({pimTheme: {}}));
-jest.mock('@akeneo-pim-community/legacy-bridge', () => ({DependenciesProvider: ({children}: any) => children}));
-
-jest.mock('../../../Resources/public/js/datafilter/filter/SelectFilterCriteria', () => {
-  const React = require('react');
-  return {
-    __esModule: true,
-    default: (props: any) =>
-      React.createElement('div', {
-        'data-multiple': String(props.multiple),
-        'data-value': (props.value || []).join(','),
-        'data-choices': JSON.stringify(props.choices),
-      }),
-  };
-});
-
 import Bridge from '../../../Resources/public/js/datafilter/filter/multiselect-filter-react';
 
 beforeEach(() => jest.clearAllMocks());
 
 describe('multiselect-filter-react', () => {
-  test('render seeds _selectedValues from the model and mounts the MULTI React view', () => {
+  test('widgetOptions.multiple is true, so the inherited _renderReact renders MultiSelectInput', () => {
     const filter: any = new (Bridge as any)();
-    filter.render();
-
-    expect(filter._selectedValues).toEqual(['red']);
-    const rendered = filter.el.querySelector('[data-multiple="true"]');
-    expect(rendered).not.toBeNull();
-    expect(rendered!.getAttribute('data-value')).toBe('red');
+    expect(filter.widgetOptions.multiple).toBe(true);
   });
 
   test('_readDOMValue returns the FULL array (not just the first element)', () => {
@@ -102,6 +59,38 @@ describe('multiselect-filter-react', () => {
     expect(filter._readDOMValue()).toEqual({value: ['red', 'blue']});
     filter._selectedValues = [];
     expect(filter._readDOMValue()).toEqual({value: []});
+  });
+
+  test('_reactChoices flattens optgroups to leaf options, dedupes by value, translates, sorts, prepends All', () => {
+    const filter: any = new (Bridge as any)();
+    filter.choices = [
+      {value: 'red', label: 'Red'},
+      {
+        label: 'Warm',
+        value: [
+          {value: 'orange', label: 'Orange'},
+          {value: 'red', label: 'Red dup'},
+        ],
+      },
+      {label: 'Cool', value: [{value: 'blue', label: 'Blue'}]},
+    ];
+    filter.populateDefault = true;
+    filter.placeholder = 'All';
+
+    const result = filter._reactChoices();
+
+    // "All" prepended first.
+    expect(result[0]).toEqual({value: '', label: 'All'});
+    // Optgroups flattened to leaves, `red` deduped (first occurrence kept), sorted by label
+    // (Blue < Orange < Red).
+    expect(result.slice(1)).toEqual([
+      {value: 'blue', label: 'Blue'},
+      {value: 'orange', label: 'Orange'},
+      {value: 'red', label: 'Red'},
+    ]);
+    // Regression guard: no option value is an object (an object value crashes DSM MultiSelectInput with
+    // "Duplicate option value [object Object]").
+    result.forEach((choice: any) => expect(typeof choice.value).toBe('string'));
   });
 
   describe('_applyAllExclusion (the "All"/`\'\'` mutual-exclusion)', () => {
@@ -149,12 +138,11 @@ describe('multiselect-filter-react', () => {
   test('_onReactChange applies the exclusion, stores state, re-renders, and pushes the formatted value', () => {
     const filter: any = new (Bridge as any)();
     filter._value = {value: ['red']};
-    const renderSpy = jest.spyOn(filter, '_renderReact').mockImplementation(() => {});
     // user clicks "All" (''), which should collapse to ['']
     filter._onReactChange(['red', '']);
 
     expect(filter._selectedValues).toEqual(['']);
-    expect(renderSpy).toHaveBeenCalled();
+    expect(filter._renderReact).toHaveBeenCalled();
     expect(filter.setValue).toHaveBeenCalledWith({value: [''], raw: true});
   });
 });
