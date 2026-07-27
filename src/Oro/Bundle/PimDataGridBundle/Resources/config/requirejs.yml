@@ -147,6 +147,7 @@ config:
         oro/datafilter/price-filter-react:          pimdatagrid/js/datafilter/filter/price-filter-react
         oro/datafilter/metric-filter-react:         pimdatagrid/js/datafilter/filter/metric-filter-react
         oro/datafilter/select-filter-react:         pimdatagrid/js/datafilter/filter/select-filter-react
+        oro/datafilter/multiselect-filter-react:    pimdatagrid/js/datafilter/filter/multiselect-filter-react
         oro/datafilter/parent-filter-react:         pimdatagrid/js/datafilter/filter/parent-filter-react
         oro/datafilter/identifier-filter-react:     pimdatagrid/js/datafilter/filter/identifier-filter-react
         oro/datafilter/uuid-filter-react:           pimdatagrid/js/datafilter/filter/uuid-filter-react
