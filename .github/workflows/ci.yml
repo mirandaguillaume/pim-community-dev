@@ -1239,7 +1239,15 @@ jobs:
 
       - name: Setup test database
         env:
-          PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
+          # Behat E2E PHP coverage (PCOV) is DISABLED (2026-07-28). Enabling it nightly turned every
+          # test-behat + test-playwright shard red from 07-25 on: per-request PCOV coverage collection
+          # adds a ~7x request overhead (a behat shard goes ~6min -> ~45min) that pushes select2 field
+          # searches past the 40s Spin timeout. The #348 collector/merge code is kept, dormant, for a
+          # low-overhead rework (raw \pcov\collect dumps). To RE-ENABLE, restore the schedule /
+          # workflow_dispatch condition below:
+          #   PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
+          # An empty value is safe: the httpd service defaults it to ':' (scan the compiled-in conf.d).
+          PHP_INI_SCAN_DIR: ''
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
           DB_NAME=${DB_NAME:-akeneo_pim_test}
