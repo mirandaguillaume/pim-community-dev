@@ -9,7 +9,12 @@ require dirname(__DIR__, 5) . '/vendor/autoload.php';
 
 use Pim\Behat\Coverage\CoverageMerger;
 
-$options = getopt('', ['in:', 'clover:', 'src::', 'cache::']);
+// All four use the single-colon (required-argument) form. The options themselves stay optional to
+// supply — an omitted flag simply leaves its key absent — but a flag that IS supplied must carry a
+// value. The double-colon form was a trap: PHP's getopt binds `::` options ONLY when the value is
+// `=`-attached, so `--cache var/x` silently left the key unset, `$cacheDir` fell to null, and
+// cacheStaticAnalysis() was never called. With `:`, both `--cache var/x` and `--cache=var/x` bind.
+$options = getopt('', ['in:', 'clover:', 'src:', 'cache:']);
 $inDir = $options['in'] ?? null;
 $clover = $options['clover'] ?? null;
 $srcDir = $options['src'] ?? '/srv/pim/src';

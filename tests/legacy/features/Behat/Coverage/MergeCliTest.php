@@ -115,12 +115,49 @@ final class MergeCliTest extends TestCase
         self::assertStringContainsString('0 covered lines', $stderr);
     }
 
+    public function test_the_cache_option_binds_when_passed_space_separated(): void
+    {
+        // Regression guard for the getopt optional-argument trap. ci.yml passes `--cache <dir>`
+        // space-separated; under the old `cache::` spec that left the key unset, $cacheDir fell to
+        // null and cacheStaticAnalysis() was never called — silently, with no error. A populated
+        // cache directory is the observable proof the option bound and the analyser used it.
+        file_put_contents(
+            $this->dir . '/111.dump',
+            RawCoverageRecorder::encode([$this->covered => [4 => 1]]),
+        );
+        $cache = $this->dir . '/sa-cache';
+
+        $script = __DIR__ . '/merge-behat-coverage.php';
+        exec(sprintf(
+            '%s %s --in %s --clover %s --src %s --cache %s 2>&1',
+            escapeshellarg(PHP_BINARY),
+            escapeshellarg($script),
+            escapeshellarg($this->dir),
+            escapeshellarg($this->dir . '/report/clover.xml'),
+            escapeshellarg($this->srcDir),
+            escapeshellarg($cache),
+        ), $output, $exit);
+
+        self::assertSame(0, $exit);
+        self::assertDirectoryExists($cache);
+        self::assertNotSame([], glob($cache . '/*') ?: [], 'the analyser should have written cache entries');
+
+        foreach (glob($cache . '/*') ?: [] as $f) {
+            @unlink($f);
+        }
+        @rmdir($cache);
+    }
+
     /** @return array{0: int, 1: string} */
     private function runCli(string $clover): array
     {
         $script = __DIR__ . '/merge-behat-coverage.php';
+        // Space-separated on purpose: this is exactly how ci.yml invokes the script. The test
+        // previously used the `=`-attached form, so it exercised a command line production never
+        // runs — and could not have caught `--cache` silently failing to bind under `getopt`'s
+        // optional-argument (`::`) form. Keep these two shapes identical.
         $cmd = sprintf(
-            '%s %s --in=%s --clover=%s --src=%s 2>&1',
+            '%s %s --in %s --clover %s --src %s 2>&1',
             escapeshellarg(PHP_BINARY),
             escapeshellarg($script),
             escapeshellarg($this->dir),
