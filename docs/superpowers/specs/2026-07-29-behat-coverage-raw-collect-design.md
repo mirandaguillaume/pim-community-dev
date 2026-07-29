@@ -4,7 +4,7 @@
 
 This supersedes `2026-07-22-behat-e2e-coverage-design.md`. That design's plumbing was correct and is kept wholesale — image, ini toggle, subscriber, per-shard collapse, artifact ride-along, Codecov flag. Only the *collection strategy* changes.
 
-**The falsified assumption.** The 07-22 spec locked PCOV on the premise of "line-only with ~10–20% overhead". PCOV itself does cost about that (published benchmarks put PCOV line collection at ~1.3x against Xdebug's ~3.8x). The measured 7x therefore was never PCOV — roughly 5.4x of it is **userland `SebastianBergmann\CodeCoverage` work executing inside every HTTP request**.
+**The falsified assumption.** The 07-22 spec locked PCOV on the premise of "line-only with ~10–20% overhead". That premise was right about PCOV and wrong about where the cost would come from: **Gate 0a (below) measured PCOV's instrumentation at 7.5 min/shard against a 7.6 min PCOV-off baseline — free**. The overhead is **entirely userland `SebastianBergmann\CodeCoverage` work executing inside every HTTP request**, and the true multiplier is **~5.1x** (38.4 / 7.6), not the ~7x recorded in the disable comment.
 
 ## The diagnosis
 
@@ -62,18 +62,27 @@ PER SHARD (×1, offline, in the httpd container)
 | `Dockerfile`, `docker/*.ini`, `docker-compose.yml`, `codecov.yml` | **No change.** `pcov.directory`, the `php-coverage.d` toggle, `PHP_INI_SCAN_DIR: ${VAR:-:}` and both `carryforward: true` flags are already correct. |
 | `.github/workflows/ci.yml` | Restore the commented expression at line 1248; keep the surrounding comment block rewritten to describe the new design. |
 
-## Gate 0 — isolate where the 7x actually lives
+## Gate 0 — isolate where the overhead actually lives
 
-Two cheap experiments, run before any rewrite. Together they answer the only question that can invalidate this whole design: **is the 7x ours, or is it PCOV's floor?**
+The blocking question this design rests on: **is the overhead ours, or is it PCOV's floor?**
 
-### 0a. The no-op isolation experiment (decisive)
+### 0a. The no-op isolation experiment — RESOLVED 2026-07-29: the overhead is OURS
 
-Make `stopAndDump()` a no-op — PCOV still starts and collects on every request, but zero `php-code-coverage` work and zero I/O happen — then re-measure a shard via `gh workflow run ci.yml --ref <branch>` (a `pull_request` run will *not* exercise this path; PCOV is gated to `schedule`/`workflow_dispatch`).
+Ran with `stopAndDump()` reduced to PCOV's own `stop()`+`clear()` — PCOV instruments every request, but zero `php-code-coverage` work and zero I/O happen. Toggled by the marker file `/srv/pim/var/behat-coverage-noop` (an env var cannot work: the fpm pool runs `clear_env = YES`, so container env never reaches PHP under the fpm SAPI).
 
-- **Still ~7x** → the cost is PCOV-native and irreducible. This design does not help, and the real options become the single-worker/flush-per-scenario variant or dropping Behat PHP coverage and keeping only the Playwright half.
-- **Materially faster** → the cost is our per-request collect/serialize, exactly as diagnosed, and the raw-collect rework is the right fix.
+All three measurements are the same `nightly` suite on the same runner fleet:
 
-**This gate is blocking.** If it comes back "still ~7x", stop and re-brainstorm rather than implement.
+| Config | Run | Shard minutes | Mean | Result |
+| --- | --- | --- | --- | --- |
+| PCOV off (baseline) | `30425913943` (schedule) | 6,6,7,7,8,8,8,8,9,9 | **7.6** | 10/10 green |
+| PCOV on, collector no-op | `30453503181` (dispatch) | 7,8,6,9 | **7.5** | 4/4 green |
+| PCOV on + #351 filter cache | `30347187208` (dispatch) | 30,31,35,36,38,39,39,44,45,47 | **38.4** | 10/10 red |
+
+**Conclusion: PCOV's instrumentation is free at this granularity** — 7.5 vs 7.6 min is inside the baseline's own 6–9 min spread. These shards are dominated by Selenium round-trips and DB work, not PHP CPU, so line tracking does not register. **The whole ~5.1x is userland `php-code-coverage` in the request path**, exactly as diagnosed. The rework is cleared to proceed.
+
+**What this does NOT prove.** The no-op path skips `\pcov\collect()`, which the real design *does* call. So it establishes a floor (7.5 min) and confirms the ~31 min of overhead lives entirely in the block being removed — but `collect()` + reduce + write remain unmeasured. The finished design lands somewhere in 7.5–38.4 min, and **Gate 1 is what locates it**. Do not read Gate 0a as "the rework is free".
+
+**Correction to the record:** the overhead is **~5.1x** (38.4 / 7.6), not the ~7x quoted in the `ci.yml` disable comment — that figure compared worst-slow (45) against best-fast (~6.5).
 
 ### 0b. Verify the php-fpm statics premise (diagnostic)
 
@@ -83,9 +92,16 @@ Make `stopAndDump()` a no-op — PCOV still starts and collects on every request
 
 **Verification:** a static counter incremented on `kernel.request`, logged, with two requests issued against a coverage-enabled container. If it reads `1, 1` the premise is false; `1, 2` and it holds.
 
-This gate is cheap and it is diagnostic, not blocking: the raw-collect design removes the Filter from the request either way. Its value is telling us whether we have found the whole cost or only part of it.
+**Now optional and off the critical path.** Gate 0a already accounted for the entire overhead, and the rework removes the Filter from the request whether or not statics persist. Worth settling only as a note on why #351 did not help — not a prerequisite for implementing.
 
-**Validation trick for both gates:** `pull_request` CI runs with PCOV **off**. To exercise the nightly path pre-merge, use `gh workflow run ci.yml --ref <branch>` and read the "Run Behat" step duration. The PCOV-off baseline is ~6 min/shard; the #348 and #351 measurements were both ~45 min/shard.
+**Benchmarking rules for this job — both are traps that have already caught someone:**
+
+1. **`pull_request` runs PCOV off.** Coverage is gated to `schedule`/`workflow_dispatch`. Exercise the nightly path with `gh workflow run ci.yml --ref <branch>`.
+2. **PRs and dispatches run *different suites*.** `ci.yml`'s "Compute Behat suite" step selects `nightly` on `schedule`/`workflow_dispatch` but `all` on PRs, and `nightly` deliberately *adds* the `@critical` and `@optional` scenarios. Comparing a dispatch against a PR measures a bigger workload and silently inflates the apparent coverage cost. **Every figure in this document is the `nightly` suite.**
+
+Reference numbers: PCOV-off baseline **7.6 min/shard**; broken #348/#351 state **38.4 min/shard**.
+
+**Polling gotcha:** `gh run view --json jobs` reports `conclusion: ""` (empty string, not `null`) for jobs that have not concluded, and jq's `//` does not substitute for `""`. `select(.conclusion != null)` therefore matches *queued* jobs and will report a run as finished before it started. Use `select(.conclusion|length>0)`.
 
 ## Gate 1 — measure dump volume before rollout
 
