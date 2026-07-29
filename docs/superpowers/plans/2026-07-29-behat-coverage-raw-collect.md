@@ -1025,17 +1025,17 @@ final class MergeCliTest extends TestCase
         self::assertStringContainsString('0 covered lines', $stderr);
     }
 
-    public function test_a_non_executable_line_does_not_count_as_covered(): void
+    public function test_a_dump_naming_only_non_executable_lines_trips_the_warning(): void
     {
-        // Regression guard for the null-vs-empty-array distinction. The dump names ONLY line 1
-        // (`<?php`), which the static analyser marks non-executable, in a file that DOES clear the
-        // --src filter. So the file survives applyFilter() and reaches the counting loop — unlike
-        // the out-of-filter case above, where the file is dropped before the loop runs and the bug
-        // cannot manifest.
+        // A real failure mode worth locking in: the dump names ONLY line 1 (`<?php`) of a file that
+        // DOES clear the --src filter. That is what stale line numbers or a wrong file revision look
+        // like — the paths match, so the earlier out-of-filter test does not cover it, yet nothing
+        // real was covered and the report would be empty.
         //
-        // With the buggy `$tests !== []` guard, every non-executable line in this file counts as
-        // covered, $coveredLines lands well above zero and the tripwire stays silent. This test is
-        // the only thing in the suite that fails in that state.
+        // Note this test does NOT discriminate the is_array() guard in the counting loop: measured
+        // against this pipeline, append() strips non-executable lines via applyExecutableLinesFilter()
+        // before they are ever initialised, so no `null` state reaches the loop and both the guarded
+        // and unguarded forms return 0 here. The guard is defensive; this test covers the warning.
         file_put_contents(
             $this->dir . '/111.dump',
             RawCoverageRecorder::encode([$this->covered => [1 => 1]]),
@@ -1132,10 +1132,12 @@ try {
     //   null    → the line is not executable (blank, brace, `use`, declaration)
     //   []      → executable but never hit
     //   [ids…]  → covered
-    // The is_array() guard is load-bearing: `null !== []` is TRUE in PHP, so testing only
-    // `!== []` counts every non-executable line as covered. That would inflate the reported
-    // metric AND, worse, keep $coveredLines above zero on a path mismatch, silently suppressing
-    // the tripwire below in exactly the cases it exists to catch.
+    // The is_array() check is DEFENSIVE, not currently load-bearing. `null !== []` is true in
+    // PHP, so a bare `!== []` would count non-executable lines as covered — but measured against
+    // this pipeline (probe, 2026-07-29) `null` never reaches here: append() runs
+    // applyExecutableLinesFilter() before initializeUnseenData(), so non-executable lines are
+    // already stripped and every surviving line is `[]` or a hit list. The guard costs nothing
+    // and keeps the count correct if raw data ever arrives unfiltered.
     $coveredLines = 0;
     foreach ($coverage->getData()->lineCoverage() as $lines) {
         foreach ($lines as $tests) {
