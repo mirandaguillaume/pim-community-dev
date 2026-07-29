@@ -323,7 +323,9 @@ final class RawCoverageRecorder
 APP_ENV=test docker-compose run --rm php php vendor/bin/phpunit -c . --filter RawCoverageRecorderTest
 ```
 
-Expected: PASS, 6 tests.
+Expected: PASS, 7 tests.
+
+Note: PHPUnit prints `OK, but there were issues! … PHPUnit Deprecations: 1` on **every** run in this repo. It is a named-argument deprecation from `tests/back/Tool/Integration/Connector/Writer/File/CsvWriterIntegration.php:1017`, emitted while PHPUnit builds the test-suite tree — before `--filter` narrows anything — so it is unrelated to this plan and appears no matter which class you target. Do not chase it.
 
 - [ ] **Step 5: Commit**
 
