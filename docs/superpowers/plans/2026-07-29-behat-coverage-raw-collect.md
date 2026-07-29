@@ -1052,8 +1052,12 @@ final class MergeCliTest extends TestCase
     private function runCli(string $clover): array
     {
         $script = __DIR__ . '/merge-behat-coverage.php';
+        // Space-separated on purpose: this is exactly how ci.yml invokes the script. The test
+        // previously used the `=`-attached form, so it exercised a command line production never
+        // runs — and could not have caught `--cache` silently failing to bind under `getopt`'s
+        // optional-argument (`::`) form. Keep these two shapes identical.
         $cmd = sprintf(
-            '%s %s --in=%s --clover=%s --src=%s 2>&1',
+            '%s %s --in %s --clover %s --src %s 2>&1',
             escapeshellarg(PHP_BINARY),
             escapeshellarg($script),
             escapeshellarg($this->dir),
@@ -1092,7 +1096,12 @@ require dirname(__DIR__, 5) . '/vendor/autoload.php';
 
 use Pim\Behat\Coverage\CoverageMerger;
 
-$options = getopt('', ['in:', 'clover:', 'src::', 'cache::']);
+// All four use the single-colon (required-argument) form. The options themselves stay optional to
+// supply — an omitted flag simply leaves its key absent — but a flag that IS supplied must carry a
+// value. The double-colon form was a trap: PHP's getopt binds `::` options ONLY when the value is
+// `=`-attached, so `--cache var/x` silently left the key unset, `$cacheDir` fell to null, and
+// cacheStaticAnalysis() was never called. With `:`, both `--cache var/x` and `--cache=var/x` bind.
+$options = getopt('', ['in:', 'clover:', 'src:', 'cache:']);
 $inDir = $options['in'] ?? null;
 $clover = $options['clover'] ?? null;
 $srcDir = $options['src'] ?? '/srv/pim/src';
