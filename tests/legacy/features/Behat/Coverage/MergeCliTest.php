@@ -37,6 +37,12 @@ final class MergeCliTest extends TestCase
         foreach (glob($this->srcDir . '/*') ?: [] as $f) {
             @unlink($f);
         }
+        // Clean up report/ subdirectory created during tests (unlink only removes files, not dirs)
+        foreach (glob($this->dir . '/report/*') ?: [] as $f) {
+            @unlink($f);
+        }
+        @rmdir($this->dir . '/report');
+        // Then clean the top-level dir
         foreach (glob($this->dir . '/*') ?: [] as $f) {
             @unlink($f);
         }
@@ -77,6 +83,29 @@ final class MergeCliTest extends TestCase
         file_put_contents(
             $this->dir . '/111.dump',
             RawCoverageRecorder::encode(['/somewhere/else/Nope.php' => [4 => 1]]),
+        );
+
+        [$exit, $stderr] = $this->runCli($this->dir . '/report/clover.xml');
+
+        self::assertSame(0, $exit);
+        self::assertStringContainsString('WARNING', $stderr);
+        self::assertStringContainsString('0 covered lines', $stderr);
+    }
+
+    public function test_a_non_executable_line_does_not_count_as_covered(): void
+    {
+        // Regression guard for the null-vs-empty-array distinction. The dump names ONLY line 1
+        // (`<?php`), which the static analyser marks non-executable, in a file that DOES clear the
+        // --src filter. So the file survives applyFilter() and reaches the counting loop — unlike
+        // the out-of-filter case above, where the file is dropped before the loop runs and the bug
+        // cannot manifest.
+        //
+        // With the buggy `$tests !== []` guard, every non-executable line in this file counts as
+        // covered, $coveredLines lands well above zero and the tripwire stays silent. This test is
+        // the only thing in the suite that fails in that state.
+        file_put_contents(
+            $this->dir . '/111.dump',
+            RawCoverageRecorder::encode([$this->covered => [1 => 1]]),
         );
 
         [$exit, $stderr] = $this->runCli($this->dir . '/report/clover.xml');

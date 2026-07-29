@@ -44,10 +44,20 @@ try {
     // A non-empty union that survives the filter as zero covered lines means the dumped paths do not
     // match the filter's paths. Exit status alone would report that as success and Codecov would
     // ingest an empty report, so assert it explicitly and say so loudly.
+    //
+    // php-code-coverage stores three distinct line states per file
+    // (ProcessedCodeCoverageData.php:69 — `$v === Driver::LINE_NOT_EXECUTABLE ? null : []`):
+    //   null    → the line is not executable (blank, brace, `use`, declaration)
+    //   []      → executable but never hit
+    //   [ids…]  → covered
+    // The is_array() guard is load-bearing: `null !== []` is TRUE in PHP, so testing only
+    // `!== []` counts every non-executable line as covered. That would inflate the reported
+    // metric AND, worse, keep $coveredLines above zero on a path mismatch, silently suppressing
+    // the tripwire below in exactly the cases it exists to catch.
     $coveredLines = 0;
     foreach ($coverage->getData()->lineCoverage() as $lines) {
         foreach ($lines as $tests) {
-            if ($tests !== []) {
+            if (is_array($tests) && $tests !== []) {
                 $coveredLines++;
             }
         }
