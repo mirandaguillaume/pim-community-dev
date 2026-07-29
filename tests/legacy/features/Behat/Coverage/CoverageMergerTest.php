@@ -32,7 +32,8 @@ final class CoverageMergerTest extends TestCase
         }
         PHP;
 
-        // Executable statements sit on lines 4 and 6.
+        // Executable statements sit on lines 4, 5, 6 and 8 -- verified against ParsingFileAnalyser,
+        // which is what decides the denominator. Four statements in total.
         $this->covered = $this->srcDir . '/Covered.php';
         $this->untouched = $this->srcDir . '/Untouched.php';
         $this->excluded = $this->srcDir . '/ThingTest.php';
@@ -94,6 +95,10 @@ final class CoverageMergerTest extends TestCase
         // The whole point of keeping a Filter at merge time: a file no request ever hit must appear
         // as 0%, not vanish. Without it the report degenerates towards a falsely high percentage --
         // the failure #343 fixed on the Playwright side.
+        //
+        // This covers UNTOUCHED files only, and asserts paths rather than counts. The unhit lines of
+        // a touched file are a separate mechanism and a separate test:
+        // test_a_partially_covered_file_keeps_its_unhit_executable_lines.
         $merger = new CoverageMerger();
         $filter = $merger->sourceFilter($this->srcDir);
         $coverage = $merger->toCodeCoverage([$this->covered => [4 => 1]], $filter, null);
@@ -105,6 +110,25 @@ final class CoverageMergerTest extends TestCase
         self::assertStringContainsString($this->covered, $xml);
         self::assertStringContainsString($this->untouched, $xml);
         self::assertStringNotContainsString($this->excluded, $xml);
+    }
+
+    public function test_a_partially_covered_file_keeps_its_unhit_executable_lines(): void
+    {
+        // Covered.php has executable lines 4, 5, 6 and 8. Hitting only line 4 must read 1/4, not 1/1.
+        // Without the merge-side skeleton backfill the denominator collapses to the hit set and every
+        // partially-covered file reports 100% — which, in an E2E run, is almost every touched file.
+        $merger = new CoverageMerger();
+        $coverage = $merger->toCodeCoverage(
+            [$this->covered => [4 => 1]],
+            $merger->sourceFilter($this->srcDir),
+            null,
+        );
+        $merger->writeClover($coverage, $clover = $this->dir . '/clover.xml');
+
+        $xml = new \SimpleXMLElement((string) file_get_contents($clover));
+        $file = $xml->xpath(sprintf('//file[@name="%s"]', $this->covered))[0];
+        self::assertSame('4', (string) $file->metrics['statements']);
+        self::assertSame('1', (string) $file->metrics['coveredstatements']);
     }
 
     public function test_it_reports_the_union_as_covered_lines(): void

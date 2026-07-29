@@ -8,6 +8,9 @@ use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\CachingFileAnalyser;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\ParsingFileAnalyser;
 
 /**
  * Turns the per-request hit-line dumps into one Clover report.
@@ -87,10 +90,70 @@ final class CoverageMerger
             $coverage->cacheStaticAnalysis($cacheDir);
         }
 
-        // The single append: this is the one place static analysis runs.
+        $union = $this->backfillExecutableLines($union, $filter, $cacheDir);
+
+        // The single append. Together with the backfill above it is the whole of the static analysis:
+        // both share one CachingFileAnalyser cache, so each file is parsed at most once per shard.
         $coverage->append(RawCodeCoverageData::fromXdebugWithoutPathCoverage($union), 'behat');
 
         return $coverage;
+    }
+
+    /**
+     * Restore the executable-line skeleton that the recorder dropped.
+     *
+     * RawCoverageRecorder::reduce() keeps hits only, so a file some request touched arrives here
+     * carrying nothing but hit lines. append() would then build that file's denominator from those
+     * keys alone and render it at exactly 100%. CodeCoverage's own rescue, addUncoveredFilesFromFilter()
+     * (CodeCoverage.php:476), does not help: it diffs the Filter against the ALREADY-COVERED files, so
+     * it only ever rescues files with zero hits. In an E2E run nearly every touched file is partially
+     * covered, which is precisely the population that would be misreported.
+     *
+     * The alternative -- shipping the -1 markers from every request -- is equally correct but inflates
+     * the dump volume and pushes parse work back into the request path, the two things this rework
+     * exists to avoid. Doing it here costs one extra analyser pass per touched file, cached.
+     *
+     * @param array<string, array<int, int>> $union
+     *
+     * @return array<string, array<int, int>>
+     */
+    private function backfillExecutableLines(array $union, Filter $filter, ?string $cacheDir): array
+    {
+        $analyser = $this->fileAnalyser($cacheDir);
+
+        foreach ($union as $file => $hits) {
+            // isExcluded() is the same allowlist gate append() applies (CodeCoverage.php:422), so the
+            // backfill tracks exactly the files that will survive into the report -- and because it
+            // delegates to isFile(), it also keeps runtime-evaluated pseudo-files (Filter.php:92-100)
+            // and files that have since vanished from disk out of the parser.
+            if ($filter->isExcluded($file)) {
+                continue;
+            }
+
+            $skeleton = RawCodeCoverageData::fromUncoveredFile($file, $analyser)->lineCoverage()[$file] ?? [];
+
+            // `+` on int-keyed arrays keeps the LEFT operand for duplicate keys, so a hit (1) wins
+            // over the skeleton's LINE_NOT_EXECUTED (-1). array_merge would renumber the integer keys
+            // and destroy the line numbers outright.
+            $union[$file] = $hits + $skeleton;
+        }
+
+        return $union;
+    }
+
+    /**
+     * `true, false` are CodeCoverage's own defaults for useAnnotationsForIgnoringCode and
+     * ignoreDeprecatedCode (CodeCoverage.php:53,57). They are not arbitrary: CachingFileAnalyser keys
+     * its cache on both flags, so passing anything else here would miss every entry that append()'s
+     * own analyser writes and silently parse the whole tree twice.
+     */
+    private function fileAnalyser(?string $cacheDir): FileAnalyser
+    {
+        $analyser = new ParsingFileAnalyser(true, false);
+
+        return $cacheDir !== null
+            ? new CachingFileAnalyser($cacheDir, $analyser, true, false)
+            : $analyser;
     }
 
     public function writeClover(CodeCoverage $coverage, string $path): void
