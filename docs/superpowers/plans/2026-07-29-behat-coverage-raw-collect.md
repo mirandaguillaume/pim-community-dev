@@ -437,12 +437,17 @@ final class CoverageCollectorTest extends TestCase
         self::assertSame([], glob($this->dir . '/*.dump') ?: []);
     }
 
-    public function test_it_is_inert_when_pcov_is_absent(): void
+    public function test_it_is_inert_when_pcov_is_not_collecting(): void
     {
-        // The unit-test job has no ext-pcov. create() must not fatal, and the real collect path
-        // must degrade to "nothing executed" rather than throwing.
-        self::assertFalse(\extension_loaded('pcov'), 'guard: this test asserts the PCOV-absent path');
-
+        // Covers the real production factory and the real PCOV path, which must degrade quietly
+        // rather than fatal or throw.
+        //
+        // Deliberately does NOT assert on extension_loaded('pcov'): the answer differs by
+        // environment. The CI image installs php-pcov with pcov.enabled=0 (Dockerfile:80,
+        // docker/build/pcov.ini), so the extension IS loaded there and merely disabled, while a
+        // stale local image may not have it at all. Both cases must behave identically — nothing
+        // was collected, so nothing is written — and asserting the environment instead of the
+        // behaviour would make this test pass locally and fail in CI.
         $collector = CoverageCollector::create();
         $collector->start();
         $collector->stopAndDump($this->dir);
