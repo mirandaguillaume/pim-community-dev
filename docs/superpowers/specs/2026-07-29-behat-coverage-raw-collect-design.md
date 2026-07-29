@@ -25,7 +25,9 @@ Three costs run on every single request today, all of them avoidable:
 
    The denominator therefore needs **two** mechanisms, not one:
    - untouched files → the `Filter`, via `addUncoveredFilesFromFilter()`;
-   - unhit lines of touched files → `CoverageMerger::backfillExecutableLines()`, which re-adds each in-filter file's executable-line skeleton (`RawCodeCoverageData::fromUncoveredFile()`) before the single `append()`. It shares one `CachingFileAnalyser` with `append()`'s own analysis, so no file is parsed twice.
+   - unhit lines of touched files → `CoverageMerger::backfillExecutableLines()`, which re-adds each in-filter file's executable-line skeleton (`RawCodeCoverageData::fromUncoveredFile()`) before the single `append()`.
+
+   The backfill adds **no new parse targets**: `append()` applies `applyFilter()` (`CodeCoverage.php:227`) *before* `applyExecutableLinesFilter()` (`:229`), so the set it would parse anyway is exactly the backfill's set, and `addUncoveredFilesFromFilter()` already parses the remainder of `src/` at report time. When `--cache` is supplied the backfill and `append()` share one `CachingFileAnalyser` **cache directory**, so each file is parsed once per shard. Without `--cache` the two use separate `ParsingFileAnalyser` instances, which memoise per-instance only, and each touched file is parsed twice — harmless but worth knowing; CI always passes `--cache` (`ci.yml`).
 
    Backfilling at merge time rather than keeping the `-1` markers in the request record is deliberate: both are correct, but shipping `-1`s inflates dump volume (the one variable Gate 1 exists to measure) and pushes parse work back into the request path, which is what this rework removes.
 5. **Two measurement gates before rollout** (see below). Assuming a cost instead of measuring it is what sank #348; this design does not repeat that.
