@@ -143,9 +143,17 @@ final class CoverageMerger
 
     /**
      * `true, false` are CodeCoverage's own defaults for useAnnotationsForIgnoringCode and
-     * ignoreDeprecatedCode (CodeCoverage.php:53,57). They are not arbitrary: CachingFileAnalyser keys
-     * its cache on both flags, so passing anything else here would miss every entry that append()'s
-     * own analyser writes and silently parse the whole tree twice.
+     * ignoreDeprecatedCode (CodeCoverage.php:53,57), and both constructors below must be given the
+     * same pair for two different reasons:
+     *
+     * - on CachingFileAnalyser they are part of the cache KEY (CachingFileAnalyser.php:147-161).
+     *   Diverging from what CodeCoverage::analyser() passes means every lookup misses, so each file
+     *   is parsed once for the backfill and again for append() -- silently, at twice the cost.
+     *   test_static_analysis_cache_directory_is_used_when_given pins the entry count for this.
+     * - on the wrapped ParsingFileAnalyser they decide the analysis SEMANTICS (whether
+     *   @codeCoverageIgnore annotations are honoured). They do not reach the cache key at all, so a
+     *   mismatch between the two constructors would be worse than a cache miss: results computed
+     *   under one set of flags would be stored under a key claiming the other.
      */
     private function fileAnalyser(?string $cacheDir): FileAnalyser
     {

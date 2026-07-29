@@ -161,6 +161,20 @@ final class CoverageMergerTest extends TestCase
         self::assertDirectoryExists($cache);
         self::assertNotSame([], glob($cache . '/*') ?: [], 'the analyser should have written cache entries');
 
+        // One entry per analysed file and no more: Covered.php (touched, so the backfill analyses it
+        // and append() then re-reads it) and Untouched.php (added by addUncoveredFilesFromFilter()
+        // during writeClover()). ThingTest.php is filtered out and never parsed.
+        //
+        // This is the guard on backfillExecutableLines()'s (true, false) flags. CachingFileAnalyser
+        // keys its cache on both (CachingFileAnalyser.php:147-161), so if the backfill's analyser
+        // ever stops matching CodeCoverage's own defaults, Covered.php lands under two different keys
+        // and this count becomes 3 -- the silent double-parse the flags exist to prevent.
+        self::assertCount(
+            2,
+            glob($cache . '/*') ?: [],
+            'the backfill and append() must share cache entries, not write a set each',
+        );
+
         foreach (glob($cache . '/*') ?: [] as $f) {
             @unlink($f);
         }

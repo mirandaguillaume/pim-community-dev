@@ -801,6 +801,20 @@ final class CoverageMergerTest extends TestCase
         self::assertDirectoryExists($cache);
         self::assertNotSame([], glob($cache . '/*') ?: [], 'the analyser should have written cache entries');
 
+        // One entry per analysed file and no more: Covered.php (touched, so the backfill analyses it
+        // and append() then re-reads it) and Untouched.php (added by addUncoveredFilesFromFilter()
+        // during writeClover()). ThingTest.php is filtered out and never parsed.
+        //
+        // This is the guard on backfillExecutableLines()'s (true, false) flags. CachingFileAnalyser
+        // keys its cache on both (CachingFileAnalyser.php:147-161), so if the backfill's analyser
+        // ever stops matching CodeCoverage's own defaults, Covered.php lands under two different keys
+        // and this count becomes 3 -- the silent double-parse the flags exist to prevent.
+        self::assertCount(
+            2,
+            glob($cache . '/*') ?: [],
+            'the backfill and append() must share cache entries, not write a set each',
+        );
+
         foreach (glob($cache . '/*') ?: [] as $f) {
             @unlink($f);
         }
@@ -967,9 +981,17 @@ final class CoverageMerger
 
     /**
      * `true, false` are CodeCoverage's own defaults for useAnnotationsForIgnoringCode and
-     * ignoreDeprecatedCode (CodeCoverage.php:53,57). They are not arbitrary: CachingFileAnalyser keys
-     * its cache on both flags, so passing anything else here would miss every entry that append()'s
-     * own analyser writes and silently parse the whole tree twice.
+     * ignoreDeprecatedCode (CodeCoverage.php:53,57), and both constructors below must be given the
+     * same pair for two different reasons:
+     *
+     * - on CachingFileAnalyser they are part of the cache KEY (CachingFileAnalyser.php:147-161).
+     *   Diverging from what CodeCoverage::analyser() passes means every lookup misses, so each file
+     *   is parsed once for the backfill and again for append() -- silently, at twice the cost.
+     *   test_static_analysis_cache_directory_is_used_when_given pins the entry count for this.
+     * - on the wrapped ParsingFileAnalyser they decide the analysis SEMANTICS (whether
+     *   @codeCoverageIgnore annotations are honoured). They do not reach the cache key at all, so a
+     *   mismatch between the two constructors would be worse than a cache miss: results computed
+     *   under one set of flags would be stored under a key claiming the other.
      */
     private function fileAnalyser(?string $cacheDir): FileAnalyser
     {
