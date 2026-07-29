@@ -87,7 +87,9 @@ try {
     }
 
     if (!is_dir(dirname($clover))) {
-        @mkdir(dirname($clover), 0o777, true);
+        // 0o775, not 0o777: same reasoning as the collector's dump dir. This CLI writes the report
+        // and the codecov step reads it back from the same container and group.
+        @mkdir(dirname($clover), 0o775, true);
     }
 
     $merger->writeClover($coverage, $clover);

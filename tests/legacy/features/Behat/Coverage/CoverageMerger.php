@@ -82,7 +82,9 @@ final class CoverageMerger
 
         if ($cacheDir !== null) {
             if (!\is_dir($cacheDir)) {
-                @\mkdir($cacheDir, 0o777, true);
+                // 0o775, not 0o777: same reasoning as the collector's dump dir. Everything that reads
+                // or writes this cache runs in the same container and group.
+                @\mkdir($cacheDir, 0o775, true);
             }
 
             // Without this, append() resolves executable lines through a bare ParsingFileAnalyser
