@@ -19,7 +19,15 @@ Three costs run on every single request today, all of them avoidable:
 1. **The request records; the merge computes.** All `php-code-coverage` work leaves the request path. In-request we call PCOV directly and write a plain hit-line map. Every `CodeCoverage` object, the `Filter`, static analysis and Clover rendering happen **once**, offline, in the merge.
 2. **Keep PCOV, keep the toggle.** `pcov.enabled` as the single `INI_SYSTEM` signal driving both collection and the subscriber gate is unchanged and still correct. No image, `docker-compose.yml`, or `codecov.yml` change.
 3. **Nightly-only, as before.** Re-enable exactly the expression already sitting commented at `ci.yml:1248` (`schedule || workflow_dispatch`). `codecov.yml` already carries `carryforward: true` on `e2e-behat`, so PRs keep showing an honest combined total without paying any collection cost.
-4. **The Filter changes job rather than disappearing.** It is removed from the request but is **mandatory at merge time**: `$includeUncoveredFiles` defaults to `true` (`CodeCoverage.php:52`) and `getReport()` calls `addUncoveredFilesFromFilter()` (`CodeCoverage.php:131-132`), which diffs `filter->files()` against covered files. Without a populated Filter at merge, never-touched files vanish from the denominator and the report reads as a degenerately high percentage — the same failure class #343 fixed on the JS side.
+4. **The Filter changes job rather than disappearing — but it only covers half the denominator.** It is removed from the request and is **mandatory at merge time**: `$includeUncoveredFiles` defaults to `true` (`CodeCoverage.php:52`) and `getReport()` calls `addUncoveredFilesFromFilter()` (`CodeCoverage.php:131-132`), which diffs `filter->files()` against covered files. Without a populated Filter at merge, never-touched files vanish from the denominator and the report reads as a degenerately high percentage — the same failure class #343 fixed on the JS side.
+
+   **What that rescue does *not* do** (missed in the first draft of this spec, corrected 2026-07-29): it diffs against the *already-covered* files, so it only ever restores files with **zero** hits. A file with even one hit is skipped, and since the recorder ships hits only, its denominator would be built from the hit set alone — rendering every *partially*-covered file at exactly 100%. In an E2E run that is nearly every touched file, so the published figure would have been meaningless.
+
+   The denominator therefore needs **two** mechanisms, not one:
+   - untouched files → the `Filter`, via `addUncoveredFilesFromFilter()`;
+   - unhit lines of touched files → `CoverageMerger::backfillExecutableLines()`, which re-adds each in-filter file's executable-line skeleton (`RawCodeCoverageData::fromUncoveredFile()`) before the single `append()`. It shares one `CachingFileAnalyser` with `append()`'s own analysis, so no file is parsed twice.
+
+   Backfilling at merge time rather than keeping the `-1` markers in the request record is deliberate: both are correct, but shipping `-1`s inflates dump volume (the one variable Gate 1 exists to measure) and pushes parse work back into the request path, which is what this rework removes.
 5. **Two measurement gates before rollout** (see below). Assuming a cost instead of measuring it is what sank #348; this design does not repeat that.
 
 ## Architecture
@@ -34,19 +42,26 @@ PER REQUEST (nightly only, ×thousands)
       $raw   = \pcov\collect(\pcov\inclusive, $files)   ← NO filter intersect
       \pcov\clear()
       keep hits>0 only → line-number lists
-      append one record to var/tests/behat-coverage/<shard>/<pid>.dump
+      append one record to var/tests/behat-coverage/<pid>.dump
+      (flat directory — each shard is its own job workspace, so PIDs cannot collide
+       across shards and no <shard>/ level is needed)
       (starting encoding — Gate 1 confirms or retunes it)
 
 PER SHARD (×1, offline, in the httpd container)
-  merge-behat-coverage.php
+  merge-behat-coverage.php --in var/tests/behat-coverage
+                           --clover var/tests/behat-coverage-report/clover.xml
+                           --src /srv/pim/src --cache var/cache/behat-coverage-sa
     union all records                        ← plain PHP arrays, associative
-    RawCodeCoverageData::fromXdebugWithoutPathCoverage($union)
     Filter: includeDirectory('/srv/pim/src') + exclude *Test/*Integration/*EndToEnd
+    backfill executable-line skeleton for each in-filter touched file  ← the other
+      half of the denominator; see decision 4                            half is the Filter
+    RawCodeCoverageData::fromXdebugWithoutPathCoverage($union)
     new CodeCoverage(new FakeCoverageDriver(), $filter)
-      ->cacheStaticAnalysis(var/cache/behat-coverage-sa)   ← static analysis ×1, cached
-      ->append($raw, 'behat')
-    Report\Clover → shard-<N>.clover.xml
-      → rides the existing behat-results-<shard> artifact → Codecov flag e2e-behat
+      ->cacheStaticAnalysis(var/cache/behat-coverage-sa)   ← static analysis ×1, cached,
+      ->append($raw, 'behat')                                 shared with the backfill
+    Report\Clover → var/tests/behat-coverage-report/clover.xml
+      → uploaded directly by codecov/codecov-action@v4 from the shard's own job,
+        under flag e2e-behat (no artifact hand-off; Codecov merges the shards)
 ```
 
 ## Components

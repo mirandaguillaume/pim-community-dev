@@ -17,9 +17,11 @@ final class RawCoverageRecorderTest extends TestCase
             '/srv/pim/src/B.php' => [10 => -1],
         ];
 
-        // Line 4 was executable but never run and 6 is not executable: neither is needed, because
-        // the merge derives executable lines by static analysis over all of src/. B.php has no
-        // executed line at all, so the file disappears entirely.
+        // Line 4 was executable but never run and 6 is not executable; both are dropped to keep the
+        // per-request record small. That is only sound because CoverageMerger::backfillExecutableLines()
+        // restores the executable-line skeleton of every touched file at merge time -- see
+        // CoverageMergerTest::test_a_partially_covered_file_keeps_its_unhit_executable_lines. B.php has
+        // no executed line at all, so the file disappears entirely and the Filter alone rescues it.
         self::assertSame(
             ['/srv/pim/src/A.php' => [3 => 1, 5 => 1]],
             RawCoverageRecorder::reduce($raw),

@@ -27,9 +27,14 @@ final class RawCoverageRecorder
      * Drop everything PCOV reports that is not an actual execution, and normalise hit counts to 1.
      *
      * PCOV reports Driver::LINE_NOT_EXECUTED (-1) for an executable line that was not run and
-     * LINE_NOT_EXECUTABLE (-2) otherwise. Neither is needed: the merge derives executable lines by
-     * static analysis over the whole of src/, which yields a correct denominator including files no
-     * request ever touched. Keeping only positives is what makes the per-request record small.
+     * LINE_NOT_EXECUTABLE (-2) otherwise. Dropping both is what makes the per-request record small.
+     *
+     * Dropping -1 here is safe ONLY because CoverageMerger::backfillExecutableLines() puts the
+     * executable-line skeleton back for every file that survives the filter. Without that backfill a
+     * partially-covered file would reach the report with a denominator equal to its own hit set and
+     * render at exactly 100%: CodeCoverage's addUncoveredFilesFromFilter() rescues only files with
+     * ZERO hits, so it does not cover this case. The Filter alone is not a sufficient denominator --
+     * it accounts for untouched files, not for the unhit lines of touched ones.
      *
      * Normalising to exactly 1 is required, not cosmetic:
      * ProcessedCodeCoverageData::markCodeAsExecutedByTestCase compares with

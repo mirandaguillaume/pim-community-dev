@@ -49,7 +49,7 @@ Expected: `vendor OK`. The `--user` and `COMPOSER_HOME` flags avoid the root-own
 | `merge-behat-coverage.php` | CLI over `CoverageMerger`; always `exit 0`; loud warnings on empty input **and** on a zero-line merge. | Rewrite |
 | `RawCoverageRecorderTest.php` | Unit tests for the pure layer. | Create |
 | `CoverageCollectorTest.php` | Assert a decodable `.dump` record is appended, with PCOV absent. | Rewrite |
-| `CoverageMergerTest.php` | Union, uncovered-files denominator, Clover smoke. | Rewrite |
+| `CoverageMergerTest.php` | Union, both halves of the denominator (untouched files + unhit lines of touched files), Clover smoke. | Rewrite |
 | `.github/workflows/ci.yml` | Re-enable `PHP_INI_SCAN_DIR` nightly; add the Gate 1 dump-size diagnostic. | Modify |
 
 **Record format:** each request appends `pack('N', strlen($gz)) . $gz` where `$gz = gzencode(serialize($hits))` and `$hits` is `array<string $file, array<int $line, int 1>>`. Every fpm worker writes its own `<pid>.dump`, so records never interleave between processes, and requests within one worker are sequential. That shape is *already* what `RawCodeCoverageData::fromXdebugWithoutPathCoverage()` consumes, so the merge needs no conversion step.
@@ -207,9 +207,14 @@ final class RawCoverageRecorder
      * Drop everything PCOV reports that is not an actual execution, and normalise hit counts to 1.
      *
      * PCOV reports Driver::LINE_NOT_EXECUTED (-1) for an executable line that was not run and
-     * LINE_NOT_EXECUTABLE (-2) otherwise. Neither is needed: the merge derives executable lines by
-     * static analysis over the whole of src/, which yields a correct denominator including files no
-     * request ever touched. Keeping only positives is what makes the per-request record small.
+     * LINE_NOT_EXECUTABLE (-2) otherwise. Dropping both is what makes the per-request record small.
+     *
+     * Dropping -1 here is safe ONLY because CoverageMerger::backfillExecutableLines() puts the
+     * executable-line skeleton back for every file that survives the filter. Without that backfill a
+     * partially-covered file would reach the report with a denominator equal to its own hit set and
+     * render at exactly 100%: CodeCoverage's addUncoveredFilesFromFilter() rescues only files with
+     * ZERO hits, so it does not cover this case. The Filter alone is not a sufficient denominator --
+     * it accounts for untouched files, not for the unhit lines of touched ones.
      *
      * Normalising to exactly 1 is required, not cosmetic:
      * ProcessedCodeCoverageData::markCodeAsExecutedByTestCase compares with
@@ -667,7 +672,8 @@ final class CoverageMergerTest extends TestCase
         }
         PHP;
 
-        // Executable statements sit on lines 4 and 6.
+        // Executable statements sit on lines 4, 5, 6 and 8 -- verified against ParsingFileAnalyser,
+        // which is what decides the denominator. Four statements in total.
         $this->covered = $this->srcDir . '/Covered.php';
         $this->untouched = $this->srcDir . '/Untouched.php';
         $this->excluded = $this->srcDir . '/ThingTest.php';
@@ -729,6 +735,10 @@ final class CoverageMergerTest extends TestCase
         // The whole point of keeping a Filter at merge time: a file no request ever hit must appear
         // as 0%, not vanish. Without it the report degenerates towards a falsely high percentage --
         // the failure #343 fixed on the Playwright side.
+        //
+        // This covers UNTOUCHED files only, and asserts paths rather than counts. The unhit lines of
+        // a touched file are a separate mechanism and a separate test:
+        // test_a_partially_covered_file_keeps_its_unhit_executable_lines.
         $merger = new CoverageMerger();
         $filter = $merger->sourceFilter($this->srcDir);
         $coverage = $merger->toCodeCoverage([$this->covered => [4 => 1]], $filter, null);
@@ -740,6 +750,25 @@ final class CoverageMergerTest extends TestCase
         self::assertStringContainsString($this->covered, $xml);
         self::assertStringContainsString($this->untouched, $xml);
         self::assertStringNotContainsString($this->excluded, $xml);
+    }
+
+    public function test_a_partially_covered_file_keeps_its_unhit_executable_lines(): void
+    {
+        // Covered.php has executable lines 4, 5, 6 and 8. Hitting only line 4 must read 1/4, not 1/1.
+        // Without the merge-side skeleton backfill the denominator collapses to the hit set and every
+        // partially-covered file reports 100% — which, in an E2E run, is almost every touched file.
+        $merger = new CoverageMerger();
+        $coverage = $merger->toCodeCoverage(
+            [$this->covered => [4 => 1]],
+            $merger->sourceFilter($this->srcDir),
+            null,
+        );
+        $merger->writeClover($coverage, $clover = $this->dir . '/clover.xml');
+
+        $xml = new \SimpleXMLElement((string) file_get_contents($clover));
+        $file = $xml->xpath(sprintf('//file[@name="%s"]', $this->covered))[0];
+        self::assertSame('4', (string) $file->metrics['statements']);
+        self::assertSame('1', (string) $file->metrics['coveredstatements']);
     }
 
     public function test_it_reports_the_union_as_covered_lines(): void
@@ -803,6 +832,9 @@ use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\CachingFileAnalyser;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\ParsingFileAnalyser;
 
 /**
  * Turns the per-request hit-line dumps into one Clover report.
@@ -882,10 +914,70 @@ final class CoverageMerger
             $coverage->cacheStaticAnalysis($cacheDir);
         }
 
-        // The single append: this is the one place static analysis runs.
+        $union = $this->backfillExecutableLines($union, $filter, $cacheDir);
+
+        // The single append. Together with the backfill above it is the whole of the static analysis:
+        // both share one CachingFileAnalyser cache, so each file is parsed at most once per shard.
         $coverage->append(RawCodeCoverageData::fromXdebugWithoutPathCoverage($union), 'behat');
 
         return $coverage;
+    }
+
+    /**
+     * Restore the executable-line skeleton that the recorder dropped.
+     *
+     * RawCoverageRecorder::reduce() keeps hits only, so a file some request touched arrives here
+     * carrying nothing but hit lines. append() would then build that file's denominator from those
+     * keys alone and render it at exactly 100%. CodeCoverage's own rescue, addUncoveredFilesFromFilter()
+     * (CodeCoverage.php:476), does not help: it diffs the Filter against the ALREADY-COVERED files, so
+     * it only ever rescues files with zero hits. In an E2E run nearly every touched file is partially
+     * covered, which is precisely the population that would be misreported.
+     *
+     * The alternative -- shipping the -1 markers from every request -- is equally correct but inflates
+     * the dump volume and pushes parse work back into the request path, the two things this rework
+     * exists to avoid. Doing it here costs one extra analyser pass per touched file, cached.
+     *
+     * @param array<string, array<int, int>> $union
+     *
+     * @return array<string, array<int, int>>
+     */
+    private function backfillExecutableLines(array $union, Filter $filter, ?string $cacheDir): array
+    {
+        $analyser = $this->fileAnalyser($cacheDir);
+
+        foreach ($union as $file => $hits) {
+            // isExcluded() is the same allowlist gate append() applies (CodeCoverage.php:422), so the
+            // backfill tracks exactly the files that will survive into the report -- and because it
+            // delegates to isFile(), it also keeps runtime-evaluated pseudo-files (Filter.php:92-100)
+            // and files that have since vanished from disk out of the parser.
+            if ($filter->isExcluded($file)) {
+                continue;
+            }
+
+            $skeleton = RawCodeCoverageData::fromUncoveredFile($file, $analyser)->lineCoverage()[$file] ?? [];
+
+            // `+` on int-keyed arrays keeps the LEFT operand for duplicate keys, so a hit (1) wins
+            // over the skeleton's LINE_NOT_EXECUTED (-1). array_merge would renumber the integer keys
+            // and destroy the line numbers outright.
+            $union[$file] = $hits + $skeleton;
+        }
+
+        return $union;
+    }
+
+    /**
+     * `true, false` are CodeCoverage's own defaults for useAnnotationsForIgnoringCode and
+     * ignoreDeprecatedCode (CodeCoverage.php:53,57). They are not arbitrary: CachingFileAnalyser keys
+     * its cache on both flags, so passing anything else here would miss every entry that append()'s
+     * own analyser writes and silently parse the whole tree twice.
+     */
+    private function fileAnalyser(?string $cacheDir): FileAnalyser
+    {
+        $analyser = new ParsingFileAnalyser(true, false);
+
+        return $cacheDir !== null
+            ? new CachingFileAnalyser($cacheDir, $analyser, true, false)
+            : $analyser;
     }
 
     public function writeClover(CodeCoverage $coverage, string $path): void
@@ -901,7 +993,7 @@ final class CoverageMerger
 APP_ENV=test docker-compose run --rm php php vendor/bin/phpunit -c . --filter CoverageMergerTest
 ```
 
-Expected: PASS, 6 tests.
+Expected: PASS, 7 tests.
 
 - [ ] **Step 5: Commit**
 
@@ -915,9 +1007,13 @@ the src/** allowlist (mirroring phpunit.xml.dist's <source> excludes) at merge
 time; toCodeCoverage() does the single append() with cacheStaticAnalysis() set,
 which is what the per-request path never called.
 
-The Filter is kept deliberately: \$includeUncoveredFiles defaults to true and
-getReport() calls addUncoveredFilesFromFilter(), so files no request touched still
-count as 0% instead of vanishing from the denominator."
+The denominator is built from two mechanisms, not one. The Filter is kept
+deliberately: \$includeUncoveredFiles defaults to true and getReport() calls
+addUncoveredFilesFromFilter(), so files no request touched still count as 0%
+instead of vanishing. That rescue only fires for files with ZERO hits, so
+backfillExecutableLines() re-adds the executable-line skeleton of every touched
+file — otherwise a partially-covered file would be measured against its own hit
+set and render at exactly 100%."
 ```
 
 ---
