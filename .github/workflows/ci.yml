@@ -1239,15 +1239,16 @@ jobs:
 
       - name: Setup test database
         env:
-          # Behat E2E PHP coverage (PCOV) is DISABLED (2026-07-28). Enabling it nightly turned every
-          # test-behat + test-playwright shard red from 07-25 on: per-request PCOV coverage collection
-          # adds a ~7x request overhead (a behat shard goes ~6min -> ~45min) that pushes select2 field
-          # searches past the 40s Spin timeout. The #348 collector/merge code is kept, dormant, for a
-          # low-overhead rework (raw \pcov\collect dumps). To RE-ENABLE, restore the schedule /
-          # workflow_dispatch condition below:
-          #   PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
-          # An empty value is safe: the httpd service defaults it to ':' (scan the compiled-in conf.d).
-          PHP_INI_SCAN_DIR: ''
+          # Behat E2E PHP coverage (PCOV), nightly-only. An empty value is safe: the httpd service
+          # defaults it to ':' (scan the compiled-in conf.d); an EMPTY scan dir would disable all
+          # conf.d and 500 the app. The leading ':' means "each SAPI's own default, then this dir".
+          #
+          # Re-enabled 2026-07-29 after the raw-collect rework. The 2026-07-28 disable was caused by
+          # per-request php-code-coverage work (uncached static analysis + full-graph serialize),
+          # NOT by PCOV: measured 38.4 min/shard broken vs a 7.6 min PCOV-off baseline, and 7.5 min
+          # with PCOV on but the collector reduced to a no-op. See
+          # docs/superpowers/specs/2026-07-29-behat-coverage-raw-collect-design.md
+          PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
           DB_NAME=${DB_NAME:-akeneo_pim_test}
@@ -1530,14 +1531,29 @@ jobs:
             echo "  Could not create debug session"
           fi
 
+      # Gate 1 instrumentation. Dump volume was the one number this design deliberately did not
+      # guess (guessing the overhead is what sank #348), so the shard reports it every run.
+      - name: Behat PHP coverage dump volume (shard ${{ matrix.shard }})
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        run: |
+          echo "dump files: $(find var/tests/behat-coverage -name '*.dump' 2>/dev/null | wc -l)"
+          echo "total bytes: $(du -sb var/tests/behat-coverage 2>/dev/null | cut -f1)"
+          echo "largest per-worker dumps:"
+          du -b var/tests/behat-coverage/*.dump 2>/dev/null | sort -rn | head -5 || true
+
       - name: Merge Behat PHP coverage (shard ${{ matrix.shard }})
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         continue-on-error: true
         run: |
+          START=$(date +%s)
           docker-compose exec -u www-data -T httpd \
             php tests/legacy/features/Behat/Coverage/merge-behat-coverage.php \
             --in var/tests/behat-coverage \
-            --clover var/tests/behat-coverage-report/clover.xml
+            --clover var/tests/behat-coverage-report/clover.xml \
+            --src /srv/pim/src \
+            --cache var/cache/behat-coverage-sa
+          echo "merge wall-clock: $(( $(date +%s) - START ))s"
 
       - name: Upload Behat PHP coverage to Codecov (shard ${{ matrix.shard }})
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
