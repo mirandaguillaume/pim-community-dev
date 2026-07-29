@@ -58,7 +58,9 @@ final class CoverageCollector implements CoverageCollectorInterface
         }
 
         if (!\is_dir($dir)) {
-            @\mkdir($dir, 0o777, true);
+            // 0o775, not 0o777: the fpm worker writing here and the merge CLI reading it back run in
+            // the same container and group, so group-write is sufficient and world-write is not.
+            @\mkdir($dir, 0o775, true);
         }
 
         @\file_put_contents(

@@ -70,12 +70,18 @@ try {
         }
     }
 
+    // Both messages below count DUMPED files -- count($union), the pre-filter total -- and say so.
+    // That is deliberately not the number of files in the report: the filter drops some, and
+    // addUncoveredFilesFromFilter() adds every untouched src/ file at getReport() time, so the two
+    // never match. Naming it plainly beats printing a figure that looks like a report total.
+    $dumpedFiles = count($union);
+
     if ($coveredLines === 0) {
         fwrite(STDERR, sprintf(
-            "[behat-coverage] WARNING: merged %d dumped lines across %d files but 0 covered lines "
-            . "survived the %s filter — check that dumped paths match the filter's paths\n",
+            "[behat-coverage] WARNING: merged %d dumped lines across %d dumped files but 0 covered "
+            . "lines survived the %s filter — check that dumped paths match the filter's paths\n",
             $dumpedLines,
-            count($union),
+            $dumpedFiles,
             is_string($srcDir) ? $srcDir : '/srv/pim/src',
         ));
     }
@@ -87,9 +93,9 @@ try {
     $merger->writeClover($coverage, $clover);
 
     fwrite(STDOUT, sprintf(
-        "[behat-coverage] wrote %s (%d files, %d covered lines)\n",
+        "[behat-coverage] wrote %s (%d dumped files, %d covered lines)\n",
         $clover,
-        count($union),
+        $dumpedFiles,
         $coveredLines,
     ));
 } catch (\Throwable $e) {
