@@ -25,7 +25,25 @@ final class CoverageCollector implements CoverageCollectorInterface
      */
     private static ?Filter $filter = null;
 
-    public function __construct(private readonly CodeCoverage $coverage)
+    /**
+     * GATE 0a EXPERIMENT — THROWAWAY, revert before the real rework lands.
+     *
+     * When this marker file exists, the collector does NO php-code-coverage work and NO I/O at all:
+     * it only drives PCOV's own start/stop/clear. A behat shard run in that mode therefore measures
+     * PCOV's raw instrumentation cost and nothing else, which is the one number that decides whether
+     * the raw-collect rework is worth building:
+     *
+     *   still ~5x vs the 7.6min PCOV-off baseline  => the cost is PCOV-native and irreducible; stop.
+     *   close to baseline                          => the cost is ours (per-request append/serialize)
+     *                                                 and the rework is the right fix.
+     *
+     * A marker file rather than an env var on purpose: php-fpm's pool runs with `clear_env = YES`,
+     * so container environment variables never reach PHP under the fpm SAPI. The repo is bind-mounted
+     * at /srv/pim, so a file touched on the runner is visible to the fpm workers immediately.
+     */
+    private const NOOP_MARKER = '/srv/pim/var/behat-coverage-noop';
+
+    public function __construct(private readonly ?CodeCoverage $coverage)
     {
     }
 
@@ -35,6 +53,10 @@ final class CoverageCollector implements CoverageCollectorInterface
      */
     public static function create(): self
     {
+        if (\is_file(self::NOOP_MARKER)) {
+            return new self(null); // GATE 0a: PCOV lifecycle only, zero userland work
+        }
+
         $filter = self::filter();
 
         return new self(new CodeCoverage((new Selector())->forLineCoverage($filter), $filter));
@@ -67,13 +89,44 @@ final class CoverageCollector implements CoverageCollectorInterface
         return self::$filter = $filter;
     }
 
+    /**
+     * GATE 0a helper. Calls a `pcov\*` function through a variable so neither PHPStan nor the IDE
+     * flags it as undefined: PCOV is a runtime-only extension, absent from every dev checkout and
+     * from the image on non-coverage runs. `function_exists` keeps it a no-op when PCOV is absent,
+     * which matters because the subscriber's gate and this class can in principle disagree.
+     */
+    private static function pcov(string $function): void
+    {
+        $callable = '\pcov\\' . $function;
+
+        if (\function_exists($callable)) {
+            $callable();
+        }
+    }
+
     public function start(): void
     {
+        if ($this->coverage === null) {
+            self::pcov('start'); // GATE 0a
+
+            return;
+        }
+
         $this->coverage->start('behat');
     }
 
     public function stopAndDump(string $dir): void
     {
+        if ($this->coverage === null) {
+            // GATE 0a. stop()+clear() are C-level and kept deliberately: skipping them would let
+            // PCOV's per-process arena grow unbounded across the requests an fpm worker serves,
+            // and a worker dying on memory would confound the very measurement being taken.
+            self::pcov('stop');
+            self::pcov('clear');
+
+            return;
+        }
+
         $this->coverage->stop();
 
         if (!is_dir($dir)) {

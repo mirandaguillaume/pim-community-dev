@@ -1237,17 +1237,28 @@ jobs:
       - name: Cleanup stale containers
         run: docker-compose down --remove-orphans 2>/dev/null || true
 
+      # GATE 0a EXPERIMENT — THROWAWAY, revert with the commit that introduced it.
+      # Drops the marker CoverageCollector::NOOP_MARKER looks for, so PCOV runs but the collector
+      # does zero php-code-coverage work and zero I/O. Measures PCOV's raw instrumentation cost
+      # against the 7.6min/shard PCOV-off baseline (nightly suite, run 30425913943, 10/10 green).
+      # workflow_dispatch only, so no scheduled nightly can pick this up by accident.
+      - name: 'GATE 0a: enable coverage no-op marker'
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          mkdir -p var
+          touch var/behat-coverage-noop
+          echo "GATE 0a marker written: $(ls -l var/behat-coverage-noop)"
+
       - name: Setup test database
         env:
-          # Behat E2E PHP coverage (PCOV) is DISABLED (2026-07-28). Enabling it nightly turned every
-          # test-behat + test-playwright shard red from 07-25 on: per-request PCOV coverage collection
-          # adds a ~7x request overhead (a behat shard goes ~6min -> ~45min) that pushes select2 field
-          # searches past the 40s Spin timeout. The #348 collector/merge code is kept, dormant, for a
-          # low-overhead rework (raw \pcov\collect dumps). To RE-ENABLE, restore the schedule /
-          # workflow_dispatch condition below:
-          #   PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
+          # GATE 0a EXPERIMENT — THROWAWAY. Temporarily restored from the disabled state so the
+          # dispatch run actually loads PCOV in the fpm SAPI. The nightly `schedule` event is
+          # deliberately NOT included here: only workflow_dispatch turns coverage on, so a scheduled
+          # nightly landing on this branch stays on the fast, green, PCOV-off path.
+          # The permanent form (both events) is restored by the rework; see
+          # docs/superpowers/specs/2026-07-29-behat-coverage-raw-collect-design.md.
           # An empty value is safe: the httpd service defaults it to ':' (scan the compiled-in conf.d).
-          PHP_INI_SCAN_DIR: ''
+          PHP_INI_SCAN_DIR: ${{ github.event_name == 'workflow_dispatch' && ':/srv/pim/docker/php-coverage.d' || '' }}
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
           DB_NAME=${DB_NAME:-akeneo_pim_test}
