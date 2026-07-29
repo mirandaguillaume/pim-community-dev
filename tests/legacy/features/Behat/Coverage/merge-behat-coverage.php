@@ -50,10 +50,12 @@ try {
     //   null    → the line is not executable (blank, brace, `use`, declaration)
     //   []      → executable but never hit
     //   [ids…]  → covered
-    // The is_array() guard is load-bearing: `null !== []` is TRUE in PHP, so testing only
-    // `!== []` counts every non-executable line as covered. That would inflate the reported
-    // metric AND, worse, keep $coveredLines above zero on a path mismatch, silently suppressing
-    // the tripwire below in exactly the cases it exists to catch.
+    // The is_array() check is DEFENSIVE, not currently load-bearing. `null !== []` is true in
+    // PHP, so a bare `!== []` would count non-executable lines as covered — but measured against
+    // this pipeline (probe, 2026-07-29) `null` never reaches here: append() runs
+    // applyExecutableLinesFilter() before initializeUnseenData(), so non-executable lines are
+    // already stripped and every surviving line is `[]` or a hit list. The guard costs nothing
+    // and keeps the count correct if raw data ever arrives unfiltered.
     $coveredLines = 0;
     foreach ($coverage->getData()->lineCoverage() as $lines) {
         foreach ($lines as $tests) {
