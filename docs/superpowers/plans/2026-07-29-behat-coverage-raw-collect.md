@@ -1025,6 +1025,29 @@ final class MergeCliTest extends TestCase
         self::assertStringContainsString('0 covered lines', $stderr);
     }
 
+    public function test_a_non_executable_line_does_not_count_as_covered(): void
+    {
+        // Regression guard for the null-vs-empty-array distinction. The dump names ONLY line 1
+        // (`<?php`), which the static analyser marks non-executable, in a file that DOES clear the
+        // --src filter. So the file survives applyFilter() and reaches the counting loop — unlike
+        // the out-of-filter case above, where the file is dropped before the loop runs and the bug
+        // cannot manifest.
+        //
+        // With the buggy `$tests !== []` guard, every non-executable line in this file counts as
+        // covered, $coveredLines lands well above zero and the tripwire stays silent. This test is
+        // the only thing in the suite that fails in that state.
+        file_put_contents(
+            $this->dir . '/111.dump',
+            RawCoverageRecorder::encode([$this->covered => [1 => 1]]),
+        );
+
+        [$exit, $stderr] = $this->runCli($this->dir . '/report/clover.xml');
+
+        self::assertSame(0, $exit);
+        self::assertStringContainsString('WARNING', $stderr);
+        self::assertStringContainsString('0 covered lines', $stderr);
+    }
+
     /** @return array{0: int, 1: string} */
     private function runCli(string $clover): array
     {
@@ -1104,10 +1127,19 @@ try {
     // A non-empty union that survives the filter as zero covered lines means the dumped paths do not
     // match the filter's paths. Exit status alone would report that as success and Codecov would
     // ingest an empty report, so assert it explicitly and say so loudly.
+    // php-code-coverage stores three distinct states per line
+    // (ProcessedCodeCoverageData.php:69 — `$v === Driver::LINE_NOT_EXECUTABLE ? null : []`):
+    //   null    → the line is not executable (blank, brace, `use`, declaration)
+    //   []      → executable but never hit
+    //   [ids…]  → covered
+    // The is_array() guard is load-bearing: `null !== []` is TRUE in PHP, so testing only
+    // `!== []` counts every non-executable line as covered. That would inflate the reported
+    // metric AND, worse, keep $coveredLines above zero on a path mismatch, silently suppressing
+    // the tripwire below in exactly the cases it exists to catch.
     $coveredLines = 0;
     foreach ($coverage->getData()->lineCoverage() as $lines) {
         foreach ($lines as $tests) {
-            if ($tests !== []) {
+            if (is_array($tests) && $tests !== []) {
                 $coveredLines++;
             }
         }
