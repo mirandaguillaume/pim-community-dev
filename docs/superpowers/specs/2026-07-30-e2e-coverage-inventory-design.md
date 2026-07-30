@@ -95,6 +95,12 @@ Chosen over the cookie approach deliberately: setting a cookie via Selenium whil
 
 **Known imprecision, accepted:** async requests outliving a scenario are attributed to the next one. For a migration inventory this is noise, not error — it can only over-attribute, never lose coverage.
 
+**Known limitation, accepted for now:** the shim only starts PCOV for HTTP-serving SAPIs, never `cli` (`docker/coverage-prepend.php`). This is necessary, not incidental — without a `PHP_SAPI` guard, `vendor/bin/behat` itself (a two-hour-lived CLI process) would be the thing PCOV instruments: one `pcov\start()` at process start, one `stopAndDump()` at process exit, unioning every line executed by every non-`@javascript` scenario (Mink's `symfony` session drives `$kernel->handle()` in-process, never over HTTP) into a single record stamped with whichever scenario the marker happened to hold at shutdown. That is strictly worse than no coverage: it reads as one scenario covering nearly all of `src/**`.
+
+The consequence is that **non-`@javascript` scenarios report `php: {}`** — their PHP execution happens entirely inside the guarded CLI process, which now writes nothing. This is the safe direction of error for a migration inventory: a file whose only coverage came from such scenarios reads as "not yet covered by anything with a JS side, still needs a Playwright equivalent", which over-reports remaining work rather than falsely declaring a file migrated. `@javascript` scenarios are unaffected — Mink's `selenium2` session drives the browser, so every request they cause is a real HTTP request into an fpm worker, which the shim still instruments.
+
+The fix — flush the accumulated coverage and restart PCOV per scenario from `CoverageMarkerContext::recordCurrentScenario()` (`@BeforeScenario`), rather than once per process — would restore in-process attribution for the `symfony` session. That is a deliberate follow-up, not an oversight: it changes the shim's lifecycle (per-scenario start/stop instead of per-process) and needs its own verification against a live suite, which is out of scope for this fix round.
+
 ## Output
 
 Two views under `docs/coverage-inventory/`, committed:

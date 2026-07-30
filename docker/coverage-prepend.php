@@ -21,6 +21,19 @@ declare(strict_types=1);
 
 (static function (): void {
     try {
+        // HTTP requests are the unit of attribution here: TestMarker holds exactly one test id at a
+        // time, and a request's lifetime is short enough that "whatever the marker says right now" is
+        // a safe approximation of "who caused this". A CLI process has no such single owner -- Behat
+        // itself runs as `vendor/bin/behat` inside this same container, PHP_INI_SCAN_DIR and all, and
+        // would otherwise run pcov\start() ONCE at process start and stopAndDump() ONCE at process
+        // exit (~2h later), unioning every non-@javascript scenario's kernel-boot + in-process request
+        // (Mink's `symfony` session drives $kernel->handle() directly, no HTTP) into a single record
+        // stamped with whichever scenario happened to be current at shutdown. Returning here also
+        // stops bin/console invocations from writing records.
+        if (\PHP_SAPI === 'cli') {
+            return;
+        }
+
         if (!\extension_loaded('pcov') || (int) \ini_get('pcov.enabled') !== 1) {
             return;
         }
