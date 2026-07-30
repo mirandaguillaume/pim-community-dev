@@ -51,4 +51,22 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(joined['tests/legacy/features/foo.feature:23'].php, {'src/A.php': [1]});
 assert.deepStrictEqual(joined['tests/legacy/features/foo.feature:23'].js, {'src/front/x.ts': [2]});
 
+// A sanitise collision (two distinct raw ids that sanitise to the same string) must warn instead
+// of silently dropping one scenario's coverage. console.warn is a global seam, so it's captured
+// here rather than restructuring join() around testability.
+{
+  const warnings = [];
+  const originalWarn = console.warn;
+  console.warn = message => warnings.push(message);
+  try {
+    join({'a/b.feature:1': {'src/A.php': [1]}, 'a-b.feature:1': {'src/B.php': [2]}}, {});
+  } finally {
+    console.warn = originalWarn;
+  }
+  assert.ok(
+    warnings.some(w => /both sanitise/.test(w) && w.includes('a/b.feature:1') && w.includes('a-b.feature:1')),
+    'a sanitise collision is warned, not silently dropped'
+  );
+}
+
 console.log('build-inventory checks passed');

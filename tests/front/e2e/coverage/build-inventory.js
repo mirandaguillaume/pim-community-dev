@@ -32,6 +32,25 @@ function sanitise(testId) {
 }
 
 /**
+ * Sanitised id -> raw id, warning (not throwing) when two distinct raw ids collide after
+ * sanitising -- without the warning, the second one would silently overwrite the first and its
+ * coverage would vanish from the join with no signal.
+ */
+function bySanitised(map, label) {
+  const out = {};
+  for (const rawId of Object.keys(map)) {
+    const key = sanitise(rawId);
+    if (out[key] !== undefined && out[key] !== rawId) {
+      console.warn(
+        `[inventory] WARNING: ${label} ids "${out[key]}" and "${rawId}" both sanitise to "${key}" -- the join keeps only the last one`
+      );
+    }
+    out[key] = rawId;
+  }
+  return out;
+}
+
+/**
  * @param {Record<string, Record<string, number[]>>} php keyed by the raw `<feature>:<line>` id.
  * @param {Record<string, Record<string, number[]>>} js keyed by the sanitised id (dump filename
  *   minus extension).
@@ -40,11 +59,8 @@ function join(php, js) {
   // Sanitised id -> raw id, one lookup per side. Applying sanitise() to an already-sanitised JS
   // key is a no-op (it's idempotent), so this same lookup works whether an id arrives raw or
   // already sanitised.
-  const rawPhpBySanitised = {};
-  for (const rawId of Object.keys(php)) rawPhpBySanitised[sanitise(rawId)] = rawId;
-
-  const rawJsBySanitised = {};
-  for (const rawId of Object.keys(js)) rawJsBySanitised[sanitise(rawId)] = rawId;
+  const rawPhpBySanitised = bySanitised(php, 'PHP');
+  const rawJsBySanitised = bySanitised(js, 'JS');
 
   const seen = new Set();
   const out = {};
@@ -84,9 +100,13 @@ function invert(scenarios) {
 /** Run one per-test V8 dump through monocart and return {file: [lines]} for covered lines. */
 async function jsCoverageForDump(dumpFile) {
   const MCR = require('monocart-coverage-reports');
+  // Each dump gets its own outputDir, derived purely from the dump's test id. monocart stages
+  // raw coverage under outputDir between add() and generate(); sharing one directory across
+  // instances would let dump N+1 pick up dump N's staged entries and accumulate coverage across
+  // scenarios instead of reporting each one in isolation.
   const mcr = MCR({
     ...buildOptions(),
-    outputDir: path.join(REPO_ROOT, 'var/tmp/mcr-inventory'),
+    outputDir: path.join(REPO_ROOT, 'var/tmp/mcr-inventory', path.basename(dumpFile, '.json')),
     reports: ['none'],
   });
 
