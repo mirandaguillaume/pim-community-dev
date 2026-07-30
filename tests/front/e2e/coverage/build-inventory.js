@@ -20,16 +20,17 @@
 const fs = require('fs');
 const path = require('path');
 const {buildOptions, listDumps} = require('./e2e-coverage-report');
+// Imported, not redefined: this used to be a byte-identical copy of Task 6's transform, duplicated
+// with no import between the two files -- so a change to one silently split every scenario into a
+// PHP-only and a JS-only entry at the join below, with nothing in CI to catch it (the three
+// `.check.js` files existed but nothing ran them either; see ci.yml's "Run coverage-inventory join
+// checks" step). behat-cdp-coverage.js is the producer that NAMES the dump with this transform and
+// has no dependency on this file, so it's the sane direction: this file (a consumer) depends on it,
+// not the other way around.
+const {sanitise} = require('./behat-cdp-coverage');
 
 const REPO_ROOT = path.resolve(__dirname, '../../../..');
 const OUT_DIR = path.join(REPO_ROOT, 'docs/coverage-inventory');
-
-/** Match Task 6's filename transform so PHP and JS keys line up. Idempotent. */
-function sanitise(testId) {
-  return String(testId)
-    .replace(/[^0-9a-z]+/gi, '-')
-    .replace(/^-+|-+$/g, '');
-}
 
 /**
  * Sanitised id -> raw id, warning (not throwing) when two distinct raw ids collide after

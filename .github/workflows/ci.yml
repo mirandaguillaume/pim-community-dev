@@ -592,6 +592,17 @@ jobs:
       - name: Run ESLint and Prettier
         run: castor test:lint-front
 
+      # Dependency-free `node` scripts (assert + fs/path only), so nothing here needed the JS
+      # dependencies installed above -- but nothing ran them either until now: they weren't referenced
+      # anywhere in .github/, package.json or castor/. That let the PHP<->JS join contract they pin
+      # (sanitise() must stay identical between the producer and the consumer) drift silently.
+      - name: Run coverage-inventory join checks
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node \
+            sh -c 'for f in tests/front/e2e/coverage/*.check.js; do node "$f" || exit 1; done'
+
       # Permanent net from the AMD→CJS→ESM migration: a dropped/undefined
       # binding in the legacy modules is a runtime ReferenceError the unit
       # suites cannot catch (no coverage there). Globals are provided by the
