@@ -15,6 +15,9 @@ on:
 permissions:
   contents: write
 
+env:
+  CACHE_VERSION: v2
+
 defaults:
   run:
     shell: bash
@@ -37,6 +40,42 @@ jobs:
 
       - uses: ./.github/actions/install-castor
 
+      # This workflow has no `needs:` on ci.yml's infra-db-seed/build-front jobs -- they live in a
+      # different workflow, so download-artifact cannot reach them. Actions caches, unlike
+      # artifacts, ARE readable across workflows in the same repo, so we restore straight from the
+      # same cache keys those jobs write. A miss must fail the job outright: without a seeded
+      # schema every scenario dies before touching real code, `continue-on-error` on the Behat step
+      # swallows that, and every downstream step being `if: always()` would still produce and
+      # commit an empty-looking-plausible inventory. Silence here is worse than a red job.
+      - name: Restore DB seed from cache
+        id: db-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: db-seed.sql
+          key: db-seed-${{ env.CACHE_VERSION }}-${{ hashFiles('upgrades/**/*.php', 'src/**/DataFixtures/**/*.php', 'src/**/DataFixtures/**/*.yaml', 'src/**/Model/*.php', 'src/**/Entity/*.php') }}
+
+      - name: Fail if the DB seed cache missed
+        if: steps.db-cache.outputs.cache-hit != 'true'
+        run: |
+          echo "::error::no db-seed.sql cache hit for this commit's hash. Run ci.yml's infra-db-seed job on this commit (or on master, if unrelated files changed) so this workflow has a seeded schema to run against, then re-dispatch."
+          exit 1
+
+      # Same reasoning as the DB seed above: without the compiled front assets the browser executes
+      # no application JS, so Profiler.takePreciseCoverage (the entire reason the CDP sidecar
+      # exists) has nothing to report and the JS half of the inventory is silently empty.
+      - name: Restore front build from cache
+        id: front-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: front-build-cached
+          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'rspack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+
+      - name: Fail if the front build cache missed
+        if: steps.front-cache.outputs.cache-hit != 'true'
+        run: |
+          echo "::error::no front-build-cached cache hit for this commit's hash. Run ci.yml's build-front job on this commit (or on master, if unrelated files changed) so the browser has application JS to execute, then re-dispatch."
+          exit 1
+
       - name: Cleanup stale containers
         run: docker-compose down --remove-orphans 2>/dev/null || true
 
@@ -47,11 +86,33 @@ jobs:
           # 500ing the app. pcov-on.ini both enables PCOV and installs the auto_prepend collector.
           PHP_INI_SCAN_DIR: ':/srv/pim/docker/php-coverage.d'
         run: |
+          # Belt and suspenders: the cache-restore step above should already have failed the job
+          # before this point on a miss. Check again anyway rather than letting setup-test-db.sh's
+          # own "file not found, skipping import" warning silently run every scenario unseeded.
+          test -f db-seed.sql || { echo "::error::db-seed.sql missing at repo root after a reported cache hit"; exit 1; }
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
           APP_ENV=behat castor docker:up 'httpd mysql elasticsearch object-storage selenium pubsub-emulator'
           docker/wait_docker_up.sh
-          .github/scripts/setup-test-db.sh "${DB_NAME}" seed/db-seed.sql
+          .github/scripts/setup-test-db.sh "${DB_NAME}" db-seed.sql
           docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=test
+
+      # front-build-cached is byte-identical in layout to the build-front artifact ci.yml's
+      # test-behat job downloads (it's built by the same "Collect front build output" step in
+      # build-front), so this is that job's "Install front assets" step with the source directory
+      # substituted.
+      - name: Install front assets
+        run: |
+          mkdir -p public/css public/dist public/js var/build
+          cp -a front-build-cached/public/css/. public/css/ 2>/dev/null || true
+          cp -a front-build-cached/public/dist/. public/dist/ 2>/dev/null || true
+          cp -a front-build-cached/public/js/. public/js/ 2>/dev/null || true
+          cp -a front-build-cached/var/build/module-registry.js var/build/ 2>/dev/null || true
+          sudo chmod -R 777 public/
+          docker-compose run --rm php php bin/console pim:installer:assets --symlink --env=behat
+          sudo chown -R $(id -u):$(id -g) public/
+
+      - name: Warmup Symfony cache
+        run: docker-compose run --rm php php bin/console cache:warmup --env=behat
 
       - name: Assert the collector is actually installed
         run: |
@@ -82,10 +143,15 @@ jobs:
             node node tests/front/e2e/coverage/behat-cdp-sidecar.js \
             http://selenium:4444 var/tests/behat-coverage "coverage-v8/behat-${{ matrix.shard }}"
 
+      # if: always() so a sidecar-start failure (most plausibly a leaked container name collision)
+      # doesn't skip this step and lose the PHP half too -- the JS half being empty for this shard
+      # is recoverable, losing both halves is not.
       - name: Run the nightly Behat suite
+        if: always()
         continue-on-error: true
         run: |
           export BEHAT_SPLIT="${{ matrix.shard }}/10"
+          export BEHAT_TIMING_FILE=".test-timings/behat.json"
           SUITE=nightly castor test:end-to-end-legacy
 
       # The sidecar dumps the LAST scenario's coverage in finish(), which only runs on this stop
@@ -101,6 +167,9 @@ jobs:
           timeout 60 docker wait "$SIDECAR" || docker stop "$SIDECAR" || true
           docker logs "$SIDECAR" 2>&1 | tail -20 || true
           echo "JS dumps produced: $(find coverage-v8 -name '*.json' 2>/dev/null | wc -l)"
+          # The bare-metal runners share one Docker daemon: a container left behind here collides
+          # by name with the next dispatch of this same shard.
+          docker rm -f "$SIDECAR" || true
 
       - name: Build the per-test PHP inventory
         if: always()
@@ -177,6 +246,49 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -T node \
             node tests/front/e2e/coverage/build-inventory.js inventory-php-all.json coverage-v8
 
+      # Uploaded unconditionally, before the gate and the commit, so the built JSON survives even
+      # when the gate below fails the job or the commit's push is rejected by branch protection --
+      # otherwise a bad run leaves nothing at all to inspect.
+      - name: Upload the built inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-inventory
+          path: docs/coverage-inventory/
+          retention-days: 14
+          if-no-files-found: warn
+
+      # build-php-inventory.php exits 0 without writing on zero records, and build-inventory.js
+      # catches a fatal and still exits 0 having already written both JSONs -- so with every
+      # upstream step best-effort and `if: always()`, all ten shards can fail and this job would
+      # otherwise commit `{}` over a good inventory with nothing to say so. This is the brief's own
+      # acceptance criterion turned into an actual check instead of a human eyeballing the PR diff.
+      - name: Verify the inventory is non-empty
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -T node node -e '
+            const fs = require("fs");
+            const file = "docs/coverage-inventory/scenarios.json";
+            let scenarios;
+            try {
+              scenarios = JSON.parse(fs.readFileSync(file, "utf8"));
+            } catch (e) {
+              console.error(`[gate] cannot read/parse ${file}: ${e.message}`);
+              process.exit(1);
+            }
+            const tests = Object.keys(scenarios);
+            const both = tests.filter(t =>
+              Object.keys((scenarios[t] && scenarios[t].php) || {}).length > 0 &&
+              Object.keys((scenarios[t] && scenarios[t].js) || {}).length > 0
+            );
+            console.log(`[gate] ${tests.length} scenarios, ${both.length} with both php and js`);
+            if (tests.length === 0 || both.length === 0) {
+              console.error("[gate] inventory is empty or has no scenario with both php and js populated -- refusing to commit it");
+              process.exit(1);
+            }
+          '
+
       - name: Commit the inventory
         run: |
           git add docs/coverage-inventory/
@@ -187,4 +299,12 @@ jobs:
           git config user.name "$(git log -1 --format='%an')"
           git config user.email "$(git log -1 --format='%ae')"
           git commit -m "chore(coverage): refresh the E2E coverage inventory"
-          git push
+          # Explicit remote-branch push rather than a bare `git push`: actions/checkout leaves an
+          # ambiguous local ref state depending on trigger, and a re-dispatch after an earlier
+          # commit landed must rebase, not fail non-fast-forward.
+          BRANCH="${{ github.ref_name }}"
+          git pull --rebase origin "$BRANCH"
+          if ! git push origin HEAD:"$BRANCH"; then
+            echo "::error::push to '$BRANCH' was rejected -- it is likely a protected branch (master carries both a ruleset and legacy branch protection, and bypassing either is forbidden). Dispatch this workflow on a non-protected branch if you want the inventory committed automatically; the built JSON is still available from this run's 'coverage-inventory' artifact."
+            exit 1
+          fi
