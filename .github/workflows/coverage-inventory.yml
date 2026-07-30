@@ -2,8 +2,12 @@
 #
 # workflow_dispatch ONLY, deliberately. This is a migration inventory, not a metric, so it has no
 # nightly constraint: the ~2.8x per-request PCOV overhead is irrelevant and shard failures are fine
-# (a scenario that fails still exercised code up to its failure point). That is why every coverage
-# step below carries `if: always()` -- without it a red shard skips the merge and yields nothing.
+# (a scenario that fails still exercised code up to its failure point). That is why the steps after
+# the Behat run carry `if: always()` -- without it a red shard skips the merge and yields nothing.
+# The Behat run itself, and the sidecar start before it, instead opt out via `continue-on-error`:
+# that tolerates a JS-only or scenario failure without also masking a genuine failure earlier in
+# setup, which must still skip the suite rather than run it for two hours against a broken
+# environment.
 #
 # Runs the `nightly` Behat suite because it includes @critical and @optional: the inventory must
 # cover everything that needs migrating, not just what PRs run.
@@ -16,6 +20,8 @@ permissions:
   contents: write
 
 env:
+  # Must match ci.yml:37's CACHE_VERSION exactly, or every restore below misses -- loudly, thanks
+  # to the guard steps that follow, not silently.
   CACHE_VERSION: v2
 
 defaults:
@@ -57,7 +63,7 @@ jobs:
       - name: Fail if the DB seed cache missed
         if: steps.db-cache.outputs.cache-hit != 'true'
         run: |
-          echo "::error::no db-seed.sql cache hit for this commit's hash. Run ci.yml's infra-db-seed job on this commit (or on master, if unrelated files changed) so this workflow has a seeded schema to run against, then re-dispatch."
+          echo "::error::no db-seed.sql cache hit for this commit's hash. A pull_request run of ci.yml won't help -- its cache is scoped to that PR's merge ref, unreadable from a workflow_dispatch on this branch. Dispatch ci.yml itself on this branch (it has workflow_dispatch too), or dispatch this workflow on master instead, then re-dispatch this one."
           exit 1
 
       # Same reasoning as the DB seed above: without the compiled front assets the browser executes
@@ -73,7 +79,7 @@ jobs:
       - name: Fail if the front build cache missed
         if: steps.front-cache.outputs.cache-hit != 'true'
         run: |
-          echo "::error::no front-build-cached cache hit for this commit's hash. Run ci.yml's build-front job on this commit (or on master, if unrelated files changed) so the browser has application JS to execute, then re-dispatch."
+          echo "::error::no front-build-cached cache hit for this commit's hash. A pull_request run of ci.yml won't help -- its cache is scoped to that PR's merge ref, unreadable from a workflow_dispatch on this branch. Dispatch ci.yml itself on this branch (it has workflow_dispatch too), or dispatch this workflow on master instead, then re-dispatch this one."
           exit 1
 
       - name: Cleanup stale containers
@@ -102,6 +108,12 @@ jobs:
       # substituted.
       - name: Install front assets
         run: |
+          # The four copies below are `|| true`, matching ci.yml, so a hollow-but-present cache
+          # (e.g. build-front's job succeeded but wrote an incomplete tree) would otherwise
+          # reinstate the "no application JS" failure this whole round exists to catch, silently.
+          # ci.yml backs its own copy of this with a health check further down the job that greps
+          # public/dist/vendor.min.js off disk; check the source directory up front instead.
+          test -d front-build-cached/public/dist || { echo "::error::front-build-cached/public/dist missing despite a reported cache hit -- the cache is hollow, not just stale"; exit 1; }
           mkdir -p public/css public/dist public/js var/build
           cp -a front-build-cached/public/css/. public/css/ 2>/dev/null || true
           cp -a front-build-cached/public/dist/. public/dist/ 2>/dev/null || true
@@ -131,7 +143,16 @@ jobs:
       # of the inventory silently produces nothing. The container name is namespaced by shard AND by
       # COMPOSE_PROJECT_NAME because the bare-metal runners share ONE Docker daemon -- unnamespaced
       # names collide across concurrent jobs.
+      #
+      # continue-on-error lives HERE, not on the Behat step below: a sidecar failure (most plausibly
+      # a leaked --name collision) should cost this shard only its JS half, not skip the suite
+      # outright. A step with continue-on-error has a *conclusion* of success when it fails, so the
+      # following default-`success()` step still runs. Putting the tolerance here, instead of an
+      # `if: always()` on the 120-minute Behat step, means a genuine earlier failure (the stack
+      # never coming up, or the collector assertion above failing) still correctly skips the suite
+      # rather than running the full nightly suite against a broken environment for two hours.
       - name: Start the CDP coverage sidecar
+        continue-on-error: true
         run: |
           mkdir -p var/tests/behat-coverage
           rm -f var/tests/behat-coverage/.coverage-done
@@ -143,11 +164,22 @@ jobs:
             node node tests/front/e2e/coverage/behat-cdp-sidecar.js \
             http://selenium:4444 var/tests/behat-coverage "coverage-v8/behat-${{ matrix.shard }}"
 
-      # if: always() so a sidecar-start failure (most plausibly a leaked container name collision)
-      # doesn't skip this step and lose the PHP half too -- the JS half being empty for this shard
-      # is recoverable, losing both halves is not.
+      # Optional: matches ci.yml's behavior on a cache miss (empty file, safe fallback to
+      # hash-based sharding in shard-by-timing.sh). Without restoring this, exporting
+      # BEHAT_TIMING_FILE below would be inert -- the timing-aware split needs the data on disk.
+      - name: Restore Behat timing data
+        uses: actions/cache/restore@v4
+        with:
+          path: .test-timings/behat.json
+          key: test-timings-behat-${{ github.ref }}-
+          restore-keys: |
+            test-timings-behat-refs/heads/master-
+
+      # No if: always() here, deliberately: this step must be skipped, not run for up to 120
+      # minutes against a broken environment, if an earlier required step (stack bring-up, the
+      # collector assertion) failed. Its own continue-on-error is what protects it from a JS-only
+      # failure in the sidecar step above.
       - name: Run the nightly Behat suite
-        if: always()
         continue-on-error: true
         run: |
           export BEHAT_SPLIT="${{ matrix.shard }}/10"
