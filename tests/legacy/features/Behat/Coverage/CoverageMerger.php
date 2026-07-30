@@ -39,7 +39,7 @@ final class CoverageMerger
             }
 
             foreach (RawCoverageRecorder::decodeAll($blob) as $record) {
-                $union = RawCoverageRecorder::union($union, $record);
+                $union = RawCoverageRecorder::union($union, $record['hits']);
             }
         }
 

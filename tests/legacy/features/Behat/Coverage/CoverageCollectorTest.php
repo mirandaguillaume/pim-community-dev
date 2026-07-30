@@ -36,7 +36,7 @@ final class CoverageCollectorTest extends TestCase
         self::assertFileExists($expected);
 
         self::assertSame(
-            [['/srv/pim/src/A.php' => [3 => 1]]],
+            [['test' => 't:1', 'hits' => ['/srv/pim/src/A.php' => [3 => 1]]]],
             RawCoverageRecorder::decodeAll((string) file_get_contents($expected)),
         );
     }
@@ -57,8 +57,8 @@ final class CoverageCollectorTest extends TestCase
         self::assertCount(1, glob($this->dir . '/*.dump') ?: []);
         self::assertSame(
             [
-                ['/srv/pim/src/A.php' => [3 => 1]],
-                ['/srv/pim/src/B.php' => [9 => 1]],
+                ['test' => 't:1', 'hits' => ['/srv/pim/src/A.php' => [3 => 1]]],
+                ['test' => 't:1', 'hits' => ['/srv/pim/src/B.php' => [9 => 1]]],
             ],
             RawCoverageRecorder::decodeAll((string) file_get_contents($this->dir . '/' . getmypid() . '.dump')),
         );

@@ -59,12 +59,12 @@ final class CoverageMergerTest extends TestCase
     {
         file_put_contents(
             $this->dir . '/111.dump',
-            RawCoverageRecorder::encode([$this->covered => [4 => 1]]),
+            RawCoverageRecorder::encode([$this->covered => [4 => 1]], 't:1'),
         );
         file_put_contents(
             $this->dir . '/222.dump',
-            RawCoverageRecorder::encode([$this->covered => [6 => 1]])
-            . RawCoverageRecorder::encode([$this->untouched => [4 => 1]]),
+            RawCoverageRecorder::encode([$this->covered => [6 => 1]], 't:1')
+            . RawCoverageRecorder::encode([$this->untouched => [4 => 1]], 't:1'),
         );
 
         self::assertSame(
