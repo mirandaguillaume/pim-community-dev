@@ -27,6 +27,7 @@ contexts: &context
     -   Pim\Behat\Context\Domain\SecondaryActionsContext
     -   Pim\Behat\Context\Domain\TreeContext
     -   Pim\Behat\Context\HookContext
+    -   Pim\Behat\Context\CoverageMarkerContext
     -   Pim\Behat\Context\JobContext
     -   Pim\Behat\Context\ImportExportFileContext
     -   Pim\Behat\Context\Storage\FileInfoStorage
