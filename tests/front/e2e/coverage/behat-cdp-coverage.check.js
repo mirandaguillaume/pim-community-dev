@@ -3,7 +3,7 @@
  * Run: node tests/front/e2e/coverage/behat-cdp-coverage.check.js
  */
 const assert = require('assert');
-const {sanitise, toV8Entries} = require('./behat-cdp-coverage');
+const {sanitise, toV8Entries, takeCoverage} = require('./behat-cdp-coverage');
 
 // A scenario id becomes a safe filename.
 assert.strictEqual(sanitise('tests/legacy/features/pim/foo.feature:23'), 'tests-legacy-features-pim-foo-feature-23');
@@ -25,4 +25,8 @@ assert.strictEqual(entries[0].url, 'http://httpd/dist/main.min.js');
 assert.strictEqual(entries[0].source, 'console.log(1)');
 assert.ok(Array.isArray(entries[0].functions));
 
-console.log('behat-cdp-coverage checks passed');
+// startCoverage() returns null on failure; takeCoverage must tolerate that rather than throwing.
+takeCoverage(null, 'x:1', '/tmp/nowhere').then(n => {
+  assert.strictEqual(n, 0, 'takeCoverage(null) resolves to 0 rather than throwing');
+  console.log('behat-cdp-coverage checks passed');
+});

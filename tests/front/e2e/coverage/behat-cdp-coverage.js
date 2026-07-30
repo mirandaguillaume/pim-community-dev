@@ -55,8 +55,17 @@ class CdpClient {
   connect() {
     return new Promise((resolve, reject) => {
       this.ws = new WebSocket(this.url);
-      this.ws.onopen = () => resolve();
-      this.ws.onerror = e => reject(new Error(`cdp connect failed: ${e.message || 'unknown'}`));
+      // A stalled handshake fires neither onopen nor onerror, so without this the whole
+      // sidecar hangs forever. send() already guards the same way.
+      const timer = setTimeout(() => reject(new Error('cdp connect timeout')), 30000);
+      this.ws.onopen = () => {
+        clearTimeout(timer);
+        resolve();
+      };
+      this.ws.onerror = e => {
+        clearTimeout(timer);
+        reject(new Error(`cdp connect failed: ${e.message || 'unknown'}`));
+      };
       this.ws.onmessage = ev => {
         let msg;
         try {
@@ -104,33 +113,50 @@ async function cdpUrl(seleniumBase, sessionId) {
 }
 
 async function startCoverage(seleniumBase, sessionId) {
-  const client = new CdpClient(await cdpUrl(seleniumBase, sessionId));
-  await client.connect();
-  await client.send('Profiler.enable');
-  await client.send('Profiler.startPreciseCoverage', {callCount: false, detailed: true});
-  return client;
+  try {
+    const client = new CdpClient(await cdpUrl(seleniumBase, sessionId));
+    await client.connect();
+    // Debugger.enable is REQUIRED, not optional: without it Chromium keeps no parsed-script
+    // registry, so every later Debugger.getScriptSource fails and every entry ships source:''.
+    // monocart would then have no bundle text to map ranges into -- silently defeating the whole
+    // raw-V8 route. Playwright's own crCoverage.ts enables Debugger before getScriptSource too.
+    await client.send('Debugger.enable');
+    await client.send('Profiler.enable');
+    await client.send('Profiler.startPreciseCoverage', {callCount: false, detailed: true});
+    return client;
+  } catch (e) {
+    // Best-effort: a coverage failure must never throw into a Behat scenario.
+    console.warn(`[cdp] startCoverage failed: ${e.message}`);
+    return null;
+  }
 }
 
 async function takeCoverage(client, testId, outDir) {
-  const cdpResult = await client.send('Profiler.takePreciseCoverage');
-  const sources = {};
+  if (!client) return 0; // startCoverage failed; nothing to collect
+  try {
+    const cdpResult = await client.send('Profiler.takePreciseCoverage');
+    const sources = {};
 
-  for (const entry of cdpResult.result || []) {
-    try {
-      const {scriptSource} = await client.send('Debugger.getScriptSource', {scriptId: entry.scriptId});
-      sources[entry.scriptId] = scriptSource;
-    } catch {
-      // a script may already be gone after a navigation; its entry is still useful without source
+    for (const entry of cdpResult.result || []) {
+      try {
+        const {scriptSource} = await client.send('Debugger.getScriptSource', {scriptId: entry.scriptId});
+        sources[entry.scriptId] = scriptSource;
+      } catch {
+        // a script may already be gone after a navigation; its entry is still useful without source
+      }
     }
+
+    const entries = toV8Entries(cdpResult, sources);
+    if (!entries.length) return 0;
+
+    fs.mkdirSync(outDir, {recursive: true});
+    fs.writeFileSync(path.join(outDir, `${sanitise(testId)}.json`), JSON.stringify(entries));
+
+    return entries.length;
+  } catch (e) {
+    console.warn(`[cdp] takeCoverage failed for ${testId}: ${e.message}`);
+    return 0;
   }
-
-  const entries = toV8Entries(cdpResult, sources);
-  if (!entries.length) return 0;
-
-  fs.mkdirSync(outDir, {recursive: true});
-  fs.writeFileSync(path.join(outDir, `${sanitise(testId)}.json`), JSON.stringify(entries));
-
-  return entries.length;
 }
 
 module.exports = {sanitise, toV8Entries, CdpClient, cdpUrl, startCoverage, takeCoverage};
