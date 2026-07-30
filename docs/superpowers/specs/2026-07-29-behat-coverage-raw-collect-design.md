@@ -162,7 +162,18 @@ The three Gate 1 failures were `Spin` timeouts, so scaling every timeout by 3 (4
 | red shards | 3/10 | 6/10 |
 | mean | 21.4 min | 22.9 min |
 
-**The verdict is "did not achieve its goal", not "proven harmful".** Lever A existed to turn shards green; 6/10 red is not shippable, so it is rejected. But the 3→6 difference is **not statistically supported** at one run each — Fisher's exact gives p≈0.37, entirely consistent with fleet noise, and this suite is independently flaky (`test-playwright (2)` flips between runs with no code change; `StaleElementReferenceException` races appear unprompted). Do not cite "it doubled the failures" as established. Settling causality would need repeat runs of both configurations, which would cost ~an hour of fleet each and change no decision.
+**Repeated once (run `30534338738`) to separate signal from flake, which changed what can be claimed.** The shard-count comparison alone was weak — 3 vs 6 at one run each is p≈0.37 on Fisher's exact — but per-shard identity across three runs is not:
+
+| Shard | Gate 1 (40 s) | Lever A run 1 | Lever A retry | Reading |
+| --- | --- | --- | --- | --- |
+| 2, 5, 9 | red | red | red | persistent: fail with coverage on at **any** timeout |
+| 3, 10 | green | **red** | **red** | **reproducibly worse under 120 s** |
+| 1 | green | red | green | genuinely flaky |
+| 4, 6, 7, 8 | green | green | green | stable |
+
+**This separates two causes that were being conflated.** The PCOV-off baseline was 10/10 green, so shards 2/5/9 fail because of *coverage overhead itself*, independent of the timeout. Shards 3/10 fail because of the *longer timeout*, reproducibly in both runs. Lever A only ever addressed the second cause, and added to it.
+
+**Verdict: rejected.** It fixes none of the three persistent failures and reproducibly adds two. Note the residual caveat: "3 and 10 are green at 40 s" still rests on a single Gate 1 observation each, so the effect size is established more firmly than its exact magnitude.
 
 **What IS verified, from code rather than inference:** `Context\Spin\SpinCapableTrait::spin()` is a polling loop — `do { … usleep(300000) … } while (microtime(true) < $end)`. A 40 s window permits ~133 attempts, 120 s permits ~400. Each attempt re-runs the callable, which for select2/grid steps drives Selenium commands that hit the app over HTTP, and under coverage each request costs ~2.8x more. So a *doomed* Spin genuinely does fire ~3x the requests for 3x as long. **In a polling harness a longer timeout is partly a load multiplier, not purely more patience** — which is a good reason not to tune the factor upward hoping for a different result.
 
