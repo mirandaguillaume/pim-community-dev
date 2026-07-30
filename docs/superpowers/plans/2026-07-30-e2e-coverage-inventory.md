@@ -1444,6 +1444,7 @@ async function main() {
   let client = null;
   let prev = '';
   let dumped = 0;
+  let stopping = false;
 
   // Stop when Behat signals it is done, so the CI step can wait on this process rather than kill it.
   const stopFile = path.join(markerDir, '.coverage-done');
@@ -1451,6 +1452,12 @@ async function main() {
   process.on('SIGINT', () => finish());
 
   async function finish() {
+    // SIGINT and SIGTERM can both arrive (CI often escalates one to the other), and a signal can
+    // land while the loop's own dump is in flight. Without this guard both paths would dump the
+    // same id, close the same socket and exit twice.
+    if (stopping) return;
+    stopping = true;
+
     if (client && prev) {
       try {
         dumped += (await takeCoverage(client, prev, outDir)) ? 1 : 0;
@@ -1493,6 +1500,10 @@ async function main() {
         if (await takeCoverage(client, dumpFor, outDir)) dumped++;
       } catch (e) {
         console.warn(`[cdp-sidecar] dump for ${dumpFor} failed: ${e.message}`);
+        // Drop the client so the next tick re-attaches. Without this, one dead session silently
+        // zeroes JS coverage for the entire rest of the shard -- the exact failure this exists to
+        // prevent -- because `client` stays truthy and the `if (!client)` attach never runs again.
+        client = null;
       }
     }
     prev = next;
@@ -1861,11 +1872,38 @@ jobs:
               extension_loaded("pcov"), ini_get("pcov.enabled"), ini_get("auto_prepend_file"));'
           echo "expected: pcov=1 enabled=1 prepend=/srv/pim/docker/coverage-prepend.php"
 
+      # Without this the CDP helper and its sidecar exist but nothing launches them, so the JS half
+      # of the inventory silently produces nothing. The container name is namespaced by shard AND by
+      # COMPOSE_PROJECT_NAME because the bare-metal runners share ONE Docker daemon -- unnamespaced
+      # names collide across concurrent jobs.
+      - name: Start the CDP coverage sidecar
+        run: |
+          mkdir -p var/tests/behat-coverage
+          rm -f var/tests/behat-coverage/.coverage-done
+          docker-compose run -d \
+            --name "${COMPOSE_PROJECT_NAME:-pim}-cdp-sidecar-${{ matrix.shard }}" \
+            node node tests/front/e2e/coverage/behat-cdp-sidecar.js \
+            http://selenium:4444 var/tests/behat-coverage "coverage-v8/behat-${{ matrix.shard }}"
+
       - name: Run the nightly Behat suite
         continue-on-error: true
         run: |
           export BEHAT_SPLIT="${{ matrix.shard }}/10"
           SUITE=nightly castor test:end-to-end-legacy
+
+      # The sidecar dumps the LAST scenario's coverage in finish(), which only runs on this stop
+      # file or a signal. Skipping it would silently lose the final scenario of every shard.
+      # if: always() because a red shard's inventory is still wanted -- a scenario that failed still
+      # exercised code up to its failure point.
+      - name: Stop the sidecar and wait for its final dump
+        if: always()
+        continue-on-error: true
+        run: |
+          SIDECAR="${COMPOSE_PROJECT_NAME:-pim}-cdp-sidecar-${{ matrix.shard }}"
+          touch var/tests/behat-coverage/.coverage-done
+          timeout 60 docker wait "$SIDECAR" || docker stop "$SIDECAR" || true
+          docker logs "$SIDECAR" 2>&1 | tail -20 || true
+          echo "JS dumps produced: $(find coverage-v8 -name '*.json' 2>/dev/null | wc -l)"
 
       - name: Build the per-test PHP inventory
         if: always()
