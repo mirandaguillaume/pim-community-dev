@@ -325,7 +325,22 @@ In `RawCoverageRecorder.php`, replace `encode()` and `decodeAll()` and add `unio
 APP_ENV=test docker-compose run --rm php php vendor/bin/phpunit -c . --filter 'TestMarkerTest|RawCoverageRecorderTest'
 ```
 
-Expected: PASS. `CoverageCollectorTest`, `CoverageMergerTest` and `MergeCliTest` will now FAIL because they call the old `encode()` — that is expected and Tasks 2 and 3 fix them. Do not fix them here.
+Expected: the two target classes PASS.
+
+`CoverageCollectorTest`, `CoverageMergerTest` and `MergeCliTest` will now fail, because they call the one-argument `encode()`. **Fix them in this task** — every commit must leave the suite green, so the branch stays bisectable and no reviewer has to distinguish an intended red from a real one.
+
+The fix is mechanical: give every existing `RawCoverageRecorder::encode([...])` call a second argument `'t:1'`. Do **not** add per-test assertions here — Tasks 2 and 3 replace those placeholders with real ones as they make each class test-aware.
+
+```bash
+grep -rn 'RawCoverageRecorder::encode(' tests/legacy/features/Behat/Coverage/*Test.php
+```
+
+Then confirm the whole Coverage suite is green before committing:
+
+```bash
+APP_ENV=test docker-compose run --rm php php vendor/bin/phpunit -c . \
+  --filter 'TestMarkerTest|RawCoverageRecorderTest|CoverageCollectorTest|CoverageMergerTest|MergeCliTest|BehatCoverageSubscriberTest'
+```
 
 - [ ] **Step 6: Commit**
 
