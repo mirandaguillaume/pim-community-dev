@@ -149,6 +149,11 @@ async function takeCoverage(client, testId, outDir) {
     const entries = toV8Entries(cdpResult, sources);
     if (!entries.length) return 0;
 
+    // Each entry carries its script's FULL source (fetched above), and this writes one such dump
+    // PER SCENARIO -- the known size driver for the artifact (see coverage-inventory.yml's
+    // commit-inventory job timeout comment). Deliberately not deduplicated here: a per-shard
+    // `scriptId+url -> source` sidecar, with dumps referencing it instead of embedding, is the
+    // follow-up if the artifact proves unwieldy in practice -- not implemented now.
     fs.mkdirSync(outDir, {recursive: true});
     fs.writeFileSync(path.join(outDir, `${sanitise(testId)}.json`), JSON.stringify(entries));
 

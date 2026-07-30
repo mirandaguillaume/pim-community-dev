@@ -203,7 +203,11 @@ jobs:
         run: |
           SIDECAR="${COMPOSE_PROJECT_NAME:-pim}-cdp-sidecar-${{ matrix.shard }}"
           touch var/tests/behat-coverage/.coverage-done
-          timeout 60 docker wait "$SIDECAR" || docker stop "$SIDECAR" || true
+          # 180, not 60: finish()'s reentrancy guard makes the docker-stop SIGTERM below a no-op once
+          # the stop file has been seen, so a final dump slower than this wait is SIGKILLed and lost --
+          # the exact scenario this step exists to protect. The last dump embeds every loaded script's
+          # full source (behat-cdp-coverage.js), which is the realistic driver of a slow final write.
+          timeout 180 docker wait "$SIDECAR" || docker stop "$SIDECAR" || true
           docker logs "$SIDECAR" 2>&1 | tail -20 || true
           echo "JS dumps produced: $(find coverage-v8 -name '*.json' 2>/dev/null | wc -l)"
           # The bare-metal runners share one Docker daemon: a container left behind here collides
@@ -235,9 +239,21 @@ jobs:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [behat-inventory]
     if: always()
-    timeout-minutes: 20
+    # Was 20. Each JS dump embeds full script sources (behat-cdp-coverage.js's dump-writing site),
+    # and build-inventory.js runs one monocart source-map pass PER dump -- 100+ dumps/shard x 10
+    # shards. 20 minutes was sized for the merge alone, not for that volume; on timeout the job is
+    # cancelled mid-build, the `if: always()` upload below finds nothing written, and the whole
+    # 10-shard x ~2h Behat run yields no artifact. 120 gives real headroom without masking a genuine
+    # hang (a job that still doesn't finish in 2h has a different problem).
+    timeout-minutes: 120
     steps:
+      # fetch-depth: 0, not the default 1: "Commit the inventory" below does `git pull --rebase
+      # origin "$BRANCH"` to handle a re-dispatch after an earlier commit already landed. A depth-1
+      # clone only works while the remote is exactly one commit ahead of this checkout -- beyond
+      # that, the merge base falls outside the shallow history and the rebase fails.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: ./.github/actions/setup-pim-job
         with:
