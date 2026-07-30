@@ -76,6 +76,42 @@ final class CoverageMergerTest extends TestCase
         );
     }
 
+    public function test_it_groups_the_union_by_test_id(): void
+    {
+        file_put_contents(
+            $this->dir . '/111.dump',
+            RawCoverageRecorder::encode([$this->covered => [4 => 1]], 'a.feature:1')
+            . RawCoverageRecorder::encode([$this->covered => [5 => 1]], 'b.feature:2'),
+        );
+        file_put_contents(
+            $this->dir . '/222.dump',
+            RawCoverageRecorder::encode([$this->covered => [6 => 1]], 'a.feature:1'),
+        );
+
+        self::assertSame(
+            [
+                'a.feature:1' => [$this->covered => [4 => 1, 6 => 1]],
+                'b.feature:2' => [$this->covered => [5 => 1]],
+            ],
+            (new CoverageMerger())->unionDirByTest($this->dir),
+        );
+    }
+
+    public function test_union_dir_still_returns_the_whole_suite_union(): void
+    {
+        // The Clover path (merge-behat-coverage.php) must keep working unchanged.
+        file_put_contents(
+            $this->dir . '/111.dump',
+            RawCoverageRecorder::encode([$this->covered => [4 => 1]], 'a.feature:1')
+            . RawCoverageRecorder::encode([$this->covered => [6 => 1]], 'b.feature:2'),
+        );
+
+        self::assertSame(
+            [$this->covered => [4 => 1, 6 => 1]],
+            (new CoverageMerger())->unionDir($this->dir),
+        );
+    }
+
     public function test_union_dir_is_empty_when_there_are_no_dumps(): void
     {
         self::assertSame([], (new CoverageMerger())->unionDir($this->dir));
