@@ -373,9 +373,33 @@ class FeatureContext extends MinkContext
         }, sprintf('Spinning for asserting checkbox "%d" is not checked', $checkbox));
     }
 
+    /**
+     * Multiplier applied to every Spin/wait timeout while PCOV coverage collection is active.
+     *
+     * Grounded in measurement, not taste: Gate 1 (run 30473153154) put a coverage-enabled behat
+     * shard at 21.4 min against a 7.6 min PCOV-off baseline — a ~2.8x slowdown, because every HTTP
+     * request additionally materialises its line map. 3 sits just above that, so the app being
+     * legitimately slower no longer reads as a hung widget.
+     *
+     * @see docs/superpowers/specs/2026-07-29-behat-coverage-raw-collect-design.md
+     */
+    private const COVERAGE_TIMEOUT_FACTOR = 3;
+
     protected function setTimeout(array $parameters): void
     {
         static::$timeout = $parameters['timeout'];
+
+        // Every Spin/wait timeout in the suite reads this one value (SpinCapableTrait,
+        // self::wait(), Page\Base\Base::getTimeout()), so scaling it here covers all of them.
+        //
+        // The gate is deliberately the SAME expression BehatCoverageSubscriber uses, so the CLI's
+        // patience and the server's instrumentation can never disagree about whether coverage is
+        // on. It is satisfied only on the nightly coverage path: run_behat.sh execs the CLI inside
+        // the httpd container, which inherits PHP_INI_SCAN_DIR and therefore loads pcov-on.ini.
+        // On a pull_request run PCOV is disabled and this is a no-op — PR timings are untouched.
+        if (\extension_loaded('pcov') && (int) \ini_get('pcov.enabled') === 1) {
+            static::$timeout *= self::COVERAGE_TIMEOUT_FACTOR;
+        }
     }
 
     private function getCurrentPage(): PageObject

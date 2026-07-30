@@ -1243,7 +1243,8 @@ jobs:
           # defaults it to ':' (scan the compiled-in conf.d); an EMPTY scan dir would disable all
           # conf.d and 500 the app. The leading ':' means "each SAPI's own default, then this dir".
           #
-          # STILL DISABLED after the raw-collect rework — it helped a lot but not enough.
+          # RE-ENABLED 2026-07-30, nightly-only, paired with the coverage-scaled Spin timeout
+          # (FeatureContext::COVERAGE_TIMEOUT_FACTOR). History below — do not re-enable without it.
           #
           # Measured on the `nightly` suite, same fleet (all three are per-shard means):
           #   PCOV off, baseline .................  7.6 min, 10/10 green (run 30425913943)
@@ -1268,13 +1269,17 @@ jobs:
           # The pipeline itself is proven end-to-end: Gate 1 produced a real Codecov `e2e-behat`
           # flag over 2516 files / 20373 covered lines per shard, with an honest denominator.
           #
-          # To RE-ENABLE once a future gate passes, restore:
-          #   PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
+          # WHY THIS IS NOW SAFE TO ENABLE: the three Gate 1 failures were Spin timeouts, not
+          # broken behaviour — a legitimately slower app hitting a hardcoded 40s patience limit.
+          # FeatureContext::COVERAGE_TIMEOUT_FACTOR scales every Spin/wait timeout by 3 while
+          # pcov.enabled=1, gated on the same expression BehatCoverageSubscriber uses, so the CLI's
+          # patience and the server's instrumentation cannot disagree. PR runs are untouched.
+          #
           # An empty value is safe: the httpd service defaults it to ':' (scan the compiled-in
           # conf.d). An EMPTY scan dir would disable all conf.d and 500 the app; the leading ':'
           # means "each SAPI's own default, then this dir".
           # See docs/superpowers/specs/2026-07-29-behat-coverage-raw-collect-design.md
-          PHP_INI_SCAN_DIR: ''
+          PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
           DB_NAME=${DB_NAME:-akeneo_pim_test}
@@ -1476,6 +1481,22 @@ jobs:
           # Cleanup
           curl -s -X DELETE "http://localhost:4444/wd/hub/session/$SID" 2>/dev/null > /dev/null
           echo "  Smoke test complete."
+
+      # Makes the coverage-scaled Spin timeout falsifiable instead of assumed. The scaling in
+      # FeatureContext::setTimeout() fires only if the Behat CLI itself sees pcov enabled — which
+      # relies on `docker-compose exec` into httpd inheriting PHP_INI_SCAN_DIR. That cannot be
+      # verified locally (dev images have no pcov at all), so assert it here: on a nightly/manual
+      # run this must print pcov=1 and timeout=120000. If it prints pcov=0 with coverage on, the
+      # scaling silently did not apply and any green result is luck, not the fix.
+      - name: Behat CLI coverage + timeout state (diagnostics)
+        continue-on-error: true
+        run: |
+          docker-compose exec -u www-data -T httpd php -r '
+            printf("pcov loaded=%d enabled=%s\n", extension_loaded("pcov"), var_export(ini_get("pcov.enabled"), true));
+            printf("PHP_INI_SCAN_DIR=%s\n", getenv("PHP_INI_SCAN_DIR") ?: "(unset)");
+          '
+          echo "expected on schedule/workflow_dispatch: loaded=1 enabled=1  -> Spin timeout 40000*3=120000"
+          echo "expected on pull_request:                enabled=0 or absent -> Spin timeout 40000 (unchanged)"
 
       - name: Run Behat legacy tests (shard ${{ matrix.shard }}/10)
         run: |
