@@ -154,7 +154,14 @@ jobs:
       - name: Start the CDP coverage sidecar
         continue-on-error: true
         run: |
+          # 0777, matching the chmod-777 idiom already used on public/ below: this directory is
+          # created here by the RUNNER user but written by both www-data (TestMarker::write() and
+          # CoverageCollector::stopAndDump(), from inside the httpd container) and this same sidecar
+          # step (.coverage-done, docker rm cleanup). Both writers' @-suppressed file_put_contents
+          # calls fail SILENTLY on a permission mismatch -- no marker, no dumps, no error in the logs,
+          # just a "0 records" warning ten shards and ~2h later.
           mkdir -p var/tests/behat-coverage
+          chmod 0777 var/tests/behat-coverage
           rm -f var/tests/behat-coverage/.coverage-done
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
