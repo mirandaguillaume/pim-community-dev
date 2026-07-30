@@ -69,6 +69,42 @@ final class RawCoverageRecorderTest extends TestCase
         );
     }
 
+    public function test_decode_all_ignores_a_tail_truncated_inside_the_length_prefix(): void
+    {
+        // The other truncation shape: the worker died before even the 4-byte header was fully
+        // written. The `$offset + LENGTH_BYTES <= $total` loop condition is what handles it —
+        // unpack() on a short string would otherwise warn and yield a garbage length.
+        $good = RawCoverageRecorder::encode(['/srv/pim/src/A.php' => [3 => 1]], 't:1');
+        $headerOnly = substr(RawCoverageRecorder::encode(['/srv/pim/src/B.php' => [9 => 1]], 't:2'), 0, 3);
+
+        self::assertSame(
+            [['test' => 't:1', 'hits' => ['/srv/pim/src/A.php' => [3 => 1]]]],
+            RawCoverageRecorder::decodeAll($good . $headerOnly),
+        );
+    }
+
+    public function test_decode_all_skips_a_corrupt_record_and_keeps_reading_after_it(): void
+    {
+        // A complete, well-framed record whose payload is not valid gzip — a torn page or a bad
+        // block, as opposed to a short write. gzdecode() fails, and the decoder must `continue`
+        // rather than `break`: the offset has already advanced past the payload, so the records
+        // that FOLLOW the corrupt one are still recoverable.
+        $garbage = 'not gzip at all';
+        $corrupt = pack('N', strlen($garbage)) . $garbage;
+
+        $blob = RawCoverageRecorder::encode(['/srv/pim/src/A.php' => [3 => 1]], 't:1')
+            . $corrupt
+            . RawCoverageRecorder::encode(['/srv/pim/src/C.php' => [7 => 1]], 't:3');
+
+        self::assertSame(
+            [
+                ['test' => 't:1', 'hits' => ['/srv/pim/src/A.php' => [3 => 1]]],
+                ['test' => 't:3', 'hits' => ['/srv/pim/src/C.php' => [7 => 1]]],
+            ],
+            RawCoverageRecorder::decodeAll($blob),
+        );
+    }
+
     public function test_decode_all_returns_nothing_for_an_empty_blob(): void
     {
         self::assertSame([], RawCoverageRecorder::decodeAll(''));
