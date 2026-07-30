@@ -44,8 +44,20 @@ try {
 
     $inventory = [];
     $keptFiles = 0;
+    $unattributed = 0;
 
     foreach ($byTest as $testId => $hits) {
+        if ($testId === '') {
+            // Requests with no marker: warm-up, health checks, anything before the first scenario.
+            // Keeping them would list "" as a covering scenario for every file they touched --
+            // join()/invert() do not special-case an empty id, so it would survive straight into
+            // files.json and make those files read as already covered by a test, never flagged for
+            // migration. CoverageMerger::unionDir() (the Clover path) still wants these records, so
+            // only this per-test view drops them, not the recorder.
+            $unattributed = count($hits);
+            continue;
+        }
+
         $entry = [];
 
         foreach ($hits as $file => $lines) {
@@ -88,10 +100,11 @@ try {
     file_put_contents($out, json_encode($inventory, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
 
     fwrite(STDOUT, sprintf(
-        "[php-inventory] wrote %s (%d tests, %d file entries)\n",
+        "[php-inventory] wrote %s (%d tests, %d file entries, %d unattributed file entries dropped)\n",
         $out,
         count($inventory),
         $keptFiles,
+        $unattributed,
     ));
 } catch (\Throwable $e) {
     fwrite(STDERR, "[php-inventory] failed (ignored): {$e->getMessage()}\n");
