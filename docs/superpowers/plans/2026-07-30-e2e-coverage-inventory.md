@@ -44,6 +44,7 @@ This plan implements **two subsystems** (server-side PHP, browser-side JS) that 
 | `config/services/behat/coverage.yml`, `BehatCoverageSubscriber.php` (+ its test) | Superseded by the shim. | Delete (Task 3 only) |
 | `tests/front/e2e/fixtures/coverage-fixture.ts` | Also write the marker, so Playwright gets PHP attribution. | Modify |
 | `tests/front/e2e/coverage/behat-cdp-coverage.js` | Drive `Profiler` over `se:cdp`; write per-scenario V8 dumps. | Create |
+| `tests/front/e2e/coverage/behat-cdp-sidecar.js` | Watch the marker; drive the helper per scenario. The bridge from PHP Behat to Node. | Create |
 | `tests/front/e2e/coverage/build-inventory.js` | Join per-test PHP + JS → the two JSON views. | Create |
 | `.github/workflows/coverage-inventory.yml` | `workflow_dispatch` only; `if: always()` throughout. | Create |
 
@@ -1285,6 +1286,236 @@ Driving Profiler over that socket yields the same raw V8 entries page.coverage g
 Playwright, so the existing monocart pipeline consumes them unchanged -- no instrumented
 bundle, no second build artifact, no window.__coverage__ flushing across Backbone page
 loads. Node 22's global WebSocket means no new dependency."
+```
+
+---
+
+### Task 6b: The marker-watching sidecar that actually drives CDP collection
+
+**Files:**
+- Create: `tests/front/e2e/coverage/behat-cdp-sidecar.js`
+- Create: `tests/front/e2e/coverage/behat-cdp-sidecar.check.js`
+
+**Interfaces:**
+- Consumes: `behat-cdp-coverage.js`'s `cdpUrl`, `startCoverage`, `takeCoverage`, `sanitise` (Task 6); the marker file `var/tests/behat-coverage/.current-test` that `CoverageMarkerContext` writes each scenario (Task 4).
+- Produces: a CLI `node behat-cdp-sidecar.js <selenium-base-url> <marker-dir> <out-dir> [poll-ms]`, plus the pure helpers `pickSession(status)` and `nextState(prev, current)`.
+
+**Why this task exists.** Task 6 built the CDP library but nothing calls it — the module has no entry point and no caller, so the Behat job would produce zero JS dumps and the inventory's `js` side would be empty for every Behat scenario. Behat is PHP in the `httpd` container and the helper is Node in the `node` service, with no bridge between them. This sidecar is that bridge, and it needs no PHP change: Behat already writes the marker, and both containers share the `./:/srv/pim` bind mount.
+
+**Verified on this stack** (checked live, not from docs): Selenium's `GET /status` exposes each active session's `sessionId` **and** its `se:cdp` websocket URL together, so one call gives the sidecar everything. `SE_NODE_MAX_SESSIONS: 1` in `docker-compose.yml` guarantees at most one session, so "pick the active session" is unambiguous.
+
+- [ ] **Step 1: Write the failing check**
+
+Create `tests/front/e2e/coverage/behat-cdp-sidecar.check.js`:
+
+```js
+/**
+ * Node-runnable checks for the sidecar's pure parts (no browser, no Selenium needed).
+ * Run: node tests/front/e2e/coverage/behat-cdp-sidecar.check.js
+ */
+const assert = require('assert');
+const {pickSession, nextState} = require('./behat-cdp-sidecar');
+
+// Selenium's /status nests sessions under nodes[].slots[].session, and carries se:cdp with them.
+const status = {
+  value: {
+    nodes: [
+      {slots: [{session: null}]},
+      {slots: [{session: {sessionId: 'abc123', capabilities: {'se:cdp': 'ws://sel:4444/session/abc123/se/cdp'}}}]},
+    ],
+  },
+};
+assert.deepStrictEqual(pickSession(status), {
+  sessionId: 'abc123',
+  cdpUrl: 'ws://sel:4444/session/abc123/se/cdp',
+});
+
+// No session yet is normal, not an error: the sidecar starts before Behat opens the browser.
+assert.strictEqual(pickSession({value: {nodes: [{slots: [{session: null}]}]}}), null);
+assert.strictEqual(pickSession({}), null);
+
+// The state machine: a dump is owed for the PREVIOUS test whenever the marker changes.
+assert.deepStrictEqual(nextState('', 'a.feature:1'), {dumpFor: null, current: 'a.feature:1'});
+assert.deepStrictEqual(nextState('a.feature:1', 'a.feature:1'), {dumpFor: null, current: 'a.feature:1'});
+assert.deepStrictEqual(nextState('a.feature:1', 'b.feature:2'), {dumpFor: 'a.feature:1', current: 'b.feature:2'});
+
+// An emptied marker still closes out the test that was running.
+assert.deepStrictEqual(nextState('a.feature:1', ''), {dumpFor: 'a.feature:1', current: ''});
+
+console.log('behat-cdp-sidecar checks passed');
+```
+
+- [ ] **Step 2: Run it to verify it fails**
+
+```bash
+docker-compose run --rm -T node node tests/front/e2e/coverage/behat-cdp-sidecar.check.js
+```
+
+Expected: FAIL — `Cannot find module './behat-cdp-sidecar'`.
+
+- [ ] **Step 3: Write the sidecar**
+
+Create `tests/front/e2e/coverage/behat-cdp-sidecar.js`:
+
+```js
+/**
+ * Bridges the PHP Behat run to the Node CDP helper.
+ *
+ * Behat runs in the httpd container; this runs in the node service; there is no direct call path
+ * between them. The bridge is the marker file CoverageMarkerContext already writes before every
+ * scenario — both containers share the ./:/srv/pim bind mount, so watching it needs no PHP change
+ * at all.
+ *
+ * Whenever the marker changes, the scenario that just ENDED is the one whose coverage is owed, so
+ * the dump is written for the previous id, not the new one.
+ *
+ * Selenium's GET /status carries each active session's sessionId together with its se:cdp URL, and
+ * SE_NODE_MAX_SESSIONS=1 means there is at most one — so session discovery is a single request with
+ * no ambiguity.
+ *
+ * Best-effort throughout: nothing here may disturb the Behat run. Every failure warns and the loop
+ * continues.
+ */
+const fs = require('fs');
+const path = require('path');
+const {startCoverage, takeCoverage} = require('./behat-cdp-coverage');
+
+/** Extract the one active session from Selenium's /status payload, or null if none yet. */
+function pickSession(status) {
+  const nodes = ((status || {}).value || {}).nodes || [];
+  for (const node of nodes) {
+    for (const slot of node.slots || []) {
+      const session = slot.session;
+      if (session && session.sessionId) {
+        return {
+          sessionId: session.sessionId,
+          cdpUrl: (session.capabilities || {})['se:cdp'] || null,
+        };
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Decide what to do when the marker reads `current` and previously read `prev`.
+ * A changed marker means the previous scenario finished and its coverage is owed.
+ */
+function nextState(prev, current) {
+  return {dumpFor: prev && prev !== current ? prev : null, current};
+}
+
+function readMarker(markerDir) {
+  try {
+    return fs.readFileSync(path.join(markerDir, '.current-test'), 'utf8').trim();
+  } catch {
+    return ''; // absent before the first scenario — normal
+  }
+}
+
+async function main() {
+  const [seleniumBase, markerDir, outDir, pollMs] = process.argv.slice(2);
+  if (!seleniumBase || !markerDir || !outDir) {
+    console.warn('[cdp-sidecar] usage: node behat-cdp-sidecar.js <selenium-url> <marker-dir> <out-dir> [poll-ms]');
+    return;
+  }
+  const interval = Number(pollMs) || 500;
+
+  let client = null;
+  let prev = '';
+  let dumped = 0;
+
+  // Stop when Behat signals it is done, so the CI step can wait on this process rather than kill it.
+  const stopFile = path.join(markerDir, '.coverage-done');
+  process.on('SIGTERM', () => finish());
+  process.on('SIGINT', () => finish());
+
+  async function finish() {
+    if (client && prev) {
+      try {
+        dumped += (await takeCoverage(client, prev, outDir)) ? 1 : 0;
+      } catch (e) {
+        console.warn(`[cdp-sidecar] final dump failed: ${e.message}`);
+      }
+    }
+    if (client) client.close();
+    console.log(`[cdp-sidecar] stopped after ${dumped} dumps`);
+    process.exit(0);
+  }
+
+  console.log(`[cdp-sidecar] watching ${markerDir} every ${interval}ms`);
+
+  for (;;) {
+    if (fs.existsSync(stopFile)) {
+      await finish();
+      return;
+    }
+
+    // Attach lazily: the browser session does not exist until Behat opens it.
+    if (!client) {
+      try {
+        const res = await fetch(`${seleniumBase}/status`);
+        const session = pickSession(await res.json());
+        if (session) {
+          client = await startCoverage(seleniumBase, session.sessionId);
+          console.log(`[cdp-sidecar] attached to session ${session.sessionId}`);
+        }
+      } catch (e) {
+        console.warn(`[cdp-sidecar] attach failed (will retry): ${e.message}`);
+      }
+    }
+
+    const current = readMarker(markerDir);
+    const {dumpFor, current: next} = nextState(prev, current);
+
+    if (client && dumpFor) {
+      try {
+        if (await takeCoverage(client, dumpFor, outDir)) dumped++;
+      } catch (e) {
+        console.warn(`[cdp-sidecar] dump for ${dumpFor} failed: ${e.message}`);
+      }
+    }
+    prev = next;
+
+    await new Promise(r => setTimeout(r, interval));
+  }
+}
+
+if (require.main === module) {
+  main().catch(e => console.warn(`[cdp-sidecar] fatal (ignored): ${e.message}`));
+}
+
+module.exports = {pickSession, nextState, readMarker};
+```
+
+- [ ] **Step 4: Run the check to verify it passes**
+
+```bash
+docker-compose run --rm -T node node tests/front/e2e/coverage/behat-cdp-sidecar.check.js
+```
+
+Expected: `behat-cdp-sidecar checks passed`.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add tests/front/e2e/coverage/behat-cdp-sidecar.js \
+        tests/front/e2e/coverage/behat-cdp-sidecar.check.js
+git commit -m "feat(coverage): sidecar that drives CDP collection from the Behat marker
+
+Task 6 built the CDP library but nothing called it -- no entry point, no caller -- so
+the Behat job would have produced zero JS dumps and the inventory's js side would have
+been empty for every Behat scenario.
+
+Behat is PHP in the httpd container and the helper is Node in the node service, with no
+direct call path. The bridge is the marker file CoverageMarkerContext already writes
+before each scenario: both containers share the ./:/srv/pim bind mount, so watching it
+needs no PHP change. A changed marker means the PREVIOUS scenario ended, so the dump is
+written for the previous id.
+
+Session discovery is one request: Selenium's /status carries each active session's
+sessionId together with its se:cdp URL, and SE_NODE_MAX_SESSIONS=1 means there is at
+most one. Verified live on selenium/standalone-chrome:4.27.0."
 ```
 
 ---
