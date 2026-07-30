@@ -1243,12 +1243,38 @@ jobs:
           # defaults it to ':' (scan the compiled-in conf.d); an EMPTY scan dir would disable all
           # conf.d and 500 the app. The leading ':' means "each SAPI's own default, then this dir".
           #
-          # Re-enabled 2026-07-29 after the raw-collect rework. The 2026-07-28 disable was caused by
-          # per-request php-code-coverage work (uncached static analysis + full-graph serialize),
-          # NOT by PCOV: measured 38.4 min/shard broken vs a 7.6 min PCOV-off baseline, and 7.5 min
-          # with PCOV on but the collector reduced to a no-op. See
-          # docs/superpowers/specs/2026-07-29-behat-coverage-raw-collect-design.md
-          PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
+          # STILL DISABLED after the raw-collect rework — it helped a lot but not enough.
+          #
+          # Measured on the `nightly` suite, same fleet (all three are per-shard means):
+          #   PCOV off, baseline .................  7.6 min, 10/10 green (run 30425913943)
+          #   PCOV on, collector no-op (Gate 0a) .  7.5 min,  4/4 green (run 30453503181)
+          #   raw-collect rework (Gate 1) ........ 21.4 min,  7/10 green (run 30473153154)
+          #   #348/#351, pre-rework .............. 38.4 min, 10/10 red  (run 30347187208)
+          #
+          # The rework cut the overhead from ~5.1x to ~2.8x and shards can now pass, but 3/10 still
+          # fail on Spin timeouts that survive --rerun — shard 9's was verbatim the "Could not find
+          # the select2 widget" signature that caused the 2026-07-28 disable. Enabling this would
+          # turn the nightly red again, which is the thing the rework set out to prevent.
+          #
+          # Gate 0a and Gate 1 together localise what is left: the no-op collector skipped exactly
+          # \pcov\collect() + reduce + gzip + write, and that gap (7.5 -> 21.4) is the remaining
+          # cost. The merge is NOT the problem (15s wall-clock); dump volume is 37MB/shard across
+          # 34 per-worker files. So the residual is inherent to collecting on EVERY request.
+          #
+          # Next lever, not yet designed: stop calling \pcov\clear() per request and collect+dump
+          # every Nth request (or at worker shutdown), so collect() runs dozens of times per shard
+          # instead of thousands. Trade-off is losing the tail if a worker is SIGKILLed.
+          #
+          # The pipeline itself is proven end-to-end: Gate 1 produced a real Codecov `e2e-behat`
+          # flag over 2516 files / 20373 covered lines per shard, with an honest denominator.
+          #
+          # To RE-ENABLE once a future gate passes, restore:
+          #   PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
+          # An empty value is safe: the httpd service defaults it to ':' (scan the compiled-in
+          # conf.d). An EMPTY scan dir would disable all conf.d and 500 the app; the leading ':'
+          # means "each SAPI's own default, then this dir".
+          # See docs/superpowers/specs/2026-07-29-behat-coverage-raw-collect-design.md
+          PHP_INI_SCAN_DIR: ''
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
           DB_NAME=${DB_NAME:-akeneo_pim_test}

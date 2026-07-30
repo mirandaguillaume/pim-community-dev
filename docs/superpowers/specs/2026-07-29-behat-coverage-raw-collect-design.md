@@ -99,6 +99,8 @@ All three measurements are the same `nightly` suite on the same runner fleet:
 
 **What this does NOT prove.** The no-op path skips `\pcov\collect()`, which the real design *does* call. So it establishes a floor (7.5 min) and confirms the ~31 min of overhead lives entirely in the block being removed — but `collect()` + reduce + write remain unmeasured. The finished design lands somewhere in 7.5–38.4 min, and **Gate 1 is what locates it**. Do not read Gate 0a as "the rework is free".
 
+> **Gate 1 landed at 21.4 min and this caveat is exactly why it was written.** See the Gate 1 outcome section below: the rework more than halved the overhead but did not reach the baseline, and the feature stayed disabled. Reading Gate 0a as a forecast rather than a floor would have produced a confident, wrong prediction.
+
 **Correction to the record:** the overhead is **~5.1x** (38.4 / 7.6), not the ~7x quoted in the `ci.yml` disable comment — that figure compared worst-slow (45) against best-fast (~6.5).
 
 ### 0b. Verify the php-fpm statics premise (diagnostic)
@@ -126,7 +128,28 @@ Hit-line records are far smaller than today's object graphs, but the per-request
 
 **Verification:** run one feature with collection enabled; report per-request record bytes, total bytes per shard, and merge wall-clock. The starting encoding is a gzipped per-PID append file of `hits>0` line lists; Gate 1 either confirms it or retunes the three variables (per-PID append vs per-request file, gzip vs plain, line-lists vs hit-maps) against a measured number rather than an estimated one.
 
-**Acceptance threshold:** a coverage-enabled shard must stay close enough to its ~6 min baseline that no scenario approaches the 40s `Spin` limit. Shard wall-clock is the headline number, but per-request latency is the binding constraint.
+**Acceptance threshold:** a coverage-enabled shard must stay close enough to its ~7.6 min baseline that no scenario approaches the 40s `Spin` limit. Shard wall-clock is the headline number, but per-request latency is the binding constraint.
+
+### Gate 1 outcome — RAN 2026-07-29, run `30473153154`: DID NOT MEET THE THRESHOLD
+
+| Config | Shard minutes | Mean | Green |
+| --- | --- | --- | --- |
+| PCOV off (baseline) | 6,6,7,7,8,8,8,8,9,9 | **7.6** | 10/10 |
+| PCOV on, collector no-op (Gate 0a) | 7,8,6,9 | **7.5** | 4/4 |
+| **raw-collect rework (Gate 1)** | 26,16,17,23,21,20,19,24,23,25 | **21.4** | **7/10** |
+| #348/#351, pre-rework | 30…47 | **38.4** | 0/10 |
+
+**What the rework achieved:** overhead cut from ~5.1x to ~2.8x, and shards can now pass at all (0/10 → 7/10 green).
+
+**Why that is not enough:** three shards still fail on `Spin` timeouts that survive `--rerun`, so they are consistent, not flaky. Shard 5 reported `Could not find the confirmation button (Context\Spin\Timeout)`; shard 9 reported `Could not find the select2 widget drop…` — verbatim the signature that caused the 2026-07-28 disable. Enabling this nightly would recreate the red nightly the rework exists to prevent, so **`PHP_INI_SCAN_DIR` stays `''` and the feature remains off.**
+
+**Everything else in this design is confirmed working.** The pipeline ran end-to-end: a real Codecov `e2e-behat` flag over **2,516 files / 20,373 covered lines** per shard, with the honest denominator. Merge wall-clock **15 s**. Dump volume **37 MB/shard** across **34** per-worker files — so the starting encoding needs no retuning, and the merge is not the bottleneck.
+
+**The `\pcov\waiting()` + `opcache.enable=1` risk is closed empirically.** 2,516 covered files is a realistic page-tree footprint; had `waiting()` been returning empty on warm workers, the count would have been a few hundred and the number would have looked plausible while being wrong. That was the failure mode neither tripwire could detect, which is why file counts were instrumented.
+
+**Where the residual ~14 min lives.** Gate 0a's no-op skipped exactly `\pcov\collect()` + reduce + gzip + write, and the 7.5 → 21.4 gap is that block. The merge accounts for 15 s of it. So the remaining cost is inherent to collecting on **every** request, not to anything a refinement of this design changes.
+
+**Next lever (not designed).** Stop calling `\pcov\clear()` per request; collect and dump every Nth request or at worker shutdown, so `collect()` runs dozens of times per shard rather than thousands. Trade-off: losing the tail if php-fpm SIGKILLs a worker, and a larger payload per collect.
 
 ## Error handling / best-effort (never fail a job)
 
