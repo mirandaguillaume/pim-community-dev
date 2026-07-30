@@ -1,0 +1,190 @@
+# Per-scenario PHP + JS coverage inventory for the E2E suites.
+#
+# workflow_dispatch ONLY, deliberately. This is a migration inventory, not a metric, so it has no
+# nightly constraint: the ~2.8x per-request PCOV overhead is irrelevant and shard failures are fine
+# (a scenario that fails still exercised code up to its failure point). That is why every coverage
+# step below carries `if: always()` -- without it a red shard skips the merge and yields nothing.
+#
+# Runs the `nightly` Behat suite because it includes @critical and @optional: the inventory must
+# cover everything that needs migrating, not just what PRs run.
+name: Coverage inventory
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  behat-inventory:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ./.github/actions/install-castor
+
+      - name: Cleanup stale containers
+        run: docker-compose down --remove-orphans 2>/dev/null || true
+
+      - name: Bring up the stack with coverage enabled
+        env:
+          # Leading ':' is load-bearing: it means "each SAPI's own compiled-in conf.d, THEN this
+          # directory". An empty value would disable all conf.d, stripping every extension and
+          # 500ing the app. pcov-on.ini both enables PCOV and installs the auto_prepend collector.
+          PHP_INI_SCAN_DIR: ':/srv/pim/docker/php-coverage.d'
+        run: |
+          DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
+          APP_ENV=behat castor docker:up 'httpd mysql elasticsearch object-storage selenium pubsub-emulator'
+          docker/wait_docker_up.sh
+          .github/scripts/setup-test-db.sh "${DB_NAME}" seed/db-seed.sql
+          docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=test
+
+      - name: Assert the collector is actually installed
+        run: |
+          docker-compose exec -u www-data -T httpd php -r '
+            $pcov = extension_loaded("pcov") ? 1 : 0;
+            $enabled = ini_get("pcov.enabled");
+            $prepend = ini_get("auto_prepend_file");
+            printf("pcov=%d enabled=%s prepend=%s\n", $pcov, $enabled, $prepend);
+            if ($pcov !== 1 || $enabled !== "1" || $prepend !== "/srv/pim/docker/coverage-prepend.php") {
+              fwrite(STDERR, "collector not installed as expected -- got pcov=$pcov enabled=$enabled prepend=$prepend, want pcov=1 enabled=1 prepend=/srv/pim/docker/coverage-prepend.php\n");
+              exit(1);
+            }
+          '
+
+      # Without this the CDP helper and its sidecar exist but nothing launches them, so the JS half
+      # of the inventory silently produces nothing. The container name is namespaced by shard AND by
+      # COMPOSE_PROJECT_NAME because the bare-metal runners share ONE Docker daemon -- unnamespaced
+      # names collide across concurrent jobs.
+      - name: Start the CDP coverage sidecar
+        run: |
+          mkdir -p var/tests/behat-coverage
+          rm -f var/tests/behat-coverage/.coverage-done
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run -d \
+            --user "${HOST_UID}:${HOST_GID}" \
+            --name "${COMPOSE_PROJECT_NAME:-pim}-cdp-sidecar-${{ matrix.shard }}" \
+            node node tests/front/e2e/coverage/behat-cdp-sidecar.js \
+            http://selenium:4444 var/tests/behat-coverage "coverage-v8/behat-${{ matrix.shard }}"
+
+      - name: Run the nightly Behat suite
+        continue-on-error: true
+        run: |
+          export BEHAT_SPLIT="${{ matrix.shard }}/10"
+          SUITE=nightly castor test:end-to-end-legacy
+
+      # The sidecar dumps the LAST scenario's coverage in finish(), which only runs on this stop
+      # file or a signal. Skipping it would silently lose the final scenario of every shard.
+      # if: always() because a red shard's inventory is still wanted -- a scenario that failed still
+      # exercised code up to its failure point.
+      - name: Stop the sidecar and wait for its final dump
+        if: always()
+        continue-on-error: true
+        run: |
+          SIDECAR="${COMPOSE_PROJECT_NAME:-pim}-cdp-sidecar-${{ matrix.shard }}"
+          touch var/tests/behat-coverage/.coverage-done
+          timeout 60 docker wait "$SIDECAR" || docker stop "$SIDECAR" || true
+          docker logs "$SIDECAR" 2>&1 | tail -20 || true
+          echo "JS dumps produced: $(find coverage-v8 -name '*.json' 2>/dev/null | wc -l)"
+
+      - name: Build the per-test PHP inventory
+        if: always()
+        continue-on-error: true
+        run: |
+          docker-compose exec -u www-data -T httpd \
+            php tests/legacy/features/Behat/Coverage/build-php-inventory.php \
+            --in var/tests/behat-coverage \
+            --src /srv/pim/src \
+            --out var/tests/inventory-php-${{ matrix.shard }}.json
+
+      - name: Upload shard inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: inventory-shard-${{ matrix.shard }}
+          path: |
+            var/tests/inventory-php-${{ matrix.shard }}.json
+            coverage-v8/
+          retention-days: 7
+          if-no-files-found: warn
+
+  commit-inventory:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [behat-inventory]
+    if: always()
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download every shard inventory
+        uses: actions/download-artifact@v4
+        with:
+          pattern: inventory-shard-*
+          path: shards
+
+      # build-inventory.js lazy-requires monocart-coverage-reports (declared in package.json but
+      # only present after install); skipping this leaves node_modules empty, every JS dump fails
+      # its require() and is warned-and-skipped, and the job still exits 0 with an empty inventory.
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Merge shard PHP inventories
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -T node node -e '
+            const fs = require("fs"), path = require("path");
+            const out = {};
+            const walk = d => fs.readdirSync(d, {withFileTypes: true}).flatMap(e =>
+              e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
+            for (const f of walk("shards").filter(f => /inventory-php-\d+\.json$/.test(f))) {
+              for (const [test, files] of Object.entries(JSON.parse(fs.readFileSync(f, "utf8")))) {
+                out[test] = Object.assign(out[test] || {}, files);
+              }
+            }
+            fs.writeFileSync("inventory-php-all.json", JSON.stringify(out));
+            console.log(`merged ${Object.keys(out).length} tests`);
+          '
+
+      - name: Build the inventory
+        run: |
+          mkdir -p coverage-v8
+          find shards -type d -name 'coverage-v8' -exec cp -a {}/. coverage-v8/ \; 2>/dev/null || true
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -T node \
+            node tests/front/e2e/coverage/build-inventory.js inventory-php-all.json coverage-v8
+
+      - name: Commit the inventory
+        run: |
+          git add docs/coverage-inventory/
+          if git diff --cached --quiet; then
+            echo "inventory unchanged — nothing to commit"
+            exit 0
+          fi
+          git config user.name "$(git log -1 --format='%an')"
+          git config user.email "$(git log -1 --format='%ae')"
+          git commit -m "chore(coverage): refresh the E2E coverage inventory"
+          git push
