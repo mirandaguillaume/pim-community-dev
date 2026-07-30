@@ -952,7 +952,10 @@ final class CoverageMarkerContext implements Context
 
     private function relative(string $path): string
     {
-        $root = \dirname(__DIR__, 4) . '/';
+        // 5, not 4: __DIR__ is tests/legacy/features/Behat/Context, so four levels lands on
+        // /srv/pim/tests and would strip the `tests/` segment from every scenario id --
+        // breaking the join with behat.yml, whose suite paths are `tests/legacy/features`.
+        $root = \dirname(__DIR__, 5) . '/';
 
         return \str_starts_with($path, $root) ? \substr($path, \strlen($root)) : $path;
     }
