@@ -22,7 +22,7 @@ const path = require('path');
 const {buildOptions, listDumps} = require('./e2e-coverage-report');
 // Imported, not redefined: this used to be a byte-identical copy of Task 6's transform, duplicated
 // with no import between the two files -- so a change to one silently split every scenario into a
-// PHP-only and a JS-only entry at the join below, with nothing in CI to catch it (the three
+// PHP-only and a JS-only entry at the join below, with nothing in CI to catch it (the four
 // `.check.js` files existed but nothing ran them either; see ci.yml's "Run coverage-inventory join
 // checks" step). behat-cdp-coverage.js is the producer that NAMES the dump with this transform and
 // has no dependency on this file, so it's the sane direction: this file (a consumer) depends on it,

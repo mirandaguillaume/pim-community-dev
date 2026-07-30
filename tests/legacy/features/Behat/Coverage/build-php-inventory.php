@@ -35,8 +35,10 @@ try {
 
     if ($byTest === []) {
         fwrite(STDERR, sprintf(
-            "[php-inventory] WARNING: 0 records in %s — PCOV was most likely not active in the fpm "
-            . "SAPI, or no marker was ever written\n",
+            "[php-inventory] WARNING: 0 records in %s — PCOV was most likely not active in the SAPI "
+            . "serving the app (Apache, via the httpd service), or no marker was ever written. Note "
+            . "the collector is inert under CLI by design, so a suite whose scenarios never issue an "
+            . "HTTP request produces nothing here\n",
             $inDir,
         ));
         exit(0);
@@ -45,6 +47,7 @@ try {
     $inventory = [];
     $keptFiles = 0;
     $unattributed = 0;
+    $droppedGroups = 0;
 
     foreach ($byTest as $testId => $hits) {
         if ($testId === '') {
@@ -55,6 +58,7 @@ try {
             // migration. CoverageMerger::unionDir() (the Clover path) still wants these records, so
             // only this per-test view drops them, not the recorder.
             $unattributed = count($hits);
+            $droppedGroups = 1;
             continue;
         }
 
@@ -88,7 +92,7 @@ try {
         fwrite(STDERR, sprintf(
             "[php-inventory] WARNING: %d tests recorded but no file survived the %s filter — check "
             . "that dumped paths match the source tree\n",
-            count($byTest),
+            count($byTest) - $droppedGroups,
             $srcReal,
         ));
     }
@@ -100,7 +104,11 @@ try {
     file_put_contents($out, json_encode($inventory, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
 
     fwrite(STDOUT, sprintf(
-        "[php-inventory] wrote %s (%d tests, %d file entries, %d unattributed file entries dropped)\n",
+        // The two counts are NOT comparable: %d file entries is post-filter (under src/, minus the
+        // test suffixes), whereas the dropped count is the raw size of the unattributed group and so
+        // still includes vendor/ and everything else the warm-up requests touched.
+        "[php-inventory] wrote %s (%d tests, %d file entries kept; dropped an unattributed group of "
+        . "%d unfiltered file entries)\n",
         $out,
         count($inventory),
         $keptFiles,
