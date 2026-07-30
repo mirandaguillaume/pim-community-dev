@@ -17,32 +17,46 @@ final class CoverageCollectorTest extends TestCase
 
     protected function tearDown(): void
     {
+        @unlink($this->dir . '/.current-test');
         foreach (glob($this->dir . '/*') ?: [] as $f) {
             @unlink($f);
         }
         @rmdir($this->dir);
     }
 
-    public function test_it_appends_a_decodable_record_named_after_the_worker_pid(): void
+    public function test_it_stamps_the_record_with_the_current_test_id(): void
     {
+        TestMarker::write($this->dir, 'features/pim/foo.feature:23');
         $collector = new CoverageCollector(static fn (): array => [
-            '/srv/pim/src/A.php' => [3 => 1, 4 => 0],
+            '/srv/pim/src/A.php' => [3 => 1, 4 => -1],
         ]);
 
-        $collector->start();          // inert without PCOV
-        $collector->stopAndDump($this->dir); // creates the dir if missing
-
-        $expected = $this->dir . '/' . getmypid() . '.dump';
-        self::assertFileExists($expected);
+        $collector->start();
+        $collector->stopAndDump($this->dir);
 
         self::assertSame(
-            [['test' => 't:1', 'hits' => ['/srv/pim/src/A.php' => [3 => 1]]]],
-            RawCoverageRecorder::decodeAll((string) file_get_contents($expected)),
+            [['test' => 'features/pim/foo.feature:23', 'hits' => ['/srv/pim/src/A.php' => [3 => 1]]]],
+            RawCoverageRecorder::decodeAll((string) file_get_contents($this->dir . '/' . getmypid() . '.dump')),
         );
+    }
+
+    public function test_it_still_records_when_no_marker_has_been_written(): void
+    {
+        // The shim runs on every request, including ones no test caused (warm-up, health checks).
+        // Those must still be captured, attributed to the empty id, not silently dropped.
+        $collector = new CoverageCollector(static fn (): array => ['/srv/pim/src/A.php' => [3 => 1]]);
+
+        $collector->stopAndDump($this->dir);
+
+        $records = RawCoverageRecorder::decodeAll(
+            (string) file_get_contents($this->dir . '/' . getmypid() . '.dump')
+        );
+        self::assertSame('', $records[0]['test']);
     }
 
     public function test_successive_requests_in_one_worker_append_to_the_same_file(): void
     {
+        TestMarker::write($this->dir, 't:1');
         $maps = [
             ['/srv/pim/src/A.php' => [3 => 1]],
             ['/srv/pim/src/B.php' => [9 => 1]],

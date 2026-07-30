@@ -65,7 +65,7 @@ final class CoverageCollector implements CoverageCollectorInterface
 
         @\file_put_contents(
             $dir . '/' . \getmypid() . '.dump',
-            RawCoverageRecorder::encode($hits, 't:1'),
+            RawCoverageRecorder::encode($hits, TestMarker::read($dir)),
             \FILE_APPEND,
         );
     }
