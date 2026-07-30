@@ -10,6 +10,13 @@ const SHARD = (process.env.PW_SHARD || 'local').replace(/[^0-9a-z]/gi, '-');
 const OUT = path.resolve(__dirname, '../../../..', 'coverage-v8', SHARD);
 
 /**
+ * Where the PHP collector looks for the current-test id. Writing it here is what gives the
+ * Playwright suite PHP coverage: the auto_prepend shim runs for every APP_ENV, so the only missing
+ * piece was telling it which test caused a request.
+ */
+const MARKER_DIR = path.resolve(__dirname, '../../../..', 'var/tests/behat-coverage');
+
+/**
  * Overrides the built-in `page` fixture. When E2E_COVERAGE is set (nightly only)
  * it wraps the test with Chromium V8 JS coverage and dumps the raw entries per
  * test for the monocart e2e-coverage-report post-processor. Strict no-op
@@ -23,6 +30,15 @@ export const test = base.extend({
         await page.coverage.startJSCoverage({resetOnNavigation: false});
       } catch (e) {
         console.warn(`[coverage] startJSCoverage failed: ${(e as Error).message}`);
+      }
+
+      try {
+        fs.mkdirSync(MARKER_DIR, {recursive: true});
+        // titlePath() is stable and human-readable, and matches how Playwright reports a test —
+        // so the inventory keys line up with what `npx playwright test` prints.
+        fs.writeFileSync(path.join(MARKER_DIR, '.current-test'), testInfo.titlePath.join(' > '));
+      } catch (e) {
+        console.warn(`[coverage] marker write failed: ${(e as Error).message}`);
       }
     }
 
