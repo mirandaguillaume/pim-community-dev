@@ -31,4 +31,18 @@ assert.deepStrictEqual(nextState('a.feature:1', 'b.feature:2'), {dumpFor: 'a.fea
 // An emptied marker still closes out the test that was running.
 assert.deepStrictEqual(nextState('a.feature:1', ''), {dumpFor: 'a.feature:1', current: ''});
 
+// Fix-round-1 (re-attach-after-drop, finish() reentrancy guard) touched only main()'s internal
+// loop state, not this pure surface -- so the full state-machine sequence a real run walks through
+// (several scenario changes, a dropped/re-attached session, then shutdown) must still reduce to
+// exactly the same dumpFor/current pairs as before the edit.
+let prev = '';
+const marks = ['a.feature:1', 'a.feature:1', 'b.feature:2', 'c.feature:3', ''];
+const dumps = [];
+for (const current of marks) {
+  const {dumpFor, current: next} = nextState(prev, current);
+  if (dumpFor) dumps.push(dumpFor);
+  prev = next;
+}
+assert.deepStrictEqual(dumps, ['a.feature:1', 'b.feature:2', 'c.feature:3']);
+
 console.log('behat-cdp-sidecar checks passed');

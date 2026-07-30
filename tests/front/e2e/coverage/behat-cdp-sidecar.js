@@ -64,6 +64,7 @@ async function main() {
   let client = null;
   let prev = '';
   let dumped = 0;
+  let stopping = false;
 
   // Stop when Behat signals it is done, so the CI step can wait on this process rather than kill it.
   const stopFile = path.join(markerDir, '.coverage-done');
@@ -71,6 +72,12 @@ async function main() {
   process.on('SIGINT', () => finish());
 
   async function finish() {
+    // SIGINT and SIGTERM can both arrive (CI often escalates one to the other), and a signal can
+    // land while the loop's own dump is in flight. Without this guard both paths would dump the
+    // same id, close the same socket and exit twice.
+    if (stopping) return;
+    stopping = true;
+
     if (client && prev) {
       try {
         dumped += (await takeCoverage(client, prev, outDir)) ? 1 : 0;
@@ -113,6 +120,10 @@ async function main() {
         if (await takeCoverage(client, dumpFor, outDir)) dumped++;
       } catch (e) {
         console.warn(`[cdp-sidecar] dump for ${dumpFor} failed: ${e.message}`);
+        // Drop the client so the next tick re-attaches. Without this, one dead session silently
+        // zeroes JS coverage for the entire rest of the shard -- the exact failure this exists to
+        // prevent -- because `client` stays truthy and the `if (!client)` attach never runs again.
+        client = null;
       }
     }
     prev = next;
