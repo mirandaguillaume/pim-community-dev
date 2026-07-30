@@ -149,7 +149,34 @@ Hit-line records are far smaller than today's object graphs, but the per-request
 
 **Where the residual ~14 min lives.** Gate 0a's no-op skipped exactly `\pcov\collect()` + reduce + gzip + write, and the 7.5 → 21.4 gap is that block. The merge accounts for 15 s of it. So the remaining cost is inherent to collecting on **every** request, not to anything a refinement of this design changes.
 
-**Next lever (not designed).** Stop calling `\pcov\clear()` per request; collect and dump every Nth request or at worker shutdown, so `collect()` runs dozens of times per shard rather than thousands. Trade-off: losing the tail if php-fpm SIGKILLs a worker, and a larger payload per collect.
+### Two follow-up levers were tried and both are dead ends (2026-07-30)
+
+Recorded here so nobody spends the effort again.
+
+**Lever A — raise the `Spin` timeout while coverage is on. TRIED, DID NOT WORK.**
+
+The three Gate 1 failures were `Spin` timeouts, so scaling every timeout by 3 (40 s → 120 s) when `pcov.enabled=1` looked like a cheap win. Measured on the same suite, same fleet (gate run `30527662843`, branch `c1/behat-coverage-spin-timeout`):
+
+| | Gate 1 (40 s) | Lever A (120 s) |
+| --- | --- | --- |
+| red shards | 3/10 | 6/10 |
+| mean | 21.4 min | 22.9 min |
+
+**The verdict is "did not achieve its goal", not "proven harmful".** Lever A existed to turn shards green; 6/10 red is not shippable, so it is rejected. But the 3→6 difference is **not statistically supported** at one run each — Fisher's exact gives p≈0.37, entirely consistent with fleet noise, and this suite is independently flaky (`test-playwright (2)` flips between runs with no code change; `StaleElementReferenceException` races appear unprompted). Do not cite "it doubled the failures" as established. Settling causality would need repeat runs of both configurations, which would cost ~an hour of fleet each and change no decision.
+
+**What IS verified, from code rather than inference:** `Context\Spin\SpinCapableTrait::spin()` is a polling loop — `do { … usleep(300000) … } while (microtime(true) < $end)`. A 40 s window permits ~133 attempts, 120 s permits ~400. Each attempt re-runs the callable, which for select2/grid steps drives Selenium commands that hit the app over HTTP, and under coverage each request costs ~2.8x more. So a *doomed* Spin genuinely does fire ~3x the requests for 3x as long. **In a polling harness a longer timeout is partly a load multiplier, not purely more patience** — which is a good reason not to tune the factor upward hoping for a different result.
+
+The change was verified to actually apply before being judged: the run printed `pcov loaded=1 enabled='1'` and the failures read `timeout of 120`. Without that, "still failing" would have been indistinguishable from "the multiplier never fired".
+
+**A measurement trap to avoid if anyone re-tests this:** `run_behat.sh` passes the shard's entire scenario list on the behat command line, so grepping a job log for `*.feature:N` returns the *input list*, not the failures. Use the `N scenarios (X passed, Y failed)` tallies and the rerun pass instead.
+
+**Lever B — stop clearing per request and collect every Nth request. IMPOSSIBLE, not merely hard.**
+
+PCOV keeps no state across requests. `PHP_RSHUTDOWN_FUNCTION(pcov)` destroys every table at the end of each request — `files`, `waiting`, `covered`, `discovered`, `wants`, `ignores` — and calls `zend_arena_destroy(PCG(mem))`; `PHP_RINIT_FUNCTION` rebuilds them all fresh. So there is nothing to accumulate: skipping a request's dump *loses* that request's coverage rather than deferring it.
+
+This is the same fact that made #351's `private static ?Filter $filter` "cached per php-fpm worker" a no-op, and the same reason `clear_env = YES` keeps container env vars out of the fpm SAPI. **php-fpm hands you a fresh PHP world every request; any scheme that amortises work across requests in-process is dead on arrival.** Check this first before designing anything in this area.
+
+**What remains untried:** sampling by request signature — let only the *first* request to each distinct endpoint pay `collect()`, tracked through a marker file (`file_exists` + `touch`, one `stat`, no in-process state), since repeat hits of an endpoint largely re-execute the same lines. Or step outside this mechanism entirely and take stack-execution coverage from the in-process `test-phpunit-integration` suite, where it costs a fraction as much.
 
 ## Error handling / best-effort (never fail a job)
 
