@@ -65,7 +65,7 @@ final class CoverageCollector implements CoverageCollectorInterface
 
         @\file_put_contents(
             $dir . '/' . \getmypid() . '.dump',
-            RawCoverageRecorder::encode($hits),
+            RawCoverageRecorder::encode($hits, TestMarker::read($dir)),
             \FILE_APPEND,
         );
     }
@@ -102,7 +102,11 @@ final class CoverageCollector implements CoverageCollectorInterface
      * Call a `pcov\*` function through a variable so neither PHPStan nor the IDE flags it as
      * undefined -- PCOV is a runtime-only extension, absent from dev checkouts and from the image on
      * non-coverage runs. function_exists() makes every call a no-op when PCOV is missing, which
-     * matters because this class and the subscriber's gate can in principle disagree.
+     * matters because start() and stopAndDump() are called directly (not just through the shim) by
+     * test_it_is_inert_when_pcov_is_not_collecting: the real CoverageCollector::create() factory
+     * against whatever the unit-test environment actually has, which is "not loaded" on a plain dev
+     * checkout and "loaded but pcov.enabled=0" in the CI image (Dockerfile:80). Both must degrade to
+     * a no-op rather than a fatal call to an undefined function.
      *
      * @param list<mixed> $args
      */

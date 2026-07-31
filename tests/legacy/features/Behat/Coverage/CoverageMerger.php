@@ -23,13 +23,13 @@ use SebastianBergmann\CodeCoverage\StaticAnalysis\ParsingFileAnalyser;
 final class CoverageMerger
 {
     /**
-     * Union every complete record in every worker dump in a directory.
+     * Union every complete record in every worker dump, grouped by the test that caused it.
      *
-     * @return array<string, array<int, int>>
+     * @return array<string, array<string, array<int, int>>>
      */
-    public function unionDir(string $dir): array
+    public function unionDirByTest(string $dir): array
     {
-        $union = [];
+        $byTest = [];
 
         foreach (\glob(\rtrim($dir, '/') . '/*.dump') ?: [] as $file) {
             $blob = @\file_get_contents($file);
@@ -39,8 +39,24 @@ final class CoverageMerger
             }
 
             foreach (RawCoverageRecorder::decodeAll($blob) as $record) {
-                $union = RawCoverageRecorder::union($union, $record);
+                $byTest = RawCoverageRecorder::unionByTest($byTest, $record['test'], $record['hits']);
             }
+        }
+
+        return $byTest;
+    }
+
+    /**
+     * The whole-suite union, as the Clover path needs it.
+     *
+     * @return array<string, array<int, int>>
+     */
+    public function unionDir(string $dir): array
+    {
+        $union = [];
+
+        foreach ($this->unionDirByTest($dir) as $hits) {
+            $union = RawCoverageRecorder::union($union, $hits);
         }
 
         return $union;

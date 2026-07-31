@@ -67,22 +67,23 @@ final class RawCoverageRecorder
     }
 
     /**
+     * A record is `pack('N', len) . gzencode(serialize(['test' => $testId, 'hits' => $hits]))`.
+     *
+     * The test id travels INSIDE the record rather than in the filename: one file per fpm worker
+     * instead of one per (test x worker), which would be thousands per shard, and the append-only
+     * no-locking property is preserved.
+     *
      * @param array<string, array<int, int>> $hits
      */
-    public static function encode(array $hits): string
+    public static function encode(array $hits, string $testId): string
     {
-        $payload = \gzencode(\serialize($hits), 1);
+        $payload = \gzencode(\serialize(['test' => $testId, 'hits' => $hits]), 1);
 
         return \pack('N', \strlen($payload)) . $payload;
     }
 
     /**
-     * Decode every complete record in a blob, ignoring a truncated tail.
-     *
-     * A truncated tail is expected, not exceptional: php-fpm can kill a worker mid-write, and the
-     * merge must still keep every complete record written before it.
-     *
-     * @return list<array<string, array<int, int>>>
+     * @return list<array{test: string, hits: array<string, array<int, int>>}>
      */
     public static function decodeAll(string $blob): array
     {
@@ -102,7 +103,7 @@ final class RawCoverageRecorder
             $offset += self::LENGTH_BYTES;
 
             if ($length <= 0 || $offset + $length > $total) {
-                break; // truncated tail
+                break; // truncated tail — an fpm worker killed mid-write
             }
 
             $payload = @\gzdecode(\substr($blob, $offset, $length));
@@ -114,9 +115,9 @@ final class RawCoverageRecorder
 
             $record = @\unserialize($payload, ['allowed_classes' => false]);
 
-            if (\is_array($record)) {
-                /** @var array<string, array<int, int>> $record */
-                $records[] = $record;
+            if (\is_array($record) && \is_array($record['hits'] ?? null)) {
+                /** @var array{test: string, hits: array<string, array<int, int>>} $record */
+                $records[] = ['test' => (string) ($record['test'] ?? ''), 'hits' => $record['hits']];
             }
         }
 
@@ -136,6 +137,21 @@ final class RawCoverageRecorder
             // so which side wins is irrelevant and this is markedly faster than array_merge.
             $accumulator[$file] = isset($accumulator[$file]) ? $accumulator[$file] + $lines : $lines;
         }
+
+        return $accumulator;
+    }
+
+    /**
+     * Fold one record's hits into a per-test accumulator.
+     *
+     * @param array<string, array<string, array<int, int>>> $accumulator
+     * @param array<string, array<int, int>>                $hits
+     *
+     * @return array<string, array<string, array<int, int>>>
+     */
+    public static function unionByTest(array $accumulator, string $testId, array $hits): array
+    {
+        $accumulator[$testId] = self::union($accumulator[$testId] ?? [], $hits);
 
         return $accumulator;
     }

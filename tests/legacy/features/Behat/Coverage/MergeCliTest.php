@@ -54,7 +54,7 @@ final class MergeCliTest extends TestCase
     {
         file_put_contents(
             $this->dir . '/111.dump',
-            RawCoverageRecorder::encode([$this->covered => [4 => 1]]),
+            RawCoverageRecorder::encode([$this->covered => [4 => 1]], 't:1'),
         );
         $clover = $this->dir . '/report/clover.xml';
 
@@ -82,7 +82,7 @@ final class MergeCliTest extends TestCase
         // between the container and the merge. Exit code alone would call that a success.
         file_put_contents(
             $this->dir . '/111.dump',
-            RawCoverageRecorder::encode(['/somewhere/else/Nope.php' => [4 => 1]]),
+            RawCoverageRecorder::encode(['/somewhere/else/Nope.php' => [4 => 1]], 't:1'),
         );
 
         [$exit, $stderr] = $this->runCli($this->dir . '/report/clover.xml');
@@ -105,7 +105,7 @@ final class MergeCliTest extends TestCase
         // and unguarded forms return 0 here. The guard is defensive; this test covers the warning.
         file_put_contents(
             $this->dir . '/111.dump',
-            RawCoverageRecorder::encode([$this->covered => [1 => 1]]),
+            RawCoverageRecorder::encode([$this->covered => [1 => 1]], 't:1'),
         );
 
         [$exit, $stderr] = $this->runCli($this->dir . '/report/clover.xml');
@@ -123,7 +123,7 @@ final class MergeCliTest extends TestCase
         // cache directory is the observable proof the option bound and the analyser used it.
         file_put_contents(
             $this->dir . '/111.dump',
-            RawCoverageRecorder::encode([$this->covered => [4 => 1]]),
+            RawCoverageRecorder::encode([$this->covered => [4 => 1]], 't:1'),
         );
         $cache = $this->dir . '/sa-cache';
 
