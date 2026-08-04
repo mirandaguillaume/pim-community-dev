@@ -63,7 +63,7 @@
     "url": "https://github.com/akeneo/pim-community-dev/issues"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
+    "@babel/core": "^7.29.6",
     "@babel/eslint-parser": "^7.25.0",
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-react": "^7.10.4",
