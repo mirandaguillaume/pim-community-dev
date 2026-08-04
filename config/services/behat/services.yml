@@ -246,6 +246,9 @@ services:
         - 1280
         - 1024
 
+    Pim\Behat\Context\CoverageMarkerContext:
+        - '%kernel.project_dir%/var/tests/behat-coverage'
+
     Pim\Behat\Context\JobContext:
         - 'Context\FeatureContext'
         - '@kernel'
