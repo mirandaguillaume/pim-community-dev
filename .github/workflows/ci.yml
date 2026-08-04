@@ -592,6 +592,17 @@ jobs:
       - name: Run ESLint and Prettier
         run: castor test:lint-front
 
+      # Dependency-free `node` scripts (assert + fs/path only), so nothing here needed the JS
+      # dependencies installed above -- but nothing ran them either until now: they weren't referenced
+      # anywhere in .github/, package.json or castor/. That let the PHP<->JS join contract they pin
+      # (sanitise() must stay identical between the producer and the consumer) drift silently.
+      - name: Run coverage-inventory join checks
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node \
+            sh -c 'for f in tests/front/e2e/coverage/*.check.js; do node "$f" || exit 1; done'
+
       # Permanent net from the AMD→CJS→ESM migration: a dropped/undefined
       # binding in the legacy modules is a runtime ReferenceError the unit
       # suites cannot catch (no coverage there). Globals are provided by the
@@ -1239,14 +1250,41 @@ jobs:
 
       - name: Setup test database
         env:
-          # Behat E2E PHP coverage (PCOV) is DISABLED (2026-07-28). Enabling it nightly turned every
-          # test-behat + test-playwright shard red from 07-25 on: per-request PCOV coverage collection
-          # adds a ~7x request overhead (a behat shard goes ~6min -> ~45min) that pushes select2 field
-          # searches past the 40s Spin timeout. The #348 collector/merge code is kept, dormant, for a
-          # low-overhead rework (raw \pcov\collect dumps). To RE-ENABLE, restore the schedule /
-          # workflow_dispatch condition below:
+          # Behat E2E PHP coverage (PCOV), nightly-only. An empty value is safe: the httpd service
+          # defaults it to ':' (scan the compiled-in conf.d); an EMPTY scan dir would disable all
+          # conf.d and 500 the app. The leading ':' means "each SAPI's own default, then this dir".
+          #
+          # STILL DISABLED after the raw-collect rework — it helped a lot but not enough.
+          #
+          # Measured on the `nightly` suite, same fleet (all three are per-shard means):
+          #   PCOV off, baseline .................  7.6 min, 10/10 green (run 30425913943)
+          #   PCOV on, collector no-op (Gate 0a) .  7.5 min,  4/4 green (run 30453503181)
+          #   raw-collect rework (Gate 1) ........ 21.4 min,  7/10 green (run 30473153154)
+          #   #348/#351, pre-rework .............. 38.4 min, 10/10 red  (run 30347187208)
+          #
+          # The rework cut the overhead from ~5.1x to ~2.8x and shards can now pass, but 3/10 still
+          # fail on Spin timeouts that survive --rerun — shard 9's was verbatim the "Could not find
+          # the select2 widget" signature that caused the 2026-07-28 disable. Enabling this would
+          # turn the nightly red again, which is the thing the rework set out to prevent.
+          #
+          # Gate 0a and Gate 1 together localise what is left: the no-op collector skipped exactly
+          # \pcov\collect() + reduce + gzip + write, and that gap (7.5 -> 21.4) is the remaining
+          # cost. The merge is NOT the problem (15s wall-clock); dump volume is 37MB/shard across
+          # 34 per-worker files. So the residual is inherent to collecting on EVERY request.
+          #
+          # Next lever, not yet designed: stop calling \pcov\clear() per request and collect+dump
+          # every Nth request (or at worker shutdown), so collect() runs dozens of times per shard
+          # instead of thousands. Trade-off is losing the tail if a worker is SIGKILLed.
+          #
+          # The pipeline itself is proven end-to-end: Gate 1 produced a real Codecov `e2e-behat`
+          # flag over 2516 files / 20373 covered lines per shard, with an honest denominator.
+          #
+          # To RE-ENABLE once a future gate passes, restore:
           #   PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
-          # An empty value is safe: the httpd service defaults it to ':' (scan the compiled-in conf.d).
+          # An empty value is safe: the httpd service defaults it to ':' (scan the compiled-in
+          # conf.d). An EMPTY scan dir would disable all conf.d and 500 the app; the leading ':'
+          # means "each SAPI's own default, then this dir".
+          # See docs/superpowers/specs/2026-07-29-behat-coverage-raw-collect-design.md
           PHP_INI_SCAN_DIR: ''
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
@@ -1530,14 +1568,29 @@ jobs:
             echo "  Could not create debug session"
           fi
 
+      # Gate 1 instrumentation. Dump volume was the one number this design deliberately did not
+      # guess (guessing the overhead is what sank #348), so the shard reports it every run.
+      - name: Behat PHP coverage dump volume (shard ${{ matrix.shard }})
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        run: |
+          echo "dump files: $(find var/tests/behat-coverage -name '*.dump' 2>/dev/null | wc -l)"
+          echo "total bytes: $(du -sb var/tests/behat-coverage 2>/dev/null | cut -f1)"
+          echo "largest per-worker dumps:"
+          du -b var/tests/behat-coverage/*.dump 2>/dev/null | sort -rn | head -5 || true
+
       - name: Merge Behat PHP coverage (shard ${{ matrix.shard }})
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         continue-on-error: true
         run: |
+          START=$(date +%s)
           docker-compose exec -u www-data -T httpd \
             php tests/legacy/features/Behat/Coverage/merge-behat-coverage.php \
             --in var/tests/behat-coverage \
-            --clover var/tests/behat-coverage-report/clover.xml
+            --clover var/tests/behat-coverage-report/clover.xml \
+            --src /srv/pim/src \
+            --cache var/cache/behat-coverage-sa
+          echo "merge wall-clock: $(( $(date +%s) - START ))s"
 
       - name: Upload Behat PHP coverage to Codecov (shard ${{ matrix.shard }})
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
