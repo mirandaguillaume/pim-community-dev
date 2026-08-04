@@ -1,0 +1,365 @@
+# Per-scenario PHP + JS coverage inventory for the E2E suites.
+#
+# workflow_dispatch ONLY, deliberately. This is a migration inventory, not a metric, so it has no
+# nightly constraint: the ~2.8x per-request PCOV overhead is irrelevant and shard failures are fine
+# (a scenario that fails still exercised code up to its failure point). That is why the steps after
+# the Behat run carry `if: always()` -- without it a red shard skips the merge and yields nothing.
+# The Behat run itself, and the sidecar start before it, instead opt out via `continue-on-error`:
+# that tolerates a JS-only or scenario failure without also masking a genuine failure earlier in
+# setup, which must still skip the suite rather than run it for two hours against a broken
+# environment.
+#
+# Runs the `nightly` Behat suite because it includes @critical and @optional: the inventory must
+# cover everything that needs migrating, not just what PRs run.
+name: Coverage inventory
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  # Must match ci.yml:37's CACHE_VERSION exactly, or every restore below misses -- loudly, thanks
+  # to the guard steps that follow, not silently.
+  CACHE_VERSION: v2
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  behat-inventory:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ./.github/actions/install-castor
+
+      # This workflow has no `needs:` on ci.yml's infra-db-seed/build-front jobs -- they live in a
+      # different workflow, so download-artifact cannot reach them. Actions caches, unlike
+      # artifacts, ARE readable across workflows in the same repo, so we restore straight from the
+      # same cache keys those jobs write. A miss must fail the job outright: without a seeded
+      # schema every scenario dies before touching real code, `continue-on-error` on the Behat step
+      # swallows that, and every downstream step being `if: always()` would still produce and
+      # commit an empty-looking-plausible inventory. Silence here is worse than a red job.
+      - name: Restore DB seed from cache
+        id: db-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: db-seed.sql
+          key: db-seed-${{ env.CACHE_VERSION }}-${{ hashFiles('upgrades/**/*.php', 'src/**/DataFixtures/**/*.php', 'src/**/DataFixtures/**/*.yaml', 'src/**/Model/*.php', 'src/**/Entity/*.php') }}
+
+      - name: Fail if the DB seed cache missed
+        if: steps.db-cache.outputs.cache-hit != 'true'
+        run: |
+          echo "::error::no db-seed.sql cache hit for this commit's hash. A pull_request run of ci.yml won't help -- its cache is scoped to that PR's merge ref, unreadable from a workflow_dispatch on this branch. Dispatch ci.yml itself on this branch (it has workflow_dispatch too), or dispatch this workflow on master instead, then re-dispatch this one."
+          exit 1
+
+      # Same reasoning as the DB seed above: without the compiled front assets the browser executes
+      # no application JS, so Profiler.takePreciseCoverage (the entire reason the CDP sidecar
+      # exists) has nothing to report and the JS half of the inventory is silently empty.
+      - name: Restore front build from cache
+        id: front-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: front-build-cached
+          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'rspack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+
+      - name: Fail if the front build cache missed
+        if: steps.front-cache.outputs.cache-hit != 'true'
+        run: |
+          echo "::error::no front-build-cached cache hit for this commit's hash. A pull_request run of ci.yml won't help -- its cache is scoped to that PR's merge ref, unreadable from a workflow_dispatch on this branch. Dispatch ci.yml itself on this branch (it has workflow_dispatch too), or dispatch this workflow on master instead, then re-dispatch this one."
+          exit 1
+
+      - name: Cleanup stale containers
+        run: docker-compose down --remove-orphans 2>/dev/null || true
+
+      - name: Bring up the stack with coverage enabled
+        env:
+          # Leading ':' is load-bearing: it means "each SAPI's own compiled-in conf.d, THEN this
+          # directory". An empty value would disable all conf.d, stripping every extension and
+          # 500ing the app. pcov-on.ini both enables PCOV and installs the auto_prepend collector.
+          PHP_INI_SCAN_DIR: ':/srv/pim/docker/php-coverage.d'
+        run: |
+          # Belt and suspenders: the cache-restore step above should already have failed the job
+          # before this point on a miss. Check again anyway rather than letting setup-test-db.sh's
+          # own "file not found, skipping import" warning silently run every scenario unseeded.
+          test -f db-seed.sql || { echo "::error::db-seed.sql missing at repo root after a reported cache hit"; exit 1; }
+          DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
+          APP_ENV=behat castor docker:up 'httpd mysql elasticsearch object-storage selenium pubsub-emulator'
+          docker/wait_docker_up.sh
+          .github/scripts/setup-test-db.sh "${DB_NAME}" db-seed.sql
+          docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=test
+
+      # front-build-cached is byte-identical in layout to the build-front artifact ci.yml's
+      # test-behat job downloads (it's built by the same "Collect front build output" step in
+      # build-front), so this is that job's "Install front assets" step with the source directory
+      # substituted.
+      - name: Install front assets
+        run: |
+          # The four copies below are `|| true`, matching ci.yml, so a hollow-but-present cache
+          # (e.g. build-front's job succeeded but wrote an incomplete tree) would otherwise
+          # reinstate the "no application JS" failure this whole round exists to catch, silently.
+          # ci.yml backs its own copy of this with a health check further down the job that greps
+          # public/dist/vendor.min.js off disk; check the source directory up front instead.
+          test -d front-build-cached/public/dist || { echo "::error::front-build-cached/public/dist missing despite a reported cache hit -- the cache is hollow, not just stale"; exit 1; }
+          mkdir -p public/css public/dist public/js var/build
+          cp -a front-build-cached/public/css/. public/css/ 2>/dev/null || true
+          cp -a front-build-cached/public/dist/. public/dist/ 2>/dev/null || true
+          cp -a front-build-cached/public/js/. public/js/ 2>/dev/null || true
+          cp -a front-build-cached/var/build/module-registry.js var/build/ 2>/dev/null || true
+          sudo chmod -R 777 public/
+          docker-compose run --rm php php bin/console pim:installer:assets --symlink --env=behat
+          sudo chown -R $(id -u):$(id -g) public/
+
+      - name: Warmup Symfony cache
+        run: docker-compose run --rm php php bin/console cache:warmup --env=behat
+
+      - name: Assert the collector is actually installed
+        run: |
+          docker-compose exec -u www-data -T httpd php -r '
+            $pcov = extension_loaded("pcov") ? 1 : 0;
+            $enabled = ini_get("pcov.enabled");
+            $prepend = ini_get("auto_prepend_file");
+            printf("pcov=%d enabled=%s prepend=%s\n", $pcov, $enabled, $prepend);
+            if ($pcov !== 1 || $enabled !== "1" || $prepend !== "/srv/pim/docker/coverage-prepend.php") {
+              fwrite(STDERR, "collector not installed as expected -- got pcov=$pcov enabled=$enabled prepend=$prepend, want pcov=1 enabled=1 prepend=/srv/pim/docker/coverage-prepend.php\n");
+              exit(1);
+            }
+          '
+
+      # Without this the CDP helper and its sidecar exist but nothing launches them, so the JS half
+      # of the inventory silently produces nothing. The container name is namespaced by shard AND by
+      # COMPOSE_PROJECT_NAME because the bare-metal runners share ONE Docker daemon -- unnamespaced
+      # names collide across concurrent jobs.
+      #
+      # continue-on-error lives HERE, not on the Behat step below: a sidecar failure (most plausibly
+      # a leaked --name collision) should cost this shard only its JS half, not skip the suite
+      # outright. A step with continue-on-error has a *conclusion* of success when it fails, so the
+      # following default-`success()` step still runs. Putting the tolerance here, instead of an
+      # `if: always()` on the 120-minute Behat step, means a genuine earlier failure (the stack
+      # never coming up, or the collector assertion above failing) still correctly skips the suite
+      # rather than running the full nightly suite against a broken environment for two hours.
+      - name: Start the CDP coverage sidecar
+        continue-on-error: true
+        run: |
+          # 0777, matching the chmod-777 idiom already used on public/ below: this directory is
+          # created here by the RUNNER user but written by both www-data (TestMarker::write() and
+          # CoverageCollector::stopAndDump(), from inside the httpd container) and this same sidecar
+          # step (.coverage-done, docker rm cleanup). Both writers' @-suppressed file_put_contents
+          # calls fail SILENTLY on a permission mismatch -- no marker, no dumps, no error in the logs,
+          # just a "0 records" warning ten shards and ~2h later.
+          mkdir -p var/tests/behat-coverage
+          chmod 0777 var/tests/behat-coverage
+          rm -f var/tests/behat-coverage/.coverage-done
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run -d \
+            --user "${HOST_UID}:${HOST_GID}" \
+            --name "${COMPOSE_PROJECT_NAME:-pim}-cdp-sidecar-${{ matrix.shard }}" \
+            node node tests/front/e2e/coverage/behat-cdp-sidecar.js \
+            http://selenium:4444 var/tests/behat-coverage "coverage-v8/behat-${{ matrix.shard }}"
+
+      # Optional: matches ci.yml's behavior on a cache miss (empty file, safe fallback to
+      # hash-based sharding in shard-by-timing.sh). Without restoring this, exporting
+      # BEHAT_TIMING_FILE below would be inert -- the timing-aware split needs the data on disk.
+      - name: Restore Behat timing data
+        uses: actions/cache/restore@v4
+        with:
+          path: .test-timings/behat.json
+          key: test-timings-behat-${{ github.ref }}-
+          restore-keys: |
+            test-timings-behat-refs/heads/master-
+
+      # No if: always() here, deliberately: this step must be skipped, not run for up to 120
+      # minutes against a broken environment, if an earlier required step (stack bring-up, the
+      # collector assertion) failed. Its own continue-on-error is what protects it from a JS-only
+      # failure in the sidecar step above.
+      - name: Run the nightly Behat suite
+        continue-on-error: true
+        run: |
+          export BEHAT_SPLIT="${{ matrix.shard }}/10"
+          export BEHAT_TIMING_FILE=".test-timings/behat.json"
+          SUITE=nightly castor test:end-to-end-legacy
+
+      # The sidecar dumps the LAST scenario's coverage in finish(), which only runs on this stop
+      # file or a signal. Skipping it would silently lose the final scenario of every shard.
+      # if: always() because a red shard's inventory is still wanted -- a scenario that failed still
+      # exercised code up to its failure point.
+      - name: Stop the sidecar and wait for its final dump
+        if: always()
+        continue-on-error: true
+        run: |
+          SIDECAR="${COMPOSE_PROJECT_NAME:-pim}-cdp-sidecar-${{ matrix.shard }}"
+          touch var/tests/behat-coverage/.coverage-done
+          # 180, not 60: finish()'s reentrancy guard makes the docker-stop SIGTERM below a no-op once
+          # the stop file has been seen, so a final dump slower than this wait is SIGKILLed and lost --
+          # the exact scenario this step exists to protect. The last dump embeds every loaded script's
+          # full source (behat-cdp-coverage.js), which is the realistic driver of a slow final write.
+          timeout 180 docker wait "$SIDECAR" || docker stop "$SIDECAR" || true
+          docker logs "$SIDECAR" 2>&1 | tail -20 || true
+          echo "JS dumps produced: $(find coverage-v8 -name '*.json' 2>/dev/null | wc -l)"
+          # The bare-metal runners share one Docker daemon: a container left behind here collides
+          # by name with the next dispatch of this same shard.
+          docker rm -f "$SIDECAR" || true
+
+      - name: Build the per-test PHP inventory
+        if: always()
+        continue-on-error: true
+        run: |
+          docker-compose exec -u www-data -T httpd \
+            php tests/legacy/features/Behat/Coverage/build-php-inventory.php \
+            --in var/tests/behat-coverage \
+            --src /srv/pim/src \
+            --out var/tests/inventory-php-${{ matrix.shard }}.json
+
+      - name: Upload shard inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: inventory-shard-${{ matrix.shard }}
+          path: |
+            var/tests/inventory-php-${{ matrix.shard }}.json
+            coverage-v8/
+          retention-days: 7
+          if-no-files-found: warn
+
+  commit-inventory:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [behat-inventory]
+    if: always()
+    # Was 20. Each JS dump embeds full script sources (behat-cdp-coverage.js's dump-writing site),
+    # and build-inventory.js runs one monocart source-map pass PER dump -- 100+ dumps/shard x 10
+    # shards. 20 minutes was sized for the merge alone, not for that volume; on timeout the job is
+    # cancelled mid-build, the `if: always()` upload below finds nothing written, and the whole
+    # 10-shard x ~2h Behat run yields no artifact. 120 gives real headroom without masking a genuine
+    # hang (a job that still doesn't finish in 2h has a different problem).
+    timeout-minutes: 120
+    steps:
+      # fetch-depth: 0, not the default 1: "Commit the inventory" below does `git pull --rebase
+      # origin "$BRANCH"` to handle a re-dispatch after an earlier commit already landed. A depth-1
+      # clone only works while the remote is exactly one commit ahead of this checkout -- beyond
+      # that, the merge base falls outside the shallow history and the rebase fails.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download every shard inventory
+        uses: actions/download-artifact@v4
+        with:
+          pattern: inventory-shard-*
+          path: shards
+
+      # build-inventory.js lazy-requires monocart-coverage-reports (declared in package.json but
+      # only present after install); skipping this leaves node_modules empty, every JS dump fails
+      # its require() and is warned-and-skipped, and the job still exits 0 with an empty inventory.
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Merge shard PHP inventories
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -T node node -e '
+            const fs = require("fs"), path = require("path");
+            const out = {};
+            const walk = d => fs.readdirSync(d, {withFileTypes: true}).flatMap(e =>
+              e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
+            for (const f of walk("shards").filter(f => /inventory-php-\d+\.json$/.test(f))) {
+              for (const [test, files] of Object.entries(JSON.parse(fs.readFileSync(f, "utf8")))) {
+                out[test] = Object.assign(out[test] || {}, files);
+              }
+            }
+            fs.writeFileSync("inventory-php-all.json", JSON.stringify(out));
+            console.log(`merged ${Object.keys(out).length} tests`);
+          '
+
+      - name: Build the inventory
+        run: |
+          mkdir -p coverage-v8
+          find shards -type d -name 'coverage-v8' -exec cp -a {}/. coverage-v8/ \; 2>/dev/null || true
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -T node \
+            node tests/front/e2e/coverage/build-inventory.js inventory-php-all.json coverage-v8
+
+      # Uploaded unconditionally, before the gate and the commit, so the built JSON survives even
+      # when the gate below fails the job or the commit's push is rejected by branch protection --
+      # otherwise a bad run leaves nothing at all to inspect.
+      - name: Upload the built inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-inventory
+          path: docs/coverage-inventory/
+          retention-days: 14
+          if-no-files-found: warn
+
+      # build-php-inventory.php exits 0 without writing on zero records, and build-inventory.js
+      # catches a fatal and still exits 0 having already written both JSONs -- so with every
+      # upstream step best-effort and `if: always()`, all ten shards can fail and this job would
+      # otherwise commit `{}` over a good inventory with nothing to say so. This is the brief's own
+      # acceptance criterion turned into an actual check instead of a human eyeballing the PR diff.
+      - name: Verify the inventory is non-empty
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" -T node node -e '
+            const fs = require("fs");
+            const file = "docs/coverage-inventory/scenarios.json";
+            let scenarios;
+            try {
+              scenarios = JSON.parse(fs.readFileSync(file, "utf8"));
+            } catch (e) {
+              console.error(`[gate] cannot read/parse ${file}: ${e.message}`);
+              process.exit(1);
+            }
+            const tests = Object.keys(scenarios);
+            const both = tests.filter(t =>
+              Object.keys((scenarios[t] && scenarios[t].php) || {}).length > 0 &&
+              Object.keys((scenarios[t] && scenarios[t].js) || {}).length > 0
+            );
+            console.log(`[gate] ${tests.length} scenarios, ${both.length} with both php and js`);
+            if (tests.length === 0 || both.length === 0) {
+              console.error("[gate] inventory is empty or has no scenario with both php and js populated -- refusing to commit it");
+              process.exit(1);
+            }
+          '
+
+      - name: Commit the inventory
+        run: |
+          git add docs/coverage-inventory/
+          if git diff --cached --quiet; then
+            echo "inventory unchanged — nothing to commit"
+            exit 0
+          fi
+          git config user.name "$(git log -1 --format='%an')"
+          git config user.email "$(git log -1 --format='%ae')"
+          git commit -m "chore(coverage): refresh the E2E coverage inventory"
+          # Explicit remote-branch push rather than a bare `git push`: actions/checkout leaves an
+          # ambiguous local ref state depending on trigger, and a re-dispatch after an earlier
+          # commit landed must rebase, not fail non-fast-forward.
+          BRANCH="${{ github.ref_name }}"
+          git pull --rebase origin "$BRANCH"
+          if ! git push origin HEAD:"$BRANCH"; then
+            echo "::error::push to '$BRANCH' was rejected -- it is likely a protected branch (master carries both a ruleset and legacy branch protection, and bypassing either is forbidden). Dispatch this workflow on a non-protected branch if you want the inventory committed automatically; the built JSON is still available from this run's 'coverage-inventory' artifact."
+            exit 1
+          fi
