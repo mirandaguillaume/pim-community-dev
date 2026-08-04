@@ -31,17 +31,40 @@ test.describe('Export job configuration', () => {
     // Fall back to any export job if no CSV product export exists
     const targetRow = hasCsvExport ? csvExportRow : gridRows.first();
 
-    // Get the job code for later reference
-    const jobLabel = await targetRow.getByRole('cell').first().textContent();
-
-    // Click to open the export job show page
+    // Click to open the export job show page.
+    //
+    // This navigation is asynchronous in a way nothing here can await: the row action calls
+    // router.redirect() -> Backbone.history.navigate(fragment) WITHOUT {trigger: true}, so the
+    // route only runs on the browser's native hashchange, behind a 100ms debounce, followed by a
+    // REST round trip. The grid is therefore still in the DOM well after this resolves, and
+    // waitForLoadingMasks() does not bridge the gap: it asserts the masks are *currently* hidden
+    // and returns in ~2ms, having never waited for one to appear.
     await targetRow.click();
     await waitForLoadingMasks(page);
 
-    // Click Edit to go to the edit page
-    const editButton = page.getByText('Edit').first();
+    // Click Edit to go to the edit page.
+    //
+    // Deliberately getByRole('button'), NOT getByText('Edit'): the grid renders one
+    // `<a title="Edit" class="AknIconButton--edit">Edit</a>` row action PER ROW, so
+    // getByText('Edit').first() matched the FIRST row's icon — a different export job — leaving two
+    // navigations in flight at once. Whichever resolved last repainted the page, so the test failed
+    // whenever that was the show page (no tab bar), which is the 2026-07 shard-2 failure.
+    //
+    // The grid contains no element with role=button named "Edit"; the show page's control is a real
+    // <button>. So this locator cannot match a row action, and waiting for it doubles as the
+    // "show page has finished rendering" synchronisation this flow never had.
+    const editButton = page.getByRole('button', {name: 'Edit', exact: true});
     await editButton.waitFor({timeout: 15_000});
+
+    // The show page is up, so the URL now names the job we actually clicked. Pin it and re-assert
+    // after the click, so the test can no longer pass while editing some other job — which is
+    // exactly how the wrong-row click stayed invisible: any export edit page has tabs, so the final
+    // assertion was satisfied by the wrong one.
+    const jobCode = page.url().match(/#\/spread\/export\/([^/]+)/)?.[1];
+    expect(jobCode, `expected an export job code in the show URL, got ${page.url()}`).toBeTruthy();
+
     await editButton.click();
+    await expect(page).toHaveURL(new RegExp(`#/spread/export/${jobCode}/edit$`));
     await waitForLoadingMasks(page);
 
     // Visit the "Global settings" tab if present
