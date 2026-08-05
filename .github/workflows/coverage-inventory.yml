@@ -69,12 +69,19 @@ jobs:
       # Same reasoning as the DB seed above: without the compiled front assets the browser executes
       # no application JS, so Profiler.takePreciseCoverage (the entire reason the CDP sidecar
       # exists) has nothing to report and the JS half of the inventory is silently empty.
+      #
+      # Kept INLINE here on purpose, unlike ci.yml's build-front which now captures this same
+      # expression once into a step output. This job never unpacks the front-packages-lib artifact,
+      # so evaluating hashFiles() at this step yields the pre-mutation hash -- which is exactly the
+      # key ci.yml saves under. Do not "align" this with ci.yml by reading its step output (it is a
+      # different workflow) and do not reorder this step after anything that writes into
+      # front-packages/ or src/, or the keys stop matching and this job hard-fails below.
       - name: Restore front build from cache
         id: front-cache
         uses: actions/cache/restore@v4
         with:
           path: front-build-cached
-          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'rspack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'components/**/*.ts', 'components/**/*.tsx', 'components/**/*.js', 'components/**/*.jsx', 'components/**/*.less', 'components/**/*.html', 'yarn.lock', 'package.json', 'tsconfig*.json', 'rspack*.js', 'babel.config.*', 'config/bundles.php', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less', 'src/**/*.html', 'src/**/tsconfig*.json', 'src/**/Resources/config/requirejs.yml', 'src/**/Resources/config/form_extensions.yml', 'src/**/Resources/config/form_extensions/**/*.yml') }}
 
       - name: Fail if the front build cache missed
         if: steps.front-cache.outputs.cache-hit != 'true'
