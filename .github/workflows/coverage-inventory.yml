@@ -215,7 +215,12 @@ jobs:
           # the exact scenario this step exists to protect. The last dump embeds every loaded script's
           # full source (behat-cdp-coverage.js), which is the realistic driver of a slow final write.
           timeout 180 docker wait "$SIDECAR" || docker stop "$SIDECAR" || true
-          docker logs "$SIDECAR" 2>&1 | tail -20 || true
+          # NOT tail -20: the sidecar prints one line per attach and one per failure, so a shard
+          # with ~10 scenarios already overflows 20 lines and the window lands mid-run. That is how
+          # the first CDP failure was read as "9 failures out of 10 attaches" when the count was
+          # simply an artefact of the truncation. Print it all -- it is a handful of lines per
+          # scenario and it is the only view of the sidecar there is.
+          docker logs "$SIDECAR" 2>&1 || true
           echo "JS dumps produced: $(find coverage-v8 -name '*.json' 2>/dev/null | wc -l)"
           # The bare-metal runners share one Docker daemon: a container left behind here collides
           # by name with the next dispatch of this same shard.

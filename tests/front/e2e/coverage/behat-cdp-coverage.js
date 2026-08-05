@@ -43,6 +43,27 @@ function toV8Entries(cdpResult, sourcesByScriptId) {
     }));
 }
 
+/**
+ * Turn a failed websocket upgrade into an actionable line.
+ *
+ * `WebSocket` surfaces every upgrade failure as the same opaque "Received network error or non-101
+ * status code", which is why the first CI failure of this kind could not be told apart from the
+ * three plausible causes. Re-requesting the same URL over http reveals which one it is: a status
+ * code means Selenium answered and rejected the upgrade (404 = session gone, 403 = refused), while
+ * a transport error means the address was never reachable from this container at all.
+ *
+ * Best-effort like everything else here: it only ever enriches a message that is already an error.
+ */
+async function probeUpgrade(wsUrl) {
+  const httpUrl = String(wsUrl).replace(/^ws:/, 'http:').replace(/^wss:/, 'https:');
+  try {
+    const res = await fetch(httpUrl, {headers: {Connection: 'Upgrade', Upgrade: 'websocket'}});
+    return `http probe -> ${res.status} ${res.statusText || ''}`.trim();
+  } catch (e) {
+    return `http probe -> unreachable (${(e && (e.cause ? e.cause.code || e.cause.message : e.message)) || 'unknown'})`;
+  }
+}
+
 /** Minimal CDP client over the session's se:cdp websocket. */
 class CdpClient {
   constructor(url) {
@@ -64,7 +85,12 @@ class CdpClient {
       };
       this.ws.onerror = e => {
         clearTimeout(timer);
-        reject(new Error(`cdp connect failed: ${e.message || 'unknown'}`));
+        // Name the URL and probe it over plain HTTP before giving up. "non-101" collapses three
+        // very different causes -- 404 (session gone), 403 (refused), ECONNREFUSED (unroutable) --
+        // and without the distinction the next failure costs another two-hour run to characterise.
+        probeUpgrade(this.url).then(detail =>
+          reject(new Error(`cdp connect failed: ${e.message || 'unknown'} [url=${this.url}] ${detail}`))
+        );
       };
       this.ws.onmessage = ev => {
         let msg;
