@@ -102,14 +102,33 @@ class CdpClient {
   }
 }
 
-/** Read the session's se:cdp websocket URL from Selenium. */
+/**
+ * Read the session's se:cdp websocket URL from Selenium's /status.
+ *
+ * NOT from `GET /session/{id}`: that is not a W3C command, and Selenium answers it with
+ * 404 `unknown command: Cannot call non W3C standard command while in W3C mode`. Reading it there
+ * is what made every startCoverage() fail with "se:cdp absent from session capabilities" and left
+ * the JS half of the inventory empty on the first real run.
+ *
+ * /status does carry it. Probed against this stack (selenium/standalone-chrome:4.27.0), the slot's
+ * session capabilities include se:cdp, se:cdpVersion (131.0.6778.204) and se:bidiEnabled=false --
+ * the same value the session-creation response returns, which is where it was originally verified.
+ * That was the error: confirming the capability exists somewhere, then reading it somewhere else.
+ */
 async function cdpUrl(seleniumBase, sessionId) {
-  const res = await fetch(`${seleniumBase}/session/${sessionId}`);
+  const res = await fetch(`${seleniumBase}/status`);
   const body = await res.json();
-  const caps = (body.value && body.value.capabilities) || body.value || {};
-  const url = caps['se:cdp'];
-  if (!url) throw new Error('se:cdp absent from session capabilities');
-  return url;
+  for (const node of ((body || {}).value || {}).nodes || []) {
+    for (const slot of node.slots || []) {
+      const session = slot.session;
+      if (session && session.sessionId === sessionId) {
+        const url = (session.capabilities || {})['se:cdp'];
+        if (!url) throw new Error(`session ${sessionId} exposes no se:cdp capability`);
+        return url;
+      }
+    }
+  }
+  throw new Error(`session ${sessionId} not found in Selenium /status`);
 }
 
 async function startCoverage(seleniumBase, sessionId) {
