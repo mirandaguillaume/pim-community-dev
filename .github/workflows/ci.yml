@@ -489,10 +489,41 @@ jobs:
       # It cost ~80-140s of rebuild per run and, being a miss rather than an error, signalled nothing.
       # Nothing in ci.yml broke -- downstream jobs consume the build-front ARTIFACT, not this cache --
       # so the first consumer to actually require a hit, coverage-inventory.yml, is what surfaced it.
+      #
+      # The glob list below is WIDER than the one that shipped while the cache was broken, and that
+      # widening is load-bearing rather than tidying. A key that never hits cannot serve a stale
+      # build; the moment it starts hitting, every front-build input missing from the key becomes a
+      # silent false green in test-behat and test-playwright. Each addition is a verified input:
+      #
+      #   src/**/Resources/config/requirejs.yml    frontend/webpack/requirejs-utils.js:45 reads it to
+      #                                            build the module aliases and config that
+      #                                            frontend/webpack/config-loader.js injects.
+      #   .../form_extensions.yml and .../form_extensions/**/*.yml
+      #                                            frontend/build/update-extensions.js:60 globs exactly
+      #                                            this and writes public/js/extensions.json, which
+      #                                            "Collect front build output" below copies INTO the
+      #                                            cached tree -- so a hit serves the previous one.
+      #   src/**/*.html                            rspack.config.js bundles templates as asset/source.
+      #   src/**/tsconfig*.json                    the eight src/**/front workspaces whose lib/ ships in
+      #                                            the front-packages-lib artifact compile with it.
+      #   components/**/*.{ts,tsx,js,jsx,less,html}
+      #                                            components/catalogs and components/identifier-generator
+      #                                            are packages:build workspaces; Connectivity's front
+      #                                            imports @akeneo-pim-community/catalogs. Extensions are
+      #                                            listed rather than components/** so this cannot catch a
+      #                                            build output the way front-packages/** did.
+      #   config/bundles.php                       source of public/js/require-paths.js, also cached.
+      #   tsconfig*.json                           precautionary; it moves about twice per 400 commits.
+      #
+      # Measured over the last 397 non-merge commits on master: this closes 6 commits that would have
+      # been E2E-tested against a stale bundle -- three of them C1 grid re-points whose ONLY changed
+      # input was a form_extensions yml, i.e. exactly what E2E exists to catch -- and costs 6 extra
+      # invalidations (205 -> 211, +1.5%). Widen this list, never narrow it: a false hit is a false
+      # green, a false miss costs about two minutes.
       - name: Compute the front build cache key
         id: front-key
         run: |
-          echo "key=front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'rspack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}" >> "$GITHUB_OUTPUT"
+          echo "key=front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'components/**/*.ts', 'components/**/*.tsx', 'components/**/*.js', 'components/**/*.jsx', 'components/**/*.less', 'components/**/*.html', 'yarn.lock', 'package.json', 'tsconfig*.json', 'rspack*.js', 'babel.config.*', 'config/bundles.php', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less', 'src/**/*.html', 'src/**/tsconfig*.json', 'src/**/Resources/config/requirejs.yml', 'src/**/Resources/config/form_extensions.yml', 'src/**/Resources/config/form_extensions/**/*.yml') }}" >> "$GITHUB_OUTPUT"
 
       - name: Restore front build from cache
         id: front-cache

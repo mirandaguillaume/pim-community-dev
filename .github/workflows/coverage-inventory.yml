@@ -81,7 +81,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: front-build-cached
-          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'rspack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'components/**/*.ts', 'components/**/*.tsx', 'components/**/*.js', 'components/**/*.jsx', 'components/**/*.less', 'components/**/*.html', 'yarn.lock', 'package.json', 'tsconfig*.json', 'rspack*.js', 'babel.config.*', 'config/bundles.php', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less', 'src/**/*.html', 'src/**/tsconfig*.json', 'src/**/Resources/config/requirejs.yml', 'src/**/Resources/config/form_extensions.yml', 'src/**/Resources/config/form_extensions/**/*.yml') }}
 
       - name: Fail if the front build cache missed
         if: steps.front-cache.outputs.cache-hit != 'true'
