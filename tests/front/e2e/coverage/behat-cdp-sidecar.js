@@ -20,18 +20,30 @@ const fs = require('fs');
 const path = require('path');
 const {startCoverage, takeCoverage} = require('./behat-cdp-coverage');
 
-/** Extract the one active session from Selenium's /status payload, or null if none yet. */
+/**
+ * Extract the one usable active session from Selenium's /status payload, or null if none yet.
+ *
+ * A slot is only usable once it publishes se:cdp. While a session is being created Selenium fills
+ * the slot with a PLACEHOLDER whose sessionId is the literal string `reserved` and whose
+ * capabilities are a copy of the stereotype -- no se:cdp key. Observed live to last ~1.2s, which is
+ * two or three polls at 500ms. Accepting it on sessionId truthiness alone is what produced the
+ * nightly `session reserved exposes no se:cdp capability`: the id was handed to startCoverage(),
+ * which re-read /status, matched the same placeholder slot and threw on the absent capability.
+ *
+ * The predicate is se:cdp presence rather than `sessionId !== 'reserved'` because se:cdp is what
+ * the caller actually needs; matching the placeholder's literal text would silently start failing
+ * the day Selenium words it differently. Slots are skipped, not fatal: the real session may be in
+ * another slot or node.
+ */
 function pickSession(status) {
   const nodes = ((status || {}).value || {}).nodes || [];
   for (const node of nodes) {
     for (const slot of node.slots || []) {
       const session = slot.session;
-      if (session && session.sessionId) {
-        return {
-          sessionId: session.sessionId,
-          cdpUrl: (session.capabilities || {})['se:cdp'] || null,
-        };
-      }
+      if (!session || !session.sessionId) continue;
+      const cdpUrl = (session.capabilities || {})['se:cdp'];
+      if (!cdpUrl) continue;
+      return {sessionId: session.sessionId, cdpUrl};
     }
   }
   return null;
@@ -98,6 +110,24 @@ async function main() {
       return;
     }
 
+    // The attachment is deliberately NOT rebuilt per scenario. A Backbone full page load is a
+    // same-tab cross-document navigation, and the page target survives it: verified live, the
+    // targetId is byte-identical after two full navigations and the flat session attached to it
+    // keeps answering Profiler.takePreciseCoverage. Re-attaching every scenario would cost a
+    // needless round trip and, worse, the fresh Profiler.startPreciseCoverage would reset the
+    // counters and discard whatever ran between the marker flip and the re-attach.
+    //
+    // It is rebuilt only when the session genuinely dies -- the browser session recycled, the tab
+    // closed -- which CDP reports unambiguously as `-32001 Session with given id not found` or
+    // announces via Target.detachedFromTarget. Both set `stale`. Note the re-attach necessarily
+    // yields a NEW CDP sessionId (verified live: the old one is never revived), which is why this
+    // drops the whole client rather than trying to reuse it.
+    if (client && client.stale) {
+      console.warn('[cdp-sidecar] CDP target session is gone; re-attaching');
+      client.close();
+      client = null;
+    }
+
     // Attach lazily: the browser session does not exist until Behat opens it.
     if (!client) {
       try {
@@ -105,7 +135,12 @@ async function main() {
         const session = pickSession(await res.json());
         if (session) {
           client = await startCoverage(seleniumBase, session.sessionId);
-          console.log(`[cdp-sidecar] attached to session ${session.sessionId}`);
+          // startCoverage() is best-effort and returns null on failure. Logging "attached"
+          // unconditionally, as this did, claimed success on every failed attach and is why the
+          // logs read as if coverage were running while `JS dumps produced: 0`.
+          if (client) {
+            console.log(`[cdp-sidecar] attached to session ${session.sessionId} (cdp target ${client.sessionId})`);
+          }
         }
       } catch (e) {
         console.warn(`[cdp-sidecar] attach failed (will retry): ${e.message}`);
