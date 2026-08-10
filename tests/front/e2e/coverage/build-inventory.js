@@ -82,12 +82,39 @@ function join(php, js) {
   return Object.fromEntries(Object.entries(out).sort(([a], [b]) => a.localeCompare(b)));
 }
 
-/** scenario -> code becomes code -> scenarios. */
+/**
+ * Drop the line numbers, keeping only WHICH files a scenario touched.
+ *
+ * Not a preference: `JSON.stringify` on the line-level structure throws `Invalid string length`.
+ * Measured on the first run that collected both halves — one shard held 52 tests, 98,905 file
+ * entries and 419,281 line numbers in 16.9 MB, so 612 scenarios come to ~199 MB unindented and
+ * roughly double that with `null, 2`, against V8's ~512 MB ceiling for a single string. The design
+ * doc pre-authorised this fallback as a remedy for unwieldy diffs; it turns out to be the only way
+ * the file can be produced at all.
+ *
+ * Nothing is lost that this artifact is for. The question it answers is "which scenarios protect
+ * this file", and `files.json` answers it without a single line number. The line detail still ships
+ * in the per-shard CI artifacts (`inventory-php-<shard>.json` and `coverage-v8/`) for anyone
+ * digging into one specific case.
+ */
+function toFileLevel(scenarios) {
+  const out = {};
+  for (const [test, sides] of Object.entries(scenarios)) {
+    out[test] = {
+      php: Object.keys(sides.php || {}).sort(),
+      js: Object.keys(sides.js || {}).sort(),
+    };
+  }
+  return out;
+}
+
+/** scenario -> code becomes code -> scenarios. Consumes the file-level shape from toFileLevel(). */
 function invert(scenarios) {
   const files = {};
   for (const [test, sides] of Object.entries(scenarios)) {
-    for (const map of [sides.php, sides.js]) {
-      for (const file of Object.keys(map)) {
+    for (const list of [sides.php, sides.js]) {
+      // Arrays here, not maps: Object.keys() on an array would yield "0", "1", … as filenames.
+      for (const file of Array.isArray(list) ? list : Object.keys(list || {})) {
         (files[file] ||= []).push(test);
       }
     }
@@ -156,7 +183,8 @@ async function main() {
     }
   }
 
-  const scenarios = join(php, js);
+  // File-level from here on: the line-level structure cannot be JSON.stringify'd at this scale.
+  const scenarios = toFileLevel(join(php, js));
   const files = invert(scenarios);
 
   fs.mkdirSync(OUT_DIR, {recursive: true});
@@ -170,4 +198,4 @@ if (require.main === module) {
   main().catch(e => console.warn(`[inventory] fatal (ignored): ${e.message}`));
 }
 
-module.exports = {join, invert, jsCoverageForDump, sanitise, OUT_DIR};
+module.exports = {join, toFileLevel, invert, jsCoverageForDump, sanitise, OUT_DIR};
