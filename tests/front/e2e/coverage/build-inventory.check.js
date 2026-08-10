@@ -3,7 +3,7 @@
  * Run: node tests/front/e2e/coverage/build-inventory.check.js
  */
 const assert = require('assert');
-const {join, invert, sanitise} = require('./build-inventory');
+const {join, toFileLevel, invert, sanitise} = require('./build-inventory');
 
 const php = {
   'a.feature:1': {'src/A.php': [3, 5]},
@@ -23,9 +23,22 @@ assert.deepStrictEqual(scenarios['b.feature:2'].js, {}, 'a test with no JS still
 
 // The inverse view: which tests cover a file. This is the one that answers the migration
 // question -- when a file's last Behat scenario is gone, its coverage has moved.
-const files = invert(scenarios);
+// What actually gets written is the file-level reduction: JSON.stringify on the line-level
+// structure throws `Invalid string length` at real scale (~199 MB of PHP alone for 612 scenarios,
+// against V8's ~512 MB ceiling). toFileLevel() is what main() feeds to invert() and to disk.
+const fileLevel = toFileLevel(scenarios);
+assert.deepStrictEqual(fileLevel['a.feature:1'].php, ['src/A.php'], 'line numbers are dropped, files kept');
+assert.deepStrictEqual(fileLevel['a.feature:1'].js, ['src/front/x.ts']);
+assert.deepStrictEqual(fileLevel['b.feature:2'].js, [], 'a scenario with no JS keeps an empty list');
+assert.ok(Array.isArray(fileLevel['a.feature:1'].php), 'arrays, not maps — the gate counts their keys');
+
+const files = invert(fileLevel);
 assert.deepStrictEqual(files['src/A.php'], ['a.feature:1', 'b.feature:2']);
 assert.deepStrictEqual(files['src/front/x.ts'], ['a.feature:1']);
+
+// invert() must read the ARRAY, not its indices: Object.keys(['src/A.php']) is ['0'], so a
+// regression here would fill files.json with "0", "1", … instead of paths — and still look sorted.
+assert.ok(!Object.keys(files).some(f => /^\d+$/.test(f)), 'no numeric keys leaked from array indices');
 
 // sanitise() must be idempotent -- join() relies on that to match a raw PHP id against an
 // already-sanitised JS id through the same lookup.
