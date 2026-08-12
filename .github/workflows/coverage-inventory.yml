@@ -286,6 +286,38 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
+      # Without the built front on disk, monocart has no source maps to resolve and reports the
+      # MINIFIED bundle urls instead of repository sources. Run 31374441296 shipped exactly that:
+      # 618 scenarios, 334 with "both halves" -- and the entire JS side was three entries,
+      # `dist/main.min.js`, `dist/vendor.min.js` and `/user/login`. The gate passed it, because
+      # non-empty is not the same as meaningful.
+      #
+      # The dumps carry {scriptId, url, functions, source} and no sourceMap, so resolution happens
+      # here, against public/dist/*.map. The shards already restore this exact cache; this job needs
+      # it for a different reason and so has its own guard.
+      - name: Restore front build from cache
+        id: front-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: front-build-cached
+          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'components/**/*.ts', 'components/**/*.tsx', 'components/**/*.js', 'components/**/*.jsx', 'components/**/*.less', 'components/**/*.html', 'yarn.lock', 'package.json', 'tsconfig*.json', 'rspack*.js', 'babel.config.*', 'config/bundles.php', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less', 'src/**/*.html', 'src/**/tsconfig*.json', 'src/**/Resources/config/requirejs.yml', 'src/**/Resources/config/form_extensions.yml', 'src/**/Resources/config/form_extensions/**/*.yml') }}
+
+      - name: Fail if the front build cache missed
+        if: steps.front-cache.outputs.cache-hit != 'true'
+        run: |
+          echo "::error::no front-build-cached cache hit for this commit's hash. Without public/dist/*.map monocart cannot resolve the dumps back to repository sources and the JS half of the inventory degrades to minified bundle urls -- which the gate cannot distinguish from real coverage. Run ci.yml's build-front on this branch (not merely on a PR: a pull_request run's caches are scoped to that PR's merge ref and are unreadable from a workflow_dispatch), then re-dispatch."
+          exit 1
+
+      - name: Install the front assets so monocart can resolve source maps
+        run: |
+          test -d front-build-cached/public/dist || { echo "::error::front-build-cached restored without public/dist -- the cache entry is hollow"; exit 1; }
+          mkdir -p public/css public/dist public/js var/build
+          cp -a front-build-cached/public/css/. public/css/ 2>/dev/null || true
+          cp -a front-build-cached/public/dist/. public/dist/ 2>/dev/null || true
+          cp -a front-build-cached/public/js/. public/js/ 2>/dev/null || true
+          cp -a front-build-cached/var/build/module-registry.js var/build/ 2>/dev/null || true
+          echo "source maps available: $(find public/dist -name '*.map' 2>/dev/null | wc -l)"
+
       - name: Merge shard PHP inventories
         run: |
           HOST_UID=$(id -u)
@@ -345,13 +377,33 @@ jobs:
               process.exit(1);
             }
             const tests = Object.keys(scenarios);
-            const both = tests.filter(t =>
-              Object.keys((scenarios[t] && scenarios[t].php) || {}).length > 0 &&
-              Object.keys((scenarios[t] && scenarios[t].js) || {}).length > 0
-            );
+            const sideOf = (t, k) => (scenarios[t] && scenarios[t][k]) || [];
+            const both = tests.filter(t => sideOf(t, "php").length > 0 && sideOf(t, "js").length > 0);
+
+            // Non-empty is NOT the same as meaningful, and this gate learned that the hard way.
+            // Run 31374441296 passed it with 618 scenarios and 334 "with both halves" while the
+            // entire JS side was three entries -- dist/main.min.js, dist/vendor.min.js and
+            // /user/login. Those are the MINIFIED bundle urls: commit-inventory had no
+            // public/dist/*.map on disk, so monocart never resolved anything back to a repository
+            // source. A scenario "covering main.min.js" is true of every scenario and answers
+            // nothing about what to migrate.
+            //
+            // So require the JS half to name repository sources, and say which of the two failure
+            // modes happened rather than collapsing them into one message.
+            const isSource = f => /^(src|front-packages|components|frontend)\//.test(f);
+            const mapped = tests.filter(t => sideOf(t, "js").some(isSource));
+            const jsFiles = new Set(tests.flatMap(t => sideOf(t, "js")));
+
             console.log(`[gate] ${tests.length} scenarios, ${both.length} with both php and js`);
+            console.log(`[gate] ${mapped.length} scenarios whose JS half names repository sources`);
+            console.log(`[gate] ${jsFiles.size} distinct JS paths, e.g. ${[...jsFiles].slice(0, 3).join(", ") || "(none)"}`);
+
             if (tests.length === 0 || both.length === 0) {
               console.error("[gate] inventory is empty or has no scenario with both php and js populated -- refusing to commit it");
+              process.exit(1);
+            }
+            if (mapped.length === 0) {
+              console.error("[gate] the JS half resolved to no repository source at all -- source maps were not applied, so these are bundle urls, not coverage. Check that public/dist/*.map is on disk before build-inventory.js runs. Refusing to commit it.");
               process.exit(1);
             }
           '

@@ -108,6 +108,51 @@ function toFileLevel(scenarios) {
   return out;
 }
 
+/** A file this many scenarios touch is framework boot, not a migration signal. */
+const SUBSTRATE_RATIO = 0.9;
+
+/**
+ * Split off the common substrate: files exercised by ~every scenario.
+ *
+ * Every Behat scenario drives a full HTTP stack, so kernel boot, security, ORM and serialisation
+ * appear in all of them. Measured on run 31374441296: of 2965 files, 1701 (57%) were touched by 90%
+ * or more of the 618 scenarios, while only 317 (11%) were touched by five or fewer.
+ *
+ * Keeping them is worse than useless twice over. They are what makes the artifact enormous -- they
+ * account for the bulk of the 1,187,960 paths that turned a "5-10 MB" file-level inventory into
+ * 109 MB. And they drown the signal: a file listing 600 scenarios tells you nothing about which
+ * Behat test protects it, which is the only question this inventory exists to answer.
+ *
+ * They are written to substrate.json with their counts rather than dropped silently -- an exclusion
+ * nobody can see is indistinguishable from a collection bug, which is the failure mode this whole
+ * pipeline is built to avoid.
+ */
+function splitSubstrate(scenarios) {
+  const counts = {};
+  for (const sides of Object.values(scenarios)) {
+    for (const list of [sides.php, sides.js]) {
+      for (const file of list) counts[file] = (counts[file] || 0) + 1;
+    }
+  }
+
+  const total = Object.keys(scenarios).length;
+  const floor = Math.ceil(total * SUBSTRATE_RATIO);
+  const substrate = {};
+  for (const [file, n] of Object.entries(counts)) {
+    if (n >= floor) substrate[file] = n;
+  }
+
+  const kept = {};
+  for (const [test, sides] of Object.entries(scenarios)) {
+    kept[test] = {
+      php: sides.php.filter(f => substrate[f] === undefined),
+      js: sides.js.filter(f => substrate[f] === undefined),
+    };
+  }
+
+  return {kept, substrate, floor, total};
+}
+
 /** scenario -> code becomes code -> scenarios. Consumes the file-level shape from toFileLevel(). */
 function invert(scenarios) {
   const files = {};
@@ -184,18 +229,35 @@ async function main() {
   }
 
   // File-level from here on: the line-level structure cannot be JSON.stringify'd at this scale.
-  const scenarios = toFileLevel(join(php, js));
-  const files = invert(scenarios);
+  const all = toFileLevel(join(php, js));
+  const {kept, substrate, floor, total} = splitSubstrate(all);
+  const files = invert(kept);
 
   fs.mkdirSync(OUT_DIR, {recursive: true});
-  fs.writeFileSync(path.join(OUT_DIR, 'scenarios.json'), JSON.stringify(scenarios, null, 2) + '\n');
+  fs.writeFileSync(path.join(OUT_DIR, 'scenarios.json'), JSON.stringify(kept, null, 2) + '\n');
   fs.writeFileSync(path.join(OUT_DIR, 'files.json'), JSON.stringify(files, null, 2) + '\n');
+  fs.writeFileSync(
+    path.join(OUT_DIR, 'substrate.json'),
+    JSON.stringify(
+      {
+        note: `files touched by at least ${floor} of ${total} scenarios (${SUBSTRATE_RATIO * 100}%); excluded from scenarios.json and files.json because they carry no migration signal`,
+        threshold: floor,
+        scenarios: total,
+        files: Object.fromEntries(Object.entries(substrate).sort(([, a], [, b]) => b - a)),
+      },
+      null,
+      2
+    ) + '\n'
+  );
 
-  console.log(`[inventory] wrote ${Object.keys(scenarios).length} tests, ${Object.keys(files).length} files`);
+  console.log(
+    `[inventory] wrote ${Object.keys(kept).length} tests, ${Object.keys(files).length} files ` +
+      `(${Object.keys(substrate).length} common-substrate files excluded, seen by >= ${floor}/${total} scenarios)`
+  );
 }
 
 if (require.main === module) {
   main().catch(e => console.warn(`[inventory] fatal (ignored): ${e.message}`));
 }
 
-module.exports = {join, toFileLevel, invert, jsCoverageForDump, sanitise, OUT_DIR};
+module.exports = {join, toFileLevel, splitSubstrate, invert, jsCoverageForDump, sanitise, OUT_DIR};
