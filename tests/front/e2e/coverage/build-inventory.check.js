@@ -3,7 +3,7 @@
  * Run: node tests/front/e2e/coverage/build-inventory.check.js
  */
 const assert = require('assert');
-const {join, toFileLevel, invert, sanitise} = require('./build-inventory');
+const {join, toFileLevel, splitSubstrate, invert, sanitise} = require('./build-inventory');
 
 const php = {
   'a.feature:1': {'src/A.php': [3, 5]},
@@ -39,6 +39,29 @@ assert.deepStrictEqual(files['src/front/x.ts'], ['a.feature:1']);
 // invert() must read the ARRAY, not its indices: Object.keys(['src/A.php']) is ['0'], so a
 // regression here would fill files.json with "0", "1", … instead of paths — and still look sorted.
 assert.ok(!Object.keys(files).some(f => /^\d+$/.test(f)), 'no numeric keys leaked from array indices');
+
+// The common substrate -- files ~every scenario touches -- is split out, because it is both what
+// makes the artifact enormous and what drowns the signal. Ten scenarios, `boot.php` in all ten and
+// `Rare.php` in one: at a 90% floor boot.php goes, Rare.php stays.
+{
+  const many = {};
+  for (let i = 0; i < 10; i++) {
+    many[`f.feature:${i}`] = {php: i === 0 ? ['src/boot.php', 'src/Rare.php'] : ['src/boot.php'], js: []};
+  }
+  const {kept, substrate, floor, total} = splitSubstrate(many);
+
+  assert.strictEqual(total, 10);
+  assert.strictEqual(floor, 9, 'floor is ceil(total * 0.9)');
+  assert.deepStrictEqual(Object.keys(substrate), ['src/boot.php'], 'only the ubiquitous file is substrate');
+  assert.strictEqual(substrate['src/boot.php'], 10, 'substrate.json keeps the count, so the exclusion is auditable');
+  assert.deepStrictEqual(kept['f.feature:0'].php, ['src/Rare.php'], 'the discriminating file survives');
+  assert.deepStrictEqual(kept['f.feature:1'].php, [], 'a scenario that only touched substrate keeps an empty list');
+
+  // And the inverse view must no longer mention it at all -- a file listing every scenario is
+  // exactly the entry that answers nothing about what to migrate.
+  assert.strictEqual(invert(kept)['src/boot.php'], undefined, 'substrate is absent from files.json');
+  assert.deepStrictEqual(invert(kept)['src/Rare.php'], ['f.feature:0']);
+}
 
 // sanitise() must be idempotent -- join() relies on that to match a raw PHP id against an
 // already-sanitised JS id through the same lookup.
