@@ -271,21 +271,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Download every shard inventory
-        uses: actions/download-artifact@v4
-        with:
-          pattern: inventory-shard-*
-          path: shards
-
-      # build-inventory.js lazy-requires monocart-coverage-reports (declared in package.json but
-      # only present after install); skipping this leaves node_modules empty, every JS dump fails
-      # its require() and is warned-and-skipped, and the job still exits 0 with an empty inventory.
-      - name: Install JS dependencies
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
-
       # Without the built front on disk, monocart has no source maps to resolve and reports the
       # MINIFIED bundle urls instead of repository sources. Run 31374441296 shipped exactly that:
       # 618 scenarios, 334 with "both halves" -- and the entire JS side was three entries,
@@ -295,6 +280,15 @@ jobs:
       # The dumps carry {scriptId, url, functions, source} and no sourceMap, so resolution happens
       # here, against public/dist/*.map. The shards already restore this exact cache; this job needs
       # it for a different reason and so has its own guard.
+      #
+      # PLACEMENT IS LOAD-BEARING: this must stay immediately after checkout, before ANY step that
+      # writes into the workspace. hashFiles() is evaluated when the step starts, and the key globs
+      # `front-packages/**`, which `yarn install` writes into (front-packages/*/node_modules). Run
+      # 31608565887 had this restore sitting after "Install JS dependencies" and computed
+      # front-build-a2790ee2… while the shards, restoring straight after checkout, computed
+      # front-build-3885510f… -- same commit, same globs, different key, guaranteed miss. That is
+      # the identical fault ci.yml carried from 2026-03 until #359, reintroduced in a different job.
+      # Rule: a cache restore goes right after checkout, or its key is a hash of whatever ran first.
       - name: Restore front build from cache
         id: front-cache
         uses: actions/cache/restore@v4
@@ -317,6 +311,23 @@ jobs:
           cp -a front-build-cached/public/js/. public/js/ 2>/dev/null || true
           cp -a front-build-cached/var/build/module-registry.js var/build/ 2>/dev/null || true
           echo "source maps available: $(find public/dist -name '*.map' 2>/dev/null | wc -l)"
+
+      - name: Download every shard inventory
+        uses: actions/download-artifact@v4
+        with:
+          pattern: inventory-shard-*
+          path: shards
+
+      # build-inventory.js lazy-requires monocart-coverage-reports (declared in package.json but
+      # only present after install); skipping this leaves node_modules empty, every JS dump fails
+      # its require() and is warned-and-skipped, and the job still exits 0 with an empty inventory.
+      # Runs AFTER the cache restore above on purpose: yarn install writes into front-packages/**,
+      # which the restore's key hashes.
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
       - name: Merge shard PHP inventories
         run: |
