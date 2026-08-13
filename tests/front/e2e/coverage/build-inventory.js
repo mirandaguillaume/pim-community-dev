@@ -170,6 +170,54 @@ function invert(scenarios) {
   return Object.fromEntries(Object.entries(files).sort(([a], [b]) => a.localeCompare(b)));
 }
 
+/**
+ * Find the .map on disk for a V8 entry and hand it to monocart directly.
+ *
+ * Without this the JS half degrades to bundle urls. Run 31685173331 had `public/dist/*.map` present
+ * (the job logs "source maps available: 2") and still resolved nothing, because the association
+ * cannot be made from what the dump carries:
+ *
+ *     url    = http://httpd/dist/vendor.min.js?eb0a191797624dd3a48fa681d3061212
+ *     source = 13.7 MB, ending in `//# sourceMappingURL=vendor.min.js.map`
+ *
+ * That sourceMappingURL is relative to an http origin. Resolving it yields
+ * `http://httpd/dist/vendor.min.js.map`, which is not a path monocart can read -- the httpd
+ * container is not even running by then. So the entry keeps its bundle url and every scenario
+ * "covers" main.min.js, which is true of all of them and answers nothing.
+ *
+ * Mapping the url's pathname onto public/ is what closes the gap: /dist/vendor.min.js becomes
+ * <repo>/public/dist/vendor.min.js.map. Note the query string is cache-busting and must be dropped
+ * -- `new URL().pathname` does that -- and that `?eb0a…` is also why the sanitised paths in the
+ * broken artifact looked like `main.min.js-eb0a…`.
+ *
+ * `entry.sourceMap` is a documented, mutable property of the onEntry hook.
+ */
+function attachSourceMap(entry) {
+  if (!entry || entry.sourceMap || typeof entry.source !== 'string') return;
+
+  const match = /[#@]\s*sourceMappingURL=([^\s'"]+)/.exec(entry.source.slice(-2048));
+  if (!match) return;
+
+  let pathname;
+  try {
+    pathname = new URL(entry.url).pathname;
+  } catch {
+    return; // not an absolute url; nothing to anchor the lookup on
+  }
+
+  const mapFile = path.join(REPO_ROOT, 'public', path.dirname(pathname), match[1]);
+  if (!fs.existsSync(mapFile)) {
+    console.warn(`[inventory] WARNING: no source map at ${mapFile} for ${entry.url}`);
+    return;
+  }
+
+  try {
+    entry.sourceMap = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
+  } catch (e) {
+    console.warn(`[inventory] WARNING: unreadable source map ${mapFile}: ${e.message}`);
+  }
+}
+
 /** Run one per-test V8 dump through monocart and return {file: [lines]} for covered lines. */
 async function jsCoverageForDump(dumpFile) {
   const MCR = require('monocart-coverage-reports');
@@ -181,6 +229,7 @@ async function jsCoverageForDump(dumpFile) {
     ...buildOptions(),
     outputDir: path.join(REPO_ROOT, 'var/tmp/mcr-inventory', path.basename(dumpFile, '.json')),
     reports: ['none'],
+    onEntry: async entry => attachSourceMap(entry),
   });
 
   await mcr.add(JSON.parse(fs.readFileSync(dumpFile, 'utf8')));
@@ -260,4 +309,4 @@ if (require.main === module) {
   main().catch(e => console.warn(`[inventory] fatal (ignored): ${e.message}`));
 }
 
-module.exports = {join, toFileLevel, splitSubstrate, invert, jsCoverageForDump, sanitise, OUT_DIR};
+module.exports = {join, toFileLevel, splitSubstrate, invert, attachSourceMap, jsCoverageForDump, sanitise, OUT_DIR};

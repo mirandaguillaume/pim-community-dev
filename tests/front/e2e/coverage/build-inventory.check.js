@@ -3,7 +3,10 @@
  * Run: node tests/front/e2e/coverage/build-inventory.check.js
  */
 const assert = require('assert');
-const {join, toFileLevel, splitSubstrate, invert, sanitise} = require('./build-inventory');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const {join, toFileLevel, splitSubstrate, invert, attachSourceMap, sanitise} = require('./build-inventory');
 
 const php = {
   'a.feature:1': {'src/A.php': [3, 5]},
@@ -103,6 +106,57 @@ assert.deepStrictEqual(joined['tests/legacy/features/foo.feature:23'].js, {'src/
     warnings.some(w => /both sanitise/.test(w) && w.includes('a/b.feature:1') && w.includes('a-b.feature:1')),
     'a sanitise collision is warned, not silently dropped'
   );
+}
+
+// attachSourceMap() is what stops the JS half degrading to bundle urls. The dump's sourceMappingURL
+// is relative to an http origin, so it resolves to http://httpd/dist/vendor.min.js.map -- not
+// something monocart can read. The url's PATHNAME is what maps onto public/, and the cache-busting
+// query must be dropped along the way.
+{
+  const root = path.resolve(__dirname, '../../../..');
+  const dir = path.join(root, 'public', 'dist');
+  const mapFile = path.join(dir, 'probe-check.js.map');
+  const existed = fs.existsSync(dir);
+  fs.mkdirSync(dir, {recursive: true});
+  fs.writeFileSync(mapFile, JSON.stringify({version: 3, sources: ['src/probe.ts'], mappings: ''}));
+
+  try {
+    const entry = {
+      url: 'http://httpd/dist/probe-check.js?eb0a191797624dd3a48fa681d3061212',
+      source: 'console.log(1)\n//# sourceMappingURL=probe-check.js.map\n',
+    };
+    attachSourceMap(entry);
+    assert.ok(entry.sourceMap, 'the map is found despite the cache-busting query string');
+    assert.deepStrictEqual(entry.sourceMap.sources, ['src/probe.ts']);
+
+    // An entry that already carries one is left alone, and a missing map warns without throwing.
+    const already = {url: entry.url, source: entry.source, sourceMap: {version: 3, sources: ['kept']}};
+    attachSourceMap(already);
+    assert.deepStrictEqual(already.sourceMap.sources, ['kept'], 'an existing sourceMap is not overwritten');
+
+    const warnings = [];
+    const realWarn = console.warn;
+    console.warn = m => warnings.push(m);
+    try {
+      const missing = {url: 'http://httpd/dist/nope.js', source: '//# sourceMappingURL=nope.js.map'};
+      attachSourceMap(missing);
+      assert.strictEqual(missing.sourceMap, undefined, 'a missing map leaves the entry untouched');
+    } finally {
+      console.warn = realWarn;
+    }
+    assert.ok(
+      warnings.some(w => /no source map at/.test(w)),
+      'a missing map warns -- silence here is what shipped bundle urls as coverage'
+    );
+
+    // No url to anchor the lookup: must not throw.
+    const anon = {url: '', source: '//# sourceMappingURL=x.map'};
+    attachSourceMap(anon);
+    assert.strictEqual(anon.sourceMap, undefined);
+  } finally {
+    fs.unlinkSync(mapFile);
+    if (!existed) fs.rmSync(dir, {recursive: true, force: true});
+  }
 }
 
 console.log('build-inventory checks passed');
