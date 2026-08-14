@@ -406,8 +406,15 @@ jobs:
             // The first version of this predicate listed src/, front-packages/, components/ and
             // frontend/ -- and then rejected a perfectly good artifact in run 31787809417, because
             // monocart resolves the legacy Backbone front to `pim-community-dev/public/bundles/...`
-            // (the source paths as the maps carry them, matching e2e-coverage-report.js's own
-            // sourceFilter, which keeps `**/public/bundles/**` alongside `**/src/**`). Guessing at
+            // (the source paths as the maps carry them, matching the sourceFilter in
+            // e2e-coverage-report.js, which keeps `**/public/bundles/**` alongside `**/src/**`).
+            //
+            // NO APOSTROPHES anywhere in this block: the whole script is a single-quoted shell
+            // argument to `node -e`, so one closes the string and the rest is parsed as shell.
+            // Run 31803491878 died exactly there, on a possessive apostrophe in a comment naming
+            // that same file, with `syntax error near unexpected token )` -- after ten shards had
+            // already run. The comment written to explain the bug then reintroduced it, which is
+            // why the check is now mechanical rather than a matter of remembering. Guessing at
             // path prefixes means the gate fails whenever the build emits a shape nobody predicted.
             //
             // What actually distinguishes coverage from noise is the file itself: a source has a
