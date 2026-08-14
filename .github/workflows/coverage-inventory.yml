@@ -401,7 +401,19 @@ jobs:
             //
             // So require the JS half to name repository sources, and say which of the two failure
             // modes happened rather than collapsing them into one message.
-            const isSource = f => /^(src|front-packages|components|frontend)\//.test(f);
+            //
+            // Defined by REJECTING the known-bad shape rather than allow-listing directory prefixes.
+            // The first version of this predicate listed src/, front-packages/, components/ and
+            // frontend/ -- and then rejected a perfectly good artifact in run 31787809417, because
+            // monocart resolves the legacy Backbone front to `pim-community-dev/public/bundles/...`
+            // (the source paths as the maps carry them, matching e2e-coverage-report.js's own
+            // sourceFilter, which keeps `**/public/bundles/**` alongside `**/src/**`). Guessing at
+            // path prefixes means the gate fails whenever the build emits a shape nobody predicted.
+            //
+            // What actually distinguishes coverage from noise is the file itself: a source has a
+            // source extension and is not a minified bundle. That covers both observed failures --
+            // `dist/main.min.js` (minified) and `/user/login` (an html page, no extension).
+            const isSource = f => /\.(ts|tsx|jsx|js)$/.test(f) && !/\.min\.js$/.test(f);
             const mapped = tests.filter(t => sideOf(t, "js").some(isSource));
             const jsFiles = new Set(tests.flatMap(t => sideOf(t, "js")));
 
