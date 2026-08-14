@@ -43,6 +43,8 @@ This spec deliberately covers **two subsystems** — server-side PHP collection 
 1. **PHP collection moves from a Symfony subscriber to `auto_prepend_file`.** This is what makes Playwright PHP coverage possible at all — see below. `auto_prepend_file` is `PHP_INI_PERDIR`, so `docker/php-coverage.d/pcov-on.ini` can install it alongside `pcov.enabled=1`: one ini file turns on both the driver and the collector.
 2. **Per-test attribution via a marker file**, not a cookie. Behat writes the current scenario id in `@BeforeScenario`; Playwright writes it in a fixture; the PHP shim reads it and stamps each dump record.
 3. **Behat JS via Selenium CDP**, not an instrumented bundle. Verified reachable (below), and it reuses the existing monocart pipeline untouched — no second build artifact, no SWC/Babel instrumentation, no `window.__coverage__` flushing across Backbone page loads.
+
+   *Correction, measured later:* that last clause oversells the route. CDP removes the need to **flush** `window.__coverage__` before a page load, but not the **loss** — V8 precise coverage is per-document, so a navigation discards the previous document's data just the same. See the corresponding entry under Risks. The rest of the rationale holds, and "reuses the monocart pipeline untouched" turned out to need one addition of its own: the map has to be attached explicitly, because the dumps' `sourceMappingURL` points at an http origin that is gone by the time the inventory is built.
 4. **The `nightly` Behat suite**, because it includes `@critical` and `@optional` — the inventory must cover everything that needs migrating, not just what PRs run.
 5. **Output committed to the repo** as JSON, so successive runs diff and migration progress is visible in history.
 6. **Dedicated `workflow_dispatch` workflow.** Not attached to the nightly, which keeps the overhead question permanently out of scope and leaves the `e2e-behat` Codecov flag decision independent of this work.
@@ -105,8 +107,17 @@ The fix — flush the accumulated coverage and restart PCOV per scenario from `C
 
 Two views under `docs/coverage-inventory/`, committed:
 
-- `scenarios.json` — `{"<suite>:<feature>:<line>": {"php": {"<file>": [lines]}, "js": {"<file>": [lines]}}}`
+- `scenarios.json` — `{"<feature>:<line>": {"php": ["<file>", …], "js": ["<file>", …]}}`
 - `files.json` — the inverse, `{"<file>": ["<scenario>", …]}`
+- `substrate.json` — the files excluded from both, with the number of scenarios that touched each
+
+Two corrections to what this section originally specified, both forced by measurement rather than
+preference (see Risks):
+
+- **File lists, not line maps.** The line-level shape cannot be serialised at this scale.
+- **No suite prefix.** Ids are `<feature>:<line>` as `CoverageMarkerContext` emits them. Harmless
+  while one suite runs, but ids are not globally unique across suites that share a features
+  directory.
 
 `files.json` is the one that answers the migration question directly: when a file's last remaining Behat scenario has moved to Playwright, that file's coverage is safe to consider migrated.
 
@@ -127,6 +138,12 @@ Unchanged in spirit from the existing design, and it all still applies:
 - **The CDP helper needs a live browser**, so it gets a focused check against a running Selenium rather than a unit test, plus an assertion in the workflow that the dump count is non-zero.
 - **Acceptance:** one `workflow_dispatch` run producing non-empty `scenarios.json` with both `php` and `js` populated for at least one scenario, and a plausible file count (Gate 1 measured 2,516 PHP files suite-wide — per-scenario should be far smaller).
 
+  **Both halves of that criterion turned out to be wrong, and the second one shipped a bad artifact.**
+
+  *Per-scenario counts are not far smaller.* Measured: a median of **1,940 files per scenario** against 2,965 suite-wide. Every Behat scenario drives a full HTTP stack, so kernel boot, security, ORM and serialisation appear in all of them — 1,701 files (57%) are touched by 90% or more of the scenarios. That common substrate is now split into `substrate.json` and excluded from the two main views; without that the artifact is both enormous and uninformative, since a file listing 600 scenarios says nothing about which test protects it.
+
+  *"Both populated" is too weak a gate.* Run 31374441296 satisfied it — 618 scenarios, 334 with both halves — while the entire JS side was three entries: `dist/main.min.js`, `dist/vendor.min.js` and `/user/login`. Minified bundle urls, because `commit-inventory` had no `public/dist/*.map` on disk. Non-empty is not the same as meaningful. The gate now also requires the JS half to name paths under `src/`, `front-packages/`, `components/` or `frontend/`.
+
 ## Non-goals
 
 - Any nightly Codecov figure. The `e2e-behat` flag stays off; that decision is independent.
@@ -138,5 +155,16 @@ Unchanged in spirit from the existing design, and it all still applies:
 
 - **The shim runs on every request in the coverage image, outside the framework.** A fault there is far more dangerous than a subscriber fault — it precedes error handling. Mitigation: the entire body inside `try/catch (\Throwable)`, no autoloader dependency beyond an explicit `require`, and a smoke check that the app still serves a page with the shim installed before trusting any run.
 - **CDP coverage granularity across page loads.** `Profiler.takePreciseCoverage` returns data for currently-loaded scripts; a Backbone full page load may reset it. Needs measuring during implementation — if per-scenario JS turns out to capture only the last page, fall back to taking coverage per navigation rather than per scenario.
+
+  **Measured against a live browser: the loss is real, and this spec's framing of it above was wrong.** Load page 1, run code, navigate to page 2, take once — page 1's coverage is *silently gone*, not reset-and-recollectable. The claim earlier in this document that the CDP route avoids "`window.__coverage__` flushing across Backbone full page loads" is misleading: CDP avoids the *flushing* problem, not the *loss*. A scenario spanning several full page loads reports only its last document.
+
+  In practice this bites less than the bench suggested — real scenarios last tens of seconds, so the sidecar's 500ms marker poll normally takes coverage well before the next navigation, and run 31107185339 produced 49 dumps for 53 scenarios with no two byte-identical. But it is a ceiling on what the JS half can mean, and the per-navigation fallback is still unimplemented.
+
+  One measured correction that made the difference: `startPreciseCoverage` must use `callCount: true`. In binary mode each script is reportable exactly once per document, so the *second* scenario to touch already-loaded code gets an empty dump and reads as "exercised no JS".
+
 - **Committed JSON churn.** Per-line data for thousands of files could make large diffs. If it proves unwieldy, reduce `scenarios.json` to file-level granularity and keep line detail in the CI artifact only.
+
+  **Not a nuisance — a hard wall, and file-level alone was not enough either.** `JSON.stringify` on the line-level structure throws `Invalid string length`: one shard held 52 tests, 98,905 file entries and 419,281 line numbers in 16.9 MB, so 612 scenarios come to ~199 MB unindented and roughly double that indented, against V8's ~512 MB ceiling. File-level still produced 109 MB (1,187,960 paths). Only excluding the common substrate brought it to a measured 27.9 MB.
+
+- **The JS half needs the front build on disk in `commit-inventory`, and needs the map handed to it.** The dumps carry `{scriptId, url, functions, source}` and no `sourceMap`, and their `sourceMappingURL` is relative to an http origin that no longer exists by then. Restoring `public/dist/*.map` is necessary but not sufficient: the url's pathname has to be mapped onto `public/` explicitly, in monocart's `onEntry` hook. Both were discovered by shipping artifacts that looked complete.
 - **Deleting `BehatCoverageSubscriber` removes the only currently-working PHP path.** Implement and verify the shim before deleting the subscriber, not alongside.

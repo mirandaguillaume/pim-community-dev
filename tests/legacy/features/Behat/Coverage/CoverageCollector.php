@@ -18,7 +18,7 @@ namespace Pim\Behat\Coverage;
  * Every fpm worker writes its own <pid>.dump, so records never interleave between processes, and
  * requests within a worker are sequential -- appends need no locking.
  */
-final class CoverageCollector implements CoverageCollectorInterface
+final class CoverageCollector
 {
     /**
      * Returns a raw PCOV map, array<string $file, array<int $line, int $hits>>.
