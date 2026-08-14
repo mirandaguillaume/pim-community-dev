@@ -227,7 +227,16 @@ async function jsCoverageForDump(dumpFile) {
   // scenarios instead of reporting each one in isolation.
   const mcr = MCR({
     ...buildOptions(),
-    outputDir: path.join(REPO_ROOT, 'var/tmp/mcr-inventory', path.basename(dumpFile, '.json')),
+    // Qualified by the dump's PARENT directory as well as its name. listDumps() recurses, and the
+    // dumps live one level down per shard (coverage-v8/behat-3/<id>.json), so two shards holding a
+    // same-named dump would otherwise share a staging directory -- reintroducing exactly the
+    // cross-dump accumulation the per-dump outputDir exists to prevent. Scenario ids are unique
+    // suite-wide so this cannot happen today; it costs one path segment to keep it that way.
+    outputDir: path.join(
+      REPO_ROOT,
+      'var/tmp/mcr-inventory',
+      `${path.basename(path.dirname(dumpFile))}--${path.basename(dumpFile, '.json')}`
+    ),
     reports: ['none'],
     onEntry: async entry => attachSourceMap(entry),
   });
@@ -270,6 +279,14 @@ async function main() {
 
   for (const dumpFile of dumps) {
     const testId = path.basename(dumpFile, '.json');
+    // The key is the filename alone because that is the join key -- it must equal the sanitised
+    // scenario id, so it cannot be shard-qualified the way the staging directory above is. Which
+    // means two shards holding a same-named dump would silently overwrite here. Scenario ids are
+    // unique suite-wide, so this is a canary rather than a live hazard; but a silent overwrite is
+    // one scenario's JS coverage disappearing with nothing to show for it.
+    if (js[testId] !== undefined) {
+      console.warn(`[inventory] WARNING: two dumps map to the test id "${testId}"; keeping the last (${dumpFile})`);
+    }
     try {
       js[testId] = await jsCoverageForDump(dumpFile);
     } catch (e) {
