@@ -2478,6 +2478,7 @@ jobs:
 
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
+            -e XDEBUG_MODE=coverage \
             php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
               --configuration=infection-dynamic.json \
               --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1" \
