@@ -49,6 +49,7 @@ const PAGE_ROUTES: Record<string, string> = {
 
   // Channels
   channels: '#/configuration/channel/',
+  'channel creation': '#/configuration/channel/create',
 
   // Locales
   locales: '#/configuration/locale/',
