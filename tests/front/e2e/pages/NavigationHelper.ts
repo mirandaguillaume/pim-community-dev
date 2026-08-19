@@ -75,7 +75,7 @@ const PAGE_ROUTES: Record<string, string> = {
 
   // Connections
   connections: '#/connect/connection-settings/',
-  'connection creation': '#/connections/create',
+  'connection creation': '#/connect/connection-settings/create',
 };
 
 export class NavigationHelper {

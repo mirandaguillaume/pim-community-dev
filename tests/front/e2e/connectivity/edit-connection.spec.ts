@@ -22,8 +22,10 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *       path = '#/connect/connection-settings/'
  *       'Data source connections list' => '[data-testid="data_source"]'
  *   - src/Akeneo/Connectivity/Connection/tests/Context/Page/Connections/Create.php:
- *       path = '#/connections/create'
- *       'Creation form' => '[data-testid="create-connection"]'
+ *       path = '#/connections/create' — STALE: this no longer matches the app. The real
+ *       route, confirmed against the current React Router config
+ *       (front/src/settings/pages/Index.tsx), is '#/connect/connection-settings/create'.
+ *       'Creation form' => '[data-testid="create-connection"]' — this one is still accurate.
  *   - src/Akeneo/Connectivity/Connection/tests/Decorator/Settings/CreationForm.php:
  *       setLabel(): input[name="label"]
  *       setFlowType(): Select2 v3 widget scoped to '.select2-container.flowType'
@@ -66,7 +68,8 @@ test.describe('@critical Connectivity connection settings', () => {
     const label = `pw_connection_${Date.now()}`;
     const newLabel = `${label}_edited`;
 
-    // Create the connection through the UI (Create.php path = '#/connections/create').
+    // Create the connection through the UI ('#/connect/connection-settings/create' —
+    // see the file header note on Create.php's stale $path).
     await nav.goTo('connection creation');
     const creationForm = page.locator('[data-testid="create-connection"]');
     await expect(creationForm).toBeVisible({timeout: 15_000});
