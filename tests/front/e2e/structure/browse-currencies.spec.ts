@@ -9,20 +9,28 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  * The Behat scenario also drives the "activated" grid filter (operator "equals", value "yes")
  * and asserts an exact 3-currency count (GBP + USD + EUR). The filter itself is the same
  * generic datagrid boolean filter exercised by many other grid specs in this suite (not
- * specific to currencies), and the exact active-currency count is fixture-dependent (which
- * currencies ship pre-activated varies by catalog). This spec instead verifies the essential,
- * currency-specific behavior directly: toggling a currency's status in the grid actually
- * flips its `activated` flag, checked via the internal REST API rather than the filter UI.
+ * specific to currencies), and the exact active-currency count is fixture-dependent. This spec
+ * instead verifies the essential, currency-specific behavior directly: toggling a currency's
+ * status in the grid actually flips its displayed state.
+ *
+ * GET /configuration/currency/rest (CurrencyController::indexAction()) was considered as a way
+ * to discover a currently-inactive currency to toggle, but it only returns
+ * `getActivatedCurrencies()` — i.e. exclusively ALREADY-active ones (confirmed live in CI: a
+ * catalog with just EUR/USD activated returned only those two, with no way to tell an inactive
+ * one from it). So instead of picking a *specific* currency by state, this test reads whichever
+ * state the grid's FIRST row currently shows and asserts the toggle flips it to the opposite —
+ * agnostic to which state that row started in.
  *
  * Selectors traced from:
  * - "I activate the "GBP" currency": WebUser.php::iToggleTheCurrencies() ->
  *   Grid.php::clickOnAction($currency, 'Change status') -> Grid.php::getRow($value):
  *   the <tr> containing a <td> with that text, then within it
  *   '.AknButtonList-item[title="Change status"]'.
- * - Currency data: GET /configuration/currency/rest (Channel/back/.../routing/internal_api/currency.yml,
- *   prefix /configuration/currency) — used both to pick a currently-inactive currency to toggle
- *   (GBP ships inactive by default, but we don't hardcode that assumption) and to verify the
- *   flip afterwards.
+ * - The "Enabled"/"Disabled" badge: datagrid/currency.yml's `activated` column ->
+ *   Oro/Bundle/PimDataGridBundle/Resources/views/Property/activated.html.twig:
+ *   `<span class="AknBadge AknBadge--{{ value ? 'success' : 'important' }}">
+ *   {{ value ? 'Enabled' : 'Disabled' }}</span>` — plain text, no need to parse the datagrid's
+ *   JSON response shape at all.
  */
 
 test.describe('Browse currencies', () => {
@@ -30,31 +38,21 @@ test.describe('Browse currencies', () => {
     await login(page, 'admin', 'admin');
   });
 
-  test('can activate an inactive currency from the grid', async ({page}) => {
-    const listResp = await page.request.get('/configuration/currency/rest');
-    expect(listResp.ok(), `List currencies failed: ${listResp.status()}`).toBeTruthy();
-    const currencies = await listResp.json();
-    const list: any[] = Array.isArray(currencies) ? currencies : Object.values(currencies);
-
-    const inactive = list.find(c => c.activated === false);
-    expect(inactive, `expected at least one inactive currency, got: ${JSON.stringify(list)}`).toBeTruthy();
-    const currencyCode: string = inactive.code;
-
+  test('can toggle a currency status from the grid', async ({page}) => {
     const nav = new NavigationHelper(page);
     await nav.goTo('currencies');
 
-    const row = page.getByRole('row').filter({hasText: currencyCode});
+    const row = page
+      .getByRole('row')
+      .filter({has: page.getByRole('cell')})
+      .first();
     await expect(row).toBeVisible({timeout: 30_000});
+
+    const wasEnabled = await row.getByText('Enabled', {exact: true}).isVisible();
+    const otherState = wasEnabled ? 'Disabled' : 'Enabled';
 
     await row.locator('[title="Change status"]').click();
 
-    // Verify the flip via the API rather than re-reading the grid's toggle widget state.
-    await expect(async () => {
-      const resp = await page.request.get('/configuration/currency/rest');
-      const updated = await resp.json();
-      const updatedList: any[] = Array.isArray(updated) ? updated : Object.values(updated);
-      const currency = updatedList.find(c => c.code === currencyCode);
-      expect(currency?.activated).toBe(true);
-    }).toPass({timeout: 15_000});
+    await expect(row.getByText(otherState, {exact: true})).toBeVisible({timeout: 15_000});
   });
 });
