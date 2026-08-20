@@ -122,6 +122,7 @@ export class NavigationHelper {
       'category tree': `#/enrich/product-category-tree/${identifier}/tree`,
       'category edit': `#/enrich/product-category-tree/${identifier}/edit`,
       product: `#/enrich/product/${identifier}`,
+      'product model': `#/enrich/product-model/${identifier}`,
       'product group': `#/enrich/group/${identifier}/edit`,
       'export edit': `#/spread/export/${identifier}/edit`,
       'import edit': `#/collect/import/${identifier}/edit`,

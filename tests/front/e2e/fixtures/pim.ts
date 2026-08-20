@@ -478,6 +478,32 @@ export async function createAttributeGroupViaApi(page: Page, code: string) {
 }
 
 /**
+ * Return the code of any existing family variant in the catalog (every catalog install ships
+ * with at least one, e.g. via the family-variant fixture that pairs with the default family).
+ */
+export async function getFirstFamilyVariantCode(page: Page): Promise<string | null> {
+  const resp = await page.request.get('/configuration/rest/family-variant', {headers: XHR_HEADER});
+  if (!resp.ok()) return null;
+  const familyVariants = await resp.json();
+  const codes = Object.keys(familyVariants);
+  return codes[0] ?? null;
+}
+
+/**
+ * Create a product model via the internal REST API — same endpoint and minimal payload
+ * (code + family_variant) the "Create product model" popin itself POSTs
+ * (create.yml excludedProperties: [family] — family is inferred server-side from the
+ * family variant). Returns the raw response; the created product model's numeric id is at
+ * `(await response.json()).meta.id`.
+ */
+export async function createProductModelViaApi(page: Page, code: string, familyVariantCode: string) {
+  return page.request.post('/enrich/product-model/rest/create', {
+    data: {code, family_variant: familyVariantCode},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
  * Launch the "delete_attribute_groups" bulk job via the internal REST API
  * (MassDeleteAttributeGroupsController::__invoke(), POST /rest/attribute-group/mass-delete).
  * Unlike launchImportViaApi/launchExportViaApi, this reads params via Symfony's plain
