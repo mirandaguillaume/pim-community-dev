@@ -652,6 +652,24 @@ export async function launchImportViaApi(
 }
 
 /**
+ * Launch an export job via the internal REST API. Same endpoint family and
+ * response shape as launchImportViaApi (both actions share
+ * JobInstanceController::launchAction()), but exports take no uploaded file,
+ * so no multipart body is sent. Returns the job execution ID.
+ */
+export async function launchExportViaApi(page: Page, jobCode: string): Promise<string> {
+  const response = await page.request.post(`/job-instance/rest/export/${jobCode}/launch`, {
+    headers: XHR_HEADER,
+  });
+
+  expect(response.ok(), `Launch export ${jobCode} failed: ${response.status()}`).toBeTruthy();
+  const body = await response.json();
+  const match = body.redirectUrl?.match(/\/job\/show\/(\d+)/);
+  expect(match, `No job execution ID in response: ${JSON.stringify(body)}`).toBeTruthy();
+  return match![1];
+}
+
+/**
  * Poll a job execution via the internal REST API until it finishes.
  * Returns the full job execution data including step summaries.
  */
