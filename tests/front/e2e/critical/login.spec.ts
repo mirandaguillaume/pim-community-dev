@@ -14,6 +14,11 @@ import {LoginPage} from '../pages/LoginPage';
  *   (Context/Page/Element/CompletenessWidget.php `$selector = ['css' => '#completeness-widget']`),
  *   which only renders on `#/` — a plain "app chrome loaded" check (e.g. the main nav) would
  *   pass on any authenticated page, not specifically the dashboard.
+ *
+ * No URL assertion: straight after login (not an explicit hash navigation), the app lands on
+ * the bare origin ("http://host:port/", confirmed live in CI) with no "#/" ever written to the
+ * URL bar — the SPA router treats "no hash" and "#/" as equivalent without rewriting the URL.
+ * The completeness widget is the reliable, dashboard-specific signal instead.
  */
 
 test.describe('@critical Login', () => {
@@ -22,7 +27,6 @@ test.describe('@critical Login', () => {
     await loginPage.login('admin', 'admin');
 
     // Then I am on the dashboard page.
-    await expect(page).toHaveURL(/#\/?$/, {timeout: 15_000});
     await expect(page.locator('#completeness-widget')).toBeVisible({timeout: 15_000});
   });
 });
