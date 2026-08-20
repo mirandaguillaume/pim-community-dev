@@ -55,9 +55,14 @@ test.describe('Remove a product model', () => {
     await expect(page.getByText(code).first()).toBeVisible({timeout: 15_000});
 
     // I press the secondary action "Delete"
+    // The dropdown is React (front-packages/shared/src/components/SecondaryActions.tsx, a DSM
+    // Dropdown), rendered into a portal with id "dropdown-root"
+    // (akeneo-design-system/.../Dropdown/Overlay/Overlay.tsx). Its items
+    // (akeneo-design-system/.../Dropdown/Item/Item.tsx) are plain <div>s with no ARIA role, so
+    // getByRole('menuitem') never matches — match by text within the portal instead.
     const secondaryActions = page.locator('.secondary-actions, button[title="Other actions"]').first();
     await secondaryActions.click();
-    await page.getByRole('menuitem', {name: 'Delete'}).click();
+    await page.locator('#dropdown-root').getByText('Delete', {exact: true}).click();
 
     // Then I should see the text "Confirm deletion" / When I confirm the removal
     const confirmDialog = page.locator('div.modal, div[role="dialog"]');
