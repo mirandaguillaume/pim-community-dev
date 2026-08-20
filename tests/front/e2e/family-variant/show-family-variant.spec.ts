@@ -16,8 +16,11 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  * Selectors traced from:
  * - "I am on the "<family>" family page": NavigationHelper.goToEntityPage('family', code) ->
  *   #/configuration/family/{code}/edit (pre-existing route).
- * - "I visit the "Variants" tab": same generic '.column-navigation-link' tab pattern already
- *   used in product/classify-product.spec.ts for the "Categories" tab.
+ * - "I visit the "Variants" tab": the family edit form uses a DIFFERENT tab widget than the
+ *   product edit form's '.column-navigation-link' — form_extensions/family/edit.yml wires the
+ *   Variants tab through `pim/form/common/form-tabs` (module js/form/common/form-tabs.js),
+ *   whose template (templates/form/form-tabs.html) renders `.AknHorizontalNavtab-link` tab
+ *   links, same class as export/edit-export.spec.ts's "Global settings"/"Content" tabs.
  * - "I click on the "<label>" row": DataGridContext.php::iClickOnTheRow() ->
  *   Datagrid::getRow($value) — the <tr> containing that visible text.
  * - The remaining assertions ("Size (Variant axis)", "Variation name", "Variant attributes
@@ -48,7 +51,7 @@ test.describe('Show a family variant', () => {
     await nav.goToEntityPage('family', familyCode);
 
     // I visit the "Variants" tab
-    await page.locator('.column-navigation-link').filter({hasText: 'Variants'}).click();
+    await page.locator('.AknHorizontalNavtab-link').filter({hasText: 'Variants'}).click();
     await nav.waitForPageReady();
 
     // I click on the "<label>" row
