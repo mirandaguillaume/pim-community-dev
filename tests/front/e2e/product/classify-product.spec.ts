@@ -93,8 +93,12 @@ test.describe('Classify a product', () => {
 
     // Select both disposable categories (TreeDecorator.php::select(): click the node's
     // div[role=checkbox] while aria-checked=false).
+    // getByRole('treeitem', {name}) matches the ARIA accessible name (this node's own label),
+    // NOT .filter({hasText}) — tree nodes nest in the DOM (a category's <li role="treeitem"> is
+    // inside its parent's), so hasText subtree-searches and also matches every ancestor up to
+    // the root ("Master catalog"), which strict-mode-violates.
     for (const label of [labelA, labelB]) {
-      const node = categoryTree.getByRole('treeitem').filter({hasText: label});
+      const node = categoryTree.getByRole('treeitem', {name: label, exact: true});
       await expect(node).toBeVisible({timeout: 15_000});
       const checkbox = node.getByRole('checkbox');
       if ((await checkbox.getAttribute('aria-checked')) === 'false') {
