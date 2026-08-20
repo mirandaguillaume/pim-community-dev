@@ -427,6 +427,32 @@ export async function deleteProductViaApi(page: Page, productId: string) {
   await page.request.delete(`/enrich/product/rest/${productId}`);
 }
 
+/**
+ * Create an attribute group via the internal REST API (PUT /rest/attribute-group/,
+ * AttributeGroupController::createAction()).
+ */
+export async function createAttributeGroupViaApi(page: Page, code: string) {
+  return page.request.put('/rest/attribute-group/', {
+    data: {code},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
+ * Launch the "delete_attribute_groups" bulk job via the internal REST API
+ * (MassDeleteAttributeGroupsController::__invoke(), POST /rest/attribute-group/mass-delete).
+ * Unlike launchImportViaApi/launchExportViaApi, this reads params via Symfony's plain
+ * Request::get() rather than a JSON body, so it's sent form-encoded, with PHP-style
+ * `codes[]=...` array keys.
+ */
+export async function launchMassDeleteAttributeGroupsViaApi(page: Page, codes: string[]) {
+  const body = codes.map(code => `codes%5B%5D=${encodeURIComponent(code)}`).join('&');
+  return page.request.post('/rest/attribute-group/mass-delete', {
+    data: body,
+    headers: {'Content-Type': 'application/x-www-form-urlencoded', ...XHR_HEADER},
+  });
+}
+
 export async function createAttributeViaApi(
   page: Page,
   data: {
