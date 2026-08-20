@@ -79,9 +79,12 @@ test.describe('@critical Channel creation', () => {
     // tree fields.
     const codeField = page.locator('input[name="code"]').or(page.getByLabel('Code'));
     await expect(codeField.first()).toBeVisible({timeout: 15_000});
-    await expect(page.getByText('Category tree')).toBeVisible();
-    await expect(page.getByText('Currencies')).toBeVisible();
-    await expect(page.getByText('Locales')).toBeVisible();
+    // Scoped to '.AknFieldContainer-label' (templates/create/tab/properties/general.html /
+    // field.html): the main navigation sidebar also has "Currencies" and "Locales" menu items,
+    // and a plain page.getByText() strict-mode-violates by matching both.
+    await expect(page.locator('.AknFieldContainer-label').filter({hasText: 'Category tree'})).toBeVisible();
+    await expect(page.locator('.AknFieldContainer-label').filter({hasText: 'Currencies'})).toBeVisible();
+    await expect(page.locator('.AknFieldContainer-label').filter({hasText: 'Locales'})).toBeVisible();
 
     // And I should not see the "History" tab — the History tab only appears once an entity
     // exists (channels don't have history before being created).
