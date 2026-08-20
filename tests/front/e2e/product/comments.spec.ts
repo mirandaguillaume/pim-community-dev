@@ -12,7 +12,11 @@ import {login, createProductViaApi, goToProductBySearch, waitForLoadingMasks} fr
  *   (same pattern as product/classify-product.spec.ts's "Categories" tab).
  * - Comments container: Product/Edit.php `'Comment threads' => '.comment-threads'`.
  * - "I add a new comment "<message>"": Edit.php::createComment() -> within '.comment-threads',
- *   'li.comment-create textarea', then press the "Add a new comment" button.
+ *   'li.comment-create textarea', then press the "Add a new comment" button. The Post/Cancel
+ *   buttons start hidden (templates/product/comments.html: '.AknButtonList--hide') and are only
+ *   revealed by comments.js's `'keyup .comment-create textarea, ...': 'toggleButtons'` handler —
+ *   a real keyboard event, which Locator.fill() does not dispatch (it sets the value directly).
+ *   pressSequentially() is used instead so keyup actually fires.
  * - "I delete the "<message>" comment": Edit.php::deleteComment() -> the comment node's
  *   'span.remove-comment'.
  * - "I should see the text "Confirm deletion"" / "I confirm the removal": the standard confirm
@@ -45,8 +49,9 @@ test.describe('Product comments', () => {
 
     // I add a new comment "<message>"
     const message = `My comment ${Date.now()}`;
-    await commentThreads.locator('li.comment-create textarea').click();
-    await commentThreads.locator('li.comment-create textarea').fill(message);
+    const commentTextarea = commentThreads.locator('li.comment-create textarea');
+    await commentTextarea.click();
+    await commentTextarea.pressSequentially(message);
     await commentThreads.getByRole('button', {name: 'Add a new comment'}).click();
 
     await expect(commentThreads.getByText('No comment for now')).not.toBeVisible({timeout: 15_000});
