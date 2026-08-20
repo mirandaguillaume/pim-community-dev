@@ -101,7 +101,11 @@ test.describe('@critical Channel creation', () => {
     await selectViaSelect2(page, 'pim_enrich_channel_form_currencies', 'EUR');
 
     // Locales: 'multiSelect2', id pim_enrich_channel_form_locales. en_US ships by default.
-    await selectViaSelect2(page, 'pim_enrich_channel_form_locales', 'en_US');
+    // Unlike currencies.html (option text = currency.code), locales.html renders
+    // '<option value="<%- locale.code %>"><%- locale.label %></option>' — the option TEXT is
+    // the locale's LABEL, not its code, so the dropdown must be matched by "English (United
+    // States)", not "en_US".
+    await selectViaSelect2(page, 'pim_enrich_channel_form_locales', 'English (United States)');
 
     // English (United States): the translatable label field for the locale just activated.
     const englishLabelField = page.locator('input[name="labels-en_US"]').or(page.getByLabel('English (United States)'));
