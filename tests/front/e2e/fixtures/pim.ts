@@ -427,6 +427,60 @@ export async function deleteProductViaApi(page: Page, productId: string) {
   await page.request.delete(`/enrich/product/rest/${productId}`);
 }
 
+/**
+ * Return the code of the first root category tree in the catalog (e.g. "master"/"default"
+ * for "Master catalog"). Every catalog install ships with at least one.
+ */
+export async function getFirstRootCategoryCode(page: Page): Promise<string | null> {
+  const resp = await page.request.get('/enrich/category/rest', {headers: XHR_HEADER});
+  if (!resp.ok()) return null;
+  const categories = await resp.json();
+  const list = Array.isArray(categories) ? categories : Object.values(categories);
+  return (list[0] as any)?.code ?? null;
+}
+
+/**
+ * Create a category via the internal REST API used by the category management React app
+ * (src/Akeneo/Category/front/src/feature/infrastructure/savers/createCategory.ts). Passing
+ * a `parent` code creates a sub-category under it; omitting it creates a new root tree.
+ */
+export async function createCategoryViaApi(page: Page, code: string, parent?: string, labelEnUS?: string) {
+  const data: Record<string, unknown> = {code};
+  if (parent) data.parent = parent;
+  if (labelEnUS) data.labels = {en_US: labelEnUS};
+
+  return page.request.post('/enrich/product-category-tree/create', {
+    data,
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
+ * Return the code of any existing family variant in the catalog (every catalog install ships
+ * with at least one, e.g. via the family-variant fixture that pairs with the default family).
+ */
+export async function getFirstFamilyVariantCode(page: Page): Promise<string | null> {
+  const resp = await page.request.get('/configuration/rest/family-variant', {headers: XHR_HEADER});
+  if (!resp.ok()) return null;
+  const familyVariants = await resp.json();
+  const codes = Object.keys(familyVariants);
+  return codes[0] ?? null;
+}
+
+/**
+ * Create a product model via the internal REST API — same endpoint and minimal payload
+ * (code + family_variant) the "Create product model" popin itself POSTs
+ * (create.yml excludedProperties: [family] — family is inferred server-side from the
+ * family variant). Returns the raw response; the created product model's numeric id is at
+ * `(await response.json()).meta.id`.
+ */
+export async function createProductModelViaApi(page: Page, code: string, familyVariantCode: string) {
+  return page.request.post('/enrich/product-model/rest/create', {
+    data: {code, family_variant: familyVariantCode},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
 export async function createAttributeViaApi(
   page: Page,
   data: {
