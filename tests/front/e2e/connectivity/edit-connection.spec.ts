@@ -28,8 +28,15 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *       'Creation form' => '[data-testid="create-connection"]' — this one is still accurate.
  *   - src/Akeneo/Connectivity/Connection/tests/Decorator/Settings/CreationForm.php:
  *       setLabel(): input[name="label"]
- *       setFlowType(): Select2 v3 widget scoped to '.select2-container.flowType'
+ *       setFlowType(): Select2 v3 widget scoped to '.select2-container.flowType' — STALE, see
+ *       below.
  *       save(): '.AknButton--apply'
+ *   - src/Akeneo/Connectivity/Connection/front/src/settings/components/ConnectionCreateForm.tsx
+ *     and FlowTypeSelect.tsx: the whole creation form is React, not the legacy Select2 widget
+ *     the Behat decorator drives. `flow_type` renders through a DSM `SelectInput`
+ *     (FlowTypeSelect.tsx), and the form's initial state already defaults it to
+ *     `FlowType.DATA_SOURCE` (ConnectionCreateForm.tsx's `initialState`) — "Data source" is
+ *     pre-selected, so this test never needs to open or interact with that field at all.
  *   - src/Akeneo/Connectivity/Connection/tests/Decorator/Settings/EditForm.php:
  *       setLabel(): input[name="label"]
  *       save(): '.AknButton--apply:not([disabled])'
@@ -75,12 +82,8 @@ test.describe('@critical Connectivity connection settings', () => {
     await expect(creationForm).toBeVisible({timeout: 15_000});
     await creationForm.locator('input[name="label"]').fill(label);
 
-    // From CreationForm.php setFlowType(): Select2 v3 widget scoped to '.select2-container.flowType'.
-    const flowTypeSelect = creationForm.locator('.select2-container.flowType');
-    await flowTypeSelect.click();
-    const dropdown = page.locator('#select2-drop');
-    await expect(dropdown).toBeVisible({timeout: 10_000});
-    await dropdown.getByText('Data source', {exact: true}).first().click();
+    // Flow type is left untouched: ConnectionCreateForm.tsx's initialState already defaults
+    // it to FlowType.DATA_SOURCE ("Data source"), see the file header note.
 
     // From CreationForm.php save(): '.AknButton--apply'.
     await creationForm.locator('.AknButton--apply').click();
