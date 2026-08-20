@@ -20,9 +20,19 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  * - "I am on the "<code>" product model page": pim_enrich_product_model_edit route,
  *   path `/enrich/product-model/{id}` (routing.yml prefix + ui/product_model.yml) — added as
  *   `'product model'` to NavigationHelper.goToEntityPage's route map.
- * - "I press the secondary action "Delete"": SecondaryActionsContext.php::iPressTheSecondaryAction()
- *   -> Base.php `'Secondary actions' => '.secondary-actions, button[title="Other actions"]'`,
- *   opens a dropdown, then clicks its "Delete" menu item.
+ * - "I press the secondary action "Delete"": product model's delete action is wired through the
+ *   LEGACY Backbone secondary-actions widget (form_extensions/product_model/edit.yml ->
+ *   pim/product-model-edit-form/delete -> pim/form/common/delete), not the newer React
+ *   SecondaryActions.tsx component used elsewhere (e.g. category edit) — confirmed by reading
+ *   js/form/common/secondary-actions.js (`className: '... secondary-actions'`) and its template
+ *   (templates/form/secondary-actions.html): the actual dropdown TOGGLE is the nested
+ *   '.AknSecondaryActions-button.dropdown-button[data-toggle="dropdown"]', not the outer
+ *   '.secondary-actions' wrapper itself (matches DropdownMenuDecorator.php::open(), which looks
+ *   for '.dropdown-button' specifically). The menu renders INLINE into
+ *   '[data-drop-zone="secondary-actions"]' (no portal), and the Delete item is a real
+ *   `<button class="AknDropdown-menuLink delete">Delete</button>` (js/form/common/delete.js).
+ *   Its confirm callback still uses Backbone.BootstrapModal (js/pim-dialog.js::confirmDelete()
+ *   -> Dialog.confirm()), so the confirm-dialog step below is unaffected.
  * - "I should see the text "Confirm deletion"" / "I confirm the removal": the standard confirm
  *   dialog already used in critical/category.spec.ts (Base.php::confirmDialog():
  *   'div.modal, div[role="dialog"]' -> '.ok').
@@ -55,14 +65,9 @@ test.describe('Remove a product model', () => {
     await expect(page.getByText(code).first()).toBeVisible({timeout: 15_000});
 
     // I press the secondary action "Delete"
-    // The dropdown is React (front-packages/shared/src/components/SecondaryActions.tsx, a DSM
-    // Dropdown), rendered into a portal with id "dropdown-root"
-    // (akeneo-design-system/.../Dropdown/Overlay/Overlay.tsx). Its items
-    // (akeneo-design-system/.../Dropdown/Item/Item.tsx) are plain <div>s with no ARIA role, so
-    // getByRole('menuitem') never matches — match by text within the portal instead.
-    const secondaryActions = page.locator('.secondary-actions, button[title="Other actions"]').first();
-    await secondaryActions.click();
-    await page.locator('#dropdown-root').getByText('Delete', {exact: true}).click();
+    const secondaryActions = page.locator('.secondary-actions').first();
+    await secondaryActions.locator('.dropdown-button').click();
+    await secondaryActions.getByRole('button', {name: 'Delete', exact: true}).click();
 
     // Then I should see the text "Confirm deletion" / When I confirm the removal
     const confirmDialog = page.locator('div.modal, div[role="dialog"]');
