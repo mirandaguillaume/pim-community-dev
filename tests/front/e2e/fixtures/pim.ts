@@ -428,6 +428,18 @@ export async function deleteProductViaApi(page: Page, productId: string) {
 }
 
 /**
+ * Create a family via the internal REST API (POST /configuration/rest/family). The identifier
+ * attribute (sku) is added automatically by the backend updater on creation — no need to include
+ * it in `attributes`.
+ */
+export async function createFamilyViaApi(page: Page, code: string, attributes: string[] = []) {
+  return page.request.post('/configuration/rest/family', {
+    data: {code, attributes},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
  * Fetch a product's data via the internal REST API (categories, values, etc.).
  */
 export async function getProductViaApi(page: Page, identifier: string): Promise<any> {
@@ -555,6 +567,9 @@ export async function createAttributeViaApi(
     allowed_extensions?: string[];
     max_file_size?: string;
     labels?: Record<string, string>;
+    metric_family?: string;
+    default_metric_unit?: string;
+    decimals_allowed?: boolean;
   }
 ) {
   return page.request.put('/rest/attribute/', {
