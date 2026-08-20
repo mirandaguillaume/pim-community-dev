@@ -94,8 +94,12 @@ test.describe('Classify a product model', () => {
       await rootNode.getByRole('button').first().click();
     }
 
+    // getByRole('treeitem', {name}) matches the ARIA accessible name (this node's own label),
+    // NOT .filter({hasText}) — tree nodes nest in the DOM (a category's <li role="treeitem"> is
+    // inside its parent's), so hasText subtree-searches and also matches every ancestor up to
+    // the root ("Master catalog"), which strict-mode-violates (bit product/classify-product.spec.ts).
     for (const category of categories) {
-      const node = categoryTree.getByRole('treeitem').filter({hasText: category.label});
+      const node = categoryTree.getByRole('treeitem', {name: category.label, exact: true});
       await expect(node).toBeVisible({timeout: 15_000});
       const checkbox = node.getByRole('checkbox');
       if ((await checkbox.getAttribute('aria-checked')) === 'false') {
