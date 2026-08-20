@@ -1,0 +1,67 @@
+import {test, expect} from '../fixtures/coverage-fixture';
+import {login, createProductViaApi, goToProductBySearch, waitForLoadingMasks} from '../fixtures/pim';
+
+/**
+ * Replaces Behat: tests/legacy/features/pim/enrichment/product/pef/comments.feature:58
+ *   "Successfully remove my own comments"
+ *
+ * Legacy Backbone widget (Context/Page/Product/Edit.php), not React — no stale-selector risk.
+ *
+ * Selectors traced from:
+ * - "I visit the "Comments" column tab": Base.php::visitColumnTab() -> '.column-navigation-link'
+ *   (same pattern as product/classify-product.spec.ts's "Categories" tab).
+ * - Comments container: Product/Edit.php `'Comment threads' => '.comment-threads'`.
+ * - "I add a new comment "<message>"": Edit.php::createComment() -> within '.comment-threads',
+ *   'li.comment-create textarea', then press the "Add a new comment" button.
+ * - "I delete the "<message>" comment": Edit.php::deleteComment() -> the comment node's
+ *   'span.remove-comment'.
+ * - "I should see the text "Confirm deletion"" / "I confirm the removal": the standard confirm
+ *   dialog already used in critical/category.spec.ts and product-model/remove-product-model.spec.ts
+ *   (Base.php::confirmDialog(): 'div.modal, div[role="dialog"]' -> '.ok').
+ *
+ * Uses its own disposable product instead of the footwear catalog's "rangers", so the test is
+ * self-contained.
+ */
+
+test.describe('Product comments', () => {
+  test.beforeEach(async ({page}) => {
+    await login(page, 'admin', 'admin');
+  });
+
+  test('can add and remove my own comment', async ({page}) => {
+    const sku = `pw-comment-${Date.now()}`;
+    const createResp = await createProductViaApi(page, sku);
+    expect(createResp.ok(), `Create product ${sku} failed: ${createResp.status()}`).toBeTruthy();
+
+    await goToProductBySearch(page, sku);
+
+    // I visit the "Comments" column tab
+    await page.locator('.column-navigation-link').filter({hasText: 'Comments'}).click();
+    await waitForLoadingMasks(page);
+
+    const commentThreads = page.locator('.comment-threads');
+    await expect(commentThreads).toBeVisible({timeout: 15_000});
+    await expect(commentThreads.getByText('No comment for now')).toBeVisible({timeout: 15_000});
+
+    // I add a new comment "<message>"
+    const message = `My comment ${Date.now()}`;
+    await commentThreads.locator('li.comment-create textarea').click();
+    await commentThreads.locator('li.comment-create textarea').fill(message);
+    await commentThreads.getByRole('button', {name: 'Add a new comment'}).click();
+
+    await expect(commentThreads.getByText('No comment for now')).not.toBeVisible({timeout: 15_000});
+    const commentNode = commentThreads.locator('li.comment-topic').filter({hasText: message});
+    await expect(commentNode).toBeVisible({timeout: 15_000});
+
+    // I delete the "<message>" comment
+    await commentNode.locator('span.remove-comment').click();
+
+    const confirmDialog = page.locator('div.modal, div[role="dialog"]');
+    await expect(confirmDialog).toBeVisible({timeout: 10_000});
+    await expect(confirmDialog.getByText('Confirm deletion')).toBeVisible();
+    await confirmDialog.locator('.ok').click();
+
+    // Then I should not see the text "<message>"
+    await expect(page.getByText(message)).not.toBeVisible({timeout: 15_000});
+  });
+});
