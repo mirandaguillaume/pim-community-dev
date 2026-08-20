@@ -49,6 +49,7 @@ const PAGE_ROUTES: Record<string, string> = {
 
   // Channels
   channels: '#/configuration/channel/',
+  'channel creation': '#/configuration/channel/create',
 
   // Locales
   locales: '#/configuration/locale/',
@@ -72,6 +73,10 @@ const PAGE_ROUTES: Record<string, string> = {
 
   // Marketplace
   marketplace: '#/connect/app-store',
+
+  // Connections
+  connections: '#/connect/connection-settings/',
+  'connection creation': '#/connect/connection-settings/create',
 };
 
 export class NavigationHelper {
@@ -124,6 +129,7 @@ export class NavigationHelper {
       'import edit': `#/collect/import/${identifier}/edit`,
       'export show': `#/spread/export/${identifier}`,
       'import show': `#/collect/import/${identifier}`,
+      connection: `#/connect/connection-settings/${identifier}/edit`,
     };
 
     const route = routes[entityType.toLowerCase()];
