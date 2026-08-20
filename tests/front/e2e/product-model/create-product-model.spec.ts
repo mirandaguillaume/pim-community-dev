@@ -69,9 +69,11 @@ test.describe('Product model creation validation', () => {
     const modal = page.locator('div.modal, div[role="dialog"]');
     await expect(modal).toBeVisible({timeout: 15_000});
 
-    // The 3 creation fields are present, and Variant starts disabled (no Family chosen yet)
-    await expect(modal.getByText('Code', {exact: true})).toBeVisible();
-    await expect(modal.getByText('Family', {exact: true})).toBeVisible();
+    // The 3 creation fields are present, and Variant starts disabled (no Family chosen yet).
+    // Not exact: field.html renders the label as "<%- label %> <em><%- requiredLabel %></em>",
+    // so a required field's full text is "Code (required)", not "Code" alone.
+    await expect(modal.getByText('Code', {exact: false})).toBeVisible();
+    await expect(modal.getByText('Family', {exact: false})).toBeVisible();
     await expect(modal.getByText('Variant', {exact: false})).toBeVisible();
     await expect(modal.locator('[id^="pim_enrich_form_family_variant"]')).toBeDisabled();
 
