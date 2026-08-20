@@ -70,11 +70,15 @@ test.describe('Product model creation validation', () => {
     await expect(modal).toBeVisible({timeout: 15_000});
 
     // The 3 creation fields are present, and Variant starts disabled (no Family chosen yet).
-    // Not exact: field.html renders the label as "<%- label %> <em><%- requiredLabel %></em>",
-    // so a required field's full text is "Code (required)", not "Code" alone.
-    await expect(modal.getByText('Code', {exact: false})).toBeVisible();
-    await expect(modal.getByText('Family', {exact: false})).toBeVisible();
-    await expect(modal.getByText('Variant', {exact: false})).toBeVisible();
+    // Scoped to '.AknFieldContainer-label' (field.html / simple-select-async's field wrapper):
+    // a plain substring getByText('Family') strict-mode-violates against the Select2
+    // placeholders "Choose a family" and "Choose a family variant", which also contain
+    // "family". The label's own full text is "Family (required)" (field.html renders
+    // "<%- label %> <em><%- requiredLabel %></em>"), hence exact: false here too.
+    const fieldLabel = modal.locator('.AknFieldContainer-label');
+    await expect(fieldLabel.filter({hasText: 'Code'})).toBeVisible();
+    await expect(fieldLabel.filter({hasText: 'Family'})).toBeVisible();
+    await expect(fieldLabel.filter({hasText: 'Variant'})).toBeVisible();
     await expect(modal.locator('[id^="pim_enrich_form_family_variant"]')).toBeDisabled();
 
     const code = `pw_product_model_${Date.now()}`;
