@@ -86,10 +86,12 @@ test.describe('Classify a product model', () => {
     const categoryTree = page.locator('#trees');
     await expect(categoryTree).toBeVisible({timeout: 15_000});
 
+    // Tree.tsx renders 2 role=button elements per node: the expand/collapse ArrowButton
+    // (first in the JSX) and the LabelWithFolder select button — .first() picks the arrow.
     const rootNode = categoryTree.getByRole('treeitem').first();
     await expect(rootNode).toBeVisible({timeout: 15_000});
     if ((await rootNode.getAttribute('aria-expanded')) === 'false') {
-      await rootNode.getByRole('button').click();
+      await rootNode.getByRole('button').first().click();
     }
 
     for (const category of categories) {
