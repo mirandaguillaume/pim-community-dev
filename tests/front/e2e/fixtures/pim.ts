@@ -427,6 +427,27 @@ export async function deleteProductViaApi(page: Page, productId: string) {
   await page.request.delete(`/enrich/product/rest/${productId}`);
 }
 
+/**
+ * Launch the "delete_attributes" bulk job via the internal REST API
+ * (MassDeleteAttributeController::launchAction(), POST /rest/attribute/mass-delete). Unlike
+ * the attribute-group mass-delete (form-encoded, read via Request::get()), this endpoint
+ * expects a JSON body already shaped as a job "filters" configuration
+ * (DeleteAttributesTasklet reads `filters.search` / `filters.options` via the shared
+ * SearchableRepositoryInterface::findBySearch() contract, same `options.identifiers` shape
+ * used by getFirstFamilyVariantCode's list endpoint).
+ */
+export async function launchMassDeleteAttributesViaApi(page: Page, codes: string[]) {
+  return page.request.post('/rest/attribute/mass-delete', {
+    data: {
+      filters: {
+        search: null,
+        options: {identifiers: codes},
+      },
+    },
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
 export async function createAttributeViaApi(
   page: Page,
   data: {
