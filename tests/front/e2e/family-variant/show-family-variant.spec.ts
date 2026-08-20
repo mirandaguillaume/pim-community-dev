@@ -23,9 +23,14 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *   links, same class as export/edit-export.spec.ts's "Global settings"/"Content" tabs.
  * - "I click on the "<label>" row": DataGridContext.php::iClickOnTheRow() ->
  *   Datagrid::getRow($value) — the <tr> containing that visible text.
- * - The remaining assertions ("Size (Variant axis)", "Variation name", "Variant attributes
- *   level one/two") are static UI copy, not fixture-dependent — asserted literally regardless
- *   of which family variant is used, only substituting the actual axis attribute labels.
+ * - "(Variant axis)" / "Variant attributes level one/two": confirmed genuine static UI copy
+ *   (jsmessages.en_US.yml: variant_axis_label = "Variant axis", level_1/level_2 = "Variant
+ *   attributes level one/two"), asserted regardless of which family variant is used.
+ * - Dropped the Behat scenario's "Variation name" assertion: confirmed live in CI (element
+ *   never found) and by grepping fixtures — "Variation name" isn't static UI copy at all, it's
+ *   the LABEL of the `variation_name` attribute, which the catalog_modeling/icecat_demo_dev
+ *   fixtures happen to include in most clothing/shoes family variants' attribute sets — not a
+ *   guaranteed-present string for an arbitrarily-picked family variant.
  */
 
 test.describe('Show a family variant', () => {
@@ -59,9 +64,6 @@ test.describe('Show a family variant', () => {
 
     // Then I should see the text "<variantCode>"
     await expect(page.getByText(variantCode, {exact: false})).toBeVisible({timeout: 15_000});
-
-    // And I should see the text "Variation name" (static UI copy on the detail panel)
-    await expect(page.getByText('Variation name')).toBeVisible({timeout: 15_000});
 
     // "(Variant axis)" suffix count, and the level-count-dependent "Variant attributes level N"
     // labels (only meaningful when there's more than one level). Counting the suffix rather
