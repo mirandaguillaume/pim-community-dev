@@ -79,7 +79,13 @@ test.describe('Product model creation validation', () => {
     await expect(fieldLabel.filter({hasText: 'Code'})).toBeVisible();
     await expect(fieldLabel.filter({hasText: 'Family'})).toBeVisible();
     await expect(fieldLabel.filter({hasText: 'Variant'})).toBeVisible();
-    await expect(modal.locator('[id^="pim_enrich_form_family_variant"]')).toBeDisabled();
+
+    // Not '[id^="pim_enrich_form_family_variant"]': confirmed live in CI that this field's
+    // underlying select2 element has no explicit id set, so Select2 v3 assigns it an
+    // auto-generated one instead (e.g. "autogen25") — there's no way to predict it. Target the
+    // field's own '.AknFieldContainer' (the wrapper both the label and its input share) instead.
+    const variantContainer = modal.locator('.AknFieldContainer').filter({hasText: 'Variant'});
+    await expect(variantContainer.locator('input.select-field')).toBeDisabled();
 
     const code = `pw_product_model_${Date.now()}`;
     await modal.locator('#creation_code').fill(code);
