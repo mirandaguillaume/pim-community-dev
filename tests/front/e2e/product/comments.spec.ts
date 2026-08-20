@@ -19,9 +19,14 @@ import {login, createProductViaApi, goToProductBySearch, waitForLoadingMasks} fr
  *   pressSequentially() is used instead so keyup actually fires.
  * - "I delete the "<message>" comment": Edit.php::deleteComment() -> the comment node's
  *   'span.remove-comment'.
- * - "I should see the text "Confirm deletion"" / "I confirm the removal": the standard confirm
- *   dialog already used in critical/category.spec.ts and product-model/remove-product-model.spec.ts
- *   (Base.php::confirmDialog(): 'div.modal, div[role="dialog"]' -> '.ok').
+ * - "I should see the text "Confirm deletion"" / "I confirm the removal": comments.js's
+ *   removeComment() -> Dialog.confirmDelete() -> Dialog.confirm() (js/pim-dialog.js), which adds
+ *   'modal--fullPage' to the dialog element. Scoped to 'div.modal--fullPage' rather than the
+ *   broader 'div.modal, div[role="dialog"]' pattern used on pages without a WYSIWYG field
+ *   (critical/category.spec.ts): the product edit form can carry a Summernote rich-text
+ *   attribute, which pre-renders hidden '.note-image-dialog' / '.note-link-dialog' /
+ *   '.note-help-dialog' elements that also carry the plain 'modal' class and strict-mode-violate
+ *   a broader match (bit found live in product-model/remove-product-model.spec.ts, PR #388).
  *
  * Uses its own disposable product instead of the footwear catalog's "rangers", so the test is
  * self-contained.
@@ -61,7 +66,7 @@ test.describe('Product comments', () => {
     // I delete the "<message>" comment
     await commentNode.locator('span.remove-comment').click();
 
-    const confirmDialog = page.locator('div.modal, div[role="dialog"]');
+    const confirmDialog = page.locator('div.modal--fullPage');
     await expect(confirmDialog).toBeVisible({timeout: 10_000});
     await expect(confirmDialog.getByText('Confirm deletion')).toBeVisible();
     await confirmDialog.locator('.ok').click();
