@@ -427,6 +427,17 @@ export async function deleteProductViaApi(page: Page, productId: string) {
   await page.request.delete(`/enrich/product/rest/${productId}`);
 }
 
+/**
+ * Create an attribute group via the internal REST API (PUT /rest/attribute-group/,
+ * AttributeGroupController::createAction()).
+ */
+export async function createAttributeGroupViaApi(page: Page, code: string) {
+  return page.request.put('/rest/attribute-group/', {
+    data: {code},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
 export async function createAttributeViaApi(
   page: Page,
   data: {
