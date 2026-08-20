@@ -70,7 +70,12 @@ test.describe('Remove a product model', () => {
     await secondaryActions.getByRole('button', {name: 'Delete', exact: true}).click();
 
     // Then I should see the text "Confirm deletion" / When I confirm the removal
-    const confirmDialog = page.locator('div.modal, div[role="dialog"]');
+    // Scoped to '.modal--fullPage' (js/pim-dialog.js::confirm(): `confirm.$el.addClass('modal--fullPage')`),
+    // not the generic 'div.modal, div[role="dialog"]' pattern used elsewhere: the product
+    // model edit form has a Summernote WYSIWYG editor (for a rich-text attribute) that
+    // pre-renders hidden '.note-image-dialog' / '.note-link-dialog' / '.note-help-dialog'
+    // elements which also carry the plain 'modal' class, strict-mode-violating a broader match.
+    const confirmDialog = page.locator('div.modal--fullPage');
     await expect(confirmDialog).toBeVisible({timeout: 10_000});
     await expect(confirmDialog.getByText('Confirm deletion')).toBeVisible();
     await confirmDialog.locator('.ok').click();
