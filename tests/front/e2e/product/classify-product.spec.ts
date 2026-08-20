@@ -83,10 +83,12 @@ test.describe('Classify a product', () => {
 
     // The 2 new categories are direct children of the root tree — expand it if collapsed
     // (TreeDecorator.php::expandNode(): click the node's inner `button` while aria-expanded=false).
+    // Tree.tsx renders 2 role=button elements per node: the expand/collapse ArrowButton
+    // (first in the JSX) and the LabelWithFolder select button — .first() picks the arrow.
     const rootNode = categoryTree.getByRole('treeitem').first();
     await expect(rootNode).toBeVisible({timeout: 15_000});
     if ((await rootNode.getAttribute('aria-expanded')) === 'false') {
-      await rootNode.getByRole('button').click();
+      await rootNode.getByRole('button').first().click();
     }
 
     // Select both disposable categories (TreeDecorator.php::select(): click the node's
