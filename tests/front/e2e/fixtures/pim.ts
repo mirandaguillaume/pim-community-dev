@@ -448,6 +448,32 @@ export async function launchMassDeleteAttributesViaApi(page: Page, codes: string
   });
 }
 
+/**
+ * Create an attribute group via the internal REST API (PUT /rest/attribute-group/,
+ * AttributeGroupController::createAction()).
+ */
+export async function createAttributeGroupViaApi(page: Page, code: string) {
+  return page.request.put('/rest/attribute-group/', {
+    data: {code},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
+ * Launch the "delete_attribute_groups" bulk job via the internal REST API
+ * (MassDeleteAttributeGroupsController::__invoke(), POST /rest/attribute-group/mass-delete).
+ * Unlike launchImportViaApi/launchExportViaApi, this reads params via Symfony's plain
+ * Request::get() rather than a JSON body, so it's sent form-encoded, with PHP-style
+ * `codes[]=...` array keys.
+ */
+export async function launchMassDeleteAttributeGroupsViaApi(page: Page, codes: string[]) {
+  const body = codes.map(code => `codes%5B%5D=${encodeURIComponent(code)}`).join('&');
+  return page.request.post('/rest/attribute-group/mass-delete', {
+    data: body,
+    headers: {'Content-Type': 'application/x-www-form-urlencoded', ...XHR_HEADER},
+  });
+}
+
 export async function createAttributeViaApi(
   page: Page,
   data: {
@@ -666,6 +692,24 @@ export async function launchImportViaApi(
   });
 
   expect(response.ok(), `Launch import ${jobCode} failed: ${response.status()}`).toBeTruthy();
+  const body = await response.json();
+  const match = body.redirectUrl?.match(/\/job\/show\/(\d+)/);
+  expect(match, `No job execution ID in response: ${JSON.stringify(body)}`).toBeTruthy();
+  return match![1];
+}
+
+/**
+ * Launch an export job via the internal REST API. Same endpoint family and
+ * response shape as launchImportViaApi (both actions share
+ * JobInstanceController::launchAction()), but exports take no uploaded file,
+ * so no multipart body is sent. Returns the job execution ID.
+ */
+export async function launchExportViaApi(page: Page, jobCode: string): Promise<string> {
+  const response = await page.request.post(`/job-instance/rest/export/${jobCode}/launch`, {
+    headers: XHR_HEADER,
+  });
+
+  expect(response.ok(), `Launch export ${jobCode} failed: ${response.status()}`).toBeTruthy();
   const body = await response.json();
   const match = body.redirectUrl?.match(/\/job\/show\/(\d+)/);
   expect(match, `No job execution ID in response: ${JSON.stringify(body)}`).toBeTruthy();
