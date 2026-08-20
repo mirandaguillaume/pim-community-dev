@@ -20,6 +20,10 @@ import {LoginPage} from '../pages/LoginPage';
  *   translation key `pim_dashboard.title` = "Activity dashboard"
  *   (DashboardBundle/Resources/translations/jsmessages.en_US.yml) — used here instead.
  *
+ * Scoped to the breadcrumb (getByLabel('Breadcrumb'), confirmed live in CI): the sidebar's
+ * "Activity dashboard" menu item carries the identical text, so a page-wide getByText()
+ * strict-mode-violates by matching both.
+ *
  * No URL assertion: straight after login (not an explicit hash navigation), the app lands on
  * the bare origin ("http://host:port/", confirmed live in CI) with no "#/" ever written to the
  * URL bar — the SPA router treats "no hash" and "#/" as equivalent without rewriting the URL.
@@ -31,6 +35,8 @@ test.describe('@critical Login', () => {
     await loginPage.login('admin', 'admin');
 
     // Then I am on the dashboard page.
-    await expect(page.getByText('Activity dashboard', {exact: true})).toBeVisible({timeout: 15_000});
+    await expect(page.getByLabel('Breadcrumb').getByText('Activity dashboard', {exact: true})).toBeVisible({
+      timeout: 15_000,
+    });
   });
 });
