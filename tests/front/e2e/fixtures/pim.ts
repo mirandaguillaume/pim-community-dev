@@ -428,6 +428,17 @@ export async function deleteProductViaApi(page: Page, productId: string) {
 }
 
 /**
+ * Fetch a product's data via the internal REST API (categories, values, etc.).
+ */
+export async function getProductViaApi(page: Page, identifier: string): Promise<any> {
+  const response = await page.request.get(`/enrich/product/rest/${identifier}`, {
+    headers: XHR_HEADER,
+  });
+  expect(response.ok(), `Get product ${identifier} failed: ${response.status()}`).toBeTruthy();
+  return response.json();
+}
+
+/**
  * Return the code of the first root category tree in the catalog (e.g. "master"/"default"
  * for "Master catalog"). Every catalog install ships with at least one.
  */
