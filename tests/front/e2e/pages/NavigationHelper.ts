@@ -109,6 +109,7 @@ export class NavigationHelper {
    *   Category tree:       #/enrich/product-category-tree/{id}/tree
    *   Category edit:       #/enrich/product-category-tree/{id}/edit
    *   Product edit:        #/enrich/product/{uuid}
+   *   Product model edit:  #/enrich/product-model/{id}
    *   Product group edit:  #/enrich/group/{code}/edit
    *   Association type:    #/configuration/association-type/{code}/edit
    */
