@@ -433,7 +433,7 @@ export async function deleteProductViaApi(page: Page, productId: string) {
  * code/labels/is_two_way/is_quantified).
  */
 export async function createAssociationTypeViaApi(page: Page, code: string) {
-  return page.request.post('/configuration/rest/association-type', {
+  return page.request.post('/configuration/rest/association-type/', {
     data: {code},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });

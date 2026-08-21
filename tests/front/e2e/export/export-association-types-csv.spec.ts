@@ -83,9 +83,9 @@ test.describe('Export association types CSV', () => {
 
     expect(jobResult.status, `Export job did not complete: ${JSON.stringify(jobResult)}`).toBe('COMPLETED');
 
-    const exportStep = jobResult.stepExecutions?.find((s: any) => s.summary?.write > 0);
+    const exportStep = jobResult.stepExecutions?.find((s: any) => s.summary?.written > 0);
     expect(exportStep, `No step wrote any items: ${JSON.stringify(jobResult.stepExecutions)}`).toBeTruthy();
-    expect(exportStep.summary.write).toBe(expectedCount);
+    expect(exportStep.summary.written).toBe(expectedCount);
     if (undefined !== exportStep.summary.read) {
       expect(exportStep.summary.read).toBe(expectedCount);
     }
