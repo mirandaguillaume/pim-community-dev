@@ -67,12 +67,15 @@ test.describe('Create product and save added attributes', () => {
         type: 'pim_catalog_number',
         group: 'other',
         labels: {en_US: 'PW Number'},
+        decimals_allowed: false,
+        negative_allowed: false,
       }),
       createAttributeViaApi(page, {
         code: priceCode,
         type: 'pim_catalog_price_collection',
         group: 'other',
         labels: {en_US: 'PW Price'},
+        decimals_allowed: true,
       }),
       createAttributeViaApi(page, {
         code: metricCode,
@@ -81,6 +84,8 @@ test.describe('Create product and save added attributes', () => {
         labels: {en_US: 'PW Metric'},
         metric_family: 'Weight',
         default_metric_unit: 'GRAM',
+        decimals_allowed: true,
+        negative_allowed: false,
       }),
     ]);
     expect(numberResp.ok(), `Create attribute ${numberCode} failed: ${numberResp.status()}`).toBeTruthy();

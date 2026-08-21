@@ -544,6 +544,7 @@ export async function createAttributeViaApi(
     metric_family?: string;
     default_metric_unit?: string;
     decimals_allowed?: boolean;
+    negative_allowed?: boolean;
   }
 ) {
   return page.request.put('/rest/attribute/', {
