@@ -8,16 +8,41 @@ import {
   createCategoryViaApi,
 } from '../fixtures/pim';
 
+const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
+
+/**
+ * Returns the code and label of an existing root category tree. A brand-new root tree created
+ * via createCategoryViaApi does NOT reliably show up in the product-edit "Categories" tab tree
+ * widget within a normal Playwright timeout — confirmed live in CI (element(s) not found after
+ * 15s, reproduced on both the initial attempt and a retry with a different disposable tree each
+ * time) even though the backing query (ProductCategoryController::listAction ->
+ * getItemCountByTree) is a plain synchronous SQL SELECT with no cache/ES layer, so the data
+ * itself isn't stale — the most likely cause is category-tree view ACL not being granted to the
+ * current user for a tree created via this raw endpoint. classify-product.spec.ts sidesteps this
+ * exact problem by adding categories under an EXISTING root tree rather than creating a new one;
+ * this spec follows the same proven pattern.
+ */
+async function getFirstRootCategory(page: Page): Promise<{code: string; label: string}> {
+  const resp = await page.request.get('/enrich/category/rest', {headers: XHR_HEADER});
+  expect(resp.ok(), `List root categories failed: ${resp.status()}`).toBeTruthy();
+  const categories = await resp.json();
+  const list = Array.isArray(categories) ? categories : Object.values(categories);
+  const first = list[0] as any;
+  expect(first, 'expected at least one root category tree in the catalog').toBeTruthy();
+  return {code: first.code, label: first.label ?? first.code};
+}
+
 /**
  * Replaces Behat: tests/legacy/features/pim/enrichment/product/datagrid/filtering/filter_products_per_category.feature:19
  *   "Successfully filter products by category"
  *
  * The Behat scenario depends on the "apparel" catalog fixture's "2015 collection" tree, with
  * two sub-categories ("2015 women's collection" / "2015 men's collection") and specific products
- * pre-classified into them. This spec creates a disposable root category tree instead — a new
- * root-level category IS a new tree (see createCategoryViaApi) — with the same shape via API,
- * then classifies disposable products into it through the real product-edit "Categories" tab UI
- * (same pattern as classify-product.spec.ts), so it works against any catalog.
+ * pre-classified into them. This spec instead adds a disposable 3-level branch of categories
+ * under whatever root tree already exists in the catalog (never creates a new root tree — see
+ * getFirstRootCategory's comment for why), then classifies disposable products into it through
+ * the real product-edit "Categories" tab UI (same pattern as classify-product.spec.ts), so it
+ * works against any catalog.
  *
  * Category-tree-panel vs category-filter — resolved by tracing the real source, not assumed:
  * the product grid's category tree side panel is a SEPARATE UI element from the generic
@@ -180,8 +205,6 @@ test.describe('Filter products by category', () => {
     const skuMen = `${prefix}-men`;
     const skuUnclassified = `${prefix}-unclassified`;
 
-    const treeCode = `pw_tree_${ts}`;
-    const treeLabel = `PW Tree ${ts}`;
     const womenCode = `pw_women_${ts}`;
     const womenLabel = `PW Women ${ts}`;
     const menCode = `pw_men_${ts}`;
@@ -189,9 +212,9 @@ test.describe('Filter products by category', () => {
     const menSummerCode = `pw_men_summer_${ts}`;
     const menSummerLabel = `PW Men Summer ${ts}`;
 
-    // Build a disposable 3-level tree: root -> {women, men -> men-summer}.
-    const treeResp = await createCategoryViaApi(page, treeCode, undefined, treeLabel);
-    expect(treeResp.ok(), `Create tree ${treeCode} failed: ${treeResp.status()}`).toBeTruthy();
+    // Add a disposable 3-level branch under the catalog's existing root tree: root -> {women,
+    // men -> men-summer}. See getFirstRootCategory's comment for why we don't create a new tree.
+    const {code: treeCode, label: treeLabel} = await getFirstRootCategory(page);
     const [womenResp, menResp] = await Promise.all([
       createCategoryViaApi(page, womenCode, treeCode, womenLabel),
       createCategoryViaApi(page, menCode, treeCode, menLabel),
