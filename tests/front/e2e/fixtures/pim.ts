@@ -438,7 +438,7 @@ export async function deleteProductViaApi(page: Page, productId: string) {
  * it in `attributes`.
  */
 export async function createFamilyViaApi(page: Page, code: string, attributes: string[] = []) {
-  return page.request.post('/configuration/rest/family', {
+  return page.request.post('/configuration/rest/family/', {
     data: {code, attributes},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
@@ -457,7 +457,7 @@ export async function createFamilyVariantViaApi(
   familyCode: string,
   variantAttributeSets: Array<{level: number; axes: string[]; attributes: string[]}>
 ) {
-  return page.request.post('/configuration/rest/family-variant', {
+  return page.request.post('/configuration/rest/family-variant/', {
     data: {code, family: familyCode, variant_attribute_sets: variantAttributeSets},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
