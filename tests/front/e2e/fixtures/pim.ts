@@ -412,9 +412,14 @@ export async function goToFamilyPage(page: Page, familyCode?: string) {
   await page.locator('.AknHorizontalNavtab-item').first().waitFor({timeout: 30_000});
 }
 
-export async function createProductViaApi(page: Page, sku: string, family?: string) {
+export async function createProductViaApi(
+  page: Page,
+  sku: string,
+  family?: string,
+  extra?: {parent?: string; values?: Record<string, unknown>}
+) {
   // Use the internal REST endpoint (session-authenticated) to create a product
-  const data: Record<string, string> = {identifier: sku};
+  const data: Record<string, unknown> = {identifier: sku, ...extra};
   if (family) data.family = family;
   const response = await page.request.post('/enrich/product/rest', {
     data,
@@ -428,6 +433,18 @@ export async function deleteProductViaApi(page: Page, productId: string) {
 }
 
 /**
+ * Create a family via the internal REST API (POST /configuration/rest/family). The identifier
+ * attribute (sku) is added automatically by the backend updater on creation — no need to include
+ * it in `attributes`.
+ */
+export async function createFamilyViaApi(page: Page, code: string, attributes: string[] = []) {
+  return page.request.post('/configuration/rest/family/', {
+    data: {code, attributes},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
  * Create an association type via the internal REST API (POST /configuration/rest/association-type,
  * AssociationTypeController::createAction() -> AssociationTypeUpdater, which only recognizes
  * code/labels/is_two_way/is_quantified).
@@ -437,6 +454,67 @@ export async function createAssociationTypeViaApi(page: Page, code: string) {
     data: {code},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
+}
+
+/**
+ * Create a family variant via the internal REST API (POST /configuration/rest/family-variant,
+ * FamilyVariantController::createAction() -> FamilyVariantUpdater). `variant_attribute_sets` is
+ * an array of `{level, axes, attributes}` — axes must be attributes of one of
+ * FamilyVariant::getAvailableAxesAttributeTypes() (metric, simpleselect, boolean, reference data/
+ * entity simpleselect); the number of levels is immutable once created.
+ */
+export async function createFamilyVariantViaApi(
+  page: Page,
+  code: string,
+  familyCode: string,
+  variantAttributeSets: Array<{level: number; axes: string[]; attributes: string[]}>
+) {
+  return page.request.post('/configuration/rest/family-variant/', {
+    data: {code, family: familyCode, variant_attribute_sets: variantAttributeSets},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
+ * Find the most recent job execution id for a given job instance code, via the process-tracker's
+ * own search endpoint (POST /rest/process-tracker, GetJobExecutionAction — reads its filters from
+ * the query string, not the JSON body, despite the front-end's own fetch() sending both: see
+ * useJobExecutionTable.ts vs GetJobExecutionAction::createSearchQuery(), which only reads
+ * $request->query). Used for jobs launched automatically by a backend event subscriber (no
+ * launch-via-API call to read a job execution id back from), e.g. the family-variant editor's
+ * 'compute_family_variant_structure_changes' job.
+ *
+ * `sinceMs` filters out stale rows from a previous run of the same job code — pass Date.now()
+ * captured just before the action that triggers the job.
+ */
+export async function findRecentJobExecutionIdByCode(
+  page: Page,
+  jobCode: string,
+  sinceMs: number,
+  timeout = 30_000
+): Promise<string> {
+  const start = Date.now();
+  while (Date.now() - start < timeout) {
+    const resp = await page.request.post(
+      `/rest/process-tracker?${new URLSearchParams([
+        ['code[]', jobCode],
+        ['size', '5'],
+        ['sort[column]', 'started_at'],
+        ['sort[direction]', 'DESC'],
+      ])}`,
+      {headers: XHR_HEADER}
+    );
+    if (resp.ok()) {
+      const body = await resp.json();
+      const recentRow = (body.rows ?? []).find((row: any) => {
+        const startedAt = row.started_at ? Date.parse(row.started_at) : 0;
+        return startedAt >= sinceMs - 5_000;
+      });
+      if (recentRow) return String(recentRow.job_execution_id);
+    }
+    await page.waitForTimeout(1_000);
+  }
+  throw new Error(`No recent execution of job "${jobCode}" found within ${timeout}ms`);
 }
 
 /**
@@ -497,9 +575,14 @@ export async function getFirstFamilyVariantCode(page: Page): Promise<string | nu
  * family variant). Returns the raw response; the created product model's numeric id is at
  * `(await response.json()).meta.id`.
  */
-export async function createProductModelViaApi(page: Page, code: string, familyVariantCode: string) {
+export async function createProductModelViaApi(
+  page: Page,
+  code: string,
+  familyVariantCode: string,
+  values?: Record<string, unknown>
+) {
   return page.request.post('/enrich/product-model/rest/create', {
-    data: {code, family_variant: familyVariantCode},
+    data: {code, family_variant: familyVariantCode, ...(values ? {values} : {})},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
 }
@@ -562,6 +645,8 @@ export async function createAttributeViaApi(
     allowed_extensions?: string[];
     max_file_size?: string;
     labels?: Record<string, string>;
+    decimals_allowed?: boolean;
+    negative_allowed?: boolean;
   }
 ) {
   return page.request.put('/rest/attribute/', {
