@@ -97,13 +97,16 @@ test.describe('Edit family variant', () => {
     ]);
     expect(
       familyVariantResp.ok(),
-      `Create family variant ${familyVariantCode} failed: ${familyVariantResp.status()}`
+      `Create family variant ${familyVariantCode} failed: ${familyVariantResp.status()} ${JSON.stringify(await familyVariantResp.json().catch(() => null))}`
     ).toBeTruthy();
 
     const modelResp = await createProductModelViaApi(page, modelCode, familyVariantCode, {
       [colorCode]: [{locale: null, scope: null, data: true}],
     });
-    expect(modelResp.ok(), `Create product model ${modelCode} failed: ${modelResp.status()}`).toBeTruthy();
+    expect(
+      modelResp.ok(),
+      `Create product model ${modelCode} failed: ${modelResp.status()} ${JSON.stringify(await modelResp.json().catch(() => null))}`
+    ).toBeTruthy();
 
     const variantResp = await createProductViaApi(page, variantSku, familyCode, {
       parent: modelCode,
@@ -112,7 +115,10 @@ test.describe('Edit family variant', () => {
         [weightCode]: [{locale: null, scope: null, data: '800'}],
       },
     });
-    expect(variantResp.ok(), `Create variant product ${variantSku} failed: ${variantResp.status()}`).toBeTruthy();
+    expect(
+      variantResp.ok(),
+      `Create variant product ${variantSku} failed: ${variantResp.status()} ${JSON.stringify(await variantResp.json().catch(() => null))}`
+    ).toBeTruthy();
     const variantProduct = await variantResp.json();
     const variantUuid = variantProduct.meta.id;
     expect(
