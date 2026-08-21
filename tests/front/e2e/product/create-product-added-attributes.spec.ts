@@ -61,23 +61,28 @@ test.describe('Create product and save added attributes', () => {
     const priceCode = `pw_price_${ts}`;
     const metricCode = `pw_metric_${ts}`;
 
-    const [numberResp, priceResp, metricResp] = await Promise.all([
-      createAttributeViaApi(page, {
+    // Created SEQUENTIALLY, not via Promise.all: three concurrent PUT /rest/attribute/ calls that
+    // all attach to the SAME attribute group ('other') race on that group's attribute collection
+    // and intermittently 500. Confirmed in CI — the parallel version failed this spec's first
+    // attempt (passing only on Playwright's retry) and failed twice in a row in the sibling
+    // edit-family-variant spec.
+    const attributeSpecs = [
+      {
         code: numberCode,
         type: 'pim_catalog_number',
         group: 'other',
         labels: {en_US: 'PW Number'},
         decimals_allowed: false,
         negative_allowed: false,
-      }),
-      createAttributeViaApi(page, {
+      },
+      {
         code: priceCode,
         type: 'pim_catalog_price_collection',
         group: 'other',
         labels: {en_US: 'PW Price'},
         decimals_allowed: true,
-      }),
-      createAttributeViaApi(page, {
+      },
+      {
         code: metricCode,
         type: 'pim_catalog_metric',
         group: 'other',
@@ -86,11 +91,15 @@ test.describe('Create product and save added attributes', () => {
         default_metric_unit: 'GRAM',
         decimals_allowed: true,
         negative_allowed: false,
-      }),
-    ]);
-    expect(numberResp.ok(), `Create attribute ${numberCode} failed: ${numberResp.status()}`).toBeTruthy();
-    expect(priceResp.ok(), `Create attribute ${priceCode} failed: ${priceResp.status()}`).toBeTruthy();
-    expect(metricResp.ok(), `Create attribute ${metricCode} failed: ${metricResp.status()}`).toBeTruthy();
+      },
+    ];
+    for (const spec of attributeSpecs) {
+      const resp = await createAttributeViaApi(page, spec);
+      expect(
+        resp.ok(),
+        `Create attribute ${spec.code} failed: ${resp.status()} ${JSON.stringify(await resp.json().catch(() => null))}`
+      ).toBeTruthy();
+    }
 
     const familyResp = await createFamilyViaApi(page, familyCode, [numberCode, priceCode, metricCode]);
     expect(familyResp.ok(), `Create family ${familyCode} failed: ${familyResp.status()}`).toBeTruthy();
