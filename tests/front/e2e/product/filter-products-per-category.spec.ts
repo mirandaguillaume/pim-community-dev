@@ -29,7 +29,11 @@ async function getFirstRootCategory(page: Page): Promise<{code: string; label: s
   const list = Array.isArray(categories) ? categories : Object.values(categories);
   const first = list[0] as any;
   expect(first, 'expected at least one root category tree in the catalog').toBeTruthy();
-  return {code: first.code, label: first.label ?? first.code};
+  // The internal API returns locale-keyed `labels` (plural), not a resolved `label` field —
+  // e.g. {code: 'master', labels: {en_US: 'Master catalog'}}. Falling back to first.label (always
+  // undefined) silently produced the category's CODE instead of its displayed label, causing a
+  // deterministic mismatch against the tree widget's real (translated-label) accessible name.
+  return {code: first.code, label: first.labels?.en_US ?? first.code};
 }
 
 /**
