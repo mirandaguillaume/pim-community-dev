@@ -440,6 +440,18 @@ export async function createFamilyViaApi(page: Page, code: string, attributes: s
 }
 
 /**
+ * Create an association type via the internal REST API (POST /configuration/rest/association-type,
+ * AssociationTypeController::createAction() -> AssociationTypeUpdater, which only recognizes
+ * code/labels/is_two_way/is_quantified).
+ */
+export async function createAssociationTypeViaApi(page: Page, code: string) {
+  return page.request.post('/configuration/rest/association-type/', {
+    data: {code},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
  * Fetch a product's data via the internal REST API (categories, values, etc.).
  */
 export async function getProductViaApi(page: Page, identifier: string): Promise<any> {
@@ -500,6 +512,27 @@ export async function getFirstFamilyVariantCode(page: Page): Promise<string | nu
 export async function createProductModelViaApi(page: Page, code: string, familyVariantCode: string) {
   return page.request.post('/enrich/product-model/rest/create', {
     data: {code, family_variant: familyVariantCode},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
+ * Launch the "delete_attributes" bulk job via the internal REST API
+ * (MassDeleteAttributeController::launchAction(), POST /rest/attribute/mass-delete). Unlike
+ * the attribute-group mass-delete (form-encoded, read via Request::get()), this endpoint
+ * expects a JSON body already shaped as a job "filters" configuration
+ * (DeleteAttributesTasklet reads `filters.search` / `filters.options` via the shared
+ * SearchableRepositoryInterface::findBySearch() contract, same `options.identifiers` shape
+ * used by getFirstFamilyVariantCode's list endpoint).
+ */
+export async function launchMassDeleteAttributesViaApi(page: Page, codes: string[]) {
+  return page.request.post('/rest/attribute/mass-delete', {
+    data: {
+      filters: {
+        search: null,
+        options: {identifiers: codes},
+      },
+    },
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
 }
