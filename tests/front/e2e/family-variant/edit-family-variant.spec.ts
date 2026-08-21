@@ -73,20 +73,29 @@ test.describe('Edit family variant', () => {
     const modelCode = `pw-model-${ts}`;
     const variantSku = `pw-variant-${ts}`;
 
-    const [colorResp, sizeResp, weightResp] = await Promise.all([
-      createAttributeViaApi(page, {code: colorCode, type: 'pim_catalog_boolean', group: 'other'}),
-      createAttributeViaApi(page, {code: sizeCode, type: 'pim_catalog_boolean', group: 'other'}),
-      createAttributeViaApi(page, {
+    // Created SEQUENTIALLY, not via Promise.all: three concurrent PUT /rest/attribute/ calls that
+    // all attach to the SAME attribute group ('other') race on that group's attribute collection
+    // and intermittently 500 (always on whichever request lands first). Confirmed in CI — the
+    // parallel version failed twice in a row here on `pw_color_*`, and made the sibling
+    // create-product-added-attributes spec fail its first attempt and pass only on retry.
+    const attributeSpecs = [
+      {code: colorCode, type: 'pim_catalog_boolean', group: 'other'},
+      {code: sizeCode, type: 'pim_catalog_boolean', group: 'other'},
+      {
         code: weightCode,
         type: 'pim_catalog_number',
         group: 'other',
         decimals_allowed: false,
         negative_allowed: false,
-      }),
-    ]);
-    expect(colorResp.ok(), `Create attribute ${colorCode} failed: ${colorResp.status()}`).toBeTruthy();
-    expect(sizeResp.ok(), `Create attribute ${sizeCode} failed: ${sizeResp.status()}`).toBeTruthy();
-    expect(weightResp.ok(), `Create attribute ${weightCode} failed: ${weightResp.status()}`).toBeTruthy();
+      },
+    ];
+    for (const spec of attributeSpecs) {
+      const resp = await createAttributeViaApi(page, spec);
+      expect(
+        resp.ok(),
+        `Create attribute ${spec.code} failed: ${resp.status()} ${JSON.stringify(await resp.json().catch(() => null))}`
+      ).toBeTruthy();
+    }
 
     const familyResp = await createFamilyViaApi(page, familyCode, [colorCode, sizeCode, weightCode]);
     expect(familyResp.ok(), `Create family ${familyCode} failed: ${familyResp.status()}`).toBeTruthy();
