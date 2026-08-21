@@ -76,7 +76,13 @@ test.describe('Edit family variant', () => {
     const [colorResp, sizeResp, weightResp] = await Promise.all([
       createAttributeViaApi(page, {code: colorCode, type: 'pim_catalog_boolean', group: 'other'}),
       createAttributeViaApi(page, {code: sizeCode, type: 'pim_catalog_boolean', group: 'other'}),
-      createAttributeViaApi(page, {code: weightCode, type: 'pim_catalog_number', group: 'other'}),
+      createAttributeViaApi(page, {
+        code: weightCode,
+        type: 'pim_catalog_number',
+        group: 'other',
+        decimals_allowed: false,
+        negative_allowed: false,
+      }),
     ]);
     expect(colorResp.ok(), `Create attribute ${colorCode} failed: ${colorResp.status()}`).toBeTruthy();
     expect(sizeResp.ok(), `Create attribute ${sizeCode} failed: ${sizeResp.status()}`).toBeTruthy();

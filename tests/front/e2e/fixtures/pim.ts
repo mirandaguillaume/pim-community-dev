@@ -612,6 +612,8 @@ export async function createAttributeViaApi(
     allowed_extensions?: string[];
     max_file_size?: string;
     labels?: Record<string, string>;
+    decimals_allowed?: boolean;
+    negative_allowed?: boolean;
   }
 ) {
   return page.request.put('/rest/attribute/', {
