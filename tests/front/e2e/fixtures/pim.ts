@@ -433,7 +433,7 @@ export async function deleteProductViaApi(page: Page, productId: string) {
  * it in `attributes`.
  */
 export async function createFamilyViaApi(page: Page, code: string, attributes: string[] = []) {
-  return page.request.post('/configuration/rest/family', {
+  return page.request.post('/configuration/rest/family/', {
     data: {code, attributes},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
