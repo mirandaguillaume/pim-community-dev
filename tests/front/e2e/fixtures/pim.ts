@@ -428,6 +428,18 @@ export async function deleteProductViaApi(page: Page, productId: string) {
 }
 
 /**
+ * Create an association type via the internal REST API (POST /configuration/rest/association-type,
+ * AssociationTypeController::createAction() -> AssociationTypeUpdater, which only recognizes
+ * code/labels/is_two_way/is_quantified).
+ */
+export async function createAssociationTypeViaApi(page: Page, code: string) {
+  return page.request.post('/configuration/rest/association-type/', {
+    data: {code},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
  * Fetch a product's data via the internal REST API (categories, values, etc.).
  */
 export async function getProductViaApi(page: Page, identifier: string): Promise<any> {
