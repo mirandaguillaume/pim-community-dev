@@ -42,7 +42,20 @@ fi
 
 # Run all test files in a single PHPUnit process (one container, one bootstrap).
 echo "Running $FILE_COUNT test files in a single PHPUnit invocation"
-APP_ENV=test docker-compose run -T php ./vendor/bin/phpunit \
-  -c "$CONFIG_DIRECTORY" \
-  --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
-  $TEST_FILES
+if [[ -n "$PHPUNIT_COVERAGE" ]]; then
+    # Nightly/on-demand coverage: load Xdebug in coverage mode (the image ships
+    # XDEBUG_MODE=off as an env var, which overrides -d xdebug.mode, so set it via -e)
+    # and emit a per-shard clover for Codecov. Only when PHPUNIT_COVERAGE is set — the
+    # per-PR path below stays coverage-free so PR CI is not slowed by Xdebug.
+    APP_ENV=test docker-compose run -T -e XDEBUG_MODE=coverage php \
+      php -d zend_extension=xdebug ./vendor/bin/phpunit \
+      -c "$CONFIG_DIRECTORY" \
+      --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
+      --coverage-clover "var/tests/phpunit/coverage-shard-${PHPUNIT_SHARD:-0}.xml" \
+      $TEST_FILES
+else
+    APP_ENV=test docker-compose run -T php ./vendor/bin/phpunit \
+      -c "$CONFIG_DIRECTORY" \
+      --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
+      $TEST_FILES
+fi
