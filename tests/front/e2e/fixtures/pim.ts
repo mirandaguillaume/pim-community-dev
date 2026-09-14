@@ -1231,7 +1231,7 @@ export async function goToUserGroupEdit(page: Page, groupName?: string) {
   await waitForLoadingMasks(page);
 }
 
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
+export const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 /**
  * Launch an import job by uploading a file via the internal REST API.

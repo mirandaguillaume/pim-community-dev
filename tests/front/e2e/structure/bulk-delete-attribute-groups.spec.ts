@@ -10,6 +10,7 @@ import {
   getStepSummaryValue,
   waitForJobExecutionViaApi,
   waitForNewJobExecutionIds,
+  XHR_HEADER,
 } from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
@@ -65,9 +66,11 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *   MassDeleteAttributeGroupsModal.tsx:74-92. Typed phrase: DoubleCheckDeleteModal.tsx:34 TextField, labelled by
  *   Field.tsx:118; the confirm Button is disabled until the phrase matches (DoubleCheckDeleteModal.tsx:20).
  * - Replacement SelectInput: rendered only when the impacted attribute count is > 0
- *   (MassDeleteAttributeGroupsModal.tsx:82-118). SelectInput.tsx:363-385 renders the selected option next to the
- *   search textbox in the same container; typing filters the options (:246-255, :264); each option carries
- *   data-testid=<group code> (:435) in a portal overlay.
+ *   (MassDeleteAttributeGroupsModal.tsx:82-118). The search textbox is SearchInput = styled(TextInput)
+ *   (SelectInput.tsx:39), and TextInput wraps its input in its own TextInputContainer (TextInput.tsx:120-134), so
+ *   the selected option's label (SelectedOptionContainer, SelectInput.tsx:364-368) is a sibling of that wrapper
+ *   inside InputContainer (:363), two levels above the input. Typing filters the options (:246-255, :264); each
+ *   option carries data-testid=<group code> (:435) in a portal overlay.
  * - Flash: useNotify resolves to messenger.notify (legacy-bridge dependencies.ts:18), which renders a
  *   MessageBar with role="status" for the info level (MessageBar.tsx:291) that closes after 5s.
  * - Job page: JobExecutionDetail.tsx:262-263 data-testid="job-status"; summary rows are InnerTable.tsx:31-33
@@ -77,16 +80,18 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *   while the collection is empty, :123). Each item is notification-list.html:1-12:
  *   a.AknNotification-link[href="#<url>"] holding .AknNotification-status--<type>, .AknNotification-title
  *   ("Deletion", pim_notification.types.attribute_group_mass_delete) and .AknNotification-message. Every render of
- *   the user menu builds a new notifications view and calls refresh() (user-navigation.js:45-52); when that
- *   count_unread answer differs from the indicator, the collection is reset (notifications.js:73), so the answer
- *   is awaited before the panel is opened. A job notification that lands while the panel is open can still
- *   reset it; nothing in this spec launches one.
+ *   the user menu builds a new notifications view whose indicator starts at 0 (notifications.js:53-58) and calls
+ *   refresh() (user-navigation.js:45-52); when that count_unread answer differs from the indicator, the collection
+ *   is reset (notifications.js:69-74). A count_unread response alone can come from a previous view's in-flight
+ *   refresh, so the spec instead waits for the live indicator (indicator.js:16, span.AknNotificationMenu-count) to
+ *   show a positive count before opening the panel. After that, /notification/list sends the same unreadCount
+ *   (list.json.twig:29), so later refreshes do not reset the panel unless the count changes. A job notification
+ *   that lands while the panel is open would change it; nothing in this spec launches one.
  */
 
 const JOB_CODE = 'delete_attribute_groups';
 const OTHER = 'other';
 const OTHER_LABEL = 'Other';
-const XHR = {'X-Requested-With': 'XMLHttpRequest'};
 
 type AttributeGroupListItem = {code: string; labels: Record<string, string>; attribute_count: number};
 type StepExecution = {
@@ -109,7 +114,7 @@ async function createTextAttribute(page: Page, code: string, group: string): Pro
 }
 
 async function expectAttributeInGroup(page: Page, attributeCode: string, groupCode: string): Promise<void> {
-  const resp = await page.request.get(`/rest/attribute/${attributeCode}`, {headers: XHR});
+  const resp = await page.request.get(`/rest/attribute/${attributeCode}`, {headers: XHR_HEADER});
   const text = await resp.text();
   expect(resp.ok(), `GET /rest/attribute/${attributeCode} failed: ${resp.status()} ${text}`).toBe(true);
   // The internal API reuses the standard normalizer, which gives the group as a code (AttributeNormalizer.php:35).
@@ -153,9 +158,10 @@ function replacementInput(dialog: Locator): Locator {
   return dialog.getByRole('textbox', {name: /^Please select the attribute group to move /});
 }
 
-// The SelectInput container that holds both the search textbox and the selected option's label.
+// SelectInput's InputContainer, which holds both the selected option's label and the search textbox. The textbox's
+// own parent is TextInput's TextInputContainer (TextInput.tsx:120-134), which holds nothing but the input.
 function replacementControl(dialog: Locator): Locator {
-  return replacementInput(dialog).locator('xpath=..');
+  return replacementInput(dialog).locator('xpath=../..');
 }
 
 /**
@@ -241,7 +247,7 @@ async function cleanUp(page: Page, attributeCodes: string[], groupCodes: string[
 
   for (const code of attributeCodes) {
     await attempt(`attribute ${code}`, async () => {
-      const resp = await page.request.delete(`/rest/attribute/${code}`, {headers: XHR, timeout: 30_000});
+      const resp = await page.request.delete(`/rest/attribute/${code}`, {headers: XHR_HEADER, timeout: 30_000});
       if (!resp.ok() && 404 !== resp.status()) {
         console.warn(`[cleanup] DELETE /rest/attribute/${code} refused: ${await describeResponse(resp)}`);
       }
@@ -249,9 +255,9 @@ async function cleanUp(page: Page, attributeCodes: string[], groupCodes: string[
   }
   for (const code of groupCodes.filter(groupCode => OTHER !== groupCode)) {
     await attempt(`attribute group ${code}`, async () => {
-      const existing = await page.request.get(`/rest/attribute-group/${code}`, {headers: XHR, timeout: 30_000});
+      const existing = await page.request.get(`/rest/attribute-group/${code}`, {headers: XHR_HEADER, timeout: 30_000});
       if (404 === existing.status()) return;
-      const resp = await page.request.delete(`/rest/attribute-group/${code}`, {headers: XHR, timeout: 30_000});
+      const resp = await page.request.delete(`/rest/attribute-group/${code}`, {headers: XHR_HEADER, timeout: 30_000});
       if (!resp.ok()) {
         console.warn(`[cleanup] DELETE /rest/attribute-group/${code} refused: ${await describeResponse(resp)}`);
       }
@@ -328,11 +334,11 @@ test.describe('Bulk delete attribute groups', () => {
       // Entity effects. The job is over; the short retry only absorbs cache timing.
       await expect(async () => {
         for (const code of [codeA, codeB]) {
-          const resp = await page.request.get(`/rest/attribute-group/${code}`, {headers: XHR});
+          const resp = await page.request.get(`/rest/attribute-group/${code}`, {headers: XHR_HEADER});
           expect(resp.status(), `GET /rest/attribute-group/${code}: ${await describeResponse(resp)}`).toBe(404);
         }
       }).toPass({timeout: 15_000});
-      const otherResp = await page.request.get(`/rest/attribute-group/${OTHER}`, {headers: XHR});
+      const otherResp = await page.request.get(`/rest/attribute-group/${OTHER}`, {headers: XHR_HEADER});
       expect(otherResp.ok(), `'other' should survive: ${await describeResponse(otherResp)}`).toBe(true);
       await expectAttributeInGroup(page, attribute, OTHER);
 
@@ -349,10 +355,6 @@ test.describe('Bulk delete attribute groups', () => {
       }).toPass({timeout: 60_000});
 
       // "When I go on the last executed job resume of "delete_attribute_groups""
-      const countUnread = page.waitForResponse(resp => new URL(resp.url()).pathname === '/notification/count_unread', {
-        timeout: 60_000,
-      });
-      countUnread.catch(() => {});
       await page.evaluate(id => {
         window.location.hash = `#/job/show/${id}`;
       }, jobId);
@@ -364,8 +366,12 @@ test.describe('Bulk delete attribute groups', () => {
       await expect(page.getByRole('listitem').filter({hasText: /cannot be removed/})).toBeVisible({timeout: 10_000});
 
       // Notification panel (legacy Backbone template, no ARIA roles: CSS classes are the only hooks).
-      const unread = await countUnread;
-      expect(unread.ok(), `GET /notification/count_unread: ${await describeResponse(unread)}`).toBe(true);
+      // The job notification is still unread, so the live view's own count_unread answer sets its indicator to a
+      // positive number. Until then the indicator shows 0, and that answer would reset an already loaded panel.
+      await expect(
+        page.locator('.AknNotificationMenu-count'),
+        'the notification indicator never showed the unread count on the job page'
+      ).toHaveText(/^[1-9]\d*$/, {timeout: 60_000});
       const listResponse = page.waitForResponse(resp => new URL(resp.url()).pathname === '/notification/list', {
         timeout: 30_000,
       });
@@ -446,12 +452,12 @@ test.describe('Bulk delete attribute groups', () => {
       expect(getStepSummaryValue(deleteStep, 'skipped_attribute_groups', 'Skipped attribute groups'), dump).toBe(0);
       expect(deleteStep.warnings, dump).toEqual([]);
 
-      const sourceResp = await page.request.get(`/rest/attribute-group/${sourceCode}`, {headers: XHR});
+      const sourceResp = await page.request.get(`/rest/attribute-group/${sourceCode}`, {headers: XHR_HEADER});
       expect(
         sourceResp.status(),
         `GET /rest/attribute-group/${sourceCode}: ${await describeResponse(sourceResp)}`
       ).toBe(404);
-      const targetResp = await page.request.get(`/rest/attribute-group/${targetCode}`, {headers: XHR});
+      const targetResp = await page.request.get(`/rest/attribute-group/${targetCode}`, {headers: XHR_HEADER});
       expect(targetResp.ok(), `GET /rest/attribute-group/${targetCode}: ${await describeResponse(targetResp)}`).toBe(
         true
       );
