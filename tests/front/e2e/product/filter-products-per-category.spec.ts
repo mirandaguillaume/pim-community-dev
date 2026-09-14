@@ -6,6 +6,7 @@ import {
   createProductViaApi,
   goToProductBySearch,
   createCategoryViaApi,
+  searchProductGrid,
 } from '../fixtures/pim';
 
 const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
@@ -165,23 +166,6 @@ async function setIncludeSubCategories(page: Page, include: boolean) {
   await switchLocator.getByRole('button', {name: include ? 'Yes' : 'No', exact: true}).click();
 }
 
-async function searchGrid(page: Page, term: string) {
-  // SearchFilterInput.tsx renders a single `input.AknFilterBox-search[name="value"]` (type="text")
-  // inside the `.search-filter` container — the Behat SearchDecorator contract. Assert visibility
-  // with a bounded timeout so a missing input fails fast instead of hanging until the test timeout.
-  const searchInput = page.locator('.search-filter input[name="value"]');
-  await expect(searchInput, 'product grid search input not found').toBeVisible({timeout: 15_000});
-  // Listen BEFORE pressing Enter: the Enter keydown submits synchronously (runTimeout -> doSearch).
-  const gridRefresh = page.waitForResponse(
-    resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/'),
-    {timeout: 30_000}
-  );
-  await searchInput.fill(term);
-  await searchInput.press('Enter');
-  await gridRefresh;
-  await waitForLoadingMasks(page);
-}
-
 /**
  * Classifies a disposable product into a category via the real product-edit "Categories" tab —
  * same DOM contract as classify-product.spec.ts (#trees, li[role=treeitem], div[role=checkbox]),
@@ -267,7 +251,7 @@ test.describe('Filter products by category', () => {
 
     // --- The scenario under test ---
     await goToProductsGrid(page);
-    await searchGrid(page, prefix);
+    await searchProductGrid(page, prefix);
 
     await openCategoryTreePanel(page);
     await selectCategoryTree(page, treeLabel);
