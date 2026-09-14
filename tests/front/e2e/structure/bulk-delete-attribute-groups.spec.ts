@@ -7,6 +7,7 @@ import {
   createAttributeViaApi,
   getJobExecutionIdsViaApi,
   getJobNotificationViaApi,
+  getLatestJobExecutionId,
   getStepSummaryValue,
   waitForJobExecutionViaApi,
   waitForNewJobExecutionIds,
@@ -177,7 +178,7 @@ async function confirmMassDelete(
   await dialog.getByRole('textbox', {name: 'Please type "delete"', exact: true}).fill('delete', {timeout: 10_000});
   await expect(confirm).toBeEnabled({timeout: 10_000});
 
-  const prevMaxId = Math.max(0, ...(await getJobExecutionIdsViaApi(page, JOB_CODE)));
+  const prevMaxId = await getLatestJobExecutionId(page, JOB_CODE);
 
   const launch = page.waitForResponse(
     resp => new URL(resp.url()).pathname === '/rest/attribute-group/mass-delete' && resp.request().method() === 'POST',

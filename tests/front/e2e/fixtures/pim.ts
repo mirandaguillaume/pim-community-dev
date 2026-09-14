@@ -510,39 +510,86 @@ export type JobExecutionRow = {
   [key: string]: unknown;
 };
 
+// Upper bound of one process tracker read, see getJobExecutionRowsViaApi.
+const PROCESS_TRACKER_MAX_ROWS = 5_000;
+
 /**
- * List every execution of a job instance from the process tracker (POST /rest/process-tracker,
- * GetJobExecutionAction; filters are read from the query string). Only visible jobs are listed.
- * The tracker sorts by start time DESC, so a queued execution (no start time yet) comes LAST: the first row
- * is not the newest execution, hence all pages are read.
+ * List every visible execution of a job instance from the process tracker (POST /rest/process-tracker,
+ * GetJobExecutionAction, which reads its filters from the query string and redirects requests without the XHR
+ * header). Queued executions are listed too: the WHERE clause only filters is_visible and the requested filters
+ * (SearchJobExecution::buildSqlWherePart). Every process tracker helper below reads through this function.
+ * Throws with the status and body when the search fails or does not answer JSON.
+ *
+ * Rows are sorted by start_time DESC, then id ASC (SearchJobExecution::buildSqlOrderByPart). A queued execution
+ * (NULL start_time) therefore comes LAST, so the first row is not the newest execution: compare ids. It also
+ * jumps to the top once a worker starts it, so reading page after page races: when it starts between two page
+ * requests, every row before it shifts one place down, and it is missed (it was not on page 1 yet and is no longer
+ * on page 2). Hence ONE request, a single SELECT that sees one consistent snapshot, rather than re-reading pages
+ * until two passes agree. `size` has no server-side cap (GetJobExecutionAction casts it as is,
+ * SearchJobExecutionHandler only caps `page` at 50). 5000 rows is the reach of the former 50 x 100 pager and far
+ * above what these job codes accumulate (tens of executions per CI run). A full page throws instead of silently
+ * dropping rows.
  */
 export async function getJobExecutionRowsViaApi(page: Page, jobCode: string): Promise<JobExecutionRow[]> {
-  const size = 100;
-  const rowsById = new Map<number, JobExecutionRow>();
-  for (let pageNumber = 1; pageNumber <= 50; pageNumber++) {
-    const resp = await page.request.post('/rest/process-tracker', {
-      params: {'code[]': jobCode, page: String(pageNumber), size: String(size)},
-      headers: XHR_HEADER,
-    });
-    const text = await resp.text().catch(() => '');
-    if (!resp.ok()) {
-      throw new Error(`Process tracker search for ${jobCode} failed: ${resp.status()} ${text}`);
-    }
-    const rows: JobExecutionRow[] = JSON.parse(text)?.rows ?? [];
-    for (const row of rows) {
-      rowsById.set(Number(row.job_execution_id), row);
-    }
-    if (rows.length < size) {
-      return [...rowsById.values()];
-    }
+  const resp = await page.request.post('/rest/process-tracker', {
+    params: {'code[]': jobCode, page: '1', size: String(PROCESS_TRACKER_MAX_ROWS)},
+    headers: XHR_HEADER,
+  });
+  const text = await resp.text().catch(() => '');
+  if (!resp.ok()) {
+    throw new Error(`Process tracker search for ${jobCode} failed: ${resp.status()} ${text}`);
   }
-  throw new Error(`Process tracker lists more than 5000 executions of ${jobCode}`);
+  let body: {rows?: unknown} | null;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    throw new Error(`Process tracker search for ${jobCode} did not return JSON: ${resp.status()} ${text}`);
+  }
+  const rows = (Array.isArray(body?.rows) ? body.rows : []) as JobExecutionRow[];
+  if (rows.length >= PROCESS_TRACKER_MAX_ROWS) {
+    throw new Error(
+      `Process tracker lists ${PROCESS_TRACKER_MAX_ROWS} or more executions of ${jobCode}: newer ones may be missing`
+    );
+  }
+  return rows;
 }
 
-/** Highest execution id of a job instance in the process tracker, 0 when it never ran. */
+/** Highest execution id of a job instance in the process tracker, 0 when it never ran. Throws when it cannot be read. */
 export async function getLatestJobExecutionId(page: Page, jobCode: string): Promise<number> {
   const rows = await getJobExecutionRowsViaApi(page, jobCode);
   return rows.reduce((max, row) => Math.max(max, Number(row.job_execution_id) || 0), 0);
+}
+
+/**
+ * Ids of the visible executions of a job instance, in the process tracker order (see getJobExecutionRowsViaApi:
+ * compare ids, never take the first one). Unlike getLatestMassEditJobId, a failed search throws with status and body.
+ */
+export async function getJobExecutionIdsViaApi(page: Page, jobCode: string): Promise<number[]> {
+  return (await getJobExecutionRowsViaApi(page, jobCode)).map(row => Number(row.job_execution_id));
+}
+
+/**
+ * Poll the process tracker until executions of `jobCode` newer than `prevMaxId` exist, and return their
+ * ids in ascending order. QueueJobLauncher::launch inserts the execution row before the launching request
+ * answers, so the id shows up quickly even when the job consumer is still busy with other messages.
+ */
+export async function waitForNewJobExecutionIds(
+  page: Page,
+  jobCode: string,
+  prevMaxId: number,
+  timeout = 30_000
+): Promise<number[]> {
+  const start = Date.now();
+  let lastIds: number[] = [];
+  while (Date.now() - start < timeout) {
+    lastIds = await getJobExecutionIdsViaApi(page, jobCode);
+    const newIds = lastIds.filter(id => id > prevMaxId).sort((a, b) => a - b);
+    if (newIds.length > 0) return newIds;
+    await page.waitForTimeout(1_000);
+  }
+  throw new Error(
+    `No ${jobCode} execution newer than #${prevMaxId} appeared within ${timeout}ms (last ids: ${JSON.stringify(lastIds)})`
+  );
 }
 
 /**
@@ -1008,56 +1055,6 @@ async function uploadFileIntoMediaField(
     container.locator('.filename', {hasText: fileName}),
     `"${attributeLabel}" did not render ${fileName} after its upload`
   ).toBeAttached({timeout: 30_000});
-}
-
-/**
- * Return the ids of the visible executions of a job instance, as listed by the process tracker
- * (POST /rest/process-tracker, GetJobExecutionAction, which reads its filters from the query string and
- * redirects requests without the XHR header). Queued executions are listed too: the WHERE clause only
- * filters is_visible and the requested filters (SearchJobExecution::buildSqlWherePart). Rows are sorted
- * by start_time DESC, then id ASC, so a queued execution (NULL start_time) is not reliably first: compare
- * ids, never take rows[0]. Unlike getLatestMassEditJobId, a failed search throws with status and body.
- */
-export async function getJobExecutionIdsViaApi(page: Page, jobCode: string, size = 100): Promise<number[]> {
-  const resp = await page.request.post('/rest/process-tracker', {
-    params: {'code[]': jobCode, page: '1', size: String(size)},
-    headers: XHR_HEADER,
-  });
-  const text = await resp.text().catch(() => '');
-  if (!resp.ok()) {
-    throw new Error(`Process tracker search for ${jobCode} failed: ${resp.status()} ${text}`);
-  }
-  let body: {rows?: Array<{job_execution_id: number | string}>};
-  try {
-    body = JSON.parse(text);
-  } catch {
-    throw new Error(`Process tracker search for ${jobCode} did not return JSON: ${resp.status()} ${text}`);
-  }
-  return (Array.isArray(body.rows) ? body.rows : []).map(row => Number(row.job_execution_id));
-}
-
-/**
- * Poll the process tracker until executions of `jobCode` newer than `prevMaxId` exist, and return their
- * ids in ascending order. QueueJobLauncher::launch inserts the execution row before the launching request
- * answers, so the id shows up quickly even when the job consumer is still busy with other messages.
- */
-export async function waitForNewJobExecutionIds(
-  page: Page,
-  jobCode: string,
-  prevMaxId: number,
-  timeout = 30_000
-): Promise<number[]> {
-  const start = Date.now();
-  let lastIds: number[] = [];
-  while (Date.now() - start < timeout) {
-    lastIds = await getJobExecutionIdsViaApi(page, jobCode);
-    const newIds = lastIds.filter(id => id > prevMaxId).sort((a, b) => a - b);
-    if (newIds.length > 0) return newIds;
-    await page.waitForTimeout(1_000);
-  }
-  throw new Error(
-    `No ${jobCode} execution newer than #${prevMaxId} appeared within ${timeout}ms (last ids: ${JSON.stringify(lastIds)})`
-  );
 }
 
 /**
