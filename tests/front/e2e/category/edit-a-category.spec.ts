@@ -1,3 +1,4 @@
+import type {Request} from '@playwright/test';
 import {test, expect, Page} from '../fixtures/coverage-fixture';
 import {login, createCategoryViaApi} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
@@ -52,16 +53,22 @@ const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
  *   POST /category/rest/{id} -> UpdateCategoryController `{success: true, category}`.
  * - "Category successfully updated": useEditCategoryForm.ts notify(SUCCESS,
  *   pim_enrich.entity.category.content.edit.success) -> shared Notifications -> DSM MessageBar
- *   role="status", which closes itself after 5s. It is asserted right after the save.
+ *   role="status", which closes itself after a few seconds. It is asserted right after the save.
  * - "My sandals": the label renders both in PageHeader.Title and in the last breadcrumb step, so
  *   the check is scoped to the DSM Breadcrumb `<nav aria-label="Breadcrumb">` to stay strict.
  *
  * Form reset race: EditCategoryProvider.tsx builds a new `locales` object on every render, and
  * useEditCategoryForm.ts re-initializes the edited category whenever `locales` changes identity.
- * If the locales or channels fetch commits after the label was typed, the typed value is wiped.
- * The spec waits for both provider responses to finish before touching the form, and wraps
- * fill -> Save -> save-response label check in one toPass. A wiped value then shows up as the old
- * label in the save response and triggers a retry; saving the same label twice is harmless.
+ * It also re-initializes from the fetched category, which a save does not update. If a locales,
+ * channels or category GET commits after the label was typed, the typed value is wiped. CI builds
+ * the front in development mode and CategoriesApp.tsx wraps the app in <StrictMode>, so React runs
+ * the mount effects twice and each of those GETs is sent twice (the Backbone shell can also request
+ * the locale and channel lists). Waiting for one response per URL is therefore not a sync point.
+ * Instead the spec tracks every in-flight GET to those three URLs and waits until none is pending
+ * before touching the form. That wait is best-effort: the real guard is the toPass around
+ * fill -> Save -> save-response label check. A wiped value shows up as the old label in the save
+ * response and triggers a retry, and saving the same label twice is harmless. A non-ok save
+ * response (400 violations, 500) is not retried: it fails the test at once with its body.
  */
 
 async function getCategoryIdByCode(page: Page, code: string): Promise<number> {
@@ -98,26 +105,26 @@ test.describe('Edit a category', () => {
     ).toBe(201);
     const id = await getCategoryIdByCode(page, code);
 
-    // Register before navigating so the provider's own responses cannot be missed.
-    const localesLoaded = page.waitForResponse(
-      r => {
-        const url = new URL(r.url());
-        return url.pathname.endsWith('/configuration/locale/rest') && url.searchParams.get('activated') === 'true';
-      },
-      {timeout: 60_000}
-    );
-    const channelsLoaded = page.waitForResponse(
-      r => new URL(r.url()).pathname.endsWith('/configuration/channel/rest'),
-      {
-        timeout: 60_000,
-      }
-    );
+    // Register before navigating so no form-initializing GET is missed (see "Form reset race").
+    const isFormInitGet = (r: Request): boolean => {
+      if (r.method() !== 'GET') return false;
+      const path = new URL(r.url()).pathname;
+      return (
+        path.endsWith('/configuration/locale/rest') ||
+        path.endsWith('/configuration/channel/rest') ||
+        path.endsWith(`/category/rest/${id}`)
+      );
+    };
+    const pendingFormInitGets = new Set<Request>();
+    const settle = (r: Request) => pendingFormInitGets.delete(r);
+    page.on('request', r => {
+      if (isFormInitGet(r)) pendingFormInitGets.add(r);
+    });
+    page.on('requestfinished', settle);
+    page.on('requestfailed', settle);
 
     const nav = new NavigationHelper(page);
     await nav.goToEntityPage('category edit', String(id));
-
-    const [localesResp, channelsResp] = await Promise.all([localesLoaded, channelsLoaded]);
-    await Promise.all([localesResp.finished(), channelsResp.finished()]);
 
     const propertiesTab = page.getByRole('tab', {name: 'Properties', exact: true});
     await expect(propertiesTab).toBeVisible({timeout: 30_000});
@@ -134,30 +141,42 @@ test.describe('Edit a category', () => {
     const englishField = page.getByRole('textbox', {name: 'English (United States)', exact: true});
     await expect(englishField).toBeEditable({timeout: 30_000});
     await expect(englishField).toHaveValue(initialLabel);
+    // Best-effort: let every duplicated locales/channels/category GET commit before typing.
+    await expect.poll(() => pendingFormInitGets.size, {timeout: 30_000}).toBe(0);
 
     const unsavedChanges = page.getByText('There are unsaved changes.');
     const saveButton = page.getByRole('button', {name: 'Save', exact: true});
 
+    // Only a stale label in the save response is retried; a non-ok response is recorded and ends the loop.
+    const saveOutcome: {failure?: string} = {};
     await expect(async () => {
+      if (saveOutcome.failure) return;
       await englishField.fill(newLabel, {timeout: 5_000});
       await expect(englishField).toHaveValue(newLabel, {timeout: 2_000});
       await expect(unsavedChanges).toBeVisible({timeout: 2_000});
 
-      const saveResponse = page.waitForResponse(
-        r => r.request().method() === 'POST' && new URL(r.url()).pathname.endsWith(`/category/rest/${id}`),
-        {timeout: 30_000}
-      );
-      await saveButton.click({timeout: 10_000});
-      const resp = await saveResponse;
+      // Promise.all keeps the waiter handled even if the click throws. The waiter gets most of the
+      // loop budget so a slow but successful save is awaited instead of retried.
+      const [resp] = await Promise.all([
+        page.waitForResponse(
+          r => r.request().method() === 'POST' && new URL(r.url()).pathname.endsWith(`/category/rest/${id}`),
+          {timeout: 90_000}
+        ),
+        saveButton.click({timeout: 10_000}),
+      ]);
       const body = await resp.json().catch(() => null);
-      expect(resp.ok(), `Save category ${code} failed: ${resp.status()} ${JSON.stringify(body)}`).toBeTruthy();
+      if (!resp.ok()) {
+        saveOutcome.failure = `Save category ${code} failed: ${resp.status()} ${JSON.stringify(body)}`;
+        return;
+      }
       expect(
         body?.category?.properties?.labels?.en_US,
         `Save response did not carry the new label: ${JSON.stringify(body)}`
       ).toBe(newLabel);
-    }).toPass({timeout: 90_000});
+    }).toPass({timeout: 150_000});
+    expect(saveOutcome.failure, saveOutcome.failure).toBeUndefined();
 
-    // Then I should see the text "Category successfully updated" (the flash closes after 5s).
+    // Then I should see the text "Category successfully updated" (the flash closes after a few seconds).
     // .last(): a retried save can leave an earlier success flash on screen for a few seconds.
     await expect(page.getByRole('status').filter({hasText: 'Category successfully updated'}).last()).toBeVisible({
       timeout: 10_000,
