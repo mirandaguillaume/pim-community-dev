@@ -476,48 +476,6 @@ export async function createFamilyVariantViaApi(
 }
 
 /**
- * Find the most recent job execution id for a given job instance code, via the process-tracker's
- * own search endpoint (POST /rest/process-tracker, GetJobExecutionAction — reads its filters from
- * the query string, not the JSON body, despite the front-end's own fetch() sending both: see
- * useJobExecutionTable.ts vs GetJobExecutionAction::createSearchQuery(), which only reads
- * $request->query). Used for jobs launched automatically by a backend event subscriber (no
- * launch-via-API call to read a job execution id back from), e.g. the family-variant editor's
- * 'compute_family_variant_structure_changes' job.
- *
- * `sinceMs` filters out stale rows from a previous run of the same job code — pass Date.now()
- * captured just before the action that triggers the job.
- */
-export async function findRecentJobExecutionIdByCode(
-  page: Page,
-  jobCode: string,
-  sinceMs: number,
-  timeout = 30_000
-): Promise<string> {
-  const start = Date.now();
-  while (Date.now() - start < timeout) {
-    const resp = await page.request.post(
-      `/rest/process-tracker?${new URLSearchParams([
-        ['code[]', jobCode],
-        ['size', '5'],
-        ['sort[column]', 'started_at'],
-        ['sort[direction]', 'DESC'],
-      ])}`,
-      {headers: XHR_HEADER}
-    );
-    if (resp.ok()) {
-      const body = await resp.json();
-      const recentRow = (body.rows ?? []).find((row: any) => {
-        const startedAt = row.started_at ? Date.parse(row.started_at) : 0;
-        return startedAt >= sinceMs - 5_000;
-      });
-      if (recentRow) return String(recentRow.job_execution_id);
-    }
-    await page.waitForTimeout(1_000);
-  }
-  throw new Error(`No recent execution of job "${jobCode}" found within ${timeout}ms`);
-}
-
-/**
  * Fetch a product's data via the internal REST API (categories, values, etc.).
  */
 export async function getProductViaApi(page: Page, identifier: string): Promise<any> {

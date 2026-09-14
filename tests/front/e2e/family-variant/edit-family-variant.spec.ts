@@ -7,8 +7,6 @@ import {
   createProductModelViaApi,
   createProductViaApi,
   getProductViaApi,
-  findRecentJobExecutionIdByCode,
-  waitForJobExecutionViaApi,
 } from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
@@ -32,7 +30,9 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *   attribute renders as `<li data-attribute-code>` with a `.delete-attribute` icon
  *   (title "Remove attribute"), scoped under a `[data-level]` ancestor per level.
  * - Removal is entirely client-side until Save: handleAttributesRemoval() opens a
- *   Dialog.confirm() (title "Confirm remove of attributes", OK button "pim_common.ok" = "OK"),
+ *   Dialog.confirm() (title "Confirm remove of attributes", OK control "pim_common.ok" = "OK",
+ *   rendered by the default bootstrap-modal template as a <div class="AknButton ... ok">, not a
+ *   <button>),
  *   then just filters the attribute out of that level's in-memory `attributes` array and
  *   re-renders — no backend call. Because render() recomputes "common attributes" as every family
  *   attribute not present in ANY variant level's attribute list, the removed attribute
@@ -45,12 +45,13 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *   a POST_SAVE listener that launches 'compute_family_variant_structure_changes' automatically
  *   (no explicit "launch" step exists or is needed, matching the Behat scenario).
  *
- * Finding the job execution id: unlike export scenarios, this job is launched by a backend event
- * subscriber, not by an API call this spec makes — there's no launch response to read an id back
- * from. findRecentJobExecutionIdByCode (pim.ts) polls the process-tracker's own search endpoint
- * (POST /rest/process-tracker, filtered by job code) for a row that appeared after the save,
- * added specifically for this. Its response shape (job_execution_id, started_at, ...) was
- * confirmed against Akeneo\Platform\Job\...\SearchJobExecution\Model\JobExecutionRow::normalize().
+ * Waiting for the job: it is launched by a backend event subscriber, not by an API call this spec
+ * makes, AND it is registered with isVisible=false (Enrichment jobs.yml: Job args `true, false` =
+ * isStoppable, isVisible), while the process tracker (SearchJobExecution) only lists
+ * is_visible = 1 executions — so no endpoint exposes its execution id. The spec instead polls
+ * the effect the job produces: the variant product's weight value being cleared. The internal_api
+ * product normalizer fills every family attribute with a {data: null} placeholder
+ * (FillMissingProductValues), so "cleared" means no weight entry carries data.
  *
  * Axes: FamilyVariant::getAvailableAxesAttributeTypes() allows metric/simpleselect/boolean/
  * reference-data types — this spec uses 2 disposable BOOLEAN attributes as the 2 levels' axes
@@ -187,9 +188,17 @@ test.describe('Edit family variant', () => {
     await expect(weightChip).toBeVisible({timeout: 15_000});
     await weightChip.locator('.delete-attribute').click();
 
-    // I confirm the deletion — a second, stacked Backbone.BootstrapModal (Dialog.confirm()).
-    await expect(page.getByText('Confirm remove of attributes')).toBeVisible({timeout: 10_000});
-    await page.getByRole('button', {name: 'OK', exact: true}).click();
+    // I confirm the deletion — a second, stacked Backbone.BootstrapModal (pim-dialog.js confirm(),
+    // which adds modal--fullPage). Its OK control is NOT a <button>: the default bootstrap-modal
+    // template renders `<div class="AknButton ... ok">`, which has no button role, so
+    // getByRole('button', {name: 'OK'}) matches nothing (it hung for the full test timeout in CI).
+    // Same pattern as remove-product-model.spec.ts and comments.spec.ts.
+    const confirmDialog = page.locator('div.modal--fullPage').filter({hasText: 'Confirm remove of attributes'});
+    await expect(confirmDialog).toBeVisible({timeout: 10_000});
+    await confirmDialog.locator('.ok').click();
+    // okCloses -> close() -> hideModal() (no .fade) -> remove(): the confirm leaves the DOM, so
+    // `modal` below matches only the structural editor again.
+    await expect(confirmDialog).toHaveCount(0, {timeout: 10_000});
 
     // The attribute "Weight" should be on the attributes level 0 — the common-attributes column,
     // since render() recomputes it as every family attribute absent from all variant levels.
@@ -199,25 +208,30 @@ test.describe('Edit family variant', () => {
     // I press the "Save" button in the popin (pimui/js/family-variant/form/save.js -> PUT
     // /configuration/rest/family-variant/{code}), which is what actually triggers the async
     // recompute job on the backend (ComputeFamilyVariantStructureChangesSubscriber, POST_SAVE).
-    const beforeSave = Date.now();
-    await modal.getByText('Save').first().click();
+    // Exact and role-based: a bare getByText('Save').first() could land on "There are unsaved changes.".
+    await modal.getByRole('button', {name: 'Save', exact: true}).click();
 
     // Save success closes the modal (form-modal-creator.js listens for
-    // pim_enrich:form:entity:post_save and closes it) — a cheap sync point before searching for
-    // the job the save just launched.
+    // pim_enrich:form:entity:post_save and closes it) — a sync point proving the PUT succeeded.
     await expect(modal).not.toBeVisible({timeout: 15_000});
 
-    // I wait for the "compute_family_variant_structure_changes" job to finish
-    const jobId = await findRecentJobExecutionIdByCode(page, 'compute_family_variant_structure_changes', beforeSave);
-    const jobResult = await waitForJobExecutionViaApi(page, jobId);
-    expect(jobResult.status, `Recompute job did not complete: ${JSON.stringify(jobResult)}`).toBe('COMPLETED');
-
-    // Then the variant product "<sku>" should not have the following values: weight
-    const afterProduct = await getProductViaApi(page, variantUuid);
-    const weightValues = afterProduct.values?.[weightCode];
-    expect(
-      undefined === weightValues || 0 === weightValues.length,
-      `Expected weight value to be cleared, got: ${JSON.stringify(weightValues)}`
-    ).toBeTruthy();
+    // I wait for the "compute_family_variant_structure_changes" job to finish, and the variant
+    // product must no longer have a weight value. The job itself cannot be looked up: it is
+    // registered with isVisible=false (Enrichment jobs.yml), and the process tracker only lists
+    // is_visible=1 executions. So poll the effect the job produces. The internal_api product
+    // normalizer (FillMissingProductValues) returns a {data: null} placeholder for every family
+    // attribute, so a cleared value shows up as null data, not as a missing key. On timeout the
+    // diff shows whichever weight values still carry data.
+    await expect
+      .poll(
+        async () => {
+          const product = await getProductViaApi(page, variantUuid);
+          return ((product.values?.[weightCode] ?? []) as Array<{data: unknown}>).filter(
+            value => value.data !== null && value.data !== ''
+          );
+        },
+        {timeout: 180_000, intervals: [2_000]}
+      )
+      .toEqual([]);
   });
 });
