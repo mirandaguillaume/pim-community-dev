@@ -1,3 +1,4 @@
+import type {Page} from '@playwright/test';
 import {test, expect} from '../fixtures/coverage-fixture';
 import {
   login,
@@ -29,6 +30,54 @@ import {
  *
  * Uses existing indexed catalog products to avoid Elasticsearch indexing lag in CI.
  */
+
+/**
+ * Click the wizard's Next action (configure -> confirm) and assert that the .gif value was rejected.
+ *
+ * mass-edit/form/form.js runs edit-common-attributes.js validate(), which POSTs the operation's
+ * current values to /rest/value/validate. When the response holds no violations, the wizard moves
+ * to the Confirm step. When it holds violations, the wizard stays on the configure step and
+ * product/form/attributes/validation.js renders each one in the field footer
+ * (validation-error.html: .AknFieldContainer-validationError .error-message). The response is
+ * checked first, so a validate call that carried no file (e.g. an upload that had not finished yet)
+ * fails with the server's answer instead of a bare "element(s) not found" on the Confirm step.
+ */
+async function confirmExpectingGifRejected(page: Page, attributeCode: string, attributeLabel: string) {
+  const expectedMessage = `The gif file extension is not allowed for the ${attributeCode} attribute. Allowed extensions are png, jpeg, jpg.`;
+  const confirmAction = page.locator('.wizard-action[data-action-target="confirm"]');
+
+  // Listen before clicking: the click handler sends the validate request synchronously.
+  const validated = page.waitForResponse(
+    resp => resp.request().method() === 'POST' && new URL(resp.url()).pathname === '/rest/value/validate',
+    {timeout: 30_000}
+  );
+  validated.catch(() => {});
+  await confirmAction.click({timeout: 30_000});
+  const response = await validated;
+  const body = await response.json().catch(() => null);
+  expect(response.ok(), `POST /rest/value/validate failed: ${response.status()} ${JSON.stringify(body)}`).toBe(true);
+  const violations: unknown[] = Array.isArray(body?.values) ? body.values : [];
+  expect(
+    violations.length,
+    `validate returned no violations (wizard advanced to Confirm): ${JSON.stringify(body)}`
+  ).toBeGreaterThan(0);
+  expect(violations, `validate did not reject the gif for ${attributeCode}: ${JSON.stringify(body)}`).toContainEqual(
+    expect.objectContaining({attribute: attributeCode, message: expectedMessage})
+  );
+
+  await waitForLoadingMasks(page);
+  const field = page
+    .locator('.AknComparableFields')
+    .filter({has: page.locator('.AknFieldContainer-label', {hasText: attributeLabel})})
+    .first();
+  const error = field.locator('.AknFieldContainer-validationError .error-message').first();
+  await expect(error, `"${attributeLabel}" shows no extension error`).toHaveText(expectedMessage, {timeout: 15_000});
+  await expect(error).toBeVisible({timeout: 5_000});
+
+  // Still on the configure step: the Confirm step replaces Next with the "validate" (launch) action.
+  await expect(confirmAction, 'the wizard left the configure step').toBeVisible({timeout: 5_000});
+  await expect(page.locator('.wizard-action[data-action-target="validate"]')).toHaveCount(0);
+}
 
 test.describe('Mass edit image attributes', () => {
   const ts = Date.now();
@@ -164,5 +213,37 @@ test.describe('Mass edit image attributes', () => {
 
     expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(false);
     expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(false);
+  });
+
+  test('Rejects an invalid image extension even when the upload is slow', async ({page}) => {
+    // Regression guard for the confirm-during-upload race. Selecting a file only STARTS an async
+    // upload: media-field.js POSTs it to /image-media and writes the uploaded file into the value
+    // only in the ajax done() callback. Unlike the product edit form, the mass-edit wizard has no
+    // "fields not ready" guard: clicking Next while the upload is in flight validates the value as it
+    // was before the upload (still empty, which is valid), and the wizard moves on to the Confirm
+    // step, so the extension error never appears. Delaying /image-media makes that window
+    // deterministic: a helper that does not wait for the upload clicks Next inside it.
+    // Seen in CI: run 34846941289 (step 3 of the test above reached the Confirm step, retry passed
+    // with only 17-35ms between the upload response and the validate request).
+    // The gif is rejected and no job is launched, so this test changes no product data.
+    // Above the helpers' own bounds, so a failure reports their message rather than the test timeout.
+    test.setTimeout(300_000);
+
+    try {
+      await page.route('**/image-media', async route => {
+        await new Promise(resolve => setTimeout(resolve, 2_000));
+        await route.continue();
+      });
+
+      await goToProductsGrid(page);
+      await selectProductsBySku(page, [sku1!, sku2!]);
+      await openBulkEditAttributeValues(page);
+      await addAttributeToMassEdit(page, ATTR_LABEL);
+      await attachFileToMassEditAttribute(page, ATTR_LABEL, 'bic-core-148.gif');
+      await confirmExpectingGifRejected(page, ATTR_CODE, ATTR_LABEL);
+    } finally {
+      // A delayed handler can still be running when the test ends; its continue() must not fail cleanup.
+      await page.unrouteAll({behavior: 'ignoreErrors'}).catch(() => {});
+    }
   });
 });
