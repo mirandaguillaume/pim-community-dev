@@ -43,7 +43,7 @@ import {
  *   dropdown item render at all (JobExecutionDetail.tsx, meta.generateZipArchive).
  *
  * Job ("the following job "ecommerce_product_export" configuration"): instead of mutating a shared job
- * instance (csv_product_export is used by export-launch.spec.ts and edit-export.spec.ts), a disposable job
+ * instance (csv_product_export is used by edit-export.spec.ts), a disposable job
  * instance of job name csv_product_export (connector "Akeneo CSV Connector", icecat jobs.yml) is created
  * via POST /job-instance/rest/export. JobInstanceController::createAction resets the raw parameters to the
  * job defaults, so its configuration is then set with PUT /job-instance/rest/export/{code} (putAction ->

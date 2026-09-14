@@ -17,10 +17,10 @@ const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
  *
  * The Behat scenario depends on the "footwear" fixture's exact 6 attribute groups and asserts a
  * byte-for-byte CSV dump of all of them ("Read 6" / "Written 6" + the full CSV body). That's not
- * portable (catalog-specific group codes/labels/attribute lists, exact column ordering) and, per
- * this migration's established pattern for export scenarios (export-launch.spec.ts,
- * import-via-api.spec.ts), raw exported file content isn't read back at all — completion is
- * verified through the job execution REST API's step summary counters instead.
+ * portable (catalog-specific group codes/labels/attribute lists, exact column ordering), so the raw
+ * exported file content isn't read back here — completion is verified through the job execution
+ * REST API's step summary counters instead, as import-via-api.spec.ts does for imports. (Specs
+ * that do read an exported CSV back use readExportedCsv in pim.ts, e.g. export-launch.spec.ts.)
  *
  * This spec follows that same pattern, made precise rather than a bare `write > 0` check: it reads
  * the CURRENT total attribute-group count via the REST API first (GET /rest/attribute-group/,
@@ -33,11 +33,11 @@ const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
  * Job code: 'csv_footwear_attribute_group_export' (footwear fixture) falls back to
  * 'csv_attribute_group_export' — confirmed as a real default-install job instance in
  * src/Akeneo/Platform/Installer/back/.../fixtures/icecat_demo_dev/jobs.yml ("Demo CSV attribute
- * group export"), the catalog this suite actually runs against. Same resolveJobCode candidate-
- * fallback pattern as export-launch.spec.ts.
+ * group export"), the catalog this suite actually runs against. Same resolveJobCode (pim.ts)
+ * candidate-fallback pattern as import-via-api.spec.ts.
  *
- * Launches via REST API (launchExportViaApi) rather than the "Launch" button in the UI, for the
- * same reason as export-launch.spec.ts: both paths share JobInstanceController::launchAction().
+ * Launches via REST API (launchExportViaApi in pim.ts) rather than the launch button in the UI:
+ * both paths share JobInstanceController::launchAction().
  */
 
 async function getAttributeGroupCount(page: Page): Promise<number> {
@@ -101,7 +101,7 @@ test.describe('Export attribute groups CSV', () => {
       expect(exportStep.summary.read).toBe(expectedCount);
     }
 
-    // Verify completion is also reflected in the job tracker UI (same check as export-launch.spec.ts).
+    // Verify completion is also reflected in the job tracker UI.
     await goToJobExecution(page, jobId);
     await expect(page.getByText(/completed/i).first()).toBeVisible({timeout: 15_000});
   });

@@ -17,9 +17,9 @@ const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
  * Same shape as export-attribute-groups-csv.spec.ts (PR #402): the Behat scenario asserts the
  * exported file "should contain 5 rows", which is exactly as fixture-count-dependent as that
  * scenario's "Read 6"/"Written 6" — depends on the "footwear" catalog's exact association type
- * count. Following the same established pattern (export-launch.spec.ts, export-attribute-groups-
- * csv.spec.ts), completion and row count are verified through the job execution REST API's step
- * summary counters, not by reading the exported file back.
+ * count. Following the same pattern as export-attribute-groups-csv.spec.ts, completion and row
+ * count are verified through the job execution REST API's step summary counters, not by reading the
+ * exported file back.
  *
  * Reads the current total association-type count via the REST API first (GET
  * /configuration/rest/association-type, AssociationTypeController::indexAction() ->
@@ -32,8 +32,8 @@ const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
  * src/Akeneo/Platform/Installer/back/.../fixtures/icecat_demo_dev/jobs.yml ("Demo CSV association
  * type export"), the catalog this suite actually runs against.
  *
- * Launches via REST API (launchExportViaApi) rather than the "Launch" button in the UI, same
- * rationale as export-launch.spec.ts / export-attribute-groups-csv.spec.ts.
+ * Launches via REST API (launchExportViaApi in pim.ts) rather than the launch button in the UI,
+ * same rationale as export-attribute-groups-csv.spec.ts.
  */
 
 async function getAssociationTypeCount(page: Page): Promise<number> {
