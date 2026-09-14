@@ -9,7 +9,7 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product/pef/compare_and_copy_localized_fields.feature:37
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product/pef/compare_and_copy_localized_fields.feature:37
  *   "Successfully copy current tab compared product localized values"
  *
  * Adaptations:

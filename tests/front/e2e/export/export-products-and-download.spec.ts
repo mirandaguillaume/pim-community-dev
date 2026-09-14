@@ -12,7 +12,7 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product/export/export_products_and_download_exported_file.feature:7
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product/export/export_products_and_download_exported_file.feature:7
  *   "Successfully export products and be able to download exported file"
  *
  * Catalog ("Given an "apparel" catalog configuration"): Playwright CI runs against icecat_demo_dev, never

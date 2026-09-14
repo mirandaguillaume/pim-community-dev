@@ -3,7 +3,7 @@ import {login} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product/datagrid/datagrid_views.feature:17
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product/datagrid/datagrid_views.feature:17
  *   "Successfully display the default view"
  *
  * Read-only scenario: it only checks the view-selector label and the ordered visible column

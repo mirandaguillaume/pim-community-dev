@@ -5,7 +5,7 @@ import {NavigationHelper} from '../pages/NavigationHelper';
 /**
  * @critical Channel creation.
  *
- * Translated from Behat feature file:
+ * Replaced Behat scenario (deleted in #420):
  *   - tests/legacy/features/channel/create_channel.feature:8
  *       @critical Scenario: Successfully create a channel
  *

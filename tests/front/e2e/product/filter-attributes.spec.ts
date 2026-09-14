@@ -2,8 +2,9 @@ import {test, expect, Page} from '../fixtures/coverage-fixture';
 import {login, goToProductsGrid, selectFirstProduct, waitForLoadingMasks, ensureProductExists} from '../fixtures/pim';
 
 /**
- * This test replaces the Behat scenario from:
- *   tests/legacy/features/pim/enrichment/product/pef/edit_product_and_filter_attributes.feature:41
+ * Replaced Behat scenario (deleted in #420):
+ *   tests/legacy/features/pim/enrichment/product/pef/edit_product_and_filter_attributes.feature:42
+ *   "Edit the product and show only group missing required attributes by clicking on attribute group header"
  *
  * Prerequisite: The PIM must have at least one product with a family that has
  * both required and non-required attributes (e.g. icecat_demo_dev catalog).

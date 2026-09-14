@@ -2,7 +2,8 @@ import {test, expect} from '../fixtures/coverage-fixture';
 import {login, waitForLoadingMasks} from '../fixtures/pim';
 
 /**
- * Replaces Behat: edit_an_export.feature:11
+ * Replaced Behat scenario (deleted in #421): tests/legacy/features/platform/export/edit_an_export.feature:12
+ *   "Successfully update export job configuration"
  *
  * Tests that export job configuration can be saved and that filter display
  * correctly shows the saved values (especially multi-value SKU filters).

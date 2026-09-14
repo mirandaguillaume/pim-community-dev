@@ -2,7 +2,7 @@ import {test, expect} from '../fixtures/coverage-fixture';
 import {login, goToProductsGrid} from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product-model/create_product_model.feature:107
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product-model/create_product_model.feature:107
  *   "Display validation error for missing family variant"
  *
  * Steps traced to source (legacy Backbone form, not React — no stale-route risk,

@@ -15,11 +15,11 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat:
+ * Replaced Behat scenarios (feature file deleted in #216):
  *   - tests/legacy/features/pim/enrichment/product/pef/join_an_image_to_a_product.feature:22
  *   - tests/legacy/features/pim/enrichment/product/pef/join_an_image_to_a_product.feature:27
- *   - tests/legacy/features/pim/enrichment/product/pef/join_an_image_to_a_product.feature:32
- *   - tests/legacy/features/pim/enrichment/product/pef/join_an_image_to_a_product.feature:38
+ *   - tests/legacy/features/pim/enrichment/product/pef/join_an_image_to_a_product.feature:33
+ *   - tests/legacy/features/pim/enrichment/product/pef/join_an_image_to_a_product.feature:40
  *
  * Uses Playwright setInputFiles() (via attachFileToProductAttribute) which handles hidden
  * file inputs natively — Selenium 4 W3C refuses to interact with non-visible elements.

@@ -2,7 +2,7 @@ import {test, expect, Page} from '../fixtures/coverage-fixture';
 import {login} from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/structure/attribute/display_available_field_options.feature:21
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/structure/attribute/display_available_field_options.feature:21
  *   Scenario Outline: "Successfully display available parameter fields for attribute types"
  *
  * This is a type -> visible-validation-fields conditional-rendering mapping test, covered here as

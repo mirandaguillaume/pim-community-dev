@@ -2,7 +2,7 @@ import {test, expect} from '../fixtures/coverage-fixture';
 import {login, createProductViaApi, goToProductBySearch, waitForLoadingMasks} from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product/pef/comments.feature:58
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product/pef/comments.feature:58
  *   "Successfully remove my own comments"
  *
  * Legacy Backbone widget (Context/Page/Product/Edit.php), not React — no stale-selector risk.

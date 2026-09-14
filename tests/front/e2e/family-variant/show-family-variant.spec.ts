@@ -3,7 +3,7 @@ import {login} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/structure/family/family-variant/show_family_variant.feature:11
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/structure/family/family-variant/show_family_variant.feature:11
  *   "Successfully show a family variant with two axes"
  *
  * Uses whatever family variant already exists in the catalog (via

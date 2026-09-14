@@ -6,14 +6,14 @@ import {NavigationHelper} from '../pages/NavigationHelper';
 /**
  * @critical Product CRUD scenarios.
  *
- * Translated from Behat feature files:
+ * Replaced Behat scenarios (all deleted in #420):
  *   - tests/legacy/features/pim/enrichment/product/pef/edit_product.feature
- *       @critical Scenario: Successfully create, edit and save a product
- *       @critical Scenario: Successfully updates the updated date of the product
+ *       :31 @critical Scenario: Successfully create, edit and save a product
+ *       :43 @critical Scenario: Successfully updates the updated date of the product
  *   - tests/legacy/features/pim/enrichment/product/datagrid/browse_products_by_locale_and_scope.feature
- *       @critical Scenario: Successfully display english data on products page
+ *       :24 @critical Scenario: Successfully display english data on products page
  *   - tests/legacy/features/pim/enrichment/product/datagrid/filtering/filter_products.feature
- *       @critical Scenario: Successfully filter products
+ *       :31 @critical Scenario: Successfully filter products
  *
  * Selectors sourced from:
  *   - tests/front/e2e/fixtures/pim.ts (login, goToProductsGrid, selectFirstProduct, saveProduct, firstTextField)

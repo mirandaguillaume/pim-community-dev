@@ -11,7 +11,7 @@ import {
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/structure/family/family-variant/edit_family_variant.feature:12
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/structure/family/family-variant/edit_family_variant.feature:12
  *   "Successfully edit a family variant's attribute sets by removing an attribute"
  *
  * This is a structural edit with real, hard-to-revert blast radius (it triggers an async job that
