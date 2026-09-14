@@ -21,14 +21,27 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat:
+ * Replaces Behat (both features have since been deleted from master; line numbers refer to the
+ * parent of the deleting commit):
  *   - tests/legacy/features/pim/enrichment/product/mass-edit/edit-common-attribute/edit_common_attributes_images.feature:32
+ *     deleted by #212 (6afd6d6ed8)
  *   - tests/legacy/features/pim/enrichment/product/mass-edit/validate/validate_editing_common_image_attributes.feature:43
+ *     deleted by #216 (a55efeb9ce)
  *
- * Uses Playwright setInputFiles() which handles hidden file inputs natively,
- * unlike Selenium W3C which fails to locate non-visible elements.
- *
- * Uses existing indexed catalog products to avoid Elasticsearch indexing lag in CI.
+ * Adaptations:
+ *   - Uses Playwright setInputFiles() which handles hidden file inputs natively,
+ *     unlike Selenium W3C which fails to locate non-visible elements.
+ *   - Uses existing indexed catalog products to avoid Elasticsearch indexing lag in CI.
+ *   - attachFileToMassEditAttribute waits until the upload is answered and the file is rendered. The
+ *     wizard has no "fields not ready" guard, so clicking Next during the upload validates, and can
+ *     launch, the value from before the upload. Seen in CI, both passing on retry: run 34831928439 (the
+ *     first test's job completed without the image) and run 34846941289 (step 3 reached the Confirm
+ *     step, so the extension error never showed).
+ *   - Step 3 checks the /rest/value/validate response for the exact extension message on the
+ *     attribute, then that message in the field footer, then that the wizard stayed on the configure
+ *     step, instead of a page-wide regex. Behat checked the same message as a validation tooltip.
+ *   - The last test is a regression guard for that race (delayed /image-media); it has no Behat
+ *     counterpart.
  */
 
 /**
@@ -146,11 +159,13 @@ test.describe('Mass edit image attributes', () => {
   });
 
   /**
-   * Replaces Behat: edit_common_attributes_images.feature:32
+   * Replaces Behat: edit_common_attributes_images.feature:32 (deleted by #212)
    * Successfully update many images values at once
    */
-  test('Successfully update many images values at once', {timeout: 720_000}, async ({page}) => {
-    // timeout: 720_000 covers beforeEach + UI flow + pollForNewMassEditJob (≤180s) + waitForJobExecutionViaApi (≤420s)
+  test('Successfully update many images values at once', async ({page}) => {
+    // 720s covers beforeEach + UI flow + pollForNewMassEditJob (≤180s) + waitForJobExecutionViaApi (≤420s).
+    // Set here: a `timeout` key in the test details object is not a TestDetails option and was ignored.
+    test.setTimeout(720_000);
     await goToProductsGrid(page);
     await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
@@ -170,11 +185,13 @@ test.describe('Mass edit image attributes', () => {
   });
 
   /**
-   * Replaces Behat: validate_editing_common_image_attributes.feature:43
+   * Replaces Behat: validate_editing_common_image_attributes.feature:43 (deleted by #216)
    * Mass edit image attribute — set, clear, and validate extension
    */
-  test('Mass edit image attribute — set, clear, and validate extension', {timeout: 1_380_000}, async ({page}) => {
-    // timeout: 1_380_000 covers 3 wizard flows × (≤180s poll + ≤360s job) on slow CI runners
+  test('Mass edit image attribute — set, clear, and validate extension', async ({page}) => {
+    // 1380s covers 3 wizard flows × (≤180s poll + ≤360s job) on slow CI runners (set here for the same
+    // reason as in the test above).
+    test.setTimeout(1_380_000);
     await goToProductsGrid(page);
 
     // Step 1: set image on sku1 + sku2
@@ -205,12 +222,10 @@ test.describe('Mass edit image attributes', () => {
     await openBulkEditAttributeValues(page);
     await addAttributeToMassEdit(page, ATTR_LABEL);
     await attachFileToMassEditAttribute(page, ATTR_LABEL, 'bic-core-148.gif');
-    await page.locator('.wizard-action[data-action-target="confirm"]').click();
-    await waitForLoadingMasks(page);
-    await expect(
-      page.getByText(/gif.*not allowed|allowed extensions are png|extension.*not allowed/i).first()
-    ).toBeVisible({timeout: 15_000});
+    await confirmExpectingGifRejected(page, ATTR_CODE, ATTR_LABEL);
 
+    // Step 3 never reaches the launch action (form.js only POSTs the job on "validate"), so these can only
+    // fail if step 2's clear did not hold; the wizard-step check above is what covers step 3.
     expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(false);
     expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(false);
   });
