@@ -40,9 +40,11 @@ const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
  *      connection-count limit.
  *   Failure codes: 403 = peter's role lacks akeneo_connectivity_connection_manage_settings,
  *   404 (GET) = connection missing or its type is not 'default', 422 = validation errors,
- *   400 with an EMPTY message = CreateConnectionHandler persisted the connection but could not
- *   read it back (its user has no role/group row). The connection may exist in that last case, so
- *   cleanup is still attempted on a 400.
+ *   400 = CreateConnectionAction caught a handler exception, message in the body (e.g. CreateUser's
+ *   "The user creation failed : ..." before anything is persisted). A 400 with an EMPTY message
+ *   specifically means CreateConnectionHandler saved the connection but could not read it back.
+ *   Because a failed or thrown create may still have saved rows, every non-201 outcome gets a
+ *   best-effort DELETE (a DELETE on an unknown code just returns 400).
  *
  * - `I am logged in as "Peter"`: Behat injects a session token (NavigationContext::iAmLoggedInAs).
  *   This spec does a real UI login as icecat's `peter` / `peter` (ROLE_ADMINISTRATOR, "IT support":
@@ -66,9 +68,11 @@ const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
  * - `I should not see users "magento"`: DataGridContext::iShouldNotSeeEntities -> Grid::hasRow (any
  *   cell containing the value). `rows.filter({hasText})` is a case-insensitive substring match over
  *   the whole row, which is at least as strict. The grid hides API users through
- *   datagrid/user.yml `where: u.type = TYPE_USER` (User::TYPE_USER = 'user', TYPE_API = 'api').
- *   Without that filter both API users would be on page 1 (sorted by username ASC, 25 per page,
- *   6 human users). The negatives run only after the five positive checks have proven the grid
+ *   datagrid/user.yml `where: u.type = TYPE_USER` (User::TYPE_USER = 'user'; it also hides
+ *   TYPE_API = 'api' and TYPE_JOB = 'job' users). Without that filter both asserted API users would
+ *   be on page 1: sorted by username ASC at 25 per page, icecat has 6 human users plus 4 connection
+ *   API users (magento_0000, sap_0000, alkemics_0000, translations_com_0000 in FixturesLoader) plus
+ *   the disposable one, 11 rows in all. The negatives run only after the five positive checks have proven the grid
  *   body rendered, and a closing positive check on `sandra` (the disposable user would sort
  *   between peter and sandra) brackets them against a re-render.
  *
@@ -158,8 +162,8 @@ test.describe('Browse users', () => {
       if (createStatus === 201) {
         const del = await deleteConnectionViaApi(page, code);
         expect.soft(del.status(), `Delete connection ${code} failed: ${del.status()} ${await del.text()}`).toBe(204);
-      } else if (createStatus === 400) {
-        // Best effort: a 400 can mean the connection was persisted before the handler failed.
+      } else {
+        // Best effort: a 400 or a thrown request can leave the connection persisted.
         await deleteConnectionViaApi(page, code).catch(() => null);
       }
     }
