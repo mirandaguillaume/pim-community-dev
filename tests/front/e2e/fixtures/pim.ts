@@ -797,6 +797,95 @@ async function uploadFileIntoMediaField(
 }
 
 /**
+ * Return the ids of the visible executions of a job instance, as listed by the process tracker
+ * (POST /rest/process-tracker, GetJobExecutionAction, which reads its filters from the query string and
+ * redirects requests without the XHR header). Queued executions are listed too: the WHERE clause only
+ * filters is_visible and the requested filters (SearchJobExecution::buildSqlWherePart). Rows are sorted
+ * by start_time DESC, then id ASC, so a queued execution (NULL start_time) is not reliably first: compare
+ * ids, never take rows[0]. Unlike getLatestMassEditJobId, a failed search throws with status and body.
+ */
+export async function getJobExecutionIdsViaApi(page: Page, jobCode: string, size = 100): Promise<number[]> {
+  const resp = await page.request.post('/rest/process-tracker', {
+    params: {'code[]': jobCode, page: '1', size: String(size)},
+    headers: XHR_HEADER,
+  });
+  const text = await resp.text().catch(() => '');
+  if (!resp.ok()) {
+    throw new Error(`Process tracker search for ${jobCode} failed: ${resp.status()} ${text}`);
+  }
+  let body: {rows?: Array<{job_execution_id: number | string}>};
+  try {
+    body = JSON.parse(text);
+  } catch {
+    throw new Error(`Process tracker search for ${jobCode} did not return JSON: ${resp.status()} ${text}`);
+  }
+  return (Array.isArray(body.rows) ? body.rows : []).map(row => Number(row.job_execution_id));
+}
+
+/**
+ * Poll the process tracker until executions of `jobCode` newer than `prevMaxId` exist, and return their
+ * ids in ascending order. QueueJobLauncher::launch inserts the execution row before the launching request
+ * answers, so the id shows up quickly even when the job consumer is still busy with other messages.
+ */
+export async function waitForNewJobExecutionIds(
+  page: Page,
+  jobCode: string,
+  prevMaxId: number,
+  timeout = 30_000
+): Promise<number[]> {
+  const start = Date.now();
+  let lastIds: number[] = [];
+  while (Date.now() - start < timeout) {
+    lastIds = await getJobExecutionIdsViaApi(page, jobCode);
+    const newIds = lastIds.filter(id => id > prevMaxId).sort((a, b) => a - b);
+    if (newIds.length > 0) return newIds;
+    await page.waitForTimeout(1_000);
+  }
+  throw new Error(
+    `No ${jobCode} execution newer than #${prevMaxId} appeared within ${timeout}ms (last ids: ${JSON.stringify(lastIds)})`
+  );
+}
+
+/**
+ * Read one counter of a normalized step execution summary. StepExecutionNormalizer::normalizeSummary
+ * translates every key through `job_execution.summary.<key>` (e.g. 'deleted_attribute_groups' comes back
+ * as 'Deleted attribute groups' for an en_US user), so the translated label is tried first, then the raw
+ * translation key, then the bare key. Callers should dump the step in their failure message.
+ */
+export function getStepSummaryValue(step: {summary?: Record<string, unknown>}, key: string, label: string): unknown {
+  const summary = step.summary ?? {};
+  return summary[label] ?? summary[`job_execution.summary.${key}`] ?? summary[key];
+}
+
+export type JobNotification = {
+  id: number;
+  type: string;
+  message: string;
+  url: string | null;
+  actionType: string | null;
+  viewed: boolean;
+};
+
+/**
+ * Return the current user's notification that links to a job execution, or undefined. GET /notification/list
+ * (NotificationController::listAction) returns only the 10 most recent notifications, rendered by
+ * list.json.twig with `url` = path(route, routeParams); job notifications use route
+ * akeneo_job_process_tracker_details, so their url is `/job/show/<id>` (NotificationFactory::create).
+ */
+export async function getJobNotificationViaApi(
+  page: Page,
+  jobExecutionId: number | string
+): Promise<JobNotification | undefined> {
+  const resp = await page.request.get('/notification/list', {headers: XHR_HEADER});
+  if (!resp.ok()) {
+    throw new Error(`GET /notification/list failed: ${resp.status()} ${await resp.text().catch(() => '')}`);
+  }
+  const body = await resp.json();
+  const notifications: JobNotification[] = Array.isArray(body?.notifications) ? body.notifications : [];
+  return notifications.find(notification => notification.url === `/job/show/${jobExecutionId}`);
+}
+
+/**
  * Create a family via the internal REST API (POST /configuration/rest/family). The identifier
  * attribute (sku) is added automatically by the backend updater on creation — no need to include
  * it in `attributes`.
@@ -918,8 +1007,7 @@ export async function createProductModelViaApi(
 
 /**
  * Launch the "delete_attributes" bulk job via the internal REST API
- * (MassDeleteAttributeController::launchAction(), POST /rest/attribute/mass-delete). Unlike
- * the attribute-group mass-delete (form-encoded, read via Request::get()), this endpoint
+ * (MassDeleteAttributeController::launchAction(), POST /rest/attribute/mass-delete). This endpoint
  * expects a JSON body already shaped as a job "filters" configuration
  * (DeleteAttributesTasklet reads `filters.search` / `filters.options` via the shared
  * SearchableRepositoryInterface::findBySearch() contract, same `options.identifiers` shape
@@ -939,27 +1027,13 @@ export async function launchMassDeleteAttributesViaApi(page: Page, codes: string
 
 /**
  * Create an attribute group via the internal REST API (PUT /rest/attribute-group/,
- * AttributeGroupController::createAction()).
+ * AttributeGroupController::createAction() -> AttributeGroupUpdater, which accepts `labels`).
+ * Without labels, the React attribute-groups grid shows the group as `[code]` (getLabel fallback).
  */
-export async function createAttributeGroupViaApi(page: Page, code: string) {
+export async function createAttributeGroupViaApi(page: Page, code: string, labels?: Record<string, string>) {
   return page.request.put('/rest/attribute-group/', {
-    data: {code},
+    data: labels ? {code, labels} : {code},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
-  });
-}
-
-/**
- * Launch the "delete_attribute_groups" bulk job via the internal REST API
- * (MassDeleteAttributeGroupsController::__invoke(), POST /rest/attribute-group/mass-delete).
- * Unlike launchImportViaApi/launchExportViaApi, this reads params via Symfony's plain
- * Request::get() rather than a JSON body, so it's sent form-encoded, with PHP-style
- * `codes[]=...` array keys.
- */
-export async function launchMassDeleteAttributeGroupsViaApi(page: Page, codes: string[]) {
-  const body = codes.map(code => `codes%5B%5D=${encodeURIComponent(code)}`).join('&');
-  return page.request.post('/rest/attribute-group/mass-delete', {
-    data: body,
-    headers: {'Content-Type': 'application/x-www-form-urlencoded', ...XHR_HEADER},
   });
 }
 
@@ -1157,7 +1231,7 @@ export async function goToUserGroupEdit(page: Page, groupName?: string) {
   await waitForLoadingMasks(page);
 }
 
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
+export const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 /**
  * Launch an import job by uploading a file via the internal REST API.
@@ -1220,6 +1294,13 @@ export async function waitForJobExecutionViaApi(page: Page, jobExecutionId: stri
     const resp = await page.request.get(`/job-execution/rest/${jobExecutionId}`, {
       headers: XHR_HEADER,
     });
+    // JobExecutionController::getAction answers 404/403 for a missing or ungranted execution: fail with the
+    // server's answer instead of a JSON parse error or a body without isRunning.
+    if (!resp.ok()) {
+      throw new Error(
+        `GET /job-execution/rest/${jobExecutionId} failed: ${resp.status()} ${await resp.text().catch(() => '')}`
+      );
+    }
     data = await resp.json();
     if (!data.isRunning) {
       // Normalize status to uppercase for consistent comparison across Akeneo versions.
