@@ -485,6 +485,231 @@ export async function deleteProductViaApi(page: Page, productId: string) {
   await page.request.delete(`/enrich/product/rest/${productId}`);
 }
 
+// Export job and exported-file helpers (hoisted from export-products-and-download.spec.ts, shared with
+// export-launch.spec.ts). The mutating internal controllers used here (UpdateProductController,
+// JobInstanceController create/put/delete/launch) return `new RedirectResponse('/')` when the request is not
+// an XHR, and APIRequestContext follows that redirect to a 200, so they send X-Requested-With and assert the
+// response BODY shape. Headers are built inside each function: XHR_HEADER is a top-level const declared
+// further down this file, so a top-level constant spreading it here would throw at module load (TDZ).
+
+/**
+ * A response body as text, for failure messages. Accepts an APIResponse or a page Response.
+ */
+export async function responseBody(resp: {text(): Promise<string>}): Promise<string> {
+  return resp.text().catch(() => '<no body>');
+}
+
+/**
+ * POST /enrich/product/rest/{uuid} (pim_enrich_product_rest_post, UpdateProductController). The payload is
+ * the internal format: `values` is mandatory, media values are {filePath, originalFilename}
+ * (InternalApiToStandard\ValueConverter).
+ */
+export async function updateProductViaApi(page: Page, uuid: string, payload: Record<string, unknown>): Promise<void> {
+  const resp = await page.request.post(`/enrich/product/rest/${uuid}`, {
+    data: payload,
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+  const body = await resp.json().catch(() => null);
+  expect(resp.ok(), `Update product ${uuid} failed: ${resp.status()} ${JSON.stringify(body)}`).toBeTruthy();
+  expect(body?.meta?.id, `Update product ${uuid} returned an unexpected body: ${JSON.stringify(body)}`).toBe(uuid);
+}
+
+/**
+ * POST /job-instance/rest/export (pim_enrich_job_instance_rest_export_create, no trailing slash) creating a
+ * job instance of job name csv_product_export (connector "Akeneo CSV Connector", icecat jobs.yml).
+ * JobInstanceUpdater maps alias -> job name; the UI creation modal sends the same keys.
+ * JobInstanceController::createAction resets the raw parameters to the job defaults, so configure it with
+ * configureProductExportJobViaApi afterwards.
+ */
+export async function createProductExportJobViaApi(page: Page, code: string, label: string): Promise<void> {
+  const resp = await page.request.post('/job-instance/rest/export', {
+    data: {code, label, alias: 'csv_product_export', connector: 'Akeneo CSV Connector'},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+  const body = await resp.json().catch(() => null);
+  expect(resp.ok(), `Create export job ${code} failed: ${resp.status()} ${JSON.stringify(body)}`).toBeTruthy();
+  expect(body?.code, `Create export job ${code} returned an unexpected body: ${JSON.stringify(body)}`).toBe(code);
+}
+
+/**
+ * PUT /job-instance/rest/export/{code} (pim_enrich_job_instance_rest_export_put), then read it back with
+ * GET /job-instance/rest/export/{code} and require every sent top-level key to be stored exactly as sent.
+ *
+ * JobInstanceUpdater "configuration" -> JobParametersFactory::create merges the job defaults with what is sent
+ * at the TOP level only (array_merge), and the GET returns the raw parameters unchanged
+ * (Standard\JobInstanceNormalizer::normalizeConfiguration). So a sent `filters` replaces the default filters
+ * (enabled, completeness >= 100, categories) wholesale, and `toEqual` per sent key is exact, including the
+ * order of `filters.data`. Only `filters.structure` is validated; `filters.data` allows extra fields
+ * (ConstraintCollectionProvider\ProductCsvExport), so an `updated` / "SINCE LAST JOB" entry is accepted.
+ */
+export async function configureProductExportJobViaApi(
+  page: Page,
+  code: string,
+  configuration: Record<string, unknown>
+): Promise<void> {
+  const putResp = await page.request.put(`/job-instance/rest/export/${code}`, {
+    data: {configuration},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+  const putBody = await putResp.json().catch(() => null);
+  expect(
+    putResp.ok(),
+    `Configure export job ${code} failed: ${putResp.status()} ${JSON.stringify(putBody)}`
+  ).toBeTruthy();
+  expect(putBody?.code, `Configure export job ${code} returned an unexpected body: ${JSON.stringify(putBody)}`).toBe(
+    code
+  );
+
+  const getResp = await page.request.get(`/job-instance/rest/export/${code}`, {headers: XHR_HEADER});
+  const job = await getResp.json().catch(() => null);
+  expect(getResp.ok(), `Get export job ${code} failed: ${getResp.status()} ${JSON.stringify(job)}`).toBeTruthy();
+  const stored: Record<string, unknown> = job?.configuration ?? {};
+  for (const [key, value] of Object.entries(configuration)) {
+    expect(
+      stored[key],
+      `Export job ${code}: stored "${key}" differs from what was sent. Stored configuration: ${JSON.stringify(stored)}`
+    ).toEqual(value);
+  }
+}
+
+/**
+ * GET /job-execution/rest/{id} (pim_enrich_job_execution_rest_get). The InternalApi JobExecutionController
+ * adds meta.archives ({archiver: {label, files}}) and meta.generateZipArchive.
+ */
+export async function getJobExecutionViaApi(page: Page, jobId: string): Promise<any> {
+  const resp = await page.request.get(`/job-execution/rest/${jobId}`, {headers: XHR_HEADER});
+  expect(resp.ok(), `Get job execution ${jobId} failed: ${resp.status()} ${await responseBody(resp)}`).toBeTruthy();
+
+  return resp.json();
+}
+
+/**
+ * GET /job/{id}/download/{archiver}/{key} (pim_enrich_job_tracker_download_file), the URL the
+ * "Download generated file" link points to.
+ */
+export async function downloadArchivedFile(page: Page, jobId: string, archiver: string, key: string): Promise<string> {
+  const resp = await page.request.get(`/job/${jobId}/download/${archiver}/${encodeURIComponent(key)}`);
+  expect(resp.ok(), `Download ${archiver}/${key} failed: ${resp.status()} ${await responseBody(resp)}`).toBeTruthy();
+
+  return resp.text();
+}
+
+/**
+ * Quote-aware CSV parser: enclosed fields, doubled enclosures, CRLF or LF line endings. Blank lines dropped.
+ */
+export function parseCsv(text: string, delimiter = ';', enclosure = '"'): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = '';
+  let inEnclosure = false;
+  const input = text.replace(/^﻿/, '');
+
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+    if (inEnclosure) {
+      if (char === enclosure && input[i + 1] === enclosure) {
+        field += enclosure;
+        i++;
+      } else if (char === enclosure) {
+        inEnclosure = false;
+      } else {
+        field += char;
+      }
+    } else if (char === enclosure) {
+      inEnclosure = true;
+    } else if (char === delimiter) {
+      row.push(field);
+      field = '';
+    } else if (char === '\n' || char === '\r') {
+      if (char === '\r' && input[i + 1] === '\n') {
+        i++;
+      }
+      row.push(field);
+      rows.push(row);
+      row = [];
+      field = '';
+    } else {
+      field += char;
+    }
+  }
+  if (field !== '' || row.length > 0) {
+    row.push(field);
+    rows.push(row);
+  }
+
+  return rows.filter(r => !(r.length === 1 && r[0] === ''));
+}
+
+/**
+ * Open an export job page and click "Export now", like Behat's "I am on the ... export job page" + "I launch
+ * the export job". Returns the job execution id.
+ * - Page: '#/spread/export/{code}' (Behat Page/Export/Show.php), navigated by hash assignment.
+ * - Button: job_instance/csv_product_export_show.yml (pim/job/common/edit/launch, label
+ *   pim_import_export.form.job_instance.button.export.title = "Export now") renders
+ *   templates/export/common/edit/launch.html `<button class="AknButton AknButton--apply ...">`.
+ * - launch.js POSTs /job-instance/rest/export/{code}/launch (pim_enrich_job_instance_rest_export_launch) and
+ *   redirects to response.redirectUrl (#/job/show/{id}). The response listener is registered before the click.
+ */
+export async function launchExportFromJobPage(page: Page, jobCode: string): Promise<string> {
+  await page.evaluate(code => {
+    window.location.hash = `#/spread/export/${code}`;
+  }, jobCode);
+  const exportNow = page.getByRole('button', {name: 'Export now', exact: true});
+  await expect(exportNow, `"Export now" never rendered for ${jobCode}`).toBeVisible({timeout: 30_000});
+
+  const launchResponsePromise = page.waitForResponse(
+    r => r.url().endsWith(`/job-instance/rest/export/${jobCode}/launch`) && r.request().method() === 'POST',
+    {timeout: 60_000}
+  );
+  launchResponsePromise.catch(() => {});
+  await exportNow.click({timeout: 30_000});
+  const launchResponse = await launchResponsePromise;
+  expect(
+    launchResponse.ok(),
+    `Launch ${jobCode} failed: ${launchResponse.status()} ${await responseBody(launchResponse)}`
+  ).toBeTruthy();
+  const launchBody = await launchResponse.json().catch(() => null);
+  const jobId: string | undefined = launchBody?.redirectUrl?.match(/\/job\/show\/(\d+)/)?.[1];
+  expect(jobId, `No job execution id in launch response: ${JSON.stringify(launchBody)}`).toBeTruthy();
+  await expect(page).toHaveURL(new RegExp(`#/job/show/${jobId}$`), {timeout: 30_000});
+
+  return jobId!;
+}
+
+/**
+ * Read the CSV an export job execution wrote, from its archive (the job must have finished). Requires exactly
+ * one `.csv` key in meta.archives.output.files (FileWriterArchiver, archiver "output"); media files, when
+ * exported, live under files/ and are not listed at the top level. Does not look at meta.generateZipArchive,
+ * which is false for a single CSV without media.
+ */
+export async function readExportedCsv(
+  page: Page,
+  jobId: string
+): Promise<{key: string; text: string; header: string[]; rows: string[][]}> {
+  const detail = await getJobExecutionViaApi(page, jobId);
+  const outputFiles = detail.meta?.archives?.output?.files ?? {};
+  const csvKeys = Object.keys(outputFiles).filter(key => key.endsWith('.csv'));
+  expect(csvKeys, `Job ${jobId}: unexpected output archives: ${JSON.stringify(detail.meta)}`).toHaveLength(1);
+
+  const text = await downloadArchivedFile(page, jobId, 'output', csvKeys[0]);
+  const [header, ...rows] = parseCsv(text);
+  expect(header, `Job ${jobId}: CSV has no header. CSV body:\n${text}`).toBeTruthy();
+
+  return {key: csvKeys[0], text, header, rows};
+}
+
+/**
+ * DELETE /job-instance/rest/export/{code} (pim_enrich_job_instance_rest_export_delete), best-effort cleanup:
+ * warns instead of failing. edit-export.spec.ts picks the first export grid row matching /csv.*product/i, so a
+ * leaked disposable csv_product_export job can change what it edits.
+ */
+export async function deleteExportJobViaApi(page: Page, code: string): Promise<void> {
+  const resp = await page.request.delete(`/job-instance/rest/export/${code}`, {headers: XHR_HEADER}).catch(() => null);
+  if (resp && !resp.ok()) {
+    console.warn(`Cleanup: delete export job ${code} returned ${resp.status()} ${await responseBody(resp)}`);
+  }
+}
+
 /**
  * Pick `fileName` in the media field rendered inside `container` (product/field/media.html) and return
  * only once its upload has been answered OK and the uploaded file is rendered. Shared by
