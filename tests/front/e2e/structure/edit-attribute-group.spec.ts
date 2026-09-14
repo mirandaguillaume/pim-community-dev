@@ -3,7 +3,7 @@ import {login, createAttributeGroupViaApi} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/structure/attribute-group/edit_attribute_group.feature:11
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/structure/attribute-group/edit_attribute_group.feature:11
  *   "Successfully edit an attribute group"
  *
  * Creates its own disposable attribute group via the internal REST API (PUT /rest/attribute-group/,

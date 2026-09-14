@@ -4,7 +4,7 @@ import {login, createProductModelViaApi} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product-model/add_product_model_children.feature:93
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product-model/add_product_model_children.feature:93
  *   "Successfully add a variant product to a sub product model"
  *
  * Adaptations:

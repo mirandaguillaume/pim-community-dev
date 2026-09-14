@@ -5,7 +5,7 @@ import {NavigationHelper} from '../pages/NavigationHelper';
 /**
  * @critical Connectivity connection settings.
  *
- * Translated from Behat feature file:
+ * Replaced Behat scenario (deleted in #420):
  *   - src/Akeneo/Connectivity/Connection/tests/features/edit_connection.feature:7
  *       Scenario: Peter can edit connection settings
  *

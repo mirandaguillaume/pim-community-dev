@@ -3,7 +3,7 @@ import {login} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/channel/currency/browse_currencies.feature:12
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/channel/currency/browse_currencies.feature:12
  *   "Successfully activate a currency"
  *
  * The Behat scenario also drives the "activated" grid filter (operator "equals", value "yes")
