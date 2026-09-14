@@ -24,10 +24,11 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *   account every other spec in the shard uses. Admin works in a separate browser context for setup, the
  *   persistence check and cleanup; it deletes the user because deleteAction forbids self-deletion.
  * - "Then I should see the flash message "User saved"" is DROPPED. The Behat step body is a disabled
- *   no-op (AssertionContext.php), and the flash cannot be observed here. controller/user.js (the
- *   pim_user_edit controller) calls `location.reload()` from the post_save handler when the catalog
- *   locale, scope or default tree changed, and save.js::postSave fires post_save BEFORE messenger.notify.
- *   The in-memory flash is lost with the reloaded document. It is replaced by:
+ *   no-op (AssertionContext.php), and the flash is not reliably observable here. controller/user.js:47
+ *   (the pim_user_edit controller) calls `location.reload()` inside its post_save handler when the
+ *   catalog locale, scope or default tree changed. save.js::postSave triggers post_save just before
+ *   messenger.notify, so the message is rendered and then discarded with the document almost at once.
+ *   It is replaced by:
  *   - the save response status;
  *   - a real `load` event, since this is a full document reload and not the soft Routing.reloadPage;
  *   - an API check that the four preferences were persisted.
@@ -52,9 +53,14 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  * - Catalog locale / scope / default tree: select.js subclasses (available-locales.ts, fields/channel.ts,
  *   fields/category-tree.ts). Their `<select class="select2">` is wrapped by Select2 3.4.1
  *   (lib/select2/select2.js: `.select2-choice`, `.select2-chosen`, `.select2-drop-active`,
- *   `.select2-result-label`). Each change runs getRoot().render(), which re-renders every field one
- *   macrotask later (field.js render inside a Deferred.then). Select2 has already updated the OLD widget,
- *   so the helper tags the old widget and waits for it to be replaced before continuing.
+ *   `.select2-result-label`). Each change runs getRoot().render(), which re-renders every field of the
+ *   tab, each in its own later macrotask (field.js render inside a jQuery 3 Deferred.then, queued in
+ *   edit.yml position order). Select2 has already updated the OLD widgets, so both helpers tag every
+ *   widget in the tab (form-tabs.js only mounts the current tab; templates/form/tab/section.html
+ *   `.AknFormContainer[data-drop-zone="content"]`) and wait until all of them are replaced. Waiting on
+ *   the edited field alone could let the next helper type into a stale "Product grid filters" widget.
+ *   Every select2 in the tab is replaced on root render: fields via `$el.html`, and default-grid-views.ts
+ *   empties itself with `$el.html('')`.
  * - Product grid filters: product-grid-filters.ts (multi-select-async -> simple-select-async, hidden
  *   `input.select2`). Results are rendered with templates/attribute/attribute-line.html `.attribute-label`,
  *   matched exactly: "Name" also returns "Model name", "ERP name" and "Variant Name". After each pick the
@@ -68,7 +74,8 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *   it). The open state is `AknDefault-thirdColumnContainer--open` (simple-view.js toggleThirdColumn,
  *   templates/common/default-template.html), as Behat WebUser::iToggleTheCategoryTree checks.
  * - Tree nodes: `#tree` (product/grid/category-tree.js id) -> DSM Tree.tsx `title={label}`. Labels carry a
- *   product count "<label> (N)" (RootCategory.php / ChildCategory.php), hence anchored regexes.
+ *   product count "<label> (N)" (RootCategory.php::normalizeList, whose label TreeView.tsx passes unchanged
+ *   as the root node label, and ChildCategory.php), hence anchored regexes.
  * - "I should (not) see the filter <code>": Behat Grid::getFilter `.filter-item[data-name="<code>"]`
  *   (abstract-filter.js className + data-name) inside `.filter-box` (filters-selector.ts). The negative
  *   `enabled` check runs only after the three positive checks: those prove the filters have rendered, so a
@@ -110,19 +117,40 @@ function fieldContainer(page: Page, label: string) {
     .filter({has: page.locator('label.AknFieldContainer-label', {hasText: label})});
 }
 
+/** The Additional tab's field zone (templates/form/tab/section.html). */
+function additionalTabFields(page: Page) {
+  return page
+    .locator('.AknFormContainer[data-drop-zone="content"]')
+    .filter({has: page.locator('label.AknFieldContainer-label', {hasText: 'Catalog locale'})});
+}
+
+/** Tags every Select2 widget of the tab so a later wait can tell when the root re-render replaced them all. */
+async function tagTabWidgetsStale(page: Page) {
+  await expect(additionalTabFields(page)).toHaveCount(1, {timeout: 15_000});
+  await additionalTabFields(page)
+    .locator('.AknFieldContainer .select2-container')
+    .evaluateAll(elements => elements.forEach(element => element.setAttribute('data-pw-stale', '1')));
+}
+
+async function waitForTabWidgetsReplaced(page: Page) {
+  await expect(additionalTabFields(page).locator('.select2-container[data-pw-stale]')).toHaveCount(0, {
+    timeout: 15_000,
+  });
+}
+
 /**
  * Picks an option in a select.js-based Select2 field, then waits for the full-form re-render to replace
- * the widget before asserting the chosen value (see header).
+ * every widget of the tab before asserting the chosen value (see header).
  */
 async function pickSelect2Option(page: Page, label: string, optionText: string) {
   const field = fieldContainer(page, label);
   await expect(field.locator('.select2-container')).toHaveCount(1, {timeout: 15_000});
-  await field.locator('.select2-container').evaluate(element => element.setAttribute('data-pw-stale', '1'));
+  await tagTabWidgetsStale(page);
 
   await field.locator('.select2-choice').click();
   await page.locator('.select2-drop-active .select2-result-label').filter({hasText: optionText}).click();
 
-  await expect(field.locator('.select2-container[data-pw-stale]')).toHaveCount(0, {timeout: 15_000});
+  await waitForTabWidgetsReplaced(page);
   await expect(field.locator('.select2-chosen')).toHaveText(optionText, {timeout: 15_000});
   await expect(page.locator('.select2-drop-active:visible')).toHaveCount(0, {timeout: 15_000});
 }
@@ -133,6 +161,7 @@ async function pickSelect2Option(page: Page, label: string, optionText: string) 
  */
 async function addGridFilterChoice(page: Page, term: string, code: string, exactLabel: string, expectedCount: number) {
   const field = fieldContainer(page, 'Product grid filters');
+  await tagTabWidgetsStale(page);
   await field.locator('.select2-search-field input.select2-input').fill(term);
 
   const result = page
@@ -152,6 +181,7 @@ async function addGridFilterChoice(page: Page, term: string, code: string, exact
     ),
     result.click(),
   ]);
+  await waitForTabWidgetsReplaced(page);
 
   const chips = field.locator('.select2-search-choice');
   await expect(chips).toHaveCount(expectedCount, {timeout: 15_000});
@@ -195,9 +225,9 @@ test.describe('Edit a user', () => {
       await login(page, username, password);
 
       // When I edit the "Peter" user
+      // Hash-only navigation on the already loaded document: the tab visibility check below is the real wait.
       await page.goto(`/#/user/${userId}/edit`);
       const nav = new NavigationHelper(page);
-      await nav.waitForPageReady();
       const additionalTab = page.locator('.AknHorizontalNavtab-item[data-tab]').filter({hasText: 'Additional'});
       await expect(additionalTab).toBeVisible({timeout: 30_000});
 
@@ -258,7 +288,7 @@ test.describe('Edit a user', () => {
 
       // Then I should see the text "Kollektion" / "2015 Männer-Kollektion" / "2015 Damenkollektion"
       const tree = page.locator('#tree');
-      await expect(tree.getByTitle(/^Katalog Umsatz( \(\d+\))?$/)).toBeVisible({timeout: 30_000});
+      await expect(tree.getByTitle(/^Katalog Umsatz \(\d+\)$/)).toBeVisible({timeout: 30_000});
       await expect(tree.getByTitle(/^Marken \(\d+\)$/)).toBeVisible({timeout: 30_000});
       await expect(tree.getByTitle(/^Haushaltsgeräte \(\d+\)$/)).toBeVisible({timeout: 30_000});
       await expect(tree.getByTitle(/^Sales catalog/)).toHaveCount(0);
