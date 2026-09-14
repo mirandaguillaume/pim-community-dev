@@ -6,6 +6,7 @@ import {
   createAttributeViaApi,
   createProductViaApi,
   getProductViaApi,
+  XHR_HEADER,
 } from '../fixtures/pim';
 
 /**
@@ -92,8 +93,7 @@ const LEGEND = `pw_cmp_legend_${ts}`;
 const FAMILY = `pw_cmp_tshirts_${ts}`;
 const SKU = `pw-cmp-${ts}`;
 
-const XHR = {'X-Requested-With': 'XMLHttpRequest'};
-const JSON_XHR = {'Content-Type': 'application/json', ...XHR};
+const JSON_XHR = {'Content-Type': 'application/json', ...XHR_HEADER};
 
 let productUuid: string | null = null;
 
@@ -232,7 +232,7 @@ test.afterAll(async ({browser}) => {
   };
   const deleteOrWarn = (url: string) =>
     attempt(url, async () => {
-      const resp = await page.request.delete(url, {headers: XHR, timeout: 30_000});
+      const resp = await page.request.delete(url, {headers: XHR_HEADER, timeout: 30_000});
       if (!resp.ok()) {
         console.warn(`[cleanup] DELETE ${url} refused: ${await describeResponse(resp)}`);
       }

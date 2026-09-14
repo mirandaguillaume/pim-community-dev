@@ -1,5 +1,5 @@
 import {test, expect} from '../fixtures/coverage-fixture';
-import {login} from '../fixtures/pim';
+import {login, XHR_HEADER} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
@@ -40,7 +40,7 @@ test.describe('Show a family variant', () => {
 
   test('shows the family variant detail panel when clicked from the Variants tab', async ({page}) => {
     const listResp = await page.request.get('/configuration/rest/family-variant', {
-      headers: {'X-Requested-With': 'XMLHttpRequest'},
+      headers: XHR_HEADER,
     });
     expect(listResp.ok(), `List family variants failed: ${listResp.status()}`).toBeTruthy();
     const familyVariants = await listResp.json();

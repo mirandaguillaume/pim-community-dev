@@ -1,5 +1,5 @@
 import {test, expect} from '../fixtures/coverage-fixture';
-import {login} from '../fixtures/pim';
+import {login, XHR_HEADER} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
@@ -91,7 +91,7 @@ test.describe('Datagrid views', () => {
   test('displays the default view with the default product grid columns', async ({page}) => {
     // Precondition: mary has no saved default product-grid view.
     const defaultViewResp = await page.request.get('/datagrid_view/rest/product-grid/default', {
-      headers: {'X-Requested-With': 'XMLHttpRequest'},
+      headers: XHR_HEADER,
     });
     const defaultViewBody = await defaultViewResp.json().catch(() => null);
     expect(

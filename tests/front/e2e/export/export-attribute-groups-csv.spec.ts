@@ -7,9 +7,8 @@ import {
   waitForJobExecutionViaApi,
   resolveJobCode,
   goToJobExecution,
+  XHR_HEADER,
 } from '../fixtures/pim';
-
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 /**
  * Replaces Behat: tests/legacy/features/pim/structure/attribute-group/export_attribute_groups_csv.feature:7

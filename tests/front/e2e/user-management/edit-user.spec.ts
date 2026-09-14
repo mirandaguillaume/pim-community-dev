@@ -1,6 +1,6 @@
 import {test, expect} from '../fixtures/coverage-fixture';
 import type {Page} from '../fixtures/coverage-fixture';
-import {login, goToProductsGrid} from '../fixtures/pim';
+import {login, goToProductsGrid, XHR_HEADER} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
@@ -81,8 +81,6 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *   `enabled` check runs only after the three positive checks: those prove the filters have rendered, so a
  *   hidden `enabled` filter is meaningful and not a vacuous pass.
  */
-
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
