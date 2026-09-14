@@ -412,9 +412,14 @@ export async function goToFamilyPage(page: Page, familyCode?: string) {
   await page.locator('.AknHorizontalNavtab-item').first().waitFor({timeout: 30_000});
 }
 
-export async function createProductViaApi(page: Page, sku: string, family?: string) {
+export async function createProductViaApi(
+  page: Page,
+  sku: string,
+  family?: string,
+  extra?: {parent?: string; values?: Record<string, unknown>}
+) {
   // Use the internal REST endpoint (session-authenticated) to create a product
-  const data: Record<string, string> = {identifier: sku};
+  const data: Record<string, unknown> = {identifier: sku, ...extra};
   if (family) data.family = family;
   const response = await page.request.post('/enrich/product/rest', {
     data,
@@ -447,6 +452,25 @@ export async function createFamilyViaApi(page: Page, code: string, attributes: s
 export async function createAssociationTypeViaApi(page: Page, code: string) {
   return page.request.post('/configuration/rest/association-type/', {
     data: {code},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
+ * Create a family variant via the internal REST API (POST /configuration/rest/family-variant,
+ * FamilyVariantController::createAction() -> FamilyVariantUpdater). `variant_attribute_sets` is
+ * an array of `{level, axes, attributes}` — axes must be attributes of one of
+ * FamilyVariant::getAvailableAxesAttributeTypes() (metric, simpleselect, boolean, reference data/
+ * entity simpleselect); the number of levels is immutable once created.
+ */
+export async function createFamilyVariantViaApi(
+  page: Page,
+  code: string,
+  familyCode: string,
+  variantAttributeSets: Array<{level: number; axes: string[]; attributes: string[]}>
+) {
+  return page.request.post('/configuration/rest/family-variant/', {
+    data: {code, family: familyCode, variant_attribute_sets: variantAttributeSets},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
 }
@@ -508,10 +532,22 @@ export async function getFirstFamilyVariantCode(page: Page): Promise<string | nu
  * (create.yml excludedProperties: [family] — family is inferred server-side from the
  * family variant). Returns the raw response; the created product model's numeric id is at
  * `(await response.json()).meta.id`.
+ *
+ * Pass `parent` (a ROOT product model code of the same family variant) to create a sub product
+ * model — ProductModelUpdater::updateParent() rejects any non-root parent. Values are validated
+ * per variation level (OnlyExpectedAttributesValidator): a root model may only hold the family
+ * variant's common attributes, a level-1 sub model only its level-1 attribute set (and it must
+ * carry that level's axis values, NotEmptyVariantAxes).
  */
-export async function createProductModelViaApi(page: Page, code: string, familyVariantCode: string) {
+export async function createProductModelViaApi(
+  page: Page,
+  code: string,
+  familyVariantCode: string,
+  values?: Record<string, unknown>,
+  parent?: string
+) {
   return page.request.post('/enrich/product-model/rest/create', {
-    data: {code, family_variant: familyVariantCode},
+    data: {code, family_variant: familyVariantCode, ...(values ? {values} : {}), ...(parent ? {parent} : {})},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
 }
