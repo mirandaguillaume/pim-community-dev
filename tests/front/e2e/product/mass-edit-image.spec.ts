@@ -1,3 +1,4 @@
+import type {Page} from '@playwright/test';
 import {test, expect} from '../fixtures/coverage-fixture';
 import {
   login,
@@ -20,15 +21,76 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat:
+ * Replaces Behat (both features have since been deleted from master; line numbers refer to the
+ * parent of the deleting commit):
  *   - tests/legacy/features/pim/enrichment/product/mass-edit/edit-common-attribute/edit_common_attributes_images.feature:32
+ *     deleted by #212 (6afd6d6ed8)
  *   - tests/legacy/features/pim/enrichment/product/mass-edit/validate/validate_editing_common_image_attributes.feature:43
+ *     deleted by #216 (a55efeb9ce)
  *
- * Uses Playwright setInputFiles() which handles hidden file inputs natively,
- * unlike Selenium W3C which fails to locate non-visible elements.
- *
- * Uses existing indexed catalog products to avoid Elasticsearch indexing lag in CI.
+ * Adaptations:
+ *   - Uses Playwright setInputFiles() which handles hidden file inputs natively,
+ *     unlike Selenium W3C which fails to locate non-visible elements.
+ *   - Uses existing indexed catalog products to avoid Elasticsearch indexing lag in CI.
+ *   - attachFileToMassEditAttribute waits until the upload is answered and the file is rendered. The
+ *     wizard has no "fields not ready" guard, so clicking Next during the upload validates, and can
+ *     launch, the value from before the upload. Seen in CI, both passing on retry: run 34831928439 (the
+ *     first test's job completed without the image) and run 34846941289 (step 3 reached the Confirm
+ *     step, so the extension error never showed).
+ *   - Step 3 checks the /rest/value/validate response for the exact extension message on the
+ *     attribute, then that message in the field footer, then that the wizard stayed on the configure
+ *     step, instead of a page-wide regex. Behat checked the same message as a validation tooltip.
+ *   - The last test is a regression guard for that race (delayed /image-media); it has no Behat
+ *     counterpart.
  */
+
+/**
+ * Click the wizard's Next action (configure -> confirm) and assert that the .gif value was rejected.
+ *
+ * mass-edit/form/form.js runs edit-common-attributes.js validate(), which POSTs the operation's
+ * current values to /rest/value/validate. When the response holds no violations, the wizard moves
+ * to the Confirm step. When it holds violations, the wizard stays on the configure step and
+ * product/form/attributes/validation.js renders each one in the field footer
+ * (validation-error.html: .AknFieldContainer-validationError .error-message). The response is
+ * checked first, so a validate call that carried no file (e.g. an upload that had not finished yet)
+ * fails with the server's answer instead of a bare "element(s) not found" on the Confirm step.
+ */
+async function confirmExpectingGifRejected(page: Page, attributeCode: string, attributeLabel: string) {
+  const expectedMessage = `The gif file extension is not allowed for the ${attributeCode} attribute. Allowed extensions are png, jpeg, jpg.`;
+  const confirmAction = page.locator('.wizard-action[data-action-target="confirm"]');
+
+  // Listen before clicking: the click handler sends the validate request synchronously.
+  const validated = page.waitForResponse(
+    resp => resp.request().method() === 'POST' && new URL(resp.url()).pathname === '/rest/value/validate',
+    {timeout: 30_000}
+  );
+  validated.catch(() => {});
+  await confirmAction.click({timeout: 30_000});
+  const response = await validated;
+  const body = await response.json().catch(() => null);
+  expect(response.ok(), `POST /rest/value/validate failed: ${response.status()} ${JSON.stringify(body)}`).toBe(true);
+  const violations: unknown[] = Array.isArray(body?.values) ? body.values : [];
+  expect(
+    violations.length,
+    `validate returned no violations (wizard advanced to Confirm): ${JSON.stringify(body)}`
+  ).toBeGreaterThan(0);
+  expect(violations, `validate did not reject the gif for ${attributeCode}: ${JSON.stringify(body)}`).toContainEqual(
+    expect.objectContaining({attribute: attributeCode, message: expectedMessage})
+  );
+
+  await waitForLoadingMasks(page);
+  const field = page
+    .locator('.AknComparableFields')
+    .filter({has: page.locator('.AknFieldContainer-label', {hasText: attributeLabel})})
+    .first();
+  const error = field.locator('.AknFieldContainer-validationError .error-message').first();
+  await expect(error, `"${attributeLabel}" shows no extension error`).toHaveText(expectedMessage, {timeout: 15_000});
+  await expect(error).toBeVisible({timeout: 5_000});
+
+  // Still on the configure step: the Confirm step replaces Next with the "validate" (launch) action.
+  await expect(confirmAction, 'the wizard left the configure step').toBeVisible({timeout: 5_000});
+  await expect(page.locator('.wizard-action[data-action-target="validate"]')).toHaveCount(0);
+}
 
 test.describe('Mass edit image attributes', () => {
   const ts = Date.now();
@@ -97,11 +159,13 @@ test.describe('Mass edit image attributes', () => {
   });
 
   /**
-   * Replaces Behat: edit_common_attributes_images.feature:32
+   * Replaces Behat: edit_common_attributes_images.feature:32 (deleted by #212)
    * Successfully update many images values at once
    */
-  test('Successfully update many images values at once', {timeout: 720_000}, async ({page}) => {
-    // timeout: 720_000 covers beforeEach + UI flow + pollForNewMassEditJob (≤180s) + waitForJobExecutionViaApi (≤420s)
+  test('Successfully update many images values at once', async ({page}) => {
+    // 720s covers beforeEach + UI flow + pollForNewMassEditJob (≤180s) + waitForJobExecutionViaApi (≤420s).
+    // Set here: a `timeout` key in the test details object is not a TestDetails option and was ignored.
+    test.setTimeout(720_000);
     await goToProductsGrid(page);
     await selectProductsBySku(page, [sku1!, sku2!]);
     await openBulkEditAttributeValues(page);
@@ -121,11 +185,13 @@ test.describe('Mass edit image attributes', () => {
   });
 
   /**
-   * Replaces Behat: validate_editing_common_image_attributes.feature:43
+   * Replaces Behat: validate_editing_common_image_attributes.feature:43 (deleted by #216)
    * Mass edit image attribute — set, clear, and validate extension
    */
-  test('Mass edit image attribute — set, clear, and validate extension', {timeout: 1_380_000}, async ({page}) => {
-    // timeout: 1_380_000 covers 3 wizard flows × (≤180s poll + ≤360s job) on slow CI runners
+  test('Mass edit image attribute — set, clear, and validate extension', async ({page}) => {
+    // 1380s covers 3 wizard flows × (≤180s poll + ≤360s job) on slow CI runners (set here for the same
+    // reason as in the test above).
+    test.setTimeout(1_380_000);
     await goToProductsGrid(page);
 
     // Step 1: set image on sku1 + sku2
@@ -156,13 +222,43 @@ test.describe('Mass edit image attributes', () => {
     await openBulkEditAttributeValues(page);
     await addAttributeToMassEdit(page, ATTR_LABEL);
     await attachFileToMassEditAttribute(page, ATTR_LABEL, 'bic-core-148.gif');
-    await page.locator('.wizard-action[data-action-target="confirm"]').click();
-    await waitForLoadingMasks(page);
-    await expect(
-      page.getByText(/gif.*not allowed|allowed extensions are png|extension.*not allowed/i).first()
-    ).toBeVisible({timeout: 15_000});
+    await confirmExpectingGifRejected(page, ATTR_CODE, ATTR_LABEL);
 
+    // Step 3 never reaches the launch action (form.js only POSTs the job on "validate"), so these can only
+    // fail if step 2's clear did not hold; the wizard-step check above is what covers step 3.
     expect(await productHasAttributeValue(page, uuid1!, ATTR_CODE)).toBe(false);
     expect(await productHasAttributeValue(page, uuid2!, ATTR_CODE)).toBe(false);
+  });
+
+  test('Rejects an invalid image extension even when the upload is slow', async ({page}) => {
+    // Regression guard for the confirm-during-upload race. Selecting a file only STARTS an async
+    // upload: media-field.js POSTs it to /image-media and writes the uploaded file into the value
+    // only in the ajax done() callback. Unlike the product edit form, the mass-edit wizard has no
+    // "fields not ready" guard: clicking Next while the upload is in flight validates the value as it
+    // was before the upload (still empty, which is valid), and the wizard moves on to the Confirm
+    // step, so the extension error never appears. Delaying /image-media makes that window
+    // deterministic: a helper that does not wait for the upload clicks Next inside it.
+    // Seen in CI: run 34846941289 (step 3 of the test above reached the Confirm step, retry passed
+    // with only 17-35ms between the upload response and the validate request).
+    // The gif is rejected and no job is launched, so this test changes no product data.
+    // Above the helpers' own bounds, so a failure reports their message rather than the test timeout.
+    test.setTimeout(300_000);
+
+    try {
+      await page.route('**/image-media', async route => {
+        await new Promise(resolve => setTimeout(resolve, 2_000));
+        await route.continue();
+      });
+
+      await goToProductsGrid(page);
+      await selectProductsBySku(page, [sku1!, sku2!]);
+      await openBulkEditAttributeValues(page);
+      await addAttributeToMassEdit(page, ATTR_LABEL);
+      await attachFileToMassEditAttribute(page, ATTR_LABEL, 'bic-core-148.gif');
+      await confirmExpectingGifRejected(page, ATTR_CODE, ATTR_LABEL);
+    } finally {
+      // A delayed handler can still be running when the test ends; its continue() must not fail cleanup.
+      await page.unrouteAll({behavior: 'ignoreErrors'}).catch(() => {});
+    }
   });
 });
