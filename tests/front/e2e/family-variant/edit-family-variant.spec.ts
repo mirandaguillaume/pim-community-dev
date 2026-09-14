@@ -56,6 +56,13 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  * reference-data types — this spec uses 2 disposable BOOLEAN attributes as the 2 levels' axes
  * specifically to avoid needing attribute OPTIONS (a whole separate numeric-id-keyed REST
  * resource) just to stand up a minimal 2-level variant structure.
+ *
+ * Variant tree: a 2-level family variant needs the full 3-tier chain, same shape as the Behat
+ * catalog_modeling fixture (root 'plain' -> sub model 'plain_red' with color=red -> variant
+ * product 1111111270 with parent plain_red): a root product model with no values (level 0 may
+ * only hold common attributes, and none are left besides sku), a level-1 sub product model holding
+ * the color axis, then the variant product (size axis + weight) whose parent is the SUB model —
+ * VariantProductParentValidator rejects a root parent for a 2-level family variant.
  */
 
 test.describe('Edit family variant', () => {
@@ -71,6 +78,7 @@ test.describe('Edit family variant', () => {
     const sizeCode = `pw_size_${ts}`;
     const weightCode = `pw_weight_${ts}`;
     const modelCode = `pw-model-${ts}`;
+    const subModelCode = `pw-submodel-${ts}`;
     const variantSku = `pw-variant-${ts}`;
 
     // Created SEQUENTIALLY, not via Promise.all: three concurrent PUT /rest/attribute/ calls that
@@ -109,16 +117,34 @@ test.describe('Edit family variant', () => {
       `Create family variant ${familyVariantCode} failed: ${familyVariantResp.status()} ${JSON.stringify(await familyVariantResp.json().catch(() => null))}`
     ).toBeTruthy();
 
-    const modelResp = await createProductModelViaApi(page, modelCode, familyVariantCode, {
-      [colorCode]: [{locale: null, scope: null, data: true}],
-    });
+    // Root product model (variation level 0): it may only hold COMMON attributes, and with color,
+    // size and weight all assigned to levels 1/2 the only common attribute left is the sku
+    // identifier — so no values at all (sending color here is a deterministic 400 "not in the
+    // attribute set" from OnlyExpectedAttributesValidator).
+    const modelResp = await createProductModelViaApi(page, modelCode, familyVariantCode);
     expect(
       modelResp.ok(),
       `Create product model ${modelCode} failed: ${modelResp.status()} ${JSON.stringify(await modelResp.json().catch(() => null))}`
     ).toBeTruthy();
 
+    // Level-1 sub product model: carries the level-1 axis value (color), required by
+    // NotEmptyVariantAxes.
+    const subModelResp = await createProductModelViaApi(
+      page,
+      subModelCode,
+      familyVariantCode,
+      {[colorCode]: [{locale: null, scope: null, data: true}]},
+      modelCode
+    );
+    expect(
+      subModelResp.ok(),
+      `Create sub product model ${subModelCode} failed: ${subModelResp.status()} ${JSON.stringify(await subModelResp.json().catch(() => null))}`
+    ).toBeTruthy();
+
+    // Level-2 variant product: VariantProductParentValidator requires its parent to sit at
+    // variation level numberOfLevels - 1 = 1, i.e. the sub model, not the root.
     const variantResp = await createProductViaApi(page, variantSku, familyCode, {
-      parent: modelCode,
+      parent: subModelCode,
       values: {
         [sizeCode]: [{locale: null, scope: null, data: true}],
         [weightCode]: [{locale: null, scope: null, data: '800'}],

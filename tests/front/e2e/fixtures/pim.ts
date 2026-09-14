@@ -574,15 +574,22 @@ export async function getFirstFamilyVariantCode(page: Page): Promise<string | nu
  * (create.yml excludedProperties: [family] — family is inferred server-side from the
  * family variant). Returns the raw response; the created product model's numeric id is at
  * `(await response.json()).meta.id`.
+ *
+ * Pass `parent` (a ROOT product model code of the same family variant) to create a sub product
+ * model — ProductModelUpdater::updateParent() rejects any non-root parent. Values are validated
+ * per variation level (OnlyExpectedAttributesValidator): a root model may only hold the family
+ * variant's common attributes, a level-1 sub model only its level-1 attribute set (and it must
+ * carry that level's axis values, NotEmptyVariantAxes).
  */
 export async function createProductModelViaApi(
   page: Page,
   code: string,
   familyVariantCode: string,
-  values?: Record<string, unknown>
+  values?: Record<string, unknown>,
+  parent?: string
 ) {
   return page.request.post('/enrich/product-model/rest/create', {
-    data: {code, family_variant: familyVariantCode, ...(values ? {values} : {})},
+    data: {code, family_variant: familyVariantCode, ...(values ? {values} : {}), ...(parent ? {parent} : {})},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
 }
