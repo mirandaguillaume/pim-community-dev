@@ -216,14 +216,12 @@ test.beforeAll(async ({browser}) => {
 test.afterAll(async ({browser}) => {
   // Best-effort cleanup, in dependency order. Every call is isolated so one failure does not
   // stop the others. The product delete needs the XHR header (ProductController::removeAction
-  // redirects otherwise, and pim.ts deleteProductViaApi does not send it); the family delete is
-  // refused while a product still uses it. The attribute-group delete only LAUNCHES the
+  // redirects otherwise); the family delete is refused while a product still uses it. The attribute-group delete only LAUNCHES the
   // delete_attribute_groups job (AttributeGroupController::removeAction returns 204 at once), so
   // its effect depends on the job consumer and is never asserted.
   // page.request resolves on 4xx/5xx (it only throws on network errors), so refusals such as
   // FamilyController::removeAction's 422 or AttributeController::removeAction's 400 are logged
-  // explicitly. Attributes are deleted locally rather than through pim.ts deleteAttributeViaApi,
-  // which discards the response.
+  // explicitly, which is why every delete goes through the local deleteOrWarn helper.
   const page = await browser.newPage();
   const attempt = async (label: string, action: () => Promise<unknown>) => {
     try {

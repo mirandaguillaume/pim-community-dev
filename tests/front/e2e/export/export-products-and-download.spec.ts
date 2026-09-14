@@ -112,10 +112,9 @@ import {
  * Cleanup: the disposable job instance is deleted in `finally` (DELETE /job-instance/rest/export/{code}).
  * That delete is the only protection for edit-export.spec.ts, which picks the first export grid row whose
  * text matches /csv.*product/i (a row text includes the job name column, so the label does not matter).
- * Products are deleted best-effort with DELETE /enrich/product/rest/{uuid} sent as an XHR (the pim.ts
- * deleteProductViaApi helper sends no X-Requested-With, and ProductController::removeAction redirects
- * non-XHR requests without deleting). The disposable categories stay under "master", as in
- * classify-product.spec.ts.
+ * Products are deleted best-effort with DELETE /enrich/product/rest/{uuid} sent as an XHR
+ * (ProductController::removeAction redirects non-XHR requests without deleting). The disposable
+ * categories stay under "master", as in classify-product.spec.ts.
  */
 
 const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};

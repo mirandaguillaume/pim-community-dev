@@ -163,20 +163,11 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
   await uploadFileIntoMediaField(page, container, attributeLabel, fileName, 'attachFileToProductAttribute');
 }
 
-// Fetch the most recent edit_common_attributes job execution ID via the process tracker.
-// The controller reads filters from the query string (not the JSON body), so we pass
-// code[] as a query param to filter by job instance code.
+// Fetch the highest edit_common_attributes job execution ID via the process tracker (see
+// getLatestJobExecutionId). Keeps its historical contract: 0 when the process tracker cannot be read,
+// so pollForNewMassEditJob retries through a transient error.
 async function getLatestMassEditJobId(page: Page): Promise<number> {
-  const resp = await page.request
-    .post('/rest/process-tracker', {
-      params: {'code[]': 'edit_common_attributes', page: '1', size: '1'},
-      headers: {'X-Requested-With': 'XMLHttpRequest'},
-    })
-    .catch(() => null);
-  if (!resp?.ok()) return 0;
-  const body = await resp.json().catch(() => null);
-  const rows: any[] = body?.rows ?? [];
-  return rows.length > 0 ? (rows[0]?.job_execution_id ?? 0) : 0;
+  return getLatestJobExecutionId(page, 'edit_common_attributes').catch(() => 0);
 }
 
 // Poll until a new job execution appears with ID > prevMaxId, then return it.
@@ -482,7 +473,153 @@ export async function createProductViaApi(
 }
 
 export async function deleteProductViaApi(page: Page, productId: string) {
-  await page.request.delete(`/enrich/product/rest/${productId}`);
+  // ProductController::removeAction only deletes for an XHR request: anything else gets a redirect to '/',
+  // which APIRequestContext follows, so without the header the call "succeeded" and deleted nothing.
+  return page.request.delete(`/enrich/product/rest/${productId}`, {headers: XHR_HEADER});
+}
+
+/**
+ * Delete a family via the internal REST API (DELETE /configuration/rest/family/{code}, no trailing slash,
+ * FamilyController::removeAction). XHR only. Returns the response: 204 on success, 422 while a product
+ * (FamilyRemover counts them in SQL) or a family variant still uses the family.
+ */
+export async function deleteFamilyViaApi(page: Page, code: string) {
+  return page.request.delete(`/configuration/rest/family/${code}`, {headers: XHR_HEADER});
+}
+
+export type ProductVersion = {
+  id: number;
+  version: number;
+  author: string;
+  logged_at: string;
+  pending: boolean;
+  changeset: Record<string, {old?: unknown; new?: unknown}>;
+};
+
+/**
+ * Read a product's history as the PEF History tab does (fetcher product-history, route
+ * pim_enrich_product_history_rest_get: GET /enrich/product/rest/product/{uuid}/history, VersioningController).
+ * Newest version first, pending versions excluded (VersionRepository::getLogEntries). Changeset keys are the
+ * flat versioning headers (`<attribute>`, `<attribute>-<locale>`, ...) and values are presented strings.
+ */
+export async function getProductHistoryViaApi(page: Page, productUuid: string): Promise<ProductVersion[]> {
+  const resp = await page.request.get(`/enrich/product/rest/product/${productUuid}/history`, {headers: XHR_HEADER});
+  const text = await resp.text().catch(() => '');
+  if (!resp.ok()) {
+    throw new Error(`Get history of product ${productUuid} failed: ${resp.status()} ${text}`);
+  }
+  const history = JSON.parse(text);
+  if (!Array.isArray(history)) {
+    throw new Error(`History of product ${productUuid} is not a list: ${text}`);
+  }
+  return history;
+}
+
+/**
+ * Create an option of a select attribute via the internal REST API (POST /configuration/attribute-option/{id},
+ * no trailing slash, AttributeOptionController::createAction). `attributeId` is the numeric id returned as
+ * `meta.id` by createAttributeViaApi. The form is submitted without clearing missing fields, so `{code}` is
+ * enough. Returns the raw response.
+ */
+export async function createAttributeOptionViaApi(page: Page, attributeId: number, code: string) {
+  return page.request.post(`/configuration/attribute-option/${attributeId}`, {
+    data: {code},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+export type JobExecutionRow = {
+  job_execution_id: number;
+  job_name: string;
+  status: string;
+  started_at: string | null;
+  [key: string]: unknown;
+};
+
+/**
+ * List every execution of a job instance from the process tracker (POST /rest/process-tracker,
+ * GetJobExecutionAction; filters are read from the query string). Only visible jobs are listed.
+ * The tracker sorts by start time DESC, so a queued execution (no start time yet) comes LAST: the first row
+ * is not the newest execution, hence all pages are read.
+ */
+export async function getJobExecutionRowsViaApi(page: Page, jobCode: string): Promise<JobExecutionRow[]> {
+  const size = 100;
+  const rowsById = new Map<number, JobExecutionRow>();
+  for (let pageNumber = 1; pageNumber <= 50; pageNumber++) {
+    const resp = await page.request.post('/rest/process-tracker', {
+      params: {'code[]': jobCode, page: String(pageNumber), size: String(size)},
+      headers: XHR_HEADER,
+    });
+    const text = await resp.text().catch(() => '');
+    if (!resp.ok()) {
+      throw new Error(`Process tracker search for ${jobCode} failed: ${resp.status()} ${text}`);
+    }
+    const rows: JobExecutionRow[] = JSON.parse(text)?.rows ?? [];
+    for (const row of rows) {
+      rowsById.set(Number(row.job_execution_id), row);
+    }
+    if (rows.length < size) {
+      return [...rowsById.values()];
+    }
+  }
+  throw new Error(`Process tracker lists more than 5000 executions of ${jobCode}`);
+}
+
+/** Highest execution id of a job instance in the process tracker, 0 when it never ran. */
+export async function getLatestJobExecutionId(page: Page, jobCode: string): Promise<number> {
+  const rows = await getJobExecutionRowsViaApi(page, jobCode);
+  return rows.reduce((max, row) => Math.max(max, Number(row.job_execution_id) || 0), 0);
+}
+
+/**
+ * Wait until at least one execution of `jobCode` newer than `prevMaxId` exists and every such execution is
+ * finished, then return them. Statuses are the process tracker labels (Akeneo\Platform\Job\Domain\Model\Status);
+ * a stale STARTING/IN_PROGRESS execution is already reported as FAILED by SearchJobExecution. Throws with the
+ * candidate rows on timeout. Taking `prevMaxId` from getLatestJobExecutionId BEFORE the action that launches the
+ * job is what ties the result to that action.
+ */
+export async function waitForNewJobExecutionsToFinish(
+  page: Page,
+  jobCode: string,
+  prevMaxId: number,
+  timeout = 300_000
+): Promise<JobExecutionRow[]> {
+  const unfinished = ['STARTING', 'IN_PROGRESS', 'STOPPING', 'PAUSING', 'PAUSED'];
+  const deadline = Date.now() + timeout;
+  let newRows: JobExecutionRow[] = [];
+  while (Date.now() < deadline) {
+    newRows = (await getJobExecutionRowsViaApi(page, jobCode)).filter(row => Number(row.job_execution_id) > prevMaxId);
+    if (newRows.length > 0 && newRows.every(row => !unfinished.includes(row.status))) {
+      return newRows;
+    }
+    await page.waitForTimeout(2_000);
+  }
+  throw new Error(
+    `No finished ${jobCode} execution newer than #${prevMaxId} within ${timeout}ms, candidates: ${JSON.stringify(newRows)}`
+  );
+}
+
+/**
+ * Type a term into the product grid search box and wait for the grid to refresh.
+ * The box is the label_or_identifier filter (SearchFilterInput.tsx: `.search-filter input[name="value"]`,
+ * type="text", the Behat SearchDecorator contract), which matches `*term*` on identifiers and labels
+ * (LabelOrIdentifierFilter). The datagrid restores the last term from its saved state, and re-submitting an
+ * unchanged value fires no request, so nothing is sent (or awaited) when the box already holds `term`: to force
+ * a new request, search a different term.
+ */
+export async function searchProductGrid(page: Page, term: string) {
+  const searchInput = page.locator('.search-filter input[name="value"]');
+  await expect(searchInput, 'product grid search input not found').toBeVisible({timeout: 15_000});
+  if ((await searchInput.inputValue()) !== term) {
+    // Listen BEFORE pressing Enter: the Enter keydown submits synchronously.
+    const gridRefresh = page.waitForResponse(
+      resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/'),
+      {timeout: 30_000}
+    );
+    await searchInput.fill(term, {timeout: 15_000});
+    await searchInput.press('Enter', {timeout: 15_000});
+    await gridRefresh;
+  }
 }
 
 // Export job and exported-file helpers (hoisted from export-products-and-download.spec.ts, shared with
@@ -1103,8 +1240,13 @@ export async function removeAttributeFromFamilyViaApi(
   });
 }
 
+/**
+ * Delete an attribute (DELETE /rest/attribute/{code}, AttributeController::removeAction). Returns the response:
+ * 204 on success, 400 when a deletion guard refuses, 404 when it does not exist. A successful delete blacklists
+ * the code and launches clean_removed_attribute_job on kernel.terminate (AttributeRemovalSubscriber).
+ */
 export async function deleteAttributeViaApi(page: Page, code: string) {
-  await page.request.delete(`/rest/attribute/${code}`, {headers: XHR_HEADER});
+  return page.request.delete(`/rest/attribute/${code}`, {headers: XHR_HEADER});
 }
 
 /**
@@ -1363,25 +1505,11 @@ export async function ensureProductExists(page: Page): Promise<string | null> {
 export async function goToProductBySearch(page: Page, sku: string) {
   await goToProductsGrid(page);
 
-  // Type the SKU into the grid search box (label_or_identifier filter, SearchFilterInput.tsx:
-  // `.search-filter input[name="value"]`, type="text" — the Behat SearchDecorator contract).
-  // The previous selector ('.search-zone input[type="search"], .AknFilterBox-search input') matched
-  // nothing, and isVisible() ignores its timeout and never waits, so the search was always silently
-  // skipped and the row lookup below only worked when the SKU happened to be on the first grid page.
-  const searchInput = page.locator('.search-filter input[name="value"]');
-  await expect(searchInput, 'product grid search input not found').toBeVisible({timeout: 15_000});
-  // The datagrid restores the last search term from its saved state; re-submitting an unchanged
-  // value fires no request, so only wait for a grid refresh when the term actually changes.
-  if ((await searchInput.inputValue()) !== sku) {
-    // Listen BEFORE pressing Enter: the Enter keydown submits synchronously.
-    const gridRefresh = page.waitForResponse(
-      resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/'),
-      {timeout: 30_000}
-    );
-    await searchInput.fill(sku);
-    await searchInput.press('Enter');
-    await gridRefresh;
-  }
+  // Type the SKU into the grid search box (see searchProductGrid). The previous selector
+  // ('.search-zone input[type="search"], .AknFilterBox-search input') matched nothing, and isVisible()
+  // ignores its timeout and never waits, so the search was always silently skipped and the row lookup
+  // below only worked when the SKU happened to be on the first grid page.
+  await searchProductGrid(page, sku);
 
   // Click on the row that contains our SKU — no fallback to avoid clicking the wrong product
   const targetRow = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku});
