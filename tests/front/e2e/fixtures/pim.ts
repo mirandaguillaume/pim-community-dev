@@ -389,17 +389,87 @@ export async function selectFirstProduct(page: Page) {
 }
 
 export async function saveProduct(page: Page) {
-  // The save POSTs to the COLLECTION endpoint `/enrich/product/rest` (no trailing slash,
-  // no uuid) — unlike the load GET / delete which hit `/enrich/product/rest/{uuid}`.
-  // The predicate must therefore allow `rest` to be followed by `/`, `?`, or end-of-string;
-  // requiring a trailing slash (`/rest/`) never matched the save POST, so waitForResponse
-  // hung until timeout even though the save itself returns 200 in ~150ms. Matching the
-  // real URL makes this resolve immediately (no flaky, no inflated timeout).
-  const savePromise = page.waitForResponse(
-    resp => /\/enrich\/product(-model)?\/rest(\/|\?|$)/.test(resp.url()) && resp.request().method() === 'POST'
-  );
-  await page.getByText('Save').first().click();
-  await savePromise;
+  // product/form/save.js POSTs to /enrich/product/rest/{uuid} (product models:
+  // /enrich/product-model/rest/{id}); the predicate accepts `rest` followed by `/`, `?` or the end.
+  const isSaveRequest = (url: string, method: string) =>
+    /\/enrich\/product(-model)?\/rest(\/|\?|$)/.test(url) && method === 'POST';
+
+  // Listen before clicking so neither the request nor its response can be missed. The request
+  // listener has no budget of its own; its budget starts after the click (below), so time spent
+  // waiting for the button does not count. The response gets a generous bound so a request that is
+  // sent but never answered fails legibly instead of consuming the whole test timeout.
+  const savePromise = page.waitForResponse(resp => isSaveRequest(resp.url(), resp.request().method()), {
+    timeout: 150_000,
+  });
+  savePromise.catch(() => {});
+  const requestSent = page
+    .waitForRequest(req => isSaveRequest(req.url(), req.method()), {timeout: 0})
+    .then(() => 'sent' as const);
+  requestSent.catch(() => {});
+
+  await page.getByText('Save').first().click({timeout: 30_000});
+
+  // The form can REFUSE to save without sending anything: when a field is still busy (e.g. an
+  // in-flight media upload) product/form/save.js shows a "... cannot be saved right now ..." toast,
+  // synchronously in the click handler (it stays about 8s), and returns. Fail fast with that reason
+  // instead of waiting for a response that will never come. No automatic retry: that could hide a
+  // field that never becomes ready.
+  const refused = page
+    .locator('#flash-messages')
+    .getByText(/cannot be saved right now/i)
+    .first()
+    .waitFor({state: 'visible', timeout: 10_000})
+    .then(() => 'refused' as const);
+  refused.catch(() => {});
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timedOut = new Promise<'timeout'>(resolve => {
+    timer = setTimeout(() => resolve('timeout'), 30_000);
+  });
+  let waitError: unknown;
+  let outcome: 'sent' | 'refused' | 'timeout' | 'error';
+  try {
+    outcome = await Promise.race([requestSent, refused.catch(() => new Promise<never>(() => {})), timedOut]);
+  } catch (error) {
+    waitError = error;
+    outcome = 'error';
+  } finally {
+    clearTimeout(timer);
+  }
+
+  if (outcome !== 'sent') {
+    const flash = (
+      await page
+        .locator('#flash-messages')
+        .innerText()
+        .catch(() => '')
+    ).trim();
+    if (outcome === 'refused') {
+      throw new Error(`saveProduct: the form refused to save: "${flash}"`);
+    }
+    if (outcome === 'timeout') {
+      throw new Error(
+        `saveProduct: clicking Save sent no product save request within 30s${flash ? ` (flash: "${flash}")` : ''}`
+      );
+    }
+    throw new Error(
+      `saveProduct: waiting for the save request failed: ${waitError instanceof Error ? waitError.message : String(waitError)}`
+    );
+  }
+
+  const response = await savePromise;
+  // After a SUCCESSFUL save, save.js applies the server data (setData) and triggers post_fetch in a
+  // jQuery .then callback, which runs asynchronously after the response, and fields re-render even
+  // later. A field cleared before setData runs gets re-filled with the saved value (seen in CI on
+  // "Successfully replace an image"). form/common/state.js hides "There are unsaved changes." in that
+  // same post_fetch dispatch, synchronously after setData, so its disappearance proves the saved data
+  // is applied and later edits will not be overwritten. Failed saves (e.g. validation errors) skip
+  // post_fetch and keep the banner, so this only applies to successful ones.
+  if (response.ok()) {
+    await expect(
+      page.getByText('There are unsaved changes.', {exact: true}),
+      'saveProduct: the saved product data was never applied to the form'
+    ).toBeHidden({timeout: 30_000});
+  }
 }
 
 export async function reloadProduct(page: Page) {
