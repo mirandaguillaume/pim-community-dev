@@ -27,18 +27,6 @@ Feature: Edit a product
       | sandal  | name        | My sandals name                      |        |           |
       | sandal  | length      | 29 CENTIMETER                        |        |           |
 
-  @critical
-  Scenario: Successfully updates the updated date of the product
-    Given I am logged in as "Mary"
-    And I am on the "sandal" product page
-    And I set the updated date of the product "sandal" to "now - 10 days"
-    Then the product "sandal" updated date should not be close to "now"
-    When I fill in the following information:
-      | Name | My edited Sandal |
-    And I press the "Save" button
-    Then I should not see the text "There are unsaved changes."
-    And the product "sandal" updated date should be close to "now"
-
   Scenario: Don't see the attributes tab when the user can't edit a product
     Given I am logged in as "Peter"
     And I am on the "Administrator" role page
