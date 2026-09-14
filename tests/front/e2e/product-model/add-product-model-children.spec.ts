@@ -74,8 +74,9 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *   (select2.js:2004). getByLabel() would therefore resolve to that focusser, so the field is
  *   located through its label text and driven through `.select2-choice`. Results render in
  *   #select2-drop as `.select2-result-selectable` and are selected on mouseup (select2.js:776-784).
- *   The drop (z-index 9999, select2.css) sits above the full-page modal (z-index 1040,
- *   FullPage.less), so a real click reaches it, the same way pim.ts's addAttributeToMassEdit does.
+ *   The drop (z-index 9999, select2.css) sits above the modal (`.modal` z-index 1050, modal.less;
+ *   nested `.AknFullPage` z-index 1040, FullPage.less), so a real click reaches it, the same way
+ *   pim.ts's addAttributeToMassEdit does.
  *   Choices come from pim_enrich_attributeoption_get (9 size options, under the 20 per page), so no
  *   search term is typed.
  * - "SKU" field: the identifier attribute is mapped to akeneo-text-field (BaseFieldProvider) and
@@ -92,10 +93,16 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  * - "I should be on the product "apollon_blue_xl" edit page": variant-navigation.js:426-439
  *   redirects to pim_enrich_product_edit {uuid}. The uuid is read from the POST response meta.uuid
  *   (InternalApi ProductNormalizer). router.redirectToRoute changes the hash without {trigger: true},
- *   so the URL assertion passes before the product page exists. The real sync is the title drop
- *   zone (default-template.html:22) showing the new SKU. The product label falls back to the
- *   identifier because family clothing's attribute_as_label (variation_name) is left empty on
- *   purpose (product-label.js:29, AbstractProduct::getLabel).
+ *   so the URL assertion passes before the product page exists. The real sync is the product label
+ *   heading showing the new SKU: pim/product-edit-form/product-label (product/edit.yml:79-82) extends
+ *   form/common/label.js, whose element is `h1.AknTitleContainer-title` (label.js:7-8). It is
+ *   appended (view/base.ts:246) inside the default-template.html:22 `title` drop zone, a div with the
+ *   SAME class, so a bare `.AknTitleContainer-title` filtered on the SKU would match both nested
+ *   elements and fail strict mode. The heading role matches only the h1. It stays empty until the
+ *   family fetch resolves (product-label.js:25-27), then falls back to the identifier because
+ *   family clothing's attribute_as_label (variation_name, icecat_demo_dev families.csv:17) is left
+ *   empty on purpose (product-label.js:29). The previous product model page's h1 shows the
+ *   sub-model code, which never equals the SKU.
  */
 
 // icecat_demo_dev family_variants.csv:2 (clothing: level 1 axis color, level 2 axis size + sku).
@@ -224,19 +231,14 @@ test.describe('Add children to a product model', () => {
     const createResp = await createRespPromise;
     const createText = await createResp.text().catch(() => '');
     expect(createResp.ok(), `Create variant product failed: ${createResp.status()} ${createText}`).toBeTruthy();
-    let createBody: any = null;
-    try {
-      createBody = JSON.parse(createText);
-    } catch (error) {
-      createBody = null;
-    }
-    const uuid: string | undefined = createBody?.meta?.uuid;
+    const createBody = (await createResp.json().catch(() => null)) as {meta?: {uuid?: string}} | null;
+    const uuid = createBody?.meta?.uuid;
     expect(uuid, `Create response had no meta.uuid: ${createText}`).toBeTruthy();
     await expect(modal).toBeHidden({timeout: 15_000});
 
     // Then I should be on the product "apollon_blue_xl" edit page
     await expect(page).toHaveURL(new RegExp(`#/enrich/product/${uuid}$`), {timeout: 30_000});
-    await expect(page.locator('.AknTitleContainer-title').filter({hasText: sku})).toBeVisible({timeout: 30_000});
+    await expect(page.getByRole('heading', {level: 1, name: sku, exact: true})).toBeVisible({timeout: 30_000});
 
     // Persistence: the variant product exists under the sub product model with the chosen axis value.
     const productResp = await page.request.get(`/enrich/product/rest/${uuid}`, {headers: XHR_HEADER});
