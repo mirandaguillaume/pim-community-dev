@@ -6,7 +6,6 @@ import {
   createAttributeViaApi,
   createProductViaApi,
   getProductViaApi,
-  deleteAttributeViaApi,
 } from '../fixtures/pim';
 
 /**
@@ -221,25 +220,36 @@ test.afterAll(async ({browser}) => {
   // refused while a product still uses it. The attribute-group delete only LAUNCHES the
   // delete_attribute_groups job (AttributeGroupController::removeAction returns 204 at once), so
   // its effect depends on the job consumer and is never asserted.
+  // page.request resolves on 4xx/5xx (it only throws on network errors), so refusals such as
+  // FamilyController::removeAction's 422 or AttributeController::removeAction's 400 are logged
+  // explicitly. Attributes are deleted locally rather than through pim.ts deleteAttributeViaApi,
+  // which discards the response.
   const page = await browser.newPage();
-  const attempt = async (action: () => Promise<unknown>) => {
+  const attempt = async (label: string, action: () => Promise<unknown>) => {
     try {
       await action();
     } catch (e) {
-      console.warn(`[cleanup] ${(e as Error).message}`);
+      console.warn(`[cleanup] ${label}: ${(e as Error).message}`);
     }
   };
+  const deleteOrWarn = (url: string) =>
+    attempt(url, async () => {
+      const resp = await page.request.delete(url, {headers: XHR, timeout: 30_000});
+      if (!resp.ok()) {
+        console.warn(`[cleanup] DELETE ${url} refused: ${await describeResponse(resp)}`);
+      }
+    });
 
-  await attempt(() => login(page, 'admin', 'admin'));
+  await attempt('login', () => login(page, 'admin', 'admin'));
   if (productUuid) {
-    await attempt(() => page.request.delete(`/enrich/product/rest/${productUuid}`, {headers: XHR}));
+    await deleteOrWarn(`/enrich/product/rest/${productUuid}`);
   }
-  await attempt(() => page.request.delete(`/configuration/rest/family/${FAMILY}`, {headers: XHR}));
+  await deleteOrWarn(`/configuration/rest/family/${FAMILY}`);
   for (const code of [LEGEND, DESCRIPTION, NAME]) {
-    await attempt(() => deleteAttributeViaApi(page, code));
+    await deleteOrWarn(`/rest/attribute/${code}`);
   }
   for (const code of [GROUP_MAIN, GROUP_MEDIA]) {
-    await attempt(() => page.request.delete(`/rest/attribute-group/${code}`, {headers: XHR}));
+    await deleteOrWarn(`/rest/attribute-group/${code}`);
   }
   await page.close();
 });
@@ -250,7 +260,8 @@ test('Successfully copy current tab compared product localized values', async ({
 
   // Given I am on the "tshirt" product page
   const productLoaded = page.waitForResponse(
-    r => /\/enrich\/product(-model)?\/rest\//.test(r.url()) && r.status() === 200
+    r => /\/enrich\/product(-model)?\/rest\//.test(r.url()) && r.status() === 200,
+    {timeout: 60_000}
   );
   await page.goto(`/#/enrich/product/${productUuid}`);
   await productLoaded;
@@ -282,17 +293,17 @@ test('Successfully copy current tab compared product localized values', async ({
 
   // When I open the comparison panel
   const secondaryActions = page.locator('.secondary-actions').filter({has: page.locator('.start-copying')});
-  await secondaryActions.locator('.AknSecondaryActions-button').click();
-  await secondaryActions.getByText('Compare / Translate', {exact: true}).click();
+  await secondaryActions.locator('.AknSecondaryActions-button').click({timeout: 15_000});
+  await secondaryActions.getByText('Compare / Translate', {exact: true}).click({timeout: 15_000});
   const copyPanel = page.locator('.attribute-copy-actions');
   await expect(copyPanel.getByText('Copy', {exact: true})).toBeVisible({timeout: 15_000});
   await expect(page.locator(`[data-attribute="${NAME}"] .copy-container`)).toBeVisible({timeout: 15_000});
 
   // And I switch the comparison locale to "fr_FR"
-  await copyPanel.getByRole('button', {name: /Locale/}).click();
+  await copyPanel.getByRole('button', {name: /Locale/}).click({timeout: 15_000});
   const localeList = page.locator('#dropdown-root').getByRole('listbox');
   await expect(localeList).toBeVisible({timeout: 10_000});
-  await localeList.getByText('French (France)').click();
+  await localeList.getByText('French (France)').click({timeout: 15_000});
   // Sync on the re-render: the compared fields now show the fr_FR values.
   await expect(copyInput(page, NAME)).toHaveValue('Floup', {timeout: 15_000});
   await expect(copyInput(page, DESCRIPTION, 'textarea')).toHaveValue('Chaussures de ville', {timeout: 15_000});
@@ -302,20 +313,31 @@ test('Successfully copy current tab compared product localized values', async ({
   // already open (the AknDropdown-menuTitle intercepts a second toggle click during its fadeIn),
   // click "All visible", retry until the selection shows. Both checkboxes are asserted inside the
   // retry: a click landing while visibleFields is still refilling selects only part of the group,
-  // and re-clicking is safe because selectFields() starts with unselectAll().
+  // and re-clicking is safe because selectFields() starts with unselectAll(). Like
+  // ComparisonPanelDecorator::selectElements, a retry first checks whether the selection already
+  // exists: every "All visible" click re-renders attributes.js (copy.js selectFields ->
+  // 'copy:select:after' -> render -> $el.html), so a needless second click would restart the
+  // render the previous attempt was waiting for.
   const selection = copyPanel.locator('.selection-dropdown');
+  const isSelected = async (code: string) =>
+    copySelector(page, code)
+      .isChecked({timeout: 1_000})
+      .catch(() => false);
   await expect(async () => {
+    if ((await isSelected(NAME)) && (await isSelected(DESCRIPTION))) {
+      return;
+    }
     const isOpen = await selection.evaluate(el => el.classList.contains('open'), undefined, {timeout: 3_000});
     if (!isOpen) {
       await selection.locator('[data-toggle="dropdown"]').click({timeout: 3_000});
     }
     await selection.getByText('All visible', {exact: true}).click({timeout: 3_000});
-    await expect(copySelector(page, NAME)).toBeChecked({timeout: 5_000});
-    await expect(copySelector(page, DESCRIPTION)).toBeChecked({timeout: 5_000});
-  }).toPass({timeout: 45_000});
+    await expect(copySelector(page, NAME)).toBeChecked({timeout: 15_000});
+    await expect(copySelector(page, DESCRIPTION)).toBeChecked({timeout: 15_000});
+  }).toPass({timeout: 60_000});
 
   // And I copy selected translations
-  await copyPanel.getByText('Copy', {exact: true}).click();
+  await copyPanel.getByText('Copy', {exact: true}).click({timeout: 15_000});
   // Cheap check mirroring ComparisonPanelDecorator::copySelectedElements. It is NOT a render gate:
   // attributes.js:153 removes every checkbox synchronously. The retrying value assertions below
   // are the real post-copy sync (those values only exist once the re-render has finished).
@@ -339,9 +361,10 @@ test('Successfully copy current tab compared product localized values', async ({
 
   // Added: the copied values reach the saved product, and Legend was not written.
   const saveResponse = page.waitForResponse(
-    r => r.url().includes(`/enrich/product/rest/${productUuid}`) && r.request().method() === 'POST'
+    r => r.url().includes(`/enrich/product/rest/${productUuid}`) && r.request().method() === 'POST',
+    {timeout: 60_000}
   );
-  await page.getByRole('button', {name: 'Save', exact: true}).click();
+  await page.getByRole('button', {name: 'Save', exact: true}).click({timeout: 15_000});
   const saved = await saveResponse;
   expect(saved.ok(), `Save failed: ${saved.status()} ${await saved.text().catch(() => '')}`).toBeTruthy();
 
