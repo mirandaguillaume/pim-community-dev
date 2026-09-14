@@ -106,7 +106,12 @@ test.describe('Datagrid views', () => {
     // Given I am on the products grid
     const nav = new NavigationHelper(page);
     await nav.goTo('products');
-    await expect(page.locator('tr.AknGrid-bodyRow:has(td)').first()).toBeVisible({timeout: 120_000});
+    // mary is the only non-admin login in the suite: a timeout here most likely means ROLE_USER
+    // lacks the pim_enrich_product_index ACL (see header), not an infra flake.
+    await expect(
+      page.locator('tr.AknGrid-bodyRow:has(td)').first(),
+      'No product grid row rendered for mary: check the pim_enrich_product_index ACL of ROLE_USER, then the product index'
+    ).toBeVisible({timeout: 120_000});
 
     // Then I should see the text "Default view"
     await expect(page.locator('.grid-view-selector').getByText('Default view', {exact: true})).toBeVisible({
