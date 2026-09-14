@@ -159,25 +159,72 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
     .locator('.AknFieldContainer')
     .filter({has: page.locator('.AknFieldContainer-label', {hasText: attributeLabel})})
     .first();
-  // media.html renders input[type=file] ONLY in the empty state; a filled field
-  // (a value left by a previous test) renders a preview + .clear-field instead.
-  // Root cause of the historical 10-minute hang: a 2s isVisible() probe on
-  // .clear-field would race a still-rendering filled field, skip the clear, then
-  // setInputFiles would wait the full 600s test timeout on an input that never
-  // exists. Fix: wait deterministically for the field to settle into EITHER state,
-  // clear if filled, then fail FAST (15s) instead of hanging if the input is absent.
-  const fileInput = container.locator('input[type="file"]');
-  const clearBtn = container.locator('.clear-field');
-  // Wait until the field has rendered in one of its two known states.
-  await expect(fileInput.or(clearBtn).first()).toBeAttached({timeout: 30_000});
-  if (await clearBtn.isVisible().catch(() => false)) {
-    // force:true bypasses the #overlay that can re-appear after Backbone re-renders.
-    await clearBtn.click({force: true});
+  // media.html renders two exclusive states: EMPTY (.AknMediaField without .has-file, holding
+  // input[type=file]) and FILLED (.AknMediaField.has-file, holding the preview, .filename and
+  // .clear-field). Field.render() is asynchronous (jQuery 3 runs its .then chain through
+  // setTimeout), so right after a clear the DOM still shows the previous state for a few ms, and a
+  // save's re-render can re-fill a field that was just cleared. Every step below is bounded instead of
+  // acting once on a possibly stale node: a force click on a .clear-field that was being replaced used
+  // to retry for the full 600s test timeout ("Successfully replace an image", seen repeatedly in CI).
+  const emptyInput = container.locator('.AknMediaField:not(.has-file) input[type="file"]');
+  const filled = container.locator('.AknMediaField.has-file');
+  await expect(emptyInput.or(filled).first(), `"${attributeLabel}" media field never rendered`).toBeAttached({
+    timeout: 30_000,
+  });
+
+  // Selecting a file only STARTS an async upload. media-field.js updateModel() calls setReady(false),
+  // POSTs the file (image fields: /image-media, route akeneo_file_storage_upload_image; other file
+  // fields: /media/, route pim_enrich_media_rest_post) and calls setReady(true) only in the ajax
+  // .always(). While a field is not ready, product/form/save.js refuses to save ("The product cannot
+  // be saved right now. The following fields are not ready: ...") and sends no request, so a Save
+  // clicked right after setInputFiles was silently dropped (proven in CI traces on PR #415; it had
+  // been mistaken for runner load for weeks).
+  const isUpload = (method: string, url: string) => {
+    const {pathname} = new URL(url);
+    return method === 'POST' && (pathname === '/image-media' || pathname === '/media/');
+  };
+
+  // Only the steps that are safe to repeat are retried: clearing the field and picking the file until
+  // an upload request actually leaves the page. A file picked on an input that a pending render was
+  // replacing reaches no change handler and sends nothing, so that attempt fails fast and is retried.
+  // Once a request is sent the file is never picked again: during an upload the field still shows its
+  // empty state, and a second pick would open media-field.js's blocking "already in upload" dialog and
+  // start a second upload.
+  let upload: ReturnType<Page['waitForResponse']> | undefined;
+  await expect(async () => {
+    if ((await filled.count()) > 0) {
+      await filled.locator('.clear-field').first().click({force: true, timeout: 5_000});
+    }
+    await expect(emptyInput).toBeAttached({timeout: 5_000});
+
+    const requestSent = page.waitForRequest(req => isUpload(req.method(), req.url()), {timeout: 10_000});
+    requestSent.catch(() => {});
+    const response = page.waitForResponse(resp => isUpload(resp.request().method(), resp.url()), {
+      timeout: 90_000,
+    });
+    response.catch(() => {});
+    await emptyInput.setInputFiles(fixtureFilePath(fileName), {timeout: 5_000});
+    await requestSent;
+    upload = response;
+  }).toPass({timeout: 60_000});
+  if (!upload) {
+    throw new Error(`attachFileToProductAttribute: no upload of ${fileName} to "${attributeLabel}" was started`);
   }
-  // The input is display:none in the DOM, so wait for 'attached' (not 'visible').
-  // A 15s ceiling turns a missing-input bug into a fast, legible failure.
-  await fileInput.waitFor({state: 'attached', timeout: 15_000});
-  await fileInput.setInputFiles(fixtureFilePath(fileName));
+
+  // Not retried: a failed upload fails the helper with the server's answer.
+  const uploaded = await upload;
+  expect(
+    uploaded.ok(),
+    `Upload of ${fileName} to "${attributeLabel}" failed: ${uploaded.status()} ${await uploaded.text().catch(() => '')}`
+  ).toBeTruthy();
+  // The upload's done() callback calls render() and its always() callback then calls setReady(true)
+  // in the same task, while render() writes the DOM several macrotasks later: once this file's filled
+  // state is in the DOM, the field is ready. The field was empty when the file was picked, so this
+  // cannot match a previous value with the same file name.
+  await expect(
+    container.locator('.filename', {hasText: fileName}),
+    `"${attributeLabel}" did not render ${fileName} after its upload`
+  ).toBeAttached({timeout: 30_000});
 }
 
 // Fetch the most recent edit_common_attributes job execution ID via the process tracker.
@@ -342,17 +389,87 @@ export async function selectFirstProduct(page: Page) {
 }
 
 export async function saveProduct(page: Page) {
-  // The save POSTs to the COLLECTION endpoint `/enrich/product/rest` (no trailing slash,
-  // no uuid) — unlike the load GET / delete which hit `/enrich/product/rest/{uuid}`.
-  // The predicate must therefore allow `rest` to be followed by `/`, `?`, or end-of-string;
-  // requiring a trailing slash (`/rest/`) never matched the save POST, so waitForResponse
-  // hung until timeout even though the save itself returns 200 in ~150ms. Matching the
-  // real URL makes this resolve immediately (no flaky, no inflated timeout).
-  const savePromise = page.waitForResponse(
-    resp => /\/enrich\/product(-model)?\/rest(\/|\?|$)/.test(resp.url()) && resp.request().method() === 'POST'
-  );
-  await page.getByText('Save').first().click();
-  await savePromise;
+  // product/form/save.js POSTs to /enrich/product/rest/{uuid} (product models:
+  // /enrich/product-model/rest/{id}); the predicate accepts `rest` followed by `/`, `?` or the end.
+  const isSaveRequest = (url: string, method: string) =>
+    /\/enrich\/product(-model)?\/rest(\/|\?|$)/.test(url) && method === 'POST';
+
+  // Listen before clicking so neither the request nor its response can be missed. The request
+  // listener has no budget of its own; its budget starts after the click (below), so time spent
+  // waiting for the button does not count. The response gets a generous bound so a request that is
+  // sent but never answered fails legibly instead of consuming the whole test timeout.
+  const savePromise = page.waitForResponse(resp => isSaveRequest(resp.url(), resp.request().method()), {
+    timeout: 150_000,
+  });
+  savePromise.catch(() => {});
+  const requestSent = page
+    .waitForRequest(req => isSaveRequest(req.url(), req.method()), {timeout: 0})
+    .then(() => 'sent' as const);
+  requestSent.catch(() => {});
+
+  await page.getByText('Save').first().click({timeout: 30_000});
+
+  // The form can REFUSE to save without sending anything: when a field is still busy (e.g. an
+  // in-flight media upload) product/form/save.js shows a "... cannot be saved right now ..." toast,
+  // synchronously in the click handler (it stays about 8s), and returns. Fail fast with that reason
+  // instead of waiting for a response that will never come. No automatic retry: that could hide a
+  // field that never becomes ready.
+  const refused = page
+    .locator('#flash-messages')
+    .getByText(/cannot be saved right now/i)
+    .first()
+    .waitFor({state: 'visible', timeout: 10_000})
+    .then(() => 'refused' as const);
+  refused.catch(() => {});
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timedOut = new Promise<'timeout'>(resolve => {
+    timer = setTimeout(() => resolve('timeout'), 30_000);
+  });
+  let waitError: unknown;
+  let outcome: 'sent' | 'refused' | 'timeout' | 'error';
+  try {
+    outcome = await Promise.race([requestSent, refused.catch(() => new Promise<never>(() => {})), timedOut]);
+  } catch (error) {
+    waitError = error;
+    outcome = 'error';
+  } finally {
+    clearTimeout(timer);
+  }
+
+  if (outcome !== 'sent') {
+    const flash = (
+      await page
+        .locator('#flash-messages')
+        .innerText()
+        .catch(() => '')
+    ).trim();
+    if (outcome === 'refused') {
+      throw new Error(`saveProduct: the form refused to save: "${flash}"`);
+    }
+    if (outcome === 'timeout') {
+      throw new Error(
+        `saveProduct: clicking Save sent no product save request within 30s${flash ? ` (flash: "${flash}")` : ''}`
+      );
+    }
+    throw new Error(
+      `saveProduct: waiting for the save request failed: ${waitError instanceof Error ? waitError.message : String(waitError)}`
+    );
+  }
+
+  const response = await savePromise;
+  // After a SUCCESSFUL save, save.js applies the server data (setData) and triggers post_fetch in a
+  // jQuery .then callback, which runs asynchronously after the response, and fields re-render even
+  // later. A field cleared before setData runs gets re-filled with the saved value (seen in CI on
+  // "Successfully replace an image"). form/common/state.js hides "There are unsaved changes." in that
+  // same post_fetch dispatch, synchronously after setData, so its disappearance proves the saved data
+  // is applied and later edits will not be overwritten. Failed saves (e.g. validation errors) skip
+  // post_fetch and keep the banner, so this only applies to successful ones.
+  if (response.ok()) {
+    await expect(
+      page.getByText('There are unsaved changes.', {exact: true}),
+      'saveProduct: the saved product data was never applied to the form'
+    ).toBeHidden({timeout: 30_000});
+  }
 }
 
 export async function reloadProduct(page: Page) {
