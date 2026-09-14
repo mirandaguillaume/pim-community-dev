@@ -134,7 +134,8 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
 // Fetch the highest execution ID of a mass edit job (default: edit_common_attributes) via the process
 // tracker (see getLatestJobExecutionId: the tracker sorts by start time, so its first row is not the newest
 // execution). Keeps its historical contract: 0 when the process tracker cannot be read, so
-// pollForNewMassEditJob retries through a transient error.
+// pollForNewMassEditJob retries through a transient error. A snapshot that must be trusted calls
+// getLatestJobExecutionId directly, as launchMassEditJob does.
 async function getLatestMassEditJobId(page: Page, jobCode = 'edit_common_attributes'): Promise<number> {
   return getLatestJobExecutionId(page, jobCode).catch(() => 0);
 }
@@ -709,8 +710,8 @@ export async function openMassEditOperation(page: Page, operationLabel: string) 
  * answers an empty JSON body, so the id is discovered by polling the process tracker for a `jobCode`
  * execution newer than a snapshot taken before the click (the job must be registered as visible).
  *
- * Unlike confirmMassEdit, this throws with the status, body or payload when the launch request is not
- * sent, fails, or no job execution appears.
+ * Unlike confirmMassEdit, this throws with the status, body or payload when the process tracker cannot be
+ * read before the click, the launch request is not sent or fails, or no job execution appears.
  */
 export async function launchMassEditJob(page: Page, jobCode: string): Promise<{jobId: string; payload: any}> {
   const validateButton = page.locator('.wizard-action[data-action-target="validate"]');
@@ -718,7 +719,9 @@ export async function launchMassEditJob(page: Page, jobCode: string): Promise<{j
     timeout: 30_000,
   });
 
-  const prevMaxId = await getLatestMassEditJobId(page, jobCode);
+  // Strict snapshot: getLatestMassEditJobId would turn a failed read into 0, and then any existing execution
+  // would pass as the "new" one. getLatestJobExecutionId throws with the tracker's status and body instead.
+  const prevMaxId = await getLatestJobExecutionId(page, jobCode);
 
   const isLaunch = (method: string, url: string) => method === 'POST' && new URL(url).pathname === '/rest/mass_edit/';
   const requestSent = page.waitForRequest(req => isLaunch(req.method(), req.url()), {timeout: 30_000});
