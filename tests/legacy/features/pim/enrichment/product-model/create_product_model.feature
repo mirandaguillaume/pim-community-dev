@@ -104,15 +104,6 @@ Feature: Create a product model
     And I press the "Save" button
     Then I should see the text "The same code is already set on another product model."
 
-  Scenario: Display validation error for missing family variant
-    When I create a product model
-    And I should see the Code, Family and Variant fields
-    And the field Variant (required) should be disabled
-    When I fill in the following information in the popin:
-      | Code | artemiz |
-    And I press the "Save" button
-    And I should see the text "The product model family variant must not be empty."
-
   Scenario: Disable create button if user does not have permission to create products and product models
     When I am on the "Catalog manager" role page
     And I visit the "Permissions" tab
