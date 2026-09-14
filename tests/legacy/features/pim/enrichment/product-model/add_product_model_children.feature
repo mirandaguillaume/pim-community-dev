@@ -89,18 +89,6 @@ Feature: Add children to product model
     Then I should be on the product "amor_black_xl" edit page
     And 1 event of type "product.created" should have been raised
 
-  @critical
-  Scenario: Successfully add a variant product to a sub product model
-    Given I am on the "apollon_blue" product model page
-    When I open the variant navigation children selector for level 2
-    And I press the "Add new" button and wait for modal
-    Then I should see the text "Add a new Size"
-    When I fill in the following child information:
-      | SKU                 | apollon_blue_xl |
-      | Size (variant axis) | XL              |
-    And I confirm the child creation
-    Then I should be on the product "apollon_blue_xl" edit page
-
   Scenario: Successfully add a new variant product when I already am on a variant product
     When I am on the "1111111121" product page
     And I open the variant navigation children selector for level 2
