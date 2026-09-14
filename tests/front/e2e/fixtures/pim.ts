@@ -652,6 +652,8 @@ export async function createAttributeViaApi(
     allowed_extensions?: string[];
     max_file_size?: string;
     labels?: Record<string, string>;
+    metric_family?: string;
+    default_metric_unit?: string;
     decimals_allowed?: boolean;
     negative_allowed?: boolean;
   }
