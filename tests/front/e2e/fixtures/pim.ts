@@ -159,25 +159,72 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
     .locator('.AknFieldContainer')
     .filter({has: page.locator('.AknFieldContainer-label', {hasText: attributeLabel})})
     .first();
-  // media.html renders input[type=file] ONLY in the empty state; a filled field
-  // (a value left by a previous test) renders a preview + .clear-field instead.
-  // Root cause of the historical 10-minute hang: a 2s isVisible() probe on
-  // .clear-field would race a still-rendering filled field, skip the clear, then
-  // setInputFiles would wait the full 600s test timeout on an input that never
-  // exists. Fix: wait deterministically for the field to settle into EITHER state,
-  // clear if filled, then fail FAST (15s) instead of hanging if the input is absent.
-  const fileInput = container.locator('input[type="file"]');
-  const clearBtn = container.locator('.clear-field');
-  // Wait until the field has rendered in one of its two known states.
-  await expect(fileInput.or(clearBtn).first()).toBeAttached({timeout: 30_000});
-  if (await clearBtn.isVisible().catch(() => false)) {
-    // force:true bypasses the #overlay that can re-appear after Backbone re-renders.
-    await clearBtn.click({force: true});
+  // media.html renders two exclusive states: EMPTY (.AknMediaField without .has-file, holding
+  // input[type=file]) and FILLED (.AknMediaField.has-file, holding the preview, .filename and
+  // .clear-field). Field.render() is asynchronous (jQuery 3 runs its .then chain through
+  // setTimeout), so right after a clear the DOM still shows the previous state for a few ms, and a
+  // save's re-render can re-fill a field that was just cleared. Every step below is bounded instead of
+  // acting once on a possibly stale node: a force click on a .clear-field that was being replaced used
+  // to retry for the full 600s test timeout ("Successfully replace an image", seen repeatedly in CI).
+  const emptyInput = container.locator('.AknMediaField:not(.has-file) input[type="file"]');
+  const filled = container.locator('.AknMediaField.has-file');
+  await expect(emptyInput.or(filled).first(), `"${attributeLabel}" media field never rendered`).toBeAttached({
+    timeout: 30_000,
+  });
+
+  // Selecting a file only STARTS an async upload. media-field.js updateModel() calls setReady(false),
+  // POSTs the file (image fields: /image-media, route akeneo_file_storage_upload_image; other file
+  // fields: /media/, route pim_enrich_media_rest_post) and calls setReady(true) only in the ajax
+  // .always(). While a field is not ready, product/form/save.js refuses to save ("The product cannot
+  // be saved right now. The following fields are not ready: ...") and sends no request, so a Save
+  // clicked right after setInputFiles was silently dropped (proven in CI traces on PR #415; it had
+  // been mistaken for runner load for weeks).
+  const isUpload = (method: string, url: string) => {
+    const {pathname} = new URL(url);
+    return method === 'POST' && (pathname === '/image-media' || pathname === '/media/');
+  };
+
+  // Only the steps that are safe to repeat are retried: clearing the field and picking the file until
+  // an upload request actually leaves the page. A file picked on an input that a pending render was
+  // replacing reaches no change handler and sends nothing, so that attempt fails fast and is retried.
+  // Once a request is sent the file is never picked again: during an upload the field still shows its
+  // empty state, and a second pick would open media-field.js's blocking "already in upload" dialog and
+  // start a second upload.
+  let upload: ReturnType<Page['waitForResponse']> | undefined;
+  await expect(async () => {
+    if ((await filled.count()) > 0) {
+      await filled.locator('.clear-field').first().click({force: true, timeout: 5_000});
+    }
+    await expect(emptyInput).toBeAttached({timeout: 5_000});
+
+    const requestSent = page.waitForRequest(req => isUpload(req.method(), req.url()), {timeout: 10_000});
+    requestSent.catch(() => {});
+    const response = page.waitForResponse(resp => isUpload(resp.request().method(), resp.url()), {
+      timeout: 90_000,
+    });
+    response.catch(() => {});
+    await emptyInput.setInputFiles(fixtureFilePath(fileName), {timeout: 5_000});
+    await requestSent;
+    upload = response;
+  }).toPass({timeout: 60_000});
+  if (!upload) {
+    throw new Error(`attachFileToProductAttribute: no upload of ${fileName} to "${attributeLabel}" was started`);
   }
-  // The input is display:none in the DOM, so wait for 'attached' (not 'visible').
-  // A 15s ceiling turns a missing-input bug into a fast, legible failure.
-  await fileInput.waitFor({state: 'attached', timeout: 15_000});
-  await fileInput.setInputFiles(fixtureFilePath(fileName));
+
+  // Not retried: a failed upload fails the helper with the server's answer.
+  const uploaded = await upload;
+  expect(
+    uploaded.ok(),
+    `Upload of ${fileName} to "${attributeLabel}" failed: ${uploaded.status()} ${await uploaded.text().catch(() => '')}`
+  ).toBeTruthy();
+  // The upload's done() callback calls render() and its always() callback then calls setReady(true)
+  // in the same task, while render() writes the DOM several macrotasks later: once this file's filled
+  // state is in the DOM, the field is ready. The field was empty when the file was picked, so this
+  // cannot match a previous value with the same file name.
+  await expect(
+    container.locator('.filename', {hasText: fileName}),
+    `"${attributeLabel}" did not render ${fileName} after its upload`
+  ).toBeAttached({timeout: 30_000});
 }
 
 // Fetch the most recent edit_common_attributes job execution ID via the process tracker.

@@ -115,7 +115,15 @@ async function clearImageAttribute(page: Parameters<typeof login>[0]) {
     .locator('.AknFieldContainer')
     .filter({has: page.locator('.AknFieldContainer-label', {hasText: ATTR_LABEL})})
     .first();
-  await container.locator('.clear-field').click({force: true});
+  // Field.render() is asynchronous, so a single click can land on a node that is being replaced.
+  // Re-click until the EMPTY state (the file input) is actually in the DOM.
+  const filled = container.locator('.AknMediaField.has-file');
+  await expect(async () => {
+    if ((await filled.count()) > 0) {
+      await filled.locator('.clear-field').first().click({force: true, timeout: 5_000});
+    }
+    await expect(container.locator('.AknMediaField:not(.has-file) input[type="file"]')).toBeAttached({timeout: 5_000});
+  }).toPass({timeout: 30_000});
 }
 
 test('Successfully upload an image', async ({page}) => {
@@ -175,7 +183,8 @@ test('Successfully save an image whose upload is slow', async ({page}) => {
   // persisted value never contains the file.
   // A dedicated product keeps the field empty on entry, so this exercises only the upload/save
   // race, not the clear-field re-render race of the shared product used by the other tests.
-  test.setTimeout(180_000);
+  // Above the helpers' own bounds, so a failure reports their message rather than the test timeout.
+  test.setTimeout(300_000);
 
   const sku = `pw-img-slow-${Date.now()}`;
   const createResp = await createProductViaApi(page, sku, familyCode!);
@@ -202,7 +211,8 @@ test('Successfully save an image whose upload is slow', async ({page}) => {
     const product = await getProductViaApi(page, slowProductId);
     expect(JSON.stringify(product.values?.[ATTR_CODE] ?? null)).toMatch(/akeneo/);
   } finally {
-    await page.unroute('**/image-media');
+    // A delayed handler can still be running when the test ends; its continue() must not fail cleanup.
+    await page.unrouteAll({behavior: 'ignoreErrors'}).catch(() => {});
     await deleteProductViaApi(page, slowProductId);
   }
 });
