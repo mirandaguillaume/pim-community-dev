@@ -6,7 +6,7 @@ import {NavigationHelper} from '../pages/NavigationHelper';
 const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 /**
- * Replaces Behat: tests/legacy/features/user-management/user/browse_users.feature:12
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/user-management/user/browse_users.feature:12
  *   "Successfully display users"
  *
  * Background adaptations:

@@ -2,7 +2,7 @@ import {test, expect} from '../fixtures/coverage-fixture';
 import {LoginPage} from '../pages/LoginPage';
 
 /**
- * Replaces Behat: tests/legacy/features/platform/security/login.feature:4
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/platform/security/login.feature:4
  *   "Login as a user"
  *
  * Selectors and step semantics sourced from:

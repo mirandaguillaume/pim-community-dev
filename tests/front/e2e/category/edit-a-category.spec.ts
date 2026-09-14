@@ -6,7 +6,7 @@ import {NavigationHelper} from '../pages/NavigationHelper';
 const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/category/edit_a_category.feature:11
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/category/edit_a_category.feature:11
  *   "Successfully edit a category"
  *
  * Adaptations:

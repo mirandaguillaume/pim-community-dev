@@ -37,7 +37,7 @@ async function getFirstRootCategory(page: Page): Promise<{code: string; label: s
 }
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product/datagrid/filtering/filter_products_per_category.feature:19
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product/datagrid/filtering/filter_products_per_category.feature:19
  *   "Successfully filter products by category"
  *
  * The Behat scenario depends on the "apparel" catalog fixture's "2015 collection" tree, with

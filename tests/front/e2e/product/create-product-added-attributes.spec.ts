@@ -10,7 +10,7 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product/create_product_and_save_added_attributes.feature:9
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product/create_product_and_save_added_attributes.feature:9
  *   "Successfully create a product, fill in product values with 0 and save"
  *
  * This is a regression test for PIM-5666 (cited in the Behat feature file): attribute value
