@@ -833,13 +833,24 @@ export async function ensureProductExists(page: Page): Promise<string | null> {
 export async function goToProductBySearch(page: Page, sku: string) {
   await goToProductsGrid(page);
 
-  // Type the SKU into the search field to filter
-  const searchInput = page.locator('.search-zone input[type="search"], .AknFilterBox-search input');
-  if (await searchInput.isVisible({timeout: 5_000}).catch(() => false)) {
+  // Type the SKU into the grid search box (label_or_identifier filter, SearchFilterInput.tsx:
+  // `.search-filter input[name="value"]`, type="text" — the Behat SearchDecorator contract).
+  // The previous selector ('.search-zone input[type="search"], .AknFilterBox-search input') matched
+  // nothing, and isVisible() ignores its timeout and never waits, so the search was always silently
+  // skipped and the row lookup below only worked when the SKU happened to be on the first grid page.
+  const searchInput = page.locator('.search-filter input[name="value"]');
+  await expect(searchInput, 'product grid search input not found').toBeVisible({timeout: 15_000});
+  // The datagrid restores the last search term from its saved state; re-submitting an unchanged
+  // value fires no request, so only wait for a grid refresh when the term actually changes.
+  if ((await searchInput.inputValue()) !== sku) {
+    // Listen BEFORE pressing Enter: the Enter keydown submits synchronously.
+    const gridRefresh = page.waitForResponse(
+      resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/'),
+      {timeout: 30_000}
+    );
     await searchInput.fill(sku);
     await searchInput.press('Enter');
-    await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
-    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
+    await gridRefresh;
   }
 
   // Click on the row that contains our SKU — no fallback to avoid clicking the wrong product

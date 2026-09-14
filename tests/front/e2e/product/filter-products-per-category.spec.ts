@@ -76,12 +76,18 @@ async function getFirstRootCategory(page: Page): Promise<{code: string; label: s
  *   - Tree select dropdown: Product/Index.php `'Tree select' => '#tree [aria-haspopup="listbox"]
  *     button'`; options render in a portal Overlay.tsx creates at runtime (`#dropdown-root`),
  *     `Dropdown.ItemCollection role="listbox"` / `Dropdown.Item role="option"`
- *     (CategoryTreeSwitcher.tsx).
+ *     (CategoryTreeSwitcher.tsx). The option text is "<label> (<product count>)" — the
+ *     RootCategory normalizer always appends the count — so the option is matched as label + count
+ *     suffix, like Behat's `str_starts_with` in Product/Index.php::selectTree().
  *   - Tree nodes: Tree.tsx renders `li[role="treeitem"]` with 2 buttons — an unlabelled arrow
  *     toggle (expand/collapse, toggles aria-expanded) and a title+text-labelled button (select)
- *     — matches CategoryDecorator.php's `button:nth-child(2)`. getByRole('treeitem',
- *     {name, exact:true}) correctly scopes to a single node's own label even when nested — same
- *     fix already proven in classify-product.spec.ts.
+ *     — matches CategoryDecorator.php's `button:nth-child(2)`. Unlike the product-edit tree used by
+ *     classify-product.spec.ts, the grid panel's node labels are "<label> (<product count>)"
+ *     (ChildCategory normalizer, count changes with "Include sub-categories"), so an exact
+ *     accessible-name match can never succeed; nodes are located by the select button's `title`
+ *     prefix instead, mirroring TreeDecorator::findNodeInTree()'s prefix match.
+ *   - Grid search box: `.search-filter input[name="value"]` (SearchFilterInput.tsx, type="text")
+ *     — the Behat SearchDecorator contract.
  *   - "Unclassified products": a synthetic leaf node TreeView.tsx injects into every tree's
  *     children (jstree.unclassified translation, "Unclassified products" in en_US) — matches
  *     CategoryDecorator.php's `button[title="Unclassified products"]`.
@@ -111,6 +117,10 @@ function gridRow(page: Page, sku: string) {
   return page.locator('tr.AknGrid-bodyRow').filter({hasText: sku});
 }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 async function openCategoryTreePanel(page: Page) {
   const thirdColumn = page.locator('.AknDefault-thirdColumnContainer');
   const isOpen = await thirdColumn
@@ -126,14 +136,21 @@ async function selectCategoryTree(page: Page, treeLabel: string) {
   await page.locator('#tree [aria-haspopup="listbox"] button').click();
   const dropdown = page.locator('#dropdown-root [role="listbox"]');
   await expect(dropdown).toBeVisible({timeout: 10_000});
-  await dropdown.getByRole('option', {name: treeLabel, exact: true}).click();
+  // Option text is "<label> (<product count>)" (RootCategory normalizer) — match the label plus the
+  // count suffix, like Behat's str_starts_with in Product/Index.php::selectTree().
+  const option = dropdown.getByRole('option', {name: new RegExp(`^${escapeRegExp(treeLabel)} \\(\\d+\\)$`)});
+  await expect(option, `tree option "${treeLabel} (N)" not found`).toBeVisible({timeout: 10_000});
+  await option.click();
   await waitForLoadingMasks(page);
 }
 
 async function clickCategoryNode(page: Page, label: string) {
-  const node = categoryPanel(page).getByRole('treeitem', {name: label, exact: true});
-  await expect(node).toBeVisible({timeout: 15_000});
-  await node.getByRole('button', {name: label, exact: true}).click();
+  // Node label is "<label> (<product count>)" (ChildCategory normalizer) and the count changes with
+  // "Include sub-categories" — match on the select button's title prefix, like Behat's
+  // TreeDecorator::findNodeInTree() prefix match. "PW Men <ts> (" can't prefix "PW Men Summer <ts> (".
+  const nodeButton = categoryPanel(page).locator(`li[role="treeitem"] button[title^="${label} ("]`);
+  await expect(nodeButton, `category node "${label} (N)" not found`).toBeVisible({timeout: 15_000});
+  await nodeButton.click();
   await waitForLoadingMasks(page);
 }
 
@@ -149,10 +166,19 @@ async function setIncludeSubCategories(page: Page, include: boolean) {
 }
 
 async function searchGrid(page: Page, term: string) {
-  const searchInput = page.locator('.search-zone input[type="search"], .AknFilterBox-search input');
+  // SearchFilterInput.tsx renders a single `input.AknFilterBox-search[name="value"]` (type="text")
+  // inside the `.search-filter` container — the Behat SearchDecorator contract. Assert visibility
+  // with a bounded timeout so a missing input fails fast instead of hanging until the test timeout.
+  const searchInput = page.locator('.search-filter input[name="value"]');
+  await expect(searchInput, 'product grid search input not found').toBeVisible({timeout: 15_000});
+  // Listen BEFORE pressing Enter: the Enter keydown submits synchronously (runTimeout -> doSearch).
+  const gridRefresh = page.waitForResponse(
+    resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/'),
+    {timeout: 30_000}
+  );
   await searchInput.fill(term);
   await searchInput.press('Enter');
-  await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
+  await gridRefresh;
   await waitForLoadingMasks(page);
 }
 
@@ -246,11 +272,14 @@ test.describe('Filter products by category', () => {
     await openCategoryTreePanel(page);
     await selectCategoryTree(page, treeLabel);
 
-    // Selecting the tree (no specific node) shows every classified product under it.
+    // Selecting the tree shows the classified products under it. Like Behat's "I should see
+    // products" (presence only), no absence is asserted here: with the default "All products" node
+    // (-2) selected, switching tree keeps that node (CategoryTrees.tsx::switchTree /
+    // TreeView.tsx::handleTreeChange keep a negative selected node), so the unclassified product is
+    // legitimately still listed at this step.
     await expect(gridRow(page, skuWomenA)).toBeVisible({timeout: 15_000});
     await expect(gridRow(page, skuWomenB)).toBeVisible({timeout: 15_000});
     await expect(gridRow(page, skuMen)).toBeVisible({timeout: 15_000});
-    await expect(gridRow(page, skuUnclassified)).not.toBeVisible();
 
     await setIncludeSubCategories(page, false);
 
@@ -262,9 +291,11 @@ test.describe('Filter products by category', () => {
 
     // "men" has no directly-classified product (skuMen is one level deeper, in men-summer) — with
     // sub-categories off, filtering by "men" must NOT surface it.
+    // skuWomenA disappearing proves the grid refreshed for "men" (skuMen was already hidden by the
+    // "women" filter), so the skuMen absence check that follows runs against the refreshed grid.
     await clickCategoryNode(page, menLabel);
-    await expect(gridRow(page, skuMen)).not.toBeVisible();
     await expect(gridRow(page, skuWomenA)).not.toBeVisible();
+    await expect(gridRow(page, skuMen)).not.toBeVisible();
 
     // "unclassified" (scoped to this tree) surfaces the product with no categories at all.
     await clickUnclassified(page);
