@@ -11,6 +11,7 @@ import {
   deleteProductViaApi,
   deleteAttributeViaApi,
   getFirstFamilyCode,
+  getProductViaApi,
 } from '../fixtures/pim';
 
 /**
@@ -80,9 +81,9 @@ async function dismissOverlay(page: Parameters<typeof login>[0]) {
   await page.evaluate(() => document.getElementById('overlay')?.classList.remove('AknOverlay--show')).catch(() => {});
 }
 
-async function navigateToProduct(page: Parameters<typeof login>[0]) {
-  if (!productId) throw new Error('productId not set — beforeAll must have failed');
-  await page.goto(`/#/enrich/product/${productId}`);
+async function navigateToProduct(page: Parameters<typeof login>[0], id: string | null = productId) {
+  if (!id) throw new Error('productId not set — beforeAll must have failed');
+  await page.goto(`/#/enrich/product/${id}`);
   await waitForLoadingMasks(page);
   await page.locator('.edit-form, .AknFormContainer').first().waitFor({timeout: 30_000});
   await dismissOverlay(page);
@@ -163,4 +164,45 @@ test('Successfully replace an image', async ({page}) => {
   await saveProduct(page);
   await expect(page.getByText('akeneo.jpg')).toBeHidden({timeout: 15_000});
   await expect(page.getByText('bic-core-148.gif').first()).toBeVisible({timeout: 15_000});
+});
+
+test('Successfully save an image whose upload is slow', async ({page}) => {
+  // Regression guard for the save-during-upload race. Selecting a file only STARTS an async
+  // upload (media-field.js setReady(false) until POST /image-media completes), and the product
+  // form refuses to save while a field is not ready: it shows "The product cannot be saved right
+  // now..." and sends no request. Delaying /image-media makes that window deterministic: a helper
+  // that does not wait for the upload clicks Save inside it, no save request is ever sent, and the
+  // persisted value never contains the file.
+  // A dedicated product keeps the field empty on entry, so this exercises only the upload/save
+  // race, not the clear-field re-render race of the shared product used by the other tests.
+  test.setTimeout(180_000);
+
+  const sku = `pw-img-slow-${Date.now()}`;
+  const createResp = await createProductViaApi(page, sku, familyCode!);
+  expect(
+    createResp.ok(),
+    `Create product ${sku} failed: ${createResp.status()} ${JSON.stringify(await createResp.json().catch(() => null))}`
+  ).toBeTruthy();
+  const created = await createResp.json();
+  const slowProductId: string = created.meta?.id ?? created.id;
+  expect(slowProductId, `Create product ${sku} response had no id: ${JSON.stringify(created)}`).toBeTruthy();
+
+  try {
+    await page.route('**/image-media', async route => {
+      await new Promise(resolve => setTimeout(resolve, 2_000));
+      await route.continue();
+    });
+
+    await navigateToProduct(page, slowProductId);
+    await attachFileToProductAttribute(page, ATTR_LABEL, 'akeneo.jpg');
+    await saveProduct(page);
+
+    // Persistence, checked through the API rather than the on-page preview: the preview renders
+    // from the upload alone and would be visible even if the product save never happened.
+    const product = await getProductViaApi(page, slowProductId);
+    expect(JSON.stringify(product.values?.[ATTR_CODE] ?? null)).toMatch(/akeneo/);
+  } finally {
+    await page.unroute('**/image-media');
+    await deleteProductViaApi(page, slowProductId);
+  }
 });
