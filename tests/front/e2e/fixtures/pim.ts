@@ -545,8 +545,13 @@ export async function createProductViaApi(
   return response;
 }
 
+/**
+ * Delete a product through the internal API (DELETE /enrich/product/rest/{uuid}). The X-Requested-With
+ * header is required: ProductController::removeAction answers any non-XHR request with a redirect to
+ * `/` and deletes nothing. Returns the response so callers can report a failed delete.
+ */
 export async function deleteProductViaApi(page: Page, productId: string) {
-  await page.request.delete(`/enrich/product/rest/${productId}`);
+  return page.request.delete(`/enrich/product/rest/${productId}`, {headers: XHR_HEADER});
 }
 
 /**
