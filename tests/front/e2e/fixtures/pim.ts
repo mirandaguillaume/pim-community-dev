@@ -1143,13 +1143,17 @@ export async function createFamilyVariantViaApi(
 }
 
 /**
- * Fetch a product's data via the internal REST API (categories, values, etc.).
+ * Fetch a product's data via the internal REST API (GET /enrich/product/rest/{uuid}: categories, values,
+ * associations, etc.). Fails with the status and body when the answer is not OK.
  */
 export async function getProductViaApi(page: Page, identifier: string): Promise<any> {
   const response = await page.request.get(`/enrich/product/rest/${identifier}`, {
     headers: XHR_HEADER,
   });
-  expect(response.ok(), `Get product ${identifier} failed: ${response.status()}`).toBeTruthy();
+  expect(
+    response.ok(),
+    `Get product ${identifier} failed: ${response.status()} ${await responseBody(response)}`
+  ).toBeTruthy();
   return response.json();
 }
 

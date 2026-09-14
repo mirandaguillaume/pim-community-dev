@@ -8,6 +8,7 @@ import {
   createProductModelViaApi,
   deleteProductViaApi,
   deleteProductModelViaApi,
+  getProductViaApi,
   searchProductGrid,
   openMassEditOperation,
   launchMassEditJob,
@@ -105,13 +106,6 @@ const MODEL_CODES = [`pw_massassoc_${ts}_pm_a`, `pw_massassoc_${ts}_pm_b`];
 
 const createdProductUuids: string[] = [];
 const createdModels: CreatedModel[] = [];
-
-async function getProductJson(page: Page, uuid: string): Promise<any> {
-  const resp = await page.request.get(`/enrich/product/rest/${uuid}`, {headers: XHR_HEADER});
-  const text = await resp.text();
-  expect(resp.ok(), `GET product ${uuid} failed: ${resp.status()} ${text}`).toBe(true);
-  return JSON.parse(text);
-}
 
 async function expectAssociationTypeUsable(page: Page) {
   // pim_enrich_associationtype_rest_index (compiled route dump, trailing slash).
@@ -254,7 +248,7 @@ test.describe('Mass product association', () => {
     }
 
     for (const uuid of createdProductUuids) {
-      const product = await getProductJson(page, uuid);
+      const product = await getProductViaApi(page, uuid);
       expect(
         product.associations?.[ASSOCIATION_TYPE]?.product_models ?? [],
         `product ${uuid} already has ${ASSOCIATION_TYPE} product models before the mass edit: ` +
@@ -337,7 +331,7 @@ test.describe('Mass product association', () => {
 
     // --- Every product now has both product models, and nothing else, in X_SELL ---
     for (const uuid of createdProductUuids) {
-      const product = await getProductJson(page, uuid);
+      const product = await getProductViaApi(page, uuid);
       const associationsDump = `product ${uuid} associations: ${JSON.stringify(product.associations)}`;
       const association = product.associations?.[ASSOCIATION_TYPE];
       expect([...(association?.product_models ?? [])].sort(), associationsDump).toEqual([...MODEL_CODES].sort());
