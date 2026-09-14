@@ -1,9 +1,6 @@
 import {test, expect, Page} from '../fixtures/coverage-fixture';
-import {login} from '../fixtures/pim';
+import {login, XHR_HEADER} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
-
-// pim.ts declares the same constant but does not export it.
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 /**
  * Replaced Behat scenario (deleted in #420): tests/legacy/features/user-management/user/browse_users.feature:12

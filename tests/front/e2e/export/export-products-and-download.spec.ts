@@ -16,6 +16,7 @@ import {
   launchExportFromJobPage,
   readExportedCsv,
   deleteExportJobViaApi,
+  XHR_HEADER,
 } from '../fixtures/pim';
 
 /**
@@ -116,8 +117,6 @@ import {
  * (ProductController::removeAction redirects non-XHR requests without deleting). The disposable
  * categories stay under "master", as in classify-product.spec.ts.
  */
-
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 type MediaFile = {filePath: string; originalFilename: string};
 

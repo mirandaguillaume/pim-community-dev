@@ -1,6 +1,6 @@
 import type {APIResponse, Page} from '@playwright/test';
 import {test, expect} from '../fixtures/coverage-fixture';
-import {login, createProductModelViaApi} from '../fixtures/pim';
+import {login, createProductModelViaApi, XHR_HEADER} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
@@ -108,7 +108,6 @@ import {NavigationHelper} from '../pages/NavigationHelper';
 // icecat_demo_dev family_variants.csv:2 (clothing: level 1 axis color, level 2 axis size + sku).
 const FAMILY_VARIANT = 'clothing_color_size';
 
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 const XHR_JSON_HEADERS = {'Content-Type': 'application/json', ...XHR_HEADER};
 
 async function describeResponse(response: APIResponse): Promise<string> {

@@ -1,9 +1,7 @@
 import type {Request} from '@playwright/test';
 import {test, expect, Page} from '../fixtures/coverage-fixture';
-import {login, createCategoryViaApi} from '../fixtures/pim';
+import {login, createCategoryViaApi, XHR_HEADER} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
-
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 /**
  * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/category/edit_a_category.feature:11

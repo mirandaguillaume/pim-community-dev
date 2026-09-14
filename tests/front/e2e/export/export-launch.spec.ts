@@ -12,6 +12,7 @@ import {
   launchExportFromJobPage,
   readExportedCsv,
   deleteExportJobViaApi,
+  XHR_HEADER,
 } from '../fixtures/pim';
 
 /**
@@ -96,8 +97,6 @@ import {
  * instance deleted with deleteExportJobViaApi. That delete also protects edit-export.spec.ts, which picks the
  * first export grid row matching /csv.*product/i.
  */
-
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 type DeltaProduct = {sku: string; name: string; uuid?: string};
 

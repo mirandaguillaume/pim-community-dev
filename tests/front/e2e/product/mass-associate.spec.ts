@@ -13,6 +13,7 @@ import {
   openMassEditOperation,
   launchMassEditJob,
   waitForJobExecutionViaApi,
+  XHR_HEADER,
 } from '../fixtures/pim';
 
 /**
@@ -84,8 +85,6 @@ import {
  *   navigates the wizard to its confirm step, which lists the items in `.step .basket-inner`
  *   (confirm.html). The label falls back to the model code (ProductModel::getLabel).
  */
-
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 // icecat_demo_dev family_variants.csv:2 (clothing: level-1 axis color, level-2 axes size + sku).
 const FAMILY_VARIANT = 'clothing_color_size';

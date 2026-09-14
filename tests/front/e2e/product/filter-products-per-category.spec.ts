@@ -7,9 +7,8 @@ import {
   goToProductBySearch,
   createCategoryViaApi,
   searchProductGrid,
+  XHR_HEADER,
 } from '../fixtures/pim';
-
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 /**
  * Returns the code and label of an existing root category tree. A brand-new root tree created

@@ -22,6 +22,7 @@ import {
   deleteFamilyViaApi,
   deleteAttributeViaApi,
   type ProductVersion,
+  XHR_HEADER,
 } from '../fixtures/pim';
 
 /**
@@ -92,7 +93,6 @@ import {
  *   - text-field.js only updates the model on `change`, hence the Tab after fill.
  */
 
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 const JSON_XHR_HEADERS = {'Content-Type': 'application/json', ...XHR_HEADER};
 const CLEAN_JOB = 'clean_removed_attribute_job';
 

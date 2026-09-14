@@ -201,7 +201,7 @@ export async function productHasAttributeValue(
   attributeCode: string
 ): Promise<boolean> {
   const resp = await page.request.get(`/enrich/product/rest/${productUuid}`, {
-    headers: {'X-Requested-With': 'XMLHttpRequest'},
+    headers: XHR_HEADER,
   });
   if (!resp.ok()) return false;
   const product = await resp.json();
