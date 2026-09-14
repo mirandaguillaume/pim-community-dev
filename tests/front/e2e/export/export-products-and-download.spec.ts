@@ -51,10 +51,12 @@ import {
  * - The apparel job profile's completeness >= 100 filter is dropped: it is fixture configuration, not the
  *   subject of this scenario, and would require filling every tshirts requirement for ecommerce.
  *
- * Every internal controller used here returns `new RedirectResponse('/')` when the request is not an XHR,
- * and APIRequestContext follows that redirect to a 200. So every call sends X-Requested-With and every
- * setup call also asserts the response BODY shape (job code, product meta.id, media filePath), otherwise
- * a missing header would pass resp.ok() while doing nothing.
+ * The mutating internal controllers used here (MediaController::postAction, UpdateProductController,
+ * ProductController::removeAction, JobInstanceController create/put/launch/delete) return
+ * `new RedirectResponse('/')` when the request is not an XHR, and APIRequestContext follows that redirect
+ * to a 200. So those calls send X-Requested-With and assert the response BODY shape (job code, product
+ * meta.id, media filePath), otherwise a missing header would pass resp.ok() while doing nothing. The
+ * read-only job-execution GET and the archive download route have no such guard.
  *
  * Elasticsearch lag: product saves are indexed without refresh (OnSave ComputeProductsAndAncestorsSubscriber
  * -> ProductAndAncestorsIndexer.php:38 -> ProductIndexer.php:49 `Refresh::disable()`), while the export
@@ -373,7 +375,10 @@ test.describe('Export and download exported products file', () => {
 
         const product = await getProductViaApi(page, uuid!);
         expect(product.family, `Product ${tshirt.sku}: ${JSON.stringify(product)}`).toBe('tshirts');
-        expect(product.categories ?? []).toEqual(expect.arrayContaining([categoryA, categoryB]));
+        expect(
+          product.categories ?? [],
+          `Product ${tshirt.sku} categories: ${JSON.stringify(product.categories)}`
+        ).toEqual(expect.arrayContaining([categoryA, categoryB]));
       }
 
       // Job configuration (disposable job instance, see header).
@@ -479,8 +484,10 @@ test.describe('Export and download exported products file', () => {
         expect(col(row, 'description-en_US-ecommerce')).toBe(tshirt.ecommerceDescriptions.en_US);
         expect(col(row, 'description-fr_FR-ecommerce')).toBe(tshirt.ecommerceDescriptions.fr_FR);
         expect(col(row, 'description-de_DE-ecommerce')).toBe(tshirt.ecommerceDescriptions.de_DE);
-        expect(Number(col(row, 'price-EUR'))).toBe(10);
-        expect(Number(col(row, 'price-USD'))).toBe(15);
+        // icecat price has decimals_allowed=1 (attributes.csv), so PriceNormalizer number_formats to 2 decimals
+        // and StandardToFlat PriceConverter casts it to string: exactly the Behat "10.00" / "15.00".
+        expect(col(row, 'price-EUR')).toBe('10.00');
+        expect(col(row, 'price-USD')).toBe('15.00');
         // MediaExporterPathGenerator: files/<identifier>/<attribute code>/ + original filename.
         expect(col(row, 'picture')).toBe(`files/${tshirt.sku}/picture/${tshirt.image}`);
 
@@ -497,7 +504,18 @@ test.describe('Export and download exported products file', () => {
       const archiveLink = page.getByRole('link', {name: 'Download generated archive', exact: true});
       await expect(archiveLink).toBeVisible({timeout: 10_000});
       await expect(archiveLink).toHaveAttribute('href', new RegExp(`/job/${jobId}/download/zip$`));
-      await expect(page.getByRole('link', {name: 'Download generated file', exact: true})).toBeVisible();
+      // The UI link must point at the very CSV checked above. Without $deep, AbstractFilesystemArchiver::
+      // getArchives lists only the top-level CSV (media live under files/), so the output archive yields one
+      // link labelled with the archiver label. FOS router.generate encodes the key (encodeURIComponent with a
+      // few characters restored), so the key part of the href is decoded before comparing.
+      const fileLink = page.getByRole('link', {name: 'Download generated file', exact: true});
+      await expect(fileLink).toBeVisible();
+      const fileHref = (await fileLink.getAttribute('href')) ?? '';
+      const fileHrefPrefix = `/job/${jobId}/download/output/`;
+      expect(fileHref, `Unexpected "Download generated file" href`).toContain(fileHrefPrefix);
+      expect(decodeURIComponent(fileHref.slice(fileHref.indexOf(fileHrefPrefix) + fileHrefPrefix.length))).toBe(
+        csvKeys[0]
+      );
     } finally {
       for (const tshirt of tshirts) {
         if (tshirt.uuid) {
