@@ -5,12 +5,12 @@ import {login, createAttributeViaApi, launchMassDeleteAttributesViaApi} from '..
  * Replaces Behat: tests/legacy/features/pim/structure/attribute/bulk_delete_attributes.feature:6
  *   "Successfully bulk delete attributes"
  *
- * Same API-first rationale as structure/bulk-delete-attribute-groups.spec.ts: the grid
- * multi-select + "delete" confirmation-typing UI is a generic bulk-action pattern, not specific
- * to attributes, so this launches the "delete_attributes" job directly via the internal REST API
- * (MassDeleteAttributeController — see pim.ts for the JSON shape, which differs from the
- * attribute-group mass-delete: this one takes a JSON `filters.options.identifiers` job
- * configuration directly, not form-encoded `codes[]`) and verifies the outcome via the API.
+ * API-first: this launches the "delete_attributes" job directly through the internal REST API
+ * (MassDeleteAttributeController, POST /rest/attribute/mass-delete; see
+ * launchMassDeleteAttributesViaApi in pim.ts for its JSON `filters.options.identifiers` job
+ * configuration) and verifies the outcome through the API. Known gap: the attributes grid
+ * selection and the typed "delete" confirmation are not exercised here (unlike
+ * structure/bulk-delete-attribute-groups.spec.ts, which drives its own grid and modal).
  *
  * Uses 3 disposable text attributes instead of the footwear catalog's "Rating", "Manufacturer",
  * "Description" — self-contained, and unlike the attribute-group version there's no protected
