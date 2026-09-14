@@ -80,40 +80,8 @@ export async function selectProductsBySku(page: Page, skus: string[]) {
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
-  // Remove the overlay backdrop before interacting with the wizard.
-  // closeAnnouncementsPanel removes AknOverlay--show via evaluate() without triggering
-  // Backbone event handlers — safe to call multiple times.
-  await closeAnnouncementsPanel(page);
-
-  // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
-  // not a <button> — scope to .mass-actions-panel to avoid false positives.
-  const bulkLink = page.locator('.mass-actions-panel a', {hasText: /bulk actions/i}).first();
-  await bulkLink.waitFor({state: 'visible', timeout: 15_000});
-  // Use a JS programmatic click instead of Playwright's locator.click(). The #overlay element
-  // (position:fixed; 100%×100%; z-index:999) is always present in the DOM and captures pointer
-  // events at those screen coordinates even after AknOverlay--show is removed — Playwright's
-  // force:true bypasses actionability checks but still sends a coordinate-based CDP mouse event
-  // that the overlay intercepts. element.click() dispatches the event directly to the DOM node,
-  // bypassing z-index hit-testing entirely.
-  await page.evaluate(() => {
-    const panel = document.querySelector('.mass-actions-panel');
-    const link = panel && Array.from(panel.querySelectorAll('a')).find(a => /bulk\s*action/i.test(a.textContent || ''));
-    if (link) (link as HTMLElement).click();
-  });
-  await waitForLoadingMasks(page);
-
-  // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
-  // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
-  // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
-  const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
-  await tile.waitFor({state: 'visible', timeout: 120_000});
-  await tile.click();
-
-  // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
-  const configureBtn = page.locator('.wizard-action[data-action-target="configure"]');
-  await configureBtn.waitFor({state: 'visible', timeout: 15_000});
-  await configureBtn.click();
-  await waitForLoadingMasks(page);
+  // openMassEditOperation (declared after deleteProductViaApi) holds the wizard-opening steps.
+  await openMassEditOperation(page, 'Edit attribute values');
 }
 
 export async function addAttributeToMassEdit(page: Page, attributeLabel: string) {
@@ -227,13 +195,13 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
   ).toBeAttached({timeout: 30_000});
 }
 
-// Fetch the most recent edit_common_attributes job execution ID via the process tracker.
-// The controller reads filters from the query string (not the JSON body), so we pass
-// code[] as a query param to filter by job instance code.
-async function getLatestMassEditJobId(page: Page): Promise<number> {
+// Fetch the most recent job execution ID of a mass edit job (default: edit_common_attributes) via the
+// process tracker. The controller reads filters from the query string (not the JSON body), so we pass
+// code[] as a query param to filter by job instance code. Only jobs registered as visible are listed.
+async function getLatestMassEditJobId(page: Page, jobCode = 'edit_common_attributes'): Promise<number> {
   const resp = await page.request
     .post('/rest/process-tracker', {
-      params: {'code[]': 'edit_common_attributes', page: '1', size: '1'},
+      params: {'code[]': jobCode, page: '1', size: '1'},
       headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
     .catch(() => null);
@@ -244,10 +212,15 @@ async function getLatestMassEditJobId(page: Page): Promise<number> {
 }
 
 // Poll until a new job execution appears with ID > prevMaxId, then return it.
-async function pollForNewMassEditJob(page: Page, prevMaxId: number, timeout = 30_000): Promise<string | null> {
+async function pollForNewMassEditJob(
+  page: Page,
+  prevMaxId: number,
+  timeout = 30_000,
+  jobCode = 'edit_common_attributes'
+): Promise<string | null> {
   const start = Date.now();
   while (Date.now() - start < timeout) {
-    const id = await getLatestMassEditJobId(page);
+    const id = await getLatestMassEditJobId(page, jobCode);
     if (id > prevMaxId) return String(id);
     await page.waitForTimeout(1_000);
   }
@@ -552,6 +525,128 @@ export async function createProductViaApi(
  */
 export async function deleteProductViaApi(page: Page, productId: string) {
   return page.request.delete(`/enrich/product/rest/${productId}`, {headers: XHR_HEADER});
+}
+
+/**
+ * Delete a product model through the internal API (DELETE /enrich/product-model/rest/{id}, numeric id
+ * from the create response's meta.id). ProductModelController::removeAction has the same XHR guard as
+ * products, and answers 422 when RemoveProductModelCommand validation refuses the delete, so delete the
+ * products that reference a model first. Returns the response so callers can report a failed delete.
+ */
+export async function deleteProductModelViaApi(page: Page, productModelId: number | string) {
+  return page.request.delete(`/enrich/product-model/rest/${productModelId}`, {headers: XHR_HEADER});
+}
+
+/**
+ * Submit a term in the product grid search box and wait for the grid refresh it triggers.
+ * SearchFilterInput.tsx renders a single `input.AknFilterBox-search[name="value"]` (type="text") inside
+ * the `.search-filter` container (label_or_identifier-filter.js), the Behat SearchDecorator contract.
+ *
+ * The grid sends no request for a term equal to the current one, so the refresh wait fails in that
+ * case: a caller that retries for Elasticsearch lag must change the term between attempts.
+ */
+export async function searchProductGrid(page: Page, term: string) {
+  const searchInput = page.locator('.search-filter input[name="value"]');
+  await expect(searchInput, 'product grid search input not found').toBeVisible({timeout: 15_000});
+  // Listen BEFORE pressing Enter: the Enter keydown submits synchronously (runTimeout -> doSearch).
+  const gridRefresh = page.waitForResponse(
+    resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/'),
+    {timeout: 30_000}
+  );
+  gridRefresh.catch(() => {});
+  await searchInput.fill(term, {timeout: 10_000});
+  await searchInput.press('Enter', {timeout: 10_000});
+  await gridRefresh;
+  await waitForLoadingMasks(page);
+}
+
+/**
+ * Open the "Bulk actions" wizard for the rows already selected in the product grid, pick the operation
+ * tile whose text contains `operationLabel` (e.g. 'Edit attribute values', 'Associate products') and
+ * move on to its configure step.
+ */
+export async function openMassEditOperation(page: Page, operationLabel: string) {
+  // Remove the overlay backdrop before interacting with the wizard.
+  // closeAnnouncementsPanel removes AknOverlay--show via evaluate() without triggering
+  // Backbone event handlers — safe to call multiple times.
+  await closeAnnouncementsPanel(page);
+
+  // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
+  // not a <button> — scope to .mass-actions-panel to avoid false positives.
+  const bulkLink = page.locator('.mass-actions-panel a', {hasText: /bulk actions/i}).first();
+  await bulkLink.waitFor({state: 'visible', timeout: 15_000});
+  // Use a JS programmatic click instead of Playwright's locator.click(). The #overlay element
+  // (position:fixed; 100%×100%; z-index:999) is always present in the DOM and captures pointer
+  // events at those screen coordinates even after AknOverlay--show is removed — Playwright's
+  // force:true bypasses actionability checks but still sends a coordinate-based CDP mouse event
+  // that the overlay intercepts. element.click() dispatches the event directly to the DOM node,
+  // bypassing z-index hit-testing entirely.
+  await page.evaluate(() => {
+    const panel = document.querySelector('.mass-actions-panel');
+    const link = panel && Array.from(panel.querySelectorAll('a')).find(a => /bulk\s*action/i.test(a.textContent || ''));
+    if (link) (link as HTMLElement).click();
+  });
+  await waitForLoadingMasks(page);
+
+  // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
+  // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
+  // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
+  const tile = page.locator('.operation').filter({hasText: operationLabel}).first();
+  await tile.waitFor({state: 'visible', timeout: 120_000});
+  await tile.click({timeout: 15_000});
+
+  // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
+  const configureBtn = page.locator('.wizard-action[data-action-target="configure"]');
+  await configureBtn.waitFor({state: 'visible', timeout: 15_000});
+  await configureBtn.click({timeout: 15_000});
+  await waitForLoadingMasks(page);
+}
+
+/**
+ * From the mass edit wizard's confirm step, click the real Confirm button
+ * (`.wizard-action[data-action-target="validate"]`, mass-edit/form.html) and return the launched job
+ * execution id together with the JSON payload the wizard POSTed.
+ *
+ * form.js posts getFormData() ({filters, jobInstanceCode, actions, itemsCount}) to
+ * pim_enrich_mass_edit_rest_launch = POST /rest/mass_edit/ (compiled route dump). MassEditController
+ * answers an empty JSON body, so the id is discovered by polling the process tracker for a `jobCode`
+ * execution newer than a snapshot taken before the click (the job must be registered as visible).
+ *
+ * Unlike confirmMassEdit, this throws with the status, body or payload when the launch request is not
+ * sent, fails, or no job execution appears.
+ */
+export async function launchMassEditJob(page: Page, jobCode: string): Promise<{jobId: string; payload: any}> {
+  const validateButton = page.locator('.wizard-action[data-action-target="validate"]');
+  await expect(validateButton, 'mass edit: the confirm step Confirm button is not displayed').toBeVisible({
+    timeout: 30_000,
+  });
+
+  const prevMaxId = await getLatestMassEditJobId(page, jobCode);
+
+  const isLaunch = (method: string, url: string) => method === 'POST' && new URL(url).pathname === '/rest/mass_edit/';
+  const requestSent = page.waitForRequest(req => isLaunch(req.method(), req.url()), {timeout: 30_000});
+  requestSent.catch(() => {});
+  const launched = page.waitForResponse(resp => isLaunch(resp.request().method(), resp.url()), {timeout: 60_000});
+  launched.catch(() => {});
+
+  await validateButton.click({timeout: 15_000});
+
+  const request = await requestSent;
+  const response = await launched;
+  expect(response.ok(), `mass edit launch failed: ${response.status()} ${await response.text().catch(() => '')}`).toBe(
+    true
+  );
+  const payload = request.postDataJSON();
+
+  // 180s: same registration window as confirmMassEdit (Messenger consumer lag under CI load).
+  const jobId = await pollForNewMassEditJob(page, prevMaxId, 180_000, jobCode);
+  expect(
+    jobId,
+    `no new ${jobCode} job execution (id > ${prevMaxId}) appeared in the process tracker within 180s; ` +
+      `launch payload: ${JSON.stringify(payload)}`
+  ).toBeTruthy();
+
+  return {jobId: jobId!, payload};
 }
 
 /**
