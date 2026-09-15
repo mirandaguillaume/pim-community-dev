@@ -600,6 +600,50 @@ export async function deleteAssociationTypeViaApi(page: Page, code: string): Pro
 }
 
 /**
+ * Open the notification panel from the current page and check the entry that links to a job execution. The panel
+ * is a legacy Backbone template without ARIA roles, so CSS classes are the only hooks.
+ *
+ * - notification.html:1 `.notification-link` opens it (notifications.js:30; the list is loaded only while the
+ *   collection is empty, :123). Each item is notification-list.html:1-12: a.AknNotification-link[href="#<url>"]
+ *   holding .AknNotification-status--<type>, .AknNotification-title (pim_notification.types.<job type>) and
+ *   .AknNotification-message.
+ * - Every render of the user menu builds a new notifications view whose indicator starts at 0
+ *   (notifications.js:53-58) and calls refresh() (user-navigation.js:45-52); when that count_unread answer differs
+ *   from the indicator, the collection is reset (notifications.js:69-74). A count_unread response alone can come
+ *   from a previous view's in-flight refresh, so this waits for the live indicator (indicator.js:16,
+ *   span.AknNotificationMenu-count) to show a positive count before opening the panel: the job notification must
+ *   still be unread. After that, /notification/list sends the same unreadCount (list.json.twig:29), so later
+ *   refreshes do not reset the panel unless the count changes.
+ * - Caller contract: no other notification may land for the current user while the panel is open, because the new
+ *   count would reset it. A job launched without users_to_notify never notifies (JobExecutionNotifier returns
+ *   early), e.g. clean_removed_attribute_job.
+ */
+export async function expectJobNotificationInPanel(
+  page: Page,
+  jobId: number | string,
+  expected: {title: string; message: string; level: 'success' | 'warning' | 'error'}
+): Promise<void> {
+  await expect(
+    page.locator('.AknNotificationMenu-count'),
+    'the notification indicator never showed an unread count'
+  ).toHaveText(/^[1-9]\d*$/, {timeout: 60_000});
+  const listResponse = page.waitForResponse(resp => new URL(resp.url()).pathname === '/notification/list', {
+    timeout: 30_000,
+  });
+  listResponse.catch(() => {});
+  await page.locator('.notification-link').click({timeout: 15_000});
+  const list = await listResponse;
+  expect(list.ok(), `GET /notification/list: ${list.status()} ${await responseBody(list)}`).toBe(true);
+  const item = page.locator(`.AknNotification-link[href="#/job/show/${jobId}"]`);
+  await expect(item, `notification panel has no entry for /job/show/${jobId}`).toBeVisible({timeout: 15_000});
+  await expect(item.locator('.AknNotification-title')).toHaveText(expected.title);
+  await expect(item.locator('.AknNotification-message')).toHaveText(expected.message);
+  await expect(item.locator('.AknNotification-status')).toHaveClass(
+    new RegExp(`AknNotification-status--${expected.level}`)
+  );
+}
+
+/**
  * Delete a family via the internal REST API (DELETE /configuration/rest/family/{code}, no trailing slash,
  * FamilyController::removeAction). XHR only. Returns the response: 204 on success, 422 while a product
  * (FamilyRemover counts them in SQL) or a family variant still uses the family.
@@ -768,25 +812,37 @@ export async function waitForNewJobExecutionsToFinish(
 }
 
 /**
- * Type a term into the product grid search box and wait for the grid to refresh.
- * The box is the label_or_identifier filter (SearchFilterInput.tsx: `.search-filter input[name="value"]`,
- * type="text", the Behat SearchDecorator contract), which matches `*term*` on identifiers and labels
- * (LabelOrIdentifierFilter). The datagrid restores the last term from its saved state, and re-submitting an
- * unchanged value fires no request, so nothing is sent (or awaited) when the box already holds `term`: to force
- * a new request, search a different term. A caller that retries for Elasticsearch lag must alternate terms
- * between attempts, since the box keeps the term of the previous attempt.
+ * Type a term into a datagrid search box and wait for the grid to refresh (`gridName` defaults to the product grid).
+ * The box is `.search-filter input[name="value"]` (SearchFilterInput.tsx, type="text", the Behat SearchDecorator
+ * contract), owned by one of two Backbone shells:
+ * - product grid: label_or_identifier-filter.js, which matches `*term*` on identifiers and labels
+ *   (LabelOrIdentifierFilter);
+ * - attribute grid (filter type attribute_search, FilterTypeRegistry.ts): search-filter.js, which matches codes and
+ *   labels (AttributeSearchableRepository::findBySearchQb). Its render() sets the input readonly, a Chrome autofill
+ *   workaround (search-filter.js:50-56, :74-76), and only its focusin delegate removes it again (:13, :70-72).
+ *   fill() waits for an editable element, so the input is focused first. It is not clicked: #overlay swallows
+ *   coordinate clicks (see closeAnnouncementsPanel). Focusing changes nothing on the product grid's input.
+ * The datagrid restores the last term from its saved state, and re-submitting an unchanged value fires no request,
+ * so nothing is sent (or awaited) when the box already holds `term`: to force a new request, search a different
+ * term. A caller that retries for Elasticsearch lag must alternate terms between attempts, since the box keeps the
+ * term of the previous attempt.
  */
-export async function searchProductGrid(page: Page, term: string) {
+export async function searchProductGrid(page: Page, term: string, gridName = 'product-grid') {
   const searchInput = page.locator('.search-filter input[name="value"]');
-  await expect(searchInput, 'product grid search input not found').toBeVisible({timeout: 15_000});
+  await expect(searchInput, `${gridName} search input not found`).toBeVisible({timeout: 15_000});
   if ((await searchInput.inputValue()) !== term) {
     // Listen BEFORE pressing Enter: the Enter keydown submits synchronously (runTimeout -> doSearch).
     const gridRefresh = page.waitForResponse(
-      resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/'),
+      resp => resp.url().includes(`/datagrid/${gridName}`) && !resp.url().includes('/datagrid_view/'),
       {timeout: 30_000}
     );
-    // A fill or press failure below would otherwise leave this promise to reject unhandled.
+    // A focus, fill or press failure below would otherwise leave this promise to reject unhandled.
     gridRefresh.catch(() => {});
+    await searchInput.focus({timeout: 15_000});
+    await expect(searchInput, `${gridName} search input is still readonly after focus`).not.toHaveAttribute(
+      'readonly',
+      {timeout: 5_000}
+    );
     await searchInput.fill(term, {timeout: 15_000});
     await searchInput.press('Enter', {timeout: 15_000});
     await gridRefresh;
@@ -1380,26 +1436,6 @@ export async function createProductModelViaApi(
       family_variant: familyVariantCode,
       ...(values ? {values} : {}),
       ...(parent ? {parent} : {}),
-    },
-    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
-  });
-}
-
-/**
- * Launch the "delete_attributes" bulk job via the internal REST API
- * (MassDeleteAttributeController::launchAction(), POST /rest/attribute/mass-delete). This endpoint
- * expects a JSON body already shaped as a job "filters" configuration
- * (DeleteAttributesTasklet reads `filters.search` / `filters.options` via the shared
- * SearchableRepositoryInterface::findBySearch() contract, same `options.identifiers` shape
- * used by getFirstFamilyVariantCode's list endpoint).
- */
-export async function launchMassDeleteAttributesViaApi(page: Page, codes: string[]) {
-  return page.request.post('/rest/attribute/mass-delete', {
-    data: {
-      filters: {
-        search: null,
-        options: {identifiers: codes},
-      },
     },
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
