@@ -108,4 +108,6 @@ RUN rm -f /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-xdebug.ini \
          /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini \
          /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini \
          /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-blackfire.ini \
-         /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-blackfire.ini
+         /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-blackfire.ini \
+         /etc/php/${PHP_VERSION}/cli/conf.d/90-blackfire.ini \
+         /etc/php/${PHP_VERSION}/fpm/conf.d/90-blackfire.ini
