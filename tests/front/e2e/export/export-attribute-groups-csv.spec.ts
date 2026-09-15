@@ -14,7 +14,7 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/structure/attribute-group/export_attribute_groups_csv.feature:7
+ * Replaced Behat scenario (deleted): tests/legacy/features/pim/structure/attribute-group/export_attribute_groups_csv.feature:7
  *   "Successfully export attribute groups"
  *
  * Behat: footwear catalog, local storage, Julia launches the export from the export job page, then "Read 6" and

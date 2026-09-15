@@ -14,7 +14,7 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/structure/association-type/export_association_types_csv.feature:8
+ * Replaced Behat scenario (deleted): tests/legacy/features/pim/structure/association-type/export_association_types_csv.feature:8
  *   "Successfully export association types"
  *
  * Behat: footwear catalog, the job's storage set to local, Julia opens the export job page, launches the export,
