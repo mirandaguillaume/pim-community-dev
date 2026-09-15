@@ -1,120 +1,191 @@
+import type {Request} from '@playwright/test';
 import {test, expect} from '../fixtures/coverage-fixture';
 import {
   login,
   goToProductBySearch,
-  waitForLoadingMasks,
   createProductViaApi,
+  deleteProductViaApi,
   getProductViaApi,
-  getFirstRootCategoryCode,
   createCategoryViaApi,
+  cleanUpCategoriesViaApi,
+  openCategoriesTab,
+  showCategoryTree,
+  responseBody,
 } from '../fixtures/pim';
 
 /**
  * Replaces Behat: tests/legacy/features/pim/enrichment/product/pef/classify/classify_product.feature:16
  *   "Associate a product to categories"
  *
- * The Behat scenario relies on the footwear catalog's fixture tree ("2014 collection" >
- * "Summer collection"/"Winter collection"). This spec creates its own disposable root-level
- * categories instead, via the same REST endpoint the category management React app uses
- * (createCategory.ts -> POST /enrich/product-category-tree/create), so it works against any
- * catalog with at least one root tree (every install ships with one).
+ * Behat steps:
+ *   Given I edit the "tea" product
+ *   When I visit the "Categories" column tab
+ *   And I visit the "2014 collection" tab
+ *   And I expand the "2014 collection" category
+ *   And I click on the "Summer collection" category
+ *   And I click on the "Winter collection" category
+ *   And I press the "Save" button
+ *   Then I should not see the text "There are unsaved changes."
+ *   And the categories of the product "tea" should be "summer_collection and winter_collection"
+ *   And 1 event of type "product.updated" should have been raised
  *
- * Selectors traced from:
- * - "I visit the "Categories" column tab": WebUser.php::iVisitTheColumnTab() ->
- *   Base.php::visitColumnTab() -> clicks the `.column-navigation-link` whose text matches.
- * - Category pane container: Product/Edit.php `'Category pane' => '#product-categories'`.
- * - Category tree widget: Product/Edit.php `'Category tree' => ['css' => '#trees', 'decorators'
- *   => [TreeDecorator::class]]`. TreeDecorator.php confirms the real DOM contract: tree nodes
- *   are `li[role=treeitem]` (expand via a `button` inside, toggling `aria-expanded`), and each
- *   node has a `div[role=checkbox]` toggled via `aria-checked` (TreeDecorator::select()). This
- *   is the DSM/Category-front `Tree` component (role=treeitem/role=group in
- *   front-packages/akeneo-design-system/src/components/Tree/Tree.tsx and
- *   src/Akeneo/Category/front/src/feature/components/tree/base/Tree.tsx) — a React tree, but one
- *   already exercised live in critical/category.spec.ts, not a stale-route risk here since no
- *   navigation is involved, only in-page tree interaction.
- * - "I press the "Save" button" / "I should not see the text "There are unsaved changes."":
- *   the standard PEF save button + unsaved-changes banner, already used elsewhere in this
- *   suite (e.g. export/edit-export.spec.ts).
+ * Adaptations:
+ * - Catalog: CI runs icecat_demo_dev, not footwear. Summer and Winter collection become the disposable categories
+ *   `pw_cls_a_<ts>` under the root tree `master` and `pw_cls_b_<ts>` under the root tree `sales`
+ *   (icecat_demo_dev/categories.csv). Both roots are hard-coded: GET /enrich/category/rest lists roots in no
+ *   guaranteed order, and root trees created through the API are not reliably shown in the edit form.
+ * - Trees: footwear has a single root, so Behat's "2014 collection" tab click never switched trees. Here the second
+ *   category sits in another tree, so the spec switches between two trees for real. It checks that each tree's
+ *   badge counts its own selection, that the first tree keeps its ticks after switching back, and that the save
+ *   sends the categories of both trees (categories.js updateModel).
+ * - The product.updated event count cannot be observed from the browser. It is split in two: the spec checks that
+ *   one Save click sends exactly one product update request, and UpdateProductCategoriesControllerIntegration
+ *   (PHPUnit, run on backend-only PRs too) checks that one such request raises exactly one ProductUpdated event and
+ *   stores the exact categories.
+ * - User: admin instead of Julia. The scenario asserts no permission behaviour.
+ * - Kept from Behat: the exact category set (FixturesContext.php compares the sorted lists), checked in the save
+ *   response and in an independent API re-read. The product is created with no categories.
  *
- * Persistence is verified via the internal REST API (GET /enrich/product/rest/{id}) rather
- * than by re-reading the tree UI, mirroring the API-verification pattern used in
- * import/import-via-api.spec.ts — more robust than re-parsing tree checkbox state.
+ * Selectors and flow traced from:
+ * - "I visit the "Categories" column tab": Base.php::visitColumnTab() -> '.column-navigation-link'. The tab loads
+ *   GET /enrich/product/rest/{uuid}/categories (openCategoriesTab), which lists the trees with their ids.
+ * - "I visit the "2014 collection" tab" / "I expand ... category": catalog-switcher.html
+ *   `#trees-list li[data-tree=<code>]`, categories.js changeTree -> TreeAssociate.switchTree, root expanded with its
+ *   arrow (showCategoryTree). Each tree renders into `#tree-<id>` (categories.html).
+ * - "I click on the ... category": the DSM Tree node (role=treeitem, name = the label) and its DSM Checkbox
+ *   (role=checkbox, aria-checked). getByRole('treeitem', {name}) is used rather than filter({hasText}): nodes nest,
+ *   so hasText also matches every ancestor.
+ * - Badges: the `.AknBadge` of each tree tab, the number of selected categories in that tree.
+ * - "I press the "Save" button": the PEF Save button, which POSTs /enrich/product/rest/{uuid}
+ *   (pim_enrich_product_rest_post, UpdateProductController, answering the normalized product).
  */
+
+// icecat_demo_dev root trees (categories.csv: `master;;Master catalog` and `sales;;Sales catalog`).
+const FIRST_TREE = 'master';
+const SECOND_TREE = 'sales';
 
 test.describe('Classify a product', () => {
   test.beforeEach(async ({page}) => {
     await login(page, 'admin', 'admin');
   });
 
-  test('can associate a product to categories via the PEF', async ({page}) => {
+  test('can associate a product to categories of two trees via the PEF', async ({page}) => {
     const ts = Date.now();
     const sku = `pw-classify-${ts}`;
-    const categoryA = `pw_cat_a_${ts}`;
-    const categoryB = `pw_cat_b_${ts}`;
-    const labelA = `PW Category A ${ts}`;
-    const labelB = `PW Category B ${ts}`;
+    const categoryA = {code: `pw_cls_a_${ts}`, label: `PW Classify A ${ts}`, tree: FIRST_TREE};
+    const categoryB = {code: `pw_cls_b_${ts}`, label: `PW Classify B ${ts}`, tree: SECOND_TREE};
+    const expectedCodes = [categoryA.code, categoryB.code].sort();
+    const createdCategoryCodes: string[] = [];
+    let productUuid: string | undefined;
 
-    const rootCode = await getFirstRootCategoryCode(page);
-    expect(rootCode, 'expected at least one root category tree in the catalog').toBeTruthy();
-
-    const [catAResp, catBResp] = await Promise.all([
-      createCategoryViaApi(page, categoryA, rootCode!, labelA),
-      createCategoryViaApi(page, categoryB, rootCode!, labelB),
-    ]);
-    expect(catAResp.ok(), `Create category ${categoryA} failed: ${catAResp.status()}`).toBeTruthy();
-    expect(catBResp.ok(), `Create category ${categoryB} failed: ${catBResp.status()}`).toBeTruthy();
-
-    const productResp = await createProductViaApi(page, sku);
-    expect(productResp.ok(), `Create product ${sku} failed: ${productResp.status()}`).toBeTruthy();
-    // The internal_api normalizer returns the product's UUID under meta.id — the GET-by-id
-    // route (pim_enrich_product_rest_get) requires this UUID, not the SKU (see product.yml).
-    const createdProduct = await productResp.json();
-    const productUuid = createdProduct.meta?.id;
-    expect(productUuid, `Create product response had no meta.id: ${JSON.stringify(createdProduct)}`).toBeTruthy();
-
-    await goToProductBySearch(page, sku);
-
-    // Visit the "Categories" column tab (Base.php::visitColumnTab())
-    await page.locator('.column-navigation-link').filter({hasText: 'Categories'}).click();
-    await waitForLoadingMasks(page);
-
-    const categoryTree = page.locator('#trees');
-    await expect(categoryTree).toBeVisible({timeout: 15_000});
-
-    // The 2 new categories are direct children of the root tree — expand it if collapsed
-    // (TreeDecorator.php::expandNode(): click the node's inner `button` while aria-expanded=false).
-    // Tree.tsx renders 2 role=button elements per node: the expand/collapse ArrowButton
-    // (first in the JSX) and the LabelWithFolder select button — .first() picks the arrow.
-    const rootNode = categoryTree.getByRole('treeitem').first();
-    await expect(rootNode).toBeVisible({timeout: 15_000});
-    if ((await rootNode.getAttribute('aria-expanded')) === 'false') {
-      await rootNode.getByRole('button').first().click();
-    }
-
-    // Select both disposable categories (TreeDecorator.php::select(): click the node's
-    // div[role=checkbox] while aria-checked=false).
-    // getByRole('treeitem', {name}) matches the ARIA accessible name (this node's own label),
-    // NOT .filter({hasText}) — tree nodes nest in the DOM (a category's <li role="treeitem"> is
-    // inside its parent's), so hasText subtree-searches and also matches every ancestor up to
-    // the root ("Master catalog"), which strict-mode-violates.
-    for (const label of [labelA, labelB]) {
-      const node = categoryTree.getByRole('treeitem', {name: label, exact: true});
-      await expect(node).toBeVisible({timeout: 15_000});
-      const checkbox = node.getByRole('checkbox');
-      if ((await checkbox.getAttribute('aria-checked')) === 'false') {
-        await checkbox.click();
+    try {
+      // One at a time: entities created concurrently can race on a shared parent.
+      for (const category of [categoryA, categoryB]) {
+        createdCategoryCodes.push(category.code);
+        const resp = await createCategoryViaApi(page, category.code, category.tree, category.label);
+        expect(
+          resp.status(),
+          `Create category ${category.code} failed: ${resp.status()} ${await responseBody(resp)}`
+        ).toBe(201);
       }
+
+      const productResp = await createProductViaApi(page, sku);
+      const productText = await responseBody(productResp);
+      expect(productResp.ok(), `Create product ${sku} failed: ${productResp.status()} ${productText}`).toBe(true);
+      // The internal_api normalizer returns the product UUID under meta.id: the product routes need it, not the SKU.
+      productUuid = JSON.parse(productText)?.meta?.id;
+      expect(productUuid, `Create product ${sku}: no meta.id in ${productText}`).toBeTruthy();
+      const uuid = productUuid!;
+
+      // Given I edit the "tea" product
+      await goToProductBySearch(page, sku);
+
+      // When I visit the "Categories" column tab
+      const listing = await openCategoriesTab(page, `/enrich/product/rest/${uuid}/categories`);
+      const treeIdOf = (code: string): number => {
+        const tree = listing.trees.find(t => t.code === code);
+        expect(tree, `no ${code} tree in the Categories tab listing: ${JSON.stringify(listing)}`).toBeDefined();
+        return tree!.id;
+      };
+      const firstTreeId = treeIdOf(FIRST_TREE);
+      const secondTreeId = treeIdOf(SECOND_TREE);
+      const badgeOf = (treeCode: string) => page.locator(`#trees-list li[data-tree="${treeCode}"] .AknBadge`);
+
+      // And I visit the "2014 collection" tab / And I expand the "2014 collection" category
+      const firstTree = await showCategoryTree(page, FIRST_TREE, firstTreeId);
+      // And I click on the "Summer collection" category
+      const checkboxA = firstTree.getByRole('treeitem', {name: categoryA.label, exact: true}).getByRole('checkbox');
+      await expect(checkboxA, `${categoryA.code} must start unticked`).toHaveAttribute('aria-checked', 'false', {
+        timeout: 30_000,
+      });
+      await checkboxA.click({timeout: 15_000});
+      await expect(checkboxA).toHaveAttribute('aria-checked', 'true', {timeout: 15_000});
+      await expect(badgeOf(FIRST_TREE)).toHaveText('1', {timeout: 15_000});
+
+      // And I click on the "Winter collection" category: in the other tree here, so switch trees first.
+      const secondTree = await showCategoryTree(page, SECOND_TREE, secondTreeId);
+      const checkboxB = secondTree.getByRole('treeitem', {name: categoryB.label, exact: true}).getByRole('checkbox');
+      await expect(checkboxB, `${categoryB.code} must start unticked`).toHaveAttribute('aria-checked', 'false', {
+        timeout: 30_000,
+      });
+      await checkboxB.click({timeout: 15_000});
+      await expect(checkboxB).toHaveAttribute('aria-checked', 'true', {timeout: 15_000});
+      await expect(badgeOf(SECOND_TREE)).toHaveText('1', {timeout: 15_000});
+      await expect(badgeOf(FIRST_TREE), 'switching trees must keep the first tree count').toHaveText('1', {
+        timeout: 15_000,
+      });
+
+      // Back to the first tree: its tick is still there (switchTree does not re-render a rendered tree).
+      const firstTreeAgain = await showCategoryTree(page, FIRST_TREE, firstTreeId);
+      await expect(
+        firstTreeAgain.getByRole('treeitem', {name: categoryA.label, exact: true}).getByRole('checkbox'),
+        `${categoryA.code} lost its tick after switching trees`
+      ).toHaveAttribute('aria-checked', 'true', {timeout: 15_000});
+
+      // And I press the "Save" button
+      const productPath = `/enrich/product/rest/${uuid}`;
+      const isSaveRequest = (r: Request) => r.method() === 'POST' && new URL(r.url()).pathname === productPath;
+      let saveRequests = 0;
+      const countSaveRequest = (r: Request) => {
+        if (isSaveRequest(r)) saveRequests++;
+      };
+      page.on('request', countSaveRequest);
+      const [saveResp] = await Promise.all([
+        page.waitForResponse(r => isSaveRequest(r.request()), {timeout: 60_000}),
+        page.getByRole('button', {name: 'Save', exact: true}).click({timeout: 15_000}),
+      ]);
+      const saveText = await responseBody(saveResp);
+      expect(saveResp.status(), `Save product ${sku} failed: ${saveResp.status()} ${saveText}`).toBe(200);
+      const saved = JSON.parse(saveText);
+      expect([...(saved?.categories ?? [])].sort(), `Save response categories: ${saveText}`).toEqual(expectedCodes);
+
+      // Then I should not see the text "There are unsaved changes."
+      await expect(page.getByText('There are unsaved changes.')).toBeHidden({timeout: 15_000});
+
+      // And 1 event of type "product.updated" should have been raised: the browser half, one update request per
+      // Save click. UpdateProductCategoriesControllerIntegration checks one event per request.
+      page.off('request', countSaveRequest);
+      expect(saveRequests, 'one Save click must send exactly one product update request').toBe(1);
+
+      // And the categories of the product "tea" should be "summer_collection and winter_collection"
+      const product = await getProductViaApi(page, uuid);
+      expect([...(product.categories ?? [])].sort(), `Persisted categories: ${JSON.stringify(product)}`).toEqual(
+        expectedCodes
+      );
+    } finally {
+      // Best-effort cleanup that never throws, so it cannot mask the test's own error. The product goes first, as
+      // it is classified in the categories.
+      if (productUuid) {
+        try {
+          const resp = await deleteProductViaApi(page, productUuid);
+          if (!resp.ok()) {
+            console.warn(`Cleanup: delete product ${sku} returned ${resp.status()} ${await responseBody(resp)}`);
+          }
+        } catch (e) {
+          console.warn(`Cleanup: product ${sku}: ${(e as Error).message}`);
+        }
+      }
+      await cleanUpCategoriesViaApi(page, createdCategoryCodes);
     }
-
-    await page.getByRole('button', {name: 'Save', exact: true}).click();
-    await waitForLoadingMasks(page);
-
-    await expect(page.getByText('There are unsaved changes.')).not.toBeVisible({timeout: 15_000});
-
-    // Verify persistence via the API rather than re-reading tree checkbox state.
-    const product = await getProductViaApi(page, productUuid);
-    const categoryCodes: string[] = product.categories ?? [];
-    expect(categoryCodes).toContain(categoryA);
-    expect(categoryCodes).toContain(categoryB);
   });
 });
