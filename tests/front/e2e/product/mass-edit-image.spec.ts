@@ -107,23 +107,33 @@ test.describe('Mass edit image attributes', () => {
     const page = await browser.newPage();
     await login(page, 'admin', 'admin');
 
-    const products = await getFirstProductsFromGrid(page, 2);
+    // The first grid rows are not guaranteed to have a family: earlier specs in the same shard leave family-less
+    // products there (mass-associate creates some), and a just-deleted product can still be listed while
+    // Elasticsearch catches up. So scan a wider page and keep the first 2 products whose family CODE resolves
+    // through the product API (the grid's `.family` is the localized LABEL, which 404s against the code-keyed
+    // family endpoint). getProductFamilyCode returns null for a family-less or missing product.
+    const candidates = await getFirstProductsFromGrid(page, 20);
+    const picked: Array<{sku: string; uuid: string; familyCode: string}> = [];
+    for (const candidate of candidates) {
+      const familyCode = await getProductFamilyCode(page, candidate.uuid);
+      if (familyCode) {
+        picked.push({sku: candidate.sku, uuid: candidate.uuid, familyCode});
+      }
+      if (picked.length === 2) {
+        break;
+      }
+    }
     expect(
-      products.length,
-      'Need at least 2 indexed products in the catalog — icecat_demo_dev must be loaded'
-    ).toBeGreaterThanOrEqual(2);
+      picked.length,
+      `Need 2 indexed products with a family among the first ${candidates.length} grid rows — icecat_demo_dev must be loaded`
+    ).toBe(2);
 
-    sku1 = products[0].sku;
-    sku2 = products[1].sku;
-    uuid1 = products[0].uuid;
-    uuid2 = products[1].uuid;
-
-    // Resolve the family CODE from the product API (the grid's `.family` is the localized
-    // LABEL, which 404s against the code-keyed family endpoint — and which family lands
-    // "first" in the ES-ordered grid varies across shards). Deduplicate so we PUT each once.
-    const familyCodes = await Promise.all([getProductFamilyCode(page, uuid1!), getProductFamilyCode(page, uuid2!)]);
-    families = [...new Set(familyCodes.filter((code): code is string => Boolean(code)))];
-    expect(families.length, 'Products must belong to at least one family').toBeGreaterThan(0);
+    sku1 = picked[0].sku;
+    sku2 = picked[1].sku;
+    uuid1 = picked[0].uuid;
+    uuid2 = picked[1].uuid;
+    // Deduplicate so each family gets the attribute added once.
+    families = [...new Set(picked.map(product => product.familyCode))];
 
     const r1 = await createAttributeViaApi(page, {
       code: ATTR_CODE,
