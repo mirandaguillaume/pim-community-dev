@@ -13,7 +13,7 @@ import {DataGridPage} from '../pages/DataGridPage';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product-model/remove.feature:12
+ * Replaced Behat scenario (deleted together with this hardening): tests/legacy/features/pim/enrichment/product-model/remove.feature:12
  *   "Successfully delete a product model from the edit form"
  *
  * Adaptations:
