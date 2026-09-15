@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace AkeneoTest\Pim\Enrichment\Integration\Controller\InternalApi;
 
 use Akeneo\Test\Integration\Configuration;
+use Akeneo\UserManagement\Component\Model\User;
 use Oro\Bundle\PimDataGridBundle\tests\Integration\Controller\ControllerIntegrationTestCase;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * Backend guard of the product grid category tree panel, whose UI flow is covered by
@@ -153,6 +156,10 @@ final class ProductGridCategoryTreeControllerIntegration extends ControllerInteg
         $this->logIn('no_category_list');
         $treeId = $this->categoryId('grid_tree');
 
+        // Positive control: the user keeps the other permissions, so the 403 comes from the category list ACL only.
+        $this->assertActionAclIsGranted('no_category_list', 'pim_enrich_product_index', true);
+        $this->assertActionAclIsGranted('no_category_list', 'pim_enrich_product_category_list', false);
+
         $this->callApiRoute(
             $this->client,
             'pim_enrich_product_grid_category_tree_listtree',
@@ -282,8 +289,30 @@ final class ProductGridCategoryTreeControllerIntegration extends ControllerInteg
             $user->addGroup($group);
         }
         $user->addRole($this->get('pim_user.repository.role')->findOneByIdentifier(self::RESTRICTED_ROLE));
+        // The factory adds ROLE_USER, whose fixture ACL grants every permission (root ACE): remove it, as
+        // TestCase::createAdminUser does, or it would grant the category list permission back.
+        $user->removeRole($this->get('pim_user.repository.role')->findOneByIdentifier(User::ROLE_DEFAULT));
         $this->get('pim_user.saver.user')->save($user);
 
         $this->get('pim_connector.doctrine.cache_clearer')->clear();
+        Assert::assertSame(
+            [self::RESTRICTED_ROLE],
+            $this->get('pim_user.repository.user')->findOneByIdentifier($username)->getRoles()
+        );
+    }
+
+    /**
+     * Same check as the controller's SecurityFacade::isGranted, with a token built from the user's saved roles.
+     */
+    private function assertActionAclIsGranted(string $username, string $acl, bool $expected): void
+    {
+        $user = $this->get('pim_user.repository.user')->findOneByIdentifier($username);
+        $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
+
+        Assert::assertSame(
+            $expected,
+            $this->get('security.access.decision_manager')->decide($token, ['EXECUTE'], new ObjectIdentity('action', $acl)),
+            sprintf('The ACL "%s" of the user "%s" must be %s', $acl, $username, $expected ? 'granted' : 'denied')
+        );
     }
 }

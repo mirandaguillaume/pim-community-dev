@@ -86,12 +86,31 @@ final class ProductGridLoadIntegration extends ControllerIntegrationTestCase
         foreach (['family', 'enabled', 'completeness', 'created', 'updated', 'scope', 'groups', 'label_or_identifier'] as $systemFilter) {
             Assert::assertContains($systemFilter, $filterNames, 'product.yml system filter');
         }
-        Assert::assertContains('sku', $filterNames, 'the attributes useable as grid filter are added to the filters');
+        // SelectedAttributesConfigurator only adds the attributes of the "_filter" param, of the displayed columns
+        // and of the user product grid filters; julia has none (technical users.csv).
+        Assert::assertSame([], $this->get('pim_user.repository.user')->findOneByIdentifier('julia')->getProductGridFilters());
+        Assert::assertNotContains('sku', $filterNames, 'no attribute filter is added without a reason to');
 
         Assert::assertSame(
             ['grid_men_summer_product', 'grid_unclassified_product', 'grid_women_product'],
             $this->rowIdentifiers($content)
         );
+    }
+
+    public function test_it_adds_the_filters_of_the_attributes_saved_in_the_user_product_grid_filters(): void
+    {
+        $this->get('feature_flags')->disable('data_quality_insights');
+        $julia = $this->get('pim_user.repository.user')->findOneByIdentifier('julia');
+        $julia->setProductGridFilters(['sku']);
+        $this->get('pim_user.saver.user')->save($julia);
+        $this->get('pim_connector.doctrine.cache_clearer')->clear();
+        // The grid reads the user of the token: log in again so it carries the saved filters.
+        $this->logIn('julia');
+
+        $filterNames = $this->filterNames($this->loadProductGrid([])['metadata']);
+
+        Assert::assertContains('sku', $filterNames, 'the sku attribute, useable as grid filter, is added to the filters');
+        Assert::assertContains('family', $filterNames, 'the product.yml system filters are kept');
     }
 
     public function test_the_quality_score_column_and_filters_follow_the_data_quality_insights_feature_flag(): void
