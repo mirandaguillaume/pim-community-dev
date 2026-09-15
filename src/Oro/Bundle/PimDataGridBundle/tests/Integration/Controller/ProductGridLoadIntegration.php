@@ -86,10 +86,11 @@ final class ProductGridLoadIntegration extends ControllerIntegrationTestCase
         foreach (['family', 'enabled', 'completeness', 'created', 'updated', 'scope', 'groups', 'label_or_identifier'] as $systemFilter) {
             Assert::assertContains($systemFilter, $filterNames, 'product.yml system filter');
         }
-        // SelectedAttributesConfigurator only adds the attributes of the "_filter" param, of the displayed columns
-        // and of the user product grid filters; julia has none (technical users.csv).
+        // SelectedAttributesConfigurator adds the attributes of the "_filter" param, of the displayed columns and of the
+        // user product grid filters. julia has no saved grid filters (technical users.csv), but the default columns
+        // display the identifier, so the sku attribute filter is still offered (confirmed on CI).
         Assert::assertSame([], $this->get('pim_user.repository.user')->findOneByIdentifier('julia')->getProductGridFilters());
-        Assert::assertNotContains('sku', $filterNames, 'no attribute filter is added without a reason to');
+        Assert::assertContains('sku', $filterNames, 'the displayed identifier column brings its attribute filter');
 
         Assert::assertSame(
             ['grid_men_summer_product', 'grid_unclassified_product', 'grid_women_product'],
