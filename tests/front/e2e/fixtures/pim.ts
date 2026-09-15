@@ -581,6 +581,25 @@ export async function showCategoryTree(page: Page, treeCode: string, treeId: num
 }
 
 /**
+ * DELETE /configuration/rest/association-type/{code} (pim_enrich_associationtype_rest_remove, no trailing slash,
+ * AssociationTypeController::removeAction: XHR only, 204 on success, 404 when it does not exist). Best-effort cleanup:
+ * warns instead of failing, so it never hides the error of the test that called it.
+ */
+export async function deleteAssociationTypeViaApi(page: Page, code: string): Promise<void> {
+  try {
+    const resp = await page.request.delete(`/configuration/rest/association-type/${code}`, {
+      headers: XHR_HEADER,
+      timeout: 30_000,
+    });
+    if (!resp.ok()) {
+      console.warn(`Cleanup: delete association type ${code} returned ${resp.status()} ${await responseBody(resp)}`);
+    }
+  } catch (e) {
+    console.warn(`Cleanup: delete association type ${code} failed: ${(e as Error).message}`);
+  }
+}
+
+/**
  * Delete a family via the internal REST API (DELETE /configuration/rest/family/{code}, no trailing slash,
  * FamilyController::removeAction). XHR only. Returns the response: 204 on success, 422 while a product
  * (FamilyRemover counts them in SQL) or a family variant still uses the family.
@@ -1239,13 +1258,18 @@ export async function createFamilyViaApi(page: Page, code: string, attributes: s
 }
 
 /**
- * Create an association type via the internal REST API (POST /configuration/rest/association-type,
+ * Create an association type via the internal REST API (POST /configuration/rest/association-type/,
  * AssociationTypeController::createAction() -> AssociationTypeUpdater, which only recognizes
- * code/labels/is_two_way/is_quantified).
+ * code/labels/is_two_way/is_quantified). The two flags must be booleans, and a type cannot be both two-way and
+ * quantified (ShouldNotBeTwoWayAndQuantified, 400). Returns the response. Delete it with deleteAssociationTypeViaApi.
  */
-export async function createAssociationTypeViaApi(page: Page, code: string) {
+export async function createAssociationTypeViaApi(
+  page: Page,
+  code: string,
+  extra: {labels?: Record<string, string>; is_two_way?: boolean; is_quantified?: boolean} = {}
+) {
   return page.request.post('/configuration/rest/association-type/', {
-    data: {code},
+    data: {code, ...extra},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
 }

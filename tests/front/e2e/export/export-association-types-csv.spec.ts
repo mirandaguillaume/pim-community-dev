@@ -2,44 +2,53 @@ import {test, expect, Page} from '../fixtures/coverage-fixture';
 import {
   login,
   createAssociationTypeViaApi,
-  launchExportViaApi,
+  deleteAssociationTypeViaApi,
+  launchExportFromJobPage,
   waitForJobExecutionViaApi,
+  waitForJobCompletion,
+  readExportedCsv,
+  getStepSummaryValue,
   resolveJobCode,
-  goToJobExecution,
+  responseBody,
   XHR_HEADER,
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/structure/association-type/export_association_types_csv.feature:8
+ * Replaced Behat scenario (deleted): tests/legacy/features/pim/structure/association-type/export_association_types_csv.feature:8
  *   "Successfully export association types"
  *
- * Same shape as export-attribute-groups-csv.spec.ts (PR #402): the Behat scenario asserts the
- * exported file "should contain 5 rows", which is exactly as fixture-count-dependent as that
- * scenario's "Read 6"/"Written 6" — depends on the "footwear" catalog's exact association type
- * count. Following the same pattern as export-attribute-groups-csv.spec.ts, completion and row
- * count are verified through the job execution REST API's step summary counters, not by reading the
- * exported file back.
+ * Behat: footwear catalog, the job's storage set to local, Julia opens the export job page, launches the export,
+ * waits for the job, then counts the lines of the file on disk ("should contain 5 rows").
  *
- * Reads the current total association-type count via the REST API first (GET
- * /configuration/rest/association-type, AssociationTypeController::indexAction() ->
- * `findAll()`, normalized as a plain collection), creates 2 disposable association types, launches
- * the export, and asserts the job's write/read counts equal `baseline + 2` — proving the export
- * both completed and actually picked up the new association types.
+ * Adaptations:
+ * - Catalog: footwear -> icecat. The job is csv_footwear_association_type_export when it exists, otherwise the icecat
+ *   csv_association_type_export (icecat_demo_dev/jobs.yml).
+ * - User: Julia -> admin.
+ * - Launch: like Behat, the "Export now" button of the export job page (launchExportFromJobPage in pim.ts). The job
+ *   uses the pim-job-instance-csv-base-export form (Structure services.yml), which renders that button.
+ * - File: local storage needs the import_export_local_storage feature flag, which only Behat and the PHPUnit
+ *   JobLauncher enable. The icecat job has storage `none`, so the CSV is read from the job archive (readExportedCsv).
+ *   ExportAssociationTypesIntegration.php exports with local storage: the job completes (UploadStep runs without
+ *   error) and the local file holds the exact CSV.
+ * - "should contain 5 rows" -> data rows === step read === step written === baseline + 2, where the baseline is the
+ *   association type count before the 2 disposable types are created, plus the columns of those 2 rows by name.
+ *   StandardToFlat\AssociationType is covered by AssociationTypeTest.php.
  *
- * Job code: 'csv_footwear_association_type_export' (footwear fixture) falls back to
- * 'csv_association_type_export' — confirmed as a real default-install job instance in
- * src/Akeneo/Platform/Installer/back/.../fixtures/icecat_demo_dev/jobs.yml ("Demo CSV association
- * type export"), the catalog this suite actually runs against.
- *
- * Launches via REST API (launchExportViaApi in pim.ts) rather than the launch button in the UI,
- * same rationale as export-attribute-groups-csv.spec.ts.
+ * Data: 2 disposable association types, created one after the other: A two-way, B quantified (a type cannot be
+ * both). They are deleted in `finally`, best-effort. label-en_US is exported because every icecat channel activates
+ * en_US (icecat_demo_dev/channels.csv).
  */
 
 async function getAssociationTypeCount(page: Page): Promise<number> {
-  const resp = await page.request.get('/configuration/rest/association-type', {headers: XHR_HEADER});
-  expect(resp.ok(), `List association types failed: ${resp.status()}`).toBeTruthy();
+  const resp = await page.request.get('/configuration/rest/association-type/', {headers: XHR_HEADER, timeout: 30_000});
+  expect(resp.ok(), `List association types failed: ${resp.status()} ${await responseBody(resp)}`).toBeTruthy();
   const types = await resp.json();
   return Array.isArray(types) ? types.length : Object.keys(types).length;
+}
+
+function column(header: string[], row: string[], name: string): string | undefined {
+  const index = header.indexOf(name);
+  return -1 === index ? undefined : row[index];
 }
 
 test.describe('Export association types CSV', () => {
@@ -63,34 +72,73 @@ test.describe('Export association types CSV', () => {
 
   test('Successfully export association types', async ({page}) => {
     const ts = Date.now();
-    const typeACode = `pw_assoc_a_${ts}`;
-    const typeBCode = `pw_assoc_b_${ts}`;
+    const types = [
+      {code: `pw_assoc_a_${ts}`, label: `PW assoc A ${ts}`, isTwoWay: true, isQuantified: false},
+      {code: `pw_assoc_b_${ts}`, label: `PW assoc B ${ts}`, isTwoWay: false, isQuantified: true},
+    ];
+    const createdCodes: string[] = [];
 
     const baselineCount = await getAssociationTypeCount(page);
 
-    const [typeAResp, typeBResp] = await Promise.all([
-      createAssociationTypeViaApi(page, typeACode),
-      createAssociationTypeViaApi(page, typeBCode),
-    ]);
-    expect(typeAResp.ok(), `Create association type ${typeACode} failed: ${typeAResp.status()}`).toBeTruthy();
-    expect(typeBResp.ok(), `Create association type ${typeBCode} failed: ${typeBResp.status()}`).toBeTruthy();
+    try {
+      for (const type of types) {
+        const resp = await createAssociationTypeViaApi(page, type.code, {
+          labels: {en_US: type.label},
+          is_two_way: type.isTwoWay,
+          is_quantified: type.isQuantified,
+        });
+        expect(
+          resp.ok(),
+          `Create association type ${type.code} failed: ${resp.status()} ${await responseBody(resp)}`
+        ).toBeTruthy();
+        createdCodes.push(type.code);
+      }
+      const expectedCount = baselineCount + 2;
 
-    const expectedCount = baselineCount + 2;
+      // Given I am on the export job page
+      // When I launch the export job
+      const jobId = await launchExportFromJobPage(page, exportJobCode);
 
-    const jobId = await launchExportViaApi(page, exportJobCode);
-    const jobResult = await waitForJobExecutionViaApi(page, jobId);
+      // And I wait for the job to finish
+      const execution = await waitForJobExecutionViaApi(page, jobId);
+      const dump = JSON.stringify(execution);
+      expect(execution.status, `Export job did not complete: ${dump}`).toBe('COMPLETED');
+      const exportStep = execution.stepExecutions?.find((step: any) => 'export' === step.label);
+      expect(exportStep, `No "export" step: ${dump}`).toBeTruthy();
+      expect(getStepSummaryValue(exportStep, 'read', 'read'), `Step summary: ${dump}`).toBe(expectedCount);
+      expect(getStepSummaryValue(exportStep, 'write', 'written'), `Step summary: ${dump}`).toBe(expectedCount);
 
-    expect(jobResult.status, `Export job did not complete: ${JSON.stringify(jobResult)}`).toBe('COMPLETED');
+      // The launch left the page on #/job/show/{id} (re-assigning the same hash would fire no hashchange).
+      await waitForJobCompletion(page);
+      await expect(page.locator('[data-testid="job-status"]')).toContainText(/completed/i, {timeout: 15_000});
 
-    const exportStep = jobResult.stepExecutions?.find((s: any) => s.summary?.written > 0);
-    expect(exportStep, `No step wrote any items: ${JSON.stringify(jobResult.stepExecutions)}`).toBeTruthy();
-    expect(exportStep.summary.written).toBe(expectedCount);
-    if (undefined !== exportStep.summary.read) {
-      expect(exportStep.summary.read).toBe(expectedCount);
+      // Then the file should contain one row per association type
+      const {text, header, rows} = await readExportedCsv(page, jobId);
+      const csv = `CSV body:\n${text}`;
+      expect(new Set(header).size, `Duplicate CSV headers. ${csv}`).toBe(header.length);
+      expect(header[0], csv).toBe('code');
+      expect(header, csv).toEqual(expect.arrayContaining(['label-en_US', 'is_two_way', 'is_quantified']));
+      expect(rows, csv).toHaveLength(expectedCount);
+      for (const row of rows) {
+        expect(row, `Malformed row. ${csv}`).toHaveLength(header.length);
+      }
+
+      for (const type of types) {
+        const matching = rows.filter(row => column(header, row, 'code') === type.code);
+        expect(matching, `Expected exactly one row for ${type.code}. ${csv}`).toHaveLength(1);
+        const [row] = matching;
+        expect(column(header, row, 'label-en_US'), `label-en_US of ${type.code}. ${csv}`).toBe(type.label);
+        // StandardToFlat\AssociationType casts both flags to int.
+        expect(column(header, row, 'is_two_way'), `is_two_way of ${type.code}. ${csv}`).toBe(type.isTwoWay ? '1' : '0');
+        expect(column(header, row, 'is_quantified'), `is_quantified of ${type.code}. ${csv}`).toBe(
+          type.isQuantified ? '1' : '0'
+        );
+      }
+    } finally {
+      // Best-effort: deleteAssociationTypeViaApi only warns, so a cleanup problem never hides the test's own error.
+      for (const code of createdCodes) {
+        await deleteAssociationTypeViaApi(page, code);
+      }
     }
-
-    // Verify completion is also reflected in the job tracker UI (same check as the sibling specs).
-    await goToJobExecution(page, jobId);
-    await expect(page.getByText(/completed/i).first()).toBeVisible({timeout: 15_000});
   });
 });
