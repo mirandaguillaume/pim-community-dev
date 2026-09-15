@@ -454,6 +454,133 @@ export async function deleteProductViaApi(page: Page, productId: string) {
 }
 
 /**
+ * Numeric id of a category (a root tree or a sub-category) from its code: GET /enrich/category/rest/{code}
+ * (pim_enrich_category_rest_get, CategoryController::getAction; the internal_api CategoryNormalizer adds `id`).
+ * createCategoryViaApi answers 201 with no id, so the category edit route and deleteCategoryViaApi need this lookup.
+ * getAction normalizes whatever findOneByIdentifier returns, so an unknown code is not a 404: it answers an empty
+ * object, and this throws "Category <code> not found". Every error message carries the status and the body.
+ */
+export async function getCategoryIdViaApi(page: Page, code: string): Promise<number> {
+  const resp = await page.request.get(`/enrich/category/rest/${code}`, {headers: XHR_HEADER, timeout: 30_000});
+  const text = await responseBody(resp);
+  if (!resp.ok()) {
+    throw new Error(`Get category ${code} failed: ${resp.status()} ${text}`);
+  }
+  let body: any = null;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    // Not JSON: reported below with the raw text.
+  }
+  if (body?.code !== code) {
+    throw new Error(`Category ${code} not found: ${resp.status()} ${text}`);
+  }
+  if (typeof body.id !== 'number') {
+    throw new Error(`Category ${code} has no numeric id: ${text}`);
+  }
+  return body.id;
+}
+
+/**
+ * Delete a category or a whole category tree: DELETE /enrich/product-category-tree/{id}/remove
+ * (pim_enrich_categorytree_remove, CategoryTreeController::removeAction, the call the category grid's "Delete tree"
+ * makes). The DeleteCategoryCommandHandler it dispatches removes root and non-root categories alike, and does
+ * nothing for an unknown id. XHR only: any other request is redirected to '/', which APIRequestContext follows to a
+ * 200, so without the header the call looks successful and deletes nothing. Answers 204, or a JSON {message} with
+ * the conflict status. Returns the response.
+ */
+export async function deleteCategoryViaApi(page: Page, id: number) {
+  return page.request.delete(`/enrich/product-category-tree/${id}/remove`, {headers: XHR_HEADER, timeout: 30_000});
+}
+
+/**
+ * Best-effort cleanup of disposable categories, deleted by code in the given order: pass children before their
+ * parents, and delete the products and product models classified in them first. It never throws and only warns, so
+ * a cleanup failure can neither mask the test's own error nor fail a passing test.
+ */
+export async function cleanUpCategoriesViaApi(page: Page, codes: string[]): Promise<void> {
+  for (const code of codes) {
+    try {
+      const id = await getCategoryIdViaApi(page, code);
+      const resp = await deleteCategoryViaApi(page, id);
+      if (!resp.ok()) {
+        console.warn(
+          `Cleanup: delete category ${code} (id ${id}) returned ${resp.status()} ${await responseBody(resp)}`
+        );
+      }
+    } catch (e) {
+      console.warn(`Cleanup: category ${code}: ${(e as Error).message}`);
+    }
+  }
+}
+
+/** The listing behind the edit form's Categories tab (ProductCategoryController / ProductModelCategoryController). */
+export type CategoriesTabListing = {
+  trees: Array<{id: number; code: string; label: string; associated: boolean}>;
+  categories: Array<{id: number; code: string; rootId: number}>;
+};
+
+/**
+ * Open the Categories column tab of a product or product model edit form and return the listing that feeds it.
+ * The tab link is the `.column-navigation-link` named Categories (Behat Base.php::visitColumnTab). When the tab
+ * renders, categories.js loadTrees GETs `categoriesPath`: /enrich/product/rest/{uuid}/categories
+ * (pim_enrich_product_category_rest_list) or /enrich/product-model/rest/{id}/categories
+ * (pim_enrich_product_model_category_rest_list). The response is matched by pathname, because Routing.generate
+ * appends id and dataLocale as query parameters. The badges and the initially ticked categories come from this
+ * listing: `categories` grouped by rootId.
+ */
+export async function openCategoriesTab(page: Page, categoriesPath: string): Promise<CategoriesTabListing> {
+  const listed = page.waitForResponse(
+    r => r.request().method() === 'GET' && new URL(r.url()).pathname === categoriesPath,
+    {timeout: 30_000}
+  );
+  // A failed click below would otherwise leave this promise to reject unhandled.
+  listed.catch(() => {});
+  await page.locator('.column-navigation-link').filter({hasText: 'Categories'}).click({timeout: 15_000});
+  const resp = await listed;
+  const text = await responseBody(resp);
+  expect(resp.ok(), `GET ${categoriesPath} failed: ${resp.status()} ${text}`).toBe(true);
+  await waitForLoadingMasks(page);
+  return JSON.parse(text);
+}
+
+/**
+ * In an open Categories tab, show the tree `treeCode` (numeric id `treeId`) and return its panel `#tree-<id>`
+ * with the root node expanded.
+ * - The switcher (catalog-switcher.html) renders one `#trees-list li[data-tree=<code>][data-tree-id=<id>]` per tree.
+ *   Clicking it runs categories.js changeTree -> TreeAssociate.switchTree. That sets `hidden` on every other
+ *   `#trees > [data-tree-id]` wrapper and renders the tree into `#tree-<id>` the first time it is shown.
+ * - Which tree renders on load is not guaranteed: categories.js takes the first listed tree, and the listing SQL
+ *   (AbstractItemCategoryRepository::getItemCountByTree) has no ORDER BY. Always call this before looking for a node.
+ * - The wrappers all carry id="root-unselectable" (categories.html), hence the `#tree-<id>` scoping.
+ * - Tree.tsx fixes aria-expanded when a node mounts: open when it came with children (a tree filled around the
+ *   selected categories), otherwise collapsed and opened with its arrow, the node's first role=button.
+ */
+export async function showCategoryTree(page: Page, treeCode: string, treeId: number): Promise<Locator> {
+  const tab = page.locator(`#trees-list li[data-tree="${treeCode}"]`);
+  await tab.click({timeout: 15_000});
+  await expect(tab, `the ${treeCode} tree tab did not become active`).toHaveClass(/AknHorizontalNavtab-item--active/, {
+    timeout: 15_000,
+  });
+  const otherTrees = page.locator(`#trees > [data-tree-id]:not([data-tree-id="${treeId}"])`);
+  await expect
+    .poll(() => otherTrees.evaluateAll(wrappers => wrappers.filter(w => !(w as HTMLElement).hidden).length), {
+      message: `switching to the ${treeCode} tree left another tree wrapper shown`,
+      timeout: 15_000,
+    })
+    .toBe(0);
+
+  const panel = page.locator(`#tree-${treeId}`);
+  const root = panel.getByRole('treeitem').first();
+  await expect(root, `the ${treeCode} tree did not render`).toBeVisible({timeout: 30_000});
+  if ((await root.getAttribute('aria-expanded')) === 'false') {
+    await root.getByRole('button').first().click({timeout: 15_000});
+  }
+  await expect(root).toHaveAttribute('aria-expanded', 'true', {timeout: 15_000});
+  return panel;
+}
+
+/**
  * Delete a family via the internal REST API (DELETE /configuration/rest/family/{code}, no trailing slash,
  * FamilyController::removeAction). XHR only. Returns the response: 204 on success, 422 while a product
  * (FamilyRemover counts them in SQL) or a family variant still uses the family.
@@ -1209,16 +1336,27 @@ export async function getFirstFamilyVariantCode(page: Page): Promise<string | nu
  * per variation level (OnlyExpectedAttributesValidator): a root model may only hold the family
  * variant's common attributes, a level-1 sub model only its level-1 attribute set (and it must
  * carry that level's axis values, NotEmptyVariantAxes).
+ *
+ * Pass `extra` for other top-level fields of the payload, which ProductModelController::createAction hands to the
+ * updater as is. For example, `{categories: ['<code>', ...]}` classifies the model in existing categories; a sub
+ * product model also inherits its parent's categories. The explicit arguments win over `extra`.
  */
 export async function createProductModelViaApi(
   page: Page,
   code: string,
   familyVariantCode: string,
   values?: Record<string, unknown>,
-  parent?: string
+  parent?: string,
+  extra?: Record<string, unknown>
 ) {
   return page.request.post('/enrich/product-model/rest/create', {
-    data: {code, family_variant: familyVariantCode, ...(values ? {values} : {}), ...(parent ? {parent} : {})},
+    data: {
+      ...(extra ?? {}),
+      code,
+      family_variant: familyVariantCode,
+      ...(values ? {values} : {}),
+      ...(parent ? {parent} : {}),
+    },
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
 }
