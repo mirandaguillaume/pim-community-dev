@@ -13,7 +13,7 @@ import {
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product-model/classify_product_model.feature:26
+ * Replaced Behat scenario (deleted): tests/legacy/features/pim/enrichment/product-model/classify_product_model.feature:26
  *   "Count sub product model categories"
  *
  * Behat steps:

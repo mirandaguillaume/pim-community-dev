@@ -14,7 +14,7 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/product/pef/classify/classify_product.feature:16
+ * Replaced Behat scenario (deleted): tests/legacy/features/pim/enrichment/product/pef/classify/classify_product.feature:16
  *   "Associate a product to categories"
  *
  * Behat steps:

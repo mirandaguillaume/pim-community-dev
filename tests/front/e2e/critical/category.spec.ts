@@ -12,8 +12,8 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  *       @critical Scenario: Create a sub-category
  *   - tests/legacy/features/pim/enrichment/category/list_categories.feature
  *       @critical Scenario: Navigate to edit category page
- *   - tests/legacy/features/pim/enrichment/category/remove_a_category.feature:22
- *       Scenario: Remove a category tree via the grid
+ *   - tests/legacy/features/pim/enrichment/category/remove_a_category.feature:22 (deleted)
+ *       Scenario: Remove a category tree via the grid, ported by the separate describe at the end of this file
  *
  * Selectors sourced from:
  *   - tests/legacy/features/Context/Page/Category/Index.php:
@@ -160,7 +160,7 @@ test.describe('@critical Category tree', () => {
 });
 
 /**
- * Replaces Behat: tests/legacy/features/pim/enrichment/category/remove_a_category.feature:22
+ * Replaced Behat scenario (deleted): tests/legacy/features/pim/enrichment/category/remove_a_category.feature:22
  *   "Remove a category tree via the grid"
  *
  * Behat steps:
