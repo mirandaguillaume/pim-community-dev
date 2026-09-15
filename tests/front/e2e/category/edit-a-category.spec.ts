@@ -1,6 +1,6 @@
 import type {Request} from '@playwright/test';
 import {test, expect, Page} from '../fixtures/coverage-fixture';
-import {login, createCategoryViaApi, XHR_HEADER} from '../fixtures/pim';
+import {login, createCategoryViaApi, getCategoryIdViaApi, XHR_HEADER} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
@@ -69,15 +69,6 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  * response (400 violations, 500) is not retried: it fails the test at once with its body.
  */
 
-async function getCategoryIdByCode(page: Page, code: string): Promise<number> {
-  const resp = await page.request.get(`/enrich/category/rest/${code}`, {headers: XHR_HEADER});
-  const body = await resp.json().catch(() => null);
-  expect(resp.ok(), `Get category ${code} failed: ${resp.status()} ${JSON.stringify(body)}`).toBeTruthy();
-  expect(body?.code, `Unexpected category payload: ${JSON.stringify(body)}`).toBe(code);
-  expect(typeof body?.id, `No numeric id in ${JSON.stringify(body)}`).toBe('number');
-  return body.id;
-}
-
 async function getEnrichedCategoryViaApi(page: Page, id: number): Promise<any> {
   const resp = await page.request.get(`/category/rest/${id}`, {headers: XHR_HEADER});
   const body = await resp.json().catch(() => null);
@@ -101,7 +92,7 @@ test.describe('Edit a category', () => {
       createResp.status(),
       `Create category ${code} failed: ${createResp.status()} ${await createResp.text()}`
     ).toBe(201);
-    const id = await getCategoryIdByCode(page, code);
+    const id = await getCategoryIdViaApi(page, code);
 
     // Register before navigating so no form-initializing GET is missed (see "Form reset race").
     const isFormInitGet = (r: Request): boolean => {
