@@ -32,11 +32,11 @@ final class LoadDatagridPimUserGridIntegration extends ControllerIntegrationTest
         $grid = \json_decode((string) $content['data'], true, 512, JSON_THROW_ON_ERROR);
 
         self::assertSame(['admin', 'mary', 'zoe'], \array_column($grid['data'], 'username'));
-        self::assertEquals(3, $grid['options']['totalRecords']);
+        self::assertSame(3, $grid['options']['totalRecords']);
 
         $rowsByUsername = \array_column($grid['data'], null, 'username');
-        self::assertEquals(true, $rowsByUsername['mary']['enabled']);
-        self::assertEquals(false, $rowsByUsername['zoe']['enabled']);
+        self::assertTrue($rowsByUsername['mary']['enabled']);
+        self::assertFalse($rowsByUsername['zoe']['enabled']);
         self::assertSame((string) $zoe->getId(), (string) $rowsByUsername['zoe']['id']);
         self::assertSame(
             $this->router->generate('pim_user_edit', ['identifier' => $mary->getId()]),

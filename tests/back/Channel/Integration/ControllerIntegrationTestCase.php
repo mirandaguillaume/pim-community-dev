@@ -22,6 +22,9 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  * test, so the test and the controllers share the container, the session and the entity manager.
  *
  * Mirrors tests/back/UserManagement/Integration/Bundle/ControllerIntegrationTestCase.php.
+ *
+ * @copyright 2026 Akeneo SAS (http://www.akeneo.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 abstract class ControllerIntegrationTestCase extends WebTestCase
 {
