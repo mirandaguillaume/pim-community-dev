@@ -5,6 +5,7 @@ import {
   login,
   createAttributeGroupViaApi,
   createAttributeViaApi,
+  expectJobNotificationInPanel,
   getJobExecutionIdsViaApi,
   getJobNotificationViaApi,
   getLatestJobExecutionId,
@@ -77,17 +78,9 @@ import {NavigationHelper} from '../pages/NavigationHelper';
  * - Job page: JobExecutionDetail.tsx:262-263 data-testid="job-status"; summary rows are InnerTable.tsx:31-33
  *   key/value rows, whose keys are translated (StepExecutionNormalizer.php:89); warnings are list items
  *   (WarningHelper.tsx:27-30).
- * - Notification panel: notification.html:1 `.notification-link` opens it (notifications.js:30, list loaded only
- *   while the collection is empty, :123). Each item is notification-list.html:1-12:
- *   a.AknNotification-link[href="#<url>"] holding .AknNotification-status--<type>, .AknNotification-title
- *   ("Deletion", pim_notification.types.attribute_group_mass_delete) and .AknNotification-message. Every render of
- *   the user menu builds a new notifications view whose indicator starts at 0 (notifications.js:53-58) and calls
- *   refresh() (user-navigation.js:45-52); when that count_unread answer differs from the indicator, the collection
- *   is reset (notifications.js:69-74). A count_unread response alone can come from a previous view's in-flight
- *   refresh, so the spec instead waits for the live indicator (indicator.js:16, span.AknNotificationMenu-count) to
- *   show a positive count before opening the panel. After that, /notification/list sends the same unreadCount
- *   (list.json.twig:29), so later refreshes do not reset the panel unless the count changes. A job notification
- *   that lands while the panel is open would change it; nothing in this spec launches one.
+ * - Notification panel: expectJobNotificationInPanel in pim.ts (title "Deletion",
+ *   pim_notification.types.attribute_group_mass_delete). Nothing in this spec launches another job that notifies
+ *   admin while the panel is open.
  */
 
 const JOB_CODE = 'delete_attribute_groups';
@@ -366,27 +359,12 @@ test.describe('Bulk delete attribute groups', () => {
       await expect(page.getByRole('row', {name: /^Skipped attribute groups\s*1$/})).toBeVisible({timeout: 10_000});
       await expect(page.getByRole('listitem').filter({hasText: /cannot be removed/})).toBeVisible({timeout: 10_000});
 
-      // Notification panel (legacy Backbone template, no ARIA roles: CSS classes are the only hooks).
-      // The job notification is still unread, so the live view's own count_unread answer sets its indicator to a
-      // positive number. Until then the indicator shows 0, and that answer would reset an already loaded panel.
-      await expect(
-        page.locator('.AknNotificationMenu-count'),
-        'the notification indicator never showed the unread count on the job page'
-      ).toHaveText(/^[1-9]\d*$/, {timeout: 60_000});
-      const listResponse = page.waitForResponse(resp => new URL(resp.url()).pathname === '/notification/list', {
-        timeout: 30_000,
+      // Notification panel. The job notification is still unread, as the helper requires.
+      await expectJobNotificationInPanel(page, jobId, {
+        title: 'Deletion',
+        message: 'Bulk delete of attribute groups finished with some warnings',
+        level: 'warning',
       });
-      listResponse.catch(() => {});
-      await page.locator('.notification-link').click({timeout: 15_000});
-      const list = await listResponse;
-      expect(list.ok(), `GET /notification/list: ${await describeResponse(list)}`).toBe(true);
-      const item = page.locator(`.AknNotification-link[href="#/job/show/${jobId}"]`);
-      await expect(item, `notification panel has no entry for /job/show/${jobId}`).toBeVisible({timeout: 15_000});
-      await expect(item.locator('.AknNotification-title')).toHaveText('Deletion');
-      await expect(item.locator('.AknNotification-message')).toHaveText(
-        'Bulk delete of attribute groups finished with some warnings'
-      );
-      await expect(item.locator('.AknNotification-status')).toHaveClass(/AknNotification-status--warning/);
 
       // "And I am on the attribute groups page" / "I should not see Sizes, Colors" / "I should see Other"
       const groupsAfter = await openAttributeGroupsGrid(page);
