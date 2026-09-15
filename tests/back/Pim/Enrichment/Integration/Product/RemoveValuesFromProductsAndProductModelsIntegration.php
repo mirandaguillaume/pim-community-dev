@@ -52,6 +52,8 @@ class RemoveValuesFromProductsAndProductModelsIntegration extends TestCase
         ];
 
         $this->assertEquals(4, $this->getProductWithAttributeValuesCount($attributeCodes, $productUuids));
+        // Each product was saved once.
+        $this->assertSame(4, $this->getProductVersionCount($productUuids));
 
         $this->getRemoveValuesFromProducts()
             ->forAttributeCodes($attributeCodes, $productUuids);
@@ -59,6 +61,13 @@ class RemoveValuesFromProductsAndProductModelsIntegration extends TestCase
         $this->assertEquals(0, $this->getProductWithAttributeValuesCount($attributeCodes, $productUuids));
 
         $this->assertEventCount(4, ProductUpdated::class);
+
+        // PIM-3420: cleaning the values of a deleted attribute must not rewrite the product history.
+        $this->assertSame(
+            4,
+            $this->getProductVersionCount($productUuids),
+            'Removing the values of a deleted attribute must not create product versions.'
+        );
     }
 
     /**
@@ -123,6 +132,17 @@ SQL,
         )->fetchOne();
 
         return (int) $result;
+    }
+
+    private function getProductVersionCount(array $productUuids): int
+    {
+        $uuidsAsBytes = \array_map(fn($productUuid) => Uuid::fromString($productUuid)->getBytes(), $productUuids);
+
+        return (int) $this->get('database_connection')->executeQuery(
+            'SELECT COUNT(*) FROM pim_versioning_version WHERE resource_uuid IN (:product_uuids)',
+            ['product_uuids' => $uuidsAsBytes],
+            ['product_uuids' => ArrayParameterType::STRING]
+        )->fetchOne();
     }
 
     private function getProductModelWithAttributeValuesCount(array $attributeCodes, array $productModelCodes): int
