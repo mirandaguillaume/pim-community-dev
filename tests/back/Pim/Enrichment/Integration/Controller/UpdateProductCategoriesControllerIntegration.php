@@ -102,6 +102,10 @@ class UpdateProductCategoriesControllerIntegration extends WebTestCase
         );
         $this->get('pim_enrich.product.message_bus')->dispatch($command);
         $this->get('pim_connector.doctrine.cache_clearer')->clear();
+        // With disableReboot() the same container serves the requests below. UniqueValuesSet keyed the new product's
+        // identifier by spl_object_hash when it was created, while the POST validates the stored product by uuid, so
+        // without a reset the save is rejected as "identifier already used" (same reset as VersioningControllerIntegration).
+        $this->get('pim_catalog.validator.unique_value_set')->reset();
 
         $product = $this->get('pim_catalog.repository.product')->findOneByIdentifier($identifier);
         Assert::assertNotNull($product, \sprintf('Product "%s" was not created', $identifier));
