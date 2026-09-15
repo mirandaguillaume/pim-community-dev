@@ -135,8 +135,17 @@ final class FamilyVariantControllerIntegration extends WebTestCase
 
         $this->assertStatusCode(Response::HTTP_BAD_REQUEST, $response);
         $violations = $this->decode($response);
-        Assert::assertNotEmpty($violations);
-        Assert::assertContains('Variant axes cannot be modified for the level "2"', array_column($violations, 'message'));
+        $axesViolations = array_values(array_filter(
+            $violations,
+            static fn (array $violation): bool => 'Variant axes cannot be modified for the level "2"' === ($violation['message'] ?? null),
+        ));
+        // Emptying the axes also raises the "no axis" violation of FamilyVariantValidator, so only this one is checked.
+        // ImmutableVariantAxes is reported at variantAttributeSets[1].axes, tableized by the internal_api normalizer.
+        Assert::assertSame(
+            [['path' => 'variant_attribute_sets[1].axes', 'message' => 'Variant axes cannot be modified for the level "2"', 'global' => false]],
+            $axesViolations,
+            sprintf('Violations: %s', json_encode($violations)),
+        );
         Assert::assertSame($executionsBefore, $this->structureChangesJobExecutionCount());
 
         $this->get('doctrine.orm.entity_manager')->clear();

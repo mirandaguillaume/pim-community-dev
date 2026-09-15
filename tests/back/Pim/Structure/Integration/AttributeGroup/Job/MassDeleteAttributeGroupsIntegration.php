@@ -42,19 +42,24 @@ final class MassDeleteAttributeGroupsIntegration extends WebTestCase
         $this->launchMassDelete(['codes' => ['group_a', 'group_b', 'other']]);
 
         $jobExecution = $this->theOnlyJobExecution();
+        $rawParameters = json_decode($jobExecution['raw_parameters'], true, 512, JSON_THROW_ON_ERROR);
+        $expectedParameters = [
+            'filters' => ['codes' => ['group_a', 'group_b', 'other']],
+            'replacement_attribute_group_code' => 'other',
+            'users_to_notify' => [self::USERNAME],
+        ];
+        $actualParameters = array_intersect_key($rawParameters, $expectedParameters);
+        // raw_parameters is a JSON column: MySQL does not keep the key order.
+        ksort($expectedParameters);
+        ksort($actualParameters);
         Assert::assertSame(
-            [
-                'filters' => ['codes' => ['group_a', 'group_b', 'other']],
-                'replacement_attribute_group_code' => 'other',
-                'users_to_notify' => [self::USERNAME],
-                'send_email' => true,
-            ],
-            array_intersect_key(
-                json_decode($jobExecution['raw_parameters'], true, 512, JSON_THROW_ON_ERROR),
-                array_flip(['filters', 'replacement_attribute_group_code', 'users_to_notify', 'send_email']),
-            ),
+            $expectedParameters,
+            $actualParameters,
             'The controller should default the replacement group to "other".',
         );
+        // QueueJobLauncher turns send_email into the email option of the queued message and removes it from the job
+        // parameters, which the DeleteAttributeGroupsMassEdit constraint collection would otherwise reject.
+        Assert::assertArrayNotHasKey('send_email', $rawParameters);
 
         $this->get('akeneo_integration_tests.launcher.job_launcher')->launchConsumerUntilQueueIsEmpty();
         $this->get('doctrine.orm.entity_manager')->clear();
