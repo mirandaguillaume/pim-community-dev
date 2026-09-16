@@ -24,7 +24,7 @@
   "dependencies": {
     "@akeneo-pim-community/shared": "link:../../../../../../front-packages/shared",
     "akeneo-design-system": "link:../../../../../../front-packages/akeneo-design-system",
-    "react-router-dom": "^6.28",
+    "react-router-dom": "^6.30",
     "typescript": "^4.0.3"
   },
   "config": {
