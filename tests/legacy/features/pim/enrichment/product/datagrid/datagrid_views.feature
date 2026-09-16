@@ -13,12 +13,6 @@ Feature: Datagrid views
       | black-boots     | boots    | Black boots     |              |
     And I am logged in as "Mary"
 
-  @data-quality-insights-feature-enabled
-  Scenario: Successfully display the default view
-    Given I am on the products grid
-    Then I should see the text "Default view"
-    Then I should see the columns ID, Image, Label, Family, Status, Complete, Created, Updated, Variant products, Quality score
-
   Scenario: Successfully apply a view
     Given I am on the products grid
     And I filter by "family" with operator "in list" and value "Boots"

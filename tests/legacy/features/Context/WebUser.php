@@ -1878,28 +1878,6 @@ class WebUser extends PimContext
     }
 
     /**
-     * @Given /^I press the "([^"]*)" button in the bulk actions panel$/
-     */
-    public function iPressTheButtonInTheBulkActionsPanel(string $buttonLabel)
-    {
-        $buttonElement = $this->spin(function () use ($buttonLabel) {
-            $selectors = [
-                '.mass-actions-panel a:contains("%1$s")',
-                '.mass-actions-panel button:contains("%1$s")',
-                '.mass-actions-panel .AknButton:contains("%1$s")',
-            ];
-
-            return $this
-                ->getCurrentPage()
-                ->find('css', sprintf(join(',', $selectors), $buttonLabel));
-        }, sprintf('Cannot find "%s" button in bulk actions panel', $buttonLabel));
-
-        $buttonElement->press();
-
-        $this->wait();
-    }
-
-    /**
      * @param string $buttonLabel
      *
      * @Given /^I press the cancel button in the popin$/

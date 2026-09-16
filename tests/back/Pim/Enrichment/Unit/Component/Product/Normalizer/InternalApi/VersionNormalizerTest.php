@@ -208,4 +208,66 @@ class VersionNormalizerTest extends TestCase
                     'pending'     => false,
                 ], $this->sut->normalize($version, 'internal_api'));
     }
+
+    /**
+     * PIM-3420: once an attribute is deleted, the history of a product still shows the changes made to it, under its
+     * raw code and with its values untouched. The other attributes of the same version are still presented.
+     */
+    public function test_it_keeps_the_raw_changeset_of_a_deleted_attribute(): void
+    {
+        $version = $this->createMock(Version::class);
+        $steve = $this->createMock(User::class);
+        $textPresenter = $this->createMock(PresenterInterface::class);
+
+        $changeset = [
+            'weather_conditions' => ['old' => '', 'new' => 'snowy,cold'],
+            'name-en_US' => ['old' => '', 'new' => 'Nice boots'],
+        ];
+        $version->method('getId')->willReturn(12);
+        $version->method('getResourceId')->willReturn(112);
+        $version->method('getSnapshot')->willReturn('a nice snapshot');
+        $version->method('getChangeset')->willReturn($changeset);
+        $version->method('getContext')->willReturn(null);
+        $version->method('getVersion')->willReturn(2);
+        $version->method('getLoggedAt')->willReturn(new \DateTime());
+        $version->method('isPending')->willReturn(false);
+        $version->method('getAuthor')->willReturn('steve');
+        $this->localeAware->method('getLocale')->willReturn('en_US');
+        $this->datetimePresenter->method('present')->willReturn('01/01/1985 09:41 AM');
+        $this->userManager->method('findUserByUsername')->willReturn($steve);
+        $steve->method('getFirstName')->willReturn('Steve');
+        $steve->method('getLastName')->willReturn('Jobs');
+        $this->userContext->method('getUserTimezone')->willThrowException(new \RuntimeException());
+
+        // weather_conditions was deleted: the repository does not return its type anymore.
+        $this->attributeRepository->expects($this->once())
+            ->method('getAttributeTypeByCodes')
+            ->with(['weather_conditions', 'name'])
+            ->willReturn(['name' => 'pim_catalog_text']);
+        $this->presenterRegistry->method('getPresenterByAttributeType')
+            ->with('pim_catalog_text')
+            ->willReturn($textPresenter);
+        $this->presenterRegistry->expects($this->once())
+            ->method('getPresenterByFieldCode')
+            ->with('weather_conditions')
+            ->willReturn(null);
+        $textPresenter->method('present')->willReturnCallback(
+            fn (string $value): string => '' === $value ? '' : sprintf('presented %s', $value)
+        );
+
+        $this->assertSame([
+                    'id'          => 12,
+                    'author'      => 'Steve Jobs',
+                    'resource_id' => '112',
+                    'snapshot'    => 'a nice snapshot',
+                    'changeset'   => [
+                        'weather_conditions' => ['old' => '', 'new' => 'snowy,cold'],
+                        'name-en_US'         => ['old' => '', 'new' => 'presented Nice boots'],
+                    ],
+                    'context'     => null,
+                    'version'     => 2,
+                    'logged_at'   => '01/01/1985 09:41 AM',
+                    'pending'     => false,
+                ], $this->sut->normalize($version, 'internal_api'));
+    }
 }

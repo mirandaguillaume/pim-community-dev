@@ -71,6 +71,24 @@ class CreateProductModelIntegration extends TestCase
     }
 
     /**
+     * Basic validation, a product model family variant must not be empty
+     */
+    public function testThatTheProductModelFamilyVariantMustNotBeEmpty()
+    {
+        $productModel = $this->createProductModel(
+            [
+                'code' => 'pm_without_family_variant',
+            ]
+        );
+
+        $errors = $this->get('pim_catalog.validator.product_model')->validate($productModel);
+
+        $this->assertCount(1, $errors);
+        $this->assertEquals('The product model family variant must not be empty.', $errors->get(0)->getMessage());
+        $this->assertEquals('familyVariant', $errors->get(0)->getPropertyPath());
+    }
+
+    /**
      * Basic validation, a product model code must be valid
      */
     public function testThatTheProductModelCodeMustBeValid()

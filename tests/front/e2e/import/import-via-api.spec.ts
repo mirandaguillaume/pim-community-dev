@@ -11,12 +11,22 @@ import {
 
 /**
  * Replaces Behat FILE_UPLOAD scenarios that fail because Selenium W3C
- * cannot interact with the hidden file input element:
+ * cannot interact with the hidden file input element.
  *
- *   - import_products_with_numbers.feature:15,23,31,39
- *   - import_products_with_dates.feature:15,23,31
- *   - upload_and_import_products_with_media.feature:11,45
- *   - create_multiple_family_variants.feature:12
+ * Replaced Behat scenarios (deleted in #421):
+ *   - tests/legacy/features/pim/enrichment/product/import/xlsx/import_products_with_numbers.feature:16
+ *       "Successfully import an XLSX file of products with real integers"
+ *   - tests/legacy/features/pim/enrichment/product/import/xlsx/import_products_with_dates.feature:16
+ *       "Successfully import an XLSX file of products with dates as timestamps"
+ *   - tests/legacy/features/pim/enrichment/product/import/upload_and_import_products_with_media.feature:12
+ *       "Successfully upload and import an archive"
+ *   - tests/legacy/features/pim/structure/family/family-variant/import/csv/create_multiple_family_variants.feature:13
+ *       "I successfully create and use a family variant import in CSV"
+ *
+ * Still in Behat, tagged @skip-behat-migrated-to-playwright:
+ *   - tests/legacy/features/pim/enrichment/product/import/xlsx/import_products_with_numbers.feature:15,24,33
+ *   - tests/legacy/features/pim/enrichment/product/import/xlsx/import_products_with_dates.feature:15,24
+ *   - tests/legacy/features/pim/enrichment/product/import/upload_and_import_products_with_media.feature:19
  *
  * Tests the full E2E flow:
  *   1. Launch import via REST API (bypasses broken file input)
