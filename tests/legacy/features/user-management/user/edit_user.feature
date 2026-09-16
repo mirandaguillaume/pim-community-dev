@@ -19,25 +19,6 @@ Feature: Edit a user
     Then the field First name should contain "John"
     And the field Phone should contain "+33755337788"
 
-  Scenario: Successfully edit and apply user preferences
-    When I edit the "Peter" user
-    And I visit the "Additional" tab
-    And I fill in the following information:
-      | Catalog locale       | German (Germany)  |
-      | Catalog scope        | Print             |
-      | Default tree         | 2015 collection   |
-      | Product grid filters | SKU, Name, Family |
-    And I save the user
-    Then I should see the flash message "User saved"
-    When I am on the products grid
-    And I open the category tree
-    Then I should see the text "Kollektion"
-    And I should see the text "Drucken"
-    And I should see the text "2015 Männer-Kollektion"
-    And I should see the text "2015 Damenkollektion"
-    And I should see the filters name, family and sku
-    And I should not see the filter enabled
-
   # @jira https://akeneo.atlassian.net/browse/PIM-6901
   Scenario: Successfully edit a user with a new role
     Given I am on the role creation page

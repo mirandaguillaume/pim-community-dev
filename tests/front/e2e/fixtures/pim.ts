@@ -1,4 +1,4 @@
-import {Page, expect} from '@playwright/test';
+import {Locator, Page, expect} from '@playwright/test';
 import * as path from 'node:path';
 
 const BEHAT_FIXTURES = path.resolve(__dirname, '../../../legacy/features/Context/fixtures');
@@ -80,40 +80,8 @@ export async function selectProductsBySku(page: Page, skus: string[]) {
 }
 
 export async function openBulkEditAttributeValues(page: Page) {
-  // Remove the overlay backdrop before interacting with the wizard.
-  // closeAnnouncementsPanel removes AknOverlay--show via evaluate() without triggering
-  // Backbone event handlers — safe to call multiple times.
-  await closeAnnouncementsPanel(page);
-
-  // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
-  // not a <button> — scope to .mass-actions-panel to avoid false positives.
-  const bulkLink = page.locator('.mass-actions-panel a', {hasText: /bulk actions/i}).first();
-  await bulkLink.waitFor({state: 'visible', timeout: 15_000});
-  // Use a JS programmatic click instead of Playwright's locator.click(). The #overlay element
-  // (position:fixed; 100%×100%; z-index:999) is always present in the DOM and captures pointer
-  // events at those screen coordinates even after AknOverlay--show is removed — Playwright's
-  // force:true bypasses actionability checks but still sends a coordinate-based CDP mouse event
-  // that the overlay intercepts. element.click() dispatches the event directly to the DOM node,
-  // bypassing z-index hit-testing entirely.
-  await page.evaluate(() => {
-    const panel = document.querySelector('.mass-actions-panel');
-    const link = panel && Array.from(panel.querySelectorAll('a')).find(a => /bulk\s*action/i.test(a.textContent || ''));
-    if (link) (link as HTMLElement).click();
-  });
-  await waitForLoadingMasks(page);
-
-  // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
-  // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
-  // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
-  const tile = page.locator('.operation').filter({hasText: 'Edit attribute values'}).first();
-  await tile.waitFor({state: 'visible', timeout: 120_000});
-  await tile.click();
-
-  // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
-  const configureBtn = page.locator('.wizard-action[data-action-target="configure"]');
-  await configureBtn.waitFor({state: 'visible', timeout: 15_000});
-  await configureBtn.click();
-  await waitForLoadingMasks(page);
+  // openMassEditOperation (declared after deleteProductViaApi) holds the wizard-opening steps.
+  await openMassEditOperation(page, 'Edit attribute values');
 }
 
 export async function addAttributeToMassEdit(page: Page, attributeLabel: string) {
@@ -147,11 +115,12 @@ export async function addAttributeToMassEdit(page: Page, attributeLabel: string)
 }
 
 export async function attachFileToMassEditAttribute(page: Page, attributeLabel: string, fileName: string) {
+  // product/field/field.js gives every attribute field view the AknComparableFields class.
   const container = page
     .locator('.AknComparableFields')
     .filter({has: page.locator('.AknFieldContainer-label', {hasText: attributeLabel})})
     .first();
-  await container.locator('input[type="file"]').setInputFiles(fixtureFilePath(fileName));
+  await uploadFileIntoMediaField(page, container, attributeLabel, fileName, 'attachFileToMassEditAttribute');
 }
 
 export async function attachFileToProductAttribute(page: Page, attributeLabel: string, fileName: string) {
@@ -159,48 +128,28 @@ export async function attachFileToProductAttribute(page: Page, attributeLabel: s
     .locator('.AknFieldContainer')
     .filter({has: page.locator('.AknFieldContainer-label', {hasText: attributeLabel})})
     .first();
-  // media.html renders input[type=file] ONLY in the empty state; a filled field
-  // (a value left by a previous test) renders a preview + .clear-field instead.
-  // Root cause of the historical 10-minute hang: a 2s isVisible() probe on
-  // .clear-field would race a still-rendering filled field, skip the clear, then
-  // setInputFiles would wait the full 600s test timeout on an input that never
-  // exists. Fix: wait deterministically for the field to settle into EITHER state,
-  // clear if filled, then fail FAST (15s) instead of hanging if the input is absent.
-  const fileInput = container.locator('input[type="file"]');
-  const clearBtn = container.locator('.clear-field');
-  // Wait until the field has rendered in one of its two known states.
-  await expect(fileInput.or(clearBtn).first()).toBeAttached({timeout: 30_000});
-  if (await clearBtn.isVisible().catch(() => false)) {
-    // force:true bypasses the #overlay that can re-appear after Backbone re-renders.
-    await clearBtn.click({force: true});
-  }
-  // The input is display:none in the DOM, so wait for 'attached' (not 'visible').
-  // A 15s ceiling turns a missing-input bug into a fast, legible failure.
-  await fileInput.waitFor({state: 'attached', timeout: 15_000});
-  await fileInput.setInputFiles(fixtureFilePath(fileName));
+  await uploadFileIntoMediaField(page, container, attributeLabel, fileName, 'attachFileToProductAttribute');
 }
 
-// Fetch the most recent edit_common_attributes job execution ID via the process tracker.
-// The controller reads filters from the query string (not the JSON body), so we pass
-// code[] as a query param to filter by job instance code.
-async function getLatestMassEditJobId(page: Page): Promise<number> {
-  const resp = await page.request
-    .post('/rest/process-tracker', {
-      params: {'code[]': 'edit_common_attributes', page: '1', size: '1'},
-      headers: {'X-Requested-With': 'XMLHttpRequest'},
-    })
-    .catch(() => null);
-  if (!resp?.ok()) return 0;
-  const body = await resp.json().catch(() => null);
-  const rows: any[] = body?.rows ?? [];
-  return rows.length > 0 ? (rows[0]?.job_execution_id ?? 0) : 0;
+// Fetch the highest execution ID of a mass edit job (default: edit_common_attributes) via the process
+// tracker (see getLatestJobExecutionId: the tracker sorts by start time, so its first row is not the newest
+// execution). Keeps its historical contract: 0 when the process tracker cannot be read, so
+// pollForNewMassEditJob retries through a transient error. A snapshot that must be trusted calls
+// getLatestJobExecutionId directly, as launchMassEditJob does.
+async function getLatestMassEditJobId(page: Page, jobCode = 'edit_common_attributes'): Promise<number> {
+  return getLatestJobExecutionId(page, jobCode).catch(() => 0);
 }
 
 // Poll until a new job execution appears with ID > prevMaxId, then return it.
-async function pollForNewMassEditJob(page: Page, prevMaxId: number, timeout = 30_000): Promise<string | null> {
+async function pollForNewMassEditJob(
+  page: Page,
+  prevMaxId: number,
+  timeout = 30_000,
+  jobCode = 'edit_common_attributes'
+): Promise<string | null> {
   const start = Date.now();
   while (Date.now() - start < timeout) {
-    const id = await getLatestMassEditJobId(page);
+    const id = await getLatestMassEditJobId(page, jobCode);
     if (id > prevMaxId) return String(id);
     await page.waitForTimeout(1_000);
   }
@@ -252,7 +201,7 @@ export async function productHasAttributeValue(
   attributeCode: string
 ): Promise<boolean> {
   const resp = await page.request.get(`/enrich/product/rest/${productUuid}`, {
-    headers: {'X-Requested-With': 'XMLHttpRequest'},
+    headers: XHR_HEADER,
   });
   if (!resp.ok()) return false;
   const product = await resp.json();
@@ -342,17 +291,87 @@ export async function selectFirstProduct(page: Page) {
 }
 
 export async function saveProduct(page: Page) {
-  // The save POSTs to the COLLECTION endpoint `/enrich/product/rest` (no trailing slash,
-  // no uuid) — unlike the load GET / delete which hit `/enrich/product/rest/{uuid}`.
-  // The predicate must therefore allow `rest` to be followed by `/`, `?`, or end-of-string;
-  // requiring a trailing slash (`/rest/`) never matched the save POST, so waitForResponse
-  // hung until timeout even though the save itself returns 200 in ~150ms. Matching the
-  // real URL makes this resolve immediately (no flaky, no inflated timeout).
-  const savePromise = page.waitForResponse(
-    resp => /\/enrich\/product(-model)?\/rest(\/|\?|$)/.test(resp.url()) && resp.request().method() === 'POST'
-  );
-  await page.getByText('Save').first().click();
-  await savePromise;
+  // product/form/save.js POSTs to /enrich/product/rest/{uuid} (product models:
+  // /enrich/product-model/rest/{id}); the predicate accepts `rest` followed by `/`, `?` or the end.
+  const isSaveRequest = (url: string, method: string) =>
+    /\/enrich\/product(-model)?\/rest(\/|\?|$)/.test(url) && method === 'POST';
+
+  // Listen before clicking so neither the request nor its response can be missed. The request
+  // listener has no budget of its own; its budget starts after the click (below), so time spent
+  // waiting for the button does not count. The response gets a generous bound so a request that is
+  // sent but never answered fails legibly instead of consuming the whole test timeout.
+  const savePromise = page.waitForResponse(resp => isSaveRequest(resp.url(), resp.request().method()), {
+    timeout: 150_000,
+  });
+  savePromise.catch(() => {});
+  const requestSent = page
+    .waitForRequest(req => isSaveRequest(req.url(), req.method()), {timeout: 0})
+    .then(() => 'sent' as const);
+  requestSent.catch(() => {});
+
+  await page.getByText('Save').first().click({timeout: 30_000});
+
+  // The form can REFUSE to save without sending anything: when a field is still busy (e.g. an
+  // in-flight media upload) product/form/save.js shows a "... cannot be saved right now ..." toast,
+  // synchronously in the click handler (it stays about 8s), and returns. Fail fast with that reason
+  // instead of waiting for a response that will never come. No automatic retry: that could hide a
+  // field that never becomes ready.
+  const refused = page
+    .locator('#flash-messages')
+    .getByText(/cannot be saved right now/i)
+    .first()
+    .waitFor({state: 'visible', timeout: 10_000})
+    .then(() => 'refused' as const);
+  refused.catch(() => {});
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timedOut = new Promise<'timeout'>(resolve => {
+    timer = setTimeout(() => resolve('timeout'), 30_000);
+  });
+  let waitError: unknown;
+  let outcome: 'sent' | 'refused' | 'timeout' | 'error';
+  try {
+    outcome = await Promise.race([requestSent, refused.catch(() => new Promise<never>(() => {})), timedOut]);
+  } catch (error) {
+    waitError = error;
+    outcome = 'error';
+  } finally {
+    clearTimeout(timer);
+  }
+
+  if (outcome !== 'sent') {
+    const flash = (
+      await page
+        .locator('#flash-messages')
+        .innerText()
+        .catch(() => '')
+    ).trim();
+    if (outcome === 'refused') {
+      throw new Error(`saveProduct: the form refused to save: "${flash}"`);
+    }
+    if (outcome === 'timeout') {
+      throw new Error(
+        `saveProduct: clicking Save sent no product save request within 30s${flash ? ` (flash: "${flash}")` : ''}`
+      );
+    }
+    throw new Error(
+      `saveProduct: waiting for the save request failed: ${waitError instanceof Error ? waitError.message : String(waitError)}`
+    );
+  }
+
+  const response = await savePromise;
+  // After a SUCCESSFUL save, save.js applies the server data (setData) and triggers post_fetch in a
+  // jQuery .then callback, which runs asynchronously after the response, and fields re-render even
+  // later. A field cleared before setData runs gets re-filled with the saved value (seen in CI on
+  // "Successfully replace an image"). form/common/state.js hides "There are unsaved changes." in that
+  // same post_fetch dispatch, synchronously after setData, so its disappearance proves the saved data
+  // is applied and later edits will not be overwritten. Failed saves (e.g. validation errors) skip
+  // post_fetch and keep the banner, so this only applies to successful ones.
+  if (response.ok()) {
+    await expect(
+      page.getByText('There are unsaved changes.', {exact: true}),
+      'saveProduct: the saved product data was never applied to the form'
+    ).toBeHidden({timeout: 30_000});
+  }
 }
 
 export async function reloadProduct(page: Page) {
@@ -412,9 +431,14 @@ export async function goToFamilyPage(page: Page, familyCode?: string) {
   await page.locator('.AknHorizontalNavtab-item').first().waitFor({timeout: 30_000});
 }
 
-export async function createProductViaApi(page: Page, sku: string, family?: string) {
+export async function createProductViaApi(
+  page: Page,
+  sku: string,
+  family?: string,
+  extra?: {parent?: string; values?: Record<string, unknown>}
+) {
   // Use the internal REST endpoint (session-authenticated) to create a product
-  const data: Record<string, string> = {identifier: sku};
+  const data: Record<string, unknown> = {identifier: sku, ...extra};
   if (family) data.family = family;
   const response = await page.request.post('/enrich/product/rest', {
     data,
@@ -424,29 +448,919 @@ export async function createProductViaApi(page: Page, sku: string, family?: stri
 }
 
 export async function deleteProductViaApi(page: Page, productId: string) {
-  await page.request.delete(`/enrich/product/rest/${productId}`);
+  // ProductController::removeAction only deletes for an XHR request: anything else gets a redirect to '/',
+  // which APIRequestContext follows, so without the header the call "succeeded" and deleted nothing.
+  return page.request.delete(`/enrich/product/rest/${productId}`, {headers: XHR_HEADER});
 }
 
 /**
- * Create an association type via the internal REST API (POST /configuration/rest/association-type,
- * AssociationTypeController::createAction() -> AssociationTypeUpdater, which only recognizes
- * code/labels/is_two_way/is_quantified).
+ * Numeric id of a category (a root tree or a sub-category) from its code: GET /enrich/category/rest/{code}
+ * (pim_enrich_category_rest_get, CategoryController::getAction; the internal_api CategoryNormalizer adds `id`).
+ * createCategoryViaApi answers 201 with no id, so the category edit route and deleteCategoryViaApi need this lookup.
+ * getAction normalizes whatever findOneByIdentifier returns, so an unknown code is not a 404: it answers an empty
+ * object, and this throws "Category <code> not found". Every error message carries the status and the body.
  */
-export async function createAssociationTypeViaApi(page: Page, code: string) {
-  return page.request.post('/configuration/rest/association-type/', {
+export async function getCategoryIdViaApi(page: Page, code: string): Promise<number> {
+  const resp = await page.request.get(`/enrich/category/rest/${code}`, {headers: XHR_HEADER, timeout: 30_000});
+  const text = await responseBody(resp);
+  if (!resp.ok()) {
+    throw new Error(`Get category ${code} failed: ${resp.status()} ${text}`);
+  }
+  let body: any = null;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    // Not JSON: reported below with the raw text.
+  }
+  if (body?.code !== code) {
+    throw new Error(`Category ${code} not found: ${resp.status()} ${text}`);
+  }
+  if (typeof body.id !== 'number') {
+    throw new Error(`Category ${code} has no numeric id: ${text}`);
+  }
+  return body.id;
+}
+
+/**
+ * Delete a category or a whole category tree: DELETE /enrich/product-category-tree/{id}/remove
+ * (pim_enrich_categorytree_remove, CategoryTreeController::removeAction, the call the category grid's "Delete tree"
+ * makes). The DeleteCategoryCommandHandler it dispatches removes root and non-root categories alike, and does
+ * nothing for an unknown id. XHR only: any other request is redirected to '/', which APIRequestContext follows to a
+ * 200, so without the header the call looks successful and deletes nothing. Answers 204, or a JSON {message} with
+ * the conflict status. Returns the response.
+ */
+export async function deleteCategoryViaApi(page: Page, id: number) {
+  return page.request.delete(`/enrich/product-category-tree/${id}/remove`, {headers: XHR_HEADER, timeout: 30_000});
+}
+
+/**
+ * Best-effort cleanup of disposable categories, deleted by code in the given order: pass children before their
+ * parents, and delete the products and product models classified in them first. It never throws and only warns, so
+ * a cleanup failure can neither mask the test's own error nor fail a passing test.
+ */
+export async function cleanUpCategoriesViaApi(page: Page, codes: string[]): Promise<void> {
+  for (const code of codes) {
+    try {
+      const id = await getCategoryIdViaApi(page, code);
+      const resp = await deleteCategoryViaApi(page, id);
+      if (!resp.ok()) {
+        console.warn(
+          `Cleanup: delete category ${code} (id ${id}) returned ${resp.status()} ${await responseBody(resp)}`
+        );
+      }
+    } catch (e) {
+      console.warn(`Cleanup: category ${code}: ${(e as Error).message}`);
+    }
+  }
+}
+
+/** The listing behind the edit form's Categories tab (ProductCategoryController / ProductModelCategoryController). */
+export type CategoriesTabListing = {
+  trees: Array<{id: number; code: string; label: string; associated: boolean}>;
+  categories: Array<{id: number; code: string; rootId: number}>;
+};
+
+/**
+ * Open the Categories column tab of a product or product model edit form and return the listing that feeds it.
+ * The tab link is the `.column-navigation-link` named Categories (Behat Base.php::visitColumnTab). When the tab
+ * renders, categories.js loadTrees GETs `categoriesPath`: /enrich/product/rest/{uuid}/categories
+ * (pim_enrich_product_category_rest_list) or /enrich/product-model/rest/{id}/categories
+ * (pim_enrich_product_model_category_rest_list). The response is matched by pathname, because Routing.generate
+ * appends id and dataLocale as query parameters. The badges and the initially ticked categories come from this
+ * listing: `categories` grouped by rootId.
+ */
+export async function openCategoriesTab(page: Page, categoriesPath: string): Promise<CategoriesTabListing> {
+  const listed = page.waitForResponse(
+    r => r.request().method() === 'GET' && new URL(r.url()).pathname === categoriesPath,
+    {timeout: 30_000}
+  );
+  // A failed click below would otherwise leave this promise to reject unhandled.
+  listed.catch(() => {});
+  await page.locator('.column-navigation-link').filter({hasText: 'Categories'}).click({timeout: 15_000});
+  const resp = await listed;
+  const text = await responseBody(resp);
+  expect(resp.ok(), `GET ${categoriesPath} failed: ${resp.status()} ${text}`).toBe(true);
+  await waitForLoadingMasks(page);
+  return JSON.parse(text);
+}
+
+/**
+ * In an open Categories tab, show the tree `treeCode` (numeric id `treeId`) and return its panel `#tree-<id>`
+ * with the root node expanded.
+ * - The switcher (catalog-switcher.html) renders one `#trees-list li[data-tree=<code>][data-tree-id=<id>]` per tree.
+ *   Clicking it runs categories.js changeTree -> TreeAssociate.switchTree. That sets `hidden` on every other
+ *   `#trees > [data-tree-id]` wrapper and renders the tree into `#tree-<id>` the first time it is shown.
+ * - Which tree renders on load is not guaranteed: categories.js takes the first listed tree, and the listing SQL
+ *   (AbstractItemCategoryRepository::getItemCountByTree) has no ORDER BY. Always call this before looking for a node.
+ * - The wrappers all carry id="root-unselectable" (categories.html), hence the `#tree-<id>` scoping.
+ * - Tree.tsx fixes aria-expanded when a node mounts: open when it came with children (a tree filled around the
+ *   selected categories), otherwise collapsed and opened with its arrow, the node's first role=button.
+ */
+export async function showCategoryTree(page: Page, treeCode: string, treeId: number): Promise<Locator> {
+  const tab = page.locator(`#trees-list li[data-tree="${treeCode}"]`);
+  await tab.click({timeout: 15_000});
+  await expect(tab, `the ${treeCode} tree tab did not become active`).toHaveClass(/AknHorizontalNavtab-item--active/, {
+    timeout: 15_000,
+  });
+  const otherTrees = page.locator(`#trees > [data-tree-id]:not([data-tree-id="${treeId}"])`);
+  await expect
+    .poll(() => otherTrees.evaluateAll(wrappers => wrappers.filter(w => !(w as HTMLElement).hidden).length), {
+      message: `switching to the ${treeCode} tree left another tree wrapper shown`,
+      timeout: 15_000,
+    })
+    .toBe(0);
+
+  const panel = page.locator(`#tree-${treeId}`);
+  const root = panel.getByRole('treeitem').first();
+  await expect(root, `the ${treeCode} tree did not render`).toBeVisible({timeout: 30_000});
+  if ((await root.getAttribute('aria-expanded')) === 'false') {
+    await root.getByRole('button').first().click({timeout: 15_000});
+  }
+  await expect(root).toHaveAttribute('aria-expanded', 'true', {timeout: 15_000});
+  return panel;
+}
+
+/**
+ * DELETE /configuration/rest/association-type/{code} (pim_enrich_associationtype_rest_remove, no trailing slash,
+ * AssociationTypeController::removeAction: XHR only, 204 on success, 404 when it does not exist). Best-effort cleanup:
+ * warns instead of failing, so it never hides the error of the test that called it.
+ */
+export async function deleteAssociationTypeViaApi(page: Page, code: string): Promise<void> {
+  try {
+    const resp = await page.request.delete(`/configuration/rest/association-type/${code}`, {
+      headers: XHR_HEADER,
+      timeout: 30_000,
+    });
+    if (!resp.ok()) {
+      console.warn(`Cleanup: delete association type ${code} returned ${resp.status()} ${await responseBody(resp)}`);
+    }
+  } catch (e) {
+    console.warn(`Cleanup: delete association type ${code} failed: ${(e as Error).message}`);
+  }
+}
+
+/**
+ * Open the notification panel from the current page and check the entry that links to a job execution. The panel
+ * is a legacy Backbone template without ARIA roles, so CSS classes are the only hooks.
+ *
+ * - notification.html:1 `.notification-link` opens it (notifications.js:30; the list is loaded only while the
+ *   collection is empty, :123). Each item is notification-list.html:1-12: a.AknNotification-link[href="#<url>"]
+ *   holding .AknNotification-status--<type>, .AknNotification-title (pim_notification.types.<job type>) and
+ *   .AknNotification-message.
+ * - Every render of the user menu builds a new notifications view whose indicator starts at 0
+ *   (notifications.js:53-58) and calls refresh() (user-navigation.js:45-52); when that count_unread answer differs
+ *   from the indicator, the collection is reset (notifications.js:69-74). A count_unread response alone can come
+ *   from a previous view's in-flight refresh, so this waits for the live indicator (indicator.js:16,
+ *   span.AknNotificationMenu-count) to show a positive count before opening the panel: the job notification must
+ *   still be unread. After that, /notification/list sends the same unreadCount (list.json.twig:29), so later
+ *   refreshes do not reset the panel unless the count changes.
+ * - Caller contract: no other notification may land for the current user while the panel is open, because the new
+ *   count would reset it. A job launched without users_to_notify never notifies (JobExecutionNotifier returns
+ *   early), e.g. clean_removed_attribute_job.
+ */
+export async function expectJobNotificationInPanel(
+  page: Page,
+  jobId: number | string,
+  expected: {title: string; message: string; level: 'success' | 'warning' | 'error'}
+): Promise<void> {
+  await expect(
+    page.locator('.AknNotificationMenu-count'),
+    'the notification indicator never showed an unread count'
+  ).toHaveText(/^[1-9]\d*$/, {timeout: 60_000});
+  const listResponse = page.waitForResponse(resp => new URL(resp.url()).pathname === '/notification/list', {
+    timeout: 30_000,
+  });
+  listResponse.catch(() => {});
+  await page.locator('.notification-link').click({timeout: 15_000});
+  const list = await listResponse;
+  expect(list.ok(), `GET /notification/list: ${list.status()} ${await responseBody(list)}`).toBe(true);
+  const item = page.locator(`.AknNotification-link[href="#/job/show/${jobId}"]`);
+  await expect(item, `notification panel has no entry for /job/show/${jobId}`).toBeVisible({timeout: 15_000});
+  await expect(item.locator('.AknNotification-title')).toHaveText(expected.title);
+  await expect(item.locator('.AknNotification-message')).toHaveText(expected.message);
+  await expect(item.locator('.AknNotification-status')).toHaveClass(
+    new RegExp(`AknNotification-status--${expected.level}`)
+  );
+}
+
+/**
+ * Delete a family via the internal REST API (DELETE /configuration/rest/family/{code}, no trailing slash,
+ * FamilyController::removeAction). XHR only. Returns the response: 204 on success, 422 while a product
+ * (FamilyRemover counts them in SQL) or a family variant still uses the family.
+ */
+export async function deleteFamilyViaApi(page: Page, code: string) {
+  return page.request.delete(`/configuration/rest/family/${code}`, {headers: XHR_HEADER});
+}
+
+export type ProductVersion = {
+  id: number;
+  version: number;
+  author: string;
+  logged_at: string;
+  pending: boolean;
+  changeset: Record<string, {old?: unknown; new?: unknown}>;
+};
+
+/**
+ * Read a product's history as the PEF History tab does (fetcher product-history, route
+ * pim_enrich_product_history_rest_get: GET /enrich/product/rest/product/{uuid}/history, VersioningController).
+ * Newest version first, pending versions excluded (VersionRepository::getLogEntries). Changeset keys are the
+ * flat versioning headers (`<attribute>`, `<attribute>-<locale>`, ...) and values are presented strings.
+ */
+export async function getProductHistoryViaApi(page: Page, productUuid: string): Promise<ProductVersion[]> {
+  const resp = await page.request.get(`/enrich/product/rest/product/${productUuid}/history`, {headers: XHR_HEADER});
+  const text = await resp.text().catch(() => '');
+  if (!resp.ok()) {
+    throw new Error(`Get history of product ${productUuid} failed: ${resp.status()} ${text}`);
+  }
+  const history = JSON.parse(text);
+  if (!Array.isArray(history)) {
+    throw new Error(`History of product ${productUuid} is not a list: ${text}`);
+  }
+  return history;
+}
+
+/**
+ * Create an option of a select attribute via the internal REST API (POST /configuration/attribute-option/{id},
+ * no trailing slash, AttributeOptionController::createAction). `attributeId` is the numeric id returned as
+ * `meta.id` by createAttributeViaApi. The form is submitted without clearing missing fields, so `{code}` is
+ * enough. Returns the raw response.
+ */
+export async function createAttributeOptionViaApi(page: Page, attributeId: number, code: string) {
+  return page.request.post(`/configuration/attribute-option/${attributeId}`, {
     data: {code},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
 }
 
+export type JobExecutionRow = {
+  job_execution_id: number;
+  job_name: string;
+  status: string;
+  started_at: string | null;
+  [key: string]: unknown;
+};
+
+// Upper bound of one process tracker read, see getJobExecutionRowsViaApi.
+const PROCESS_TRACKER_MAX_ROWS = 5_000;
+
 /**
- * Fetch a product's data via the internal REST API (categories, values, etc.).
+ * List every visible execution of a job instance from the process tracker (POST /rest/process-tracker,
+ * GetJobExecutionAction, which reads its filters from the query string and redirects requests without the XHR
+ * header). Queued executions are listed too: the WHERE clause only filters is_visible and the requested filters
+ * (SearchJobExecution::buildSqlWherePart). Every process tracker helper below reads through this function.
+ * Throws with the status and body when the search fails or does not answer JSON.
+ *
+ * Rows are sorted by start_time DESC, then id ASC (SearchJobExecution::buildSqlOrderByPart). A queued execution
+ * (NULL start_time) therefore comes LAST, so the first row is not the newest execution: compare ids. It also
+ * jumps to the top once a worker starts it, so reading page after page races: when it starts between two page
+ * requests, every row before it shifts one place down, and it is missed (it was not on page 1 yet and is no longer
+ * on page 2). Hence ONE request, a single SELECT that sees one consistent snapshot, rather than re-reading pages
+ * until two passes agree. `size` has no server-side cap (GetJobExecutionAction casts it as is,
+ * SearchJobExecutionHandler only caps `page` at 50). 5000 rows is the reach of the former 50 x 100 pager and far
+ * above what these job codes accumulate (tens of executions per CI run). A full page throws instead of silently
+ * dropping rows.
+ */
+export async function getJobExecutionRowsViaApi(page: Page, jobCode: string): Promise<JobExecutionRow[]> {
+  const resp = await page.request.post('/rest/process-tracker', {
+    params: {'code[]': jobCode, page: '1', size: String(PROCESS_TRACKER_MAX_ROWS)},
+    headers: XHR_HEADER,
+  });
+  const text = await resp.text().catch(() => '');
+  if (!resp.ok()) {
+    throw new Error(`Process tracker search for ${jobCode} failed: ${resp.status()} ${text}`);
+  }
+  let body: {rows?: unknown} | null;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    throw new Error(`Process tracker search for ${jobCode} did not return JSON: ${resp.status()} ${text}`);
+  }
+  const rows = (Array.isArray(body?.rows) ? body.rows : []) as JobExecutionRow[];
+  if (rows.length >= PROCESS_TRACKER_MAX_ROWS) {
+    throw new Error(
+      `Process tracker lists ${PROCESS_TRACKER_MAX_ROWS} or more executions of ${jobCode}: newer ones may be missing`
+    );
+  }
+  return rows;
+}
+
+/** Highest execution id of a job instance in the process tracker, 0 when it never ran. Throws when it cannot be read. */
+export async function getLatestJobExecutionId(page: Page, jobCode: string): Promise<number> {
+  const rows = await getJobExecutionRowsViaApi(page, jobCode);
+  return rows.reduce((max, row) => Math.max(max, Number(row.job_execution_id) || 0), 0);
+}
+
+/**
+ * Ids of the visible executions of a job instance, in the process tracker order (see getJobExecutionRowsViaApi:
+ * compare ids, never take the first one). Unlike getLatestMassEditJobId, a failed search throws with status and body.
+ */
+export async function getJobExecutionIdsViaApi(page: Page, jobCode: string): Promise<number[]> {
+  return (await getJobExecutionRowsViaApi(page, jobCode)).map(row => Number(row.job_execution_id));
+}
+
+/**
+ * Poll the process tracker until executions of `jobCode` newer than `prevMaxId` exist, and return their
+ * ids in ascending order. QueueJobLauncher::launch inserts the execution row before the launching request
+ * answers, so the id shows up quickly even when the job consumer is still busy with other messages.
+ */
+export async function waitForNewJobExecutionIds(
+  page: Page,
+  jobCode: string,
+  prevMaxId: number,
+  timeout = 30_000
+): Promise<number[]> {
+  const start = Date.now();
+  let lastIds: number[] = [];
+  while (Date.now() - start < timeout) {
+    lastIds = await getJobExecutionIdsViaApi(page, jobCode);
+    const newIds = lastIds.filter(id => id > prevMaxId).sort((a, b) => a - b);
+    if (newIds.length > 0) return newIds;
+    await page.waitForTimeout(1_000);
+  }
+  throw new Error(
+    `No ${jobCode} execution newer than #${prevMaxId} appeared within ${timeout}ms (last ids: ${JSON.stringify(lastIds)})`
+  );
+}
+
+/**
+ * Wait until at least one execution of `jobCode` newer than `prevMaxId` exists and every such execution is
+ * finished, then return them. Statuses are the process tracker labels (Akeneo\Platform\Job\Domain\Model\Status);
+ * a stale STARTING/IN_PROGRESS execution is already reported as FAILED by SearchJobExecution. Throws with the
+ * candidate rows on timeout. Taking `prevMaxId` from getLatestJobExecutionId BEFORE the action that launches the
+ * job is what ties the result to that action.
+ */
+export async function waitForNewJobExecutionsToFinish(
+  page: Page,
+  jobCode: string,
+  prevMaxId: number,
+  timeout = 300_000
+): Promise<JobExecutionRow[]> {
+  const unfinished = ['STARTING', 'IN_PROGRESS', 'STOPPING', 'PAUSING', 'PAUSED'];
+  const deadline = Date.now() + timeout;
+  let newRows: JobExecutionRow[] = [];
+  while (Date.now() < deadline) {
+    newRows = (await getJobExecutionRowsViaApi(page, jobCode)).filter(row => Number(row.job_execution_id) > prevMaxId);
+    if (newRows.length > 0 && newRows.every(row => !unfinished.includes(row.status))) {
+      return newRows;
+    }
+    await page.waitForTimeout(2_000);
+  }
+  throw new Error(
+    `No finished ${jobCode} execution newer than #${prevMaxId} within ${timeout}ms, candidates: ${JSON.stringify(newRows)}`
+  );
+}
+
+/**
+ * Type a term into a datagrid search box and wait for the grid to refresh (`gridName` defaults to the product grid).
+ * The box is `.search-filter input[name="value"]` (SearchFilterInput.tsx, type="text", the Behat SearchDecorator
+ * contract), owned by one of two Backbone shells:
+ * - product grid: label_or_identifier-filter.js, which matches `*term*` on identifiers and labels
+ *   (LabelOrIdentifierFilter);
+ * - attribute grid (filter type attribute_search, FilterTypeRegistry.ts): search-filter.js, which matches codes and
+ *   labels (AttributeSearchableRepository::findBySearchQb). Its render() sets the input readonly, a Chrome autofill
+ *   workaround (search-filter.js:50-56, :74-76), and only its focusin delegate removes it again (:13, :70-72).
+ *   fill() waits for an editable element, so the input is focused first. It is not clicked: #overlay swallows
+ *   coordinate clicks (see closeAnnouncementsPanel). Focusing changes nothing on the product grid's input.
+ * The datagrid restores the last term from its saved state, and re-submitting an unchanged value fires no request,
+ * so nothing is sent (or awaited) when the box already holds `term`: to force a new request, search a different
+ * term. A caller that retries for Elasticsearch lag must alternate terms between attempts, since the box keeps the
+ * term of the previous attempt.
+ */
+export async function searchProductGrid(page: Page, term: string, gridName = 'product-grid') {
+  const searchInput = page.locator('.search-filter input[name="value"]');
+  await expect(searchInput, `${gridName} search input not found`).toBeVisible({timeout: 15_000});
+  if ((await searchInput.inputValue()) !== term) {
+    // Listen BEFORE pressing Enter: the Enter keydown submits synchronously (runTimeout -> doSearch).
+    const gridRefresh = page.waitForResponse(
+      resp => resp.url().includes(`/datagrid/${gridName}`) && !resp.url().includes('/datagrid_view/'),
+      {timeout: 30_000}
+    );
+    // A focus, fill or press failure below would otherwise leave this promise to reject unhandled.
+    gridRefresh.catch(() => {});
+    await searchInput.focus({timeout: 15_000});
+    await expect(searchInput, `${gridName} search input is still readonly after focus`).not.toHaveAttribute(
+      'readonly',
+      {timeout: 5_000}
+    );
+    await searchInput.fill(term, {timeout: 15_000});
+    await searchInput.press('Enter', {timeout: 15_000});
+    await gridRefresh;
+  }
+  await waitForLoadingMasks(page);
+}
+
+/**
+ * Delete a product model through the internal API (DELETE /enrich/product-model/rest/{id}, numeric id
+ * from the create response's meta.id). ProductModelController::removeAction has the same XHR guard as
+ * products, and answers 422 when RemoveProductModelCommand validation refuses the delete, so delete the
+ * products that reference a model first. Returns the response so callers can report a failed delete.
+ */
+export async function deleteProductModelViaApi(page: Page, productModelId: number | string) {
+  return page.request.delete(`/enrich/product-model/rest/${productModelId}`, {headers: XHR_HEADER});
+}
+
+/**
+ * Open the "Bulk actions" wizard for the rows already selected in the product grid, pick the operation
+ * tile whose text contains `operationLabel` (e.g. 'Edit attribute values', 'Associate products') and
+ * move on to its configure step.
+ */
+export async function openMassEditOperation(page: Page, operationLabel: string) {
+  // Remove the overlay backdrop before interacting with the wizard.
+  // closeAnnouncementsPanel removes AknOverlay--show via evaluate() without triggering
+  // Backbone event handlers — safe to call multiple times.
+  await closeAnnouncementsPanel(page);
+
+  // The "Bulk actions" launcher is an <a> element (tagName: 'a' in action-launcher.js),
+  // not a <button> — scope to .mass-actions-panel to avoid false positives.
+  const bulkLink = page.locator('.mass-actions-panel a', {hasText: /bulk actions/i}).first();
+  await bulkLink.waitFor({state: 'visible', timeout: 15_000});
+  // Use a JS programmatic click instead of Playwright's locator.click(). The #overlay element
+  // (position:fixed; 100%×100%; z-index:999) is always present in the DOM and captures pointer
+  // events at those screen coordinates even after AknOverlay--show is removed — Playwright's
+  // force:true bypasses actionability checks but still sends a coordinate-based CDP mouse event
+  // that the overlay intercepts. element.click() dispatches the event directly to the DOM node,
+  // bypassing z-index hit-testing entirely.
+  await page.evaluate(() => {
+    const panel = document.querySelector('.mass-actions-panel');
+    const link = panel && Array.from(panel.querySelectorAll('a')).find(a => /bulk\s*action/i.test(a.textContent || ''));
+    if (link) (link as HTMLElement).click();
+  });
+  await waitForLoadingMasks(page);
+
+  // The choose step renders via ChooseApp.tsx (React + akeneo-design-system <Tile>) — tiles do NOT
+  // carry data-code attributes; the legacy choose.html Underscore template is dead code. Scope to
+  // .operation (class injected by ChooseApp) to safely exclude toast notifications (which lack it).
+  const tile = page.locator('.operation').filter({hasText: operationLabel}).first();
+  await tile.waitFor({state: 'visible', timeout: 120_000});
+  await tile.click({timeout: 15_000});
+
+  // The "Next" button on the choose step is a <span class="wizard-action" data-action-target="configure">
+  const configureBtn = page.locator('.wizard-action[data-action-target="configure"]');
+  await configureBtn.waitFor({state: 'visible', timeout: 15_000});
+  await configureBtn.click({timeout: 15_000});
+  await waitForLoadingMasks(page);
+}
+
+/**
+ * From the mass edit wizard's confirm step, click the real Confirm button
+ * (`.wizard-action[data-action-target="validate"]`, mass-edit/form.html) and return the launched job
+ * execution id together with the JSON payload the wizard POSTed.
+ *
+ * form.js posts getFormData() ({filters, jobInstanceCode, actions, itemsCount}) to
+ * pim_enrich_mass_edit_rest_launch = POST /rest/mass_edit/ (compiled route dump). MassEditController
+ * answers an empty JSON body, so the id is discovered by polling the process tracker for a `jobCode`
+ * execution newer than a snapshot taken before the click (the job must be registered as visible).
+ *
+ * Unlike confirmMassEdit, this throws with the status, body or payload when the process tracker cannot be
+ * read before the click, the launch request is not sent or fails, or no job execution appears.
+ */
+export async function launchMassEditJob(page: Page, jobCode: string): Promise<{jobId: string; payload: any}> {
+  const validateButton = page.locator('.wizard-action[data-action-target="validate"]');
+  await expect(validateButton, 'mass edit: the confirm step Confirm button is not displayed').toBeVisible({
+    timeout: 30_000,
+  });
+
+  // Strict snapshot: getLatestMassEditJobId would turn a failed read into 0, and then any existing execution
+  // would pass as the "new" one. getLatestJobExecutionId throws with the tracker's status and body instead.
+  const prevMaxId = await getLatestJobExecutionId(page, jobCode);
+
+  const isLaunch = (method: string, url: string) => method === 'POST' && new URL(url).pathname === '/rest/mass_edit/';
+  const requestSent = page.waitForRequest(req => isLaunch(req.method(), req.url()), {timeout: 30_000});
+  requestSent.catch(() => {});
+  const launched = page.waitForResponse(resp => isLaunch(resp.request().method(), resp.url()), {timeout: 60_000});
+  launched.catch(() => {});
+
+  await validateButton.click({timeout: 15_000});
+
+  const request = await requestSent;
+  const response = await launched;
+  expect(response.ok(), `mass edit launch failed: ${response.status()} ${await response.text().catch(() => '')}`).toBe(
+    true
+  );
+  const payload = request.postDataJSON();
+
+  // 180s: same registration window as confirmMassEdit (Messenger consumer lag under CI load).
+  const jobId = await pollForNewMassEditJob(page, prevMaxId, 180_000, jobCode);
+  expect(
+    jobId,
+    `no new ${jobCode} job execution (id > ${prevMaxId}) appeared in the process tracker within 180s; ` +
+      `launch payload: ${JSON.stringify(payload)}`
+  ).toBeTruthy();
+
+  return {jobId: jobId!, payload};
+}
+
+// Export job and exported-file helpers (hoisted from export-products-and-download.spec.ts, shared with
+// export-launch.spec.ts). The mutating internal controllers used here (UpdateProductController,
+// JobInstanceController create/put/delete/launch) return `new RedirectResponse('/')` when the request is not
+// an XHR, and APIRequestContext follows that redirect to a 200, so they send X-Requested-With and assert the
+// response BODY shape. Headers are built inside each function: XHR_HEADER is a top-level const declared
+// further down this file, so a top-level constant spreading it here would throw at module load (TDZ).
+
+/**
+ * A response body as text, for failure messages. Accepts an APIResponse or a page Response.
+ */
+export async function responseBody(resp: {text(): Promise<string>}): Promise<string> {
+  return resp.text().catch(() => '<no body>');
+}
+
+/**
+ * POST /enrich/product/rest/{uuid} (pim_enrich_product_rest_post, UpdateProductController). The payload is
+ * the internal format: `values` is mandatory, media values are {filePath, originalFilename}
+ * (InternalApiToStandard\ValueConverter).
+ */
+export async function updateProductViaApi(page: Page, uuid: string, payload: Record<string, unknown>): Promise<void> {
+  const resp = await page.request.post(`/enrich/product/rest/${uuid}`, {
+    data: payload,
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+  const body = await resp.json().catch(() => null);
+  expect(resp.ok(), `Update product ${uuid} failed: ${resp.status()} ${JSON.stringify(body)}`).toBeTruthy();
+  expect(body?.meta?.id, `Update product ${uuid} returned an unexpected body: ${JSON.stringify(body)}`).toBe(uuid);
+}
+
+/**
+ * POST /job-instance/rest/export (pim_enrich_job_instance_rest_export_create, no trailing slash) creating a
+ * job instance of job name csv_product_export (connector "Akeneo CSV Connector", icecat jobs.yml).
+ * JobInstanceUpdater maps alias -> job name; the UI creation modal sends the same keys.
+ * JobInstanceController::createAction resets the raw parameters to the job defaults, so configure it with
+ * configureProductExportJobViaApi afterwards.
+ */
+export async function createProductExportJobViaApi(page: Page, code: string, label: string): Promise<void> {
+  const resp = await page.request.post('/job-instance/rest/export', {
+    data: {code, label, alias: 'csv_product_export', connector: 'Akeneo CSV Connector'},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+  const body = await resp.json().catch(() => null);
+  expect(resp.ok(), `Create export job ${code} failed: ${resp.status()} ${JSON.stringify(body)}`).toBeTruthy();
+  expect(body?.code, `Create export job ${code} returned an unexpected body: ${JSON.stringify(body)}`).toBe(code);
+}
+
+/**
+ * PUT /job-instance/rest/export/{code} (pim_enrich_job_instance_rest_export_put), then read it back with
+ * GET /job-instance/rest/export/{code} and require every sent top-level key to be stored exactly as sent.
+ *
+ * JobInstanceUpdater "configuration" -> JobParametersFactory::create merges the job defaults with what is sent
+ * at the TOP level only (array_merge), and the GET returns the raw parameters unchanged
+ * (Standard\JobInstanceNormalizer::normalizeConfiguration). So a sent `filters` replaces the default filters
+ * (enabled, completeness >= 100, categories) wholesale, and `toEqual` per sent key is exact, including the
+ * order of `filters.data`. Only `filters.structure` is validated; `filters.data` allows extra fields
+ * (ConstraintCollectionProvider\ProductCsvExport), so an `updated` / "SINCE LAST JOB" entry is accepted.
+ */
+export async function configureProductExportJobViaApi(
+  page: Page,
+  code: string,
+  configuration: Record<string, unknown>
+): Promise<void> {
+  const putResp = await page.request.put(`/job-instance/rest/export/${code}`, {
+    data: {configuration},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+  const putBody = await putResp.json().catch(() => null);
+  expect(
+    putResp.ok(),
+    `Configure export job ${code} failed: ${putResp.status()} ${JSON.stringify(putBody)}`
+  ).toBeTruthy();
+  expect(putBody?.code, `Configure export job ${code} returned an unexpected body: ${JSON.stringify(putBody)}`).toBe(
+    code
+  );
+
+  const getResp = await page.request.get(`/job-instance/rest/export/${code}`, {headers: XHR_HEADER});
+  const job = await getResp.json().catch(() => null);
+  expect(getResp.ok(), `Get export job ${code} failed: ${getResp.status()} ${JSON.stringify(job)}`).toBeTruthy();
+  const stored: Record<string, unknown> = job?.configuration ?? {};
+  for (const [key, value] of Object.entries(configuration)) {
+    expect(
+      stored[key],
+      `Export job ${code}: stored "${key}" differs from what was sent. Stored configuration: ${JSON.stringify(stored)}`
+    ).toEqual(value);
+  }
+}
+
+/**
+ * GET /job-execution/rest/{id} (pim_enrich_job_execution_rest_get). The InternalApi JobExecutionController
+ * adds meta.archives ({archiver: {label, files}}) and meta.generateZipArchive.
+ */
+export async function getJobExecutionViaApi(page: Page, jobId: string): Promise<any> {
+  const resp = await page.request.get(`/job-execution/rest/${jobId}`, {headers: XHR_HEADER});
+  expect(resp.ok(), `Get job execution ${jobId} failed: ${resp.status()} ${await responseBody(resp)}`).toBeTruthy();
+
+  return resp.json();
+}
+
+/**
+ * GET /job/{id}/download/{archiver}/{key} (pim_enrich_job_tracker_download_file), the URL the
+ * "Download generated file" link points to.
+ */
+export async function downloadArchivedFile(page: Page, jobId: string, archiver: string, key: string): Promise<string> {
+  const resp = await page.request.get(`/job/${jobId}/download/${archiver}/${encodeURIComponent(key)}`);
+  expect(resp.ok(), `Download ${archiver}/${key} failed: ${resp.status()} ${await responseBody(resp)}`).toBeTruthy();
+
+  return resp.text();
+}
+
+/**
+ * Quote-aware CSV parser: enclosed fields, doubled enclosures, CRLF or LF line endings. Blank lines dropped.
+ */
+export function parseCsv(text: string, delimiter = ';', enclosure = '"'): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = '';
+  let inEnclosure = false;
+  const input = text.replace(/^﻿/, '');
+
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+    if (inEnclosure) {
+      if (char === enclosure && input[i + 1] === enclosure) {
+        field += enclosure;
+        i++;
+      } else if (char === enclosure) {
+        inEnclosure = false;
+      } else {
+        field += char;
+      }
+    } else if (char === enclosure) {
+      inEnclosure = true;
+    } else if (char === delimiter) {
+      row.push(field);
+      field = '';
+    } else if (char === '\n' || char === '\r') {
+      if (char === '\r' && input[i + 1] === '\n') {
+        i++;
+      }
+      row.push(field);
+      rows.push(row);
+      row = [];
+      field = '';
+    } else {
+      field += char;
+    }
+  }
+  if (field !== '' || row.length > 0) {
+    row.push(field);
+    rows.push(row);
+  }
+
+  return rows.filter(r => !(r.length === 1 && r[0] === ''));
+}
+
+/**
+ * Open an export job page and click "Export now", like Behat's "I am on the ... export job page" + "I launch
+ * the export job". Returns the job execution id.
+ * - Page: '#/spread/export/{code}' (Behat Page/Export/Show.php), navigated by hash assignment.
+ * - Button: job_instance/csv_product_export_show.yml (pim/job/common/edit/launch, label
+ *   pim_import_export.form.job_instance.button.export.title = "Export now") renders
+ *   templates/export/common/edit/launch.html `<button class="AknButton AknButton--apply ...">`.
+ * - launch.js POSTs /job-instance/rest/export/{code}/launch (pim_enrich_job_instance_rest_export_launch) and
+ *   redirects to response.redirectUrl (#/job/show/{id}). The response listener is registered before the click.
+ */
+export async function launchExportFromJobPage(page: Page, jobCode: string): Promise<string> {
+  await page.evaluate(code => {
+    window.location.hash = `#/spread/export/${code}`;
+  }, jobCode);
+  const exportNow = page.getByRole('button', {name: 'Export now', exact: true});
+  await expect(exportNow, `"Export now" never rendered for ${jobCode}`).toBeVisible({timeout: 30_000});
+
+  const launchResponsePromise = page.waitForResponse(
+    r => r.url().endsWith(`/job-instance/rest/export/${jobCode}/launch`) && r.request().method() === 'POST',
+    {timeout: 60_000}
+  );
+  launchResponsePromise.catch(() => {});
+  await exportNow.click({timeout: 30_000});
+  const launchResponse = await launchResponsePromise;
+  expect(
+    launchResponse.ok(),
+    `Launch ${jobCode} failed: ${launchResponse.status()} ${await responseBody(launchResponse)}`
+  ).toBeTruthy();
+  const launchBody = await launchResponse.json().catch(() => null);
+  const jobId: string | undefined = launchBody?.redirectUrl?.match(/\/job\/show\/(\d+)/)?.[1];
+  expect(jobId, `No job execution id in launch response: ${JSON.stringify(launchBody)}`).toBeTruthy();
+  await expect(page).toHaveURL(new RegExp(`#/job/show/${jobId}$`), {timeout: 30_000});
+
+  return jobId!;
+}
+
+/**
+ * Read the CSV an export job execution wrote, from its archive (the job must have finished). Requires exactly
+ * one `.csv` key in meta.archives.output.files (FileWriterArchiver, archiver "output"); media files, when
+ * exported, live under files/ and are not listed at the top level. Does not look at meta.generateZipArchive,
+ * which is false for a single CSV without media.
+ */
+export async function readExportedCsv(
+  page: Page,
+  jobId: string
+): Promise<{key: string; text: string; header: string[]; rows: string[][]}> {
+  const detail = await getJobExecutionViaApi(page, jobId);
+  const outputFiles = detail.meta?.archives?.output?.files ?? {};
+  const csvKeys = Object.keys(outputFiles).filter(key => key.endsWith('.csv'));
+  expect(csvKeys, `Job ${jobId}: unexpected output archives: ${JSON.stringify(detail.meta)}`).toHaveLength(1);
+
+  const text = await downloadArchivedFile(page, jobId, 'output', csvKeys[0]);
+  const [header, ...rows] = parseCsv(text);
+  expect(header, `Job ${jobId}: CSV has no header. CSV body:\n${text}`).toBeTruthy();
+
+  return {key: csvKeys[0], text, header, rows};
+}
+
+/**
+ * DELETE /job-instance/rest/export/{code} (pim_enrich_job_instance_rest_export_delete), best-effort cleanup:
+ * warns instead of failing. edit-export.spec.ts picks the first export grid row matching /csv.*product/i, so a
+ * leaked disposable csv_product_export job can change what it edits.
+ */
+export async function deleteExportJobViaApi(page: Page, code: string): Promise<void> {
+  const resp = await page.request.delete(`/job-instance/rest/export/${code}`, {headers: XHR_HEADER}).catch(() => null);
+  if (resp && !resp.ok()) {
+    console.warn(`Cleanup: delete export job ${code} returned ${resp.status()} ${await responseBody(resp)}`);
+  }
+}
+
+/**
+ * Pick `fileName` in the media field rendered inside `container` (product/field/media.html) and return
+ * only once its upload has been answered OK and the uploaded file is rendered. Shared by
+ * attachFileToProductAttribute (product edit form) and attachFileToMassEditAttribute (mass-edit
+ * wizard); `caller` names the public helper in error messages.
+ */
+async function uploadFileIntoMediaField(
+  page: Page,
+  container: Locator,
+  attributeLabel: string,
+  fileName: string,
+  caller: string
+): Promise<void> {
+  // media.html renders two exclusive states: EMPTY (.AknMediaField without .has-file, holding
+  // input[type=file]) and FILLED (.AknMediaField.has-file, holding the preview, .filename and
+  // .clear-field). Field.render() is asynchronous (jQuery 3 runs its .then chain through
+  // setTimeout), so right after a clear the DOM still shows the previous state for a few ms, and a
+  // save's re-render can re-fill a field that was just cleared. Every step below is bounded instead of
+  // acting once on a possibly stale node: a force click on a .clear-field that was being replaced used
+  // to retry for the full 600s test timeout ("Successfully replace an image", seen repeatedly in CI).
+  const emptyInput = container.locator('.AknMediaField:not(.has-file) input[type="file"]');
+  const filled = container.locator('.AknMediaField.has-file');
+  await expect(emptyInput.or(filled).first(), `"${attributeLabel}" media field never rendered`).toBeAttached({
+    timeout: 30_000,
+  });
+
+  // Selecting a file only STARTS an async upload. media-field.js updateModel() calls setReady(false),
+  // POSTs the file (image fields: /image-media, route akeneo_file_storage_upload_image; other file
+  // fields: /media/, route pim_enrich_media_rest_post), writes the uploaded file into the value in the
+  // ajax .done() and calls setReady(true) only in the ajax .always(). Acting before that loses the file:
+  // - Product edit form: while a field is not ready, product/form/save.js refuses to save ("The product
+  //   cannot be saved right now. The following fields are not ready: ...") and sends no request, so a
+  //   Save clicked right after setInputFiles was silently dropped (proven in CI traces on PR #415; it
+  //   had been mistaken for runner load for weeks).
+  // - Mass-edit wizard: it has no such guard. Its Next action validates the value as it was before the
+  //   upload (still empty, which is valid) and moves on to the Confirm step, so an extension error
+  //   never shows (CI run 34846941289), and a job can be launched without the file (CI run 34831928439:
+  //   job completed, image value missing). Both flaked, passing on retry.
+  const isUpload = (method: string, url: string) => {
+    const {pathname} = new URL(url);
+    return method === 'POST' && (pathname === '/image-media' || pathname === '/media/');
+  };
+
+  // Only the steps that are safe to repeat are retried: clearing the field and picking the file until
+  // an upload request actually leaves the page. A file picked on an input that a pending render was
+  // replacing reaches no change handler and sends nothing, so that attempt fails fast and is retried.
+  // Once a request is sent the file is never picked again: during an upload the field still shows its
+  // empty state, and a second pick would open media-field.js's blocking "already in upload" dialog and
+  // start a second upload.
+  let upload: ReturnType<Page['waitForResponse']> | undefined;
+  await expect(async () => {
+    if ((await filled.count()) > 0) {
+      await filled.locator('.clear-field').first().click({force: true, timeout: 5_000});
+    }
+    await expect(emptyInput).toBeAttached({timeout: 5_000});
+
+    const requestSent = page.waitForRequest(req => isUpload(req.method(), req.url()), {timeout: 10_000});
+    requestSent.catch(() => {});
+    const response = page.waitForResponse(resp => isUpload(resp.request().method(), resp.url()), {
+      timeout: 90_000,
+    });
+    response.catch(() => {});
+    await emptyInput.setInputFiles(fixtureFilePath(fileName), {timeout: 5_000});
+    await requestSent;
+    upload = response;
+  }).toPass({timeout: 60_000});
+  if (!upload) {
+    throw new Error(`${caller}: no upload of ${fileName} to "${attributeLabel}" was started`);
+  }
+
+  // Not retried: a failed upload fails the helper with the server's answer.
+  const uploaded = await upload;
+  expect(
+    uploaded.ok(),
+    `Upload of ${fileName} to "${attributeLabel}" failed: ${uploaded.status()} ${await uploaded.text().catch(() => '')}`
+  ).toBeTruthy();
+  // The upload's done() callback calls render() and its always() callback then calls setReady(true)
+  // in the same task, while render() writes the DOM several macrotasks later: once this file's filled
+  // state is in the DOM, the field is ready. The field was empty when the file was picked, so this
+  // cannot match a previous value with the same file name.
+  await expect(
+    container.locator('.filename', {hasText: fileName}),
+    `"${attributeLabel}" did not render ${fileName} after its upload`
+  ).toBeAttached({timeout: 30_000});
+}
+
+/**
+ * Read one counter of a normalized step execution summary. StepExecutionNormalizer::normalizeSummary
+ * translates every key through `job_execution.summary.<key>` (e.g. 'deleted_attribute_groups' comes back
+ * as 'Deleted attribute groups' for an en_US user), so the translated label is tried first, then the raw
+ * translation key, then the bare key. Callers should dump the step in their failure message.
+ */
+export function getStepSummaryValue(step: {summary?: Record<string, unknown>}, key: string, label: string): unknown {
+  const summary = step.summary ?? {};
+  return summary[label] ?? summary[`job_execution.summary.${key}`] ?? summary[key];
+}
+
+export type JobNotification = {
+  id: number;
+  type: string;
+  message: string;
+  url: string | null;
+  actionType: string | null;
+  viewed: boolean;
+};
+
+/**
+ * Return the current user's notification that links to a job execution, or undefined. GET /notification/list
+ * (NotificationController::listAction) returns only the 10 most recent notifications, rendered by
+ * list.json.twig with `url` = path(route, routeParams); job notifications use route
+ * akeneo_job_process_tracker_details, so their url is `/job/show/<id>` (NotificationFactory::create).
+ */
+export async function getJobNotificationViaApi(
+  page: Page,
+  jobExecutionId: number | string
+): Promise<JobNotification | undefined> {
+  const resp = await page.request.get('/notification/list', {headers: XHR_HEADER});
+  if (!resp.ok()) {
+    throw new Error(`GET /notification/list failed: ${resp.status()} ${await resp.text().catch(() => '')}`);
+  }
+  const body = await resp.json();
+  const notifications: JobNotification[] = Array.isArray(body?.notifications) ? body.notifications : [];
+  return notifications.find(notification => notification.url === `/job/show/${jobExecutionId}`);
+}
+
+/**
+ * Create a family via the internal REST API (POST /configuration/rest/family). The identifier
+ * attribute (sku) is added automatically by the backend updater on creation — no need to include
+ * it in `attributes`.
+ */
+export async function createFamilyViaApi(page: Page, code: string, attributes: string[] = []) {
+  return page.request.post('/configuration/rest/family/', {
+    data: {code, attributes},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
+ * Create an association type via the internal REST API (POST /configuration/rest/association-type/,
+ * AssociationTypeController::createAction() -> AssociationTypeUpdater, which only recognizes
+ * code/labels/is_two_way/is_quantified). The two flags must be booleans, and a type cannot be both two-way and
+ * quantified (ShouldNotBeTwoWayAndQuantified, 400). Returns the response. Delete it with deleteAssociationTypeViaApi.
+ */
+export async function createAssociationTypeViaApi(
+  page: Page,
+  code: string,
+  extra: {labels?: Record<string, string>; is_two_way?: boolean; is_quantified?: boolean} = {}
+) {
+  return page.request.post('/configuration/rest/association-type/', {
+    data: {code, ...extra},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
+ * Create a family variant via the internal REST API (POST /configuration/rest/family-variant,
+ * FamilyVariantController::createAction() -> FamilyVariantUpdater). `variant_attribute_sets` is
+ * an array of `{level, axes, attributes}` — axes must be attributes of one of
+ * FamilyVariant::getAvailableAxesAttributeTypes() (metric, simpleselect, boolean, reference data/
+ * entity simpleselect); the number of levels is immutable once created.
+ */
+export async function createFamilyVariantViaApi(
+  page: Page,
+  code: string,
+  familyCode: string,
+  variantAttributeSets: Array<{level: number; axes: string[]; attributes: string[]}>
+) {
+  return page.request.post('/configuration/rest/family-variant/', {
+    data: {code, family: familyCode, variant_attribute_sets: variantAttributeSets},
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
+  });
+}
+
+/**
+ * Fetch a product's data via the internal REST API (GET /enrich/product/rest/{uuid}: categories, values,
+ * associations, etc.). Fails with the status and body when the answer is not OK.
  */
 export async function getProductViaApi(page: Page, identifier: string): Promise<any> {
   const response = await page.request.get(`/enrich/product/rest/${identifier}`, {
     headers: XHR_HEADER,
   });
-  expect(response.ok(), `Get product ${identifier} failed: ${response.status()}`).toBeTruthy();
+  expect(
+    response.ok(),
+    `Get product ${identifier} failed: ${response.status()} ${await responseBody(response)}`
+  ).toBeTruthy();
   return response.json();
 }
 
@@ -496,30 +1410,32 @@ export async function getFirstFamilyVariantCode(page: Page): Promise<string | nu
  * (create.yml excludedProperties: [family] — family is inferred server-side from the
  * family variant). Returns the raw response; the created product model's numeric id is at
  * `(await response.json()).meta.id`.
+ *
+ * Pass `parent` (a ROOT product model code of the same family variant) to create a sub product
+ * model — ProductModelUpdater::updateParent() rejects any non-root parent. Values are validated
+ * per variation level (OnlyExpectedAttributesValidator): a root model may only hold the family
+ * variant's common attributes, a level-1 sub model only its level-1 attribute set (and it must
+ * carry that level's axis values, NotEmptyVariantAxes).
+ *
+ * Pass `extra` for other top-level fields of the payload, which ProductModelController::createAction hands to the
+ * updater as is. For example, `{categories: ['<code>', ...]}` classifies the model in existing categories; a sub
+ * product model also inherits its parent's categories. The explicit arguments win over `extra`.
  */
-export async function createProductModelViaApi(page: Page, code: string, familyVariantCode: string) {
+export async function createProductModelViaApi(
+  page: Page,
+  code: string,
+  familyVariantCode: string,
+  values?: Record<string, unknown>,
+  parent?: string,
+  extra?: Record<string, unknown>
+) {
   return page.request.post('/enrich/product-model/rest/create', {
-    data: {code, family_variant: familyVariantCode},
-    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
-  });
-}
-
-/**
- * Launch the "delete_attributes" bulk job via the internal REST API
- * (MassDeleteAttributeController::launchAction(), POST /rest/attribute/mass-delete). Unlike
- * the attribute-group mass-delete (form-encoded, read via Request::get()), this endpoint
- * expects a JSON body already shaped as a job "filters" configuration
- * (DeleteAttributesTasklet reads `filters.search` / `filters.options` via the shared
- * SearchableRepositoryInterface::findBySearch() contract, same `options.identifiers` shape
- * used by getFirstFamilyVariantCode's list endpoint).
- */
-export async function launchMassDeleteAttributesViaApi(page: Page, codes: string[]) {
-  return page.request.post('/rest/attribute/mass-delete', {
     data: {
-      filters: {
-        search: null,
-        options: {identifiers: codes},
-      },
+      ...(extra ?? {}),
+      code,
+      family_variant: familyVariantCode,
+      ...(values ? {values} : {}),
+      ...(parent ? {parent} : {}),
     },
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
@@ -527,27 +1443,13 @@ export async function launchMassDeleteAttributesViaApi(page: Page, codes: string
 
 /**
  * Create an attribute group via the internal REST API (PUT /rest/attribute-group/,
- * AttributeGroupController::createAction()).
+ * AttributeGroupController::createAction() -> AttributeGroupUpdater, which accepts `labels`).
+ * Without labels, the React attribute-groups grid shows the group as `[code]` (getLabel fallback).
  */
-export async function createAttributeGroupViaApi(page: Page, code: string) {
+export async function createAttributeGroupViaApi(page: Page, code: string, labels?: Record<string, string>) {
   return page.request.put('/rest/attribute-group/', {
-    data: {code},
+    data: labels ? {code, labels} : {code},
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
-  });
-}
-
-/**
- * Launch the "delete_attribute_groups" bulk job via the internal REST API
- * (MassDeleteAttributeGroupsController::__invoke(), POST /rest/attribute-group/mass-delete).
- * Unlike launchImportViaApi/launchExportViaApi, this reads params via Symfony's plain
- * Request::get() rather than a JSON body, so it's sent form-encoded, with PHP-style
- * `codes[]=...` array keys.
- */
-export async function launchMassDeleteAttributeGroupsViaApi(page: Page, codes: string[]) {
-  const body = codes.map(code => `codes%5B%5D=${encodeURIComponent(code)}`).join('&');
-  return page.request.post('/rest/attribute-group/mass-delete', {
-    data: body,
-    headers: {'Content-Type': 'application/x-www-form-urlencoded', ...XHR_HEADER},
   });
 }
 
@@ -562,6 +1464,10 @@ export async function createAttributeViaApi(
     allowed_extensions?: string[];
     max_file_size?: string;
     labels?: Record<string, string>;
+    metric_family?: string;
+    default_metric_unit?: string;
+    decimals_allowed?: boolean;
+    negative_allowed?: boolean;
   }
 ) {
   return page.request.put('/rest/attribute/', {
@@ -613,8 +1519,13 @@ export async function removeAttributeFromFamilyViaApi(
   });
 }
 
+/**
+ * Delete an attribute (DELETE /rest/attribute/{code}, AttributeController::removeAction). Returns the response:
+ * 204 on success, 400 when a deletion guard refuses, 404 when it does not exist. A successful delete blacklists
+ * the code and launches clean_removed_attribute_job on kernel.terminate (AttributeRemovalSubscriber).
+ */
 export async function deleteAttributeViaApi(page: Page, code: string) {
-  await page.request.delete(`/rest/attribute/${code}`, {headers: XHR_HEADER});
+  return page.request.delete(`/rest/attribute/${code}`, {headers: XHR_HEADER});
 }
 
 /**
@@ -741,7 +1652,7 @@ export async function goToUserGroupEdit(page: Page, groupName?: string) {
   await waitForLoadingMasks(page);
 }
 
-const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
+export const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
 
 /**
  * Launch an import job by uploading a file via the internal REST API.
@@ -804,6 +1715,13 @@ export async function waitForJobExecutionViaApi(page: Page, jobExecutionId: stri
     const resp = await page.request.get(`/job-execution/rest/${jobExecutionId}`, {
       headers: XHR_HEADER,
     });
+    // JobExecutionController::getAction answers 404/403 for a missing or ungranted execution: fail with the
+    // server's answer instead of a JSON parse error or a body without isRunning.
+    if (!resp.ok()) {
+      throw new Error(
+        `GET /job-execution/rest/${jobExecutionId} failed: ${resp.status()} ${await resp.text().catch(() => '')}`
+      );
+    }
     data = await resp.json();
     if (!data.isRunning) {
       // Normalize status to uppercase for consistent comparison across Akeneo versions.
@@ -866,14 +1784,11 @@ export async function ensureProductExists(page: Page): Promise<string | null> {
 export async function goToProductBySearch(page: Page, sku: string) {
   await goToProductsGrid(page);
 
-  // Type the SKU into the search field to filter
-  const searchInput = page.locator('.search-zone input[type="search"], .AknFilterBox-search input');
-  if (await searchInput.isVisible({timeout: 5_000}).catch(() => false)) {
-    await searchInput.fill(sku);
-    await searchInput.press('Enter');
-    await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
-    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
-  }
+  // Type the SKU into the grid search box (see searchProductGrid). The previous selector
+  // ('.search-zone input[type="search"], .AknFilterBox-search input') matched nothing, and isVisible()
+  // ignores its timeout and never waits, so the search was always silently skipped and the row lookup
+  // below only worked when the SKU happened to be on the first grid page.
+  await searchProductGrid(page, sku);
 
   // Click on the row that contains our SKU — no fallback to avoid clicking the wrong product
   const targetRow = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku});

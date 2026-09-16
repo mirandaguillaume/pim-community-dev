@@ -3,7 +3,7 @@ import {login} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/structure/group-type/create_group_type.feature:13
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/structure/group-type/create_group_type.feature:13
  *   "Successfully create a group type"
  *
  * Legacy Backbone area (form_extensions/group_type/create.yml), not React — no stale-route risk.

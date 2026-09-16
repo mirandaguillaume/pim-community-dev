@@ -1,9 +1,9 @@
 import {test, expect} from '../fixtures/coverage-fixture';
-import {login} from '../fixtures/pim';
+import {login, XHR_HEADER} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
- * Replaces Behat: tests/legacy/features/pim/structure/family/family-variant/show_family_variant.feature:11
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/structure/family/family-variant/show_family_variant.feature:11
  *   "Successfully show a family variant with two axes"
  *
  * Uses whatever family variant already exists in the catalog (via
@@ -40,7 +40,7 @@ test.describe('Show a family variant', () => {
 
   test('shows the family variant detail panel when clicked from the Variants tab', async ({page}) => {
     const listResp = await page.request.get('/configuration/rest/family-variant', {
-      headers: {'X-Requested-With': 'XMLHttpRequest'},
+      headers: XHR_HEADER,
     });
     expect(listResp.ok(), `List family variants failed: ${listResp.status()}`).toBeTruthy();
     const familyVariants = await listResp.json();

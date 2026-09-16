@@ -11,16 +11,6 @@ Feature: Import XLSX products with numbers
       | number_family | sku,number_in_stock,rate_sale |
     And I am logged in as "Julia"
 
-  # @info If Excel opens a file containing numeric strings that match its locale config it will be transformed into real numbers
-  @skip-behat-migrated-to-playwright
-  Scenario: Successfully import an XLSX file of products with real integers
-    Given I am on the "xlsx_footwear_product_import_fr" import job page
-    When I upload and import the file "products_with_integers.xlsx"
-    And I wait for the "xlsx_footwear_product_import_fr" job to finish
-    Then I should see the text "created 2"
-    And attribute number_in_stock of "rangers001" should be "27"
-    And attribute number_in_stock of "rangers002" should be "84"
-
   @skip-behat-migrated-to-playwright
   Scenario: Successfully import an XLSX file of products with real floats with a job expecting comma as decimal separator
     Given I am on the "xlsx_footwear_product_import_fr" import job page

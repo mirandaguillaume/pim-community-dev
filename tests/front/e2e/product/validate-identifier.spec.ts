@@ -2,7 +2,8 @@ import {test, expect} from '../fixtures/coverage-fixture';
 import {login, waitForLoadingMasks, createProductViaApi, getFirstFamilyCode} from '../fixtures/pim';
 
 /**
- * Replaces Behat: validate_identifier_attribute.feature:13,22
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product/validation/validate_identifier_attribute.feature:14
+ *   "Validate the max characters constraint of identifier attribute"
  *
  * Tests that identifier attribute validation constraints (max chars) are
  * enforced when saving a product. Uses the Settings > Attributes page to
