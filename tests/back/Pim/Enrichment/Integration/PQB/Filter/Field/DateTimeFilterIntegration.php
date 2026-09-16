@@ -5,6 +5,8 @@ namespace AkeneoTest\Pim\Enrichment\Integration\PQB\Filter;
 use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Indexer\ProductAndAncestorsIndexer;
 use Akeneo\Pim\Enrichment\Component\Product\Exception\UnsupportedFilterException;
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
+use Akeneo\Tool\Bundle\BatchBundle\Persistence\Sql\SqlCreateJobInstance;
+use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyException;
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
 use AkeneoTest\Pim\Enrichment\Integration\PQB\AbstractProductQueryBuilderTestCase;
@@ -180,6 +182,43 @@ class DateTimeFilterIntegration extends AbstractProductQueryBuilderTestCase
         $this->assert($result, ['test', 'foo', 'bar', 'baz']);
     }
 
+    /**
+     * "Updated SINCE LAST JOB" is the filter the product export profiles use to export only what changed since the
+     * last run (see ExportProductsBySpecificDateIntegration). DateTimeFilter resolves it with
+     * JobRepositoryInterface::getLastJobExecution($jobInstance, BatchStatus::COMPLETED), whose DQL filters on
+     * `j.status = :status` and orders by `j.startTime DESC`: an execution that failed, was stopped, or is still
+     * running must never move the date forward, or the products changed since the last successful run would be
+     * silently dropped from the next export. ExportProductsBySpecificDateIntegration only ever has one completed
+     * execution, so it does not cover that.
+     */
+    public function testOperatorSinceLastJob()
+    {
+        $jobCode = 'since_last_job_datetime_filter';
+        $this->createJobInstance($jobCode);
+
+        // No execution at all: the filter adds no clause.
+        $result = $this->executeFilter([['updated', Operators::SINCE_LAST_JOB, $jobCode]]);
+        $this->assert($result, ['foo', 'bar', 'baz']);
+
+        // A completed execution started before every product was updated.
+        $this->createJobExecution($jobCode, BatchStatus::COMPLETED, '2018-05-23 00:00:00');
+        $result = $this->executeFilter([['updated', Operators::SINCE_LAST_JOB, $jobCode]]);
+        $this->assert($result, ['foo', 'bar', 'baz']);
+
+        // Later executions that never completed: the date stays the one of the completed execution.
+        $this->createJobExecution($jobCode, BatchStatus::FAILED, '2018-05-23 00:04:00');
+        $this->createJobExecution($jobCode, BatchStatus::STOPPED, '2018-05-23 00:04:30');
+        $this->createJobExecution($jobCode, BatchStatus::STARTED, '2018-05-23 00:05:30');
+        $result = $this->executeFilter([['updated', Operators::SINCE_LAST_JOB, $jobCode]]);
+        $this->assert($result, ['foo', 'bar', 'baz']);
+
+        // Positive control: a completed execution started later does move the date, and it is the most recent
+        // completed one that wins, not the first.
+        $this->createJobExecution($jobCode, BatchStatus::COMPLETED, '2018-05-23 00:02:00');
+        $result = $this->executeFilter([['updated', Operators::SINCE_LAST_JOB, $jobCode]]);
+        $this->assert($result, ['bar', 'baz']);
+    }
+
     public function testErrorDataIsMalformedWithEmptyArray()
     {
         $this->expectException(InvalidPropertyTypeException::class);
@@ -238,5 +277,49 @@ SQL;
     private function getProductAndAncestorsIndexer(): ProductAndAncestorsIndexer
     {
         return $this->get('akeneo.pim.enrichment.elasticsearch.indexer.product_and_ancestors');
+    }
+
+    private function createJobInstance(string $code): void
+    {
+        $this->get(SqlCreateJobInstance::class)->createJobInstance([
+            'code' => $code,
+            'label' => $code,
+            'job_name' => 'csv_product_export',
+            'connector' => 'Akeneo CSV Connector',
+            'type' => 'export',
+        ]);
+    }
+
+    /**
+     * The job executions are written directly: only their status and their start time matter here, and
+     * DoctrineJobRepository reads them through its own connection.
+     *
+     * @param string $startTime "Y-m-d H:i:s", read back as UTC (see the UTCDateTimeType of config/packages/doctrine.yml)
+     */
+    private function createJobExecution(string $jobInstanceCode, int $status, string $startTime): void
+    {
+        $connection = $this->get('database_connection');
+        $jobInstanceId = $connection->fetchOne(
+            'SELECT id FROM akeneo_batch_job_instance WHERE code = :code',
+            ['code' => $jobInstanceCode]
+        );
+        $this->assertNotFalse($jobInstanceId, sprintf('The job instance "%s" does not exist', $jobInstanceCode));
+
+        // Only job_instance_id, status and start_time are read by getLastJobExecution; the other columns are
+        // nullable or have a default.
+        $connection->executeStatement(
+            <<<'SQL'
+            INSERT INTO `akeneo_batch_job_execution`
+                (`job_instance_id`, `user`, `status`, `start_time`, `create_time`, `updated_time`,
+                 `failure_exceptions`, `raw_parameters`)
+            VALUES
+                (:job_instance_id, 'admin', :status, :start_time, :start_time, :start_time, 'a:0:{}', '{}')
+            SQL,
+            [
+                'job_instance_id' => (int) $jobInstanceId,
+                'status' => $status,
+                'start_time' => $startTime,
+            ]
+        );
     }
 }
