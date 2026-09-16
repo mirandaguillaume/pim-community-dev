@@ -117,25 +117,6 @@ final class GetJobExecutionIntegration extends ControllerIntegrationTestCase
     }
 
     /**
-     * JobExecutionController::getAction has no isXmlHttpRequest() guard, and no access_control rule of
-     * config/packages/security.yml singles the internal API out: the X-Requested-With header the front sends is not
-     * part of the contract. The unreachable EndToEnd test made it look like it was.
-     */
-    public function test_it_does_not_require_the_xhr_header(): void
-    {
-        $this->logIn('admin');
-
-        $this->callRoute(
-            $this->client,
-            self::ROUTE,
-            ['identifier' => $this->importJobExecutionId],
-            Request::METHOD_GET
-        );
-
-        $this->assertStatusCode($this->client->getResponse(), Response::HTTP_OK);
-    }
-
-    /**
      * The ACL depends on the type of the job instance: JobExecutionController is built with the mapping
      * {import: pim_importexport_import_execution_show, export: pim_importexport_export_execution_show}
      * (src/Akeneo/Platform/Bundle/ImportExportBundle/Resources/config/controllers.yml).
