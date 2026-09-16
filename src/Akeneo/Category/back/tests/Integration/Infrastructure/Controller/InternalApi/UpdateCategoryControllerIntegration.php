@@ -10,9 +10,28 @@ declare(strict_types=1);
 namespace Akeneo\Category\back\tests\Integration\Infrastructure\Controller\InternalApi;
 
 use Akeneo\Category\Application\Storage\Save\Saver\CategoryBaseSaver;
+use Akeneo\Category\Application\Storage\Save\Saver\CategoryTemplateAttributeSaver;
+use Akeneo\Category\Application\Storage\Save\Saver\CategoryTemplateSaver;
+use Akeneo\Category\Application\Storage\Save\Saver\CategoryTreeTemplateSaver;
+use Akeneo\Category\Domain\Model\Attribute\AttributeImage;
+use Akeneo\Category\Domain\Model\Attribute\AttributeText;
 use Akeneo\Category\Domain\Model\Enrichment\Category;
+use Akeneo\Category\Domain\Model\Enrichment\Template;
 use Akeneo\Category\Domain\Query\GetCategoryInterface;
+use Akeneo\Category\Domain\ValueObject\Attribute\AttributeAdditionalProperties;
+use Akeneo\Category\Domain\ValueObject\Attribute\AttributeCode;
+use Akeneo\Category\Domain\ValueObject\Attribute\AttributeCollection;
+use Akeneo\Category\Domain\ValueObject\Attribute\AttributeIsLocalizable;
+use Akeneo\Category\Domain\ValueObject\Attribute\AttributeIsRequired;
+use Akeneo\Category\Domain\ValueObject\Attribute\AttributeIsScopable;
+use Akeneo\Category\Domain\ValueObject\Attribute\AttributeOrder;
+use Akeneo\Category\Domain\ValueObject\Attribute\AttributeUuid;
+use Akeneo\Category\Domain\ValueObject\Attribute\Value\ImageValue;
+use Akeneo\Category\Domain\ValueObject\Attribute\Value\TextValue;
 use Akeneo\Category\Domain\ValueObject\Code;
+use Akeneo\Category\Domain\ValueObject\LabelCollection;
+use Akeneo\Category\Domain\ValueObject\Template\TemplateCode;
+use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Akeneo\Test\IntegrationTestsBundle\Configuration\Catalog;
 use Akeneo\Test\IntegrationTestsBundle\Doctrine\Connection\ConnectionCloser;
 use Akeneo\Test\IntegrationTestsBundle\Helper\AuthenticatorHelper;
@@ -34,12 +53,25 @@ use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
  * Runs the category label edit of the removed Behat scenario edit_a_category.feature:11 through the internal API, with
  * the container-wired converter, ACL filters, command bus and savers behind UpdateCategoryController.
  *
- * Ported from the labels and not-found tests of UpdateCategoryControllerEndToEnd, which only the Category_EndToEnd_Test
- * suite ran, and no CI job runs that suite.
+ * Ported from the labels, attribute values and not-found tests of UpdateCategoryControllerEndToEnd, which only the
+ * Category_EndToEnd_Test suite ran, and no CI job runs that suite.
  */
 class UpdateCategoryControllerIntegration extends WebTestCase
 {
     private const string EDIT_ACL = 'pim_enrich_product_category_edit';
+    private const string TEMPLATE_UUID = '0ce0b1a1-8bcd-4a2c-8d80-ec3a1a29a0b2';
+    private const string TEXT_ATTRIBUTE_UUID = '6b0c1c0a-2e5c-41c0-9bbf-4f2a80ba1f1e';
+    private const string IMAGE_ATTRIBUTE_UUID = 'a1d0f7e6-4a0e-4de0-9f9f-4a7d0b24f3d9';
+    private const string UNKNOWN_ATTRIBUTE_UUID = 'ffffffff-ffff-4fff-8fff-ffffffffffff';
+    /** Same shape as the "photo" fixture of Akeneo\Category\back\tests\Integration\Helper\CategoryTestCase, in the
+     * order ImageDataValue::normalize() writes it. */
+    private const array IMAGE_DATA = [
+        'size' => 168107,
+        'extension' => 'jpg',
+        'file_path' => '8/8/3/d/883d041fc9f22ce42fee07d96c05b0b7ec7e66de_shoes.jpg',
+        'mime_type' => 'image/jpeg',
+        'original_filename' => 'shoes.jpg',
+    ];
 
     private KernelBrowser $client;
     private int $categoryId;
@@ -92,6 +124,88 @@ class UpdateCategoryControllerIntegration extends WebTestCase
         $this->assertEquals($newLabels, $this->valueAt($body, 'properties', 'labels'));
     }
 
+    /**
+     * The other half of the edit form: the attribute values of the category template of its tree. They go through
+     * ValueUserIntentFactory, which turns each "code|uuid|channel|locale" entry into a SetText/SetImage user intent
+     * after resolving the attribute type by uuid, and land in pim_catalog_category.value_collection through
+     * UpsertCategoryBaseSql.
+     *
+     * The image value carries only the metadata the upload route produced; UpdateCategoryController never reads the
+     * file itself, so no fixture file is needed.
+     *
+     * Fixtures mirror Akeneo\Category\back\tests\Integration\Helper\CategoryTestCase::useTemplateFunctionalCatalog,
+     * which the CI-run Category storage integration tests use: a template on the master tree, saved by
+     * CategoryTemplateSaver + CategoryTreeTemplateSaver, and its attributes by CategoryTemplateAttributeSaver.
+     */
+    public function testItUpdatesTheCategoryAttributeValues(): void
+    {
+        $this->givenATemplateOnTheMasterTreeWithATextAndAnImageAttribute();
+        $textKey = 'url_slug|' . self::TEXT_ATTRIBUTE_UUID;
+        $imageKey = 'banner_image|' . self::IMAGE_ATTRIBUTE_UUID;
+        $this->assertNull($this->theCategory()->getAttributes(), 'the category carries no value yet');
+
+        $this->logAs('julia');
+        $response = $this->postAttributes([
+            // The text attribute is scopable and localizable, the image one is not: both key shapes are covered.
+            "$textKey|ecommerce|en_US" => [
+                'data' => 'winter-jeans',
+                'channel' => 'ecommerce',
+                'locale' => 'en_US',
+                'attribute_code' => $textKey,
+            ],
+            $imageKey => [
+                'data' => self::IMAGE_DATA,
+                'channel' => null,
+                'locale' => null,
+                'attribute_code' => $imageKey,
+            ],
+            // ValueUserIntentFactory skips a value whose attribute uuid resolves to no attribute.
+            'gone|' . self::UNKNOWN_ATTRIBUTE_UUID => [
+                'data' => 'dropped',
+                'channel' => null,
+                'locale' => null,
+                'attribute_code' => 'gone|' . self::UNKNOWN_ATTRIBUTE_UUID,
+            ],
+        ]);
+
+        $this->assertStatusCode(Response::HTTP_OK, $response);
+        $returned = $this->valueAt($this->decode($response), 'category', 'attributes');
+        $this->assertIsArray($returned);
+        $this->assertEqualsCanonicalizing(["$textKey|ecommerce|en_US", $imageKey], array_keys($returned));
+        $this->assertNormalizedValue(
+            ['data' => 'winter-jeans', 'type' => 'text', 'channel' => 'ecommerce', 'locale' => 'en_US', 'attribute_code' => $textKey],
+            $returned["$textKey|ecommerce|en_US"],
+        );
+        $this->assertNormalizedValue(
+            ['data' => self::IMAGE_DATA, 'type' => 'image', 'channel' => null, 'locale' => null, 'attribute_code' => $imageKey],
+            $returned[$imageKey],
+        );
+
+        $attributes = $this->theCategory()->getAttributes();
+        $this->assertNotNull($attributes);
+        $text = $attributes->getValue('url_slug', self::TEXT_ATTRIBUTE_UUID, 'ecommerce', 'en_US');
+        $this->assertInstanceOf(TextValue::class, $text);
+        $this->assertSame('winter-jeans', $text->getValue());
+        $image = $attributes->getValue('banner_image', self::IMAGE_ATTRIBUTE_UUID, null, null);
+        $this->assertInstanceOf(ImageValue::class, $image);
+        $this->assertSame(self::IMAGE_DATA, $image->getValue()?->normalize());
+
+        // The edit form reloads the category through the GET route: it serves the same values.
+        $response = $this->callApiRoute('pim_enriched_category_rest_get', ['id' => (string) $this->categoryId], Request::METHOD_GET);
+        $this->assertStatusCode(Response::HTTP_OK, $response);
+        $reloaded = $this->valueAt($this->decode($response), 'attributes');
+        $this->assertIsArray($reloaded);
+        $this->assertEqualsCanonicalizing(["$textKey|ecommerce|en_US", $imageKey], array_keys($reloaded));
+        $this->assertNormalizedValue(
+            ['data' => 'winter-jeans', 'type' => 'text', 'channel' => 'ecommerce', 'locale' => 'en_US', 'attribute_code' => $textKey],
+            $reloaded["$textKey|ecommerce|en_US"],
+        );
+        $this->assertNormalizedValue(
+            ['data' => self::IMAGE_DATA, 'type' => 'image', 'channel' => null, 'locale' => null, 'attribute_code' => $imageKey],
+            $reloaded[$imageKey],
+        );
+    }
+
     public function testItForbidsTheUpdateWithoutTheCategoryEditPermission(): void
     {
         $this->revokeTheCategoryEditPermissionFromEveryRole();
@@ -137,6 +251,93 @@ class UpdateCategoryControllerIntegration extends WebTestCase
                 'isRoot' => $category->isRoot(),
             ], JSON_THROW_ON_ERROR),
         );
+    }
+
+    /**
+     * @param array<string, mixed> $attributes
+     */
+    private function postAttributes(array $attributes): Response
+    {
+        $category = $this->theCategory();
+
+        return $this->callApiRoute(
+            'pim_enriched_category_rest_update',
+            ['id' => (string) $this->categoryId],
+            Request::METHOD_POST,
+            json_encode([
+                'id' => $this->categoryId,
+                'parent' => $category->getParentId()?->getValue(),
+                'root_id' => $category->getRootId()?->getValue(),
+                'template_uuid' => self::TEMPLATE_UUID,
+                'properties' => [
+                    'code' => (string) $category->getCode(),
+                    'labels' => [],
+                ],
+                'attributes' => $attributes,
+                'permissions' => [],
+                'isRoot' => $category->isRoot(),
+            ], JSON_THROW_ON_ERROR),
+        );
+    }
+
+    /**
+     * Compares a normalized value without pinning the order of its keys.
+     *
+     * @param array<string, mixed> $expected
+     */
+    private function assertNormalizedValue(array $expected, mixed $actual): void
+    {
+        $this->assertIsArray($actual);
+        $this->assertEqualsCanonicalizing(array_keys($expected), array_keys($actual), (string) json_encode($actual));
+        foreach ($expected as $key => $value) {
+            $this->assertSame($value, $actual[$key] ?? null, $key);
+        }
+    }
+
+    private function givenATemplateOnTheMasterTreeWithATextAndAnImageAttribute(): void
+    {
+        $master = $this->service(GetCategoryInterface::class, GetCategoryInterface::class)->byCode('master');
+        $masterId = $master instanceof Category ? $master->getId() : null;
+        if (null === $masterId) {
+            throw new \LogicException('The category tree "master" does not exist.');
+        }
+
+        $templateUuid = TemplateUuid::fromString(self::TEMPLATE_UUID);
+        $template = new Template(
+            $templateUuid,
+            new TemplateCode('jeans_template'),
+            LabelCollection::fromArray(['en_US' => 'Jeans template']),
+            $masterId,
+            AttributeCollection::fromArray([
+                AttributeText::create(
+                    AttributeUuid::fromString(self::TEXT_ATTRIBUTE_UUID),
+                    new AttributeCode('url_slug'),
+                    AttributeOrder::fromInteger(1),
+                    AttributeIsRequired::fromBoolean(false),
+                    AttributeIsScopable::fromBoolean(true),
+                    AttributeIsLocalizable::fromBoolean(true),
+                    LabelCollection::fromArray(['en_US' => 'URL slug']),
+                    $templateUuid,
+                    AttributeAdditionalProperties::fromArray([]),
+                ),
+                AttributeImage::create(
+                    AttributeUuid::fromString(self::IMAGE_ATTRIBUTE_UUID),
+                    new AttributeCode('banner_image'),
+                    AttributeOrder::fromInteger(2),
+                    AttributeIsRequired::fromBoolean(false),
+                    AttributeIsScopable::fromBoolean(false),
+                    AttributeIsLocalizable::fromBoolean(false),
+                    LabelCollection::fromArray(['en_US' => 'Banner image']),
+                    $templateUuid,
+                    AttributeAdditionalProperties::fromArray([]),
+                ),
+            ]),
+        );
+
+        $this->service(CategoryTemplateSaver::class, CategoryTemplateSaver::class)->insert($template);
+        $this->service(CategoryTreeTemplateSaver::class, CategoryTreeTemplateSaver::class)->insert($template);
+        $this->service(CategoryTemplateAttributeSaver::class, CategoryTemplateAttributeSaver::class)
+            ->insert($templateUuid, $template->getAttributeCollection());
     }
 
     private function createCategory(string $code, string $parentCode): int
