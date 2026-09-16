@@ -1,8 +1,9 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from '../fixtures/coverage-fixture';
 import {login, goToProductsGrid, selectFirstProduct, waitForLoadingMasks, ensureProductExists} from '../fixtures/pim';
 
 /**
- * Replaces Behat: edit_and_display_all_attributes.feature:23
+ * Replaced Behat scenario (deleted in #420): tests/legacy/features/pim/enrichment/product/pef/edit_and_display_all_attributes.feature:24
+ *   "Successfully edit the product and check that all attributes are visible"
  *
  * Tests that the Product Edit Form displays all attribute groups when "All" is selected.
  * The PEF defaults to "Attribute group: All" which shows all groups as sections.

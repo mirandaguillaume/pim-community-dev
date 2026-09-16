@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from '../fixtures/coverage-fixture';
 import {login, goToProductsGrid, ensureProductExists} from '../fixtures/pim';
 
 // Guards C1 wave 1: the display selector must keep working identically

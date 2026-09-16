@@ -49,6 +49,7 @@ const PAGE_ROUTES: Record<string, string> = {
 
   // Channels
   channels: '#/configuration/channel/',
+  'channel creation': '#/configuration/channel/create',
 
   // Locales
   locales: '#/configuration/locale/',
@@ -72,6 +73,10 @@ const PAGE_ROUTES: Record<string, string> = {
 
   // Marketplace
   marketplace: '#/connect/app-store',
+
+  // Connections
+  connections: '#/connect/connection-settings/',
+  'connection creation': '#/connect/connection-settings/create',
 };
 
 export class NavigationHelper {
@@ -104,6 +109,7 @@ export class NavigationHelper {
    *   Category tree:       #/enrich/product-category-tree/{id}/tree
    *   Category edit:       #/enrich/product-category-tree/{id}/edit
    *   Product edit:        #/enrich/product/{uuid}
+   *   Product model edit:  #/enrich/product-model/{id}
    *   Product group edit:  #/enrich/group/{code}/edit
    *   Association type:    #/configuration/association-type/{code}/edit
    */
@@ -117,11 +123,13 @@ export class NavigationHelper {
       'category tree': `#/enrich/product-category-tree/${identifier}/tree`,
       'category edit': `#/enrich/product-category-tree/${identifier}/edit`,
       product: `#/enrich/product/${identifier}`,
+      'product model': `#/enrich/product-model/${identifier}`,
       'product group': `#/enrich/group/${identifier}/edit`,
       'export edit': `#/spread/export/${identifier}/edit`,
       'import edit': `#/collect/import/${identifier}/edit`,
       'export show': `#/spread/export/${identifier}`,
       'import show': `#/collect/import/${identifier}`,
+      connection: `#/connect/connection-settings/${identifier}/edit`,
     };
 
     const route = routes[entityType.toLowerCase()];

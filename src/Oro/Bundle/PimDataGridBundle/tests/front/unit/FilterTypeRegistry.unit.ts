@@ -23,12 +23,12 @@ describe('FILTER_MODULE_IDS', () => {
   test('identifier', () => expect(FILTER_MODULE_IDS['identifier']).toBe('oro/datafilter/identifier-filter-react'));
   test('label_or_identifier', () =>
     expect(FILTER_MODULE_IDS['label_or_identifier']).toBe('oro/datafilter/label_or_identifier-filter'));
-  test('metric', () => expect(FILTER_MODULE_IDS['metric']).toBe('oro/datafilter/metric-filter'));
-  test('multiselect', () => expect(FILTER_MODULE_IDS['multiselect']).toBe('oro/datafilter/multiselect-filter'));
+  test('metric', () => expect(FILTER_MODULE_IDS['metric']).toBe('oro/datafilter/metric-filter-react'));
+  test('multiselect', () => expect(FILTER_MODULE_IDS['multiselect']).toBe('oro/datafilter/multiselect-filter-react'));
   test('none', () => expect(FILTER_MODULE_IDS['none']).toBe('oro/datafilter/none-filter'));
   test('number', () => expect(FILTER_MODULE_IDS['number']).toBe('oro/datafilter/number-filter-react'));
   test('parent', () => expect(FILTER_MODULE_IDS['parent']).toBe('oro/datafilter/parent-filter-react'));
-  test('price', () => expect(FILTER_MODULE_IDS['price']).toBe('oro/datafilter/price-filter'));
+  test('price', () => expect(FILTER_MODULE_IDS['price']).toBe('oro/datafilter/price-filter-react'));
   test('product_and_product_model_completeness', () =>
     expect(FILTER_MODULE_IDS['product_and_product_model_completeness']).toBe(
       'oro/datafilter/product_completeness-filter'
@@ -40,7 +40,7 @@ describe('FILTER_MODULE_IDS', () => {
   test('product_scope', () => expect(FILTER_MODULE_IDS['product_scope']).toBe('oro/datafilter/product_scope-filter'));
   test('search', () => expect(FILTER_MODULE_IDS['search']).toBe('oro/datafilter/search-filter'));
   test('attribute_search', () => expect(FILTER_MODULE_IDS['attribute_search']).toBe('oro/datafilter/search-filter'));
-  test('select', () => expect(FILTER_MODULE_IDS['select']).toBe('oro/datafilter/select-filter'));
+  test('select', () => expect(FILTER_MODULE_IDS['select']).toBe('oro/datafilter/select-filter-react'));
   test('select-row', () => expect(FILTER_MODULE_IDS['select-row']).toBe('oro/datafilter/select-row-filter'));
   test('select2-choice', () =>
     expect(FILTER_MODULE_IDS['select2-choice']).toBe('oro/datafilter/select2-choice-filter-react'));
@@ -56,7 +56,8 @@ describe('resolveFilterModuleId', () => {
       expect(resolveFilterModuleId('text')).toBe('oro/datafilter/text-filter-react'));
     test('date → date-filter-react', () =>
       expect(resolveFilterModuleId('date')).toBe('oro/datafilter/date-filter-react'));
-    test('price → price-filter', () => expect(resolveFilterModuleId('price')).toBe('oro/datafilter/price-filter'));
+    test('price → price-filter-react', () =>
+      expect(resolveFilterModuleId('price')).toBe('oro/datafilter/price-filter-react'));
     test('search → search-filter', () => expect(resolveFilterModuleId('search')).toBe('oro/datafilter/search-filter'));
     test('uuid → uuid-filter-react', () =>
       expect(resolveFilterModuleId('uuid')).toBe('oro/datafilter/uuid-filter-react'));
@@ -73,13 +74,14 @@ describe('resolveFilterModuleId', () => {
   describe('aliased types', () => {
     test('string → choice-filter-react', () =>
       expect(resolveFilterModuleId('string')).toBe('oro/datafilter/choice-filter-react'));
-    test('choice → select-filter', () => expect(resolveFilterModuleId('choice')).toBe('oro/datafilter/select-filter'));
+    test('choice → select-filter', () =>
+      expect(resolveFilterModuleId('choice')).toBe('oro/datafilter/select-filter-react'));
     test('boolean → select-filter (same as choice)', () =>
-      expect(resolveFilterModuleId('boolean')).toBe('oro/datafilter/select-filter'));
+      expect(resolveFilterModuleId('boolean')).toBe('oro/datafilter/select-filter-react'));
     test('selectrow → select-row-filter', () =>
       expect(resolveFilterModuleId('selectrow')).toBe('oro/datafilter/select-row-filter'));
-    test('multichoice → multiselect-filter', () =>
-      expect(resolveFilterModuleId('multichoice')).toBe('oro/datafilter/multiselect-filter'));
+    test('multichoice → multiselect-filter-react', () =>
+      expect(resolveFilterModuleId('multichoice')).toBe('oro/datafilter/multiselect-filter-react'));
     test('identifier (alias no-op) → identifier-filter', () =>
       expect(resolveFilterModuleId('identifier')).toBe('oro/datafilter/identifier-filter-react'));
   });

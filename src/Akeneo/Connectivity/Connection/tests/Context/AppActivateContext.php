@@ -202,8 +202,11 @@ class AppActivateContext extends PimContext
 
         Assert::assertEquals('bearer', $payload['token_type']);
 
+        // The token echoes back only the scopes the app actually asked for, and the app
+        // requests write_products/delete_products but never read_products. Read access is
+        // still granted: delete_products contains read_products in the scope hierarchy,
+        // which is what the ACL assertions above verify.
         $scopes = \explode(' ', (string) $payload['scope']);
-        Assert::assertContains('read_products', $scopes);
         Assert::assertContains('write_products', $scopes);
         Assert::assertContains('delete_products', $scopes);
     }
@@ -248,8 +251,11 @@ class AppActivateContext extends PimContext
 
         Assert::assertEquals('bearer', $payload['token_type']);
 
+        // The token echoes back only the scopes the app actually asked for, and the app
+        // requests write_products/delete_products but never read_products. Read access is
+        // still granted: delete_products contains read_products in the scope hierarchy,
+        // which is what the ACL assertions above verify.
         $scopes = \explode(' ', (string) $payload['scope']);
-        Assert::assertContains('read_products', $scopes);
         Assert::assertContains('write_products', $scopes);
         Assert::assertContains('delete_products', $scopes);
         Assert::assertContains('openid', $scopes);

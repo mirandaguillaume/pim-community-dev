@@ -1,11 +1,18 @@
-import {test, expect, Page} from '@playwright/test';
+import {test, expect, Page} from '../fixtures/coverage-fixture';
 import {login, waitForLoadingMasks, waitForJobCompletion} from '../fixtures/pim';
 
 /**
- * Replaces Behat:
- *   - import_products_with_dates.feature:15
- *   - import_products_with_numbers.feature:15,23
- *   - upload_and_import_products_with_media.feature:11,45
+ * Replaced Behat scenarios (deleted in #421):
+ *   - tests/legacy/features/pim/enrichment/product/import/xlsx/import_products_with_dates.feature:16
+ *       "Successfully import an XLSX file of products with dates as timestamps"
+ *   - tests/legacy/features/pim/enrichment/product/import/xlsx/import_products_with_numbers.feature:16
+ *       "Successfully import an XLSX file of products with real integers"
+ *   - tests/legacy/features/pim/enrichment/product/import/upload_and_import_products_with_media.feature:12
+ *       "Successfully upload and import an archive"
+ *
+ * Still in Behat, tagged @skip-behat-migrated-to-playwright:
+ *   - tests/legacy/features/pim/enrichment/product/import/xlsx/import_products_with_numbers.feature:15
+ *   - tests/legacy/features/pim/enrichment/product/import/upload_and_import_products_with_media.feature:19
  *
  * Tests that import jobs can be launched via file upload through the UI.
  * Uses the local storage import path (not the upload switcher) since the

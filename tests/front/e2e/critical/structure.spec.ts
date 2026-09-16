@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from '../fixtures/coverage-fixture';
 import {LoginPage} from '../pages/LoginPage';
 import {DataGridPage} from '../pages/DataGridPage';
 import {NavigationHelper} from '../pages/NavigationHelper';
@@ -8,11 +8,11 @@ import {expectFlashMessage} from '../helpers/notifications';
  * @critical Structure management scenarios.
  *
  * Translated from Behat feature files:
- *   - tests/legacy/features/pim/structure/family/create_family.feature
+ *   - tests/legacy/features/pim/structure/family/create_family.feature:14 (deleted in #420)
  *       @critical Scenario: Successfully create a family
  *   - tests/legacy/features/pim/structure/product-group/create_product_group.feature
  *       @critical Scenario: Successfully create a cross sell
- *   - tests/legacy/features/pim/structure/family/add_attributes_to_a_family.feature
+ *   - tests/legacy/features/pim/structure/family/add_attributes_to_a_family.feature:13 (deleted in #420)
  *       @critical Scenario: Successfully display all grouped family's attributes
  *
  * Selectors sourced from:

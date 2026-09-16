@@ -26,31 +26,6 @@ Feature: Filter products
       | chair  | furniture | yes     | Chair/Slash | Chaise/Slash | My ecommerce chair .    | Ma info chaise ecommerce | Ma info chaise mobile |                  |                  |
     And I am logged in as "Mary"
 
-  # not sure it is critical
-  @critical @skip @validate-migration
-  Scenario: Successfully filter products
-    Given I am on the products grid
-    Then the grid should contain 6 elements
-    And I should see products postit, book, book/2, ebook, chair and 01234
-    And I should be able to use the following filters:
-      | filter  | operator         | value         | result                                       |
-      | sku     | contains         | book          | book, ebook and book/2                       |
-      | sku     | contains         | k/            | book/2                                       |
-      | name    | contains         | post          | postit                                       |
-      | info    | contains         | book          | book, ebook and book/2                       |
-      | enabled |                  | Enabled       | postit, ebook, book/2, chair and 01234       |
-      | enabled |                  | Disabled      | book                                         |
-      | sku     | does not contain | book          | postit and chair and 01234                   |
-      | sku     | does not contain | k/2           | postit, book, ebook, chair and 01234         |
-      | sku     | starts with      | boo           | book and book/2                              |
-      | sku     | starts with      | 0             | 01234                                        |
-      | sku     | starts with      | book/         | book/2                                       |
-      | sku     | is equal to      | book          | book                                         |
-      | sku     | in list          | book          | book                                         |
-      | sku     | in list          | postit,book/2 | postit and book/2                            |
-      | name    | is empty         |               |                                              |
-      | name    | is not empty     |               | postit, book, ebook, book/2, chair and 01234 |
-
   Scenario: Successfully hide/show filters
     Given I am on the products grid
     Then I should see the filters sku, family and enabled

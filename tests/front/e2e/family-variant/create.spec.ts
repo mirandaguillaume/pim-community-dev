@@ -1,9 +1,11 @@
-import {test, expect, Page} from '@playwright/test';
+import {test, expect, Page} from '../fixtures/coverage-fixture';
 import {login, goToFamilyPage, waitForLoadingMasks} from '../fixtures/pim';
 
 /**
- * These tests replace the Behat scenarios from:
+ * Replaced Behat scenarios (feature file deleted in #420):
  *   tests/legacy/features/pim/structure/family/family-variant/create_a_family_variant.feature
+ *     :14 "Successfully create a new family variant"
+ *     :29 "Successfully validate a family variant"
  *
  * Works with any catalog — discovers families and axes dynamically.
  */

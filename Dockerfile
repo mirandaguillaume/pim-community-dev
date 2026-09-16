@@ -1,4 +1,4 @@
-FROM httpd:2.4-bullseye AS base
+FROM httpd:2.4-bookworm AS base
 
 ARG PHP_VERSION=8.4
 
@@ -21,7 +21,7 @@ RUN echo 'APT::Install-Recommends "0" ; APT::Install-Suggests "0" ;' > /etc/apt/
         supervisor \
         wget &&\
     wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg &&\
-    sh -c 'echo "deb https://packages.sury.org/php/ bullseye main" > /etc/apt/sources.list.d/php.list' &&\
+    sh -c 'echo "deb https://packages.sury.org/php/ bookworm main" > /etc/apt/sources.list.d/php.list' &&\
     apt-get update && \
     apt-get --yes install imagemagick \
         libmagickcore-6.q16-6-extra \
@@ -76,7 +76,7 @@ RUN apt-get update && \
         curl \
         default-mysql-client \
         git \
-        perceptualdiff \
+        php${PHP_VERSION}-pcov \
         php${PHP_VERSION}-xdebug \
         procps \
         unzip &&\
@@ -85,6 +85,8 @@ RUN apt-get update && \
 
 COPY docker/build/xdebug.ini /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-xdebug.ini
 COPY docker/build/xdebug.ini /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-xdebug.ini
+COPY docker/build/pcov.ini /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-pcov.ini
+COPY docker/build/pcov.ini /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-pcov.ini
 COPY docker/build/blackfire.ini /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-blackfire.ini
 COPY docker/build/blackfire.ini /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-blackfire.ini
 
@@ -106,4 +108,6 @@ RUN rm -f /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-xdebug.ini \
          /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini \
          /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini \
          /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-blackfire.ini \
-         /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-blackfire.ini
+         /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-blackfire.ini \
+         /etc/php/${PHP_VERSION}/cli/conf.d/90-blackfire.ini \
+         /etc/php/${PHP_VERSION}/fpm/conf.d/90-blackfire.ini

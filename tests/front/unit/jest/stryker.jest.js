@@ -172,12 +172,31 @@ module.exports = {
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/DateFilterCriteria.unit.tsx',
     // DataGrid datetime filter (C1 Wave 5) — extends date-filter-react with the time picker options.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/datetime-filter-react.unit.tsx',
+    // DataGrid FilterOptionDropdown (C1 Wave 5) — generic currency/unit AknDropdown, parametrized
+    // sibling of OperatorDropdown, consumed by the upcoming price/metric filter criteria.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/FilterOptionDropdown.unit.tsx',
     // DataGrid select2-choice filter (C1 Wave 5) — extends the legacy select2-choice, reuses
     // ChoiceFilterCriteria; bridge inits/destroys the multi-select ajax Select2 itself.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/select2-choice-filter-react.unit.tsx',
     // DataGrid select2-rest-choice filter (C1 Wave 5) — sibling of select2-choice, reuses
     // ChoiceFilterCriteria; bridge inits/destroys the multi-select ajax Select2 itself.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/select2-rest-choice-filter-react.unit.tsx',
+    // DataGrid NumberUnitFilterCriteria (C1 Wave 5) — shared price/metric criteria popup, reuses
+    // FilterOptionDropdown + OperatorDropdown.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/NumberUnitFilterCriteria.unit.tsx',
+    // DataGrid price filter (C1 Wave 5) — extends number-filter-react, re-adds the currency layer,
+    // renders NumberUnitFilterCriteria.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/price-filter-react.unit.tsx',
+    // DataGrid metric filter (C1 Wave 5) — sibling of price, re-adds the unit layer (i18n labels,
+    // async measure fetch), renders NumberUnitFilterCriteria.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/metric-filter-react.unit.tsx',
+    // DataGrid select filter (Vague B) — SelectFilter bridge replacing jquery.multiselect with the
+    // controlled DSM SelectInput/MultiSelectInput via SelectFilterCriteria.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/SelectFilterCriteria.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/select-filter-react.unit.tsx',
+    // DataGrid multiselect filter (Vague B wave 2) — extends select-filter-react, adds the "All"
+    // mutual-exclusion + array value read; renders SelectFilterCriteria's MultiSelectInput branch.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/multiselect-filter-react.unit.tsx',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',

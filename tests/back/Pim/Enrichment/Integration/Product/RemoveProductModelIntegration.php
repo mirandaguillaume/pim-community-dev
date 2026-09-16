@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace AkeneoTest\Pim\Enrichment\Integration\Product;
 
+use Akeneo\Pim\Enrichment\Component\Product\Message\ProductModelRemoved;
+use Akeneo\Pim\Enrichment\Component\Product\Message\ProductRemoved;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
+use Akeneo\Test\IntegrationTestsBundle\Messenger\AssertEventCountTrait;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 
 /**
@@ -15,6 +18,36 @@ use Elasticsearch\Common\Exceptions\Missing404Exception;
  */
 class RemoveProductModelIntegration extends TestCase
 {
+    use AssertEventCountTrait;
+
+    /**
+     * Deleting a root product model removes its sub product model and its variant product through the
+     * database cascade (ProductModel::$parent and AbstractProduct::$parent both map ON DELETE CASCADE),
+     * not through the removers. BaseRemover::remove() therefore dispatches POST_REMOVE for the root
+     * only: exactly 1 product_model.removed business event and no product.removed event.
+     *
+     * The count of 1 is also the positive control for the 0. Both removed-event subscribers return early
+     * without a security user, so it proves the TraceableMessageBus observer and the system user are wired.
+     *
+     * @test
+     */
+    public function removing_a_product_model_with_children_raises_only_one_product_model_removed_event()
+    {
+        $this->arrange();
+        // arrange() saves the tree, which dispatches "created" business events: start from an empty log.
+        $this->clearMessageBusObserver();
+
+        $rootProductModel = $this->get('pim_catalog.repository.product_model')
+            ->findOneByIdentifier('root_product_model_two_level');
+        // The same remover service the UI delete reaches:
+        // ProductModelController::removeAction -> RemoveProductModelHandler -> pim_catalog.remover.product_model.
+        $this->get('pim_catalog.remover.product_model')->remove($rootProductModel);
+
+        $this->assertNull($this->get('pim_catalog.repository.product')->findOneByIdentifier('variant_product_1'));
+        $this->assertEventCount(1, ProductModelRemoved::class);
+        $this->assertEventCount(0, ProductRemoved::class);
+    }
+
     /**
      * @test
      */

@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from '../fixtures/coverage-fixture';
 import {
   login,
   waitForLoadingMasks,
@@ -14,9 +14,9 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat:
+ * Replaced Behat scenarios (feature file deleted in #212):
  *   - tests/legacy/features/pim/enrichment/product/validation/validate_image_attributes.feature:23
- *   - tests/legacy/features/pim/enrichment/product/validation/validate_image_attributes.feature:26
+ *   - tests/legacy/features/pim/enrichment/product/validation/validate_image_attributes.feature:28
  *   - tests/legacy/features/pim/enrichment/product/validation/validate_image_attributes.feature:34
  *   - tests/legacy/features/pim/enrichment/product/validation/validate_image_attributes.feature:39
  *

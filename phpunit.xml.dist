@@ -119,6 +119,7 @@
             <directory suffix="Test.php">tests/back/Platform/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Acceptance</directory>
             <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Acceptance</directory>
+            <directory suffix="Test.php">tests/legacy/features/Behat/Coverage</directory>
             <!-- Phase 3: Connectivity + Tool -->
             <directory suffix="Test.php">src/Akeneo/Connectivity/Connection/back/tests/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Tool/Component/Analytics/Unit</directory>

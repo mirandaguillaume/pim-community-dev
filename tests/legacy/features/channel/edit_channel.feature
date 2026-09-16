@@ -37,25 +37,3 @@ Feature: Edit a channel
     When I am on the locales page
     Then the grid should contain 1 elements
     And I should see locales "de_DE"
-
-  @skip
-  Scenario: Successfully updates a channel conversion units
-    Given I am logged in as "Peter"
-    And I am on the "tablet" channel page
-    And I fill in the following information:
-      | Volume | Liter      |
-      | Length | Millimeter |
-    When I press the "Save" button
-    Then I should not see the text "There are unsaved changes."
-    And the field Volume should contain "Liter"
-    And the field Length should contain "Millimeter"
-    And the field Weight should contain "Do not convert"
-    When I fill in the following information:
-      | Volume | Do not convert |
-      | Length | Millimeter     |
-      | Weight | Gram           |
-    And I press the "Save" button
-    Then I should not see the text "There are unsaved changes."
-    And the field Weight should contain "Gram"
-    And the field Length should contain "Millimeter"
-    And the field Volume should contain "Do not convert"

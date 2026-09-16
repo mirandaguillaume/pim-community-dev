@@ -90,9 +90,12 @@ jobs:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     timeout-minutes: 5
     outputs:
-      backend: ${{ steps.filter.outputs.backend }}
-      frontend: ${{ steps.filter.outputs.frontend }}
-      ci: ${{ steps.filter.outputs.ci }}
+      # On schedule/workflow_dispatch there is no PR diff — paths-filter outputs false for
+      # everything, so all path-gated jobs would be skipped and the nightly runs to blank.
+      # The `force` step overrides to true; || falls back to the filter for PR/push runs.
+      backend: ${{ steps.force.outputs.backend || steps.filter.outputs.backend }}
+      frontend: ${{ steps.force.outputs.frontend || steps.filter.outputs.frontend }}
+      ci: ${{ steps.force.outputs.ci || steps.filter.outputs.ci }}
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
         run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
@@ -148,6 +151,13 @@ jobs:
               - 'docker/**'
               - 'castor/**'
               - 'castor.php'
+      - name: Force all paths on schedule / workflow_dispatch
+        id: force
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          echo "backend=true" >> $GITHUB_OUTPUT
+          echo "frontend=true" >> $GITHUB_OUTPUT
+          echo "ci=true" >> $GITHUB_OUTPUT
 
   # ===========================================================================
   # BUILD PHP IMAGE (pushed to GHCR, not artifacts)
@@ -465,12 +475,62 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Evaluated ONCE, here, and reused by both the restore and the save below.
+      #
+      # hashFiles() is evaluated when a step starts, so writing it inline in both places produced two
+      # DIFFERENT keys: "Download front packages build" unpacks the front-packages-lib artifact into
+      # the workspace with path: '.', landing front-packages/*/lib and eight src/**/front/lib
+      # directories between the two steps. `front-packages/**` and `src/**/*.js` both match that
+      # output, so the save key could never equal the restore key. Those lib/ directories are
+      # git-ignored, which is why this stayed invisible -- hashFiles globs the filesystem and has no
+      # notion of .gitignore.
+      #
+      # Consequence: this cache had never hit once since it was introduced (9f0d2ac524, 2026-03-12).
+      # It cost ~80-140s of rebuild per run and, being a miss rather than an error, signalled nothing.
+      # Nothing in ci.yml broke -- downstream jobs consume the build-front ARTIFACT, not this cache --
+      # so the first consumer to actually require a hit, coverage-inventory.yml, is what surfaced it.
+      #
+      # The glob list below is WIDER than the one that shipped while the cache was broken, and that
+      # widening is load-bearing rather than tidying. A key that never hits cannot serve a stale
+      # build; the moment it starts hitting, every front-build input missing from the key becomes a
+      # silent false green in test-behat and test-playwright. Each addition is a verified input:
+      #
+      #   src/**/Resources/config/requirejs.yml    frontend/webpack/requirejs-utils.js:45 reads it to
+      #                                            build the module aliases and config that
+      #                                            frontend/webpack/config-loader.js injects.
+      #   .../form_extensions.yml and .../form_extensions/**/*.yml
+      #                                            frontend/build/update-extensions.js:60 globs exactly
+      #                                            this and writes public/js/extensions.json, which
+      #                                            "Collect front build output" below copies INTO the
+      #                                            cached tree -- so a hit serves the previous one.
+      #   src/**/*.html                            rspack.config.js bundles templates as asset/source.
+      #   src/**/tsconfig*.json                    the eight src/**/front workspaces whose lib/ ships in
+      #                                            the front-packages-lib artifact compile with it.
+      #   components/**/*.{ts,tsx,js,jsx,less,html}
+      #                                            components/catalogs and components/identifier-generator
+      #                                            are packages:build workspaces; Connectivity's front
+      #                                            imports @akeneo-pim-community/catalogs. Extensions are
+      #                                            listed rather than components/** so this cannot catch a
+      #                                            build output the way front-packages/** did.
+      #   config/bundles.php                       source of public/js/require-paths.js, also cached.
+      #   tsconfig*.json                           precautionary; it moves about twice per 400 commits.
+      #
+      # Measured over the last 397 non-merge commits on master: this closes 6 commits that would have
+      # been E2E-tested against a stale bundle -- three of them C1 grid re-points whose ONLY changed
+      # input was a form_extensions yml, i.e. exactly what E2E exists to catch -- and costs 6 extra
+      # invalidations (205 -> 211, +1.5%). Widen this list, never narrow it: a false hit is a false
+      # green, a false miss costs about two minutes.
+      - name: Compute the front build cache key
+        id: front-key
+        run: |
+          echo "key=front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'components/**/*.ts', 'components/**/*.tsx', 'components/**/*.js', 'components/**/*.jsx', 'components/**/*.less', 'components/**/*.html', 'yarn.lock', 'package.json', 'tsconfig*.json', 'rspack*.js', 'babel.config.*', 'config/bundles.php', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less', 'src/**/*.html', 'src/**/tsconfig*.json', 'src/**/Resources/config/requirejs.yml', 'src/**/Resources/config/form_extensions.yml', 'src/**/Resources/config/form_extensions/**/*.yml') }}" >> "$GITHUB_OUTPUT"
+
       - name: Restore front build from cache
         id: front-cache
         uses: actions/cache/restore@v4
         with:
           path: front-build-cached
-          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'rspack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+          key: ${{ steps.front-key.outputs.key }}
 
       - name: Upload cached front build artifacts
         if: steps.front-cache.outputs.cache-hit == 'true'
@@ -533,12 +593,14 @@ jobs:
           cp -a public/js/extensions.json public/js/fos_js_routes.json public/js/require-paths.js front-build-cached/public/js/
           cp -a var/build/module-registry.js front-build-cached/var/build/
 
+      # Same key the restore used, captured before the workspace was mutated -- see the comment above
+      # "Compute the front build cache key". Re-evaluating hashFiles() here is what broke this cache.
       - name: Save front build to cache
         if: steps.front-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           path: front-build-cached
-          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'rspack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+          key: ${{ steps.front-key.outputs.key }}
 
       - name: Upload front build artifacts
         if: steps.front-cache.outputs.cache-hit != 'true'
@@ -581,6 +643,17 @@ jobs:
 
       - name: Run ESLint and Prettier
         run: castor test:lint-front
+
+      # Dependency-free `node` scripts (assert + fs/path only), so nothing here needed the JS
+      # dependencies installed above -- but nothing ran them either until now: they weren't referenced
+      # anywhere in .github/, package.json or castor/. That let the PHP<->JS join contract they pin
+      # (sanitise() must stay identical between the producer and the consumer) drift silently.
+      - name: Run coverage-inventory join checks
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node \
+            sh -c 'for f in tests/front/e2e/coverage/*.check.js; do node "$f" || exit 1; done'
 
       # Permanent net from the AMD→CJS→ESM migration: a dropped/undefined
       # binding in the legacy modules is a runtime ReferenceError the unit
@@ -1221,11 +1294,19 @@ jobs:
           path: build-front
 
       - name: Compute Behat suite
+        env:
+          GH_EVENT_NAME: ${{ github.event_name }}
         run: |
-          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}"
-          TESTSUITE=$(echo "${BRANCH_NAME}" | sed -e 's/^.*-\([^-]*\)$/\1/g')
-          if ! [[ "${TESTSUITE}" =~ ^(weasel|chipmunk|raccoon)$ ]]; then
-            TESTSUITE="all"
+          # On nightly/manual runs, use the `nightly` suite which adds @critical and @optional
+          # scenarios excluded from the PR `all` suite — giving total Behat coverage.
+          if [[ "$GH_EVENT_NAME" == "schedule" || "$GH_EVENT_NAME" == "workflow_dispatch" ]]; then
+            TESTSUITE="nightly"
+          else
+            BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}"
+            TESTSUITE=$(echo "${BRANCH_NAME}" | sed -e 's/^.*-\([^-]*\)$/\1/g')
+            if ! [[ "${TESTSUITE}" =~ ^(weasel|chipmunk|raccoon)$ ]]; then
+              TESTSUITE="all"
+            fi
           fi
           echo "TESTSUITE=${TESTSUITE}" >> $GITHUB_ENV
 
@@ -1235,6 +1316,43 @@ jobs:
         run: docker-compose down --remove-orphans 2>/dev/null || true
 
       - name: Setup test database
+        env:
+          # Behat E2E PHP coverage (PCOV), nightly-only. An empty value is safe: the httpd service
+          # defaults it to ':' (scan the compiled-in conf.d); an EMPTY scan dir would disable all
+          # conf.d and 500 the app. The leading ':' means "each SAPI's own default, then this dir".
+          #
+          # STILL DISABLED after the raw-collect rework — it helped a lot but not enough.
+          #
+          # Measured on the `nightly` suite, same fleet (all three are per-shard means):
+          #   PCOV off, baseline .................  7.6 min, 10/10 green (run 30425913943)
+          #   PCOV on, collector no-op (Gate 0a) .  7.5 min,  4/4 green (run 30453503181)
+          #   raw-collect rework (Gate 1) ........ 21.4 min,  7/10 green (run 30473153154)
+          #   #348/#351, pre-rework .............. 38.4 min, 10/10 red  (run 30347187208)
+          #
+          # The rework cut the overhead from ~5.1x to ~2.8x and shards can now pass, but 3/10 still
+          # fail on Spin timeouts that survive --rerun — shard 9's was verbatim the "Could not find
+          # the select2 widget" signature that caused the 2026-07-28 disable. Enabling this would
+          # turn the nightly red again, which is the thing the rework set out to prevent.
+          #
+          # Gate 0a and Gate 1 together localise what is left: the no-op collector skipped exactly
+          # \pcov\collect() + reduce + gzip + write, and that gap (7.5 -> 21.4) is the remaining
+          # cost. The merge is NOT the problem (15s wall-clock); dump volume is 37MB/shard across
+          # 34 per-worker files. So the residual is inherent to collecting on EVERY request.
+          #
+          # Next lever, not yet designed: stop calling \pcov\clear() per request and collect+dump
+          # every Nth request (or at worker shutdown), so collect() runs dozens of times per shard
+          # instead of thousands. Trade-off is losing the tail if a worker is SIGKILLed.
+          #
+          # The pipeline itself is proven end-to-end: Gate 1 produced a real Codecov `e2e-behat`
+          # flag over 2516 files / 20373 covered lines per shard, with an honest denominator.
+          #
+          # To RE-ENABLE once a future gate passes, restore:
+          #   PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
+          # An empty value is safe: docker-compose defaults it to ':/srv/pim/docker/php-conf-empty.d'
+          # (each SAPI's compiled-in conf.d once, plus an empty dir). An EMPTY scan dir would disable
+          # all conf.d and 500 the app, and a bare ':' would load every extension twice.
+          # See docs/superpowers/specs/2026-07-29-behat-coverage-raw-collect-design.md
+          PHP_INI_SCAN_DIR: ''
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
           DB_NAME=${DB_NAME:-akeneo_pim_test}
@@ -1517,6 +1635,42 @@ jobs:
             echo "  Could not create debug session"
           fi
 
+      # Gate 1 instrumentation. Dump volume was the one number this design deliberately did not
+      # guess (guessing the overhead is what sank #348), so the shard reports it every run.
+      - name: Behat PHP coverage dump volume (shard ${{ matrix.shard }})
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        run: |
+          echo "dump files: $(find var/tests/behat-coverage -name '*.dump' 2>/dev/null | wc -l)"
+          echo "total bytes: $(du -sb var/tests/behat-coverage 2>/dev/null | cut -f1)"
+          echo "largest per-worker dumps:"
+          du -b var/tests/behat-coverage/*.dump 2>/dev/null | sort -rn | head -5 || true
+
+      - name: Merge Behat PHP coverage (shard ${{ matrix.shard }})
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        run: |
+          START=$(date +%s)
+          docker-compose exec -u www-data -T httpd \
+            php tests/legacy/features/Behat/Coverage/merge-behat-coverage.php \
+            --in var/tests/behat-coverage \
+            --clover var/tests/behat-coverage-report/clover.xml \
+            --src /srv/pim/src \
+            --cache var/cache/behat-coverage-sa
+          echo "merge wall-clock: $(( $(date +%s) - START ))s"
+
+      - name: Upload Behat PHP coverage to Codecov (shard ${{ matrix.shard }})
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        uses: codecov/codecov-action@v4
+        with:
+          files: var/tests/behat-coverage-report/clover.xml
+          flags: e2e-behat
+          disable_search: true
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Archive behat artifacts
         if: always()
         run: tar -czf behat-artifacts-${{ matrix.shard }}.tar.gz var/tests/behat var/tests/screenshots var/logs 2>/dev/null || true
@@ -1568,11 +1722,30 @@ jobs:
 
       - name: Install Playwright browsers
         run: |
-          # `--with-deps` runs apt; refresh the lists first so a changed PPA
-          # release label (e.g. ondrej/php relabelling) doesn't abort apt with
-          # exit 100 ("changed its 'Label' value").
-          sudo apt-get update --allow-releaseinfo-change
-          ./node_modules/.bin/playwright install --with-deps chromium
+          # Bare-metal runners share one machine: another concurrent job may hold the
+          # apt lock. DPkg::Lock::Timeout makes apt wait (rather than exit 100) for up
+          # to 120 s — covers both our explicit update AND the internal apt calls that
+          # `playwright install --with-deps` issues.
+          echo 'DPkg::Lock::Timeout "120";' | sudo tee /etc/apt/apt.conf.d/90lock-timeout
+          # apt-get update also intermittently exits 100 on the shared fleet (transient
+          # mirror/repo fetch — the lock timeout above only covers lock contention, not a
+          # failed fetch). Retry best-effort; `playwright install --with-deps` re-runs apt
+          # anyway, so a still-stale index gets a final chance in the loop below.
+          for attempt in 1 2 3; do
+            sudo apt-get update --allow-releaseinfo-change && break \
+              || { echo "apt-get update attempt $attempt/3 failed, retrying in $((attempt * 10))s..."; sleep $((attempt * 10)); }
+          done
+          # `playwright install --with-deps chromium` downloads the browser from the
+          # Playwright CDN and runs apt; both intermittently fail on the shared fleet
+          # (transient CDN 5xx / apt hiccup) and have repeatedly killed a single random
+          # shard at this step. Retry with backoff so a blip doesn't fail the shard.
+          ok=0
+          for attempt in 1 2 3; do
+            if ./node_modules/.bin/playwright install --with-deps chromium; then ok=1; break; fi
+            echo "Playwright browser install attempt $attempt/3 failed, retrying in $((attempt * 15))s..."
+            sleep $((attempt * 15))
+          done
+          [ "$ok" = 1 ] || { echo "::error::Playwright browser install failed after 3 attempts"; exit 1; }
 
       - name: Download icecat DB seed
         uses: actions/download-artifact@v4
@@ -1583,6 +1756,9 @@ jobs:
       - uses: ./.github/actions/install-castor
 
       - name: Setup and run Playwright
+        env:
+          E2E_COVERAGE: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && '1' || '' }}
+          PW_SHARD: ${{ matrix.shard }}/4
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env | cut -d= -f2 || echo "akeneo_pim")
           DB_NAME=${DB_NAME:-akeneo_pim}
@@ -1715,6 +1891,23 @@ jobs:
           done
           PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} PW_SHARD=${{ matrix.shard }}/4 castor test:end-to-end-front
 
+      - name: Convert E2E V8 coverage to lcov
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        run: node tests/front/e2e/coverage/e2e-coverage-report.js
+
+      - name: Upload E2E coverage to Codecov
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        continue-on-error: true
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage-e2e/lcov.info
+          flags: e2e-playwright
+          disable_search: true
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
       # Separate `if: always()` step so it runs even when Playwright fails and the
       # `bash -e` setup step above aborts. The consumer stdout is mirrored to a
       # bind-mounted file (var/logs/consumer-N.log) by the start step, so we read THAT
@@ -1773,7 +1966,7 @@ jobs:
           echo "::endgroup::"
 
       - name: Upload Playwright report
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-shard-${{ matrix.shard }}
@@ -1782,6 +1975,167 @@ jobs:
             test-results/
             consumer-*.log
           retention-days: 3
+
+  # ===========================================================================
+  # COVERAGE SUMMARY: Aggregate test counts and coverage % across all suites
+  # Runs after every push/nightly — writes a markdown table to the workflow
+  # step summary so results are visible in the GitHub Actions UI.
+  # Uses if: always() so the summary is produced even when some jobs fail.
+  # ===========================================================================
+  coverage-summary:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [test-front-packages, test-front-unit, test-front-connectivity, test-phpunit-unit, test-behat, test-playwright]
+    if: always()
+    timeout-minutes: 5
+    steps:
+      - name: Download Jest unit coverage (shard 1)
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: jest-coverage-unit-shard-1
+          path: coverage-data/jest-unit-1
+
+      - name: Download Jest unit coverage (shard 2)
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: jest-coverage-unit-shard-2
+          path: coverage-data/jest-unit-2
+
+      - name: Download Jest packages coverage
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: jest-coverage-packages
+          path: coverage-data/jest-packages
+
+      - name: Download Jest connectivity coverage
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: jest-coverage-connectivity
+          path: coverage-data/jest-connectivity
+
+      - name: Download PHPUnit coverage
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: phpunit-coverage
+          path: coverage-data/phpunit
+
+      - name: Download Playwright report
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: playwright-report
+          path: coverage-data/playwright
+
+      - name: Download Behat artifacts (all shards)
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: behat-results-*
+          path: coverage-data/behat
+          merge-multiple: false
+
+      - name: Generate coverage summary
+        run: |
+          python3 << 'PYEOF'
+          # xml.etree.ElementTree is safe here: all parsed XML (PHPUnit clover, Behat JUnit)
+          # is generated by our own CI pipeline — no external or user-controlled input.
+          import os, json, glob, xml.etree.ElementTree as ET, tarfile
+
+          rows = []
+
+          # --- Jest root unit (shards 1 + 2 merged) ---
+          stmt_total = stmt_covered = 0
+          for shard in [1, 2]:
+              path = f"coverage-data/jest-unit-{shard}/coverage-summary.json"
+              if os.path.exists(path):
+                  s = json.load(open(path)).get("total", {}).get("statements", {})
+                  stmt_total += s.get("total", 0)
+                  stmt_covered += s.get("covered", 0)
+          if stmt_total:
+              pct = round(stmt_covered / stmt_total * 100, 1)
+              rows.append(f"| Jest (root) | — | — | — | {pct}% |")
+
+          # --- Jest workspace packages ---
+          t = c = 0
+          for p in glob.glob("coverage-data/jest-packages/**/coverage-summary.json", recursive=True):
+              s = json.load(open(p)).get("total", {}).get("statements", {})
+              t += s.get("total", 0); c += s.get("covered", 0)
+          if t:
+              rows.append(f"| Jest (packages) | — | — | — | {round(c/t*100,1)}% |")
+
+          # --- Jest connectivity ---
+          t = c = 0
+          for p in glob.glob("coverage-data/jest-connectivity/**/coverage-summary.json", recursive=True):
+              s = json.load(open(p)).get("total", {}).get("statements", {})
+              t += s.get("total", 0); c += s.get("covered", 0)
+          if t:
+              rows.append(f"| Jest (connectivity) | — | — | — | {round(c/t*100,1)}% |")
+
+          # --- PHPUnit (clover XML) ---
+          clover = "coverage-data/phpunit/coverage.xml"
+          if os.path.exists(clover):
+              m = ET.parse(clover).getroot().find(".//project/metrics")
+              if m is not None:
+                  stmts = int(m.get("statements", 0))
+                  cov   = int(m.get("coveredstatements", 0))
+                  if stmts:
+                      rows.append(f"| PHPUnit | — | — | — | {round(cov/stmts*100,1)}% |")
+
+          # --- Playwright (JSON reporter) ---
+          pw_json = "coverage-data/playwright/results.json"
+          if os.path.exists(pw_json):
+              stats  = json.load(open(pw_json)).get("stats", {})
+              passed = stats.get("expected", 0)
+              failed = stats.get("unexpected", 0)
+              total  = passed + failed + stats.get("skipped", 0)
+              rows.append(f"| Playwright E2E | {total} | {passed} | {failed} | — |")
+
+          # --- Behat (JUnit XMLs inside per-shard tarballs) ---
+          bh_total = bh_pass = bh_fail = 0
+          for tarball in sorted(glob.glob("coverage-data/behat/**/*.tar.gz", recursive=True)):
+              try:
+                  with tarfile.open(tarball, "r:gz") as tf:
+                      for member in tf.getmembers():
+                          if "/junit/" in member.name and member.name.endswith(".xml"):
+                              fh = tf.extractfile(member)
+                              if not fh:
+                                  continue
+                              try:
+                                  root = ET.fromstring(fh.read())
+                                  for ts in root.iter("testsuite"):
+                                      t   = int(ts.get("tests", 0))
+                                      err = int(ts.get("failures", 0)) + int(ts.get("errors", 0))
+                                      bh_total += t
+                                      bh_fail  += err
+                                      bh_pass  += t - err
+                              except ET.ParseError:
+                                  pass
+              except Exception:
+                  pass
+          if bh_total:
+              rows.append(f"| Behat E2E | {bh_total} | {bh_pass} | {bh_fail} | — |")
+
+          lines = [
+              "## Coverage & Test Summary",
+              "",
+              "| Suite | Tests | Passed | Failed | Coverage (stmts) |",
+              "|-------|-------|--------|--------|------------------|",
+          ] + rows
+
+          if not rows:
+              lines.append("| _(no data — jobs skipped or artifacts missing)_ | | | | |")
+
+          summary = "\n".join(lines) + "\n"
+          print(summary)
+          summary_file = os.environ.get("GITHUB_STEP_SUMMARY", "")
+          if summary_file:
+              with open(summary_file, "a") as fh:
+                  fh.write(summary)
+          PYEOF
 
   # ===========================================================================
   # SAVE TIMINGS: Merge shard timing data into cache (master only)
@@ -2139,6 +2493,7 @@ jobs:
 
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
+            -e XDEBUG_MODE=coverage \
             php php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/infection \
               --configuration=infection-dynamic.json \
               --initial-tests-php-options="-d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1" \

@@ -79,18 +79,6 @@ Feature: Validate unique attribute of a product
     And I save the product
     Then I should not see validation tooltip "The number attribute can not have the same value more than once. The  value is already set on another product."
 
-  # @info date picker does not work properly on CI
-  @skip
-  Scenario: Validate the unique constraint of date attribute with a provided date
-    Given the following product values:
-      | product | attribute | value      |
-      | postit  | date      | 2015-01-01 |
-    Given I am on the "date2" product page
-    And I change the Date to "2015/01/01"
-    And I save the product
-    And I should see validation tooltip "The date attribute can not have the same value more than once. The 2015-01-01 value is already set on another product."
-    And there should be 1 error in the "Other" tab
-
   # @jira https://akeneo.atlassian.net/browse/PIM-3961
   Scenario: Validate the unique constraint of date attribute with an empty date
     Given I am on the "date1" product page

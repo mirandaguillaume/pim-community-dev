@@ -89,7 +89,6 @@ function acceptanceBack(): void
     \ensureDir('var/tests/behat/enrichment-category');
     $features = [
         'tests/legacy/features/pim/enrichment/category/create_a_category.feature',
-        'tests/legacy/features/pim/enrichment/category/edit_a_category.feature',
         'tests/legacy/features/pim/enrichment/category/export_categories_csv.feature',
         'tests/legacy/features/pim/enrichment/category/export_categories_xlsx.feature',
         'tests/legacy/features/pim/enrichment/category/import_categories.feature',

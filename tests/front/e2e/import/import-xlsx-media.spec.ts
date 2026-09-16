@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from '../fixtures/coverage-fixture';
 import {
   login,
   launchImportViaApi,
@@ -10,7 +10,8 @@ import {
 } from '../fixtures/pim';
 
 /**
- * Replaces Behat: import_products_with_media.feature:44,68
+ * Replaced Behat scenario (deleted in #421): tests/legacy/features/pim/enrichment/product/import/xlsx/import_products_with_media.feature:45
+ *   "Successfully upload and import an archive"
  *
  * The Behat scenario uploads a zip archive containing XLSX + media files.
  * Selenium W3C cannot interact with the hidden file input, so we use the
