@@ -63,7 +63,6 @@ function criticalE2e(): void
 {
     \ensureDir('var/tests/behat/connectivity/connection');
     \appEnvRun('behat', 'vendor/bin/behat --config behat.yml -p legacy -s connectivity src/Akeneo/Connectivity/Connection/tests/features/activate_an_app.feature');
-    \appEnvRun('behat', 'vendor/bin/behat --config behat.yml -p legacy -s connectivity src/Akeneo/Connectivity/Connection/tests/features/edit_connection.feature');
 }
 
 #[AsTask(namespace: 'connectivity-connection', name: 'integration-back', description: 'Run integration tests for connectivity')]

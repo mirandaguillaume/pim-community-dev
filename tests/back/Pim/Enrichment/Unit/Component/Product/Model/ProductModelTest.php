@@ -667,6 +667,60 @@ class ProductModelTest extends TestCase
             ];
         }
 
+    public function test_it_merges_its_own_categories_with_the_distinct_categories_of_its_parent(): void
+    {
+        $root = new ProductModel();
+        $root->setCode('model-nin');
+        $root->addCategory($this->categoryWithCode('tshirts'));
+
+        $this->sut->setCode('model-nin-black');
+        $this->sut->setParent($root);
+        $this->sut->addCategory($this->categoryWithCode('summer'));
+        $this->sut->addCategory($this->categoryWithCode('spring'));
+
+        $this->assertSame(['spring', 'summer', 'tshirts'], $this->sut->getCategoryCodes());
+        $this->assertCount(3, $this->sut->getCategories());
+        $this->assertSame(['spring', 'summer'], $this->codesOf($this->sut->getCategoriesForCurrentLevel()->toArray()));
+        $this->assertSame(['tshirts'], $root->getCategoryCodes());
+    }
+
+    public function test_it_does_not_add_a_category_its_parent_already_has(): void
+    {
+        $root = new ProductModel();
+        $root->setCode('model-nin');
+        $root->addCategory($this->categoryWithCode('tshirts'));
+        $this->sut->setCode('model-nin-black');
+        $this->sut->setParent($root);
+        $this->sut->cleanup();
+
+        $this->sut->addCategory($this->categoryWithCode('tshirts'));
+
+        $this->assertSame(['tshirts'], $this->sut->getCategoryCodes());
+        $this->assertCount(0, $this->sut->getCategoriesForCurrentLevel());
+        $this->assertFalse($this->sut->isDirty());
+    }
+
+    private function categoryWithCode(string $code): Category
+    {
+        $category = new Category();
+        $category->setCode($code);
+
+        return $category;
+    }
+
+    /**
+     * @param CategoryInterface[] $categories
+     *
+     * @return string[]
+     */
+    private function codesOf(array $categories): array
+    {
+        $codes = array_map(fn(CategoryInterface $category): string => $category->getCode(), $categories);
+        sort($codes);
+
+        return $codes;
+    }
+
     private function idMapping(): IdMapping
     {
             return IdMapping::createFromMapping([1 => 'entity_1', 2 => 'entity_2']);

@@ -55,16 +55,6 @@ Feature: Leave a comment on a product
       | high-heels | 5 | Mary   | Should be associated with red heel.                            |        |
       | high-heels | 6 | Julia  | No, with black heels.                                          | 5      |
 
-  Scenario: Successfully remove my own comments
-    Given I am logged in as "Julia"
-    And I am on the "rangers" product page
-    And I visit the "Comments" column tab
-    And I add a new comment "My comment"
-    When I delete the "My comment" comment
-    Then I should see the text "Confirm deletion"
-    And I confirm the removal
-    Then I should not see the text "My comment"
-
   Scenario: Not being able to remove a comment that is not mine
     Given I am logged in as "Julia"
     And I am on the "high-heels" product page

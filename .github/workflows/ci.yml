@@ -1333,9 +1333,9 @@ jobs:
           #
           # To RE-ENABLE once a future gate passes, restore:
           #   PHP_INI_SCAN_DIR: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && ':/srv/pim/docker/php-coverage.d' || '' }}
-          # An empty value is safe: the httpd service defaults it to ':' (scan the compiled-in
-          # conf.d). An EMPTY scan dir would disable all conf.d and 500 the app; the leading ':'
-          # means "each SAPI's own default, then this dir".
+          # An empty value is safe: docker-compose defaults it to ':/srv/pim/docker/php-conf-empty.d'
+          # (each SAPI's compiled-in conf.d once, plus an empty dir). An EMPTY scan dir would disable
+          # all conf.d and 500 the app, and a bare ':' would load every extension twice.
           # See docs/superpowers/specs/2026-07-29-behat-coverage-raw-collect-design.md
           PHP_INI_SCAN_DIR: ''
         run: |
