@@ -49,10 +49,17 @@ echo "Running $FILE_COUNT test files in a single PHPUnit invocation"
 # test green. Skip coverage loudly for such a configuration instead of reddening the nightly.
 COVERAGE_ARGS=()
 if [[ -n "$PHPUNIT_COVERAGE" ]]; then
+    # Mirror PHPUnit's own precedence (phpunit.xml wins over phpunit.xml.dist). Tested with
+    # explicit -f checks rather than `ls a b`: that exits non-zero as soon as one operand is
+    # missing, which under `set -eo pipefail` aborts the whole run with exit 2.
     if [[ -f "$CONFIG_DIRECTORY" ]]; then
         CONFIG_FILE="$CONFIG_DIRECTORY"
+    elif [[ -f "$CONFIG_DIRECTORY/phpunit.xml" ]]; then
+        CONFIG_FILE="$CONFIG_DIRECTORY/phpunit.xml"
+    elif [[ -f "$CONFIG_DIRECTORY/phpunit.xml.dist" ]]; then
+        CONFIG_FILE="$CONFIG_DIRECTORY/phpunit.xml.dist"
     else
-        CONFIG_FILE=$(ls "$CONFIG_DIRECTORY"/phpunit.xml "$CONFIG_DIRECTORY"/phpunit.xml.dist 2>/dev/null | head -1)
+        CONFIG_FILE=""
     fi
 
     if [[ -n "$CONFIG_FILE" ]] && grep -q "<source" "$CONFIG_FILE"; then
