@@ -358,6 +358,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 25
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - name: Restore DB seed from cache
@@ -414,6 +416,8 @@ jobs:
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 25
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - name: Restore icecat DB seed from cache
@@ -473,6 +477,8 @@ jobs:
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       # Evaluated ONCE, here, and reused by both the restore and the save below.
@@ -619,6 +625,8 @@ jobs:
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 10
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -693,6 +701,8 @@ jobs:
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 10
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -766,6 +776,8 @@ jobs:
       matrix:
         shard: [1, 2]
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -837,6 +849,8 @@ jobs:
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 10
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -883,6 +897,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -931,6 +947,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -961,6 +979,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -987,6 +1007,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 10
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -1059,6 +1081,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -1089,6 +1113,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -1130,6 +1156,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 30
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -1168,6 +1196,8 @@ jobs:
       matrix:
         shard: [1, 2, 3, 4, 5, 6]
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -1275,6 +1305,8 @@ jobs:
       matrix:
         shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -1700,6 +1732,8 @@ jobs:
       matrix:
         shard: [1, 2, 3, 4]
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -2146,6 +2180,8 @@ jobs:
     if: always() && github.ref == 'refs/heads/master'
     timeout-minutes: 5
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
         with:
           sparse-checkout: .github/scripts
@@ -2189,6 +2225,8 @@ jobs:
     timeout-minutes: 15
     continue-on-error: true
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -2227,6 +2265,8 @@ jobs:
     container:
       image: semgrep/semgrep
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - name: Run Semgrep (PHP security rules)
@@ -2300,6 +2340,8 @@ jobs:
     timeout-minutes: 10
     continue-on-error: true
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -2352,6 +2394,8 @@ jobs:
       shards: ${{ steps.compute.outputs.shards }}
       skip: ${{ steps.compute.outputs.skip }}
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -2432,6 +2476,8 @@ jobs:
       matrix:
         shard: ${{ fromJson(needs.mutation-setup.outputs.shards) }}
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -2522,6 +2568,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -2567,6 +2615,8 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-pim-job
@@ -2600,6 +2650,8 @@ jobs:
       !startsWith(github.head_ref, 'upgrade/')
     timeout-minutes: 60
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
