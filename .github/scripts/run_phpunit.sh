@@ -73,14 +73,14 @@ if [[ ${#COVERAGE_ARGS[@]} -gt 0 ]]; then
     # Load Xdebug in coverage mode (the image ships XDEBUG_MODE=off as an env var, which
     # overrides -d xdebug.mode, so set it via -e) and emit a per-shard clover for Codecov.
     # The per-PR path below stays coverage-free so PR CI is not slowed by Xdebug.
-    APP_ENV=test docker-compose run -T -e XDEBUG_MODE=coverage php \
+    APP_ENV=test docker-compose run --rm -T -e XDEBUG_MODE=coverage php \
       php -d zend_extension=xdebug ./vendor/bin/phpunit \
       -c "$CONFIG_DIRECTORY" \
       --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
       "${COVERAGE_ARGS[@]}" \
       $TEST_FILES
 else
-    APP_ENV=test docker-compose run -T php ./vendor/bin/phpunit \
+    APP_ENV=test docker-compose run --rm -T php ./vendor/bin/phpunit \
       -c "$CONFIG_DIRECTORY" \
       --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
       $TEST_FILES
