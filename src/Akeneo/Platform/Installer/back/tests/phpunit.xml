@@ -20,6 +20,18 @@
         <server name="FLAG_RESET_PIM_ENABLED" value="1" force="true" />
     </php>
 
+    <!--
+        Code-coverage source scope (PHPUnit 10) — same rationale as the root phpunit.xml.dist:
+        without it the nightly coverage run exits 1 on a "No filter is configured" warning.
+        Note that failOnWarning="false" above does not cover this case; the relevant toggle is
+        failOnPhpunitWarning, which defaults to true.
+    -->
+    <source>
+        <include>
+            <directory>../src</directory>
+        </include>
+    </source>
+
     <testsuites>
         <testsuite name="Installer_Integration_Test">
             <directory>Integration</directory>

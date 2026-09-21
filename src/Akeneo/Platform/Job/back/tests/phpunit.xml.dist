@@ -18,6 +18,22 @@
         <server name="KERNEL_CLASS" value="Kernel" force="true" />
     </php>
 
+    <!--
+        Code-coverage source scope (PHPUnit 10). Without a source element PHPUnit raises the
+        test runner warning "No filter is configured, code coverage will not be processed".
+        failOnPhpunitWarning defaults to true, so the nightly coverage run (see ci.yml) exits 1
+        even when every test passes. Scoped to this bounded context's production tree; the
+        tests themselves live under tests/ and are therefore already out of the denominator.
+    -->
+    <source>
+        <include>
+            <directory>../Application</directory>
+            <directory>../Domain</directory>
+            <directory>../Infrastructure</directory>
+            <directory>../ServiceApi</directory>
+        </include>
+    </source>
+
     <testsuites>
         <testsuite name="Job_Integration_Test">
             <directory>Integration</directory>
