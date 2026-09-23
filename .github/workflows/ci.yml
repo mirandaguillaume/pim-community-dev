@@ -89,6 +89,14 @@ jobs:
   detect-changes:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     timeout-minutes: 5
+    # On schedule/workflow_dispatch the answer is always "run everything" (see the `force` step
+    # below), so this job computes a constant — and yet a flaky checkout here used to skip all 22
+    # path-gated jobs and blank the whole nightly (runs 34680926408 and 34746251612 died in
+    # actions/checkout with "Missing file at path: .../_runner_file_commands/save_state_*").
+    # Failing soft on those two events lets `needs` resolve; every gated job below carries the same
+    # event test, so none of them depends on this job's outputs on a nightly. PR and push runs keep
+    # failing hard: there a wrong or missing filter must be loud, never a silent skip.
+    continue-on-error: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
     outputs:
       # On schedule/workflow_dispatch there is no PR diff — paths-filter outputs false for
       # everything, so all path-gated jobs would be skipped and the nightly runs to blank.
@@ -355,7 +363,7 @@ jobs:
   infra-db-seed:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, image, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 25
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -413,7 +421,7 @@ jobs:
   infra-db-seed-playwright:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, image, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 25
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -474,7 +482,7 @@ jobs:
   build-front:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 20
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -622,7 +630,7 @@ jobs:
   lint-front:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 10
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -698,7 +706,7 @@ jobs:
   test-front-packages:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 10
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -769,7 +777,7 @@ jobs:
   test-front-unit:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -846,7 +854,7 @@ jobs:
   test-front-connectivity:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 10
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -894,7 +902,7 @@ jobs:
   lint-back:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 20
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -944,7 +952,7 @@ jobs:
   lint-deprecations:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 15
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -976,7 +984,7 @@ jobs:
   lint-and-security:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 15
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -1004,7 +1012,7 @@ jobs:
   test-phpunit-unit:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 10
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -1078,7 +1086,7 @@ jobs:
   test-acceptance:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 15
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -1110,7 +1118,7 @@ jobs:
   quality-deptrac:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, image, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 15
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -1153,7 +1161,7 @@ jobs:
   infra-data-migrations:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 30
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -1739,7 +1747,8 @@ jobs:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, build-front, detect-changes, infra-db-seed-playwright]
     if: >-
-      (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true') &&
+      (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' ||
+       github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') &&
       needs.prepare.result == 'success' &&
       needs.build-front.result == 'success' &&
       needs.infra-db-seed-playwright.result == 'success'
@@ -2238,7 +2247,7 @@ jobs:
   quality-rector:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 15
     continue-on-error: true
     steps:
@@ -2276,7 +2285,7 @@ jobs:
   quality-sast:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 15
     continue-on-error: true
     container:
@@ -2353,7 +2362,7 @@ jobs:
   quality-metrics:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 10
     continue-on-error: true
     steps:
@@ -2405,7 +2414,7 @@ jobs:
   mutation-setup:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 5
     outputs:
       shards: ${{ steps.compute.outputs.shards }}
@@ -2582,7 +2591,7 @@ jobs:
   infra-schema-validate:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 20
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -2629,7 +2638,7 @@ jobs:
   infra-job-declaration:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 15
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
@@ -2663,7 +2672,8 @@ jobs:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: |
-      (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true') &&
+      (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' ||
+       github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') &&
       !startsWith(github.head_ref, 'upgrade/')
     timeout-minutes: 60
     steps:
@@ -2812,13 +2822,21 @@ jobs:
           echo "  mutation-testing-front: ${{ needs.mutation-testing-front.result }}"
 
           # Each job must be either 'success' or 'skipped' (path-filtered).
-          # 'image' and 'prepare' are never path-filtered so must always succeed.
+          # 'image', 'prepare' and 'detect-changes' are never path-filtered so must always succeed.
           # When a dependency fails, downstream jobs get 'skipped' status —
           # without checking dependencies explicitly, the gate would pass
           # even though nothing actually ran.
+          #
+          # detect-changes was missing from this list, and on its own that was a false green: if it
+          # failed while prepare survived, all 22 path-gated jobs were skipped, every entry below read
+          # 'skipped', and the gate reported success on a run that executed nothing. It only ever
+          # surfaced because prepare happened to die with it (runs 34680926408, 34746251612).
+          # On schedule/workflow_dispatch the job fails soft, so its result is 'success' there and the
+          # nightly no longer hinges on it; on PR and push a failure is now caught here.
           results=(
             "${{ needs.image.result }}"
             "${{ needs.prepare.result }}"
+            "${{ needs.detect-changes.result }}"
             "${{ needs.build-front.result }}"
             "${{ needs.lint-front.result }}"
             "${{ needs.test-front-packages.result }}"
