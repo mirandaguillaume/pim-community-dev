@@ -1288,7 +1288,12 @@ jobs:
         continue-on-error: true
         with:
           name: PHPUnit Results (Shard ${{ matrix.shard }})
-          path: var/tests/phpunit/**/*.xml
+          # phpunit_*.xml, not *.xml: the nightly coverage run also drops
+          # coverage-shard-N.xml (clover) in this directory, and feeding a clover
+          # file to a java-junit reporter logs "Cannot read properties of undefined
+          # (reading '$')" against every nightly. Every junit log written under
+          # var/tests/phpunit is named phpunit_*.xml.
+          path: var/tests/phpunit/**/phpunit_*.xml
           reporter: java-junit
           fail-on-error: false
 

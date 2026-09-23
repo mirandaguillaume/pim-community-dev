@@ -47,10 +47,20 @@ if [[ -n "$PHPUNIT_COVERAGE" ]]; then
     # XDEBUG_MODE=off as an env var, which overrides -d xdebug.mode, so set it via -e)
     # and emit a per-shard clover for Codecov. Only when PHPUNIT_COVERAGE is set — the
     # per-PR path below stays coverage-free so PR CI is not slowed by Xdebug.
+    #
+    # --coverage-filter is not redundant with the root phpunit.xml.dist <source> block:
+    # five of the eight configs this script is invoked with (the bounded-context ones,
+    # e.g. src/Akeneo/Platform/Job/back/tests) declare no <source> at all. Asking those
+    # for coverage makes PHPUnit emit "No filter is configured, code coverage will not
+    # be processed", and a test runner warning exits 1 even when every test passed —
+    # which is how the nightly went red for a week while PR CI stayed green.
+    # Merger.php ADDS this directory to the XML's own <source> directories rather than
+    # replacing them, so the three configs that do declare one are unaffected.
     APP_ENV=test docker-compose run -T -e XDEBUG_MODE=coverage php \
       php -d zend_extension=xdebug ./vendor/bin/phpunit \
       -c "$CONFIG_DIRECTORY" \
       --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
+      --coverage-filter src \
       --coverage-clover "var/tests/phpunit/coverage-shard-${PHPUNIT_SHARD:-0}.xml" \
       $TEST_FILES
 else
