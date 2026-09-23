@@ -1245,12 +1245,27 @@ jobs:
           # nightly; Codecov merges the 6 shards (flag backend-integration) into the total.
           PHPUNIT_COVERAGE: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && '1' || '' }}
 
-      - name: Upload integration coverage to Codecov (nightly)
+      # run_phpunit.sh now writes one clover per testsuite, because castor test:pim-integration-back
+      # calls it five times per shard and a single filename meant only the last survived. Build the
+      # comma-separated list here: codecov-action passes `files` straight through, it does not glob.
+      - name: List the integration clovers (nightly)
+        id: clovers
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          FILES=$(ls -1 var/tests/phpunit/coverage-shard-${{ matrix.shard }}_*.xml 2>/dev/null | paste -sd, -)
+          if [[ -z "$FILES" ]]; then
+            echo "::warning::no clover produced for shard ${{ matrix.shard }}"
+          fi
+          echo "files=${FILES}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload integration coverage to Codecov (nightly)
+        if: >-
+          (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') &&
+          steps.clovers.outputs.files != ''
         uses: codecov/codecov-action@v4
         continue-on-error: true
         with:
-          files: var/tests/phpunit/coverage-shard-${{ matrix.shard }}.xml
+          files: ${{ steps.clovers.outputs.files }}
           flags: backend-integration
           fail_ci_if_error: false
         env:

@@ -15,6 +15,20 @@ CONFIG_DIRECTORY=$1
 FIND_PHPUNIT_SCRIPT=$2
 TEST_SUITES=$3
 
+# castor test:pim-integration-back calls this script FIVE times per shard (connectivity,
+# communication_channel, job, installer, then PIM_Integration_Test). Every artifact path below
+# therefore has to carry the testsuite, or each call silently truncates the previous one's files
+# and only the last survives. Measured on nightly 35842782180 before this change:
+#   - coverage: src/Akeneo/Platform/Job/back reported 76 files listed, 0 executed, tests all green;
+#   - junit: shard 5's log held 140 test files and not one of them from Job;
+#   - timings: collect-timings.sh reads those junit logs, so four suites were sharded on the
+#     default estimate instead of measured durations.
+# Job is the worst hit because it is the only context the root suite does not also pick up: the
+# root selects by suffix (<directory suffix="Integration.php">src</directory>) and Job's tests are
+# named *Test.php, selected by directory in its own config.
+SUITE_SLUG=$(echo "$TEST_SUITES" | tr -c '[:alnum:]_-' '_' | sed 's/_*$//')
+ARTIFACT_SUFFIX="${PHPUNIT_SHARD:-0}_${SUITE_SLUG}"
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Get all test files for this testsuite
@@ -63,7 +77,7 @@ if [[ -n "$PHPUNIT_COVERAGE" ]]; then
     fi
 
     if [[ -n "$CONFIG_FILE" ]] && grep -q "<source" "$CONFIG_FILE"; then
-        COVERAGE_ARGS=(--coverage-clover "var/tests/phpunit/coverage-shard-${PHPUNIT_SHARD:-0}.xml")
+        COVERAGE_ARGS=(--coverage-clover "var/tests/phpunit/coverage-shard-${ARTIFACT_SUFFIX}.xml")
     else
         echo "::warning::${CONFIG_FILE:-$CONFIG_DIRECTORY} declares no <source> scope; skipping coverage for $TEST_SUITES"
     fi
@@ -76,12 +90,12 @@ if [[ ${#COVERAGE_ARGS[@]} -gt 0 ]]; then
     APP_ENV=test docker-compose run --rm -T -e XDEBUG_MODE=coverage php \
       php -d zend_extension=xdebug ./vendor/bin/phpunit \
       -c "$CONFIG_DIRECTORY" \
-      --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
+      --log-junit "var/tests/phpunit/phpunit_shard_${ARTIFACT_SUFFIX}.xml" \
       "${COVERAGE_ARGS[@]}" \
       $TEST_FILES
 else
     APP_ENV=test docker-compose run --rm -T php ./vendor/bin/phpunit \
       -c "$CONFIG_DIRECTORY" \
-      --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
+      --log-junit "var/tests/phpunit/phpunit_shard_${ARTIFACT_SUFFIX}.xml" \
       $TEST_FILES
 fi
