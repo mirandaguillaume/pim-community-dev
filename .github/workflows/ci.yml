@@ -1288,7 +1288,9 @@ jobs:
         continue-on-error: true
         with:
           name: PHPUnit Results (Shard ${{ matrix.shard }})
-          path: var/tests/phpunit/**/*.xml
+          # JUnit logs only. The nightly coverage run also drops coverage-shard-*.xml here,
+          # which the java-junit parser chokes on ("Cannot read properties of undefined").
+          path: var/tests/phpunit/phpunit_*.xml
           reporter: java-junit
           fail-on-error: false
 

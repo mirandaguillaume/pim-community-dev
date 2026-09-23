@@ -42,19 +42,45 @@ fi
 
 # Run all test files in a single PHPUnit process (one container, one bootstrap).
 echo "Running $FILE_COUNT test files in a single PHPUnit invocation"
+# Coverage is only ever requested nightly / on demand (PHPUNIT_COVERAGE). PHPUnit 10 raises
+# the test runner warning "No filter is configured, code coverage will not be processed" when
+# --coverage-clover is asked of a configuration that declares no <source> scope, and
+# failOnPhpunitWarning defaults to true — so a single unscoped configuration exits 1 with every
+# test green. Skip coverage loudly for such a configuration instead of reddening the nightly.
+COVERAGE_ARGS=()
 if [[ -n "$PHPUNIT_COVERAGE" ]]; then
-    # Nightly/on-demand coverage: load Xdebug in coverage mode (the image ships
-    # XDEBUG_MODE=off as an env var, which overrides -d xdebug.mode, so set it via -e)
-    # and emit a per-shard clover for Codecov. Only when PHPUNIT_COVERAGE is set — the
-    # per-PR path below stays coverage-free so PR CI is not slowed by Xdebug.
-    APP_ENV=test docker-compose run -T -e XDEBUG_MODE=coverage php \
+    # Mirror PHPUnit's own precedence (phpunit.xml wins over phpunit.xml.dist). Tested with
+    # explicit -f checks rather than `ls a b`: that exits non-zero as soon as one operand is
+    # missing, which under `set -eo pipefail` aborts the whole run with exit 2.
+    if [[ -f "$CONFIG_DIRECTORY" ]]; then
+        CONFIG_FILE="$CONFIG_DIRECTORY"
+    elif [[ -f "$CONFIG_DIRECTORY/phpunit.xml" ]]; then
+        CONFIG_FILE="$CONFIG_DIRECTORY/phpunit.xml"
+    elif [[ -f "$CONFIG_DIRECTORY/phpunit.xml.dist" ]]; then
+        CONFIG_FILE="$CONFIG_DIRECTORY/phpunit.xml.dist"
+    else
+        CONFIG_FILE=""
+    fi
+
+    if [[ -n "$CONFIG_FILE" ]] && grep -q "<source" "$CONFIG_FILE"; then
+        COVERAGE_ARGS=(--coverage-clover "var/tests/phpunit/coverage-shard-${PHPUNIT_SHARD:-0}.xml")
+    else
+        echo "::warning::${CONFIG_FILE:-$CONFIG_DIRECTORY} declares no <source> scope; skipping coverage for $TEST_SUITES"
+    fi
+fi
+
+if [[ ${#COVERAGE_ARGS[@]} -gt 0 ]]; then
+    # Load Xdebug in coverage mode (the image ships XDEBUG_MODE=off as an env var, which
+    # overrides -d xdebug.mode, so set it via -e) and emit a per-shard clover for Codecov.
+    # The per-PR path below stays coverage-free so PR CI is not slowed by Xdebug.
+    APP_ENV=test docker-compose run --rm -T -e XDEBUG_MODE=coverage php \
       php -d zend_extension=xdebug ./vendor/bin/phpunit \
       -c "$CONFIG_DIRECTORY" \
       --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
-      --coverage-clover "var/tests/phpunit/coverage-shard-${PHPUNIT_SHARD:-0}.xml" \
+      "${COVERAGE_ARGS[@]}" \
       $TEST_FILES
 else
-    APP_ENV=test docker-compose run -T php ./vendor/bin/phpunit \
+    APP_ENV=test docker-compose run --rm -T php ./vendor/bin/phpunit \
       -c "$CONFIG_DIRECTORY" \
       --log-junit "var/tests/phpunit/phpunit_shard_${PHPUNIT_SHARD:-0}.xml" \
       $TEST_FILES
