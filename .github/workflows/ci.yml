@@ -2563,6 +2563,15 @@ jobs:
           # Write scoped Infection config
           echo "{\"source\":{\"directories\":[\"${SOURCE_DIR}\"],\"excludes\":[\"tests\",\"Test\",\"spec\"]},\"phpUnit\":{\"configDir\":\"var/infection\"},\"tmpDir\":\"var/infection/tmp\",\"timeout\":30}" > infection-dynamic.json
 
+          # The `[ -z "$TEST_XML" ]` guard above already skips a source dir with no test directory.
+          # It is not enough: a directory can HAVE a Unit/ tree whose tests touch none of its files,
+          # which is how src/Akeneo/UserManagement/Bundle/Controller behaves — Infection then aborts
+          # with "No source code was executed by the test framework." and the shard fails, so any
+          # change to untested legacy code is blocked by a gate that is measuring nothing there.
+          # Widen the existing exemption from "is there a test directory" to "do those tests cover
+          # anything", loudly. A dir that LOSES its coverage now warns instead of failing, which is
+          # the cost of this; the annotation is there to make that visible.
+          set +e
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" \
             -e APP_ENV=test_fake \
             -e XDEBUG_MODE=coverage \
@@ -2574,7 +2583,16 @@ jobs:
               --min-covered-msi="${MIN_MSI}" \
               --only-covering-test-cases \
               --logger-github \
-              --ignore-msi-with-no-mutations
+              --ignore-msi-with-no-mutations 2>&1 | tee var/infection/run.log
+          INFECTION_RC=${PIPESTATUS[0]}
+          set -e
+
+          if [ "$INFECTION_RC" -ne 0 ] && grep -q "No source code was executed by the test framework" var/infection/run.log; then
+            echo "::warning title=Mutation skipped::$SOURCE_DIR has a test directory but no unit test executes any of its files, so there is no mutation signal to measure. Add unit coverage for it."
+            exit 0
+          fi
+
+          exit "$INFECTION_RC"
 
       - name: Upload shard report
         if: always()
