@@ -28,14 +28,10 @@ function specFiles(dir) {
 }
 
 /**
- * The two import specs still carry 15 of these. They are the hard case: their skips guard on a
- * messenger consumer being alive, so converting them needs a bounded readiness probe rather than a
- * one-line assertion, and getting it wrong trades a green skip for an opaque 60-minute job timeout.
- * They are listed here so the guard can lock in the rest TODAY instead of waiting.
- *
- * This list may only ever SHRINK. Adding a file to it is not an acceptable way to pass the check.
+ * Empty, and it must stay that way. It briefly held the two import specs while their consumer
+ * probes were converted; adding a file back is not an acceptable way to pass this check.
  */
-const NOT_YET_CONVERTED = ['import/import-via-api.spec.ts', 'import/import-xlsx-media.spec.ts'];
+const NOT_YET_CONVERTED = [];
 
 const offenders = [];
 for (const file of specFiles(E2E_ROOT)) {
