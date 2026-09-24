@@ -40,7 +40,7 @@ class ContentSecurityHeadersEndToEnd extends WebTestCase
             "/script-src 'self' 'unsafe-eval' 'nonce-[a-z0-9]+';/",
             $cspHeaders
         );
-        Assert::assertStringContainsString("frame-src *;", $cspHeaders);
+        Assert::assertStringContainsString("frame-src 'self';", $cspHeaders);
         Assert::assertStringContainsString("font-src 'self' data:;", $cspHeaders);
         Assert::assertStringContainsString("connect-src 'self'", $cspHeaders);
     }
