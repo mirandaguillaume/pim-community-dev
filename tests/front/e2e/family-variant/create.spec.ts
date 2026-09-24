@@ -146,7 +146,10 @@ test.describe('Family variant creation', () => {
 
     // Select the first available axis for level 1
     const axis1 = await selectFirstAvailableAxis(page, 1);
-    test.skip(!axis1, 'No axes available for this family — cannot create variant');
+    expect(
+      axis1,
+      'The level-1 axis Select2 returned a result with an empty label — the family variant axis list is broken'
+    ).toBeTruthy();
 
     // Click Create and wait for the modal to close (variant created)
     await page.locator(`${MODAL} .ok`).first().click();

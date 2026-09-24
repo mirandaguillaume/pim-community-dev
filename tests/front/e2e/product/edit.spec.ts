@@ -11,13 +11,12 @@ import {
 
 test('User can enrich the first product of the products grid', async ({page}) => {
   await login(page, 'admin', 'admin');
-  await ensureProductExists(page);
-  try {
-    await goToProductsGrid(page);
-  } catch {
-    test.skip(true, 'Product grid is empty — no products available');
-    return;
-  }
+  const sku = await ensureProductExists(page);
+  expect(
+    sku,
+    'ensureProductExists returned null: no family to attach a product to, or POST /enrich/product/rest refused it'
+  ).toBeTruthy();
+  await goToProductsGrid(page);
   await selectFirstProduct(page);
 
   const field = firstTextField(page);

@@ -12,16 +12,15 @@ import {login, goToProductsGrid, selectFirstProduct, waitForLoadingMasks, ensure
 test.describe('Product edit - attribute group visibility', () => {
   test.beforeEach(async ({page}) => {
     await login(page, 'admin', 'admin');
-    await ensureProductExists(page);
+    const sku = await ensureProductExists(page);
+    expect(
+      sku,
+      'ensureProductExists returned null: no family to attach a product to, or POST /enrich/product/rest refused it'
+    ).toBeTruthy();
   });
 
   test('All attribute groups visible when viewing product', async ({page}) => {
-    try {
-      await goToProductsGrid(page);
-    } catch {
-      test.skip(true, 'Product grid is empty — no products available');
-      return;
-    }
+    await goToProductsGrid(page);
     await selectFirstProduct(page);
 
     // Wait for the PEF to fully load — the attribute group selector should show "All" by default
