@@ -20,16 +20,15 @@ class PathGeneratorTest extends TestCase
 
     public function test_it_generates_the_path_info_of_a_file(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/../../../../../../../tests/legacy/features/Context/fixtures/akeneo.jpg');
-        if (!$file->isFile()) {
-            $this->markTestSkipped('Test fixture file not available');
-        }
+        $file = new \SplFileInfo(__DIR__ . '/../../../../../../tests/legacy/features/Context/fixtures/akeneo.jpg');
         $pathInfo = $this->sut->generate($file);
-        $this->assertIsArray($pathInfo);
-        $this->assertArrayHasKey('uuid', $pathInfo);
-        $this->assertArrayHasKey('file_name', $pathInfo);
-        $this->assertArrayHasKey('path', $pathInfo);
-        $this->assertArrayHasKey('path_name', $pathInfo);
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{40}$/', $pathInfo['uuid']);
+        $this->assertSame($pathInfo['uuid'] . '_akeneo.jpg', $pathInfo['file_name']);
+        $this->assertSame(
+            sprintf('%s/%s/%s/%s/', $pathInfo['uuid'][0], $pathInfo['uuid'][1], $pathInfo['uuid'][2], $pathInfo['uuid'][3]),
+            $pathInfo['path']
+        );
+        $this->assertSame($pathInfo['path'] . $pathInfo['file_name'], $pathInfo['path_name']);
     }
 
     public function test_it_cuts_the_filename_if_it_is_too_long(): void
