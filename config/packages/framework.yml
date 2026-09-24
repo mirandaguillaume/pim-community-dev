@@ -25,3 +25,12 @@ framework:
         pools:
             name:
                 adapter: cache.adapter.apcu
+    rate_limiter:
+        # Unauthenticated endpoint, so the key is the client IP and EVERY request counts.
+        # Deliberately not the login lock's numbers: that one is per-account and counts only
+        # failed attempts, so 5 per 5 minutes is generous there and punitive here — a whole
+        # office behind one NAT address shares this bucket.
+        reset_password:
+            policy: 'sliding_window'
+            limit: 20
+            interval: '15 minutes'

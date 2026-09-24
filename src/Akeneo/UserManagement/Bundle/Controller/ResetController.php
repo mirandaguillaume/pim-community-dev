@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ResetController extends AbstractController
@@ -21,6 +22,7 @@ class ResetController extends AbstractController
         private readonly TokenStorageInterface $tokenStorage,
         private readonly FormInterface $form,
         private readonly MailResetNotifier $mailer,
+        private readonly RateLimiterFactory $resetPasswordLimiter,
     ) {
     }
 
@@ -34,6 +36,19 @@ class ResetController extends AbstractController
      */
     public function sendEmail(Request $request): Response
     {
+        // Throttle before the lookup, so a rejected request costs no database work and reveals
+        // nothing about the submitted address.
+        $limiter = $this->resetPasswordLimiter->create($request->getClientIp() ?? 'unknown');
+        if (false === $limiter->consume()->isAccepted()) {
+            // Same body as every other outcome of this endpoint: only the status differs, so a
+            // throttled response still cannot tell an existing account from an unknown one.
+            return $this->render(
+                '@PimUser/Reset/sendEmail.html.twig',
+                [],
+                new Response('', Response::HTTP_TOO_MANY_REQUESTS)
+            );
+        }
+
         $username = $request->request->get('username');
         $user = $this->userManager->findUserByUsernameOrEmail($username);
 
@@ -42,12 +57,10 @@ class ResetController extends AbstractController
         }
 
         if ($user->isPasswordRequestNonExpired($this->getParameter('pim_user.reset.ttl'))) {
-            $this->addFlash(
-                'warn',
-                'The password for this user has already been requested within the last 24 hours.'
-            );
-
-            return $this->redirectToRoute('pim_user_reset_request');
+            // Do not send a second mail, and do not say so. The previous 302-with-a-warning
+            // differed from the 200 an unknown address gets, which made this endpoint an
+            // account-existence oracle for anyone willing to submit one address at a time.
+            return $this->render('@PimUser/Reset/sendEmail.html.twig');
         }
 
         if (null === $user->getConfirmationToken()) {

@@ -28,6 +28,13 @@ services:
     _defaults:
         public: true
 
+    # _defaults does not apply to aliases, so public: true is repeated here. The bucket is a
+    # filesystem cache pool shared by every WebTestCase request (all from 127.0.0.1) and it
+    # survives between test classes in a shard, so a test has to be able to reset it.
+    test.limiter.reset_password:
+        alias: 'limiter.reset_password'
+        public: true
+
     akeneo_integration_tests.migration_command_launcher:
         class: 'Akeneo\Tool\Component\Console\CommandLauncher'
         arguments:
