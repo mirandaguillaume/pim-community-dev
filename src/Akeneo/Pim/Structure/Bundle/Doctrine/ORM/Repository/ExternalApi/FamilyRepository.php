@@ -61,7 +61,7 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
         if (null !== $offset) {
             $qb->setFirstResult($offset);
         }
-        $qb->setMaxResults($limit);
+        $qb->setMaxResults(null === $limit ? null : (int) $limit);
 
         return $qb->getQuery()->getResult();
     }
