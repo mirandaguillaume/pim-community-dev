@@ -27,6 +27,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SuccessListProductsWithUuidEndToEnd extends AbstractProductTestCase
 {
+    /**
+     * Several tests below switch the default timezone to exercise date search across
+     * offsets. PHP's default timezone is process-wide, so it has to be put back or every
+     * later test in the same PHPUnit process formats its dates in the leftover zone.
+     */
+    private string $timezoneBeforeTest;
+
     /** @var ProductInterface[] $products */
     private array $products = [];
 
@@ -36,6 +43,8 @@ class SuccessListProductsWithUuidEndToEnd extends AbstractProductTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->timezoneBeforeTest = date_default_timezone_get();
 
         // no locale, no scope, 1 category
         $this->products['simple'] = $this->createProduct('simple', [
@@ -1046,6 +1055,13 @@ JSON;
         }
 
         return $standardizedProducts;
+    }
+
+    protected function tearDown(): void
+    {
+        date_default_timezone_set($this->timezoneBeforeTest);
+
+        parent::tearDown();
     }
 
     protected function getConfiguration(): Configuration
