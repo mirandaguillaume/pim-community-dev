@@ -131,9 +131,16 @@ class CollectDomainErrorFromProductEndpointEndToEnd extends ApiTestCase
     /**
      * Partial update list of one product with an unknown attribute code.
      *
-     * Excluded from the End_to_End suite CI gate (#459). Red in CI, not a production defect:
-     * Collects nothing in CI: the API error is indexed in Elasticsearch asynchronously and the
-     * assertion reads the index before it is visible. Needs a refresh or a wait, not a code fix.
+     * Excluded from the End_to_End suite CI gate (#459). Diagnosed, and NOT a product defect:
+     * the test harness orders things the opposite way from production for a streamed response.
+     * ApiErrorEventSubscriber collects on domain events and flushes on kernel.terminate. In
+     * production index.php runs handle(), then send() -- which generates the stream and its
+     * per-line sub-requests -- then terminate(), so the flush sees the errors. HttpKernelBrowser
+     * runs handle() then terminate() and only materialises the body afterwards, in
+     * filterResponse(), so the flush happens before a single error exists. Hence 0 where 1 is
+     * expected, on this endpoint only: its two siblings return non-streamed responses and pass.
+     * Fixing it means flushing explicitly from the test, which no longer exercises the terminate
+     * wiring -- and that wiring is what the two passing siblings already cover.
      *
      * @group e2e_known_failure
      */

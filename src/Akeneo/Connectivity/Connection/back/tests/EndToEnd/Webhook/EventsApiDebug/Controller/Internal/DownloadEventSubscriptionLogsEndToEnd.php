@@ -27,13 +27,6 @@ class DownloadEventSubscriptionLogsEndToEnd extends WebTestCase
     private Client $elasticsearchClient;
     private FakeClock $clock;
 
-    /**
-     * Excluded from the End_to_End suite CI gate (#459). Red in CI, not a production defect:
-     * Expects log lines that the Elasticsearch-backed log store has not made visible yet when the
-     * download is requested.
-     *
-     * @group e2e_known_failure
-     */
     public function test_it_gets_file_of_event_subscription_logs(): void
     {
         $now = $this->clock->now()->getTimestamp();
@@ -63,8 +56,6 @@ class DownloadEventSubscriptionLogsEndToEnd extends WebTestCase
 
         $this->authenticateAsAdmin();
 
-        \ob_start();
-
         $this->client->request(
             'GET',
             '/rest/events-api-debug/download-event-subscription-logs',
@@ -72,9 +63,10 @@ class DownloadEventSubscriptionLogsEndToEnd extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $content = \ob_get_contents();
-
-        \ob_end_clean();
+        // HttpKernelBrowser::filterResponse() already buffers a StreamedResponse and puts the
+        // bytes in the BrowserKit response, so the body has to be read from there rather than
+        // from an output buffer of our own, which never sees them.
+        $content = $this->client->getInternalResponse()->getContent();
 
         $expectedContent = <<<EOF
             2021/03/02 03:30:09 WARNING Foo bar {"foo":"bar"}

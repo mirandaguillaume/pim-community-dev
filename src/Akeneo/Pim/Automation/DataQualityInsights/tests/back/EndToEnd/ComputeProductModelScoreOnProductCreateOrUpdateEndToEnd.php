@@ -40,8 +40,9 @@ final class ComputeProductModelScoreOnProductCreateOrUpdateEndToEnd extends Mess
     }
 
     /**
-     * Excluded from the End_to_End suite CI gate (#459). Red in CI, not a production defect:
-     * Same PubSub timing as ComputeProductScoreOnProductCreateOrUpdateEndToEnd.
+     * Excluded from the End_to_End suite CI gate (#459). NOT DIAGNOSED.
+     * Same shape as ComputeProductScoreOnProductCreateOrUpdateEndToEnd, including the negative
+     * first assertion and the missing workaround its sibling carries. Both siblings pass.
      *
      * @group e2e_known_failure
      */
