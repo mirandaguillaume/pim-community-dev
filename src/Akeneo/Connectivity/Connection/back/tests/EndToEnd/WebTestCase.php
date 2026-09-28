@@ -119,6 +119,21 @@ abstract class WebTestCase extends TestCase
         }
     }
 
+    /**
+     * Read back the session the client sends with its requests, as storage holds it now.
+     * An endpoint writes into the session it loaded from the cookie and saves it there, so a
+     * test holding a Session object built before the request would not see those writes: the
+     * same id has to be loaded again.
+     */
+    protected function reloadAuthenticatedSession(): SessionInterface
+    {
+        $session = $this->getSession();
+        $session->setId($this->session?->getId() ?? '');
+        $session->start();
+
+        return $session;
+    }
+
     protected function addAclToRole(string $roleCode, string $acl): void
     {
         $this->changeAclInRole($roleCode, $acl, true);

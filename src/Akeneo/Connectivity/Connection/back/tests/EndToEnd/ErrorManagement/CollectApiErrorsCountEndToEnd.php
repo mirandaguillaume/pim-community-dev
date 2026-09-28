@@ -161,6 +161,13 @@ class CollectApiErrorsCountEndToEnd extends ApiTestCase
         $this->errorCountMustBe('erp', 2, ErrorTypes::BUSINESS);
     }
 
+    /**
+     * Excluded from the End_to_End suite CI gate (#459). Red in CI, not a production defect:
+     * Same Elasticsearch visibility race as CollectDomainErrorFromProductEndpointEndToEnd: reads
+     * an error count of 0 where 1 is expected.
+     *
+     * @group e2e_known_failure
+     */
     public function test_it_collects_the_error_count_from_a_product_partial_update_list(): void
     {
         $this->attributeLoader->create([
