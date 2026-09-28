@@ -17,12 +17,7 @@ class DownloadMediaFileEndToEnd extends AbstractMediaFileTestCase
     }
 
     /**
-     * Excluded from the End_to_End suite CI gate (#459). Red in CI, not a production defect:
-     * Compares the downloaded bytes against a file read straight from disk, which the object
-     * storage container does not serve identically in CI.
-     *
      * @group critical
-     * @group e2e_known_failure
      */
     public function testDownloadAMediaFile()
     {
@@ -30,21 +25,19 @@ class DownloadMediaFileEndToEnd extends AbstractMediaFileTestCase
 
         $media = $this->get('pim_api.repository.media_file')->findOneBy(['originalFilename' => 'akeneo.jpg']);
 
-        $contentFile = '';
-        ob_start(function ($streamedFile) use (&$contentFile) {
-            $contentFile .= $streamedFile;
-
-            return '';
-        });
-
         $client->request('GET', '/api/rest/v1/media-files/' . $media->getKey() . '/download');
-        ob_end_clean();
 
         $response = $client->getResponse();
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertSame('attachment; filename="akeneo.jpg"', $response->headers->get('content-disposition'));
         $this->assertSame('image/jpeg', $response->headers->get('content-type'));
-        $this->assertEquals($contentFile, file_get_contents($this->getFixturePath('akeneo.jpg')));
+        // HttpKernelBrowser::filterResponse() already buffers a StreamedResponse and puts the
+        // bytes in the BrowserKit response, so the body has to be read from there. The kernel
+        // response is the StreamedResponse itself, whose getContent() returns false.
+        $this->assertSame(
+            file_get_contents($this->getFixturePath('akeneo.jpg')),
+            $client->getInternalResponse()->getContent()
+        );
     }
 
     public function testMediaFileNotFound()

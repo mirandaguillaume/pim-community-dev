@@ -162,9 +162,10 @@ class CollectApiErrorsCountEndToEnd extends ApiTestCase
     }
 
     /**
-     * Excluded from the End_to_End suite CI gate (#459). Red in CI, not a production defect:
-     * Same Elasticsearch visibility race as CollectDomainErrorFromProductEndpointEndToEnd: reads
-     * an error count of 0 where 1 is expected.
+     * Excluded from the End_to_End suite CI gate (#459). NOT DIAGNOSED.
+     * Observed: an error count of 0 where 1 is expected, on the same bulk PATCH path as
+     * CollectDomainErrorFromProductEndpointEndToEnd, and with the same open question. Its three
+     * siblings, on delete, create and single partial-update, pass.
      *
      * @group e2e_known_failure
      */

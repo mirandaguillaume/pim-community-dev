@@ -131,9 +131,12 @@ class CollectDomainErrorFromProductEndpointEndToEnd extends ApiTestCase
     /**
      * Partial update list of one product with an unknown attribute code.
      *
-     * Excluded from the End_to_End suite CI gate (#459). Red in CI, not a production defect:
-     * Collects nothing in CI: the API error is indexed in Elasticsearch asynchronously and the
-     * assertion reads the index before it is visible. Needs a refresh or a wait, not a code fix.
+     * Excluded from the End_to_End suite CI gate (#459). NOT DIAGNOSED.
+     * Observed: 0 collected errors where 1 is expected. It is not a visibility delay -- the test
+     * calls refreshIndex() before asserting. The open question is whether a domain error raised
+     * inside the sub-requests a bulk PATCH forwards is collected at all, which would be a blind
+     * spot in the feature rather than a defect in the test. Its two siblings, on the create and
+     * single partial-update endpoints, pass.
      *
      * @group e2e_known_failure
      */
