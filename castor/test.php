@@ -46,6 +46,7 @@ function staticBack(): void
 {
     checkPullup();
     checkSfServices();
+    checkE2eKnownFailures();
     \enrichment_product\staticBack();
     echo "Job done! Nothing more to do here...\n";
 }
@@ -54,6 +55,12 @@ function staticBack(): void
 function checkPullup(): void
 {
     \phpRun('bin/check-pullup');
+}
+
+#[AsTask(namespace: 'test', name: 'check-e2e-known-failures', description: 'Check the End_to_End exclusion allow-list can only shrink')]
+function checkE2eKnownFailures(): void
+{
+    \phpRun('bin/check-e2e-known-failures');
 }
 
 #[AsTask(namespace: 'test', name: 'check-sf-services', description: 'Lint Symfony service container')]

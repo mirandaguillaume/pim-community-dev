@@ -1,0 +1,140 @@
+#!/usr/bin/env php
+
+<?php
+
+/**
+ * `@group e2e_known_failure` takes a test out of the End_to_End suite that #459 wired back into
+ * CI. That is sometimes the right call, but it is also the easiest way to turn a red pipeline
+ * green without fixing anything — and a reason written in a docblock reads exactly the same
+ * whether or not anyone verified it.
+ *
+ * So the group is allow-listed here, one entry per test, and the list may only shrink:
+ *
+ *   - a test carrying the group without an entry fails this check, which forces the exclusion
+ *     and its justification into the same diff, in front of a reviewer;
+ *   - an entry whose test no longer carries the group also fails, because a stale allow-list
+ *     quietly becomes permission.
+ *
+ * Run: docker-compose run --rm php php bin/check-e2e-known-failures
+ */
+
+// No declare(strict_types=1): the shebang emits inline HTML before <?php, which counts as a
+// statement, so the declaration can no longer be the first one. bin/check-pullup omits it too.
+const GROUP = 'e2e_known_failure';
+
+/**
+ * Every test currently excluded, and why. Read the docblock on the test itself for the full
+ * account; these lines exist so that adding one is a deliberate, reviewable act.
+ */
+const ALLOWED = [
+    // Settled: the test harness fires kernel.terminate -- and so the API error flush -- before a
+    // streamed response has produced the body whose sub-requests raise the errors. Production
+    // sends first and flushes after. The only fix would be to flush from the test, which stops
+    // exercising the wiring their passing siblings already cover, so these stay excluded.
+    'src/Akeneo/Connectivity/Connection/back/tests/EndToEnd/ErrorManagement/CollectApiError/CollectDomainErrorFromProductEndpointEndToEnd.php::test_it_collects_a_domain_error_from_the_partial_update_list_endpoint',
+    'src/Akeneo/Connectivity/Connection/back/tests/EndToEnd/ErrorManagement/CollectApiErrorsCountEndToEnd.php::test_it_collects_the_error_count_from_a_product_partial_update_list',
+
+    // Not diagnosed. Their passing sibling after_update carries an explicit PubSub delivery-race
+    // workaround that these lack, and their first assertion is a negative one, which an early
+    // delivery would break. Expected to be fixable by mirroring the sibling.
+    'src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/EndToEnd/ComputeProductModelScoreOnProductCreateOrUpdateEndToEnd.php::test_it_computes_product_model_score_after_creation',
+    'src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/EndToEnd/ComputeProductScoreOnProductCreateOrUpdateEndToEnd.php::test_it_computes_product_score_after_creation',
+];
+
+$root = dirname(__DIR__);
+$found = [];
+
+/**
+ * The allow-list above only binds one group name, so the obvious way round it is to invent a
+ * second one and exclude that instead. Pin the whole set that phpunit.xml.dist may skip.
+ */
+const EXCLUDED_GROUPS = ['skip', GROUP];
+
+$config = simplexml_load_file($root . '/phpunit.xml.dist');
+if (false === $config) {
+    fwrite(STDERR, "Could not parse phpunit.xml.dist\n");
+    exit(1);
+}
+$declared = array_map('strval', iterator_to_array($config->groups->exclude->group, false));
+sort($declared);
+$expected = EXCLUDED_GROUPS;
+sort($expected);
+if ($declared !== $expected) {
+    fwrite(STDERR, sprintf(
+        "phpunit.xml.dist excludes a different set of groups than this check pins.\n"
+        . "  declared: %s\n  pinned:   %s\n"
+        . "Excluding a whole new group skips tests without going through the allow-list below.\n\n",
+        implode(', ', $declared),
+        implode(', ', $expected)
+    ));
+    exit(1);
+}
+
+$files = new RecursiveIteratorIterator(
+    new RecursiveCallbackFilterIterator(
+        new RecursiveDirectoryIterator($root . '/src', FilesystemIterator::SKIP_DOTS),
+        static fn (SplFileInfo $f): bool => $f->isDir() || str_ends_with($f->getFilename(), '.php')
+    )
+);
+$testFiles = new AppendIterator();
+$testFiles->append($files);
+$testFiles->append(new RecursiveIteratorIterator(
+    new RecursiveCallbackFilterIterator(
+        new RecursiveDirectoryIterator($root . '/tests', FilesystemIterator::SKIP_DOTS),
+        static fn (SplFileInfo $f): bool => $f->isDir() || str_ends_with($f->getFilename(), '.php')
+    )
+));
+
+foreach ($testFiles as $file) {
+    $code = file_get_contents($file->getPathname());
+    if (false === $code || !str_contains($code, GROUP)) {
+        continue;
+    }
+
+    $relative = substr($file->getPathname(), strlen($root) + 1);
+    $pending = false;
+    foreach (explode("\n", $code) as $line) {
+        if (str_contains($line, '@group ' . GROUP)) {
+            $pending = true;
+            continue;
+        }
+        if ($pending && preg_match('/function\s+(\w+)\s*\(/', $line, $m) === 1) {
+            $found[] = $relative . '::' . $m[1];
+            $pending = false;
+        }
+    }
+}
+
+sort($found);
+$allowed = ALLOWED;
+sort($allowed);
+
+$unlisted = array_values(array_diff($found, $allowed));
+$stale = array_values(array_diff($allowed, $found));
+$status = 0;
+
+if ([] !== $unlisted) {
+    $status = 1;
+    fwrite(STDERR, sprintf(
+        "These tests carry @group %s but are not allow-listed in %s.\n"
+        . "Excluding a test is a decision: add it here with the reason, or fix the test.\n  %s\n\n",
+        GROUP,
+        'bin/' . basename(__FILE__),
+        implode("\n  ", $unlisted)
+    ));
+}
+
+if ([] !== $stale) {
+    $status = 1;
+    fwrite(STDERR, sprintf(
+        "These entries no longer carry @group %s. Remove them — a stale allow-list becomes permission.\n  %s\n\n",
+        GROUP,
+        implode("\n  ", $stale)
+    ));
+}
+
+if (0 === $status) {
+    printf("check-e2e-known-failures: OK (%d excluded test%s, all accounted for)\n", count($found), 1 === count($found) ? '' : 's');
+}
+
+exit($status);
