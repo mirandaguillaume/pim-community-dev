@@ -22,11 +22,19 @@
         <exclude>
             <group>skip</group>
             <!--
-                Tests the End_to_End suite cannot yet keep green in CI. The suite was rewired
-                into test-phpunit-integration by #459 after six months of running nowhere, and
-                these are the seven of 1172 that stayed red there. Each one carries a comment
-                at its own @group saying what it waits on. This list only ever shrinks: adding
-                to it means admitting a test no longer guards anything, so prefer fixing.
+                Tests taken out of the End_to_End suite, which #459 wired back into
+                test-phpunit-integration after six months of running in no CI job. Seven of 1172
+                stayed red there; #460 repaired two and settled the diagnosis of two more.
+
+                The reason for each is written three times over, because none of the three is
+                enough on its own: in full on the test's own docblock, in one line beside its
+                entry in bin/check-e2e-known-failures, and in the commit that added it.
+
+                Adding a fifth is deliberately awkward: bin/check-e2e-known-failures refuses a
+                test that carries this group without an entry, refuses an entry whose test no
+                longer carries it, and refuses any group excluded here that it does not pin —
+                so inventing a second group name is not a way around the list either. It runs
+                from castor test:static-back, which the lint-back job already calls.
             -->
             <group>e2e_known_failure</group>
         </exclude>
