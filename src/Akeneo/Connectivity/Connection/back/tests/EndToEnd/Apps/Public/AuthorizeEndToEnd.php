@@ -126,15 +126,15 @@ class AuthorizeEndToEnd extends WebTestCase
         $this->addAclToRole('ROLE_ADMINISTRATOR', 'akeneo_connectivity_connection_manage_apps');
         $app = App::fromWebMarketplaceValues($this->webMarketplaceApi->getApp('90741597-54c5-48a1-98da-a68e7ee0a715'));
         $this->clientProvider->findOrCreateClient($app);
-        $this->appAuthorizationHandler->handle(new RequestAppAuthorizationCommand(
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle(new RequestAppAuthorizationCommand(
             '90741597-54c5-48a1-98da-a68e7ee0a715',
             'code',
             'write_catalog_structure delete_products read_association_types',
             'http://anyurl.test'
-        ));
-        $this->createConnectedAppWithAuthorizationHandler->handle(new CreateConnectedAppWithAuthorizationCommand(
+        )));
+        $this->inAuthenticatedSession(fn () => $this->createConnectedAppWithAuthorizationHandler->handle(new CreateConnectedAppWithAuthorizationCommand(
             '90741597-54c5-48a1-98da-a68e7ee0a715'
-        ));
+        )));
         $this->authenticateAsAdmin();
 
         $this->client->request(

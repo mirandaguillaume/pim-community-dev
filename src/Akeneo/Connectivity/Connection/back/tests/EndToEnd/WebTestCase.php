@@ -14,6 +14,7 @@ use Akeneo\UserManagement\Component\Storage\Saver\RoleWithPermissionsSaver;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -26,6 +27,8 @@ abstract class WebTestCase extends TestCase
 {
     /** @var KernelBrowser */
     protected $client;
+
+    private ?SessionInterface $session = null;
 
     protected function setUp(): void
     {
@@ -57,7 +60,10 @@ abstract class WebTestCase extends TestCase
         $firewallContext = 'main';
 
         $token = new UsernamePasswordToken($user, $firewallName, $user->getRoles());
-        $session = $this->getSession();
+        // Reuse the session an earlier arrangement may already have opened, so state put
+        // there by inAuthenticatedSession() survives logging in.
+        $session = $this->session ?? $this->getSession();
+        $this->session = $session;
         $session->set('_security_' . $firewallContext, \serialize($token));
         $session->save();
 
@@ -80,6 +86,37 @@ abstract class WebTestCase extends TestCase
         $session = $container->get('session');
 
         return $session;
+    }
+
+    /**
+     * The app activation wizard keeps its state in the session. A test that arranges that
+     * state by calling a handler directly runs outside the kernel, where the RequestStack
+     * holds no request and therefore no session, so the call throws SessionNotFoundException.
+     *
+     * Run the arrangement inside a request carrying the very session the client sends back,
+     * then persist it, so the endpoint under test reads exactly what was arranged.
+     */
+    protected function inAuthenticatedSession(callable $arrange): void
+    {
+        $session = $this->session;
+        if (null === $session) {
+            $session = $this->getSession();
+            $this->session = $session;
+            $this->client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
+        }
+
+        $request = new Request();
+        $request->setSession($session);
+
+        $requestStack = static::getContainer()->get('request_stack');
+        $requestStack->push($request);
+
+        try {
+            $arrange();
+        } finally {
+            $session->save();
+            $requestStack->pop();
+        }
     }
 
     protected function addAclToRole(string $roleCode, string $acl): void

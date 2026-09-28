@@ -20,6 +20,8 @@ use AkeneoTest\UserManagement\Helper\ControllerEndToEndTestCase;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserControllerEndToEnd extends ControllerEndToEndTestCase
@@ -395,9 +397,22 @@ class UserControllerEndToEnd extends ControllerEndToEndTestCase
 
     private function updateUser(int $identifier, array $data): void
     {
-        $this->updateUserCommandHandler->handle(
-            new UpdateUserCommand($identifier, $data)
-        );
+        // The handler finishes by clearing 'dataLocale' from the session. Its only production
+        // caller is UserController, so it always runs inside a request; called directly from a
+        // test there is none on the stack and RequestStack::getSession() throws. Same shape as
+        // AuthenticatorHelper::logIn() already uses on its non-browser path.
+        $requestStack = $this->get('request_stack');
+        $request = new Request();
+        $request->setSession(new Session(new MockArraySessionStorage()));
+        $requestStack->push($request);
+
+        try {
+            $this->updateUserCommandHandler->handle(
+                new UpdateUserCommand($identifier, $data)
+            );
+        } finally {
+            $requestStack->pop();
+        }
     }
 
     private function deleteUser(string $username): void

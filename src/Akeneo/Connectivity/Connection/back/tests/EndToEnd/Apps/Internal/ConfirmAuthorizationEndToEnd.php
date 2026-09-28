@@ -115,14 +115,14 @@ class ConfirmAuthorizationEndToEnd extends WebTestCase
         $this->authenticateAsAdmin();
         $app = App::fromWebMarketplaceValues($this->webMarketplaceApi->getApp($appId));
         $this->clientProvider->findOrCreateClient($app);
-        $this->appAuthorizationHandler->handle(
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle(
             new RequestAppAuthorizationCommand(
                 $appId,
                 'code',
                 'write_catalog_structure delete_products read_association_types',
                 'http://anyurl.test'
             )
-        );
+        ));
 
         $this->client->request(
             'POST',
@@ -155,14 +155,14 @@ class ConfirmAuthorizationEndToEnd extends WebTestCase
         $this->authenticateAsAdmin();
         $app = App::fromWebMarketplaceValues($this->webMarketplaceApi->getApp($appId));
         $this->clientProvider->findOrCreateClient($app);
-        $this->appAuthorizationHandler->handle(
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle(
             new RequestAppAuthorizationCommand(
                 $appId,
                 'code',
                 'write_catalog_structure delete_products read_association_types openid',
                 'http://anyurl.test'
             )
-        );
+        ));
 
         $this->client->request(
             'POST',
