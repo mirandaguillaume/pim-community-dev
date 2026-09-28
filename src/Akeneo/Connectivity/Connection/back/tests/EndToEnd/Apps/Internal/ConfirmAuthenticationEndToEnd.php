@@ -92,7 +92,7 @@ class ConfirmAuthenticationEndToEnd extends WebTestCase
             'state' => 'foo',
         ]);
 
-        $this->appAuthorizationSession->initialize($appAuthorization);
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationSession->initialize($appAuthorization));
 
         $this->client->request(
             'POST',

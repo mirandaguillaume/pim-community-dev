@@ -29,7 +29,6 @@ class AuthorizeEndToEnd extends WebTestCase
     private FakeWebMarketplaceApi $webMarketplaceApi;
     private FilePersistedFeatureFlags $featureFlags;
     private ClientProvider $clientProvider;
-    private SessionInterface $session;
     private RequestAppAuthorizationHandler $appAuthorizationHandler;
     private CreateConnectedAppWithAuthorizationHandler $createConnectedAppWithAuthorizationHandler;
 
@@ -40,16 +39,6 @@ class AuthorizeEndToEnd extends WebTestCase
         $this->webMarketplaceApi = $this->get(WebMarketplaceApi::class);
         $this->featureFlags = $this->get('feature_flags');
         $this->clientProvider = $this->get(ClientProvider::class);
-        $container = $this->client->getContainer();
-        if ($container->has('session.factory')) {
-            /** @var \Symfony\Component\HttpFoundation\Session\SessionFactoryInterface $sessionFactory */
-            $sessionFactory = $container->get('session.factory');
-            $this->session = $sessionFactory->createSession();
-        } else {
-            /** @var SessionInterface $session */
-            $session = $container->get('session');
-            $this->session = $session;
-        }
         $this->appAuthorizationHandler = $this->get(RequestAppAuthorizationHandler::class);
         $this->createConnectedAppWithAuthorizationHandler = $this->get(CreateConnectedAppWithAuthorizationHandler::class);
         $this->loadAppsFixtures();
@@ -108,7 +97,7 @@ class AuthorizeEndToEnd extends WebTestCase
         \assert($response instanceof RedirectResponse);
         Assert::assertEquals('/#/connect/apps/authorize?client_id=90741597-54c5-48a1-98da-a68e7ee0a715', $response->getTargetUrl());
 
-        $authorizationInSession = $this->session->get('_app_auth_90741597-54c5-48a1-98da-a68e7ee0a715');
+        $authorizationInSession = $this->reloadAuthenticatedSession()->get('_app_auth_90741597-54c5-48a1-98da-a68e7ee0a715');
         Assert::assertNotEmpty($authorizationInSession);
         Assert::assertEquals([
             'client_id' => '90741597-54c5-48a1-98da-a68e7ee0a715',
@@ -126,15 +115,15 @@ class AuthorizeEndToEnd extends WebTestCase
         $this->addAclToRole('ROLE_ADMINISTRATOR', 'akeneo_connectivity_connection_manage_apps');
         $app = App::fromWebMarketplaceValues($this->webMarketplaceApi->getApp('90741597-54c5-48a1-98da-a68e7ee0a715'));
         $this->clientProvider->findOrCreateClient($app);
-        $this->appAuthorizationHandler->handle(new RequestAppAuthorizationCommand(
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle(new RequestAppAuthorizationCommand(
             '90741597-54c5-48a1-98da-a68e7ee0a715',
             'code',
             'write_catalog_structure delete_products read_association_types',
             'http://anyurl.test'
-        ));
-        $this->createConnectedAppWithAuthorizationHandler->handle(new CreateConnectedAppWithAuthorizationCommand(
+        )));
+        $this->inAuthenticatedSession(fn () => $this->createConnectedAppWithAuthorizationHandler->handle(new CreateConnectedAppWithAuthorizationCommand(
             '90741597-54c5-48a1-98da-a68e7ee0a715'
-        ));
+        )));
         $this->authenticateAsAdmin();
 
         $this->client->request(

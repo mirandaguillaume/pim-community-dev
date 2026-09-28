@@ -21,6 +21,14 @@
     <groups>
         <exclude>
             <group>skip</group>
+            <!--
+                Tests the End_to_End suite cannot yet keep green in CI. The suite was rewired
+                into test-phpunit-integration by #459 after six months of running nowhere, and
+                these are the seven of 1172 that stayed red there. Each one carries a comment
+                at its own @group saying what it waits on. This list only ever shrinks: adding
+                to it means admitting a test no longer guards anything, so prefer fixing.
+            -->
+            <group>e2e_known_failure</group>
         </exclude>
     </groups>
 

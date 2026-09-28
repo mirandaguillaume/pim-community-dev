@@ -54,7 +54,7 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
             $qb->setFirstResult($offset);
         }
 
-        return $qb->setMaxResults($limit)
+        return $qb->setMaxResults(null === $limit ? null : (int) $limit)
             ->getQuery()
             ->execute();
     }

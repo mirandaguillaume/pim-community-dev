@@ -143,12 +143,12 @@ class RequestAccessTokenActionEndToEnd extends WebTestCase
     private function getAuthCode(): string
     {
         $appId = '90741597-54c5-48a1-98da-a68e7ee0a715';
-        $this->appAuthorizationHandler->handle(new RequestAppAuthorizationCommand(
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle(new RequestAppAuthorizationCommand(
             $appId,
             'code',
             'write_catalog_structure delete_products read_association_types',
             'http://anyurl.test'
-        ));
+        )));
 
         $this->client->request(
             'POST',

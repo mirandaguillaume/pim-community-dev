@@ -49,7 +49,7 @@ class GetWizardDataActionEndToEnd extends WebTestCase
             'write_catalog_structure delete_products read_association_types openid profile email',
             'http://anyurl.test'
         );
-        $this->appAuthorizationHandler->handle($command);
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle($command));
 
         $this->client->request(
             'GET',
@@ -141,7 +141,7 @@ class GetWizardDataActionEndToEnd extends WebTestCase
             'write_catalog_structure delete_products read_association_types',
             'http://anyurl.test'
         );
-        $this->appAuthorizationHandler->handle($command);
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle($command));
 
         $this->client->request(
             'GET',
@@ -197,7 +197,7 @@ class GetWizardDataActionEndToEnd extends WebTestCase
             '',
             'http://anyurl.test'
         );
-        $this->appAuthorizationHandler->handle($command);
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle($command));
 
         $this->client->request(
             'GET',
@@ -262,7 +262,7 @@ class GetWizardDataActionEndToEnd extends WebTestCase
             'write_catalog_structure delete_products read_association_types openid profile email',
             'http://anyurl.test'
         );
-        $this->appAuthorizationHandler->handle($command);
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle($command));
 
         $this->client->request(
             'GET',
@@ -352,7 +352,7 @@ class GetWizardDataActionEndToEnd extends WebTestCase
             'write_catalog_structure delete_products read_association_types openid profile email',
             'http://anyurl.test'
         );
-        $this->appAuthorizationHandler->handle($command);
+        $this->inAuthenticatedSession(fn () => $this->appAuthorizationHandler->handle($command));
 
         $this->client->request(
             'GET',
