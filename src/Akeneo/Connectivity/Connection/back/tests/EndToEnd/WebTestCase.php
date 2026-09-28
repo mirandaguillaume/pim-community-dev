@@ -15,6 +15,7 @@ use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -108,6 +109,7 @@ abstract class WebTestCase extends TestCase
         $request = new Request();
         $request->setSession($session);
 
+        /** @var RequestStack $requestStack */
         $requestStack = static::getContainer()->get('request_stack');
         $requestStack->push($request);
 

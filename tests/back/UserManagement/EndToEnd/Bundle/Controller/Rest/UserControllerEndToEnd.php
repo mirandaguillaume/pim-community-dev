@@ -19,6 +19,7 @@ use Akeneo\UserManagement\ServiceApi\User\DeleteUserHandlerInterface;
 use AkeneoTest\UserManagement\Helper\ControllerEndToEndTestCase;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
@@ -401,6 +402,7 @@ class UserControllerEndToEnd extends ControllerEndToEndTestCase
         // caller is UserController, so it always runs inside a request; called directly from a
         // test there is none on the stack and RequestStack::getSession() throws. Same shape as
         // AuthenticatorHelper::logIn() already uses on its non-browser path.
+        /** @var RequestStack $requestStack */
         $requestStack = $this->get('request_stack');
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
