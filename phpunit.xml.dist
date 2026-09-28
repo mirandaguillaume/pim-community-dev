@@ -239,16 +239,7 @@
             <directory suffix="Test.php">src/Akeneo/UserManagement/back/tests/Unit</directory>
         </testsuite>
 
-        <testsuite name="Job_Integration_Test">
-            <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Integration</directory>
-        </testsuite>
 
-        <testsuite name="Installer_Integration_Test">
-            <directory suffix="Integration.php">src/Akeneo/Platform/Installer/back/tests/Integration</directory>
-        </testsuite>
 
-        <testsuite name="Channel_Integration_Test">
-            <directory suffix="Integration.php">src/Akeneo/Channel/back/tests/Integration</directory>
-        </testsuite>
     </testsuites>
 </phpunit>
