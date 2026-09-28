@@ -1253,6 +1253,24 @@ jobs:
           # nightly; Codecov merges the 6 shards (flag backend-integration) into the total.
           PHPUNIT_COVERAGE: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && '1' || '' }}
 
+      # The End_to_End suite ran as a second step of this job's ancestor until #48 dropped it
+      # in the 38-to-27 job reduction on 2026-02-24; it has run in no CI job since. The two
+      # upgrades that landed in the following month each broke a public API endpoint that this
+      # suite covers, unnoticed for six months. It goes back into the job that already has
+      # exactly the environment it needs -- same DB seed, same six services, same ES reset,
+      # same assets -- so this is one step, not new infrastructure. run_phpunit.sh shards it by
+      # measured timing and, since #451, gives it its own junit and clover names, so it does not
+      # truncate the integration suite's artifacts in this same job. Measured: 46 min of tests,
+      # about 8 min per shard.
+      - name: Run PHPUnit end-to-end tests (shard ${{ matrix.shard }}/6)
+        run: |
+          castor test:end-to-end-back
+        env:
+          PHPUNIT_SHARD: ${{ matrix.shard }}
+          PHPUNIT_TOTAL_SHARDS: 6
+          PHPUNIT_TIMING_FILE: .test-timings/phpunit.json
+          PHPUNIT_COVERAGE: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && '1' || '' }}
+
       # run_phpunit.sh now writes one clover per testsuite, because castor test:pim-integration-back
       # calls it five times per shard and a single filename meant only the last survived. Build the
       # comma-separated list here: codecov-action passes `files` straight through, it does not glob.
