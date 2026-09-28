@@ -131,12 +131,16 @@ class CollectDomainErrorFromProductEndpointEndToEnd extends ApiTestCase
     /**
      * Partial update list of one product with an unknown attribute code.
      *
-     * Excluded from the End_to_End suite CI gate (#459). NOT DIAGNOSED.
-     * Observed: 0 collected errors where 1 is expected. It is not a visibility delay -- the test
-     * calls refreshIndex() before asserting. The open question is whether a domain error raised
-     * inside the sub-requests a bulk PATCH forwards is collected at all, which would be a blind
-     * spot in the feature rather than a defect in the test. Its two siblings, on the create and
-     * single partial-update endpoints, pass.
+     * Excluded from the End_to_End suite CI gate (#459). Diagnosed, and NOT a product defect:
+     * the test harness orders things the opposite way from production for a streamed response.
+     * ApiErrorEventSubscriber collects on domain events and flushes on kernel.terminate. In
+     * production index.php runs handle(), then send() -- which generates the stream and its
+     * per-line sub-requests -- then terminate(), so the flush sees the errors. HttpKernelBrowser
+     * runs handle() then terminate() and only materialises the body afterwards, in
+     * filterResponse(), so the flush happens before a single error exists. Hence 0 where 1 is
+     * expected, on this endpoint only: its two siblings return non-streamed responses and pass.
+     * Fixing it means flushing explicitly from the test, which no longer exercises the terminate
+     * wiring -- and that wiring is what the two passing siblings already cover.
      *
      * @group e2e_known_failure
      */
