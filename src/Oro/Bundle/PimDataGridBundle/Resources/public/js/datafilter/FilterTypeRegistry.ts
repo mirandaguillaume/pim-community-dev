@@ -39,16 +39,18 @@ export const FILTER_MODULE_IDS = {
   parent: 'oro/datafilter/parent-filter-react',
   // C1 Wave 5: `price` renders via React (number + a currency AknDropdown; shared NumberUnitFilterCriteria).
   price: 'oro/datafilter/price-filter-react',
-  product_and_product_model_completeness: 'oro/datafilter/product_completeness-filter',
+  // `product_completeness` is a bare extend of `select`, which already renders via React, so both
+  // completeness entries point at the equally bare `product_completeness-filter-react` bridge.
+  product_and_product_model_completeness: 'oro/datafilter/product_completeness-filter-react',
   product_category: 'oro/datafilter/product_category-filter',
-  product_completeness: 'oro/datafilter/product_completeness-filter',
+  product_completeness: 'oro/datafilter/product_completeness-filter-react',
   product_scope: 'oro/datafilter/product_scope-filter',
   search: 'oro/datafilter/search-filter',
   attribute_search: 'oro/datafilter/search-filter',
   // Vague B: `select` and `multiselect` render via React (select-filter-react / multiselect-filter-react
   // extend the legacy filters — the jquery.multiselect widget replaced by the controlled DSM
   // SelectInput/MultiSelectInput). The legacy `oro/datafilter/select-filter` module stays for
-  // select-row/product_scope/product_completeness.
+  // select-row and product_scope, which still extend it.
   select: 'oro/datafilter/select-filter-react',
   'select-row': 'oro/datafilter/select-row-filter',
   // C1 Wave 5: `select2-choice` renders via React (select2-choice-filter-react extends the legacy

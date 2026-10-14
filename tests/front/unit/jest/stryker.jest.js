@@ -197,6 +197,9 @@ module.exports = {
     // DataGrid multiselect filter (Vague B wave 2) — extends select-filter-react, adds the "All"
     // mutual-exclusion + array value read; renders SelectFilterCriteria's MultiSelectInput branch.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/multiselect-filter-react.unit.tsx',
+    // DataGrid product completeness filter — a bare extend of select-filter-react, mirroring the
+    // legacy bare extend of select-filter.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/product_completeness-filter-react.unit.tsx',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',

@@ -31,12 +31,12 @@ describe('FILTER_MODULE_IDS', () => {
   test('price', () => expect(FILTER_MODULE_IDS['price']).toBe('oro/datafilter/price-filter-react'));
   test('product_and_product_model_completeness', () =>
     expect(FILTER_MODULE_IDS['product_and_product_model_completeness']).toBe(
-      'oro/datafilter/product_completeness-filter'
+      'oro/datafilter/product_completeness-filter-react'
     ));
   test('product_category', () =>
     expect(FILTER_MODULE_IDS['product_category']).toBe('oro/datafilter/product_category-filter'));
   test('product_completeness', () =>
-    expect(FILTER_MODULE_IDS['product_completeness']).toBe('oro/datafilter/product_completeness-filter'));
+    expect(FILTER_MODULE_IDS['product_completeness']).toBe('oro/datafilter/product_completeness-filter-react'));
   test('product_scope', () => expect(FILTER_MODULE_IDS['product_scope']).toBe('oro/datafilter/product_scope-filter'));
   test('search', () => expect(FILTER_MODULE_IDS['search']).toBe('oro/datafilter/search-filter'));
   test('attribute_search', () => expect(FILTER_MODULE_IDS['attribute_search']).toBe('oro/datafilter/search-filter'));
@@ -65,8 +65,8 @@ describe('resolveFilterModuleId', () => {
       expect(resolveFilterModuleId('product_scope')).toBe('oro/datafilter/product_scope-filter'));
     test('product_category → product_category-filter', () =>
       expect(resolveFilterModuleId('product_category')).toBe('oro/datafilter/product_category-filter'));
-    test('product_completeness → product_completeness-filter', () =>
-      expect(resolveFilterModuleId('product_completeness')).toBe('oro/datafilter/product_completeness-filter'));
+    test('product_completeness → product_completeness-filter-react', () =>
+      expect(resolveFilterModuleId('product_completeness')).toBe('oro/datafilter/product_completeness-filter-react'));
     test('attribute_search → search-filter (shared module)', () =>
       expect(resolveFilterModuleId('attribute_search')).toBe('oro/datafilter/search-filter'));
   });
