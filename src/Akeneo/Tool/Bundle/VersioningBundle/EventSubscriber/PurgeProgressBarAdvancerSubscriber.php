@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[AsEventListener(event: PurgeVersionEvents::PRE_ADVISEMENT, method: 'advanceProgressbar')]
+#[AsEventListener(event: PurgeVersionEvents::PRE_ADVISEMENT, method: 'advanceProgressBar')]
 class PurgeProgressBarAdvancerSubscriber
 {
     /** @var ProgressBar */
