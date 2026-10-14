@@ -91,9 +91,16 @@ class UpdateCategoryVersionSubscriberTest extends TestCase
 
         $this->assertSame(CategoryUpdatedEvent::class, $listener->event);
         $this->assertNotNull($listener->method);
-        $this->assertTrue(
-            method_exists(UpdateCategoryVersionSubscriber::class, $listener->method),
-            sprintf('The listener is wired on the method "%s" which does not exist.', $listener->method),
+        // method_exists() is case-insensitive, so it cannot see an attribute whose spelling has
+        // drifted from the method it names -- which is how this listener was wired for a while.
+        // Comparing against the declared names is what makes this assertion a real guard.
+        $this->assertContains(
+            $listener->method,
+            get_class_methods(UpdateCategoryVersionSubscriber::class),
+            sprintf(
+                'The listener is wired on the method "%s", which the class does not declare under that exact spelling.',
+                $listener->method,
+            ),
         );
     }
 }

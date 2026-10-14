@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-#[AsEventListener(event: CategoryUpdatedEvent::class, method: 'UpdateCategoryVersion')]
+#[AsEventListener(event: CategoryUpdatedEvent::class, method: 'updateCategoryVersion')]
 class UpdateCategoryVersionSubscriber
 {
     public function __construct(
