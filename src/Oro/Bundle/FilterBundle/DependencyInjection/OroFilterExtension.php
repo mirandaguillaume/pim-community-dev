@@ -10,7 +10,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class OroFilterExtension extends Extension
 {
     final public const string PARAMETER_TWIG_LAYOUT = 'oro_filter.twig.layout';
-    final public const string PARAMETER_TWIG_HEADER = 'oro_filter.twig.header';
 
     /**
      * {@inheritdoc}
@@ -21,7 +20,6 @@ class OroFilterExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter(self::PARAMETER_TWIG_LAYOUT, $config['twig']['layout']);
-        $container->setParameter(self::PARAMETER_TWIG_HEADER, $config['twig']['header']);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('form_types.yml');
