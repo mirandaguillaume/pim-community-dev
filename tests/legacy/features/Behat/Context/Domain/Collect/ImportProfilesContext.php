@@ -95,11 +95,17 @@ class ImportProfilesContext extends ImportExportContext
     public function iUploadAndImportTheFile($operator, $file)
     {
         $this->spin(function () {
-            return $this->getCurrentPage()->find(
+            $switcher = $this->getCurrentPage()->find(
                 'css',
                 '.AknTitleContainer-meta .AknButton--greyLight.switcher-action'
             );
-        }, 'Cannot switch the import method')->click();
+            if (null === $switcher) {
+                return false;
+            }
+            $switcher->click();
+
+            return true;
+        }, 'Cannot switch the import method');
 
         $this->getMainContext()->getSubcontext('job')
             ->attachFileToField($this->replacePlaceholders($file), 'Drag and drop a file or click here');

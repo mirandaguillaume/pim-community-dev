@@ -386,8 +386,14 @@ class AssertionContext extends PimContext
 
             if (!$row->hasClass('AknGrid-bodyRow--expanded')) {
                 $this->spin(function () use ($row) {
-                    return $row->find('css', '.version-expander');
-                }, sprintf('Can not find the expand button of version "%s"', json_encode($data)))->click();
+                    $expander = $row->find('css', '.version-expander');
+                    if (null === $expander) {
+                        return false;
+                    }
+                    $expander->click();
+
+                    return true;
+                }, sprintf('Can not find the expand button of version "%s"', json_encode($data)));
             }
 
             $changesetRow = $this->spin(function () use ($block, $expectedVersion) {

@@ -58,7 +58,9 @@ class BaseDecorator extends ElementDecorator
     public function getCriteriaHint()
     {
         return trim($this->spin(function () {
-            return $this->find('css', '.filter-criteria-hint');
-        }, 'Can not find the criteria hint of the filter')->getText());
+            $hint = $this->find('css', '.filter-criteria-hint');
+
+            return null === $hint ? false : $hint->getText();
+        }, 'Can not find the criteria hint of the filter'));
     }
 }

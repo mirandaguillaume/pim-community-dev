@@ -125,9 +125,15 @@ class Base extends Page
      */
     public function simpleFillField($locator, $value)
     {
-        $this->spin(function () use ($locator) {
-            return parent::findField($locator);
-        }, sprintf('Cannot find field "%s"', $locator))->setValue($value);
+        $this->spin(function () use ($locator, $value) {
+            $field = parent::findField($locator);
+            if (null === $field) {
+                return false;
+            }
+            $field->setValue($value);
+
+            return true;
+        }, sprintf('Cannot find field "%s"', $locator));
     }
 
     /**
@@ -224,8 +230,8 @@ class Base extends Page
                 $title = $this->find('css', $this->elements['Product title']['css']);
             }
 
-            return $title;
-        }, 'Could not find the page title')->getText();
+            return null === $title ? false : $title->getText();
+        }, 'Could not find the page title');
     }
 
     /**
@@ -415,11 +421,17 @@ class Base extends Page
         $this->spin(function () {
             $element = $this->getElement('Dialog');
             if (null === $element) {
-                return null;
+                return false;
             }
 
-            return $element->find('css', '.cancel');
-        }, 'Could not find the cancel button')->click();
+            $cancelButton = $element->find('css', '.cancel');
+            if (null === $cancelButton) {
+                return false;
+            }
+            $cancelButton->click();
+
+            return true;
+        }, 'Could not find the cancel button');
     }
 
     /**
@@ -440,8 +452,14 @@ class Base extends Page
     public function clickOnAkeneoLogo()
     {
         $this->spin(function () {
-            return $this->getElement('Navigation Bar')->find('css', '.AknHeader-logoImage');
-        }, 'Cannot find Akeneo logo')->click();
+            $logo = $this->getElement('Navigation Bar')->find('css', '.AknHeader-logoImage');
+            if (null === $logo) {
+                return false;
+            }
+            $logo->click();
+
+            return true;
+        }, 'Cannot find Akeneo logo');
     }
 
     /**
