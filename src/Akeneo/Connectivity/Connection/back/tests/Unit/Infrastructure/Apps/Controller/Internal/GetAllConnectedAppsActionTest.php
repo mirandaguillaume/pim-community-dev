@@ -44,6 +44,10 @@ class GetAllConnectedAppsActionTest extends TestCase
 
         $this->featureFlag->method('isEnabled')->willReturn(true);
         $request->method('isXmlHttpRequest')->willReturn(false);
-        $this->assertEquals(new RedirectResponse('/'), $this->sut->__invoke($request, 'foo'));
+        $response = $this->sut->__invoke($request, 'foo');
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/', $response->getTargetUrl());
     }
 }

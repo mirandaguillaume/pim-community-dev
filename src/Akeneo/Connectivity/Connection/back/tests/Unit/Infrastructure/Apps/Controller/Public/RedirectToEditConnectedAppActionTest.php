@@ -123,6 +123,10 @@ class RedirectToEditConnectedAppActionTest extends TestCase
         $this->router->method('generate')->with('akeneo_connectivity_connection_connect_connected_apps_edit', [
                         'connectionCode' => 'random_connection_code',
                     ])->willReturn('/connect/connected-apps/random_connection_code');
-        $this->assertEquals(new RedirectResponse('/#/connect/connected-apps/random_connection_code'), $this->sut->__invoke($appId));
+        $response = $this->sut->__invoke($appId);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/#/connect/connected-apps/random_connection_code', $response->getTargetUrl());
     }
 }

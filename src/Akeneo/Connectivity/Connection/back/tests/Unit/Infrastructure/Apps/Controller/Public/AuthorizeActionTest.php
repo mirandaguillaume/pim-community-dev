@@ -111,7 +111,11 @@ class AuthorizeActionTest extends TestCase
         $this->router->method('generate')->with('akeneo_connectivity_connection_connect_apps_authorize', [
                     'error' => 'akeneo_connectivity.connection.connect.apps.error.app_not_found',
                 ])->willReturn('/connect/apps/authorize?error=akeneo_connectivity.connection.connect.apps.error.app_not_found');
-        $this->assertEquals(new RedirectResponse('/#/connect/apps/authorize?error=akeneo_connectivity.connection.connect.apps.error.app_not_found'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/#/connect/apps/authorize?error=akeneo_connectivity.connection.connect.apps.error.app_not_found', $response->getTargetUrl());
     }
 
     public function test_it_redirects_because_there_is_no_app_matching_the_client_id(): void
@@ -125,7 +129,11 @@ class AuthorizeActionTest extends TestCase
                     'error' => 'akeneo_connectivity.connection.connect.apps.error.app_not_found',
                 ])->willReturn('/connect/apps/authorize?error=akeneo_connectivity.connection.connect.apps.error.app_not_found');
         $this->getAppQuery->method('execute')->with($clientId)->willReturn(null);
-        $this->assertEquals(new RedirectResponse('/#/connect/apps/authorize?error=akeneo_connectivity.connection.connect.apps.error.app_not_found'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/#/connect/apps/authorize?error=akeneo_connectivity.connection.connect.apps.error.app_not_found', $response->getTargetUrl());
     }
 
     public function test_it_throws_access_denied_exception_when_the_app_is_found_but_permissions_are_missing(): void
@@ -201,7 +209,11 @@ class AuthorizeActionTest extends TestCase
             $requestedScopes,
             $originalScopes
         )->willReturn($diffScopes);
-        $this->assertEquals(new RedirectResponse('/#/connect/apps/authorize'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/#/connect/apps/authorize', $response->getTargetUrl());
     }
 
     public function test_it_redirects_to_the_callback_url_when_there_are_unchanged_or_less_scopes(): void
@@ -257,7 +269,11 @@ class AuthorizeActionTest extends TestCase
             $appConfirmation,
             $currentUserId
         )->willReturn('http://url.test');
-        $this->assertEquals(new RedirectResponse('http://url.test'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('http://url.test', $response->getTargetUrl());
     }
 
     public function test_it_only_redirects_to_the_callback_url_if_user_can_only_open_apps(): void
@@ -318,7 +334,11 @@ class AuthorizeActionTest extends TestCase
                     'scope' => \implode(' ', $requestedScopes),
                     'state' => 'random_state_string',
                 ]);
-        $this->assertEquals(new RedirectResponse('http://url.test'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('http://url.test', $response->getTargetUrl());
     }
 
     public function test_it_denies_access_to_users_who_cannot_manage_and_its_first_connection_attempt(): void

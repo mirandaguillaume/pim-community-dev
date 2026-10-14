@@ -99,7 +99,11 @@ class GetOpenAppUrlActionTest extends TestCase
     public function test_it_redirects_on_missing_xmlhttprequest_header(): void
     {
         $request = $this->createRequest(false);
-        $this->assertEquals(new RedirectResponse('/'), $this->sut->__invoke($request, 'connection_code'));
+        $response = $this->sut->__invoke($request, 'connection_code');
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/', $response->getTargetUrl());
     }
 
     public function test_it_throws_a_not_found_exception_when_feature_flag_is_disabled(): void
