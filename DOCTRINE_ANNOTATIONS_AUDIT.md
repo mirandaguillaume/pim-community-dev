@@ -211,7 +211,7 @@ return RectorConfig::configure()
    - `src/Akeneo/Pim/Structure/Component/Model/Attribute.php`
    - `src/Akeneo/Pim/Enrichment/Component/Product/Model/Group.php`
 4. **Run Rector** with `ANNOTATIONS_TO_ATTRIBUTES` set for automated conversion.
-5. **Validate** with `PIM_CONTEXT=test make lint-back` and `PIM_CONTEXT=test make unit-back`.
+5. **Validate** with `castor test:lint-back` and `castor test:unit-back`.
 6. **Verify** Doctrine schema is unchanged: `docker-compose run --rm php php bin/console doctrine:schema:validate`.
 
 ### Phase 2: Evaluate YAML Mapping Migration (Medium Term, Higher Risk)

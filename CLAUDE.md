@@ -14,19 +14,23 @@ Two architecture patterns coexist: modern hexagonal (`back/Application|Domain|In
 
 ## Commands
 
+Tasks run through **Castor**, not `make` — the root Makefile was removed in #128 and
+`castor list` enumerates every task with its description.
+
 ```bash
 # CI checks (must pass before push)
-PIM_CONTEXT=test make lint-back          # PHPStan + php-cs-fixer
-PIM_CONTEXT=test make unit-back          # PHPUnit
-PIM_CONTEXT=test make coupling-back      # Architecture coupling
-PIM_CONTEXT=test make acceptance-back    # Behat acceptance
+castor test:lint-back                    # PHPStan + php-cs-fixer + every per-context lint
+castor test:unit-back                    # PHPUnit
+castor test:coupling-back                # Architecture coupling
+castor test:acceptance-back              # Behat acceptance
 
 # Single test
 APP_ENV=test docker-compose run --rm php php vendor/bin/phpunit -c . --filter TestClassName
-make end-to-end-legacy O=path/to/feature.feature:23
+castor test:end-to-end-legacy path/to/feature.feature:23   # positional argument
 
-# Bounded context pattern: <context>-<type>-back (unit|acceptance|integration|lint|coupling)
-make connectivity-connection-unit-back O=path/to/spec
+# Bounded context pattern: <namespace>:<task>, e.g. unit|acceptance|integration|lint|coupling-back
+castor connectivity-connection:unit-back
+castor category:lint-back
 
 # Frontend
 yarn lint && yarn lint-fix
@@ -34,8 +38,11 @@ yarn unit
 npx playwright test                      # E2E (config: playwright.config.ts)
 
 # Code style auto-fix
-make fix-cs-back
+castor back:fix-cs-back
 ```
+
+Castor tasks take named options or positional arguments (see `castor help <task>`); there is
+no `O=…` convention, and nothing in this repository reads `PIM_CONTEXT`.
 
 ## CI
 
