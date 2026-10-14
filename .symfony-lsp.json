@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "kernel": "Kernel",
+  "phpCommand": ["docker-compose", "run", "--rm", "-T", "php", "php"],
+  "containerProjectRoot": "/srv/pim",
+  "environment": "dev"
+}
