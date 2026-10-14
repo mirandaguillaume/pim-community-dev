@@ -1,16 +1,15 @@
 # Declares the nightly E2E flag so its last value carries forward onto commits
 # that do not run the nightly (otherwise it would read as missing on every PR).
 # Other flags (frontend, backend, test-phpunit-integration) keep Codecov defaults.
+#
+# The `e2e-behat` flag was declared here too, for the Behat PHP coverage pipeline that
+# ci.yml carried but never enabled; both were removed together.
 flags:
   e2e-playwright:
     carryforward: true
     paths:
       - src/
       - public/bundles/
-  e2e-behat:
-    carryforward: true
-    paths:
-      - src/
 
 coverage:
   status:
