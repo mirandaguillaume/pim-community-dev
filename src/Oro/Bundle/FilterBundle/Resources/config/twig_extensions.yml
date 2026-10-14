@@ -1,9 +1,0 @@
-parameters:
-    oro_filter.twig.extension.render_layout.class: Oro\Bundle\FilterBundle\Twig\RenderLayoutExtension
-
-services:
-    oro_filter.twig.extension.render_layout:
-        class: '%oro_filter.twig.extension.render_layout.class%'
-        arguments: ['%oro_filter.twig.layout%']
-        tags:
-            - { name: twig.extension }

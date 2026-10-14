@@ -9,21 +9,13 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroFilterExtension extends Extension
 {
-    final public const string PARAMETER_TWIG_LAYOUT = 'oro_filter.twig.layout';
-
     /**
      * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
-
-        $container->setParameter(self::PARAMETER_TWIG_LAYOUT, $config['twig']['layout']);
-
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('form_types.yml');
-        $loader->load('twig_extensions.yml');
         $loader->load('services.yml');
         $loader->load('filters.yml');
     }
