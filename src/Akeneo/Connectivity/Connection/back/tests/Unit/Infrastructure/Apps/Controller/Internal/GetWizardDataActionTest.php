@@ -77,7 +77,11 @@ class GetWizardDataActionTest extends TestCase
 
         $this->getAppQuery->expects($this->never())->method('execute')->with($this->anything());
 
-        $this->assertEquals(new RedirectResponse('/'), $this->sut->__invoke($request, self::CLIENT_ID));
+        $response = $this->sut->__invoke($request, self::CLIENT_ID);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/', $response->getTargetUrl());
     }
 
     public function test_it_throws_a_not_found_exception_when_the_app_does_not_exist(): void

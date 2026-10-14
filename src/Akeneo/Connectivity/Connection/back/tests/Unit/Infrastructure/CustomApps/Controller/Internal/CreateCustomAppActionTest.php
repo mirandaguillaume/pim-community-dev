@@ -100,7 +100,11 @@ class CreateCustomAppActionTest extends TestCase
 
         $this->activateFeatureFlag->method('isEnabled')->willReturn(true);
         $request->method('isXmlHttpRequest')->willReturn(false);
-        $this->assertEquals(new RedirectResponse('/'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/', $response->getTargetUrl());
     }
 
     public function test_it_answers_an_access_denied_if_the_endpoint_is_not_granted_to_the_user(): void

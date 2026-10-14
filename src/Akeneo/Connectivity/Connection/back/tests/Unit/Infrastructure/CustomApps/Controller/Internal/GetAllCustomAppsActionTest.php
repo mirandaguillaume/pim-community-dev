@@ -41,7 +41,11 @@ class GetAllCustomAppsActionTest extends TestCase
 
         $this->getAllCustomAppsQuery->expects($this->never())->method('execute');
 
-        $this->assertEquals(new RedirectResponse('/'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/', $response->getTargetUrl());
     }
 
     public function test_it_returns_the_custom_apps_with_the_pim_url_appended_to_the_activate_url(): void

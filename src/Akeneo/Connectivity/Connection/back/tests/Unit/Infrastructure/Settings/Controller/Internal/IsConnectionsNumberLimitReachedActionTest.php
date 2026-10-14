@@ -37,7 +37,11 @@ class IsConnectionsNumberLimitReachedActionTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $request->method('isXmlHttpRequest')->willReturn(false);
-        $this->assertEquals(new RedirectResponse('/'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/', $response->getTargetUrl());
     }
 
     public function test_it_returns_limit_reached_flag(): void

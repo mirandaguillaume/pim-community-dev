@@ -54,7 +54,11 @@ class DeleteAppActionTest extends TestCase
 
         $this->featureFlag->method('isEnabled')->willReturn(true);
         $request->method('isXmlHttpRequest')->willReturn(false);
-        $this->assertEquals(new RedirectResponse('/'), $this->sut->__invoke($request, 'foo'));
+        $response = $this->sut->__invoke($request, 'foo');
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/', $response->getTargetUrl());
     }
 
     public function test_it_throws_access_denied_exception_with_missing_manage_apps_acl(): void

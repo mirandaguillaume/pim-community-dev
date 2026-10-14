@@ -113,7 +113,11 @@ class ConfirmAuthorizationActionTest extends TestCase
 
         $this->marketplaceActivateFeatureFlag->method('isEnabled')->willReturn(true);
         $request->method('isXmlHttpRequest')->willReturn(false);
-        $this->assertEquals(new RedirectResponse('/'), $this->sut->__invoke($request, 'foo'));
+        $response = $this->sut->__invoke($request, 'foo');
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/', $response->getTargetUrl());
     }
 
     public function test_it_returns_not_found_response_because_there_is_no_app_matching_the_client_id(): void

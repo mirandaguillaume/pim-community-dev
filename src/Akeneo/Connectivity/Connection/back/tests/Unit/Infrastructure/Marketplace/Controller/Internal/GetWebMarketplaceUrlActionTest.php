@@ -45,7 +45,11 @@ class GetWebMarketplaceUrlActionTest extends TestCase
             ->method('generateUrl')
             ->with($this->anything());
 
-        $this->assertEquals(new RedirectResponse('/'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(RedirectResponse::HTTP_FOUND, $response->getStatusCode());
+        $this->assertSame('/', $response->getTargetUrl());
     }
 
     public function test_it_returns_the_marketplace_url_generated_for_the_current_user(): void
