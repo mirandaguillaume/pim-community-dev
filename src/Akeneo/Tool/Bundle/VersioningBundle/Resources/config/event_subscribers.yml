@@ -3,7 +3,6 @@ parameters:
     pim_versioning.event_subscriber.addcontext.class:                  Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddContextSubscriber
     pim_versioning.event_subscriber.add_remove_version.class:          Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\AddRemoveVersionSubscriber
     pim_versioning.event_subscriber.timestampable.class:               Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\TimestampableSubscriber
-    pim_versioning.event_subscriber.purge_progress_bar_advancer.class: Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber\PurgeProgressBarAdvancerSubscriber
 
 services:
     pim_versioning.event_listener.addversion:
@@ -39,10 +38,6 @@ services:
             - '@security.token_storage'
             - '@security.authorization_checker'
             - '@pim_versioning.saver.version'
-        autoconfigure: true
-
-    pim_versioning.event_subscriber.purge_progress_bar_advancer:
-        class: '%pim_versioning.event_subscriber.purge_progress_bar_advancer.class%'
         autoconfigure: true
 
     pim_versioning.event_subscriber.timestampable:
