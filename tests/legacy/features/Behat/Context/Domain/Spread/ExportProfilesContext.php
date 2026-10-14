@@ -180,8 +180,14 @@ class ExportProfilesContext extends ImportExportContext
     public function iLaunchTheImportJob()
     {
         $this->spin(function () {
-            return $this->getCurrentPage()->find('css', '.AknCenteredBox .AknButton--apply');
-        }, 'Cannot find the import button')->click();
+            $button = $this->getCurrentPage()->find('css', '.AknCenteredBox .AknButton--apply');
+            if (null === $button) {
+                return false;
+            }
+            $button->click();
+
+            return true;
+        }, 'Cannot find the import button');
 
         return new Then('I should see the text "Execution details"');
     }
@@ -194,8 +200,14 @@ class ExportProfilesContext extends ImportExportContext
     public function iLaunchTheExportJob()
     {
         $this->spin(function () {
-            return $this->getCurrentPage()->find('css', '.AknTitleContainer-meta .AknButton--apply');
-        }, 'Cannot find the export button')->click();
+            $button = $this->getCurrentPage()->find('css', '.AknTitleContainer-meta .AknButton--apply');
+            if (null === $button) {
+                return false;
+            }
+            $button->click();
+
+            return true;
+        }, 'Cannot find the export button');
 
         return new Then('I should see the text "Execution details"');
     }

@@ -609,10 +609,12 @@ class Edit extends ProductEditForm
         $validationButton->click();
 
         return $this->spin(function () use ($family) {
-            return $this
+            $productFamily = $this
                 ->getElement('Meta zone')
                 ->find('css', '.product-family');
-        }, 'Cannot find Product Family element')->getHTML();
+
+            return null === $productFamily ? false : $productFamily->getHTML();
+        }, 'Cannot find Product Family element');
     }
 
     /**

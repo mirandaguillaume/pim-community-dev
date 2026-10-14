@@ -152,12 +152,14 @@ abstract class AbstractAddSelectDecorator extends ElementDecorator implements Ad
 
             foreach ($multiselectButtons as $button) {
                 if ($button->isVisible()) {
-                    return $button;
+                    $button->press();
+
+                    return true;
                 }
             }
 
-            return null;
-        }, 'Can not find any multiselect apply button')->press();
+            return false;
+        }, 'Can not find any multiselect apply button');
 
 
         return $this;

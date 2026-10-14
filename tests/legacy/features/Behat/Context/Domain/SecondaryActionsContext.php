@@ -22,8 +22,14 @@ class SecondaryActionsContext extends PimContext
             $module->open();
             sleep(1);
 
-            return $module->getMenuItem($actionName);
-        }, sprintf('Could not find the secondary action "%s"', $actionName))->click();
+            $menuItem = $module->getMenuItem($actionName);
+            if (null === $menuItem) {
+                return false;
+            }
+            $menuItem->click();
+
+            return true;
+        }, sprintf('Could not find the secondary action "%s"', $actionName));
     }
 
     /**

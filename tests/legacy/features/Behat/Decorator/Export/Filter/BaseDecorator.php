@@ -25,8 +25,14 @@ class BaseDecorator extends ElementDecorator
     public function remove()
     {
         $this->spin(function () {
-            return $this->find('css', '.remove');
-        }, 'Can not find the remove button.')->click();
+            $removeButton = $this->find('css', '.remove');
+            if (null === $removeButton) {
+                return false;
+            }
+            $removeButton->click();
+
+            return true;
+        }, 'Can not find the remove button.');
     }
 
     /**
