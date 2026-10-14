@@ -116,7 +116,10 @@ class FlagConnectedAppWithOutdatedScopesActionTest extends TestCase
             $connectedApp,
             'some other scopes',
         ));
-        $this->assertEquals(new JsonResponse('Ok'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertSame('Ok', \json_decode($response->getContent(), true));
     }
 
     public function test_it_uses_empty_string_when_scopes_are_not_provided(): void
@@ -144,6 +147,9 @@ class FlagConnectedAppWithOutdatedScopesActionTest extends TestCase
             $connectedApp,
             '',
         ));
-        $this->assertEquals(new JsonResponse('Ok'), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertSame('Ok', \json_decode($response->getContent(), true));
     }
 }

@@ -152,7 +152,10 @@ class UpdateConnectedAppMonitoringSettingsActionTest extends TestCase
                         'flowType' => 0,
                         'auditable' => true,
                     ]));
-        $this->assertEquals(new JsonResponse(['error' => 'Wrong type for parameters'], Response::HTTP_UNPROCESSABLE_ENTITY), $this->sut->__invoke($request, 'foo'));
+        $response = $this->sut->__invoke($request, 'foo');
+
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        $this->assertSame(['error' => 'Wrong type for parameters'], \json_decode($response->getContent(), true));
     }
 
     public function test_it_throws_unprocessed_entity_on_update_with_unknown_auditable_type_value(): void
@@ -180,6 +183,9 @@ class UpdateConnectedAppMonitoringSettingsActionTest extends TestCase
                         'flowType' => 'other',
                         'auditable' => 'should be a bool',
                     ]));
-        $this->assertEquals(new JsonResponse(['error' => 'Wrong type for parameters'], Response::HTTP_UNPROCESSABLE_ENTITY), $this->sut->__invoke($request, 'foo'));
+        $response = $this->sut->__invoke($request, 'foo');
+
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        $this->assertSame(['error' => 'Wrong type for parameters'], \json_decode($response->getContent(), true));
     }
 }
