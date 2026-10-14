@@ -46,6 +46,9 @@ class IsConnectionsNumberLimitReachedActionTest extends TestCase
 
         $request->method('isXmlHttpRequest')->willReturn(true);
         $this->isConnectionsNumberLimitReachedQuery->method('execute')->willReturn(true);
-        $this->assertEquals(new JsonResponse(['limitReached' => true]), $this->sut->__invoke($request));
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertSame(['limitReached' => true], \json_decode($response->getContent(), true));
     }
 }

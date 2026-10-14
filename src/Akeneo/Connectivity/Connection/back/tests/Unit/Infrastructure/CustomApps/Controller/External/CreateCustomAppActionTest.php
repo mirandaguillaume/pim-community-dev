@@ -119,7 +119,10 @@ class CreateCustomAppActionTest extends TestCase
             ['activate_url', '', 420],
             ['callback_url', '', 'Not url'],
         ]);
-        $this->assertEquals(new JsonResponse(
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        $this->assertSame(
             [
                         'errors' => [
                             [
@@ -136,8 +139,8 @@ class CreateCustomAppActionTest extends TestCase
                             ],
                         ],
                     ],
-            Response::HTTP_UNPROCESSABLE_ENTITY
-        ), $this->sut->__invoke($request));
+            \json_decode($response->getContent(), true)
+        );
     }
 
     public function test_it_fails_retrieve_the_custom_app_secret(): void
@@ -158,15 +161,18 @@ class CreateCustomAppActionTest extends TestCase
             ['activate_url', '', 'http://callback-url.test'],
             ['callback_url', '', 'http://activate-url.test'],
         ]);
-        $this->assertEquals(new JsonResponse(
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        $this->assertSame(
             [
                         'errors' => [
                             'propertyPath' => null,
                             'message' => 'The client secret can not be retrieved.',
                         ],
                     ],
-            Response::HTTP_UNPROCESSABLE_ENTITY
-        ), $this->sut->__invoke($request));
+            \json_decode($response->getContent(), true)
+        );
     }
 
     public function test_it_creates_a_custom_app(): void

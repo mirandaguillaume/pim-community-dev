@@ -66,9 +66,15 @@ class RequestAccessTokenActionTest extends TestCase
         $constraintViolationList->method('count')->willReturn(1);
         $constraintViolationList->method('offsetGet')->with(0)->willReturn($constraintViolation);
         $this->validator->method('validate')->with($this->isInstanceOf(AccessTokenRequest::class))->willReturn($constraintViolationList);
-        $this->assertEquals(new JsonResponse([
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(
+            [
                     'error' => 'invalid_grant',
-                ], Response::HTTP_BAD_REQUEST), $this->sut->__invoke($request));
+                ],
+            \json_decode($response->getContent(), true)
+        );
     }
 
     public function test_it_returns_a_bad_request_response_with_error_description_when_code_challenge_is_expired(): void
@@ -90,9 +96,15 @@ class RequestAccessTokenActionTest extends TestCase
         $constraintViolationList->method('count')->willReturn(1);
         $constraintViolationList->method('offsetGet')->with(0)->willReturn($constraintViolation);
         $this->validator->method('validate')->with($this->isInstanceOf(AccessTokenRequest::class))->willReturn($constraintViolationList);
-        $this->assertEquals(new JsonResponse([
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(
+            [
                     'error' => 'invalid_grant',
                     'error_description' => 'Code is expired',
-                ], Response::HTTP_BAD_REQUEST), $this->sut->__invoke($request));
+                ],
+            \json_decode($response->getContent(), true)
+        );
     }
 }

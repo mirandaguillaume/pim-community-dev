@@ -246,8 +246,14 @@ class GetOpenAppUrlActionTest extends TestCase
             ['akeneo_connectivity_connection_manage_apps', null, false],
             ['akeneo_connectivity_connection_open_apps', null, true],
         ]);
-        $this->assertEquals(new JsonResponse([
+        $response = $this->sut->__invoke($request, 'connection_code');
+
+        $this->assertSame(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertSame(
+            [
                     'url' => 'http://app.example.com/activate?pim_url=https%3A%2F%2Fsome_pim_url',
-                ]), $this->sut->__invoke($request, 'connection_code'));
+                ],
+            \json_decode($response->getContent(), true)
+        );
     }
 }

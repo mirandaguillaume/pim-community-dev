@@ -75,7 +75,12 @@ class DeleteCustomAppActionTest extends TestCase
                 ]);
         $this->deleteCustomAppHandler->expects($this->once())->method('handle')->with($this->isInstanceOf(DeleteCustomAppCommand::class));
         $this->deleteAppHandler->expects($this->never())->method('handle')->with($this->isInstanceOf(DeleteAppCommand::class));
-        $this->assertEquals(new JsonResponse(null, Response::HTTP_NO_CONTENT), $this->sut->__invoke('test_client_id'));
+        $response = $this->sut->__invoke('test_client_id');
+
+        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+        // JsonResponse substitutes an empty ArrayObject for a null payload, so the body is `{}`
+        // and decodes to an empty array — not to null.
+        $this->assertSame([], \json_decode($response->getContent(), true));
     }
 
     public function test_it_deletes_custom_app_and_underlying_connected_app(): void
@@ -87,6 +92,11 @@ class DeleteCustomAppActionTest extends TestCase
                 ]);
         $this->deleteCustomAppHandler->expects($this->once())->method('handle')->with($this->isInstanceOf(DeleteCustomAppCommand::class));
         $this->deleteAppHandler->expects($this->once())->method('handle')->with($this->isInstanceOf(DeleteAppCommand::class));
-        $this->assertEquals(new JsonResponse(null, Response::HTTP_NO_CONTENT), $this->sut->__invoke('test_client_id'));
+        $response = $this->sut->__invoke('test_client_id');
+
+        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+        // JsonResponse substitutes an empty ArrayObject for a null payload, so the body is `{}`
+        // and decodes to an empty array — not to null.
+        $this->assertSame([], \json_decode($response->getContent(), true));
     }
 }

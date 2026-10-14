@@ -79,10 +79,13 @@ class CreateCustomAppActionTest extends TestCase
         $this->validator->method('validate')->with($this->isInstanceOf(CreateCustomAppCommand::class))->willReturn($constraintList);
         $this->createCustomAppCommandHandler->expects($this->once())->method('handle')->with($this->isInstanceOf(CreateCustomAppCommand::class));
         $this->getCustomAppSecretQuery->method('execute')->with($this->isType('string'))->willReturn(null);
-        $this->assertEquals(new JsonResponse(
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        $this->assertSame(
             ['errors' => ['propertyPath' => null, 'message' => 'The client secret can not be retrieved.']],
-            Response::HTTP_UNPROCESSABLE_ENTITY
-        ), $this->sut->__invoke($request));
+            \json_decode($response->getContent(), true)
+        );
     }
 
     public function test_it_answers_that_the_endpoint_does_not_exist_if_the_activate_feature_flag_is_disabled(): void
@@ -122,10 +125,13 @@ class CreateCustomAppActionTest extends TestCase
         $request->method('isXmlHttpRequest')->willReturn(true);
         $this->tokenStorage->method('getToken')->willReturn(null);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(true);
-        $this->assertEquals(new JsonResponse(
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(
             'Invalid user token.',
-            Response::HTTP_BAD_REQUEST,
-        ), $this->sut->__invoke($request));
+            \json_decode($response->getContent(), true)
+        );
     }
 
     public function test_it_answers_that_a_bad_request_has_been_done_because_the_user_does_not_exist(): void
@@ -138,10 +144,13 @@ class CreateCustomAppActionTest extends TestCase
         $this->tokenStorage->method('getToken')->willReturn($token);
         $token->method('getUser')->willReturn(null);
         $this->security->method('isGranted')->with('akeneo_connectivity_connection_manage_test_apps')->willReturn(true);
-        $this->assertEquals(new JsonResponse(
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(
             'Invalid user token.',
-            Response::HTTP_BAD_REQUEST,
-        ), $this->sut->__invoke($request));
+            \json_decode($response->getContent(), true)
+        );
     }
 
     public function test_it_answers_that_the_entity_is_unprocessable_with_details_if_the_command_is_not_valid(): void
@@ -166,7 +175,10 @@ class CreateCustomAppActionTest extends TestCase
         $activateUrlViolation = new ConstraintViolation('Not url', '', [], '', 'activateUrl', 'it is not a url');
         $constraintList = new ConstraintViolationList([$nameViolation, $callbackUrlViolation, $activateUrlViolation]);
         $this->validator->method('validate')->with($this->isInstanceOf(CreateCustomAppCommand::class))->willReturn($constraintList);
-        $this->assertEquals(new JsonResponse(
+        $response = $this->sut->__invoke($request);
+
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        $this->assertSame(
             [
                         'errors' => [
                             [
@@ -183,7 +195,7 @@ class CreateCustomAppActionTest extends TestCase
                             ],
                         ],
                     ],
-            Response::HTTP_UNPROCESSABLE_ENTITY
-        ), $this->sut->__invoke($request));
+            \json_decode($response->getContent(), true)
+        );
     }
 }

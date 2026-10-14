@@ -55,11 +55,17 @@ class GetConnectedAppAuthenticationScopesActionTest extends TestCase
             'auth_scope_b',
             'auth_scope_c',
         ]);
-        $this->assertEquals(new JsonResponse([
+        $response = $this->sut->__invoke('app_connection_code');
+
+        $this->assertSame(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertSame(
+            [
                     'auth_scope_a',
                     'auth_scope_b',
                     'auth_scope_c',
-                ]), $this->sut->__invoke('app_connection_code'));
+                ],
+            \json_decode($response->getContent(), true)
+        );
     }
 
     public function test_it_returns_an_empty_list_of_authentication_scopes(): void
@@ -75,7 +81,10 @@ class GetConnectedAppAuthenticationScopesActionTest extends TestCase
             'an_username',
         ));
         $this->getUserConsentedAuthenticationScopesQuery->method('execute')->with(42, 'app_identifier')->willReturn([]);
-        $this->assertEquals(new JsonResponse([]), $this->sut->__invoke('app_connection_code'));
+        $response = $this->sut->__invoke('app_connection_code');
+
+        $this->assertSame(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertSame([], \json_decode($response->getContent(), true));
     }
 
     public function test_it_throws_a_not_found_exception_on_non_connected_app_connection_code(): void

@@ -30,14 +30,20 @@ class DashboardOverviewControllerTest extends TestCase
     {
         $this->getDashboardScoresQuery->expects($this->never())->method('byCategory');
         $request = new Request(['category' => '']);
-        $this->assertEquals(new JsonResponse(['error' => 'A category code cannot be empty'], Response::HTTP_BAD_REQUEST), $this->sut->__invoke($request, 'ecommerce', 'en_US', TimePeriod::DAILY));
+        $response = $this->sut->__invoke($request, 'ecommerce', 'en_US', TimePeriod::DAILY);
+
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(['error' => 'A category code cannot be empty'], \json_decode($response->getContent(), true));
     }
 
     public function test_it_returns_a_http_bad_request_response_if_an_invalid_family_code_is_given(): void
     {
         $this->getDashboardScoresQuery->expects($this->never())->method('byFamily');
         $request = new Request(['family' => '']);
-        $this->assertEquals(new JsonResponse(['error' => 'A family code cannot be empty'], Response::HTTP_BAD_REQUEST), $this->sut->__invoke($request, 'ecommerce', 'en_US', TimePeriod::DAILY));
+        $response = $this->sut->__invoke($request, 'ecommerce', 'en_US', TimePeriod::DAILY);
+
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(['error' => 'A family code cannot be empty'], \json_decode($response->getContent(), true));
     }
 
     public function test_it_returns_an_empty_response_if_there_is_no_rates(): void
@@ -45,6 +51,9 @@ class DashboardOverviewControllerTest extends TestCase
         $getDashboardRatesQuery = $this->createMock(GetDashboardScoresQueryInterface::class);
 
         $getDashboardRatesQuery->method('byCatalog')->with(new ChannelCode('ecommerce'), new LocaleCode('en_US'), TimePeriod::daily())->willReturn(null);
-        $this->assertEquals(new JsonResponse([]), $this->sut->__invoke(new Request(), 'ecommerce', 'en_US', TimePeriod::DAILY));
+        $response = $this->sut->__invoke(new Request(), 'ecommerce', 'en_US', TimePeriod::DAILY);
+
+        $this->assertSame(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertSame([], \json_decode($response->getContent(), true));
     }
 }
