@@ -148,6 +148,7 @@ config:
         oro/datafilter/metric-filter-react:         pimdatagrid/js/datafilter/filter/metric-filter-react
         oro/datafilter/select-filter-react:         pimdatagrid/js/datafilter/filter/select-filter-react
         oro/datafilter/multiselect-filter-react:    pimdatagrid/js/datafilter/filter/multiselect-filter-react
+        oro/datafilter/product_scope-filter-react:  pimdatagrid/js/datafilter/filter/product_scope-filter-react
         oro/datafilter/product_completeness-filter-react: pimdatagrid/js/datafilter/filter/product_completeness-filter-react
         oro/datafilter/parent-filter-react:         pimdatagrid/js/datafilter/filter/parent-filter-react
         oro/datafilter/identifier-filter-react:     pimdatagrid/js/datafilter/filter/identifier-filter-react

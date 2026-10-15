@@ -37,7 +37,8 @@ describe('FILTER_MODULE_IDS', () => {
     expect(FILTER_MODULE_IDS['product_category']).toBe('oro/datafilter/product_category-filter'));
   test('product_completeness', () =>
     expect(FILTER_MODULE_IDS['product_completeness']).toBe('oro/datafilter/product_completeness-filter-react'));
-  test('product_scope', () => expect(FILTER_MODULE_IDS['product_scope']).toBe('oro/datafilter/product_scope-filter'));
+  test('product_scope', () =>
+    expect(FILTER_MODULE_IDS['product_scope']).toBe('oro/datafilter/product_scope-filter-react'));
   test('search', () => expect(FILTER_MODULE_IDS['search']).toBe('oro/datafilter/search-filter'));
   test('attribute_search', () => expect(FILTER_MODULE_IDS['attribute_search']).toBe('oro/datafilter/search-filter'));
   test('select', () => expect(FILTER_MODULE_IDS['select']).toBe('oro/datafilter/select-filter-react'));
@@ -61,8 +62,8 @@ describe('resolveFilterModuleId', () => {
     test('search → search-filter', () => expect(resolveFilterModuleId('search')).toBe('oro/datafilter/search-filter'));
     test('uuid → uuid-filter-react', () =>
       expect(resolveFilterModuleId('uuid')).toBe('oro/datafilter/uuid-filter-react'));
-    test('product_scope → product_scope-filter', () =>
-      expect(resolveFilterModuleId('product_scope')).toBe('oro/datafilter/product_scope-filter'));
+    test('product_scope → product_scope-filter-react', () =>
+      expect(resolveFilterModuleId('product_scope')).toBe('oro/datafilter/product_scope-filter-react'));
     test('product_category → product_category-filter', () =>
       expect(resolveFilterModuleId('product_category')).toBe('oro/datafilter/product_category-filter'));
     test('product_completeness → product_completeness-filter-react', () =>

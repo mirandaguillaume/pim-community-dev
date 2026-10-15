@@ -193,6 +193,11 @@ module.exports = {
     // DataGrid select filter (Vague B) — SelectFilter bridge replacing jquery.multiselect with the
     // controlled DSM SelectInput/MultiSelectInput via SelectFilterCriteria.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/SelectFilterCriteria.unit.tsx',
+    // DataGrid product_scope filter (C1) — the grid toolbar scope switcher. The bridge extends
+    // select-filter-react but keeps its own bespoke AknDropdown through ScopeFilterCriteria, and
+    // catalogScope (not a DOM class) is its source of truth.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/ScopeFilterCriteria.unit.tsx',
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/product_scope-filter-react.unit.tsx',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/select-filter-react.unit.tsx',
     // DataGrid multiselect filter (Vague B wave 2) — extends select-filter-react, adds the "All"
     // mutual-exclusion + array value read; renders SelectFilterCriteria's MultiSelectInput branch.
