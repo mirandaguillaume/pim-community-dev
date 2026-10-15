@@ -33,8 +33,6 @@ describe('FILTER_MODULE_IDS', () => {
     expect(FILTER_MODULE_IDS['product_and_product_model_completeness']).toBe(
       'oro/datafilter/product_completeness-filter-react'
     ));
-  test('product_category', () =>
-    expect(FILTER_MODULE_IDS['product_category']).toBe('oro/datafilter/product_category-filter'));
   test('product_completeness', () =>
     expect(FILTER_MODULE_IDS['product_completeness']).toBe('oro/datafilter/product_completeness-filter-react'));
   test('product_scope', () =>
@@ -64,8 +62,6 @@ describe('resolveFilterModuleId', () => {
       expect(resolveFilterModuleId('uuid')).toBe('oro/datafilter/uuid-filter-react'));
     test('product_scope → product_scope-filter-react', () =>
       expect(resolveFilterModuleId('product_scope')).toBe('oro/datafilter/product_scope-filter-react'));
-    test('product_category → product_category-filter', () =>
-      expect(resolveFilterModuleId('product_category')).toBe('oro/datafilter/product_category-filter'));
     test('product_completeness → product_completeness-filter-react', () =>
       expect(resolveFilterModuleId('product_completeness')).toBe('oro/datafilter/product_completeness-filter-react'));
     test('attribute_search → search-filter (shared module)', () =>
@@ -91,6 +87,17 @@ describe('resolveFilterModuleId', () => {
     test('unknown type throws', () => {
       expect(() => resolveFilterModuleId('nonexistent_type')).toThrow(
         'FilterTypeRegistry: no module registered for filter type "nonexistent_type"'
+      );
+    });
+
+    // Pins the removal of the dead `product_category` entry. Its consumers (item-picker,
+    // product/grid/category-tree) import `oro/datafilter/product_category-filter` directly and no
+    // datagrid config declares the type, so a registry entry for it resolved nothing. If someone
+    // re-adds it, this fails and points them here rather than to a silent mismatch.
+    test('product_category is not registered: it is imported directly, never resolved here', () => {
+      expect(FILTER_MODULE_IDS).not.toHaveProperty('product_category');
+      expect(() => resolveFilterModuleId('product_category')).toThrow(
+        'FilterTypeRegistry: no module registered for filter type "product_category"'
       );
     });
 
