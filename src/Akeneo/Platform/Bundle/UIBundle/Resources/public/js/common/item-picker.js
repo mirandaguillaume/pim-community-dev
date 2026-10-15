@@ -139,8 +139,19 @@ export default BaseForm.extend({
       },
     };
 
+    // Built for its side effect: it renders the category tree into `#item-picker-tree`.
+    //
+    // No `urlParams` is passed, and none ever reached the filter: it reads a FLAT map with
+    // bracket-notation keys (`<grid>[_filter][category][value][treeId]`), while the object built
+    // above is nested (`{alias, params: {_filter: {...}}}`). Those lookups were always undefined, so
+    // the tree fell back to the filter's own default -- `{treeId: 0, categoryId: -2}` -- which is the
+    // same "all categories" the `_filter` above asks the grid for. Passing it was decoration.
     /* jshint nonew: false */
-    new CategoryFilter(urlParams, this.config.datagridName, this.config.categoryTreeRoute, '#item-picker-tree');
+    new CategoryFilter({
+      el: '#item-picker-tree',
+      gridName: this.config.datagridName,
+      categoryBaseRoute: this.config.categoryTreeRoute,
+    });
 
     $.get(Routing.generate('pim_datagrid_load', urlParams)).done(
       function (response) {

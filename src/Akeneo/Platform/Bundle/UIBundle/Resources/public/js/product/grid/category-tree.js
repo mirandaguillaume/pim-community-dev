@@ -39,15 +39,17 @@ export default BaseForm.extend({
    * Render the category tree extensions when the datagrid is ready
    */
   setupCategoryTree(urlParams) {
-    const categoryFilter = new CategoryFilter(
+    const categoryFilter = new CategoryFilter({
+      el: this.$el,
       urlParams,
-      this.config.alias,
-      this.config.categoryTreeName,
-      this.$el,
-      value => {
+      gridName: this.config.alias,
+      categoryBaseRoute: this.config.categoryTreeName,
+      // Called once, with the initial value. Subsequent changes arrive as the `update` event below,
+      // so both routes land on the same handler on purpose.
+      updateCallback: value => {
         this.valueUpdated(value);
-      }
-    );
+      },
+    });
 
     this.listenTo(categoryFilter, 'update', function (value) {
       this.valueUpdated(value);
