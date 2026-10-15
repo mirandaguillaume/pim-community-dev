@@ -205,6 +205,11 @@ module.exports = {
     // DataGrid product completeness filter — a bare extend of select-filter-react, mirroring the
     // legacy bare extend of select-filter.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/product_completeness-filter-react.unit.tsx',
+    // DataGrid product_category filter (.js->.ts) — the one filter built directly by its two
+    // consumers through named options rather than resolved through FilterTypeRegistry. The super
+    // chain is mocked as a real Backbone.View subclass because Backbone's own construction
+    // sequence is what the test pins.
+    '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/product_category-filter.unit.ts',
     // DataGrid RTK state mirror (C1 Wave 5) — gridState slice + the collection.state mirror bridge.
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/gridStateSlice.unit.ts',
     '<rootDir>/src/Oro/Bundle/PimDataGridBundle/tests/front/unit/createGridStateMirror.unit.ts',
