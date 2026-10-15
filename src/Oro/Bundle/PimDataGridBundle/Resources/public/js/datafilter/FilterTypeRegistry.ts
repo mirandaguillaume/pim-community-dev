@@ -16,6 +16,13 @@
  * Keys are the *resolved* type names (after alias expansion, see FILTER_TYPE_ALIASES).
  */
 export const FILTER_MODULE_IDS = {
+  // NOTE: `product_category` is deliberately absent. It is not resolved through this registry: no
+  // datagrid config declares that metadata type, and its two consumers --
+  // `UIBundle/.../common/item-picker.js` and `UIBundle/.../product/grid/category-tree.js` -- import
+  // `oro/datafilter/product_category-filter` directly, with a non-standard
+  // `(urlParams, gridName, categoryBaseRoute, container, updateCallback)` signature. The requirejs
+  // alias therefore stays; only this entry was dead weight. Re-adding it would make the registry
+  // claim a resolution path that nothing uses.
   'ajax-choice': 'oro/datafilter/ajax-choice-filter',
   // C1 Wave 4 Slice C3: `choice` filters (reached by the `string` metadata type) render via React
   // (choice-filter-react extends the legacy choice-filter — the operator AknDropdown + Select2 value
@@ -42,7 +49,6 @@ export const FILTER_MODULE_IDS = {
   // `product_completeness` is a bare extend of `select`, which already renders via React, so both
   // completeness entries point at the equally bare `product_completeness-filter-react` bridge.
   product_and_product_model_completeness: 'oro/datafilter/product_completeness-filter-react',
-  product_category: 'oro/datafilter/product_category-filter',
   product_completeness: 'oro/datafilter/product_completeness-filter-react',
   // C1: `product_scope` renders via React (product_scope-filter-react extends select-filter-react but
   // keeps its own bespoke AknDropdown markup through ScopeFilterCriteria — the scope switcher lives in
