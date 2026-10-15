@@ -13,11 +13,43 @@ export default NumberFilter.extend({
   treeView: null,
 
   /**
-   * @inheritDoc
+   * Built directly by its two consumers (`pim/product/grid/category-tree` and `pim/common/item-picker`)
+   * rather than resolved through `FilterTypeRegistry`, because it is not a grid-declared filter: it
+   * renders a category tree into a container the caller owns.
+   *
+   * That construction used to be five positional arguments, which fought Backbone in two ways.
+   * Backbone hands the FIRST constructor argument to `_configure()` as the view's options and runs
+   * `_ensureElement()` before `initialize()`, so passing `urlParams` first meant a bag of grid query
+   * parameters landed in the options slot (harmless only because none of its keys are in Backbone's
+   * `viewOptions`), and passing the container fourth meant Backbone built a `<div>` that this method
+   * immediately threw away with `this.$el.remove()`.
+   *
+   * Named options fix both: `el` is one of Backbone's own `viewOptions`, so `_ensureElement()` adopts
+   * the caller's container — a selector string or a jQuery object, `setElement` accepts either — and
+   * there is no element to discard. None of the names below collide with what `abstract-filter`
+   * reads out of its options (`enabled`, `canDisable`, `placeholder`, `showLabel`, `name`, `type`),
+   * so the super-call behaves exactly as it did when it received `urlParams`.
+   *
+   * Adopting the container does NOT start delegating the inherited `ChoiceFilter` events hash
+   * (`keyup input`, `click .filter-criteria-selector`, ...) — which would have mattered, since the
+   * tree renders an "include sub-categories" checkbox that `keyup input` would match. Both branches
+   * of Backbone's `_ensureElement` call `setElement(element, false)`, and that `false` is the
+   * delegate flag, so this is exactly as inert as the old manual `this.$el = $(container)` was.
+   *
+   * @param {Object}   options
+   * @param {String|jQuery} options.el                The container to render the tree into.
+   * @param {Object}   [options.urlParams]            FLAT grid params, bracket-notation keys, as
+   *                                                  `datagrid:getParams` emits them. A nested object
+   *                                                  is silently ignored — the keys read below would
+   *                                                  not match.
+   * @param {String}   options.gridName               Grid alias, used to build those keys.
+   * @param {String}   options.categoryBaseRoute      Route prefix for `_listtree` / `_children`.
+   * @param {Function} [options.updateCallback]       Called once with the initial value.
    */
-  initialize: function (urlParams, gridName, categoryBaseRoute, container, updateCallback) {
-    this.$el.remove();
-    this.$el = $(container);
+  initialize: function (options) {
+    options = options || {};
+    const {urlParams, gridName, categoryBaseRoute, updateCallback} = options;
+
     this.emptyValue = {
       value: {
         treeId: 0,
@@ -27,7 +59,7 @@ export default NumberFilter.extend({
     };
 
     this.value = $.extend(true, {}, this.emptyValue);
-    NumberFilter.prototype.initialize.apply(this, arguments);
+    NumberFilter.prototype.initialize.call(this, options);
 
     if (urlParams && urlParams[gridName + '[_filter][category][value][treeId]']) {
       this.value.value.treeId = parseInt(urlParams[gridName + '[_filter][category][value][treeId]']);
