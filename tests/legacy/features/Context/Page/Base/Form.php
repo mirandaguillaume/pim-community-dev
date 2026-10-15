@@ -225,9 +225,13 @@ class Form extends Base
      */
     public function getTabs()
     {
+        // The list is wrapped in an array before being returned: spin() treats [] as a reason to
+        // retry, and an empty tab list is a legitimate answer that must not spin until timeout.
         return $this->spin(function () {
-            return $this->find('css', $this->elements['Tabs']['css']);
-        }, 'Cannot find the tab container')->findAll('css', 'a');
+            $container = $this->find('css', $this->elements['Tabs']['css']);
+
+            return null === $container ? false : [$container->findAll('css', 'a')];
+        }, 'Cannot find the tab container')[0];
     }
 
     /**
@@ -358,9 +362,15 @@ class Form extends Base
      */
     public function attachFileToField($locator, $path)
     {
-        $this->spin(function () use ($locator) {
-            return $this->findFieldContainer($locator)->find('css', 'input[type="file"]');
-        }, sprintf('Cannot find "%s" file field', $locator))->attachFile($path);
+        $this->spin(function () use ($locator, $path) {
+            $field = $this->findFieldContainer($locator)->find('css', 'input[type="file"]');
+            if (null === $field) {
+                return false;
+            }
+            $field->attachFile($path);
+
+            return true;
+        }, sprintf('Cannot find "%s" file field', $locator));
     }
 
     /**

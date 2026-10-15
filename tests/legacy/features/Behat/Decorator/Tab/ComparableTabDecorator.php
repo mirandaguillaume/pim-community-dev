@@ -54,8 +54,14 @@ class ComparableTabDecorator extends ElementDecorator
         }, sprintf('Cannot find the %s field label', $fieldLabel));
 
         $this->spin(function () use ($fieldContainer) {
-            return $fieldContainer->find('css', '.copy-field-selector');
-        }, 'Cannot find the check selector')->check();
+            $selector = $fieldContainer->find('css', '.copy-field-selector');
+            if (null === $selector) {
+                return false;
+            }
+            $selector->check();
+
+            return true;
+        }, 'Cannot find the check selector');
     }
 
     /**
