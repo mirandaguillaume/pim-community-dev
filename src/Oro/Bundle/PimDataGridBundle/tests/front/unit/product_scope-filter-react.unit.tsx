@@ -2,9 +2,11 @@
 // (jest.mock is hoisted); the base mock uses the `backboneExtend` technique so the bridge's
 // `SelectFilterReact.prototype.initialize.apply(this)` super-call resolves.
 //
-// `styled-components`, `akeneo-design-system` and `@akeneo-pim-community/legacy-bridge` are left
-// unmocked, as in the other bridge tests — the component itself is stubbed, so nothing renders through
-// the DSM.
+// The three providers the bridge mounts through MUST be stubbed, exactly as
+// `select-filter-react.unit.tsx` does. `@akeneo-pim-community/legacy-bridge` is a yarn workspace whose
+// `dependencies.ts` requires `pim/form-builder`, a legacy AMD module that does not exist in the
+// Stryker sandbox: leaving it real passes under the plain Jest config and then kills Stryker's initial
+// dry run with `Cannot find module 'pim/form-builder'`, before a single mutant is generated.
 
 const mediatorOnce = jest.fn();
 const mediatorBind = jest.fn();
@@ -100,6 +102,10 @@ jest.mock('oro/app', () => ({__esModule: true, default: {deepClone: (v: unknown)
   virtual: true,
 });
 jest.mock('oro/translator', () => ({__esModule: true, default: (key: string) => key}), {virtual: true});
+
+jest.mock('styled-components', () => ({ThemeProvider: ({children}: any) => children}));
+jest.mock('akeneo-design-system', () => ({pimTheme: {}}));
+jest.mock('@akeneo-pim-community/legacy-bridge', () => ({DependenciesProvider: ({children}: any) => children}));
 
 // Stub the view: reflect the forwarded props into data-attributes so `_renderReact` mutants die.
 jest.mock('../../../Resources/public/js/datafilter/filter/ScopeFilterCriteria', () => {
