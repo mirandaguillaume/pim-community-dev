@@ -56,7 +56,7 @@ async function getFirstRootCategory(page: Page): Promise<{code: string; label: s
  *     category-switcher.js (`.category-switcher`, toggles `.AknDefault-thirdColumnContainer--open`)
  *   - Panel host form: .../product/grid/category-tree.js (Backbone form, `id="tree"`,
  *     `class="filter-item" data-name="category" data-type="tree"`), which builds
- *     src/Oro/Bundle/PimDataGridBundle/.../datafilter/filter/product_category-filter.js — this
+ *     src/Oro/Bundle/PimDataGridBundle/.../datafilter/filter/product_category-filter.ts — this
  *     still integrates with the grid via the same `filters-column:init` /
  *     `filters-column:update-filter` mediator events the migrated React filters use, but the
  *     widget it mounts is:
