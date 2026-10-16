@@ -26,16 +26,12 @@ describe('EditPropertiesForm', () => {
   });
 
   it('renders the category code as a read-only input', () => {
-    renderWithProviders(
-      <EditPropertiesForm category={category} formData={makeFormData()} onChangeLabel={jest.fn()} />
-    );
+    renderWithProviders(<EditPropertiesForm category={category} formData={makeFormData()} onChangeLabel={jest.fn()} />);
     expect(screen.getByDisplayValue('electronics')).toBeInTheDocument();
   });
 
   it('renders label inputs for each locale', () => {
-    renderWithProviders(
-      <EditPropertiesForm category={category} formData={makeFormData()} onChangeLabel={jest.fn()} />
-    );
+    renderWithProviders(<EditPropertiesForm category={category} formData={makeFormData()} onChangeLabel={jest.fn()} />);
     expect(screen.getByDisplayValue('Electronics')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Électronique')).toBeInTheDocument();
   });

@@ -69,8 +69,6 @@ describe('EditAttributesForm', () => {
     attributeFieldFactory.mockReturnValueOnce(null);
     const attr = {...makeAttribute('unknown'), type: 'unknown' as any};
     renderForm(makeTemplate([attr]));
-    expect(
-      screen.getByText(/akeneo\.category\.edition_form\.template\.fetching_failed/)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/akeneo\.category\.edition_form\.template\.fetching_failed/)).toBeInTheDocument();
   });
 });

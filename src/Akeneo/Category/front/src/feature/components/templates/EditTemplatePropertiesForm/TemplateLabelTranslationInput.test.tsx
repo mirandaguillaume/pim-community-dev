@@ -34,9 +34,7 @@ const locale = {code: 'en_US', label: 'English'};
 
 const renderInput = (formData?: {value: string; errors: string[]}) => {
   const dispatch = jest.fn();
-  const state = formData
-    ? {properties: {labels: {en_US: formData}}}
-    : {properties: {labels: {}}};
+  const state = formData ? {properties: {labels: {en_US: formData}}} : {properties: {labels: {}}};
 
   mockedUseTemplateForm.mockReturnValue([state as any, dispatch]);
   mockedUseSaveStatus.mockReturnValue({handleStatusListChange: jest.fn()} as any);
@@ -78,8 +76,6 @@ describe('TemplateLabelTranslationInput', () => {
     const {dispatch} = renderInput();
     await userEvent.clear(screen.getByRole('textbox'));
     await userEvent.type(screen.getByRole('textbox'), 'New');
-    expect(dispatch).toHaveBeenCalledWith(
-      expect.objectContaining({type: 'template_label_translation_changed'})
-    );
+    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({type: 'template_label_translation_changed'}));
   });
 });

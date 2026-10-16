@@ -23,16 +23,12 @@ describe('LoadAttributeSetModal', () => {
 
   it('renders the section title', () => {
     renderModal();
-    expect(
-      screen.getByText('akeneo.category.template.load_attribute_set.section_title')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.load_attribute_set.section_title')).toBeInTheDocument();
   });
 
   it('renders the modal title', () => {
     renderModal();
-    expect(
-      screen.getByText('akeneo.category.template.load_attribute_set.title')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.load_attribute_set.title')).toBeInTheDocument();
   });
 
   it('renders the four attribute list items', () => {
@@ -40,15 +36,11 @@ describe('LoadAttributeSetModal', () => {
     expect(
       screen.getByText('akeneo.category.template.load_attribute_set.content.description_attributes')
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('akeneo.category.template.load_attribute_set.content.url_attributes')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.load_attribute_set.content.url_attributes')).toBeInTheDocument();
     expect(
       screen.getByText('akeneo.category.template.load_attribute_set.content.image_attributes')
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('akeneo.category.template.load_attribute_set.content.seo_attributes')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.load_attribute_set.content.seo_attributes')).toBeInTheDocument();
   });
 
   it('calls onClose when the cancel button is clicked', async () => {
@@ -60,8 +52,6 @@ describe('LoadAttributeSetModal', () => {
 
   it('renders the load button', () => {
     renderModal();
-    expect(
-      screen.getByText('akeneo.category.template.load_attribute_set.button.load')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.load_attribute_set.button.load')).toBeInTheDocument();
   });
 });

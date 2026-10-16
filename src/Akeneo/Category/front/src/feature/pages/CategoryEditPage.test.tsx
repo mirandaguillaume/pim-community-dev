@@ -24,7 +24,12 @@ jest.mock('../components/datagrids/DeleteCategoryModal', () => ({
   DeleteCategoryModal: () => null,
 }));
 jest.mock('../components/providers/EditCategoryProvider', () => ({
-  EditCategoryContext: require('react').createContext({channels: {}, channelsFetchFailed: false, locales: {}, localesFetchFailed: false}),
+  EditCategoryContext: require('react').createContext({
+    channels: {},
+    channelsFetchFailed: false,
+    locales: {},
+    localesFetchFailed: false,
+  }),
   EditCategoryProvider: ({children}: any) => children,
 }));
 
@@ -59,7 +64,10 @@ const setupMocks = (overrides = {}) => {
     historyVersion: 0,
     ...overrides,
   } as any);
-  mockedUseDelete.mockReturnValue({isCategoryDeletionPossible: jest.fn(() => true), handleDeleteCategory: jest.fn()} as any);
+  mockedUseDelete.mockReturnValue({
+    isCategoryDeletionPossible: jest.fn(() => true),
+    handleDeleteCategory: jest.fn(),
+  } as any);
   mockedUseCount.mockReturnValue(jest.fn());
 };
 

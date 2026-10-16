@@ -7,7 +7,11 @@ describe('convertToCategoryTree', () => {
   });
 
   it('maps code and label from attr and data fields', () => {
-    const tree = {attr: {id: 'node_1', 'data-code': 'master'}, data: 'Master catalog', state: 'closed jstree-root' as const};
+    const tree = {
+      attr: {id: 'node_1', 'data-code': 'master'},
+      data: 'Master catalog',
+      state: 'closed jstree-root' as const,
+    };
     const result = convertToCategoryTree(tree);
     expect(result.code).toBe('master');
     expect(result.label).toBe('Master catalog');
@@ -48,7 +52,14 @@ describe('convertToCategoryTree', () => {
 });
 
 describe('buildTreeNodeFromCategoryTree', () => {
-  const leafCategory: CategoryTreeModel = {id: 10, code: 'shoes', label: 'Shoes', isRoot: false, isLeaf: true, children: []};
+  const leafCategory: CategoryTreeModel = {
+    id: 10,
+    code: 'shoes',
+    label: 'Shoes',
+    isRoot: false,
+    isLeaf: true,
+    children: [],
+  };
 
   it('sets identifier and label from the category', () => {
     const node = buildTreeNodeFromCategoryTree(leafCategory);
@@ -79,7 +90,10 @@ describe('buildTreeNodeFromCategoryTree', () => {
     const parent: CategoryTreeModel = {
       ...leafCategory,
       isLeaf: false,
-      children: [{...leafCategory, id: 11}, {...leafCategory, id: 12}],
+      children: [
+        {...leafCategory, id: 11},
+        {...leafCategory, id: 12},
+      ],
     };
     expect(buildTreeNodeFromCategoryTree(parent).childrenIds).toStrictEqual([11, 12]);
   });

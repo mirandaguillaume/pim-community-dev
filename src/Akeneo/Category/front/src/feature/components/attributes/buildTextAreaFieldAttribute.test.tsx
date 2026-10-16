@@ -29,9 +29,7 @@ describe('buildTextAreaFieldAttribute', () => {
 
   it('renders nothing when value is null', () => {
     const Component = buildTextAreaFieldAttribute(attribute);
-    const {container} = render(
-      <Component channel={channel} locale="en_US" value={null} onChange={jest.fn()} />
-    );
+    const {container} = render(<Component channel={channel} locale="en_US" value={null} onChange={jest.fn()} />);
     expect(container.firstChild).toBeNull();
   });
 

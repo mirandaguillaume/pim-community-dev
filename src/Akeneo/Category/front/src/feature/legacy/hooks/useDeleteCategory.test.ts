@@ -87,10 +87,7 @@ describe('useDeleteCategory (legacy)', () => {
         await result.current.handleDeleteCategory({identifier: 1, label: 'Root', onDelete: jest.fn()});
       });
 
-      expect(mockTranslate).toHaveBeenCalledWith(
-        'pim_enrich.entity.category.category_deletion.error',
-        {name: 'Root'}
-      );
+      expect(mockTranslate).toHaveBeenCalledWith('pim_enrich.entity.category.category_deletion.error', {name: 'Root'});
     });
   });
 });

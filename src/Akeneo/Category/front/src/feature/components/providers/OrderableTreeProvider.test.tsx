@@ -2,7 +2,8 @@ import React, {useContext} from 'react';
 import {act, renderHook} from '@testing-library/react';
 import {OrderableTreeProvider, OrderableTreeContext} from './OrderableTreeProvider';
 
-const createWrapper = (isActive: boolean) =>
+const createWrapper =
+  (isActive: boolean) =>
   ({children}: {children: React.ReactNode}) =>
     React.createElement(OrderableTreeProvider, {isActive}, children);
 

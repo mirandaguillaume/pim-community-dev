@@ -31,18 +31,12 @@ const renderWithFullProviders = (ui: React.ReactElement) => {
 describe('AttributeOptionRichTextCheckbox', () => {
   it('renders the rich text label for textarea type', () => {
     renderWithFullProviders(<AttributeOptionRichTextCheckbox attribute={baseAttribute} />);
-    expect(
-      screen.getByText('akeneo.category.template.attribute.settings.options.rich_text')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.attribute.settings.options.rich_text')).toBeInTheDocument();
   });
 
   it('renders the rich text label for richtext type', () => {
-    renderWithFullProviders(
-      <AttributeOptionRichTextCheckbox attribute={{...baseAttribute, type: 'richtext'}} />
-    );
-    expect(
-      screen.getByText('akeneo.category.template.attribute.settings.options.rich_text')
-    ).toBeInTheDocument();
+    renderWithFullProviders(<AttributeOptionRichTextCheckbox attribute={{...baseAttribute, type: 'richtext'}} />);
+    expect(screen.getByText('akeneo.category.template.attribute.settings.options.rich_text')).toBeInTheDocument();
   });
 
   it('renders nothing for text type', () => {

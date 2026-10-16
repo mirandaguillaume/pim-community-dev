@@ -35,7 +35,10 @@ const renderPage = () =>
 describe('CategoriesTreePage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedUseDelete.mockReturnValue({isCategoryDeletionPossible: jest.fn(() => true), handleDeleteCategory: jest.fn()} as any);
+    mockedUseDelete.mockReturnValue({
+      isCategoryDeletionPossible: jest.fn(() => true),
+      handleDeleteCategory: jest.fn(),
+    } as any);
   });
 
   it('renders the CategoryTree when tree is loaded', () => {

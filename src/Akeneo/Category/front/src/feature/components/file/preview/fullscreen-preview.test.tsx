@@ -50,17 +50,13 @@ describe('FullscreenPreview', () => {
   });
 
   it('does not render the download button when data is null', () => {
-    renderWithProviders(
-      <FullscreenPreview label="My Photo" attribute={attribute} data={null} onClose={jest.fn()} />
-    );
+    renderWithProviders(<FullscreenPreview label="My Photo" attribute={attribute} data={null} onClose={jest.fn()} />);
     expect(screen.queryByText('Download')).not.toBeInTheDocument();
   });
 
   it('calls onClose when the close button is clicked', async () => {
     const onClose = jest.fn();
-    renderWithProviders(
-      <FullscreenPreview label="My Photo" attribute={attribute} data={fileData} onClose={onClose} />
-    );
+    renderWithProviders(<FullscreenPreview label="My Photo" attribute={attribute} data={fileData} onClose={onClose} />);
     await userEvent.click(screen.getByTitle('pim_common.close'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });

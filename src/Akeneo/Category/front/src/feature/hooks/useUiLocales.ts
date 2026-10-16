@@ -18,7 +18,11 @@ const useUiLocales = () => {
     return await apiFetch<UiLocale[]>(url, {});
   }, [url]);
 
-  const {data} = useQuery<UiLocale[]>({queryKey: ['get-ui-locales'], queryFn: fetchUiLocales, staleTime: 60 * 60 * 1000});
+  const {data} = useQuery<UiLocale[]>({
+    queryKey: ['get-ui-locales'],
+    queryFn: fetchUiLocales,
+    staleTime: 60 * 60 * 1000,
+  });
   return data;
 };
 export {useUiLocales};

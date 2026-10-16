@@ -42,9 +42,7 @@ describe('EditCategoryProvider', () => {
 
   it('provides empty channels when channelsArray is null', () => {
     mockedUseFetch.mockReset();
-    mockedUseFetch
-      .mockReturnValueOnce([null, fetchFn, 'idle'])
-      .mockReturnValueOnce([null, fetchFn, 'idle']);
+    mockedUseFetch.mockReturnValueOnce([null, fetchFn, 'idle']).mockReturnValueOnce([null, fetchFn, 'idle']);
 
     const {result} = renderHook(() => useContext(EditCategoryContext), {wrapper: createWrapper()});
     expect(result.current.channels).toEqual({});
@@ -53,9 +51,7 @@ describe('EditCategoryProvider', () => {
 
   it('sets channelsFetchFailed to true when channels fetch has an error', () => {
     mockedUseFetch.mockReset();
-    mockedUseFetch
-      .mockReturnValueOnce([null, fetchFn, 'error'])
-      .mockReturnValueOnce([[enUs], fetchFn, 'fetched']);
+    mockedUseFetch.mockReturnValueOnce([null, fetchFn, 'error']).mockReturnValueOnce([[enUs], fetchFn, 'fetched']);
 
     const {result} = renderHook(() => useContext(EditCategoryContext), {wrapper: createWrapper()});
     expect(result.current.channelsFetchFailed).toBe(true);
@@ -64,9 +60,7 @@ describe('EditCategoryProvider', () => {
 
   it('sets localesFetchFailed to true when locales fetch has an error', () => {
     mockedUseFetch.mockReset();
-    mockedUseFetch
-      .mockReturnValueOnce([[ecommerce], fetchFn, 'fetched'])
-      .mockReturnValueOnce([null, fetchFn, 'error']);
+    mockedUseFetch.mockReturnValueOnce([[ecommerce], fetchFn, 'fetched']).mockReturnValueOnce([null, fetchFn, 'error']);
 
     const {result} = renderHook(() => useContext(EditCategoryContext), {wrapper: createWrapper()});
     expect(result.current.channelsFetchFailed).toBe(false);

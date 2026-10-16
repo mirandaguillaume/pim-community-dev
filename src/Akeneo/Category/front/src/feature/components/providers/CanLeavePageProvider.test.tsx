@@ -8,10 +8,14 @@ describe('CanLeavePageProvider', () => {
     const mockSetLeavePageMessage = jest.fn();
 
     const wrapper = ({children}: {children: React.ReactNode}) =>
-      React.createElement(CanLeavePageProvider, {
-        setCanLeavePage: mockSetCanLeavePage,
-        setLeavePageMessage: mockSetLeavePageMessage,
-      }, children);
+      React.createElement(
+        CanLeavePageProvider,
+        {
+          setCanLeavePage: mockSetCanLeavePage,
+          setLeavePageMessage: mockSetLeavePageMessage,
+        },
+        children
+      );
 
     const {result} = renderHook(() => useContext(CanLeavePageContext), {wrapper});
 
@@ -24,10 +28,14 @@ describe('CanLeavePageProvider', () => {
     const mockSetLeavePageMessage = jest.fn();
 
     const wrapper = ({children}: {children: React.ReactNode}) =>
-      React.createElement(CanLeavePageProvider, {
-        setCanLeavePage: mockSetCanLeavePage,
-        setLeavePageMessage: mockSetLeavePageMessage,
-      }, children);
+      React.createElement(
+        CanLeavePageProvider,
+        {
+          setCanLeavePage: mockSetCanLeavePage,
+          setLeavePageMessage: mockSetLeavePageMessage,
+        },
+        children
+      );
 
     const {result} = renderHook(() => useContext(CanLeavePageContext), {wrapper});
 

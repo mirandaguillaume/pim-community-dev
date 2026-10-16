@@ -25,9 +25,7 @@ jest.mock('../DeactivateTemplateAttributeModal', () => ({
   DeactivateTemplateAttributeModal: () => <div data-testid="deactivate-attr-modal" />,
 }));
 
-const mockedUseCodes = useCatalogActivatedLocaleCodes as jest.MockedFunction<
-  typeof useCatalogActivatedLocaleCodes
->;
+const mockedUseCodes = useCatalogActivatedLocaleCodes as jest.MockedFunction<typeof useCatalogActivatedLocaleCodes>;
 const mockedUseLocales = useCatalogLocales as jest.MockedFunction<typeof useCatalogLocales>;
 const mockedUseTemplateForm = useTemplateForm as jest.MockedFunction<typeof useTemplateForm>;
 
@@ -66,9 +64,7 @@ describe('AttributeSettings', () => {
 
   it('renders the settings title with the attribute label', () => {
     renderSettings();
-    expect(
-      screen.getByText(/akeneo\.category\.template\.attribute\.settings\.title/)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/akeneo\.category\.template\.attribute\.settings\.title/)).toBeInTheDocument();
   });
 
   it('renders localizable checkbox checked', () => {
@@ -86,9 +82,7 @@ describe('AttributeSettings', () => {
   it('opens the deactivate modal when the delete button is clicked', async () => {
     renderSettings();
     expect(screen.queryByTestId('deactivate-attr-modal')).not.toBeInTheDocument();
-    await userEvent.click(
-      screen.getByText('akeneo.category.template.attribute.delete_button')
-    );
+    await userEvent.click(screen.getByText('akeneo.category.template.attribute.delete_button'));
     expect(screen.getByTestId('deactivate-attr-modal')).toBeInTheDocument();
   });
 });

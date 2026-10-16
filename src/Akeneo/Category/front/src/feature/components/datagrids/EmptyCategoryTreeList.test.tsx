@@ -6,15 +6,11 @@ import {EmptyCategoryTreeList} from './EmptyCategoryTreeList';
 describe('EmptyCategoryTreeList', () => {
   it('renders the empty-list title translation key', () => {
     renderWithProviders(<EmptyCategoryTreeList />);
-    expect(
-      screen.getByText('pim_enrich.entity.category.content.empty_tree_list.title')
-    ).toBeInTheDocument();
+    expect(screen.getByText('pim_enrich.entity.category.content.empty_tree_list.title')).toBeInTheDocument();
   });
 
   it('renders the hint link with its translation key', () => {
     renderWithProviders(<EmptyCategoryTreeList />);
-    expect(
-      screen.getByText('pim_enrich.entity.category.content.empty_tree_list.hint')
-    ).toBeInTheDocument();
+    expect(screen.getByText('pim_enrich.entity.category.content.empty_tree_list.hint')).toBeInTheDocument();
   });
 });
