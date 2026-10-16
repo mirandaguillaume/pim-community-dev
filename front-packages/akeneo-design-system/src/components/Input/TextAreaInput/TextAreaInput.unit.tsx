@@ -86,6 +86,26 @@ test('it renders rich text editor and handle changes', () => {
   expect(handleChange).toHaveBeenCalledWith('<p>New Nice RTF content</p>\n');
 });
 
+test('the rich text toolbar offers neither the embedded nor the image button', () => {
+  const {container} = render(
+    <>
+      <label htmlFor="myInput">My label</label>
+      <TextAreaInput id="myInput" value="Nice RTF content" isRichText={true} onChange={jest.fn()} />
+    </>
+  );
+
+  // Assert the toolbar is there first: without this half the test would pass just as well if the
+  // toolbar stopped rendering at all, which is the way an absence check quietly stops checking.
+  expect(screen.getByLabelText('rdw-inline-control')).toBeInTheDocument();
+  expect(screen.getByLabelText('rdw-link-control')).toBeInTheDocument();
+  expect(screen.getByLabelText('rdw-list-control')).toBeInTheDocument();
+
+  // The embedded button reaches an XSS that has no fixed release; image is dropped as surface
+  // reduction. See the comment on the toolbar options in RichTextEditor.tsx.
+  expect(container.querySelector('.rdw-embedded-wrapper')).not.toBeInTheDocument();
+  expect(container.querySelector('.rdw-image-wrapper')).not.toBeInTheDocument();
+});
+
 test('it renders an empty rich text editor when the value is unprocessable', () => {
   const handleChange = jest.fn();
 

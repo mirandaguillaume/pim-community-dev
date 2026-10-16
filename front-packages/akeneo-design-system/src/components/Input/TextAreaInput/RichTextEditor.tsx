@@ -43,7 +43,21 @@ const RichTextEditor = ({value, readOnly = false, onChange, ...rest}: RichTextEd
       toolbarHidden={readOnly}
       readOnly={readOnly}
       toolbar={{
-        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'link', 'embedded', 'image', 'remove'],
+        // 'embedded' and 'image' are deliberately absent, and must not be re-added without reading
+        // the tests that pin this list. Two of them: one in TextAreaInput.unit.tsx next door, and
+        // one in the Category workspace's buildRichTextFieldAttribute.test.tsx. The second is the
+        // one that matters, because no CI job runs this package's own unit tests.
+        //
+        // react-draft-wysiwyg carries an unpatched cross-site scripting flaw reached through the
+        // embedded button, and no corrected release exists -- npm reports the patched range as
+        // `<0.0.0`, which is its way of saying the package is unmaintained. Dropping the button is
+        // what makes that flaw unreachable through our configuration; a version bump cannot.
+        //
+        // 'image' goes with it for a different reason: it let arbitrary markup into the stored HTML
+        // for a capability nothing depends on -- a category carries its pictures through its own
+        // `image` attribute type. That half is surface reduction, not a fix, and can be argued
+        // separately from the one above.
+        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'link', 'remove'],
         inline: {
           options: ['bold', 'italic'],
         },
