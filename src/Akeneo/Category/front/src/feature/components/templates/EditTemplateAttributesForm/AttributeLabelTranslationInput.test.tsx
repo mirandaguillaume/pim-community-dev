@@ -33,9 +33,7 @@ const attribute = {
 
 const renderInput = (formData?: {value: string; errors: string[]}) => {
   const dispatch = jest.fn();
-  const state = formData
-    ? {attributes: {'attr-uuid': {labels: {en_US: formData}}}}
-    : {attributes: {}};
+  const state = formData ? {attributes: {'attr-uuid': {labels: {en_US: formData}}}} : {attributes: {}};
 
   mockedUseTemplateForm.mockReturnValue([state as any, dispatch]);
   mockedUseSaveStatus.mockReturnValue({handleStatusListChange: jest.fn()} as any);
@@ -77,8 +75,6 @@ describe('AttributeLabelTranslationInput', () => {
     const {dispatch} = renderInput();
     await userEvent.clear(screen.getByRole('textbox'));
     await userEvent.type(screen.getByRole('textbox'), 'New');
-    expect(dispatch).toHaveBeenCalledWith(
-      expect.objectContaining({type: 'attribute_label_translation_changed'})
-    );
+    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({type: 'attribute_label_translation_changed'}));
   });
 });

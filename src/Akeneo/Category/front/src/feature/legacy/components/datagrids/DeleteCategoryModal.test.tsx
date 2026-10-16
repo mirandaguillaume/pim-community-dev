@@ -26,9 +26,7 @@ describe('DeleteCategoryModal (legacy)', () => {
 
   it('renders the translated message', () => {
     renderWithProviders(<DeleteCategoryModal {...defaultProps} />);
-    expect(
-      screen.getByText('pim_enrich.entity.category.category_tree_deletion.message')
-    ).toBeInTheDocument();
+    expect(screen.getByText('pim_enrich.entity.category.category_tree_deletion.message')).toBeInTheDocument();
   });
 
   it('calls closeModal when the cancel button is clicked', async () => {

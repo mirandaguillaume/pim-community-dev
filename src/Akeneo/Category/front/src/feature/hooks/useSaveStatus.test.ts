@@ -5,9 +5,7 @@ import {SaveStatusContext, Status} from '../components/providers/SaveStatusProvi
 
 describe('useSaveStatus', () => {
   it('throws when used outside a SaveStatusProvider', () => {
-    expect(() => renderHook(() => useSaveStatus())).toThrow(
-      'useSaveStatus must be used within a SaveStatusProvider'
-    );
+    expect(() => renderHook(() => useSaveStatus())).toThrow('useSaveStatus must be used within a SaveStatusProvider');
   });
 
   it('returns context value when wrapped in a SaveStatusProvider', () => {

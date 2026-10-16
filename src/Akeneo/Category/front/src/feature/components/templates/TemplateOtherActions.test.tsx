@@ -12,9 +12,7 @@ describe('TemplateOtherActions', () => {
 
   it('does not show the dropdown overlay initially', () => {
     renderWithProviders(<TemplateOtherActions onDeactivateTemplate={jest.fn()} />);
-    expect(
-      screen.queryByText('akeneo.category.template.deactivate.deactivate_template')
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('akeneo.category.template.deactivate.deactivate_template')).not.toBeInTheDocument();
   });
 
   it('reveals the deactivate option when the button is clicked', async () => {
@@ -22,9 +20,7 @@ describe('TemplateOtherActions', () => {
 
     await userEvent.click(screen.getByTitle('akeneo.category.other_actions'));
 
-    expect(
-      screen.getByText('akeneo.category.template.deactivate.deactivate_template')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.deactivate.deactivate_template')).toBeInTheDocument();
   });
 
   it('calls onDeactivateTemplate and closes the dropdown when the deactivate item is clicked', async () => {
@@ -35,8 +31,6 @@ describe('TemplateOtherActions', () => {
     await userEvent.click(screen.getByText('akeneo.category.template.deactivate.deactivate_template'));
 
     expect(onDeactivateTemplate).toHaveBeenCalledTimes(1);
-    expect(
-      screen.queryByText('akeneo.category.template.deactivate.deactivate_template')
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('akeneo.category.template.deactivate.deactivate_template')).not.toBeInTheDocument();
   });
 });

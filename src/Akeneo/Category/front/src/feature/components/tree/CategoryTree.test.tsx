@@ -42,13 +42,25 @@ describe('CategoryTree', () => {
 
   it('renders the root node label when root is provided', () => {
     const node = {
-      identifier: 1, label: 'Master catalog', code: 'master', parentId: null,
-      childrenIds: [], data: rootModel, type: 'root' as const, childrenStatus: 'idle' as const,
+      identifier: 1,
+      label: 'Master catalog',
+      code: 'master',
+      parentId: null,
+      childrenIds: [],
+      data: rootModel,
+      type: 'root' as const,
+      childrenStatus: 'idle' as const,
     };
     mockedUseCategoryTreeNode.mockReturnValue({
-      node, children: [], loadChildren: jest.fn(), moveTo: jest.fn(),
-      onDeleteCategory: jest.fn(), onCreateCategory: jest.fn(),
-      isOpen: true, open: jest.fn(), close: jest.fn(),
+      node,
+      children: [],
+      loadChildren: jest.fn(),
+      moveTo: jest.fn(),
+      onDeleteCategory: jest.fn(),
+      onCreateCategory: jest.fn(),
+      isOpen: true,
+      open: jest.fn(),
+      close: jest.fn(),
     } as any);
     mockedUseDragTreeNode.mockReturnValue({isDragged: jest.fn(() => false), isDraggable: false} as any);
     mockedUseDropTreeNode.mockReturnValue({placeholderPosition: 'none'} as any);

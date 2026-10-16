@@ -25,9 +25,11 @@ beforeEach(() => {
 
 describe('saveEditCategoryForm (legacy)', () => {
   it('returns success=true and the response form/category on ok response', async () => {
-    jest.spyOn(global, 'fetch').mockResolvedValueOnce(
-      new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
-    );
+    jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
+      );
 
     const result = await saveEditCategoryForm(mockRouter, 1, baseForm);
 
@@ -37,9 +39,11 @@ describe('saveEditCategoryForm (legacy)', () => {
   });
 
   it('returns success=false on non-ok response', async () => {
-    jest.spyOn(global, 'fetch').mockResolvedValueOnce(
-      new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 422})
-    );
+    jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 422})
+      );
 
     const result = await saveEditCategoryForm(mockRouter, 1, baseForm);
 
@@ -47,9 +51,11 @@ describe('saveEditCategoryForm (legacy)', () => {
   });
 
   it('includes the token and label fields in the URLSearchParams body', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(
-      new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
-    );
+    const fetchSpy = jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
+      );
 
     await saveEditCategoryForm(mockRouter, 1, baseForm);
 
@@ -68,9 +74,11 @@ describe('saveEditCategoryForm (legacy)', () => {
         apply_on_children: {value: '1', fullName: 'category[permissions][apply_on_children]'},
       },
     };
-    const fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(
-      new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
-    );
+    const fetchSpy = jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
+      );
 
     await saveEditCategoryForm(mockRouter, 1, formWithPermissions);
 
@@ -90,9 +98,11 @@ describe('saveEditCategoryForm (legacy)', () => {
         apply_on_children: {value: '0', fullName: 'category[permissions][apply_on_children]'},
       },
     };
-    const fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(
-      new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
-    );
+    const fetchSpy = jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
+      );
 
     await saveEditCategoryForm(mockRouter, 1, formWithPermissions);
 
@@ -101,9 +111,11 @@ describe('saveEditCategoryForm (legacy)', () => {
   });
 
   it('calls router.generate with the category id', async () => {
-    jest.spyOn(global, 'fetch').mockResolvedValueOnce(
-      new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
-    );
+    jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({form: mockResponseForm, category: mockCategory}), {status: 200})
+      );
 
     await saveEditCategoryForm(mockRouter, 42, baseForm);
 

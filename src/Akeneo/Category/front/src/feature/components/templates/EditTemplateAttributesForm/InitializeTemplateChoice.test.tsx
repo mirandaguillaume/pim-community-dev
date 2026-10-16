@@ -19,9 +19,7 @@ jest.mock('./LoadAttributeSetModal', () => ({
 describe('InitializeTemplateChoice', () => {
   it('renders the initialize title', () => {
     renderWithProviders(<InitializeTemplateChoice templateId="tmpl-uuid" />);
-    expect(
-      screen.getByText('akeneo.category.template.initialize.title')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.initialize.title')).toBeInTheDocument();
   });
 
   it('renders the load and create buttons', () => {

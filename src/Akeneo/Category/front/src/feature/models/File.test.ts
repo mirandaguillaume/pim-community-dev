@@ -1,11 +1,4 @@
-import {
-  createEmptyFile,
-  createFileFromNormalized,
-  isFileEmpty,
-  areFilesEqual,
-  isFileInStorage,
-  isFile,
-} from './File';
+import {createEmptyFile, createFileFromNormalized, isFileEmpty, areFilesEqual, isFileInStorage, isFile} from './File';
 
 const fileA = {
   filePath: 'a/b/photo.jpg',

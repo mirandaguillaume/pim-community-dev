@@ -47,9 +47,7 @@ describe('CreateTemplateModal', () => {
     const inputs = screen.getAllByRole('textbox');
     await userEvent.type(inputs[0], 'My Template');
     await userEvent.type(inputs[1], 'my_template');
-    await userEvent.click(
-      screen.getByText('akeneo.category.template.add_attribute.confirmation_modal.create')
-    );
+    await userEvent.click(screen.getByText('akeneo.category.template.add_attribute.confirmation_modal.create'));
     expect(mockMutate).toHaveBeenCalledWith(
       expect.objectContaining({
         categoryTreeId: 1,

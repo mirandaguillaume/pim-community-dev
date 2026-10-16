@@ -63,7 +63,13 @@ describe('useDeleteCategory', () => {
   });
 
   describe('handleDeleteCategory', () => {
-    const baseCategory = {identifier: 42, label: 'Accessories', code: 'accessories', numberOfProducts: 5, onDelete: jest.fn()};
+    const baseCategory = {
+      identifier: 42,
+      label: 'Accessories',
+      code: 'accessories',
+      numberOfProducts: 5,
+      onDelete: jest.fn(),
+    };
 
     it('calls onDelete and notifies success when response is ok', async () => {
       mockedDeleteCategory.mockResolvedValue({ok: true, errorMessage: ''});
@@ -102,10 +108,9 @@ describe('useDeleteCategory', () => {
         await result.current.handleDeleteCategory({...baseCategory, onDelete: jest.fn()});
       });
 
-      expect(mockTranslate).toHaveBeenCalledWith(
-        'pim_enrich.entity.category.category_deletion.error',
-        {name: baseCategory.label}
-      );
+      expect(mockTranslate).toHaveBeenCalledWith('pim_enrich.entity.category.category_deletion.error', {
+        name: baseCategory.label,
+      });
     });
 
     it('passes the category identifier to deleteCategory', async () => {

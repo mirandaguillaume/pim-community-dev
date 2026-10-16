@@ -1,7 +1,9 @@
 import {canCopyToClipboard, copyToClipboard, getImageDownloadUrl, getMediaPreviewUrl} from './media-url-generator';
 import {MediaPreviewType} from '../models/MediaPreview';
 
-const mockRouter = {generate: jest.fn((route: string, params: object) => `/${route}?${new URLSearchParams(params as any).toString()}`)};
+const mockRouter = {
+  generate: jest.fn((route: string, params: object) => `/${route}?${new URLSearchParams(params as any).toString()}`),
+};
 
 beforeEach(() => {
   mockRouter.generate.mockClear();

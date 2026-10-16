@@ -49,9 +49,7 @@ describe('EditTemplatePropertiesForm', () => {
   it('renders the general properties section title', () => {
     mockedUseUiLocales.mockReturnValue([]);
     renderForm();
-    expect(
-      screen.getByText('akeneo.category.template.properties.general_properties')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.properties.general_properties')).toBeInTheDocument();
   });
 
   it('renders the template code as a read-only input', () => {
@@ -63,7 +61,9 @@ describe('EditTemplatePropertiesForm', () => {
   it('renders skeleton placeholders while locales are loading', () => {
     mockedUseUiLocales.mockReturnValue(undefined);
     renderForm();
-    expect(screen.getByText('akeneo.category.template.properties.label_translations_in_ui_locales')).toBeInTheDocument();
+    expect(
+      screen.getByText('akeneo.category.template.properties.label_translations_in_ui_locales')
+    ).toBeInTheDocument();
   });
 
   it('renders a translation input for each locale when loaded', () => {

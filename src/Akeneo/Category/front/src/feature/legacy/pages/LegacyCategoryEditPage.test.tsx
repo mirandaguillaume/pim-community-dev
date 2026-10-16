@@ -38,7 +38,10 @@ const setupMocks = (overrides = {}) => {
     historyVersion: 0,
     ...overrides,
   } as any);
-  mockedUseDelete.mockReturnValue({isCategoryDeletionPossible: jest.fn(() => true), handleDeleteCategory: jest.fn()} as any);
+  mockedUseDelete.mockReturnValue({
+    isCategoryDeletionPossible: jest.fn(() => true),
+    handleDeleteCategory: jest.fn(),
+  } as any);
   mockedUseCount.mockReturnValue(jest.fn());
 };
 

@@ -22,23 +22,17 @@ describe('DeactivateTemplateModal', () => {
 
   it('renders the deactivate template section title', () => {
     renderWithProviders(<DeactivateTemplateModal template={template} onClose={mockOnClose} />);
-    expect(
-      screen.getByText('akeneo.category.template.deactivate.deactivate_template')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.deactivate.deactivate_template')).toBeInTheDocument();
   });
 
   it('renders the confirmation modal title', () => {
     renderWithProviders(<DeactivateTemplateModal template={template} onClose={mockOnClose} />);
-    expect(
-      screen.getByText('akeneo.category.template.deactivate.confirmation_modal.title')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.deactivate.confirmation_modal.title')).toBeInTheDocument();
   });
 
   it('renders the helper warning', () => {
     renderWithProviders(<DeactivateTemplateModal template={template} onClose={mockOnClose} />);
-    expect(
-      screen.getByText('akeneo.category.template.deactivate.confirmation_modal.helper')
-    ).toBeInTheDocument();
+    expect(screen.getByText('akeneo.category.template.deactivate.confirmation_modal.helper')).toBeInTheDocument();
   });
 
   it('calls onClose when the cancel button is clicked', async () => {
@@ -49,9 +43,7 @@ describe('DeactivateTemplateModal', () => {
 
   it('calls deactivateTemplate when the deactivate button is clicked', async () => {
     renderWithProviders(<DeactivateTemplateModal template={template} onClose={mockOnClose} />);
-    await userEvent.click(
-      screen.getByText('akeneo.category.template.deactivate.confirmation_modal.deactivate')
-    );
+    await userEvent.click(screen.getByText('akeneo.category.template.deactivate.confirmation_modal.deactivate'));
     expect(mockDeactivate).toHaveBeenCalledTimes(1);
   });
 });

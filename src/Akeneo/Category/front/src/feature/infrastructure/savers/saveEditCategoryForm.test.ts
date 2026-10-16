@@ -91,9 +91,7 @@ describe('saveEditCategoryForm', () => {
   });
 
   it('returns fallback translate error when JSON parse fails', async () => {
-    jest
-      .spyOn(global, 'fetch')
-      .mockResolvedValueOnce(new Response('not-json', {status: 500}));
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce(new Response('not-json', {status: 500}));
 
     const result = await saveEditCategoryForm(mockRouter, baseCategory, defaultOptions);
 

@@ -45,9 +45,7 @@ describe('DeleteCategoryModal', () => {
   it('shows a products warning when category has no children but has products', () => {
     mockedUseCount.mockReturnValue({data: 0, isLoading: false});
     renderWithProviders(<DeleteCategoryModal {...defaultProps} numberOfProducts={5} />);
-    expect(
-      screen.getByText('pim_enrich.entity.category.category_tree_deletion.warning_products')
-    ).toBeInTheDocument();
+    expect(screen.getByText('pim_enrich.entity.category.category_tree_deletion.warning_products')).toBeInTheDocument();
   });
 
   it('calls closeModal when the cancel button is clicked', async () => {
