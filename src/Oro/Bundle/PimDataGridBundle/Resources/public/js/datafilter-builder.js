@@ -92,14 +92,9 @@ const DataFilterBuilder = BaseForm.extend({
   combineOptions() {
     const filters = {};
     const modules = this.modules;
-    const collection = this.collection;
 
     _.each(this.metadata.filters, function (options) {
       if (_.has(options, 'name') && _.has(options, 'type')) {
-        // @TODO pass collection only for specific filters
-        if (options.type === 'selectrow') {
-          options.collection = collection;
-        }
         filters[options.name] = new (modules[options.type].extend(options))(options);
       }
     });

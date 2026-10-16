@@ -60,10 +60,8 @@ export const FILTER_MODULE_IDS = {
   // Vague B: `select` and `multiselect` render via React (select-filter-react / multiselect-filter-react
   // extend the legacy filters — the jquery.multiselect widget replaced by the controlled DSM
   // SelectInput/MultiSelectInput). The legacy `oro/datafilter/select-filter` module stays because
-  // `select-filter-react` itself extends it, as do `select-row-filter` and the legacy
-  // `product_scope-filter` left on disk.
+  // `select-filter-react` itself extends it, as does the legacy `product_scope-filter` left on disk.
   select: 'oro/datafilter/select-filter-react',
-  'select-row': 'oro/datafilter/select-row-filter',
   // C1 Wave 5: `select2-choice` renders via React (select2-choice-filter-react extends the legacy
   // select2-choice-filter — the operator AknDropdown + the multi-select ajax Select2 value field
   // shielded inside ChoiceFilterCriteria's memoized subtree).
@@ -92,7 +90,6 @@ export const FILTER_TYPE_ALIASES: Partial<Record<string, CanonicalFilterType>> =
   identifier: 'identifier',
   string: 'choice',
   choice: 'select',
-  selectrow: 'select-row',
   multichoice: 'multiselect',
   boolean: 'select',
 };

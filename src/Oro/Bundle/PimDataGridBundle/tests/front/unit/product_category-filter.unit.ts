@@ -248,6 +248,16 @@ describe('urlParams parsing', () => {
     expect(filter.value.value).toEqual({treeId: 0, categoryId: -2});
   });
 
+  test('the initial value is a deep copy — parsing urlParams does not corrupt emptyValue', () => {
+    const filter = build({urlParams: {[TREE_KEY]: '7', [CATEGORY_KEY]: '42'}});
+
+    expect(filter.value.value).toEqual({treeId: 7, categoryId: 42});
+    // A shallow copy would alias emptyValue.value onto value.value, so writing the parsed ids would
+    // corrupt the empty value too — and `_getTreeState()` RETURNS `this.emptyValue` while the
+    // container is hidden, so `getValue()` would then hand back a falsified "empty".
+    expect(filter.emptyValue).toEqual({value: {treeId: 0, categoryId: -2}, type: 1});
+  });
+
   test('does not mutate the prototype value shared by every instance', () => {
     const first = build({urlParams: {[TREE_KEY]: '7'}});
     const second = build();

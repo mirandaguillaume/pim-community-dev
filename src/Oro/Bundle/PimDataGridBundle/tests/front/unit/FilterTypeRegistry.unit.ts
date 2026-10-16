@@ -7,7 +7,6 @@ import {
 describe('FILTER_TYPE_ALIASES', () => {
   test('maps string → choice', () => expect(FILTER_TYPE_ALIASES['string']).toBe('choice'));
   test('maps choice → select', () => expect(FILTER_TYPE_ALIASES['choice']).toBe('select'));
-  test('maps selectrow → select-row', () => expect(FILTER_TYPE_ALIASES['selectrow']).toBe('select-row'));
   test('maps multichoice → multiselect', () => expect(FILTER_TYPE_ALIASES['multichoice']).toBe('multiselect'));
   test('maps boolean → select', () => expect(FILTER_TYPE_ALIASES['boolean']).toBe('select'));
   test('maps identifier → identifier (no-op)', () => expect(FILTER_TYPE_ALIASES['identifier']).toBe('identifier'));
@@ -40,7 +39,6 @@ describe('FILTER_MODULE_IDS', () => {
   test('search', () => expect(FILTER_MODULE_IDS['search']).toBe('oro/datafilter/search-filter'));
   test('attribute_search', () => expect(FILTER_MODULE_IDS['attribute_search']).toBe('oro/datafilter/search-filter'));
   test('select', () => expect(FILTER_MODULE_IDS['select']).toBe('oro/datafilter/select-filter-react'));
-  test('select-row', () => expect(FILTER_MODULE_IDS['select-row']).toBe('oro/datafilter/select-row-filter'));
   test('select2-choice', () =>
     expect(FILTER_MODULE_IDS['select2-choice']).toBe('oro/datafilter/select2-choice-filter-react'));
   test('select2-rest-choice', () =>
@@ -75,8 +73,6 @@ describe('resolveFilterModuleId', () => {
       expect(resolveFilterModuleId('choice')).toBe('oro/datafilter/select-filter-react'));
     test('boolean → select-filter (same as choice)', () =>
       expect(resolveFilterModuleId('boolean')).toBe('oro/datafilter/select-filter-react'));
-    test('selectrow → select-row-filter', () =>
-      expect(resolveFilterModuleId('selectrow')).toBe('oro/datafilter/select-row-filter'));
     test('multichoice → multiselect-filter-react', () =>
       expect(resolveFilterModuleId('multichoice')).toBe('oro/datafilter/multiselect-filter-react'));
     test('identifier (alias no-op) → identifier-filter', () =>
@@ -98,6 +94,20 @@ describe('resolveFilterModuleId', () => {
       expect(FILTER_MODULE_IDS).not.toHaveProperty('product_category');
       expect(() => resolveFilterModuleId('product_category')).toThrow(
         'FilterTypeRegistry: no module registered for filter type "product_category"'
+      );
+    });
+
+    // Pins the removal of the dead `selectrow` filter type. It was Oro's row-selection mechanism:
+    // the filter read the grid collection and encoded the checked rows as a filter value
+    // ({in: '4,35'} / {out: …}), which SelectRowFilter::apply() turned into IN / NOT IN. PIM never
+    // wired it — mass actions carry the selection through their OWN channel instead (`inset` +
+    // `values` posted by mass-action.js, read by MassActionDispatcher), and no datagrid config ever
+    // declared the type. Both halves are gone; this fails if someone re-adds the entry.
+    test('selectrow is not registered: PIM carries row selection through mass actions, not a filter', () => {
+      expect(FILTER_MODULE_IDS).not.toHaveProperty('select-row');
+      expect(FILTER_TYPE_ALIASES).not.toHaveProperty('selectrow');
+      expect(() => resolveFilterModuleId('selectrow')).toThrow(
+        'FilterTypeRegistry: no module registered for filter type "selectrow"'
       );
     });
 
