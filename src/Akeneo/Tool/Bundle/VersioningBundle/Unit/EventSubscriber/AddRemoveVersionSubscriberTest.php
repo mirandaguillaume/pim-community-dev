@@ -74,17 +74,22 @@ class AddRemoveVersionSubscriberTest extends TestCase
 
     public function test_it_does_not_create_a_version_on_not_versionable_object_deletion(): void
     {
-        $removeVersion = $this->createMock(VersionInterface::class);
-        $token = $this->createMock(TokenInterface::class);
-        $admin = $this->createMock(UserInterface::class);
+        // Not a VersionableInterface, yet it exposes getId(): dropping the instanceof guard would
+        // then carry on into the versioning collaborators below instead of dying on an undefined
+        // method, so the failure names the contract that broke rather than the shape of the double.
+        $notVersionableObject = new class() {
+            public function getId(): int
+            {
+                return 12;
+            }
+        };
         $event = $this->createMock(RemoveEvent::class);
-
-        $this->tokenStorage->method('getToken')->willReturn($token);
-        $token->method('getUser')->willReturn($admin);
-        $admin->method('getUserIdentifier')->willReturn('admin');
-        $this->authorizationChecker->method('isGranted')->with('IS_AUTHENTICATED_REMEMBERED')->willReturn(true);
-        $this->versionSaver->expects($this->never())->method('save')->with($removeVersion, $this->anything());
         $event->method('getSubject')->willReturn($notVersionableObject);
+
+        $this->versionRepository->expects($this->never())->method('getNewestLogEntry');
+        $this->versionFactory->expects($this->never())->method('create');
+        $this->versionSaver->expects($this->never())->method('save');
+
         $this->sut->addRemoveVersion($event);
     }
 }
