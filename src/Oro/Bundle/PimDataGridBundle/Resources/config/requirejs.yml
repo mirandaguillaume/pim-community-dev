@@ -137,7 +137,6 @@ config:
         oro/datafilter/number-filter-react:         pimdatagrid/js/datafilter/filter/number-filter-react
         oro/datafilter/select-filter:               pimdatagrid/js/datafilter/filter/select-filter
         oro/datafilter/grouped-variant-filter:      pimdatagrid/js/datafilter/filter/grouped-variant-filter
-        oro/datafilter/select-row-filter:           pimdatagrid/js/datafilter/filter/select-row-filter
         oro/datafilter/text-filter:                 pimdatagrid/js/datafilter/filter/text-filter
         oro/datafilter/text-filter-react:           pimdatagrid/js/datafilter/filter/text-filter-react
         oro/datafilter/date-filter-react:           pimdatagrid/js/datafilter/filter/date-filter-react
