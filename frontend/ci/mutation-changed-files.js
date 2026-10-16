@@ -38,7 +38,15 @@ const changed = git(['diff', '--diff-filter=AM', '--name-only', 'origin/master..
   .filter(f => /^(front-packages|components|src)\//.test(f))
   .filter(f => !/\.(test|spec|unit|visual)\.|__tests__|__mocks__|stories|\.storybook\//.test(f))
   .filter(f => !/\.d\.ts$/.test(f)) // type-only: nothing to mutate
-  .filter(f => !/^src\/Akeneo\/Category\//.test(f));
+  .filter(f => !/^src\/Akeneo\/Category\//.test(f))
+  // `front-packages/` is excluded for the same reason Category is: its tests are not in
+  // Stryker's runner. tests/front/unit/jest/stryker.jest.js keeps '/front-packages/' in
+  // testPathIgnorePatterns, and those suites run in their own workflow instead
+  // (.github/workflows/dsm-test.yml, triggered on front-packages/akeneo-design-system/**).
+  // Mutating a source whose tests never execute can only ever report 0.00 and fail the
+  // break threshold, which is what happened the first time a design system source changed
+  // after the gate landed.
+  .filter(f => !/^front-packages\//.test(f));
 
 // Lines that are pure module wiring — present/changed by a syntax migration but
 // never the thing mutation testing should score.
