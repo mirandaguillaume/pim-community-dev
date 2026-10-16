@@ -18,8 +18,8 @@ class NativeMessageStampTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sut = new NativeMessageStamp($nativeMessage);
         $nativeMessage = new \stdClass();
+        $this->sut = new NativeMessageStamp($nativeMessage);
     }
 
     public function test_it_is_initializable(): void

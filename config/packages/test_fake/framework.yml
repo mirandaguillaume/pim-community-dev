@@ -2,3 +2,10 @@ framework:
     test: true
     session:
         storage_factory_id: session.storage.factory.mock_file
+    # Keep PHP warnings fatal for the whole run. Without this the container is built with
+    # debug off, so FrameworkBundle's ErrorHandlerConfigurator calls throwAt(0) on the handler
+    # config/bootstrap.php already registered: from the first kernel boot onward a PHP warning
+    # is logged instead of thrown, and PHPUnit never sees it. An undefined variable then costs
+    # nothing and a test can stay green while asserting nothing.
+    php_errors:
+        throw: true
