@@ -32,7 +32,7 @@ const saveEditCategoryForm = async (
 
   // this is for keeping compatibility at the moment, ideally it should not go into the category data
   // because it is a modality for saving, not a part of a category state
-  let payload = set(['permissions', 'apply_on_children'], applyPermissionsOnChildren, category);
+  const payload = set(['permissions', 'apply_on_children'], applyPermissionsOnChildren, category);
 
   const response = await fetch(router.generate('pim_enriched_category_rest_update', {id: category.id}), {
     method: 'POST',

@@ -1,7 +1,5 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react';
-import {ThemeProvider} from 'styled-components';
-import {pimTheme} from 'akeneo-design-system';
+import {screen} from '@testing-library/react';
 import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {Node} from './Node';
 import {useCategoryTreeNode} from '../../hooks/useCategoryTreeNode';

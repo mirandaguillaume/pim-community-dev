@@ -113,11 +113,11 @@ jest.mock('./useCategory');
 
 jest.mock('../infrastructure');
 
-let mockedSaveEditCategoryForm = saveEditCategoryForm as jest.MockedFunction<typeof saveEditCategoryForm>;
-let mockedUseCategory = useCategory as jest.MockedFunction<typeof useCategory>;
+const mockedSaveEditCategoryForm = saveEditCategoryForm as jest.MockedFunction<typeof saveEditCategoryForm>;
+const mockedUseCategory = useCategory as jest.MockedFunction<typeof useCategory>;
 
 describe('useEditCategoryForm', () => {
-  let categoryResult = mockedUseCategoryResult();
+  const categoryResult = mockedUseCategoryResult();
 
   const renderUseEditCategoryForm = (categoryId: number) => {
     return categoryRenderHookWithProviders(() => useEditCategoryForm(categoryId));
@@ -187,7 +187,7 @@ describe('useEditCategoryForm', () => {
     expect(result.current.isModified).toBe(false);
     // order or user group in permissions is permuted but the categories are equivalent
     // hence the use of categegoriesAreEquals here, which consider these categories as identical
-    expect(categoriesAreEqual(result.current.category!, aCategory)).toBe(true);
+    expect(categoriesAreEqual(result.current.category, aCategory)).toBe(true);
   });
 
   test('it changes the edit permissions of a category', () => {
@@ -252,7 +252,7 @@ describe('useEditCategoryForm', () => {
     });
 
     expect(result.current.isModified).toBe(false);
-    expect(categoriesAreEqual(result.current.category!, aCategory)).toBe(true);
+    expect(categoriesAreEqual(result.current.category, aCategory)).toBe(true);
   });
 
   test('it changes the own permissions of a category', () => {
@@ -290,7 +290,7 @@ describe('useEditCategoryForm', () => {
     });
 
     expect(result.current.isModified).toBe(false);
-    expect(categoriesAreEqual(result.current.category!, aCategory)).toBe(true);
+    expect(categoriesAreEqual(result.current.category, aCategory)).toBe(true);
   });
 
   test('it changes the value of apply permissions on children', async () => {

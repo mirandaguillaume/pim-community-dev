@@ -13,10 +13,11 @@ const aChannel = (code: ChannelCode): Channel => {
     case 'mobile':
       labels = {de_DE: 'Mobil', en_US: 'Mobile', fr_FR: 'Mobile'};
       break;
-    default:
+    default: {
       const label = 'Ecommerce';
       labels = {de_DE: label, en_US: label, fr_FR: label};
       break;
+    }
   }
 
   return {

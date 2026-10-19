@@ -24,11 +24,11 @@ const useEditCategoryForm = (categoryId: number) => {
     }
 
     for (const [locale, changedLabel] of Object.entries(editedFormData.label)) {
-      if (!originalFormData.label.hasOwnProperty(locale) && changedLabel.value === '') {
+      if (!Object.prototype.hasOwnProperty.call(originalFormData.label, locale) && changedLabel.value === '') {
         return false;
       }
       if (
-        !originalFormData.label.hasOwnProperty(locale) ||
+        !Object.prototype.hasOwnProperty.call(originalFormData.label, locale) ||
         originalFormData.label[locale].value !== changedLabel.value
       ) {
         return true;
@@ -58,7 +58,7 @@ const useEditCategoryForm = (categoryId: number) => {
   }, [originalFormData, editedFormData]);
 
   const onChangeCategoryLabel = (locale: string, label: string) => {
-    if (editedFormData === null || !editedFormData.label.hasOwnProperty(locale)) {
+    if (editedFormData === null || !Object.prototype.hasOwnProperty.call(editedFormData.label, locale)) {
       return;
     }
 
@@ -72,18 +72,21 @@ const useEditCategoryForm = (categoryId: number) => {
     }
 
     switch (type) {
-      case 'view':
+      case 'view': {
         const newViewPermissions = computeNewViewPermissions(editedFormData, values);
         setEditedFormData(newViewPermissions);
         break;
-      case 'edit':
+      }
+      case 'edit': {
         const newEditPermissions = computeNewEditPermissions(editedFormData, values);
         setEditedFormData(newEditPermissions);
         break;
-      case 'own':
+      }
+      case 'own': {
         const newOwnPermissions = computeNewOwnPermissions(editedFormData, values);
         setEditedFormData(newOwnPermissions);
         break;
+      }
     }
   };
 
@@ -136,7 +139,8 @@ const useEditCategoryForm = (categoryId: number) => {
       return;
     }
 
-    // Because the value of "apply_on_children" is always returned as "1" by the backend, it should only be defined at the first load
+    // Because the value of "apply_on_children" is always returned as "1" by the backend,
+    // it should only be defined at the first load
     if (originalFormData.permissions && editedFormData !== null && editedFormData.permissions) {
       setEditedFormData({
         ...originalFormData,

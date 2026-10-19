@@ -8,7 +8,7 @@ import {
   useSecurity,
   useTranslate,
 } from '@akeneo-pim-community/shared';
-import {CategoryTreeModel, Template} from '../../models';
+import {CategoryTreeModel} from '../../models';
 import styled from 'styled-components';
 import {NoResults} from './NoResults';
 import {DeleteCategoryModal} from './DeleteCategoryModal';
@@ -198,8 +198,14 @@ const CategoryTreesDataGrid: FC<Props> = ({trees, refreshCategoryTrees}) => {
                     {countTreesChildren !== null &&
                       translate(
                         'pim_enrich.entity.category.content.tree_list.columns.count_categories',
-                        {count: countTreesChildren.hasOwnProperty(tree.code) ? countTreesChildren[tree.code] : 0},
-                        countTreesChildren.hasOwnProperty(tree.code) ? countTreesChildren[tree.code] : 0
+                        {
+                          count: Object.prototype.hasOwnProperty.call(countTreesChildren, tree.code)
+                            ? countTreesChildren[tree.code]
+                            : 0,
+                        },
+                        Object.prototype.hasOwnProperty.call(countTreesChildren, tree.code)
+                          ? countTreesChildren[tree.code]
+                          : 0
                       )}
                   </Table.Cell>
                   {displayCategoryTemplatesColumn && <Table.Cell>{displayTemplateLabelOrCode(tree)}</Table.Cell>}
@@ -214,7 +220,7 @@ const CategoryTreesDataGrid: FC<Props> = ({trees, refreshCategoryTrees}) => {
                             ? redirectToTemplate(tree.id, tree.templateUuid)
                             : handleCreateTemplate(tree);
                         }}
-                        disabled={!tree.hasOwnProperty('productsNumber')}
+                        disabled={!Object.prototype.hasOwnProperty.call(tree, 'productsNumber')}
                       >
                         {translate(
                           tree.templateUuid ? 'akeneo.category.template.edit' : 'akeneo.category.template.create'
@@ -227,7 +233,7 @@ const CategoryTreesDataGrid: FC<Props> = ({trees, refreshCategoryTrees}) => {
                         level="danger"
                         size={'small'}
                         onClick={() => onDeleteCategoryTree(tree)}
-                        disabled={!tree.hasOwnProperty('productsNumber')}
+                        disabled={!Object.prototype.hasOwnProperty.call(tree, 'productsNumber')}
                       >
                         {translate('akeneo.category.tree.delete')}
                       </Button>
