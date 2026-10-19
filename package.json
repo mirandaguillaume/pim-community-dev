@@ -104,7 +104,6 @@
     "cucumber-html-reporter": "5.0.0",
     "cucumber-junit": "^1.7.1",
     "deepmerge": "^4.2.2",
-    "dependency-cruiser": "^11.11.0",
     "eslint": "^8.57.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-flowtype": "^8.0.3",
@@ -220,6 +219,7 @@
     "path-to-regexp": "^1.9.0",
     "@types/react": "^18.3.0",
     "@tootallnate/once": "^2.0.1",
-    "postcss": "^8.5.23"
+    "postcss": "^8.5.23",
+    "handlebars": "^4.7.10"
   }
 }
