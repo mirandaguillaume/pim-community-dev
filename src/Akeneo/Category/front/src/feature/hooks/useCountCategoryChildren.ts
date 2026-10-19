@@ -10,7 +10,10 @@ type Result = {
 export const useCountCategoryChildren = (categoryId: number): Result => {
   const router = useRouter();
 
-  const url = useMemo(() => router.generate('pim_enrich_category_rest_list_children', {id: categoryId}), [categoryId]);
+  const url = useMemo(
+    () => router.generate('pim_enrich_category_rest_list_children', {id: categoryId}),
+    [categoryId, router]
+  );
 
   const countCategoryChildren = async (): Promise<number> => {
     return fetch(url).then(response => response.json().then((categoriesIds: number[]) => categoriesIds.length));

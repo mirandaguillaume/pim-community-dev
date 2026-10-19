@@ -119,7 +119,7 @@ const useEditCategoryForm = (categoryId: number) => {
       const refreshedToken = {...editedFormData._token, value: response.form._token.value};
       setEditedFormData({...editedFormData, _token: refreshedToken});
     }
-  }, [categoryData, editedFormData]);
+  }, [categoryData, editedFormData, notify, router, translate]);
 
   useEffect(() => {
     loadCategory();
@@ -159,7 +159,7 @@ const useEditCategoryForm = (categoryId: number) => {
 
   useEffect(() => {
     setCanLeavePage(!thereAreUnsavedChanges);
-  }, [thereAreUnsavedChanges]);
+  }, [thereAreUnsavedChanges, setCanLeavePage]);
 
   return {
     categoryLoadingStatus,
