@@ -85,9 +85,9 @@ const NewCategoryModal: FC<NewCategoryModalProps> = ({closeModal, onCreate, pare
           placeholder={translate('pim_common.code')}
           maxLength={100}
         />
-        {validationErrors.hasOwnProperty('code') && (
+        {Object.prototype.hasOwnProperty.call(validationErrors, 'code') && (
           <Helper inline={true} level="error">
-            {validationErrors['code']}
+            {validationErrors.code}
           </Helper>
         )}
       </StyledField>

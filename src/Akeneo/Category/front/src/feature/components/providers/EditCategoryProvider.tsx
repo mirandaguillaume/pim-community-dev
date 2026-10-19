@@ -26,20 +26,20 @@ const EditCategoryContext = createContext<EditCategoryContextContent>({
 
 const EditCategoryProvider: FC<{children?: ReactNode}> = ({children}) => {
   const channelsUrl = useRoute('pim_enrich_channel_rest_index');
-  let [channelsArray, fetchChannels, statusFetchChannels] = useFetch<Channel[]>(channelsUrl);
+  const [channelsArray, fetchChannels, statusFetchChannels] = useFetch<Channel[]>(channelsUrl);
 
   let channels: Channels = {};
-  let channelsFetchFailed = statusFetchChannels === 'error';
+  const channelsFetchFailed = statusFetchChannels === 'error';
 
   if (channelsArray !== null) {
     channels = fromPairs(channelsArray.map(channel => [channel.code, channel]));
   }
 
   const localesUrl = useRoute('pim_enrich_locale_rest_index', {activated: 'true'});
-  let [localesArray, fetchLocales, statusFetchLocales] = useFetch<Locale[]>(localesUrl);
+  const [localesArray, fetchLocales, statusFetchLocales] = useFetch<Locale[]>(localesUrl);
 
   let locales: Locales = {};
-  let localesFetchFailed = statusFetchLocales === 'error';
+  const localesFetchFailed = statusFetchLocales === 'error';
 
   if (localesArray !== null) {
     locales = fromPairs(localesArray.map(locale => [locale.code, locale]));

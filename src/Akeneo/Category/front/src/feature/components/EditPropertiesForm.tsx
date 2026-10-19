@@ -45,7 +45,7 @@ const EditPropertiesForm = ({category, onChangeLabel}: Props) => {
     // it would be unwise to display the form in this situation
     // it would lead the user to loose label values when saving
     // todo i18n ? nicer error display ?
-    return <span>'Could not load information about languages, please reload the page'</span>;
+    return <span>&apos;Could not load information about languages, please reload the page&apos;</span>;
   }
 
   const {

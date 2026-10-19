@@ -37,6 +37,6 @@ describe('useTemplateForm', () => {
     });
 
     const [state] = result.current;
-    expect(state.properties.labels['en_US']).toEqual({value: 'My Template', errors: []});
+    expect(state.properties.labels.en_US).toEqual({value: 'My Template', errors: []});
   });
 });

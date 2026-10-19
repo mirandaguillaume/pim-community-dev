@@ -70,7 +70,7 @@ export function alterPermissionsConsistently(
   changes: PermissionChanges
 ): CategoryPermissions {
   const {type, values} = changes;
-  let consistentPermissions = cloneDeep(permissions);
+  const consistentPermissions = cloneDeep(permissions);
   // the change that MUST be made
   consistentPermissions[type] = userGroups
     .filter(userGroup => values.includes(parseInt(userGroup.id, 10)))
@@ -82,16 +82,16 @@ export function alterPermissionsConsistently(
   // now adapting other permission level in accordance
   switch (type) {
     case 'view':
-      consistentPermissions.edit = ensureSubset(permissions['edit'], consistentPermissions.view);
-      consistentPermissions.own = ensureSubset(permissions['own'], consistentPermissions.edit);
+      consistentPermissions.edit = ensureSubset(permissions.edit, consistentPermissions.view);
+      consistentPermissions.own = ensureSubset(permissions.own, consistentPermissions.edit);
       break;
     case 'edit':
-      consistentPermissions.view = ensureSuperset(permissions['view'], consistentPermissions.edit);
-      consistentPermissions.own = ensureSubset(permissions['own'], consistentPermissions.edit);
+      consistentPermissions.view = ensureSuperset(permissions.view, consistentPermissions.edit);
+      consistentPermissions.own = ensureSubset(permissions.own, consistentPermissions.edit);
       break;
     case 'own':
-      consistentPermissions.edit = ensureSuperset(permissions['edit'], consistentPermissions.own);
-      consistentPermissions.view = ensureSuperset(permissions['view'], consistentPermissions.edit);
+      consistentPermissions.edit = ensureSuperset(permissions.edit, consistentPermissions.own);
+      consistentPermissions.view = ensureSuperset(permissions.view, consistentPermissions.edit);
       break;
   }
 

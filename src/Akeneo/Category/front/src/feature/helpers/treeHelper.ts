@@ -7,9 +7,7 @@ const findRoot = <T>(treeNodes: TreeNode<T>[]): TreeNode<T> | undefined => {
 const findByIdentifiers = <T>(treeNodes: TreeNode<T>[], identifiers: number[]): TreeNode<T>[] => {
   const nodes = treeNodes.filter(treeNode => identifiers.includes(treeNode.identifier));
 
-  return identifiers
-    .map(identifier => nodes.find(n => n.identifier === identifier))
-    .filter(node => !!node) as TreeNode<T>[];
+  return identifiers.map(identifier => nodes.find(n => n.identifier === identifier)).filter(node => !!node);
 };
 
 const findOneByIdentifier = <T>(treeNodes: TreeNode<T>[], identifier: number): TreeNode<T> | undefined => {
