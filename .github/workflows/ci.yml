@@ -102,6 +102,9 @@ jobs:
       # everything, so all path-gated jobs would be skipped and the nightly runs to blank.
       # The `force` step overrides to true; || falls back to the filter for PR/push runs.
       backend: ${{ steps.force.outputs.backend || steps.filter.outputs.backend }}
+      # Same as `backend`, minus the paths that cannot change what Behat observes: PHP test
+      # files and the test-only env configs. `test-behat` gates on this instead of `backend`.
+      backend_prod: ${{ steps.force.outputs.backend_prod || steps.filter.outputs.backend_prod }}
       frontend: ${{ steps.force.outputs.frontend || steps.filter.outputs.frontend }}
       ci: ${{ steps.force.outputs.ci || steps.filter.outputs.ci }}
     steps:
@@ -110,9 +113,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           clean: false
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
+          # Needed for the negated patterns in `backend_prod`: under the default `some`
+          # quantifier a `!` rule is just another alternative and excludes nothing, so the
+          # filter would silently match every test file. Added in v4.0.3, hence the bump
+          # from v3. For `backend`, `frontend` and `ci`, which carry no negated pattern, the
+          # two quantifiers are equivalent: with no exclude rule, the first matching include
+          # wins, exactly as `some` does.
+          predicate-quantifier: 'some-with-excludes'
           filters: |
             backend:
               - 'src/**/*.php'
@@ -131,6 +141,33 @@ jobs:
               - 'src/**/Resources/config/**/*.yml'
               - 'src/**/Resources/config/**/*.yaml'
               - 'src/**/Resources/translations/**'
+            # Production back-end only. Deliberately omits `tests/**`, `spec/**`, `phpstan*.neon`,
+            # `phpunit.xml*`, `.php_cs*` and `deptrac-*.yaml`: none of them can change the behaviour
+            # Behat drives through a browser.
+            #
+            # The exclusions were checked against every tracked PHP file with picomatch, the matcher
+            # the action itself uses. Two near-misses are why `**/Unit/**` and `**/Test/**` are NOT
+            # in this list: `MeasureBundle/back/src/Validation/Unit/` is production code (a unit of
+            # measurement, not a unit test), and `FeatureFlagBundle/Internal/Test/InMemoryFeatureFlags`
+            # is wired by `test_behat_services.yml`, so Behat really does depend on it. `**/Tests/**`
+            # is capitalised on purpose: picomatch is case-sensitive and Oro uses `Tests/`.
+            backend_prod:
+              - 'src/**/*.php'
+              - 'components/**/*.php'
+              - 'upgrades/**'
+              - 'config/**'
+              - 'composer.json'
+              - 'composer.lock'
+              - 'src/**/Resources/config/**/*.yml'
+              - 'src/**/Resources/config/**/*.yaml'
+              - 'src/**/Resources/translations/**'
+              - '!**/*Test.php'
+              - '!**/*Integration.php'
+              - '!**/*EndToEnd.php'
+              - '!**/tests/**'
+              - '!**/Tests/**'
+              - '!config/packages/test/**'
+              - '!config/packages/test_fake/**'
             frontend:
               - 'front-packages/**'
               - 'frontend/**'
@@ -164,6 +201,7 @@ jobs:
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
           echo "backend=true" >> $GITHUB_OUTPUT
+          echo "backend_prod=true" >> $GITHUB_OUTPUT
           echo "frontend=true" >> $GITHUB_OUTPUT
           echo "ci=true" >> $GITHUB_OUTPUT
 
@@ -1340,7 +1378,11 @@ jobs:
   # ===========================================================================
   test-behat:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare, infra-db-seed, build-front]
+    needs: [prepare, infra-db-seed, build-front, detect-changes]
+    # `detect-changes` has to be in `needs` above, or this expression resolves to empty and the
+    # job never runs at all. Gated on `backend_prod` rather than `backend`: a change confined to
+    # PHP test files or a test-only env config cannot alter what these scenarios observe.
+    if: needs.detect-changes.outputs.backend_prod == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 120
     strategy:
       fail-fast: false
