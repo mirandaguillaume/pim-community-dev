@@ -24,7 +24,7 @@ const ChannelSelector = ({value, values, onChange}: ChannelSelectorProps) => {
         }}
         label={translate('pim_common.channel')}
       >
-        <span data-testid={`ChannelSelector.selection`}>
+        <span data-testid={'ChannelSelector.selection'}>
           {selectedChannel && getLabel(selectedChannel.labels, catalogLocale, `${selectedChannel.code}`)}
         </span>
       </SwitcherButton>

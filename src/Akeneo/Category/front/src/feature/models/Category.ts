@@ -54,7 +54,9 @@ export type CategoryAttributeValueData = CategoryTextAttributeValueData | Catego
 export const isCategoryImageAttributeValueData = (
   data: CategoryAttributeValueData
 ): data is CategoryImageAttributeValueData =>
-  data === null || (data.hasOwnProperty('original_filename') && data.hasOwnProperty('file_path'));
+  data === null ||
+  (Object.prototype.hasOwnProperty.call(data, 'original_filename') &&
+    Object.prototype.hasOwnProperty.call(data, 'file_path'));
 
 export type BackendCategoryTree = {
   attr: {

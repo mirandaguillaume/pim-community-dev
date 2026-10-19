@@ -26,7 +26,9 @@ export type AttributeFieldProps<ValueType> = {
 };
 
 export const isImageAttributeInputValue = (value: AttributeInputValue): value is ImageAttributeInputValue =>
-  value !== null && value.hasOwnProperty('originalFilename') && value.hasOwnProperty('filePath');
+  value !== null &&
+  Object.prototype.hasOwnProperty.call(value, 'originalFilename') &&
+  Object.prototype.hasOwnProperty.call(value, 'filePath');
 
 export const buildDefaultAttributeInputValue = (attributeType: string): AttributeInputValue => {
   if (attributeType === CATEGORY_ATTRIBUTE_TYPE_IMAGE) {

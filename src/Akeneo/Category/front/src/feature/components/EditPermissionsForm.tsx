@@ -96,7 +96,7 @@ const EditPermissionsForm = ({
           removeLabel={translate('pim_common.remove')}
           onChange={handleChangePermissions('view')}
         >
-          {groupOptions['view']}
+          {groupOptions.view}
         </MultiSelectInput>
       </PermissionField>
       <PermissionField label={translate('category.permissions.edit.label')}>
@@ -108,7 +108,7 @@ const EditPermissionsForm = ({
           removeLabel={translate('pim_common.remove')}
           onChange={handleChangePermissions('edit')}
         >
-          {groupOptions['edit']}
+          {groupOptions.edit}
         </MultiSelectInput>
       </PermissionField>
       <PermissionField label={translate('category.permissions.own.label')}>
@@ -120,7 +120,7 @@ const EditPermissionsForm = ({
           removeLabel={translate('pim_common.remove')}
           onChange={handleChangePermissions('own')}
         >
-          {groupOptions['own']}
+          {groupOptions.own}
         </MultiSelectInput>
         <Helper level="info">{translate('category.permissions.own.help')}</Helper>
       </PermissionField>

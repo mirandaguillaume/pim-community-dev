@@ -136,11 +136,11 @@ export const EditAttributesForm = ({attributeValues, template, onAttributeValueC
     const effectiveLocaleCode = attribute.is_localizable ? locale : null;
     const compositeKey = buildCompositeKey(attribute, effectiveChannelCode, effectiveLocaleCode);
 
-    let value = attributeValues[compositeKey];
+    const value = attributeValues[compositeKey];
 
     let dataForInput;
     if (value) {
-      let {data: dataFromModel} = value;
+      const {data: dataFromModel} = value;
 
       if (isCategoryImageAttributeValueData(dataFromModel)) {
         dataForInput = convertCategoryImageAttributeValueDataToFileInfo(dataFromModel);

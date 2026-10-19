@@ -89,7 +89,7 @@ const Tree = <T,>({
   isLeaf = false,
   selected = false,
   isLoading = false,
-  readOnly = false,
+  readOnly: _readOnly = false,
   isOpen = false,
   open,
   close,

@@ -1,6 +1,5 @@
 import React from 'react';
 import {screen, fireEvent} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {EditPropertiesForm} from './EditPropertiesForm';
 import {EditCategoryContext} from './providers/EditCategoryProvider';

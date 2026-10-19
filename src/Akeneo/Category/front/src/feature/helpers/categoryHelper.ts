@@ -83,7 +83,7 @@ function populateCategoryAttributes(
 
   template?.attributes?.forEach((attribute: Attribute) => {
     const {code} = attribute;
-    if (fixedCategory.attributes.hasOwnProperty(code)) return;
+    if (Object.prototype.hasOwnProperty.call(fixedCategory.attributes, code)) return;
 
     fixedCategory.attributes = {
       ...buildCategoryAttributeValues(attribute, channels, locales),
@@ -96,7 +96,7 @@ function populateCategoryAttributes(
   // attribute_codes is a deprecated entry in attributes,
   // should not come to front via GET
   // but if it does we should ignore it (would break POSTing)
-  delete fixedCategory.attributes['attribute_codes'];
+  delete fixedCategory.attributes.attribute_codes;
 
   return fixedCategory;
 }

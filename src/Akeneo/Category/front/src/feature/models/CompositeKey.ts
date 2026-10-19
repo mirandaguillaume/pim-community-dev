@@ -2,7 +2,8 @@ import {LocaleCode, ChannelCode} from '@akeneo-pim-community/shared';
 import {Attribute} from './Attribute';
 
 // a composite key points on some attribute value in a category data structure
-// it is of the form "<attribute code>|<attribute UUID>" with eventual suffix "|<locale>" if the attribute is localizable
+// it is of the form "<attribute code>|<attribute UUID>" with eventual suffix
+// "|<locale>" if the attribute is localizable
 export type CompositeKey = string;
 
 // for 'attribute_code' in CategoryAttributeValueWrapper, where locale is never present
