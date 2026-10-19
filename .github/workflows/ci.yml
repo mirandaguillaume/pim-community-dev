@@ -262,10 +262,12 @@ jobs:
         id: yarn-cache
         uses: actions/cache/restore@v4
         with:
+          # The built lib/ directories are deliberately NOT cached: `yarn packages:build`
+          # rebuilds them unconditionally, so caching them bought nothing and only kept a
+          # build output alive across runs. mutation-audit.yml restores this same key and
+          # must list the same paths, or the cache version differs and never hits.
           path: |
             node_modules
-            front-packages/akeneo-design-system/lib
-            front-packages/shared/lib
             ~/.cache/ms-playwright
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
@@ -287,6 +289,36 @@ jobs:
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      # This job checks out with `clean: false` on self-hosted runners, so every gitignored
+      # file a previous run left in the workspace is still here -- including the eleven
+      # *.tsbuildinfo that `incremental: true` writes. tsc reads one, concludes the output is
+      # up to date and emits nothing: `yarn dsm:build` then takes 1.9s and the
+      # front-packages-lib artifact ships the PREVIOUS commit's lib/.
+      #
+      # Not hypothetical. On run 39253565744 (#492) that artifact's RichTextEditor.js still
+      # carried the 'embedded' toolbar button #486 had removed three days earlier, and the
+      # Category test asserting its absence failed on a branch whose source contained the fix.
+      # Four jobs consume this artifact -- test-front-packages, test-front-unit, test-behat
+      # and test-playwright -- so a stale lib/ is a false result wherever it lands, in either
+      # direction.
+      #
+      # Measured locally: with a stale lib/ and no buildinfo, tsc rebuilds the design system
+      # correctly in 9s. The leftover build state is the whole mechanism, so it goes first.
+      - name: "Drop the build state `clean: false` keeps between runs"
+        run: |
+          find . -name '*.tsbuildinfo' \
+            -not -path './node_modules/*' -not -path '*/node_modules/*' -print -delete
+          rm -rf front-packages/*/lib \
+                 src/Akeneo/Pim/Structure/front/lib \
+                 src/Akeneo/Tool/Bundle/MeasureBundle/front/lib \
+                 src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/lib \
+                 src/Akeneo/Platform/Bundle/ImportExportBundle/front/lib \
+                 src/Akeneo/Platform/Job/front/process-tracker/lib \
+                 src/Akeneo/Category/front/lib \
+                 src/Oro/Bundle/ConfigBundle/front/lib \
+                 components/catalogs/mock/lib \
+                 components/identifier-generator/front/lib
 
       - name: Build front packages (shared across downstream jobs)
         run: |
@@ -390,8 +422,6 @@ jobs:
         with:
           path: |
             node_modules
-            front-packages/akeneo-design-system/lib
-            front-packages/shared/lib
             ~/.cache/ms-playwright
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
