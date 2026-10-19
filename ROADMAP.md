@@ -38,17 +38,25 @@ Les paliers ci-dessous classent les chantiers par **état de mesure**, pas par t
       `node_modules`, `vendor`, `var`, `.grepai`, `yarn.lock`) et par `git log -S`. `madge` à elle
       seule enraçinait 12 chemins d'alerte ; ses mentions restantes sont des `npx madge` dans des
       plans terminés, donc elles continuent de fonctionner. Même forme que #493.
-- [ ] **Clé du cache yarn de `prepare`** — défaut **structurel**, cause d'un incident **non épinglée**.
-      Le cache embarque `front-packages/*/lib`, une sortie de build, avec une clé réduite à
-      `hashFiles('yarn.lock')` : une modification de la source du design system ne l'invalide donc
-      pas, et un `lib/` périmé peut être servi aux tests. C'est vrai par construction, indépendamment
-      de tout incident.
-      Ce que ça a coûté une fois : #492 a échoué sur `test-front-packages` avec un `lib/` qui ne
-      reflétait pas sa source (`dsm:build` en 1,9 s, invraisemblable pour une compilation complète),
-      puis a reverdi après une simple remise à jour de branche. **Cette guérison ne disculpe pas le
-      cache** : un défaut qui dépend de l'entrée présente à un instant donné est intermittent par
-      nature. Mesure directe à faire avant de corriger — comparer le `lib/` de l'artefact
-      `front-packages-lib` avec une compilation fraîche sur le même commit.
+- [x] **`lib/` périmé servi aux tests** — diagnostiqué et corrigé par **#499**, mais l'hypothèse de
+      départ était fausse et mérite d'être consignée comme telle.
+      **Le symptôme :** l'artefact `front-packages-lib` pouvait expédier le build du commit
+      précédent, et quatre jobs le consomment (`test-front-packages`, `test-front-unit`,
+      `test-behat`, `test-playwright`). Prouvé en téléchargeant l'artefact du run 39253565744
+      (#492) : son `RichTextEditor.js` contenait encore le bouton `embedded` que #486 avait retiré
+      trois jours plus tôt, alors que la source de la branche portait le correctif.
+      **Ce que j'avais écrit ici et qui était faux :** « le cache yarn embarque `front-packages/*/lib`
+      avec une clé réduite à `hashFiles('yarn.lock')` ». Le cache fait bien ça, mais ce n'était pas
+      la cause — le `.tsbuildinfo` vit à `front-packages/akeneo-design-system/tsconfig.build.tsbuildinfo`,
+      **hors** du chemin mis en cache, donc le cache ne pouvait pas transporter la revendication
+      « à jour » de tsc. L'hypothèse expliquait tous les symptômes et restait fausse.
+      **La vraie cause :** `prepare` fait son checkout avec `clean: false` sur des runners
+      auto-hébergés, donc les onze `*.tsbuildinfo` gitignorés d'un run précédent survivent dans
+      l'espace de travail. tsc en lit un, conclut que la sortie est à jour et n'émet rien —
+      `dsm:build` en 1,9 s au lieu de 9 s pour un vrai build.
+      **La leçon réutilisable :** deux mesures ont tranché, aucune n'était un raisonnement —
+      *télécharger l'artefact* pour voir ce qu'il contient vraiment, et *chronométrer* un build réel
+      pour savoir ce que 1,9 s veut dire. Un chiffre qu'on n'a pas est une hypothèse qui survit.
 
 ## Palier 2 — coût connu, chantier réel
 

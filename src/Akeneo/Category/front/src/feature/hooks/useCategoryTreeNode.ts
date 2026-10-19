@@ -174,7 +174,7 @@ const useCategoryTreeNode = (id: number) => {
         console.error(`Failed to persist node ${identifier}`);
       }
     },
-    [nodes]
+    [nodes, router, setNodes]
   );
 
   const determineAfterWhichCategoryIdentifierToMove = (target: DropTarget, childrenIds: number[]): number | null => {
@@ -229,7 +229,7 @@ const useCategoryTreeNode = (id: number) => {
       });
       open();
     }
-  }, [node]);
+  }, [node, open, setNodes]);
 
   useEffect(() => {
     if (!node || !Array.isArray(childrenData)) {
