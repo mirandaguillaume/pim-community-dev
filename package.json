@@ -214,6 +214,7 @@
     "@types/react": "^18.3.0",
     "@tootallnate/once": "^2.0.1",
     "postcss": "^8.5.23",
-    "handlebars": "^4.7.10"
+    "handlebars": "^4.7.10",
+    "websocket-driver": "^0.7.5"
   }
 }
