@@ -47,10 +47,6 @@ silence.
   avancé — « `dsm:build` en 1,9 s donc no-op » — s'est révélé faible : un build complet des onze
   workspaces prend 20,2 s sur le runner, contre 21,6 s pour le run supposé no-op. **Ce qui
   confirmerait :** un run où l'étape de purge imprime des fichiers. À guetter, pas à supposer.
-- **Le gain de #494 n'est pas mesuré.** Behat ne tourne plus quand seuls des tests PHP changent, et
-  l'économie attendue est de ~69 min de runner par PR de ce profil. Aucune PR livrée depuis ne
-  remplissait le critère — toutes touchaient du front ou `.github/**` — donc l'effet réel reste à
-  constater sur la première PR qui ne modifie que des `*Test.php`.
 
 ## Palier 1 — prêt, borné, vérifié
 
@@ -117,9 +113,17 @@ unitaire par processus frais a borné un risque qu'on croyait inconnu (44/46 pro
       que #485 a fermé pour l'unitaire : après le premier boot de kernel, un warning est journalisé
       au lieu d'être levé. Surface bien plus large, **non mesurée** — la sonde exige MySQL et
       Elasticsearch en local.
-- [ ] **Balayage exhaustif par fichier de la suite unitaire.** Le « 44/46 répertoires propres » est un
-      **minorant** : dans les quatre répertoires `Acceptance`, le masquage reprend après leur premier
-      boot de kernel. Une isolation par fichier le transformerait en inventaire.
+- [x] **Balayage exhaustif par fichier de la suite unitaire — RETIRÉ, l'item demandait la mauvaise
+      mesure.** Une extension PHPUnit lisant `thrownErrors` après chaque test rapporte
+      `NO_SYMFONY_HANDLER` pour **les 7054 tests** des onze suites unitaires et d'acceptance. La
+      cause est l'empilement : PHPUnit installe son gestionnaire avant le test, un boot de kernel
+      pose celui de Symfony **par-dessus**, et à `Test\Finished` PHPUnit a déjà dépilé. L'état qui
+      décide « levée ou journalisée » n'existe qu'**à l'intérieur du corps du test**, à l'instant du
+      warning : aucun instantané par test ne peut l'observer, et une isolation par fichier ne dirait
+      que *quel fichier* dégrade le gestionnaire, pas *quels tests* ont tourné dégradés.
+      C'est pourquoi #485 mesurait un **effet** et non un état, et c'est ce que fait désormais le
+      canari de #504. Le mécanisme était déjà documenté, plus précisément que ma conclusion, dans le
+      commentaire de `config/bootstrap.php`.
 - [ ] **Behat sur changement front seul.** Aller plus loin que #494 est une **décision de couverture** :
       Behat pilote l'UI, et la migration vers Playwright n'a transféré que 32 scénarios. À chiffrer en
       comparant ce que Playwright couvre réellement.
@@ -206,6 +210,29 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
   workspaces de la racine. Ce sont **trois arbres npm indépendants**, et les 29 `resolutions` de la
   racine n'en atteignent qu'un. C'est pour ça que #493 et #498 ont dû patcher le DSM séparément, et
   que l'exemple est passé entre les mailles jusqu'ici.
+- **Le troisième garde désarmé de la série.** `phpunit.xml.dist` porte `failOnRisky="false"`, alors
+  que PHPUnit 10 active `beStrictAboutTestsThatDoNotTestAnything` **par défaut** : un test qui
+  n'exécute aucune assertion est détecté, rapporté… et n'échoue pas. Mesuré sur les **8** fichiers de
+  configuration PHPUnit du dépôt : **7 sur 8 l'ignorent**, et `Connectivity/Connection` est le seul à
+  l'armer — un précédent interne qui prouve que ça tient ici.
+  **Preuve que le garde tire**, avec un test sans assertion ajouté exprès :
+
+  | | `Risky` | code de sortie |
+  |---|---|---|
+  | avec `--fail-on-risky` | 1 — « This test did not perform any assertions » | **non nul** |
+  | sans le drapeau (état du dépôt) | 1 — même détection | **0**, « OK, but there were issues! » |
+
+  **Coût de l'armement : nul.** Sept suites mesurées à zéro risky — `PHPUnit_Unit_Test` (5719 tests),
+  `Category_Unit_Test`, et les acceptance Channel, Job, Installer, Measurement, ImportExport.
+  Le drapeau est posé en **CLI sur les tâches Castor** plutôt qu'en attribut XML, délibérément : les
+  fichiers de configuration sont partagés avec les suites d'intégration, que je ne peux pas compter
+  sans MySQL ni Elasticsearch. Étendre l'armement à celles-là demande d'abord cette mesure.
+  À noter : `--fail-on-risky` attrape les tests à **zéro assertion**, pas les tautologies. Il reste
+  5 `assertTrue(true)` dans 3 fichiers, dont 2 où c'est l'idiome « aucune violation levée ».
+- **Le gain de #494 est confirmé, par mesure.** `test-behat` est rapporté **`SKIPPED`** sur #504, la
+  première PR au profil voulu — un diff limité à un `*Test.php`, donc `backend` vrai (les jobs
+  PHPUnit gardent la fusion) et `backend_prod` faux. L'affirmation sort de la liste des non
+  confirmées. Il reste à mesurer le gain sur une PR ne touchant que `tests/**`.
 - **Séquencement** : ne jamais empiler une PR sur une branche qui fusionnera en **squash** — le SHA
   est réécrit et la branche empilée devient divergente (#495 l'a payé). Brancher sur `master` et
   accepter de régénérer le lockfile après la fusion de la base.

@@ -118,7 +118,7 @@ function lintFront(): void
 function unitBack(): void
 {
     \ensureDir('var/tests/phpunit');
-    \phpRun('vendor/bin/phpunit -c phpunit.xml.dist --testsuite PHPUnit_Unit_Test');
+    \phpRun('vendor/bin/phpunit -c phpunit.xml.dist --testsuite PHPUnit_Unit_Test --fail-on-risky');
 }
 
 #[AsTask(namespace: 'test', name: 'phpunit-unit', description: 'Run PHPUnit unit + acceptance tests (no MySQL)')]
@@ -129,7 +129,11 @@ function phpunitUnit(): void
     // PHPUnit_Unit_Test: groups Category Unit + 4 acceptance suites, excludes
     // misplaced integration tests. Uses test_fake env so acceptance tests
     // that boot kernel without explicit env get in-memory fakes.
-    \appEnvRun('test_fake', 'vendor/bin/phpunit -c . --testsuite PHPUnit_Unit_Test --log-junit var/tests/phpunit/phpunit_unit.xml');
+    // --fail-on-risky arms a guard phpunit.xml.dist disables: PHPUnit marks a test that runs no
+    // assertion as risky by default, and `failOnRisky="false"` then lets the suite exit 0 anyway.
+    // Passed on the command line rather than set in the XML because that file is shared with the
+    // integration suites, whose risky count cannot be measured without MySQL and Elasticsearch.
+    \appEnvRun('test_fake', 'vendor/bin/phpunit -c . --testsuite PHPUnit_Unit_Test --fail-on-risky --log-junit var/tests/phpunit/phpunit_unit.xml');
 }
 
 #[AsTask(namespace: 'test', name: 'unit-front', description: 'Run all front-end unit tests')]
