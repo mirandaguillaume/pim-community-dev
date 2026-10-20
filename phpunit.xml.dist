@@ -124,6 +124,7 @@
         </testsuite>
 
         <testsuite name="PHPUnit_Unit_Test">
+            <directory>tests/back/Harness</directory>
             <directory suffix="Test.php">src/Akeneo/Category/back/tests/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Acceptance</directory>
