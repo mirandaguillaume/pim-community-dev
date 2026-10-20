@@ -24,6 +24,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 final class PhpWarningsAreFatalTest extends KernelTestCase
 {
+    protected static function getKernelClass(): string
+    {
+        // Named here rather than taken from KERNEL_CLASS. Infection generates its own PHPUnit
+        // configuration and drops the `<server name="KERNEL_CLASS">` entry phpunit.xml.dist
+        // sets, so depending on that variable makes this test error under the mutation job,
+        // which then reports "Project tests must be in a passing state before running
+        // Infection" and fails the whole scope rather than this one test.
+        return \Kernel::class;
+    }
+
     public function test_a_php_warning_raised_after_a_kernel_boot_is_thrown(): void
     {
         static::bootKernel();
