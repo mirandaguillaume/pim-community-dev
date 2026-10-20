@@ -9,10 +9,14 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "": "src/"
-        },
+        "classmap": [
+            "src/Kernel.php"
+        ],
         "psr-4": {
+            "Akeneo\\": "src/Akeneo",
+            "Oro\\": "src/Oro",
+            "Acme\\": "src/Acme",
+            "Behat\\": "src/Behat",
             "Pim\\Upgrade\\Schema\\": "upgrades/schema",
             "Pim\\Upgrade\\": "upgrades/",
             "Akeneo\\Connectivity\\Connection\\": "src/Akeneo/Connectivity/Connection/back",
