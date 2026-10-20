@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Test\Platform\Unit\ErrorHandling;
+namespace Akeneo\Test\Harness\ErrorHandling;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -21,6 +21,13 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  *
  * Both are required, which is why the warning is raised *after* a kernel boot: that boot is the
  * moment the reconfiguration happens, so a test asserting before it would pass either way.
+ *
+ * It lives under tests/back/Harness/ rather than in a bounded context's test tree on purpose. The
+ * `mutation-testing` job derives a context from the source dir it mutates and then pulls in every
+ * `*Test.php` under `tests/back/<Context>/**\/Unit`, so a kernel-booting test placed there joins
+ * that context's Infection run — where the environment has no `APP_DATABASE_NAME` and the boot dies
+ * warming Doctrine's proxy cache. No shard can derive `Harness`: the contexts are the directories of
+ * src/Akeneo, and this is not one of them.
  */
 final class PhpWarningsAreFatalTest extends KernelTestCase
 {
