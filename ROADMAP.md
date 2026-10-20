@@ -17,7 +17,7 @@ croire.
 | PHPStan / Rector | 2.x tous les deux |
 | React | `^18.3.1` |
 | CI | behat ×10, phpunit-integration ×6, playwright ×4, front-unit ×2 |
-| Avis de sécurité | **17 critiques, toutes dans `front-packages/akeneo-design-system/example/yarn.lock`** ; 259 alertes au total |
+| Avis de sécurité | **0 critique** sur les trois arbres npm et `composer.lock` ; les 17 derniers sont partis avec le harnais CRA du projet d'exemple du DSM |
 
 ## Ce que l'ancienne feuille de route annonçait
 
@@ -76,6 +76,24 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
       `require-await` (cosmétique, concentrés dans les tests), 8 `no-console`.
       **Aucun de ces 12 n'est validable en local** : Jest est interdit sur cette machine et une
       boucle de render ne se verrait pas dans un test unitaire.
+- [ ] **Le build publié du DSM n'est consommable qu'à l'intérieur d'un bundler configuré.**
+      Découvert en essayant de remplacer le serveur de dev du projet d'exemple par Vite. Deux causes
+      mesurées, indépendantes :
+      1. **`lib/index.js` n'expose aucun export nommé analysable statiquement.** C'est un barrel de
+         dix `__exportStar(require(...), exports)`, qui copient les propriétés par `for..in` **à
+         l'exécution**. webpack, rspack et Jest résolvent ces noms à l'exécution et fonctionnent ;
+         rollup et esbuild analysent statiquement et ne voient rien, donc
+         `import {Badge} from 'akeneo-design-system'` échoue au build
+         (`"pimTheme" is not exported by "../lib/index.js"`).
+      2. **`lib/` référence des assets hors du paquet et ne les embarque pas.** `tsc` recopie tel
+         quel le `require("../../static/illustrations/AddingValue.svg")` du source ; depuis
+         `node_modules/akeneo-design-system/illustrations/`, ce chemin résout vers
+         `node_modules/static/`, qui n'existe pas. **0 fichier `.svg` dans `lib/`.**
+      Le PIM n'en souffre pas : rspack intercepte les imports d'assets par `module.rules` et résout
+      les noms CJS à l'exécution. Mais aucun consommateur ne peut charger ce paquet sans le même
+      filet — ce qui vaut aussi pour `vite`, `rollup`, Node nu, et donc pour toute sonde locale.
+      Le corriger est un chantier sur le build du DSM (exports explicites + assets copiés dans
+      `lib/`), pas sur ses consommateurs.
 - [ ] **`react-router` : open redirect** par antislash dans `<Link>` / `useNavigate`. Installé
       6.30.6, corrigé en **≥ 7.18.0** — à traiter comme une montée de version majeure.
 - [ ] **`css-loader` 3 → 7.** Seule voie vers le correctif de `postcss-selector-parser` à la racine :
@@ -105,22 +123,6 @@ unitaire par processus frais a borné un risque qu'on croyait inconnu (44/46 pro
 - [ ] **Behat sur changement front seul.** Aller plus loin que #494 est une **décision de couverture** :
       Behat pilote l'UI, et la migration vers Playwright n'a transféré que 32 scénarios. À chiffrer en
       comparant ce que Playwright couvre réellement.
-- [ ] **Les 17 avis critiques du projet d'exemple du DSM.** Découverts en lisant la sortie de
-      `git push`, qui annonçait 17 critiques quand je venais d'écrire « 0 critique ». Les deux
-      affirmations sont compatibles et c'est le piège : **le dépôt versionne QUATRE lockfiles**
-      — `composer.lock`, `yarn.lock`, celui du DSM et `front-packages/akeneo-design-system/example/yarn.lock`
-      — et je n'en avais mesuré que deux. Les 17 critiques sont **toutes** dans le quatrième, et
-      aucune ailleurs. C'est aussi ce qui rend **#498 incomplet** : `websocket-driver` y est encore
-      vulnérable, épinglé à la racine et dans le DSM mais pas là.
-      **Ce n'est pas du code mort** : `dsm-test.yml` installe ce projet et lance `yarn test` dessus
-      — le DSM installé comme dépendance dans une vraie application, un test de consommation que
-      ni Storybook ni les tests unitaires ne remplacent. 11 fichiers versionnés, dernier touché en
-      mars 2026 (#75).
-      La cause est sa chaîne d'outils : c'est une application **Create React App**, et `react-scripts`
-      traîne tout le passif transitif (`loader-utils`, `@babel/traverse`, `minimist`, `shell-quote`,
-      `elliptic`, `pbkdf2`, `sha.js`, `cipher-base`, `eventsource`, `proxy-addr`, `form-data`).
-      Trois voies, par coût croissant : des `resolutions` dans son `package.json` ; remplacer le
-      harnais CRA par Vite ; ou décider que ce test de consommation ne vaut plus son coût.
 - [ ] **Les ~240 alertes npm non critiques.** **Triage**, pas bascule de `yarn audit` en bloquant :
       l'essentiel est en dépendances de développement, et un garde qui crie à ce taux se contourne
       au lieu de protéger.
@@ -174,6 +176,36 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
   deux configurations, résout 414 classes réelles extraites des fichiers de `src/` et rend un
   résultat identique au caractère près — 39 non résolues des deux côtés, les mêmes, toutes des
   classes de test au namespace décorrélé du chemin, que PHPUnit charge par chemin de fichier.
+- **Les 17 derniers avis critiques, et le harnais qui les enracinait.** Le projet d'exemple du DSM
+  tournait sur **Create React App 3.4.3**, dont webpack 4 traîne tout le passif transitif. Remplacé
+  par un harnais Jest 29 + React 18 aligné sur les pairs que le DSM déclare (`^18.3.1`). Mesuré avec
+  le même outil avant/après — `yarn audit`, qui compte des **chemins de résolution** là où GitHub
+  compte des **alertes**, d'où l'écart d'échelle :
+
+  | | avant | après |
+  |---|---|---|
+  | chemins critiques | 66 | **0** |
+  | total | 891 | **20** |
+  | entrées de lockfile | 1427 | **527** |
+
+  **Quatre incohérences avaient la même racine** : React 17 installé contre une plage de pairs
+  `^18.3.1` ; un `src/index.js` appelant `createRoot`, API de React **18**, absente de sa propre
+  dépendance ; un lockfile qui ne contenait **aucune** entrée pour `react@^17.0.2` mais une pour
+  `react@^16.13.1` ; et `--openssl-legacy-provider` sur chaque script, contournement du md4 de
+  webpack 4 que Node 17+ a retiré. Toutes partent avec CRA.
+  **Pourquoi personne ne l'a vu** : la CI ne lance que `yarn test`, qui importe `App` directement et
+  **jamais le point d'entrée navigateur**. Et le `.env` contenait `SKIP_PREFLIGHT_CHECK=true`, soit
+  le garde de cohérence des versions de CRA **désactivé à la main** — précisément celui qui aurait
+  signalé le lockfile React 16.
+  **Le snapshot a été remplacé par des assertions explicites.** Il épinglait
+  `class="sc-jSFkmK jjMYxm"`, des hachages styled-components qui changent à la moindre édition de
+  style : il échouait pour des raisons muettes sur la seule question qui compte ici, le build est-il
+  utilisable. Les trois assertions qui le remplacent ont été validées **sans Jest** (interdit en
+  local) par une sonde plain-node + jsdom reproduisant le `moduleNameMapper`.
+  **La cause structurelle, à retenir** : ni le DSM ni son projet d'exemple ne figurent dans les 21
+  workspaces de la racine. Ce sont **trois arbres npm indépendants**, et les 29 `resolutions` de la
+  racine n'en atteignent qu'un. C'est pour ça que #493 et #498 ont dû patcher le DSM séparément, et
+  que l'exemple est passé entre les mailles jusqu'ici.
 - **Séquencement** : ne jamais empiler une PR sur une branche qui fusionnera en **squash** — le SHA
   est réécrit et la branche empilée devient divergente (#495 l'a payé). Brancher sur `master` et
   accepter de régénérer le lockfile après la fusion de la base.

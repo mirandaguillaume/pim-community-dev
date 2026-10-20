@@ -1,5 +1,6 @@
 **/node_modules
 components/**/front
+front-packages/akeneo-design-system/example
 src/**/DataGridBundle/**/*.js
 src/**/lib/**/*.js
 src/Akeneo/Category/front
