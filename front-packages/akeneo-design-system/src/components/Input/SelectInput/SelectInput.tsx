@@ -274,7 +274,7 @@ const SelectInput = ({
 
   const handleClear = (e: SyntheticEvent) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-expect-error
     onChange?.(null);
     e.preventDefault();
     inputRef.current?.focus();
