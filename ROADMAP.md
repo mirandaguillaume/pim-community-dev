@@ -296,6 +296,29 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
       `oro/…` que rspack résout et que tsc ignore), pas des erreurs de type. Dimensionner cet item
       suppose donc d'abord une config qui reproduit la résolution de rspack — la sonde est elle-même
       un chantier, et c'est pour ça qu'il reste au Palier 3.
+- **Dependabot corrige le DSM et laisse la racine derrière**, et c'est systématique, pas anecdotique.
+  Mesuré le 2026-10-21 sur les 76 alertes ouvertes : **46 dans `yarn.lock` contre 28 dans celui du
+  DSM**, **14 paquets alertés uniquement à la racine**, 11 dans plusieurs manifestes — et les PR
+  Dependabot récentes (#490, #491, #492, #496, #497, #508) portent **toutes** la mention
+  « in /front-packages/akeneo-design-system ».
+  La cause est structurelle : à la racine ces paquets sont purement **transitifs**, donc il n'existe
+  aucune dépendance directe à bumper et Dependabot ne peut rien proposer. Le seul levier est
+  `resolutions`, que ce dépôt utilise déjà 30 fois. `follow-redirects` en est le cas traité :
+  #508 a fermé les 2 alertes du DSM, la résolution racine `^1.16.1` les 2 de la racine
+  (`GHSA-q3jh-wrc6-jgq8` et `GHSA-8r9p-f939-6h3c`, deux fuites d'en-têtes d'identifiants).
+  **Il en reste 10 du même profil** — `@babel/core`, `brace-expansion`, `immutable`, `js-yaml`,
+  `linkify-it`, `node-fetch`… — chacun à vérifier manifeste par manifeste avant d'y toucher.
+- [ ] **Deux `composer.json` vestigiaux produisent une alerte fantôme.**
+      `src/Akeneo/Tool/Bundle/StorageUtilsBundle/composer.json` et
+      `src/Akeneo/Tool/Component/StorageUtils/composer.json` déclarent `php: >=7.1.0` et
+      `symfony/http-kernel: ^2.3` — vestiges de l'époque où ces bundles étaient publiés séparément.
+      Le dépôt tourne en **PHP 8.4 / Symfony 6.4**, la racine déclare **0 `repositories`** et
+      **`replace` les deux paquets**, donc ces manifestes ne gouvernent aucune installation.
+      Mais **Dependabot les lit** : d'où `GHSA-h7vf-5wrv-9fhv` (medium, « Symfony storing cookie
+      headers in HttpCache ») sur un `symfony/http-kernel >= 2.3, < 3.0` qui n'est installé nulle
+      part. C'est un **faux positif produit par un artefact périmé** — même famille que `es/`,
+      `dependency-cruiser` ou le `lib/` périmé. Les supprimer ou aligner leurs contraintes est une
+      décision à prendre, pas un geste à glisser dans une PR de sécurité.
 - **Séquencement** : ne jamais empiler une PR sur une branche qui fusionnera en **squash** — le SHA
   est réécrit et la branche empilée devient divergente (#495 l'a payé). Brancher sur `master` et
   accepter de régénérer le lockfile après la fusion de la base.
