@@ -268,9 +268,21 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
   | production, dans un workspace qui construit | **9** |
 
   Convertir les 82 autres serait **exactement aussi inerte** que les laisser : un
-  `@ts-expect-error` que personne ne vérifie ne s'expire jamais. Les 9 livrés sont vérifiés par le
-  build complet de leur workspace (DSM, `front-packages/shared`, Category), buildinfo purgé, et
-  **aucune n'était morte** — les 9 erreurs sous-jacentes existent toujours.
+  `@ts-expect-error` que personne ne vérifie ne s'expire jamais.
+  **8 converties sur 9, et la neuvième est la vraie leçon.** `RichTextEditor.tsx:41` est
+  délibérément resté en `@ts-ignore` : la CI y rapporte `TS2578: Unused '@ts-expect-error'
+  directive` — deux runs, deux workflows, d'accord entre eux — alors qu'un build local complet
+  déclare la directive nécessaire. La présence de l'erreur dépend du `@types/react-draft-wysiwyg`
+  que l'arbre résout, et la CI n'installe que la racine (`yarn install --frozen-lockfile`) là où un
+  développeur a aussi le `node_modules` propre du DSM.
+  **`@ts-expect-error` exige que l'erreur soit déterministe d'un environnement à l'autre** ; là où
+  elle ne l'est pas, il transforme une différence d'installation en échec de build. `@ts-ignore` y
+  est le choix correct, pas le choix paresseux — et c'est écrit dans le fichier.
+  Les 8 autres sont vérifiées par le build complet de leur workspace (DSM, `front-packages/shared`,
+  Category), buildinfo purgé, **et aucune n'était morte**.
+  Au passage : la cause que le commentaire d'origine invoquait — un conflit `@types/react` 17 vs 18
+  — n'est **plus reproductible**, il n'y a qu'un seul `@types/react` (18.3.28) partout, la racine le
+  résolvant en `^18.3.0`.
 - [ ] **Il n'existe aucun type-check à l'échelle du dépôt**, et c'est la vraie trouvaille du point
       ci-dessus. Mesuré : le `tsconfig.json` de la racine n'inclut que `public/bundles` et
       `frontend/types.d.ts` — la **sortie de build**, pas `src/` ; aucun script `type-check` ;
