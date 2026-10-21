@@ -38,7 +38,12 @@ const RichTextEditor = ({value, readOnly = false, onChange, ...rest}: RichTextEd
 
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore — react-draft-wysiwyg bundles @types/react 17 which conflicts with React 18 types
+    // @ts-ignore and NOT @ts-expect-error, deliberately: whether this line errors depends on which
+    // @types/react-draft-wysiwyg the tree resolves, so it differs between a developer's install and
+    // CI's root-only `yarn install --frozen-lockfile`. CI reports `TS2578: Unused '@ts-expect-error'
+    // directive` here while a full local build reports the directive as needed — two CI runs in two
+    // workflows agreed. `@ts-expect-error` requires the error to be deterministic across
+    // environments; where it is not, it turns an install difference into a build failure.
     <Editor
       toolbarHidden={readOnly}
       readOnly={readOnly}

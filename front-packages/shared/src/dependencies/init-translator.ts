@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error
 import Translator from '../../legacy/translator';
 import {userContext} from './user-context';
 

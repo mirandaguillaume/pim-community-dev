@@ -58,9 +58,9 @@ const MicroFrontendDependenciesProvider = ({
             message
               // replaceAll is only available in esnext.
               // We don't want to activate it in the tsconfig file as shared package should be as compatible as possible
-              // @ts-ignore
+              // @ts-expect-error
               .replaceAll(`{{ ${placeholderKey} }}`, String(placeholders[placeholderKey]))
-              // @ts-ignore
+              // @ts-expect-error
               .replaceAll(placeholderKey, String(placeholders[placeholderKey])),
           message
         );
@@ -123,7 +123,7 @@ const MicroFrontendDependenciesProvider = ({
 
     fetchSecurityContext();
 
-    // @ts-ignore
+    // @ts-expect-error
     LegacyUserContext.initialize().then(() => {
       setUserContext(LegacyUserContext);
 

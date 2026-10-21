@@ -82,8 +82,11 @@ if [ -n "$CHANGED_JS" ] && command -v npx >/dev/null 2>&1; then
     done
     if [ -n "$EXISTING_JS" ]; then
         ESLINT_RESULT=$(npx eslint --no-error-on-unmatched-pattern --quiet $EXISTING_JS 2>&1 || true)
-        if echo "$ESLINT_RESULT" | grep -qE '[0-9]+ error'; then
-            ESLINT_SUMMARY=$(echo "$ESLINT_RESULT" | grep -oE '[0-9]+ error' | tail -1)
+        # Same `[1-9][0-9]*` as the Category check below. This one is only safe by accident —
+        # --quiet makes eslint print nothing when it passes — so it would break the day that flag
+        # is dropped.
+        if echo "$ESLINT_RESULT" | grep -qE '[1-9][0-9]* errors?'; then
+            ESLINT_SUMMARY=$(echo "$ESLINT_RESULT" | grep -oE '[1-9][0-9]* errors?' | tail -1)
             ERRORS="$ERRORS\n- ESLINT: $ESLINT_SUMMARY. Run: yarn lint-fix"
         fi
     fi
@@ -119,8 +122,12 @@ CHANGED_CATEGORY=$(echo "$CHANGED_JS" | grep 'src/Akeneo/Category/front/' || tru
 if [ -n "$CHANGED_CATEGORY" ]; then
     echo "Running Category TypeScript check (yarn category:lint:check)..." >&2
     CATEGORY_RESULT=$(yarn category:lint:check 2>&1 || true)
-    if echo "$CATEGORY_RESULT" | grep -qE 'error TS|[0-9]+ error(s)?'; then
-        TS_SUMMARY=$(echo "$CATEGORY_RESULT" | grep -oE '[0-9]+ error' | tail -1 || echo "errors")
+    # `[1-9][0-9]*`, never `[0-9]+`: this check reads `category:lint:check`, which runs eslint
+    # WITHOUT --quiet, so a passing run still prints "171 problems (0 errors, 171 warnings)" and
+    # `[0-9]+ error` matched that "0 errors" — the hook blocked every push touching Category while
+    # reporting "CATEGORY TS: 0 error".
+    if echo "$CATEGORY_RESULT" | grep -qE 'error TS|[1-9][0-9]* errors?'; then
+        TS_SUMMARY=$(echo "$CATEGORY_RESULT" | grep -oE '[1-9][0-9]* errors?' | tail -1 || echo "errors")
         ERRORS="$ERRORS\n- CATEGORY TS: $TS_SUMMARY. Run: yarn category:lint:check"
     fi
 fi

@@ -202,7 +202,7 @@ const Tree = <T,>({
               return;
             }
 
-            // @ts-ignore
+            // @ts-expect-error
             const timeoutId: number = setTimeout(() => {
               open();
             }, 2000);

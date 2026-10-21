@@ -254,6 +254,48 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
     dû à l'environnement ressemble à une réfutation** — le log de CI (`Fixed 0 of 286`, sans
     IOException) a tranché.
   C'est aussi le seul cas du dépôt : aucun autre `fix` sans `--dry-run` dans `.github/workflows/`.
+- **`@ts-ignore` → `@ts-expect-error`, mais seulement les 9 qui comptent.** `@ts-ignore` est une
+  suppression **sans expiration** : elle masque encore après la disparition de l'erreur, et rien ne
+  le signale. `@ts-expect-error` fait l'inverse — `error TS2578: Unused '@ts-expect-error'
+  directive.` casse le build, prouvé en ajoutant une directive superflue (RED), puis build complet
+  vert après retrait (GREEN).
+  **La mesure a réduit le chantier de 91 sites à 9**, et c'est elle qui vaut le détour :
+
+  | position des 91 `@ts-ignore` | sites |
+  |---|---|
+  | fichiers de test — que rien ne type-checke | **58** |
+  | production, **hors** de tout type-checker | **24** |
+  | production, dans un workspace qui construit | **9** |
+
+  Convertir les 82 autres serait **exactement aussi inerte** que les laisser : un
+  `@ts-expect-error` que personne ne vérifie ne s'expire jamais.
+  **8 converties sur 9, et la neuvième est la vraie leçon.** `RichTextEditor.tsx:41` est
+  délibérément resté en `@ts-ignore` : la CI y rapporte `TS2578: Unused '@ts-expect-error'
+  directive` — deux runs, deux workflows, d'accord entre eux — alors qu'un build local complet
+  déclare la directive nécessaire. La présence de l'erreur dépend du `@types/react-draft-wysiwyg`
+  que l'arbre résout, et la CI n'installe que la racine (`yarn install --frozen-lockfile`) là où un
+  développeur a aussi le `node_modules` propre du DSM.
+  **`@ts-expect-error` exige que l'erreur soit déterministe d'un environnement à l'autre** ; là où
+  elle ne l'est pas, il transforme une différence d'installation en échec de build. `@ts-ignore` y
+  est le choix correct, pas le choix paresseux — et c'est écrit dans le fichier.
+  Les 8 autres sont vérifiées par le build complet de leur workspace (DSM, `front-packages/shared`,
+  Category), buildinfo purgé, **et aucune n'était morte**.
+  Au passage : la cause que le commentaire d'origine invoquait — un conflit `@types/react` 17 vs 18
+  — n'est **plus reproductible**, il n'y a qu'un seul `@types/react` (18.3.28) partout, la racine le
+  résolvant en `^18.3.0`.
+- [ ] **Il n'existe aucun type-check à l'échelle du dépôt**, et c'est la vraie trouvaille du point
+      ci-dessus. Mesuré : le `tsconfig.json` de la racine n'inclut que `public/bundles` et
+      `frontend/types.d.ts` — la **sortie de build**, pas `src/` ; aucun script `type-check` ;
+      aucun job de CI ne lance `tsc` globalement. Le type-checking n'existe que par workspace, et
+      **11 des 22 workspaces n'ont aucun script `tsc`** — dont
+      `Pim/Automation/DataQualityInsights/front`, qui n'a même pas de `tsconfig`. Cela représente
+      **plus de 1000 fichiers `.ts`/`.tsx`** qu'aucun vérificateur de types ne lit : rspack
+      transpile en dépouillant les types sans les contrôler, comme swc et ts-jest.
+      **Piège de mesure à connaître avant de chiffrer ce chantier** : un `tsc --noEmit` naïf sur un
+      de ces workspaces rapporterait surtout du bruit de résolution de modules (les alias `pim/…`,
+      `oro/…` que rspack résout et que tsc ignore), pas des erreurs de type. Dimensionner cet item
+      suppose donc d'abord une config qui reproduit la résolution de rspack — la sonde est elle-même
+      un chantier, et c'est pour ça qu'il reste au Palier 3.
 - **Séquencement** : ne jamais empiler une PR sur une branche qui fusionnera en **squash** — le SHA
   est réécrit et la branche empilée devient divergente (#495 l'a payé). Brancher sur `master` et
   accepter de régénérer le lockfile après la fusion de la base.
