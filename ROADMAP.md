@@ -233,6 +233,27 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
   première PR au profil voulu — un diff limité à un `*Test.php`, donc `backend` vrai (les jobs
   PHPUnit gardent la fusion) et `backend_prod` faux. L'affirmation sort de la liste des non
   confirmées. Il reste à mesurer le gain sur une PR ne touchant que `tests/**`.
+- **Le quatrième garde désarmé, et le pire des quatre.** Le job `lint-back` lançait
+  `php-cs-fixer fix` — en mode **écriture**, pas en dry-run — sur
+  `components/identifier-generator/back/tests/.php_cs.php`, **juste avant** l'étape qui exécute
+  `castor test:lint-back` → `\identifier_generator\lintBack()` → `\csFixer(ce même fichier)`, soit
+  le dry-run sur la configuration qu'on venait de corriger. Les corrections mouraient avec le runner,
+  donc la violation restait dans git indéfiniment pendant que la CI restait verte.
+  Ce n'est pas un drapeau qui *ignore* un résultat comme les trois autres : c'est la CI qui
+  **réécrit l'arbre de travail** pour que le contrôle ne puisse pas échouer.
+  **Mécanisme prouvé par expérience**, dans un espace inscriptible — violation introduite exprès :
+  `Found 1 of 286` → l'étape de la CI → `Fixed 1 of 286` → le contrôle suivant → `Found 0 of 286`.
+  **Retrait gratuit, mesuré** : 0 violation sur les 286 fichiers aujourd'hui, cache désactivé.
+  Deux pièges rencontrés en chemin, qui valent plus que le correctif :
+  - mon premier dry-run annonçait « 0 of 286 » **servi par un cache** de 123 Ko sans rien examiner.
+    C'est exactement ce que garde l'étape voisine, « Clean stale CS-fixer cache » — un vrai garde,
+    correctement posé, dans le même bloc de six lignes que celui qui était neutralisé.
+  - ma première expérience a *échoué à reproduire* le mécanisme, parce qu'en local le conteneur php
+    tourne en `www-data` (uid 1000) alors que les fichiers sont à l'uid 1001 : `IOException, not
+    writable`. La CI, elle, fait `sudo chown -R $(id -u):$(id -g) .` avant. **Un échec d'expérience
+    dû à l'environnement ressemble à une réfutation** — le log de CI (`Fixed 0 of 286`, sans
+    IOException) a tranché.
+  C'est aussi le seul cas du dépôt : aucun autre `fix` sans `--dry-run` dans `.github/workflows/`.
 - **Séquencement** : ne jamais empiler une PR sur une branche qui fusionnera en **squash** — le SHA
   est réécrit et la branche empilée devient divergente (#495 l'a payé). Brancher sur `master` et
   accepter de régénérer le lockfile après la fusion de la base.

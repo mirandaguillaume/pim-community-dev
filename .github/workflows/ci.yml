@@ -1005,10 +1005,6 @@ jobs:
       - name: Clean stale CS-fixer cache (self-hosted runners persist var/)
         run: rm -f var/php_cs.cache .php-cs-fixer.cache
 
-      - name: Fix identifier generator CS (auto-fix before dry-run)
-        continue-on-error: true
-        run: docker-compose run --rm -e PHP_CS_FIXER_IGNORE_ENV=1 php php tools/php-cs-fixer fix --config=components/identifier-generator/back/tests/.php_cs.php --allow-risky=yes
-
       - name: Run PHPStan, php-cs-fixer and static checks
         run: |
           castor test:lint-back
