@@ -8,6 +8,13 @@ on:
         required: false
         type: string
         default: '8.4'
+      force-rebuild:
+        # The Dockerfile installs php<ver>-* from sury at build time, so the image drifts while
+        # the content hash does not. Used by php-image-refresh.yml to refresh the same tag.
+        description: 'Rebuild and overwrite the tag even if it exists, ignoring the layer cache'
+        required: false
+        type: boolean
+        default: false
     outputs:
       image:
         description: "Full GHCR image reference"
@@ -46,8 +53,9 @@ jobs:
       - name: Generate content-hash image tag
         id: meta
         run: |
-          # Tag by Dockerfile content hash — image only changes when Dockerfile changes
-          # (application code is volume-mounted, not baked in)
+          # Do NOT add a time component: this formula is duplicated in ci.yml and
+          # .github/actions/setup-pim-job/action.yml (25 call sites) which recompute it
+          # independently, so a clock-dependent tag makes them pull references never pushed.
           HASH=$(sha256sum Dockerfile | cut -c1-12)
           IMAGE="ghcr.io/${{ github.repository }}/php:df-${HASH}-${{ inputs.php-version }}"
           echo "image=${IMAGE}" >> $GITHUB_OUTPUT
@@ -56,7 +64,10 @@ jobs:
       - name: Check if image already exists in GHCR
         id: check
         run: |
-          if docker manifest inspect "${{ steps.meta.outputs.image }}" >/dev/null 2>&1; then
+          if [ "${{ inputs.force-rebuild }}" = "true" ]; then
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "force-rebuild requested: rebuilding and overwriting the tag"
+          elif docker manifest inspect "${{ steps.meta.outputs.image }}" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
             echo "Image already exists in GHCR, skipping build"
           else
@@ -73,6 +84,8 @@ jobs:
           target: ci
           push: true
           tags: ${{ steps.meta.outputs.image }}
+          # Without this a forced rebuild is a no-op: the cache serves the old apt layer.
+          no-cache: ${{ inputs.force-rebuild }}
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/php:buildcache-${{ inputs.php-version }}
           cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/php:buildcache-${{ inputs.php-version }},mode=max
           build-args: |
