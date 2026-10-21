@@ -10,11 +10,16 @@ const productEvaluationSlice = createSlice({
   initialState: {} as ProductEvaluationState,
   reducers: {
     getProductEvaluationAction: {
-      reducer(state, action: {payload: {productId: number; evaluation: ProductEvaluation}}) {
+      // `string`, not `number`: ProductEvaluationState above is keyed `[productId: string]` and
+      // both callers pass a string. The previous `number` contradicted its own state and every
+      // caller, and nothing caught it because no type-checker reads this workspace. It is
+      // harmless at runtime — JS coerces a numeric key to a string — but it meant the signature
+      // could not be relied on by anything reading it.
+      reducer(state, action: {payload: {productId: string; evaluation: ProductEvaluation}}) {
         const {productId, evaluation} = action.payload;
         state[productId] = evaluation;
       },
-      prepare(productId: number, evaluation: ProductEvaluation) {
+      prepare(productId: string, evaluation: ProductEvaluation) {
         return {payload: {productId, evaluation}};
       },
     },
