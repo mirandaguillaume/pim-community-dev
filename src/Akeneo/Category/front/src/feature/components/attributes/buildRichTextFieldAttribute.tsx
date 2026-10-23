@@ -4,7 +4,6 @@ import {AttributeFieldBuilder, AttributeFieldProps, AttributeInputValue} from '.
 import {getLabelFromAttribute} from './templateAttributesFactory';
 import styled from 'styled-components';
 import {memoize} from 'lodash/fp';
-import {buildCompositeKey} from '../../models';
 
 const Field960 = styled(Field)`
   max-width: 960px;
@@ -21,19 +20,9 @@ const unMemoizedBuildRichTextFieldAttribute: AttributeFieldBuilder<AttributeInpu
       return null;
     }
 
-    // TextAreaInput prop "key" = composite key (code|uuid|channel|locale):
-    // because the RichTextEditor in the DSM is not able of considering a changed value
-    // it loops internally on its state for the value and ignores external modifications of the value
-    // we have to force react to rebuild it when changing the value (when channel or locale is changed for instance)
     return (
       <Field960 label={getLabelFromAttribute(attribute, locale)} channel={channel.label} locale={locale}>
-        <TextAreaInput
-          key={buildCompositeKey(attribute, channel.code, locale)}
-          isRichText
-          name={attribute.code}
-          value={value}
-          onChange={onChange}
-        />
+        <TextAreaInput isRichText name={attribute.code} value={value} onChange={onChange} />
       </Field960>
     );
   };

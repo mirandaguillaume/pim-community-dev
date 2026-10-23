@@ -29,8 +29,8 @@ Bun.plugin({
       contents: 'module.exports = "";',
       loader: 'js',
     }));
-    // react-draft-wysiwyg and similar UMD packages inside akeneo-design-system
-    // reference window at IIFE evaluation time — short-circuit them.
+    // Some packages inside akeneo-design-system reference window at IIFE evaluation
+    // time — short-circuit them.
     build.onLoad({filter: /akeneo-design-system\/node_modules\//}, () => ({
       contents: 'module.exports = {};',
       loader: 'js',

@@ -331,38 +331,99 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
   suppression reste que **rien ne le référence**, l'inconstructibilité n'étant qu'un corollaire.
   **Ce n'est PAS une remédiation de CVE** et ne doit pas être comptée comme telle : supprimer une
   base EOL que personne ne construit ne ferme aucune exposition.
-- **« Alerté dans plusieurs manifestes » n'est pas une catégorie d'action.** Les 11 paquets mesurés
-  le 2026-10-21 ont été instruits un par un, et trois d'entre eux — `immutable`, `linkify-it`,
-  `node-fetch` — se sont révélés être des feuilles de **la même chaîne `draft-js`**, exigeant
-  **trois traitements opposés** :
-  - **`immutable` : vrai correctif, livré.** Épinglé en `^3.8.4` (dernière 3.x) dans les deux
-    `package.json`, parce qu'il est réellement exécuté — c'est la structure de données du
-    `RichTextEditor` livrée au navigateur. **Surtout pas 4.3.9** : la plage 4.x de l'avis vise des
-    consommateurs déjà en v4, et `draft-js@0.10.5` casserait. `yarn audit` : 0 chemin dans les deux
-    arbres.
-  - **`linkify-it` : délibérément NON épinglé.** Le code exécuté est une copie **inlinée dans le
-    bundle UMD** de `react-draft-wysiwyg`. L'épingler ferait **mentir le graphe** : GitHub cesserait
-    de signaler le paquet pendant que la version vulnérable continue d'être livrée. Un garde
-    désarmé de plus, créé pour un compteur plus joli.
-  - **`node-fetch` : ni corrigible, ni atteignable.** Chaîne
-    `draft-js → fbjs → isomorphic-fetch@2.2.1 → node-fetch@^1.0.1 → 1.7.3`. L'avis
-    `GHSA-r683-j2x4-v87g` ne corrige qu'en **2.6.7+ et 3.1.1+** : **aucune version 1.x n'est
-    corrigée**, donc aucune résolution ne l'assainit en restant sur sa majeure. Et
-    `isomorphic-fetch` déclare `"browser": "fetch-npm-browserify.js"`, donc tout bundler respectant
-    ce champ le remplace par `whatwg-fetch` — il n'exécute **aucune requête** dans le produit.
-    Disparaîtra avec `draft-js`.
-  **Le piège à retenir** : le réflexe « ajouter une résolution », qui a bien servi pour `handlebars`
-  (#493), `websocket-driver` (#498) et `follow-redirects` (#513), se serait trompé **deux fois sur
-  trois** ici. Et pour `node-fetch`, le workflow d'analyse **et son vérificateur** ont tous deux
-  proposé une résolution plate `^2.6.7` — alors qu'ils venaient d'énoncer correctement ce même piège
-  sur `brace-expansion`. Deux lignes majeures (`2.6.1` et `^1.0.1`) coexistent à la racine, et une
-  clé `resolutions` yarn v1 ne les discrimine pas.
-  **Vérification sans Jest** (interdit en local) : une sonde plain-node exerce les structures que
-  `draft-js` consomme — `List`, `Map`, `OrderedMap`, `Record`, `Repeat`, `OrderedSet`, `Seq` — plus
-  un aller-retour `ContentState → EditorState → convertToRaw`, et confirme que `fromJS` ne pollue
-  plus `Object.prototype`. 14 contrôles verts. À noter : **yarn n'émet aucun avertissement** bien que
-  `^3.8.4` sorte du `~3.7.4` déclaré par `draft-js`, donc rien d'automatique ne signale cette
-  violation — seule la vérification fonctionnelle le dit.
+- **Trois paquets `high` corrigés sans aucune `resolutions` : les lockfiles étaient juste périmés.**
+  `brace-expansion`, `js-yaml` et `ws` étaient alertés dans la racine ET le DSM. Toutes leurs specs
+  sont des **plages caret**, et les versions corrigées étaient **déjà autorisées** par ces plages —
+  le lockfile de l'exemple du DSM le prouvait à lui seul, portant déjà `brace-expansion 1.1.21`,
+  `js-yaml 3.15.2` et `ws 8.22.0` pour les mêmes specs. Supprimer les entrées et réinstaller a
+  suffi :
+
+  | paquet | plancher requis | obtenu |
+  |---|---|---|
+  | `brace-expansion` 1.x / 2.x | 1.1.21 / 2.1.7 | 1.1.21 / 2.1.7 |
+  | `js-yaml` 3.x / 4.x | 3.15.2 / 4.3.2 | 3.15.2 / 4.3.2 |
+  | `ws` 7.x / 8.x | 7.5.11 / 8.21.0 | 7.5.13 / 8.22.0 |
+
+  **Ce que ça évite** : le workflow d'analyse proposait des `resolutions` **à clés ordonnées**, en
+  s'appuyant sur une lecture du source de yarn 1.22.22 (les résolutions sont premier-match-gagnant
+  dans l'ordre des clés du `package.json`). C'était exact techniquement et **inutile** : zéro
+  résolution à maintenir, zéro violation sémantique, zéro ordre signifiant à préserver.
+  **La règle qui se dégage** : avant de choisir la forme d'un correctif de dépendance, mesurer les
+  **specs réellement verrouillées**, pas la famille de l'alerte. `immutable` a exigé un épinglage
+  *hors* plage déclarée ; ces trois-là n'exigeaient rien du tout. Même inventaire, formes opposées.
+  Diff **confiné et vérifié** : six lignes `version` à la racine, celles visées, aucune cascade sur
+  les voisins. Audit : 0 chemin pour les trois dans les deux arbres. `category:lint:check` inchangé
+  (0 erreur, 171 avertissements) et build DSM vert — ces paquets vivent dans la chaîne d'outils
+  (`brace-expansion` → `minimatch` → globbing d'eslint/glob/Stryker, `ws` → serveurs de dev), donc
+  le vrai juge reste les jobs de lint et de test.
+- **La chaîne draft-js est remplacée par Tiptap : 14 des 15 alertes de la chaîne se ferment.**
+  `react-draft-wysiwyg` portait un XSS **sans correctif publié** — npm annonce la plage corrigée
+  comme `<0.0.0`, sa façon de dire que le paquet n'est plus maintenu. Un remplacement était donc la
+  seule issue, et la surface s'est révélée minuscule : draft-js n'était importé que par **2
+  fichiers**, tous deux dans le DSM.
+
+  | paquet | alertes | sort |
+  |---|---|---|
+  | `immutable` | 6 | fermées |
+  | `linkify-it` | 4 | fermées |
+  | `react-draft-wysiwyg` | 2 | fermées |
+  | `ua-parser-js` | 1 | fermée |
+  | `node-fetch` | 2 | 1 fermée (DSM), **1 reste** |
+
+  La survivante est `node-fetch@2.6.1` à la racine, qui n'a rien à voir avec draft-js : elle arrive
+  par `jest-fetch-mock` → `cross-fetch`. L'avis est unique, compté une fois par manifeste.
+  **Annoncer 15 aurait été faux d'une unité.**
+
+  **Ce qui a rendu l'échange possible** : la valeur stockée était déjà du **HTML** (`draftToHtml` en
+  sortie, `htmlToDraft` en entrée), pas le JSON brut de draft-js — donc aucune migration de données,
+  et le HTML est le format **natif** de Tiptap. C'est ce critère, et non la notoriété, qui a écarté
+  Lexical : successeur légitime de draft-js mais encore en `0.x`, et il exige `@lexical/html` plus
+  une sérialisation à écrire — soit exactement la couche de conversion qu'on démontait.
+
+  **Deux gains qui n'étaient pas l'objectif** :
+  1. le consommateur dans Category forçait un remontage par une **`key` composite**, avec un
+     commentaire l'avouant : *« the RichTextEditor in the DSM is not able of considering a changed
+     value »*. L'ancien composant n'initialisait qu'une fois. La `key` est supprimée, remplacée par
+     une vraie synchronisation contrôlée ;
+  2. **6 `transformIgnorePatterns`** demandaient à Jest de transpiler `react-draft-wysiwyg` dans six
+     workspaces. Tiptap livre du CommonJS (`main` → `.cjs`, et les 13 sous-chemins de `@tiptap/pm`
+     ont tous une condition `require`), donc l'exception est inutile : supprimée partout. Une
+     dépendance ne coûte pas que ses alertes.
+
+  **Le signalement de sécurité sur mon propre code, réfuté par mesure** : une revue automatique a
+  marqué `setLink({href})` comme vecteur XSS. L'extension `Link` de Tiptap filtre déjà les
+  protocoles via `isAllowedUri` — vérifié sur `javascript:`, `JaVaScRiPt:`, une variante avec espace
+  en tête, `data:` et `vbscript:`, aucune ne pose de lien — **et sur trois chemins**, dont le HTML
+  analysé depuis la valeur stockée, que valider dans le handler n'aurait pas couvert. Le correctif
+  suggéré était même nuisible : sa liste blanche casse les URL relatives. Rien n'a été changé, mais
+  **un test a été ajouté dans les deux fichiers**, car la protection est de la *configuration* :
+  reconfigurer `Link` l'éteindrait en silence [[disarmed-guards-pattern]].
+
+  **Méthode — trois fois la même erreur** : `str.replace()` en Python rend la chaîne inchangée quand
+  le motif échoue, **sans lever d'erreur**, donc mes scripts ont annoncé des succès pour des éditions
+  nulles — dont un commentaire décrivant une prop `key` supprimée. Parade : `re.subn` et vérifier le
+  compte. Deux variantes du même piège : chercher les traces d'une dépendance avec les motifs qu'on a
+  en tête (`rdw-`, `DraftJS`) rate `html-to-draftjs` et `ContentBlock` — c'est **eslint** qui a trouvé
+  le `jest.mock` résiduel, et `git grep` qui a donné la mesure propre ; et `git diff --diff-filter=ACM`
+  **ne voit pas les fichiers neufs**, donc la barre d'outils n'a pas été formatée. Enfin, formater avec
+  une commande *équivalente en apparence* ne satisfait pas la vérification : Category lance
+  `prettier --config .prettierrc.json --parser typescript`, et seul son propre `lint:fix` le contente.
+
+  **Et la résolution d'#518 devient morte**, donc elle part ici : `draft-js` était le seul
+  consommateur d'`immutable`, qui a disparu des deux arbres. Les deux PR étaient correctes à leur
+  heure — #518 fermait 6 alertes le jour même pour une ligne, celle-ci supprime la raison d'être du
+  paquet — mais laisser une `resolutions` qui épingle un paquet absent est exactement la
+  « devDependency morte qui enracine des transitifs » déjà documentée [[dead-devdependencies-carry-cves]].
+  Piège rencontré en la retirant : `git checkout <branche> -- package.json` prend le fichier
+  **entier**, pas le diff, et a donc **annulé en silence** la résolution d'#518 — invisible dans le
+  diff comme une suppression intentionnelle. Repartir de `origin/master --` puis rejouer son seul
+  changement par script ; les 30 autres résolutions sont vérifiées présentes.
+
+  Vérifié : sonde plain-node + jsdom **16/16** (Jest est interdit ici), dont le point porteur —
+  `setContent(v, {emitUpdate: false})` ne déclenche pas `onUpdate`, alors que sans l'option il le
+  déclenche, donc la garde est nécessaire — et **le chargement ne réécrit pas le HTML stocké**, donc
+  pas de migration silencieuse. Build du DSM vert, lint du DSM vert, Category à **0 erreur / 171
+  avertissements**, sa base inchangée. Les tests Jest eux-mêmes ne tournent qu'en CI.
 - **Séquencement** : ne jamais empiler une PR sur une branche qui fusionnera en **squash** — le SHA
   est réécrit et la branche empilée devient divergente (#495 l'a payé). Brancher sur `master` et
   accepter de régénérer le lockfile après la fusion de la base.
