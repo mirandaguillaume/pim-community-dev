@@ -331,6 +331,38 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
   suppression reste que **rien ne le référence**, l'inconstructibilité n'étant qu'un corollaire.
   **Ce n'est PAS une remédiation de CVE** et ne doit pas être comptée comme telle : supprimer une
   base EOL que personne ne construit ne ferme aucune exposition.
+- **« Alerté dans plusieurs manifestes » n'est pas une catégorie d'action.** Les 11 paquets mesurés
+  le 2026-10-21 ont été instruits un par un, et trois d'entre eux — `immutable`, `linkify-it`,
+  `node-fetch` — se sont révélés être des feuilles de **la même chaîne `draft-js`**, exigeant
+  **trois traitements opposés** :
+  - **`immutable` : vrai correctif, livré.** Épinglé en `^3.8.4` (dernière 3.x) dans les deux
+    `package.json`, parce qu'il est réellement exécuté — c'est la structure de données du
+    `RichTextEditor` livrée au navigateur. **Surtout pas 4.3.9** : la plage 4.x de l'avis vise des
+    consommateurs déjà en v4, et `draft-js@0.10.5` casserait. `yarn audit` : 0 chemin dans les deux
+    arbres.
+  - **`linkify-it` : délibérément NON épinglé.** Le code exécuté est une copie **inlinée dans le
+    bundle UMD** de `react-draft-wysiwyg`. L'épingler ferait **mentir le graphe** : GitHub cesserait
+    de signaler le paquet pendant que la version vulnérable continue d'être livrée. Un garde
+    désarmé de plus, créé pour un compteur plus joli.
+  - **`node-fetch` : ni corrigible, ni atteignable.** Chaîne
+    `draft-js → fbjs → isomorphic-fetch@2.2.1 → node-fetch@^1.0.1 → 1.7.3`. L'avis
+    `GHSA-r683-j2x4-v87g` ne corrige qu'en **2.6.7+ et 3.1.1+** : **aucune version 1.x n'est
+    corrigée**, donc aucune résolution ne l'assainit en restant sur sa majeure. Et
+    `isomorphic-fetch` déclare `"browser": "fetch-npm-browserify.js"`, donc tout bundler respectant
+    ce champ le remplace par `whatwg-fetch` — il n'exécute **aucune requête** dans le produit.
+    Disparaîtra avec `draft-js`.
+  **Le piège à retenir** : le réflexe « ajouter une résolution », qui a bien servi pour `handlebars`
+  (#493), `websocket-driver` (#498) et `follow-redirects` (#513), se serait trompé **deux fois sur
+  trois** ici. Et pour `node-fetch`, le workflow d'analyse **et son vérificateur** ont tous deux
+  proposé une résolution plate `^2.6.7` — alors qu'ils venaient d'énoncer correctement ce même piège
+  sur `brace-expansion`. Deux lignes majeures (`2.6.1` et `^1.0.1`) coexistent à la racine, et une
+  clé `resolutions` yarn v1 ne les discrimine pas.
+  **Vérification sans Jest** (interdit en local) : une sonde plain-node exerce les structures que
+  `draft-js` consomme — `List`, `Map`, `OrderedMap`, `Record`, `Repeat`, `OrderedSet`, `Seq` — plus
+  un aller-retour `ContentState → EditorState → convertToRaw`, et confirme que `fromJS` ne pollue
+  plus `Object.prototype`. 14 contrôles verts. À noter : **yarn n'émet aucun avertissement** bien que
+  `^3.8.4` sorte du `~3.7.4` déclaré par `draft-js`, donc rien d'automatique ne signale cette
+  violation — seule la vérification fonctionnelle le dit.
 - **Séquencement** : ne jamais empiler une PR sur une branche qui fusionnera en **squash** — le SHA
   est réécrit et la branche empilée devient divergente (#495 l'a payé). Brancher sur `master` et
   accepter de régénérer le lockfile après la fusion de la base.
