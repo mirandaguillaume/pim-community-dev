@@ -78,6 +78,10 @@ test('it hides the toolbar and the editing surface when read only', () => {
   expect(screen.getByText('Nice RTF content')).toBeInTheDocument();
 });
 
+// This file DOES run in CI, through the `Launch tests on the DSM` job of dsm-test.yml. An earlier
+// comment here claimed the opposite; the job that caught a stale test in this very file disproved
+// it. The twin guard in the Category workspace is kept because it covers the consumer's wiring,
+// not because this one is unexecuted.
 test('the rich text toolbar offers exactly the expected controls', () => {
   const {container} = render(
     <>
@@ -99,19 +103,6 @@ test('the rich text toolbar offers exactly the expected controls', () => {
     'link-control',
     'clear-formatting-control',
   ]);
-});
-
-test('it renders an empty rich text editor when the value is unprocessable', () => {
-  const handleChange = jest.fn();
-
-  render(
-    <>
-      <label htmlFor="myInput">My label</label>
-      <TextAreaInput id="myInput" value="WILL FAIL" isRichText={true} onChange={handleChange} />
-    </>
-  );
-
-  expect(screen.queryByText('WILL FAIL')).not.toBeInTheDocument();
 });
 
 test('TextAreaInput supports forwardRef', () => {

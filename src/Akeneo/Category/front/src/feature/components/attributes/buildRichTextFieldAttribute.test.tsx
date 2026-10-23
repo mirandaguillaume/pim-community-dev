@@ -43,10 +43,11 @@ describe('buildRichTextFieldAttribute', () => {
     expect(container.firstChild).not.toBeNull();
   });
 
-  // The CI-enforced half of the guard. Its twin in the design system's own TextAreaInput.unit.tsx is
-  // never executed by any CI job -- `tests/front/unit/jest/unit.jest.js` ignores `/front-packages/`
-  // and no job runs that package's `test:unit:run` -- so the rule is pinned from a consumer that does
-  // run, which this workspace does via `yarn packages:unit`.
+  // Both halves of this guard run in CI: this one through the Category workspace's own unit job, and
+  // its twin in the design system's TextAreaInput.unit.tsx through dsm-test.yml's `Launch tests on
+  // the DSM`. The comment this replaces asserted the twin was never executed -- that was wrong, and
+  // the DSM job proved it by catching a stale test in that very file. Keep both: this one covers the
+  // consumer's wiring, the other the component in isolation.
   //
   // The toolbar is now ours, built from an explicit list, so the rule is stated positively: this is
   // the whole set of controls. The editor it replaced was configured by subtraction instead, and the
