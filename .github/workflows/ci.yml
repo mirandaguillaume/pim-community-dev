@@ -2499,9 +2499,18 @@ jobs:
           else
             SHARDS_JSON="["
             first=true
+            BASELINE=.github/mutation-msi-baseline.json
             for d in $DIRS; do
               $first || SHARDS_JSON="$SHARDS_JSON,"
-              SHARDS_JSON="$SHARDS_JSON{\"dir\":\"$d\",\"msi\":80}"
+              # A directory carrying pre-existing debt keeps its recorded floor instead of the
+              # default 80. Shards come from `git diff origin/master...HEAD`, so a directory is
+              # scored only because someone edited a file in it -- editing a comment is enough.
+              # The floor stops a PR making it worse without making that PR pay unrelated debt.
+              # `| numbers` so a prose value in the file falls through to the default instead of
+              # silently becoming the threshold.
+              MSI=$(jq -r --arg d "$d" '(.[$d] | numbers) // 80' "$BASELINE" 2>/dev/null || echo 80)
+              [ "$MSI" = "80" ] || echo "::notice::$d carries a recorded MSI floor of $MSI instead of 80 (see $BASELINE)"
+              SHARDS_JSON="$SHARDS_JSON{\"dir\":\"$d\",\"msi\":$MSI}"
               first=false
             done
             SHARDS_JSON="$SHARDS_JSON]"
