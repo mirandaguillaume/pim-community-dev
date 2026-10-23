@@ -19,10 +19,9 @@ type RichTextEditorProps = {
 // Category workspace had to force a remount through a composite React key. That key is gone.
 const useExternalValue = (editor: Editor | null, value: string) => {
   useEffect(() => {
-    if (null === editor || editor.isDestroyed) return;
-    if (value === editor.getHTML()) return;
-
-    editor.commands.setContent(value, {emitUpdate: false});
+    if (null !== editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value, {emitUpdate: false});
+    }
   }, [editor, value]);
 };
 
@@ -44,7 +43,7 @@ const RichTextEditor = ({value, readOnly = false, onChange}: RichTextEditorProps
 
   return (
     <>
-      {!readOnly && <RichTextEditorToolbar editor={editor} />}
+      {!readOnly && null !== editor && <RichTextEditorToolbar editor={editor} />}
       <EditorContent editor={editor} />
     </>
   );

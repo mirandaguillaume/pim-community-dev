@@ -57,11 +57,9 @@ const currentBlockType = (editor: Editor): string => {
   return 'paragraph';
 };
 
-const RichTextEditorToolbar = ({editor}: {editor: Editor | null}) => {
+const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
   const [linkFormOpen, setLinkFormOpen] = useState(false);
   const [href, setHref] = useState('');
-
-  if (null === editor) return null;
 
   const setBlockType = (value: string) => {
     if ('paragraph' === value) {
