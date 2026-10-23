@@ -71,10 +71,10 @@ class ConfigurationController
     /**
      * Set the current configuration
      *
-     * @AclAncestor("oro_config_system")
      *
      * @return JsonResponse
      */
+    #[AclAncestor('oro_config_system')]
     public function postAction(Request $request)
     {
         $this->configManager->save(json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR));

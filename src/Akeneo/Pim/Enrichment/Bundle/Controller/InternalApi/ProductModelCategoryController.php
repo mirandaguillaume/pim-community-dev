@@ -42,9 +42,8 @@ class ProductModelCategoryController
      * List categories and trees for a product model
      *
      * @param string $id
-     *
-     * @AclAncestor("pim_enrich_product_model_categories_view")
      */
+    #[AclAncestor('pim_enrich_product_model_categories_view')]
     public function listAction($id): JsonResponse
     {
         $result = [];

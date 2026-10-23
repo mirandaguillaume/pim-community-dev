@@ -100,8 +100,8 @@ class AssociationTypeController
      * @throws NotFoundHttpException
      *
      * @return JsonResponse
-     * @AclAncestor("pim_api_association_type_list")
      */
+    #[AclAncestor('pim_api_association_type_list')]
     public function getAction(Request $request, $code)
     {
         $associationType = $this->repository->findOneByIdentifier($code);
@@ -119,8 +119,8 @@ class AssociationTypeController
      * @throws UnprocessableEntityHttpException
      *
      * @return JsonResponse
-     * @AclAncestor("pim_api_association_type_list")
      */
+    #[AclAncestor('pim_api_association_type_list')]
     public function listAction(Request $request)
     {
         try {
@@ -167,8 +167,8 @@ class AssociationTypeController
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_association_type_edit")
      */
+    #[AclAncestor('pim_api_association_type_edit')]
     public function createAction(Request $request)
     {
         $data = $this->getDecodedContent($request->getContent());
@@ -188,8 +188,8 @@ class AssociationTypeController
      * @throws HttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_association_type_edit")
      */
+    #[AclAncestor('pim_api_association_type_edit')]
     public function partialUpdateAction(Request $request, $code)
     {
         $data = $this->getDecodedContent($request->getContent());
@@ -219,8 +219,8 @@ class AssociationTypeController
      * @throws HttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_association_type_edit")
      */
+    #[AclAncestor('pim_api_association_type_edit')]
     public function partialUpdateListAction(Request $request)
     {
         $resource = $request->getContent(true);

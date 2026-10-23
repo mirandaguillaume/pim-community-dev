@@ -55,10 +55,8 @@ class FamilyVariantController
     /**
      *
      * @throws NotFoundHttpException
-     *
-     *
-     * @AclAncestor("pim_api_family_variant_list")
      */
+    #[AclAncestor('pim_api_family_variant_list')]
     public function getAction(Request $request, string $familyCode, string $code): JsonResponse
     {
         $family = $this->familyRepository->findOneByIdentifier($familyCode);
@@ -86,9 +84,8 @@ class FamilyVariantController
      *
      * @throws NotFoundHttpException
      * @throws UnprocessableEntityHttpException
-     *
-     * @AclAncestor("pim_api_family_variant_list")
      */
+    #[AclAncestor('pim_api_family_variant_list')]
     public function listAction(Request $request, string $familyCode): JsonResponse
     {
         $criteria = [];
@@ -137,9 +134,8 @@ class FamilyVariantController
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
-     *
-     * @AclAncestor("pim_api_family_variant_edit")
      */
+    #[AclAncestor('pim_api_family_variant_edit')]
     public function createAction(Request $request, string $familyCode): Response
     {
         $data = $this->getDecodedContent($request->getContent());
@@ -157,10 +153,8 @@ class FamilyVariantController
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
-     *
-     *
-     * @AclAncestor("pim_api_family_variant_edit")
      */
+    #[AclAncestor('pim_api_family_variant_edit')]
     public function partialUpdateAction(Request $request, string $familyCode, string $code): Response
     {
         $data = $this->getDecodedContent($request->getContent());
@@ -189,9 +183,8 @@ class FamilyVariantController
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
-     *
-     * @AclAncestor("pim_api_family_variant_edit")
      */
+    #[AclAncestor('pim_api_family_variant_edit')]
     public function partialUpdateListAction(Request $request, string $familyCode): Response
     {
         $resource = $request->getContent(true);

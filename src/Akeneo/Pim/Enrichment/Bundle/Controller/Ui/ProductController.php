@@ -50,9 +50,8 @@ class ProductController extends AbstractListCategoryController
 
     /**
      * Toggle product status (enabled/disabled)
-     *
-     * @AclAncestor("pim_enrich_product_edit_attributes")
      */
+    #[AclAncestor('pim_enrich_product_edit_attributes')]
     public function toggleStatusAction(string $uuid): JsonResponse
     {
         $product = $this->findEntityWithCategoriesOr404($uuid);

@@ -29,18 +29,14 @@ class RoleController extends AbstractController
     ) {
     }
 
-    /**
-     * @AclAncestor("pim_user_role_create")
-     */
+    #[AclAncestor('pim_user_role_create')]
     public function create(): Response
     {
         $newRole = new Role();
         return $this->updateRole($newRole);
     }
 
-    /**
-     * @AclAncestor("pim_user_role_edit")
-     */
+    #[AclAncestor('pim_user_role_edit')]
     public function update(int $id): Response
     {
         $role = $this->roleRepository->find($id);
@@ -50,11 +46,10 @@ class RoleController extends AbstractController
     /**
      * Delete role
      *
-     * @AclAncestor("pim_user_role_remove")
      *
      * @throws UnprocessableEntityHttpException
-     *
      */
+    #[AclAncestor('pim_user_role_remove')]
     public function delete(Request $request, $id): Response
     {
         if (!$request->isXmlHttpRequest()) {

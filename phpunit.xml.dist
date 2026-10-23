@@ -169,6 +169,7 @@
             <directory suffix="Test.php">src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/Unit</directory>
             <directory suffix="Test.php">src/Akeneo/Pim/Enrichment/Product/back/Test/Unit</directory>
             <directory suffix="Test.php">src/Oro/Bundle/DataGridBundle/Unit</directory>
+            <directory suffix="Test.php">src/Oro/Bundle/SecurityBundle/Unit</directory>
             <directory suffix="Test.php">src/Oro/Bundle/FilterBundle/Unit</directory>
             <directory suffix="Test.php">src/Oro/Bundle/PimDataGridBundle/Unit</directory>
             <directory suffix="Test.php">src/Oro/Bundle/PimFilterBundle/Unit</directory>

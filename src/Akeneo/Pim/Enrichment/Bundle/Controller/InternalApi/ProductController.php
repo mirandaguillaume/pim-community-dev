@@ -178,9 +178,9 @@ class ProductController
      *
      * @param int     $uuid
      *
-     * @AclAncestor("pim_enrich_product_remove")
      * @return Response
      */
+    #[AclAncestor('pim_enrich_product_remove')]
     public function removeAction(Request $request, $uuid)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -201,12 +201,12 @@ class ProductController
      * @param string  $uuid
      * @param string  $attributeId
      *
-     * @AclAncestor("pim_enrich_product_remove_attribute")
      *
      * @throws AccessDeniedHttpException If the user does not have right to edit the product
      * @throws BadRequestHttpException   If the attribute is not removable
      * @throws NotFoundHttpException     If product is not found or the user cannot see it
      */
+    #[AclAncestor('pim_enrich_product_remove_attribute')]
     public function removeAttributeAction(Request $request, $uuid, $attributeId): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
     {
         if (!$request->isXmlHttpRequest()) {
@@ -236,9 +236,8 @@ class ProductController
 
     /**
      * Converts a variant product into a simple product
-     *
-     * @AclAncestor("pim_enrich_product_convert_variant_to_simple")
      */
+    #[AclAncestor('pim_enrich_product_convert_variant_to_simple')]
     public function convertToSimpleProductAction(Request $request, string $uuid): Response
     {
         if (!$request->isXmlHttpRequest()) {
