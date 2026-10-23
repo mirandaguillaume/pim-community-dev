@@ -319,6 +319,18 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
       part. C'est un **faux positif produit par un artefact périmé** — même famille que `es/`,
       `dependency-cruiser` ou le `lib/` périmé. Les supprimer ou aligner leurs contraintes est une
       décision à prendre, pas un geste à glisser dans une PR de sécurité.
+- **`docker/Dockerfile_node` supprimé : 53 lignes que rien ne construisait.** Le service `node` de
+  `docker-compose.yml` utilise l'image publique **`node:22`** ; les deux seules références au fichier
+  étaient dans des documents de plan de février 2026 qui projetaient de le migrer en bookworm — plan
+  dépassé par le passage à l'image publique, fichier laissé derrière.
+  Il emportait trois défauts au-delà de l'inutilité : `node_22.x` sur **bullseye** (Debian 11), trois
+  `apt-key add` dépréciés, et un binaire `dumb-init` récupéré par `ADD` **sans somme de contrôle**.
+  Au passage, `deb.nodesource.com/node_22.x/dists/bullseye/Release` répond **404** — et bookworm
+  aussi, ce qui indique un changement de disposition chez nodesource plutôt qu'un simple abandon de
+  bullseye. Donc le fichier ne pouvait probablement plus se construire ; mais la raison de la
+  suppression reste que **rien ne le référence**, l'inconstructibilité n'étant qu'un corollaire.
+  **Ce n'est PAS une remédiation de CVE** et ne doit pas être comptée comme telle : supprimer une
+  base EOL que personne ne construit ne ferme aucune exposition.
 - **Séquencement** : ne jamais empiler une PR sur une branche qui fusionnera en **squash** — le SHA
   est réécrit et la branche empilée devient divergente (#495 l'a payé). Brancher sur `master` et
   accepter de régénérer le lockfile après la fusion de la base.
