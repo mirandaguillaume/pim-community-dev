@@ -102,8 +102,8 @@ class AssociationTypeController
      * @param string  $identifier
      *
      * @return Response
-     * @AclAncestor("pim_enrich_associationtype_edit")
      */
+    #[AclAncestor('pim_enrich_associationtype_edit')]
     public function postAction(Request $request, $identifier)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -147,8 +147,8 @@ class AssociationTypeController
      * @param string  $code
      *
      * @return Response
-     * @AclAncestor("pim_enrich_associationtype_remove")
      */
+    #[AclAncestor('pim_enrich_associationtype_remove')]
     public function removeAction(Request $request, $code)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -186,8 +186,8 @@ class AssociationTypeController
      *
      *
      * @return Response
-     * @AclAncestor("pim_enrich_associationtype_create")
      */
+    #[AclAncestor('pim_enrich_associationtype_create')]
     public function createAction(Request $request)
     {
         if (!$request->isXmlHttpRequest()) {

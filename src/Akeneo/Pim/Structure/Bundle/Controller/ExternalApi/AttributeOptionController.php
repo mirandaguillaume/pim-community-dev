@@ -117,8 +117,8 @@ class AttributeOptionController
      * @throws NotFoundHttpException
      *
      * @return JsonResponse
-     * @AclAncestor("pim_api_attribute_option_list")
      */
+    #[AclAncestor('pim_api_attribute_option_list')]
     public function getAction(Request $request, $attributeCode, $code)
     {
         $attribute = $this->getAttribute($attributeCode);
@@ -146,8 +146,8 @@ class AttributeOptionController
      * @throws HttpException
      *
      * @return JsonResponse
-     * @AclAncestor("pim_api_attribute_option_list")
      */
+    #[AclAncestor('pim_api_attribute_option_list')]
     public function listAction(Request $request, $attributeCode)
     {
         $criteria = [];
@@ -201,8 +201,8 @@ class AttributeOptionController
      * @throws HttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_attribute_option_edit")
      */
+    #[AclAncestor('pim_api_attribute_option_edit')]
     public function createAction(Request $request, $attributeCode)
     {
         $attribute = $this->getAttribute($attributeCode);
@@ -228,8 +228,8 @@ class AttributeOptionController
      * @throws HttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_attribute_option_edit")
      */
+    #[AclAncestor('pim_api_attribute_option_edit')]
     public function partialUpdateAction(Request $request, $attributeCode, $code)
     {
         $attribute = $this->getAttribute($attributeCode);
@@ -257,10 +257,7 @@ class AttributeOptionController
         return $this->getResponse($attribute, $attributeOption, $status);
     }
 
-    /**
-     *
-     * @AclAncestor("pim_api_attribute_option_edit")
-     */
+    #[AclAncestor('pim_api_attribute_option_edit')]
     public function partialUpdateListAction(Request $request, string $attributeCode): Response
     {
         $resource = $request->getContent(true);

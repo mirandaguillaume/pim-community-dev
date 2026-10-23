@@ -134,8 +134,8 @@ class AttributeGroupController
     /**
      *
      * @return Response
-     * @AclAncestor("pim_enrich_attributegroup_create")
      */
+    #[AclAncestor('pim_enrich_attributegroup_create')]
     public function createAction(Request $request)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -182,8 +182,8 @@ class AttributeGroupController
      * @param string  $identifier
      *
      * @return Response
-     * @AclAncestor("pim_enrich_attributegroup_edit")
      */
+    #[AclAncestor('pim_enrich_attributegroup_edit')]
     public function postAction(Request $request, $identifier)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -249,9 +249,9 @@ class AttributeGroupController
      * Sort the attribute groups
      *
      *
-     * @AclAncestor("pim_enrich_attributegroup_sort")
      * @return Response
      */
+    #[AclAncestor('pim_enrich_attributegroup_sort')]
     public function sortAction(Request $request)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -279,9 +279,8 @@ class AttributeGroupController
      * @param string $identifier
      *
      * @return JsonResponse
-     *
-     * @AclAncestor("pim_enrich_attributegroup_remove")
      */
+    #[AclAncestor('pim_enrich_attributegroup_remove')]
     public function removeAction(Request $request, $identifier)
     {
         $jobInstance = $this->jobInstanceRepository->findOneByIdentifier('delete_attribute_groups');

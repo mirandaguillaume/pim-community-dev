@@ -363,6 +363,47 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
   plus `Object.prototype`. 14 contrôles verts. À noter : **yarn n'émet aucun avertissement** bien que
   `^3.8.4` sorte du `~3.7.4` déclaré par `draft-js`, donc rien d'automatique ne signale cette
   violation — seule la vérification fonctionnelle le dit.
+- **`doctrine/annotations` est retiré : la dépendance ne survivait que pour UNE annotation maison.**
+  Zéro autre annotation docblock Doctrine dans le dépôt — `@Route`, `@Entity`, `@Column` sont déjà
+  des attributs PHP 8, et Gedmo utilise déjà son propre `AttributeReader` (`final class`, sans
+  `implements`, donc indépendant). Restaient **91 `@AclAncestor` dans 28 fichiers**, tous sur des
+  méthodes. Même forme que #502, où le fourre-tout `{"": "src/"}` n'existait que pour le `Kernel` :
+  une dépendance tombée à un seul usage n'est pas une migration, c'est un retrait.
+
+  **Ce que la mesure a corrigé dans mon cadrage**, trois fois :
+  1. le loader lit **deux** classes, `Acl` et `AclAncestor` — mais **`@Acl` a zéro usage en
+     annotation**. La classe, elle, est porteuse : 9 fichiers l'utilisent comme objet de valeur pour
+     les **157 ACL déclarées dans 15 `acl.yml`**. J'ai donc retiré le *chemin de lecture*, pas la
+     classe, dont le constructeur `?array $data` à 9 clés reste celui du YAML ;
+  2. le filtre du loader faisait un `preg_match` sur le FQCN de `Acl`, qui n'est un préfixe de celui
+     d'`AclAncestor` que **par coïncidence de nommage** — avec deux noms différents il n'aurait
+     jamais rien trouvé. Il vise désormais la classe qu'il lit ;
+  3. mon comptage brut disait 92 dans 29 fichiers : la 92ᵉ est une **mention en prose** dans un
+     commentaire d'`ActionAclVoter.php`. Réconcilier l'écart valait mieux que l'arrondir.
+
+  **Seul notre paquet racine `requires` la dépendance** : `doctrine-bundle`, `rest-bundle`, `gedmo`,
+  `framework-bundle` et `property-info` ne déclarent que des `conflicts`, de simples bornes. Elle
+  quitte donc le manifeste, le lock **et le `vendor/`** — vérifié en l'installant-retirant pour de
+  vrai, car tester avec le paquet encore présent n'aurait rien prouvé. Et `'@annotation_reader'` n'a
+  plus **aucune** référence dans le dépôt.
+
+  **Aucun test ne couvrait ce loader**, pourtant seul lien entre les 91 attributs et les ACL
+  effectives. Le garde ajouté est le premier : 7 cas, dont l'arrangement de production (le YAML
+  déclare, l'attribut rattache), et **armé** — neutraliser la lecture des attributs de méthode fait
+  tomber exactement 2 cas sur 7, la granularité attendue [[a-test-that-passes-before-the-fix]].
+
+  **Trois angles morts trouvés en cherchant seulement OÙ vérifier** : `src/Oro` n'est mentionné par
+  **aucune** tâche Castor de PHPStan ou cs-fixer ; `src/Oro/Bundle/FilterBundle/Tests/Unit/` porte
+  **8 `*Test.php` qu'aucune suite ne lance** (la suite déclare `FilterBundle/Unit`) ; et le
+  SecurityBundle **ne figurait pas du tout** dans `phpunit.xml.dist`, qu'il a fallu compléter. Dans
+  ce dépôt, le chemin d'apparence conventionnelle est souvent celui que rien ne ramasse.
+
+  **La suite unitaire exige `APP_ENV=test_fake`** (`ci.yml:1102`), sinon `.env` donne `prod` et la
+  config qui rend les warnings PHP fatals ne s'applique pas : mes premiers runs ont produit 8 erreurs
+  puis 1 échec du canari de #504 que **je fabriquais moi-même**. Pire, j'avais la bonne intuition et
+  je l'ai testée avec la mauvaise valeur — « sans surcharge » n'est pas `test_fake` — donc **un test
+  mal construit a réfuté une hypothèse juste**. Verdict réel, invocation fidèle : **5726 tests,
+  0 échec, 3 ignorés**, `0 of 30` au style sans cache, syntaxe valide sur les 30 fichiers.
 - **Séquencement** : ne jamais empiler une PR sur une branche qui fusionnera en **squash** — le SHA
   est réécrit et la branche empilée devient divergente (#495 l'a payé). Brancher sur `master` et
   accepter de régénérer le lockfile après la fusion de la base.
