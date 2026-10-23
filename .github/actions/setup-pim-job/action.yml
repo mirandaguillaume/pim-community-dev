@@ -106,10 +106,20 @@ runs:
     - name: Install PHIVE tools
       if: inputs.phive-tools == 'true'
       shell: bash
+      env:
+        # phar.io's release key, read from the signature itself (issuer team@phar.io).
+        PHIVE_KEY: '6AF725270AB81E04D79442549D8A98B29B2D5D79'
       run: |
+        set -euo pipefail
         wget -qO phive.phar https://phar.io/releases/phive.phar
+        wget -qO phive.phar.asc https://phar.io/releases/phive.phar.asc
+        GNUPGHOME="$(mktemp -d)"; export GNUPGHOME
+        gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys "$PHIVE_KEY"
+        # Pin VALIDSIG to the fingerprint: `gpg --verify` alone exits 0 for any key in the keyring.
+        STATUS="$(gpg --batch --status-fd 1 --verify phive.phar.asc phive.phar 2>/dev/null)"
+        echo "$STATUS" | grep -q "VALIDSIG ${PHIVE_KEY}"
         php phive.phar install --trust-gpg-keys E82B2FB314E9906E
-        rm -f phive.phar
+        rm -rf phive.phar phive.phar.asc "$GNUPGHOME"
 
     - name: Restore composer dependencies
       if: inputs.composer-cache == 'true'
