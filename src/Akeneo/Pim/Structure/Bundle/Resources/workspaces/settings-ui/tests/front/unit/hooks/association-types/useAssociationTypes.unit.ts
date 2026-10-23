@@ -5,7 +5,7 @@ import {act} from '@testing-library/react';
 
 jest.mock('pim/user-context', () => ({get: jest.fn().mockReturnValue('en_US')}), {virtual: true});
 
-const flushPromises = () => new Promise(setImmediate);
+const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
 
 const makeDataGridResponse = (data: unknown[], totalRecords: number) =>
   JSON.stringify({

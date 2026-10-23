@@ -3,7 +3,7 @@ import fetchMock from 'jest-fetch-mock';
 import {act} from '@testing-library/react';
 import {useAttributeCodeInput} from '@akeneo-pim-community/settings-ui/src/hooks/attributes/useAttributeCodeInput';
 
-const flushPromises = () => new Promise(setImmediate);
+const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
 
 beforeEach(() => {
   fetchMock.resetMocks();

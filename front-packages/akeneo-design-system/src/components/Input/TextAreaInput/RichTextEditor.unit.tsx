@@ -40,13 +40,24 @@ test('it toggles the inline marks and the lists', () => {
   expect(screen.getByRole('toolbar')).toBeInTheDocument();
 });
 
-test('it switches the block type to a heading and back to a paragraph', () => {
+// Two renders rather than two picks in one: SelectInput shows the selected option's label AND the
+// option inside the open dropdown, so picking 'Normal' while 'Normal' is already selected matches
+// two elements and getByText throws. Starting from the other block type removes the ambiguity by
+// construction instead of reaching for getAllByText and an index.
+test('it switches the block type from a paragraph to a heading', () => {
   render(<RichTextEditor value="<p>Hello</p>" onChange={jest.fn()} />);
 
   pick('block-type-control', 'Title 2');
+
+  expect(within(group('block-type-control')).getByText('Title 2')).toBeInTheDocument();
+});
+
+test('it switches the block type from a heading back to a paragraph', () => {
+  render(<RichTextEditor value="<h2>Hello</h2>" onChange={jest.fn()} />);
+
   pick('block-type-control', 'Normal');
 
-  expect(screen.getByText('Hello')).toBeInTheDocument();
+  expect(within(group('block-type-control')).getByText('Normal')).toBeInTheDocument();
 });
 
 test('it reads the current block type back from a heading', () => {
