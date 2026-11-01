@@ -188,7 +188,7 @@
   ],
   "resolutions": {
     "immutable": "^3.8.4",
-    "follow-redirects": "^1.16.1",
+    "follow-redirects": "^1.16.2",
     "babel-eslint": "npm:@babel/eslint-parser@^7.25.0",
     "@types/node": "18.15.0",
     "typescript": "5.7.3",
