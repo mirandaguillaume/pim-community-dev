@@ -43,10 +43,10 @@ class ProductCategoryController
      *
      * @param string $uuid
      *
-     * @AclAncestor("pim_enrich_product_categories_view")
      *
      * @return JsonResponse
      */
+    #[AclAncestor('pim_enrich_product_categories_view')]
     public function listAction($uuid)
     {
         $result = [];

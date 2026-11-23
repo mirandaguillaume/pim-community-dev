@@ -215,8 +215,8 @@ class AttributeController
     /**
      *
      * @return Response
-     * @AclAncestor("pim_enrich_attribute_create")
      */
+    #[AclAncestor('pim_enrich_attribute_create')]
     public function createAction(Request $request)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -261,8 +261,8 @@ class AttributeController
      * @param string  $identifier
      *
      * @return Response
-     * @AclAncestor("pim_enrich_attribute_edit")
      */
+    #[AclAncestor('pim_enrich_attribute_edit')]
     public function postAction(Request $request, $identifier)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -303,9 +303,7 @@ class AttributeController
         );
     }
 
-    /**
-     * @AclAncestor("pim_enrich_attribute_remove")
-     */
+    #[AclAncestor('pim_enrich_attribute_remove')]
     public function removeAction(Request $request, string $code): JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {

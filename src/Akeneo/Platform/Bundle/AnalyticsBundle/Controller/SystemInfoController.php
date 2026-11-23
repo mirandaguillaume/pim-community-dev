@@ -25,10 +25,10 @@ class SystemInfoController
     /**
      * @param string $_format
      *
-     * @AclAncestor("pim_analytics_system_info_index")
      *
      * @return Response
      */
+    #[AclAncestor('pim_analytics_system_info_index')]
     public function indexAction($_format)
     {
         $moveToEnd = function (array $data, string $key) {

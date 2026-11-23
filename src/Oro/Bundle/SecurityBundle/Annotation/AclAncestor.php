@@ -3,29 +3,24 @@
 namespace Oro\Bundle\SecurityBundle\Annotation;
 
 /**
- * @Annotation
- * @Target({"METHOD", "CLASS"})
- *
- * TODO: Migrate @Annotation docblock to PHP 8 #[\Attribute] when Doctrine Annotations are fully replaced.
+ * Binds a controller action to an ACL declared in an acl.yml file.
  */
+#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
 class AclAncestor
 {
-    /**
-     * @var string
-     */
-    private $id;
+    // Not readonly: __unserialize assigns it, and a readonly property cannot be written twice.
+    private string $id;
 
     /**
-     * Constructor
-     *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $data)
+    public function __construct(string $id)
     {
-        $this->id = $data['value'] ?? null;
-        if (empty($this->id) || str_contains((string) $this->id, ' ')) {
+        if ('' === $id || str_contains($id, ' ')) {
             throw new \InvalidArgumentException('ACL id must not be empty or contain blank spaces.');
         }
+
+        $this->id = $id;
     }
 
     /**

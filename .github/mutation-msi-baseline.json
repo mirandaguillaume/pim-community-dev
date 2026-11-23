@@ -1,0 +1,4 @@
+{
+  "_": "Per-directory MSI floor for the mutation gate. A directory listed here carries pre-existing debt: the gate requires the recorded floor instead of the default 80, so a change cannot make it WORSE, while touching a file there no longer forces a PR to pay unrelated debt. The shards are derived from `git diff origin/master...HEAD`, so a directory is only ever scored because someone edited a file in it -- which is how converting 32 docblock comments into 14 attributes, with zero executable lines changed, came to be measured at all. Entries may only be RAISED, never lowered. Delete an entry once its directory reaches 80.",
+  "src/Akeneo/Pim/Enrichment/Bundle/Controller/InternalApi": 74
+}

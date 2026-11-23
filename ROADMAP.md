@@ -331,6 +331,79 @@ Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour l
   suppression reste que **rien ne le référence**, l'inconstructibilité n'étant qu'un corollaire.
   **Ce n'est PAS une remédiation de CVE** et ne doit pas être comptée comme telle : supprimer une
   base EOL que personne ne construit ne ferme aucune exposition.
+- **« Alerté dans plusieurs manifestes » n'est pas une catégorie d'action.** Les 11 paquets mesurés
+  le 2026-10-21 ont été instruits un par un, et trois d'entre eux — `immutable`, `linkify-it`,
+  `node-fetch` — se sont révélés être des feuilles de **la même chaîne `draft-js`**, exigeant
+  **trois traitements opposés** :
+  - **`immutable` : vrai correctif, livré.** Épinglé en `^3.8.4` (dernière 3.x) dans les deux
+    `package.json`, parce qu'il est réellement exécuté — c'est la structure de données du
+    `RichTextEditor` livrée au navigateur. **Surtout pas 4.3.9** : la plage 4.x de l'avis vise des
+    consommateurs déjà en v4, et `draft-js@0.10.5` casserait. `yarn audit` : 0 chemin dans les deux
+    arbres.
+  - **`linkify-it` : délibérément NON épinglé.** Le code exécuté est une copie **inlinée dans le
+    bundle UMD** de `react-draft-wysiwyg`. L'épingler ferait **mentir le graphe** : GitHub cesserait
+    de signaler le paquet pendant que la version vulnérable continue d'être livrée. Un garde
+    désarmé de plus, créé pour un compteur plus joli.
+  - **`node-fetch` : ni corrigible, ni atteignable.** Chaîne
+    `draft-js → fbjs → isomorphic-fetch@2.2.1 → node-fetch@^1.0.1 → 1.7.3`. L'avis
+    `GHSA-r683-j2x4-v87g` ne corrige qu'en **2.6.7+ et 3.1.1+** : **aucune version 1.x n'est
+    corrigée**, donc aucune résolution ne l'assainit en restant sur sa majeure. Et
+    `isomorphic-fetch` déclare `"browser": "fetch-npm-browserify.js"`, donc tout bundler respectant
+    ce champ le remplace par `whatwg-fetch` — il n'exécute **aucune requête** dans le produit.
+    Disparaîtra avec `draft-js`.
+  **Le piège à retenir** : le réflexe « ajouter une résolution », qui a bien servi pour `handlebars`
+  (#493), `websocket-driver` (#498) et `follow-redirects` (#513), se serait trompé **deux fois sur
+  trois** ici. Et pour `node-fetch`, le workflow d'analyse **et son vérificateur** ont tous deux
+  proposé une résolution plate `^2.6.7` — alors qu'ils venaient d'énoncer correctement ce même piège
+  sur `brace-expansion`. Deux lignes majeures (`2.6.1` et `^1.0.1`) coexistent à la racine, et une
+  clé `resolutions` yarn v1 ne les discrimine pas.
+  **Vérification sans Jest** (interdit en local) : une sonde plain-node exerce les structures que
+  `draft-js` consomme — `List`, `Map`, `OrderedMap`, `Record`, `Repeat`, `OrderedSet`, `Seq` — plus
+  un aller-retour `ContentState → EditorState → convertToRaw`, et confirme que `fromJS` ne pollue
+  plus `Object.prototype`. 14 contrôles verts. À noter : **yarn n'émet aucun avertissement** bien que
+  `^3.8.4` sorte du `~3.7.4` déclaré par `draft-js`, donc rien d'automatique ne signale cette
+  violation — seule la vérification fonctionnelle le dit.
+- **`doctrine/annotations` est retiré : la dépendance ne survivait que pour UNE annotation maison.**
+  Zéro autre annotation docblock Doctrine dans le dépôt — `@Route`, `@Entity`, `@Column` sont déjà
+  des attributs PHP 8, et Gedmo utilise déjà son propre `AttributeReader` (`final class`, sans
+  `implements`, donc indépendant). Restaient **91 `@AclAncestor` dans 28 fichiers**, tous sur des
+  méthodes. Même forme que #502, où le fourre-tout `{"": "src/"}` n'existait que pour le `Kernel` :
+  une dépendance tombée à un seul usage n'est pas une migration, c'est un retrait.
+
+  **Ce que la mesure a corrigé dans mon cadrage**, trois fois :
+  1. le loader lit **deux** classes, `Acl` et `AclAncestor` — mais **`@Acl` a zéro usage en
+     annotation**. La classe, elle, est porteuse : 9 fichiers l'utilisent comme objet de valeur pour
+     les **157 ACL déclarées dans 15 `acl.yml`**. J'ai donc retiré le *chemin de lecture*, pas la
+     classe, dont le constructeur `?array $data` à 9 clés reste celui du YAML ;
+  2. le filtre du loader faisait un `preg_match` sur le FQCN de `Acl`, qui n'est un préfixe de celui
+     d'`AclAncestor` que **par coïncidence de nommage** — avec deux noms différents il n'aurait
+     jamais rien trouvé. Il vise désormais la classe qu'il lit ;
+  3. mon comptage brut disait 92 dans 29 fichiers : la 92ᵉ est une **mention en prose** dans un
+     commentaire d'`ActionAclVoter.php`. Réconcilier l'écart valait mieux que l'arrondir.
+
+  **Seul notre paquet racine `requires` la dépendance** : `doctrine-bundle`, `rest-bundle`, `gedmo`,
+  `framework-bundle` et `property-info` ne déclarent que des `conflicts`, de simples bornes. Elle
+  quitte donc le manifeste, le lock **et le `vendor/`** — vérifié en l'installant-retirant pour de
+  vrai, car tester avec le paquet encore présent n'aurait rien prouvé. Et `'@annotation_reader'` n'a
+  plus **aucune** référence dans le dépôt.
+
+  **Aucun test ne couvrait ce loader**, pourtant seul lien entre les 91 attributs et les ACL
+  effectives. Le garde ajouté est le premier : 7 cas, dont l'arrangement de production (le YAML
+  déclare, l'attribut rattache), et **armé** — neutraliser la lecture des attributs de méthode fait
+  tomber exactement 2 cas sur 7, la granularité attendue [[a-test-that-passes-before-the-fix]].
+
+  **Trois angles morts trouvés en cherchant seulement OÙ vérifier** : `src/Oro` n'est mentionné par
+  **aucune** tâche Castor de PHPStan ou cs-fixer ; `src/Oro/Bundle/FilterBundle/Tests/Unit/` porte
+  **8 `*Test.php` qu'aucune suite ne lance** (la suite déclare `FilterBundle/Unit`) ; et le
+  SecurityBundle **ne figurait pas du tout** dans `phpunit.xml.dist`, qu'il a fallu compléter. Dans
+  ce dépôt, le chemin d'apparence conventionnelle est souvent celui que rien ne ramasse.
+
+  **La suite unitaire exige `APP_ENV=test_fake`** (`ci.yml:1102`), sinon `.env` donne `prod` et la
+  config qui rend les warnings PHP fatals ne s'applique pas : mes premiers runs ont produit 8 erreurs
+  puis 1 échec du canari de #504 que **je fabriquais moi-même**. Pire, j'avais la bonne intuition et
+  je l'ai testée avec la mauvaise valeur — « sans surcharge » n'est pas `test_fake` — donc **un test
+  mal construit a réfuté une hypothèse juste**. Verdict réel, invocation fidèle : **5726 tests,
+  0 échec, 3 ignorés**, `0 of 30` au style sans cache, syntaxe valide sur les 30 fichiers.
 - **Trois paquets `high` corrigés sans aucune `resolutions` : les lockfiles étaient juste périmés.**
   `brace-expansion`, `js-yaml` et `ws` étaient alertés dans la racine ET le DSM. Toutes leurs specs
   sont des **plages caret**, et les versions corrigées étaient **déjà autorisées** par ces plages —

@@ -167,7 +167,6 @@ services:
         arguments:
             - '%kernel.bundles%'
             - ["Controller"]
-            - '@annotation_reader'
         tags:
             - { name: oro_security.acl.config_loader }
 

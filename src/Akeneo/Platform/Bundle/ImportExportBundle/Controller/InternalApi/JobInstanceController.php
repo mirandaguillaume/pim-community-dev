@@ -77,25 +77,19 @@ class JobInstanceController
     ) {
     }
 
-    /**
-     * @AclAncestor("pim_importexport_import_profile_show")
-     */
+    #[AclAncestor('pim_importexport_import_profile_show')]
     public function getImportAction(string $identifier): JsonResponse
     {
         return $this->getAction($identifier);
     }
 
-    /**
-     * @AclAncestor("pim_importexport_export_profile_show")
-     */
+    #[AclAncestor('pim_importexport_export_profile_show')]
     public function getExportAction(string $identifier): JsonResponse
     {
         return $this->getAction($identifier);
     }
 
-    /**
-     * @AclAncestor("pim_importexport_import_profile_edit")
-     */
+    #[AclAncestor('pim_importexport_import_profile_edit')]
     public function putImportAction(Request $request, string $identifier): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -105,9 +99,7 @@ class JobInstanceController
         return $this->putAction($request, $identifier);
     }
 
-    /**
-     * @AclAncestor("pim_importexport_export_profile_edit")
-     */
+    #[AclAncestor('pim_importexport_export_profile_edit')]
     public function putExportAction(Request $request, string $identifier): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -117,9 +109,7 @@ class JobInstanceController
         return $this->putAction($request, $identifier);
     }
 
-    /**
-     * @AclAncestor("pim_importexport_import_profile_remove")
-     */
+    #[AclAncestor('pim_importexport_import_profile_remove')]
     public function deleteImportAction(Request $request, string $code): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -129,9 +119,7 @@ class JobInstanceController
         return $this->deleteAction($code);
     }
 
-    /**
-     * @AclAncestor("pim_importexport_export_profile_remove")
-     */
+    #[AclAncestor('pim_importexport_export_profile_remove')]
     public function deleteExportAction(Request $request, string $code): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -146,10 +134,10 @@ class JobInstanceController
      *
      * @param string $code
      *
-     * @AclAncestor("pim_importexport_import_profile_launch")
      *
      * @return Response
      */
+    #[AclAncestor('pim_importexport_import_profile_launch')]
     public function launchImportAction(Request $request, $code)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -164,10 +152,10 @@ class JobInstanceController
      *
      * @param string $code
      *
-     * @AclAncestor("pim_importexport_export_profile_launch")
      *
      * @return Response
      */
+    #[AclAncestor('pim_importexport_export_profile_launch')]
     public function launchExportAction(Request $request, $code)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -475,17 +463,13 @@ class JobInstanceController
         return $this->jobLauncher->launch($jobInstance, $user, $configuration);
     }
 
-    /**
-     * @AclAncestor("pim_importexport_import_profile_create")
-     */
+    #[AclAncestor('pim_importexport_import_profile_create')]
     public function createImportAction(Request $request): Response
     {
         return $this->createAction($request, 'import');
     }
 
-    /**
-     * @AclAncestor("pim_importexport_export_profile_create")
-     */
+    #[AclAncestor('pim_importexport_export_profile_create')]
     public function createExportAction(Request $request): Response
     {
         return $this->createAction($request, 'export');

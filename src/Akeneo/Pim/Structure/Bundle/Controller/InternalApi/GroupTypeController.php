@@ -78,9 +78,8 @@ class GroupTypeController
 
     /**
      * @return JsonResponse
-     *
-     * @AclAncestor("pim_enrich_grouptype_index")
      */
+    #[AclAncestor('pim_enrich_grouptype_index')]
     public function indexAction()
     {
         $groupTypes = $this->groupTypeRepo->findAll();
@@ -96,9 +95,8 @@ class GroupTypeController
      * @param string $identifier
      *
      * @return JsonResponse
-     *
-     * @AclAncestor("pim_enrich_grouptype_get")
      */
+    #[AclAncestor('pim_enrich_grouptype_get')]
     public function getAction($identifier)
     {
         $groupType = $this->getGroupTypeOr404($identifier);
@@ -112,8 +110,8 @@ class GroupTypeController
      *
      *
      * @return Response
-     * @AclAncestor("pim_enrich_grouptype_edit")
      */
+    #[AclAncestor('pim_enrich_grouptype_edit')]
     public function postAction(Request $request, $identifier)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -158,9 +156,8 @@ class GroupTypeController
      * @param string $code
      *
      * @return Response
-     *
-     * @AclAncestor("pim_enrich_grouptype_remove")
      */
+    #[AclAncestor('pim_enrich_grouptype_remove')]
     public function removeAction(Request $request, $code)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -207,8 +204,8 @@ class GroupTypeController
      *
      *
      * @return Response
-     * @AclAncestor("pim_enrich_grouptype_create")
      */
+    #[AclAncestor('pim_enrich_grouptype_create')]
     public function createAction(Request $request)
     {
         if (!$request->isXmlHttpRequest()) {

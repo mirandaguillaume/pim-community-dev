@@ -83,9 +83,8 @@ class AttributeOptionController
      * @param int $attributeId
      *
      * @return JsonResponse
-     *
-     * @AclAncestor("pim_enrich_attribute_edit")
      */
+    #[AclAncestor('pim_enrich_attribute_edit')]
     public function indexAction($attributeId)
     {
         $attribute = $this->findAttributeOr404($attributeId);
@@ -101,8 +100,8 @@ class AttributeOptionController
      * @param int     $attributeId
      *
      * @return Response
-     * @AclAncestor("pim_enrich_attribute_edit")
      */
+    #[AclAncestor('pim_enrich_attribute_edit')]
     public function createAction(Request $request, $attributeId)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -130,8 +129,8 @@ class AttributeOptionController
      * @param int     $attributeOptionId
      *
      * @return Response
-     * @AclAncestor("pim_enrich_attribute_edit")
      */
+    #[AclAncestor('pim_enrich_attribute_edit')]
     public function updateAction(Request $request, $attributeOptionId)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -156,9 +155,8 @@ class AttributeOptionController
      * @param int $attributeOptionId
      *
      * @return Response
-     *
-     * @AclAncestor("pim_enrich_attribute_edit")
      */
+    #[AclAncestor('pim_enrich_attribute_edit')]
     public function deleteAction(Request $request, $attributeOptionId)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -188,8 +186,8 @@ class AttributeOptionController
      * @param int     $attributeId
      *
      * @return Response
-     * @AclAncestor("pim_enrich_attribute_edit")
      */
+    #[AclAncestor('pim_enrich_attribute_edit')]
     public function updateSortingAction(Request $request, $attributeId)
     {
         if (!$request->isXmlHttpRequest()) {

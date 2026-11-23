@@ -73,9 +73,8 @@ class GroupController
 
     /**
      * Displays the products of a group
-     *
-     * @AclAncestor("pim_enrich_product_index")
      */
+    #[AclAncestor('pim_enrich_product_index')]
     public function listProductsAction(string $identifier): JsonResponse
     {
         $group = $this->groupRepository->findOneBy(['code' => $identifier]);
@@ -93,9 +92,8 @@ class GroupController
     /**
      * @throws NotFoundHttpException     If product is not found or the user cannot see it
      * @throws AccessDeniedHttpException If the user does not have permissions to edit the product
-     *
-     * @AclAncestor("pim_enrich_group_edit")
      */
+    #[AclAncestor('pim_enrich_group_edit')]
     public function postAction(Request $request, string $code): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -135,9 +133,7 @@ class GroupController
         ));
     }
 
-    /**
-     * @AclAncestor("pim_enrich_group_remove")
-     */
+    #[AclAncestor('pim_enrich_group_remove')]
     public function removeAction(Request $request, string $code): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -154,9 +150,7 @@ class GroupController
         return new JsonResponse();
     }
 
-    /**
-     * @AclAncestor("pim_enrich_group_create")
-     */
+    #[AclAncestor('pim_enrich_group_create')]
     public function createAction(Request $request): Response
     {
         if (!$request->isXmlHttpRequest()) {

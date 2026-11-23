@@ -100,8 +100,8 @@ class FamilyController
      * @throws NotFoundHttpException
      *
      * @return JsonResponse
-     * @AclAncestor("pim_api_family_list")
      */
+    #[AclAncestor('pim_api_family_list')]
     public function getAction(Request $request, $code)
     {
         $family = $this->repository->findOneByIdentifier($code);
@@ -117,8 +117,8 @@ class FamilyController
     /**
      *
      * @return JsonResponse
-     * @AclAncestor("pim_api_family_list")
      */
+    #[AclAncestor('pim_api_family_list')]
     public function listAction(Request $request)
     {
         try {
@@ -169,8 +169,8 @@ class FamilyController
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_family_edit")
      */
+    #[AclAncestor('pim_api_family_edit')]
     public function createAction(Request $request)
     {
         $data = $this->getDecodedContent($request->getContent());
@@ -189,8 +189,8 @@ class FamilyController
      * @throws HttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_family_edit")
      */
+    #[AclAncestor('pim_api_family_edit')]
     public function partialUpdateListAction(Request $request)
     {
         $resource = $request->getContent(true);
@@ -204,8 +204,8 @@ class FamilyController
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_family_edit")
      */
+    #[AclAncestor('pim_api_family_edit')]
     public function partialUpdateAction(Request $request, $code)
     {
         $data = $this->getDecodedContent($request->getContent());

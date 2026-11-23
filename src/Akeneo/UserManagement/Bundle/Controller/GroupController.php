@@ -32,9 +32,8 @@ class GroupController extends AbstractController
 
     /**
      * Create group form
-     *
-     * @AclAncestor("pim_user_group_create")
      */
+    #[AclAncestor('pim_user_group_create')]
     public function create(): Response
     {
         $this->dispatchGroupEvent(UserEvents::PRE_CREATE_GROUP);
@@ -45,9 +44,8 @@ class GroupController extends AbstractController
 
     /**
      * Edit group form
-     *
-     * @AclAncestor("pim_user_group_edit")
      */
+    #[AclAncestor('pim_user_group_edit')]
     public function update(int $id): Response
     {
         $group = $this->groupRepository->find($id);
@@ -59,9 +57,8 @@ class GroupController extends AbstractController
 
     /**
      * Delete group
-     *
-     * @AclAncestor("pim_user_group_remove")
      */
+    #[AclAncestor('pim_user_group_remove')]
     public function delete(Request $request, int $id): Response
     {
         if (!$request->isXmlHttpRequest()) {

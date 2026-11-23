@@ -56,8 +56,8 @@ class AttributeGroupController
      * @throws NotFoundHttpException
      *
      * @return JsonResponse
-     * @AclAncestor("pim_api_attribute_group_list")
      */
+    #[AclAncestor('pim_api_attribute_group_list')]
     public function getAction(Request $request, $code)
     {
         $attributeGroup = $this->repository->findOneByIdentifier($code);
@@ -75,8 +75,8 @@ class AttributeGroupController
      * @throws UnprocessableEntityHttpException
      *
      * @return JsonResponse
-     * @AclAncestor("pim_api_attribute_group_list")
      */
+    #[AclAncestor('pim_api_attribute_group_list')]
     public function listAction(Request $request)
     {
         try {
@@ -132,8 +132,8 @@ class AttributeGroupController
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_attribute_group_edit")
      */
+    #[AclAncestor('pim_api_attribute_group_edit')]
     public function createAction(Request $request)
     {
         $data = $this->getDecodedContent($request->getContent());
@@ -153,8 +153,8 @@ class AttributeGroupController
      * @throws HttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_attribute_group_edit")
      */
+    #[AclAncestor('pim_api_attribute_group_edit')]
     public function partialUpdateAction(Request $request, $code)
     {
         $data = $this->getDecodedContent($request->getContent());
@@ -184,8 +184,8 @@ class AttributeGroupController
      * @throws HttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_attribute_group_edit")
      */
+    #[AclAncestor('pim_api_attribute_group_edit')]
     public function partialUpdateListAction(Request $request)
     {
         $resource = $request->getContent(true);

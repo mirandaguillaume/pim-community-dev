@@ -100,9 +100,8 @@ class AttributeController
 
     /**
      * @throws NotFoundHttpException
-     *
-     * @AclAncestor("pim_api_attribute_list")
      */
+    #[AclAncestor('pim_api_attribute_list')]
     public function getAction(Request $request, string $code): JsonResponse
     {
         $attribute = $this->repository->findOneByIdentifier($code);
@@ -117,9 +116,7 @@ class AttributeController
         return new JsonResponse($attributeApi);
     }
 
-    /**
-     * @AclAncestor("pim_api_attribute_list")
-     */
+    #[AclAncestor('pim_api_attribute_list')]
     public function listAction(Request $request): JsonResponse
     {
         try {
@@ -172,8 +169,8 @@ class AttributeController
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_attribute_edit")
      */
+    #[AclAncestor('pim_api_attribute_edit')]
     public function createAction(Request $request)
     {
         $data = $this->getDecodedContent($request->getContent());
@@ -192,8 +189,8 @@ class AttributeController
      * @throws HttpException
      *
      * @return Response
-     * @AclAncestor("pim_api_attribute_edit")
      */
+    #[AclAncestor('pim_api_attribute_edit')]
     public function partialUpdateListAction(Request $request)
     {
         $resource = $request->getContent(true);
@@ -215,8 +212,8 @@ class AttributeController
      * @param string  $code
      *
      * @return Response
-     * @AclAncestor("pim_api_attribute_edit")
      */
+    #[AclAncestor('pim_api_attribute_edit')]
     public function partialUpdateAction(Request $request, $code)
     {
         $data = $this->getDecodedContent($request->getContent());

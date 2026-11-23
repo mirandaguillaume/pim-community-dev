@@ -102,9 +102,8 @@ final readonly class UserController
     /**
      *
      * @throws UnprocessableEntityHttpException
-     *
-     * @AclAncestor("pim_user_user_edit")
      */
+    #[AclAncestor('pim_user_user_edit')]
     public function postAction(Request $request, int $identifier): Response
     {
         $normalizedViolations = [];
@@ -173,9 +172,7 @@ final readonly class UserController
         return $this->updateUser($identifier, $data);
     }
 
-    /**
-     * @AclAncestor("pim_user_user_create")
-     */
+    #[AclAncestor('pim_user_user_create')]
     public function createAction(Request $request): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -224,9 +221,7 @@ final readonly class UserController
         return new JsonResponse($this->normalizer->normalize($user, 'internal_api'));
     }
 
-    /**
-     * @AclAncestor("pim_user_user_create")
-     */
+    #[AclAncestor('pim_user_user_create')]
     public function duplicateAction(Request $request, int $identifier): Response
     {
         if (!$request->isXmlHttpRequest()) {

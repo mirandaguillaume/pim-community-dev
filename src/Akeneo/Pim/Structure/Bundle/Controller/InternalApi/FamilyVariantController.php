@@ -155,9 +155,8 @@ class FamilyVariantController
     /**
      *
      * @return JsonResponse
-     *
-     * @AclAncestor("pim_enrich_family_variant_remove")
      */
+    #[AclAncestor('pim_enrich_family_variant_remove')]
     public function removeAction(Request $request, string $familyVariantCode)
     {
         if (!$request->isXmlHttpRequest()) {

@@ -53,10 +53,10 @@ class ProductCommentController
      *
      * @param string $uuid
      *
-     * @AclAncestor("pim_enrich_product_comment")
      *
      * @return JsonResponse
      */
+    #[AclAncestor('pim_enrich_product_comment')]
     public function getAction($uuid)
     {
         $product = $this->findProductOr404($uuid);

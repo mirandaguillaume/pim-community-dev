@@ -96,11 +96,7 @@ class ProductModelController
         return new JsonResponse($normalizedProductModels);
     }
 
-    /**
-     *
-     * @AclAncestor("pim_enrich_product_model_create")
-     *
-     */
+    #[AclAncestor('pim_enrich_product_model_create')]
     public function createAction(Request $request): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -130,10 +126,7 @@ class ProductModelController
         return new JsonResponse($normalizedProductModel);
     }
 
-    /**
-     * @AclAncestor("pim_enrich_product_model_edit_attributes")
-     *
-     */
+    #[AclAncestor('pim_enrich_product_model_edit_attributes')]
     public function postAction(Request $request, int $id): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -264,9 +257,7 @@ class ProductModelController
         return new JsonResponse($normalizedProductModels);
     }
 
-    /**
-     * @AclAncestor("pim_enrich_product_model_remove")
-     */
+    #[AclAncestor('pim_enrich_product_model_remove')]
     public function removeAction(Request $request, int $id): Response
     {
         if (!$request->isXmlHttpRequest()) {

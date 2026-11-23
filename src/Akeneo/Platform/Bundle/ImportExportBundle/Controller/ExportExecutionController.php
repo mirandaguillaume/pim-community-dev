@@ -13,18 +13,14 @@ use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
  */
 class ExportExecutionController extends JobExecutionController
 {
-    /**
-     * @AclAncestor("pim_importexport_export_execution_download_log")
-     */
+    #[AclAncestor('pim_importexport_export_execution_download_log')]
     #[\Override]
     public function downloadLogFileAction($id)
     {
         return parent::downloadLogFileAction($id);
     }
 
-    /**
-     * @AclAncestor("pim_importexport_export_execution_download_files")
-     */
+    #[AclAncestor('pim_importexport_export_execution_download_files')]
     #[\Override]
     public function downloadFilesAction($id, $archiver, $key)
     {

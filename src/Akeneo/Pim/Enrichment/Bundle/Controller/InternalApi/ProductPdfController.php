@@ -38,12 +38,11 @@ class ProductPdfController
      * Generate Pdf and send it to the client for specific product
      *
      *
-     * @AclAncestor("pim_pdf_generator_product_download")
      *
      * @return Response
      *@throws HttpException
-     *
      */
+    #[AclAncestor('pim_pdf_generator_product_download')]
     public function downloadPdfAction(Request $request, string $uuid)
     {
         $product = $this->findProductOr404($uuid);
