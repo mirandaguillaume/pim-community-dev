@@ -72,10 +72,14 @@ test('it reads the current block type back from a heading', () => {
 test('it sets a font size and a font family', () => {
   render(<RichTextEditor value="<p>Hello</p>" onChange={jest.fn()} />);
 
+  // Each select is asserted right after its own pick: what is checked is that the toolbar re-renders
+  // from the editor state, which is exactly what froze once Tiptap 3 stopped re-rendering on every
+  // transaction -- asserting only that the text survived let that regression through.
   pick('font-size-control', '18');
-  pick('font-family-control', 'Georgia');
+  expect(within(group('font-size-control')).getByText('18')).toBeInTheDocument();
 
-  expect(screen.getByText('Hello')).toBeInTheDocument();
+  pick('font-family-control', 'Georgia');
+  expect(within(group('font-family-control')).getByText('Georgia')).toBeInTheDocument();
 });
 
 test('it applies a link, then clears it with an empty url', () => {

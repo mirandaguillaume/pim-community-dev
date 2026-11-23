@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import {Editor} from '@tiptap/react';
+import {Editor, useEditorState} from '@tiptap/react';
 import {Button} from '../../Button/Button';
 import {SelectInput} from '../SelectInput/SelectInput';
 import {TextInput} from '../TextInput/TextInput';
@@ -57,9 +57,26 @@ const currentBlockType = (editor: Editor): string => {
   return 'paragraph';
 };
 
+// Since Tiptap 3, useEditor no longer re-renders on every transaction (shouldRerenderOnTransaction
+// defaults to false), so reading editor.isActive() during render froze the toolbar on its first
+// state: picking "Title 2" did turn the block into an <h2>, yet the select kept showing "Normal".
+// Subscribing here re-renders the toolbar only when one of these displayed values changes, rather
+// than re-rendering the whole editor on every keystroke as the v2 default did.
+const selectToolbarState = ({editor}: {editor: Editor}) => ({
+  isBold: editor.isActive('bold'),
+  isItalic: editor.isActive('italic'),
+  isBulletList: editor.isActive('bulletList'),
+  isOrderedList: editor.isActive('orderedList'),
+  isLink: editor.isActive('link'),
+  blockType: currentBlockType(editor),
+  fontSize: textStyleOf(editor).fontSize ?? null,
+  fontFamily: textStyleOf(editor).fontFamily ?? null,
+});
+
 const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
   const [linkFormOpen, setLinkFormOpen] = useState(false);
   const [href, setHref] = useState('');
+  const state = useEditorState({editor, selector: selectToolbarState});
 
   const setBlockType = (value: string) => {
     if ('paragraph' === value) {
@@ -89,7 +106,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
           level="tertiary"
           ghost
           size="small"
-          active={editor.isActive('bold')}
+          active={state.isBold}
           onClick={() => editor.chain().focus().toggleBold().run()}
           title="Bold"
         >
@@ -99,7 +116,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
           level="tertiary"
           ghost
           size="small"
-          active={editor.isActive('italic')}
+          active={state.isItalic}
           onClick={() => editor.chain().focus().toggleItalic().run()}
           title="Italic"
         >
@@ -109,12 +126,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
 
       <Group aria-label="block-type-control">
         <NarrowSelect>
-          <SelectInput
-            emptyResultLabel="No result"
-            openLabel="Open"
-            value={currentBlockType(editor)}
-            onChange={setBlockType}
-          >
+          <SelectInput emptyResultLabel="No result" openLabel="Open" value={state.blockType} onChange={setBlockType}>
             {BLOCK_TYPES.map(({value, label}) => (
               <SelectInput.Option key={value} value={value}>
                 {label}
@@ -130,7 +142,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
             emptyResultLabel="No result"
             openLabel="Open"
             placeholder="Size"
-            value={textStyleOf(editor).fontSize ?? null}
+            value={state.fontSize}
             onChange={(size: string) => editor.chain().focus().setFontSize(size).run()}
           >
             {FONT_SIZES.map(size => (
@@ -148,7 +160,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
             emptyResultLabel="No result"
             openLabel="Open"
             placeholder="Font"
-            value={textStyleOf(editor).fontFamily ?? null}
+            value={state.fontFamily}
             onChange={(font: string) => editor.chain().focus().setFontFamily(font).run()}
           >
             {FONT_FAMILIES.map(font => (
@@ -165,7 +177,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
           level="tertiary"
           ghost
           size="small"
-          active={editor.isActive('bulletList')}
+          active={state.isBulletList}
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           title="Bulleted list"
         >
@@ -175,7 +187,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
           level="tertiary"
           ghost
           size="small"
-          active={editor.isActive('orderedList')}
+          active={state.isOrderedList}
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           title="Numbered list"
         >
@@ -196,7 +208,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
             level="tertiary"
             ghost
             size="small"
-            active={editor.isActive('link')}
+            active={state.isLink}
             onClick={() => {
               setHref(editor.getAttributes('link').href ?? '');
               setLinkFormOpen(true);
