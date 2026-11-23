@@ -3,7 +3,7 @@ import fetchMock from 'jest-fetch-mock';
 import {useResetInstance} from './useResetInstance';
 import {act} from '@testing-library/react';
 
-const flushPromises = () => new Promise(setImmediate);
+const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
 
 test('it launch a reset instance', async () => {
   fetchMock.mockResponseOnce(JSON.stringify([]), {

@@ -1,80 +1,53 @@
-import React, {useState} from 'react';
-import {Editor, EditorProps} from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import {ContentState, convertToRaw, EditorState} from 'draft-js';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import {Override} from '../../../shared';
+import React, {useEffect} from 'react';
+import {Editor, EditorContent, useEditor} from '@tiptap/react';
+import {StarterKit} from '@tiptap/starter-kit';
+import {FontFamily, FontSize, TextStyle} from '@tiptap/extension-text-style';
+import {RichTextEditorToolbar} from './RichTextEditorToolbar';
 
-const editorStateToRaw = (editorState: EditorState): string =>
-  draftToHtml(convertToRaw(editorState.getCurrentContent()));
-
-const rawToEditorState = (value: string): EditorState => {
-  const rawDraft = htmlToDraft(value);
-
-  if (!rawDraft || !rawDraft.contentBlocks) {
-    return EditorState.createEmpty();
-  }
-
-  return EditorState.createWithContent(ContentState.createFromBlockArray(rawDraft.contentBlocks));
+type RichTextEditorProps = {
+  value: string;
+  readOnly?: boolean;
+  onChange: (value: string) => void;
 };
 
-type RichTextEditorProps = Override<
-  EditorProps,
-  {
-    value: string;
-    readOnly?: boolean;
-    onChange: (value: string) => void;
-  }
->;
+// Tiptap stores a document, not a string, so "controlled" has to be built: push `value` in only when
+// it actually differs from what the editor holds. Comparing is what keeps the caret still -- on every
+// keystroke onUpdate has already reported this exact HTML back, so the two are equal and nothing is
+// pushed; when a consumer swaps locale or channel they differ and the document is replaced.
+//
+// The editor this replaced never pushed anything after mount, which is why its consumer in the
+// Category workspace had to force a remount through a composite React key. That key is gone.
+const useExternalValue = (editor: Editor | null, value: string) => {
+  useEffect(() => {
+    if (null !== editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value, {emitUpdate: false});
+    }
+  }, [editor, value]);
+};
 
-const RichTextEditor = ({value, readOnly = false, onChange, ...rest}: RichTextEditorProps) => {
-  const [editorState, setEditorState] = useState<EditorState>(rawToEditorState(value));
+const RichTextEditor = ({value, readOnly = false, onChange}: RichTextEditorProps) => {
+  const editor = useEditor({
+    // Bold, Italic, Link, the lists and the headings all come from StarterKit; only the two
+    // text-style marks need naming, and both require TextStyle alongside them.
+    extensions: [StarterKit, TextStyle, FontSize, FontFamily],
+    content: value,
+    editable: !readOnly,
+    onUpdate: ({editor}) => onChange(editor.getHTML()),
+  });
 
-  const handleChange = (editorState: EditorState) => {
-    setEditorState(editorState);
-    onChange(editorStateToRaw(editorState));
-  };
+  useExternalValue(editor, value);
+
+  useEffect(() => {
+    editor?.setEditable(!readOnly);
+  }, [editor, readOnly]);
 
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore and NOT @ts-expect-error, deliberately: whether this line errors depends on which
-    // @types/react-draft-wysiwyg the tree resolves, so it differs between a developer's install and
-    // CI's root-only `yarn install --frozen-lockfile`. CI reports `TS2578: Unused '@ts-expect-error'
-    // directive` here while a full local build reports the directive as needed — two CI runs in two
-    // workflows agreed. `@ts-expect-error` requires the error to be deterministic across
-    // environments; where it is not, it turns an install difference into a build failure.
-    <Editor
-      toolbarHidden={readOnly}
-      readOnly={readOnly}
-      toolbar={{
-        // 'embedded' and 'image' are deliberately absent, and must not be re-added without reading
-        // the tests that pin this list. Two of them: one in TextAreaInput.unit.tsx next door, and
-        // one in the Category workspace's buildRichTextFieldAttribute.test.tsx. The second is the
-        // one that matters, because no CI job runs this package's own unit tests.
-        //
-        // react-draft-wysiwyg carries an unpatched cross-site scripting flaw reached through the
-        // embedded button, and no corrected release exists -- npm reports the patched range as
-        // `<0.0.0`, which is its way of saying the package is unmaintained. Dropping the button is
-        // what makes that flaw unreachable through our configuration; a version bump cannot.
-        //
-        // 'image' goes with it for a different reason: it let arbitrary markup into the stored HTML
-        // for a capability nothing depends on -- a category carries its pictures through its own
-        // `image` attribute type. That half is surface reduction, not a fix, and can be argued
-        // separately from the one above.
-        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'link', 'remove'],
-        inline: {
-          options: ['bold', 'italic'],
-        },
-      }}
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      onEditorStateChange={handleChange as any}
-      {...rest}
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      editorState={editorState as any}
-    />
+    <>
+      {!readOnly && null !== editor && <RichTextEditorToolbar editor={editor} />}
+      <EditorContent editor={editor} />
+    </>
   );
 };
 
 export {RichTextEditor};
-export type {EditorProps};
+export type {RichTextEditorProps};

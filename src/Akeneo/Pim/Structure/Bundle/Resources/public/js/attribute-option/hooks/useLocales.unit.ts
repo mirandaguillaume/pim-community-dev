@@ -6,7 +6,7 @@ jest.mock('akeneopimstructure/js/attribute-option/fetchers/baseFetcher', () => j
 
 import baseFetcher from 'akeneopimstructure/js/attribute-option/fetchers/baseFetcher';
 
-const flushPromises = () => new Promise(setImmediate);
+const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
 
 test('it returns an empty array initially', () => {
   (baseFetcher as jest.Mock).mockResolvedValue([]);

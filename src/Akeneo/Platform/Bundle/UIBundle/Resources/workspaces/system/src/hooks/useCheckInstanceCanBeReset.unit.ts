@@ -3,7 +3,7 @@ import fetchMock from 'jest-fetch-mock';
 import {useCheckInstanceCanBeReset} from './useCheckInstanceCanBeReset';
 import {act} from '@testing-library/react';
 
-const flushPromises = () => new Promise(setImmediate);
+const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
 
 test('it can check if the PIM can be reset', async () => {
   fetchMock.mockResponseOnce('', {

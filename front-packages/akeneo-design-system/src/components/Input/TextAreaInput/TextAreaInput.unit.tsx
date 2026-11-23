@@ -1,12 +1,6 @@
 import React from 'react';
 import {TextAreaInput} from './TextAreaInput';
 import {fireEvent, render, screen} from '../../../storybook/test-util';
-import {ContentBlock} from 'draft-js';
-
-jest.mock(
-  'html-to-draftjs',
-  () => (text: string) => ('WILL FAIL' === text ? undefined : {contentBlocks: [new ContentBlock({text})]})
-);
 
 test('it renders and handle changes', () => {
   const handleChange = jest.fn();
@@ -59,34 +53,7 @@ test('it renders and displays the character left label', () => {
   expect(screen.getByText('100 character remaining')).toBeInTheDocument();
 });
 
-test('it renders rich text editor and handle changes', () => {
-  const handleChange = jest.fn();
-
-  render(
-    <>
-      <label htmlFor="myInput">My label</label>
-      <TextAreaInput id="myInput" value="Nice RTF content" isRichText={true} onChange={handleChange} />
-    </>
-  );
-
-  expect(screen.getByLabelText('rdw-wrapper')).toBeInTheDocument();
-  expect(screen.getByText('Nice RTF content')).toBeInTheDocument();
-  expect(screen.getByRole('textbox')).toBeInTheDocument();
-
-  const input = screen.getByRole('textbox') as HTMLInputElement;
-
-  // Hack to trigger onBeforeInput event listened by DraftJS
-  fireEvent.paste(input, {
-    clipboardData: {
-      types: ['text/plain'],
-      getData: () => 'New ',
-    },
-  });
-
-  expect(handleChange).toHaveBeenCalledWith('<p>New Nice RTF content</p>\n');
-});
-
-test('the rich text toolbar offers neither the embedded nor the image button', () => {
+test('it renders the rich text editor with its value', () => {
   const {container} = render(
     <>
       <label htmlFor="myInput">My label</label>
@@ -94,29 +61,48 @@ test('the rich text toolbar offers neither the embedded nor the image button', (
     </>
   );
 
-  // Assert the toolbar is there first: without this half the test would pass just as well if the
-  // toolbar stopped rendering at all, which is the way an absence check quietly stops checking.
-  expect(screen.getByLabelText('rdw-inline-control')).toBeInTheDocument();
-  expect(screen.getByLabelText('rdw-link-control')).toBeInTheDocument();
-  expect(screen.getByLabelText('rdw-list-control')).toBeInTheDocument();
-
-  // The embedded button reaches an XSS that has no fixed release; image is dropped as surface
-  // reduction. See the comment on the toolbar options in RichTextEditor.tsx.
-  expect(container.querySelector('.rdw-embedded-wrapper')).not.toBeInTheDocument();
-  expect(container.querySelector('.rdw-image-wrapper')).not.toBeInTheDocument();
+  expect(container.querySelector('[contenteditable="true"]')).not.toBeNull();
+  expect(screen.getByText('Nice RTF content')).toBeInTheDocument();
 });
 
-test('it renders an empty rich text editor when the value is unprocessable', () => {
-  const handleChange = jest.fn();
-
-  render(
+test('it hides the toolbar and the editing surface when read only', () => {
+  const {container} = render(
     <>
       <label htmlFor="myInput">My label</label>
-      <TextAreaInput id="myInput" value="WILL FAIL" isRichText={true} onChange={handleChange} />
+      <TextAreaInput id="myInput" value="Nice RTF content" isRichText={true} readOnly onChange={jest.fn()} />
     </>
   );
 
-  expect(screen.queryByText('WILL FAIL')).not.toBeInTheDocument();
+  expect(container.querySelector('[role="toolbar"]')).toBeNull();
+  expect(container.querySelector('[contenteditable="true"]')).toBeNull();
+  expect(screen.getByText('Nice RTF content')).toBeInTheDocument();
+});
+
+// This file DOES run in CI, through the `Launch tests on the DSM` job of dsm-test.yml. An earlier
+// comment here claimed the opposite; the job that caught a stale test in this very file disproved
+// it. The twin guard in the Category workspace is kept because it covers the consumer's wiring,
+// not because this one is unexecuted.
+test('the rich text toolbar offers exactly the expected controls', () => {
+  const {container} = render(
+    <>
+      <label htmlFor="myInput">My label</label>
+      <TextAreaInput id="myInput" value="Nice RTF content" isRichText={true} onChange={jest.fn()} />
+    </>
+  );
+
+  const toolbar = container.querySelector('[role="toolbar"]');
+  expect(toolbar).not.toBeNull();
+
+  const groups = Array.from(toolbar?.children ?? []).map(child => child.getAttribute('aria-label'));
+  expect(groups).toEqual([
+    'inline-control',
+    'block-type-control',
+    'font-size-control',
+    'font-family-control',
+    'list-control',
+    'link-control',
+    'clear-formatting-control',
+  ]);
 });
 
 test('TextAreaInput supports forwardRef', () => {
@@ -129,4 +115,21 @@ test('TextAreaInput supports forwardRef', () => {
 test('TextAreaInput supports ...rest props', () => {
   render(<TextAreaInput value="nice" onChange={jest.fn()} data-testid="my_value" />);
   expect(screen.getByTestId('my_value')).toBeInTheDocument();
+});
+
+test('it strips a javascript: scheme out of a stored link', () => {
+  const {container} = render(
+    <>
+      <label htmlFor="myInput">My label</label>
+      <TextAreaInput
+        id="myInput"
+        value={'<p><a href="javascript:alert(1)">click me</a></p>'}
+        isRichText={true}
+        onChange={jest.fn()}
+      />
+    </>
+  );
+
+  expect(screen.getByText('click me')).toBeInTheDocument();
+  expect(container.innerHTML).not.toContain('javascript:');
 });
