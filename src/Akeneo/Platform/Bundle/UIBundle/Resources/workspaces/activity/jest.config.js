@@ -5,7 +5,9 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/src/**/*.unit.(ts|tsx)', '<rootDir>/tests/**/*.unit.(ts|tsx)'],
-  moduleDirectories: ['node_modules', `${ROOT}/node_modules`],
+  // Relative only, so Jest walks up like Node: a nested node_modules/<pkg>/node_modules/<dep>
+  // wins over the root's hoisted copy. An absolute entry here is tried before it.
+  moduleDirectories: ['node_modules'],
   moduleNameMapper: {
     '\\.(jpg|ico|jpeg|png|gif|svg|css)$': `${ROOT}/tests/front/unit/jest/fileMock.js`,
   },

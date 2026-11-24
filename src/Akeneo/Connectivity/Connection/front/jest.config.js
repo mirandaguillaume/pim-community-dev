@@ -6,7 +6,9 @@ module.exports = {
             tsconfig: './tests/tsconfig.json',
         }],
     },
-    moduleDirectories: ['<rootDir>/../../../../../node_modules/'],
+    // Relative only, so Jest walks up like Node: a nested node_modules/<pkg>/node_modules/<dep>
+    // wins over the root's hoisted copy. An absolute entry here is tried before it.
+    moduleDirectories: ['node_modules'],
     moduleNameMapper: {
         '\\.(svg|css|gif)$': '<rootDir>/tests/mocks/file-mock.ts',
         '^@src/(.*)$': '<rootDir>/src/$1',
