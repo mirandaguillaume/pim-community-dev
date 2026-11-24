@@ -86,7 +86,9 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
       - deux effets se lisant l'un l'autre (`useCountProductsBeforeDeleteCategory`) : fusionnés, le
         compte connu *est* l'état « prêt » ;
       - un callback qui change avec `nodes` mais ne doit pas redéclencher l'effet (`doMove`) : ref
-        sur sa dernière version ;
+        sur sa dernière version. Même traitement pour `id` : l'état de `useFetch` **survit à un
+        changement d'`id`**, donc `id` en dépendance réappliquait les enfants chargés pour l'ancien
+        nœud au nouveau — régression introduite puis attrapée par le test de déplacement en CI ;
       - **un vrai défaut utilisateur** derrière `channels` : `EditCategoryProvider` reconstruisait
         `channels` et `locales` à chaque rendu, et `locales` était *déjà* une dépendance de l'effet
         qui réinitialise le formulaire — donc tout re-rendu du provider pouvait effacer des

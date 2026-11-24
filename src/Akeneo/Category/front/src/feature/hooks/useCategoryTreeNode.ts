@@ -231,6 +231,14 @@ const useCategoryTreeNode = (id: number) => {
     }
   }, [node, open, setNodes]);
 
+  // The fetch state (`childrenData`, `loadChildrenStatus`) outlives a change of `id`, so `id` must
+  // not re-trigger the two effects below: they would re-apply the previous node's children to the
+  // new one. They act on the node current when the fetch state changes, read through this ref.
+  const latestId = useRef(id);
+  useEffect(() => {
+    latestId.current = id;
+  }, [id]);
+
   // The node is read from the updater's `nodes`, by id, and not from this render's `node`: this
   // effect rewrites the very node it would otherwise depend on, so `node` as a dependency would
   // re-run it on its own output -- and spreading a render-time snapshot could also overwrite an
@@ -239,12 +247,13 @@ const useCategoryTreeNode = (id: number) => {
     if (!Array.isArray(childrenData)) {
       return;
     }
+    const nodeId = latestId.current;
     const newChildren: TreeNode<CategoryTreeModel>[] = childrenData.map(child => {
-      return buildTreeNodeFromCategoryTree(convertToCategoryTree(child), id);
+      return buildTreeNodeFromCategoryTree(convertToCategoryTree(child), nodeId);
     });
 
     setNodes((nodes: TreeNode<CategoryTreeModel>[]) => {
-      const currentNode = findOneByIdentifier(nodes, id);
+      const currentNode = findOneByIdentifier(nodes, nodeId);
       if (!currentNode) {
         return nodes;
       }
@@ -261,7 +270,7 @@ const useCategoryTreeNode = (id: number) => {
         (node, currentNode) => node.identifier === currentNode.identifier
       );
     });
-  }, [childrenData, id, setNodes]);
+  }, [childrenData, setNodes]);
 
   useEffect(() => {
     if (node?.childrenStatus === 'to-reload') {
@@ -312,13 +321,14 @@ const useCategoryTreeNode = (id: number) => {
       return;
     }
     const childrenStatus = loadChildrenStatus === 'error' ? 'idle' : 'loading';
+    const nodeId = latestId.current;
 
     setNodes((nodes: TreeNode<CategoryTreeModel>[]) => {
-      const currentNode = findOneByIdentifier(nodes, id);
+      const currentNode = findOneByIdentifier(nodes, nodeId);
 
       return currentNode ? update(nodes, {...currentNode, childrenStatus}) : nodes;
     });
-  }, [loadChildrenStatus, id, setNodes]);
+  }, [loadChildrenStatus, setNodes]);
 
   return {
     node,
