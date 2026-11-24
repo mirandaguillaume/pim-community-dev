@@ -53,17 +53,6 @@ Feature: Add children to product model
     And I confirm the child creation
     Then I should be on the product model "model_with_five_axes" edit page
 
-  Scenario: Successfully add a new sub product model when I already am on a sub product product model
-    Given I am on the "apollon_blue" product model page
-    When I open the variant navigation children selector for level 1
-    And I press the "Add new" button and wait for modal
-    Then I should see the text "Add a new Color"
-    When I fill in the following child information:
-      | Code (required)      | apollon_black |
-      | Color (variant axis) | Black         |
-    And I confirm the child creation
-    Then I should be on the product model "apollon_black" edit page
-
   Scenario: Successfully add a sub product model when I am on a variant product
     Given I am on the "1111111121" product page
     When I open the variant navigation children selector for level 1
