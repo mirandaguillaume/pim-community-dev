@@ -60,8 +60,11 @@ runners auto-hébergés, jobs filtrés par chemins ; seul `ci-success` est requi
 
 ## Où j'en étais et prochaines étapes
 
-1. Vérifier que **#532** a fusionné (`gh pr view 532`) ; sinon lire l'échec et corriger.
-2. **Relire visuellement la barre d'outils Tiptap dans Storybook** — pas encore fait. Lancer :
+1. Vérifier que **#532** (Category) et **#533** (marges de l'éditeur Tiptap) ont fusionné
+   (`gh pr view 532`, `gh pr view 533`) ; sinon lire l'échec et corriger.
+2. ~~Relire visuellement la barre d'outils Tiptap dans Storybook~~ — **fait le 2026-11-24** : barre
+   d'outils OK ; la relecture a trouvé la zone de texte sans marge ni bornes de hauteur (sélecteurs
+   `.rdw-*` morts), corrigé par **#533** (auto-merge armé). Pour relancer Storybook plus tard :
    ```bash
    cd front-packages/akeneo-design-system
    yarn add --dev react@^18.3.1 react-dom@^18.3.1 styled-components@^5.1.1  # comme dsm-test.yml
