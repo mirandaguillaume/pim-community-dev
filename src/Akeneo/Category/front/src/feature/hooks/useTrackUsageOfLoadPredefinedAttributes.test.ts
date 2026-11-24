@@ -22,7 +22,7 @@ describe('useTrackUsageOfLoadPredefinedAttributes', () => {
       ok: true,
       status: 204,
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
   });
 
   it('returns a function (mutation.mutate)', () => {

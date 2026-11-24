@@ -22,7 +22,7 @@ describe('useUpdateTemplateAttribute', () => {
       ok: true,
       status: 204,
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
   });
 
   it('generates the correct route with templateUuid and attributeUuid', () => {

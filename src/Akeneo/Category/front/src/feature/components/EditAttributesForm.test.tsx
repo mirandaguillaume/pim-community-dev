@@ -8,7 +8,9 @@ import {Template, Attribute} from '../models';
 jest.mock('./attributes', () => ({
   ...jest.requireActual('./attributes'),
   attributeFieldFactory: jest.fn(attribute => {
-    const Field = ({value}: {value: any}) => <div data-testid={`field-${attribute.code}`}>{String(value ?? '')}</div>;
+    const Field = ({value}: {value: unknown}) => (
+      <div data-testid={`field-${attribute.code}`}>{String(value ?? '')}</div>
+    );
     return Field;
   }),
 }));
@@ -67,7 +69,7 @@ describe('EditAttributesForm', () => {
   it('renders an error helper when attributeFieldFactory returns null for unknown type', () => {
     const {attributeFieldFactory} = require('./attributes');
     attributeFieldFactory.mockReturnValueOnce(null);
-    const attr = {...makeAttribute('unknown'), type: 'unknown' as any};
+    const attr = {...makeAttribute('unknown'), type: 'unknown' as Attribute['type']};
     renderForm(makeTemplate([attr]));
     expect(screen.getByText(/akeneo\.category\.edition_form\.template\.fetching_failed/)).toBeInTheDocument();
   });

@@ -30,7 +30,7 @@ describe('useCategoryTree', () => {
       ok: true,
       status: 200,
       json: () => Promise.resolve(mockTree),
-    } as any);
+    } as Response);
   });
 
   it('fetches the category tree using the correct route', async () => {
@@ -51,7 +51,7 @@ describe('useCategoryTree', () => {
   });
 
   it('sets error status when fetch fails', async () => {
-    fetchSpy.mockResolvedValue({ok: false, status: 500, statusText: 'Server Error'} as any);
+    fetchSpy.mockResolvedValue({ok: false, status: 500, statusText: 'Server Error'} as Response);
 
     const {result} = renderHook(() => useCategoryTree('42'), {wrapper: createWrapper()});
 

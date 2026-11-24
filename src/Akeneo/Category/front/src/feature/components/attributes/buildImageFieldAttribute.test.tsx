@@ -10,7 +10,7 @@ jest.mock('@akeneo-pim-community/shared', () => ({
 
 jest.mock('akeneo-design-system', () => ({
   ...jest.requireActual('akeneo-design-system'),
-  MediaFileInput: ({placeholder, children}: any) => (
+  MediaFileInput: ({placeholder, children}: {placeholder?: string; children?: React.ReactNode}) => (
     <div data-testid="media-file-input">
       {placeholder}
       {children}

@@ -31,7 +31,7 @@ describe('useCreateAttribute', () => {
       ok: true,
       status: 204,
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
 
     const {result} = renderHook(() => useCreateAttribute(), {wrapper: createWrapper()});
 
@@ -65,7 +65,7 @@ describe('useCreateAttribute', () => {
           {error: {property: 'code', message: 'Code must be unique'}},
           {error: {property: 'type', message: 'Type is invalid'}},
         ]),
-    } as any);
+    } as Response);
 
     const {result} = renderHook(() => useCreateAttribute(), {wrapper: createWrapper()});
 
@@ -95,7 +95,7 @@ describe('useCreateAttribute', () => {
           {error: {property: 'code', message: 'Second error'}},
           {error: {property: 'code', message: 'Third error'}},
         ]),
-    } as any);
+    } as Response);
 
     const {result} = renderHook(() => useCreateAttribute(), {wrapper: createWrapper()});
 

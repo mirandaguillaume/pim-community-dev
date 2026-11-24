@@ -4,7 +4,7 @@ export type FilePath = string;
 export type File = FileInfo | null;
 
 export const createEmptyFile = (): File => null;
-export const createFileFromNormalized = (file: any): File => file;
+export const createFileFromNormalized = (file: File): File => file;
 export const isFileEmpty = (file: File): file is null => null === file;
 export const areFilesEqual = (first: File, second: File) =>
   (null === first && null === second) ||
@@ -17,6 +17,10 @@ export const areFilesEqual = (first: File, second: File) =>
     first.extension === second.extension);
 
 export const isFileInStorage = (file: File) => !isFileEmpty(file) && -1 === file.filePath.indexOf('/tmp/');
-export const isFile = (file: any): file is File =>
+export const isFile = (file: unknown): file is File =>
   null === file ||
-  (typeof file === 'object' && typeof file.originalFilename === 'string' && typeof file.filePath === 'string');
+  (typeof file === 'object' &&
+    'originalFilename' in file &&
+    typeof file.originalFilename === 'string' &&
+    'filePath' in file &&
+    typeof file.filePath === 'string');

@@ -1,9 +1,14 @@
 import {canCopyToClipboard, copyToClipboard, getImageDownloadUrl, getMediaPreviewUrl} from './media-url-generator';
 import {MediaPreviewType} from '../models/MediaPreview';
+import {Router} from '@akeneo-pim-community/shared';
+import {partialMock} from '../../tests/partialMock';
 
 const mockRouter = {
-  generate: jest.fn((route: string, params: object) => `/${route}?${new URLSearchParams(params as any).toString()}`),
+  generate: jest.fn(
+    (route: string, params?: object) => `/${route}?${new URLSearchParams(params as Record<string, string>).toString()}`
+  ),
 };
+const router = partialMock<Router>(mockRouter);
 
 beforeEach(() => {
   mockRouter.generate.mockClear();
@@ -37,14 +42,14 @@ describe('copyToClipboard', () => {
 describe('getImageDownloadUrl', () => {
   it('encodes the filePath and calls router.generate', () => {
     const file = {filePath: 'a/b/image.jpg', originalFilename: 'image.jpg'};
-    getImageDownloadUrl(mockRouter as any, file);
+    getImageDownloadUrl(router, file);
     expect(mockRouter.generate).toHaveBeenCalledWith('pim_enrich_media_download', {
       filename: encodeURIComponent('a/b/image.jpg'),
     });
   });
 
   it('uses "undefined" as path when file is null', () => {
-    getImageDownloadUrl(mockRouter as any, null);
+    getImageDownloadUrl(router, null);
     expect(mockRouter.generate).toHaveBeenCalledWith('pim_enrich_media_download', {
       filename: encodeURIComponent('undefined'),
     });
@@ -53,7 +58,7 @@ describe('getImageDownloadUrl', () => {
   it('returns the string produced by router.generate', () => {
     mockRouter.generate.mockReturnValue('/download/abc');
     const file = {filePath: 'img.jpg', originalFilename: 'img.jpg'};
-    expect(getImageDownloadUrl(mockRouter as any, file)).toBe('/download/abc');
+    expect(getImageDownloadUrl(router, file)).toBe('/download/abc');
   });
 });
 
@@ -62,7 +67,7 @@ describe('getMediaPreviewUrl', () => {
 
   it('encodes plain (non-URL-encoded) data with encodeURI then btoa', () => {
     const data = 'path/to/image.jpg';
-    getMediaPreviewUrl(mockRouter as any, {...basePreview, data});
+    getMediaPreviewUrl(router, {...basePreview, data});
     expect(mockRouter.generate).toHaveBeenCalledWith('pim_enriched_category_rest_image_preview', {
       ...basePreview,
       data: btoa(encodeURI(data)),
@@ -71,7 +76,7 @@ describe('getMediaPreviewUrl', () => {
 
   it('passes already URL-encoded data directly to btoa without re-encoding', () => {
     const data = 'path%2Fto%2Fimage.jpg';
-    getMediaPreviewUrl(mockRouter as any, {...basePreview, data});
+    getMediaPreviewUrl(router, {...basePreview, data});
     expect(mockRouter.generate).toHaveBeenCalledWith('pim_enriched_category_rest_image_preview', {
       ...basePreview,
       data: btoa(data),
@@ -80,7 +85,7 @@ describe('getMediaPreviewUrl', () => {
 
   it('treats malformed percent-sequences as plain text and encodes with encodeURI', () => {
     const data = 'path%XY';
-    getMediaPreviewUrl(mockRouter as any, {...basePreview, data});
+    getMediaPreviewUrl(router, {...basePreview, data});
     expect(mockRouter.generate).toHaveBeenCalledWith('pim_enriched_category_rest_image_preview', {
       ...basePreview,
       data: btoa(encodeURI(data)),
@@ -89,6 +94,6 @@ describe('getMediaPreviewUrl', () => {
 
   it('returns the string produced by router.generate', () => {
     mockRouter.generate.mockReturnValue('/preview/xyz');
-    expect(getMediaPreviewUrl(mockRouter as any, {...basePreview, data: 'img.jpg'})).toBe('/preview/xyz');
+    expect(getMediaPreviewUrl(router, {...basePreview, data: 'img.jpg'})).toBe('/preview/xyz');
   });
 });

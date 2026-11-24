@@ -8,6 +8,7 @@ import {useCatalogActivatedLocaleCodes} from '../../../hooks/useCatalogActivated
 import {useCatalogLocales} from '../../../hooks/useCatalogLocales';
 import {SaveStatusContext, Status} from '../../providers/SaveStatusProvider';
 import {useTemplateForm} from '../../providers/TemplateFormProvider';
+import {partialMock} from '../../../../tests/partialMock';
 
 jest.mock('../../../hooks/useCatalogActivatedLocaleCodes');
 jest.mock('../../../hooks/useCatalogLocales');
@@ -41,7 +42,10 @@ const attribute = {
 };
 
 const renderSettings = () => {
-  mockedUseTemplateForm.mockReturnValue([{attributes: {}} as any, jest.fn()]);
+  mockedUseTemplateForm.mockReturnValue([
+    partialMock<ReturnType<typeof useTemplateForm>[0]>({attributes: {}}),
+    jest.fn(),
+  ]);
   mockedUseCodes.mockReturnValue(['fr_FR', 'en_US']);
   mockedUseLocales.mockReturnValue([
     {id: 1, code: 'en_US', label: 'English', region: 'US', language: 'en'},

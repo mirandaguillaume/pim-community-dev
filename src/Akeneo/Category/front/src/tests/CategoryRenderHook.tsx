@@ -29,6 +29,7 @@ const categoryReactQueryProviders: FC = ({children}) => {
   );
 };
 
-const categoryRenderHookWithProviders = (hook: () => any) => renderHook(hook, {wrapper: categoryReactQueryProviders});
+const categoryRenderHookWithProviders = <Result,>(hook: () => Result) =>
+  renderHook(hook, {wrapper: categoryReactQueryProviders});
 
 export {categoryRenderHookWithProviders, categoryReactQueryProviders};

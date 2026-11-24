@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {CreateTemplateModal} from './CreateTemplateModal';
 import {useCreateTemplate} from '../../hooks/useCreateTemplate';
+import {partialMock} from '../../../tests/partialMock';
 
 jest.mock('../../hooks/useCreateTemplate');
 const mockedUseCreateTemplate = useCreateTemplate as jest.MockedFunction<typeof useCreateTemplate>;
@@ -17,7 +18,9 @@ describe('CreateTemplateModal', () => {
   beforeEach(() => {
     mockMutate = jest.fn();
     mockOnClose = jest.fn();
-    mockedUseCreateTemplate.mockReturnValue({mutate: mockMutate, isPending: false, error: null} as any);
+    mockedUseCreateTemplate.mockReturnValue(
+      partialMock<ReturnType<typeof useCreateTemplate>>({mutate: mockMutate, isPending: false, error: null})
+    );
   });
 
   it('renders the create template section title', () => {
@@ -59,7 +62,9 @@ describe('CreateTemplateModal', () => {
   });
 
   it('disables the create button while pending', () => {
-    mockedUseCreateTemplate.mockReturnValue({mutate: mockMutate, isPending: true, error: null} as any);
+    mockedUseCreateTemplate.mockReturnValue(
+      partialMock<ReturnType<typeof useCreateTemplate>>({mutate: mockMutate, isPending: true, error: null})
+    );
     renderWithProviders(<CreateTemplateModal categoryTree={categoryTree} onClose={mockOnClose} />);
     expect(
       screen.getByText('akeneo.category.template.add_attribute.confirmation_modal.create').closest('button')

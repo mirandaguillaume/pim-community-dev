@@ -18,7 +18,7 @@ jest.mock('../../infrastructure', () => ({
 }));
 jest.mock('@akeneo-pim-community/shared', () => ({
   ...jest.requireActual('@akeneo-pim-community/shared'),
-  useDebounceCallback: jest.fn((callback: (...args: any[]) => void) => callback),
+  useDebounceCallback: jest.fn(<Callback,>(callback: Callback) => callback),
 }));
 
 const mockedUseCount = useCountCategoryTreesChildren as jest.MockedFunction<typeof useCountCategoryTreesChildren>;

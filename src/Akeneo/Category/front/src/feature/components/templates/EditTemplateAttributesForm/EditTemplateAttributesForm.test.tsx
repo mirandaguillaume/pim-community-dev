@@ -10,7 +10,13 @@ jest.mock('./InitializeTemplateChoice', () => ({
 }));
 
 jest.mock('./AttributeList', () => ({
-  AttributeList: ({onAttributeSelection, attributes}: any) => (
+  AttributeList: ({
+    onAttributeSelection,
+    attributes,
+  }: {
+    onAttributeSelection: (attribute: Attribute) => void;
+    attributes: Attribute[];
+  }) => (
     <div data-testid="attribute-list">
       {attributes.map((a: Attribute) => (
         <button key={a.uuid} onClick={() => onAttributeSelection(a)}>
@@ -22,7 +28,7 @@ jest.mock('./AttributeList', () => ({
 }));
 
 jest.mock('./AttributeSettings', () => ({
-  AttributeSettings: ({attribute}: any) => <div data-testid={`settings-${attribute.uuid}`} />,
+  AttributeSettings: ({attribute}: {attribute: Attribute}) => <div data-testid={`settings-${attribute.uuid}`} />,
 }));
 
 const makeAttribute = (uuid: string, code: string): Attribute => ({

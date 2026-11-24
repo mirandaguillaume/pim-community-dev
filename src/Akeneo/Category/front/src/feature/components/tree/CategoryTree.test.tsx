@@ -6,6 +6,7 @@ import {useCategoryTreeNode} from '../../hooks/useCategoryTreeNode';
 import {useDragTreeNode} from '../../hooks/useDragTreeNode';
 import {useDropTreeNode} from '../../hooks/useDropTreeNode';
 import {useCountProductsBeforeDeleteCategory} from '../../hooks/useCountProductsBeforeDeleteCategory';
+import {partialMock} from '../../../tests/partialMock';
 
 jest.mock('../../hooks/useCategoryTreeNode');
 jest.mock('../../hooks/useDragTreeNode');
@@ -51,19 +52,25 @@ describe('CategoryTree', () => {
       type: 'root' as const,
       childrenStatus: 'idle' as const,
     };
-    mockedUseCategoryTreeNode.mockReturnValue({
-      node,
-      children: [],
-      loadChildren: jest.fn(),
-      moveTo: jest.fn(),
-      onDeleteCategory: jest.fn(),
-      onCreateCategory: jest.fn(),
-      isOpen: true,
-      open: jest.fn(),
-      close: jest.fn(),
-    } as any);
-    mockedUseDragTreeNode.mockReturnValue({isDragged: jest.fn(() => false), isDraggable: false} as any);
-    mockedUseDropTreeNode.mockReturnValue({placeholderPosition: 'none'} as any);
+    mockedUseCategoryTreeNode.mockReturnValue(
+      partialMock<ReturnType<typeof useCategoryTreeNode>>({
+        node,
+        children: [],
+        loadChildren: jest.fn(),
+        moveTo: jest.fn(),
+        onDeleteCategory: jest.fn(),
+        onCreateCategory: jest.fn(),
+        isOpen: true,
+        open: jest.fn(),
+        close: jest.fn(),
+      })
+    );
+    mockedUseDragTreeNode.mockReturnValue(
+      partialMock<ReturnType<typeof useDragTreeNode>>({isDragged: jest.fn(() => false), isDraggable: false})
+    );
+    mockedUseDropTreeNode.mockReturnValue(
+      partialMock<ReturnType<typeof useDropTreeNode>>({placeholderPosition: 'none'})
+    );
     mockedUseCount.mockReturnValue(jest.fn());
 
     renderWithProviders(<CategoryTree root={rootModel} />);

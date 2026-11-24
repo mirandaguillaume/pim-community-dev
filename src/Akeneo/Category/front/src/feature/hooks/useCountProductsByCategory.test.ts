@@ -12,7 +12,7 @@ describe('useCountProductsByCategory', () => {
   test('it fetches the number of products in a category', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       json: () => Promise.resolve(17),
-    } as any);
+    } as Response);
 
     const {result} = renderHookWithProviders(() => useCountProductsByCategory(42));
 

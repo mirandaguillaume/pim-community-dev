@@ -6,7 +6,7 @@ describe('useCountCategoryTreesChildren', () => {
   afterEach(() => jest.restoreAllMocks());
 
   test('it returns null initially', () => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({json: jest.fn()} as any);
+    jest.spyOn(global, 'fetch').mockResolvedValue({json: jest.fn() as Response['json']} as Response);
     const {result} = renderHookWithProviders(() => useCountCategoryTreesChildren());
     expect(result.current).toBeNull();
   });
@@ -15,7 +15,7 @@ describe('useCountCategoryTreesChildren', () => {
     const mockData = {1: 5, 2: 12, 3: 0};
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       json: () => Promise.resolve(mockData),
-    } as any);
+    } as Response);
 
     const {result} = renderHookWithProviders(() => useCountCategoryTreesChildren());
 

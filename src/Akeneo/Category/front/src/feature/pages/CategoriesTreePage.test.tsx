@@ -5,6 +5,7 @@ import {renderWithProviders} from '@akeneo-pim-community/shared/lib/tests';
 import {CategoriesTreePage} from './CategoriesTreePage';
 import {useCategoryTreeDeprecated} from '../hooks/useCategoryTreeDeprecated';
 import {useDeleteCategory} from '../hooks/useDeleteCategory';
+import {partialMock} from '../../tests/partialMock';
 
 jest.mock('../hooks/useCategoryTreeDeprecated');
 jest.mock('../hooks/useDeleteCategory');
@@ -35,37 +36,59 @@ const renderPage = () =>
 describe('CategoriesTreePage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedUseDelete.mockReturnValue({
-      isCategoryDeletionPossible: jest.fn(() => true),
-      handleDeleteCategory: jest.fn(),
-    } as any);
+    mockedUseDelete.mockReturnValue(
+      partialMock<ReturnType<typeof useDeleteCategory>>({
+        isCategoryDeletionPossible: jest.fn(() => true),
+        handleDeleteCategory: jest.fn(),
+      })
+    );
   });
 
   it('renders the CategoryTree when tree is loaded', () => {
-    mockedUseTree.mockReturnValue({
-      tree: {id: 1, code: 'master', label: 'Master catalog', isRoot: true, isLeaf: false},
-      loadingStatus: 'fetched',
-      loadTree: jest.fn(),
-    } as any);
+    mockedUseTree.mockReturnValue(
+      partialMock<ReturnType<typeof useCategoryTreeDeprecated>>({
+        tree: {id: 1, code: 'master', label: 'Master catalog', isRoot: true, isLeaf: false},
+        loadingStatus: 'fetched',
+        loadTree: jest.fn(),
+      })
+    );
     renderPage();
     expect(screen.getByTestId('category-tree')).toBeInTheDocument();
   });
 
   it('renders the settings breadcrumb step', () => {
-    mockedUseTree.mockReturnValue({tree: null, loadingStatus: 'fetched', loadTree: jest.fn()} as any);
+    mockedUseTree.mockReturnValue(
+      partialMock<ReturnType<typeof useCategoryTreeDeprecated>>({
+        tree: null,
+        loadingStatus: 'fetched',
+        loadTree: jest.fn(),
+      })
+    );
     renderPage();
     expect(screen.getByText('pim_menu.tab.settings')).toBeInTheDocument();
   });
 
   it('renders the category plural label breadcrumb step', () => {
-    mockedUseTree.mockReturnValue({tree: null, loadingStatus: 'fetched', loadTree: jest.fn()} as any);
+    mockedUseTree.mockReturnValue(
+      partialMock<ReturnType<typeof useCategoryTreeDeprecated>>({
+        tree: null,
+        loadingStatus: 'fetched',
+        loadTree: jest.fn(),
+      })
+    );
     renderPage();
     const elements = screen.getAllByText('pim_enrich.entity.category.plural_label');
     expect(elements.length).toBeGreaterThan(0);
   });
 
   it('renders a full screen error when loading fails', () => {
-    mockedUseTree.mockReturnValue({tree: null, loadingStatus: 'error', loadTree: jest.fn()} as any);
+    mockedUseTree.mockReturnValue(
+      partialMock<ReturnType<typeof useCategoryTreeDeprecated>>({
+        tree: null,
+        loadingStatus: 'error',
+        loadTree: jest.fn(),
+      })
+    );
     renderPage();
     expect(screen.getByText('error.exception')).toBeInTheDocument();
   });

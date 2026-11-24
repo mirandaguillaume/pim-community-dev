@@ -36,7 +36,7 @@ describe('useDeactivateTemplateAttribute', () => {
       ok: true,
       status: 204,
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
   });
 
   it('returns an async function', () => {

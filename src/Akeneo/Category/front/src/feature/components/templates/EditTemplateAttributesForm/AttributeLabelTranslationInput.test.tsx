@@ -7,7 +7,9 @@ import {AttributeLabelTranslationInput} from './AttributeLabelTranslationInput';
 import {useSaveStatus} from '../../../hooks/useSaveStatus';
 import {useUpdateTemplateAttribute} from '../../../hooks/useUpdateTemplateAttribute';
 import {useTemplateForm} from '../../providers/TemplateFormProvider';
+import {TemplateFormState} from '../../reducers/templateFormReducer';
 import {SaveStatusContext, Status} from '../../providers/SaveStatusProvider';
+import {partialMock} from '../../../../tests/partialMock';
 
 jest.mock('../../../hooks/useSaveStatus');
 jest.mock('../../../hooks/useUpdateTemplateAttribute');
@@ -33,11 +35,17 @@ const attribute = {
 
 const renderInput = (formData?: {value: string; errors: string[]}) => {
   const dispatch = jest.fn();
-  const state = formData ? {attributes: {'attr-uuid': {labels: {en_US: formData}}}} : {attributes: {}};
+  const state: Partial<TemplateFormState> = formData
+    ? {attributes: {'attr-uuid': {labels: {en_US: formData}}}}
+    : {attributes: {}};
 
-  mockedUseTemplateForm.mockReturnValue([state as any, dispatch]);
-  mockedUseSaveStatus.mockReturnValue({handleStatusListChange: jest.fn()} as any);
-  mockedUseUpdateAttribute.mockReturnValue({mutateAsync: jest.fn().mockResolvedValue(undefined)} as any);
+  mockedUseTemplateForm.mockReturnValue([partialMock<TemplateFormState>(state), dispatch]);
+  mockedUseSaveStatus.mockReturnValue(
+    partialMock<ReturnType<typeof useSaveStatus>>({handleStatusListChange: jest.fn()})
+  );
+  mockedUseUpdateAttribute.mockReturnValue(
+    partialMock<ReturnType<typeof useUpdateTemplateAttribute>>({mutateAsync: jest.fn().mockResolvedValue(undefined)})
+  );
 
   const queryClient = new QueryClient({defaultOptions: {queries: {retry: false}}});
 

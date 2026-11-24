@@ -22,7 +22,7 @@ describe('useUpdateTemplateProperties', () => {
       ok: true,
       status: 204,
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
   });
 
   it('calls apiFetch with PATCH method and labels payload when mutated', async () => {

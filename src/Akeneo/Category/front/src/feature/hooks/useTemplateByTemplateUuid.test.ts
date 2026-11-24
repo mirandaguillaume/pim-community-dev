@@ -48,7 +48,7 @@ describe('useTemplateByTemplateUuid', () => {
       ok: true,
       status: 200,
       json: () => Promise.resolve({uuid: 'tmpl-uuid'}),
-    } as any);
+    } as Response);
 
     renderHook(() => useTemplateByTemplateUuid(null), {wrapper: createWrapper()});
 
@@ -64,7 +64,7 @@ describe('useTemplateByTemplateUuid', () => {
       ok: true,
       status: 200,
       json: () => Promise.resolve({uuid: 'tmpl-uuid'}),
-    } as any);
+    } as Response);
 
     renderHook(() => useTemplateByTemplateUuid('tmpl-uuid'), {wrapper: createWrapper()});
 
@@ -79,7 +79,7 @@ describe('useTemplateByTemplateUuid', () => {
       status: 404,
       statusText: 'Not Found',
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const {result} = renderHook(() => useTemplateByTemplateUuid('tmpl-uuid'), {wrapper: createWrapper()});
