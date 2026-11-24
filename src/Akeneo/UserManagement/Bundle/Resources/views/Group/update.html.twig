@@ -54,9 +54,11 @@
         </div>
 
     <script type="text/javascript" nonce="{{ js_nonce() }}">
-        require('pim/page-title').set({'group': '{{ form.vars.value.name }}'});
+        {# nosemgrep: var-in-script-tag -- escaped for a JS string with e('js') #}
+        require('pim/page-title').set({'group': '{{ form.vars.value.name|e('js') }}'});
 
-        window.flashMessages = JSON.parse('{{ app.session.flashbag.all|json_encode()|raw }}');
+        {# nosemgrep: var-in-script-tag -- JSON literal with <, >, &, ' and " hex-escaped #}
+        window.flashMessages = {{ app.session.flashbag.all|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT'))|raw }};
     </script>
 
     <script nonce="{{ js_nonce() }}">
