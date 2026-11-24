@@ -47,15 +47,7 @@ final class ComputeProductModelScoreOnProductCreateOrUpdateEndToEnd extends Mess
 
         self::assertFalse($this->isProductModelScoreComputed($productModelId));
         $this->launchConsumer('dqi_product_model_score_compute');
-        self::assertTrue(
-            $this->isProductModelScoreComputed($productModelId),
-            $this->scoreDiagnostics(
-                'pim_data_quality_insights_product_model_score',
-                'pim_data_quality_insights_product_model_criteria_evaluation',
-                'product_model_id',
-                $productModel->getId()
-            )
-        );
+        self::assertTrue($this->isProductModelScoreComputed($productModelId));
     }
 
     public function test_it_computes_product_model_score_after_update(): void

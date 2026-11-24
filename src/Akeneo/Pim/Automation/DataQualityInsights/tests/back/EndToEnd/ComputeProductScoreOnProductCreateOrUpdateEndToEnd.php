@@ -38,15 +38,7 @@ final class ComputeProductScoreOnProductCreateOrUpdateEndToEnd extends Messenger
 
         self::assertFalse($this->isProductScoreComputed(ProductUuid::fromString($uuid1->toString())));
         $this->launchConsumer(self::CONSUMER_NAME);
-        self::assertTrue(
-            $this->isProductScoreComputed(ProductUuid::fromString($uuid1->toString())),
-            $this->scoreDiagnostics(
-                'pim_data_quality_insights_product_score',
-                'pim_data_quality_insights_product_criteria_evaluation',
-                'product_uuid',
-                $uuid1->getBytes()
-            )
-        );
+        self::assertTrue($this->isProductScoreComputed(ProductUuid::fromString($uuid1->toString())));
     }
 
     public function test_it_computes_product_score_after_update(): void
