@@ -26,6 +26,14 @@ class GroupTest extends TestCase
                 ], $this->sut->getDefaultPermissions());
     }
 
+    public function test_setting_a_default_permission_keeps_the_others(): void
+    {
+        $this->sut->setDefaultPermission('foo', true);
+        $this->sut->setDefaultPermission('bar', false);
+
+        $this->assertSame(['foo' => true, 'bar' => false], $this->sut->getDefaultPermissions());
+    }
+
     public function test_it_has_a_default_type(): void
     {
         $this->assertSame('default', $this->sut->getType());

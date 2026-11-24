@@ -3,6 +3,7 @@ import {WrongCredentialsCombination} from '../../../model/wrong-credentials-comb
 import {Translate, useTranslate} from '../../../shared/translate';
 import {useDateFormatter} from '../../../shared/formatter/use-date-formatter';
 import {DocumentationLink} from './DocumentationLink';
+import {escapeHtml} from '../../../shared/escape-html';
 import styled from 'styled-components';
 
 const ListItem = styled.div`
@@ -22,12 +23,13 @@ export const WrongCombinationWarningList = ({combinations, goodUsername}: Props)
         <>
             <span
                 dangerouslySetInnerHTML={{
+                    // nosemgrep: react-dangerouslysetinnerhtml -- usernames are escaped
                     __html: translate(
                         'akeneo_connectivity.connection.edit_connection.credentials.wrong_credentials_combinations.several',
                         {
                             good_username: `
                         <span class='AknConnectivityConnection-helper--highlight'>
-                            ${goodUsername}
+                            ${escapeHtml(goodUsername)}
                         </span>`,
                         }
                     ),
@@ -43,12 +45,13 @@ export const WrongCombinationWarningList = ({combinations, goodUsername}: Props)
                     <ListItem key={lastLogin.username}>
                         <span
                             dangerouslySetInnerHTML={{
+                                // nosemgrep: react-dangerouslysetinnerhtml -- usernames are escaped
                                 __html: translate(
                                     'akeneo_connectivity.connection.edit_connection.credentials.wrong_credentials_combinations.username_date',
                                     {
                                         wrong_username: `
                                     <span class='AknConnectivityConnection-helper--highlight'>
-                                        ${lastLogin.username}
+                                        ${escapeHtml(lastLogin.username)}
                                     </span>`,
                                         date: formatDate(lastLogin.date, {month: 'short', day: 'numeric'}),
                                         time: formatDate(lastLogin.date, {

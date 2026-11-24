@@ -222,7 +222,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
 
     public function __construct()
     {
-        $this->salt = base_convert(sha1(uniqid(random_int(0, mt_getrandmax()), true)), 16, 36);
+        $this->salt = bin2hex(random_bytes(16));
         $this->roles = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->defaultGridViews = new ArrayCollection();
@@ -900,7 +900,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
      */
     public function generateToken()
     {
-        return base_convert(bin2hex(hash('sha256', uniqid(random_int(0, mt_getrandmax()), true), true)), 16, 36);
+        return bin2hex(random_bytes(32));
     }
 
     public function __toString(): string

@@ -16,6 +16,7 @@ const ErrorsHelper: FC<Props> = ({errorCount, description}) => {
             <HelperTitle>
                 <div
                     dangerouslySetInnerHTML={{
+                        // nosemgrep: react-dangerouslysetinnerhtml -- errorCount is a number
                         __html: translate(
                             'akeneo_connectivity.connection.error_management.connection_monitoring.helper.title',
                             {count: `<span class='AknConnectivityConnection-helper--highlight'>${errorCount}</span>`},

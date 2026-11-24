@@ -67,6 +67,7 @@ export const ConsentCheckbox: FC<Props> = ({isChecked, onChange, appUrl, display
         <Container>
             {displayCheckbox && <Checkbox checked={isChecked} onChange={onChange} />}
             <LabelContainer>
+                {/* nosemgrep: react-dangerouslysetinnerhtml -- appUrl goes through sanitizeUrl() */}
                 {displayCheckbox && <CheckboxLabel dangerouslySetInnerHTML={{__html: label}} />}
                 <CheckboxSubText dangerouslySetInnerHTML={{__html: subtext}} />
             </LabelContainer>

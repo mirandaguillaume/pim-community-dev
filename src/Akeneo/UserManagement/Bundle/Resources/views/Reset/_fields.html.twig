@@ -20,6 +20,7 @@
         {% set class = class ~ ' ' ~ 'error' %}
     {% endif %}
     {% set attr = attr|merge({'class': class }) %}
+    {# nosemgrep: unquoted-attribute-var -- the block renders attributes already quoted and escaped, as in Symfony form_div_layout #}
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value == '\\' or value is not empty %}value="{{ value }}" {% endif %}/>
 {%- endblock form_widget_simple -%}
 

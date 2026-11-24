@@ -86,6 +86,7 @@ export const KeyIndicatorAboutProducts: FC<Props> = ({children, type, counts, ti
         {entitiesToWorkOn}
         <TextWithLink
           dangerouslySetInnerHTML={{
+            // nosemgrep: react-dangerouslysetinnerhtml -- tips are constants
             __html: translate(tip.message, {link: tip.link || ''}),
           }}
         />

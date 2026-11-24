@@ -28,10 +28,12 @@
 
                 {% set title %}
                     {% block breadcrumbs %}
+                        {# nosemgrep: var-in-href -- indexPath is '#' ~ path(), set by Group/update.html.twig, the only child template #}
                         <a href="{{ breadcrumbs.indexPath }}">{{ breadcrumbs.indexLabel|trans }}</a>
                         <span class="separator">/</span>
                         {% if breadcrumbs.additional is defined %}
                             {% for breadcrumb in breadcrumbs.additional %}
+                                {# nosemgrep: var-in-href -- breadcrumbs.additional is set by no template #}
                                 <a href="{{ breadcrumb.indexPath }}">{{ breadcrumb.indexLabel|trans }}</a>
                                 <span class="separator">/</span>
                             {% endfor %}

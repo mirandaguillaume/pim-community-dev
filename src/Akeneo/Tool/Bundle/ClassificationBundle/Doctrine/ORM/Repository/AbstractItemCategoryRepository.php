@@ -139,6 +139,7 @@ abstract class AbstractItemCategoryRepository implements
                 ->select($rootAliasIn . '.id')
                 ->from($rootEntity, $rootAliasIn, $rootAliasIn . '.id')
                 ->innerJoin($rootAliasIn . '.categories', $alias)
+                // nosemgrep: doctrine-orm-dangerous-query -- generated alias and placeholder name; the ids are bound below
                 ->where($qbIn->expr()->in($alias . '.id', ':' . $filterCatIds));
 
             $qb->andWhere($qb->expr()->notIn($rootAlias . '.id', $qbIn->getDQL()));
