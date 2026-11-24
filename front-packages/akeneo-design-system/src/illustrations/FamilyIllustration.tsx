@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import Family from '../../static/illustrations/Family.svg';
+import Family from '../static/illustrations/Family.svg';
 import {BrandedPath} from '../theme';
 
 const FamilyIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import MediaFile from '../../static/illustrations/MediaFile.svg';
+import MediaFile from '../static/illustrations/MediaFile.svg';
 import {BrandedPath} from '../theme';
 
 const MediaFileIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

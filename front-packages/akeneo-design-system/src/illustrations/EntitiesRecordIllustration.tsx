@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import EntitiesRecord from '../../static/illustrations/EntitiesRecord.svg';
+import EntitiesRecord from '../static/illustrations/EntitiesRecord.svg';
 import {BrandedPath} from '../theme';
 
 const EntitiesRecordIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

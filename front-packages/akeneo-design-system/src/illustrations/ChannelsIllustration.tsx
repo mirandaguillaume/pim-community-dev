@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import Channels from '../../static/illustrations/Channels.svg';
+import Channels from '../static/illustrations/Channels.svg';
 import {BrandedPath} from '../theme';
 
 const ChannelsIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

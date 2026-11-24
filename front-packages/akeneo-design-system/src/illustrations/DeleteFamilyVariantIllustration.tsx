@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import DeleteFamilyVariant from '../../static/illustrations/DeleteFamilyVariant.svg';
+import DeleteFamilyVariant from '../static/illustrations/DeleteFamilyVariant.svg';
 import {BrandedPath} from '../theme';
 
 const DeleteFamilyVariantIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

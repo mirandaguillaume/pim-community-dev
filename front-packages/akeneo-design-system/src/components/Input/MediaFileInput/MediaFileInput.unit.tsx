@@ -6,7 +6,7 @@ import {FileInfo} from './FileInfo';
 import {DownloadIcon} from '../../../icons';
 import {IconButton} from '../../IconButton/IconButton';
 
-jest.mock('../../../../static/illustrations/DefaultPicture.svg', () => 'FALLBACK_IMAGE');
+jest.mock('../../../static/illustrations/DefaultPicture.svg', () => 'FALLBACK_IMAGE');
 
 const flushPromises = () => new Promise(resolve => process.nextTick(resolve));
 

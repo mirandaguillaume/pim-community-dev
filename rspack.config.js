@@ -87,7 +87,16 @@ const rspackConfig = {
   devtool: 'source-map',
   resolve: {
     symlinks: false,
-    alias: _.mapKeys(aliases, (path, key) => `${key}$`),
+    alias: {
+      ..._.mapKeys(aliases, (path, key) => `${key}$`),
+      // The design system now ships an ESM build under its `module` field, which rspack reads before
+      // `main`. The PIM keeps the CommonJS build it always used: it also imports deep paths of it
+      // (`akeneo-design-system/lib/components/Tree/Tree`, `akeneo-design-system/lib`, ...), and the
+      // two builds side by side would put two copies of every component -- and of every React
+      // context -- in the bundle. Through node_modules, not the real path: with `symlinks: false`,
+      // the real path would register the same files under a second module id.
+      'akeneo-design-system$': path.resolve('./node_modules/akeneo-design-system/lib/index.js'),
+    },
     fallback: {
       path: require.resolve('path-browserify'),
     },

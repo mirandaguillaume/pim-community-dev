@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import Views from '../../static/illustrations/Views.svg';
+import Views from '../static/illustrations/Views.svg';
 import {BrandedPath} from '../theme';
 
 const ViewsIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

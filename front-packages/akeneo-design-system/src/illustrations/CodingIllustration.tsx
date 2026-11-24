@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import Coding from '../../static/illustrations/Coding.svg';
+import Coding from '../static/illustrations/Coding.svg';
 
 const CodingIllustration = ({title, size = 256, ...props}: IllustrationProps) => (
   <svg width={size} height={size} viewBox="0 0 256 256" {...props}>

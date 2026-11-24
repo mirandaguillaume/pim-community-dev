@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import Julia from '../../static/illustrations/Julia.svg';
+import Julia from '../static/illustrations/Julia.svg';
 import {BrandedPath} from '../theme';
 
 const JuliaIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

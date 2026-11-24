@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import {IconButton} from '../../../components/IconButton/IconButton';
 import {CopyIcon} from '../../../icons';
 
-jest.mock('../../../../static/illustrations/DefaultPicture.svg', () => 'FALLBACK_IMAGE');
+jest.mock('../../../static/illustrations/DefaultPicture.svg', () => 'FALLBACK_IMAGE');
 
 const defaultProps = {
   placeholder: 'Put your media link here',

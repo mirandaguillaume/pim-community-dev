@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import ProductCategory from '../../static/illustrations/ProductCategory.svg';
+import ProductCategory from '../static/illustrations/ProductCategory.svg';
 import {BrandedPath} from '../theme';
 
 const ProductCategoryIllustration = ({title, size = 256, ...props}: IllustrationProps) => (
