@@ -60,11 +60,20 @@ defaults:
   run:
     shell: bash
 
+# Least privilege: jobs only read the repository and pull from GHCR, except `image` below.
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   # ===========================================================================
   # BUILD PHP IMAGE (reuse the same image as CI)
   # ===========================================================================
   image:
+    # It calls reusable-image.yml, which pushes the PHP image to GHCR.
+    permissions:
+      contents: read
+      packages: write
     if: inputs.scope == 'both' || inputs.scope == 'php'
     uses: ./.github/workflows/reusable-image.yml
     secrets: inherit

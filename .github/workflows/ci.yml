@@ -2310,9 +2310,15 @@ jobs:
   quality-sast:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     timeout-minutes: 15
-    continue-on-error: true
+    # Not in ci-success, so a red run informs without blocking a merge. It used to be masked
+    # twice (continue-on-error on the job and on the upload): GitHub refused the upload from
+    # 2026-05 on -- two SARIF runs under one category, no security-events permission -- and the
+    # job stayed green while nothing reached the Security tab for six months.
+    permissions:
+      contents: read
+      security-events: write
     container:
       image: semgrep/semgrep
     steps:
@@ -2320,58 +2326,30 @@ jobs:
         run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
 
+      # PHP only: CodeQL (default setup) covers JavaScript, TypeScript and the workflows, but has
+      # no PHP extractor. One scan, written straight to SARIF. Every --config must exist in the
+      # registry: an unknown one (p/symfony, never published) makes semgrep exit 7 before scanning.
       - name: Run Semgrep (PHP security rules)
         run: |
           mkdir -p var/sast
           semgrep scan \
             --config p/php \
-            --config p/symfony \
             --config p/security-audit \
             --config p/xss \
-            --json \
-            --output var/sast/semgrep-php.json \
-            src/Akeneo/ || true
-
-      - name: Run Semgrep (JavaScript/TypeScript security rules)
-        run: |
-          semgrep scan \
-            --config p/javascript \
-            --config p/typescript \
-            --config p/react \
-            --json \
-            --output var/sast/semgrep-frontend.json \
-            src/Akeneo/ front-packages/ || true
-
-      - name: Generate SARIF reports for GitHub Security tab
-        run: |
-          semgrep scan \
-            --config p/php --config p/symfony --config p/security-audit --config p/xss \
             --sarif --output var/sast/semgrep-php.sarif \
-            src/Akeneo/ || true
-          semgrep scan \
-            --config p/javascript --config p/typescript --config p/react \
-            --sarif --output var/sast/semgrep-frontend.sarif \
-            src/Akeneo/ front-packages/ || true
+            src/Akeneo/
 
       - name: Summarize findings
         run: |
-          PHP_FINDINGS=$(cat var/sast/semgrep-php.json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d.get('results',[])))" 2>/dev/null || echo "0")
-          JS_FINDINGS=$(cat var/sast/semgrep-frontend.json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d.get('results',[])))" 2>/dev/null || echo "0")
-          echo "### SAST (Semgrep) Summary" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Scope | Findings |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|-------|----------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| PHP (p/php + p/symfony + p/security-audit + p/xss) | ${PHP_FINDINGS} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| JS/TS (p/javascript + p/typescript + p/react) | ${JS_FINDINGS} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "See artifacts for full SARIF report." >> "$GITHUB_STEP_SUMMARY"
+          FINDINGS=$(python3 -c "import json; print(sum(len(r.get('results', [])) for r in json.load(open('var/sast/semgrep-php.sarif'))['runs']))")
+          echo "### SAST (Semgrep, PHP): ${FINDINGS} finding(s)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Listed in the Security tab under the \`semgrep-php\` category." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload SARIF to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
         with:
-          sarif_file: var/sast/
-        continue-on-error: true
+          sarif_file: var/sast/semgrep-php.sarif
+          category: semgrep-php
 
       - name: Upload SAST report
         uses: actions/upload-artifact@v4
