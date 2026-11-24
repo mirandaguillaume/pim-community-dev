@@ -56,13 +56,15 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
 
 ## Palier 2 — coût connu, chantier réel
 
-- [ ] **Lien de réinitialisation de mot de passe construit depuis l'en-tête `Host`.**
+- [x] **Lien de réinitialisation de mot de passe construit depuis l'en-tête `Host`.**
       `UserManagement/.../Mail/reset.html.twig` appelle `url()` pendant la requête de
       `ResetController::sendEmail` ; aucun `framework.trusted_hosts` ni `router.default_uri` dans
       `config/`. Une demande de réinitialisation pour une victime avec `Host: evil.tld` lui envoie un
       lien — jeton compris — vers ce domaine (selon le reverse proxy du déploiement). Deux sorties :
       `trusted_hosts`, ou `akeneo_pim_url ~ path(...)` comme `Email/notification.html.twig`.
-      Trouvé au tri Semgrep (hors de la règle qui l'a signalé), **décision à prendre**.
+      Trouvé au tri Semgrep (hors de la règle qui l'a signalé). **Corrigé dans le même lot** : lien
+      construit depuis `AKENEO_PIM_URL`, test `ResetPasswordMailLinkIntegration` rouge puis vert.
+      `trusted_hosts` reste à décider pour le reste de l'application.
 - [ ] **Assainir le texte riche côté serveur.** #545 assainit ce que Summernote charge dans
       l'éditeur (DOMPurify), pas les autres rendus d'une valeur `pim_catalog_textarea` riche ni ce
       qu'un import ou l'API enregistre. Les valeurs stockées ne sont réécrites qu'à leur prochaine
