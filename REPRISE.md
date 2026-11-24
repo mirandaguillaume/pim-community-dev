@@ -80,11 +80,16 @@ runners auto-hébergés, jobs filtrés par chemins ; seul `ci-success` est requi
    Vérifier : « Title 2 » puis « Normal » s'affichent dans la liste après le choix ; boutons gras /
    italique / listes / lien actifs après clic ET selon la position du curseur ; taille et police
    affichées après le choix ; variantes lecture seule et invalide.
-3. **Le build publié du design system n'est consommable qu'à l'intérieur d'un bundler** (palier 2
-   de `ROADMAP.md`) — prochain chantier, pas commencé : exports nommés explicites à la place du
-   barrel `__exportStar`, et SVG copiés dans `lib/`. Mesurer d'abord sur un `lib/` frais (sonde
-   node nue qui hooke `Module._resolveFilename` pour les assets, plus un build Vite du projet
-   d'exemple), et tester contre le lockfile du projet d'exemple.
+3. **Ordre de fusion à respecter** (2026-11-24) : **#535** (lock Composer, 17 avis de sécurité :
+   `composer audit` bloquait `lint-and-security` sur toute PR back/CI et sur la nightly) → **#534**
+   (bloquée par #535) → puis **étape 3b**.
+   **Étape 3b — build du design system hors bundler : FAITE, PR PAS ENCORE OUVERTE.** Branche
+   `fix/dsm-build-outside-bundler` (`10173fe398`, worktree
+   `~/claude-worktrees/pim-community-dev/dsm-build`) : double build CJS + ESM (`lib/esm`, champ
+   `module`), SVG déplacés dans `src/static/` et copiés dans `lib/`, `yarn lib:check`, alias rspack
+   qui garde le PIM sur le CJS. Quand #534 est fusionnée : rebaser sur master, ajouter une étape
+   `yarn lib:check` après « Make sure the lib build is successful » dans `dsm-test.yml`, ouvrir la
+   PR avec auto-merge.
 4. Category, lots eslint restants (159) : 96 `no-explicit-any`, 36 `await-thenable`, 19
    `require-await`, 8 `no-console`.
 5. Reste connu de la suite `End_to_End` PHPUnit : 4 tests exclus (`@group e2e_known_failure`),
