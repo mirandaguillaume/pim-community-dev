@@ -20,14 +20,14 @@ var init = function (id) {
 
     if (filename) {
       var title = filename.length > maxFilenameLength ? filename.substring(0, maxFilenameLength - 3) + '...' : filename;
-      $filename.html(title);
+      $filename.text(title);
       $zone.removeClass('empty');
       $preview.removeClass('empty').attr('title', filename);
       $removeBtn.removeClass('hide');
       $input.addClass('hide');
       $removeCheckbox.removeAttr('checked');
     } else {
-      $filename.html($filename.attr('data-empty-title'));
+      $filename.text($filename.attr('data-empty-title'));
       $zone.addClass('empty');
       $preview.addClass('empty').removeAttr('title');
       $removeBtn.addClass('hide');
