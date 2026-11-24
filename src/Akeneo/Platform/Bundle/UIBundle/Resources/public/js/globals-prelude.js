@@ -12,6 +12,10 @@ window.jQuery = jq;
 window.Backbone = require('backbone');
 window._ = require('underscore');
 
+// Summernote (lib/summernote) reads its HTML sanitizer from window, as it reads jQuery: RSPack does
+// not enable AMD, so the vendored UMD wrapper always takes its browser-globals branch.
+window.DOMPurify = require('dompurify');
+
 // Expose the require polyfill to window for Twig inline <script> tags
 // that call require() to load AMD modules at runtime.
 window.require = require('require-polyfill');

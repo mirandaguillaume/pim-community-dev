@@ -8,16 +8,36 @@
  *
  * Date: 2015-08-03T16:41Z
  */
+/* PIM patch (summernote 0.6.16): the editor loads HTML into its contentEditable area from two
+ * places -- the holder textarea, which carries a product's STORED rich-text value, and the code
+ * view on the way back to WYSIWYG. Both went straight to `$editable.html(...)`, so markup saved
+ * through the API, an import or the code view was parsed in every later editor's browser
+ * (CodeQL js/xss-through-dom; the CSP blocked inline scripts, not the rest). Both now go through
+ * DOMPurify, as does the public `.code(html)` setter. `target` is kept: summernote's own "open in
+ * new window" link option sets it.
+ * RSPack does not enable AMD, so it is the browser-globals branch that runs: `window.DOMPurify` is set
+ * by js/globals-prelude.js, the first entry of the bundle, like `window.jQuery`.
+ */
 (function (factory) {
   /* global define */
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['jquery'], factory);
+    define(['jquery', 'dompurify'], factory);
   } else {
-    // Browser globals: jQuery
-    factory(window.jQuery);
+    // Browser globals: jQuery, DOMPurify
+    factory(window.jQuery, window.DOMPurify);
   }
-}(function ($) {
+}(function ($, DOMPurify) {
+  // An ES module namespace exposes the API on `default`.
+  DOMPurify = DOMPurify && typeof DOMPurify.sanitize === 'function' ? DOMPurify : DOMPurify && DOMPurify.default;
+  if (!DOMPurify || typeof DOMPurify.sanitize !== 'function') {
+    // Loading the editor without its sanitizer would silently reopen the hole: refuse instead.
+    throw new Error('summernote: DOMPurify is required to load HTML into the editor');
+  }
+
+  var sanitizeHtml = function (html) {
+    return DOMPurify.sanitize(html, {ADD_ATTR: ['target']});
+  };
 
 
 
@@ -5005,7 +5025,7 @@
         cmEditor.toTextArea();
       }
 
-      var value = dom.value($codable, options.prettifyHtml) || dom.emptyPara;
+      var value = sanitizeHtml(dom.value($codable, options.prettifyHtml)) || dom.emptyPara;
       var isChange = $editable.html() !== value;
 
       $editable.html(value);
@@ -6843,7 +6863,7 @@
         $editable.attr('data-placeholder', placeholder);
       }
 
-      $editable.html(dom.html($holder) || dom.emptyPara);
+      $editable.html(sanitizeHtml(dom.html($holder)) || dom.emptyPara);
 
       //031. create codable
       $('<textarea class="note-codable"></textarea>').prependTo($editingArea);
@@ -7287,7 +7307,7 @@
         var layoutInfo = renderer.layoutInfoFromHolder($(holder));
         var $editable = layoutInfo && layoutInfo.editable();
         if ($editable) {
-          $editable.html(html);
+          $editable.html(sanitizeHtml(html));
         }
       });
 
