@@ -8,28 +8,33 @@ dépendances (Symfony 6.4, PHPUnit 10 à la place de PHPSpec), migration du fron
 Backbone vers React sur les datagrids, Redux Toolkit / react-query), migration des tests Behat
 vers Playwright, durcissement CI et sécurité, couverture de tests et mutation testing.
 
-## État au 2026-11-02
+## État au 2026-11-24
 
-- Branche courante : `feat/tiptap-editor` (4 commits propres à la branche, publiés sur
-  `origin/feat/tiptap-editor`). Elle remplace l'éditeur riche du design system (chaîne
-  draft-js / react-draft-wysiwyg, XSS sans correctif publié) par Tiptap. **PR #520 ouverte** ;
-  CI verte sauf le job « Launch tests on the DSM » (cause non examinée) ; la branche a 7 commits de
-  retard sur `origin/master`.
-- `origin/master` : dernier commit du 2026-11-01 (#529, bump de dépendance). `master` local est
-  en retard (dernier commit local du 2026-10-21) : s'aligner sur `origin/master` avant tout travail.
-- Autres PR ouvertes : trois mises à jour Dependabot (#522, #523, #528).
-- Arbre de travail propre. Aucune branche `wip/sauvegarde-*` ici. Sauvegardes : 8 branches
-  distantes `origin/stash/2026-02-27-11` … `origin/stash/2026-07-15-1`, et **12 entrées de
-  `git stash` locales** (anciennes branches de montée de version, de migration ESM, etc.)
-  qui n'existent que dans `.git` local.
-- Familles de branches locales (327, la quasi-totalité déjà fusionnée par squash dans `master`,
-  donc `git diff master...branche` les montre à tort comme non fusionnées ; vérifier l'état de la PR) :
-  `c1/*` (~55, datagrid produit Backbone vers React : filtres, pagination, cellules),
-  `feat/amd-to-esm-*` et `feat/front-b*` (migration ESM), `pw/*` (~30, scénarios Behat portés en
-  Playwright), `test/jest-coverage-phase*` (~35) et autres `test/*` (couverture, gardes),
-  `ci/*` (~25, fiabilité et vitesse de la CI), `chore/*`, `fix/*`, `harden/*` (e2e),
-  `security/*` (CVE, en-têtes HTTP), `upgrade/*` (Doctrine, prettier, abstraction SGBD),
-  `migrate/phpspec-*`, `behat/*`, `audit/*`, `probe/*`, `spike/*`, `wt/*` (worktrees d'agents jetables).
+- **#520 (Tiptap) fusionnée** le 2026-11-23 (`bfe800f64e`). L'échec « Launch tests on the DSM »
+  était un vrai bug, pas un test fragile : Tiptap 3 ne re-rend plus à chaque transaction, la barre
+  d'outils restait figée sur son premier état ; corrigé par `useEditorState` (voir `ROADMAP.md`).
+- **PR #532 ouverte, auto-merge armé** (`fix/category-exhaustive-deps`) : les 12
+  `react-hooks/exhaustive-deps` de Category soldés (eslint 171 → 159), dont deux vrais défauts —
+  le formulaire d'édition de catégorie pouvait effacer des modifications non enregistrées
+  (`EditCategoryProvider` sans `useMemo`), et une fermeture périmée pouvait perdre un déplacement
+  dans l'arbre. Embarque aussi la mise à jour de `ROADMAP.md`. Si la CI la refuse : lire le job,
+  la cause est dans un des 6 fichiers du diff.
+- PR Dependabot ouvertes, toutes sur le design system : #522, #523, #528, #531.
+- **Ce clone a été restauré** (clone du 2026-03-20, plus l'archive `A-EMPORTER-2026-11-02` :
+  `.envrc` et les 4 stashes du bundle `pim-community-dev-stashes-0-2-3-4.bundle`, réimportés en
+  `git stash` et en `refs/stash-export/*`). Les 327 branches locales d'avant n'existent plus et
+  n'ont pas à être recréées : tout ce qui comptait est sur `origin`. `master` local est aligné sur
+  `origin/master`.
+- Les deux `.tar` déchiffrés de la sauvegarde (`~/A-EMPORTER-2026-11-0{2,6}.tar`) sont **en clair**
+  dans `~` et contiennent les clés SSH : à supprimer une fois la restauration finie (les `.gpg`
+  restent).
+- Worktrees (`git worktree list`) :
+  `~/claude-worktrees/category-exhaustive-deps` (PR #532, garder jusqu'à la fusion),
+  `~/claude-worktrees/pim-community-dev/reprise` (cette note), `../pim-tiptap` (#520 fusionnée,
+  supprimable avec la branche locale `tiptap-rebased-backup`), et deux worktrees ESM de juin
+  (`../pim-community-dev-wip-esm-b5`, `../pim-community-dev-wip-esm-flip-46`) entièrement dépassés
+  par master, supprimables.
+- La branche `upgrade/sgbd-abstraction` (mars) est **abandonnée** : à ignorer.
 
 ## Installer et lancer
 
@@ -55,17 +60,27 @@ runners auto-hébergés, jobs filtrés par chemins ; seul `ci-success` est requi
 
 ## Où j'en étais et prochaines étapes
 
-1. Débloquer la PR #520 : lire l'échec de « Launch tests on the DSM » (workflow `dsm-test.yml`),
-   corriger, rebaser sur `origin/master`, activer l'auto-merge (`gh pr merge --auto --squash`).
-   Le commit annonce 14 alertes sur 15 fermées ; reste `node-fetch@2.6.1` via `jest-fetch-mock`.
-2. Faire relire visuellement la barre d'outils Tiptap dans Storybook (les tests Jest ne tournent
-   qu'en CI).
-3. Ensuite, d'après `ROADMAP.md` (révision du 2026-10-20), palier 2 : les 171 avertissements
-   eslint de Category (12 `exhaustive-deps` en premier), le build publié du design system qui
-   n'est consommable que dans un bundler configuré (barrel `__exportStar`, assets SVG hors `lib/`).
-4. Reste connu de la suite `End_to_End` PHPUnit : 4 tests exclus (`@group e2e_known_failure`),
+1. Vérifier que **#532** a fusionné (`gh pr view 532`) ; sinon lire l'échec et corriger.
+2. **Relire visuellement la barre d'outils Tiptap dans Storybook** — pas encore fait. Lancer :
+   ```bash
+   cd front-packages/akeneo-design-system
+   yarn add --dev react@^18.3.1 react-dom@^18.3.1 styled-components@^5.1.1  # comme dsm-test.yml
+   git checkout -- package.json yarn.lock                                     # ne pas committer ça
+   yarn storybook:start   # puis http://localhost:6006/?path=/story/components-inputs-textarea-input--rich-text-editor
+   ```
+   Vérifier : « Title 2 » puis « Normal » s'affichent dans la liste après le choix ; boutons gras /
+   italique / listes / lien actifs après clic ET selon la position du curseur ; taille et police
+   affichées après le choix ; variantes lecture seule et invalide.
+3. **Le build publié du design system n'est consommable qu'à l'intérieur d'un bundler** (palier 2
+   de `ROADMAP.md`) — prochain chantier, pas commencé : exports nommés explicites à la place du
+   barrel `__exportStar`, et SVG copiés dans `lib/`. Mesurer d'abord sur un `lib/` frais (sonde
+   node nue qui hooke `Module._resolveFilename` pour les assets, plus un build Vite du projet
+   d'exemple), et tester contre le lockfile du projet d'exemple.
+4. Category, lots eslint restants (159) : 96 `no-explicit-any`, 36 `await-thenable`, 19
+   `require-await`, 8 `no-console`.
+5. Reste connu de la suite `End_to_End` PHPUnit : 4 tests exclus (`@group e2e_known_failure`),
    dont 2 à diagnostiquer (calculs de score DQI).
-5. Chantiers explicitement non démarrés : Backbone vers React restant (phase C2/C3), typage des
+6. Chantiers explicitement non démarrés : Backbone vers React restant (phase C2/C3), typage des
    `.js` (D1), phases 4 à 7 du plan de couverture Jest, burn-down de la baseline PHPStan.
    Ne pas réécrire `filters-manager.js` ni créer `select-row-filter-react.ts` (voir `ROADMAP.md`).
 
@@ -100,3 +115,16 @@ runners auto-hébergés, jobs filtrés par chemins ; seul `ci-success` est requi
 - Suite `End_to_End` en local : lancer avec `APP_ENV=test` placé avant `docker compose`,
   et rendre `var/cache/test/sql-dump` inscriptible par l'utilisateur du conteneur, sinon 100 %
   des tests tombent en erreur (ce qui n'est jamais de la dette, seulement l'environnement).
+- `gh` répond 401 alors que `gh auth status` est connecté : le `GITHUB_TOKEN` exporté par `.envrc`
+  (ancien jeton révoqué) passe avant le trousseau. `unset GITHUB_TOKEN GH_TOKEN`, ou renouveler
+  le jeton dans `.envrc`.
+- Le hook pre-push s'exécute dans le répertoire du projet de la session, pas dans le worktree
+  qu'on pousse : un clone principal resté sur une vieille branche fait échouer le push d'une
+  autre branche. Garder le clone principal sur `master` à jour.
+- Storybook du design system : il ne compile pas sans les dépendances *peer* (`styled-components`,
+  React) — `dsm-test.yml` les ajoute par `yarn add --dev` avant `yarn install` (voir étape 2).
+- Ne jamais lancer deux `yarn install` en parallèle : ils se disputent le cache, et yarn échoue en
+  « Integrity check failed » sur une archive vide (`sha1-2jmj7l5rSw0yVb/vlWAYkK/YBwk=` = SHA-1 du
+  vide) — ce n'est pas une corruption de paquet.
+- Ne pas rédiger de trailer `Co-Authored-By` ni de mention d'outil dans les commits et PR ; un
+  squash recopie les messages de tous les commits de la branche dans `master`.
