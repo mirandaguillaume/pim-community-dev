@@ -1,4 +1,4 @@
-import React, {createContext, FC, ReactNode, useEffect} from 'react';
+import React, {createContext, FC, ReactNode, useEffect, useMemo} from 'react';
 import {fromPairs} from 'lodash/fp';
 import {Channel, Locale, useFetch, useRoute} from '@akeneo-pim-community/shared';
 
@@ -28,22 +28,23 @@ const EditCategoryProvider: FC<{children?: ReactNode}> = ({children}) => {
   const channelsUrl = useRoute('pim_enrich_channel_rest_index');
   const [channelsArray, fetchChannels, statusFetchChannels] = useFetch<Channel[]>(channelsUrl);
 
-  let channels: Channels = {};
+  // Memoized on the fetched arrays: useEditCategoryForm re-initializes the edition state -- and
+  // so discards unsaved edits -- whenever these change identity. Rebuilt on every render, they
+  // did so each time this provider re-rendered.
+  const channels: Channels = useMemo(
+    () => (channelsArray === null ? {} : fromPairs(channelsArray.map(channel => [channel.code, channel]))),
+    [channelsArray]
+  );
   const channelsFetchFailed = statusFetchChannels === 'error';
-
-  if (channelsArray !== null) {
-    channels = fromPairs(channelsArray.map(channel => [channel.code, channel]));
-  }
 
   const localesUrl = useRoute('pim_enrich_locale_rest_index', {activated: 'true'});
   const [localesArray, fetchLocales, statusFetchLocales] = useFetch<Locale[]>(localesUrl);
 
-  let locales: Locales = {};
+  const locales: Locales = useMemo(
+    () => (localesArray === null ? {} : fromPairs(localesArray.map(locale => [locale.code, locale]))),
+    [localesArray]
+  );
   const localesFetchFailed = statusFetchLocales === 'error';
-
-  if (localesArray !== null) {
-    locales = fromPairs(localesArray.map(locale => [locale.code, locale]));
-  }
 
   useEffect(() => {
     fetchLocales();

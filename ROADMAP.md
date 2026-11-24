@@ -61,17 +61,30 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
       retombée : il reste la dette et le défaut de valeur non contrôlée que son consommateur
       contourne par une `key` composite. Coût : nouvelle dépendance, restylage des sélecteurs
       `.rdw-*`, test au contrat HTML à réécrire.
-- [ ] **Les 171 avertissements eslint de Category**, en quatre lots. 197 au départ, descendus en deux
-      coups **sans toucher à un seul tableau de dépendances risqué** : #500 a traité les 5
-      `exhaustive-deps` dont la dépendance manquante est un singleton vérifié (no-op d'exécution), et
-      la suppression de `feature/legacy/` (#501) en a emporté 5 autres, 21 avertissements au total.
-      Reste : **12 `react-hooks/exhaustive-deps`**, le seul lot susceptible de cacher de vrais bugs,
-      scindé en 7 valeurs d'état omises (vrais candidats à une fermeture périmée) et 5 callbacks non
-      mémoïsés — les ajouter tels quels produit une boucle de re-render infinie, il faut d'abord un
-      `useCallback`. Puis 96 `no-explicit-any` (typage de fond), 36 `await-thenable` et 19
-      `require-await` (cosmétique, concentrés dans les tests), 8 `no-console`.
-      **Aucun de ces 12 n'est validable en local** : Jest est interdit sur cette machine et une
-      boucle de render ne se verrait pas dans un test unitaire.
+- [ ] **Les 159 avertissements eslint de Category**, en trois lots. 197 au départ : #500 a traité les
+      5 `exhaustive-deps` dont la dépendance manquante est un singleton vérifié (no-op d'exécution),
+      la suppression de `feature/legacy/` (#501) en a emporté 5 autres, puis **les 12
+      `exhaustive-deps` restants sont soldés** — 0 dans Category. Reste : 96 `no-explicit-any`
+      (typage de fond), 36 `await-thenable` et 19 `require-await` (cosmétique, concentrés dans les
+      tests), 8 `no-console`.
+      **Le lot des 12 ne se réglait PAS en ajoutant la dépendance demandée** : dans 7 cas sur 12,
+      l'ajout tel quel produisait une boucle ou un double fetch. Quatre formes de correction :
+      - l'effet **écrit ce qu'il lit** (`trees`, `nodes`) : mise à jour fonctionnelle, qui *supprime*
+        la dépendance au lieu de l'ajouter — et qui ferme au passage une vraie fermeture périmée dans
+        `useCategoryTreeNode`, où `setNodes(update(nodes, …))` écrasait avec un instantané du rendu
+        la mise à jour fonctionnelle d'un déplacement mise en file dans le même batch ;
+      - deux effets se lisant l'un l'autre (`useCountProductsBeforeDeleteCategory`) : fusionnés, le
+        compte connu *est* l'état « prêt » ;
+      - un callback qui change avec `nodes` mais ne doit pas redéclencher l'effet (`doMove`) : ref
+        sur sa dernière version ;
+      - **un vrai défaut utilisateur** derrière `channels` : `EditCategoryProvider` reconstruisait
+        `channels` et `locales` à chaque rendu, et `locales` était *déjà* une dépendance de l'effet
+        qui réinitialise le formulaire — donc tout re-rendu du provider pouvait effacer des
+        modifications non enregistrées. Corrigé à la source (`useMemo`), avec le test qui manquait.
+      Les fonctions issues de `useFetch` sont stables (`useCallback([url])`, et `useRoute` rend une
+      chaîne, comparée par valeur) : celles-là s'ajoutaient sans risque. Vérifié sans Jest : eslint
+      171→159 sans nouvel avertissement, et `tsc` **identique ligne à ligne** à master (227 erreurs
+      d'environnement, paquets internes non construits).
 - [ ] **Le build publié du DSM n'est consommable qu'à l'intérieur d'un bundler configuré.**
       Découvert en essayant de remplacer le serveur de dev du projet d'exemple par Vite. Deux causes
       mesurées, indépendantes :

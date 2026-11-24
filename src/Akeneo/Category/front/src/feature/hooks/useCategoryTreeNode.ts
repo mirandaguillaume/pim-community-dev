@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useMemo, useState} from 'react';
+import {useCallback, useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {CategoryTreeContext} from '../components';
 import {
   BackendCategoryTree,
@@ -231,20 +231,29 @@ const useCategoryTreeNode = (id: number) => {
     }
   }, [node, open, setNodes]);
 
+  // The node is read from the updater's `nodes`, by id, and not from this render's `node`: this
+  // effect rewrites the very node it would otherwise depend on, so `node` as a dependency would
+  // re-run it on its own output -- and spreading a render-time snapshot could also overwrite an
+  // update queued in the same batch, such as a move's.
   useEffect(() => {
-    if (!node || !Array.isArray(childrenData)) {
+    if (!Array.isArray(childrenData)) {
       return;
     }
     const newChildren: TreeNode<CategoryTreeModel>[] = childrenData.map(child => {
-      return buildTreeNodeFromCategoryTree(convertToCategoryTree(child), node.identifier);
+      return buildTreeNodeFromCategoryTree(convertToCategoryTree(child), id);
     });
 
     setNodes((nodes: TreeNode<CategoryTreeModel>[]) => {
+      const currentNode = findOneByIdentifier(nodes, id);
+      if (!currentNode) {
+        return nodes;
+      }
+
       const updatedNodes = update(nodes, {
-        ...node,
+        ...currentNode,
         childrenIds: newChildren.map(child => child.identifier),
         childrenStatus: 'loaded',
-        type: node.type !== 'root' ? (newChildren.length > 0 ? 'node' : 'leaf') : 'root',
+        type: currentNode.type !== 'root' ? (newChildren.length > 0 ? 'node' : 'leaf') : 'root',
       });
 
       return arrayUnique<TreeNode<CategoryTreeModel>>(
@@ -252,13 +261,21 @@ const useCategoryTreeNode = (id: number) => {
         (node, currentNode) => node.identifier === currentNode.identifier
       );
     });
-  }, [childrenData]);
+  }, [childrenData, id, setNodes]);
 
   useEffect(() => {
     if (node?.childrenStatus === 'to-reload') {
       loadChildren();
     }
-  }, [node?.childrenStatus]);
+  }, [node?.childrenStatus, loadChildren]);
+
+  // doMove changes with every `nodes` update, and loading the children before a move updates
+  // `nodes`: as a dependency it would re-run the effect below mid-move and load the children
+  // again. The effect has to fire on `move` transitions only, while calling the latest doMove.
+  const latestDoMove = useRef(doMove);
+  useEffect(() => {
+    latestDoMove.current = doMove;
+  }, [doMove]);
 
   useEffect(() => {
     if (move === null) {
@@ -280,37 +297,28 @@ const useCategoryTreeNode = (id: number) => {
     }
 
     if (move.status === 'ready') {
-      doMove(move);
+      latestDoMove.current(move);
       move.onMove();
       setMove(null);
 
       return;
     }
-  }, [move]);
+  }, [move, loadChildren]);
 
+  // Functional, for the same reason as the children effect above: replacing the list with
+  // `update(nodes, ...)` built from this render could drop an update queued in the same batch.
   useEffect(() => {
-    if (!node) {
+    if (loadChildrenStatus !== 'error' && loadChildrenStatus !== 'fetching') {
       return;
     }
+    const childrenStatus = loadChildrenStatus === 'error' ? 'idle' : 'loading';
 
-    if (loadChildrenStatus === 'error') {
-      const newNodesList = update(nodes, {
-        ...node,
-        childrenStatus: 'idle',
-      });
+    setNodes((nodes: TreeNode<CategoryTreeModel>[]) => {
+      const currentNode = findOneByIdentifier(nodes, id);
 
-      setNodes(newNodesList);
-    }
-
-    if (loadChildrenStatus === 'fetching') {
-      const newNodesList = update(nodes, {
-        ...node,
-        childrenStatus: 'loading',
-      });
-
-      setNodes(newNodesList);
-    }
-  }, [loadChildrenStatus]);
+      return currentNode ? update(nodes, {...currentNode, childrenStatus}) : nodes;
+    });
+  }, [loadChildrenStatus, id, setNodes]);
 
   return {
     node,

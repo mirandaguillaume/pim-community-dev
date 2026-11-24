@@ -24,21 +24,24 @@ const useCategoryTreeList = () => {
         await fetchProductsNumberByCategory();
       })();
     }
-  }, [treesData]);
+  }, [treesData, fetchProductsNumberByCategory]);
 
+  // A functional update: this effect writes the trees it reads, so depending on `trees` would
+  // re-run it on its own output, forever.
   useEffect(() => {
     if (productsNumberByCategory) {
-      const updatedTrees: CategoryTreeModel[] = trees.map((tree: CategoryTreeModel) => {
-        if (Object.prototype.hasOwnProperty.call(productsNumberByCategory, tree.id)) {
-          return {
-            ...tree,
-            productsNumber: productsNumberByCategory[tree.id],
-          };
-        }
+      setTrees(currentTrees =>
+        currentTrees.map((tree: CategoryTreeModel) => {
+          if (Object.prototype.hasOwnProperty.call(productsNumberByCategory, tree.id)) {
+            return {
+              ...tree,
+              productsNumber: productsNumberByCategory[tree.id],
+            };
+          }
 
-        return tree;
-      });
-      setTrees(updatedTrees);
+          return tree;
+        })
+      );
     }
   }, [productsNumberByCategory]);
 
