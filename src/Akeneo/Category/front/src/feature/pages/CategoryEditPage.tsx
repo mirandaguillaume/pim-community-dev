@@ -130,6 +130,33 @@ const CategoryEditPage: FC = () => {
     [categoryId]
   );
 
+  // Memoized on `category` and declared above the effect that lists it: a dependency array is
+  // evaluated during render, so a `const` declared below it would not be initialized yet.
+  const setLabels = useCallback(
+    (locale: string) => {
+      if (category) {
+        setCategoryLabel(getLabel(category.properties.labels, locale, category.properties.code));
+
+        let {root} = category;
+        if (category.isRoot) {
+          root = category;
+        }
+        if (root) {
+          const {
+            properties: {code, labels},
+          } = root;
+          setTreeLabel(getLabel(labels, locale, code));
+          setTree(root);
+          sessionStorage.setItem(
+            'lastSelectedCategory',
+            JSON.stringify({treeId: root.id.toString(), categoryId: category.id})
+          );
+        }
+      }
+    },
+    [category]
+  );
+
   useEffect(() => {
     if (!category) {
       setCategoryLabel('');
@@ -139,29 +166,7 @@ const CategoryEditPage: FC = () => {
     }
     const catalogLocale = userContext.get('catalogLocale');
     setLabels(catalogLocale);
-  }, [category, userContext]);
-
-  const setLabels = (locale: string) => {
-    if (category) {
-      setCategoryLabel(getLabel(category.properties.labels, locale, category.properties.code));
-
-      let {root} = category;
-      if (category.isRoot) {
-        root = category;
-      }
-      if (root) {
-        const {
-          properties: {code, labels},
-        } = root;
-        setTreeLabel(getLabel(labels, locale, code));
-        setTree(root);
-        sessionStorage.setItem(
-          'lastSelectedCategory',
-          JSON.stringify({treeId: root.id.toString(), categoryId: category.id})
-        );
-      }
-    }
-  };
+  }, [category, userContext, setLabels]);
 
   useEffect(() => {
     if (category === null) return;
@@ -172,7 +177,7 @@ const CategoryEditPage: FC = () => {
     ) {
       handleSwitchTo(Tabs.PROPERTY);
     }
-  }, [category, activeTab]);
+  }, [category, activeTab, isGranted, handleSwitchTo]);
 
   if (categoryFetchingStatus === 'error') {
     return (

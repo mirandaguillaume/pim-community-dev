@@ -66,4 +66,25 @@ describe('EditCategoryProvider', () => {
     expect(result.current.channelsFetchFailed).toBe(false);
     expect(result.current.localesFetchFailed).toBe(true);
   });
+
+  // useEditCategoryForm re-initializes the edition state, discarding unsaved edits, whenever
+  // `channels` or `locales` changes identity: a mere re-render of the provider must not do that.
+  it('keeps the same channels and locales objects across a re-render', () => {
+    const channelsArray = [ecommerce];
+    const localesArray = [enUs];
+    let call = 0;
+    mockedUseFetch.mockReset();
+    // The provider fetches channels, then locales, on every render.
+    mockedUseFetch.mockImplementation(() =>
+      call++ % 2 === 0 ? [channelsArray, fetchFn, 'fetched'] : [localesArray, fetchFn, 'fetched']
+    );
+
+    const {result, rerender} = renderHook(() => useContext(EditCategoryContext), {wrapper: createWrapper()});
+    const {channels, locales} = result.current;
+
+    rerender();
+
+    expect(result.current.channels).toBe(channels);
+    expect(result.current.locales).toBe(locales);
+  });
 });

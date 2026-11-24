@@ -126,7 +126,16 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
 
       <Group aria-label="block-type-control">
         <NarrowSelect>
-          <SelectInput emptyResultLabel="No result" openLabel="Open" value={state.blockType} onChange={setBlockType}>
+          {/* Not clearable: a block always has a type, and clearing would hand null to setHeading.
+              The clear button also had no accessible name (clearLabel defaults to ''). */}
+          <SelectInput
+            emptyResultLabel="No result"
+            openLabel="Open"
+            placeholder="Style"
+            clearable={false}
+            value={state.blockType}
+            onChange={setBlockType}
+          >
             {BLOCK_TYPES.map(({value, label}) => (
               <SelectInput.Option key={value} value={value}>
                 {label}
@@ -142,6 +151,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
             emptyResultLabel="No result"
             openLabel="Open"
             placeholder="Size"
+            clearable={false}
             value={state.fontSize}
             onChange={(size: string) => editor.chain().focus().setFontSize(size).run()}
           >
@@ -160,6 +170,7 @@ const RichTextEditorToolbar = ({editor}: {editor: Editor}) => {
             emptyResultLabel="No result"
             openLabel="Open"
             placeholder="Font"
+            clearable={false}
             value={state.fontFamily}
             onChange={(font: string) => editor.chain().focus().setFontFamily(font).run()}
           >

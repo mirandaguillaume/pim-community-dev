@@ -29,41 +29,23 @@ const CommonStyle = css<{readOnly: boolean; invalid: boolean} & AkeneoThemedProp
   &:focus-within {
     box-shadow: 0 0 0 2px ${getColor('blue', 40)};
   }
-
-  a.rdw-dropdown-selectedtext > span {
-    color: ${({readOnly}) => (readOnly ? getColor('grey', 100) : getColor('grey', 140))};
-  }
 `;
 
+// `.ProseMirror` is the element Tiptap makes editable. The draft-js editor this replaced was styled
+// through `.rdw-editor-main`, which Tiptap never renders: that rule silently stopped applying, and
+// the text lost its side padding and its height bounds. The scroll used to come from draft-js's
+// own stylesheet, hence the explicit overflow.
 const RichTextEditorContainer = styled.div<{readOnly: boolean; invalid: boolean} & AkeneoThemedProps>`
   ${CommonStyle}
   padding: 0;
   padding-bottom: 10px;
 
-  & .rdw-editor-main {
+  & .ProseMirror {
     min-height: 200px;
     max-height: 400px;
+    overflow-y: auto;
     padding: 0 30px 10px 15px;
-  }
-
-  & .rdw-option-wrapper {
-    min-width: 30px;
-    height: 30px;
-  }
-
-  & .rdw-editor-toolbar {
-    border: none;
-    padding: 0;
-    margin: 0;
-    padding: 5px 30px 0 0;
-    border-radius: 0;
-    border-bottom: 1px solid ${({invalid}) => (invalid ? getColor('red', 100) : getColor('grey', 80))};
-  }
-
-  & .rdw-dropdown-wrapper:hover,
-  & .rdw-option-wrapper:hover,
-  & .rdw-dropdown-optionwrapper:hover {
-    box-shadow: none;
+    outline: none;
   }
 `;
 
@@ -150,7 +132,15 @@ const TextAreaInput = React.forwardRef<HTMLInputElement, TextAreaInputProps>(
       <TextAreaInputContainer>
         {isRichText ? (
           <RichTextEditorContainer readOnly={readOnly} invalid={invalid}>
-            <RichTextEditor readOnly={readOnly} value={value} onChange={value => onChange?.(value)} />
+            <RichTextEditor
+              readOnly={readOnly}
+              value={value}
+              onChange={value => onChange?.(value)}
+              id={rest.id}
+              ariaLabel={rest['aria-label']}
+              ariaLabelledby={rest['aria-labelledby']}
+              invalid={invalid}
+            />
           </RichTextEditorContainer>
         ) : (
           <Textarea

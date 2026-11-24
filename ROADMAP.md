@@ -1,6 +1,7 @@
 # Roadmap — Akeneo PIM Community Edition Fork
 
-**Dernière révision : 2026-10-20.** Le dépôt en est à la PR #501. La version du 2026-02-20 n'avait
+**Dernière révision : 2026-11-24** (Palier 2 : draft-js livré, `exhaustive-deps` de Category soldés).
+Révision complète précédente : 2026-10-20, quand le dépôt en était à la PR #501. La version du 2026-02-20 n'avait
 jamais été relue : elle annonçait comme « prochaine étape majeure » un upgrade Symfony livré depuis,
 et listait en cours des PR numérotées #11 à #18. Chaque état ci-dessous a été mesuré dans l'arbre,
 avec le chiffre qui le fonde, pour qu'un lecteur puisse le réfuter en une commande plutôt que d'y
@@ -55,23 +56,47 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
 
 ## Palier 2 — coût connu, chantier réel
 
-- [ ] **Remplacer la chaîne draft-js** — 11 des 13 chemins d'alerte runtime restants, dont le seul
-      XSS et le seul paquet sans correctif publié (`react-draft-wysiwyg`, non maintenu). #486 a déjà
-      rendu le vecteur inatteignable en retirant les boutons `embedded` et `image`, donc l'urgence est
-      retombée : il reste la dette et le défaut de valeur non contrôlée que son consommateur
-      contourne par une `key` composite. Coût : nouvelle dépendance, restylage des sélecteurs
-      `.rdw-*`, test au contrat HTML à réécrire.
-- [ ] **Les 171 avertissements eslint de Category**, en quatre lots. 197 au départ, descendus en deux
-      coups **sans toucher à un seul tableau de dépendances risqué** : #500 a traité les 5
-      `exhaustive-deps` dont la dépendance manquante est un singleton vérifié (no-op d'exécution), et
-      la suppression de `feature/legacy/` (#501) en a emporté 5 autres, 21 avertissements au total.
-      Reste : **12 `react-hooks/exhaustive-deps`**, le seul lot susceptible de cacher de vrais bugs,
-      scindé en 7 valeurs d'état omises (vrais candidats à une fermeture périmée) et 5 callbacks non
-      mémoïsés — les ajouter tels quels produit une boucle de re-render infinie, il faut d'abord un
-      `useCallback`. Puis 96 `no-explicit-any` (typage de fond), 36 `await-thenable` et 19
-      `require-await` (cosmétique, concentrés dans les tests), 8 `no-console`.
-      **Aucun de ces 12 n'est validable en local** : Jest est interdit sur cette machine et une
-      boucle de render ne se verrait pas dans un test unitaire.
+- [x] **Remplacer la chaîne draft-js** — **livré par #520** (Tiptap), 14 des 15 alertes de la chaîne
+      fermées ; la survivante, `node-fetch@2.6.1` à la racine, arrive par `jest-fetch-mock` et n'a
+      rien à voir avec draft-js. Le détail est dans « Livré ». **Piège rencontré au passage** :
+      Tiptap 3 ne re-rend plus le composant à chaque transaction (`shouldRerenderOnTransaction` vaut
+      `false` par défaut), donc une barre d'outils qui lit `editor.isActive()` pendant le rendu se
+      fige sur son premier état — choisir « Title 2 » transformait bien le bloc en `<h2>`, la liste
+      affichait toujours « Normal ». Corrigé dans la même PR par `useEditorState`, qui ne re-rend
+      que si une valeur affichée change. Le test des tailles de police ne vérifiait que la survie du
+      texte, ce qui a laissé passer le gel : il vérifie maintenant la valeur affichée.
+      **Relecture visuelle faite** dans Storybook, et elle a trouvé ce qu'aucun test ne pouvait
+      voir : la zone de texte avait perdu marges et bornes de hauteur, stylées par
+      `.rdw-editor-main`, une classe draft-js que Tiptap ne rend jamais (#533). Un sélecteur vers
+      une classe disparue n'échoue nulle part — ni lint, ni `tsc`, ni Jest, ni le rendu Storybook
+      de la CI. Après toute migration de bibliothèque d'interface : `git grep` des préfixes de
+      classes de l'ancienne.
+- [ ] **Les 159 avertissements eslint de Category**, en trois lots. 197 au départ : #500 a traité les
+      5 `exhaustive-deps` dont la dépendance manquante est un singleton vérifié (no-op d'exécution),
+      la suppression de `feature/legacy/` (#501) en a emporté 5 autres, puis **les 12
+      `exhaustive-deps` restants sont soldés** — 0 dans Category. Reste : 96 `no-explicit-any`
+      (typage de fond), 36 `await-thenable` et 19 `require-await` (cosmétique, concentrés dans les
+      tests), 8 `no-console`.
+      **Le lot des 12 ne se réglait PAS en ajoutant la dépendance demandée** : dans 7 cas sur 12,
+      l'ajout tel quel produisait une boucle ou un double fetch. Quatre formes de correction :
+      - l'effet **écrit ce qu'il lit** (`trees`, `nodes`) : mise à jour fonctionnelle, qui *supprime*
+        la dépendance au lieu de l'ajouter — et qui ferme au passage une vraie fermeture périmée dans
+        `useCategoryTreeNode`, où `setNodes(update(nodes, …))` écrasait avec un instantané du rendu
+        la mise à jour fonctionnelle d'un déplacement mise en file dans le même batch ;
+      - deux effets se lisant l'un l'autre (`useCountProductsBeforeDeleteCategory`) : fusionnés, le
+        compte connu *est* l'état « prêt » ;
+      - un callback qui change avec `nodes` mais ne doit pas redéclencher l'effet (`doMove`) : ref
+        sur sa dernière version. Même traitement pour `id` : l'état de `useFetch` **survit à un
+        changement d'`id`**, donc `id` en dépendance réappliquait les enfants chargés pour l'ancien
+        nœud au nouveau — régression introduite puis attrapée par le test de déplacement en CI ;
+      - **un vrai défaut utilisateur** derrière `channels` : `EditCategoryProvider` reconstruisait
+        `channels` et `locales` à chaque rendu, et `locales` était *déjà* une dépendance de l'effet
+        qui réinitialise le formulaire — donc tout re-rendu du provider pouvait effacer des
+        modifications non enregistrées. Corrigé à la source (`useMemo`), avec le test qui manquait.
+      Les fonctions issues de `useFetch` sont stables (`useCallback([url])`, et `useRoute` rend une
+      chaîne, comparée par valeur) : celles-là s'ajoutaient sans risque. Vérifié sans Jest : eslint
+      171→159 sans nouvel avertissement, et `tsc` **identique ligne à ligne** à master (227 erreurs
+      d'environnement, paquets internes non construits).
 - [x] **Le build publié du DSM n'est consommable qu'à l'intérieur d'un bundler configuré.**
       Découvert en essayant de remplacer le serveur de dev du projet d'exemple par Vite. Deux causes
       mesurées, indépendantes :
@@ -110,8 +135,20 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
       reste possible mais demande un build rspack complet pour le vérifier.
       Node nu ne sait toujours pas charger un `.svg` : aucun consommateur ne le fait, et l'inliner
       en data-URI aurait alourdi le bundle du PIM des 61 illustrations.
-- [ ] **`react-router` : open redirect** par antislash dans `<Link>` / `useNavigate`. Installé
+- [x] **`react-router` : open redirect** par antislash dans `<Link>` / `useNavigate`. Installé
       6.30.6, corrigé en **≥ 7.18.0** — à traiter comme une montée de version majeure.
+      **Fait** (`security/react-router-7`) : 6.30.6 → **7.18.6**, qui ferme aussi la seconde alerte
+      de la même plage (`GHSA-337j-9hxr-rhxg`, injection de constructeur à l'hydratation SSR, que
+      le PIM n'atteint pas). **Pas d'étape intermédiaire par les future flags** : mesuré dans les
+      90 fichiers qui l'importent, aucun ne dépend de ce qu'ils changent — aucune navigation
+      relative (les `navigate(url)` reçoivent des URL absolues du routeur Symfony), ni
+      `Form`/fetcher/loader/action du routeur (le `Form` de Connectivity est maison), ni SSR.
+      `react-router-dom` 7 n'est plus qu'une réexportation de `react-router` : les imports restent.
+      **Le piège** : React Router 7 lit `TextEncoder` dès son chargement, et
+      `jest-environment-jsdom` ne le fournit pas — vérifié en chargeant le build CJS dans un Node
+      qui en est privé. Polyfill conditionnel ajouté au premier setup Jest des cinq workspaces qui
+      l'importent et de la config racine. `tsc` sur ces cinq workspaces : aucune erreur nouvelle
+      liée au routeur ; rspack bundle la v7 sans erreur avec la résolution du PIM.
 - [ ] **`css-loader` 3 → 7.** Seule voie vers le correctif de `postcss-selector-parser` à la racine :
       il y est en **6.0.6**, vulnérable à `GHSA-rj75-hqrm-r3gf`, corrigé en **≥ 7.1.6** — que ses deux
       consommateurs refusent (`postcss-modules-local-by-default` exige `^6.0.2`, `postcss-modules-scope`
@@ -546,8 +583,13 @@ Décidé lors de l'audit du 2026-09-24, toujours valable.
 - **CI** : GitHub Actions sur runners auto-hébergés partageant **un seul démon Docker**. Un shard
   Behat rouge est deux événements distincts — un scénario qui échoue (4-9 min) ou un job qui *pend*
   dans `Setup test database` (72 min) : tirer les **durées** par job avant d'ouvrir un log.
-- **`.github/workflows/` contient 8 fichiers.** Lire `ci.yml` seul mène à des conclusions fausses :
-  `dsm-test.yml` exécute la suite du design system, que `ci.yml` ignore.
+- **`.github/workflows/` contient 8 fichiers.** Lire `ci.yml` seul mène à des conclusions fausses.
+  `dsm-test.yml` exécute la suite du design system ; il tournait **à côté** de `ci-success`, sur son
+  propre déclencheur, et la montée des runners `ubuntu-latest` vers 26.04 (2026-11-15) l'a laissé
+  rouge sur toutes les branches pendant neuf jours sans rien bloquer — #520 a fusionné par-dessus.
+  Il est désormais **appelé par `ci.yml`** (`test-dsm`, filtre `dsm`) et compte dans `ci-success`,
+  sur un runner épinglé en `ubuntu-24.04`. Un job hors du check requis finit toujours par rougir en
+  silence.
 - **Une PR de docs seule ne peut pas fusionner** : elle matche `paths-ignore`, aucun check n'est
   rapporté, `ci-success` n'arrive jamais. Ce fichier doit voyager dans une PR de code.
 - **Architecture** : hexagonal (`back/Application|Domain|Infrastructure`) et legacy
