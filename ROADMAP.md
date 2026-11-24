@@ -1,6 +1,7 @@
 # Roadmap — Akeneo PIM Community Edition Fork
 
-**Dernière révision : 2026-10-20.** Le dépôt en est à la PR #501. La version du 2026-02-20 n'avait
+**Dernière révision : 2026-11-24** (Palier 2 : draft-js livré, `exhaustive-deps` de Category soldés).
+Révision complète précédente : 2026-10-20, quand le dépôt en était à la PR #501. La version du 2026-02-20 n'avait
 jamais été relue : elle annonçait comme « prochaine étape majeure » un upgrade Symfony livré depuis,
 et listait en cours des PR numérotées #11 à #18. Chaque état ci-dessous a été mesuré dans l'arbre,
 avec le chiffre qui le fonde, pour qu'un lecteur puisse le réfuter en une commande plutôt que d'y
@@ -55,23 +56,47 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
 
 ## Palier 2 — coût connu, chantier réel
 
-- [ ] **Remplacer la chaîne draft-js** — 11 des 13 chemins d'alerte runtime restants, dont le seul
-      XSS et le seul paquet sans correctif publié (`react-draft-wysiwyg`, non maintenu). #486 a déjà
-      rendu le vecteur inatteignable en retirant les boutons `embedded` et `image`, donc l'urgence est
-      retombée : il reste la dette et le défaut de valeur non contrôlée que son consommateur
-      contourne par une `key` composite. Coût : nouvelle dépendance, restylage des sélecteurs
-      `.rdw-*`, test au contrat HTML à réécrire.
-- [ ] **Les 171 avertissements eslint de Category**, en quatre lots. 197 au départ, descendus en deux
-      coups **sans toucher à un seul tableau de dépendances risqué** : #500 a traité les 5
-      `exhaustive-deps` dont la dépendance manquante est un singleton vérifié (no-op d'exécution), et
-      la suppression de `feature/legacy/` (#501) en a emporté 5 autres, 21 avertissements au total.
-      Reste : **12 `react-hooks/exhaustive-deps`**, le seul lot susceptible de cacher de vrais bugs,
-      scindé en 7 valeurs d'état omises (vrais candidats à une fermeture périmée) et 5 callbacks non
-      mémoïsés — les ajouter tels quels produit une boucle de re-render infinie, il faut d'abord un
-      `useCallback`. Puis 96 `no-explicit-any` (typage de fond), 36 `await-thenable` et 19
-      `require-await` (cosmétique, concentrés dans les tests), 8 `no-console`.
-      **Aucun de ces 12 n'est validable en local** : Jest est interdit sur cette machine et une
-      boucle de render ne se verrait pas dans un test unitaire.
+- [x] **Remplacer la chaîne draft-js** — **livré par #520** (Tiptap), 14 des 15 alertes de la chaîne
+      fermées ; la survivante, `node-fetch@2.6.1` à la racine, arrive par `jest-fetch-mock` et n'a
+      rien à voir avec draft-js. Le détail est dans « Livré ». **Piège rencontré au passage** :
+      Tiptap 3 ne re-rend plus le composant à chaque transaction (`shouldRerenderOnTransaction` vaut
+      `false` par défaut), donc une barre d'outils qui lit `editor.isActive()` pendant le rendu se
+      fige sur son premier état — choisir « Title 2 » transformait bien le bloc en `<h2>`, la liste
+      affichait toujours « Normal ». Corrigé dans la même PR par `useEditorState`, qui ne re-rend
+      que si une valeur affichée change. Le test des tailles de police ne vérifiait que la survie du
+      texte, ce qui a laissé passer le gel : il vérifie maintenant la valeur affichée.
+      **Relecture visuelle faite** dans Storybook, et elle a trouvé ce qu'aucun test ne pouvait
+      voir : la zone de texte avait perdu marges et bornes de hauteur, stylées par
+      `.rdw-editor-main`, une classe draft-js que Tiptap ne rend jamais (#533). Un sélecteur vers
+      une classe disparue n'échoue nulle part — ni lint, ni `tsc`, ni Jest, ni le rendu Storybook
+      de la CI. Après toute migration de bibliothèque d'interface : `git grep` des préfixes de
+      classes de l'ancienne.
+- [ ] **Les 159 avertissements eslint de Category**, en trois lots. 197 au départ : #500 a traité les
+      5 `exhaustive-deps` dont la dépendance manquante est un singleton vérifié (no-op d'exécution),
+      la suppression de `feature/legacy/` (#501) en a emporté 5 autres, puis **les 12
+      `exhaustive-deps` restants sont soldés** — 0 dans Category. Reste : 96 `no-explicit-any`
+      (typage de fond), 36 `await-thenable` et 19 `require-await` (cosmétique, concentrés dans les
+      tests), 8 `no-console`.
+      **Le lot des 12 ne se réglait PAS en ajoutant la dépendance demandée** : dans 7 cas sur 12,
+      l'ajout tel quel produisait une boucle ou un double fetch. Quatre formes de correction :
+      - l'effet **écrit ce qu'il lit** (`trees`, `nodes`) : mise à jour fonctionnelle, qui *supprime*
+        la dépendance au lieu de l'ajouter — et qui ferme au passage une vraie fermeture périmée dans
+        `useCategoryTreeNode`, où `setNodes(update(nodes, …))` écrasait avec un instantané du rendu
+        la mise à jour fonctionnelle d'un déplacement mise en file dans le même batch ;
+      - deux effets se lisant l'un l'autre (`useCountProductsBeforeDeleteCategory`) : fusionnés, le
+        compte connu *est* l'état « prêt » ;
+      - un callback qui change avec `nodes` mais ne doit pas redéclencher l'effet (`doMove`) : ref
+        sur sa dernière version. Même traitement pour `id` : l'état de `useFetch` **survit à un
+        changement d'`id`**, donc `id` en dépendance réappliquait les enfants chargés pour l'ancien
+        nœud au nouveau — régression introduite puis attrapée par le test de déplacement en CI ;
+      - **un vrai défaut utilisateur** derrière `channels` : `EditCategoryProvider` reconstruisait
+        `channels` et `locales` à chaque rendu, et `locales` était *déjà* une dépendance de l'effet
+        qui réinitialise le formulaire — donc tout re-rendu du provider pouvait effacer des
+        modifications non enregistrées. Corrigé à la source (`useMemo`), avec le test qui manquait.
+      Les fonctions issues de `useFetch` sont stables (`useCallback([url])`, et `useRoute` rend une
+      chaîne, comparée par valeur) : celles-là s'ajoutaient sans risque. Vérifié sans Jest : eslint
+      171→159 sans nouvel avertissement, et `tsc` **identique ligne à ligne** à master (227 erreurs
+      d'environnement, paquets internes non construits).
 - [ ] **Le build publié du DSM n'est consommable qu'à l'intérieur d'un bundler configuré.**
       Découvert en essayant de remplacer le serveur de dev du projet d'exemple par Vite. Deux causes
       mesurées, indépendantes :

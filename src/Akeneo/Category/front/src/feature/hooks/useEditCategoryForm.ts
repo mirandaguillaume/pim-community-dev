@@ -50,13 +50,14 @@ const useEditCategoryForm = (categoryId: number) => {
   // fetching the category
   useEffect(() => {
     loadCategory();
-  }, [categoryId]);
+  }, [categoryId, loadCategory]);
 
-  // initializing category edition state
+  // initializing category edition state -- this discards the user's edits, so it must only re-run
+  // on real input changes: EditCategoryProvider memoizes `channels` and `locales` for that reason.
   useEffect(() => {
     if (fetchedCategory === null) return;
     initializeEditionState(fetchedCategory, template ?? null, channels, locales);
-  }, [fetchedCategory, template, locales]);
+  }, [fetchedCategory, template, channels, locales]);
 
   useEffect(() => {
     setCanLeavePage(!isModified);
