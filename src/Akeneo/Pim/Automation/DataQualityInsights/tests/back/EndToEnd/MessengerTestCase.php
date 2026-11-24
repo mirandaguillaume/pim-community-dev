@@ -33,9 +33,20 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
     /** @var PubSubQueueStatus[] */
     protected array $pubSubQueueStatuses;
 
+    private string $lastConsumerOutput = '';
+
     protected function setUp(): void
     {
         parent::setUp();
+
+        // A PubSub subscription only receives what is published after it exists, and nothing creates
+        // it before the consumer runs: the producer transport does not, flushQueues() skips a missing
+        // one, and launchConsumer() comes after the test's own publish. On CI's fresh emulator the
+        // test's first message would be lost; EvaluateAfterAttributeGroupActivateEndToEnd, which
+        // passes, already did this by hand before calling parent::setUp().
+        foreach ($this->pubSubQueueStatuses as $pubSubQueueStatus) {
+            $pubSubQueueStatus->createTopicAndSubscription();
+        }
 
         $this->flushQueues();
 
@@ -112,8 +123,37 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
         $process = new Process($command);
         $process->run();
         $process->wait();
+        $this->lastConsumerOutput = $process->getOutput() . $process->getErrorOutput();
 
         Assert::assertSame(0, $process->getExitCode(), 'An error occurred: ' . $process->getErrorOutput());
+    }
+
+    /**
+     * TEMPORARY DIAGNOSTIC (#537): the after_creation tests fail on CI only. On failure this says
+     * which step of the chain broke -- was a message received and handled, which criteria
+     * evaluations and score rows exist, for which date -- so the fix rests on what CI saw.
+     */
+    protected function scoreDiagnostics(string $scoreTable, string $evaluationTable, string $idColumn, string|int $id): string
+    {
+        $connection = $this->get('database_connection');
+        $evaluationIdColumn = 'product_model_id' === $idColumn ? 'product_id' : $idColumn;
+
+        return \sprintf(
+            "\n--- PHP date: %s, MySQL CURDATE(): %s\n--- %s rows: %s\n--- %s rows: %s\n--- consumer output (tail):\n%s",
+            new \DateTimeImmutable('now')->format('Y-m-d H:i:s T'),
+            $connection->fetchOne('SELECT CURDATE()'),
+            $scoreTable,
+            \json_encode($connection->fetchAllAssociative(
+                \sprintf('SELECT evaluated_at FROM %s WHERE %s = :id', $scoreTable, $idColumn),
+                ['id' => $id]
+            )),
+            $evaluationTable,
+            \json_encode($connection->fetchAllAssociative(
+                \sprintf('SELECT criterion_code, status, evaluated_at FROM %s WHERE %s = :id', $evaluationTable, $evaluationIdColumn),
+                ['id' => $id]
+            )),
+            \substr($this->lastConsumerOutput, -4000)
+        );
     }
 
     /**

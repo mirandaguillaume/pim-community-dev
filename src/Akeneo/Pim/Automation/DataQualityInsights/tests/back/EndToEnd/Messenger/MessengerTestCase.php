@@ -24,37 +24,17 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
 {
     private const MESSENGER_COMMAND_NAME = 'messenger:consume';
 
-    /**
-     * The queues prepared before and emptied around each test. A subclass adds the queue it
-     * consumes by assigning this before calling parent::setUp(); the two below are appended, never
-     * substituted. It was private and overwritten here, so a subclass's assignment created a
-     * separate dynamic property that nothing read, and the subclass's queue was never handled.
-     *
-     * @var PubSubQueueStatus[]
-     */
-    protected array $pubSubQueueStatuses = [];
-
-    private string $lastConsumerOutput = '';
+    /** @var PubSubQueueStatus */
+    private array $pubSubQueueStatuses;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->pubSubQueueStatuses = [
-            ...$this->pubSubQueueStatuses,
             $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_launch_product_evaluations_consumer'),
             $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_attribute_group_activate_consumer'),
         ];
-
-        // A PubSub subscription only receives what is published after it exists, and nothing creates
-        // it before the consumer runs: the producer transport does not, and launchConsumer() comes
-        // after the upsert. On a fresh emulator -- CI -- the test's own first message was therefore
-        // lost, which is why the after_creation tests failed ("false is true" after consuming)
-        // while passing locally, where the emulator keeps its subscriptions between runs.
-        // EvaluateAfterAttributeGroupActivateEndToEnd already did this by hand.
-        foreach ($this->pubSubQueueStatuses as $pubSubQueueStatus) {
-            $pubSubQueueStatus->createTopicAndSubscription();
-        }
 
         $this->flushQueues();
     }
@@ -108,38 +88,8 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
         $process = new Process($command);
         $process->run();
         $process->wait();
-        $this->lastConsumerOutput = $process->getOutput() . $process->getErrorOutput();
 
         Assert::assertSame(0, $process->getExitCode(), 'An error occurred: ' . $process->getErrorOutput());
-    }
-
-    /**
-     * TEMPORARY DIAGNOSTIC (#537): the after_creation tests fail on CI only, and two fixes based on
-     * a reading of the code did not change that. This says, on failure, which step of the chain
-     * broke -- was a message received, was it handled, were criteria evaluated, which score rows
-     * exist and for which date -- so the next fix rests on what CI saw rather than on a guess.
-     */
-    protected function scoreDiagnostics(string $scoreTable, string $evaluationTable, string $idColumn, string|int $id): string
-    {
-        $connection = $this->get('database_connection');
-        $evaluationIdColumn = 'product_model_id' === $idColumn ? 'product_id' : $idColumn;
-
-        return \sprintf(
-            "\n--- PHP date: %s, MySQL CURDATE(): %s\n--- %s rows: %s\n--- %s rows: %s\n--- consumer output (tail):\n%s",
-            new \DateTimeImmutable('now')->format('Y-m-d H:i:s T'),
-            $connection->fetchOne('SELECT CURDATE()'),
-            $scoreTable,
-            \json_encode($connection->fetchAllAssociative(
-                \sprintf('SELECT evaluated_at FROM %s WHERE %s = :id', $scoreTable, $idColumn),
-                ['id' => $id]
-            )),
-            $evaluationTable,
-            \json_encode($connection->fetchAllAssociative(
-                \sprintf('SELECT criterion_code, status, evaluated_at FROM %s WHERE %s = :id', $evaluationTable, $evaluationIdColumn),
-                ['id' => $id]
-            )),
-            \substr($this->lastConsumerOutput, -4000)
-        );
     }
 
     protected function assertProductScoreIsComputed(
