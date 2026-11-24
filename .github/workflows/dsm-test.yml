@@ -6,6 +6,11 @@ name: Design system tests
 on:
   workflow_call:
 
+# Least privilege, whatever the caller grants: this job installs and runs third-party package code,
+# and only reads the repository (cache and artifact upload use the Actions runtime token).
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Launch tests on the DSM

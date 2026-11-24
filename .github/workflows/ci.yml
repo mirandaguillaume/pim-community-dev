@@ -2818,6 +2818,10 @@ jobs:
   test-dsm:
     needs: [detect-changes]
     if: needs.detect-changes.outputs.dsm == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    # A called workflow inherits this file's token scope (packages: write, checks: write), and
+    # this one runs `yarn install` and third-party package scripts: it only needs to read the repo.
+    permissions:
+      contents: read
     uses: ./.github/workflows/dsm-test.yml
 
   ci-success:
