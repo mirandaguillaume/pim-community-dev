@@ -439,4 +439,189 @@ test.describe('Add children to a product model', () => {
       }
     }
   });
+
+  /**
+   * Replaced Behat scenario (deleted with this test): add_product_model_children.feature:56
+   *   "Successfully add a new sub product model when I already am on a sub product product model"
+   *
+   * Adaptations:
+   * - Catalog: the Behat scenario opens the catalog_modeling sub product model "apollon_blue" (child of the
+   *   root "apollon"). The test builds the same 2-tier start through the internal API, like the first test of
+   *   this file: a root product model and a level-1 sub product model with color=blue, both on the
+   *   icecat_demo_dev family variant clothing_color_size (family_variants.csv:2, level 1 axis color). The new
+   *   sibling takes color "black" (label Black, attribute_options.csv:86), so the axis uniqueness rule, which
+   *   only compares siblings, cannot refuse it. Every code carries a Date.now() suffix, and the three product
+   *   models are deleted afterwards, children before the root.
+   * - "I am logged in as Julia": admin/admin, like the tests above. ROLE_ADMINISTRATOR holds
+   *   pim_enrich_product_model_create, which variant-navigation.js::isCreationGranted (175-180) checks before
+   *   appending the "Add new" footer for a product model child.
+   * - Field order: Color is picked BEFORE the code is typed, the reverse of the Behat table, for the reason
+   *   given in the header of this file (a select change rebuilds every field of the modal). The text field
+   *   writes the model on `input` without re-rendering the form (form/common/fields/text.js:15-22), so the code
+   *   typed after the rebuild is the one posted.
+   * - Not in Behat: the create request must answer 2xx with meta.model_type "product_model", and the new sub
+   *   product model is re-read through GET /enrich/product-model/rest/{id}: same code, parent = the ROOT (not
+   *   the sub product model the user started from), same family variant, level 1, color black.
+   *
+   * What this scenario covers that feature:15 (same flow from the root) does not: on a level-1 page, opening
+   * the level-1 selector makes variant-navigation.js::getEntityParentCode (189-206) take the "same level"
+   * branch and return entity.parent, so the modal is opened for the ROOT (openModal 213-245, initial state
+   * {parent, values, family_variant}) and the child is a sibling of the current page.
+   *
+   * Selectors (beyond those of the first test, which they share):
+   * - Level-1 selector: on a level-1 sub product model navigation.html:16-18 renders the hidden input of
+   *   levels 1 and 2, so there are 2 `.variant-navigation.select2-container` and level 1 is index 0.
+   * - "Add a new Color": header.js:16-41 lists the axes of level parent.meta.level + 1 = 1 of the root.
+   * - "Code (required)": add-child/fields-container.js:91 appends createProductModelCodeField (212-223) after
+   *   the axis fields because the child is not a variant product. That field is pim/form/common/fields/text
+   *   configured required with label pim_common.code (add_child.yml:54-58) = "Code"
+   *   (UIBundle jsmessages.en_US.yml:194), required marker pim_common.required_label = "(required)" (:239).
+   *   field.html:2-3 renders `<label for="pim_enrich_form_{fieldId}">Code <em>(required)</em></label>` and
+   *   text.html:1-2 the `<input id="pim_enrich_form_{fieldId}">` with the SAME per-render fieldId
+   *   (field.js:145-168), so getByLabel('Code (required)') resolves the input. No Select2 rewrites this label.
+   * - Confirm: `.modal-body .ok`, as in the first test. submitForm (variant-navigation.js:253-261) posts to
+   *   pim_enrich_product_model_rest_create = /enrich/product-model/rest/create (internal_api/product_model.yml:27-30,
+   *   prefix /enrich/product-model in Enrichment routing.yml:19-21).
+   * - "I should be on the product model "apollon_black" edit page": the Behat step asserts the URL of
+   *   pim_enrich_product_model_edit {id} and waits for `.AknTitleContainer-title`. redirectToEntity
+   *   (variant-navigation.js:426-439) builds that route from the create response meta (id, model_type
+   *   "product_model", ProductModelNormalizer.php:103,106) -> #/enrich/product-model/{id} (ui/product_model.yml:1-2).
+   *   The URL can change before the new page renders, so the sync is the h1: product-model-label.js:9-17 shows
+   *   meta.label[catalogLocale], which ProductModel::getLabel (ProductModel.php:517-538) falls back to the code
+   *   because the new model has no variation_name value. label.js:7-8 makes it an `h1.AknTitleContainer-title`;
+   *   the heading role excludes the same-class drop zone div. The page the user started from shows the blue
+   *   sub product model's code, never the new one.
+   */
+  test('adds a sub product model from a sub product model page', async ({page}) => {
+    const ts = Date.now();
+    const rootCode = `pw_addchild_pm_root_${ts}`;
+    const blueCode = `pw_addchild_pm_blue_${ts}`;
+    const newCode = `pw_addchild_pm_black_${ts}`;
+    // Deleted in reverse order of creation: children before the root.
+    const productModelIds: string[] = [];
+
+    try {
+      // Setup: root product model -> sub product model (color=blue), sequential because the child needs its parent.
+      const rootResp = await createProductModelViaApi(page, rootCode, FAMILY_VARIANT);
+      expect(
+        rootResp.ok(),
+        `Create root product model ${rootCode} failed: ${await describeResponse(rootResp)}`
+      ).toBeTruthy();
+      const rootBody = await rootResp.json();
+      const rootId = rootBody?.meta?.id;
+      expect(rootId, `Create response had no meta.id: ${JSON.stringify(rootBody)}`).toBeTruthy();
+      productModelIds.push(String(rootId));
+
+      const blueResp = await createSubProductModelViaApi(page, blueCode, rootCode, FAMILY_VARIANT, {color: 'blue'});
+      expect(
+        blueResp.ok(),
+        `Create sub product model ${blueCode} failed: ${await describeResponse(blueResp)}`
+      ).toBeTruthy();
+      const blueBody = await blueResp.json();
+      expect(blueBody?.meta?.level, `Sub product model is not at variation level 1: ${JSON.stringify(blueBody)}`).toBe(
+        1
+      );
+      const blueId = blueBody?.meta?.id;
+      expect(blueId, `Create response had no meta.id: ${JSON.stringify(blueBody)}`).toBeTruthy();
+      productModelIds.push(String(blueId));
+
+      // Given I am on the "apollon_blue" product model page
+      await nav.goToEntityPage('product model', String(blueId));
+      await expect(page.getByRole('heading', {level: 1, name: blueCode, exact: true})).toBeVisible({timeout: 30_000});
+      const childSelectors = page.locator('.variant-navigation.select2-container');
+      await expect(childSelectors).toHaveCount(2, {timeout: 30_000});
+
+      // When I open the variant navigation children selector for level 1
+      // And I press the "Add new" button and wait for modal
+      const levelOneSelector = childSelectors.nth(0);
+      const dropdown = page.locator('#select2-drop');
+      const addNewButton = dropdown.getByRole('button', {name: 'Add new', exact: true});
+      await expect(async () => {
+        const isOpen = await levelOneSelector.evaluate(element => element.classList.contains('select2-dropdown-open'));
+        if (!isOpen) {
+          await levelOneSelector.locator('.select2-arrow').click({timeout: 5_000});
+        }
+        await expect(dropdown).toBeVisible({timeout: 5_000});
+        await expect(addNewButton).toBeVisible({timeout: 10_000});
+      }).toPass({timeout: 60_000});
+      await addNewButton.click({timeout: 10_000});
+
+      const modal = page.locator('.modal.add-product-model-child');
+      await expect(modal).toBeVisible({timeout: 15_000});
+
+      // Then I should see the text "Add a new Color"
+      await expect(modal.getByText('Add a new Color', {exact: true})).toBeVisible({timeout: 15_000});
+      const colorField = modal
+        .locator('.AknFieldContainer')
+        .filter({has: page.locator('.AknFieldContainer-label', {hasText: 'Color (variant axis)'})});
+      await expect(colorField).toBeVisible({timeout: 15_000});
+      const codeInput = modal.getByLabel('Code (required)', {exact: true});
+      await expect(codeInput).toBeVisible({timeout: 15_000});
+
+      // When I fill in the following child information: | Color (variant axis) | Black |
+      await colorField.locator('.select2-choice').click({timeout: 15_000});
+      const blackOption = dropdown.locator('.select2-result-selectable').filter({hasText: /^\s*Black\s*$/});
+      await expect(blackOption).toBeVisible({timeout: 15_000});
+      await blackOption.click({timeout: 10_000});
+      // The change rebuilds the whole modal form: wait for the REBUILT field to show the value.
+      await expect(colorField.locator('.select2-chosen')).toHaveText('Black', {timeout: 15_000});
+
+      // When I fill in the following child information: | Code (required) | apollon_black |
+      await codeInput.fill(newCode, {timeout: 10_000});
+      await expect(codeInput).toHaveValue(newCode, {timeout: 5_000});
+
+      // And I confirm the child creation
+      const createRespPromise = page.waitForResponse(
+        response =>
+          /\/enrich\/product-model\/rest\/create(\?|$)/.test(response.url()) && response.request().method() === 'POST',
+        {timeout: 30_000}
+      );
+      await modal.locator('.modal-body .ok').click({timeout: 10_000});
+      const createResp = await createRespPromise;
+      const createText = await createResp.text().catch(() => '');
+      const createBody = (() => {
+        try {
+          return JSON.parse(createText) as {meta?: {id?: number; model_type?: string}};
+        } catch {
+          return null;
+        }
+      })();
+      if (createResp.ok() && createBody?.meta?.id != null) {
+        productModelIds.push(String(createBody.meta.id));
+      }
+      expect(createResp.ok(), `Create sub product model failed: ${createResp.status()} ${createText}`).toBeTruthy();
+      const newId = createBody?.meta?.id;
+      expect(newId, `Create response had no meta.id: ${createText}`).toBeTruthy();
+      expect(createBody?.meta?.model_type, createText).toBe('product_model');
+      await expect(modal).toBeHidden({timeout: 15_000});
+
+      // Then I should be on the product model "apollon_black" edit page
+      await expect(page).toHaveURL(new RegExp(`#/enrich/product-model/${newId}$`), {timeout: 30_000});
+      await expect(page.getByRole('heading', {level: 1, name: newCode, exact: true})).toBeVisible({timeout: 30_000});
+
+      // Persistence: the new sub product model is a sibling of the starting one, under the root, with color black.
+      const getResp = await page.request.get(`/enrich/product-model/rest/${newId}`, {
+        headers: XHR_HEADER,
+        timeout: 30_000,
+      });
+      const getText = await getResp.text().catch(() => '');
+      expect(getResp.ok(), `Get product model ${newId} failed: ${getResp.status()} ${getText}`).toBeTruthy();
+      const productModel = JSON.parse(getText);
+      expect(productModel.code, getText).toBe(newCode);
+      expect(productModel.parent, getText).toBe(rootCode);
+      expect(productModel.family_variant, getText).toBe(FAMILY_VARIANT);
+      expect(productModel.meta?.level, getText).toBe(1);
+      expect(
+        String(productModel.values?.color?.[0]?.data ?? '').toLowerCase(),
+        JSON.stringify(productModel.values?.color)
+      ).toBe('black');
+    } finally {
+      for (const id of [...productModelIds].reverse()) {
+        const resp = await deleteProductModelViaApi(page, id).catch(() => null);
+        if (resp && !resp.ok() && resp.status() !== 404) {
+          console.warn(`[cleanup] product model ${id} refused: ${await describeResponse(resp)}`);
+        }
+      }
+    }
+  });
 });
