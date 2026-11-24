@@ -1,7 +1,7 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
 import {useTheme} from '../hooks';
-import Proposals from '../../static/illustrations/Proposals.svg';
+import Proposals from '../static/illustrations/Proposals.svg';
 
 const ProposalsIllustration = ({title, size = 256, ...props}: IllustrationProps) => (
   <svg width={size} height={size} viewBox="0 0 256 256" {...props}>

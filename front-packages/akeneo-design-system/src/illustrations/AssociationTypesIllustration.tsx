@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import AssociationTypes from '../../static/illustrations/AssociationTypes.svg';
+import AssociationTypes from '../static/illustrations/AssociationTypes.svg';
 import {BrandedPath} from '../theme';
 
 const AssociationTypesIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

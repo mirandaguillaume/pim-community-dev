@@ -66,6 +66,12 @@ jobs:
       - name: Make sure the lib build is successful
         run: cd front-packages/akeneo-design-system && yarn lib:build
 
+      # lib/ must load outside webpack-like bundlers: every .svg it requires resolves inside lib/,
+      # and every name of the CommonJS build imports statically from lib/esm (esbuild, as rollup
+      # and so Vite would). Both used to fail without any consumer of this repository noticing.
+      - name: Check the built package loads outside a configured bundler
+        run: cd front-packages/akeneo-design-system && yarn lib:check
+
       - name: Launch lint checks
         run: cd front-packages/akeneo-design-system && yarn lint:check
 

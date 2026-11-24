@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 import {IllustrationProps} from './IllustrationProps';
-import Import from '../../static/illustrations/Import.svg';
+import Import from '../static/illustrations/Import.svg';
 
 const Stars = styled.g`
   fill: #5e63b6;

@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import Groups from '../../static/illustrations/Groups.svg';
+import Groups from '../static/illustrations/Groups.svg';
 import {BrandedPath} from '../theme';
 
 const GroupsIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

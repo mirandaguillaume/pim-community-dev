@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import Locale from '../../static/illustrations/Locale.svg';
+import Locale from '../static/illustrations/Locale.svg';
 import {BrandedPath} from '../theme';
 
 const LocaleIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

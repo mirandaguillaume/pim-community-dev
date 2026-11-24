@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import City from '../../static/illustrations/City.svg';
+import City from '../static/illustrations/City.svg';
 import {BrandedPath} from '../theme';
 
 const CityIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

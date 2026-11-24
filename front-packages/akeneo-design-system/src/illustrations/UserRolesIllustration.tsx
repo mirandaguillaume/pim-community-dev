@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import UserRoles from '../../static/illustrations/UserRoles.svg';
+import UserRoles from '../static/illustrations/UserRoles.svg';
 
 const UserRolesIllustration = ({title, size = 256, ...props}: IllustrationProps) => (
   <svg width={size} height={size} viewBox="0 0 256 256" {...props}>

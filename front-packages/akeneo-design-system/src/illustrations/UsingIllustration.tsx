@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import Using from '../../static/illustrations/Using.svg';
+import Using from '../static/illustrations/Using.svg';
 import {BrandedPath} from '../theme';
 
 const UsingIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

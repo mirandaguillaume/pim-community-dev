@@ -97,7 +97,7 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
       chaîne, comparée par valeur) : celles-là s'ajoutaient sans risque. Vérifié sans Jest : eslint
       171→159 sans nouvel avertissement, et `tsc` **identique ligne à ligne** à master (227 erreurs
       d'environnement, paquets internes non construits).
-- [ ] **Le build publié du DSM n'est consommable qu'à l'intérieur d'un bundler configuré.**
+- [x] **Le build publié du DSM n'est consommable qu'à l'intérieur d'un bundler configuré.**
       Découvert en essayant de remplacer le serveur de dev du projet d'exemple par Vite. Deux causes
       mesurées, indépendantes :
       1. **`lib/index.js` n'expose aucun export nommé analysable statiquement.** C'est un barrel de
@@ -115,6 +115,26 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
       filet — ce qui vaut aussi pour `vite`, `rollup`, Node nu, et donc pour toute sonde locale.
       Le corriger est un chantier sur le build du DSM (exports explicites + assets copiés dans
       `lib/`), pas sur ses consommateurs.
+      **Corrigé** (`fix/dsm-build-outside-bundler`) par un **double build** plutôt que des exports
+      explicites : `lib/` reste en CommonJS, `lib/esm/` (champ `module`) porte des `export *` ESM,
+      que rollup et esbuild analysent nativement. Les 61 SVG sont passés de `static/` à
+      `src/static/`, si bien que le chemin compilé reste **dans** `lib/`, et `lib:build` les copie
+      dans les deux builds. Mesuré en rouge puis vert : Vite 6 sur un projet témoin échoue sur le
+      `lib/` de master avec exactement l'erreur ci-dessus, et passe sur le nouveau.
+      `yarn lib:check` garde les deux causes : en Node nu, chaque SVG requis doit résoudre **dans**
+      `lib/` (un chemin qui retomberait sur `src/` passerait dans le dépôt et casserait chez
+      l'exemple, qui installe `file:../lib`) ; et les 284 noms du build CJS doivent tous s'importer
+      statiquement depuis `lib/esm` (esbuild, comme rollup).
+      **Piège évité côté PIM** : rspack lit `module` avant `main`, et le PIM importe aussi des
+      chemins profonds du CJS (`akeneo-design-system/lib/components/Tree/Tree`, `.../lib`). Sans
+      rien faire, le bundle aurait contenu les **deux** builds — mesuré avec rspack sur un témoin :
+      530 modules du DSM et deux copies de `Tree.js`, donc deux contextes React. Un alias
+      `akeneo-design-system$` garde le PIM sur le CJS (375 modules, une copie), **via
+      `node_modules`** : avec `symlinks: false`, le chemin réel enregistrerait les mêmes fichiers
+      sous un second identifiant. Unifier le PIM sur l'ESM, en réécrivant ces imports profonds,
+      reste possible mais demande un build rspack complet pour le vérifier.
+      Node nu ne sait toujours pas charger un `.svg` : aucun consommateur ne le fait, et l'inliner
+      en data-URI aurait alourdi le bundle du PIM des 61 illustrations.
 - [x] **`react-router` : open redirect** par antislash dans `<Link>` / `useNavigate`. Installé
       6.30.6, corrigé en **≥ 7.18.0** — à traiter comme une montée de version majeure.
       **Fait** (`security/react-router-7`) : 6.30.6 → **7.18.6**, qui ferme aussi la seconde alerte

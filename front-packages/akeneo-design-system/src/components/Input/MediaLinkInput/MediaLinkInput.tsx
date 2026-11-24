@@ -8,7 +8,7 @@ import {IconButton, IconButtonProps} from '../../IconButton/IconButton';
 import {Image} from '../../Image/Image';
 import {LockIcon} from '../../../icons';
 import {useShortcut} from '../../../hooks';
-import DefaultPicture from '../../../../static/illustrations/DefaultPicture.svg';
+import DefaultPicture from '../../../static/illustrations/DefaultPicture.svg';
 
 const MediaLinkInputContainer = styled.div<{readOnly: boolean} & AkeneoThemedProps>`
   position: relative;

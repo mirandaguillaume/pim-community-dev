@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import ServerError from '../../static/illustrations/ServerError.svg';
+import ServerError from '../static/illustrations/ServerError.svg';
 import {BrandedPath} from '../theme';
 
 const ServerErrorIllustration = ({title, size = 500, ...props}: IllustrationProps) => (

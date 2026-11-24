@@ -1,6 +1,6 @@
 import React from 'react';
 import {IllustrationProps} from './IllustrationProps';
-import AkeneoCloudEdition from '../../static/illustrations/AkeneoCloudEdition.svg';
+import AkeneoCloudEdition from '../static/illustrations/AkeneoCloudEdition.svg';
 import {BrandedPath} from '../theme';
 
 const AkeneoCloudEditionIllustration = ({title, size = 256, ...props}: IllustrationProps) => (

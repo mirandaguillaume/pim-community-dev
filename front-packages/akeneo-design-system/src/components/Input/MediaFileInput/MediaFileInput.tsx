@@ -10,7 +10,7 @@ import {ProgressBar} from '../../ProgressBar/ProgressBar';
 import {CloseIcon, LockIcon} from '../../../icons';
 import {useBooleanState, useShortcut} from '../../../hooks';
 import {FileInfo} from './FileInfo';
-import DefaultPictureIllustration from '../../../../static/illustrations/DefaultPicture.svg';
+import DefaultPictureIllustration from '../../../static/illustrations/DefaultPicture.svg';
 
 const MediaFileInputContainer = styled.div<{isCompact: boolean; readOnly: boolean} & AkeneoThemedProps>`
   position: relative;
