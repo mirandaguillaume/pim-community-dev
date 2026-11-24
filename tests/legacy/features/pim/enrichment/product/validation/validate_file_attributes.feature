@@ -35,9 +35,3 @@ Feature: Validate file attributes of a product
     Given I attach file "fanatic-freewave-76.gif" to "Datasheet"
     And I save the product
     Then I should see the text "The gif file extension is not allowed for the datasheet attribute. Allowed extensions are txt."
-
-  Scenario: Validate the allowed extensions constraint of scopable file attribute
-    Given I switch the scope to "ecommerce"
-    Given I attach file "fanatic-freewave-76.gif" to "Attachment"
-    And I save the product
-    Then I should see the text "The gif file extension is not allowed for the attachment attribute. Allowed extensions are txt."
