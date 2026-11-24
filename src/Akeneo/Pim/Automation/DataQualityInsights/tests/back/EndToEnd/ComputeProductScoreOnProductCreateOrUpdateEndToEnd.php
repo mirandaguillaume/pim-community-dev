@@ -31,16 +31,6 @@ final class ComputeProductScoreOnProductCreateOrUpdateEndToEnd extends Messenger
         parent::setUp();
     }
 
-    /**
-     * Excluded from the End_to_End suite CI gate (#459). NOT DIAGNOSED.
-     * It is not simply an unconsumed message: the test launches the consumer itself. Note that
-     * the sibling test_it_computes_product_score_after_update carries a comment about a PubSub
-     * delivery race and works around it by consuming first, then flushing -- this test has no
-     * such workaround, and its first assertion is a negative one (the score is NOT yet computed),
-     * which an early delivery would break. Both siblings pass.
-     *
-     * @group e2e_known_failure
-     */
     public function test_it_computes_product_score_after_creation(): void
     {
         $uuid1 = Uuid::uuid4();

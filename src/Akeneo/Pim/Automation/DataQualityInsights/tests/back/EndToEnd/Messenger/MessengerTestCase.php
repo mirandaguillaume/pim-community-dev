@@ -24,14 +24,26 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
 {
     private const MESSENGER_COMMAND_NAME = 'messenger:consume';
 
-    /** @var PubSubQueueStatus */
-    private array $pubSubQueueStatuses;
+    /**
+     * The queues emptied before and after each test. A subclass adds the queue it consumes by
+     * assigning this before calling parent::setUp(); the two below are appended, never substituted.
+     *
+     * It was private and overwritten here, so a subclass's assignment created a separate dynamic
+     * property that nothing read: the score queues were never emptied, messages left by earlier
+     * tests of the CI shard piled up, and `launchConsumer()` -- which stops after one message --
+     * handled a stale one instead of the test's own. That is why the two after_creation tests
+     * failed in CI ("false is true" after consuming) and passed when run alone.
+     *
+     * @var PubSubQueueStatus[]
+     */
+    protected array $pubSubQueueStatuses = [];
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->pubSubQueueStatuses = [
+            ...$this->pubSubQueueStatuses,
             $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_launch_product_evaluations_consumer'),
             $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_attribute_group_activate_consumer'),
         ];

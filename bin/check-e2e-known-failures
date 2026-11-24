@@ -34,11 +34,6 @@ const ALLOWED = [
     'src/Akeneo/Connectivity/Connection/back/tests/EndToEnd/ErrorManagement/CollectApiError/CollectDomainErrorFromProductEndpointEndToEnd.php::test_it_collects_a_domain_error_from_the_partial_update_list_endpoint',
     'src/Akeneo/Connectivity/Connection/back/tests/EndToEnd/ErrorManagement/CollectApiErrorsCountEndToEnd.php::test_it_collects_the_error_count_from_a_product_partial_update_list',
 
-    // Not diagnosed. Their passing sibling after_update carries an explicit PubSub delivery-race
-    // workaround that these lack, and their first assertion is a negative one, which an early
-    // delivery would break. Expected to be fixable by mirroring the sibling.
-    'src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/EndToEnd/ComputeProductModelScoreOnProductCreateOrUpdateEndToEnd.php::test_it_computes_product_model_score_after_creation',
-    'src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/EndToEnd/ComputeProductScoreOnProductCreateOrUpdateEndToEnd.php::test_it_computes_product_score_after_creation',
 ];
 
 $root = dirname(__DIR__);
