@@ -331,9 +331,12 @@ abstract class ApiTestCase extends WebTestCase
 
         ob_end_flush();
 
+        // Since symfony/http-kernel 6.4.50, HttpKernelBrowser sends the response content itself, inside
+        // its own output buffer, and hands it to the internal response: a streamed body no longer
+        // reaches the buffer above. Each byte lands in exactly one of the two, whatever the version.
         $response = [
             'http_response' => $client->getResponse(),
-            'content' => $streamedContent,
+            'content' => $streamedContent . $client->getInternalResponse()->getContent(),
         ];
 
         return $response;
