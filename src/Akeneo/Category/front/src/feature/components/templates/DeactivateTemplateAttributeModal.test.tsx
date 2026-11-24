@@ -20,9 +20,8 @@ test('It sends the templateUuid and AttributeUuid for attribute deletion', async
     </QueryClientProvider>
   );
 
-  await act(async () => {
-    await userEvent.click(screen.getByText('pim_common.delete'));
-  });
+  userEvent.click(screen.getByText('pim_common.delete'));
+  await act(async () => {});
 
   expect(jestSpy).toHaveBeenCalledWith('pim_category_template_rest_delete_attribute', {
     method: 'DELETE',

@@ -4,6 +4,7 @@ import {useSaveStatus} from '../../hooks/useSaveStatus';
 import {CanLeavePageContext} from '../providers/CanLeavePageProvider';
 import {Status} from '../providers/SaveStatusProvider';
 import {UnsavedChangesGuard} from './UnsavedChangeGuard';
+import {partialMock} from '../../../tests/partialMock';
 
 jest.mock('../../hooks/useSaveStatus');
 jest.mock('react-router-dom', () => ({
@@ -14,7 +15,9 @@ jest.mock('react-router-dom', () => ({
 const mockedUseSaveStatus = useSaveStatus as jest.MockedFunction<typeof useSaveStatus>;
 
 const renderGuard = (globalStatus: Status, setCanLeavePage = jest.fn(), setLeavePageMessage = jest.fn()) => {
-  mockedUseSaveStatus.mockReturnValue({globalStatus, handleStatusListChange: jest.fn()} as any);
+  mockedUseSaveStatus.mockReturnValue(
+    partialMock<ReturnType<typeof useSaveStatus>>({globalStatus, handleStatusListChange: jest.fn()})
+  );
 
   return renderWithProviders(
     <CanLeavePageContext.Provider value={{setCanLeavePage, setLeavePageMessage}}>

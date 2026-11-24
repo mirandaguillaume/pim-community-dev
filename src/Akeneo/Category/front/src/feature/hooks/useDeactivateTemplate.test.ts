@@ -43,7 +43,7 @@ describe('useDeactivateTemplate', () => {
       ok: true,
       status: 204,
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
   });
 
   it('calls DELETE on the template route', async () => {
@@ -96,7 +96,7 @@ describe('useDeactivateTemplate', () => {
       status: 500,
       statusText: 'Internal Server Error',
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const {result} = renderHook(() => useDeactivateTemplate({id: 'tmpl-uuid', label: 'My Template'}), {

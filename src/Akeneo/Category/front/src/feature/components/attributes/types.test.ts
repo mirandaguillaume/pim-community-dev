@@ -1,4 +1,4 @@
-import {isImageAttributeInputValue, buildDefaultAttributeInputValue} from './types';
+import {AttributeInputValue, isImageAttributeInputValue, buildDefaultAttributeInputValue} from './types';
 
 describe('isImageAttributeInputValue', () => {
   it('returns false for null', () => {
@@ -11,16 +11,16 @@ describe('isImageAttributeInputValue', () => {
 
   it('returns true for an object with originalFilename and filePath', () => {
     const imageValue = {originalFilename: 'photo.jpg', filePath: 'a/b/photo.jpg'};
-    expect(isImageAttributeInputValue(imageValue as any)).toBe(true);
+    expect(isImageAttributeInputValue(imageValue)).toBe(true);
   });
 
   it('returns false when originalFilename is missing', () => {
-    const value = {filePath: 'a/b/photo.jpg'} as any;
+    const value = {filePath: 'a/b/photo.jpg'} as AttributeInputValue;
     expect(isImageAttributeInputValue(value)).toBe(false);
   });
 
   it('returns false when filePath is missing', () => {
-    const value = {originalFilename: 'photo.jpg'} as any;
+    const value = {originalFilename: 'photo.jpg'} as AttributeInputValue;
     expect(isImageAttributeInputValue(value)).toBe(false);
   });
 });

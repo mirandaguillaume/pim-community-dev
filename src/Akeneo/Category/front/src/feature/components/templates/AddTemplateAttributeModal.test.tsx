@@ -18,9 +18,8 @@ test('It sends the form with new attribute code', async () => {
 
   userEvent.type(screen.getByLabelText(/pim_common.code/), 'new_attribute');
 
-  await act(async () => {
-    await userEvent.click(screen.getByText('akeneo.category.template.add_attribute.confirmation_modal.create'));
-  });
+  userEvent.click(screen.getByText('akeneo.category.template.add_attribute.confirmation_modal.create'));
+  await act(async () => {});
 
   expect(jestSpy).toHaveBeenCalledWith('pim_category_template_rest_add_attribute', {
     method: 'POST',

@@ -55,7 +55,7 @@ describe('attributeFieldFactory', () => {
   });
 
   it('returns null for an unknown attribute type', () => {
-    const Component = attributeFieldFactory({...baseAttribute, type: 'unknown' as any});
+    const Component = attributeFieldFactory({...baseAttribute, type: 'unknown' as Attribute['type']});
     expect(Component).toBeNull();
   });
 });

@@ -63,7 +63,7 @@ export const AttributeLabelTranslationInput = ({attribute, localeCode, label}: P
     }
   }, 300);
 
-  const handleTranslationChange = async (value: string) => {
+  const handleTranslationChange = (value: string) => {
     dispatch({
       type: 'attribute_label_translation_changed',
       payload: {attributeUuid: attribute.uuid, localeCode, value},

@@ -58,14 +58,14 @@ test('It renders the current channel', () => {
   expect(screen.getByText(/Mobile/)).toBeInTheDocument();
 });
 
-test('It renders with an unknown channel', async () => {
+test('It renders with an unknown channel', () => {
   renderWithProviders(<ChannelSelector values={channels} value={'unknown_channel'} onChange={() => {}} />);
 
   expect(screen.getByText(/pim_common.channel/)).toBeInTheDocument();
   expect(screen.getByTestId('ChannelSelector.selection')).toBeEmptyDOMElement();
 });
 
-test('It calls onChange handler when user click on another channel', async () => {
+test('It calls onChange handler when user click on another channel', () => {
   const onChange = jest.fn();
 
   renderWithProviders(<ChannelSelector values={channels} value={'ecommerce'} onChange={onChange} />);

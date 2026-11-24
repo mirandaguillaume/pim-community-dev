@@ -21,14 +21,14 @@ const DefaultProviders: FC<{draggedNode: DraggedNode | null}> = ({children, ...c
 );
 
 const renderUseDropTreeNode = (
-  node: TreeNode<any> | undefined,
+  node: TreeNode<unknown> | undefined,
   reorder: ReorderOnDropHandler,
   draggedNode: DraggedNode | null
 ) => {
   const wrapper: FC = ({children}) => <DefaultProviders draggedNode={draggedNode}>{children}</DefaultProviders>;
 
   return renderHook(
-    ({node, reorder}: {node: TreeNode<any> | undefined; reorder: ReorderOnDropHandler}) =>
+    ({node, reorder}: {node: TreeNode<unknown> | undefined; reorder: ReorderOnDropHandler}) =>
       useDropTreeNode(node, reorder),
     {
       initialProps: {node, reorder},

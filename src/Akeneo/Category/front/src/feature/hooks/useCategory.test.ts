@@ -15,12 +15,12 @@ describe('useCategory', () => {
     const mockCategory = {id: 1, code: 'master', labels: {en_US: 'Master catalog'}};
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       json: () => Promise.resolve(mockCategory),
-    } as any);
+    } as Response);
 
     const {result} = renderHookWithProviders(() => useCategory(1));
 
     await act(async () => {
-      result.current.load();
+      await result.current.load();
     });
 
     expect(result.current.category).toEqual(mockCategory);
@@ -33,7 +33,7 @@ describe('useCategory', () => {
     const {result} = renderHookWithProviders(() => useCategory(1));
 
     await act(async () => {
-      result.current.load();
+      await result.current.load();
     });
 
     expect(result.current.status).toBe('error');

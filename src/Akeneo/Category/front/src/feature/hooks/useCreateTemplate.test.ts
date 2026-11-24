@@ -22,7 +22,7 @@ describe('useCreateTemplate', () => {
       ok: true,
       status: 200,
       json: () => Promise.resolve({template_uuid: 'new-uuid'}),
-    } as any);
+    } as Response);
   });
 
   it('calls apiFetch with POST and code + labels payload when mutated', async () => {

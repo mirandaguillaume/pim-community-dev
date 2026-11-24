@@ -6,6 +6,7 @@ import {CategoryEditPage} from './CategoryEditPage';
 import {useEditCategoryForm} from '../hooks/useEditCategoryForm';
 import {useDeleteCategory} from '../hooks/useDeleteCategory';
 import {useCountProductsBeforeDeleteCategory} from '../hooks/useCountProductsBeforeDeleteCategory';
+import {partialMock} from '../../tests/partialMock';
 
 jest.mock('../hooks/useEditCategoryForm');
 jest.mock('../hooks/useDeleteCategory');
@@ -16,7 +17,7 @@ jest.mock('../components', () => ({
   EditPropertiesForm: () => <div data-testid="edit-properties-form" />,
   EditPermissionsForm: () => null,
   TemplateTitle: () => null,
-  CategoryPageContent: ({children}: any) => <div>{children}</div>,
+  CategoryPageContent: ({children}: {children: React.ReactNode}) => <div>{children}</div>,
   NoTemplateAttribute: () => null,
 }));
 jest.mock('./HistoryPimView', () => ({HistoryPimView: () => null}));
@@ -30,7 +31,7 @@ jest.mock('../components/providers/EditCategoryProvider', () => ({
     locales: {},
     localesFetchFailed: false,
   }),
-  EditCategoryProvider: ({children}: any) => children,
+  EditCategoryProvider: ({children}: {children: React.ReactNode}) => children,
 }));
 
 const mockedUseEditForm = useEditCategoryForm as jest.MockedFunction<typeof useEditCategoryForm>;
@@ -50,24 +51,28 @@ const makeCategory = () => ({
 });
 
 const setupMocks = (overrides = {}) => {
-  mockedUseEditForm.mockReturnValue({
-    category: makeCategory(),
-    template: null,
-    categoryFetchingStatus: 'fetched',
-    applyPermissionsOnChildren: false,
-    onChangeCategoryLabel: jest.fn(),
-    onChangePermissions: jest.fn(),
-    onChangeAttribute: jest.fn(),
-    onChangeApplyPermissionsOnChildren: jest.fn(),
-    isModified: false,
-    saveCategory: jest.fn(),
-    historyVersion: 0,
-    ...overrides,
-  } as any);
-  mockedUseDelete.mockReturnValue({
-    isCategoryDeletionPossible: jest.fn(() => true),
-    handleDeleteCategory: jest.fn(),
-  } as any);
+  mockedUseEditForm.mockReturnValue(
+    partialMock<ReturnType<typeof useEditCategoryForm>>({
+      category: makeCategory(),
+      template: undefined,
+      categoryFetchingStatus: 'fetched',
+      applyPermissionsOnChildren: false,
+      onChangeCategoryLabel: jest.fn(),
+      onChangePermissions: jest.fn(),
+      onChangeAttribute: jest.fn(),
+      onChangeApplyPermissionsOnChildren: jest.fn(),
+      isModified: false,
+      saveCategory: jest.fn(),
+      historyVersion: 0,
+      ...overrides,
+    })
+  );
+  mockedUseDelete.mockReturnValue(
+    partialMock<ReturnType<typeof useDeleteCategory>>({
+      isCategoryDeletionPossible: jest.fn(() => true),
+      handleDeleteCategory: jest.fn(),
+    })
+  );
   mockedUseCount.mockReturnValue(jest.fn());
 };
 

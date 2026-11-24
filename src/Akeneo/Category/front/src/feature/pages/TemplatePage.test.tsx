@@ -8,6 +8,7 @@ import {useCategoryTree} from '../hooks/useCategoryTree';
 import {useTemplateByTemplateUuid} from '../hooks/useTemplateByTemplateUuid';
 import {useTemplateForm} from '../components/providers/TemplateFormProvider';
 import {SaveStatusContext, Status} from '../components/providers/SaveStatusProvider';
+import {partialMock} from '../../tests/partialMock';
 
 jest.mock('../hooks/useCategoryTree');
 jest.mock('../hooks/useTemplateByTemplateUuid');
@@ -58,31 +59,46 @@ const renderPage = () => {
 describe('TemplatePage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedUseCategoryTree.mockReturnValue({data: {id: 1, code: 'master', label: 'Master'}} as any);
-    mockedUseTemplateForm.mockReturnValue([{attributes: {}, properties: {labels: {}}} as any, jest.fn()]);
+    mockedUseCategoryTree.mockReturnValue(
+      partialMock<ReturnType<typeof useCategoryTree>>({
+        data: {id: 1, code: 'master', label: 'Master', isRoot: true, isLeaf: false},
+      })
+    );
+    mockedUseTemplateForm.mockReturnValue([
+      partialMock<ReturnType<typeof useTemplateForm>[0]>({attributes: {}, properties: {labels: {}}}),
+      jest.fn(),
+    ]);
   });
 
   it('renders the settings breadcrumb step', () => {
-    mockedUseTemplate.mockReturnValue({data: null, isError: false} as any);
+    mockedUseTemplate.mockReturnValue(
+      partialMock<ReturnType<typeof useTemplateByTemplateUuid>>({data: undefined, isError: false})
+    );
     renderPage();
     expect(screen.getByText('pim_menu.tab.settings')).toBeInTheDocument();
   });
 
   it('renders the categories breadcrumb step', () => {
-    mockedUseTemplate.mockReturnValue({data: null, isError: false} as any);
+    mockedUseTemplate.mockReturnValue(
+      partialMock<ReturnType<typeof useTemplateByTemplateUuid>>({data: undefined, isError: false})
+    );
     renderPage();
     expect(screen.getByText('pim_enrich.entity.category.plural_label')).toBeInTheDocument();
   });
 
   it('renders the attributes and properties tabs', () => {
-    mockedUseTemplate.mockReturnValue({data: template, isError: false} as any);
+    mockedUseTemplate.mockReturnValue(
+      partialMock<ReturnType<typeof useTemplateByTemplateUuid>>({data: template, isError: false})
+    );
     renderPage();
     expect(screen.getByText('akeneo.category.attributes')).toBeInTheDocument();
     expect(screen.getByText('pim_common.properties')).toBeInTheDocument();
   });
 
   it('renders EditTemplateAttributesForm when template is loaded', () => {
-    mockedUseTemplate.mockReturnValue({data: template, isError: false} as any);
+    mockedUseTemplate.mockReturnValue(
+      partialMock<ReturnType<typeof useTemplateByTemplateUuid>>({data: template, isError: false})
+    );
     renderPage();
     expect(screen.getByTestId('edit-template-attributes-form')).toBeInTheDocument();
   });

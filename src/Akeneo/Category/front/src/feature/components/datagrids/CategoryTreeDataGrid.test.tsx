@@ -18,7 +18,7 @@ jest.mock('../../infrastructure', () => ({
 }));
 jest.mock('@akeneo-pim-community/shared', () => ({
   ...jest.requireActual('@akeneo-pim-community/shared'),
-  useDebounceCallback: jest.fn((callback: (...args: any[]) => void) => callback),
+  useDebounceCallback: jest.fn(<Callback,>(callback: Callback) => callback),
 }));
 
 const mockedUseCount = useCountCategoryTreesChildren as jest.MockedFunction<typeof useCountCategoryTreesChildren>;
@@ -47,17 +47,17 @@ describe('CategoryTreesDataGrid', () => {
     expect(screen.getByText('Seasonal')).toBeInTheDocument();
   });
 
-  it('filters trees when searching by label', async () => {
+  it('filters trees when searching by label', () => {
     renderDataGrid();
     const searchInput = screen.getByPlaceholderText('pim_common.search');
-    await userEvent.type(searchInput, 'master');
+    userEvent.type(searchInput, 'master');
     expect(screen.getByText('Master catalog')).toBeInTheDocument();
   });
 
-  it('shows NoResults when search has no matches', async () => {
+  it('shows NoResults when search has no matches', () => {
     renderDataGrid();
     const searchInput = screen.getByPlaceholderText('pim_common.search');
-    await userEvent.type(searchInput, 'zzz_no_match');
+    userEvent.type(searchInput, 'zzz_no_match');
     expect(screen.getByText('pim_datagrid.no_results')).toBeInTheDocument();
   });
 

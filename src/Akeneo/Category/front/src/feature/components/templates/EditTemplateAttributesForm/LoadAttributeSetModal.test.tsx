@@ -43,10 +43,10 @@ describe('LoadAttributeSetModal', () => {
     expect(screen.getByText('akeneo.category.template.load_attribute_set.content.seo_attributes')).toBeInTheDocument();
   });
 
-  it('calls onClose when the cancel button is clicked', async () => {
+  it('calls onClose when the cancel button is clicked', () => {
     const onClose = jest.fn();
     renderModal(onClose);
-    await userEvent.click(screen.getByText('pim_common.cancel'));
+    userEvent.click(screen.getByText('pim_common.cancel'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 

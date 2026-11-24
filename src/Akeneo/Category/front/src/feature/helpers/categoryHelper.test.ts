@@ -170,19 +170,21 @@ describe('getAttributeValue', () => {
 
 describe('populateCategory', () => {
   it('converts null permissions to empty arrays', () => {
-    const category = makeCategory({permissions: null as any});
+    const category = makeCategory({permissions: null as unknown as EnrichCategory['permissions']});
     const result = populateCategory(category, null, [], []);
     expect(result.permissions).toEqual({view: [], edit: [], own: []});
   });
 
   it('converts null labels to empty object', () => {
-    const category = makeCategory({properties: {code: 'master', labels: null as any}});
+    const category = makeCategory({
+      properties: {code: 'master', labels: null as unknown as EnrichCategory['properties']['labels']},
+    });
     const result = populateCategory(category, null, [], []);
     expect(result.properties.labels).toEqual({});
   });
 
   it('does not mutate the original category', () => {
-    const category = makeCategory({permissions: null as any});
+    const category = makeCategory({permissions: null as unknown as EnrichCategory['permissions']});
     const original = JSON.parse(JSON.stringify(category));
     populateCategory(category, null, [], []);
     expect(category.permissions).toEqual(original.permissions);

@@ -1,5 +1,6 @@
 import {saveEditCategoryForm} from './saveEditCategoryForm';
 import {Router} from '@akeneo-pim-community/shared';
+import {EnrichCategory} from '../../models';
 
 jest.mock('@akeneo-pim-community/shared', () => ({
   ...jest.requireActual('@akeneo-pim-community/shared'),
@@ -11,7 +12,7 @@ const mockRouter: Router = {
   redirect: jest.fn(),
 };
 
-const baseCategory: any = {
+const baseCategory: EnrichCategory = {
   id: 42,
   isRoot: false,
   template_uuid: null,
@@ -23,7 +24,7 @@ const baseCategory: any = {
 
 const defaultOptions = {
   applyPermissionsOnChildren: false,
-  populateResponseCategory: (c: any) => c,
+  populateResponseCategory: (c: EnrichCategory) => c,
 };
 
 beforeEach(() => jest.restoreAllMocks());

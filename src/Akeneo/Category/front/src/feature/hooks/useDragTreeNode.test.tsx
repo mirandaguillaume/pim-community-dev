@@ -13,13 +13,16 @@ const DefaultProviders: FC<{orderable: boolean}> = ({children, orderable}) => (
   </ThemeProvider>
 );
 
-const renderUseDragTreeNode = (node: TreeNode<any> | undefined, index: number, orderable: boolean) => {
+const renderUseDragTreeNode = (node: TreeNode<unknown> | undefined, index: number, orderable: boolean) => {
   const wrapper: FC = ({children}) => <DefaultProviders orderable={orderable}>{children}</DefaultProviders>;
 
-  return renderHook(({node, index}: {node: TreeNode<any> | undefined; index: number}) => useDragTreeNode(node, index), {
-    initialProps: {node, index},
-    wrapper,
-  });
+  return renderHook(
+    ({node, index}: {node: TreeNode<unknown> | undefined; index: number}) => useDragTreeNode(node, index),
+    {
+      initialProps: {node, index},
+      wrapper,
+    }
+  );
 };
 
 describe('useDragTreeNode', () => {

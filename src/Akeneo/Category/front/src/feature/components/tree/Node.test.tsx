@@ -6,6 +6,7 @@ import {useCategoryTreeNode} from '../../hooks/useCategoryTreeNode';
 import {useDragTreeNode} from '../../hooks/useDragTreeNode';
 import {useDropTreeNode} from '../../hooks/useDropTreeNode';
 import {useCountProductsBeforeDeleteCategory} from '../../hooks/useCountProductsBeforeDeleteCategory';
+import {partialMock} from '../../../tests/partialMock';
 
 jest.mock('../../hooks/useCategoryTreeNode');
 jest.mock('../../hooks/useDragTreeNode');
@@ -32,19 +33,23 @@ const makeNode = (type: 'root' | 'node' | 'leaf' = 'node') => ({
 
 const setupMocks = (type: 'root' | 'node' | 'leaf' = 'node') => {
   const node = makeNode(type);
-  mockedUseCategoryTreeNode.mockReturnValue({
-    node,
-    children: [],
-    loadChildren: jest.fn(),
-    moveTo: jest.fn(),
-    onDeleteCategory: jest.fn(),
-    onCreateCategory: jest.fn(),
-    isOpen: false,
-    open: jest.fn(),
-    close: jest.fn(),
-  } as any);
-  mockedUseDragTreeNode.mockReturnValue({isDragged: jest.fn(() => false), isDraggable: false} as any);
-  mockedUseDropTreeNode.mockReturnValue({placeholderPosition: 'none'} as any);
+  mockedUseCategoryTreeNode.mockReturnValue(
+    partialMock<ReturnType<typeof useCategoryTreeNode>>({
+      node,
+      children: [],
+      loadChildren: jest.fn(),
+      moveTo: jest.fn(),
+      onDeleteCategory: jest.fn(),
+      onCreateCategory: jest.fn(),
+      isOpen: false,
+      open: jest.fn(),
+      close: jest.fn(),
+    })
+  );
+  mockedUseDragTreeNode.mockReturnValue(
+    partialMock<ReturnType<typeof useDragTreeNode>>({isDragged: jest.fn(() => false), isDraggable: false})
+  );
+  mockedUseDropTreeNode.mockReturnValue(partialMock<ReturnType<typeof useDropTreeNode>>({placeholderPosition: 'none'}));
   mockedUseCount.mockReturnValue(jest.fn());
 };
 
@@ -55,9 +60,13 @@ describe('Node', () => {
   beforeEach(() => jest.clearAllMocks());
 
   it('renders null when useCategoryTreeNode returns undefined node', () => {
-    mockedUseCategoryTreeNode.mockReturnValue({node: undefined} as any);
-    mockedUseDragTreeNode.mockReturnValue({isDragged: jest.fn(() => false), isDraggable: false} as any);
-    mockedUseDropTreeNode.mockReturnValue({placeholderPosition: 'none'} as any);
+    mockedUseCategoryTreeNode.mockReturnValue(partialMock<ReturnType<typeof useCategoryTreeNode>>({node: undefined}));
+    mockedUseDragTreeNode.mockReturnValue(
+      partialMock<ReturnType<typeof useDragTreeNode>>({isDragged: jest.fn(() => false), isDraggable: false})
+    );
+    mockedUseDropTreeNode.mockReturnValue(
+      partialMock<ReturnType<typeof useDropTreeNode>>({placeholderPosition: 'none'})
+    );
     mockedUseCount.mockReturnValue(jest.fn());
     const {container} = renderNode();
     expect(container).toBeEmptyDOMElement();

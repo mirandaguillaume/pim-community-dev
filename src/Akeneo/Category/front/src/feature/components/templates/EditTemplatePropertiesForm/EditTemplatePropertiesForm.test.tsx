@@ -6,6 +6,7 @@ import {EditTemplatePropertiesForm} from './EditTemplatePropertiesForm';
 import {useUiLocales} from '../../../hooks/useUiLocales';
 import {SaveStatusContext, Status} from '../../providers/SaveStatusProvider';
 import {useTemplateForm} from '../../providers/TemplateFormProvider';
+import {partialMock} from '../../../../tests/partialMock';
 
 jest.mock('../../../hooks/useUiLocales');
 jest.mock('../../providers/TemplateFormProvider');
@@ -31,7 +32,10 @@ const template = {
 };
 
 const renderForm = () => {
-  mockedUseTemplateForm.mockReturnValue([{properties: {labels: {}}} as any, jest.fn()]);
+  mockedUseTemplateForm.mockReturnValue([
+    partialMock<ReturnType<typeof useTemplateForm>[0]>({properties: {labels: {}}}),
+    jest.fn(),
+  ]);
 
   const queryClient = new QueryClient({defaultOptions: {queries: {retry: false}}});
   renderWithProviders(

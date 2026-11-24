@@ -20,7 +20,7 @@ describe('useCountCategoryChildren', () => {
   test('it returns isLoading true and undefined data initially', () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: () => Promise.resolve([]),
-    } as any);
+    } as Response);
 
     const {result} = renderHook(() => useCountCategoryChildren(1), {wrapper: createWrapper()});
     expect(result.current.isLoading).toBe(true);
@@ -31,7 +31,7 @@ describe('useCountCategoryChildren', () => {
     const categoryIds = [10, 11, 12, 13, 14];
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       json: () => Promise.resolve(categoryIds),
-    } as any);
+    } as Response);
 
     const {result} = renderHook(() => useCountCategoryChildren(1), {wrapper: createWrapper()});
 

@@ -22,7 +22,7 @@ describe('useReorderAttributes', () => {
       ok: true,
       status: 204,
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
   });
 
   it('calls apiFetch with POST and JSON-serialised uuid array when mutated', async () => {

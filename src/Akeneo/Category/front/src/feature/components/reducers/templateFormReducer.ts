@@ -67,7 +67,7 @@ export type TemplateFormAction =
     };
 
 export const templateFormReducer = (previousState: TemplateFormState, action: TemplateFormAction) => {
-  const state = (window as any).structuredClone(previousState) as TemplateFormState;
+  const state = window.structuredClone(previousState);
 
   if (action.type === 'attribute_label_translation_changed') {
     const {attributeUuid, localeCode, value} = action.payload;
@@ -114,8 +114,6 @@ export const templateFormReducer = (previousState: TemplateFormState, action: Te
       state.properties.labels[localeCode].errors = errors;
     }
   }
-
-  console.debug(action, previousState, state);
 
   return state;
 };

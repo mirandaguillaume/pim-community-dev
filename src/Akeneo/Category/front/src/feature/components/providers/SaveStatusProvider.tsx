@@ -42,13 +42,7 @@ const SaveStatusProvider = ({children}: Props) => {
         [id]: status,
       };
 
-      setGlobalStatus(previousGlobalStatus => {
-        const globalStatus = resolveGlobalStatus(statusList);
-        if (previousGlobalStatus !== globalStatus) {
-          console.debug('Save status:', Status[globalStatus], statusList);
-        }
-        return globalStatus;
-      });
+      setGlobalStatus(resolveGlobalStatus(statusList));
 
       return statusList;
     });

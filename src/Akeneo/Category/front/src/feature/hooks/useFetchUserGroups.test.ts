@@ -21,7 +21,7 @@ describe('useFetchUserGroups', () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
       json: () => Promise.resolve([]),
-    } as any);
+    } as Response);
 
     const {result} = renderHook(() => useFetchUserGroups(), {wrapper: createWrapper()});
     expect(result.current.status).toBe('pending');
@@ -36,7 +36,7 @@ describe('useFetchUserGroups', () => {
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve(mockGroups),
-    } as any);
+    } as Response);
 
     const {result} = renderHook(() => useFetchUserGroups(), {wrapper: createWrapper()});
 
@@ -48,7 +48,7 @@ describe('useFetchUserGroups', () => {
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       ok: false,
       status: 500,
-    } as any);
+    } as Response);
 
     const {result} = renderHook(() => useFetchUserGroups(), {wrapper: createWrapper()});
 

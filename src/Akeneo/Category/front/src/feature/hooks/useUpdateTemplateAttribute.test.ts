@@ -22,10 +22,10 @@ describe('useUpdateTemplateAttribute', () => {
       ok: true,
       status: 204,
       json: () => Promise.resolve(undefined),
-    } as any);
+    } as Response);
   });
 
-  it('generates the correct route with templateUuid and attributeUuid', async () => {
+  it('generates the correct route with templateUuid and attributeUuid', () => {
     renderHook(() => useUpdateTemplateAttribute('tmpl-1', 'attr-1'), {wrapper: createWrapper()});
     expect(fetchSpy).not.toHaveBeenCalled();
   });

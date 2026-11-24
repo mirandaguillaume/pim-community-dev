@@ -36,26 +36,26 @@ describe('Tree', () => {
     expect(screen.getByText('My Category')).toBeInTheDocument();
   });
 
-  it('calls onClick with the node value when clicked', async () => {
+  it('calls onClick with the node value when clicked', () => {
     const onClick = jest.fn();
     renderTree({onClick, label: 'Root Category'});
-    await userEvent.click(screen.getByText('Root Category'));
+    userEvent.click(screen.getByText('Root Category'));
     expect(onClick).toHaveBeenCalledWith(expect.objectContaining({identifier: 1}));
   });
 
-  it('calls open when the arrow button is clicked on a closed non-leaf node', async () => {
+  it('calls open when the arrow button is clicked on a closed non-leaf node', () => {
     const open = jest.fn();
     renderTree({isLeaf: false, isOpen: false, open});
     const buttons = screen.getAllByRole('button');
-    await userEvent.click(buttons[0]);
+    userEvent.click(buttons[0]);
     expect(open).toHaveBeenCalledTimes(1);
   });
 
-  it('calls close when the arrow button is clicked on an open non-leaf node', async () => {
+  it('calls close when the arrow button is clicked on an open non-leaf node', () => {
     const close = jest.fn();
     renderTree({isLeaf: false, isOpen: true, close});
     const buttons = screen.getAllByRole('button');
-    await userEvent.click(buttons[0]);
+    userEvent.click(buttons[0]);
     expect(close).toHaveBeenCalledTimes(1);
   });
 

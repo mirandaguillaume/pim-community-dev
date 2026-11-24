@@ -28,17 +28,17 @@ describe('InitializeTemplateChoice', () => {
     expect(screen.getByText('akeneo.category.template.initialize.button.create')).toBeInTheDocument();
   });
 
-  it('shows LoadAttributeSetModal when the load button is clicked', async () => {
+  it('shows LoadAttributeSetModal when the load button is clicked', () => {
     renderWithProviders(<InitializeTemplateChoice templateId="tmpl-uuid" />);
     expect(screen.queryByTestId('load-attr-set-modal')).not.toBeInTheDocument();
-    await userEvent.click(screen.getByText('akeneo.category.template.initialize.button.load'));
+    userEvent.click(screen.getByText('akeneo.category.template.initialize.button.load'));
     expect(screen.getByTestId('load-attr-set-modal')).toBeInTheDocument();
   });
 
-  it('shows AddTemplateAttributeModal when the create button is clicked', async () => {
+  it('shows AddTemplateAttributeModal when the create button is clicked', () => {
     renderWithProviders(<InitializeTemplateChoice templateId="tmpl-uuid" />);
     expect(screen.queryByTestId('add-attr-modal')).not.toBeInTheDocument();
-    await userEvent.click(screen.getByText('akeneo.category.template.initialize.button.create'));
+    userEvent.click(screen.getByText('akeneo.category.template.initialize.button.create'));
     expect(screen.getByTestId('add-attr-modal')).toBeInTheDocument();
   });
 });
