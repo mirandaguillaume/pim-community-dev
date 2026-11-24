@@ -65,7 +65,12 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
       affichait toujours « Normal ». Corrigé dans la même PR par `useEditorState`, qui ne re-rend
       que si une valeur affichée change. Le test des tailles de police ne vérifiait que la survie du
       texte, ce qui a laissé passer le gel : il vérifie maintenant la valeur affichée.
-      **Reste à faire** : la relecture visuelle de la barre d'outils dans Storybook.
+      **Relecture visuelle faite** dans Storybook, et elle a trouvé ce qu'aucun test ne pouvait
+      voir : la zone de texte avait perdu marges et bornes de hauteur, stylées par
+      `.rdw-editor-main`, une classe draft-js que Tiptap ne rend jamais (#533). Un sélecteur vers
+      une classe disparue n'échoue nulle part — ni lint, ni `tsc`, ni Jest, ni le rendu Storybook
+      de la CI. Après toute migration de bibliothèque d'interface : `git grep` des préfixes de
+      classes de l'ancienne.
 - [ ] **Les 159 avertissements eslint de Category**, en trois lots. 197 au départ : #500 a traité les
       5 `exhaustive-deps` dont la dépendance manquante est un singleton vérifié (no-op d'exécution),
       la suppression de `feature/legacy/` (#501) en a emporté 5 autres, puis **les 12
