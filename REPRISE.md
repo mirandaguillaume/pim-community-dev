@@ -81,8 +81,18 @@ runners auto-hébergés, jobs filtrés par chemins ; seul `ci-success` est requi
    italique / listes / lien actifs après clic ET selon la position du curseur ; taille et police
    affichées après le choix ; variantes lecture seule et invalide.
 3. **Ordre de fusion à respecter** (2026-11-24) : **#535** (lock Composer, 17 avis de sécurité :
-   `composer audit` bloquait `lint-and-security` sur toute PR back/CI et sur la nightly) → **#534**
-   (bloquée par #535) → puis **étape 3b**.
+   `composer audit` bloquait `lint-and-security` sur toute PR back/CI et sur la nightly ; contient
+   aussi le correctif de `ApiTestCase::executeStreamRequest`, 76 tests E2E cassés par
+   `http-kernel` 6.4.50) → **#534** (bloquée par #535 : *mettre à jour sa branche* pour relancer
+   `lint-and-security`) → puis **étape 3b**.
+   En parallèle : **#536** (react-router 7.18.6 : deux alertes Dependabot ; polyfill `TextEncoder`
+   pour Jest ; correctif du sélecteur Stryker) et **#537** (deux tests DQI E2E réactivés : la file
+   de score n'était jamais vidée, propriété `private` masquée dans `MessengerTestCase`) — #537 aussi
+   bloquée par `lint-and-security` jusqu'à #535.
+   **Après #535** : réactiver les deux tests Connectivity encore exclus
+   (`CollectDomainErrorFromProductEndpointEndToEnd`, `CollectApiErrorsCountEndToEnd`) — leur cause,
+   `terminate` déclenché avant le corps streamé, est exactement ce que `http-kernel` 6.4.50 corrige :
+   retirer le groupe et leurs deux entrées dans `bin/check-e2e-known-failures`, laisser la CI juger.
    **Étape 3b — build du design system hors bundler : FAITE, PR PAS ENCORE OUVERTE.** Branche
    `fix/dsm-build-outside-bundler` (`10173fe398`, worktree
    `~/claude-worktrees/pim-community-dev/dsm-build`) : double build CJS + ESM (`lib/esm`, champ
