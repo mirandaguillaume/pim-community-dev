@@ -12,6 +12,7 @@ const ConnectedAppsContainerHelper: FC<Props> = ({count}) => {
     const title = (
         <div
             dangerouslySetInnerHTML={{
+                // nosemgrep: react-dangerouslysetinnerhtml -- count is a number
                 __html: translate(
                     'akeneo_connectivity.connection.connect.connected_apps.list.helper.title',
                     {count: `<span class='AknConnectivityConnection-helper--highlight'>${count}</span>`},

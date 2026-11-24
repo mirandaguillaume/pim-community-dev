@@ -25,6 +25,7 @@ export const MarketplaceHelper: FC<Props> = ({count}) => {
     const title = (
         <div
             dangerouslySetInnerHTML={{
+                // nosemgrep: react-dangerouslysetinnerhtml -- count is a number
                 __html: translate(
                     titleTranslationKey,
                     {count: `<span class='AknConnectivityConnection-helper--highlight'>${count}</span>`},

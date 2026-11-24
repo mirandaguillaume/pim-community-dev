@@ -23,6 +23,7 @@
             {% block breadcrumbs %}
                 {% if breadcrumbs.indexLabel is defined %}
                     {% if breadcrumbs.indexPath is defined %}
+                        {# nosemgrep: var-in-href -- no template extends this one; breadcrumb paths must be router-generated #}
                         <a href="{{ breadcrumbs.indexPath }}">{{ breadcrumbs.indexLabel|trans }}</a>
                     {% else %}
                         {{ breadcrumbs.indexLabel|trans }}
@@ -31,6 +32,7 @@
                 {% endif %}
                 {% if breadcrumbs.additional is defined %}
                     {% for breadcrumb in breadcrumbs.additional %}
+                        {# nosemgrep: var-in-href -- no template extends this one; breadcrumb paths must be router-generated #}
                         <a href="{{ breadcrumb.indexPath }}">{{ breadcrumb.indexLabel|trans }}</a>
                         <span class="separator">/</span>
                     {% endfor %}

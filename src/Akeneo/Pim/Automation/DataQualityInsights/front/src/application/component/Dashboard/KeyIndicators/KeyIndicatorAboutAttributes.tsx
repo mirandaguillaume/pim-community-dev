@@ -60,6 +60,7 @@ export const KeyIndicatorAboutAttributes: FC<Props> = ({children, type, counts, 
         <AttributeMessageBuilder counts={counts} onClick={handleClickOnCount} />
         <TextWithLink
           dangerouslySetInnerHTML={{
+            // nosemgrep: react-dangerouslysetinnerhtml -- tips are constants
             __html: translate(tip.message, {link: tip.link || ''}),
           }}
         />

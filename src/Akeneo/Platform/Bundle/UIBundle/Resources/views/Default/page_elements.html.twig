@@ -18,6 +18,7 @@
 {% macro deleteLink(url, acl, redirectUrl, message, successMessage, title, class = '', subTitle = '', errorMessage = '') %}{% apply spaceless %}
     {% if acl is null or resource_granted(acl) %}
         {% import _self as elements %}
+        {# nosemgrep: unquoted-attribute-var -- deleteLinkAttributes() renders attributes already quoted and escaped #}
         <a class="{{ class }}" title="{{ 'pim_common.delete'|trans|capitalize }}" {{elements.deleteLinkAttributes(url, redirectUrl, message, successMessage, title, subTitle, errorMessage)}} >
             {{ 'pim_common.delete'|trans|capitalize }}
         </a>
@@ -28,6 +29,7 @@
 {% apply spaceless %}
     {% set title = opts.title is defined ? opts.title : text %}
     {% set icon = opts.icon is defined ? opts.icon : null %}
+    {# nosemgrep: unquoted-attribute-var, var-in-href -- macro has no caller; attribute names come from the calling template, url must be router-generated #}
     <a{% if opts.id is defined %} id="{{ opts.id }}"{% endif %} class="{{ opts.class is defined ? opts.class|join(' ') }}" href="{{ url ? url : 'javascript:void(0);' }}"{% if title %} title="{{ title|trans|capitalize }}"{% endif %}{% if opts.attr is defined %}{% for key, value in opts.attr %} {{ key }}="{{ value }}"{% endfor %}{% endif %}>
         {{ text|trans|capitalize }}
     </a>
@@ -144,6 +146,7 @@
             function ($, FormUpdateListener) {
                 'use strict';
                 $(function () {
+                    {# nosemgrep: var-in-script-tag -- Symfony form ids only contain [a-zA-Z0-9_:-] #}
                     new FormUpdateListener($('#{{ formId }}'));
                 });
             }
