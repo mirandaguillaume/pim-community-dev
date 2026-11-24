@@ -36,20 +36,17 @@ jobs:
         id: meta
         uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
 
-      # Two conditions gate the merge.
-      #
       # Major bumps are left to a human: semver says they may break us, and
       # nothing in CI can tell us whether the breakage is one we care about.
       #
-      # front-packages/akeneo-design-system is excluded because `ci-success` —
-      # the only required check on master — does not exercise it. That package
-      # is not a root yarn workspace, so a bump inside it turns ci-success green
-      # with its own tests never having run (PR #337: ci-success SUCCESS, 14
-      # checks skipped). Drop this clause once dsm-test is a required check.
+      # front-packages/akeneo-design-system used to be excluded too, because
+      # `ci-success` — the only required check on master — did not exercise it
+      # (PR #337: ci-success SUCCESS, 14 checks skipped). The design system
+      # suite now runs inside ci.yml as `test-dsm` and gates ci-success, so a
+      # bump there waits on its own tests like any other.
       - name: Queue auto-merge
         if: >-
-          steps.meta.outputs.directory != '/front-packages/akeneo-design-system'
-          && contains(fromJSON('["version-update:semver-patch", "version-update:semver-minor"]'), steps.meta.outputs.update-type)
+          contains(fromJSON('["version-update:semver-patch", "version-update:semver-minor"]'), steps.meta.outputs.update-type)
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

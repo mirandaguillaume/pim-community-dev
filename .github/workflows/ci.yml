@@ -107,6 +107,7 @@ jobs:
       backend_prod: ${{ steps.force.outputs.backend_prod || steps.filter.outputs.backend_prod }}
       frontend: ${{ steps.force.outputs.frontend || steps.filter.outputs.frontend }}
       ci: ${{ steps.force.outputs.ci || steps.filter.outputs.ci }}
+      dsm: ${{ steps.force.outputs.dsm || steps.filter.outputs.dsm }}
     steps:
       - name: Fix workspace permissions (Docker root-owned files)
         run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
@@ -196,6 +197,11 @@ jobs:
               - 'docker/**'
               - 'castor/**'
               - 'castor.php'
+            # The paths dsm-test.yml used to watch on its own `pull_request` trigger, plus the
+            # workflow itself, so that a change to it is exercised by the PR that makes it.
+            dsm:
+              - 'front-packages/akeneo-design-system/**'
+              - '.github/workflows/dsm-test.yml'
       - name: Force all paths on schedule / workflow_dispatch
         id: force
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -204,6 +210,7 @@ jobs:
           echo "backend_prod=true" >> $GITHUB_OUTPUT
           echo "frontend=true" >> $GITHUB_OUTPUT
           echo "ci=true" >> $GITHUB_OUTPUT
+          echo "dsm=true" >> $GITHUB_OUTPUT
 
   # ===========================================================================
   # BUILD PHP IMAGE (pushed to GHCR, not artifacts)
@@ -2803,6 +2810,16 @@ jobs:
           path: var/stryker/
           retention-days: 30
 
+  # ===========================================================================
+  # DESIGN SYSTEM: lint, unit tests, lib build, Storybook render + a11y, example project.
+  # Called here rather than triggered on its own so that it gates ci-success: beside the
+  # required check, it stayed red on every branch from 2026-11-15 and nothing noticed.
+  # ===========================================================================
+  test-dsm:
+    needs: [detect-changes]
+    if: needs.detect-changes.outputs.dsm == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/dsm-test.yml
+
   ci-success:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs:
@@ -2831,6 +2848,7 @@ jobs:
       - mutation-testing
       - mutation-setup
       - mutation-testing-front
+      - test-dsm
     if: always()
     timeout-minutes: 5
     steps:
@@ -2865,6 +2883,7 @@ jobs:
           echo "  test-playwright: ${{ needs.test-playwright.result }}"
           echo "  mutation-testing: ${{ needs.mutation-testing.result }}"
           echo "  mutation-testing-front: ${{ needs.mutation-testing-front.result }}"
+          echo "  test-dsm: ${{ needs.test-dsm.result }}"
 
           # Each job must be either 'success' or 'skipped' (path-filtered).
           # 'image', 'prepare' and 'detect-changes' are never path-filtered so must always succeed.
@@ -2903,6 +2922,7 @@ jobs:
             "${{ needs.test-playwright.result }}"
             "${{ needs.mutation-testing.result }}"
             "${{ needs.mutation-testing-front.result }}"
+            "${{ needs.test-dsm.result }}"
           )
 
           failed=false
