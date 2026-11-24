@@ -37,6 +37,10 @@ const changed = git(['diff', '--diff-filter=AM', '--name-only', 'origin/master..
   .filter(Boolean)
   .filter(f => /^(front-packages|components|src)\//.test(f))
   .filter(f => !/\.(test|spec|unit|visual)\.|__tests__|__mocks__|stories|\.storybook\//.test(f))
+  // Test-support directories (setup files, mocks, fixtures, test-utils): no test exercises them as
+  // a subject, so their mutants can only survive and the score reads 0.00. Every TS file under a
+  // `tests/` segment of components/ and src/ is such a helper -- checked when this line was added.
+  .filter(f => !/(^|\/)tests\//.test(f))
   .filter(f => !/\.d\.ts$/.test(f)) // type-only: nothing to mutate
   .filter(f => !/^src\/Akeneo\/Category\//.test(f))
   // `front-packages/` is excluded for the same reason Category is: its tests are not in
