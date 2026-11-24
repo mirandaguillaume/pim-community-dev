@@ -2327,13 +2327,13 @@ jobs:
       - uses: actions/checkout@v4
 
       # PHP only: CodeQL (default setup) covers JavaScript, TypeScript and the workflows, but has
-      # no PHP extractor. One scan, written straight to SARIF.
+      # no PHP extractor. One scan, written straight to SARIF. Every --config must exist in the
+      # registry: an unknown one (p/symfony, never published) makes semgrep exit 7 before scanning.
       - name: Run Semgrep (PHP security rules)
         run: |
           mkdir -p var/sast
           semgrep scan \
             --config p/php \
-            --config p/symfony \
             --config p/security-audit \
             --config p/xss \
             --sarif --output var/sast/semgrep-php.sarif \
