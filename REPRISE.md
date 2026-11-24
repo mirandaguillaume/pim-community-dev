@@ -8,32 +8,36 @@ dépendances (Symfony 6.4, PHPUnit 10 à la place de PHPSpec), migration du fron
 Backbone vers React sur les datagrids, Redux Toolkit / react-query), migration des tests Behat
 vers Playwright, durcissement CI et sécurité, couverture de tests et mutation testing.
 
-## État au 2026-11-24
+## État au 2026-11-24 (soir)
 
-- **#520 (Tiptap) fusionnée** le 2026-11-23 (`bfe800f64e`). L'échec « Launch tests on the DSM »
-  était un vrai bug, pas un test fragile : Tiptap 3 ne re-rend plus à chaque transaction, la barre
-  d'outils restait figée sur son premier état ; corrigé par `useEditorState` (voir `ROADMAP.md`).
-- **PR #532 ouverte, auto-merge armé** (`fix/category-exhaustive-deps`) : les 12
-  `react-hooks/exhaustive-deps` de Category soldés (eslint 171 → 159), dont deux vrais défauts —
-  le formulaire d'édition de catégorie pouvait effacer des modifications non enregistrées
-  (`EditCategoryProvider` sans `useMemo`), et une fermeture périmée pouvait perdre un déplacement
-  dans l'arbre. Embarque aussi la mise à jour de `ROADMAP.md`. Si la CI la refuse : lire le job,
-  la cause est dans un des 6 fichiers du diff.
-- PR Dependabot ouvertes, toutes sur le design system : #522, #523, #528, #531.
-- **Ce clone a été restauré** (clone du 2026-03-20, plus l'archive `A-EMPORTER-2026-11-02` :
-  `.envrc` et les 4 stashes du bundle `pim-community-dev-stashes-0-2-3-4.bundle`, réimportés en
-  `git stash` et en `refs/stash-export/*`). Les 327 branches locales d'avant n'existent plus et
-  n'ont pas à être recréées : tout ce qui comptait est sur `origin`. `master` local est aligné sur
-  `origin/master`.
+- **Toutes les PR de la journée sont fusionnées** (#522 → #546, aucune ouverte). Les marquantes :
+  - **#520 / #533** Tiptap remplace draft-js dans le design system (barre d'outils réparée par
+    `useEditorState`, marges de l'éditeur) ; **#532** 12 `exhaustive-deps` de Category, dont deux
+    vrais défauts.
+  - **#534** la suite du design system (`test-dsm`) compte enfin dans `ci-success` ;
+    **#540** le DSM publie un double build CJS + ESM chargeable hors bundler (`yarn lib:check`).
+  - **#535** lock Composer (17 avis) + correctif `executeStreamRequest` (76 tests E2E) ;
+    **#537** tests DQI E2E réactivés ; **plus aucune exclusion E2E connue**.
+  - **#536** react-router 7.18 ; **#541** 9 alertes Dependabot high (babel-minify mort retiré,
+    résolutions) ; **#542** victory 38.
+  - **#539 / #546** deux scénarios Behat instables de `add_product_model_children.feature` portés
+    vers Playwright (lignes 174 et 56).
+- **Sécurité, mise en place du jour** :
+  - CodeQL (default setup, JS/TS + Actions) ajouté par l'utilisateur. **#544** ferme 12 alertes JS
+    (Bootstrap 2 data-api, `pim-fileinput`, `uuid()` cryptographique, select2) ; **#545** assainit
+    le HTML riche chargé par Summernote avec DOMPurify (`window.DOMPurify` posé par
+    `globals-prelude.js` : rspack n'active pas l'AMD) ; **#543** permissions minimales sur 4
+    workflows et suppression des workflows imbriqués du DSM (jamais exécutés).
+  - **5 alertes CodeQL laissées ouvertes volontairement** (choix utilisateur, inatteignables dans
+    l'usage du PIM) : #22 tooltip `html`, #24 palette Summernote, #26/#27/#29 chemin iframe de
+    jquery.form. Justifications prêtes dans le rapport de tri (fichier:ligne).
+  - **Semgrep réparé par #543** : il n'avait **jamais** scanné (ruleset `p/symfony` inexistant →
+    exit 7 masqué par `|| true`, upload SARIF refusé depuis mai). PHP seul désormais (CodeQL couvre
+    le JS), catégorie `semgrep-php`. **Premier vrai scan : 38 résultats**, en cours de tri.
 - Les deux `.tar` déchiffrés de la sauvegarde (`~/A-EMPORTER-2026-11-0{2,6}.tar`) sont **en clair**
-  dans `~` et contiennent les clés SSH : à supprimer une fois la restauration finie (les `.gpg`
-  restent).
-- Worktrees (`git worktree list`) :
-  `~/claude-worktrees/category-exhaustive-deps` (PR #532, garder jusqu'à la fusion),
-  `~/claude-worktrees/pim-community-dev/reprise` (cette note), `../pim-tiptap` (#520 fusionnée,
-  supprimable avec la branche locale `tiptap-rebased-backup`), et deux worktrees ESM de juin
-  (`../pim-community-dev-wip-esm-b5`, `../pim-community-dev-wip-esm-flip-46`) entièrement dépassés
-  par master, supprimables.
+  dans `~` et contiennent les clés SSH : à supprimer (les `.gpg` restent) — attend l'accord.
+- Beaucoup de worktrees sous `~/claude-worktrees/pim-community-dev/` correspondent à des PR
+  fusionnées : `git worktree list`, puis supprimer ceux dont la branche est fusionnée — attend l'accord.
 - La branche `upgrade/sgbd-abstraction` (mars) est **abandonnée** : à ignorer.
 
 ## Installer et lancer
@@ -60,52 +64,27 @@ runners auto-hébergés, jobs filtrés par chemins ; seul `ci-success` est requi
 
 ## Où j'en étais et prochaines étapes
 
-1. Vérifier que **#532** (Category), **#533** (marges de l'éditeur Tiptap) et **#534** (suite du
-   design system rendue requise) ont fusionné (`gh pr view 532` etc.) ; sinon lire l'échec et
-   corriger. #532 avait une régression (effets du nœud d'arbre relancés sur changement d'`id`),
-   corrigée par `504879ad3b`. **#534** : le workflow du design system était rouge sur toutes les
-   branches depuis le 2026-11-15 (Playwright refuse les runners Ubuntu 26.04) sans rien bloquer ;
-   il est maintenant appelé par `ci.yml` (`test-dsm`), compte dans `ci-success` et tourne sur
-   `ubuntu-24.04` épinglé. Si `test-dsm` échoue sur #534, c'est la première exécution du rendu
-   Storybook + a11y depuis neuf jours : lire le log, un écart peut dater de #520.
-2. ~~Relire visuellement la barre d'outils Tiptap dans Storybook~~ — **fait le 2026-11-24** : barre
-   d'outils OK ; la relecture a trouvé la zone de texte sans marge ni bornes de hauteur (sélecteurs
-   `.rdw-*` morts), corrigé par **#533** (auto-merge armé). Pour relancer Storybook plus tard :
-   ```bash
-   cd front-packages/akeneo-design-system
-   yarn add --dev react@^18.3.1 react-dom@^18.3.1 styled-components@^5.1.1  # comme dsm-test.yml
-   git checkout -- package.json yarn.lock                                     # ne pas committer ça
-   yarn storybook:start   # puis http://localhost:6006/?path=/story/components-inputs-textarea-input--rich-text-editor
-   ```
-   Vérifier : « Title 2 » puis « Normal » s'affichent dans la liste après le choix ; boutons gras /
-   italique / listes / lien actifs après clic ET selon la position du curseur ; taille et police
-   affichées après le choix ; variantes lecture seule et invalide.
-3. **Ordre de fusion à respecter** (2026-11-24) : **#535** (lock Composer, 17 avis de sécurité :
-   `composer audit` bloquait `lint-and-security` sur toute PR back/CI et sur la nightly ; contient
-   aussi le correctif de `ApiTestCase::executeStreamRequest`, 76 tests E2E cassés par
-   `http-kernel` 6.4.50) → **#534** (bloquée par #535 : *mettre à jour sa branche* pour relancer
-   `lint-and-security`) → puis **étape 3b**.
-   En parallèle : **#536** (react-router 7.18.6 : deux alertes Dependabot ; polyfill `TextEncoder`
-   pour Jest ; correctif du sélecteur Stryker) et **#537** (deux tests DQI E2E réactivés : la file
-   de score n'était jamais vidée, propriété `private` masquée dans `MessengerTestCase`) — #537 aussi
-   bloquée par `lint-and-security` jusqu'à #535.
-   **Après #535** : réactiver les deux tests Connectivity encore exclus
-   (`CollectDomainErrorFromProductEndpointEndToEnd`, `CollectApiErrorsCountEndToEnd`) — leur cause,
-   `terminate` déclenché avant le corps streamé, est exactement ce que `http-kernel` 6.4.50 corrige :
-   retirer le groupe et leurs deux entrées dans `bin/check-e2e-known-failures`, laisser la CI juger.
-   **Étape 3b — build du design system hors bundler : FAITE, PR PAS ENCORE OUVERTE.** Branche
-   `fix/dsm-build-outside-bundler` (`10173fe398`, worktree
-   `~/claude-worktrees/pim-community-dev/dsm-build`) : double build CJS + ESM (`lib/esm`, champ
-   `module`), SVG déplacés dans `src/static/` et copiés dans `lib/`, `yarn lib:check`, alias rspack
-   qui garde le PIM sur le CJS. Quand #534 est fusionnée : rebaser sur master, ajouter une étape
-   `yarn lib:check` après « Make sure the lib build is successful » dans `dsm-test.yml`, ouvrir la
-   PR avec auto-merge.
-4. Category, lots eslint restants (159) : 96 `no-explicit-any`, 36 `await-thenable`, 19
-   `require-await`, 8 `no-console`.
-5. Reste connu de la suite `End_to_End` PHPUnit : 4 tests exclus (`@group e2e_known_failure`),
-   dont 2 à diagnostiquer (calculs de score DQI).
-6. Chantiers explicitement non démarrés : Backbone vers React restant (phase C2/C3), typage des
-   `.js` (D1), phases 4 à 7 du plan de couverture Jest, burn-down de la baseline PHPStan.
+Quatre chantiers lancés en parallèle le 2026-11-24 au soir, chacun dans son worktree, **commits
+locaux non poussés** : relire, pousser, ouvrir la PR avec auto-merge.
+
+1. **Tri des 38 résultats Semgrep PHP** — worktree `semgrep-triage`, branche
+   `security/semgrep-php-triage`. Priorités : `base_convert` dans `UserManagement/Component/Model/User.php`
+   (jeton ?), requête Doctrine de `AbstractItemCategoryRepository.php:142`, variables Twig dans des
+   `<script>`, 8 `dangerouslySetInnerHTML`. Les faux positifs non supprimables en ligne seront à
+   rejeter sur GitHub (onglet Security) avec la justification.
+2. **Racine du piège Jest `moduleDirectories`** — worktree `jest-resolve`, branche
+   `test/jest-resolve-nested-deps`. 11 configs listent `<ROOT>/node_modules` : Jest résout alors toute
+   dépendance imbriquée vers la copie racine (cause du crash `TextEncoder` de #541). Preuve par
+   `jest-resolve`, pas par Jest (interdit en local). Risque : doublons de React — la CI tranche.
+3. **Portage du reste de `add_product_model_children.feature` vers Playwright** — worktree
+   `port-pm-children`, branche `test/port-add-product-model-children-rest`, **basée sur la branche de
+   #546 avant sa fusion en squash : la rebaser sur master** avant de pousser.
+4. **Lots eslint Category** (159 : 96 `no-explicit-any`, 36 `await-thenable`, 19 `require-await`,
+   8 `no-console`) — worktree `category-eslint`, branche `chore/category-eslint-backlog`. Attention
+   aux `async` retirés (type de retour qui change).
+5. Chantiers explicitement non démarrés : Backbone vers React restant (phase C2/C3), typage des
+   `.js` (D1), phases 4 à 7 du plan de couverture Jest, burn-down de la baseline PHPStan,
+   assainissement côté serveur du texte riche (DOMPurify ne protège que l'éditeur).
    Ne pas réécrire `filters-manager.js` ni créer `select-row-filter-react.ts` (voir `ROADMAP.md`).
 
 ## À fournir hors dépôt
