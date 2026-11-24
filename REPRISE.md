@@ -60,8 +60,14 @@ runners auto-hébergés, jobs filtrés par chemins ; seul `ci-success` est requi
 
 ## Où j'en étais et prochaines étapes
 
-1. Vérifier que **#532** (Category) et **#533** (marges de l'éditeur Tiptap) ont fusionné
-   (`gh pr view 532`, `gh pr view 533`) ; sinon lire l'échec et corriger.
+1. Vérifier que **#532** (Category), **#533** (marges de l'éditeur Tiptap) et **#534** (suite du
+   design system rendue requise) ont fusionné (`gh pr view 532` etc.) ; sinon lire l'échec et
+   corriger. #532 avait une régression (effets du nœud d'arbre relancés sur changement d'`id`),
+   corrigée par `504879ad3b`. **#534** : le workflow du design system était rouge sur toutes les
+   branches depuis le 2026-11-15 (Playwright refuse les runners Ubuntu 26.04) sans rien bloquer ;
+   il est maintenant appelé par `ci.yml` (`test-dsm`), compte dans `ci-success` et tourne sur
+   `ubuntu-24.04` épinglé. Si `test-dsm` échoue sur #534, c'est la première exécution du rendu
+   Storybook + a11y depuis neuf jours : lire le log, un écart peut dater de #520.
 2. ~~Relire visuellement la barre d'outils Tiptap dans Storybook~~ — **fait le 2026-11-24** : barre
    d'outils OK ; la relecture a trouvé la zone de texte sans marge ni bornes de hauteur (sélecteurs
    `.rdw-*` morts), corrigé par **#533** (auto-merge armé). Pour relancer Storybook plus tard :
