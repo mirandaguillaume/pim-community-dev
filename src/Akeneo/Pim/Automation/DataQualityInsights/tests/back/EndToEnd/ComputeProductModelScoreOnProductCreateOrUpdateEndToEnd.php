@@ -39,13 +39,6 @@ final class ComputeProductModelScoreOnProductCreateOrUpdateEndToEnd extends Mess
         ]);
     }
 
-    /**
-     * Excluded from the End_to_End suite CI gate (#459). NOT DIAGNOSED.
-     * Same shape as ComputeProductScoreOnProductCreateOrUpdateEndToEnd, including the negative
-     * first assertion and the missing workaround its sibling carries. Both siblings pass.
-     *
-     * @group e2e_known_failure
-     */
     public function test_it_computes_product_model_score_after_creation(): void
     {
         $code = 'product-model-1';

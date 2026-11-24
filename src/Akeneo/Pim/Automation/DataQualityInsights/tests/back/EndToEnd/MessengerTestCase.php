@@ -37,6 +37,15 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
     {
         parent::setUp();
 
+        // A PubSub subscription only receives what is published after it exists, and nothing creates
+        // it before the consumer runs: the producer transport does not, flushQueues() skips a missing
+        // one, and launchConsumer() comes after the test's own publish. On CI's fresh emulator the
+        // test's first message would be lost; EvaluateAfterAttributeGroupActivateEndToEnd, which
+        // passes, already did this by hand before calling parent::setUp().
+        foreach ($this->pubSubQueueStatuses as $pubSubQueueStatus) {
+            $pubSubQueueStatus->createTopicAndSubscription();
+        }
+
         $this->flushQueues();
 
         $this->get('akeneo_integration_tests.helper.authenticator')->logIn('admin');

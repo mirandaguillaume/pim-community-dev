@@ -26,14 +26,7 @@ const GROUP = 'e2e_known_failure';
  * Every test currently excluded, and why. Read the docblock on the test itself for the full
  * account; these lines exist so that adding one is a deliberate, reviewable act.
  */
-const ALLOWED = [
-
-    // Not diagnosed. Their passing sibling after_update carries an explicit PubSub delivery-race
-    // workaround that these lack, and their first assertion is a negative one, which an early
-    // delivery would break. Expected to be fixable by mirroring the sibling.
-    'src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/EndToEnd/ComputeProductModelScoreOnProductCreateOrUpdateEndToEnd.php::test_it_computes_product_model_score_after_creation',
-    'src/Akeneo/Pim/Automation/DataQualityInsights/tests/back/EndToEnd/ComputeProductScoreOnProductCreateOrUpdateEndToEnd.php::test_it_computes_product_score_after_creation',
-];
+const ALLOWED = [];
 
 $root = dirname(__DIR__);
 $found = [];
