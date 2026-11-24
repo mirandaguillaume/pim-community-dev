@@ -563,8 +563,13 @@ Décidé lors de l'audit du 2026-09-24, toujours valable.
 - **CI** : GitHub Actions sur runners auto-hébergés partageant **un seul démon Docker**. Un shard
   Behat rouge est deux événements distincts — un scénario qui échoue (4-9 min) ou un job qui *pend*
   dans `Setup test database` (72 min) : tirer les **durées** par job avant d'ouvrir un log.
-- **`.github/workflows/` contient 8 fichiers.** Lire `ci.yml` seul mène à des conclusions fausses :
-  `dsm-test.yml` exécute la suite du design system, que `ci.yml` ignore.
+- **`.github/workflows/` contient 8 fichiers.** Lire `ci.yml` seul mène à des conclusions fausses.
+  `dsm-test.yml` exécute la suite du design system ; il tournait **à côté** de `ci-success`, sur son
+  propre déclencheur, et la montée des runners `ubuntu-latest` vers 26.04 (2026-11-15) l'a laissé
+  rouge sur toutes les branches pendant neuf jours sans rien bloquer — #520 a fusionné par-dessus.
+  Il est désormais **appelé par `ci.yml`** (`test-dsm`, filtre `dsm`) et compte dans `ci-success`,
+  sur un runner épinglé en `ubuntu-24.04`. Un job hors du check requis finit toujours par rougir en
+  silence.
 - **Une PR de docs seule ne peut pas fusionner** : elle matche `paths-ignore`, aucun check n'est
   rapporté, `ci-success` n'arrive jamais. Ce fichier doit voyager dans une PR de code.
 - **Architecture** : hexagonal (`back/Application|Domain|Infrastructure`) et legacy

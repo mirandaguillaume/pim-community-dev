@@ -96,9 +96,11 @@ export const RichTextEditor = {
   render: args => {
     return (
       <>
-        <TextAreaInput {...args} isRichText={true} />
-        <TextAreaInput {...args} isRichText={true} readOnly={true} />
-        <TextAreaInput {...args} isRichText={true} invalid={true} />
+        {/* A plain textarea is named by its placeholder; the rich editor is not, so it needs a label
+            -- in an application, the one Field passes down through `aria-labelledby`. */}
+        <TextAreaInput {...args} isRichText={true} aria-label="Description" />
+        <TextAreaInput {...args} isRichText={true} readOnly={true} aria-label="Read-only description" />
+        <TextAreaInput {...args} isRichText={true} invalid={true} aria-label="Invalid description" />
       </>
     );
   },
