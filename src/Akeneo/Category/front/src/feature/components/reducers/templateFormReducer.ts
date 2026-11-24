@@ -115,7 +115,5 @@ export const templateFormReducer = (previousState: TemplateFormState, action: Te
     }
   }
 
-  console.debug(action, previousState, state);
-
   return state;
 };

@@ -56,6 +56,7 @@ const useCategoryTreeNode = (id: number) => {
         target.position === 'in' ? target.identifier : target.parentId
       );
       if (!targetParentNode) {
+        // eslint-disable-next-line no-console -- no logger in this context: a broken tree invariant, for developers
         console.error(`Parent node ${target.parentId} not found to set the move of node ${target.identifier}`);
         return;
       }
@@ -98,6 +99,7 @@ const useCategoryTreeNode = (id: number) => {
       setNodes(currentNodes => {
         const movedNode = findOneByIdentifier(currentNodes, identifier);
         if (!movedNode) {
+          // eslint-disable-next-line no-console -- no logger in this context: a broken tree invariant, for developers
           console.error(`Failed to move node ${identifier} : Node not found`);
           return currentNodes;
         }
@@ -107,16 +109,19 @@ const useCategoryTreeNode = (id: number) => {
           target.position === 'in' ? target.identifier : target.parentId
         );
         if (!targetParentNode) {
+          // eslint-disable-next-line no-console -- no logger in this context: a broken tree invariant, for developers
           console.error(`Failed to move node ${identifier} : Target parent node ${target.parentId} not found`);
           return currentNodes;
         }
 
         if (!movedNode.parentId) {
+          // eslint-disable-next-line no-console -- no logger in this context: a broken tree invariant, for developers
           console.error(`Failed to move node ${identifier} : Can not move root node`);
           return currentNodes;
         }
         const originalParentNode = findOneByIdentifier(currentNodes, movedNode.parentId);
         if (!originalParentNode) {
+          // eslint-disable-next-line no-console -- no logger in this context: a broken tree invariant, for developers
           console.error(`Failed to move node ${identifier} : Moved parent Node ${movedNode.parentId} not found`);
           return currentNodes;
         }
@@ -171,6 +176,7 @@ const useCategoryTreeNode = (id: number) => {
       });
 
       if (!persistSuccess) {
+        // eslint-disable-next-line no-console -- no logger in this context, and the UI does not report it either
         console.error(`Failed to persist node ${identifier}`);
       }
     },
