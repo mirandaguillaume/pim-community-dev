@@ -1,3 +1,10 @@
+/* PIM patch (Bootstrap 2.3.2): every data-api lookup of a selector read from the DOM
+ * (`data-target`, `href`, `data-parent`) goes through `$(document).find(...)` instead of `$(...)`,
+ * as Bootstrap 3.4.1 did for CVE-2018-14040/14041/14042. With jQuery >= 1.9 `$(string)` still
+ * parses a string such as ` <img onerror=...>` as HTML; `find()` only ever treats it as a selector.
+ * Same result for every valid selector. Sites: alert close, collapse parent + data-api, dropdown
+ * getParent, modal data-api, tab show.
+ */
 /* ===================================================
  * bootstrap-transition.js v2.3.2
  * http://getbootstrap.com/2.3.2/javascript.html#transitions
@@ -90,7 +97,7 @@
       selector = selector && selector.replace(/.*(?=#[^\s]*$)/, ''); //strip for ie7
     }
 
-    $parent = $(selector);
+    $parent = $(document).find(selector);
 
     e && e.preventDefault();
 
@@ -265,7 +272,7 @@
     this.options = $.extend({}, $.fn.collapse.defaults, options);
 
     if (this.options.parent) {
-      this.$parent = $(this.options.parent);
+      this.$parent = $(document).find(this.options.parent);
     }
 
     this.options.toggle && this.toggle();
@@ -384,9 +391,9 @@
         $this.attr('data-target') ||
         e.preventDefault() ||
         ((href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')), //strip for ie7
-      option = $(target).data('collapse') ? 'toggle' : $this.data();
-    $this[$(target).hasClass('in') ? 'addClass' : 'removeClass']('collapsed');
-    $(target).collapse(option);
+      option = $(document).find(target).data('collapse') ? 'toggle' : $this.data();
+    $this[$(document).find(target).hasClass('in') ? 'addClass' : 'removeClass']('collapsed');
+    $(document).find(target).collapse(option);
   });
 })(window.jQuery);
 /* ============================================================
@@ -528,7 +535,7 @@
       selector = selector && /#/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, ''); //strip for ie7
     }
 
-    $parent = selector && $(selector);
+    $parent = selector && $(document).find(selector);
 
     if (!$parent || !$parent.length) $parent = $this.parent();
 
@@ -786,7 +793,7 @@
   $(document).on('click.modal.data-api', '[data-toggle="modal"]', function (e) {
     var $this = $(this),
       href = $this.attr('href'),
-      $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))), //strip for ie7
+      $target = $(document).find($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))), //strip for ie7
       option = $target.data('modal')
         ? 'toggle'
         : $.extend({remote: !/#/.test(href) && href}, $target.data(), $this.data());
@@ -1474,7 +1481,7 @@
 
       if (e.isDefaultPrevented()) return;
 
-      $target = $(selector);
+      $target = $(document).find(selector);
 
       this.activate($this.parent('li'), $ul);
       this.activate($target, $target.parent(), function () {
