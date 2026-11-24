@@ -1,6 +1,7 @@
 # Roadmap — Akeneo PIM Community Edition Fork
 
-**Dernière révision : 2026-10-20.** Le dépôt en est à la PR #501. La version du 2026-02-20 n'avait
+**Dernière révision : 2026-11-24** (Palier 2 : draft-js livré, `exhaustive-deps` de Category soldés).
+Révision complète précédente : 2026-10-20, quand le dépôt en était à la PR #501. La version du 2026-02-20 n'avait
 jamais été relue : elle annonçait comme « prochaine étape majeure » un upgrade Symfony livré depuis,
 et listait en cours des PR numérotées #11 à #18. Chaque état ci-dessous a été mesuré dans l'arbre,
 avec le chiffre qui le fonde, pour qu'un lecteur puisse le réfuter en une commande plutôt que d'y
@@ -55,12 +56,16 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
 
 ## Palier 2 — coût connu, chantier réel
 
-- [ ] **Remplacer la chaîne draft-js** — 11 des 13 chemins d'alerte runtime restants, dont le seul
-      XSS et le seul paquet sans correctif publié (`react-draft-wysiwyg`, non maintenu). #486 a déjà
-      rendu le vecteur inatteignable en retirant les boutons `embedded` et `image`, donc l'urgence est
-      retombée : il reste la dette et le défaut de valeur non contrôlée que son consommateur
-      contourne par une `key` composite. Coût : nouvelle dépendance, restylage des sélecteurs
-      `.rdw-*`, test au contrat HTML à réécrire.
+- [x] **Remplacer la chaîne draft-js** — **livré par #520** (Tiptap), 14 des 15 alertes de la chaîne
+      fermées ; la survivante, `node-fetch@2.6.1` à la racine, arrive par `jest-fetch-mock` et n'a
+      rien à voir avec draft-js. Le détail est dans « Livré ». **Piège rencontré au passage** :
+      Tiptap 3 ne re-rend plus le composant à chaque transaction (`shouldRerenderOnTransaction` vaut
+      `false` par défaut), donc une barre d'outils qui lit `editor.isActive()` pendant le rendu se
+      fige sur son premier état — choisir « Title 2 » transformait bien le bloc en `<h2>`, la liste
+      affichait toujours « Normal ». Corrigé dans la même PR par `useEditorState`, qui ne re-rend
+      que si une valeur affichée change. Le test des tailles de police ne vérifiait que la survie du
+      texte, ce qui a laissé passer le gel : il vérifie maintenant la valeur affichée.
+      **Reste à faire** : la relecture visuelle de la barre d'outils dans Storybook.
 - [ ] **Les 159 avertissements eslint de Category**, en trois lots. 197 au départ : #500 a traité les
       5 `exhaustive-deps` dont la dépendance manquante est un singleton vérifié (no-op d'exécution),
       la suppression de `feature/legacy/` (#501) en a emporté 5 autres, puis **les 12
