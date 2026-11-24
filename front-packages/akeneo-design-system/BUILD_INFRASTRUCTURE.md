@@ -65,6 +65,11 @@ The important part here is to understand how we bump the version:
 
 Once the akeneo design system has been extracted to the external repository we still need to tag it, release it to Github and publish it to NPM. We also need to update the Storybook to Github pages.
 
+> In this fork the package is neither extracted nor published. The workflows described below ran in
+> the external repository; their copies under `front-packages/akeneo-design-system/.github/` were
+> removed, since GitHub only runs workflows from the repository's root `.github/workflows/` and never
+> executed them here. The links point to the upstream repository.
+
 ### Deploy storybook
 
 The deploy workflow is located in the [akeneo-design-system/.github/workflows/deploy.yml](https://github.com/akeneo/pim-community-dev/blob/master/akeneo-design-system/.github/workflows/deploy.yml) file. It's a Github action building the lib and pushing it to the `gh-pages` branch.
