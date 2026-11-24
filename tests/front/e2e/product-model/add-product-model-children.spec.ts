@@ -1,6 +1,13 @@
-import type {APIResponse, Page} from '@playwright/test';
+import type {APIResponse, Locator, Page} from '@playwright/test';
 import {test, expect} from '../fixtures/coverage-fixture';
-import {login, createProductModelViaApi, XHR_HEADER} from '../fixtures/pim';
+import {
+  login,
+  createProductModelViaApi,
+  createProductViaApi,
+  deleteProductViaApi,
+  deleteProductModelViaApi,
+  XHR_HEADER,
+} from '../fixtures/pim';
 import {NavigationHelper} from '../pages/NavigationHelper';
 
 /**
@@ -107,6 +114,8 @@ import {NavigationHelper} from '../pages/NavigationHelper';
 
 // icecat_demo_dev family_variants.csv:2 (clothing: level 1 axis color, level 2 axis size + sku).
 const FAMILY_VARIANT = 'clothing_color_size';
+// icecat_demo_dev family_variants.csv:4 (clothing: ONE level, axes color and size, sku among its attributes).
+const ONE_LEVEL_FAMILY_VARIANT = 'clothing_colorsize';
 
 const XHR_JSON_HEADERS = {'Content-Type': 'application/json', ...XHR_HEADER};
 
@@ -250,5 +259,184 @@ test.describe('Add children to a product model', () => {
     expect(String(product.values?.size?.[0]?.data ?? '').toLowerCase(), JSON.stringify(product.values?.size)).toBe(
       'xl'
     );
+  });
+
+  /**
+   * Replaced Behat scenario (deleted with this test): add_product_model_children.feature:174
+   *   "I cannot add a variant product with an already existing axis value combination"
+   *
+   * Adaptations:
+   * - Catalog: the Behat scenario opens the catalog_modeling root product model "amor" (family variant
+   *   clothing_colorsize, one level, axes color + size) whose variant 1111111113 already has color=blue,
+   *   size=m. icecat_demo_dev ships a family variant with the same code and the same layout
+   *   (family_variants.csv:4: family clothing, level 1 axes color,size, sku among the level-1 attributes),
+   *   with the options color "blue" (label Blue, attribute_options.csv:87) and size "m" (label M, :99), and
+   *   the attribute labels Color and Size (attributes.csv:70-71). The test reuses that family variant
+   *   read-only, like the test above reuses clothing_color_size, and creates the disposable part through
+   *   the internal API: a root product model and a variant product under it with color=blue, size=m. Both
+   *   carry a Date.now() suffix and are deleted afterwards (variant products first, since
+   *   ProductModelController::removeAction refuses a model that still has children). Uniqueness of an axis
+   *   combination is checked among SIBLINGS only (UniqueVariantAxisValidator, siblings read in SQL by
+   *   SqlGetValuesOfSiblings), so a fresh root isolates the test from any other variant of the catalog.
+   * - The expected message therefore names the disposable variant's SKU instead of "1111111113", and the
+   *   new SKU instead of "apollon_new_blue_m" (UniqueVariantAxisValidator::addViolation: %validated_entity%
+   *   is the identifier of the product being created, %sibling_with_same_value% the sibling's).
+   * - "I am logged in as Julia": admin/admin, like the test above.
+   * - Field order: Color, then Size, then SKU, for the reason given in the header of this file (every
+   *   select change rebuilds the whole modal form). Each select is synchronised on its REBUILT field
+   *   repainting the chosen label, and both are checked again after the second rebuild.
+   * - Not in Behat: the create request must answer 400 with the message in its body, the modal must stay
+   *   open, and if the duplicate was created after all it is deleted with the rest.
+   *
+   * Selectors: the same as the test above (variant navigation container, #select2-drop "Add new" button,
+   * `.modal.add-product-model-child`, `.AknFieldContainer` + label for the axis fields, getByLabel('SKU'),
+   * `.modal-body .ok`), with one container on the page: navigation.html renders the level-1 selector of a
+   * root product model because level 0 has a selected entity, and no level-2 selector exists for a one-level
+   * family variant. The title "Add a new Color, Size" is header.js's sorted, comma-joined axis labels.
+   * The error: the violation is raised atPath('attribute'), which ProductViolationNormalizer does not map to
+   * an attribute value, so it is normalized as {global: true, message}. add-child/fields-container.js keeps
+   * the errors without an `attribute` key as global errors and fields-container.html renders each one as
+   * `<li class="global-error">` in an `.AknMessageBox--danger` list inside the modal. A listitem takes no
+   * accessible name from its content, so the item is located by its exact text within the modal.
+   */
+  test('refuses a variant product whose axis value combination already exists', async ({page}) => {
+    const ts = Date.now();
+    const rootCode = `pw_addchild_amor_${ts}`;
+    const existingSku = `pw_addchild_blue_m_${ts}`;
+    const sku = `pw_addchild_new_blue_m_${ts}`;
+    const productUuids: string[] = [];
+    let rootId: string | null = null;
+
+    try {
+      // Setup: root product model -> variant product with color=blue, size=m.
+      const rootResp = await createProductModelViaApi(page, rootCode, ONE_LEVEL_FAMILY_VARIANT);
+      expect(
+        rootResp.ok(),
+        `Create root product model ${rootCode} failed: ${await describeResponse(rootResp)}`
+      ).toBeTruthy();
+      const rootBody = await rootResp.json();
+      expect(rootBody?.meta?.level, `Root product model is not at variation level 0: ${JSON.stringify(rootBody)}`).toBe(
+        0
+      );
+      rootId = rootBody?.meta?.id != null ? String(rootBody.meta.id) : null;
+      expect(rootId, `Create response had no meta.id: ${JSON.stringify(rootBody)}`).toBeTruthy();
+
+      const existingResp = await createProductViaApi(page, existingSku, 'clothing', {
+        parent: rootCode,
+        values: {
+          color: [{locale: null, scope: null, data: 'blue'}],
+          size: [{locale: null, scope: null, data: 'm'}],
+        },
+      });
+      const existingText = await existingResp.text().catch(() => '');
+      expect(
+        existingResp.ok(),
+        `Create variant product ${existingSku} failed: ${existingResp.status()} ${existingText}`
+      ).toBeTruthy();
+      const existingUuid = JSON.parse(existingText)?.meta?.id;
+      expect(existingUuid, `Create variant product response had no meta.id: ${existingText}`).toBeTruthy();
+      productUuids.push(String(existingUuid));
+
+      // Given I am on the "amor" product model page
+      await nav.goToEntityPage('product model', rootId!);
+      const childSelectors = page.locator('.variant-navigation.select2-container');
+      await expect(childSelectors).toHaveCount(1, {timeout: 30_000});
+
+      // When I open the variant navigation children selector for level 1
+      // And I press the "Add new" button and wait for modal
+      const levelOneSelector = childSelectors.first();
+      const dropdown = page.locator('#select2-drop');
+      const addNewButton = dropdown.getByRole('button', {name: 'Add new', exact: true});
+      await expect(async () => {
+        const isOpen = await levelOneSelector.evaluate(element => element.classList.contains('select2-dropdown-open'));
+        if (!isOpen) {
+          await levelOneSelector.locator('.select2-arrow').click({timeout: 5_000});
+        }
+        await expect(dropdown).toBeVisible({timeout: 5_000});
+        await expect(addNewButton).toBeVisible({timeout: 10_000});
+      }).toPass({timeout: 60_000});
+      await addNewButton.click({timeout: 10_000});
+
+      const modal = page.locator('.modal.add-product-model-child');
+      await expect(modal).toBeVisible({timeout: 15_000});
+
+      // Then I should see the text "Add a new Color, Size"
+      await expect(modal.getByText('Add a new Color, Size', {exact: true})).toBeVisible({timeout: 15_000});
+      const axisField = (label: string) =>
+        modal
+          .locator('.AknFieldContainer')
+          .filter({has: page.locator('.AknFieldContainer-label', {hasText: `${label} (variant axis)`})});
+      const colorField = axisField('Color');
+      const sizeField = axisField('Size');
+      await expect(colorField).toBeVisible({timeout: 15_000});
+      await expect(sizeField).toBeVisible({timeout: 15_000});
+      const skuInput = modal.getByLabel('SKU', {exact: true});
+      await expect(skuInput).toBeVisible({timeout: 15_000});
+
+      // When I fill in the following child information: | Color (variant axis) | Blue | Size (variant axis) | M |
+      const pick = async (field: Locator, optionLabel: string) => {
+        await field.locator('.select2-choice').click({timeout: 15_000});
+        const option = dropdown
+          .locator('.select2-result-selectable')
+          .filter({hasText: new RegExp(`^\\s*${optionLabel}\\s*$`)});
+        await expect(option).toBeVisible({timeout: 15_000});
+        await option.click({timeout: 10_000});
+        // The change rebuilds the whole modal form: wait for the REBUILT field to show the value.
+        await expect(field.locator('.select2-chosen')).toHaveText(optionLabel, {timeout: 15_000});
+      };
+      await pick(colorField, 'Blue');
+      await pick(sizeField, 'M');
+      await expect(colorField.locator('.select2-chosen')).toHaveText('Blue', {timeout: 15_000});
+
+      // When I fill in the following child information: | SKU | apollon_new_blue_m |
+      await skuInput.fill(sku, {timeout: 10_000});
+      await expect(skuInput).toHaveValue(sku);
+
+      // And I confirm the child creation
+      const createRespPromise = page.waitForResponse(
+        response => /\/enrich\/product\/rest(\?|$)/.test(response.url()) && response.request().method() === 'POST',
+        {timeout: 30_000}
+      );
+      await modal.locator('.modal-body .ok').click({timeout: 10_000});
+      const createResp = await createRespPromise;
+      const createText = await createResp.text().catch(() => '');
+      if (createResp.ok()) {
+        const createdUuid = JSON.parse(createText)?.meta?.uuid;
+        if (createdUuid) {
+          productUuids.push(String(createdUuid));
+        }
+      }
+      expect(
+        createResp.status(),
+        `The duplicate should be refused with a 400: ${createResp.status()} ${createText}`
+      ).toBe(400);
+
+      // Then I should see the text "Cannot set value "[blue],[m]" for the attribute axis "color,size" ..."
+      const message =
+        `Cannot set value "[blue],[m]" for the attribute axis "color,size" on variant product "${sku}", ` +
+        `as the variant product "${existingSku}" already has this value`;
+      // ProductController::createAction answers {values: [normalized violations]}; the body is parsed rather
+      // than searched, because JsonResponse escapes the double quotes of the message.
+      const violations = (JSON.parse(createText)?.values ?? []) as Array<{message?: string}>;
+      expect(
+        violations.map(violation => violation.message),
+        `The 400 does not carry the axis uniqueness error: ${createText}`
+      ).toContain(message);
+      await expect(modal.getByText(message, {exact: true})).toBeVisible({timeout: 15_000});
+      await expect(modal).toBeVisible();
+    } finally {
+      for (const uuid of productUuids) {
+        const resp = await deleteProductViaApi(page, uuid).catch(() => null);
+        if (resp && !resp.ok() && resp.status() !== 404) {
+          console.warn(`[cleanup] product ${uuid} refused: ${await describeResponse(resp)}`);
+        }
+      }
+      if (rootId) {
+        const resp = await deleteProductModelViaApi(page, rootId).catch(() => null);
+        if (resp && !resp.ok() && resp.status() !== 404) {
+          console.warn(`[cleanup] product model ${rootId} refused: ${await describeResponse(resp)}`);
+        }
+      }
+    }
   });
 });
