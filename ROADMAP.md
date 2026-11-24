@@ -56,6 +56,17 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
 
 ## Palier 2 — coût connu, chantier réel
 
+- [ ] **Lien de réinitialisation de mot de passe construit depuis l'en-tête `Host`.**
+      `UserManagement/.../Mail/reset.html.twig` appelle `url()` pendant la requête de
+      `ResetController::sendEmail` ; aucun `framework.trusted_hosts` ni `router.default_uri` dans
+      `config/`. Une demande de réinitialisation pour une victime avec `Host: evil.tld` lui envoie un
+      lien — jeton compris — vers ce domaine (selon le reverse proxy du déploiement). Deux sorties :
+      `trusted_hosts`, ou `akeneo_pim_url ~ path(...)` comme `Email/notification.html.twig`.
+      Trouvé au tri Semgrep (hors de la règle qui l'a signalé), **décision à prendre**.
+- [ ] **Assainir le texte riche côté serveur.** #545 assainit ce que Summernote charge dans
+      l'éditeur (DOMPurify), pas les autres rendus d'une valeur `pim_catalog_textarea` riche ni ce
+      qu'un import ou l'API enregistre. Les valeurs stockées ne sont réécrites qu'à leur prochaine
+      sauvegarde depuis l'éditeur.
 - [x] **Remplacer la chaîne draft-js** — **livré par #520** (Tiptap), 14 des 15 alertes de la chaîne
       fermées ; la survivante, `node-fetch@2.6.1` à la racine, arrive par `jest-fetch-mock` et n'a
       rien à voir avec draft-js. Le détail est dans « Livré ». **Piège rencontré au passage** :
@@ -189,6 +200,24 @@ unitaire par processus frais a borné un risque qu'on croyait inconnu (44/46 pro
       au lieu de protéger.
 
 ## Livré — les leçons valent plus que les lignes
+
+### Sécurité, 2026-11-24 (#541 → #545 et le tri Semgrep)
+
+- **CodeQL (default setup) a trouvé 14 high + 4 medium JS** : 12 fermées par #544 (sélecteurs
+  data-api de Bootstrap 2.3.2 via `$(document).find()` comme Bootstrap 3.4.1, nom de fichier en
+  `.text()`, `uuid()` du DSM sur `crypto.getRandomValues`, propriété morte de select2), la XSS
+  stockée du texte riche par #545 (DOMPurify). **5 laissées ouvertes exprès**, inatteignables dans
+  l'usage du PIM (#22, #24, #26/#27/#29). Leçon : rspack n'active pas l'AMD — un `define([...])`
+  dans un fichier vendored est du code mort, la dépendance doit passer par `globals-prelude.js`.
+- **Semgrep n'avait jamais scanné** (#543) : `p/symfony` n'existe pas (exit 7), masqué par `|| true`
+  et deux `continue-on-error` ; l'upload SARIF était refusé depuis mai. Premier vrai scan : 38
+  résultats → **6 vraies failles** (jeton de réinitialisation et sel tirés de `base_convert` d'un
+  hash — passage par un float, ~53 bits ; nom de groupe et messages flash dans un `<script>` ; noms
+  d'utilisateur bruts de la requête OAuth injectés en HTML dans Connectivity) et 32 faux positifs
+  annotés `nosemgrep` avec leur raison. Trois règles Twig signalent même `|e('js')` et `path()` :
+  une correction Twig s'accompagne donc toujours d'un marqueur.
+- **Jest résout les dépendances imbriquées vers la racine** dès qu'une entrée absolue figure dans
+  `moduleDirectories` (11 configs) : `node-fetch` 2.7 y prend `whatwg-url` 11 au lieu de 5 (#541).
 
 Série #489 → #501, 13 PR. Conservé ici pour ce qui se réutilise, pas pour le palmarès.
 
