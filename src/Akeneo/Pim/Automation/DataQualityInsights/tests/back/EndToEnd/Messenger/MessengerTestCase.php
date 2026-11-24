@@ -25,14 +25,10 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
     private const MESSENGER_COMMAND_NAME = 'messenger:consume';
 
     /**
-     * The queues emptied before and after each test. A subclass adds the queue it consumes by
-     * assigning this before calling parent::setUp(); the two below are appended, never substituted.
-     *
-     * It was private and overwritten here, so a subclass's assignment created a separate dynamic
-     * property that nothing read: the score queues were never emptied, messages left by earlier
-     * tests of the CI shard piled up, and `launchConsumer()` -- which stops after one message --
-     * handled a stale one instead of the test's own. That is why the two after_creation tests
-     * failed in CI ("false is true" after consuming) and passed when run alone.
+     * The queues prepared before and emptied around each test. A subclass adds the queue it
+     * consumes by assigning this before calling parent::setUp(); the two below are appended, never
+     * substituted. It was private and overwritten here, so a subclass's assignment created a
+     * separate dynamic property that nothing read, and the subclass's queue was never handled.
      *
      * @var PubSubQueueStatus[]
      */
@@ -47,6 +43,16 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
             $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_launch_product_evaluations_consumer'),
             $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_attribute_group_activate_consumer'),
         ];
+
+        // A PubSub subscription only receives what is published after it exists, and nothing creates
+        // it before the consumer runs: the producer transport does not, and launchConsumer() comes
+        // after the upsert. On a fresh emulator -- CI -- the test's own first message was therefore
+        // lost, which is why the after_creation tests failed ("false is true" after consuming)
+        // while passing locally, where the emulator keeps its subscriptions between runs.
+        // EvaluateAfterAttributeGroupActivateEndToEnd already did this by hand.
+        foreach ($this->pubSubQueueStatuses as $pubSubQueueStatus) {
+            $pubSubQueueStatus->createTopicAndSubscription();
+        }
 
         $this->flushQueues();
     }
