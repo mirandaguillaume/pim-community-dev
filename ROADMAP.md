@@ -115,8 +115,20 @@ bas). Les items restants demandent soit une décision, soit une sonde préalable
       filet — ce qui vaut aussi pour `vite`, `rollup`, Node nu, et donc pour toute sonde locale.
       Le corriger est un chantier sur le build du DSM (exports explicites + assets copiés dans
       `lib/`), pas sur ses consommateurs.
-- [ ] **`react-router` : open redirect** par antislash dans `<Link>` / `useNavigate`. Installé
+- [x] **`react-router` : open redirect** par antislash dans `<Link>` / `useNavigate`. Installé
       6.30.6, corrigé en **≥ 7.18.0** — à traiter comme une montée de version majeure.
+      **Fait** (`security/react-router-7`) : 6.30.6 → **7.18.6**, qui ferme aussi la seconde alerte
+      de la même plage (`GHSA-337j-9hxr-rhxg`, injection de constructeur à l'hydratation SSR, que
+      le PIM n'atteint pas). **Pas d'étape intermédiaire par les future flags** : mesuré dans les
+      90 fichiers qui l'importent, aucun ne dépend de ce qu'ils changent — aucune navigation
+      relative (les `navigate(url)` reçoivent des URL absolues du routeur Symfony), ni
+      `Form`/fetcher/loader/action du routeur (le `Form` de Connectivity est maison), ni SSR.
+      `react-router-dom` 7 n'est plus qu'une réexportation de `react-router` : les imports restent.
+      **Le piège** : React Router 7 lit `TextEncoder` dès son chargement, et
+      `jest-environment-jsdom` ne le fournit pas — vérifié en chargeant le build CJS dans un Node
+      qui en est privé. Polyfill conditionnel ajouté au premier setup Jest des cinq workspaces qui
+      l'importent et de la config racine. `tsc` sur ces cinq workspaces : aucune erreur nouvelle
+      liée au routeur ; rspack bundle la v7 sans erreur avec la résolution du PIM.
 - [ ] **`css-loader` 3 → 7.** Seule voie vers le correctif de `postcss-selector-parser` à la racine :
       il y est en **6.0.6**, vulnérable à `GHSA-rj75-hqrm-r3gf`, corrigé en **≥ 7.1.6** — que ses deux
       consommateurs refusent (`postcss-modules-local-by-default` exige `^6.0.2`, `postcss-modules-scope`
