@@ -301,10 +301,10 @@ describe('useEditCategoryForm', () => {
 
     expect(result.current.isModified).toBe(false);
 
-    mockedSaveEditCategoryForm.mockImplementation(async () => ({
+    mockedSaveEditCategoryForm.mockResolvedValue({
       success: true,
       category: aCategory,
-    }));
+    });
 
     await act(async () => {
       await result.current.saveCategory();
@@ -327,7 +327,7 @@ describe('useEditCategoryForm', () => {
     const {result} = renderUseEditCategoryForm(42);
     await act(async () => {
       result.current.onChangeCategoryLabel('en_US', 'Foo');
-      result.current.saveCategory();
+      await result.current.saveCategory();
     });
 
     expect(mockedSaveEditCategoryForm).toHaveBeenCalled();

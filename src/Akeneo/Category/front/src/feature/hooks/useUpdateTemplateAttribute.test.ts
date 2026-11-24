@@ -25,7 +25,7 @@ describe('useUpdateTemplateAttribute', () => {
     } as any);
   });
 
-  it('generates the correct route with templateUuid and attributeUuid', async () => {
+  it('generates the correct route with templateUuid and attributeUuid', () => {
     renderHook(() => useUpdateTemplateAttribute('tmpl-1', 'attr-1'), {wrapper: createWrapper()});
     expect(fetchSpy).not.toHaveBeenCalled();
   });

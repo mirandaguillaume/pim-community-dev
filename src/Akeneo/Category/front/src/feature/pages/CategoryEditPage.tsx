@@ -123,9 +123,9 @@ const CategoryEditPage: FC = () => {
   };
 
   const onBuildHistoryView = useCallback(
-    async (view: View) => {
+    (view: View) => {
       view.setData({categoryId});
-      return view;
+      return Promise.resolve(view);
     },
     [categoryId]
   );

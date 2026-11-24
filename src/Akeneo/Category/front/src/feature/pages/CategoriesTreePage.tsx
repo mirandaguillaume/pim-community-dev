@@ -75,7 +75,7 @@ const CategoriesTreePage: FC = () => {
     closeNewCategoryModal();
   };
 
-  const confirmDeleteCategory = async (
+  const confirmDeleteCategory = (
     identifier: number,
     label: string,
     code: string,

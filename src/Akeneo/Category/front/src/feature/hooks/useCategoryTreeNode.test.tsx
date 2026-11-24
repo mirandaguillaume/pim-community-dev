@@ -90,7 +90,7 @@ describe('useCategoryTreeNode > load children', () => {
     expect(result.current.children.length).toBe(0);
 
     await act(async () => {
-      result.current.loadChildren();
+      await result.current.loadChildren();
     });
 
     expect(result.current.node?.childrenStatus).toBe('loaded');
@@ -107,7 +107,7 @@ describe('useCategoryTreeNode > load children', () => {
     expect(result.current.node?.childrenStatus).toBe('idle');
 
     await act(async () => {
-      result.current.loadChildren();
+      await result.current.loadChildren();
     });
 
     expect(result.current.node?.childrenStatus).toBe('idle');
@@ -235,9 +235,10 @@ describe('useCategoryTreeNode > move category', () => {
       ok: true,
     });
 
-    await act(async () => {
+    act(() => {
       result.current.moveTo(1, {identifier: 3, parentId: 1234, position: 'in'}, moveCallback);
     });
+    await act(async () => {});
     expect(result.current.node?.identifier).toBe(3);
     expect(result.current.node?.childrenIds).toEqual([1, 1111, 2222]);
     expect(result.current.node?.type).toBe('node');

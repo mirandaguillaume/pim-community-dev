@@ -17,7 +17,7 @@ describe('useCountProductsByCategory', () => {
     const {result} = renderHookWithProviders(() => useCountProductsByCategory(42));
 
     await act(async () => {
-      result.current.loadNumberOfProducts();
+      await result.current.loadNumberOfProducts();
     });
 
     expect(result.current.numberOfProducts).toBe(17);

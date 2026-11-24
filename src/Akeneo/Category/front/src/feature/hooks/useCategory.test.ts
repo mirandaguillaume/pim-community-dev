@@ -20,7 +20,7 @@ describe('useCategory', () => {
     const {result} = renderHookWithProviders(() => useCategory(1));
 
     await act(async () => {
-      result.current.load();
+      await result.current.load();
     });
 
     expect(result.current.category).toEqual(mockCategory);
@@ -33,7 +33,7 @@ describe('useCategory', () => {
     const {result} = renderHookWithProviders(() => useCategory(1));
 
     await act(async () => {
-      result.current.load();
+      await result.current.load();
     });
 
     expect(result.current.status).toBe('error');

@@ -45,7 +45,7 @@ describe('useCategoryTree', () => {
     const {result} = renderUseCategoryTree(treeId);
 
     await act(async () => {
-      result.current.loadTree();
+      await result.current.loadTree();
     });
 
     expect(result.current.tree).toEqual(categoryTree);
@@ -59,7 +59,7 @@ describe('useCategoryTree', () => {
     const {result} = renderUseCategoryTree(1234);
 
     await act(async () => {
-      result.current.loadTree();
+      await result.current.loadTree();
     });
 
     expect(result.current.tree).toBeNull();

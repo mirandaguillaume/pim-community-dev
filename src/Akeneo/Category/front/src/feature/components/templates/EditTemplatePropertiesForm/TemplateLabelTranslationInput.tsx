@@ -65,7 +65,7 @@ export const TemplateLabelTranslationInput = ({template, locale}: Props) => {
     }
   }, 300);
 
-  const handleChange = async (value: string) => {
+  const handleChange = (value: string) => {
     dispatch({
       type: 'template_label_translation_changed',
       payload: {localeCode: locale.code, value},

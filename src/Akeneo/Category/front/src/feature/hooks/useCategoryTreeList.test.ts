@@ -37,7 +37,7 @@ describe('useCategoryTreeList', () => {
     const {result} = renderUseCategoryTreeList();
 
     await act(async () => {
-      result.current.loadTrees();
+      await result.current.loadTrees();
     });
 
     expect(result.current.trees.length).toBe(3);
@@ -51,7 +51,7 @@ describe('useCategoryTreeList', () => {
     const {result} = renderUseCategoryTreeList();
 
     await act(async () => {
-      result.current.loadTrees();
+      await result.current.loadTrees();
     });
 
     expect(result.current.trees.length).toBe(0);
