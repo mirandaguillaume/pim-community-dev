@@ -453,6 +453,40 @@ export async function deleteProductViaApi(page: Page, productId: string) {
   return page.request.delete(`/enrich/product/rest/${productId}`, {headers: XHR_HEADER});
 }
 
+export type ProductModelChild = {id: number | string; identifier: string; model_type: 'product_model' | 'product'};
+
+/**
+ * Direct children of a product model, as the variant navigation lists them: GET /enrich/product-model/rest/children?id=
+ * (pim_enrich_product_model_rest_children_list, ProductModelController::childrenAction). A root product model of a
+ * 2-level family variant answers its sub product models; any other product model answers its variant products.
+ * Each child is normalized by EntityWithFamilyVariantNormalizer: `id` (numeric for a product model, the uuid for a
+ * product), `identifier` (code or SKU) and `model_type`. Fails with the status and body when the answer is not OK.
+ */
+export async function getProductModelChildrenViaApi(
+  page: Page,
+  productModelId: number | string
+): Promise<ProductModelChild[]> {
+  const response = await page.request.get(`/enrich/product-model/rest/children?id=${productModelId}`, {
+    headers: XHR_HEADER,
+    timeout: 30_000,
+  });
+  const text = await responseBody(response);
+  expect(
+    response.ok(),
+    `Get children of product model ${productModelId} failed: ${response.status()} ${text}`
+  ).toBeTruthy();
+  return JSON.parse(text) as ProductModelChild[];
+}
+
+/**
+ * Delete a family variant (DELETE /configuration/rest/family-variant/{code}, pim_enrich_family_variant_rest_remove,
+ * FamilyVariantController::removeAction). XHR only: without the header it answers 400. Returns the response: 204 on
+ * success, 422 while a product model still uses the family variant, 404 when it does not exist.
+ */
+export async function deleteFamilyVariantViaApi(page: Page, code: string) {
+  return page.request.delete(`/configuration/rest/family-variant/${code}`, {headers: XHR_HEADER});
+}
+
 /**
  * Numeric id of a category (a root tree or a sub-category) from its code: GET /enrich/category/rest/{code}
  * (pim_enrich_category_rest_get, CategoryController::getAction; the internal_api CategoryNormalizer adds `id`).
