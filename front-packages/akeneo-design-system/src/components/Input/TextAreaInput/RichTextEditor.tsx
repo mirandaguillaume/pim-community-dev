@@ -8,6 +8,29 @@ type RichTextEditorProps = {
   value: string;
   readOnly?: boolean;
   onChange: (value: string) => void;
+  id?: string;
+  ariaLabel?: string;
+  ariaLabelledby?: string;
+  invalid?: boolean;
+};
+
+// Tiptap gives its editable element role="textbox", which needs an accessible name. Field labels its
+// input by cloning it with `id` and `aria-labelledby`: those have to land on that element, as they
+// land on the <textarea> in plain mode, or a screen reader announces an unnamed text box. Undefined
+// values are left out rather than rendered as the string "undefined".
+const editableAttributes = ({
+  id,
+  ariaLabel,
+  ariaLabelledby,
+  invalid,
+}: Pick<RichTextEditorProps, 'id' | 'ariaLabel' | 'ariaLabelledby' | 'invalid'>): Record<string, string> => {
+  const attributes: Record<string, string> = {};
+  if (undefined !== id) attributes.id = id;
+  if (undefined !== ariaLabel) attributes['aria-label'] = ariaLabel;
+  if (undefined !== ariaLabelledby) attributes['aria-labelledby'] = ariaLabelledby;
+  if (true === invalid) attributes['aria-invalid'] = 'true';
+
+  return attributes;
 };
 
 // Tiptap stores a document, not a string, so "controlled" has to be built: push `value` in only when
@@ -25,13 +48,22 @@ const useExternalValue = (editor: Editor | null, value: string) => {
   }, [editor, value]);
 };
 
-const RichTextEditor = ({value, readOnly = false, onChange}: RichTextEditorProps) => {
+const RichTextEditor = ({
+  value,
+  readOnly = false,
+  onChange,
+  id,
+  ariaLabel,
+  ariaLabelledby,
+  invalid,
+}: RichTextEditorProps) => {
   const editor = useEditor({
     // Bold, Italic, Link, the lists and the headings all come from StarterKit; only the two
     // text-style marks need naming, and both require TextStyle alongside them.
     extensions: [StarterKit, TextStyle, FontSize, FontFamily],
     content: value,
     editable: !readOnly,
+    editorProps: {attributes: editableAttributes({id, ariaLabel, ariaLabelledby, invalid})},
     onUpdate: ({editor}) => onChange(editor.getHTML()),
   });
 
@@ -40,6 +72,11 @@ const RichTextEditor = ({value, readOnly = false, onChange}: RichTextEditorProps
   useEffect(() => {
     editor?.setEditable(!readOnly);
   }, [editor, readOnly]);
+
+  // The attributes are read at creation; keep them in step when the label or validity changes.
+  useEffect(() => {
+    editor?.setOptions({editorProps: {attributes: editableAttributes({id, ariaLabel, ariaLabelledby, invalid})}});
+  }, [editor, id, ariaLabel, ariaLabelledby, invalid]);
 
   return (
     <>

@@ -150,7 +150,15 @@ const TextAreaInput = React.forwardRef<HTMLInputElement, TextAreaInputProps>(
       <TextAreaInputContainer>
         {isRichText ? (
           <RichTextEditorContainer readOnly={readOnly} invalid={invalid}>
-            <RichTextEditor readOnly={readOnly} value={value} onChange={value => onChange?.(value)} />
+            <RichTextEditor
+              readOnly={readOnly}
+              value={value}
+              onChange={value => onChange?.(value)}
+              id={rest.id}
+              ariaLabel={rest['aria-label']}
+              ariaLabelledby={rest['aria-labelledby']}
+              invalid={invalid}
+            />
           </RichTextEditorContainer>
         ) : (
           <Textarea

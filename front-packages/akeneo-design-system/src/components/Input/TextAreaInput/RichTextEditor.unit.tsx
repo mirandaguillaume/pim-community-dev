@@ -105,6 +105,35 @@ test('it pushes a value changed from the outside into the document', () => {
   expect(screen.queryByText('first')).not.toBeInTheDocument();
 });
 
+// Tiptap's editable element has role="textbox" and needs an accessible name: Field passes `id` and
+// `aria-labelledby` down, and they have to land on that element, not on a wrapper. The rerender checks
+// the attributes follow a change, which the editor would otherwise keep from its creation.
+test('it names the editable element with the label it is given, and keeps it in step', () => {
+  const {rerender} = render(
+    <RichTextEditor
+      value="<p>Hello</p>"
+      onChange={jest.fn()}
+      id="description"
+      ariaLabel="Description"
+      ariaLabelledby="description-label"
+      invalid
+    />
+  );
+
+  const editable = document.querySelector('[contenteditable]') as HTMLElement;
+  expect(editable).toHaveAttribute('role', 'textbox');
+  expect(editable).toHaveAttribute('id', 'description');
+  expect(editable).toHaveAttribute('aria-label', 'Description');
+  expect(editable).toHaveAttribute('aria-labelledby', 'description-label');
+  expect(editable).toHaveAttribute('aria-invalid', 'true');
+
+  rerender(<RichTextEditor value="<p>Hello</p>" onChange={jest.fn()} ariaLabel="Summary" />);
+
+  expect(editable).toHaveAttribute('aria-label', 'Summary');
+  expect(editable).not.toHaveAttribute('aria-labelledby');
+  expect(editable).not.toHaveAttribute('aria-invalid');
+});
+
 test('it renders no toolbar when read only, and becomes editable again when it is lifted', () => {
   const {rerender} = render(<RichTextEditor value="<p>Hello</p>" readOnly onChange={jest.fn()} />);
 
