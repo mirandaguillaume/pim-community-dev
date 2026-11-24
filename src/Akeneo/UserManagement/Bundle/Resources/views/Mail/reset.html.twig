@@ -17,13 +17,14 @@
 {% endblock %}
 
 {% block emailUserAction %}
-    {% set url = url('pim_user_reset_reset', { token: user.confirmationToken }) %}
+    {# Not url(): its host would come from the Host header of the request that asked for the reset. #}
+    {% set url = akeneo_pim_url|trim('/', 'right') ~ path('pim_user_reset_reset', { token: user.confirmationToken }) %}
     <span>
         <a target="_blank"
            role="button"
            style="-webkit-appearance: button; -moz-appearance: button; appearance: auto;
            padding: 10px 20px; border-radius: 25px; background-color: #9452ba; color: white;
            text-decoration: none; text-transform: uppercase; font-size: 15px; font-weight: 900;"
-           href="{{ url }}">Reset password</a> {# nosemgrep: var-in-href -- url() of a route always yields an http(s) URL #}
+           href="{{ url }}">Reset password</a> {# nosemgrep: var-in-href -- AKENEO_PIM_URL from the environment followed by a router path #}
     </span>
 {% endblock %}
