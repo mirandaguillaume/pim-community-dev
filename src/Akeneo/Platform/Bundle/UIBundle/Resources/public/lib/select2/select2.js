@@ -698,7 +698,9 @@ the specific language governing permissions and limitations under the Apache Lic
       this.container = this.createContainer();
 
       this.containerId = 's2id_' + (opts.element.attr('id') || 'autogen' + nextUid());
-      this.containerSelector = '#' + this.containerId.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1');
+      // PIM patch: upstream also set `this.containerSelector = '#' + <hand-escaped containerId>`.
+      // Nothing ever read it (no `containerSelector` lookup in this file nor in any caller), and
+      // its escaping skipped the backslash itself (CodeQL js/incomplete-sanitization): removed.
       this.container.attr('id', this.containerId);
 
       // cache the body so future lookups are cheap
