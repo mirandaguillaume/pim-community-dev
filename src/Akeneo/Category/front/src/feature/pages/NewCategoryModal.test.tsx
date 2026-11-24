@@ -39,24 +39,24 @@ describe('NewCategoryModal', () => {
     expect(screen.getByText('pim_common.create').closest('button')).toBeDisabled();
   });
 
-  it('enables the create button when code is typed', async () => {
+  it('enables the create button when code is typed', () => {
     renderWithProviders(<NewCategoryModal {...defaultProps} />);
     const inputs = screen.getAllByRole('textbox');
-    await userEvent.type(inputs[0], 'electronics');
+    userEvent.type(inputs[0], 'electronics');
     expect(screen.getByText('pim_common.create').closest('button')).not.toBeDisabled();
   });
 
-  it('calls closeModal when the close button is clicked', async () => {
+  it('calls closeModal when the close button is clicked', () => {
     renderWithProviders(<NewCategoryModal {...defaultProps} />);
-    await userEvent.click(screen.getByTitle('Close'));
+    userEvent.click(screen.getByTitle('Close'));
     expect(defaultProps.closeModal).toHaveBeenCalledTimes(1);
   });
 
-  it('calls createCategory when the create button is clicked with a code', async () => {
+  it('calls createCategory when the create button is clicked with a code', () => {
     renderWithProviders(<NewCategoryModal {...defaultProps} />);
     const inputs = screen.getAllByRole('textbox');
-    await userEvent.type(inputs[0], 'electronics');
-    await userEvent.click(screen.getByText('pim_common.create'));
+    userEvent.type(inputs[0], 'electronics');
+    userEvent.click(screen.getByText('pim_common.create'));
     expect(mockedCreateCategory).toHaveBeenCalledWith(
       expect.any(Object),
       'electronics',
@@ -70,8 +70,8 @@ describe('NewCategoryModal', () => {
     mockedCreateCategory.mockResolvedValue({code: 'Code already taken'});
     renderWithProviders(<NewCategoryModal {...defaultProps} />);
     const inputs = screen.getAllByRole('textbox');
-    await userEvent.type(inputs[0], 'bad_code');
-    await userEvent.click(screen.getByText('pim_common.create'));
+    userEvent.type(inputs[0], 'bad_code');
+    userEvent.click(screen.getByText('pim_common.create'));
     expect(await screen.findByText('Code already taken')).toBeInTheDocument();
   });
 });

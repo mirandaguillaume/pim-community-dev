@@ -40,19 +40,17 @@ test('It open the add attribute modal when clicking on add attribute button', as
   );
 
   // check the template edit page is open and click on add attribute button
-  await act(async () => {
-    expect(screen.getByText('akeneo.category.attributes')).toBeInTheDocument();
-    await userEvent.click(screen.getByText('akeneo.category.template.add_attribute.add_button'));
-  });
+  expect(screen.getByText('akeneo.category.attributes')).toBeInTheDocument();
+  userEvent.click(screen.getByText('akeneo.category.template.add_attribute.add_button'));
+  await act(async () => {});
 
   // check the modal is open and type attribute code in code field
   expect(screen.getByLabelText(/pim_common.code/)).toBeInTheDocument();
   userEvent.type(screen.getByLabelText(/pim_common.code/), 'new_attribute');
 
   // click on create button in modal
-  await act(async () => {
-    await userEvent.click(screen.getByText('akeneo.category.template.add_attribute.confirmation_modal.create'));
-  });
+  userEvent.click(screen.getByText('akeneo.category.template.add_attribute.confirmation_modal.create'));
+  await act(async () => {});
 
   // modale is closed and edit template page is visible
   expect(screen.getByText('akeneo.category.attributes')).toBeInTheDocument();

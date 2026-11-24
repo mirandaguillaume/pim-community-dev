@@ -48,17 +48,17 @@ describe('DeleteCategoryModal', () => {
     expect(screen.getByText('pim_enrich.entity.category.category_tree_deletion.warning_products')).toBeInTheDocument();
   });
 
-  it('calls closeModal when the cancel button is clicked', async () => {
+  it('calls closeModal when the cancel button is clicked', () => {
     mockedUseCount.mockReturnValue({data: 0, isLoading: false});
     renderWithProviders(<DeleteCategoryModal {...defaultProps} />);
-    await userEvent.click(screen.getByText('pim_common.cancel'));
+    userEvent.click(screen.getByText('pim_common.cancel'));
     expect(defaultProps.closeModal).toHaveBeenCalledTimes(1);
   });
 
-  it('calls deleteCategory when the delete button is clicked', async () => {
+  it('calls deleteCategory when the delete button is clicked', () => {
     mockedUseCount.mockReturnValue({data: 0, isLoading: false});
     renderWithProviders(<DeleteCategoryModal {...defaultProps} />);
-    await userEvent.click(screen.getByText('pim_common.delete'));
+    userEvent.click(screen.getByText('pim_common.delete'));
     expect(defaultProps.deleteCategory).toHaveBeenCalledTimes(1);
   });
 });

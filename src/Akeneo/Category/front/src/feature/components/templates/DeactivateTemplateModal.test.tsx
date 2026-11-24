@@ -35,15 +35,15 @@ describe('DeactivateTemplateModal', () => {
     expect(screen.getByText('akeneo.category.template.deactivate.confirmation_modal.helper')).toBeInTheDocument();
   });
 
-  it('calls onClose when the cancel button is clicked', async () => {
+  it('calls onClose when the cancel button is clicked', () => {
     renderWithProviders(<DeactivateTemplateModal template={template} onClose={mockOnClose} />);
-    await userEvent.click(screen.getByText('pim_common.cancel'));
+    userEvent.click(screen.getByText('pim_common.cancel'));
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
-  it('calls deactivateTemplate when the deactivate button is clicked', async () => {
+  it('calls deactivateTemplate when the deactivate button is clicked', () => {
     renderWithProviders(<DeactivateTemplateModal template={template} onClose={mockOnClose} />);
-    await userEvent.click(screen.getByText('akeneo.category.template.deactivate.confirmation_modal.deactivate'));
+    userEvent.click(screen.getByText('akeneo.category.template.deactivate.confirmation_modal.deactivate'));
     expect(mockDeactivate).toHaveBeenCalledTimes(1);
   });
 });

@@ -15,20 +15,20 @@ describe('TemplateOtherActions', () => {
     expect(screen.queryByText('akeneo.category.template.deactivate.deactivate_template')).not.toBeInTheDocument();
   });
 
-  it('reveals the deactivate option when the button is clicked', async () => {
+  it('reveals the deactivate option when the button is clicked', () => {
     renderWithProviders(<TemplateOtherActions onDeactivateTemplate={jest.fn()} />);
 
-    await userEvent.click(screen.getByTitle('akeneo.category.other_actions'));
+    userEvent.click(screen.getByTitle('akeneo.category.other_actions'));
 
     expect(screen.getByText('akeneo.category.template.deactivate.deactivate_template')).toBeInTheDocument();
   });
 
-  it('calls onDeactivateTemplate and closes the dropdown when the deactivate item is clicked', async () => {
+  it('calls onDeactivateTemplate and closes the dropdown when the deactivate item is clicked', () => {
     const onDeactivateTemplate = jest.fn();
     renderWithProviders(<TemplateOtherActions onDeactivateTemplate={onDeactivateTemplate} />);
 
-    await userEvent.click(screen.getByTitle('akeneo.category.other_actions'));
-    await userEvent.click(screen.getByText('akeneo.category.template.deactivate.deactivate_template'));
+    userEvent.click(screen.getByTitle('akeneo.category.other_actions'));
+    userEvent.click(screen.getByText('akeneo.category.template.deactivate.deactivate_template'));
 
     expect(onDeactivateTemplate).toHaveBeenCalledTimes(1);
     expect(screen.queryByText('akeneo.category.template.deactivate.deactivate_template')).not.toBeInTheDocument();

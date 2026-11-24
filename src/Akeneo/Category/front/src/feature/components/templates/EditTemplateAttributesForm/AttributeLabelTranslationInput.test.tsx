@@ -71,10 +71,10 @@ describe('AttributeLabelTranslationInput', () => {
     expect(screen.getByText('Too short')).toBeInTheDocument();
   });
 
-  it('dispatches attribute_label_translation_changed when the input changes', async () => {
+  it('dispatches attribute_label_translation_changed when the input changes', () => {
     const {dispatch} = renderInput();
-    await userEvent.clear(screen.getByRole('textbox'));
-    await userEvent.type(screen.getByRole('textbox'), 'New');
+    userEvent.clear(screen.getByRole('textbox'));
+    userEvent.type(screen.getByRole('textbox'), 'New');
     expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({type: 'attribute_label_translation_changed'}));
   });
 });

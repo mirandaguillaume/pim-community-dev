@@ -54,10 +54,10 @@ describe('FullscreenPreview', () => {
     expect(screen.queryByText('Download')).not.toBeInTheDocument();
   });
 
-  it('calls onClose when the close button is clicked', async () => {
+  it('calls onClose when the close button is clicked', () => {
     const onClose = jest.fn();
     renderWithProviders(<FullscreenPreview label="My Photo" attribute={attribute} data={fileData} onClose={onClose} />);
-    await userEvent.click(screen.getByTitle('pim_common.close'));
+    userEvent.click(screen.getByTitle('pim_common.close'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

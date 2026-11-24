@@ -79,10 +79,10 @@ describe('AttributeSettings', () => {
     expect(scopableCheckbox).not.toBeChecked();
   });
 
-  it('opens the deactivate modal when the delete button is clicked', async () => {
+  it('opens the deactivate modal when the delete button is clicked', () => {
     renderSettings();
     expect(screen.queryByTestId('deactivate-attr-modal')).not.toBeInTheDocument();
-    await userEvent.click(screen.getByText('akeneo.category.template.attribute.delete_button'));
+    userEvent.click(screen.getByText('akeneo.category.template.attribute.delete_button'));
     expect(screen.getByTestId('deactivate-attr-modal')).toBeInTheDocument();
   });
 });

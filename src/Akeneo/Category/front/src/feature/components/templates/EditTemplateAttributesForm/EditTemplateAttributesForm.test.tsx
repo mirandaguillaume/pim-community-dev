@@ -49,10 +49,10 @@ describe('EditTemplateAttributesForm', () => {
     expect(screen.getByTestId('settings-uuid-1')).toBeInTheDocument();
   });
 
-  it('switches to the settings of the selected attribute when clicked', async () => {
+  it('switches to the settings of the selected attribute when clicked', () => {
     const attrs = [makeAttribute('uuid-1', 'name'), makeAttribute('uuid-2', 'desc')];
     renderWithProviders(<EditTemplateAttributesForm attributes={attrs} templateId="tmpl-uuid" />);
-    await userEvent.click(screen.getByRole('button', {name: 'desc'}));
+    userEvent.click(screen.getByRole('button', {name: 'desc'}));
     expect(screen.getByTestId('settings-uuid-2')).toBeInTheDocument();
   });
 });
