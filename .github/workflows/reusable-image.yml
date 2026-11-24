@@ -20,6 +20,11 @@ on:
         description: "Full GHCR image reference"
         value: ${{ jobs.build.outputs.image }}
 
+# Builds the PHP image and pushes it to GHCR; nothing else.
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}

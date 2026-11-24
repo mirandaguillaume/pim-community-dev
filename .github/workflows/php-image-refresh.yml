@@ -9,8 +9,17 @@ on:
     - cron: '17 3 * * 1'
   workflow_dispatch:
 
+# Least privilege: jobs only read the repository and pull from GHCR, except `image` below.
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   image:
+    # It calls reusable-image.yml, which pushes the PHP image to GHCR.
+    permissions:
+      contents: read
+      packages: write
     uses: ./.github/workflows/reusable-image.yml
     with:
       force-rebuild: true

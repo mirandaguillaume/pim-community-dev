@@ -29,6 +29,11 @@ env:
   COMPOSER_MEMORY_LIMIT: -1
   DOCKER_BUILDKIT: 1
 
+# Least privilege: jobs read the repository and pull from GHCR; build-images grants itself packages: write.
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   # Build images for each PHP version in parallel
   build-images:
